@@ -50,7 +50,7 @@ public class TestEventTester extends Block {
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
         {
 
-			ExplosionChaos.mirv(this.worldObj, x, y + 20, z);
+			ExplosionChaos.frag(p_149695_1_, x, y + 2, z, 10, false, null);/*mirv(this.worldObj, x, y + 20, z);*/
         	//killEvent(p_149695_1_, x, y, z);
         	/*EntityNuclearCreeper e = new EntityNuclearCreeper(p_149695_1_);
         	e.posX = x;
