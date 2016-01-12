@@ -1,0 +1,146 @@
+package com.hbm.lib;
+
+import java.util.Random;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
+
+import net.minecraft.item.Item;
+import net.minecraft.util.WeightedRandomChestContent;
+
+public class HbmChestContents {
+	
+	static Random rand = new Random();
+
+	private static WeightedRandomChestContent[] modGeneric = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.ingot_steel, 0, 10, 15, 5),
+				new WeightedRandomChestContent(ModItems.ingot_red_copper, 0, 5, 10, 3),
+				new WeightedRandomChestContent(ModItems.ingot_tungsten, 0, 5, 15, 3),
+				new WeightedRandomChestContent(ModItems.ingot_beryllium, 0, 1, 5, 2),
+				new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 7, 10, 4),
+				new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.battery_generic, 50, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 1),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 0, 3, 1)};
+
+	private static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.ingot_steel, 0, 3, 7, 5),
+				new WeightedRandomChestContent(ModItems.ingot_red_copper, 0, 3, 10, 3),
+				new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 3, 5, 4),
+				new WeightedRandomChestContent(ModItems.wire_red_copper, 0, 3, 7, 4),
+				new WeightedRandomChestContent(ModItems.circuit_aluminium, 0, 1, 5, 3),
+				new WeightedRandomChestContent(ModItems.circuit_copper, 0, 1, 3, 2),
+				new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 2, 1),
+				new WeightedRandomChestContent(ModItems.battery_generic, 50, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 1, 2, 2),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_poles), 0, 4, 9, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_top), 0, 2, 4, 4),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 3, 5, 3)};
+
+	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.neutron_reflector, 0, 2, 3, 3),
+				new WeightedRandomChestContent(ModItems.ingot_tungsten, 0, 5, 15, 5),
+				new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 3, 4, 5),
+				new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
+				new WeightedRandomChestContent(ModItems.circuit_schrabidium, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.nuke_commercially_kit, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 1, 32, 5),
+				new WeightedRandomChestContent(ModItems.gun_revolver_gold, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.gun_revolver_gold_ammo, 0, 1, 6, 2),
+				new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 32, 3),
+				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.battery_schrabidium, 1000, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.syringe_awesome, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 2),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 1, 3, 3)};
+
+	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
+				new WeightedRandomChestContent(ModItems.nugget_pu240, 0, 3, 8, 5),
+				new WeightedRandomChestContent(ModItems.nugget_neptunium, 0, 1, 4, 3),
+				new WeightedRandomChestContent(ModItems.rod_u238, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_neptunium, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.rod_pu240, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_dual_u238, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_dual_pu240, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_quad_u238, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_quad_pu240, 0, 1, 1, 3),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2)};
+
+	private static WeightedRandomChestContent[] nuclear = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.nugget_u235, 0, 3, 12, 5),
+				new WeightedRandomChestContent(ModItems.nugget_pu238, 0, 3, 12, 5),
+				new WeightedRandomChestContent(ModItems.nugget_pu239, 0, 3, 12, 5),
+				new WeightedRandomChestContent(ModItems.rod_u235, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_pu239, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_dual_u235, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_dual_pu239, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_quad_u235, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_quad_pu239, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_uranium_fuel, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.rod_plutonium_fuel, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.rod_mox_fuel, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.rod_dual_uranium_fuel, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_dual_plutonium_fuel, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_dual_mox_fuel, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.rod_quad_plutonium_fuel, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.rod_quad_mox_fuel, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.pellet_rtg, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3)};
+
+	private static WeightedRandomChestContent[] vertibird = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.t45_helmet, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.t45_plate, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.t45_legs, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.t45_boots, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 3, 3),
+				new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 3, 3),
+				new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 1, 24, 4),
+				new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 6, 3),
+				new WeightedRandomChestContent(ModItems.rod_uranium_fuel, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.rod_dual_uranium_fuel, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 2)};
+	
+	/**
+	 * @param i
+	 * @return WeightedRandomChestContent array with custom loot
+	 * 
+	 * case 1: modGeneric loot (ingots, few blocks)
+	 * case 2: antenna loot (spare parts, electronics)
+	 * case 3: expensive loot (revolers, circuits, schrabidium nuggets)
+	 * case 4: nukeTrash loot (U238 and Pu240 nuggets and rods)
+	 * case 5: nuclear loot (U235 and Pu239 nuggets and rods, fuel rods)
+	 * case 6: vertibrid loot (T45 power armor, fusion cores, circuits, nuclear material)
+	 **/
+	
+	public static WeightedRandomChestContent[] getLoot(int i)
+	{
+		switch(i)
+		{
+		case 1:
+			return modGeneric;
+		case 2:
+			return antenna;
+		case 3:
+			return expensive;
+		case 4:
+			return nukeTrash;
+		case 5:
+			return nuclear;
+		case 6:
+			return vertibird;
+		}
+		
+		return null;
+	}
+}

@@ -1,0 +1,483 @@
+itemGroup.tabTest=Nuclear Tech Mod Test Tab
+itemGroup.tabParts=Nuclear Tech Mod Bauteile
+itemGroup.tabBlocks=Nuclear Tech Mod Blöcke
+itemGroup.tabNuke=Nuclear Tech Mod Bomben
+
+item.redstone_sword.name=Redstoneschwert
+item.big_sword.name=Großes Schwert
+item.test_nuke_igniter.name=Zünder
+item.test_nuke_propellant.name=Treibladung
+item.test_nuke_tier1_shielding.name=Neutronenreflektor (Stufe 1)
+item.test_nuke_tier2_shielding.name=Neutronenreflektor (Stufe 2)
+item.test_nuke_tier1_bullet.name=U235 Geschoss (Stufe 1)
+item.test_nuke_tier2_bullet.name=MOX Geschoss (Stufe 2)
+item.test_nuke_tier1_target.name=Unkritischer U235 Hohlkörper (Stufe 1)
+item.test_nuke_tier2_target.name=Unkritischer MOX Hohlkörper (Stufe 2)
+
+item.gadget_explosive.name=Treibladung
+item.gadget_explosive8.name=Verbundene Treibladung
+item.gadget_wireing.name=Kabelrolle
+item.gadget_core.name=Plutoniumkern
+
+item.boy_igniter.name=Zünder
+item.boy_propellant.name=Treibladung
+item.boy_bullet.name=U235 Geschoss
+item.boy_target.name=Unterkritischer U235 Hohlkörper
+item.boy_shielding.name=Neutronenschild
+
+item.man_explosive.name=Treibladung
+item.man_explosive8.name=Verbundene Treibladung
+item.man_igniter.name=Zünder
+item.man_core.name=Plutoniumkern
+
+item.mike_core.name=Mit Uran ummantelter Deuteriumtank
+item.mike_deut.name=Deuteriumtank
+item.mike_cooling_unit.name=Deuteriumkühleinheit
+
+item.tsar_core.name=Fusionskern
+
+item.fleija_igniter.name=Impulszünder
+item.fleija_propellant.name=Schrabidiumtreibladung
+item.fleija_core.name=F.L.E.I.J.A. Uran-235-Ladung
+
+container.nukeGadget=The Gadget
+container.nukeBoy=Little Boy
+container.nukeMan=Fat Man
+container.nukeMike=Ivy Mike
+container.nukeTsar=Tsar Bombe
+container.nukeFleija=F.L.E.I.J.A.
+container.nukePrototype=Der Prototyp
+
+container.bombMulti=Mehrzweckbombe
+
+tile.nuke_gadget.name=The Gadget
+tile.nuke_boy.name=Little Boy
+tile.nuke_man.name=Fat Man
+tile.nuke_mike.name=Ivy Mike
+tile.nuke_tsar.name=Tsar Bombe
+tile.nuke_fleija.name=F.L.E.I.J.A.
+tile.nuke_prototype.name=Der Prototyp
+
+tile.bomb_multi.name=Mehrzweckbombe
+
+tile.flame_war.name=Flamewar aus der Box
+tile.float_bomb.name=Schwebebombe
+tile.therm_endo.name=Endothermische Bombe
+tile.therm_exo.name=Exothermische Bombe
+
+tile.machine_difurnace_off.name=Legierungshochofen
+tile.machine_difurnace_on.name=Legierungshochofen
+container.diFurnace=Legierungshochofen
+tile.machine_centrifuge.name=Zentrifuge
+container.centrifuge=Zentrifuge
+tile.machine_uf6_tank.name=Uranhexafluorit-Tank
+container.uf6_tank=UF6 Tank
+tile.machine_puf6_tank.name=Plutoniumhexafluorit-Tank
+container.puf6_tank=PuF6 Tank
+tile.machine_reactor.name=Brutreaktor
+container.reactor=Brutreaktor
+tile.machine_nuke_furnace_off.name=Atombetriebener Ofen
+tile.machine_nuke_furnace_on.name=Atombetriebener Ofen
+container.nukeFurnace=Atombetriebener Ofen
+tile.machine_rtg_furnace_off.name=RTG-Ofen
+tile.machine_rtg_furnace_on.name=RTG-Ofen
+container.rtgFurnace=RTG-Ofen
+tile.machine_electric_furnace_off.name=Elektrischer Ofen
+tile.machine_electric_furnace_on.name=Elektrischer Ofen
+container.electricFurnace=Elektrischer Ofen
+tile.machine_generator.name=Atomreaktor
+container.generator=Atomreaktor
+tile.red_wire_coated.name=Rotes Kupferkabel
+tile.machine_deuterium.name=Deuteriumextraktor
+container.machine_deuterium=Deuteriumextraktor
+tile.machine_battery.name=Energiespeicherblock
+container.battery=Energiespeicherblock
+tile.machine_coal_off.name=Kohlegenerator
+tile.machine_coal_on.name=Kohlegenerator
+container.machineCoal=Kohlegenerator
+tile.launch_pad.name=Raketenabschussrampe
+container.launchPad=Raketenabschussrampe
+tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch
+
+tile.test_nuke.name=Test Atombombe
+
+item.ingot_uranium.name=Uranbarren
+item.ingot_u235.name=U235-Barren
+item.ingot_u238.name=U238-Barren
+item.ingot_plutonium.name=Plutoniumbarren
+item.ingot_pu238.name=Pu238-Barren
+item.ingot_pu239.name=Pu239-Barren
+item.ingot_pu240.name=Pu240-Barren
+item.ingot_titanium.name=Titanbarren
+item.sulfur.name=Schwefel
+
+item.niter.name=Salpeter
+item.ingot_copper.name=Industrielles Kupfer
+item.ingot_red_copper.name=Minecraft Kupfer
+item.ingot_tungsten.name=Wolframbarren
+item.ingot_aluminium.name=Aluminiumbarren
+item.fluorite.name=Fluorit
+item.ingot_steel.name=Stahlbarren
+item.plate_steel.name=Stahlplatte
+item.ingot_beryllium.name=Berylliumbarren
+item.plate_schrabidium.name=Schrabidiumplatte
+item.ingot_schrabidium.name=Schrabidiumbarren
+item.nugget_schrabidium.name=Schrabidiumnugget
+item.plate_copper.name=Kupferplatte
+
+item.nugget_u235.name=U235-Nugget
+item.nugget_u238.name=U238-Nugget
+item.nugget_pu238.name=Pu238-Nugget
+item.nugget_pu239.name=Pu239-Nugget
+item.nugget_pu240.name=Pu240-Nugget
+item.plate_titanium.name=Titanplatte
+item.plate_aluminium.name=Aluminiumplatte
+item.wire_red_copper.name=Roter Kupferdraht
+item.neutron_reflector.name=Neutronenreflektor
+item.nugget_beryllium.name=Berylliumnugget
+
+item.wire_aluminium.name=Aluminiumdraht
+item.wire_copper.name=Kupferdraht
+item.wire_gold.name=Golddraht
+item.wire_schrabidium.name=Schrabidiumdraht
+
+item.circuit_aluminium.name=Einfacher Schaltkreis
+item.circuit_copper.name=Erweiterter Schaltkreis
+item.circuit_red_copper.name=Forgeschrittener Schaltkreis
+item.circuit_gold.name=Übertakteter Schaltkreis
+item.circuit_schrabidium.name=Leistungsstarker Schaltkreis
+
+tile.block_aluminium.name=Aluminiumblock
+tile.block_copper.name=Kupferblock
+tile.block_fluorite.name=Fluoritblock
+tile.block_niter.name=Salpeterblock
+tile.block_red_copper.name=Roter Kupferblock
+tile.block_steel.name=Stahlblock
+tile.block_sulfur.name=Schwefelblock
+tile.block_titanium.name=Titanblock
+tile.block_tungsten.name=Wolframblock
+tile.block_uranium.name=Uranblock
+tile.block_trinitite.name=Trinititblock
+tile.block_beryllium.name=Berylliumblock
+tile.block_waste.name=Atommüllblock
+
+tile.ore_aluminium.name=Aluminiumerz
+tile.ore_copper.name=Kupfererz
+tile.ore_fluorite.name=Fluoriterz
+tile.ore_niter.name=Salpetererz
+tile.ore_sulfur.name=Schwefelerz
+tile.ore_titanium.name=Titanerz
+tile.ore_tungsten.name=Wolframerz
+tile.ore_uranium.name=Uranerz
+tile.ore_schrabidium.name=Schrabidiumerz
+tile.ore_beryllium.name=Berylliumerz
+
+tile.reinforced_brick.name=Verstärkter Stein
+tile.reinforced_glass.name=Verstärktes Glas
+tile.reinforced_sand.name=Verstärkter Sandstein
+tile.reinforced_light.name=Verstärkter Glowstone
+tile.reinforced_lamp_off.name=Verstärkte Lampe
+tile.reinforced_lamp_on.name=Verstärkte Lampe
+
+tile.brick_concrete.name=Betonziegel
+tile.brick_obsidian.name=Obsidianziegel
+tile.brick_light.name=Helle Ziegel
+
+item.nugget_uranium.name=Urannugget
+item.nugget_plutonium.name=Plutoniumnugget
+item.nugget_neptunium.name=Neptuniumnugget
+item.ingot_neptunium.name=Neptuniumbarren
+item.nugget_lead.name=Bleinugget
+item.ingot_lead.name=Bleibarren
+tile.block_lead.name=Bleiblock
+tile.ore_lead.name=Bleierz
+
+item.powder_lead.name=Bleistaub
+item.powder_neptunium.name=Neptuniumstaub
+item.powder_schrabidium.name=Schrabidiumstaub
+
+item.battery_generic.name=Batterie
+item.battery_advanced.name=Fortgeschrittene Batterie
+item.battery_schrabidium.name=Schrabidiumbatterie
+item.battery_creative.name=Unendliche Batterie
+
+item.fusion_core.name=Fusionskern
+
+item.plate_iron.name=Eisenplatte
+item.plate_lead.name=Bleiplatte
+item.coil_copper.name=Kupferspule
+item.coil_copper_torus.name=Ringspule
+item.wire_tungsten.name=Wolframdraht
+item.coil_tungsten.name=Heizspirale
+item.tank_steel.name=Stahltank
+item.motor.name=Motor
+item.centrifuge_element.name=Zentrifugenelement
+item.centrifuge_tower.name=Zentrifugenturm
+item.reactor_core.name=Brutreaktorkern
+item.pellet_rtg.name=Plutonium 238 Pellet
+item.rtg_unit.name=RTG Einheit
+
+item.cell_empty.name=Leere Zelle
+item.cell_uf6.name=Uranhexafluorit-Zelle
+item.cell_puf6.name=Plutoniumhexafluorit-Zelle
+item.cell_antimatter.name=Antimaterienzelle
+item.cell_deuterium.name=Deuteriumzelle
+item.cell_sas3.name=Schrabidiumtrisulfat-Zelle
+
+item.rod_empty.name=Leerer Brennstab
+item.rod_uranium.name=Uranbrennstab
+item.rod_u235.name=U235-Brennstab
+item.rod_u238.name=U238-Brennstab
+item.rod_plutonium.name=Plutoniumbrennstab
+item.rod_pu238.name=Pu238-Brennstab
+item.rod_pu239.name=Pu239-Brennstab
+item.rod_pu240.name=Pu240-Brennstab
+item.rod_neptunium.name=Neptuniumbrennstab
+item.rod_lead.name=Bleistab
+item.rod_schrabidium.name=Schrabidiumbrennstab
+
+item.rod_dual_empty.name=Leerer Doppelbrennstab
+item.rod_dual_uranium.name=Urandoppelbrennstab
+item.rod_dual_u235.name=U235-Doppelbrennstab
+item.rod_dual_u238.name=U238-Doppelbrennstab
+item.rod_dual_plutonium.name=Plutoniumdoppelbrennstab
+item.rod_dual_pu238.name=Pu238-Doppelbrennstab
+item.rod_dual_pu239.name=Pu239-Doppelbrennstab
+item.rod_dual_pu240.name=Pu240-Doppelbrennstab
+item.rod_dual_neptunium.name=Neptuniumdoppelbrennstab
+item.rod_dual_lead.name=Bleidoppelstab
+item.rod_dual_schrabidium.name=Schrabidiumdoppelbrennstab
+
+item.rod_quad_empty.name=Leerer Vierfachbrennstab
+item.rod_quad_uranium.name=Uranvierfachbrennstab
+item.rod_quad_u235.name=U235-Vierfachbrennstab
+item.rod_quad_u238.name=U238-Vierfachbrennstab
+item.rod_quad_plutonium.name=Plutoniumvierfachbrennstab
+item.rod_quad_pu238.name=Pu238-Vierfachbrennstab
+item.rod_quad_pu239.name=Pu239-Vierfachbrennstab
+item.rod_quad_pu240.name=Pu240-Vierfachbrennstab
+item.rod_quad_neptunium.name=Neptuniumvierfachbrennstab
+item.rod_quad_lead.name=Bleivierfachstab
+item.rod_quad_schrabidium.name=Schrabidiumvierfachbrennstab
+
+item.rod_uranium_fuel_depleted.name=Erschöpfte Urankernbrennstoffzelle
+item.rod_dual_uranium_fuel_depleted.name=Erschöpfte Urandoppelkernbrennstoffzelle
+item.rod_quad_uranium_fuel_depleted.name=Erschöpfte Uranvierfachkernbrennstoffzelle
+item.rod_plutonium_fuel_depleted.name=Erschöpfte Plutoniumkernbrennstoffzelle
+item.rod_dual_plutonium_fuel_depleted.name=Erschöpfte Plutoniumdoppelkernbrennstoffzelle
+item.rod_quad_plutonium_fuel_depleted.name=Erschöpfte Plutoniumvierfachkernbrennstoffzelle
+item.rod_mox_fuel_depleted.name=Erschöpfte MOX-Kernbrennstoffzelle
+item.rod_dual_mox_fuel_depleted.name=Erschöpfte MOX-Doppelkernbrennstoffzelle
+item.rod_quad_mox_fuel_depleted.name=Erschöpfte MOX-Vierfachkernbrennstoffzelle
+item.rod_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumkernbrennstoffzelle
+item.rod_dual_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumdoppelkernbrennstoffzelle
+item.rod_quad_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumvierfachkernbrennstoffzelle
+
+item.rod_waste.name=Nuclear Waste Rod
+item.rod_dual_waste.name=Nuclear Waste Dual Rod
+item.rod_quad_waste.name=Nuclear Waste Quad Rod
+
+item.gun_rpg.name=RPG
+item.gun_rpg_ammo.name=Rakete
+
+item.flame_pony.name=Bild eines Cartoon Ponys
+item.flame_conspiracy.name=Verschwörungstheorie
+item.flame_politics.name=Politisches Thema
+item.flame_opinion.name=Eigene Meinung
+
+item.pellet_cluster.name=Explosive Pellets
+item.powder_fire.name=Flammenpulver
+item.powder_poison.name=Giftpulver
+item.pellet_gas.name=Giftgaskatusche
+
+item.nuke_starter_kit.name=Atomphysik Starterkit
+item.nuke_commercially_kit.name=Atomphysik Kit für kommerzielle Zwecke
+item.nuke_advanced_kit.name=Atomphysik Kit für Fortgeschrittene
+item.gadget_kit.name=The Gadget Kit
+item.boy_kit.name=Little Boy Kit
+item.man_kit.name=Fat Man Kit
+item.mike_kit.name=Ivy Mike Kit
+item.tsar_kit.name=Tsar Bomba Kit
+item.fleija_kit.name=F.L.E.I.J.A. Kit
+item.multi_kit.name=Mehrzweckbomben Kit
+item.grenade_kit.name=Granaten Kit
+item.nuke_electric_kit.name=Kit des Elektronikingenieurs
+item.prototype_kit.name=Prototyp Kit
+
+tile.waste_earth.name=Totes Gras
+tile.waste_trinitite.name=Trinititerz
+tile.waste_trinitite_red.name=Rotes Trinititerz
+tile.waste_log.name=Verkohltes Holz
+tile.waste_planks.name=Verkohlte Holzbretter
+
+item.trinitite.name=Trinitit
+item.nuclear_waste.name=Atommüll
+
+item.ingot_uranium_fuel.name=Urankernbrennstoffbarren
+item.ingot_plutonium_fuel.name=Plutoniumkernbrennstoffbarren
+item.ingot_mox_fuel.name=MOX-Kernbrennstoffbarren
+item.ingot_schrabidium_fuel.name=Schrabidiumkernbrennstoffbarren
+
+item.nugget_uranium_fuel.name=Urankernbrennstoffnugget
+item.nugget_plutonium_fuel.name=Plutoniumkernbrennstoffnugget
+item.nugget_mox_fuel.name=MOX-Kernbrennstoffnugget
+item.nugget_schrabidium_fuel.name=Schrabidiumkernbrennstoffnugget
+
+item.grenade_generic.name=Handgranate
+item.grenade_strong.name=Verbesserte Handgranate
+item.grenade_frag.name=Splittergranate
+item.grenade_fire.name=Brandsplittergranate
+item.grenade_cluster.name=Cluster-Bombe
+item.grenade_flare.name=Blendgranate
+item.grenade_electric.name=Blitzbombe
+item.grenade_poison.name=Giftgranate
+item.grenade_gas.name=Gasgranate
+item.grenade_schrabidium.name=Schrabidiumgranate
+item.grenade_nuke.name=Mark VI Bohrgranate
+
+item.rod_uranium_fuel.name=Urankernbrennstoffzelle
+item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
+item.rod_quad_uranium_fuel.name=Vierfache Urankernbrennstoffzelle
+item.rod_plutonium_fuel.name=Plutoniumkernbrennstoffzelle
+item.rod_dual_plutonium_fuel.name=Doppelte Plutoniumkernbrennstoffzelle
+item.rod_quad_plutonium_fuel.name=Vierfache Plutoniumkernbrennstoffzelle
+item.rod_mox_fuel.name=MOX-Kernbrennstoffzelle
+item.rod_dual_mox_fuel.name=Doppelte MOX-Kernbrennstoffzelle
+item.rod_quad_mox_fuel.name=Vierfache MOX-Kernbrennstoffzelle
+item.rod_schrabidium_fuel.name=Schrabidiumkernbrennstoffzelle
+item.rod_dual_schrabidium_fuel.name=Doppelte Schrabidiumkernbrennstoffzelle
+item.rod_quad_schrabidium_fuel.name=Vierfache Schrabidiumkernbrennstoffzelle
+
+item.rod_water.name=Wasserzelle
+item.rod_dual_water.name=Doppelte Wasserzelle
+item.rod_quad_water.name=Vierfache Wasserzelle
+
+item.rod_coolant.name=Kühlzelle
+item.rod_dual_coolant.name=Doppelte Kühlzelle
+item.rod_quad_coolant.name=Vierfache Kühlzelle
+
+item.levitation_unit.name=Gravitationsmanipulator
+item.thermo_unit_empty.name=Thermische Verteilungseinheit
+item.thermo_unit_endo.name=Kälteverteilungseinheit
+item.thermo_unit_exo.name=Hitzeverteilungseinheit
+
+item.bomb_waffle.name=Massenvernichtungswaffel
+item.schnitzel_vegan.name=Veganes Schnitzel
+item.apple_schrabidium.name=Schrabidiumapfel
+item.cotton_candy.name=Radioaktive Zuckerwatte
+
+tile.frozen_grass.name=Gefrorenes Gras
+tile.frozen_dirt.name=Gefrorene Erde
+tile.frozen_log.name=Gefrorener Baumstamm
+tile.frozen_planks.name=Gefrorene Holzbretter
+
+tile.tape_recorder.name=Tonbandgerät
+tile.steel_poles.name=Stahlmasten
+tile.pole_top.name=Antennenspitze
+tile.pole_satellite_receiver.name=Satellitenschüssel
+tile.steel_wall.name=Stahlwand
+tile.steel_corner.name=Stahlwand (Ecke)
+tile.steel_roof.name=Flaches Stachldach
+tile.steel_beam.name=Stahlträger
+tile.steel_scaffold.name=Stahlgerüst
+
+item.gun_revolver_iron.name=Einfacher Revolver
+item.gun_revolver.name=Verbesserter Revolver
+item.gun_revolver_gold.name=Goldener Revolver
+item.gun_revolver_schrabidium.name=Schrabidiumrevolver
+item.gun_revolver_cursed.name=Verfluchte Pistole
+
+item.gun_revolver_iron_ammo.name=Patrone
+item.gun_revolver_ammo.name=Bleipatrone
+item.gun_revolver_gold_ammo.name=Goldene Kugel
+item.gun_revolver_schrabidium_ammo.name=Schrabidiumpatrone
+item.gun_revolver_cursed_ammo.name=Stahlpatrone
+
+tile.block_schrabidium.name=Schrabidiumblock
+item.plate_gold.name=Goldplatte
+
+item.syringe_empty.name=Leere Spritze
+item.syringe_antidote.name=Gegenmittel
+item.syringe_awesome.name=AWESOME
+item.syringe_metal_empty.name=Metallspritze
+item.syringe_metal_stimpak.name=Stimpak
+
+entity.hbm.entity_bullet.name=Patrone
+entity.hbm.entity_rocket.name=Rakete
+entity.hbm.entity_schrabnel.name=Schrabnel
+entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper
+
+item.cap_aluminium.name=Aluminiumdeckel
+item.hull_small_steel.name=Kleine Stahlhülle
+item.hull_small_aluminium.name=Kleine Aluminiumhülle
+item.hull_big_steel.name=Große Stahlhülle
+item.hull_big_aluminium.name=Große Aluminiumhülle
+item.hull_big_titanium.name=Große Titanhülle
+item.fins_flat.name=Flache Stahlabdeckung
+item.fins_small_steel.name=Kleine Stahlgitterfinnen
+item.fins_big_steel.name=Große Stahlgitterfinnen
+item.fins_tri_steel.name=Große Stahlflossen
+item.fins_quad_titanium.name=Kleine Titanflossen
+item.sphere_steel.name=Stahlhohlkugel
+item.pedestal_steel.name=Stahlsockel
+item.dysfunctional_reactor.name=Funktionsunfähiger Atomreaktor
+
+item.igniter.name=Zünder
+item.watch.name=Zerbrochene Taschenuhr
+item.apple_euphemium.name=Euphemiumapfel
+item.ingot_euphemium.name=Euphemiumbarren
+item.nugget_euphemium.name=Euphemiumnugget
+item.rod_quad_euphemium.name=Ausgebrannter Schrabidiumvierfachbrennstab
+
+item.euphemium_helmet.name=Euphemiumstiefel
+item.euphemium_plate.name=Euphemiumbrustplatte
+item.euphemium_legs.name=Euphemiumbeinschutz
+item.euphemium_boots.name=Euphemiumstiefel
+
+item.schrabidium_helmet.name=Schrabidiumhelm
+item.schrabidium_plate.name=Schrabidiumbrustplatte
+item.schrabidium_legs.name=Schrabidiumbeinschutz
+item.schrabidium_boots.name=Schrabidiumstiefel
+item.schrabidium_sword.name=Schrabidiumschwert
+item.schrabidium_pickaxe.name=Schrabidiumspitzhacke
+item.schrabidium_axe.name=Schrabidiumaxt
+item.schrabidium_shovel.name=Schrabidiumschaufel
+item.schrabidium_hoe.name=Schrabidiumfeldhacke
+
+item.mask_of_infamy.name=Maske der Schande
+
+tile.det_cord.name=Det Cord
+tile.red_barrel.name=Explosives Fass
+tile.yellow_barrel.name=Radioaktives Fass
+
+item.designator.name=Kurzdistanz Zielmarkierer
+item.missile_generic.name=HE Rakete
+item.missile_anti_ballistic.name=Flugabwehrrakete
+item.missile_incendiary.name=Brandrakete
+item.missile_cluster.name=Streurakete
+item.missile_buster.name=Bunkerbrechende Rakete
+item.missile_strong.name=Starke HE Rakete
+item.missile_incendiary_strong.name=Starke Brandrakete
+item.missile_cluster_strong.name=Starke Streurakete
+item.missile_buster_strong.name=Verbesserte bunkerbrechende Rakete
+item.missile_burst.name=Spare Missile
+item.missile_inferno.name=Inferno Missile G.R.N. Mk.II
+item.missile_rain.name=Schüttbombenregen
+item.missile_drill.name=Der Betonbrecher
+item.missile_nuclear.name=Atomrakete
+item.missile_nuclear_cluster.name=Atomare MIRV-Rakete
+item.missile_endo.name=Endothermische Rakete
+item.missile_exo.name=Exothermische Rakete
+
+item.hazmat_helmet.name=Strahlenschutzhelm
+item.hazmat_plate.name=Strahlenschutzbrustplatte
+item.hazmat_legs.name=Strahlenschutzhose
+item.hazmat_boots.name=Strahlenschutzstiefel
+
+item.goggles.name=Schutzbrille
+item.gas_mask.name=Gasmaske
+
+item.t45_helmet.name=T45-Powerrüstungshelm
+item.t45_plate.name=T45-Powerrüstungsbrustpanzer
+item.t45_legs.name=T45-Powerrüstungsbeinschutz
+item.t45_boots.name=T45-Powerrüstungsstiefel
