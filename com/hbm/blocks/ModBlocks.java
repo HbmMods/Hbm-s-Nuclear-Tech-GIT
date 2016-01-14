@@ -8,6 +8,7 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlass;
+import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -83,7 +84,12 @@ public class ModBlocks {
 	public static Block steel_beam;
 	public static Block steel_scaffold;
 
+	public static Block mush;
+	public static Block mush_block;
+	public static Block mush_block_stem;
+
 	public static Block waste_earth;
+	public static Block waste_mycelium;
 	public static Block waste_trinitite;
 	public static Block waste_trinitite_red;
 	public static Block waste_log;
@@ -264,7 +270,12 @@ public class ModBlocks {
 		steel_beam = new DecoBlock(Material.rock).setBlockName("steel_beam").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_beam");
 		steel_scaffold = new DecoBlock(Material.rock).setBlockName("steel_scaffold").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_scaffold");
 
+		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.tabBlock).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
+		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setCreativeTab(MainRegistry.tabBlock).setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
+		mush_block_stem = new BlockMushHuge(Material.plants).setBlockName("mush_block_stem").setCreativeTab(MainRegistry.tabBlock).setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_stem");
+
 		waste_earth = new WasteEarth(Material.ground).setBlockName("waste_earth").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":waste_earth");
+		waste_mycelium = new WasteEarth(Material.ground).setBlockName("waste_mycelium").setStepSound(Block.soundTypeGrass).setLightLevel(1F).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":waste_mycelium_side");
 		waste_trinitite = new BlockOre(Material.sand).setBlockName("waste_trinitite").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite");
 		waste_trinitite_red = new BlockOre(Material.sand).setBlockName("waste_trinitite_red").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.tabBlock).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":waste_trinitite_red");
 		waste_log = new WasteLog(Material.wood).setBlockName("waste_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(0.5F);
@@ -418,9 +429,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(steel_roof, steel_roof.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_beam, steel_beam.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_scaffold, steel_scaffold.getUnlocalizedName());
+		GameRegistry.registerBlock(mush, mush.getUnlocalizedName());
+		GameRegistry.registerBlock(mush_block, mush_block.getUnlocalizedName());
+		GameRegistry.registerBlock(mush_block_stem, mush_block_stem.getUnlocalizedName());
 		
 		//Nuclear Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());
+		GameRegistry.registerBlock(waste_mycelium, waste_mycelium.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_trinitite, waste_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_trinitite_red, waste_trinitite_red.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_log, waste_log.getUnlocalizedName());

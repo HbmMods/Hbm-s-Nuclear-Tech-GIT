@@ -10,6 +10,7 @@ import com.hbm.lib.RefStrings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -34,13 +35,14 @@ public class WasteEarth extends Block {
 
 	protected WasteEarth(Material p_i45394_1_) {
 		super(p_i45394_1_);
+		this.setTickRandomly(true);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.waste_earth ? ":waste_earth_top" : ":frozen_grass_top"));
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.waste_earth ? ":waste_earth_bottom" : ":frozen_dirt"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.waste_earth ? ":waste_earth_side" : ":frozen_grass_side"));
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.waste_earth ? ":waste_earth_top" : (this == ModBlocks.waste_mycelium ? ":waste_mycelium_top" : ":frozen_grass_top")));
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.waste_earth ? ":waste_earth_bottom" : (this == ModBlocks.waste_mycelium ? ":waste_earth_bottom" : ":frozen_dirt")));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.waste_earth ? ":waste_earth_side" : (this == ModBlocks.waste_mycelium ? ":waste_mycelium_side" : ":frozen_grass_side")));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -50,7 +52,7 @@ public class WasteEarth extends Block {
 
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-		if(this == ModBlocks.waste_earth)
+		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_earth)
 		{
 			return Item.getItemFromBlock(Blocks.dirt);
 		}
@@ -96,6 +98,30 @@ public class WasteEarth extends Block {
     	{
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
     	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.waste_mycelium)
+    	{
+    		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
+        	{
+        		Library.damageSuit(((EntityPlayer)entity), 0);
+        		Library.damageSuit(((EntityPlayer)entity), 1);
+        		Library.damageSuit(((EntityPlayer)entity), 2);
+        		Library.damageSuit(((EntityPlayer)entity), 3);
+        		
+        	} else if(entity instanceof EntityCreeper) {
+        		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
+        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+        		creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
+        		if(!entity.isDead)
+        			if(!p_149724_1_.isRemote)
+        					p_149724_1_.spawnEntityInWorld(creep);
+        		entity.setDead();
+        	} else if(!(entity instanceof EntityNuclearCreeper)) {
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 60 * 20, 4));
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 1 * 60 * 20, 2));
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 2 * 60 * 20, 2));
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 3 * 60 * 20, 2));
+        	}
+    	}
     }
     
     @SideOnly(Side.CLIENT)
@@ -107,6 +133,49 @@ public class WasteEarth extends Block {
         {
             p_149734_1_.spawnParticle("townaura", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
         }
+        if (this == ModBlocks.waste_mycelium)
+        {
+            p_149734_1_.spawnParticle("townaura", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
+        }
+    }
+    
+    @Override
+    public void updateTick(World world, int x, int y, int z, Random rand)
+    {
+    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0)
+    	{
+    		Block b0;
+    		int count = 0;
+    		for(int i = -5; i < 5; i++) {
+    			for(int j = -5; j < 6; j++) {
+    				for(int k = -5; k < 5; k++) {
+    					b0 = world.getBlock(x + i, y + j, z + k);
+    					if((b0 instanceof BlockMushroom) || b0 == ModBlocks.mush)
+    					{
+    						count++;
+    					}
+    				}
+    			}
+    		}
+    		if(count > 0 && count < 5)
+    			world.setBlock(x, y + 1, z, ModBlocks.mush);
+    	}
+    	
+    	if(this == ModBlocks.waste_mycelium)
+    	{
+    		for(int i = -1; i < 2; i++) {
+    			for(int j = -1; j < 2; j++) {
+    				for(int k = -1; k < 2; k++) {
+    					Block b0 = world.getBlock(x + i, y + j, z + k);
+    					Block b1 = world.getBlock(x + i, y + j + 1, z + k);
+    					if(!b1.isOpaqueCube() && (b0 == Blocks.dirt || b0 == Blocks.grass || b0 == Blocks.mycelium || b0 == ModBlocks.waste_earth))
+    					{
+    						world.setBlock(x + i, y + j, z + k, ModBlocks.waste_mycelium);
+    					}
+    				}
+    			}
+    		}
+    	}
     }
 
 }

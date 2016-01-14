@@ -287,6 +287,11 @@ public class ExplosionNukeGeneric {
 			world.setBlock(x, y, z, ModBlocks.waste_earth);
 		}
 		
+		else if(world.getBlock(x, y, z) == Blocks.mycelium)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_mycelium);
+		}
+		
 		else if(world.getBlock(x, y, z) == Blocks.sand)
 		{
 			rand = field_149933_a.nextInt(20);
