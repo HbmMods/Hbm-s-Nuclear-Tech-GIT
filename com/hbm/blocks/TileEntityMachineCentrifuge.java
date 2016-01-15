@@ -3,11 +3,9 @@ package com.hbm.blocks;
 import com.hbm.gui.MachineRecipes;
 import com.hbm.items.ModItems;
 
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -92,12 +90,14 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 	
 	//You scrubs aren't needed for anything (right now)
+	@Override
 	public void openInventory() {}
+	@Override
 	public void closeInventory() {}
 
 	@Override
@@ -129,6 +129,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		}
 	}
 	
+	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
 		{
@@ -150,6 +151,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -161,7 +163,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -170,6 +172,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("powerTime", (short) dualPower);
@@ -330,6 +333,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		return this.dualCookTime > 0;
 	}
 	
+	@Override
 	public void updateEntity() {
 		boolean flag = this.hasPower();
 		boolean flag1 = false;
@@ -353,7 +357,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		
 		if(!worldObj.isRemote)
 		{
-			if(this.hasItemPower(this.slots[1]) && this.dualPower <= (this.maxPower - this.getItemPower(this.slots[1])))
+			if(this.hasItemPower(this.slots[1]) && this.dualPower <= (TileEntityMachineCentrifuge.maxPower - TileEntityMachineCentrifuge.getItemPower(this.slots[1])))
 			{
 				this.dualPower += getItemPower(this.slots[1]);
 				if(this.slots[1] != null)
@@ -382,7 +386,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			{
 				dualCookTime++;
 				
-				if(this.dualCookTime == this.processingSpeed)
+				if(this.dualCookTime == TileEntityMachineCentrifuge.processingSpeed)
 				{
 					this.dualCookTime = 0;
 					this.processItem();
@@ -412,6 +416,6 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return this.INFINITE_EXTENT_AABB;
+		return TileEntity.INFINITE_EXTENT_AABB;
 	}
 }

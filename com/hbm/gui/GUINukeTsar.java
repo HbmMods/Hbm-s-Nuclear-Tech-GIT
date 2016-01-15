@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityNukeMan;
 import com.hbm.blocks.TileEntityNukeTsar;
 import com.hbm.lib.RefStrings;
 
@@ -25,6 +24,7 @@ public class GUINukeTsar extends GuiContainer {
 		this.ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.testNuke.hasCustomInventoryName() ? this.testNuke.getInventoryName() : I18n.format(this.testNuke.getInventoryName());
 		

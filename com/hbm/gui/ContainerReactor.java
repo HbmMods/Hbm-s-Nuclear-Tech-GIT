@@ -1,6 +1,5 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityDiFurnace;
 import com.hbm.blocks.TileEntityMachineReactor;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,8 +8,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerReactor extends Container {
 	
@@ -44,12 +41,14 @@ public class ContainerReactor extends Container {
 		}
 	}
 	
+	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.dualPower);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -60,6 +59,7 @@ public class ContainerReactor extends Container {
 		return diFurnace.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -82,6 +82,7 @@ public class ContainerReactor extends Container {
 		this.dualPower = this.diFurnace.dualPower;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

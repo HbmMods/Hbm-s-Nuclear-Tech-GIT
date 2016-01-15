@@ -3,13 +3,10 @@ package com.hbm.render;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.TileEntityTestBombAdvanced;
-import com.hbm.blocks.TileEntityTestContainer;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;

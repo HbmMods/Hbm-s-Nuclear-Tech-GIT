@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -32,18 +31,22 @@ public class MachineUF6Tank extends BlockContainer {
 		super(p_i45386_1_);
 	}
 	
+	@Override
 	public int getRenderType(){
 		return -1;
 	}
 	
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 	
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconregister) {
 		this.blockIcon = iconregister.registerIcon(RefStrings.MODID + ":machine_uf6_tank");
@@ -54,13 +57,15 @@ public class MachineUF6Tank extends BlockContainer {
 		return new TileEntityMachineUF6Tank();
 	}
 
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.machine_uf6_tank);
     }
 	
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		if(i == 0)
 		{
@@ -80,6 +85,7 @@ public class MachineUF6Tank extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         if (!keepInventory)
@@ -108,7 +114,7 @@ public class MachineUF6Tank extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -116,9 +122,9 @@ public class MachineUF6Tank extends BlockContainer {
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)this.field_149933_a.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)this.field_149933_a.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)this.field_149933_a.nextGaussian() * f3);
+                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -131,6 +137,7 @@ public class MachineUF6Tank extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{

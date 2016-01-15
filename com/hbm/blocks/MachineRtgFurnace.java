@@ -40,22 +40,26 @@ public class MachineRtgFurnace extends BlockContainer {
 		isActive = blockState;
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_rtg_furnace_on" : ":machine_rtg_furnace_off"));
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_tungsten");
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
 	}
 	
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.machine_rtg_furnace_off);
     }
 	
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 		this.setDefaultDirection(world, x, y, z);
@@ -92,8 +96,9 @@ public class MachineRtgFurnace extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		if(i == 0)
 		{
@@ -118,6 +123,7 @@ public class MachineRtgFurnace extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{
@@ -161,6 +167,7 @@ public class MachineRtgFurnace extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         if (!keepInventory)
@@ -189,7 +196,7 @@ public class MachineRtgFurnace extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -197,9 +204,9 @@ public class MachineRtgFurnace extends BlockContainer {
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)this.field_149933_a.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)this.field_149933_a.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)this.field_149933_a.nextGaussian() * f3);
+                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -212,15 +219,16 @@ public class MachineRtgFurnace extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
+	@Override
 	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand)
     {
         if (isActive)
         {
             int l = p_149734_1_.getBlockMetadata(x, y, z);
-            float f = (float)x + 0.5F;
-            float f1 = (float)y + 0.0F + rand.nextFloat() * 6.0F / 16.0F;
-            float f2 = (float)z + 0.5F;
+            float f = x + 0.5F;
+            float f1 = y + 0.0F + rand.nextFloat() * 6.0F / 16.0F;
+            float f2 = z + 0.5F;
             float f3 = 0.52F;
             float f4 = rand.nextFloat() * 0.6F - 0.3F;
             float f5 = rand.nextFloat();
@@ -228,23 +236,23 @@ public class MachineRtgFurnace extends BlockContainer {
 
             if (l == 4)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
             }
             else if (l == 5)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
             }
             else if (l == 2)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
             }
             else if (l == 3)
             {
-                p_149734_1_.spawnParticle("smoke", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
             }
         }
     }

@@ -4,7 +4,6 @@ import com.hbm.lib.RefStrings;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 
 public class ArmorTest extends ItemArmor {

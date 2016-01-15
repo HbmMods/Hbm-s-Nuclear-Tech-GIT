@@ -14,7 +14,8 @@ public class ItemCottonCandy extends ItemFood {
         this.setAlwaysEdible();
 	}
 
-    protected void onFoodEaten(ItemStack p_77849_1_, World p_77849_2_, EntityPlayer p_77849_3_)
+    @Override
+	protected void onFoodEaten(ItemStack p_77849_1_, World p_77849_2_, EntityPlayer p_77849_3_)
     {
         if (!p_77849_2_.isRemote)
         {

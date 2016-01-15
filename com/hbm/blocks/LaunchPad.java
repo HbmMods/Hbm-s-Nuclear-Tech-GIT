@@ -19,9 +19,6 @@ import com.hbm.entity.EntityMissileMirv;
 import com.hbm.entity.EntityMissileNuclear;
 import com.hbm.entity.EntityMissileRain;
 import com.hbm.entity.EntityMissileStrong;
-import com.hbm.entity.EntityNukeCloudSmall;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
-import com.hbm.entity.EntityTestMissile;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -55,11 +52,13 @@ public class LaunchPad extends BlockContainer {
 		return new TileEntityLaunchPad();
 	}
 	
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.launch_pad);
     }
 	
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         if (!keepInventory)
@@ -74,13 +73,13 @@ public class LaunchPad extends BlockContainer {
 
                     if (itemstack != null)
                     {
-                        float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-                        float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-                        float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
+                        float f = LaunchPad.field_149933_a.nextFloat() * 0.8F + 0.1F;
+                        float f1 = LaunchPad.field_149933_a.nextFloat() * 0.8F + 0.1F;
+                        float f2 = LaunchPad.field_149933_a.nextFloat() * 0.8F + 0.1F;
 
                         while (itemstack.stackSize > 0)
                         {
-                            int j1 = this.field_149933_a.nextInt(21) + 10;
+                            int j1 = LaunchPad.field_149933_a.nextInt(21) + 10;
 
                             if (j1 > itemstack.stackSize)
                             {
@@ -88,7 +87,7 @@ public class LaunchPad extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -96,9 +95,9 @@ public class LaunchPad extends BlockContainer {
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)this.field_149933_a.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)this.field_149933_a.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)this.field_149933_a.nextGaussian() * f3);
+                            entityitem.motionX = (float)LaunchPad.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float)LaunchPad.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)LaunchPad.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -111,6 +110,7 @@ public class LaunchPad extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{
@@ -128,7 +128,8 @@ public class LaunchPad extends BlockContainer {
 		}
 	}
 	
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
 		TileEntityLaunchPad entity = (TileEntityLaunchPad) p_149695_1_.getTileEntity(x, y, z);
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
@@ -283,20 +284,24 @@ public class LaunchPad extends BlockContainer {
         }
     }
 	
+	@Override
 	public int getRenderType(){
 		return -1;
 	}
 	
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 	
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		if(i == 0)
 		{
@@ -381,6 +386,7 @@ public class LaunchPad extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
     {
         float f = 0.0625F;

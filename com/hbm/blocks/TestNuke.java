@@ -9,15 +9,12 @@ import java.util.Random;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -51,11 +48,13 @@ public class TestNuke extends BlockContainer {
 		
 	}
 	
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.test_nuke);
     }
 	
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         if (!keepInventory)
@@ -84,7 +83,7 @@ public class TestNuke extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -92,9 +91,9 @@ public class TestNuke extends BlockContainer {
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)this.field_149933_a.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)this.field_149933_a.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)this.field_149933_a.nextGaussian() * f3);
+                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -107,6 +106,7 @@ public class TestNuke extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{
@@ -124,7 +124,8 @@ public class TestNuke extends BlockContainer {
 		}
 	}
 	
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	TileEntityTestNuke entity = (TileEntityTestNuke) p_149695_1_.getTileEntity(x, y, z);
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
@@ -203,29 +204,29 @@ public class TestNuke extends BlockContainer {
         int i2 = MathHelper.floor_double(y + wat + 1.0D);
         int l = MathHelper.floor_double(z - wat - 1.0D);
         int j2 = MathHelper.floor_double(z + wat + 1.0D);
-        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
         Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {
             Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(x, y, z) / (double)bombStartStrength;
+            double d4 = entity.getDistance(x, y, z) / bombStartStrength;
 
             if (d4 <= 1.0D)
             {
                 d5 = entity.posX - x;
-                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+                d6 = entity.posY + entity.getEyeHeight() - y;
                 d7 = entity.posZ - z;
-                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 
                 if (d9 < wat)
                 {
                     d5 /= d9;
                     d6 /= d9;
                     d7 /= d9;
-                    double d10 = (double)world.getBlockDensity(vec3, entity.boundingBox);
+                    double d10 = world.getBlockDensity(vec3, entity.boundingBox);
                     double d11 = (1.0D - d4);// * d10;
-                    entity.attackEntityFrom(DamageSource.generic, (float)((int)((d11 * d11 + d11) / 2.0D * 8.0D * (double)bombStartStrength + 1.0D)));
+                    entity.attackEntityFrom(DamageSource.generic, ((int)((d11 * d11 + d11) / 2.0D * 8.0D * bombStartStrength + 1.0D)));
                     double d8 = EnchantmentProtection.func_92092_a(entity, d11);
                     entity.motionX += d5 * d8;
                     entity.motionY += d6 * d8;
@@ -233,7 +234,7 @@ public class TestNuke extends BlockContainer {
 
                     if (entity instanceof EntityPlayer)
                     {
-                        this.field_77288_k.put((EntityPlayer)entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
+                        this.field_77288_k.put(entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
                     }
                 }
             }

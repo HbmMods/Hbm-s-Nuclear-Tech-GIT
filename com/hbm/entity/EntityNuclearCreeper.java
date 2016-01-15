@@ -12,8 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAICreeperSwell;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -67,7 +65,8 @@ public class EntityNuclearCreeper extends EntityMob {
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityOcelot.class, 0, true));
     }
 
-    protected void applyEntityAttributes()
+    @Override
+	protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(50.0D);
@@ -77,7 +76,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Returns true if the newer Entity AI code should be run
      */
-    public boolean isAIEnabled()
+    @Override
+	public boolean isAIEnabled()
     {
         return true;
     }
@@ -85,7 +85,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * The number of iterations PathFinder.getSafePoint will execute before giving up.
      */
-    public int getMaxSafePointTries()
+    @Override
+	public int getMaxSafePointTries()
     {
         return this.getAttackTarget() == null ? 3 : 3 + (int)(this.getHealth() - 1.0F);
     }
@@ -93,10 +94,11 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Called when the mob is falling. Calculates and applies fall damage.
      */
-    protected void fall(float p_70069_1_)
+    @Override
+	protected void fall(float p_70069_1_)
     {
         super.fall(p_70069_1_);
-        this.timeSinceIgnited = (int)((float)this.timeSinceIgnited + p_70069_1_ * 1.5F);
+        this.timeSinceIgnited = (int)(this.timeSinceIgnited + p_70069_1_ * 1.5F);
 
         if (this.timeSinceIgnited > this.fuseTime - 5)
         {
@@ -104,7 +106,8 @@ public class EntityNuclearCreeper extends EntityMob {
         }
     }
 
-    protected void entityInit()
+    @Override
+	protected void entityInit()
     {
         super.entityInit();
         this.dataWatcher.addObject(16, Byte.valueOf((byte) - 1));
@@ -115,7 +118,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+    @Override
+	public void writeEntityToNBT(NBTTagCompound p_70014_1_)
     {
         super.writeEntityToNBT(p_70014_1_);
 
@@ -132,7 +136,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+    @Override
+	public void readEntityFromNBT(NBTTagCompound p_70037_1_)
     {
         super.readEntityFromNBT(p_70037_1_);
         this.dataWatcher.updateObject(17, Byte.valueOf((byte)(p_70037_1_.getBoolean("powered") ? 1 : 0)));
@@ -156,7 +161,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
+    @Override
+	public void onUpdate()
     {
         if (this.isEntityAlive())
         {
@@ -207,20 +213,20 @@ public class EntityNuclearCreeper extends EntityMob {
         int i2 = MathHelper.floor_double(this.posY + wat + 1.0D);
         int l = MathHelper.floor_double(this.posZ - wat - 1.0D);
         int j2 = MathHelper.floor_double(this.posZ + wat + 1.0D);
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
         Vec3 vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {
             Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(this.posX, this.posY, this.posZ) / (double)4;
+            double d4 = entity.getDistance(this.posX, this.posY, this.posZ) / 4;
 
             if (d4 <= 1.0D)
             {
                 d5 = entity.posX - this.posX;
-                d6 = entity.posY + (double)entity.getEyeHeight() - this.posY;
+                d6 = entity.posY + entity.getEyeHeight() - this.posY;
                 d7 = entity.posZ - this.posZ;
-                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
                 if (d9 < wat)
                 {
                 	if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
@@ -255,7 +261,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Returns the sound this mob makes when it is hurt.
      */
-    protected String getHurtSound()
+    @Override
+	protected String getHurtSound()
     {
         return "mob.creeper.say";
     }
@@ -263,7 +270,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Returns the sound this mob makes on death.
      */
-    protected String getDeathSound()
+    @Override
+	protected String getDeathSound()
     {
         return "mob.creeper.death";
     }
@@ -271,7 +279,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Called when the mob's health reaches 0.
      */
-    public void onDeath(DamageSource p_70645_1_)
+    @Override
+	public void onDeath(DamageSource p_70645_1_)
     {
         super.onDeath(p_70645_1_);
 
@@ -314,7 +323,8 @@ public class EntityNuclearCreeper extends EntityMob {
         }
     }
 
-    public boolean attackEntityAsMob(Entity p_70652_1_)
+    @Override
+	public boolean attackEntityAsMob(Entity p_70652_1_)
     {
         return true;
     }
@@ -333,10 +343,11 @@ public class EntityNuclearCreeper extends EntityMob {
     @SideOnly(Side.CLIENT)
     public float getCreeperFlashIntensity(float p_70831_1_)
     {
-        return ((float)this.lastActiveTime + (float)(this.timeSinceIgnited - this.lastActiveTime) * p_70831_1_) / (float)(this.fuseTime - 2);
+        return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * p_70831_1_) / (this.fuseTime - 2);
     }
 
-    protected Item getDropItem()
+    @Override
+	protected Item getDropItem()
     {
         return Item.getItemFromBlock(Blocks.tnt);
     }
@@ -360,7 +371,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Called when a lightning bolt hits the entity.
      */
-    public void onStruckByLightning(EntityLightningBolt p_70077_1_)
+    @Override
+	public void onStruckByLightning(EntityLightningBolt p_70077_1_)
     {
         super.onStruckByLightning(p_70077_1_);
         this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
@@ -369,7 +381,8 @@ public class EntityNuclearCreeper extends EntityMob {
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
-    protected boolean interact(EntityPlayer p_70085_1_)
+    @Override
+	protected boolean interact(EntityPlayer p_70085_1_)
     {
         ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
 

@@ -18,13 +18,15 @@ public class ItemAppleEuphemium extends ItemFood {
         this.setCreativeTab(null);
 	}
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack p_77636_1_)
     {
         return true;
     }
 
-    protected void onFoodEaten(ItemStack p_77849_1_, World p_77849_2_, EntityPlayer p_77849_3_)
+    @Override
+	protected void onFoodEaten(ItemStack p_77849_1_, World p_77849_2_, EntityPlayer p_77849_3_)
     {
         if (!p_77849_2_.isRemote)
         {
@@ -34,7 +36,8 @@ public class ItemAppleEuphemium extends ItemFood {
         }
     }
     
-    public EnumRarity getRarity(ItemStack p_77613_1_)
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_)
     {
 		return EnumRarity.epic;
     }

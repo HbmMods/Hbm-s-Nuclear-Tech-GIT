@@ -72,7 +72,8 @@ public class EntityNukeExplosion extends Entity {
 		super(p_i1582_1_);
 	}
 
-    public void onUpdate() {
+    @Override
+	public void onUpdate() {
         super.onUpdate();
         
         if(this.counter >= steps)
@@ -99,6 +100,7 @@ public class EntityNukeExplosion extends Entity {
         this.age++;
     }
 
+	@Override
 	protected void entityInit() {
 		
 	}

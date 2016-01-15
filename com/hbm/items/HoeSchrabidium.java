@@ -10,7 +10,8 @@ public class HoeSchrabidium extends ItemHoe {
 		super(p_i45343_1_);
 	}
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
     	
 		return EnumRarity.rare;
     }

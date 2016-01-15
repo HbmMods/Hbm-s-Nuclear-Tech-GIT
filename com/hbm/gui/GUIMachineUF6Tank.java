@@ -2,16 +2,13 @@ package com.hbm.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityMachineCentrifuge;
 import com.hbm.blocks.TileEntityMachineUF6Tank;
-import com.hbm.blocks.TileEntityNukeBoy;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineUF6Tank extends GuiContainer {
@@ -27,6 +24,7 @@ public class GUIMachineUF6Tank extends GuiContainer {
 		this.ySize = 166;
 	}
 
+	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.tank.hasCustomInventoryName() ? this.tank.getInventoryName() : I18n.format(this.tank.getInventoryName());
 		

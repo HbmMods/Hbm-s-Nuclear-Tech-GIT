@@ -2,18 +2,13 @@ package com.hbm.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityDecoSteelPoles;
-import com.hbm.blocks.TileEntityTestBombAdvanced;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderSteelPoles implements IItemRenderer {
 	

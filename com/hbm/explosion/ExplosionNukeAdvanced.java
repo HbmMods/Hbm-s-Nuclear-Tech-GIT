@@ -1,13 +1,5 @@
 package com.hbm.explosion;
 
-import com.hbm.particles.NukeCloudFX;
-import com.hbm.particles.NukeSmokeFX;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class ExplosionNukeAdvanced

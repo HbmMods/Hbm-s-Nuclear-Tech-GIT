@@ -1,8 +1,6 @@
 package com.hbm.particles;
 
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
 
 public class NukeCloudFX extends EntitySmokeFX {

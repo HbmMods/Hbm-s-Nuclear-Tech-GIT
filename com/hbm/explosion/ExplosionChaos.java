@@ -5,39 +5,28 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.EntityGrenadeNuke;
 import com.hbm.entity.EntityMirv;
-import com.hbm.entity.EntityMissileAntiBallistic;
 import com.hbm.entity.EntityMissileBase;
-import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ExplosionChaos {
@@ -414,20 +403,20 @@ public class ExplosionChaos {
         int i2 = MathHelper.floor_double(y + wat + 1.0D);
         int l = MathHelper.floor_double(z - wat - 1.0D);
         int j2 = MathHelper.floor_double(z + wat + 1.0D);
-        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
         Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {
             Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(x, y, z) / (double)bombStartStrength;
+            double d4 = entity.getDistance(x, y, z) / bombStartStrength;
 
             if (d4 <= 1.0D)
             {
                 d5 = entity.posX - x;
-                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+                d6 = entity.posY + entity.getEyeHeight() - y;
                 d7 = entity.posZ - z;
-                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
                 if (d9 < wat)
                 {
                 	if(entity instanceof EntityPlayer && Library.checkForGasMask((EntityPlayer)entity))
@@ -507,18 +496,18 @@ public class ExplosionChaos {
         int i2 = MathHelper.floor_double(y + wat + 1.0D);
         int l = MathHelper.floor_double(z - wat - 1.0D);
         int j2 = MathHelper.floor_double(z + wat + 1.0D);
-        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
         Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {
             Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(x, y, z) / (double)radius;
+            double d4 = entity.getDistance(x, y, z) / radius;
 
             if (d4 <= 1.0D)
             {
                 d5 = entity.posX - x;
-                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+                d6 = entity.posY + entity.getEyeHeight() - y;
                 d7 = entity.posZ - z;
                 if(entity instanceof EntityLiving && !(entity instanceof EntitySheep))
                 {
@@ -536,7 +525,7 @@ public class ExplosionChaos {
             		((EntityLiving)entity).setCustomNameTag("jeb_");
                 }
                 
-                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
                 if (d9 < wat)
                 {
                 	entity.setPosition(entity.posX += a, entity.posY += b, entity.posZ += c);
@@ -567,26 +556,26 @@ public class ExplosionChaos {
 		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+		        List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {
 		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / (double)radius;
+		            double d4 = entity.getDistance(x, y, z) / radius;
 
 		            if (d4 <= 1.0D)
 		            {
 		                d5 = entity.posX - x;
-		                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
-		                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 		                if (true)
 		                {
 		                    d5 /= d9;
 		                    d6 /= d9;
 		                    d7 /= d9;
-		                    double d10 = (double)world.getBlockDensity(vec3, entity.boundingBox);
+		                    double d10 = world.getBlockDensity(vec3, entity.boundingBox);
 		                    if(entity instanceof EntityMissileBase)
 		                    {
 		                    	return entity;
@@ -619,26 +608,26 @@ public class ExplosionChaos {
 		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+		        List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {
 		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / (double)radius;
+		            double d4 = entity.getDistance(x, y, z) / radius;
 
 		            if (d4 <= 1.0D)
 		            {
 		                d5 = entity.posX - x;
-		                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
-		                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 		                if (true)
 		                {
 		                    d5 /= d9;
 		                    d6 /= d9;
 		                    d7 /= d9;
-		                    double d10 = (double)world.getBlockDensity(vec3, entity.boundingBox);
+		                    double d10 = world.getBlockDensity(vec3, entity.boundingBox);
 		                    if(entity instanceof EntityMissileBase)
 		                    {
 		                    	entity = null;

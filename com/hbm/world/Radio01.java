@@ -59,6 +59,7 @@ public class Radio01 extends WorldGenerator
 
 	}
 
+	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z)
 	{
 		int i = rand.nextInt(1);

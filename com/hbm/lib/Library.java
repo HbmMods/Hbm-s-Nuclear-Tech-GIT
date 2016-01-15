@@ -9,7 +9,6 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -181,39 +180,39 @@ public class Library {
 					entity instanceof TileEntityMachineBattery ||
 					entity instanceof TileEntityLaunchPad)
 			{
-				if(entity instanceof TileEntityMachineElectricFurnace && ((TileEntityMachineElectricFurnace)entity).power + 100 <= ((TileEntityMachineElectricFurnace)entity).maxPower && TileEntityWireCoated.power >= 100)
+				if(entity instanceof TileEntityMachineElectricFurnace && ((TileEntityMachineElectricFurnace)entity).power + 100 <= TileEntityMachineElectricFurnace.maxPower && TileEntityWireCoated.power >= 100)
 				{
 					((TileEntityMachineElectricFurnace)entity).power += 100;
 					if(that instanceof TileEntityWireCoated) {
-						((TileEntityWireCoated)that).power -= 100;
+						TileEntityWireCoated.power -= 100;
 					}
 				} else
-				if(entity instanceof TileEntityWireCoated && ((TileEntityWireCoated)entity).power + 100 <= ((TileEntityWireCoated)entity).maxPower && TileEntityWireCoated.power >= 100)
+				if(entity instanceof TileEntityWireCoated && TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && TileEntityWireCoated.power >= 100)
 				{
-					((TileEntityWireCoated)entity).power += 100;
+					TileEntityWireCoated.power += 100;
 					if(that instanceof TileEntityWireCoated) {
-						((TileEntityWireCoated)that).power -= 100;
+						TileEntityWireCoated.power -= 100;
 					}
 				} else
-				if(entity instanceof TileEntityMachineDeuterium && ((TileEntityMachineDeuterium)entity).power + 100 <= ((TileEntityMachineDeuterium)entity).maxPower && TileEntityWireCoated.power >= 100)
+				if(entity instanceof TileEntityMachineDeuterium && ((TileEntityMachineDeuterium)entity).power + 100 <= TileEntityMachineDeuterium.maxPower && TileEntityWireCoated.power >= 100)
 				{
 					((TileEntityMachineDeuterium)entity).power += 100;
 					if(that instanceof TileEntityWireCoated) {
-						((TileEntityWireCoated)that).power -= 100;
+						TileEntityWireCoated.power -= 100;
 					}
 				} else
 				if(entity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)entity).power + 100 <= ((TileEntityMachineBattery)entity).maxPower && !((TileEntityMachineBattery)entity).conducts && TileEntityWireCoated.power >= 100)
 				{
 					((TileEntityMachineBattery)entity).power += 100;
 					if(that instanceof TileEntityWireCoated) {
-						((TileEntityWireCoated)that).power -= 100;
+						TileEntityWireCoated.power -= 100;
 					}
 				} else
 					if(entity instanceof TileEntityLaunchPad && ((TileEntityLaunchPad)entity).power + 100 <= ((TileEntityLaunchPad)entity).maxPower && TileEntityWireCoated.power >= 100)
 					{
 						((TileEntityLaunchPad)entity).power += 100;
 						if(that instanceof TileEntityWireCoated) {
-							((TileEntityWireCoated)that).power -= 100;
+							TileEntityWireCoated.power -= 100;
 						}
 					}
 			}

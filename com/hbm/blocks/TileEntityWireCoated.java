@@ -9,6 +9,7 @@ public class TileEntityWireCoated extends TileEntity {
 	public static int power;
 	public static final int maxPower = 600;
 	
+	@Override
 	public void updateEntity() {
 		
 		//Energy distribution algorithm

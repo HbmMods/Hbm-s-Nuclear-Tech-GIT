@@ -3,7 +3,6 @@ package com.hbm.render;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.TileEntityLaunchPad;
-import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -60,7 +59,8 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		missileThermoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermal.png");
     }
 
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+    @Override
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);

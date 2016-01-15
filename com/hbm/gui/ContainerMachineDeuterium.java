@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityMachineDeuterium;
-import com.hbm.blocks.TileEntityNukeBoy;
 
 public class ContainerMachineDeuterium extends Container {
 
@@ -43,6 +42,7 @@ private TileEntityMachineDeuterium nukeBoy;
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -53,6 +53,7 @@ private TileEntityMachineDeuterium nukeBoy;
 		return nukeBoy.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -87,6 +88,7 @@ private TileEntityMachineDeuterium nukeBoy;
 		this.sulfur = this.nukeBoy.sulfur;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

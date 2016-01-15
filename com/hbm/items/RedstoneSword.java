@@ -4,7 +4,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.world.World;
@@ -17,12 +16,14 @@ public class RedstoneSword extends ItemSword {
 		super(p_i45356_1_);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {
         return true;
     }
 	
+	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
         if (p_77648_7_ == 0)
@@ -63,7 +64,7 @@ public class RedstoneSword extends ItemSword {
         {
             if (world.isAirBlock(x, y, z))
             {
-                world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "random.break", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+                world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.break", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
                 world.setBlock(x, y, z, Blocks.redstone_wire);
             }
 

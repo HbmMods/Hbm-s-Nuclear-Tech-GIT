@@ -11,7 +11,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -35,6 +34,7 @@ public class TestContainer extends BlockChest {
 	private final Random field_149955_b = new Random();
 	
 	//Aktiviert durch: Platzieren. Bewirkt: Rotation des Blockes in Blickrichtung
+	@Override
 	public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_)
     {
         Block block = p_149689_1_.getBlock(p_149689_2_, p_149689_3_, p_149689_4_ - 1);
@@ -42,7 +42,7 @@ public class TestContainer extends BlockChest {
         Block block2 = p_149689_1_.getBlock(p_149689_2_ - 1, p_149689_3_, p_149689_4_);
         Block block3 = p_149689_1_.getBlock(p_149689_2_ + 1, p_149689_3_, p_149689_4_);
         byte b0 = 0;
-        int l = MathHelper.floor_double((double)(p_149689_5_.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int l = MathHelper.floor_double(p_149689_5_.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 
         if (l == 0)
         {
@@ -106,6 +106,7 @@ public class TestContainer extends BlockChest {
     }
 	
 	//Aktiviert durch: Blockupdate. Bewirkt: Verbinden zweier Kisten
+	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
     {
         super.onNeighborBlockChange(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
@@ -118,6 +119,7 @@ public class TestContainer extends BlockChest {
     }
 	
 	//Aktiviert durch: Zerstörung. Bewirkt: Droppt alle in ihm befindlichen Items
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         TileEntityTestContainer tileentitychest = (TileEntityTestContainer)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
@@ -144,11 +146,11 @@ public class TestContainer extends BlockChest {
                         }
 
                         itemstack.stackSize -= j1;
-                        entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
-                        entityitem.motionX = (double)((float)this.field_149955_b.nextGaussian() * f3);
-                        entityitem.motionY = (double)((float)this.field_149955_b.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double)((float)this.field_149955_b.nextGaussian() * f3);
+                        entityitem.motionX = (float)this.field_149955_b.nextGaussian() * f3;
+                        entityitem.motionY = (float)this.field_149955_b.nextGaussian() * f3 + 0.2F;
+                        entityitem.motionZ = (float)this.field_149955_b.nextGaussian() * f3;
 
                         if (itemstack.hasTagCompound())
                         {
@@ -165,9 +167,10 @@ public class TestContainer extends BlockChest {
     }
 	
 	//Allgemeine Inventarfunktion
+	@Override
 	public IInventory func_149951_m(World p_149951_1_, int p_149951_2_, int p_149951_3_, int p_149951_4_)
     {
-        Object object = (TileEntityTestContainer)p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_);
+        Object object = p_149951_1_.getTileEntity(p_149951_2_, p_149951_3_, p_149951_4_);
 
         if (object == null)
         {
@@ -226,7 +229,7 @@ public class TestContainer extends BlockChest {
 	//Bewirkt, dass sich Katzen draufsetzen
 	private static boolean func_149953_o(World p_149953_0_, int p_149953_1_, int p_149953_2_, int p_149953_3_)
     {
-        Iterator iterator = p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox((double)p_149953_1_, (double)(p_149953_2_ + 1), (double)p_149953_3_, (double)(p_149953_1_ + 1), (double)(p_149953_2_ + 2), (double)(p_149953_3_ + 1))).iterator();
+        Iterator iterator = p_149953_0_.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getBoundingBox(p_149953_1_, p_149953_2_ + 1, p_149953_3_, p_149953_1_ + 1, p_149953_2_ + 2, p_149953_3_ + 1)).iterator();
         EntityOcelot entityocelot;
 
         do
@@ -245,6 +248,7 @@ public class TestContainer extends BlockChest {
     }
 
 	//Erzeugt ein neues Tileentity
+	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
     {
         TileEntityTestContainer tileentitychest = new TileEntityTestContainer();
@@ -252,6 +256,7 @@ public class TestContainer extends BlockChest {
     }
 	
 	//Registriert das Inventaricon
+	@Override
 	@SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister p_149651_1_)
     {

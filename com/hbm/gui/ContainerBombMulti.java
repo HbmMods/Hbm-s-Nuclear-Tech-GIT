@@ -7,7 +7,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityBombMulti;
-import com.hbm.blocks.TileEntityNukeGadget;
 
 public class ContainerBombMulti extends Container {
 
@@ -38,6 +37,7 @@ private TileEntityBombMulti bombMulti;
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;

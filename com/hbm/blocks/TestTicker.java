@@ -2,12 +2,8 @@ package com.hbm.blocks;
 
 import java.util.Random;
 
-import com.hbm.particles.NukeSmokeFX;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class TestTicker extends Block {
@@ -17,7 +13,8 @@ public class TestTicker extends Block {
         this.setTickRandomly(true);
 	}
 
-    public void updateTick(World world, int x, int y, int z, Random rand) {
+    @Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
     	
     	{
     		if(world.getBlock(x + 1, y, z) != ModBlocks.test_ticker) {

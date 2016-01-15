@@ -32,39 +32,46 @@ public class TestBombAdvanced extends BlockContainer {
 	}
 	
 	//Nicht verfügbarer Rendertyp, setzt den Switch auf "Default" und ermöglicht einen Customrenderer
+	@Override
 	public int getRenderType(){
 		return -1;
 	}
 	
 	//Ob der Block transparent ist (Glas, Glowstone, Wasser, etc)
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 	
 	//"Default" beim Switch zum Rendern ermöglicht die Abfrage "renderAsNormalBlock", "true" um es als einen normalen Block rendern zu lassen, "false" für einen Customrenderer
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
 	
 	//Erstellen eines TileEntitys
+	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityTestBombAdvanced();
 	}
 	
 	//GUI Blocktextur muss für Custommodel-Blocke nachträglich geändert werden
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconregister) {
 		this.blockIcon = iconregister.registerIcon(RefStrings.MODID + ":test_render");
 	}
 	
 	//Setzt die Blockkollisionsbox (xMin, yMin, zMin, xMax, yMax, zMax)
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
     {
         float f = 0.0625F;
         this.setBlockBounds(4*f, 0.0F, 0.0F, 12*f, 8*f, 1.0F);
     }
 	
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z)
     {
         super.onBlockAdded(world, x, y, z);
@@ -77,7 +84,8 @@ public class TestBombAdvanced extends BlockContainer {
         }
     }
 	
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
         {

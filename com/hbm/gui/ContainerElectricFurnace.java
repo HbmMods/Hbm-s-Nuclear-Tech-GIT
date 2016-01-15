@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityMachineElectricFurnace;
-import com.hbm.blocks.TileEntityNukeFurnace;
 
 public class ContainerElectricFurnace extends Container {
 	
@@ -42,12 +41,14 @@ public class ContainerElectricFurnace extends Container {
 		}
 	}
 	
+	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.power);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -58,6 +59,7 @@ public class ContainerElectricFurnace extends Container {
 		return diFurnace.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -80,6 +82,7 @@ public class ContainerElectricFurnace extends Container {
 		this.dualPower = this.diFurnace.power;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

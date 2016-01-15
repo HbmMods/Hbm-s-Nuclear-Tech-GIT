@@ -1,10 +1,6 @@
 package com.hbm.main;
 
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.entity.RenderCreeper;
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
 
@@ -69,7 +65,6 @@ import com.hbm.entity.EntityMissileRain;
 import com.hbm.entity.EntityMissileStrong;
 import com.hbm.entity.EntityNuclearCreeper;
 import com.hbm.entity.EntityNukeCloudSmall;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
@@ -78,7 +73,6 @@ import com.hbm.render.ItemRenderRevolverCursed;
 import com.hbm.render.ItemRenderRevolverIron;
 import com.hbm.render.ItemRenderBigSword;
 import com.hbm.render.ItemRenderDecoBlock;
-import com.hbm.render.ItemRenderNukeGadget;
 import com.hbm.render.ItemRenderPoleTop;
 import com.hbm.render.ItemRenderRedstoneSword;
 import com.hbm.render.ItemRenderRevolver;
@@ -92,7 +86,6 @@ import com.hbm.render.ItemRenderTapeRecorder;
 import com.hbm.render.ItemRenderTestBombAdvanced;
 import com.hbm.render.ItemRenderTestContainer;
 import com.hbm.render.RenderBombMulti;
-import com.hbm.render.RenderBombMultiLarge;
 import com.hbm.render.RenderCentrifuge;
 import com.hbm.render.RenderDecoBlock;
 import com.hbm.render.RenderDecoBlockAlt;
@@ -119,7 +112,6 @@ import com.hbm.render.RenderPuF6Tank;
 import com.hbm.render.RenderRedBarrel;
 import com.hbm.render.RenderRocket;
 import com.hbm.render.RenderRotationTester;
-import com.hbm.render.RenderSmallNuke;
 import com.hbm.render.RenderSmallNukeAlt;
 import com.hbm.render.RenderSteelPoles;
 import com.hbm.render.RenderTapeRecorder;
@@ -136,6 +128,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends ServerProxy
 {
+	@Override
 	public void registerRenderInfo()
 	{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestRender.class, new RenderTestRender());
@@ -260,6 +253,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.addNewArmourRendererPrefix("9");
 	}
 	
+	@Override
 	public void registerTileEntitySpecialRenderer() {
 		
 	}

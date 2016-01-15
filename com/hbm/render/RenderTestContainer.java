@@ -124,7 +124,7 @@ public class RenderTestContainer extends TileEntitySpecialRenderer
                 GL11.glTranslatef(0.0F, 0.0F, -1.0F);
             }
 
-            GL11.glRotatef((float)short1, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(short1, 0.0F, 1.0F, 0.0F);
             GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
             float f1 = p_147500_1_.prevLidAngle + (p_147500_1_.lidAngle - p_147500_1_.prevLidAngle) * p_147500_8_;
             float f2;
@@ -159,7 +159,8 @@ public class RenderTestContainer extends TileEntitySpecialRenderer
         }
     }
 
-    public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
+    @Override
+	public void renderTileEntityAt(TileEntity p_147500_1_, double p_147500_2_, double p_147500_4_, double p_147500_6_, float p_147500_8_)
     {
         this.renderTileEntityAt((TileEntityTestContainer)p_147500_1_, p_147500_2_, p_147500_4_, p_147500_6_, p_147500_8_);
     }

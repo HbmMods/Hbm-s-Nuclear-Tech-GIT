@@ -12,7 +12,8 @@ import net.minecraft.world.World;
 
 public class ItemDesingator extends Item {
 
-    public void onCreated(ItemStack p_77622_1_, World p_77622_2_, EntityPlayer p_77622_3_) {
+    @Override
+	public void onCreated(ItemStack p_77622_1_, World p_77622_2_, EntityPlayer p_77622_3_) {
     	p_77622_1_.stackTagCompound = new NBTTagCompound();
     	p_77622_1_.stackTagCompound.setInteger("xCoord", 0);
     	p_77622_1_.stackTagCompound.setInteger("zCoord", 0);

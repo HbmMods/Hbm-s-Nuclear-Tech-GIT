@@ -88,11 +88,13 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 	
+	@Override
 	public void openInventory() {}
+	@Override
 	public void closeInventory() {}
 
 	@Override
@@ -100,6 +102,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		return false;
 	}
 	
+	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
 		{
@@ -121,6 +124,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -133,7 +137,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -142,6 +146,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("power", (short) power);
@@ -235,6 +240,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		}
 	}
 	
+	@Override
 	public void updateEntity() {
 		if(slots[2] != null && slots[2].getItem() == ModItems.sulfur && sulfur + 125 <= maxFill)
 		{

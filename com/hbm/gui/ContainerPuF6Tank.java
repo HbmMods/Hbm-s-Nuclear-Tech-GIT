@@ -8,8 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityMachinePuF6Tank;
-import com.hbm.blocks.TileEntityMachineUF6Tank;
-import com.hbm.blocks.TileEntityTestNuke;
 
 public class ContainerPuF6Tank extends Container {
 
@@ -40,11 +38,13 @@ public class ContainerPuF6Tank extends Container {
 		}
 	}
 	
+	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.testNuke.fillState);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -55,6 +55,7 @@ public class ContainerPuF6Tank extends Container {
 		return testNuke.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -71,6 +72,7 @@ public class ContainerPuF6Tank extends Container {
 		this.fillState = this.testNuke.fillState;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

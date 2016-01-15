@@ -8,11 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,7 +20,6 @@ import net.minecraft.world.World;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -52,11 +48,13 @@ public class BombMulti extends BlockContainer {
 		return new TileEntityBombMulti();
 	}
 	
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.bomb_multi);
     }
 	
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         if (!keepInventory)
@@ -85,7 +83,7 @@ public class BombMulti extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -93,9 +91,9 @@ public class BombMulti extends BlockContainer {
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)this.field_149933_a.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)this.field_149933_a.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)this.field_149933_a.nextGaussian() * f3);
+                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -108,6 +106,7 @@ public class BombMulti extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{
@@ -125,7 +124,8 @@ public class BombMulti extends BlockContainer {
 		}
 	}
 	
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	TileEntityBombMulti entity = (TileEntityBombMulti) p_149695_1_.getTileEntity(x, y, z);
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
@@ -263,20 +263,24 @@ public class BombMulti extends BlockContainer {
 		return false;
 	}
 	
+	@Override
 	public int getRenderType(){
 		return -1;
 	}
 	
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 	
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		if(i == 0)
 		{
@@ -296,6 +300,7 @@ public class BombMulti extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
     {
         float f = 0.0625F;

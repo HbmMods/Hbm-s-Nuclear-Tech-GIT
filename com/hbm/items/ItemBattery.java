@@ -24,7 +24,8 @@ public class ItemBattery extends Item {
 		}
 	}
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
     	
     	if(this == ModItems.battery_schrabidium)
     	{

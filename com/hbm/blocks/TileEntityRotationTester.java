@@ -4,6 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityRotationTester extends TileEntity {
 	
+	@Override
 	public int getBlockMetadata()
     {
         if (this.blockMetadata == -1)

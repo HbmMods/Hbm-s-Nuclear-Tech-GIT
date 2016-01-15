@@ -9,7 +9,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -93,12 +92,14 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 	
 	//You scrubs aren't needed for anything (right now)
+	@Override
 	public void openInventory() {}
+	@Override
 	public void closeInventory() {}
 
 	@Override
@@ -106,6 +107,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		return true;
 	}
 	
+	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
 		{
@@ -127,6 +129,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -139,7 +142,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -148,6 +151,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("water", (short) water);
@@ -218,6 +222,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		return heat > 0;
 	}
 
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote)
@@ -735,17 +740,17 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					entity instanceof TileEntityMachineBattery ||
 					entity instanceof TileEntityLaunchPad)
 			{
-				if(entity instanceof TileEntityMachineElectricFurnace && ((TileEntityMachineElectricFurnace)entity).power + 100 <= ((TileEntityMachineElectricFurnace)entity).maxPower)
+				if(entity instanceof TileEntityMachineElectricFurnace && ((TileEntityMachineElectricFurnace)entity).power + 100 <= TileEntityMachineElectricFurnace.maxPower)
 				{
 					((TileEntityMachineElectricFurnace)entity).power += 100;
 					this.power -= 100;
 				} else
-				if(entity instanceof TileEntityWireCoated && ((TileEntityWireCoated)entity).power + 100 <= ((TileEntityWireCoated)entity).maxPower)
+				if(entity instanceof TileEntityWireCoated && TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower)
 				{
-					((TileEntityWireCoated)entity).power += 100;
+					TileEntityWireCoated.power += 100;
 					this.power -= 100;
 				} else
-				if(entity instanceof TileEntityMachineDeuterium && ((TileEntityMachineDeuterium)entity).power + 100 <= ((TileEntityMachineDeuterium)entity).maxPower)
+				if(entity instanceof TileEntityMachineDeuterium && ((TileEntityMachineDeuterium)entity).power + 100 <= TileEntityMachineDeuterium.maxPower)
 				{
 					((TileEntityMachineDeuterium)entity).power += 100;
 					this.power -= 100;

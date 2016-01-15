@@ -14,7 +14,8 @@ public class DetCord extends Block {
 		super(p_i45394_1_);
 	}
 
-    public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
+    @Override
+	public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
     {
         if (!p_149723_1_.isRemote)
         {
@@ -22,6 +23,7 @@ public class DetCord extends Block {
         }
     }
 
+	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
@@ -30,7 +32,8 @@ public class DetCord extends Block {
         }
     }
 
-    public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    @Override
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return null;
     }

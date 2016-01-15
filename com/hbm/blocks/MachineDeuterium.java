@@ -34,12 +34,14 @@ public class MachineDeuterium extends BlockContainer {
 		super(p_i45386_1_);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_deuterium_side");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_deuterium_front");
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
@@ -50,11 +52,13 @@ public class MachineDeuterium extends BlockContainer {
 		return new TileEntityMachineDeuterium();
 	}
 	
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.machine_deuterium);
     }
 	
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{
@@ -72,6 +76,7 @@ public class MachineDeuterium extends BlockContainer {
 		}
 	}
 	
+	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
         if (!keepInventory)
@@ -100,7 +105,7 @@ public class MachineDeuterium extends BlockContainer {
                             }
 
                             itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, (double)((float)p_149749_2_ + f), (double)((float)p_149749_3_ + f1), (double)((float)p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
                             if (itemstack.hasTagCompound())
                             {
@@ -108,9 +113,9 @@ public class MachineDeuterium extends BlockContainer {
                             }
 
                             float f3 = 0.05F;
-                            entityitem.motionX = (double)((float)this.field_149933_a.nextGaussian() * f3);
-                            entityitem.motionY = (double)((float)this.field_149933_a.nextGaussian() * f3 + 0.2F);
-                            entityitem.motionZ = (double)((float)this.field_149933_a.nextGaussian() * f3);
+                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
+                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
+                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
                             p_149749_1_.spawnEntityInWorld(entityitem);
                         }
                     }
@@ -123,15 +128,16 @@ public class MachineDeuterium extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
+	@Override
 	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand)
     {
         if (((TileEntityMachineDeuterium) p_149734_1_.getTileEntity(x, y, z)).isProcessing())
         {
             int l = p_149734_1_.getBlockMetadata(x, y, z);
-            float f = (float)x + 0.5F;
-            float f1 = (float)y + 1.0F;
-            float f2 = (float)z + 0.5F;
+            float f = x + 0.5F;
+            float f1 = y + 1.0F;
+            float f2 = z + 0.5F;
 
             p_149734_1_.spawnParticle("cloud", f, f1, f2, 0.0D, 0.1D, 0.0D);
         }

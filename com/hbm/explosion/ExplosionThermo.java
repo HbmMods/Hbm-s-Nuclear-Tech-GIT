@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -14,7 +13,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -275,20 +273,20 @@ public class ExplosionThermo {
 		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {
 		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / (double)bombStartStrength;
+		            double d4 = entity.getDistance(x, y, z) / bombStartStrength;
 
 		            if (d4 <= 1.0D)
 		            {
 		                d5 = entity.posX - x;
-		                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
-		                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 		                if (d9 < wat && !(entity instanceof EntityOcelot) && entity instanceof EntityLivingBase)
 		                {
 		                    for(int a = (int) entity.posX - 2; a < (int) entity.posX + 1; a++)
@@ -332,20 +330,20 @@ public class ExplosionThermo {
 		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {
 		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / (double)bombStartStrength;
+		            double d4 = entity.getDistance(x, y, z) / bombStartStrength;
 
 		            if (d4 <= 1.0D)
 		            {
 		                d5 = entity.posX - x;
-		                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
-		                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 		                if (d9 < wat && !(entity instanceof EntityOcelot) && entity instanceof EntityLivingBase)
 		                {
 

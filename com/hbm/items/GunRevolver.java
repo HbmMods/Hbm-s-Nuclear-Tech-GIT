@@ -64,7 +64,8 @@ public class GunRevolver extends Item
         this.instakill = instakill;
     }
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
     	
     	if(this == ModItems.gun_revolver_schrabidium)
     	{
@@ -82,7 +83,8 @@ public class GunRevolver extends Item
     /**
      * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
      */
-    public void onPlayerStoppedUsing(ItemStack p_77615_1_, World p_77615_2_, EntityPlayer p_77615_3_, int p_77615_4_)
+    @Override
+	public void onPlayerStoppedUsing(ItemStack p_77615_1_, World p_77615_2_, EntityPlayer p_77615_3_, int p_77615_4_)
     {
         int j = this.getMaxItemUseDuration(p_77615_1_) - p_77615_4_;
 
@@ -99,10 +101,10 @@ public class GunRevolver extends Item
 
         if (flag || p_77615_3_.inventory.hasItem(ammo))
         {
-            float f = (float)j / 20.0F;
+            float f = j / 20.0F;
             f = (f * f + f * 2.0F) / 3.0F;
 
-            if ((double)j < 10.0D)
+            if (j < 10.0D)
             {
                	return;
             }
@@ -151,7 +153,8 @@ public class GunRevolver extends Item
         }
     }
 
-    public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+    @Override
+	public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
     {
         return p_77654_1_;
     }
@@ -159,7 +162,8 @@ public class GunRevolver extends Item
     /**
      * How long it takes to use or consume an item
      */
-    public int getMaxItemUseDuration(ItemStack p_77626_1_)
+    @Override
+	public int getMaxItemUseDuration(ItemStack p_77626_1_)
     {
         return 72000;
     }
@@ -167,7 +171,8 @@ public class GunRevolver extends Item
     /**
      * returns the action that specifies what animation to play when the items is being used
      */
-    public EnumAction getItemUseAction(ItemStack p_77661_1_)
+    @Override
+	public EnumAction getItemUseAction(ItemStack p_77661_1_)
     {
         return EnumAction.bow;
     }
@@ -175,7 +180,8 @@ public class GunRevolver extends Item
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+    @Override
+	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
         ArrowNockEvent event = new ArrowNockEvent(p_77659_3_, p_77659_1_);
         MinecraftForge.EVENT_BUS.post(event);
@@ -195,7 +201,8 @@ public class GunRevolver extends Item
     /**
      * Return the enchantability factor of the item, most of the time is based on material.
      */
-    public int getItemEnchantability()
+    @Override
+	public int getItemEnchantability()
     {
         return 1;
     }

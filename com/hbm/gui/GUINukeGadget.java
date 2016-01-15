@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.TileEntityNukeGadget;
-import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.lib.RefStrings;
 
 public class GUINukeGadget extends GuiContainer {
@@ -25,6 +24,7 @@ public class GUINukeGadget extends GuiContainer {
 		this.ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.testNuke.hasCustomInventoryName() ? this.testNuke.getInventoryName() : I18n.format(this.testNuke.getInventoryName());
 		

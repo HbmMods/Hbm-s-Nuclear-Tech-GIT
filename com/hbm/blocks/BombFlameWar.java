@@ -14,6 +14,7 @@ public class BombFlameWar extends Block {
 		super(p_i45394_1_);
 	}
 
+	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	this.worldObj = p_149695_1_;

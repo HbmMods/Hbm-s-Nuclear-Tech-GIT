@@ -22,7 +22,8 @@ public class RenderBombMulti extends TileEntitySpecialRenderer {
 		bombTexture = new ResourceLocation(RefStrings.MODID, "textures/models/BombGeneric.png");
     }
 
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+    @Override
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);

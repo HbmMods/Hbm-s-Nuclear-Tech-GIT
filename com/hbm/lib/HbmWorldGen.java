@@ -9,9 +9,6 @@ import com.hbm.world.DesertAtom001;
 import com.hbm.world.Radio01;
 import com.hbm.world.Vertibird;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;

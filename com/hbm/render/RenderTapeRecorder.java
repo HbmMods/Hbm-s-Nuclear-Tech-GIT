@@ -2,7 +2,6 @@ package com.hbm.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityDecoTapeRecorder;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

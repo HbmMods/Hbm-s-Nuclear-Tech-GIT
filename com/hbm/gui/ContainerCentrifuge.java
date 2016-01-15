@@ -7,7 +7,6 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import com.hbm.blocks.TileEntityDiFurnace;
 import com.hbm.blocks.TileEntityMachineCentrifuge;
 
 public class ContainerCentrifuge extends Container {
@@ -41,6 +40,7 @@ public class ContainerCentrifuge extends Container {
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -51,6 +51,7 @@ public class ContainerCentrifuge extends Container {
 		return diFurnace.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -73,6 +74,7 @@ public class ContainerCentrifuge extends Container {
 		this.dualPower = this.diFurnace.dualPower;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

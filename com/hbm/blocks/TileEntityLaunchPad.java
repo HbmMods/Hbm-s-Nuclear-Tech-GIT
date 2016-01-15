@@ -91,12 +91,14 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 	
 	//You scrubs aren't needed for anything (right now)
+	@Override
 	public void openInventory() {}
+	@Override
 	public void closeInventory() {}
 
 	@Override
@@ -104,6 +106,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 		return true;
 	}
 	
+	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
 		{
@@ -125,6 +128,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -134,7 +138,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -143,6 +147,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
@@ -182,6 +187,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 		return (power * i) / maxPower;
 	}
 
+	@Override
 	public void updateEntity() {
 		
 		if(/*power + 100 <= maxPower && */slots[2] != null && slots[2].getItem() == ModItems.battery_creative)
@@ -405,7 +411,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return this.INFINITE_EXTENT_AABB;
+		return TileEntity.INFINITE_EXTENT_AABB;
 	}
 	
 	public World getThatWorld() {

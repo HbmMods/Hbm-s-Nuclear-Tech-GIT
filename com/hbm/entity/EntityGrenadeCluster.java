@@ -28,7 +28,8 @@ public class EntityGrenadeCluster extends EntityThrowable
         super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
     }
 
-    protected void onImpact(MovingObjectPosition p_70184_1_)
+    @Override
+	protected void onImpact(MovingObjectPosition p_70184_1_)
     {
         if (p_70184_1_.entityHit != null)
         {
@@ -39,7 +40,7 @@ public class EntityGrenadeCluster extends EntityThrowable
                 b0 = 3;
             }
 
-            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)b0);
+            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), b0);
         }
 
         if (!this.worldObj.isRemote)

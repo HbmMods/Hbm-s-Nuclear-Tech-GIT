@@ -7,7 +7,7 @@ public class TileEntityDecoBlockAltG extends TileEntity {
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return this.INFINITE_EXTENT_AABB;
+		return TileEntity.INFINITE_EXTENT_AABB;
 	}
 
 }

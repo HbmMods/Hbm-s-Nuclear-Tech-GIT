@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.TileEntityMachineElectricFurnace;
-import com.hbm.blocks.TileEntityNukeFurnace;
 import com.hbm.lib.RefStrings;
 
 public class GUIMachineElectricFurnace extends GuiContainer {
@@ -25,6 +24,7 @@ public class GUIMachineElectricFurnace extends GuiContainer {
 		this.ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
 		

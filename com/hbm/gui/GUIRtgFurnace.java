@@ -24,6 +24,7 @@ public class GUIRtgFurnace extends GuiContainer {
 		this.ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
 		

@@ -8,7 +8,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-import com.hbm.blocks.TileEntityDiFurnace;
 import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.lib.RefStrings;
 
@@ -25,6 +24,7 @@ public class GUITestNuke extends GuiContainer {
 		this.ySize = 166;
 	}
 	
+	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.testNuke.hasCustomInventoryName() ? this.testNuke.getInventoryName() : I18n.format(this.testNuke.getInventoryName());
 		

@@ -5,12 +5,8 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 import com.hbm.entity.EntityRocket;
@@ -47,6 +43,7 @@ public class RenderRocket extends Render {
 		return texture;
 	}
 
+	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return this.getEntityTexture((EntityRocket) p_110775_1_);
 	}

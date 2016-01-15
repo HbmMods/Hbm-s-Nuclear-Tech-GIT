@@ -3,7 +3,6 @@ package com.hbm.main;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;

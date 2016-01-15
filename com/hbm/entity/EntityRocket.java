@@ -16,7 +16,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
@@ -77,11 +76,11 @@ public class EntityRocket extends Entity implements IProjectile
             this.canBePickedUp = 1;
         }
 
-        this.posY = p_i1755_2_.posY + (double)p_i1755_2_.getEyeHeight() - 0.10000000149011612D;
+        this.posY = p_i1755_2_.posY + p_i1755_2_.getEyeHeight() - 0.10000000149011612D;
         double d0 = p_i1755_3_.posX - p_i1755_2_.posX;
-        double d1 = p_i1755_3_.boundingBox.minY + (double)(p_i1755_3_.height / 3.0F) - this.posY;
+        double d1 = p_i1755_3_.boundingBox.minY + p_i1755_3_.height / 3.0F - this.posY;
         double d2 = p_i1755_3_.posZ - p_i1755_2_.posZ;
-        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+        double d3 = MathHelper.sqrt_double(d0 * d0 + d2 * d2);
 
         if (d3 >= 1.0E-7D)
         {
@@ -92,7 +91,7 @@ public class EntityRocket extends Entity implements IProjectile
             this.setLocationAndAngles(p_i1755_2_.posX + d4, this.posY, p_i1755_2_.posZ + d5, f2, f3);
             this.yOffset = 0.0F;
             float f4 = (float)d3 * 0.2F;
-            this.setThrowableHeading(d0, d1 + (double)f4, d2, p_i1755_4_, p_i1755_5_);
+            this.setThrowableHeading(d0, d1 + f4, d2, p_i1755_4_, p_i1755_5_);
         }
     }
 
@@ -108,15 +107,15 @@ public class EntityRocket extends Entity implements IProjectile
         }
 
         this.setSize(0.5F, 0.5F);
-        this.setLocationAndAngles(p_i1756_2_.posX, p_i1756_2_.posY + (double)p_i1756_2_.getEyeHeight(), p_i1756_2_.posZ, p_i1756_2_.rotationYaw, p_i1756_2_.rotationPitch);
-        this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
+        this.setLocationAndAngles(p_i1756_2_.posX, p_i1756_2_.posY + p_i1756_2_.getEyeHeight(), p_i1756_2_.posZ, p_i1756_2_.rotationYaw, p_i1756_2_.rotationPitch);
+        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
         this.posY -= 0.10000000149011612D;
-        this.posZ -= (double)(MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
+        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
         this.setPosition(this.posX, this.posY, this.posZ);
         this.yOffset = 0.0F;
-        this.motionX = (double)(-MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
-        this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI));
-        this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
+        this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI);
+        this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI);
+        this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
     }
 
@@ -133,7 +132,8 @@ public class EntityRocket extends Entity implements IProjectile
     	this.gravity = grav;
     }
 
-    protected void entityInit()
+    @Override
+	protected void entityInit()
     {
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
@@ -141,24 +141,25 @@ public class EntityRocket extends Entity implements IProjectile
     /**
      * Similar to setArrowHeading, it's point the throwable entity to a x, y, z direction.
      */
-    public void setThrowableHeading(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_, float p_70186_8_)
+    @Override
+	public void setThrowableHeading(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_, float p_70186_8_)
     {
         float f2 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_3_ * p_70186_3_ + p_70186_5_ * p_70186_5_);
-        p_70186_1_ /= (double)f2;
-        p_70186_3_ /= (double)f2;
-        p_70186_5_ /= (double)f2;
-        p_70186_1_ += this.rand.nextGaussian() * (double)(this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double)p_70186_8_;
-        p_70186_3_ += this.rand.nextGaussian() * (double)(this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double)p_70186_8_;
-        p_70186_5_ += this.rand.nextGaussian() * (double)(this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * (double)p_70186_8_;
-        p_70186_1_ *= (double)p_70186_7_;
-        p_70186_3_ *= (double)p_70186_7_;
-        p_70186_5_ *= (double)p_70186_7_;
+        p_70186_1_ /= f2;
+        p_70186_3_ /= f2;
+        p_70186_5_ /= f2;
+        p_70186_1_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * p_70186_8_;
+        p_70186_3_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * p_70186_8_;
+        p_70186_5_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D * p_70186_8_;
+        p_70186_1_ *= p_70186_7_;
+        p_70186_3_ *= p_70186_7_;
+        p_70186_5_ *= p_70186_7_;
         this.motionX = p_70186_1_;
         this.motionY = p_70186_3_;
         this.motionZ = p_70186_5_;
         float f3 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_5_ * p_70186_5_);
         this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(p_70186_1_, p_70186_5_) * 180.0D / Math.PI);
-        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(p_70186_3_, (double)f3) * 180.0D / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(p_70186_3_, f3) * 180.0D / Math.PI);
         this.ticksInGround = 0;
     }
 
@@ -166,7 +167,8 @@ public class EntityRocket extends Entity implements IProjectile
      * Sets the position and rotation. Only difference from the other one is no bounding on the rotation. Args: posX,
      * posY, posZ, yaw, pitch
      */
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void setPositionAndRotation2(double p_70056_1_, double p_70056_3_, double p_70056_5_, float p_70056_7_, float p_70056_8_, int p_70056_9_)
     {
         this.setPosition(p_70056_1_, p_70056_3_, p_70056_5_);
@@ -176,7 +178,8 @@ public class EntityRocket extends Entity implements IProjectile
     /**
      * Sets the velocity to the args. Args: x, y, z
      */
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void setVelocity(double p_70016_1_, double p_70016_3_, double p_70016_5_)
     {
         this.motionX = p_70016_1_;
@@ -187,7 +190,7 @@ public class EntityRocket extends Entity implements IProjectile
         {
             float f = MathHelper.sqrt_double(p_70016_1_ * p_70016_1_ + p_70016_5_ * p_70016_5_);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(p_70016_1_, p_70016_5_) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(p_70016_3_, (double)f) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(p_70016_3_, f) * 180.0D / Math.PI);
             this.prevRotationPitch = this.rotationPitch;
             this.prevRotationYaw = this.rotationYaw;
             this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
@@ -199,7 +202,8 @@ public class EntityRocket extends Entity implements IProjectile
      * Called to update the entity's position/logic.
      */
     //@Override
-    public void onUpdate()
+    @Override
+	public void onUpdate()
     {
         super.onUpdate();
 
@@ -285,7 +289,7 @@ public class EntityRocket extends Entity implements IProjectile
                 if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
                 {
                     f1 = 0.3F;
-                    AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand((double)f1, (double)f1, (double)f1);
+                    AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f1, f1, f1);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
 
                     if (movingobjectposition1 != null)
@@ -324,7 +328,7 @@ public class EntityRocket extends Entity implements IProjectile
                 if (movingobjectposition.entityHit != null)
                 {
                     f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    int k = MathHelper.ceiling_double_int((double)f2 * this.damage);
+                    int k = MathHelper.ceiling_double_int(f2 * this.damage);
 
                     if (this.getIsCritical())
                     {
@@ -347,7 +351,7 @@ public class EntityRocket extends Entity implements IProjectile
                         movingobjectposition.entityHit.setFire(5);
                     }
 
-                    if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float)k))
+                    if (movingobjectposition.entityHit.attackEntityFrom(damagesource, k))
                     {
                         if (movingobjectposition.entityHit instanceof EntityLivingBase)
                         {
@@ -364,7 +368,7 @@ public class EntityRocket extends Entity implements IProjectile
 
                                 if (f4 > 0.0F)
                                 {
-                                    movingobjectposition.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.6000000238418579D / (double)f4, 0.1D, this.motionZ * (double)this.knockbackStrength * 0.6000000238418579D / (double)f4);
+                                    movingobjectposition.entityHit.addVelocity(this.motionX * this.knockbackStrength * 0.6000000238418579D / f4, 0.1D, this.motionZ * this.knockbackStrength * 0.6000000238418579D / f4);
                                 }
                             }
 
@@ -406,13 +410,13 @@ public class EntityRocket extends Entity implements IProjectile
                     this.field_145789_f = movingobjectposition.blockZ;
                     this.field_145790_g = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f);
                     this.inData = this.worldObj.getBlockMetadata(this.field_145791_d, this.field_145792_e, this.field_145789_f);
-                    this.motionX = (double)((float)(movingobjectposition.hitVec.xCoord - this.posX));
-                    this.motionY = (double)((float)(movingobjectposition.hitVec.yCoord - this.posY));
-                    this.motionZ = (double)((float)(movingobjectposition.hitVec.zCoord - this.posZ));
+                    this.motionX = ((float)(movingobjectposition.hitVec.xCoord - this.posX));
+                    this.motionY = ((float)(movingobjectposition.hitVec.yCoord - this.posY));
+                    this.motionZ = ((float)(movingobjectposition.hitVec.zCoord - this.posZ));
                     f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    this.posX -= this.motionX / (double)f2 * 0.05000000074505806D;
-                    this.posY -= this.motionY / (double)f2 * 0.05000000074505806D;
-                    this.posZ -= this.motionZ / (double)f2 * 0.05000000074505806D;
+                    this.posX -= this.motionX / f2 * 0.05000000074505806D;
+                    this.posY -= this.motionY / f2 * 0.05000000074505806D;
+                    this.posZ -= this.motionZ / f2 * 0.05000000074505806D;
                     this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
                     this.inGround = true;
                     this.arrowShake = 7;
@@ -469,7 +473,7 @@ public class EntityRocket extends Entity implements IProjectile
                 for (int l = 0; l < 4; ++l)
                 {
                     f4 = 0.25F;
-                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double)f4, this.posY - this.motionY * (double)f4, this.posZ - this.motionZ * (double)f4, this.motionX, this.motionY, this.motionZ);
+                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * f4, this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY, this.motionZ);
                 }
 
                 f3 = 0.8F;
@@ -480,10 +484,10 @@ public class EntityRocket extends Entity implements IProjectile
                 this.extinguish();
             }
 
-            this.motionX *= (double)f3;
-            this.motionY *= (double)f3;
-            this.motionZ *= (double)f3;
-            this.motionY -= (double)gravity;
+            this.motionX *= f3;
+            this.motionY *= f3;
+            this.motionZ *= f3;
+            this.motionY -= gravity;
             this.setPosition(this.posX, this.posY, this.posZ);
             this.func_145775_I();
         }
@@ -492,7 +496,8 @@ public class EntityRocket extends Entity implements IProjectile
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+    @Override
+	public void writeEntityToNBT(NBTTagCompound p_70014_1_)
     {
         p_70014_1_.setShort("xTile", (short)this.field_145791_d);
         p_70014_1_.setShort("yTile", (short)this.field_145792_e);
@@ -509,7 +514,8 @@ public class EntityRocket extends Entity implements IProjectile
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound p_70037_1_)
+    @Override
+	public void readEntityFromNBT(NBTTagCompound p_70037_1_)
     {
         this.field_145791_d = p_70037_1_.getShort("xTile");
         this.field_145792_e = p_70037_1_.getShort("yTile");
@@ -538,7 +544,8 @@ public class EntityRocket extends Entity implements IProjectile
     /**
      * Called by a player entity when they collide with an entity
      */
-    public void onCollideWithPlayer(EntityPlayer p_70100_1_)
+    @Override
+	public void onCollideWithPlayer(EntityPlayer p_70100_1_)
     {
         if (!this.worldObj.isRemote && this.inGround && this.arrowShake <= 0)
         {
@@ -562,12 +569,14 @@ public class EntityRocket extends Entity implements IProjectile
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
      */
-    protected boolean canTriggerWalking()
+    @Override
+	protected boolean canTriggerWalking()
     {
         return false;
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public float getShadowSize()
     {
         return 0.0F;
@@ -594,7 +603,8 @@ public class EntityRocket extends Entity implements IProjectile
     /**
      * If returns false, the item will not inflict any damage against entities.
      */
-    public boolean canAttackWithItem()
+    @Override
+	public boolean canAttackWithItem()
     {
         return false;
     }

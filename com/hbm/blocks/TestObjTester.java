@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class TestObjTester extends BlockContainer{
@@ -20,23 +19,28 @@ public class TestObjTester extends BlockContainer{
 		super(p_i45394_1_);
 	}
 	
+	@Override
 	public int getRenderType(){
 		return -1;
 	}
 	
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 	
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
 	
+	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityObjTester();
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconregister) {
 		this.blockIcon = iconregister.registerIcon(RefStrings.MODID + ":test_render");
@@ -48,8 +52,9 @@ public class TestObjTester extends BlockContainer{
         this.setBlockBounds(2*f, 0.0F, 2*f, 14*f, 1.0F, 14*f);
     }*/
 	
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
 		if(i == 0)
 		{

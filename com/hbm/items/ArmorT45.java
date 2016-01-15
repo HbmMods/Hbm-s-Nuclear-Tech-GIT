@@ -3,8 +3,6 @@ package com.hbm.items;
 import java.util.List;
 
 import com.hbm.lib.Library;
-import com.hbm.render.ModelGasMask;
-import com.hbm.render.ModelGoggles;
 import com.hbm.render.ModelT45Boots;
 import com.hbm.render.ModelT45Chest;
 import com.hbm.render.ModelT45Helmet;
@@ -16,21 +14,16 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
 
 public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 	  @SideOnly(Side.CLIENT)
@@ -44,7 +37,8 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 			super(armorMaterial, renderIndex, armorType);
 	  }
 	  
-	  public boolean isValidArmor(ItemStack stack, int armorType, Entity entity)
+	  @Override
+	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity)
 	  {
 		  if(stack.getItem() == ModItems.t45_helmet)
 			  return armorType == 0;
@@ -57,7 +51,8 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		  return false;
 	  }
 	  
-	  @SideOnly(Side.CLIENT)
+	  @Override
+	@SideOnly(Side.CLIENT)
 	  public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot)
 	  {
 		  if(this == ModItems.t45_helmet)
@@ -103,7 +98,8 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		  return null;
 	  }
 	  
-	  public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
+	  @Override
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	  {
 		  if(stack.getItem() == ModItems.t45_helmet)
 		  {

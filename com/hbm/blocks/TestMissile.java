@@ -1,12 +1,8 @@
 package com.hbm.blocks;
 
 import com.hbm.entity.EntityTestMissile;
-import com.hbm.main.MainRegistry;
-
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class TestMissile extends Block {
@@ -15,7 +11,8 @@ public class TestMissile extends Block {
 		super(p_i45394_1_);
 	}
 	
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	TileEntityTestNuke entity = (TileEntityTestNuke) p_149695_1_.getTileEntity(x, y, z);
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))

@@ -20,22 +20,26 @@ public class TileEntityTestContainer extends TileEntityChest {
     public TileEntityTestContainer adjacentChestXNeg;
     public TileEntityTestContainer adjacentChestZPos;
     
-    public String getInventoryName()
+    @Override
+	public String getInventoryName()
     {
         return this.hasCustomInventoryName() ? this.customName : "container.testContainer";
     }
     
-    public boolean hasCustomInventoryName()
+    @Override
+	public boolean hasCustomInventoryName()
     {
         return this.customName != null && this.customName.length() > 0;
     }
 
-    public void func_145976_a(String p_145976_1_)
+    @Override
+	public void func_145976_a(String p_145976_1_)
     {
         this.customName = p_145976_1_;
     }
 
-    public void readFromNBT(NBTTagCompound p_145839_1_)
+    @Override
+	public void readFromNBT(NBTTagCompound p_145839_1_)
     {
         super.readFromNBT(p_145839_1_);
         NBTTagList nbttaglist = p_145839_1_.getTagList("Items", 10);
@@ -58,7 +62,8 @@ public class TileEntityTestContainer extends TileEntityChest {
         }
     }
 
-    public void writeToNBT(NBTTagCompound p_145841_1_)
+    @Override
+	public void writeToNBT(NBTTagCompound p_145841_1_)
     {
         super.writeToNBT(p_145841_1_);
         NBTTagList nbttaglist = new NBTTagList();
@@ -122,7 +127,8 @@ public class TileEntityTestContainer extends TileEntityChest {
         }
     }
     
-    public void checkForAdjacentChests()
+    @Override
+	public void checkForAdjacentChests()
     {
         if (!this.adjacentChestChecked)
         {
@@ -187,7 +193,8 @@ public class TileEntityTestContainer extends TileEntityChest {
         }
     }
     
-    public int func_145980_j()
+    @Override
+	public int func_145980_j()
     {
         if (this.cachedChestType == -1)
         {

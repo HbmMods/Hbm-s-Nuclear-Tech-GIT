@@ -2,11 +2,7 @@ package com.hbm.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public class TestBomb extends Block {
@@ -20,6 +16,7 @@ public class TestBomb extends Block {
 		super(p_i45394_1_);
 	}
 	
+	@Override
 	public void onBlockAdded(World world, int x, int y, int z)
     {
         super.onBlockAdded(world, x, y, z);
@@ -36,7 +33,8 @@ public class TestBomb extends Block {
      * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
      * their own) Args: x, y, z, neighbor Block
      */
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
         {

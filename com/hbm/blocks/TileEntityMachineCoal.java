@@ -6,7 +6,6 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -89,12 +88,14 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 	
 	//You scrubs aren't needed for anything (right now)
+	@Override
 	public void openInventory() {}
+	@Override
 	public void closeInventory() {}
 
 	@Override
@@ -102,6 +103,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		return true;
 	}
 	
+	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
 		{
@@ -123,6 +125,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -133,7 +136,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -142,6 +145,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("powerTime", (short) power);
@@ -185,6 +189,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		return (power * i) / maxPower;
 	}
 	
+	@Override
 	public void updateEntity() {
 		//Water
 		if(slots[0] != null && slots[0].getItem() == Items.water_bucket && this.water + 2500 <= maxWater)
@@ -245,7 +250,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof MachineElectricFurnace)
 		{
 			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -254,7 +259,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof MachineElectricFurnace)
 		{
 			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -263,7 +268,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof MachineElectricFurnace)
 		{
 			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -272,7 +277,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof MachineElectricFurnace)
 		{
 			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -281,7 +286,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof MachineElectricFurnace)
 		{
 			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -290,7 +295,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof MachineElectricFurnace)
 		{
 			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -301,54 +306,54 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof WireCoated)
 		{
 			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
 			{
-				entity.power += 100;
+				TileEntityWireCoated.power += 100;
 				this.power -= 100;
 			}
 		}
 		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof WireCoated)
 		{
 			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
 			{
-				entity.power += 100;
+				TileEntityWireCoated.power += 100;
 				this.power -= 100;
 			}
 		}
 		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof WireCoated)
 		{
 			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
 			{
-				entity.power += 100;
+				TileEntityWireCoated.power += 100;
 				this.power -= 100;
 			}
 		}
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof WireCoated)
 		{
 			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
 			{
-				entity.power += 100;
+				TileEntityWireCoated.power += 100;
 				this.power -= 100;
 			}
 		}
 		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof WireCoated)
 		{
 			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
 			{
-				entity.power += 100;
+				TileEntityWireCoated.power += 100;
 				this.power -= 100;
 			}
 		}
 		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof WireCoated)
 		{
 			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
 			{
-				entity.power += 100;
+				TileEntityWireCoated.power += 100;
 				this.power -= 100;
 			}
 		}
@@ -357,7 +362,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof MachineDeuterium)
 		{
 			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -366,7 +371,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof MachineDeuterium)
 		{
 			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -375,7 +380,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof MachineDeuterium)
 		{
 			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -384,7 +389,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof MachineDeuterium)
 		{
 			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -393,7 +398,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof MachineDeuterium)
 		{
 			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;
@@ -402,7 +407,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof MachineDeuterium)
 		{
 			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
+			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
 			{
 				entity.power += 100;
 				this.power -= 100;

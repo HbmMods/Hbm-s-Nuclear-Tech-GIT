@@ -1,13 +1,10 @@
 package com.hbm.blocks;
 
-import com.hbm.gui.MachineRecipes;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -89,12 +86,14 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 	
 	//You scrubs aren't needed for anything (right now)
+	@Override
 	public void openInventory() {}
+	@Override
 	public void closeInventory() {}
 
 	@Override
@@ -102,6 +101,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		return true;
 	}
 	
+	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
 		{
@@ -123,6 +123,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		}
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -133,7 +134,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -142,6 +143,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("powerTime", (short) power);
@@ -251,6 +253,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		}
 	}
 	
+	@Override
 	public void updateEntity() {
 		boolean flag = this.hasPower();
 		boolean flag1 = false;
@@ -263,7 +266,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 				
 				power -= 5;
 				
-				if(this.dualCookTime == this.processingSpeed)
+				if(this.dualCookTime == TileEntityMachineElectricFurnace.processingSpeed)
 				{
 					this.dualCookTime = 0;
 					this.processItem();

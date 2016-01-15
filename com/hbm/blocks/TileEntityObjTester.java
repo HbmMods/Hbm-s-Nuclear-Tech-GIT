@@ -5,6 +5,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityObjTester extends TileEntity {
 	
+	@Override
 	public int getBlockMetadata()
     {
         if (this.blockMetadata == -1)
@@ -17,6 +18,6 @@ public class TileEntityObjTester extends TileEntity {
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return this.INFINITE_EXTENT_AABB;
+		return TileEntity.INFINITE_EXTENT_AABB;
 	}
 }

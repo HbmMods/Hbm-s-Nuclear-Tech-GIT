@@ -17,6 +17,7 @@ public class ItemStarterKit extends Item {
         this.setMaxDamage(1);
     }
 	
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		stack.damageItem(5, player);
@@ -272,7 +273,8 @@ public class ItemStarterKit extends Item {
 		
 	}
 	
-    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int i) {
+    @Override
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int i) {
     	
     }
 

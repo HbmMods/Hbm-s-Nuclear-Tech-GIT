@@ -1,10 +1,5 @@
 package com.hbm.main;
 
-import com.hbm.items.ModItems;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
-
 public class ModEventHandler
 {	
 	// Achievements

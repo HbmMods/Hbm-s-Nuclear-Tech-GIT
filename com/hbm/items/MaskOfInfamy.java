@@ -3,12 +3,8 @@ package com.hbm.items;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.ISpecialArmor;
 
 public class MaskOfInfamy extends ItemArmor {
 

@@ -1,13 +1,9 @@
 package com.hbm.render;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

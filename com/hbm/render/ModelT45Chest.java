@@ -202,7 +202,8 @@ public class ModelT45Chest extends ModelBiped
     model.rotateAngleZ = z;
   }
   
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
+  @Override
+public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
   {
 	  if(entity instanceof EntityPlayer)
 	  {
@@ -252,7 +253,8 @@ public class ModelT45Chest extends ModelBiped
     this.rightarm.rotateAngleY = this.bipedRightArm.rotateAngleY;
     this.rightarm.rotateAngleZ = this.bipedRightArm.rotateAngleZ;
   }
-  public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
+  @Override
+public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
   {
 	setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
     GL11.glPushMatrix();

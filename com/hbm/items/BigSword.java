@@ -2,16 +2,7 @@ package com.hbm.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public class BigSword extends ItemSword {
@@ -26,6 +17,7 @@ public class BigSword extends ItemSword {
 		super(p_i45356_1_);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
     public boolean isFull3D()
     {

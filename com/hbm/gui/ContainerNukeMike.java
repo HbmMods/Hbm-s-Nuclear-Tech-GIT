@@ -1,6 +1,5 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityNukeMan;
 import com.hbm.blocks.TileEntityNukeMike;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,6 +39,7 @@ private TileEntityNukeMike nukeMike;
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;

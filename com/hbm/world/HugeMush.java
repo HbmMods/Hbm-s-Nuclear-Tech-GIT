@@ -5,7 +5,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -19,7 +18,8 @@ public class HugeMush extends WorldGenerator
         super(false);
     }
 
-    public boolean generate(World world, Random rand, int x, int y, int z)
+    @Override
+	public boolean generate(World world, Random rand, int x, int y, int z)
     {
     	for(int i = -1; i < 2; i++)
     	{

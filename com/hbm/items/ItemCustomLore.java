@@ -292,7 +292,8 @@ public class ItemCustomLore extends Item {
 		}
 	}
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
     	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || this == ModItems.rod_quad_euphemium || this == ModItems.watch)
     	{

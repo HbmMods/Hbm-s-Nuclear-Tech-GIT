@@ -5,10 +5,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
-
-import com.hbm.blocks.TileEntityDiFurnace;
 import com.hbm.blocks.TileEntityTestNuke;
 
 public class ContainerTestNuke extends Container {
@@ -39,6 +35,7 @@ public class ContainerTestNuke extends Container {
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;

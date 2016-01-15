@@ -23,17 +23,20 @@ public class BombFloat extends Block {
 		super(p_i45394_1_);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":bomb_float_top");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":bomb_float");
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
 	}
 
+	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	this.worldObj = p_149695_1_;

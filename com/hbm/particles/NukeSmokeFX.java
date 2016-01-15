@@ -1,7 +1,6 @@
 package com.hbm.particles;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
@@ -54,6 +53,7 @@ public class NukeSmokeFX extends EntityFX{
 		super(w, xp, yp, zp);
 	}
 	
+	@Override
 	public void renderParticle(Tessellator tess, float par2, float par3, float par4, float par5, float par6, float par7){
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDepthMask(false);
@@ -68,10 +68,10 @@ public class NukeSmokeFX extends EntityFX{
         tess.startDrawingQuads();
 		tess.setColorRGBA_F((float)this.r_e, (float)this.g_e, (float)this.b_e, (float)this.opacity_e);
     	tess.setBrightness(/*240*/500);
-        tess.addVertexWithUV((double)(x-par3*PScale-par6*PScale), (double)(y-par4*PScale), (double)(z-par5*PScale-par7*PScale), 0, 0);
-        tess.addVertexWithUV((double)(x-par3*PScale+par6*PScale), (double)(y+par4*PScale), (double)(z-par5*PScale+par7*PScale), 1, 0);
-        tess.addVertexWithUV((double)(x+par3*PScale+par6*PScale), (double)(y+par4*PScale), (double)(z+par5*PScale+par7*PScale), 1, 1);
-        tess.addVertexWithUV((double)(x+par3*PScale-par6*PScale), (double)(y-par4*PScale), (double)(z+par5*PScale-par7*PScale), 0, 1);
+        tess.addVertexWithUV(x-par3*PScale-par6*PScale, y-par4*PScale, z-par5*PScale-par7*PScale, 0, 0);
+        tess.addVertexWithUV(x-par3*PScale+par6*PScale, y+par4*PScale, z-par5*PScale+par7*PScale, 1, 0);
+        tess.addVertexWithUV(x+par3*PScale+par6*PScale, y+par4*PScale, z+par5*PScale+par7*PScale, 1, 1);
+        tess.addVertexWithUV(x+par3*PScale-par6*PScale, y-par4*PScale, z+par5*PScale-par7*PScale, 0, 1);
 		tess.draw();
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDepthMask(true);
@@ -79,8 +79,10 @@ public class NukeSmokeFX extends EntityFX{
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 	
+	@Override
 	public int getFXLayer(){return 3;}
 	
+	@Override
 	public void onUpdate(){
 		if(particleAge>particleMaxAge)this.setDead();
 		if(Minecraft.getMinecraft().gameSettings.particleSetting==2)this.setDead();
@@ -88,7 +90,7 @@ public class NukeSmokeFX extends EntityFX{
 		if(worldObj.isRemote)this.motionHandeler();
 		
 		//this.particleScale-=(float)particleMaxAge/10.0;
-		this.particleScale += (float)particleMaxAge/2.5;
+		this.particleScale += particleMaxAge/2.5;
 		
 		if(this.isDead){
 			

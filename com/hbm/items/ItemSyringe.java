@@ -3,7 +3,6 @@ package com.hbm.items;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +12,7 @@ import net.minecraft.world.World;
 
 public class ItemSyringe extends Item {
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(this == ModItems.syringe_antidote)
@@ -87,7 +87,8 @@ public class ItemSyringe extends Item {
 		return stack;
 	}
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack p_77636_1_)
     {
     	if(this == ModItems.syringe_awesome)
@@ -98,7 +99,8 @@ public class ItemSyringe extends Item {
     	return false;
     }
     
-    public EnumRarity getRarity(ItemStack p_77613_1_)
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_)
     {
     	if(this == ModItems.syringe_awesome)
     	{

@@ -2,7 +2,6 @@ package com.hbm.blocks;
 
 import java.util.Random;
 
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.lib.RefStrings;
 
@@ -27,12 +26,14 @@ public class BombThermo extends Block {
 		super(p_i45394_1_);
 	}
 	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":therm_top");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + (this == ModBlocks.therm_exo ? ":therm_exo" : ":therm_endo"));
 	}
 
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
 		if(this == ModBlocks.therm_endo)
@@ -43,11 +44,13 @@ public class BombThermo extends Block {
 		return Item.getItemFromBlock(ModBlocks.therm_exo);
     }
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
 	}
 
+	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	this.worldObj = p_149695_1_;

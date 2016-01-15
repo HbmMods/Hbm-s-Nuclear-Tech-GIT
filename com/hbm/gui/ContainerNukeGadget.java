@@ -1,15 +1,11 @@
 package com.hbm.gui;
 
 import com.hbm.blocks.TileEntityNukeGadget;
-import com.hbm.blocks.TileEntityTestNuke;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerNukeGadget extends Container {
 
@@ -40,6 +36,7 @@ private TileEntityNukeGadget nukeGadget;
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;

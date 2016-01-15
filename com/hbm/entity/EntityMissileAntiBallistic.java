@@ -31,7 +31,7 @@ public class EntityMissileAntiBallistic extends EntityMissileBase {
         
         if(missile0 == null)
         {
-        	missile0 = ExplosionChaos.getHomingTarget(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25, (Entity)this);
+        	missile0 = ExplosionChaos.getHomingTarget(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25, this);
         }
         if(missile0 != null && missile == null)
         {

@@ -6,15 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
-import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
-
 import com.hbm.lib.RefStrings;
 
 public class ArmorSchrabidium extends ItemArmor implements ISpecialArmor {
@@ -36,7 +32,8 @@ public class ArmorSchrabidium extends ItemArmor implements ISpecialArmor {
 		else return null;
 	}
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
     	
 		return EnumRarity.rare;
     }

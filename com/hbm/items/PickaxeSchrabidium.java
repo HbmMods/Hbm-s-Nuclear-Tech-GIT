@@ -10,7 +10,8 @@ public class PickaxeSchrabidium extends ItemPickaxe {
 		super(p_i45347_1_);
 	}
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
     	
 		return EnumRarity.rare;
     }

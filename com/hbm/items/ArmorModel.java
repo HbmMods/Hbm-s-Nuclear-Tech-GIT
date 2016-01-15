@@ -6,13 +6,10 @@ import com.hbm.render.ModelGoggles;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 
 public class ArmorModel extends ItemArmor {
 		  @SideOnly(Side.CLIENT)
@@ -24,12 +21,14 @@ public class ArmorModel extends ItemArmor {
 				super(armorMaterial, renderIndex, armorType);
 		  }
 		  
-		  public boolean isValidArmor(ItemStack stack, int armorType, Entity entity)
+		  @Override
+		public boolean isValidArmor(ItemStack stack, int armorType, Entity entity)
 		  {
 		    return armorType == 0;
 		  }
 		  
-		  @SideOnly(Side.CLIENT)
+		  @Override
+		@SideOnly(Side.CLIENT)
 		  public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot)
 		  {
 			  if(this == ModItems.goggles)
@@ -55,7 +54,8 @@ public class ArmorModel extends ItemArmor {
 			  return null;
 		  }
 		  
-		  public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
+		  @Override
+		public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 		  {
 			  if(stack.getItem() == ModItems.goggles)
 			  {

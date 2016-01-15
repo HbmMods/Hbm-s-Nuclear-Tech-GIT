@@ -53,7 +53,7 @@ private static final ResourceLocation gunTexture = new ResourceLocation(RefStrin
 			EntityItem watch = new EntityItem(null, 0.0D, 0.0D, 0.0D, new ItemStack(ModItems.watch));
 			
 			this.bindTexture(texture);
-			this.itemRenderer.renderInFrame = true;
+			RenderItem.renderInFrame = true;
 			this.model.renderModel(0.0625F);
 			float g = 0.0625F;
 			float q = g * 2 + 0.0625F / 3;
@@ -61,7 +61,7 @@ private static final ResourceLocation gunTexture = new ResourceLocation(RefStrin
 			GL11.glRotatef(180, 0F, 0F, 1F);
 			if(tileentity instanceof TileEntityDecoBlockAltW || tileentity instanceof TileEntityDecoBlockAltF)
 				this.itemRenderer.doRender(watch, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-			this.itemRenderer.renderInFrame = false;
+			RenderItem.renderInFrame = false;
 
 			GL11.glTranslatef(0.0F, 2 * g, -q);
 			GL11.glRotatef(180, 0F, 0F, 1F);

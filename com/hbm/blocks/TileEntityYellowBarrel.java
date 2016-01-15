@@ -4,15 +4,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.entity.EntityNuclearCreeper;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -22,6 +19,7 @@ import net.minecraft.util.Vec3;
 
 public class TileEntityYellowBarrel extends TileEntity {
 
+	@Override
 	public void updateEntity() {
 		int strength = 4;
 		float f = strength;
@@ -43,20 +41,20 @@ public class TileEntityYellowBarrel extends TileEntity {
         int i2 = MathHelper.floor_double(this.yCoord + wat + 1.0D);
         int l = MathHelper.floor_double(this.zCoord - wat - 1.0D);
         int j2 = MathHelper.floor_double(this.zCoord + wat + 1.0D);
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
         Vec3 vec3 = Vec3.createVectorHelper(this.xCoord, this.yCoord, this.zCoord);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {
             Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(this.xCoord, this.yCoord, this.zCoord) / (double)4;
+            double d4 = entity.getDistance(this.xCoord, this.yCoord, this.zCoord) / 4;
 
             if (d4 <= 1.0D)
             {
                 d5 = entity.posX - this.xCoord;
-                d6 = entity.posY + (double)entity.getEyeHeight() - this.yCoord;
+                d6 = entity.posY + entity.getEyeHeight() - this.yCoord;
                 d7 = entity.posZ - this.zCoord;
-                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
                 if (d9 < wat)
                 {
                 	if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))

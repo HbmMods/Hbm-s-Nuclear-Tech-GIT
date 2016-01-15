@@ -1,13 +1,8 @@
 package com.hbm.entity;
 
-import com.hbm.explosion.ExplosionChaos;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -31,7 +26,8 @@ public class EntityGrenadeFlare extends EntityThrowable
         super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
     }
     
-    public void onUpdate() {
+    @Override
+	public void onUpdate() {
     	super.onUpdate();
     	if(this.ticksExisted > 250)
     	{
@@ -39,7 +35,8 @@ public class EntityGrenadeFlare extends EntityThrowable
     	}
     }
 
-    protected void onImpact(MovingObjectPosition p_70184_1_)
+    @Override
+	protected void onImpact(MovingObjectPosition p_70184_1_)
     {
     	this.motionX = 0;
     	this.motionY = 0;

@@ -98,7 +98,7 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 		{
 			return false;
 		}else{
-			return player.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
 
@@ -132,6 +132,7 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
 	}
 	
+	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
@@ -139,7 +140,7 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
-			NBTTagCompound nbt1 = (NBTTagCompound) list.getCompoundTagAt(i);
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
 			if(b0 >= 0 && b0 < slots.length)
 			{
@@ -148,6 +149,7 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 		}
 	}
 	
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
@@ -198,6 +200,6 @@ public class TileEntityNukePrototype extends TileEntity implements ISidedInvento
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return this.INFINITE_EXTENT_AABB;
+		return TileEntity.INFINITE_EXTENT_AABB;
 	}
 }

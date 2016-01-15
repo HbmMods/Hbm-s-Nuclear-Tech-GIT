@@ -16,7 +16,8 @@ public class ItemFleija extends Item{
 		list.add("F.L.E.I.J.A.");
 	}
 
-    public EnumRarity getRarity(ItemStack p_77613_1_) {
+    @Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
     	
     	if(this == ModItems.fleija_propellant)
     	{

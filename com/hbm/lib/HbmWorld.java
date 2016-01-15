@@ -16,7 +16,7 @@ public class HbmWorld {
 	
 	public static void registerWorldGen(HbmWorldGen nukerWorldGen, int weightedProbability)
 	{
-		GameRegistry.registerWorldGenerator((IWorldGenerator) nukerWorldGen, weightedProbability);
+		GameRegistry.registerWorldGenerator(nukerWorldGen, weightedProbability);
 	}
 
 }

@@ -6,32 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.hbm.entity.EntityNuclearCreeper;
-import com.hbm.entity.EntityNukeExplosion;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionNukeAdvanced;
-import com.hbm.main.MainRegistry;
-import com.hbm.particles.NukeCloudFX;
-import com.hbm.particles.NukeSmokeFX;
-
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
 public class TestEventTester extends Block {
@@ -44,7 +27,8 @@ public class TestEventTester extends Block {
     protected static Random itemRand = new Random();
     public World worldObj;
 	
-    public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+    @Override
+	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	this.worldObj = p_149695_1_;
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
@@ -83,7 +67,8 @@ public class TestEventTester extends Block {
 		}
 	}*/
     
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
+    @Override
+	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
     		 /*double d = (float)par2 + 0.5F;
     		 double d1 = (float)par3 + 0.7F;
@@ -133,7 +118,7 @@ public class TestEventTester extends Block {
 	
 	public void killEvent(World world, int x, int y, int z) {
 		
-			world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "random.break", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+			world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.break", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
 			float f = this.explosionSize;
 	        HashSet hashset = new HashSet();
 	        int i;
@@ -152,28 +137,28 @@ public class TestEventTester extends Block {
 	        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 	        int l = MathHelper.floor_double(z - wat - 1.0D);
 	        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-	        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+	        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 	        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 	        Vec3 vec4 = Vec3.createVectorHelper(x, y + 1, z);
 
 	        for (int i1 = 0; i1 < list.size(); ++i1)
 	        {
 	            Entity entity = (Entity)list.get(i1);
-	            double d4 = entity.getDistance(x, y, z) / (double)this.explosionSize;
+	            double d4 = entity.getDistance(x, y, z) / this.explosionSize;
 
 	            if (d4 <= 1.0D)
 	            {
 	                d5 = entity.posX - x;
-	                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+	                d6 = entity.posY + entity.getEyeHeight() - y;
 	                d7 = entity.posZ - z;
-	                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+	                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 
 	                if (d9 < wat)
 	                {
 	                    d5 /= d9;
 	                    d6 /= d9;
 	                    d7 /= d9;
-	                    double d10 = (double)world.getBlockDensity(vec4, entity.boundingBox);
+	                    double d10 = world.getBlockDensity(vec4, entity.boundingBox);
 	                    double d11 = (1.0D - d4) * d10;
 	                    //entity.attackEntityFrom(DamageSource.generic, (float)(100 - d9/wat*100/d10));
 	                    
@@ -191,7 +176,7 @@ public class TestEventTester extends Block {
 
 	                    if (entity instanceof EntityPlayer)
 	                    {
-	                        this.field_77288_k.put((EntityPlayer)entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
+	                        this.field_77288_k.put(entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
 	                    }
 	                }
 	            }

@@ -24,7 +24,8 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		//objTesterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Prototype.png");
     }
 
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+    @Override
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y + 3, z + 0.5D);

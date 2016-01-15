@@ -3,7 +3,6 @@ package com.hbm.blocks;
 import com.hbm.lib.RefStrings;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,33 +24,39 @@ public class TestRender extends BlockContainer {
 	}
 	
 	//Nicht verfügbarer Rendertyp, setzt den Switch auf "Default" und ermöglicht einen Customrenderer
+	@Override
 	public int getRenderType(){
 		return -1;
 	}
 	
 	//Ob der Block transparent ist (Glas, Glowstone, Wasser, etc)
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
 	
 	//"Default" beim Switch zum Rendern ermöglicht die Abfrage "renderAsNormalBlock", "true" um es als einen normalen Block rendern zu lassen, "false" für einen Customrenderer
+	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 	
 	
 	//Erstellen eines TileEntitys
+	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityTestRender();
 	}
 	
 	//GUI Blocktextur muss für Custommodel-Blocke nachträglich geändert werden
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconregister) {
 		this.blockIcon = iconregister.registerIcon(RefStrings.MODID + ":test_render");
 	}
 	
 	//Setzt die Blockkollisionsbox (xMin, yMin, zMin, xMax, yMax, zMax)
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
     {
         float f = 0.0625F;

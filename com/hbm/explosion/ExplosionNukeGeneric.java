@@ -1,15 +1,12 @@
 package com.hbm.explosion;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -24,7 +21,6 @@ import com.hbm.blocks.DecoBlockAlt;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityNukeCloudSmall;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
 
 public class ExplosionNukeGeneric {
 	
@@ -104,20 +100,20 @@ public class ExplosionNukeGeneric {
 		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
+		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {
 		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / (double)bombStartStrength;
+		            double d4 = entity.getDistance(x, y, z) / bombStartStrength;
 
 		            if (d4 <= 1.0D)
 		            {
 		                d5 = entity.posX - x;
-		                d6 = entity.posY + (double)entity.getEyeHeight() - y;
+		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
-		                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv))
 		                {
 		                    d5 /= d9;
@@ -128,7 +124,7 @@ public class ExplosionNukeGeneric {
 		                    double d11 = (1.0D - d4);// * d10;
 		                    if(!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP && ((EntityPlayerMP)entity).theItemInWorldManager.getGameType() != GameType.CREATIVE))
 		                    {
-		                    	entity.attackEntityFrom(DamageSource.generic, (float)((int)((d11 * d11 + d11) / 2.0D * 8.0D * (double)bombStartStrength + 1.0D)));
+		                    	entity.attackEntityFrom(DamageSource.generic, ((int)((d11 * d11 + d11) / 2.0D * 8.0D * bombStartStrength + 1.0D)));
 		                    	entity.setFire(30);
 		                    	double d8 = EnchantmentProtection.func_92092_a(entity, d11);
 		                    	entity.motionX += d5 * d8;

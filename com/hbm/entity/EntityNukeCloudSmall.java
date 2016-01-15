@@ -20,13 +20,15 @@ public class EntityNukeCloudSmall extends Entity {
 		this.age = 0;
 	}
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public int getBrightnessForRender(float p_70070_1_)
     {
         return 15728880;
     }
 
-    public float getBrightness(float p_70013_1_)
+    @Override
+	public float getBrightness(float p_70013_1_)
     {
         return 1.0F;
     }
@@ -38,7 +40,8 @@ public class EntityNukeCloudSmall extends Entity {
 		this.maxAge = maxAge;
 	}
 
-    public void onUpdate() {
+    @Override
+	public void onUpdate() {
         //super.onUpdate();
         this.age++;
         this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY + 200, this.posZ));

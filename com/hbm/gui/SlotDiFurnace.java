@@ -1,7 +1,5 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityDiFurnace;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -13,6 +11,7 @@ public class SlotDiFurnace extends Slot {
 		super(inventory, i, j, k);
 	}
 	
+	@Override
 	public boolean isItemValid(ItemStack p_75214_1_)
     {
         return false;

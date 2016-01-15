@@ -11,12 +11,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -29,6 +26,7 @@ public class BlockOre extends Block {
 		super(p_i45394_1_);
 	}
 
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
 		if(this == ModBlocks.ore_fluorite)
@@ -63,7 +61,8 @@ public class BlockOre extends Block {
 		return Item.getItemFromBlock(this);
     }
     
-    public int quantityDropped(Random p_149745_1_)
+    @Override
+	public int quantityDropped(Random p_149745_1_)
     {
     	if(this == ModBlocks.ore_fluorite)
 		{
@@ -81,12 +80,14 @@ public class BlockOre extends Block {
     	return 1;
     }
 
-    public int damageDropped(int p_149692_1_)
+    @Override
+	public int damageDropped(int p_149692_1_)
     {
         return this == ModBlocks.waste_planks ? 1 : 0;
     }
 
-    public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity entity)
+    @Override
+	public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity entity)
     {
     	if (entity instanceof EntityLivingBase && this == ModBlocks.frozen_dirt)
     	{
@@ -159,14 +160,15 @@ public class BlockOre extends Block {
     	}
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_)
     {
         super.randomDisplayTick(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_, p_149734_5_);
 
         if (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red || this == ModBlocks.block_trinitite || this == ModBlocks.block_waste)
         {
-            p_149734_1_.spawnParticle("townaura", (double)((float)p_149734_2_ + p_149734_5_.nextFloat()), (double)((float)p_149734_3_ + 1.1F), (double)((float)p_149734_4_ + p_149734_5_.nextFloat()), 0.0D, 0.0D, 0.0D);
+            p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat(), p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
         }
     }
 

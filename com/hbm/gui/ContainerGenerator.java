@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityMachineGenerator;
-import com.hbm.blocks.TileEntityRtgFurnace;
 
 public class ContainerGenerator extends Container {
 	
@@ -50,6 +49,7 @@ public class ContainerGenerator extends Container {
 		}
 	}
 	
+	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.water);
@@ -58,6 +58,7 @@ public class ContainerGenerator extends Container {
 		crafting.sendProgressBarUpdate(this, 3, this.diFurnace.heat);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -68,6 +69,7 @@ public class ContainerGenerator extends Container {
 		return diFurnace.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -102,6 +104,7 @@ public class ContainerGenerator extends Container {
 		this.heat = this.diFurnace.heat;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

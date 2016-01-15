@@ -8,7 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityLaunchPad;
-import com.hbm.blocks.TileEntityMachineBattery;
 
 public class ContainerLaunchPadTier1 extends Container {
 	
@@ -38,11 +37,13 @@ public class ContainerLaunchPadTier1 extends Container {
 		}
 	}
 	
+	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;
@@ -53,6 +54,7 @@ public class ContainerLaunchPadTier1 extends Container {
 		return diFurnace.isUseableByPlayer(player);
 	}
 	
+	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		
@@ -69,6 +71,7 @@ public class ContainerLaunchPadTier1 extends Container {
 		this.power = this.diFurnace.power;
 	}
 	
+	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{

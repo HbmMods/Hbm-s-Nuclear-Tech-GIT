@@ -107,7 +107,7 @@ public class RenderSmallNukeAlt extends Render {
 
         Tessellator tessellator = Tessellator.instance;
 		RenderHelper.disableStandardItemLighting();
-        float f1 = ((float)p_76986_1_.ticksExisted + 2.0F) / 200.0F;
+        float f1 = (p_76986_1_.ticksExisted + 2.0F) / 200.0F;
         float f2 = 0.0F;
         int count = 250;
         
@@ -151,10 +151,10 @@ public class RenderSmallNukeAlt extends Render {
             tessellator.addVertex(0.0D, 0.0D, 0.0D);
             //tessellator.setColorRGBA_I(16711935, 0);
             tessellator.setColorRGBA_I(59345735, 0);
-            tessellator.addVertex(-0.866D * (double)f4, (double)f3, (double)(-0.5F * f4));
-            tessellator.addVertex(0.866D * (double)f4, (double)f3, (double)(-0.5F * f4));
-            tessellator.addVertex(0.0D, (double)f3, (double)(1.0F * f4));
-            tessellator.addVertex(-0.866D * (double)f4, (double)f3, (double)(-0.5F * f4));
+            tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
+            tessellator.addVertex(0.866D * f4, f3, -0.5F * f4);
+            tessellator.addVertex(0.0D, f3, 1.0F * f4);
+            tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
             tessellator.draw();
         }
 

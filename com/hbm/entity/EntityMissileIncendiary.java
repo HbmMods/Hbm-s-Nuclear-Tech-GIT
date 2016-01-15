@@ -140,7 +140,7 @@ public class EntityMissileIncendiary extends EntityMissileBase {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			this.worldObj.newExplosion((Entity)null, (double)((float)this.posX + 0.5F), (double)((float)this.posY + 0.5F), (double)((float)this.posZ + 0.5F), 10.0F, true, true);
+    			this.worldObj.newExplosion((Entity)null, (float)this.posX + 0.5F, (float)this.posY + 0.5F, (float)this.posZ + 0.5F, 10.0F, true, true);
     		}
 		this.setDead();
         }

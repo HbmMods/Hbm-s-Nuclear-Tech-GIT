@@ -7,7 +7,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.hbm.blocks.TileEntityNukeFleija;
-import com.hbm.blocks.TileEntityNukeTsar;
 
 public class ContainerNukeFleija extends Container {
 
@@ -43,6 +42,7 @@ private TileEntityNukeFleija nukeTsar;
 		}
 	}
 	
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
 		return null;

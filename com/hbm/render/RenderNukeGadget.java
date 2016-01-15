@@ -22,7 +22,8 @@ public class RenderNukeGadget extends TileEntitySpecialRenderer {
 		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
     }
 
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
+    @Override
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
