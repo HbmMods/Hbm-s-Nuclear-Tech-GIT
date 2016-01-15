@@ -67,7 +67,7 @@ public class TileEntityYellowBarrel extends TileEntity {
                 	} else if(entity instanceof EntityCreeper) {
                 		EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
                 		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                		creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
+                		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
                 		if(!entity.isDead)
                 			if(!worldObj.isRemote)
                 				worldObj.spawnEntityInWorld(creep);

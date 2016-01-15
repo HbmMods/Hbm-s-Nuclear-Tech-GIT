@@ -86,7 +86,7 @@ public class WasteEarth extends Block {
         	} else if(entity instanceof EntityCreeper) {
         		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
         		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
+        		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
         		if(!entity.isDead)
         			if(!p_149724_1_.isRemote)
         					p_149724_1_.spawnEntityInWorld(creep);
