@@ -269,6 +269,53 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
 		}
 		
+		if(this == ModItems.missile_kit)
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.launch_pad), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.designator, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_generic, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_strong, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_burst, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_incendiary, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_incendiary_strong, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_inferno, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_cluster, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_cluster_strong, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_rain, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_buster, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_buster_strong, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_drill, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear_cluster, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
+		}
+		
+		if(this == ModItems.t45_kit)
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_helmet, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_plate, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_legs, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_boots, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+		}
+		
 		return stack;
 		
 	}

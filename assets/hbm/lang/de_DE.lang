@@ -273,9 +273,9 @@ item.rod_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumkernbrennstoffzel
 item.rod_dual_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumdoppelkernbrennstoffzelle
 item.rod_quad_schrabidium_fuel_depleted.name=Erschöpfte Schrabidiumvierfachkernbrennstoffzelle
 
-item.rod_waste.name=Nuclear Waste Rod
-item.rod_dual_waste.name=Nuclear Waste Dual Rod
-item.rod_quad_waste.name=Nuclear Waste Quad Rod
+item.rod_waste.name=Atommüllstab
+item.rod_dual_waste.name=Doppelter Atommüllstab
+item.rod_quad_waste.name=Vierfacher Atommüllstab
 
 item.gun_rpg.name=RPG
 item.gun_rpg_ammo.name=Rakete
@@ -481,3 +481,6 @@ item.t45_helmet.name=T45-Powerrüstungshelm
 item.t45_plate.name=T45-Powerrüstungsbrustpanzer
 item.t45_legs.name=T45-Powerrüstungsbeinschutz
 item.t45_boots.name=T45-Powerrüstungsstiefel
+
+tile.mush.name=Leuchtender Pilz
+tile.waste_mycelium.name=Leuchtende Myzel

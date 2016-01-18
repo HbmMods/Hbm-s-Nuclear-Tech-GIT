@@ -481,3 +481,6 @@ item.t45_helmet.name=T45 Power Armor Helmet
 item.t45_plate.name=T45 Power Armor Chestplate
 item.t45_legs.name=T45 Power Armor Leggings
 item.t45_boots.name=T45 Power Armor Boots
+
+tile.mush.name=Glowing Mushroom
+tile.waste_mycelium.name=Glowing Mycelium

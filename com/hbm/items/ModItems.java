@@ -363,6 +363,8 @@ public class ModItems {
 	public static Item grenade_kit;
 	public static Item fleija_kit;
 	public static Item prototype_kit;
+	public static Item missile_kit;
+	public static Item t45_kit;
 
 	public static Item igniter;
 
@@ -677,6 +679,8 @@ public class ModItems {
 		grenade_kit = new ItemStarterKit().setUnlocalizedName("grenade_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_kit");
 		fleija_kit = new ItemStarterKit().setUnlocalizedName("fleija_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":fleija_kit");
 		prototype_kit = new ItemStarterKit().setUnlocalizedName("prototype_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":prototype_kit");
+		missile_kit = new ItemStarterKit().setUnlocalizedName("missile_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_kit");
+		t45_kit = new ItemStarterKit().setUnlocalizedName("t45_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":t45_kit");
 		
 		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":trigger");
 		ingot_euphemium = new ItemCustomLore().setUnlocalizedName("ingot_euphemium").setTextureName(RefStrings.MODID + ":ingot_euphemium");
@@ -1109,6 +1113,8 @@ public class ModItems {
 		GameRegistry.registerItem(prototype_kit, prototype_kit.getUnlocalizedName());
 		GameRegistry.registerItem(fleija_kit, fleija_kit.getUnlocalizedName());
 		GameRegistry.registerItem(multi_kit, multi_kit.getUnlocalizedName());
+		GameRegistry.registerItem(missile_kit, missile_kit.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_kit, grenade_kit.getUnlocalizedName());
+		GameRegistry.registerItem(t45_kit, t45_kit.getUnlocalizedName());
 	}
 }

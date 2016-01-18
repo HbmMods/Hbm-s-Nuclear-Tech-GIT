@@ -15,6 +15,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -78,10 +80,10 @@ public class WasteEarth extends Block {
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
         	{
-        		Library.damageSuit(((EntityPlayer)entity), 0);
+        		/*Library.damageSuit(((EntityPlayer)entity), 0);
         		Library.damageSuit(((EntityPlayer)entity), 1);
         		Library.damageSuit(((EntityPlayer)entity), 2);
-        		Library.damageSuit(((EntityPlayer)entity), 3);
+        		Library.damageSuit(((EntityPlayer)entity), 3);*/
         		
         	} else if(entity instanceof EntityCreeper) {
         		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
@@ -91,7 +93,7 @@ public class WasteEarth extends Block {
         			if(!p_149724_1_.isRemote)
         					p_149724_1_.spawnEntityInWorld(creep);
         		entity.setDead();
-        	} else if(!(entity instanceof EntityNuclearCreeper)) {
+        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom)) {
         		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 2 * 60 * 20, 2));
         	}
     	}
@@ -104,20 +106,28 @@ public class WasteEarth extends Block {
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
         	{
-        		Library.damageSuit(((EntityPlayer)entity), 0);
+        		/*Library.damageSuit(((EntityPlayer)entity), 0);
         		Library.damageSuit(((EntityPlayer)entity), 1);
         		Library.damageSuit(((EntityPlayer)entity), 2);
-        		Library.damageSuit(((EntityPlayer)entity), 3);
+        		Library.damageSuit(((EntityPlayer)entity), 3);*/
         		
         	} else if(entity instanceof EntityCreeper) {
         		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
         		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
+        		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
         		if(!entity.isDead)
         			if(!p_149724_1_.isRemote)
         					p_149724_1_.spawnEntityInWorld(creep);
         		entity.setDead();
-        	} else if(!(entity instanceof EntityNuclearCreeper)) {
+        	} else if(entity instanceof EntityCow) {
+        		EntityMooshroom creep = new EntityMooshroom(p_149724_1_);
+        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+        		//creep.setRotationYawHead(((EntityCow)entity).rotationYawHead);
+        		if(!entity.isDead)
+        			if(!p_149724_1_.isRemote)
+        					p_149724_1_.spawnEntityInWorld(creep);
+        		entity.setDead();
+        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom)) {
         		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 60 * 20, 4));
         		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 1 * 60 * 20, 2));
         		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 2 * 60 * 20, 2));
