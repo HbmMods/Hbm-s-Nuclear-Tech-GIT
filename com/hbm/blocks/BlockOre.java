@@ -13,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -128,6 +129,14 @@ public class BlockOre extends Block {
         		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
         		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
         		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
+        		if(!entity.isDead)
+        			if(!p_149724_1_.isRemote)
+        					p_149724_1_.spawnEntityInWorld(creep);
+        		entity.setDead();
+        	} else if(entity instanceof EntityCow) {
+        		EntityMooshroom creep = new EntityMooshroom(p_149724_1_);
+        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+        		//creep.setRotationYawHead(((EntityCow)entity).rotationYawHead);
         		if(!entity.isDead)
         			if(!p_149724_1_.isRemote)
         					p_149724_1_.spawnEntityInWorld(creep);

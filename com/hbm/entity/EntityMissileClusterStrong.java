@@ -128,7 +128,7 @@ public class EntityMissileClusterStrong extends EntityMissileBase {
         	if(target != null)
         	{
                 this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
-                ExplosionChaos.cluster(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 100, 100);
+                ExplosionChaos.cluster(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 50, 100);
         		this.setDead();
         	}
         	break;

@@ -2,6 +2,10 @@ package com.hbm.render;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.EntityMissileBusterStrong;
+import com.hbm.entity.EntityMissileClusterStrong;
+import com.hbm.entity.EntityMissileIncendiaryStrong;
+import com.hbm.entity.EntityMissileStrong;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -15,10 +19,16 @@ public class RenderMissileStrong extends Render {
 	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileGeneric.obj");
 	private IModelCustom boyModel;
     private ResourceLocation boyTexture;
+    private ResourceLocation missileStrongIncenidaryTexture;
+    private ResourceLocation missileStrongClusterTexture;
+    private ResourceLocation missileStrongBusterTexture;
 	
 	public RenderMissileStrong() {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
 		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGeneric.png");
+		missileStrongIncenidaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericIncendiary.png");
+		missileStrongClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericCluster.png");
+		missileStrongBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericBuster.png");
 	}
 
 	@Override
@@ -30,7 +40,14 @@ public class RenderMissileStrong extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
         
-        bindTexture(boyTexture);
+        if(p_76986_1_ instanceof EntityMissileStrong)
+        	bindTexture(boyTexture);
+        if(p_76986_1_ instanceof EntityMissileIncendiaryStrong)
+        	bindTexture(missileStrongIncenidaryTexture);
+        if(p_76986_1_ instanceof EntityMissileClusterStrong)
+        	bindTexture(missileStrongClusterTexture);
+        if(p_76986_1_ instanceof EntityMissileBusterStrong)
+        	bindTexture(missileStrongBusterTexture);
         boyModel.renderAll();
 		GL11.glPopMatrix();
 	}

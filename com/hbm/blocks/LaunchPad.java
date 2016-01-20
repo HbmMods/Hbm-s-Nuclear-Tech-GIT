@@ -23,6 +23,8 @@ import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -391,6 +393,13 @@ public class LaunchPad extends BlockContainer {
     {
         float f = 0.0625F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+    }
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    {
+        return Item.getItemFromBlock(ModBlocks.launch_pad);
     }
 
 }

@@ -331,22 +331,22 @@ public class ModBlocks {
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_generic = new LaunchPad(Material.iron).setBlockName("launch_pad_generic").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_incendiary = new LaunchPad(Material.iron).setBlockName("launch_pad_incendiary").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_cluster = new LaunchPad(Material.iron).setBlockName("launch_pad_cluster").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_buster = new LaunchPad(Material.iron).setBlockName("launch_pad_buster").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_strong").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_incendiary_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_incendiary_strong").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_cluster_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_cluster_strong").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_buster_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_buster_strong").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_burst = new LaunchPad(Material.iron).setBlockName("launch_pad_burst").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_inferno = new LaunchPad(Material.iron).setBlockName("launch_pad_inferno").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_rain = new LaunchPad(Material.iron).setBlockName("launch_pad_rain").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_drill = new LaunchPad(Material.iron).setBlockName("launch_pad_drill").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_nuclear = new LaunchPad(Material.iron).setBlockName("launch_pad_nuclear").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_endo = new LaunchPad(Material.iron).setBlockName("launch_pad_endo").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_exo = new LaunchPad(Material.iron).setBlockName("launch_pad_exo").setHardness(5.0F).setResistance(10.0F);
-		launch_pad_mirv = new LaunchPad(Material.iron).setBlockName("launch_pad_mirv").setHardness(5.0F).setResistance(10.0F);
+		launch_pad_generic = new LaunchPad(Material.iron).setBlockName("launch_pad_generic").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_incendiary = new LaunchPad(Material.iron).setBlockName("launch_pad_incendiary").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_cluster = new LaunchPad(Material.iron).setBlockName("launch_pad_cluster").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_buster = new LaunchPad(Material.iron).setBlockName("launch_pad_buster").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_incendiary_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_incendiary_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_cluster_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_cluster_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_buster_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_buster_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_burst = new LaunchPad(Material.iron).setBlockName("launch_pad_burst").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_inferno = new LaunchPad(Material.iron).setBlockName("launch_pad_inferno").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_rain = new LaunchPad(Material.iron).setBlockName("launch_pad_rain").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_drill = new LaunchPad(Material.iron).setBlockName("launch_pad_drill").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_nuclear = new LaunchPad(Material.iron).setBlockName("launch_pad_nuclear").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_endo = new LaunchPad(Material.iron).setBlockName("launch_pad_endo").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_exo = new LaunchPad(Material.iron).setBlockName("launch_pad_exo").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_mirv = new LaunchPad(Material.iron).setBlockName("launch_pad_mirv").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
 

@@ -3,6 +3,7 @@ package com.hbm.gui;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,6 +46,11 @@ public class MachineRecipes {
 
 		if(item == ModItems.ingot_copper && item2 == Items.redstone || item == Items.redstone && item2 == ModItems.ingot_copper) {
 			return new ItemStack(ModItems.ingot_red_copper, 1); 
+		}
+		
+
+		if(item == ModItems.canister_empty && item2 == Item.getItemFromBlock(Blocks.coal_block) || item == Item.getItemFromBlock(Blocks.coal_block) && item2 == ModItems.canister_empty) {
+			return new ItemStack(ModItems.canister_fuel, 1); 
 		}
 		
 		return null;

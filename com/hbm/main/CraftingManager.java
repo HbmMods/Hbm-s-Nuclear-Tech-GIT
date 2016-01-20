@@ -36,6 +36,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.wire_copper, 6), new Object[] { "CCC", 'S', Items.string, 'C', ModItems.ingot_copper });
 		GameRegistry.addRecipe(new ItemStack(ModItems.wire_gold, 6), new Object[] { "CCC", 'S', Items.string, 'C', Items.gold_ingot });
 		GameRegistry.addRecipe(new ItemStack(ModItems.wire_schrabidium, 6), new Object[] { "CCC", 'S', Items.string, 'C', ModItems.ingot_schrabidium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_cloth, 4), new Object[] { "LN", "LN", 'L', Items.leather, 'N', ModItems.nugget_lead });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.circuit_aluminium, 1), new Object[] { "RAR", "ASA", "RAR", 'S', ModItems.plate_steel, 'R', Items.redstone, 'A', ModItems.wire_aluminium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.circuit_copper, 1), new Object[] { "RAR", "ASA", "RAR", 'S', ModItems.circuit_aluminium, 'R', Items.glowstone_dust, 'A', ModItems.wire_copper });
@@ -51,6 +52,10 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cell_puf6, 1), new Object[] { ModItems.cell_empty, ModItems.ingot_plutonium, ModItems.fluorite, ModItems.fluorite, ModItems.fluorite, Items.water_bucket });
 		GameRegistry.addRecipe(new ItemStack(ModItems.cell_deuterium, 8), new Object[] { "DDD", "DTD", "DDD", 'D', ModItems.cell_empty, 'T', ModItems.mike_deut });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cell_sas3, 1), new Object[] { ModItems.cell_empty, ModItems.powder_schrabidium, ModItems.sulfur, ModItems.sulfur });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.canister_empty, 2), new Object[] { "S ", "AA", "AA", 'S', ModItems.plate_steel, 'A', ModItems.plate_aluminium });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.red_barrel), 1), new Object[] { "DDD", "DTD", "DDD", 'D', ModItems.canister_fuel, 'T', ModItems.tank_steel });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.yellow_barrel), 1), new Object[] { "DDD", "DTD", "DDD", 'D', ModItems.nuclear_waste, 'T', ModItems.tank_steel });
 
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_aluminium), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_aluminium });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_copper), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_copper });
@@ -276,6 +281,46 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.sphere_steel, 1), new Object[] { "PIP", "I I", "PIP", 'P', ModItems.plate_steel, 'I', ModItems.ingot_steel });
 		GameRegistry.addRecipe(new ItemStack(ModItems.pedestal_steel, 1), new Object[] { "P P", "P P", "III", 'P', ModItems.plate_steel, 'I', ModItems.ingot_steel });
 		GameRegistry.addRecipe(new ItemStack(ModItems.dysfunctional_reactor, 1), new Object[] { "PPP", "CDC", "PPP", 'P', ModItems.plate_steel, 'C', ModItems.rod_quad_empty, 'D', new ItemStack(Items.dye, 1, 3) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_generic_small, 1), new Object[] { " P ", "PTP", "PTP", 'P', ModItems.plate_titanium, 'T', Item.getItemFromBlock(Blocks.tnt) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_incendiary_small, 1), new Object[] { " P ", "PWP", " P ", 'P', ModItems.powder_fire, 'W', ModItems.warhead_generic_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_cluster_small, 1), new Object[] { " P ", "PWP", " P ", 'P', ModItems.pellet_cluster, 'W', ModItems.warhead_generic_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_buster_small, 1), new Object[] { " P ", "PWP", " P ", 'P', Item.getItemFromBlock(ModBlocks.det_cord), 'W', ModItems.warhead_generic_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_generic_medium, 1), new Object[] { " P ", "PTP", "TTT", 'P', ModItems.plate_titanium, 'T', Item.getItemFromBlock(Blocks.tnt) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_incendiary_medium, 1), new Object[] { "PPP", "PWP", "PPP", 'P', ModItems.powder_fire, 'W', ModItems.warhead_generic_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_cluster_medium, 1), new Object[] { "PPP", "PWP", "PPP", 'P', ModItems.pellet_cluster, 'W', ModItems.warhead_generic_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_buster_medium, 1), new Object[] { "PPP", "PWP", "PPP", 'P', Item.getItemFromBlock(ModBlocks.det_cord), 'W', ModItems.warhead_generic_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_generic_large, 1), new Object[] { "PTP", "PTP", "TTT", 'P', ModItems.plate_titanium, 'T', Item.getItemFromBlock(Blocks.tnt) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_incendiary_large, 1), new Object[] { "PXP", "XWX", "PXP", 'P', ModItems.powder_fire, 'W', ModItems.warhead_generic_large, 'X', Items.lava_bucket });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_cluster_large, 1), new Object[] { "PXP", "XWX", "PXP", 'P', ModItems.pellet_cluster, 'W', ModItems.warhead_generic_large, 'X', Item.getItemFromBlock(ModBlocks.det_cord) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_buster_large, 1), new Object[] { "PXP", "XWX", "PXP", 'P', Item.getItemFromBlock(ModBlocks.det_cord), 'W', ModItems.warhead_generic_large, 'X', Item.getItemFromBlock(Blocks.tnt) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_nuclear, 1), new Object[] { " N ", "TZT", "TBT", 'N', ModItems.boy_shielding, 'Z', ModItems.boy_target, 'B', ModItems.boy_bullet, 'T', ModItems.plate_titanium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_mirvlet, 1), new Object[] { " S ", "SPS", "STS", 'S', ModItems.plate_steel, 'P', ModItems.ingot_pu239, 'T', Item.getItemFromBlock(Blocks.tnt) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_mirv, 1), new Object[] { "MMM", "MWM", "MMM", 'M', ModItems.warhead_mirvlet, 'W', ModItems.warhead_generic_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_thermo_endo, 1), new Object[] { " T ", "TBT", "TBT", 'T', ModItems.plate_titanium, 'B', Item.getItemFromBlock(ModBlocks.therm_endo) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.warhead_thermo_exo, 1), new Object[] { " T ", "TBT", "TBT", 'T', ModItems.plate_titanium, 'B', Item.getItemFromBlock(ModBlocks.therm_exo) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.fuel_tank_small, 1), new Object[] { "PTP", "PTP", "PTP", 'P', ModItems.plate_titanium, 'T', Item.getItemFromBlock(ModBlocks.red_barrel) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.fuel_tank_medium, 1), new Object[] { "PTP", "PTP", "PTP", 'P', ModItems.plate_titanium, 'T', ModItems.fuel_tank_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.fuel_tank_large, 1), new Object[] { "PTP", "PTP", "PTP", 'P', ModItems.plate_titanium, 'T', ModItems.fuel_tank_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.thruster_small, 1), new Object[] { "AS ", "AH ", " L ", 'A', ModItems.wire_aluminium, 'S', ModItems.plate_steel, 'H', ModItems.hull_small_steel, 'L', ModItems.hull_small_steel });
+		GameRegistry.addRecipe(new ItemStack(ModItems.thruster_medium, 1), new Object[] { "AS ", "AH ", " L ", 'A', ModItems.wire_copper, 'S', ModItems.thruster_small, 'H', ModItems.hull_small_steel, 'L', ModItems.hull_big_steel });
+		GameRegistry.addRecipe(new ItemStack(ModItems.thruster_large, 1), new Object[] { "AS ", "AH ", " L ", 'A', ModItems.wire_red_copper, 'S', ModItems.thruster_medium, 'H', ModItems.hull_big_steel, 'L', ModItems.hull_big_steel });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_generic, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_generic_small, 'T', ModItems.fuel_tank_small, 'M', ModItems.thruster_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_incendiary, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_incendiary_small, 'T', ModItems.fuel_tank_small, 'M', ModItems.thruster_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_cluster, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_cluster_small, 'T', ModItems.fuel_tank_small, 'M', ModItems.thruster_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_buster, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_buster_small, 'T', ModItems.fuel_tank_small, 'M', ModItems.thruster_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_strong, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_generic_medium, 'T', ModItems.fuel_tank_medium, 'M', ModItems.thruster_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_incendiary_strong, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_incendiary_medium, 'T', ModItems.fuel_tank_medium, 'M', ModItems.thruster_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_cluster_strong, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_cluster_medium, 'T', ModItems.fuel_tank_medium, 'M', ModItems.thruster_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_buster_strong, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_buster_medium, 'T', ModItems.fuel_tank_medium, 'M', ModItems.thruster_medium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_burst, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_generic_large, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_inferno, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_incendiary_large, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_rain, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_cluster_large, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_drill, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_buster_large, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_nuclear, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_nuclear, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_nuclear_cluster, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_mirv, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_endo, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_thermo_endo, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
+		GameRegistry.addRecipe(new ItemStack(ModItems.missile_exo, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_thermo_exo, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
 
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 1), new Object[] { "AHA", "TCT", "TPT", 'T', ModItems.plate_titanium, 'A', ModItems.plate_aluminium, 'S', ModItems.plate_steel, 'C', ModItems.ingot_copper, 'P', Item.getItemFromBlock(Blocks.piston), 'H', Item.getItemFromBlock(Blocks.hopper) });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_centrifuge), 1), new Object[] { " T ", "RDR", "RSR", 'S', ModItems.plate_steel, 'T', ModItems.centrifuge_tower, 'W', ModItems.coil_tungsten, 'R', ModItems.coil_copper, 'D', Item.getItemFromBlock(ModBlocks.machine_difurnace_off) });
@@ -306,6 +351,11 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_poles), 16), new Object[] { "S S", "SSS", "S S", 'S', ModItems.ingot_steel });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.pole_top), 1), new Object[] { "T T", "TRT", "BBB", 'T', ModItems.ingot_tungsten, 'B', ModItems.ingot_beryllium, 'R', ModItems.ingot_red_copper });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 1), new Object[] { "SS ", "SCR", "SS ", 'S', ModItems.ingot_steel, 'C', ModItems.circuit_red_copper, 'R', ModItems.wire_red_copper });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_beam), 8), new Object[] { "S", "S", "S", 'S', ModItems.ingot_steel });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_wall), 4), new Object[] { "SSS", "SSS", 'S', ModItems.ingot_steel });
+		GameRegistry.addShapelessRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_corner)), new Object[] { Item.getItemFromBlock(ModBlocks.steel_wall), Item.getItemFromBlock(ModBlocks.steel_wall) });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_roof), 2), new Object[] { "SSS", 'S', ModItems.ingot_steel });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.steel_scaffold), 8), new Object[] { "SSS", " S ", "SSS", 'S', ModItems.ingot_steel });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_rpg, 1), new Object[] { "SSW", " S ", 'S', ModItems.plate_steel, 'W', Item.getItemFromBlock(Blocks.log) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_rpg_ammo, 8), new Object[] { "SI ", "ITI", " I ", 'S', ModItems.plate_steel, 'T', Item.getItemFromBlock(Blocks.tnt), 'I', ModItems.plate_iron });
@@ -345,6 +395,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_antidote, 6), new Object[] { "SPS", "SMS", "SPS", 'S', ModItems.syringe_empty, 'P', Items.pumpkin_seeds, 'M', Items.reeds });
 		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_awesome, 1), new Object[] { "SPS", "NCN", "SPS", 'C', ModItems.syringe_empty, 'S', ModItems.sulfur, 'P', ModItems.nugget_pu239, 'N', ModItems.nugget_pu238 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_awesome, 1), new Object[] { "SNS", "PCP", "SNS", 'C', ModItems.syringe_empty, 'S', ModItems.sulfur, 'P', ModItems.nugget_pu239, 'N', ModItems.nugget_pu238 });
+		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_metal_empty, 6), new Object[] { "P", "C", "B", 'B', Item.getItemFromBlock(Blocks.iron_bars), 'C', ModItems.rod_empty, 'P', ModItems.plate_iron });
+		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_metal_stimpak, 1), new Object[] { " N ", "NSN", " N ", 'N', Items.nether_wart, 'S', ModItems.syringe_empty });
 		
 		
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_gadget), 1), new Object[] { "DGD", "FCF", "DPD", 'G', ModItems.wire_gold, 'F', ModItems.fins_flat, 'C', ModItems.sphere_steel, 'P', ModItems.pedestal_steel, 'D', new ItemStack(Items.dye, 1, 8) });
@@ -425,6 +477,14 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_axe, 1), new Object[] { "II", "IS", " S", 'I', ModItems.ingot_schrabidium, 'S', Items.stick });
 		GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_schrabidium, 'S', Items.stick });
 		GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_schrabidium, 'S', Items.stick });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_helmet, 1), new Object[] { "EEE", "EIE", " P ", 'E', ModItems.hazmat_cloth, 'I', Item.getItemFromBlock(Blocks.glass_pane), 'P', ModItems.plate_steel });
+		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.hazmat_cloth });
+		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.hazmat_cloth });
+		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.hazmat_cloth });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.goggles, 1), new Object[] { "P P", "GPG", 'G', Item.getItemFromBlock(Blocks.glass_pane), 'P', ModItems.plate_steel });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gas_mask, 1), new Object[] { "PPP", "GPG", " P ", 'G', Item.getItemFromBlock(Blocks.glass_pane), 'P', ModItems.plate_steel });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.igniter, 1), new Object[] { " W", "SC", "CE", 'S', ModItems.plate_steel, 'W', ModItems.wire_schrabidium, 'C', ModItems.circuit_schrabidium, 'E', ModItems.ingot_euphemium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_euphemium });

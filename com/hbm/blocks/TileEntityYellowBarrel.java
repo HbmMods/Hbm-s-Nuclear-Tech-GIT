@@ -9,6 +9,7 @@ import com.hbm.lib.Library;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
@@ -69,6 +70,14 @@ public class TileEntityYellowBarrel extends TileEntity {
                 		EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
                 		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
                 		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
+                		if(!entity.isDead)
+                			if(!worldObj.isRemote)
+                				worldObj.spawnEntityInWorld(creep);
+                		entity.setDead();
+                	} else if(entity instanceof EntityCow) {
+                		EntityMooshroom creep = new EntityMooshroom(worldObj);
+                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+                		//creep.setRotationYawHead(((EntityCow)entity).rotationYawHead);
                 		if(!entity.isDead)
                 			if(!worldObj.isRemote)
                 				worldObj.spawnEntityInWorld(creep);

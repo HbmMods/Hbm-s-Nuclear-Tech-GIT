@@ -33,6 +33,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
     private ResourceLocation missileClusterTexture;
     private ResourceLocation missileBusterTexture;
     private ResourceLocation missileStrongTexture;
+    private ResourceLocation missileStrongIncenidaryTexture;
+    private ResourceLocation missileStrongClusterTexture;
+    private ResourceLocation missileStrongBusterTexture;
     private ResourceLocation missileHugeTexture;
     private ResourceLocation missileNuclearTexture;
     private ResourceLocation missileMirvTexture;
@@ -53,6 +56,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		missileClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileCluster.png");
 		missileBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileBuster.png");
 		missileStrongTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGeneric.png");
+		missileStrongIncenidaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericIncendiary.png");
+		missileStrongClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericCluster.png");
+		missileStrongBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericBuster.png");
 		missileHugeTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHuge.png");
 		missileNuclearTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileNuke.png");
 		missileMirvTexture = new ResourceLocation(RefStrings.MODID, "textures/models/missileMirv.png");
@@ -123,19 +129,19 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			if(((TileEntityLaunchPad)tileEntity).state == 7)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongTexture);
+				bindTexture(missileStrongIncenidaryTexture);
 				missileStrong.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 8)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongTexture);
+				bindTexture(missileStrongClusterTexture);
 				missileStrong.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 9)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongTexture);
+				bindTexture(missileStrongBusterTexture);
 				missileStrong.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 10)
@@ -164,19 +170,19 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 14)
 			{
-				GL11.glScalef(1.0F, 1.0F, 1.0F);
+				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileThermoTexture);
 				missileThermo.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 15)
 			{
-				GL11.glScalef(1.0F, 1.0F, 1.0F);
+				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileThermoTexture);
 				missileThermo.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 16)
 			{
-				GL11.glScalef(1.0F, 1.0F, 1.0F);
+		        GL11.glScalef(2F, 2F, 2F);
 				bindTexture(missileMirvTexture);
 				missileMirv.renderAll();
 			}

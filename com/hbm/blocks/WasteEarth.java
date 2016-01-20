@@ -172,6 +172,13 @@ public class WasteEarth extends Block {
     		}
     		if(count > 0 && count < 5)
     			world.setBlock(x, y + 1, z, ModBlocks.mush);
+            if (!world.isRemote)
+            {
+                if (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)
+                {
+                	world.setBlock(x, y, z, Blocks.dirt);
+                }
+            }
     	}
     	
     	if(this == ModBlocks.waste_mycelium)
