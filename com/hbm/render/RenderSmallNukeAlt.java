@@ -60,7 +60,8 @@ public class RenderSmallNukeAlt extends Render {
         GL11.glDisable(GL11.GL_CULL_FACE);
         if(p_76986_1_.age < 150)
         {
-        	GL11.glTranslatef(0.0F, -60F + ((p_76986_1_.age - 100) * 60 / 50), 0.0F);
+        	//GL11.glTranslatef(0.0F, -60F + ((p_76986_1_.age - 100) * 60 / 50), 0.0F);
+        	GL11.glTranslatef(0.0F, p_76986_1_.height, 0.0F);
         }
         GL11.glScalef(4.0F, 4.0F, 4.0F);
         
@@ -76,11 +77,11 @@ public class RenderSmallNukeAlt extends Render {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
     	GL11.glTranslatef(0.0F, 60F, 0.0F);
-        if(scale < 1.5)
+        /*if(scale < 1.5)
         {
         	scale += 0.02;
-        }
-        GL11.glScalef(scale, 1.0F, scale);
+        }*/
+        GL11.glScalef(p_76986_1_.scale, 1.0F, p_76986_1_.scale);
         GL11.glScalef(50F, 25.0F, 50F);
         
         bindTexture(ringBigTexture);
@@ -95,8 +96,8 @@ public class RenderSmallNukeAlt extends Render {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
     	GL11.glTranslatef(0.0F, 18F, 0.0F);
-    	ring += 0.1F;
-        GL11.glScalef(ring * 10, 30F, ring * 10);
+    	//ring += 0.1F;
+        GL11.glScalef(p_76986_1_.ring * 10, 30F, p_76986_1_.ring * 10);
         
         bindTexture(ringTexture);
         ringModel.renderAll();

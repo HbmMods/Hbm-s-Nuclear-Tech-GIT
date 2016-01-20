@@ -1,5 +1,7 @@
 package com.hbm.entity;
 
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -11,6 +13,9 @@ public class EntityNukeCloudSmall extends Entity {
 	
 	public int maxAge = 1000;
 	public int age;
+    public float scale = 0;
+    public float ring = 0;
+    public float height = 0;
 
 	public EntityNukeCloudSmall(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -18,6 +23,9 @@ public class EntityNukeCloudSmall extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.age = 0;
+    	scale = 0;
+    	ring = 0;
+    	height = 0;
 	}
 
     @Override
@@ -50,6 +58,26 @@ public class EntityNukeCloudSmall extends Entity {
         {
     		this.age = 0;
         	this.setDead();
+        }
+    	ring += 0.1F;
+    	
+        if(age < 150)
+        {
+        	height = -60F + ((age - 100) * 60 / 50);
+        	if(scale < 1.5)
+        	{
+        		scale += 0.02;
+        	}
+        }
+        
+        if(age > 100)
+        {
+        	if(scale < 1.5)
+        	{
+        		scale += 0.02;
+        	}
+        } else {
+        	scale = 0;
         }
     }
 
