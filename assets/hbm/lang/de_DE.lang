@@ -216,6 +216,7 @@ item.centrifuge_tower.name=Zentrifugenturm
 item.reactor_core.name=Brutreaktorkern
 item.pellet_rtg.name=Plutonium 238 Pellet
 item.rtg_unit.name=RTG Einheit
+item.hazmat_cloth.name=Strahlenschutzanzugsstoff
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -223,6 +224,10 @@ item.cell_puf6.name=Plutoniumhexafluorit-Zelle
 item.cell_antimatter.name=Antimaterienzelle
 item.cell_deuterium.name=Deuteriumzelle
 item.cell_sas3.name=Schrabidiumtrisulfat-Zelle
+
+item.canister_empty.name=Leerer Kanister
+item.canister_fuel.name=Treibstoffkanister
+item.canister_napalm.name=Napalm B
 
 item.rod_empty.name=Leerer Brennstab
 item.rod_uranium.name=Uranbrennstab
@@ -303,6 +308,8 @@ item.multi_kit.name=Mehrzweckbomben Kit
 item.grenade_kit.name=Granaten Kit
 item.nuke_electric_kit.name=Kit des Elektronikingenieurs
 item.prototype_kit.name=Prototyp Kit
+item.missile_kit.name=Raketen Kit
+item.t45_kit.name=T45-Powerrüstungskit
 
 tile.waste_earth.name=Totes Gras
 tile.waste_trinitite.name=Trinititerz
@@ -365,6 +372,7 @@ item.bomb_waffle.name=Massenvernichtungswaffel
 item.schnitzel_vegan.name=Veganes Schnitzel
 item.apple_schrabidium.name=Schrabidiumapfel
 item.cotton_candy.name=Radioaktive Zuckerwatte
+item.tem_flakes.name=Tem Flakes
 
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_dirt.name=Gefrorene Erde
@@ -484,3 +492,27 @@ item.t45_boots.name=T45-Powerrüstungsstiefel
 
 tile.mush.name=Leuchtender Pilz
 tile.waste_mycelium.name=Leuchtende Myzel
+
+item.warhead_generic_small.name=Kleiner Sprengkopf
+item.warhead_generic_medium.name=Mittlerer Sprengkopf
+item.warhead_generic_large.name=Großer Sprengkopf
+item.warhead_incendiary_small.name=Kleiner Brandsprengkopf
+item.warhead_incendiary_medium.name=Mittlerer Brandsprengkopf
+item.warhead_incendiary_large.name=Großer Brandsprengkopf
+item.warhead_cluster_small.name=Kleiner Kasettensprengkopf
+item.warhead_cluster_medium.name=Mittlerer Kasettensprengkopf
+item.warhead_cluster_large.name=Großer Kasettensprengkopf
+item.warhead_buster_small.name=Kleiner bunkerbrechender Sprengkopf
+item.warhead_buster_medium.name=Mittlerer bunkerbrechender Sprengkopf
+item.warhead_buster_large.name=Großer bunkerbrechender Sprengkopf
+item.warhead_nuclear.name=Atomsprengkopf
+item.warhead_mirvlet.name=MIRV
+item.warhead_mirv.name=Achtfacher MIRV-Sprengkopf
+item.warhead_thermo_endo.name=Endothermischer Sprengkopf
+item.warhead_thermo_exo.name=Exothermischer Sprengkopf
+item.fuel_tank_small.name=Kleiner Triebstofftank
+item.fuel_tank_medium.name=Mittlerer Triebstofftank
+item.fuel_tank_large.name=Großer Triebstofftank
+item.thruster_small.name=Kleines Raketentriebwerk
+item.thruster_medium.name=Mittleres Raketentriebwerk
+item.thruster_large.name=Großes Raketentriebwerk

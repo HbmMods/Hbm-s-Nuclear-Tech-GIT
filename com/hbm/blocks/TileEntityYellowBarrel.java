@@ -74,14 +74,6 @@ public class TileEntityYellowBarrel extends TileEntity {
                 			if(!worldObj.isRemote)
                 				worldObj.spawnEntityInWorld(creep);
                 		entity.setDead();
-                	} else if(entity instanceof EntityCow) {
-                		EntityMooshroom creep = new EntityMooshroom(worldObj);
-                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                		//creep.setRotationYawHead(((EntityCow)entity).rotationYawHead);
-                		if(!entity.isDead)
-                			if(!worldObj.isRemote)
-                				worldObj.spawnEntityInWorld(creep);
-                		entity.setDead();
                 	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom))
                     {
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));

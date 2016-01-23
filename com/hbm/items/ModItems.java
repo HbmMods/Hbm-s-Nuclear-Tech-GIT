@@ -306,6 +306,7 @@ public class ModItems {
 	public static Item schnitzel_vegan;
 	public static Item cotton_candy;
 	public static Item apple_schrabidium;
+	public static Item tem_flakes;
 
 	public static Item flame_pony;
 	public static Item flame_conspiracy;
@@ -689,6 +690,7 @@ public class ModItems {
 		schnitzel_vegan = new ItemSchnitzelVegan(0, true).setUnlocalizedName("schnitzel_vegan").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":schnitzel_vegan");
 		cotton_candy = new ItemCottonCandy(5, false).setUnlocalizedName("cotton_candy").setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":cotton_candy");
 		apple_schrabidium = new ItemAppleSchrabidium(20, 100, false).setUnlocalizedName("apple_schrabidium").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":apple_schrabidium");
+		tem_flakes = new ItemTemFlakes(0, 0, false).setUnlocalizedName("tem_flakes").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":tem_flakes");
 		
 		flame_pony = new ItemCustomLore().setUnlocalizedName("flame_pony").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_pony");
 		flame_conspiracy = new ItemCustomLore().setUnlocalizedName("flame_conspiracy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_conspiracy");
@@ -781,7 +783,7 @@ public class ModItems {
 		hazmat_plate = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 1).setUnlocalizedName("hazmat_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_plate");
 		hazmat_legs = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 2).setUnlocalizedName("hazmat_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_legs");
 		hazmat_boots = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 3).setUnlocalizedName("hazmat_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_boots");
-		}
+	}
 	
 	private static void registerItem() {
 		//Weapons
@@ -1127,6 +1129,7 @@ public class ModItems {
 		GameRegistry.registerItem(schnitzel_vegan, schnitzel_vegan.getUnlocalizedName());
 		GameRegistry.registerItem(cotton_candy, cotton_candy.getUnlocalizedName());
 		GameRegistry.registerItem(apple_schrabidium, apple_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(tem_flakes, tem_flakes.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

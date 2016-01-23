@@ -22,6 +22,8 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -231,10 +233,10 @@ public class EntityNuclearCreeper extends EntityMob {
                 {
                 	if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
                 	{
-                		Library.damageSuit(((EntityPlayer)entity), 0);
+                		/*Library.damageSuit(((EntityPlayer)entity), 0);
                 		Library.damageSuit(((EntityPlayer)entity), 1);
                 		Library.damageSuit(((EntityPlayer)entity), 2);
-                		Library.damageSuit(((EntityPlayer)entity), 3);
+                		Library.damageSuit(((EntityPlayer)entity), 3);*/
                 		
                 	} else if(entity instanceof EntityCreeper) {
                 		EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);

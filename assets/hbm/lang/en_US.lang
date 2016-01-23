@@ -216,6 +216,7 @@ item.centrifuge_tower.name=Centrifuge Tower
 item.reactor_core.name=Breeding Reactor Core
 item.pellet_rtg.name=Plutonium 238 Fuel Pellet
 item.rtg_unit.name=RTG Unit
+item.hazmat_cloth.name=Hazmat Cloth
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
@@ -223,6 +224,10 @@ item.cell_puf6.name=Plutonium Hexafluorite Cell
 item.cell_antimatter.name=Antimatter Cell
 item.cell_deuterium.name=Deuterium Cell
 item.cell_sas3.name=Schrabidiumtrisulfide Cell
+
+item.canister_empty.name=Empty Canister
+item.canister_fuel.name=Fuel Canister
+item.canister_napalm.name=Napalm B
 
 item.rod_empty.name=Emty Rod
 item.rod_uranium.name=Uranium Rod
@@ -303,6 +308,9 @@ item.multi_kit.name=Multi Purpose Bomb Kit
 item.grenade_kit.name=Grenade Kit
 item.nuke_electric_kit.name=Electronic Engineer's Kit
 item.prototype_kit.name=Prototype Kit
+item.missile_kit.name=Missile Kit
+item.t45_kit.name=T45 Power Armor Kit
+
 
 tile.waste_earth.name=Dead Grass
 tile.waste_trinitite.name=Trinitite Ore
@@ -365,6 +373,7 @@ item.bomb_waffle.name=Waffle of Mass Destruction
 item.schnitzel_vegan.name=Vegan Schnitzel
 item.apple_schrabidium.name=Schrabidium Apple
 item.cotton_candy.name=Radioactive Cotton Candy
+item.tem_flakes.name=Tem Flakes
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt
@@ -484,3 +493,27 @@ item.t45_boots.name=T45 Power Armor Boots
 
 tile.mush.name=Glowing Mushroom
 tile.waste_mycelium.name=Glowing Mycelium
+
+item.warhead_generic_small.name=Small Warhead
+item.warhead_generic_medium.name=Medium Warhead
+item.warhead_generic_large.name=Large Warhead
+item.warhead_incendiary_small.name=Small Incendiary Warhead
+item.warhead_incendiary_medium.name=Medium Incendiary Warhead
+item.warhead_incendiary_large.name=Large Incendiary Warhead
+item.warhead_cluster_small.name=Small Cluster Warhead
+item.warhead_cluster_medium.name=Medium Cluster Warhead
+item.warhead_cluster_large.name=Large Cluster Warhead
+item.warhead_buster_small.name=Small Bunker Buster Warhead
+item.warhead_buster_medium.name=Medium Bunker Buster Warhead
+item.warhead_buster_large.name=Large Bunker Buster Warhead
+item.warhead_nuclear.name=Nuclear Warhead
+item.warhead_mirvlet.name=MIRV
+item.warhead_mirv.name=Eightfold MIRV Warhead
+item.warhead_thermo_endo.name=Endothermic Warhead
+item.warhead_thermo_exo.name=Exothermic Warhead
+item.fuel_tank_small.name=Small Fuel Tank
+item.fuel_tank_medium.name=Medium Fuel Tank
+item.fuel_tank_large.name=Large Fuel Tank
+item.thruster_small.name=Small Thruster
+item.thruster_medium.name=Medium Thruster
+item.thruster_large.name=Large Thruster

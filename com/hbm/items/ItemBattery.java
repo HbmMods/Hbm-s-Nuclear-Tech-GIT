@@ -20,7 +20,14 @@ public class ItemBattery extends Item {
 		{
 			list.add("Energy stored: " + ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) + " HE");
 		} else {
-			list.add("Charge: " + ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) / this.getMaxDamage() + "%");
+			if(this.getDamage(itemstack) != 0)
+			{
+				int charge = ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) / this.getMaxDamage();
+				charge++;
+				list.add("Charge: " + charge + "%");
+			} else {
+				list.add("Charge: 100%");
+			}
 		}
 	}
 
@@ -30,6 +37,11 @@ public class ItemBattery extends Item {
     	if(this == ModItems.battery_schrabidium)
     	{
         	return EnumRarity.rare;
+    	}
+
+    	if(this == ModItems.fusion_core)
+    	{
+        	return EnumRarity.uncommon;
     	}
     	
     	return EnumRarity.common;

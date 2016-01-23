@@ -18,14 +18,15 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TestEventTester extends Block {
-
-	protected TestEventTester(Material p_i45394_1_) {
-		super(p_i45394_1_);
-	}
+	
     public float explosionSize = 1000F;
     private Map field_77288_k = new HashMap();
     protected static Random itemRand = new Random();
     public World worldObj;
+
+	protected TestEventTester(Material p_i45394_1_) {
+		super(p_i45394_1_);
+	}
 	
     @Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
@@ -33,8 +34,11 @@ public class TestEventTester extends Block {
     	this.worldObj = p_149695_1_;
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
         {
-
-			ExplosionChaos.frag(p_149695_1_, x, y + 2, z, 10, false, null);/*mirv(this.worldObj, x, y + 20, z);*/
+        	//Thelaser thread is too dangerous to use right now
+        	//ThreadLaser laser = new ThreadLaser(p_149695_1_, x, y, z, "north");
+        	//laser.start();
+			ExplosionChaos.frag(p_149695_1_, x, y + 2, z, 10, false, null);
+			//mirv(this.worldObj, x, y + 20, z);
         	//killEvent(p_149695_1_, x, y, z);
         	/*EntityNuclearCreeper e = new EntityNuclearCreeper(p_149695_1_);
         	e.posX = x;

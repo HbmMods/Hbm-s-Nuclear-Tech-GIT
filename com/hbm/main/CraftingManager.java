@@ -387,7 +387,10 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.apple_schrabidium, 1, 0), new Object[] { "SSS", "SAS", "SSS", 'S', ModItems.nugget_schrabidium, 'A', Items.apple });
 		GameRegistry.addRecipe(new ItemStack(ModItems.apple_schrabidium, 1, 1), new Object[] { "SSS", "SAS", "SSS", 'S', ModItems.ingot_schrabidium, 'A', Items.apple });
 		GameRegistry.addRecipe(new ItemStack(ModItems.apple_schrabidium, 1, 2), new Object[] { "SSS", "SAS", "SSS", 'S', Item.getItemFromBlock(ModBlocks.block_schrabidium), 'A', Items.apple });
-
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.tem_flakes, 1, 0), new Object[] { Items.gold_nugget, Items.paper });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.tem_flakes, 1, 1), new Object[] { Items.gold_nugget, Items.gold_nugget, Items.gold_nugget, Items.paper });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.tem_flakes, 1, 2), new Object[] { Items.gold_ingot, Items.gold_ingot, Items.gold_nugget, Items.gold_nugget, Items.paper });
+		
 		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_empty, 6), new Object[] { "P", "C", "B", 'B', Item.getItemFromBlock(Blocks.iron_bars), 'C', ModItems.cell_empty, 'P', ModItems.plate_iron });
 		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_antidote, 6), new Object[] { "SSS", "PMP", "SSS", 'S', ModItems.syringe_empty, 'P', Items.pumpkin_seeds, 'M', Items.milk_bucket });
 		GameRegistry.addRecipe(new ItemStack(ModItems.syringe_antidote, 6), new Object[] { "SPS", "SMS", "SPS", 'S', ModItems.syringe_empty, 'P', Items.pumpkin_seeds, 'M', Items.milk_bucket });
@@ -406,6 +409,9 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_tsar), 1), new Object[] { "CHD", "STF", "CHD", 'C', ModItems.circuit_red_copper, 'H', ModItems.hull_big_titanium, 'S', ModItems.sphere_steel, 'T', ModItems.tank_steel, 'F', ModItems.fins_tri_steel, 'D', new ItemStack(Items.dye, 1, 0) });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_fleija), 1), new Object[] { "DGD", "CHF", "DGD", 'G', ModItems.wire_gold, 'C', ModItems.circuit_gold, 'H', ModItems.hull_small_aluminium, 'F', ModItems.fins_quad_titanium, 'D', new ItemStack(Items.dye, 1, 15) });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_prototype), 1), new Object[] { "GCG", "HRH", "GCG", 'G', ModItems.wire_gold, 'C', ModItems.ingot_euphemium, 'H', ModItems.hull_small_steel, 'R', ModItems.dysfunctional_reactor });
+
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.launch_pad), 1), new Object[] { "PPP", "ICI", "CBC", 'P', ModItems.plate_steel, 'I', ModItems.ingot_steel, 'C', ModItems.circuit_gold, 'B', Item.getItemFromBlock(ModBlocks.machine_battery) });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.book_guide), 1), new Object[] { "IBI", "LBL", "IBI", 'B', Items.book, 'I', new ItemStack(Items.dye, 1, 0), 'L', new ItemStack(Items.dye, 1, 4) });
 
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.bomb_multi), 1), new Object[] { "AAD", "CHF", "AAD", 'A', ModItems.wire_aluminium, 'C', ModItems.circuit_aluminium, 'H', ModItems.hull_small_aluminium, 'F', ModItems.fins_quad_titanium, 'D', new ItemStack(Items.dye, 1, 15) });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.pellet_cluster, 8), new Object[] { ModItems.plate_iron, Item.getItemFromBlock(Blocks.tnt), ModItems.plate_steel });
@@ -495,7 +501,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.apple_euphemium, 1), new Object[] { "EEE", "EAE", "EEE", 'E', ModItems.nugget_euphemium, 'A', Items.apple });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.mask_of_infamy, 1), new Object[] { "III", "III", " I ", 'I', ModItems.plate_iron });
-		GameRegistry.addRecipe(new ItemStack(ModItems.designator, 9), new Object[] { "#", '#', ModItems.plate_iron });
+		GameRegistry.addRecipe(new ItemStack(ModItems.designator, 1), new Object[] { "  A", "#B#", "#B#", '#', ModItems.plate_iron, 'A', ModItems.plate_steel, 'B', ModItems.circuit_red_copper });
 	}
 	
 	public static void AddSmeltingRec()
