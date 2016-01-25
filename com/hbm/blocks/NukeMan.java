@@ -172,7 +172,7 @@ public class NukeMan extends BlockContainer {
     	entity.posX = x;
     	entity.posY = y;
     	entity.posZ = z;
-    	entity.destructionRange = 175;
+    	entity.destructionRange = MainRegistry.manRadius;
     	entity.speed = 25;
     	entity.coefficient = 10.0F;
     	

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.entity.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -155,7 +156,7 @@ public class WasteEarth extends Block {
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
-    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0)
+    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0 && MainRegistry.enableMycelium)
     	{
     		Block b0;
     		int count = 0;
@@ -172,16 +173,9 @@ public class WasteEarth extends Block {
     		}
     		if(count > 0 && count < 5)
     			world.setBlock(x, y + 1, z, ModBlocks.mush);
-            if (!world.isRemote)
-            {
-                if (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)
-                {
-                	world.setBlock(x, y, z, Blocks.dirt);
-                }
-            }
     	}
     	
-    	if(this == ModBlocks.waste_mycelium)
+    	if(this == ModBlocks.waste_mycelium && MainRegistry.enableMycelium)
     	{
     		for(int i = -1; i < 2; i++) {
     			for(int j = -1; j < 2; j++) {
@@ -195,6 +189,17 @@ public class WasteEarth extends Block {
     				}
     			}
     		}
+    	}
+    	
+    	if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium)
+    	{
+            if (!world.isRemote)
+            {
+                if (world.getBlockLightValue(x, y + 1, z) < 4 && world.getBlockLightOpacity(x, y + 1, z) > 2)
+                {
+                	world.setBlock(x, y, z, Blocks.dirt);
+                }
+            }
     	}
     }
 

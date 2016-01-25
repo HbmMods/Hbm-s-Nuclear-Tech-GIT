@@ -109,7 +109,7 @@ public class NukePrototype extends BlockContainer {
         		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             	entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	igniteTestBomb(world, x, y, z, 150);
+            	igniteTestBomb(world, x, y, z, MainRegistry.prototypeRadius);
 			}
 			return true;
 		} else if(!player.isSneaking())
@@ -136,7 +136,7 @@ public class NukePrototype extends BlockContainer {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, 150);
+            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.prototypeRadius);
         	}
         }
     }

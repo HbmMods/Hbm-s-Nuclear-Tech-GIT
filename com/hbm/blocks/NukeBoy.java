@@ -156,7 +156,7 @@ public class NukeBoy extends BlockContainer {
     	entity.posX = x;
     	entity.posY = y;
     	entity.posZ = z;
-    	entity.destructionRange = 120;
+    	entity.destructionRange = MainRegistry.boyRadius;
     	entity.speed = 25;
     	entity.coefficient = 10.0F;
     	world.spawnEntityInWorld(entity);

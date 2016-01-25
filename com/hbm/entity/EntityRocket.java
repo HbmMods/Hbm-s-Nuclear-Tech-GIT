@@ -259,6 +259,14 @@ public class EntityRocket extends Entity implements IProjectile
             if (!this.worldObj.isRemote)
             {
             	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+                /*EntityNukeExplosionAdvanced explosion = new EntityNukeExplosionAdvanced(this.worldObj);
+                explosion.speed = 25;
+                explosion.coefficient = 5.0F;
+                explosion.destructionRange = 20;
+                explosion.posX = this.posX;
+                explosion.posY = this.posY;
+                explosion.posZ = this.posZ;
+                this.worldObj.spawnEntityInWorld(explosion);*/
             }
         	this.setDead();
         }

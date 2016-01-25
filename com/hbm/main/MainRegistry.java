@@ -4,6 +4,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -104,69 +106,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class MainRegistry
 {
 	@Instance(RefStrings.MODID)
-	public static MainRegistry instance;	
-
-	/*public static Achievement achievementGetTitanium;
-	public static Achievement achievementCraftDiFurnace;
-	public static Achievement achievementGetSteel;
-	public static Achievement achievementCraftCentrifuge;
-	public static Achievement achievementGetUranium;
-	public static Achievement achievementCraftReactor;
-	public static Achievement achievementGetPlutonium;
-	public static Achievement achievementGetSchrabidium;
-	public static Achievement achievementGetEuphemium;
-
-	public static Achievement achievementGetRedCopper;
-	public static Achievement achievementCraftWireCoated;
-	public static Achievement achievementCraftCoal;
-	public static Achievement achievementCraftGenerator;
-	public static Achievement achievementCraftElectricFurnace;
-	public static Achievement achievementCraftDeuterium;
-
-	public static Achievement achievementCraftCircuit;
-	public static Achievement achievementCraftBattery;
-	public static Achievement achievementCraftEnergyStorage;
-
-	public static Achievement achievementCraftNukeFurnace;
-	public static Achievement achievementCraftUraniumRod;
-	public static Achievement achievementCraftUraniumDualRod;
-	public static Achievement achievementCraftUraniumQuadRod;
-	public static Achievement achievementCraftUraniumFuel;
-
-	public static Achievement achievementCraftPlutoniumRod;
-	public static Achievement achievementCraftRtg;
-	public static Achievement achievementCraftRtgFurnace;
-	public static Achievement achievementCraftPlutoniumFuel;
-	public static Achievement achievementCraftMoxFuel;
-
-	public static Achievement achievementCraftSchrabidiumRod;
-	public static Achievement achievementCraftSchrabidiumFuel;
-	public static Achievement achievementCraftSchrabidiumApple;
-	public static Achievement achievementCraftSchrabidiumCircuit;
-
-	public static Achievement achievementCraftWatch;
-
-	public static Achievement achievementGetNeutronReflector;
-	
-	public static Achievement achievementCraftRevolver;
-	public static Achievement achievementCraftGrenade;
-	public static Achievement achievementCraftGrenadeStrong;
-	public static Achievement achievementCraftGrenadeCluster;
-	public static Achievement achievementCraftGrenadeFlare;
-	public static Achievement achievementCraftGrenadeSchrbidium;
-
-	public static Achievement achievementCraftLittleBoy;
-
-	public static Achievement achievementCraftTheGadget;
-	public static Achievement achievementCraftFatMan;
-	public static Achievement achievementCraftIvyMike;
-	public static Achievement achievementCraftTsarBomba;
-
-	public static Achievement achievementCraftFleija;
-
-	public static Achievement achievementCraftIgniter;
-	public static Achievement achievementCraftSas3;
-	public static Achievement achievementCraftPrototype;*/
+	public static MainRegistry instance;
 	
 	@SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE)
 	public static ServerProxy proxy;
@@ -175,7 +115,8 @@ public class MainRegistry
 	public static ModMetadata meta;
 	
 	//Tool Materials
-	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 20.0F, 200);
+	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
+	public static ToolMaterial enumToolMaterialChainsaw = EnumHelper.addToolMaterial("CHAINSAW", 3, 5000, 50.0F, 47.0F, 0);
 	
 	//Armor Materials
 	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
@@ -191,6 +132,14 @@ public class MainRegistry
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
 	
 	public static boolean enableDebugMode = true;
+	public static boolean enableMycelium = true;
+	public static int gadgetRadius = 150;
+	public static int boyRadius = 120;
+	public static int manRadius = 175;
+	public static int mikeRadius = 250;
+	public static int tsarRadius = 500;
+	public static int prototypeRadius = 50;
+	public static int fleijaRadius = 150;
 	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
@@ -337,11 +286,46 @@ public class MainRegistry
 	}
 	
 	@EventHandler
-	public void preinit(FMLPreInitializationEvent event)
+	public void preInit(FMLPreInitializationEvent event)
 	{
 		FMLCommonHandler.instance().bus().register(new ModEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ModEventHandler());
 		MinecraftForge.TERRAIN_GEN_BUS.register(new ModEventHandler());
 		MinecraftForge.ORE_GEN_BUS.register(new ModEventHandler());
+
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config.load();
+        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "_enableDebugMode", true).getBoolean(true);
+        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "_enableMyceliumSpread", true).getBoolean(true);
+        
+        Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "gadgetRadius", 150);
+        propGadget.comment = "Radius of the Gadget";
+        gadgetRadius = propGadget.getInt();
+        
+        Property propBoy = config.get(Configuration.CATEGORY_GENERAL, "boyRadius", 120);
+        propBoy.comment = "Radius of Little Boy";
+        boyRadius = propBoy.getInt();
+        
+        Property propMan = config.get(Configuration.CATEGORY_GENERAL, "manRadius", 175);
+        propMan.comment = "Radius of Fat Man";
+        manRadius = propMan.getInt();
+        
+        Property propMike = config.get(Configuration.CATEGORY_GENERAL, "mikeRadius", 250);
+        propMike.comment = "Radius of Ivy Mike";
+        mikeRadius = propMike.getInt();
+        
+        Property propTsar = config.get(Configuration.CATEGORY_GENERAL, "tsarRadius", 500);
+        propTsar.comment = "Radius of the Tsar Bomba";
+        tsarRadius = propTsar.getInt();
+        
+        Property propPrototype = config.get(Configuration.CATEGORY_GENERAL, "prototypeRadius", 150);
+        propPrototype.comment = "Radius of the Prototype";
+        prototypeRadius = propPrototype.getInt();
+        
+        Property propFleija = config.get(Configuration.CATEGORY_GENERAL, "fleijaRadius", 50);
+        propFleija.comment = "Radius of F.L.E.I.J.A.";
+        fleijaRadius = propFleija.getInt();
+        
+        config.save();
 	}
 }

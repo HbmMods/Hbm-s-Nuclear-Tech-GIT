@@ -72,7 +72,7 @@ public class EntityNuclearCreeper extends EntityMob {
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(50.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.15D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
     }
 
     /**
@@ -258,6 +258,11 @@ public class EntityNuclearCreeper extends EntityMob {
         strength = (int)f;
 
         super.onUpdate();
+        
+        if(this.getHealth() < this.getMaxHealth() && this.ticksExisted % 10 == 0)
+        {
+        	this.heal(1.0F);
+        }
     }
 
     /**

@@ -173,7 +173,7 @@ public class NukeGadget extends BlockContainer {
     	entity.posX = x;
     	entity.posY = y;
     	entity.posZ = z;
-    	entity.destructionRange = 150;
+    	entity.destructionRange = MainRegistry.gadgetRadius;
     	entity.speed = 25;
     	entity.coefficient = 10.0F;
     	

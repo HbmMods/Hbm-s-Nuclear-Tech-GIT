@@ -8,6 +8,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemSoup;
 
 public class ModItems {
 	
@@ -307,6 +308,7 @@ public class ModItems {
 	public static Item cotton_candy;
 	public static Item apple_schrabidium;
 	public static Item tem_flakes;
+	public static Item glowing_stew;
 
 	public static Item flame_pony;
 	public static Item flame_conspiracy;
@@ -363,6 +365,8 @@ public class ModItems {
 	public static Item t45_plate;
 	public static Item t45_legs;
 	public static Item t45_boots;
+
+	public static Item chainsaw;
 	
 	public static Item schrabidium_helmet;
 	public static Item schrabidium_plate;
@@ -691,6 +695,7 @@ public class ModItems {
 		cotton_candy = new ItemCottonCandy(5, false).setUnlocalizedName("cotton_candy").setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":cotton_candy");
 		apple_schrabidium = new ItemAppleSchrabidium(20, 100, false).setUnlocalizedName("apple_schrabidium").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":apple_schrabidium");
 		tem_flakes = new ItemTemFlakes(0, 0, false).setUnlocalizedName("tem_flakes").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":tem_flakes");
+		glowing_stew = new ItemSoup(6).setUnlocalizedName("glowing_stew").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":glowing_stew");
 		
 		flame_pony = new ItemCustomLore().setUnlocalizedName("flame_pony").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_pony");
 		flame_conspiracy = new ItemCustomLore().setUnlocalizedName("flame_conspiracy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_conspiracy");
@@ -765,6 +770,8 @@ public class ModItems {
 		t45_plate = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 1).setUnlocalizedName("t45_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_plate");
 		t45_legs = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 2).setUnlocalizedName("t45_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_legs");
 		t45_boots = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 3).setUnlocalizedName("t45_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_boots");
+		
+		chainsaw = new ItemModAxe(MainRegistry.enumToolMaterialChainsaw).setUnlocalizedName("chainsaw").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":chainsaw");
 		
 		schrabidium_helmet = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 0).setUnlocalizedName("schrabidium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_helmet");
 		schrabidium_plate = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 1).setUnlocalizedName("schrabidium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_plate");
@@ -1130,6 +1137,7 @@ public class ModItems {
 		GameRegistry.registerItem(cotton_candy, cotton_candy.getUnlocalizedName());
 		GameRegistry.registerItem(apple_schrabidium, apple_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(tem_flakes, tem_flakes.getUnlocalizedName());
+		GameRegistry.registerItem(glowing_stew, glowing_stew.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());
@@ -1174,6 +1182,7 @@ public class ModItems {
 		GameRegistry.registerItem(t45_boots, t45_boots.getUnlocalizedName());
 		
 		//Nobody will ever read this anyway, so it shouldn't matter.
+		GameRegistry.registerItem(chainsaw, chainsaw.getUnlocalizedName());
 		GameRegistry.registerItem(igniter, igniter.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_helmet, hazmat_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_plate, hazmat_plate.getUnlocalizedName());

@@ -125,7 +125,7 @@ public class NukeTsar extends BlockContainer {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, 175);
+            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.manRadius);
         	}
         	
         	if(entity.isFilled())
@@ -133,7 +133,7 @@ public class NukeTsar extends BlockContainer {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, 500);
+            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.tsarRadius);
         	}
         }
     }

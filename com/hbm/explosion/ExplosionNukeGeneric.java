@@ -89,11 +89,11 @@ public class ExplosionNukeGeneric {
 		        double d5;
 		        double d6;
 		        double d7;
-		        double wat = bombStartStrength*2;
+		        double wat = bombStartStrength/**2*/;
 		        boolean isOccupied = false;
 		        
 
-		        bombStartStrength *= 2.0F;
+		        //bombStartStrength *= 2.0F;
 		        i = MathHelper.floor_double(x - wat - 1.0D);
 		        j = MathHelper.floor_double(x + wat + 1.0D);
 		        k = MathHelper.floor_double(y - wat - 1.0D);

@@ -421,7 +421,7 @@ public class ExplosionChaos {
                 {
                 	if(entity instanceof EntityPlayer && Library.checkForGasMask((EntityPlayer)entity))
                 	{
-                		Library.damageSuit(((EntityPlayer)entity), 3);
+                		//Library.damageSuit(((EntityPlayer)entity), 3);
                 		
                 	} else if(entity instanceof EntityLivingBase)
                     {
