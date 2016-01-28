@@ -19,6 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.DecoBlockAlt;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityNukeCloudSmall;
 
@@ -114,7 +115,7 @@ public class ExplosionNukeGeneric {
 		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
 		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv))
+		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv) && !(entity instanceof EntityMiniNuke))
 		                {
 		                    d5 /= d9;
 		                    d6 /= d9;

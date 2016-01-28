@@ -1,5 +1,6 @@
 package com.hbm.items;
 
+import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityRocket;
 
 import cpw.mods.fml.relauncher.Side;

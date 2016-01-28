@@ -45,6 +45,7 @@ import com.hbm.entity.EntityGrenadeNuke;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityMissileAntiBallistic;
 import com.hbm.entity.EntityMissileBunkerBuster;
@@ -73,6 +74,8 @@ import com.hbm.render.ItemRenderRevolverCursed;
 import com.hbm.render.ItemRenderRevolverIron;
 import com.hbm.render.ItemRenderBigSword;
 import com.hbm.render.ItemRenderDecoBlock;
+import com.hbm.render.ItemRenderFatMan;
+import com.hbm.render.ItemRenderMiniNuke;
 import com.hbm.render.ItemRenderPoleTop;
 import com.hbm.render.ItemRenderRedstoneSword;
 import com.hbm.render.ItemRenderRevolver;
@@ -91,6 +94,7 @@ import com.hbm.render.RenderDecoBlock;
 import com.hbm.render.RenderDecoBlockAlt;
 import com.hbm.render.RenderFlare;
 import com.hbm.render.RenderLaunchPadTier1;
+import com.hbm.render.RenderMiniNuke;
 import com.hbm.render.RenderMirv;
 import com.hbm.render.RenderMissileGeneric;
 import com.hbm.render.RenderMissileHuge;
@@ -199,8 +203,11 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_gold, new ItemRenderRevolverGold());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_schrabidium, new ItemRenderRevolverSchrabidium());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_cursed, new ItemRenderRevolverCursed());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman, new ItemRenderFatMan());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman_ammo, new ItemRenderMiniNuke());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukePrototype.class, new RenderNukePrototype());
 

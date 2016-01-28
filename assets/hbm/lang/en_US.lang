@@ -374,6 +374,7 @@ item.schnitzel_vegan.name=Vegan Schnitzel
 item.apple_schrabidium.name=Schrabidium Apple
 item.cotton_candy.name=Radioactive Cotton Candy
 item.tem_flakes.name=Tem Flakes
+item.glowing_stew.name=Glowing Mushroom Stew
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt
@@ -395,12 +396,14 @@ item.gun_revolver.name=Enhanced Revolver
 item.gun_revolver_gold.name=Golden Revolver
 item.gun_revolver_schrabidium.name=Schrabidium Revolver
 item.gun_revolver_cursed.name=Cursed Revolver
+item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
 item.gun_revolver_gold_ammo.name=Golden Bullet
 item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
 item.gun_revolver_cursed_ammo.name=Steel Bullet
+item.gun_fatman_ammo.name=Mini Nuke
 
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate
@@ -452,6 +455,8 @@ item.schrabidium_pickaxe.name=Schrabidium Pickaxe
 item.schrabidium_axe.name=Schrabidium Axe
 item.schrabidium_shovel.name=Schrabidium Shovel
 item.schrabidium_hoe.name=Schrabidium Hoe
+
+item.chainsaw.name=Chainsaw
 
 item.mask_of_infamy.name=Mask of Infamy
 
