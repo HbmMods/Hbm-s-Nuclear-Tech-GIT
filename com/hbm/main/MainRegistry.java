@@ -38,6 +38,7 @@ import com.hbm.blocks.TileEntityNukeFleija;
 import com.hbm.blocks.TileEntityNukeFurnace;
 import com.hbm.blocks.TileEntityNukeGadget;
 import com.hbm.blocks.TileEntityNukeMan;
+import com.hbm.blocks.TileEntityNukeMike;
 import com.hbm.blocks.TileEntityNukePrototype;
 import com.hbm.blocks.TileEntityNukeTsar;
 import com.hbm.blocks.TileEntityObjTester;
@@ -170,6 +171,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachinePuF6Tank.class, "tileentity_puf6_tank");
 		GameRegistry.registerTileEntity(TileEntityMachineReactor.class, "tileentity_reactor");
 		GameRegistry.registerTileEntity(TileEntityBombMulti.class, "tileentity_bombmulti");
+		GameRegistry.registerTileEntity(TileEntityNukeMike.class, "tileentity_nukemike");
 		GameRegistry.registerTileEntity(TileEntityNukeTsar.class, "tileentity_nuketsar");
 		GameRegistry.registerTileEntity(TileEntityNukeFurnace.class, "tileentity_nukefurnace");
 		GameRegistry.registerTileEntity(TileEntityRtgFurnace.class, "tileentity_rtgfurnace");
@@ -297,7 +299,7 @@ public class MainRegistry
 
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "_enableDebugMode", true).getBoolean(true);
+        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "_enableDebugMode", false).getBoolean(true);
         enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "_enableMyceliumSpread", true).getBoolean(true);
         
         Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "gadgetRadius", 150);

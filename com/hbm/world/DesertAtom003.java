@@ -5,12 +5,15 @@ package com.hbm.world;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.TileEntityMachinePuF6Tank;
+import com.hbm.blocks.TileEntityMachineUF6Tank;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
@@ -366,9 +369,33 @@ public class DesertAtom003
 		world.setBlock(x + 26, y + 4, z + 7, Block19, 3, 3);
 		world.setBlock(x + 27, y + 4, z + 7, Block19, 3, 3);
 		world.setBlock(x + 28, y + 4, z + 7, Block20, 3, 3);
+		TileEntity tank0 = world.getTileEntity(x + 28, y + 4, z + 7);
+		if(tank0 instanceof TileEntityMachineUF6Tank)
+		{
+			TileEntityMachineUF6Tank tankuf0 = (TileEntityMachineUF6Tank)tank0;
+			tankuf0.fillState = rand.nextInt(tankuf0.maxFill);
+		}
 		world.setBlock(x + 29, y + 4, z + 7, Block20, 3, 3);
+		TileEntity tank1 = world.getTileEntity(x + 29, y + 4, z + 7);
+		if(tank0 instanceof TileEntityMachineUF6Tank)
+		{
+			TileEntityMachineUF6Tank tankuf1 = (TileEntityMachineUF6Tank)tank1;
+			tankuf1.fillState = rand.nextInt(tankuf1.maxFill);
+		}
 		world.setBlock(x + 30, y + 4, z + 7, Block21, 3, 3);
+		TileEntity tank2 = world.getTileEntity(x + 30, y + 4, z + 7);
+		if(tank0 instanceof TileEntityMachinePuF6Tank)
+		{
+			TileEntityMachinePuF6Tank tankuf2 = (TileEntityMachinePuF6Tank)tank2;
+			tankuf2.fillState = rand.nextInt(tankuf2.maxFill);
+		}
 		world.setBlock(x + 31, y + 4, z + 7, Block21, 3, 3);
+		TileEntity tank3 = world.getTileEntity(x + 31, y + 4, z + 7);
+		if(tank3 instanceof TileEntityMachinePuF6Tank)
+		{
+			TileEntityMachinePuF6Tank tankuf3 = (TileEntityMachinePuF6Tank)tank3;
+			tankuf3.fillState = rand.nextInt(tankuf3.maxFill);
+		}
 		world.setBlock(x + 32, y + 4, z + 7, Block2, 0, 3);
 		world.setBlock(x + 33, y + 4, z + 7, Block22, 0, 3);
 		world.setBlock(x + 34, y + 4, z + 7, Block23, 0, 3);

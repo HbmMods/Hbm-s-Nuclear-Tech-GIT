@@ -41,25 +41,22 @@ public class HbmChestContents {
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[]
 			{new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.neutron_reflector, 0, 2, 3, 3),
-				new WeightedRandomChestContent(ModItems.ingot_tungsten, 0, 5, 15, 5),
-				new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 3, 4, 5),
 				new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
 				new WeightedRandomChestContent(ModItems.circuit_schrabidium, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.nuke_commercially_kit, 0, 1, 1, 1),
-				new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
-				new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 1, 32, 5),
-				new WeightedRandomChestContent(ModItems.gun_revolver_gold, 0, 1, 1, 1),
-				new WeightedRandomChestContent(ModItems.gun_revolver_gold_ammo, 0, 1, 6, 2),
-				new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 2),
-				new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 32, 3),
+				new WeightedRandomChestContent(ModItems.nuke_electric_kit, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.gun_revolver_gold, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.gun_revolver_gold_ammo, 0, 1, 6, 5),
+				new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 32, 5),
 				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 8, 2),
 				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
 				new WeightedRandomChestContent(ModItems.battery_schrabidium, 1000, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.syringe_awesome, 0, 1, 1, 1),
-				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 2),
-				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 1, 3, 3)};
+				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 4),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.float_bomb), 0, 1, 1, 1)};
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[]
 			{new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
@@ -98,11 +95,11 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3)};
 
 	private static WeightedRandomChestContent[] vertibird = new WeightedRandomChestContent[]
-			{new WeightedRandomChestContent(ModItems.t45_helmet, 0, 1, 1, 5),
-				new WeightedRandomChestContent(ModItems.t45_plate, 0, 1, 1, 5),
-				new WeightedRandomChestContent(ModItems.t45_legs, 0, 1, 1, 5),
-				new WeightedRandomChestContent(ModItems.t45_boots, 0, 1, 1, 5),
-				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 5),
+			{new WeightedRandomChestContent(ModItems.t45_helmet, 0, 1, 1, 15),
+				new WeightedRandomChestContent(ModItems.t45_plate, 0, 1, 1, 15),
+				new WeightedRandomChestContent(ModItems.t45_legs, 0, 1, 1, 15),
+				new WeightedRandomChestContent(ModItems.t45_boots, 0, 1, 1, 15),
+				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 10),
 				new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 3, 3),
 				new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 3, 3),
 				new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
@@ -111,7 +108,9 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 6, 3),
 				new WeightedRandomChestContent(ModItems.rod_uranium_fuel, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.rod_dual_uranium_fuel, 0, 1, 1, 2),
-				new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 2)};
+				new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 2),
+				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1)};
 	
 	/**
 	 * @param i

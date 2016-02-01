@@ -4,9 +4,13 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.world.Antenna;
+import com.hbm.world.Bunker;
 import com.hbm.world.CrashedVertibird;
 import com.hbm.world.DesertAtom001;
+import com.hbm.world.LibraryDungeon;
 import com.hbm.world.Radio01;
+import com.hbm.world.Relay;
+import com.hbm.world.Satellite;
 import com.hbm.world.Vertibird;
 
 import net.minecraft.world.World;
@@ -191,6 +195,52 @@ public class HbmWorldGen implements IWorldGenerator {
 					
 				}
 			}
+		}
+		
+		if(rand.nextInt(64) == 0)
+		{
+			int x = i + rand.nextInt(16);
+			int y = rand.nextInt(256);
+			int z = j + rand.nextInt(16);
+			new LibraryDungeon().generate(world, rand, x, y, z);
+		}
+		
+		if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert)
+		{
+			if(rand.nextInt(500) == 0)
+			{
+			for(int a = 0; a < 1; a++)
+			{
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+				
+				new Relay().generate(world, rand, x, y, z);
+			}
+			}
+		}
+		if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert)
+		{
+			if(rand.nextInt(500) == 0)
+			{
+			for(int a = 0; a < 1; a++)
+			{
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+				
+				new Satellite().generate(world, rand, x, y, z);
+			}
+			}
+		}
+		
+		if(rand.nextInt(1000) == 0)
+		{
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z);
+
+			new Bunker().generate(world, rand, x, y, z);
 		}
 
 	}
