@@ -14,8 +14,7 @@ public class ItemCustomLore extends Item {
 	{
 		if(this == ModItems.flame_pony)
 		{
-			//list.add("Stop being so grumpy, just smeel.");
-			list.add("Don't compare the color codes, you know exactly who you are!!");
+			list.add("Blue horse beats yellow horse, look it up!");
 		}
 		if(this == ModItems.flame_conspiracy)
 		{
