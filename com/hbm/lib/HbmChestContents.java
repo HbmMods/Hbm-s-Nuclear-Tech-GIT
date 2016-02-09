@@ -40,7 +40,6 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[]
 			{new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
-				new WeightedRandomChestContent(ModItems.neutron_reflector, 0, 2, 3, 3),
 				new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
 				new WeightedRandomChestContent(ModItems.circuit_schrabidium, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 2),
@@ -56,7 +55,7 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.battery_schrabidium, 1000, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.syringe_awesome, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 4),
-				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.float_bomb), 0, 1, 1, 1)};
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 3, 1)};
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[]
 			{new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),

@@ -3,6 +3,8 @@ package com.hbm.blocks;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -26,7 +28,8 @@ public class DecoBlockAlt extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon("stone");
+		//this.blockIcon = iconRegister.registerIcon("stone");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":code");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Random;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -22,6 +23,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityNukeCloudSmall;
+import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 
 public class ExplosionNukeGeneric {
 	
@@ -115,7 +118,7 @@ public class ExplosionNukeGeneric {
 		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
 		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv) && !(entity instanceof EntityMiniNuke))
+		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv) && !(entity instanceof EntityMiniNuke) && !(entity instanceof EntityPlayer && Library.checkArmor((EntityPlayer)entity, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)))
 		                {
 		                    d5 /= d9;
 		                    d6 /= d9;

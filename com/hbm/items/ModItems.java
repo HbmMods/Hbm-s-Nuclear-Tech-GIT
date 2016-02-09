@@ -164,9 +164,13 @@ public class ModItems {
 
 	public static Item syringe_empty;
 	public static Item syringe_antidote;
+	public static Item syringe_poison;
 	public static Item syringe_awesome;
 	public static Item syringe_metal_empty;
 	public static Item syringe_metal_stimpak;
+	public static Item syringe_metal_medx;
+	public static Item syringe_metal_psycho;
+	public static Item stealth_boy;
 
 	public static Item rod_empty;
 	public static Item rod_uranium;
@@ -403,6 +407,7 @@ public class ModItems {
 	public static Item prototype_kit;
 	public static Item missile_kit;
 	public static Item t45_kit;
+	public static Item euphemium_kit;
 
 	public static Item igniter;
 
@@ -564,9 +569,13 @@ public class ModItems {
 
 		syringe_empty = new Item().setUnlocalizedName("syringe_empty").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_empty");
 		syringe_antidote = new ItemSyringe().setUnlocalizedName("syringe_antidote").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_antidote");
+		syringe_poison = new ItemSyringe().setUnlocalizedName("syringe_poison").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_poison");
 		syringe_awesome = new ItemSyringe().setUnlocalizedName("syringe_awesome").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_awesome");
 		syringe_metal_empty = new Item().setUnlocalizedName("syringe_metal_empty").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_empty");
 		syringe_metal_stimpak = new ItemSyringe().setUnlocalizedName("syringe_metal_stimpak").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_stimpak");
+		syringe_metal_medx = new ItemSyringe().setUnlocalizedName("syringe_metal_medx").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_medx");
+		syringe_metal_psycho = new ItemSyringe().setUnlocalizedName("syringe_metal_psycho").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_psycho");
+		stealth_boy = new ItemStarterKit().setUnlocalizedName("stealth_boy").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":stealth_boy");
 
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod_uranium = new ItemCustomLore().setUnlocalizedName("rod_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
@@ -754,6 +763,7 @@ public class ModItems {
 		prototype_kit = new ItemStarterKit().setUnlocalizedName("prototype_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":prototype_kit");
 		missile_kit = new ItemStarterKit().setUnlocalizedName("missile_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_kit");
 		t45_kit = new ItemStarterKit().setUnlocalizedName("t45_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":t45_kit");
+		euphemium_kit = new ItemStarterKit().setUnlocalizedName("euphemium_kit").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":code");
 		
 		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":trigger");
 		ingot_euphemium = new ItemCustomLore().setUnlocalizedName("ingot_euphemium").setTextureName(RefStrings.MODID + ":ingot_euphemium");
@@ -1133,9 +1143,13 @@ public class ModItems {
 		//Syringes
 		GameRegistry.registerItem(syringe_empty, syringe_empty.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_antidote, syringe_antidote.getUnlocalizedName());
+		GameRegistry.registerItem(syringe_poison, syringe_poison.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_awesome, syringe_awesome.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_metal_empty, syringe_metal_empty.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_metal_stimpak, syringe_metal_stimpak.getUnlocalizedName());
+		GameRegistry.registerItem(syringe_metal_medx, syringe_metal_medx.getUnlocalizedName());
+		GameRegistry.registerItem(syringe_metal_psycho, syringe_metal_psycho.getUnlocalizedName());
+		GameRegistry.registerItem(stealth_boy, stealth_boy.getUnlocalizedName());
 		
 		//Food
 		GameRegistry.registerItem(bomb_waffle, bomb_waffle.getUnlocalizedName());
@@ -1225,5 +1239,6 @@ public class ModItems {
 		GameRegistry.registerItem(missile_kit, missile_kit.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_kit, grenade_kit.getUnlocalizedName());
 		GameRegistry.registerItem(t45_kit, t45_kit.getUnlocalizedName());
+		GameRegistry.registerItem(euphemium_kit, euphemium_kit.getUnlocalizedName());
 	}
 }

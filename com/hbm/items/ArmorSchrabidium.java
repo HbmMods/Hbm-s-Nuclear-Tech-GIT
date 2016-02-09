@@ -80,25 +80,25 @@ public class ArmorSchrabidium extends ItemArmor implements ISpecialArmor {
 		 
 		 if(armor.getItem() == ModItems.schrabidium_helmet)
 		 {
-			 player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 5, 0));
-			 player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 5, 9));
+			 player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 5, 0, true));
+			 player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 5, 9, true));
 		 }
 		 
 		 if(armor.getItem() == ModItems.schrabidium_plate)
 		 {
-			 player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5, 0));
-			 player.addPotionEffect(new PotionEffect(Potion.resistance.id, 5, 0));
-			 player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5, 0));
+			 player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5, 0, true));
+			 player.addPotionEffect(new PotionEffect(Potion.resistance.id, 5, 0, true));
+			 player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5, 0, true));
 		 }
 		 
 		 if(armor.getItem() == ModItems.schrabidium_legs)
 		 {
-			 player.addPotionEffect(new PotionEffect(Potion.jump.id, 5, 4));
+			 player.addPotionEffect(new PotionEffect(Potion.jump.id, 5, 4, true));
 		 }
 		 
 		 if(armor.getItem() == ModItems.schrabidium_boots)
 		 {
-			 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 4));
+			 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 4, true));
 		 }
 	}
 

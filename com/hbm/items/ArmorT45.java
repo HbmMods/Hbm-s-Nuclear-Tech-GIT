@@ -208,13 +208,13 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		{
 			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() == ModItems.t45_plate && player.inventory.armorInventory[2].stackTagCompound != null && player.inventory.armorInventory[2].stackTagCompound.getInteger("charge") > 0)
 			{
-				 player.addPotionEffect(new PotionEffect(Potion.jump.id, 1, 0));
-				 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 1, 1));
-				 player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 1, 2));
-				 player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 1, 0));
+				 player.addPotionEffect(new PotionEffect(Potion.jump.id, 5, 0, true));
+				 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 1, true));
+				 player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 5, 2, true));
+				 player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 5, 0, true));
 			} else {
-				 player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1, 1));
-				 player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 1, 0));
+				 player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5, 1, true));
+				 player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5, 0, true));
 			}
 		}
 	}

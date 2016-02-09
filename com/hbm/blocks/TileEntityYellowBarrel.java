@@ -77,7 +77,7 @@ public class TileEntityYellowBarrel extends TileEntity {
                 	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom))
                     {
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
-                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 5, 4));
+                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 20, 4));
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 1 * 60 * 20, 1));
                     }
                 }

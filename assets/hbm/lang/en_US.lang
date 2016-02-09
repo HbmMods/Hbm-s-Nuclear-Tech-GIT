@@ -310,6 +310,7 @@ item.nuke_electric_kit.name=Electronic Engineer's Kit
 item.prototype_kit.name=Prototype Kit
 item.missile_kit.name=Missile Kit
 item.t45_kit.name=T45 Power Armor Kit
+item.euphemium_kit.name=Euphemium Kit
 
 
 tile.waste_earth.name=Dead Grass
@@ -410,9 +411,14 @@ item.plate_gold.name=Gold Plate
 
 item.syringe_empty.name=Empty Syringe
 item.syringe_antidote.name=Antidote
+item.syringe_poison.name=Poisnous Injection
 item.syringe_awesome.name=AWESOME
 item.syringe_metal_empty.name=Metal Syringe
 item.syringe_metal_stimpak.name=Stimpak
+item.syringe_metal_medx.name=Med-X
+item.syringe_metal_psycho.name=Psycho
+
+item.stealth_boy.name=Stealth Device
 
 entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket

@@ -7,6 +7,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class ItemStarterKit extends Item {
@@ -314,6 +316,22 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+		}
+		
+		if(this == ModItems.stealth_boy)
+		{
+			player.addPotionEffect(new PotionEffect(Potion.invisibility.id, 30 * 20, 0, true));
+		}
+		
+		if(this == ModItems.euphemium_kit)
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_helmet, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_plate, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_legs, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_boots, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_cursed, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
 		}
 		
 		return stack;

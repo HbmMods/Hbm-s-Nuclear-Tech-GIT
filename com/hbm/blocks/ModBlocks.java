@@ -172,6 +172,14 @@ public class ModBlocks {
 	public static Block bomb_multi_large;
 	public static final int guiID_bomb_multi_large = 18;
 
+	public static Block factory_titanium_hull;
+	public static Block factory_titanium_furnace;
+	public static Block factory_titanium_core;
+	
+	public static Block factory_advanced_hull;
+	public static Block factory_advanced_furnace;
+	public static Block factory_advanced_core;
+
 	public static Block launch_pad;
 	public static Block launch_pad_generic;
 	public static Block launch_pad_incendiary;
@@ -327,8 +335,15 @@ public class ModBlocks {
 		
 		machine_coal_off = new MachineCoal(false).setBlockName("machine_coal_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		machine_coal_on = new MachineCoal(true).setBlockName("machine_coal_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
-		
+
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
+
+		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
+		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
+		factory_titanium_core = new BlockGeneric(Material.iron).setBlockName("factory_titanium_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_core");
+		factory_advanced_hull = new BlockGeneric(Material.iron).setBlockName("factory_advanced_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_advanced_hull");
+		factory_advanced_furnace = new FactoryHatch(Material.iron).setBlockName("factory_advanced_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_advanced_furnace");
+		factory_advanced_core = new BlockGeneric(Material.iron).setBlockName("factory_advanced_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_advanced_core");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad_generic = new LaunchPad(Material.iron).setBlockName("launch_pad_generic").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
@@ -481,6 +496,14 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_electric_furnace_off, machine_electric_furnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_on, machine_electric_furnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
+		
+		//Industrial Factories
+		GameRegistry.registerBlock(factory_titanium_hull, factory_titanium_hull.getUnlocalizedName());
+		GameRegistry.registerBlock(factory_titanium_furnace, factory_titanium_furnace.getUnlocalizedName());
+		GameRegistry.registerBlock(factory_titanium_core, factory_titanium_core.getUnlocalizedName());
+		GameRegistry.registerBlock(factory_advanced_hull, factory_advanced_hull.getUnlocalizedName());
+		GameRegistry.registerBlock(factory_advanced_furnace, factory_advanced_furnace.getUnlocalizedName());
+		GameRegistry.registerBlock(factory_advanced_core, factory_advanced_core.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

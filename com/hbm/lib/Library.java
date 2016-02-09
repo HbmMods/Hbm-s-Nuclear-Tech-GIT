@@ -127,7 +127,7 @@ public class Library {
 	
 	public static boolean checkForHazmat(EntityPlayer player) {
 		
-		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots))
+		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) || checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
 		{
 			return true;
 		}
@@ -146,6 +146,10 @@ public class Library {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.euphemium_helmet, 3))
 		{
 			return true;
 		}
