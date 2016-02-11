@@ -2,6 +2,8 @@ package com.hbm.main;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityBombMulti;
+import com.hbm.blocks.TileEntityCoreAdvanced;
+import com.hbm.blocks.TileEntityCoreTitanium;
 import com.hbm.blocks.TileEntityDiFurnace;
 import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.blocks.TileEntityMachineBattery;
@@ -26,6 +28,8 @@ import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.gui.ContainerBombMulti;
 import com.hbm.gui.ContainerDiFurnace;
 import com.hbm.gui.ContainerCentrifuge;
+import com.hbm.gui.ContainerCoreAdvanced;
+import com.hbm.gui.ContainerCoreTitanium;
 import com.hbm.gui.ContainerElectricFurnace;
 import com.hbm.gui.ContainerGenerator;
 import com.hbm.gui.ContainerLaunchPadTier1;
@@ -46,6 +50,8 @@ import com.hbm.gui.ContainerRtgFurnace;
 import com.hbm.gui.ContainerTestNuke;
 import com.hbm.gui.ContainerUF6Tank;
 import com.hbm.gui.GUIBombMulti;
+import com.hbm.gui.GUICoreAdvanced;
+import com.hbm.gui.GUICoreTitanium;
 import com.hbm.gui.GUILaunchPadTier1;
 import com.hbm.gui.GUIMachineBattery;
 import com.hbm.gui.GUIMachineCentrifuge;
@@ -257,6 +263,22 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerLaunchPadTier1(player.inventory, (TileEntityLaunchPad) entity);
 				}
 			}
+			
+			case ModBlocks.guiID_factory_titanium:
+			{
+				if(entity instanceof TileEntityCoreTitanium)
+				{
+					return new ContainerCoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
+				}
+			}
+			
+			case ModBlocks.guiID_factory_advanced:
+			{
+				if(entity instanceof TileEntityCoreAdvanced)
+				{
+					return new ContainerCoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -443,6 +465,22 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityLaunchPad)
 					{
 						return new GUILaunchPadTier1(player.inventory, (TileEntityLaunchPad) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_factory_titanium:
+				{
+					if(entity instanceof TileEntityCoreTitanium)
+					{
+						return new GUICoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_factory_advanced:
+				{
+					if(entity instanceof TileEntityCoreAdvanced)
+					{
+						return new GUICoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
 					}
 				}
 			}

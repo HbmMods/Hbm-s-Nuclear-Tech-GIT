@@ -245,6 +245,16 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			power -= 100;
 			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
 		}
+		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_titanium && slots[2].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_advanced && slots[2].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+		}
 		
 		//Electric Furnace
 		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof MachineElectricFurnace)

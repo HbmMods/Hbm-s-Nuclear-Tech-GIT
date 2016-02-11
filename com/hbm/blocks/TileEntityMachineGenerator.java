@@ -779,6 +779,16 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 			power -= 100;
 			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
 		}
+		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.factory_core_titanium && slots[11].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.factory_core_advanced && slots[11].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
+		}
 	}
 	
 	public void attemptPower(int i) {

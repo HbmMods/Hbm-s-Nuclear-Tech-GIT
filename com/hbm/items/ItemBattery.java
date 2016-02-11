@@ -16,7 +16,7 @@ public class ItemBattery extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		if(itemstack.getItem() != ModItems.fusion_core)
+		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced)
 		{
 			list.add("Energy stored: " + ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) + " HE");
 		} else {
@@ -39,7 +39,7 @@ public class ItemBattery extends Item {
         	return EnumRarity.rare;
     	}
 
-    	if(this == ModItems.fusion_core)
+    	if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced)
     	{
         	return EnumRarity.uncommon;
     	}

@@ -99,6 +99,17 @@ tile.launch_pad.name=Raketenabschussrampe
 container.launchPad=Raketenabschussrampe
 tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch
 
+tile.factory_titanium_hull.name=Einfache Fabrikshülle
+tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
+tile.factory_titanium_core.name=Einfache Fabrikkernkomponente
+item.factory_core_titanium.name=Einfacher Fabrikenergiecluster
+container.factoryTitanium=Einfache Fabrik
+tile.factory_advanced_hull.name=Fortgeschrittene Fabrikshülle
+tile.factory_advanced_furnace.name=Fortgeschrittene Fabrikzugriffsluke
+tile.factory_advanced_core.name=Fortgeschrittene Fabrikkernkomponente
+item.factory_core_advanced.name=Fortgeschrittene Fabrikenergiecluster
+container.factoryAdvanced=Fortgeschrittene Fabrik
+
 tile.test_nuke.name=Test Atombombe
 
 item.ingot_uranium.name=Uranbarren
@@ -124,6 +135,8 @@ item.plate_schrabidium.name=Schrabidiumplatte
 item.ingot_schrabidium.name=Schrabidiumbarren
 item.nugget_schrabidium.name=Schrabidiumnugget
 item.plate_copper.name=Kupferplatte
+item.ingot_advanced_alloy.name=Fortgeschrittene Legierung
+item.plate_advanced_alloy.name=Fortgeschrittene Legierungsplatte
 
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget

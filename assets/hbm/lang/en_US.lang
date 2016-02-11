@@ -99,6 +99,17 @@ tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Missile Launch Pad
 tile.book_guide.name=Hbm's Nuclear Tech Mod Manual
 
+tile.factory_titanium_hull.name=Basic Factory Casing
+tile.factory_titanium_furnace.name=Basic Factory Access Hatch
+tile.factory_titanium_core.name=Basic Factory Core Component
+item.factory_core_titanium.name=Basic Factory Energy Cluster
+container.factoryTitanium=Basic Factory
+tile.factory_advanced_hull.name=Advanced Factory Casing
+tile.factory_advanced_furnace.name=Advanced Factory Access Hatch
+tile.factory_advanced_core.name=Advanced Factory Core Component
+item.factory_core_advanced.name=Advanced Factory Energy Cluster
+container.factoryAdvanced=Advanced Factory
+
 tile.test_nuke.name=Test Nuke
 
 item.ingot_uranium.name=Uranium Ingot
@@ -124,6 +135,8 @@ item.plate_schrabidium.name=Schrabidium Plate
 item.ingot_schrabidium.name=Schrabidium Ingot
 item.nugget_schrabidium.name=Schrabidium Nugget
 item.plate_copper.name=Copper Plate
+item.ingot_advanced_alloy.name=Advanced Alloy Ingot
+item.plate_advanced_alloy.name=Advanced Alloy Plate
 
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget

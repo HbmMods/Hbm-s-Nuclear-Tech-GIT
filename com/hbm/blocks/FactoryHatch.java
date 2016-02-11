@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -106,22 +107,136 @@ public class FactoryHatch extends Block {
 		}
 	}
 	
-	/*@Override
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
 		{
 			return true;
 		} else if(!player.isSneaking())
 		{
-			TileEntityNukeFurnace entity = (TileEntityNukeFurnace) world.getTileEntity(x, y, z);
-			if(entity != null)
+			if(this == ModBlocks.factory_titanium_furnace)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_nuke_furnace, world, x, y, z);
+				if(world.getBlockMetadata(x, y, z) == 2)
+				{
+					if(world.getTileEntity(x, y, z + 1) instanceof TileEntityCoreTitanium)
+					{
+						if(((TileEntityCoreTitanium)world.getTileEntity(x, y, z + 1)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_titanium, world, x, y, z + 1);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Core not found!"));
+					}
+				}
+				if(world.getBlockMetadata(x, y, z) == 3)
+				{
+					if(world.getTileEntity(x, y, z - 1) instanceof TileEntityCoreTitanium)
+					{
+						if(((TileEntityCoreTitanium)world.getTileEntity(x, y, z - 1)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_titanium, world, x, y, z - 1);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Core not found!"));
+					}
+				}
+				if(world.getBlockMetadata(x, y, z) == 4)
+				{
+					if(world.getTileEntity(x + 1, y, z) instanceof TileEntityCoreTitanium)
+					{
+						if(((TileEntityCoreTitanium)world.getTileEntity(x + 1, y, z)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_titanium, world, x + 1, y, z);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Core not found!"));
+					}
+				}
+				if(world.getBlockMetadata(x, y, z) == 5)
+				{
+					if(world.getTileEntity(x - 1, y, z) instanceof TileEntityCoreTitanium)
+					{
+						if(((TileEntityCoreTitanium)world.getTileEntity(x - 1, y, z)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_titanium, world, x - 1, y, z);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Basic Factory] Error: Factory Core not found!"));
+					}
+				}
+			}
+			
+			if(this == ModBlocks.factory_advanced_furnace)
+			{
+				if(world.getBlockMetadata(x, y, z) == 2)
+				{
+					if(world.getTileEntity(x, y, z + 1) instanceof TileEntityCoreAdvanced)
+					{
+						if(((TileEntityCoreAdvanced)world.getTileEntity(x, y, z + 1)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_advanced, world, x, y, z + 1);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Core not found!"));
+					}
+				}
+				if(world.getBlockMetadata(x, y, z) == 3)
+				{
+					if(world.getTileEntity(x, y, z - 1) instanceof TileEntityCoreAdvanced)
+					{
+						if(((TileEntityCoreAdvanced)world.getTileEntity(x, y, z - 1)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_advanced, world, x, y, z - 1);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Core not found!"));
+					}
+				}
+				if(world.getBlockMetadata(x, y, z) == 4)
+				{
+					if(world.getTileEntity(x + 1, y, z) instanceof TileEntityCoreAdvanced)
+					{
+						if(((TileEntityCoreAdvanced)world.getTileEntity(x + 1, y, z)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_advanced, world, x + 1, y, z);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Core not found!"));
+					}
+				}
+				if(world.getBlockMetadata(x, y, z) == 5)
+				{
+					if(world.getTileEntity(x - 1, y, z) instanceof TileEntityCoreAdvanced)
+					{
+						if(((TileEntityCoreAdvanced)world.getTileEntity(x - 1, y, z)).isStructureValid(world))
+						{
+							FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_factory_advanced, world, x - 1, y, z);
+						} else {
+							player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Structure not valid!"));
+						}
+					} else {
+						player.addChatMessage(new ChatComponentText("[Advanced Factory] Error: Factory Core not found!"));
+					}
+				}
 			}
 			return true;
 		} else {
 			return false;
 		}
-	}*/
+	}
 
 }

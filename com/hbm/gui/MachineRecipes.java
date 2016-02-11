@@ -53,6 +53,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.canister_fuel, 1); 
 		}
 		
+
+		if(item == ModItems.ingot_red_copper && item2 == ModItems.ingot_steel || item == ModItems.ingot_steel && item2 == ModItems.ingot_red_copper) {
+			return new ItemStack(ModItems.ingot_advanced_alloy, 2); 
+		}
+		
 		return null;
 	}
 	

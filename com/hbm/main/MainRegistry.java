@@ -17,6 +17,8 @@ import cpw.mods.fml.common.ModMetadata;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityBombMulti;
+import com.hbm.blocks.TileEntityCoreAdvanced;
+import com.hbm.blocks.TileEntityCoreTitanium;
 import com.hbm.blocks.TileEntityDecoBlock;
 import com.hbm.blocks.TileEntityDecoPoleSatelliteReceiver;
 import com.hbm.blocks.TileEntityDecoPoleTop;
@@ -191,6 +193,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityYellowBarrel.class, "tileentity_nukebarrel");
 		GameRegistry.registerTileEntity(TileEntityLaunchPad.class, "tileentity_launch1");
 		GameRegistry.registerTileEntity(TileEntityDecoBlock.class, "tileentity_deco");
+		GameRegistry.registerTileEntity(TileEntityCoreTitanium.class, "tileentity_core_titanium");
+		GameRegistry.registerTileEntity(TileEntityCoreAdvanced.class, "tileentity_core_advanced");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

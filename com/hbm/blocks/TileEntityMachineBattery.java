@@ -472,6 +472,16 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 			power -= 100;
 			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
 		}
+		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.factory_core_titanium && slots[1].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.factory_core_advanced && slots[1].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
+		}
 		
 		if(/*power + 100 <= maxPower && */slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
 		{
