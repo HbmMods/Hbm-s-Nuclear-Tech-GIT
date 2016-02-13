@@ -415,6 +415,15 @@ public class ModItems {
 	public static Item euphemium_kit;
 
 	public static Item igniter;
+	
+	public static Item smoke1;
+	public static Item smoke2;
+	public static Item smoke3;
+	public static Item smoke4;
+	public static Item smoke5;
+	public static Item smoke6;
+	public static Item smoke7;
+	public static Item smoke8;
 
 	public static void initializeItem()
 	{			
@@ -814,6 +823,15 @@ public class ModItems {
 		hazmat_plate = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 1).setUnlocalizedName("hazmat_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_plate");
 		hazmat_legs = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 2).setUnlocalizedName("hazmat_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_legs");
 		hazmat_boots = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 3).setUnlocalizedName("hazmat_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_boots");
+
+		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
+		smoke2 = new Item().setUnlocalizedName("smoke2").setTextureName(RefStrings.MODID + ":smoke2");
+		smoke3 = new Item().setUnlocalizedName("smoke3").setTextureName(RefStrings.MODID + ":smoke3");
+		smoke4 = new Item().setUnlocalizedName("smoke4").setTextureName(RefStrings.MODID + ":smoke4");
+		smoke5 = new Item().setUnlocalizedName("smoke5").setTextureName(RefStrings.MODID + ":smoke5");
+		smoke6 = new Item().setUnlocalizedName("smoke6").setTextureName(RefStrings.MODID + ":smoke6");
+		smoke7 = new Item().setUnlocalizedName("smoke7").setTextureName(RefStrings.MODID + ":smoke7");
+		smoke8 = new Item().setUnlocalizedName("smoke8").setTextureName(RefStrings.MODID + ":smoke8");
 	}
 	
 	private static void registerItem() {
@@ -1254,5 +1272,15 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_kit, grenade_kit.getUnlocalizedName());
 		GameRegistry.registerItem(t45_kit, t45_kit.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_kit, euphemium_kit.getUnlocalizedName());
+		
+		//Technical Items
+		GameRegistry.registerItem(smoke1, smoke1.getUnlocalizedName());
+		GameRegistry.registerItem(smoke2, smoke2.getUnlocalizedName());
+		GameRegistry.registerItem(smoke3, smoke3.getUnlocalizedName());
+		GameRegistry.registerItem(smoke4, smoke4.getUnlocalizedName());
+		GameRegistry.registerItem(smoke5, smoke5.getUnlocalizedName());
+		GameRegistry.registerItem(smoke6, smoke6.getUnlocalizedName());
+		GameRegistry.registerItem(smoke7, smoke7.getUnlocalizedName());
+		GameRegistry.registerItem(smoke8, smoke8.getUnlocalizedName());
 	}
 }

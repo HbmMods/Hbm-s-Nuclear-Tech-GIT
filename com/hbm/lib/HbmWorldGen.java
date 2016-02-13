@@ -7,10 +7,12 @@ import com.hbm.world.Antenna;
 import com.hbm.world.Bunker;
 import com.hbm.world.CrashedVertibird;
 import com.hbm.world.DesertAtom001;
+import com.hbm.world.Factory;
 import com.hbm.world.LibraryDungeon;
 import com.hbm.world.Radio01;
 import com.hbm.world.Relay;
 import com.hbm.world.Satellite;
+import com.hbm.world.Silo;
 import com.hbm.world.Vertibird;
 
 import net.minecraft.world.World;
@@ -61,7 +63,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int randPosY = rand.nextInt(35);
 			int randPosZ = j + rand.nextInt(16);
 			
-			(new WorldGenMinable(ModBlocks.ore_sulfur, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+			(new WorldGenMinable(ModBlocks.ore_sulfur, 8)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 		
 		for (int k = 0; k < 7; k++)
@@ -241,6 +243,24 @@ public class HbmWorldGen implements IWorldGenerator {
 			int y = world.getHeightValue(x, z);
 
 			new Bunker().generate(world, rand, x, y, z);
+		}
+		
+		if(rand.nextInt(100) == 0)
+		{
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z);
+
+			new Silo().generate(world, rand, x, y, z);
+		}
+		
+		if(rand.nextInt(100) == 0)
+		{
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z);
+
+			new Factory().generate(world, rand, x, y, z);
 		}
 
 	}

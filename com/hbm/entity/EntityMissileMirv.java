@@ -1,6 +1,7 @@
 package com.hbm.entity;
 
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.particles.EntitySmokeFX;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -136,6 +137,8 @@ public class EntityMissileMirv extends EntityMissileBase {
         	}
         	break;
         }
+        
+        this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
         
         if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air)
         {

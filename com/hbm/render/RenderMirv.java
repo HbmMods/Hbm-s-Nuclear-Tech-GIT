@@ -18,7 +18,7 @@ public class RenderMirv extends Render {
 	
 	public RenderMirv() {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Mirv.png");
+		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
 	}
 
 	@Override
@@ -36,6 +36,6 @@ public class RenderMirv extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID +":textures/models/Mirv.png");
+		return new ResourceLocation(RefStrings.MODID +":textures/models/TheGadget3_.png");
 	}
 }

@@ -42,7 +42,8 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
     private ResourceLocation missileHugeBusterTexture;
     private ResourceLocation missileNuclearTexture;
     private ResourceLocation missileMirvTexture;
-    private ResourceLocation missileThermoTexture;
+    private ResourceLocation missileThermoEndoTexture;
+    private ResourceLocation missileThermoExoTexture;
 	
 	public RenderLaunchPadTier1()
     {
@@ -53,7 +54,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		missileNuclear = AdvancedModelLoader.loadModel(missileNuclearModel);
 		missileMirv = AdvancedModelLoader.loadModel(missileMirvModel);
 		missileThermo = AdvancedModelLoader.loadModel(missileThermoModel);
-		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/LaunchPad.png");
+		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
 		missileGenericTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileV2.png");
 		missileIncendiaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileIncendiary.png");
 		missileClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileCluster.png");
@@ -67,8 +68,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		missileHugeClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHugeCluster.png");
 		missileHugeBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHugeBuster.png");
 		missileNuclearTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileNuke.png");
-		missileMirvTexture = new ResourceLocation(RefStrings.MODID, "textures/models/missileMirv.png");
-		missileThermoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermal.png");
+		missileMirvTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileMirv.png");
+		missileThermoEndoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalEndo.png");
+		missileThermoExoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalExo.png");
     }
 
     @Override
@@ -177,13 +179,13 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			if(((TileEntityLaunchPad)tileEntity).state == 14)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileThermoTexture);
+				bindTexture(missileThermoEndoTexture);
 				missileThermo.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 15)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileThermoTexture);
+				bindTexture(missileThermoExoTexture);
 				missileThermo.renderAll();
 			}
 			if(((TileEntityLaunchPad)tileEntity).state == 16)

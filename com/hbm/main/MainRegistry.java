@@ -1,8 +1,10 @@
 package com.hbm.main;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -89,6 +91,7 @@ import com.hbm.entity.EntityMissileNuclear;
 import com.hbm.entity.EntityMissileRain;
 import com.hbm.entity.EntityMissileStrong;
 import com.hbm.entity.EntityNuclearCreeper;
+import com.hbm.entity.EntityNukeCloudBig;
 import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityNukeExplosion;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
@@ -98,6 +101,8 @@ import com.hbm.entity.EntityTestMissile;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.RefStrings;
+import com.hbm.particles.EntitySmokeFX;
+
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -155,7 +160,10 @@ public class MainRegistry
 		HbmWorld.mainRegistry();
 
 		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
+		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
 		enumArmorMaterialT45.customCraftingMaterial = ModItems.plate_titanium;
+		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
+		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -233,6 +241,8 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileMirv.class, "entity_missile_mirv", 34, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMirv.class, "entity_mirvlet", 35, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMiniNuke.class, "entity_mini_nuke", 36, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntitySmokeFX.class, "entity_smoke_fx", 37, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityNukeCloudBig.class, "entity_nuke_cloud_big", 38, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	}

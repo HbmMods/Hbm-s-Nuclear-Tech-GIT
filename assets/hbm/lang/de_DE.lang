@@ -107,7 +107,7 @@ container.factoryTitanium=Einfache Fabrik
 tile.factory_advanced_hull.name=Fortgeschrittene Fabrikshülle
 tile.factory_advanced_furnace.name=Fortgeschrittene Fabrikzugriffsluke
 tile.factory_advanced_core.name=Fortgeschrittene Fabrikkernkomponente
-item.factory_core_advanced.name=Fortgeschrittene Fabrikenergiecluster
+item.factory_core_advanced.name=Fortgeschrittener Fabrikenergiecluster
 container.factoryAdvanced=Fortgeschrittene Fabrik
 
 tile.test_nuke.name=Test Atombombe
@@ -173,6 +173,7 @@ tile.block_uranium.name=Uranblock
 tile.block_trinitite.name=Trinititblock
 tile.block_beryllium.name=Berylliumblock
 tile.block_waste.name=Atommüllblock
+tile.block_advanced_alloy.name=Fortgeschrittener Legierungsblock
 
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_copper.name=Kupfererz

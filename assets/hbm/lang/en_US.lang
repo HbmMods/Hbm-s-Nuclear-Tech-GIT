@@ -173,6 +173,7 @@ tile.block_uranium.name=Block of Uranium
 tile.block_trinitite.name=Block of Trinitite
 tile.block_beryllium.name=Block of Beryllium
 tile.block_waste.name=Block of Nuclear Waste
+tile.block_advanced_alloy.name=Block of Advanced Alloy
 
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_copper.name=Copper Ore

@@ -1,5 +1,7 @@
 package com.hbm.entity;
 
+import com.hbm.particles.EntitySmokeFX;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -37,14 +39,22 @@ public class EntityMirv extends EntityThrowable {
     	    	entity.posX = this.posX;
     	    	entity.posY = this.posY;
     	    	entity.posZ = this.posZ;
-    	    	entity.destructionRange = 35;
+    	    	entity.destructionRange = 100;
     	    	entity.speed = 25;
     	    	entity.coefficient = 10.0F;
     	    	
     	    	this.worldObj.spawnEntityInWorld(entity);
+
+    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
+    	    	entity2.posX = this.posX;
+    	    	entity2.posY = this.posY - 9;
+    	    	entity2.posZ = this.posZ;
+    	    	this.worldObj.spawnEntityInWorld(entity2);
     		}
     		this.setDead();
         }
+        
+        this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
 	}
 	
 	protected void rotation() {

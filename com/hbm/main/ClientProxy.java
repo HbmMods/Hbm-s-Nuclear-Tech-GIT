@@ -65,11 +65,13 @@ import com.hbm.entity.EntityMissileNuclear;
 import com.hbm.entity.EntityMissileRain;
 import com.hbm.entity.EntityMissileStrong;
 import com.hbm.entity.EntityNuclearCreeper;
+import com.hbm.entity.EntityNukeCloudBig;
 import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
 import com.hbm.items.ModItems;
+import com.hbm.particles.EntitySmokeFX;
 import com.hbm.render.ItemRenderRevolverCursed;
 import com.hbm.render.ItemRenderRevolverIron;
 import com.hbm.render.ItemRenderBigSword;
@@ -88,6 +90,8 @@ import com.hbm.render.ItemRenderSteelPoles;
 import com.hbm.render.ItemRenderTapeRecorder;
 import com.hbm.render.ItemRenderTestBombAdvanced;
 import com.hbm.render.ItemRenderTestContainer;
+import com.hbm.render.ModEffectRenderer;
+import com.hbm.render.RenderBigNuke;
 import com.hbm.render.RenderBombMulti;
 import com.hbm.render.RenderCentrifuge;
 import com.hbm.render.RenderDecoBlock;
@@ -187,6 +191,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeFleija.class, new RenderNukeFleija());
 		
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeAlt());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudBig.class, new RenderBigNuke());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());
@@ -252,6 +257,8 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_scaffold), new ItemRenderDecoBlock());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNuclearCreeper.class, new RenderNuclearCreeper());
+
+	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new ModEffectRenderer(ModItems.nuclear_waste));
 	    
 		RenderingRegistry.addNewArmourRendererPrefix("5");
 		RenderingRegistry.addNewArmourRendererPrefix("6");

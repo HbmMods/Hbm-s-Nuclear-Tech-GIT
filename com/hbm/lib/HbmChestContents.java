@@ -110,6 +110,33 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 2),
 				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1)};
+
+	private static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.missile_generic, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.missile_incendiary, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.missile_cluster, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.missile_buster, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.missile_strong, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.missile_incendiary_strong, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.missile_cluster_strong, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.missile_buster_strong, 0, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.missile_burst, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.missile_inferno, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.missile_rain, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.missile_drill, 0, 1, 1, 2),
+				new WeightedRandomChestContent(ModItems.missile_nuclear, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.missile_nuclear_cluster, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.missile_endo, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.missile_exo, 0, 1, 1, 1),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.launch_pad), 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.designator, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.thruster_small, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.thruster_medium, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.thruster_large, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.fuel_tank_medium, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5)};
 	
 	/**
 	 * @param i
@@ -121,6 +148,7 @@ public class HbmChestContents {
 	 * case 4: nukeTrash loot (U238 and Pu240 nuggets and rods)
 	 * case 5: nuclear loot (U235 and Pu239 nuggets and rods, fuel rods)
 	 * case 6: vertibrid loot (T45 power armor, fusion cores, circuits, nuclear material)
+	 * case 7: missile loot (Missiles, designators, missile parts)
 	 **/
 	
 	public static WeightedRandomChestContent[] getLoot(int i)
@@ -139,6 +167,8 @@ public class HbmChestContents {
 			return nuclear;
 		case 6:
 			return vertibird;
+		case 7:
+			return missile;
 		}
 		
 		return null;

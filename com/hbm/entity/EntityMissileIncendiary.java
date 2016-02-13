@@ -1,5 +1,9 @@
 package com.hbm.entity;
 
+import com.hbm.particles.EntitySmokeFX;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -136,6 +140,8 @@ public class EntityMissileIncendiary extends EntityMissileBase {
         	break;
         }
         
+        this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+        
         if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air)
         {
     		if(!this.worldObj.isRemote)
@@ -144,6 +150,13 @@ public class EntityMissileIncendiary extends EntityMissileBase {
     		}
 		this.setDead();
         }
+    }
+	
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance)
+    {
+        return distance < 25000;
     }
 
 }

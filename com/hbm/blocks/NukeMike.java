@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.hbm.entity.EntityNukeCloudBig;
+import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.main.MainRegistry;
 
@@ -155,6 +157,21 @@ public class NukeMike extends BlockContainer {
     		entity.coefficient = 10.0F;
     	
     		world.spawnEntityInWorld(entity);
+    		
+    		if(r < 200)
+    		{
+    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+    			entity2.posX = x;
+    			entity2.posY = y - (r / 10);
+    			entity2.posZ = z;
+    	    	world.spawnEntityInWorld(entity2);
+    		} else {
+    			EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
+    			entity2.posX = x;
+    			entity2.posY = y - (r / 10);
+    			entity2.posZ = z;
+    	    	world.spawnEntityInWorld(entity2);
+    		}
     		
     		//ExplosionNukeAdvanced.mush(world, x, y, z);
     	}

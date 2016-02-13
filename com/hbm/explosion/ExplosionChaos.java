@@ -640,7 +640,7 @@ public class ExplosionChaos {
 	}
 	
 	public static void mirv(World world, double x, double y, double z) {
-		double modifier = 1.0;
+		double modifier = 2.5;
     	double zeta = Math.sqrt(2)/2;
     	double theta = Math.sqrt(1 - Math.pow(0.5, 2));
     	EntityMirv mirv1 = new EntityMirv(world);

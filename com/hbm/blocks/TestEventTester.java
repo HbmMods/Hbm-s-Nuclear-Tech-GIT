@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionParticle;
+import com.hbm.particles.EntitySmokeFX;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -37,7 +40,10 @@ public class TestEventTester extends Block {
         	//Thelaser thread is too dangerous to use right now
         	//ThreadLaser laser = new ThreadLaser(p_149695_1_, x, y, z, "north");
         	//laser.start();
-			ExplosionChaos.frag(p_149695_1_, x, y + 2, z, 10, false, null);
+			//ExplosionChaos.frag(p_149695_1_, x, y + 2, z, 10, false, null);
+        	//EntitySmokeFX smoke = new EntitySmokeFX(p_149695_1_, x + 0.5, y + 1, z + 0.5, 0.0, 0.0, 0.0);
+        	//p_149695_1_.spawnEntityInWorld(smoke);
+        	ExplosionParticle.spawnMush(p_149695_1_, x, y, z);
 			//mirv(this.worldObj, x, y + 20, z);
         	//killEvent(p_149695_1_, x, y, z);
         	/*EntityNuclearCreeper e = new EntityNuclearCreeper(p_149695_1_);

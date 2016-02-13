@@ -3,6 +3,7 @@ package com.hbm.entity;
 import java.util.HashSet;
 import java.util.List;
 
+import com.hbm.explosion.ExplosionParticle;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -437,6 +438,8 @@ public class EntityNuclearCreeper extends EntityMob {
     	    	entity2.posY = this.posY - 11;
     	    	entity2.posZ = this.posZ;
     	    	this.worldObj.spawnEntityInWorld(entity2);
+            } else {
+            	ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
             }
 
             this.setDead();

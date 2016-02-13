@@ -41,24 +41,28 @@ public class ModelT45Boots extends ModelBiped
       Shape1.setTextureSize(64, 32);
       Shape1.mirror = true;
       setRotation(Shape1, 0F, 0F, 0F);
+      convertToChild(leftleg, Shape1);
       Shape2 = new ModelRenderer(this, 0, 8);
       Shape2.addBox(0F, 0F, 0F, 4, 2, 6);
       Shape2.setRotationPoint(0F - 2, 0F + 9.5F, -4F);
       Shape2.setTextureSize(64, 32);
       Shape2.mirror = true;
       setRotation(Shape2, 0F, 0F, 0F);
+      convertToChild(rightleg, Shape2);
       Shape3 = new ModelRenderer(this, 0, 16);
       Shape3.addBox(0F, -1F, 0F, 4, 2, 4);
       Shape3.setRotationPoint(-4F + 2, 0F + 9.5F, -4F);
       Shape3.setTextureSize(64, 32);
       Shape3.mirror = true;
       setRotation(Shape3, 0.2617994F, 0F, 0F);
+      convertToChild(leftleg, Shape3);
       Shape4 = new ModelRenderer(this, 0, 22);
       Shape4.addBox(0F, -1F, 0F, 4, 2, 4);
       Shape4.setRotationPoint(0F - 2, 0F + 9.5F, -4F);
       Shape4.setTextureSize(64, 32);
       Shape4.mirror = true;
       setRotation(Shape4, 0.2617994F, 0F, 0F);
+      convertToChild(rightleg, Shape4);
   }
   
  /*public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
@@ -117,14 +121,28 @@ public void render(Entity par1Entity, float par2, float par3, float par4, float 
 	setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
     GL11.glPushMatrix();
     GL11.glScalef(1.125F, 1.125F, 1.125F);
-    this.leftleg.addChild(Shape1);
-    this.leftleg.addChild(Shape3);
+    //this.leftleg.addChild(Shape1);
+    //this.leftleg.addChild(Shape3);
     this.leftleg.render(par7);
     
-    this.rightleg.addChild(Shape2);
-    this.rightleg.addChild(Shape4);
+    //this.rightleg.addChild(Shape2);
+    //this.rightleg.addChild(Shape4);
     this.rightleg.render(par7);
     GL11.glPopMatrix();
+  }
+  
+  protected void convertToChild(ModelRenderer parParent, ModelRenderer parChild)
+  {
+     // move child rotation point to be relative to parent
+     parChild.rotationPointX -= parParent.rotationPointX;
+     parChild.rotationPointY -= parParent.rotationPointY;
+     parChild.rotationPointZ -= parParent.rotationPointZ;
+     // make rotations relative to parent
+     parChild.rotateAngleX -= parParent.rotateAngleX;
+     parChild.rotateAngleY -= parParent.rotateAngleY;
+     parChild.rotateAngleZ -= parParent.rotateAngleZ;
+     // create relationship
+     parParent.addChild(parChild);
   }
 
 }
