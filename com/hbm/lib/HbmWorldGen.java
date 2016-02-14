@@ -245,7 +245,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			new Bunker().generate(world, rand, x, y, z);
 		}
 		
-		if(rand.nextInt(100) == 0)
+		if(rand.nextInt(1000) == 0)
 		{
 			int x = i + rand.nextInt(16);
 			int z = j + rand.nextInt(16);
@@ -254,7 +254,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			new Silo().generate(world, rand, x, y, z);
 		}
 		
-		if(rand.nextInt(100) == 0)
+		if(rand.nextInt(1000) == 0)
 		{
 			int x = i + rand.nextInt(16);
 			int z = j + rand.nextInt(16);

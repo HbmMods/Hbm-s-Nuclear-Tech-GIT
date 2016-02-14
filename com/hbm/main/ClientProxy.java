@@ -41,6 +41,7 @@ import com.hbm.entity.EntityGrenadeFlare;
 import com.hbm.entity.EntityGrenadeFrag;
 import com.hbm.entity.EntityGrenadeGas;
 import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityGrenadeNuke;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
@@ -183,6 +184,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGas.class, new RenderSnowball(ModItems.grenade_gas));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeSchrabidium.class, new RenderSnowball(ModItems.grenade_schrabidium));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuke.class, new RenderSnowball(ModItems.grenade_nuke));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 

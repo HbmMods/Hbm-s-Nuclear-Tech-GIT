@@ -3,6 +3,9 @@ itemGroup.tabParts=Nuclear Tech Mod Bauteile
 itemGroup.tabBlocks=Nuclear Tech Mod Blöcke
 itemGroup.tabNuke=Nuclear Tech Mod Bomben
 
+death.attack.nuclearBlast=%1$s wurde von einer Atomexplosion weggeblasen.
+death.attack.revolverBullet=%1$s wurde von %2$s in den Kopf geschossen.
+
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
 item.test_nuke_igniter.name=Zünder
@@ -356,6 +359,7 @@ item.grenade_poison.name=Giftgranate
 item.grenade_gas.name=Gasgranate
 item.grenade_schrabidium.name=Schrabidiumgranate
 item.grenade_nuke.name=Mark VI Bohrgranate
+item.grenade_nuclear.name=Nuka-Granate
 
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
@@ -535,9 +539,9 @@ item.warhead_mirvlet.name=MIRV
 item.warhead_mirv.name=Achtfacher MIRV-Sprengkopf
 item.warhead_thermo_endo.name=Endothermischer Sprengkopf
 item.warhead_thermo_exo.name=Exothermischer Sprengkopf
-item.fuel_tank_small.name=Kleiner Triebstofftank
-item.fuel_tank_medium.name=Mittlerer Triebstofftank
-item.fuel_tank_large.name=Großer Triebstofftank
+item.fuel_tank_small.name=Kleiner Treibstofftank
+item.fuel_tank_medium.name=Mittlerer Treibstofftank
+item.fuel_tank_large.name=Großer Treibstofftank
 item.thruster_small.name=Kleines Raketentriebwerk
 item.thruster_medium.name=Mittleres Raketentriebwerk
 item.thruster_large.name=Großes Raketentriebwerk

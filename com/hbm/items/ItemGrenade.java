@@ -7,6 +7,7 @@ import com.hbm.entity.EntityGrenadeFlare;
 import com.hbm.entity.EntityGrenadeFrag;
 import com.hbm.entity.EntityGrenadeGas;
 import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityGrenadeNuke;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
@@ -84,6 +85,10 @@ public class ItemGrenade extends Item {
         	if(this == ModItems.grenade_nuke)
         	{
         		p_77659_2_.spawnEntityInWorld(new EntityGrenadeNuke(p_77659_2_, p_77659_3_));
+        	}
+        	if(this == ModItems.grenade_nuclear)
+        	{
+        		p_77659_2_.spawnEntityInWorld(new EntityGrenadeNuclear(p_77659_2_, p_77659_3_));
         	}
         }
 

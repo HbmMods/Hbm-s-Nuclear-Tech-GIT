@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -79,7 +80,7 @@ public class Factory extends WorldGenerator
 
 	public boolean generate_r0(World world, Random rand, int x, int y, int z)
 	{
-		if(!LocationIsValidSpawn(world, x, y, z) || !LocationIsValidSpawn(world, x + 14, y, z) || !LocationIsValidSpawn(world, x + 14, y, z + 29) || !LocationIsValidSpawn(world, x, y, z + 29))
+		if(!LocationIsValidSpawn(world, x + 7, y, z + 15))
 		{
 			return false;
 		}
@@ -3119,6 +3120,8 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 17, y + 43, z + 10, Blocks.web, 0, 3);
 		world.setBlock(x + 18, y + 43, z + 10, Blocks.web, 0, 3);
 		world.setBlock(x + 17, y + 43, z + 11, Blocks.web, 0, 3);
+		if(MainRegistry.enableDebugMode)
+			System.out.print("[Debug] Successfully spawned abandoned factory at " + x + " " + y +" " + z + "\n");
 		return true;
 
 	}

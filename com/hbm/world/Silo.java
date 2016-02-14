@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -80,7 +81,7 @@ public class Silo extends WorldGenerator
 
 	public boolean generate_r0(World world, Random rand, int x, int y, int z)
 	{
-		if(!LocationIsValidSpawn(world, x, y, z) || !LocationIsValidSpawn(world, x + 20, y, z) || !LocationIsValidSpawn(world, x + 20, y, z + 19) || !LocationIsValidSpawn(world, x, y, z + 19))
+		if(!LocationIsValidSpawn(world, x + 10, y, z + 10))
 		{
 			return false;
 		}
@@ -2510,6 +2511,8 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 9, y + -1, z + 2, Blocks.ladder, 3, 3);
 		world.setBlock(x + 9, y + 0, z + 2, Blocks.ladder, 3, 3);
 		world.setBlock(x + 9, y + 1, z + 2, Blocks.ladder, 3, 3);
+		if(MainRegistry.enableDebugMode)
+			System.out.print("[Debug] Successfully spawned missile silo at " + x + " " + y +" " + z + "\n");
 		return true;
 
 	}

@@ -310,6 +310,7 @@ public class ModItems {
 	public static Item grenade_gas;
 	public static Item grenade_schrabidium;
 	public static Item grenade_nuke;
+	public static Item grenade_nuclear;
 
 	public static Item bomb_waffle;
 	public static Item schnitzel_vegan;
@@ -718,6 +719,7 @@ public class ModItems {
 		grenade_gas = new ItemGrenade().setUnlocalizedName("grenade_gas").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_gas");
 		grenade_schrabidium = new ItemGrenade().setUnlocalizedName("grenade_schrabidium").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_schrabidium");
 		grenade_nuke = new ItemGrenade().setUnlocalizedName("grenade_nuke").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_nuke");
+		grenade_nuclear = new ItemGrenade().setUnlocalizedName("grenade_nuclear").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_nuclear");
 
 		bomb_waffle = new ItemWaffle(20, false).setUnlocalizedName("bomb_waffle").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":bomb_waffle");
 		schnitzel_vegan = new ItemSchnitzelVegan(0, true).setUnlocalizedName("schnitzel_vegan").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":schnitzel_vegan");
@@ -1164,6 +1166,7 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_schrabidium, grenade_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuke, grenade_nuke.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
 		
 		//Tools
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());

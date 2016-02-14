@@ -34,7 +34,7 @@ public class MachineRecipes {
 		}
 		
 
-		if(item == ModItems.plate_lead && item2 == ModItems.ingot_copper || item == ModItems.ingot_copper && item2 == ModItems.plate_lead) {
+		if(item == ModItems.plate_lead && item2 == ModItems.plate_copper || item == ModItems.plate_copper && item2 == ModItems.plate_lead) {
 			return new ItemStack(ModItems.neutron_reflector, 1); 
 		}
 		

@@ -3,6 +3,9 @@ itemGroup.tabParts=Nuclear Tech Mod Parts
 itemGroup.tabBlocks=Nuclear Tech Mod Blocks
 itemGroup.tabNuke=Nuclear Tech Mod Nukes
 
+death.attack.nuclearBlast=%1$s was blown away by a nuclear explosion.
+death.attack.revolverBullet=%1$s was shot in the head by %2$s.
+
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
 item.test_nuke_igniter.name=Igniter
@@ -357,6 +360,7 @@ item.grenade_poison.name=Poison Grenade
 item.grenade_gas.name=Gas Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
 item.grenade_nuke.name=Mark VI Drill Grenade
+item.grenade_nuclear.name=Nuka Grenade
 
 item.rod_uranium_fuel.name=Uranium Fuel Rod
 item.rod_dual_uranium_fuel.name=Uranium Dual Fuel Rod

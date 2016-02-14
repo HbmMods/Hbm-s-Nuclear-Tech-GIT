@@ -392,6 +392,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_poison, 2), new Object[] { " G ", "PGP", " P ", 'G', ModItems.grenade_generic, 'P', ModItems.powder_poison });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_gas, 2), new Object[] { " G ", "CGC", " C ", 'G', ModItems.grenade_generic, 'C', ModItems.pellet_gas });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_schrabidium, 2), new Object[] { " G ", "CFC", " C ", 'G', ModItems.grenade_generic, 'C', ModItems.ingot_schrabidium, 'F', ModItems.grenade_flare });
+		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_nuclear, 1), new Object[] {"RS ", "ITI", " I ", 'I', ModItems.plate_iron, 'R', ModItems.wire_red_copper, 'S', ModItems.plate_steel, 'T', ModItems.gun_fatman_ammo });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.bomb_waffle, 1), new Object[] { "WEW", "MPM", "WEW", 'W', Items.wheat, 'E', Items.egg, 'M', Items.milk_bucket, 'P', ModItems.man_core });
 		GameRegistry.addRecipe(new ItemStack(ModItems.schnitzel_vegan, 3), new Object[] { "RWR", "WPW", "RWR", 'W', ModItems.trinitite, 'R', Items.reeds, 'P', Items.pumpkin_seeds });
@@ -475,20 +476,6 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_advanced, 1, 200), new Object[] { " A ", "PLP", "PSP", 'A', ModItems.wire_red_copper, 'P', ModItems.plate_copper, 'S', ModItems.sulfur, 'L', ModItems.powder_lead });
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_schrabidium, 1, 1000), new Object[] { " A ", "PNP", "PSP", 'A', ModItems.wire_schrabidium, 'P', ModItems.plate_schrabidium, 'S', ModItems.powder_schrabidium, 'N', ModItems.powder_neptunium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.battery_schrabidium, 1, 1000), new Object[] { " A ", "PSP", "PNP", 'A', ModItems.wire_schrabidium, 'P', ModItems.plate_schrabidium, 'S', ModItems.powder_schrabidium, 'N', ModItems.powder_neptunium });
-
-		GameRegistry.addRecipe(new ItemStack(ModItems.nuke_starter_kit, 1), new Object[] { " P ", "ISI", "III", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.nuke_advanced_kit, 1), new Object[] { " P ", "ISI", "III", 'P', ModItems.plate_steel, 'I', ModItems.plate_schrabidium, 'S', ModItems.ingot_schrabidium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.nuke_commercially_kit, 1), new Object[] { " P ", "ISI", "III", 'P', ModItems.plate_steel, 'I', ModItems.plate_copper, 'S', ModItems.ingot_schrabidium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.nuke_electric_kit, 1), new Object[] { " P ", "ISI", "III", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium });
-		GameRegistry.addRecipe(new ItemStack(ModItems.gadget_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_titanium, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_gadget) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.boy_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_boy) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.man_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_man) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.mike_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_mike) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.tsar_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_tsar) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.fleija_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_fleija) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.multi_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.bomb_multi) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', ModItems.grenade_generic });
-		GameRegistry.addRecipe(new ItemStack(ModItems.prototype_kit, 1), new Object[] { " P ", "ISI", "IDI", 'P', ModItems.plate_steel, 'I', ModItems.plate_iron, 'S', ModItems.ingot_schrabidium, 'D', Item.getItemFromBlock(ModBlocks.nuke_prototype) });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_schrabidium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_schrabidium });

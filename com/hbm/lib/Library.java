@@ -28,6 +28,8 @@ public class Library {
 	public static String book112 = "§lBeryllium§r\nBeryllium is an ingot which can be simply obtained from it's ore. Beryllium is used for Schrabidium-fuel and plutonium cores.";
 	public static String book113 = "§lLead§r\nLead is a very common ore that can be smelted into an ingot. It can be used to craft breeding reactors, RTG-Units and if combined with copper in the alloy furnace, it can be processed into neutron reflectors.";
 	public static String book114 = "§lSchrabidium§r\nSchrabidium is a very odd element only found near nuclear testing sites. It has violent behaviours if used the right way, making it perfect for bombs. If a big ammount is hit by neutrons, it will create other elements.";
+	public static String book115 = "§lAdvanced Alloy§r\nThe advanced alloy is a very durable and useful material, only used for the best factories which can handle four operations at once. It is composed of Minecraft grade copper and steel, combined by an alloy furnace.";
+	public static String book116 = "§lFuel§r\nFuel is obtained by combining an empty canister and a coal block in the alloy furnace. It is used for crafting explosive barrels and missiles.";
 	
 	public static String book21 = "§lMachines§r\nAs an essential part of technic mods, Hbm's Nuclear Tech Mod also features many machines. They are either used to smelt or refine items or to store hazardous materials or even generate electricity.";
 	public static String book22 = "§lAlloy Furnace§r\nThe alloy furnace is the most importand machine as it is used to create alloys like red copper or neutron reflectors. It uses different kinds of fuel such as coal, netherrack, lava or even redstone.";
@@ -42,6 +44,8 @@ public class Library {
 	public static String book211 = "§lEnergy Storage Block§r\nThis battery block will collect electricity from wires. Applying a redstone signal will prevent it from getting more energy and make it release it's electricity again.";
 	public static String book212 = "§lElectric Furnace§r\nThe electric furnace works like a normal furnace, but uses electricity instead of fuel items. It can be powered either with wires or with battery items.";
 	public static String book213 = "§lDeuterium Extractor§r\nThis machine needs electricity, water, sulfur and empty cells to extract deuterium from the water. Water will deplete much faster than sulfur.";
+	public static String book214 = "§lFactories§r\nFactories are big 3x3x3 furnaces on steroids. Depending on what type you use, it can smelt 2 or 4 items at the same time, while having nine additional in and output slots!";
+	public static String book215 = "§lFactory Schematics§r\nX - Factory Casing\n# - Factory Hatch\nO - Factory Core\n\nXXX X#X XXX\nXXX #O# XXX\nXXX X#X XXX";
 
 	public static String book31 = "§lBombs§r\nThis mod also features many different bombs, some of them work like regular TNT, others are nukes and need additional items to ignite.";
 	public static String book32 = "§lThe Gadget§r\nThe Gadget was the first functional nuclear explosive ever built. It needs four special propellants, a plutonium core and a cable drum. It's crater has a radius up to 150 meters.";
@@ -72,10 +76,19 @@ public class Library {
 	public static String book46 = "§lEndothermic Missile§rA tier 3 missile which works exactly like an endothermic bomb, but has double the effect radius.";
 	public static String book47 = "§lExothermic Missile§rAnother tier 3 missile with an exothermic warhead and double the radius of it's stationary counterpart.";
 	public static String book48 = "§lNuclear Missile§rIt's basically a small nuke mounted on a missile. It has an explosion radius of 100 meters, making it the smallest nuke (next to the waffle of mass destruction, the nuclear creeper and the MIRV.)";
-	public static String book49 = "§lNuclear MIRV Missile§rThe nuclear MIRV is the most destructive intercontinental ballistic missile ever created. It combines a cluster bomb with the destructive force of a nuke, splitting into four small warheads just before impact.";
+	public static String book49 = "§lNuclear MIRV Missile§rThe nuclear MIRV is the most destructive intercontinental ballistic missile ever created. It combines a cluster bomb with the destructive force of a nuke, splitting into eight small warheads just before impact.";
 
-	public static String book51 = "§lMisc§rNext to nuclear technology and weapons of mass destruction, this mod also offers some gimmicks, handguns, different armor sets, randomly generated dungeons and more! (Please, do not touch any objects you don't know. You will probably explode and die.)";
+	public static String book51 = "§lMisc§r\nNext to nuclear technology and weapons of mass destruction, this mod also offers some gimmicks, handguns, different armor sets, randomly generated dungeons and more! (Please, do not touch any objects you don't know. You will probably explode and die.)";
+	public static String book52 = "§lRevolvers§r\nLike in the good old Western films, you can shoot with your own revolver! There are four different tiers of revolvers, dealing about 5 - infinite damage, depending on the tier. Note: A revolver can not hurt mobs like the ender dragon!";
+	public static String book53 = "§lRPG§r\nTo use the RPG, charge it like a bow and release the charge when it reached it's maximum. The rocket will cause a small explosion about half the size of a creeper's explosion.";
+	public static String book54 = "§lNuke Launcher§r\nThe M42 NNuclear Catapult \"Fat Man\" is the perfect christmas present for every small child! It shoots small tactical nuclear warheads causing chaos and destrucion. (What did you expect?)";
+	public static String book55 = "§lGrenades§r\nA renade are a very easy-to-use type of explosive. Simply throw it like a snowball and watch the explosion. Remember: Never, NEVER throw a Schrabidium Grenade.";
+	public static String book56 = "§lSyringes§r\nDon't do drugs! (except in Minecraft) Need some health? Take a Stimpak. You demand damage resistance? Inject a Med-X. Want to go nuts? Take AWESOME (only one dose per hour will help) Warning: Hitting enemies with syinges will give them the effect!";
+	public static String book57 = "§lMobile Stealth Device§r\nThis useful machine will make you invisibile, even without the annoying particles! Just remember that the effect will wear off in 30 seconds, so don't rely too much on it.";
+	public static String book58 = "§lFood§r\nSurprisingly enough, this mod offers a great variety of different food. Be sure not to eat anything, you may explode/combust/die of radiation poisoning/starve to death/experience a rare case of waffles taking over the world.";
 
+	public static String book61;
+	
 	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
 		
 		if(player.inventory.armorInventory[0] != null && 

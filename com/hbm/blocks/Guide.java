@@ -168,6 +168,8 @@ public class Guide extends Block {
 			pages1.appendTag(new NBTTagString(Library.book112));
 			pages1.appendTag(new NBTTagString(Library.book113));
 			pages1.appendTag(new NBTTagString(Library.book114));
+			pages1.appendTag(new NBTTagString(Library.book115));
+			pages1.appendTag(new NBTTagString(Library.book116));
 			book1.stackTagCompound.setTag("pages", pages1);
 			player.inventory.addItemStackToInventory(book1);
 			
@@ -189,6 +191,8 @@ public class Guide extends Block {
 			pages2.appendTag(new NBTTagString(Library.book211));
 			pages2.appendTag(new NBTTagString(Library.book212));
 			pages2.appendTag(new NBTTagString(Library.book213));
+			pages2.appendTag(new NBTTagString(Library.book214));
+			pages2.appendTag(new NBTTagString(Library.book215));
 			book2.stackTagCompound.setTag("pages", pages2);
 			player.inventory.addItemStackToInventory(book2);
 			
@@ -242,7 +246,11 @@ public class Guide extends Block {
 			book5.stackTagCompound.setString("author", "HbMinecraft");
 			book5.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 5: Misc");
 			NBTTagList pages5 = new NBTTagList();
-			pages5.appendTag(new NBTTagString(Library.book41));
+			pages5.appendTag(new NBTTagString(Library.book51));
+			pages5.appendTag(new NBTTagString(Library.book52));
+			pages5.appendTag(new NBTTagString(Library.book53));
+			pages5.appendTag(new NBTTagString(Library.book54));
+			pages5.appendTag(new NBTTagString(Library.book55));
 			book5.stackTagCompound.setTag("pages", pages5);
 			player.inventory.addItemStackToInventory(book5);
 			

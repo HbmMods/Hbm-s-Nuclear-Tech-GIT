@@ -20,11 +20,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.DecoBlockAlt;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 
 public class ExplosionNukeGeneric {
 	
@@ -118,7 +120,7 @@ public class ExplosionNukeGeneric {
 		                d6 = entity.posY + entity.getEyeHeight() - y;
 		                d7 = entity.posZ - z;
 		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv) && !(entity instanceof EntityMiniNuke) && !(entity instanceof EntityPlayer && Library.checkArmor((EntityPlayer)entity, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)))
+		                if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall) && !(entity instanceof EntityMirv) && !(entity instanceof EntityMiniNuke) && !(entity instanceof EntityGrenadeNuclear) && !(entity instanceof EntityPlayer && Library.checkArmor((EntityPlayer)entity, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)))
 		                {
 		                    d5 /= d9;
 		                    d6 /= d9;
@@ -128,8 +130,9 @@ public class ExplosionNukeGeneric {
 		                    double d11 = (1.0D - d4);// * d10;
 		                    if(!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP && ((EntityPlayerMP)entity).theItemInWorldManager.getGameType() != GameType.CREATIVE))
 		                    {
-		                    	entity.attackEntityFrom(DamageSource.generic, ((int)((d11 * d11 + d11) / 2.0D * 8.0D * bombStartStrength + 1.0D)));
-		                    	entity.setFire(30);
+		                    	//entity.attackEntityFrom(DamageSource.generic, ((int)((d11 * d11 + d11) / 2.0D * 8.0D * bombStartStrength + 1.0D)));
+		                    	entity.attackEntityFrom(ModDamageSource.nuclearBlast, 2.5F);
+		                    	entity.setFire(5);
 		                    	double d8 = EnchantmentProtection.func_92092_a(entity, d11);
 		                    	entity.motionX += d5 * d8;
 		                    	entity.motionY += d6 * d8;

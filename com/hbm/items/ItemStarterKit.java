@@ -236,6 +236,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gas, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_schrabidium, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuke, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuclear, 16));
 		}
 		
 		if(this == ModItems.fleija_kit)

@@ -64,10 +64,6 @@ public class EntitySmokeFX extends EntityModFX
             this.setDead();
         }
 
-        //his.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
-        //this.motionY += 0.004D;
-        //this.moveEntity(this.motionX, this.motionY, this.motionZ);
-
         this.motionX *= 0.9599999785423279D;
         this.motionY *= 0.9599999785423279D;
         this.motionZ *= 0.9599999785423279D;

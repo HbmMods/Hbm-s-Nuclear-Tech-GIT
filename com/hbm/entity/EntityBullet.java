@@ -26,6 +26,7 @@ import com.hbm.blocks.DecoBlockAlt;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.RedBarrel;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -313,7 +314,6 @@ public class EntityBullet extends Entity implements IProjectile
                 if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer && !((EntityPlayer)this.shootingEntity).canAttackPlayer(entityplayer))
                 {
                     movingobjectposition = null;
-                    entityplayer.attackEntityFrom(DamageSource.generic, dmgMin + rand.nextInt(dmgMax - dmgMin));
                 }
             }
 
@@ -336,11 +336,11 @@ public class EntityBullet extends Entity implements IProjectile
 
                     if (this.shootingEntity == null)
                     {
-                        damagesource = DamageSource.causeIndirectMagicDamage(this, this);
+                        damagesource = ModDamageSource.causeBulletDamage(this, this);
                     }
                     else
                     {
-                        damagesource = DamageSource.causeIndirectMagicDamage(this, this);
+                        damagesource = ModDamageSource.causeBulletDamage(this, shootingEntity);
                     }
 
                     if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))

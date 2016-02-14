@@ -65,42 +65,42 @@ public class ModEffectRenderer extends Render
     	{
     		EntitySmokeFX fx = (EntitySmokeFX)p_76986_1_;
 
-    		if(fx.particleAge < fx.maxAge)
+    		if(fx.particleAge < fx.maxAge && fx.particleAge >= fx.maxAge / 8 * 7)
     		{
     			field_94151_a = ModItems.smoke8;
     		}
 
-    		if(fx.particleAge < fx.maxAge / 8 * 7)
+    		if(fx.particleAge < fx.maxAge / 8 * 7 && fx.particleAge >= fx.maxAge / 8 * 6)
     		{
     			field_94151_a = ModItems.smoke7;
     		}
 
-    		if(fx.particleAge < fx.maxAge / 8 * 6)
+    		if(fx.particleAge < fx.maxAge / 8 * 6 && fx.particleAge >= fx.maxAge / 8 * 5)
     		{
     			field_94151_a = ModItems.smoke6;
     		}
 
-    		if(fx.particleAge < fx.maxAge / 8 * 5)
+    		if(fx.particleAge < fx.maxAge / 8 * 5 && fx.particleAge >= fx.maxAge / 8 * 4)
     		{
     			field_94151_a = ModItems.smoke5;
     		}
 
-    		if(fx.particleAge < fx.maxAge / 8 * 4)
+    		if(fx.particleAge < fx.maxAge / 8 * 4 && fx.particleAge >= fx.maxAge / 8 * 3)
     		{
     			field_94151_a = ModItems.smoke4;
     		}
 
-    		if(fx.particleAge < fx.maxAge / 8 * 3)
+    		if(fx.particleAge < fx.maxAge / 8 * 3 && fx.particleAge >= fx.maxAge / 8 * 2)
     		{
     			field_94151_a = ModItems.smoke3;
     		}
 
-    		if(fx.particleAge < fx.maxAge / 8 * 2)
+    		if(fx.particleAge < fx.maxAge / 8 * 2 && fx.particleAge >= fx.maxAge / 8 * 1)
     		{
     			field_94151_a = ModItems.smoke2;
     		}
     		
-    		if(fx.particleAge < fx.maxAge / 8)
+    		if(fx.particleAge < fx.maxAge / 8 && fx.particleAge >= 0)
     		{
     			field_94151_a = ModItems.smoke1;
     		}
