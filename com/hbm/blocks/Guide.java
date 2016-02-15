@@ -251,6 +251,9 @@ public class Guide extends Block {
 			pages5.appendTag(new NBTTagString(Library.book53));
 			pages5.appendTag(new NBTTagString(Library.book54));
 			pages5.appendTag(new NBTTagString(Library.book55));
+			pages5.appendTag(new NBTTagString(Library.book56));
+			pages5.appendTag(new NBTTagString(Library.book57));
+			pages5.appendTag(new NBTTagString(Library.book58));
 			book5.stackTagCompound.setTag("pages", pages5);
 			player.inventory.addItemStackToInventory(book5);
 			

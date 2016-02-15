@@ -1,6 +1,7 @@
 package com.hbm.items;
 
 import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.explosion.ExplosionParticle;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -24,6 +25,8 @@ public class ItemWaffle extends ItemFood {
     	explosion.posY = player.posY;
     	explosion.posZ = player.posZ;
     	world.spawnEntityInWorld(explosion);
+    	
+    	ExplosionParticle.spawnMush(world, (int)player.posX, (int)player.posY - 3, (int)player.posZ);
     }
 
 }

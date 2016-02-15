@@ -371,16 +371,18 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_rpg, 1), new Object[] { "SSW", " S ", 'S', ModItems.plate_steel, 'W', Item.getItemFromBlock(Blocks.log) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_rpg_ammo, 8), new Object[] { "SI ", "ITI", " I ", 'S', ModItems.plate_steel, 'T', Item.getItemFromBlock(Blocks.tnt), 'I', ModItems.plate_iron });
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_steel, 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_red_copper });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_steel, 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_ammo, 16), new Object[] { "L", "S", 'L', ModItems.plate_lead, 'S', Items.gunpowder });
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_iron, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_iron, 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_red_copper });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_iron, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_iron, 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_iron_ammo, 16), new Object[] { "L", "S", 'L', ModItems.plate_iron, 'S', Items.gunpowder });
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_gold, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_gold, 'W', Items.gold_ingot, 'R', ModItems.wire_red_copper });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_gold, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_gold, 'W', Items.gold_ingot, 'R', ModItems.wire_gold });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_gold_ammo, 16), new Object[] { "L", "S", 'L', ModItems.plate_gold, 'S', Items.gunpowder });
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_schrabidium, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_schrabidium, 'W', ModItems.ingot_tungsten, 'R', ModItems.wire_red_copper });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_schrabidium, 1), new Object[] { "SSS", " RW", 'S', ModItems.plate_schrabidium, 'W', ModItems.ingot_tungsten, 'R', ModItems.wire_schrabidium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_schrabidium_ammo, 16), new Object[] { "L", "S", 'L', ModItems.plate_schrabidium, 'S', Items.gunpowder });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_cursed, 1), new Object[] { "TTT", "SRI", 'S', ModItems.plate_steel, 'I', ModItems.ingot_steel, 'R', ModItems.wire_red_copper, 'T', ModItems.plate_titanium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_cursed_ammo, 16), new Object[] { "L", "S", 'L', ModItems.plate_steel, 'S', Items.gunpowder });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_fatman, 1), new Object[] { "SSI", "III", "WPH", 'S', ModItems.plate_steel, 'I', ModItems.ingot_steel, 'W', ModItems.wire_aluminium, 'H', ModItems.hull_small_steel, 'P', Item.getItemFromBlock(Blocks.piston) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_fatman_ammo, 2), new Object[] { " S ", "SPS", "ITI", 'S', ModItems.plate_steel, 'P', ModItems.ingot_pu239, 'T', Item.getItemFromBlock(Blocks.tnt), 'I', ModItems.plate_iron });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_generic, 4), new Object[] { "RS ", "ITI", " I ", 'I', ModItems.plate_iron, 'R', ModItems.wire_red_copper, 'S', ModItems.plate_steel, 'T', Item.getItemFromBlock(Blocks.tnt) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_strong, 2), new Object[] { " G ", "SGS", " S ", 'G', ModItems.grenade_generic, 'S', Items.gunpowder });
