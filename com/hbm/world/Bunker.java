@@ -294,27 +294,42 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 1, y + -24, z + 1, Block2, 0, 3);
 		world.setBlock(x + 2, y + -24, z + 1, Blocks.chest, 3, 3);
 		world.setBlockMetadataWithNotify(x + 2, y + -24, z + 1, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 2, y + -24, z + 1), rand.nextInt(2)+ 6);
-		world.setBlock(x + 3, y + -24, z + 1, Block2, 0, 3);
+		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 2, y + -24, z + 1), rand.nextInt(2)+ 6);
+		}
+        world.setBlock(x + 3, y + -24, z + 1, Block2, 0, 3);
 		world.setBlock(x + 4, y + -24, z + 1, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 1, Block1, 0, 3);
 		world.setBlock(x + 0, y + -24, z + 2, Block1, 0, 3);
 		world.setBlock(x + 1, y + -24, z + 2, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 1, y + -24, z + 5, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 1, y + -24, z + 2), 8);
-		world.setBlock(x + 3, y + -24, z + 2, Blocks.chest, 4, 3);
+		if(world.getBlock(x + 2, y + -24, z + 1) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 1, y + -24, z + 2), 8);
+		}
+        world.setBlock(x + 3, y + -24, z + 2, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 3, y + -24, z + 2, 4, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 3, y + -24, z + 2), 8);
-		world.setBlock(x + 4, y + -24, z + 2, Block1, 0, 3);
+		if(world.getBlock(x + 3, y + -24, z + 2) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 3, y + -24, z + 2), 8);
+		}
+        world.setBlock(x + 4, y + -24, z + 2, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 2, Block1, 0, 3);
 		world.setBlock(x + 0, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 1, y + -24, z + 3, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 1, y + -24, z + 3, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 1, y + -24, z + 3), 8);
-		world.setBlock(x + 3, y + -24, z + 3, Blocks.chest, 4, 3);
+		if(world.getBlock(x + 1, y + -24, z + 3) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 1, y + -24, z + 3), 8);
+		}
+        world.setBlock(x + 3, y + -24, z + 3, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 3, y + -24, z + 3, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 3, y + -24, z + 3), 8);
-		world.setBlock(x + 4, y + -24, z + 3, Block1, 0, 3);
+		if(world.getBlock(x + 3, y + -24, z + 3) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 3, y + -24, z + 3), 8);
+		}
+        world.setBlock(x + 4, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 7, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 8, y + -24, z + 3, Block1, 0, 3);
 		world.setBlock(x + 9, y + -24, z + 3, Blocks.iron_door, 5, 3);
@@ -796,8 +811,11 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 3, y + -20, z + 1, Block1, 0, 3);
 		world.setBlock(x + 4, y + -20, z + 1, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 4, y + -20, z + 1, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest)world.getTileEntity(x + 4, y + -20, z + 1), 12);
-		world.setBlock(x + 8, y + -20, z + 1, Block4, 0, 3);
+		if(world.getBlock(x + 4, y + -20, z + 1) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest)world.getTileEntity(x + 4, y + -20, z + 1), 12);
+		}
+        world.setBlock(x + 8, y + -20, z + 1, Block4, 0, 3);
 		world.setBlock(x + 9, y + -20, z + 1, Block4, 0, 3);
 		world.setBlock(x + 10, y + -20, z + 1, Block4, 0, 3);
 		world.setBlock(x + 11, y + -20, z + 1, Block1, 0, 3);

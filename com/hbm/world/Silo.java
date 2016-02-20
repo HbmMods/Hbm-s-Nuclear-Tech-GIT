@@ -386,8 +386,11 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 18, y + -20, z + 10, Block1, 0, 3);
 		world.setBlock(x + 19, y + -20, z + 10, Blocks.chest, 5, 3);
 		world.setBlockMetadataWithNotify(x + 19, y + -20, z + 10, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 19, y + -20, z + 10), rand.nextInt(2)+ 6);
-		world.setBlock(x + 20, y + -20, z + 10, Block1, 0, 3);
+		if(world.getBlock(x + 19, y + -20, z + 10) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 19, y + -20, z + 10), rand.nextInt(2)+ 6);
+		}
+        world.setBlock(x + 20, y + -20, z + 10, Block1, 0, 3);
 		world.setBlock(x + 0, y + -20, z + 11, Block1, 0, 3);
 		world.setBlock(x + 1, y + -20, z + 11, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + -20, z + 11, Blocks.air, 0, 3);
@@ -851,8 +854,11 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 7, y + -17, z + 2, Block1, 0, 3);
 		world.setBlock(x + 8, y + -17, z + 2, Blocks.chest, 3, 3);
 		world.setBlockMetadataWithNotify(x + 8, y + -17, z + 2, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(7), (TileEntityChest)world.getTileEntity(x + 8, y + -17, z + 2), rand.nextInt(2)+ 6);
-		world.setBlock(x + 10, y + -17, z + 2, Blocks.air, 0, 3);
+		if(world.getBlock(x + 8, y + -17, z + 2) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(7), (TileEntityChest)world.getTileEntity(x + 8, y + -17, z + 2), rand.nextInt(2)+ 6);
+		}
+        world.setBlock(x + 10, y + -17, z + 2, Blocks.air, 0, 3);
 		world.setBlock(x + 11, y + -17, z + 2, Block1, 0, 3);
 		world.setBlock(x + 7, y + -17, z + 3, Block1, 0, 3);
 		world.setBlock(x + 8, y + -17, z + 3, Blocks.air, 0, 3);
@@ -1632,8 +1638,11 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 7, y + -9, z + 5, Block1, 0, 3);
 		world.setBlock(x + 8, y + -9, z + 5, Blocks.chest, 2, 3);
 		world.setBlockMetadataWithNotify(x + 8, y + -9, z + 2, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 8, y + -9, z + 5), rand.nextInt(2)+ 8);
-		world.setBlock(x + 8, y + -10, z + 5, Blocks.stone_slab, 8, 3);
+		if(world.getBlock(x + 8, y + -9, z + 2) == Blocks.chest)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 8, y + -9, z + 5), rand.nextInt(2)+ 8);
+		}
+        world.setBlock(x + 8, y + -10, z + 5, Blocks.stone_slab, 8, 3);
 		world.setBlock(x + 9, y + -9, z + 5, Blocks.planks, 0, 3);
 		world.setBlock(x + 10, y + -9, z + 5, Block4, 2, 3);
 		world.setBlock(x + 11, y + -9, z + 5, Block1, 0, 3);

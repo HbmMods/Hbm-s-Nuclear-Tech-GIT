@@ -49,7 +49,7 @@ public class MachineRecipes {
 		}
 		
 
-		if(item == ModItems.canister_empty && item2 == Item.getItemFromBlock(Blocks.coal_block) || item == Item.getItemFromBlock(Blocks.coal_block) && item2 == ModItems.canister_empty) {
+		if(item == ModItems.canister_empty && item2 == Items.coal || item == Items.coal && item2 == ModItems.canister_empty) {
 			return new ItemStack(ModItems.canister_fuel, 1); 
 		}
 		

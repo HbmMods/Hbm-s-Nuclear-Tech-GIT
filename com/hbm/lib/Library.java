@@ -29,7 +29,7 @@ public class Library {
 	public static String book113 = "§lLead§r\nLead is a very common ore that can be smelted into an ingot. It can be used to craft breeding reactors, RTG-Units and if combined with copper in the alloy furnace, it can be processed into neutron reflectors.";
 	public static String book114 = "§lSchrabidium§r\nSchrabidium is a very odd element only found near nuclear testing sites. It has violent behaviours if used the right way, making it perfect for bombs. If a big ammount is hit by neutrons, it will create other elements.";
 	public static String book115 = "§lAdvanced Alloy§r\nThe advanced alloy is a very durable and useful material, only used for the best factories which can handle four operations at once. It is composed of Minecraft grade copper and steel, combined by an alloy furnace.";
-	public static String book116 = "§lFuel§r\nFuel is obtained by combining an empty canister and a coal block in the alloy furnace. It is used for crafting explosive barrels and missiles.";
+	public static String book116 = "§lFuel§r\nFuel is obtained by combining an empty canister and a piece of coal in the alloy furnace. It is used for crafting explosive barrels and missiles.";
 	
 	public static String book21 = "§lMachines§r\nAs an essential part of technic mods, Hbm's Nuclear Tech Mod also features many machines. They are either used to smelt or refine items or to store hazardous materials or even generate electricity.";
 	public static String book22 = "§lAlloy Furnace§r\nThe alloy furnace is the most importand machine as it is used to create alloys like red copper or neutron reflectors. It uses different kinds of fuel such as coal, netherrack, lava or even redstone.";
