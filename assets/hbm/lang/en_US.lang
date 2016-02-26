@@ -113,6 +113,15 @@ tile.factory_advanced_core.name=Advanced Factory Core Component
 item.factory_core_advanced.name=Advanced Factory Energy Cluster
 container.factoryAdvanced=Advanced Factory
 
+tile.reactor_element.name=Reaktor Chamber
+tile.reactor_control.name=Control Rods
+tile.reactor_hatch.name=Reactor Access Hatch
+tile.reactor_conductor.name=Reactor Electricity Port
+tile.reactor_computer.name=Reaktor Control
+container.reactorMultiblock=Big Nuclear Reactor
+
+item.fuse.name=Fuse
+
 tile.test_nuke.name=Test Nuke
 
 item.ingot_uranium.name=Uranium Ingot

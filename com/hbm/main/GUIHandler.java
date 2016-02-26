@@ -23,6 +23,7 @@ import com.hbm.blocks.TileEntityNukeMan;
 import com.hbm.blocks.TileEntityNukeMike;
 import com.hbm.blocks.TileEntityNukePrototype;
 import com.hbm.blocks.TileEntityNukeTsar;
+import com.hbm.blocks.TileEntityReactorMultiblock;
 import com.hbm.blocks.TileEntityRtgFurnace;
 import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.gui.ContainerBombMulti;
@@ -46,6 +47,7 @@ import com.hbm.gui.ContainerNukePrototype;
 import com.hbm.gui.ContainerNukeTsar;
 import com.hbm.gui.ContainerPuF6Tank;
 import com.hbm.gui.ContainerReactor;
+import com.hbm.gui.ContainerReactorMultiblock;
 import com.hbm.gui.ContainerRtgFurnace;
 import com.hbm.gui.ContainerTestNuke;
 import com.hbm.gui.ContainerUF6Tank;
@@ -70,6 +72,7 @@ import com.hbm.gui.GUINukeMan;
 import com.hbm.gui.GUINukeMike;
 import com.hbm.gui.GUINukePrototype;
 import com.hbm.gui.GUINukeTsar;
+import com.hbm.gui.GUIReactorMultiblock;
 import com.hbm.gui.GUIRtgFurnace;
 import com.hbm.gui.GUITestDiFurnace;
 import com.hbm.gui.GUITestNuke;
@@ -279,6 +282,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerCoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
 				}
 			}
+			
+			case ModBlocks.guiID_reactor_multiblock:
+			{
+				if(entity instanceof TileEntityReactorMultiblock)
+				{
+					return new ContainerReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -481,6 +492,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityCoreAdvanced)
 					{
 						return new GUICoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_reactor_multiblock:
+				{
+					if(entity instanceof TileEntityReactorMultiblock)
+					{
+						return new GUIReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
 					}
 				}
 			}

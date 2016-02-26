@@ -46,6 +46,7 @@ import com.hbm.blocks.TileEntityNukeMike;
 import com.hbm.blocks.TileEntityNukePrototype;
 import com.hbm.blocks.TileEntityNukeTsar;
 import com.hbm.blocks.TileEntityObjTester;
+import com.hbm.blocks.TileEntityReactorMultiblock;
 import com.hbm.blocks.TileEntityRedBarrel;
 import com.hbm.blocks.TileEntityRotationTester;
 import com.hbm.blocks.TileEntityRtgFurnace;
@@ -204,6 +205,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDecoBlock.class, "tileentity_deco");
 		GameRegistry.registerTileEntity(TileEntityCoreTitanium.class, "tileentity_core_titanium");
 		GameRegistry.registerTileEntity(TileEntityCoreAdvanced.class, "tileentity_core_advanced");
+		GameRegistry.registerTileEntity(TileEntityReactorMultiblock.class, "tileentity_reactor_multiblock");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

@@ -1,5 +1,8 @@
 package com.hbm.gui;
 
+import com.hbm.blocks.TileEntityMachineGenerator;
+import com.hbm.blocks.TileEntityReactorMultiblock;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -7,33 +10,57 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import com.hbm.blocks.TileEntityMachineGenerator;
-
-public class ContainerGenerator extends Container {
+public class ContainerReactorMultiblock extends Container {
 	
-	private TileEntityMachineGenerator diFurnace;
+	private TileEntityReactorMultiblock diFurnace;
 	
 	private int water;
 	private int cool;
 	private int power;
 	private int heat;
 	
-	public ContainerGenerator(InventoryPlayer invPlayer, TileEntityMachineGenerator tedf) {
+	public ContainerReactorMultiblock(InventoryPlayer invPlayer, TileEntityReactorMultiblock tedf) {
 		
 		diFurnace = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 116, 36));
-		this.addSlotToContainer(new Slot(tedf, 1, 134, 36));
-		this.addSlotToContainer(new Slot(tedf, 2, 152, 36));
-		this.addSlotToContainer(new Slot(tedf, 3, 116, 54));
-		this.addSlotToContainer(new Slot(tedf, 4, 134, 54));
-		this.addSlotToContainer(new Slot(tedf, 5, 152, 54));
-		this.addSlotToContainer(new Slot(tedf, 6, 116, 72));
-		this.addSlotToContainer(new Slot(tedf, 7, 134, 72));
-		this.addSlotToContainer(new Slot(tedf, 8, 152, 72));
-		this.addSlotToContainer(new Slot(tedf, 9, 8, 90));
-		this.addSlotToContainer(new Slot(tedf, 10, 26, 90));
-		this.addSlotToContainer(new Slot(tedf, 11, 62, 90));
+		this.addSlotToContainer(new Slot(tedf, 0, 62, 18));
+		this.addSlotToContainer(new Slot(tedf, 1, 80, 18));
+		this.addSlotToContainer(new Slot(tedf, 2, 98, 18));
+		this.addSlotToContainer(new Slot(tedf, 3, 116, 18));
+		this.addSlotToContainer(new Slot(tedf, 4, 134, 18));
+		this.addSlotToContainer(new Slot(tedf, 5, 152, 18));
+		this.addSlotToContainer(new Slot(tedf, 6, 62, 36));
+		this.addSlotToContainer(new Slot(tedf, 7, 80, 36));
+		this.addSlotToContainer(new Slot(tedf, 8, 98, 36));
+		this.addSlotToContainer(new Slot(tedf, 9, 116, 36));
+		this.addSlotToContainer(new Slot(tedf, 10, 134, 36));
+		this.addSlotToContainer(new Slot(tedf, 11, 152, 36));
+		this.addSlotToContainer(new Slot(tedf, 12, 62, 54));
+		this.addSlotToContainer(new Slot(tedf, 13, 80, 54));
+		this.addSlotToContainer(new Slot(tedf, 14, 98, 54));
+		this.addSlotToContainer(new Slot(tedf, 15, 116, 54));
+		this.addSlotToContainer(new Slot(tedf, 16, 134, 54));
+		this.addSlotToContainer(new Slot(tedf, 17, 152, 54));
+		this.addSlotToContainer(new Slot(tedf, 18, 62, 72));
+		this.addSlotToContainer(new Slot(tedf, 19, 80, 72));
+		this.addSlotToContainer(new Slot(tedf, 20, 98, 72));
+		this.addSlotToContainer(new Slot(tedf, 21, 116, 72));
+		this.addSlotToContainer(new Slot(tedf, 22, 134, 72));
+		this.addSlotToContainer(new Slot(tedf, 23, 152, 72));
+		this.addSlotToContainer(new Slot(tedf, 24, 62, 90));
+		this.addSlotToContainer(new Slot(tedf, 25, 80, 90));
+		this.addSlotToContainer(new Slot(tedf, 26, 98, 90));
+		this.addSlotToContainer(new Slot(tedf, 27, 116, 90));
+		this.addSlotToContainer(new Slot(tedf, 28, 134, 90));
+		this.addSlotToContainer(new Slot(tedf, 29, 152, 90));
+		//Water
+		this.addSlotToContainer(new Slot(tedf, 30, 8, 90));
+		//Coolant
+		this.addSlotToContainer(new Slot(tedf, 31, 26, 90));
+		//Batteries
+		this.addSlotToContainer(new Slot(tedf, 32, 44, 90));
+		//Fuse
+		this.addSlotToContainer(new Slot(tedf, 33, 8, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{

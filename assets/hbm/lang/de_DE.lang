@@ -113,6 +113,15 @@ tile.factory_advanced_core.name=Fortgeschrittene Fabrikkernkomponente
 item.factory_core_advanced.name=Fortgeschrittener Fabrikenergiecluster
 container.factoryAdvanced=Fortgeschrittene Fabrik
 
+tile.reactor_element.name=Reaktorkammer
+tile.reactor_control.name=Steuerstäbe
+tile.reactor_hatch.name=Kraftwerkszugriffsluke
+tile.reactor_conductor.name=Stromanschluss
+tile.reactor_computer.name=Reaktorsteuerung
+container.reactorMultiblock=Großer Atomreaktor
+
+item.fuse.name=Sicherung
+
 tile.test_nuke.name=Test Atombombe
 
 item.ingot_uranium.name=Uranbarren

@@ -1,5 +1,7 @@
 package com.hbm.blocks;
 
+import java.util.Random;
+
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.items.ItemFuelRod;
 import com.hbm.items.ModItems;
@@ -25,6 +27,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public final int heatMax = 100000;
 	public int power;
 	public final int powerMax = 100000;
+	public boolean isLoaded = false;
 	
 	private static final int[] slots_top = new int[] {};
 	private static final int[] slots_bottom = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
@@ -482,12 +485,12 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				}
 				
 				if(this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) instanceof MachineGenerator)
-				((MachineGenerator)this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord)).isLoaded = false;
+				this.isLoaded = false;
 				
 			} else {
 
 				if(this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) instanceof MachineGenerator)
-				((MachineGenerator)this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord)).isLoaded = true;
+				this.isLoaded = true;
 			}
 		}
 		/*//Electric Furnace
@@ -800,9 +803,13 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	}
 	
 	public void attemptHeat(int i) {
-		if(this.cool - i >= 0)
+		Random rand = new Random();
+		
+		int j = rand.nextInt(i);
+		
+		if(this.cool - j >= 0)
 		{
-			this.cool -= i;
+			this.cool -= j;
 		} else {
 			this.heat += i;
 		}

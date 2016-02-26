@@ -183,6 +183,13 @@ public class ModBlocks {
 	public static Block factory_advanced_core;
 	public static final int guiID_factory_advanced = 25;
 
+	public static Block reactor_element;
+	public static Block reactor_control;
+	public static Block reactor_hatch;
+	public static Block reactor_conductor;
+	public static Block reactor_computer;
+	public static final int guiID_reactor_multiblock = 26;
+
 	public static Block launch_pad;
 	public static Block launch_pad_generic;
 	public static Block launch_pad_incendiary;
@@ -348,6 +355,12 @@ public class ModBlocks {
 		factory_advanced_hull = new BlockGeneric(Material.iron).setBlockName("factory_advanced_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_advanced_hull");
 		factory_advanced_furnace = new FactoryHatch(Material.iron).setBlockName("factory_advanced_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_advanced_furnace");
 		factory_advanced_core = new FactoryCoreAdvanced(Material.iron).setBlockName("factory_advanced_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_advanced_core");
+
+		reactor_element = new BlockReactor(Material.iron).setBlockName("reactor_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":reactor_element_side");
+		reactor_control = new BlockReactor(Material.iron).setBlockName("reactor_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":reactor_control_side");
+		reactor_hatch = new ReactorHatch(Material.iron).setBlockName("reactor_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
+		reactor_conductor = new BlockReactor(Material.iron).setBlockName("reactor_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":reactor_conductor_side");
+		reactor_computer = new ReactorCore(Material.iron).setBlockName("reactor_computer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":reactor_computer");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad_generic = new LaunchPad(Material.iron).setBlockName("launch_pad_generic").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
@@ -496,7 +509,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_coal_off, machine_coal_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_coal_on, machine_coal_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_generator, machine_generator.getUnlocalizedName());
-		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
+		//GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_battery, machine_battery.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_off, machine_electric_furnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_on, machine_electric_furnace_on.getUnlocalizedName());
@@ -509,6 +522,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(factory_advanced_hull, factory_advanced_hull.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_furnace, factory_advanced_furnace.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_core, factory_advanced_core.getUnlocalizedName());
+		
+		//Multiblock Generators
+		GameRegistry.registerBlock(reactor_element, reactor_element.getUnlocalizedName());
+		GameRegistry.registerBlock(reactor_control, reactor_control.getUnlocalizedName());
+		GameRegistry.registerBlock(reactor_hatch, reactor_hatch.getUnlocalizedName());
+		GameRegistry.registerBlock(reactor_conductor, reactor_conductor.getUnlocalizedName());
+		GameRegistry.registerBlock(reactor_computer, reactor_computer.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

@@ -289,6 +289,16 @@ public class ItemCustomLore extends Item {
 			list.add("and some shards are missing.");
 			list.add("It stopped ticking at 2:34.");
 		}
+		
+		if(this == ModItems.fuse)
+		{
+			list.add("This item is needed for every large");
+			list.add("nuclear reactor, as it allows the");
+			list.add("reactor to generate electricity and");
+			list.add("use up it's fuel. Removing the fuse");
+			list.add("from a reactor will instantly shut");
+			list.add("it down.");
+		}
 	}
 
     @Override

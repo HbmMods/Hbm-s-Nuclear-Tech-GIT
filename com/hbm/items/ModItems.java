@@ -356,6 +356,7 @@ public class ModItems {
 	public static Item battery_creative;
 
 	public static Item fusion_core;
+	public static Item fuse;
 
 	public static Item factory_core_titanium;
 	public static Item factory_core_advanced;
@@ -765,6 +766,7 @@ public class ModItems {
 		battery_creative = new Item().setUnlocalizedName("battery_creative").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_creative");
 
 		fusion_core = new ItemBattery(5000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core");
+		fuse = new ItemCustomLore().setUnlocalizedName("fuse").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fuse");
 
 		factory_core_titanium = new ItemBattery(70400).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_titanium");
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
@@ -1024,6 +1026,7 @@ public class ModItems {
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
+		GameRegistry.registerItem(fuse, fuse.getUnlocalizedName());
 		
 		//Fuelrods
 		GameRegistry.registerItem(rod_empty, rod_empty.getUnlocalizedName());

@@ -3,81 +3,30 @@ package com.hbm.blocks;
 import java.util.Random;
 
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class MachineGenerator extends BlockContainer {
-
-    private final Random field_149933_a = new Random();
-	private Random rand;
-	private static boolean keepInventory;
+public class ReactorCore extends BlockContainer {
 	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconSide;
+	public boolean keepInventory = false;
+	public Random field_149933_a = new Random();
 
-	protected MachineGenerator(Material p_i45386_1_) {
+	protected ReactorCore(Material p_i45386_1_) {
 		super(p_i45386_1_);
-		rand = new Random();
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":machine_generator_side");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_generator");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 0 ? blockIcon : (side == 1 ? blockIcon : iconSide);
-	}
-	
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return Item.getItemFromBlock(ModBlocks.machine_generator);
-    }
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			TileEntityMachineGenerator entity = (TileEntityMachineGenerator) world.getTileEntity(x, y, z);
-			if(entity != null)
-			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_generator, world, x, y, z);
-			}
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineGenerator();
+		return new TileEntityReactorMultiblock();
 	}
 	
 	@Override
@@ -85,7 +34,7 @@ public class MachineGenerator extends BlockContainer {
     {
         if (!keepInventory)
         {
-        	TileEntityMachineGenerator tileentityfurnace = (TileEntityMachineGenerator)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	TileEntityReactorMultiblock tileentityfurnace = (TileEntityReactorMultiblock)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (tileentityfurnace != null)
             {
@@ -137,12 +86,10 @@ public class MachineGenerator extends BlockContainer {
     {
         if (!p_149723_1_.isRemote)
         {
-			TileEntityMachineGenerator entity = (TileEntityMachineGenerator) p_149723_1_.getTileEntity(p_149723_2_, p_149723_3_, p_149723_4_);
+        	TileEntityReactorMultiblock entity = (TileEntityReactorMultiblock) p_149723_1_.getTileEntity(p_149723_2_, p_149723_3_, p_149723_4_);
 			if(entity != null && entity.isLoaded)
 			{
-				p_149723_1_.createExplosion(null, p_149723_2_, p_149723_3_, p_149723_4_, 18.0F, true);
-		    	ExplosionNukeGeneric.waste(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_, 35);
-		    	p_149723_1_.setBlock(p_149723_2_, p_149723_3_, p_149723_4_, Blocks.flowing_lava);
+				entity.explode();
 			}
         }
     }
