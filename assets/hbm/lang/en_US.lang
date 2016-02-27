@@ -120,6 +120,14 @@ tile.reactor_conductor.name=Reactor Electricity Port
 tile.reactor_computer.name=Reaktor Control
 container.reactorMultiblock=Big Nuclear Reactor
 
+tile.fusion_conductor.name=Superconducting Magnet
+tile.fusion_center.name=Central Magnet Piece
+tile.fusion_motor.name=Magnet Motor Piece
+tile.fusion_heater.name=Plasma Heater
+tile.fusion_hatch.name=Fusion Reactor Access Hatch
+tile.fusion_core.name=Fusion Reactor Control
+container.fusionMultiblock=Big Fusion Reactor
+
 item.fuse.name=Fuse
 
 tile.test_nuke.name=Test Nuke

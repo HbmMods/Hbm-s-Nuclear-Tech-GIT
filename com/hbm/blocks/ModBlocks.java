@@ -190,6 +190,14 @@ public class ModBlocks {
 	public static Block reactor_computer;
 	public static final int guiID_reactor_multiblock = 26;
 
+	public static Block fusion_conductor;
+	public static Block fusion_center;
+	public static Block fusion_motor;
+	public static Block fusion_heater;
+	public static Block fusion_hatch;
+	public static Block fusion_core;
+	public static final int guiID_fusion_multiblock = 27;
+
 	public static Block launch_pad;
 	public static Block launch_pad_generic;
 	public static Block launch_pad_incendiary;
@@ -361,6 +369,13 @@ public class ModBlocks {
 		reactor_hatch = new ReactorHatch(Material.iron).setBlockName("reactor_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
 		reactor_conductor = new BlockReactor(Material.iron).setBlockName("reactor_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":reactor_conductor_side");
 		reactor_computer = new ReactorCore(Material.iron).setBlockName("reactor_computer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":reactor_computer");
+
+		fusion_conductor = new BlockReactor(Material.iron).setBlockName("fusion_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_conductor_side");
+		fusion_center = new BlockReactor(Material.iron).setBlockName("fusion_center").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_center_side");
+		fusion_motor = new BlockReactor(Material.iron).setBlockName("fusion_motor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_motor_side");
+		fusion_heater = new BlockReactor(Material.iron).setBlockName("fusion_heater").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_heater_side");
+		fusion_hatch = new FusionHatch(Material.iron).setBlockName("fusion_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_hatch");
+		fusion_core = new FusionCore(Material.iron).setBlockName("fusion_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_core_side");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad_generic = new LaunchPad(Material.iron).setBlockName("launch_pad_generic").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
@@ -529,6 +544,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(reactor_hatch, reactor_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(reactor_conductor, reactor_conductor.getUnlocalizedName());
 		GameRegistry.registerBlock(reactor_computer, reactor_computer.getUnlocalizedName());
+
+		GameRegistry.registerBlock(fusion_conductor, fusion_conductor.getUnlocalizedName());
+		GameRegistry.registerBlock(fusion_center, fusion_center.getUnlocalizedName());
+		GameRegistry.registerBlock(fusion_motor, fusion_motor.getUnlocalizedName());
+		GameRegistry.registerBlock(fusion_heater, fusion_heater.getUnlocalizedName());
+		GameRegistry.registerBlock(fusion_hatch, fusion_hatch.getUnlocalizedName());
+		GameRegistry.registerBlock(fusion_core, fusion_core.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

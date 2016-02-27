@@ -120,6 +120,14 @@ tile.reactor_conductor.name=Stromanschluss
 tile.reactor_computer.name=Reaktorsteuerung
 container.reactorMultiblock=Großer Atomreaktor
 
+tile.fusion_conductor.name=Supraleiter-Magnet
+tile.fusion_center.name=Zentralmagnetstück
+tile.fusion_motor.name=Magnetmotorstück
+tile.fusion_heater.name=Plasmaerhitzer
+tile.fusion_hatch.name=Fusionsreaktorzugriffsluke
+tile.fusion_core.name=Fusionsreaktorsteuerung
+container.fusionMultiblock=Großer Fusionsreaktor
+
 item.fuse.name=Sicherung
 
 tile.test_nuke.name=Test Atombombe

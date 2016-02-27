@@ -36,6 +36,26 @@ public class BlockReactor extends Block {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":reactor_element_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":reactor_element_side");
 		}
+		if(this == ModBlocks.fusion_conductor)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + /*":fusion_conductor_top_alt"*/":block_steel");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + /*":fusion_conductor_alt"*/":fusion_conductor_side");
+		}
+		if(this == ModBlocks.fusion_center)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_side");
+		}
+		if(this == ModBlocks.fusion_motor)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_steel");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_motor_side");
+		}
+		if(this == ModBlocks.fusion_heater)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_tungsten");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_heater_side");
+		}
 	}
 
 	@Override
