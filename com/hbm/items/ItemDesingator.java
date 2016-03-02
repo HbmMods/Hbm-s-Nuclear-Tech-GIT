@@ -48,6 +48,6 @@ public class ItemDesingator extends Item {
 			}
 		}
     	
-        return false;
+        return true;
     }
 }

@@ -19,14 +19,17 @@ import cpw.mods.fml.common.ModMetadata;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityBombMulti;
+import com.hbm.blocks.TileEntityCable;
 import com.hbm.blocks.TileEntityCoreAdvanced;
 import com.hbm.blocks.TileEntityCoreTitanium;
+import com.hbm.blocks.TileEntityCrashedBomb;
 import com.hbm.blocks.TileEntityDecoBlock;
 import com.hbm.blocks.TileEntityDecoPoleSatelliteReceiver;
 import com.hbm.blocks.TileEntityDecoPoleTop;
 import com.hbm.blocks.TileEntityDecoSteelPoles;
 import com.hbm.blocks.TileEntityDecoTapeRecorder;
 import com.hbm.blocks.TileEntityDiFurnace;
+import com.hbm.blocks.TileEntityFusionMultiblock;
 import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.blocks.TileEntityMachineBattery;
 import com.hbm.blocks.TileEntityMachineCoal;
@@ -206,6 +209,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCoreTitanium.class, "tileentity_core_titanium");
 		GameRegistry.registerTileEntity(TileEntityCoreAdvanced.class, "tileentity_core_advanced");
 		GameRegistry.registerTileEntity(TileEntityReactorMultiblock.class, "tileentity_reactor_multiblock");
+		GameRegistry.registerTileEntity(TileEntityFusionMultiblock.class, "tileentity_fusion_multiblock");
+		GameRegistry.registerTileEntity(TileEntityCrashedBomb.class, "tileentity_crashed_balefire");
+		GameRegistry.registerTileEntity(TileEntityCable.class, "tileentity_cable");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

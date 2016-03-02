@@ -116,6 +116,62 @@ public class FusionHatch extends Block {
 			return true;
 		} else if(!player.isSneaking())
 		{
+			if(world.getBlockMetadata(x, y, z) == 2)
+			{
+				if(world.getTileEntity(x, y, z + 8) instanceof TileEntityFusionMultiblock)
+				{
+					if(((TileEntityFusionMultiblock)world.getTileEntity(x, y, z + 8)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x, y, z + 8);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusion Reactor Error: Reactor Core not found!"));
+				}
+			}
+			if(world.getBlockMetadata(x, y, z) == 3)
+			{
+				if(world.getTileEntity(x, y, z - 8) instanceof TileEntityFusionMultiblock)
+				{
+					if(((TileEntityFusionMultiblock)world.getTileEntity(x, y, z - 8)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x, y, z - 8);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusion Reactor Error: Reactor Core not found!"));
+				}
+			}
+			if(world.getBlockMetadata(x, y, z) == 4)
+			{
+				if(world.getTileEntity(x + 8, y, z) instanceof TileEntityFusionMultiblock)
+				{
+					if(((TileEntityFusionMultiblock)world.getTileEntity(x + 8, y, z)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x + 8, y, z);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusion Reactor Error: Reactor Core not found!"));
+				}
+			}
+			if(world.getBlockMetadata(x, y, z) == 5)
+			{
+				if(world.getTileEntity(x - 8, y, z) instanceof TileEntityFusionMultiblock)
+				{
+					if(((TileEntityFusionMultiblock)world.getTileEntity(x - 8, y, z)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x - 8, y, z);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusion Reactor Error: Reactor Core not found!"));
+				}
+			}
 			return true;
 		} else {
 			return false;

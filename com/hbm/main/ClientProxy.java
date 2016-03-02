@@ -6,6 +6,8 @@ import net.minecraftforge.client.MinecraftForgeClient;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityBombMulti;
+import com.hbm.blocks.TileEntityCable;
+import com.hbm.blocks.TileEntityCrashedBomb;
 import com.hbm.blocks.TileEntityDecoBlock;
 import com.hbm.blocks.TileEntityDecoBlockAlt;
 import com.hbm.blocks.TileEntityDecoBlockAltF;
@@ -94,7 +96,9 @@ import com.hbm.render.ItemRenderTestContainer;
 import com.hbm.render.ModEffectRenderer;
 import com.hbm.render.RenderBigNuke;
 import com.hbm.render.RenderBombMulti;
+import com.hbm.render.RenderCable;
 import com.hbm.render.RenderCentrifuge;
+import com.hbm.render.RenderCrashedBomb;
 import com.hbm.render.RenderDecoBlock;
 import com.hbm.render.RenderDecoBlockAlt;
 import com.hbm.render.RenderFlare;
@@ -191,6 +195,8 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTestMissile.class, new RenderTestMissile());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeFleija.class, new RenderNukeFleija());
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrashedBomb.class, new RenderCrashedBomb());
 		
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeAlt());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudBig.class, new RenderBigNuke());
@@ -222,6 +228,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityYellowBarrel.class, new RenderYellowBarrel());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPad.class, new RenderLaunchPadTier1());
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileAntiBallistic.class, new RenderMissileGeneric());

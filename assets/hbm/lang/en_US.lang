@@ -68,6 +68,8 @@ tile.float_bomb.name=Levitation Bomb
 tile.therm_endo.name=Endothermic Bomb
 tile.therm_exo.name=Exothermic Bomb
 
+tile.crashed_bomb.name=Dud
+
 tile.machine_difurnace_off.name=Alloy Furnace
 tile.machine_difurnace_on.name=Alloy Furnace
 container.diFurnace=Alloy Furnace
@@ -126,6 +128,7 @@ tile.fusion_motor.name=Magnet Motor Piece
 tile.fusion_heater.name=Plasma Heater
 tile.fusion_hatch.name=Fusion Reactor Access Hatch
 tile.fusion_core.name=Fusion Reactor Control
+tile.plasma.name=Plasma
 container.fusionMultiblock=Big Fusion Reactor
 
 item.fuse.name=Fuse
@@ -157,6 +160,9 @@ item.nugget_schrabidium.name=Schrabidium Nugget
 item.plate_copper.name=Copper Plate
 item.ingot_advanced_alloy.name=Advanced Alloy Ingot
 item.plate_advanced_alloy.name=Advanced Alloy Plate
+item.wire_advanced_alloy.name=Super Cunductor
+item.coil_advanced_alloy.name=Super Conducting Coil
+item.lithium.name=Lithium Cube
 
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget
@@ -236,6 +242,7 @@ item.battery_schrabidium.name=Schrabidium Battery
 item.battery_creative.name=Infinite Battery
 
 item.fusion_core.name=Fusion Core
+item.energy_core.name=Makeshift Energy Core
 
 item.plate_iron.name=Iron Plate
 item.plate_lead.name=Lead Plate
@@ -257,7 +264,13 @@ item.cell_uf6.name=Uranium Hexafluorite Cell
 item.cell_puf6.name=Plutonium Hexafluorite Cell
 item.cell_antimatter.name=Antimatter Cell
 item.cell_deuterium.name=Deuterium Cell
+item.cell_tritium.name=Tritium Cell
 item.cell_sas3.name=Schrabidiumtrisulfide Cell
+item.cell_anti_schrabidium.name=Antischrabidium Cell
+
+item.inf_water.name=Infinite Water Tank
+item.inf_deuterium.name=Infinite Deuterium Tank
+item.inf_tritium.name=Infinite Tritium Tank
 
 item.canister_empty.name=Empty Canister
 item.canister_fuel.name=Fuel Canister
@@ -399,6 +412,14 @@ item.rod_quad_water.name=Quad Water Cell
 item.rod_coolant.name=Coolant Cell
 item.rod_dual_coolant.name=Dual Coolant Cell
 item.rod_quad_coolant.name=Quad Coolant Cell
+
+item.rod_lithium.name=Lithium Rod
+item.rod_dual_lithium.name=Dual Lithium Rod
+item.rod_quad_lithium.name=Quad Lithium Rod
+
+item.rod_tritium.name=Tritium Cell
+item.rod_dual_tritium.name=Dual Tritium Cell
+item.rod_quad_tritium.name=Quad Tritium Cell
 
 item.levitation_unit.name=Gravitymanipulator
 item.thermo_unit_empty.name=Thermic Distribution Unit
@@ -563,3 +584,5 @@ item.fuel_tank_large.name=Large Fuel Tank
 item.thruster_small.name=Small Thruster
 item.thruster_medium.name=Medium Thruster
 item.thruster_large.name=Large Thruster
+
+item.wand.name=Construction Wand

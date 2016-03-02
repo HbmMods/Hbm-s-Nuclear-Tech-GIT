@@ -68,6 +68,8 @@ tile.float_bomb.name=Schwebebombe
 tile.therm_endo.name=Endothermische Bombe
 tile.therm_exo.name=Exothermische Bombe
 
+tile.crashed_bomb.name=Blindgänger
+
 tile.machine_difurnace_off.name=Legierungshochofen
 tile.machine_difurnace_on.name=Legierungshochofen
 container.diFurnace=Legierungshochofen
@@ -126,6 +128,7 @@ tile.fusion_motor.name=Magnetmotorstück
 tile.fusion_heater.name=Plasmaerhitzer
 tile.fusion_hatch.name=Fusionsreaktorzugriffsluke
 tile.fusion_core.name=Fusionsreaktorsteuerung
+tile.plasma.name=Plasma
 container.fusionMultiblock=Großer Fusionsreaktor
 
 item.fuse.name=Sicherung
@@ -157,6 +160,9 @@ item.nugget_schrabidium.name=Schrabidiumnugget
 item.plate_copper.name=Kupferplatte
 item.ingot_advanced_alloy.name=Fortgeschrittene Legierung
 item.plate_advanced_alloy.name=Fortgeschrittene Legierungsplatte
+item.wire_advanced_alloy.name=Supraleiter
+item.coil_advanced_alloy.name=Supraleitende Magnetspule
+item.lithium.name=Lithiumwürfel
 
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget
@@ -236,6 +242,7 @@ item.battery_schrabidium.name=Schrabidiumbatterie
 item.battery_creative.name=Unendliche Batterie
 
 item.fusion_core.name=Fusionskern
+item.energy_core.name=Selbstgebauter Energiekern
 
 item.plate_iron.name=Eisenplatte
 item.plate_lead.name=Bleiplatte
@@ -257,7 +264,13 @@ item.cell_uf6.name=Uranhexafluorit-Zelle
 item.cell_puf6.name=Plutoniumhexafluorit-Zelle
 item.cell_antimatter.name=Antimaterienzelle
 item.cell_deuterium.name=Deuteriumzelle
+item.cell_tritium.name=Tritiumzelle
 item.cell_sas3.name=Schrabidiumtrisulfat-Zelle
+item.cell_anti_schrabidium.name=Antischrabidiumzelle
+
+item.inf_water.name=Unendlicher Wassertank
+item.inf_deuterium.name=Unendlicher Deuteriumtank
+item.inf_tritium.name=Unendlicher Tritiumtank
 
 item.canister_empty.name=Leerer Kanister
 item.canister_fuel.name=Treibstoffkanister
@@ -398,6 +411,14 @@ item.rod_quad_water.name=Vierfache Wasserzelle
 item.rod_coolant.name=Kühlzelle
 item.rod_dual_coolant.name=Doppelte Kühlzelle
 item.rod_quad_coolant.name=Vierfache Kühlzelle
+
+item.rod_lithium.name=Lithiumstab
+item.rod_dual_lithium.name=Doppelter Lithiumstab
+item.rod_quad_lithium.name=Vierfacher Lithiumstab
+
+item.rod_tritium.name=Tritiumzelle
+item.rod_dual_tritium.name=Doppelte Tritiumzelle
+item.rod_quad_tritium.name=Vierfache Tritiumzelle
 
 item.levitation_unit.name=Gravitationsmanipulator
 item.thermo_unit_empty.name=Thermische Verteilungseinheit
@@ -562,3 +583,5 @@ item.fuel_tank_large.name=Großer Treibstofftank
 item.thruster_small.name=Kleines Raketentriebwerk
 item.thruster_medium.name=Mittleres Raketentriebwerk
 item.thruster_large.name=Großes Raketentriebwerk
+
+item.wand.name=Konstruktions-Zauberstab

@@ -54,6 +54,7 @@ public class ModItems {
 	public static Item nugget_mox_fuel;
 	public static Item nugget_schrabidium_fuel;
 	public static Item ingot_advanced_alloy;
+	public static Item lithium;
 
 	public static Item nugget_uranium;
 	public static Item nugget_u235;
@@ -103,6 +104,8 @@ public class ModItems {
 	public static Item wire_copper;
 	public static Item wire_gold;
 	public static Item wire_schrabidium;
+	public static Item wire_advanced_alloy;
+	public static Item coil_advanced_alloy;
 
 	public static Item circuit_aluminium;
 	public static Item circuit_copper;
@@ -156,9 +159,14 @@ public class ModItems {
 	public static Item cell_empty;
 	public static Item cell_uf6;
 	public static Item cell_puf6;
-	public static Item cell_antimatter;
 	public static Item cell_deuterium;
+	public static Item cell_tritium;
 	public static Item cell_sas3;
+	public static Item cell_antimatter;
+	public static Item cell_anti_schrabidium;
+	public static Item inf_water;
+	public static Item inf_deuterium;
+	public static Item inf_tritium;
 
 	public static Item canister_empty;
 	public static Item canister_fuel;
@@ -248,6 +256,13 @@ public class ModItems {
 	public static Item rod_waste;
 	public static Item rod_dual_waste;
 	public static Item rod_quad_waste;
+	
+	public static Item rod_lithium;
+	public static Item rod_dual_lithium;
+	public static Item rod_quad_lithium;
+	public static Item rod_tritium;
+	public static Item rod_dual_tritium;
+	public static Item rod_quad_tritium;
 	
 	public static Item test_nuke_igniter;
 	public static Item test_nuke_propellant;
@@ -356,6 +371,7 @@ public class ModItems {
 	public static Item battery_creative;
 
 	public static Item fusion_core;
+	public static Item energy_core;
 	public static Item fuse;
 
 	public static Item factory_core_titanium;
@@ -398,6 +414,8 @@ public class ModItems {
 	public static Item hazmat_plate;
 	public static Item hazmat_legs;
 	public static Item hazmat_boots;
+	
+	public static Item wand;
 
 	public static Item nuke_starter_kit;
 	public static Item nuke_advanced_kit;
@@ -484,6 +502,9 @@ public class ModItems {
 		plate_copper = new Item().setUnlocalizedName("plate_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_copper");
 		plate_gold = new Item().setUnlocalizedName("plate_gold").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_gold");
 		plate_advanced_alloy = new Item().setUnlocalizedName("plate_advanced_alloy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_advanced_alloy");
+		lithium = new Item().setUnlocalizedName("lithium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":lithium");
+		wire_advanced_alloy = new Item().setUnlocalizedName("wire_advanced_alloy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":wire_advanced_alloy");
+		coil_advanced_alloy = new Item().setUnlocalizedName("coil_advanced_alloy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":coil_advanced_alloy");
 
 		nugget_uranium = new Item().setUnlocalizedName("nugget_uranium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_uranium");
 		nugget_u235 = new Item().setUnlocalizedName("nugget_u235").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_uranium");
@@ -574,12 +595,17 @@ public class ModItems {
 		
 		pellet_rtg = new ItemCustomLore().setUnlocalizedName("pellet_rtg").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_rtg");
 
-		cell_empty = new Item().setUnlocalizedName("cell_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cell_empty");
+		cell_empty = new ItemCell().setUnlocalizedName("cell_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cell_empty");
 		cell_uf6 = new Item().setUnlocalizedName("cell_uf6").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_uf6");
 		cell_puf6 = new Item().setUnlocalizedName("cell_puf6").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_puf6");
 		cell_antimatter = new Item().setUnlocalizedName("cell_antimatter").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_antimatter");
 		cell_deuterium = new Item().setUnlocalizedName("cell_deuterium").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_deuterium");
+		cell_tritium = new Item().setUnlocalizedName("cell_tritium").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_tritium");
 		cell_sas3 = new ItemCustomLore().setUnlocalizedName("cell_sas3").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_sas3");
+		cell_anti_schrabidium = new Item().setUnlocalizedName("cell_anti_schrabidium").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_anti_schrabidium");
+		inf_water = new Item().setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_water");
+		inf_deuterium = new Item().setUnlocalizedName("inf_deuterium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_deuterium");
+		inf_tritium = new Item().setUnlocalizedName("inf_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_tritium");
 
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
@@ -644,13 +670,21 @@ public class ModItems {
 		rod_dual_schrabidium_fuel = new ItemFuelRod().setUnlocalizedName("rod_dual_schrabidium_fuel").setMaxStackSize(1).setMaxDamage(5000000).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_schrabidium_fuel");
 		rod_quad_schrabidium_fuel = new ItemFuelRod().setUnlocalizedName("rod_quad_schrabidium_fuel").setMaxStackSize(1).setMaxDamage(10000000).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_schrabidium_fuel");
 
-		rod_water= new ItemCustomLore().setUnlocalizedName("rod_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_water");
+		rod_water = new ItemCustomLore().setUnlocalizedName("rod_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_water");
 		rod_dual_water = new ItemCustomLore().setUnlocalizedName("rod_dual_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_water");
 		rod_quad_water = new ItemCustomLore().setUnlocalizedName("rod_quad_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_water");
 
 		rod_coolant = new ItemCustomLore().setUnlocalizedName("rod_coolant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_coolant");
 		rod_dual_coolant = new ItemCustomLore().setUnlocalizedName("rod_dual_coolant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_coolant");
 		rod_quad_coolant = new ItemCustomLore().setUnlocalizedName("rod_quad_coolant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_coolant");
+
+		rod_lithium = new ItemCustomLore().setUnlocalizedName("rod_lithium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_lithium");
+		rod_dual_lithium = new ItemCustomLore().setUnlocalizedName("rod_dual_lithium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_lithium");
+		rod_quad_lithium = new ItemCustomLore().setUnlocalizedName("rod_quad_lithium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_lithium");
+
+		rod_tritium = new ItemCustomLore().setUnlocalizedName("rod_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_tritium");
+		rod_dual_tritium = new ItemCustomLore().setUnlocalizedName("rod_dual_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_tritium");
+		rod_quad_tritium = new ItemCustomLore().setUnlocalizedName("rod_quad_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_tritium");
 
 		trinitite = new Item().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste = new Item().setUnlocalizedName("nuclear_waste").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nuclear_waste");
@@ -766,10 +800,13 @@ public class ModItems {
 		battery_creative = new Item().setUnlocalizedName("battery_creative").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_creative");
 
 		fusion_core = new ItemBattery(5000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core");
+		energy_core = new ItemBattery(5000).setUnlocalizedName("energy_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":energy_core");
 		fuse = new ItemCustomLore().setUnlocalizedName("fuse").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fuse");
 
 		factory_core_titanium = new ItemBattery(70400).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_titanium");
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
+		
+		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		
 		nuke_starter_kit = new ItemStarterKit().setUnlocalizedName("nuke_starter_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":nuke_starter_kit");
 		nuke_advanced_kit = new ItemStarterKit().setUnlocalizedName("nuke_advanced_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":nuke_advanced_kit");
@@ -884,6 +921,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_schrabidium_fuel, ingot_schrabidium_fuel.getUnlocalizedName());
 
 		//Dusts & Other
+		GameRegistry.registerItem(lithium, lithium.getUnlocalizedName());
 		GameRegistry.registerItem(sulfur, sulfur.getUnlocalizedName());
 		GameRegistry.registerItem(niter, niter.getUnlocalizedName());
 		GameRegistry.registerItem(fluorite, fluorite.getUnlocalizedName());
@@ -930,12 +968,14 @@ public class ModItems {
 		GameRegistry.registerItem(wire_copper, wire_copper.getUnlocalizedName());
 		GameRegistry.registerItem(wire_tungsten, wire_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(wire_red_copper, wire_red_copper.getUnlocalizedName());
+		GameRegistry.registerItem(wire_advanced_alloy, wire_advanced_alloy.getUnlocalizedName());
 		GameRegistry.registerItem(wire_gold, wire_gold.getUnlocalizedName());
 		GameRegistry.registerItem(wire_schrabidium, wire_schrabidium.getUnlocalizedName());
 		
 		//Parts
 		GameRegistry.registerItem(coil_copper, coil_copper.getUnlocalizedName());
 		GameRegistry.registerItem(coil_copper_torus, coil_copper_torus.getUnlocalizedName());
+		GameRegistry.registerItem(coil_advanced_alloy, coil_advanced_alloy.getUnlocalizedName());
 		GameRegistry.registerItem(coil_tungsten, coil_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(tank_steel, tank_steel.getUnlocalizedName());
 		GameRegistry.registerItem(motor, motor.getUnlocalizedName());
@@ -1010,8 +1050,15 @@ public class ModItems {
 		GameRegistry.registerItem(cell_uf6, cell_uf6.getUnlocalizedName());
 		GameRegistry.registerItem(cell_puf6, cell_puf6.getUnlocalizedName());
 		GameRegistry.registerItem(cell_deuterium, cell_deuterium.getUnlocalizedName());
+		GameRegistry.registerItem(cell_tritium, cell_tritium.getUnlocalizedName());
 		GameRegistry.registerItem(cell_sas3, cell_sas3.getUnlocalizedName());
 		GameRegistry.registerItem(cell_antimatter, cell_antimatter.getUnlocalizedName());
+		GameRegistry.registerItem(cell_anti_schrabidium, cell_anti_schrabidium.getUnlocalizedName());
+		
+		//Infinite Tanks
+		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
+		GameRegistry.registerItem(inf_deuterium, inf_deuterium.getUnlocalizedName());
+		GameRegistry.registerItem(inf_tritium, inf_tritium.getUnlocalizedName());
 
 		//Canisters
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
@@ -1024,6 +1071,7 @@ public class ModItems {
 		GameRegistry.registerItem(battery_schrabidium, battery_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(battery_creative, battery_creative.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
+		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
 		GameRegistry.registerItem(fuse, fuse.getUnlocalizedName());
@@ -1096,6 +1144,14 @@ public class ModItems {
 		GameRegistry.registerItem(rod_coolant, rod_coolant.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_coolant, rod_dual_coolant.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_coolant, rod_quad_coolant.getUnlocalizedName());
+		
+		GameRegistry.registerItem(rod_lithium, rod_lithium.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_lithium, rod_dual_lithium.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_lithium, rod_quad_lithium.getUnlocalizedName());
+		
+		GameRegistry.registerItem(rod_tritium, rod_tritium.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_tritium, rod_dual_tritium.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_tritium, rod_quad_tritium.getUnlocalizedName());
 		
 		//Nuclear Waste
 		GameRegistry.registerItem(rod_uranium_fuel_depleted, rod_uranium_fuel_depleted.getUnlocalizedName());
@@ -1260,6 +1316,9 @@ public class ModItems {
 		GameRegistry.registerItem(apple_euphemium, apple_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(watch, watch.getUnlocalizedName());
 		GameRegistry.registerItem(mask_of_infamy, mask_of_infamy.getUnlocalizedName());
+		
+		//OP Tools
+		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
 		
 		//Kits
 		GameRegistry.registerItem(nuke_starter_kit, nuke_starter_kit.getUnlocalizedName());

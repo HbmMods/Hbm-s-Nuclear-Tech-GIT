@@ -299,6 +299,21 @@ public class ItemCustomLore extends Item {
 			list.add("from a reactor will instantly shut");
 			list.add("it down.");
 		}
+		
+		if(this == ModItems.rod_lithium)
+		{
+			list.add("Turns into Tritium Rod");
+		}
+		
+		if(this == ModItems.rod_dual_lithium)
+		{
+			list.add("Turns into Dual Tritium Rod");
+		}
+		
+		if(this == ModItems.rod_quad_lithium)
+		{
+			list.add("Turns into Quad Tritium Rod");
+		}
 	}
 
     @Override

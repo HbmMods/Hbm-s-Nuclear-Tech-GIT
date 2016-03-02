@@ -16,18 +16,12 @@ public class ItemBattery extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced)
+		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core)
 		{
 			list.add("Energy stored: " + ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) + " HE");
 		} else {
-			if(this.getDamage(itemstack) != 0)
-			{
-				int charge = ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) / this.getMaxDamage();
-				charge++;
-				list.add("Charge: " + charge + "%");
-			} else {
-				list.add("Charge: 100%");
-			}
+			int charge = ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) / this.getMaxDamage();
+			list.add("Charge: " + charge + "%");
 		}
 	}
 
@@ -39,7 +33,7 @@ public class ItemBattery extends Item {
         	return EnumRarity.rare;
     	}
 
-    	if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced)
+    	if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced || this == ModItems.energy_core)
     	{
         	return EnumRarity.uncommon;
     	}

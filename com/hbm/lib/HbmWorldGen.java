@@ -7,6 +7,7 @@ import com.hbm.world.Antenna;
 import com.hbm.world.Bunker;
 import com.hbm.world.CrashedVertibird;
 import com.hbm.world.DesertAtom001;
+import com.hbm.world.Dud;
 import com.hbm.world.Factory;
 import com.hbm.world.LibraryDungeon;
 import com.hbm.world.Radio01;
@@ -261,6 +262,15 @@ public class HbmWorldGen implements IWorldGenerator {
 			int y = world.getHeightValue(x, z);
 
 			new Factory().generate(world, rand, x, y, z);
+		}
+		
+		if(rand.nextInt(500) == 0)
+		{
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z);
+
+			new Dud().generate(world, rand, x, y, z);
 		}
 
 	}

@@ -5,6 +5,7 @@ import com.hbm.blocks.TileEntityBombMulti;
 import com.hbm.blocks.TileEntityCoreAdvanced;
 import com.hbm.blocks.TileEntityCoreTitanium;
 import com.hbm.blocks.TileEntityDiFurnace;
+import com.hbm.blocks.TileEntityFusionMultiblock;
 import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.blocks.TileEntityMachineBattery;
 import com.hbm.blocks.TileEntityMachineCoal;
@@ -32,6 +33,7 @@ import com.hbm.gui.ContainerCentrifuge;
 import com.hbm.gui.ContainerCoreAdvanced;
 import com.hbm.gui.ContainerCoreTitanium;
 import com.hbm.gui.ContainerElectricFurnace;
+import com.hbm.gui.ContainerFusionMultiblock;
 import com.hbm.gui.ContainerGenerator;
 import com.hbm.gui.ContainerLaunchPadTier1;
 import com.hbm.gui.ContainerMachineBattery;
@@ -54,6 +56,7 @@ import com.hbm.gui.ContainerUF6Tank;
 import com.hbm.gui.GUIBombMulti;
 import com.hbm.gui.GUICoreAdvanced;
 import com.hbm.gui.GUICoreTitanium;
+import com.hbm.gui.GUIFusionMultiblock;
 import com.hbm.gui.GUILaunchPadTier1;
 import com.hbm.gui.GUIMachineBattery;
 import com.hbm.gui.GUIMachineCentrifuge;
@@ -290,6 +293,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
 				}
 			}
+			
+			case ModBlocks.guiID_fusion_multiblock:
+			{
+				if(entity instanceof TileEntityFusionMultiblock)
+				{
+					return new ContainerFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -500,6 +511,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityReactorMultiblock)
 					{
 						return new GUIReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_fusion_multiblock:
+				{
+					if(entity instanceof TileEntityFusionMultiblock)
+					{
+						return new GUIFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
 					}
 				}
 			}

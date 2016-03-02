@@ -555,6 +555,7 @@ public class ExplosionParticle {
 		world.spawnEntityInWorld(new EntitySmokeFX(world, x + 9, y + 6, z + 8,0.0, 0.0, 0.0));
 		world.spawnEntityInWorld(new EntitySmokeFX(world, x + 4, y + 6, z + 9,0.0, 0.0, 0.0));
 		world.spawnEntityInWorld(new EntitySmokeFX(world, x + 8, y + 6, z + 9,0.0, 0.0, 0.0));*/
+		y--;
 		world.spawnEntityInWorld(new EntitySmokeFX(world, x + 5, y + 7, z + 5,0.0, 0.0, 0.0));
 		world.spawnEntityInWorld(new EntitySmokeFX(world, x + 7, y + 7, z + 5,0.0, 0.0, 0.0));
 		world.spawnEntityInWorld(new EntitySmokeFX(world, x + 5, y + 7, z + 7,0.0, 0.0, 0.0));

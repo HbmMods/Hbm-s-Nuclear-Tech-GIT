@@ -379,7 +379,7 @@ public class TileEntityWireCoated extends TileEntity {
 			}
 		}*/
 		
-		Library.distributePower(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+		//Library.distributePower(this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 	}
 
 }
