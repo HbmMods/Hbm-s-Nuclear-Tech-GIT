@@ -1,5 +1,6 @@
 package com.hbm.blocks;
 
+import com.hbm.interfaces.IConductor;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityLaunchPad extends TileEntity implements ISidedInventory {
+public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, IConductor {
 
 	public ItemStack slots[];
 	

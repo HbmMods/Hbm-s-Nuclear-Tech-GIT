@@ -1,5 +1,6 @@
 package com.hbm.blocks;
 
+import com.hbm.interfaces.IConductor;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineElectricFurnace extends TileEntity implements ISidedInventory {
+public class TileEntityMachineElectricFurnace extends TileEntity implements ISidedInventory, IConductor {
 
 	private ItemStack slots[];
 	

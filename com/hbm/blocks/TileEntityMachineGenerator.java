@@ -3,6 +3,7 @@ package com.hbm.blocks;
 import java.util.Random;
 
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.interfaces.IConductor;
 import com.hbm.items.ItemFuelRod;
 import com.hbm.items.ModItems;
 
@@ -15,7 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineGenerator extends TileEntity implements ISidedInventory {
+public class TileEntityMachineGenerator extends TileEntity implements ISidedInventory, IConductor {
 
 	private ItemStack slots[];
 	

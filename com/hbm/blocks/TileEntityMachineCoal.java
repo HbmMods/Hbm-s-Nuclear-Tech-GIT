@@ -10,9 +10,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
+import com.hbm.interfaces.IConductor;
 import com.hbm.items.ModItems;
 
-public class TileEntityMachineCoal extends TileEntity implements ISidedInventory {
+public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, IConductor {
 
 	private ItemStack slots[];
 	

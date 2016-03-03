@@ -1637,8 +1637,8 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 11, y + -9, z + 4, Block1, 0, 3);
 		world.setBlock(x + 7, y + -9, z + 5, Block1, 0, 3);
 		world.setBlock(x + 8, y + -9, z + 5, Blocks.chest, 2, 3);
-		world.setBlockMetadataWithNotify(x + 8, y + -9, z + 2, 3, 3);
-		if(world.getBlock(x + 8, y + -9, z + 2) == Blocks.chest)
+		world.setBlockMetadataWithNotify(x + 8, y + -9, z + 5, 3, 3);
+		if(world.getBlock(x + 8, y + -9, z + 5) == Blocks.chest)
 		{
 			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 8, y + -9, z + 5), rand.nextInt(2)+ 8);
 		}
