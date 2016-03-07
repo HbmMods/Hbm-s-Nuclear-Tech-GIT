@@ -3,6 +3,7 @@ package com.hbm.entity;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -245,7 +246,12 @@ public class EntityMiniNuke extends Entity implements IProjectile
         	    entity0.coefficient = 10.0F;
         	    	
         	    this.worldObj.spawnEntityInWorld(entity0);
-            	ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	if(rand.nextInt(100) == 0)
+            	{
+            		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	} else {
+            		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	}
             }
         	this.setDead();
         }
@@ -384,7 +390,12 @@ public class EntityMiniNuke extends Entity implements IProjectile
                         	    entity0.coefficient = 10.0F;
                         	    	
                         	    this.worldObj.spawnEntityInWorld(entity0);
-                            	ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+                            	if(rand.nextInt(100) == 0)
+                            	{
+                            		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+                            	} else {
+                            		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+                            	}
                             }
                         	this.setDead();
                         }

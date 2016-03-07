@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -23,9 +24,11 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -247,7 +250,13 @@ public class EntityNuclearCreeper extends EntityMob {
                 			if(!worldObj.isRemote)
                 				worldObj.spawnEntityInWorld(creep);
                 		entity.setDead();
-                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper))
+                	} else if(entity instanceof EntityVillager) {
+                		EntityZombie creep = new EntityZombie(this.worldObj);
+                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+                		entity.setDead();
+                		if(!this.worldObj.isRemote)
+                		this.worldObj.spawnEntityInWorld(creep);
+                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
                     {
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 5 * 20, 1));
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 15 * 20, 0));
@@ -439,7 +448,12 @@ public class EntityNuclearCreeper extends EntityMob {
     	    	entity2.posZ = this.posZ;
     	    	this.worldObj.spawnEntityInWorld(entity2);
             } else {
-            	ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	if(rand.nextInt(100) == 0)
+            	{
+            		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	} else {
+            		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	}
             }
 
             this.setDead();

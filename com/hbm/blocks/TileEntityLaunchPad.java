@@ -1,6 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,7 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, IConductor {
+public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, IConsumer {
 
 	public ItemStack slots[];
 	
@@ -220,6 +221,12 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
 		}
 		
+		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.energy_core && slots[2].getItemDamage() < 5000)
+		{
+			power += 100;
+			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
+		}
+		
 		this.preState = this.state;
 		
 		if(this.slots[0] == null || 
@@ -417,6 +424,23 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	
 	public World getThatWorld() {
 		return this.worldObj;
+	}
+
+	@Override
+	public void setPower(int i) {
+		power = i;
+		
+	}
+
+	@Override
+	public int getPower() {
+		return power;
+		
+	}
+
+	@Override
+	public int getMaxPower() {
+		return maxPower;
 	}
 
 }

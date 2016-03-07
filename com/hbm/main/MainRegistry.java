@@ -106,6 +106,7 @@ import com.hbm.entity.EntityTestMissile;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.RefStrings;
+import com.hbm.particles.EntityBSmokeFX;
 import com.hbm.particles.EntitySmokeFX;
 
 import cpw.mods.fml.common.SidedProxy;
@@ -131,6 +132,9 @@ public class MainRegistry
 	//Tool Materials
 	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
 	public static ToolMaterial enumToolMaterialChainsaw = EnumHelper.addToolMaterial("CHAINSAW", 3, 5000, 50.0F, 47.0F, 0);
+	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("STEEL", 2, 500, 7.5F, 2.0F, 10);
+	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
+	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
 	
 	//Armor Materials
 	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
@@ -138,6 +142,9 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 2147483647, new int[] {3, 8, 6, 3}, 100);
 	public static ArmorMaterial enumArmorMaterialHazmat = EnumHelper.addArmorMaterial("HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
+	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
+	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
+	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 50, new int[] {3, 8, 6, 3}, 12);
 	
 	//Creative Tabs
 	public static CreativeTabs tabTest = new TestTab(CreativeTabs.getNextID(), "tabTest");
@@ -152,8 +159,8 @@ public class MainRegistry
 	public static int manRadius = 175;
 	public static int mikeRadius = 250;
 	public static int tsarRadius = 500;
-	public static int prototypeRadius = 50;
-	public static int fleijaRadius = 150;
+	public static int prototypeRadius = 150;
+	public static int fleijaRadius = 50;
 	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
@@ -167,8 +174,14 @@ public class MainRegistry
 		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
 		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
 		enumArmorMaterialT45.customCraftingMaterial = ModItems.plate_titanium;
+		enumArmorMaterialTitanium.customCraftingMaterial = ModItems.ingot_titanium;
+		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
+		enumArmorMaterialAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
 		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
+		enumToolMaterialTitanium.setRepairItem(new ItemStack(ModItems.ingot_titanium));
+		enumToolMaterialSteel.setRepairItem(new ItemStack(ModItems.ingot_steel));
+		enumToolMaterialAlloy.setRepairItem(new ItemStack(ModItems.ingot_advanced_alloy));
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -253,6 +266,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntitySmokeFX.class, "entity_smoke_fx", 37, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeCloudBig.class, "entity_nuke_cloud_big", 38, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 39, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 40, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	}

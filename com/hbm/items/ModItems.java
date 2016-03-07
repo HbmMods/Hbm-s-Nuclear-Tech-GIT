@@ -165,8 +165,10 @@ public class ModItems {
 	public static Item cell_antimatter;
 	public static Item cell_anti_schrabidium;
 	public static Item inf_water;
+	public static Item inf_coolant;
 	public static Item inf_deuterium;
 	public static Item inf_tritium;
+	public static Item inf_sulfur;
 
 	public static Item canister_empty;
 	public static Item canister_fuel;
@@ -396,17 +398,44 @@ public class ModItems {
 	public static Item t45_boots;
 
 	public static Item chainsaw;
-	
+
 	public static Item schrabidium_helmet;
 	public static Item schrabidium_plate;
 	public static Item schrabidium_legs;
 	public static Item schrabidium_boots;
-	
+	public static Item titanium_helmet;
+	public static Item titanium_plate;
+	public static Item titanium_legs;
+	public static Item titanium_boots;
+	public static Item steel_helmet;
+	public static Item steel_plate;
+	public static Item steel_legs;
+	public static Item steel_boots;
+	public static Item alloy_helmet;
+	public static Item alloy_plate;
+	public static Item alloy_legs;
+	public static Item alloy_boots;
+
 	public static Item schrabidium_sword;
 	public static Item schrabidium_pickaxe;
 	public static Item schrabidium_axe;
 	public static Item schrabidium_shovel;
 	public static Item schrabidium_hoe;
+	public static Item titanium_sword;
+	public static Item titanium_pickaxe;
+	public static Item titanium_axe;
+	public static Item titanium_shovel;
+	public static Item titanium_hoe;
+	public static Item steel_sword;
+	public static Item steel_pickaxe;
+	public static Item steel_axe;
+	public static Item steel_shovel;
+	public static Item steel_hoe;
+	public static Item alloy_sword;
+	public static Item alloy_pickaxe;
+	public static Item alloy_axe;
+	public static Item alloy_shovel;
+	public static Item alloy_hoe;
 	
 	public static Item mask_of_infamy;
 
@@ -435,7 +464,7 @@ public class ModItems {
 	public static Item euphemium_kit;
 
 	public static Item igniter;
-	
+
 	public static Item smoke1;
 	public static Item smoke2;
 	public static Item smoke3;
@@ -444,6 +473,14 @@ public class ModItems {
 	public static Item smoke6;
 	public static Item smoke7;
 	public static Item smoke8;
+	public static Item b_smoke1;
+	public static Item b_smoke2;
+	public static Item b_smoke3;
+	public static Item b_smoke4;
+	public static Item b_smoke5;
+	public static Item b_smoke6;
+	public static Item b_smoke7;
+	public static Item b_smoke8;
 
 	public static void initializeItem()
 	{			
@@ -604,8 +641,10 @@ public class ModItems {
 		cell_sas3 = new ItemCustomLore().setUnlocalizedName("cell_sas3").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_sas3");
 		cell_anti_schrabidium = new Item().setUnlocalizedName("cell_anti_schrabidium").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_anti_schrabidium");
 		inf_water = new Item().setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_water");
+		inf_coolant = new Item().setUnlocalizedName("inf_coolant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_coolant");
 		inf_deuterium = new Item().setUnlocalizedName("inf_deuterium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_deuterium");
 		inf_tritium = new Item().setUnlocalizedName("inf_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_tritium");
+		inf_sulfur = new Item().setUnlocalizedName("inf_sulfur").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_sulfur");
 
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
@@ -846,17 +885,44 @@ public class ModItems {
 		t45_boots = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 3).setUnlocalizedName("t45_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_boots");
 		
 		chainsaw = new ItemModAxe(MainRegistry.enumToolMaterialChainsaw).setUnlocalizedName("chainsaw").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":chainsaw");
-		
+
 		schrabidium_helmet = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 0).setUnlocalizedName("schrabidium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_helmet");
 		schrabidium_plate = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 1).setUnlocalizedName("schrabidium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_plate");
 		schrabidium_legs = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 2).setUnlocalizedName("schrabidium_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_legs");
 		schrabidium_boots = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 3).setUnlocalizedName("schrabidium_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_boots");
+		titanium_helmet = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 0).setUnlocalizedName("titanium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_helmet");
+		titanium_plate = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 1).setUnlocalizedName("titanium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_plate");
+		titanium_legs = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 2).setUnlocalizedName("titanium_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_legs");
+		titanium_boots = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 3).setUnlocalizedName("titanium_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_boots");
+		steel_helmet = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 0).setUnlocalizedName("steel_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_helmet");
+		steel_plate = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 1).setUnlocalizedName("steel_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_plate");
+		steel_legs = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 2).setUnlocalizedName("steel_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_legs");
+		steel_boots = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 3).setUnlocalizedName("steel_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_boots");
+		alloy_helmet = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 0).setUnlocalizedName("alloy_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_helmet");
+		alloy_plate = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 1).setUnlocalizedName("alloy_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_plate");
+		alloy_legs = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 2).setUnlocalizedName("alloy_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_legs");
+		alloy_boots = new ModArmor(MainRegistry.enumArmorMaterialSchrabidium, 7, 3).setUnlocalizedName("alloy_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_boots");
 
 		schrabidium_sword = new SwordSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_sword");
 		schrabidium_pickaxe = new PickaxeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
 		schrabidium_axe = new AxeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_axe");
 		schrabidium_shovel = new SpadeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_shovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_shovel");
 		schrabidium_hoe = new HoeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_hoe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hoe");
+		titanium_sword = new ModSword(MainRegistry.enumToolMaterialTitanium).setUnlocalizedName("titanium_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_sword");
+		titanium_pickaxe = new ModPickaxe(MainRegistry.enumToolMaterialTitanium).setUnlocalizedName("titanium_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_pickaxe");
+		titanium_axe = new ModAxe(MainRegistry.enumToolMaterialTitanium).setUnlocalizedName("titanium_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_axe");
+		titanium_shovel = new ModSpade(MainRegistry.enumToolMaterialTitanium).setUnlocalizedName("titanium_shovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_shovel");
+		titanium_hoe = new ModHoe(MainRegistry.enumToolMaterialTitanium).setUnlocalizedName("titanium_hoe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":titanium_hoe");
+		steel_sword = new ModSword(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("steel_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_sword");
+		steel_pickaxe = new ModPickaxe(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("steel_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_pickaxe");
+		steel_axe = new ModAxe(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("steel_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_axe");
+		steel_shovel = new ModSpade(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("steel_shovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_shovel");
+		steel_hoe = new ModHoe(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("steel_hoe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":steel_hoe");
+		alloy_sword = new ModSword(MainRegistry.enumToolMaterialAlloy).setUnlocalizedName("alloy_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_sword");
+		alloy_pickaxe = new ModPickaxe(MainRegistry.enumToolMaterialAlloy).setUnlocalizedName("alloy_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_pickaxe");
+		alloy_axe = new ModAxe(MainRegistry.enumToolMaterialAlloy).setUnlocalizedName("alloy_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_axe");
+		alloy_shovel = new ModSpade(MainRegistry.enumToolMaterialAlloy).setUnlocalizedName("alloy_shovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_shovel");
+		alloy_hoe = new ModHoe(MainRegistry.enumToolMaterialAlloy).setUnlocalizedName("alloy_hoe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":alloy_hoe");
 		
 		mask_of_infamy = new MaskOfInfamy(ArmorMaterial.IRON, 8, 0).setUnlocalizedName("mask_of_infamy").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_of_infamy");
 
@@ -873,6 +939,14 @@ public class ModItems {
 		smoke6 = new Item().setUnlocalizedName("smoke6").setTextureName(RefStrings.MODID + ":smoke6");
 		smoke7 = new Item().setUnlocalizedName("smoke7").setTextureName(RefStrings.MODID + ":smoke7");
 		smoke8 = new Item().setUnlocalizedName("smoke8").setTextureName(RefStrings.MODID + ":smoke8");
+		b_smoke1 = new Item().setUnlocalizedName("b_smoke1").setTextureName(RefStrings.MODID + ":b_smoke1");
+		b_smoke2 = new Item().setUnlocalizedName("b_smoke2").setTextureName(RefStrings.MODID + ":b_smoke2");
+		b_smoke3 = new Item().setUnlocalizedName("b_smoke3").setTextureName(RefStrings.MODID + ":b_smoke3");
+		b_smoke4 = new Item().setUnlocalizedName("b_smoke4").setTextureName(RefStrings.MODID + ":b_smoke4");
+		b_smoke5 = new Item().setUnlocalizedName("b_smoke5").setTextureName(RefStrings.MODID + ":b_smoke5");
+		b_smoke6 = new Item().setUnlocalizedName("b_smoke6").setTextureName(RefStrings.MODID + ":b_smoke6");
+		b_smoke7 = new Item().setUnlocalizedName("b_smoke7").setTextureName(RefStrings.MODID + ":b_smoke7");
+		b_smoke8 = new Item().setUnlocalizedName("b_smoke8").setTextureName(RefStrings.MODID + ":b_smoke8");
 	}
 	
 	private static void registerItem() {
@@ -1057,8 +1131,10 @@ public class ModItems {
 		
 		//Infinite Tanks
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
+		GameRegistry.registerItem(inf_coolant, inf_coolant.getUnlocalizedName());
 		GameRegistry.registerItem(inf_deuterium, inf_deuterium.getUnlocalizedName());
 		GameRegistry.registerItem(inf_tritium, inf_tritium.getUnlocalizedName());
+		GameRegistry.registerItem(inf_sulfur, inf_sulfur.getUnlocalizedName());
 
 		//Canisters
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
@@ -1233,6 +1309,21 @@ public class ModItems {
 		GameRegistry.registerItem(schrabidium_axe, schrabidium_axe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_shovel, schrabidium_shovel.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_hoe, schrabidium_hoe.getUnlocalizedName());
+		GameRegistry.registerItem(steel_sword, steel_sword.getUnlocalizedName());
+		GameRegistry.registerItem(steel_pickaxe, steel_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(steel_axe, steel_axe.getUnlocalizedName());
+		GameRegistry.registerItem(steel_shovel, steel_shovel.getUnlocalizedName());
+		GameRegistry.registerItem(steel_hoe, steel_hoe.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_sword, titanium_sword.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_pickaxe, titanium_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_axe, titanium_axe.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_shovel, titanium_shovel.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_hoe, titanium_hoe.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_sword, alloy_sword.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_pickaxe, alloy_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_axe, alloy_axe.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_shovel, alloy_shovel.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_hoe, alloy_hoe.getUnlocalizedName());
 		
 		//Syringes
 		GameRegistry.registerItem(syringe_empty, syringe_empty.getUnlocalizedName());
@@ -1288,6 +1379,19 @@ public class ModItems {
 		//Conventional Armor
 		GameRegistry.registerItem(goggles, goggles.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
+		
+		GameRegistry.registerItem(steel_helmet, steel_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(steel_plate, steel_plate.getUnlocalizedName());
+		GameRegistry.registerItem(steel_legs, steel_legs.getUnlocalizedName());
+		GameRegistry.registerItem(steel_boots, steel_boots.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_helmet, titanium_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_plate, titanium_plate.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_legs, titanium_legs.getUnlocalizedName());
+		GameRegistry.registerItem(titanium_boots, titanium_boots.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_helmet, alloy_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_plate, alloy_plate.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_legs, alloy_legs.getUnlocalizedName());
+		GameRegistry.registerItem(alloy_boots, alloy_boots.getUnlocalizedName());
 		
 		//Power Armor
 		GameRegistry.registerItem(t45_helmet, t45_helmet.getUnlocalizedName());
@@ -1347,5 +1451,13 @@ public class ModItems {
 		GameRegistry.registerItem(smoke6, smoke6.getUnlocalizedName());
 		GameRegistry.registerItem(smoke7, smoke7.getUnlocalizedName());
 		GameRegistry.registerItem(smoke8, smoke8.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke1, b_smoke1.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke2, b_smoke2.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke3, b_smoke3.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke4, b_smoke4.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke5, b_smoke5.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke6, b_smoke6.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke7, b_smoke7.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke8, b_smoke8.getUnlocalizedName());
 	}
 }

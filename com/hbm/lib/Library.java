@@ -1,10 +1,17 @@
 package com.hbm.lib;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.blocks.TileEntityMachineBattery;
 import com.hbm.blocks.TileEntityMachineDeuterium;
 import com.hbm.blocks.TileEntityMachineElectricFurnace;
 import com.hbm.blocks.TileEntityWireCoated;
+import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -170,70 +177,30 @@ public class Library {
 		return false;
 	}
 	
-	public static void distributePower(World worldObj, int xCoord, int yCoord, int zCoord) {
-		TileEntity entity0 = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-		TileEntity entity1 = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-		TileEntity entity2 = worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-		TileEntity entity3 = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-		TileEntity entity4 = worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-		TileEntity entity5 = worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-		
-		TileEntity that = worldObj.getTileEntity(xCoord, yCoord, zCoord);
-		
-		TileEntity entity;
-		
-		for(int i = 0; i < 6; i++)
+	public static boolean checkConnectables(World world, int x, int y, int z)
+	{
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		if((tileentity != null && (tileentity instanceof IConductor ||
+				tileentity instanceof IConsumer ||
+				tileentity instanceof ISource)) ||
+				world.getBlock(x, y, z) == ModBlocks.fusion_center ||
+				world.getBlock(x, y, z) == ModBlocks.reactor_conductor)
 		{
-			entity = entity0;
-			if(i == 1) entity = entity1;
-			if(i == 2) entity = entity2;
-			if(i == 3) entity = entity3;
-			if(i == 4) entity = entity4;
-			if(i == 5) entity = entity5;
-			
-			if(entity instanceof TileEntityMachineElectricFurnace ||
-					entity instanceof TileEntityWireCoated ||
-					entity instanceof TileEntityMachineDeuterium ||
-					entity instanceof TileEntityMachineBattery ||
-					entity instanceof TileEntityLaunchPad)
-			{
-				if(entity instanceof TileEntityMachineElectricFurnace && ((TileEntityMachineElectricFurnace)entity).power + 100 <= TileEntityMachineElectricFurnace.maxPower && TileEntityWireCoated.power >= 100)
-				{
-					((TileEntityMachineElectricFurnace)entity).power += 100;
-					if(that instanceof TileEntityWireCoated) {
-						TileEntityWireCoated.power -= 100;
-					}
-				} else
-				if(entity instanceof TileEntityWireCoated && TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && TileEntityWireCoated.power >= 100)
-				{
-					TileEntityWireCoated.power += 100;
-					if(that instanceof TileEntityWireCoated) {
-						TileEntityWireCoated.power -= 100;
-					}
-				} else
-				if(entity instanceof TileEntityMachineDeuterium && ((TileEntityMachineDeuterium)entity).power + 100 <= TileEntityMachineDeuterium.maxPower && TileEntityWireCoated.power >= 100)
-				{
-					((TileEntityMachineDeuterium)entity).power += 100;
-					if(that instanceof TileEntityWireCoated) {
-						TileEntityWireCoated.power -= 100;
-					}
-				} else
-				if(entity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)entity).power + 100 <= ((TileEntityMachineBattery)entity).maxPower && !((TileEntityMachineBattery)entity).conducts && TileEntityWireCoated.power >= 100)
-				{
-					((TileEntityMachineBattery)entity).power += 100;
-					if(that instanceof TileEntityWireCoated) {
-						TileEntityWireCoated.power -= 100;
-					}
-				} else
-					if(entity instanceof TileEntityLaunchPad && ((TileEntityLaunchPad)entity).power + 100 <= ((TileEntityLaunchPad)entity).maxPower && TileEntityWireCoated.power >= 100)
-					{
-						((TileEntityLaunchPad)entity).power += 100;
-						if(that instanceof TileEntityWireCoated) {
-							TileEntityWireCoated.power -= 100;
-						}
-					}
-			}
+			return true;
 		}
+		return false;
 	}
 	
+	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, TileEntity that) {
+		
+		for(UnionOfTileEntitiesAndBooleans union : list)
+		{
+			if(union.source == that)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

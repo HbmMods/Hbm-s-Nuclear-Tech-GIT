@@ -69,6 +69,8 @@ public class ModBlocks {
 	public static Block brick_concrete;
 	public static Block brick_obsidian;
 	public static Block brick_light;
+	
+	public static Block block_meteor;
 
 	public static Block tape_recorder;
 	public static Block steel_poles;
@@ -285,6 +287,8 @@ public class ModBlocks {
 		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
 		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(15).setHardness(15.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
 
+		block_meteor = new BlockGeneric(Material.rock).setBlockName("block_meteor").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":block_meteor");
+		
 		tape_recorder = new DecoTapeRecorder(Material.rock).setBlockName("tape_recorder").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_tape_recorder");
 		steel_poles = new DecoSteelPoles(Material.rock).setBlockName("steel_poles").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel_poles");
 		pole_top = new DecoPoleTop(Material.rock).setBlockName("pole_top").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_pole_top");
@@ -469,6 +473,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_light, brick_light.getUnlocalizedName());
 		
 		//Decoration Blocks
+		GameRegistry.registerBlock(block_meteor, block_meteor.getUnlocalizedName());
 		GameRegistry.registerBlock(tape_recorder, tape_recorder.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_poles, steel_poles.getUnlocalizedName());
 		GameRegistry.registerBlock(pole_top, pole_top.getUnlocalizedName());

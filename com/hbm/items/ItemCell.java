@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockCrashedBomb;
 import com.hbm.blocks.LaunchPad;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -34,7 +35,7 @@ public class ItemCell extends Item {
         	    	entity0.coefficient = 10.0F;
         	    	
         	    	world.spawnEntityInWorld(entity0);
-            		ExplosionParticle.spawnMush(world, p_77648_4_, p_77648_5_ - 3, p_77648_6_);
+            		ExplosionParticleB.spawnMush(world, p_77648_4_, p_77648_5_ - 3, p_77648_6_);
 	            }
 			} else if(i < 90)
 			{

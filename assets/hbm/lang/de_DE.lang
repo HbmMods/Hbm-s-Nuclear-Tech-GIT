@@ -92,7 +92,7 @@ tile.machine_electric_furnace_on.name=Elektrischer Ofen
 container.electricFurnace=Elektrischer Ofen
 tile.machine_generator.name=Atomreaktor
 container.generator=Atomreaktor
-tile.red_wire_coated.name=Rotes Kupferkabel
+tile.red_wire_coated.name=Geschirmtes rotes Kupferkabel
 tile.machine_deuterium.name=Deuteriumextraktor
 container.machine_deuterium=Deuteriumextraktor
 tile.machine_battery.name=Energiespeicherblock
@@ -585,3 +585,35 @@ item.thruster_medium.name=Mittleres Raketentriebwerk
 item.thruster_large.name=Großes Raketentriebwerk
 
 item.wand.name=Konstruktions-Zauberstab
+
+item.steel_helmet.name=Stahlhelm
+item.steel_plate.name=Stahlbrustpanzer
+item.steel_legs.name=Stahlbeinschutz
+item.steel_boots.name=Stahlstiefel
+item.titanium_helmet.name=Titanhelm
+item.titanium_plate.name=Titanbrustpanzer
+item.titanium_legs.name=Titanbeinschutz
+item.titanium_boots.name=Titanstiefel
+item.alloy_helmet.name=Legierungshelm
+item.alloy_plate.name=Legierungsbrustpanzer
+item.alloy_legs.name=Legierungsbeinschutz
+item.alloy_boots.name=Legierungsstiefel
+
+item.steel_sword.name=Stahlschwert
+item.steel_pickaxe.name=Stahlspitzhacke
+item.steel_axe.name=Stahlaxt
+item.steel_shovel.name=Stahlschaufel
+item.steel_hoe.name=Stahlfeldhacke
+item.titanium_sword.name=Titanschwert
+item.titanium_pickaxe.name=Titanspitzhacke
+item.titanium_axe.name=Titanaxt
+item.titanium_shovel.name=Titanschaufel
+item.titanium_hoe.name=Titanfeldhacke
+item.alloy_sword.name=Legierungsschwert
+item.alloy_pickaxe.name=Legierungsspitzhacke
+item.alloy_axe.name=Legierungsaxt
+item.alloy_shovel.name=Legierungsschaufel
+item.alloy_hoe.name=Legierungsfeldhacke
+
+tile.red_cable.name=Rotes Kupferkabel
+tile.meteor.name=Meteoritenblock

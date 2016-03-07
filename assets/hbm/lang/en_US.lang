@@ -92,7 +92,7 @@ tile.machine_electric_furnace_on.name=Electric Furnace
 container.electricFurnace=Electric Furnace
 tile.machine_generator.name=Nuclear Reactor
 container.generator=Nuclear Reactor
-tile.red_wire_coated.name=Red Copper Cable
+tile.red_wire_coated.name=Coated Red Copper Cable
 tile.machine_deuterium.name=Deuterium Extractor
 container.machine_deuterium=Deuterium Extractor
 tile.machine_battery.name=Energy Storage Block
@@ -586,3 +586,35 @@ item.thruster_medium.name=Medium Thruster
 item.thruster_large.name=Large Thruster
 
 item.wand.name=Construction Wand
+
+item.steel_helmet.name=Steel Helmet
+item.steel_plate.name=Steel Chestplate
+item.steel_legs.name=Steel Leggings
+item.steel_boots.name=Steel Boots
+item.titanium_helmet.name=Titanium Helmet
+item.titanium_plate.name=Titanium Chestplate
+item.titanium_legs.name=Titanium Leggings
+item.titanium_boots.name=Titanium Boots
+item.alloy_helmet.name=Advanced Alloy Helmet
+item.alloy_plate.name=Advanced Alloy Chestplate
+item.alloy_legs.name=Advanced Alloy Leggings
+item.alloy_boots.name=Advanced Alloy Boots
+
+item.steel_sword.name=Steel Sword
+item.steel_pickaxe.name=Steel Pickaxe
+item.steel_axe.name=Steel Axe
+item.steel_shovel.name=Steel Shovel
+item.steel_hoe.name=Steel Hoe
+item.titanium_sword.name=Titanium Sword
+item.titanium_pickaxe.name=Titanium Pickaxe
+item.titanium_axe.name=Titanium Axe
+item.titanium_shovel.name=Titanium Shovel
+item.titanium_hoe.name=Titanium Hoe
+item.alloy_sword.name=Advanced Alloy Sword
+item.alloy_pickaxe.name=Advanced Alloy Pickaxe
+item.alloy_axe.name=Advanced Alloy Axe
+item.alloy_shovel.name=Advanced Alloy Shovel
+item.alloy_hoe.name=Advanced Alloy Hoe
+
+tile.red_cable.name=Red Cable
+tile.meteor.name=Meteor Block

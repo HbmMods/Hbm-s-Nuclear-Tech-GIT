@@ -22,7 +22,7 @@ public class ItemCustomLore extends Item {
 		}
 		if(this == ModItems.flame_politics)
 		{
-			list.add("Dolan Tremp 4 president!");
+			list.add("Donald Drumpf 4 president!");
 		}
 		if(this == ModItems.flame_opinion)
 		{

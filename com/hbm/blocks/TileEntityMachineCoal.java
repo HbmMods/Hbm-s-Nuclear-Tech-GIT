@@ -10,10 +10,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-import com.hbm.interfaces.IConductor;
-import com.hbm.items.ModItems;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, IConductor {
+import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.ISource;
+import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
+
+public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource {
 
 	private ItemStack slots[];
 	
@@ -22,6 +29,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	public int burnTime;
 	public static final int maxPower = 10000;
 	public static final int maxWater = 10000;
+	public int age = 0;
+	public List<IConsumer> list = new ArrayList();
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2};
@@ -192,6 +201,15 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	
 	@Override
 	public void updateEntity() {
+		age++;
+		if(age >= 20)
+		{
+			age = 0;
+		}
+		
+		if(age == 9 || age == 19)
+			ffgeuaInit();
+		
 		//Water
 		if(slots[0] != null && slots[0].getItem() == Items.water_bucket && this.water + 2500 <= maxWater)
 		{
@@ -229,6 +247,10 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 				this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
 			}
 		}
+		if(slots[0] != null && slots[0].getItem() == ModItems.inf_water)
+		{
+			this.water = this.maxWater;
+		}
 
 		//Battery Item
 		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_generic && slots[2].getItemDamage() > 0)
@@ -255,239 +277,6 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		{
 			power -= 100;
 			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		
-		//Electric Furnace
-		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof MachineElectricFurnace)
-		{
-			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof MachineElectricFurnace)
-		{
-			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof MachineElectricFurnace)
-		{
-			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof MachineElectricFurnace)
-		{
-			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof MachineElectricFurnace)
-		{
-			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof MachineElectricFurnace)
-		{
-			TileEntityMachineElectricFurnace entity = (TileEntityMachineElectricFurnace) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= TileEntityMachineElectricFurnace.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		
-		//Wire
-		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof WireCoated)
-		{
-			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
-			{
-				TileEntityWireCoated.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof WireCoated)
-		{
-			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
-			{
-				TileEntityWireCoated.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof WireCoated)
-		{
-			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
-			{
-				TileEntityWireCoated.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof WireCoated)
-		{
-			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
-			{
-				TileEntityWireCoated.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof WireCoated)
-		{
-			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
-			{
-				TileEntityWireCoated.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof WireCoated)
-		{
-			TileEntityWireCoated entity = (TileEntityWireCoated) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(TileEntityWireCoated.power + 100 <= TileEntityWireCoated.maxPower && this.power - 100 >= 0)
-			{
-				TileEntityWireCoated.power += 100;
-				this.power -= 100;
-			}
-		}
-		
-		//Deuterium
-		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof MachineDeuterium)
-		{
-			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof MachineDeuterium)
-		{
-			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof MachineDeuterium)
-		{
-			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof MachineDeuterium)
-		{
-			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof MachineDeuterium)
-		{
-			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof MachineDeuterium)
-		{
-			TileEntityMachineDeuterium entity = (TileEntityMachineDeuterium) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= TileEntityMachineDeuterium.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		
-		//Batteries
-		if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof MachineBattery)
-		{
-			TileEntityMachineBattery entity = (TileEntityMachineBattery) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof MachineBattery)
-		{
-			TileEntityMachineBattery entity = (TileEntityMachineBattery) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord + 1, zCoord) instanceof MachineBattery)
-		{
-			TileEntityMachineBattery entity = (TileEntityMachineBattery) worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) instanceof MachineBattery)
-		{
-			TileEntityMachineBattery entity = (TileEntityMachineBattery) worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof MachineBattery)
-		{
-			TileEntityMachineBattery entity = (TileEntityMachineBattery) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof MachineBattery)
-		{
-			TileEntityMachineBattery entity = (TileEntityMachineBattery) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
-		}
-		if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof LaunchPad)
-		{
-			TileEntityLaunchPad entity = (TileEntityLaunchPad) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
-			if(entity.power + 100 <= entity.maxPower && this.power - 100 >= 0)
-			{
-				entity.power += 100;
-				this.power -= 100;
-			}
 		}
 
 		boolean flag = this.burnTime > 0;
@@ -556,6 +345,86 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			return true;
 		}
 		if(slots[1] != null && slots[1].getItem() == Item.getItemFromBlock(Blocks.coal_block))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public void ffgeua(int x, int y, int z, boolean newTact) {
+		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
+		if(tileentity instanceof IConductor)
+		{
+			if(tileentity instanceof TileEntityCable)
+			{
+				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, this))
+				{
+					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityCable)tileentity).uoteab.get(i).source == this)
+						{
+							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
+								ffgeua(x, y + 1, z, getTact());
+								ffgeua(x, y - 1, z, getTact());
+								ffgeua(x - 1, y, z, getTact());
+								ffgeua(x + 1, y, z, getTact());
+								ffgeua(x, y, z - 1, getTact());
+								ffgeua(x, y, z + 1, getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityWireCoated)
+			{
+				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, this))
+				{
+					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == this)
+						{
+							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
+								ffgeua(x, y + 1, z, getTact());
+								ffgeua(x, y - 1, z, getTact());
+								ffgeua(x - 1, y, z, getTact());
+								ffgeua(x + 1, y, z, getTact());
+								ffgeua(x, y, z - 1, getTact());
+								ffgeua(x, y, z + 1, getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
+				}
+			}
+		}
+		
+		if(tileentity instanceof IConsumer && newTact)
+		{
+			list.add((IConsumer)tileentity);
+		}
+	}
+
+	@Override
+	public void ffgeuaInit() {
+		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
+		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
+	}
+	
+	public boolean getTact() {
+		if(age >= 0 && age < 10)
 		{
 			return true;
 		}

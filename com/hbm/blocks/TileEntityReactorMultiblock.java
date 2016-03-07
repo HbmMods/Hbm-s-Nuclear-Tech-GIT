@@ -249,6 +249,10 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						this.slots[30] = this.slots[30].getItem().getContainerItem(this.slots[30]);
 					}
 				}
+				if(slots[30] != null && slots[30].getItem() == ModItems.inf_water)
+				{
+					this.water = waterMax;
+				}
 				
 				if(slots[31] != null && slots[31].getItem() == ModItems.rod_coolant && this.cool + 250000 <= coolMax)
 				{
@@ -278,6 +282,11 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 					{
 						this.slots[31] = this.slots[31].getItem().getContainerItem(this.slots[31]);
 					}
+				}
+				
+				if(slots[31] != null && slots[31].getItem() == ModItems.inf_coolant)
+				{
+					this.cool = coolMax;
 				}
 				
 				

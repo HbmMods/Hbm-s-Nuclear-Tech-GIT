@@ -1,6 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineElectricFurnace extends TileEntity implements ISidedInventory, IConductor {
+public class TileEntityMachineElectricFurnace extends TileEntity implements ISidedInventory, IConsumer {
 
 	private ItemStack slots[];
 	
@@ -320,9 +321,32 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
 		}
 		
+		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core && slots[0].getItemDamage() < 5000)
+		{
+			power += 100;
+			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+		}
+		
 		if(flag1)
 		{
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public void setPower(int i) {
+		power = i;
+		
+	}
+
+	@Override
+	public int getPower() {
+		return power;
+		
+	}
+
+	@Override
+	public int getMaxPower() {
+		return maxPower;
 	}
 }

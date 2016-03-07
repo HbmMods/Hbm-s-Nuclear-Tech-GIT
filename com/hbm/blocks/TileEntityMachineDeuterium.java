@@ -1,6 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory, IConductor {
+public class TileEntityMachineDeuterium extends TileEntity implements ISidedInventory, IConsumer {
 
 	private ItemStack slots[];
 	
@@ -252,6 +253,10 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 				slots[2] = null;
 			}
 		}
+		if(slots[2] != null && slots[2].getItem() == ModItems.inf_sulfur)
+		{
+			sulfur = maxFill;
+		}
 		
 		if(slots[1] != null && slots[1].getItem() == Items.water_bucket && water + 250 <= maxFill)
 		{
@@ -293,6 +298,11 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 			}
 		}
 		
+		if(slots[1] != null && slots[1].getItem() == ModItems.inf_water)
+		{
+			water = maxFill;
+		}
+		
 		if(/*power + 100 <= maxPower && */slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
 		{
 			power = maxPower;
@@ -322,11 +332,34 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
 		}
 		
+		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core && slots[0].getItemDamage() < 5000)
+		{
+			power += 100;
+			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+		}
+		
 		if(canProcess())
 		{
 			process();
 		} else {
 			process = 0;
 		}
+	}
+
+	@Override
+	public void setPower(int i) {
+		power = i;
+		
+	}
+
+	@Override
+	public int getPower() {
+		return power;
+		
+	}
+
+	@Override
+	public int getMaxPower() {
+		return maxPower;
 	}
 }

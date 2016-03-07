@@ -74,9 +74,11 @@ import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
 import com.hbm.items.ModItems;
+import com.hbm.particles.EntityBSmokeFX;
 import com.hbm.particles.EntitySmokeFX;
 import com.hbm.render.ItemRenderRevolverCursed;
 import com.hbm.render.ItemRenderRevolverIron;
+import com.hbm.render.BSmokeRenderer;
 import com.hbm.render.ItemRenderBigSword;
 import com.hbm.render.ItemRenderDecoBlock;
 import com.hbm.render.ItemRenderFatMan;
@@ -269,6 +271,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNuclearCreeper.class, new RenderNuclearCreeper());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new ModEffectRenderer(ModItems.nuclear_waste));
+	    RenderingRegistry.registerEntityRenderingHandler(EntityBSmokeFX.class, new BSmokeRenderer(ModItems.nuclear_waste));
 	    
 		RenderingRegistry.addNewArmourRendererPrefix("5");
 		RenderingRegistry.addNewArmourRendererPrefix("6");

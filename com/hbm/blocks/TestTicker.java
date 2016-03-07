@@ -15,7 +15,6 @@ public class TestTicker extends Block {
 
     @Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-    	
     	{
     		if(world.getBlock(x + 1, y, z) != ModBlocks.test_ticker) {
     			world.setBlock(x + 1, y, z, ModBlocks.test_ticker);
@@ -42,5 +41,4 @@ public class TestTicker extends Block {
     		}
     	}
     }
-
 }

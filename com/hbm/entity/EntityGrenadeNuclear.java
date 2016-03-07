@@ -1,6 +1,7 @@
 package com.hbm.entity;
 
 import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -53,7 +54,12 @@ public class EntityGrenadeNuclear extends EntityThrowable
     	    entity0.coefficient = 10.0F;
     	    	
     	    this.worldObj.spawnEntityInWorld(entity0);
-        	ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 2, (int)this.posZ);
+        	if(rand.nextInt(100) == 0)
+        	{
+        		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 2, (int)this.posZ);
+        	} else {
+        		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 2, (int)this.posZ);
+        	}
         }
     }
 }

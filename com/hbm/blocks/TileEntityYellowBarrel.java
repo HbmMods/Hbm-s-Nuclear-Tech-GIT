@@ -9,8 +9,10 @@ import com.hbm.lib.Library;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -74,7 +76,13 @@ public class TileEntityYellowBarrel extends TileEntity {
                 			if(!worldObj.isRemote)
                 				worldObj.spawnEntityInWorld(creep);
                 		entity.setDead();
-                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom))
+                	} else if(entity instanceof EntityVillager) {
+                		EntityZombie creep = new EntityZombie(this.worldObj);
+                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+                		entity.setDead();
+                		if(!this.worldObj.isRemote)
+                		this.worldObj.spawnEntityInWorld(creep);
+                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
                     {
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
                     	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 20, 4));
