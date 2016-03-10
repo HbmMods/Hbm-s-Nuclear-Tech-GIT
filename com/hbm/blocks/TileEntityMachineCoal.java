@@ -1,5 +1,6 @@
 package com.hbm.blocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -354,7 +355,26 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
+		Block block = this.worldObj.getBlock(x, y, z);
 		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
+
+		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
+		}
+		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
+		}
+		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
+		}
+		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
+		}
+		
 		if(tileentity instanceof IConductor)
 		{
 			if(tileentity instanceof TileEntityCable)
@@ -407,9 +427,33 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			}
 		}
 		
-		if(tileentity instanceof IConsumer && newTact)
+		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && !((TileEntityMachineBattery)tileentity).conducts))
 		{
 			list.add((IConsumer)tileentity);
+		}
+		
+		if(!newTact)
+		{
+			int size = list.size();
+			if(size > 0)
+			{
+				int part = this.power / size;
+				for(IConsumer consume : list)
+				{
+					if(consume.getPower() < consume.getMaxPower())
+					{
+						if(consume.getMaxPower() - consume.getPower() >= part)
+						{
+							this.power -= part;
+							consume.setPower(consume.getPower() + part);
+						} else {
+							this.power -= consume.getMaxPower() - consume.getPower();
+							consume.setPower(consume.getMaxPower());
+						}
+					}
+				}
+			}
+			list.clear();
 		}
 	}
 

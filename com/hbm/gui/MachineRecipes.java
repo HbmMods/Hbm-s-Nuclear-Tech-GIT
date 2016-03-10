@@ -74,6 +74,7 @@ public class MachineRecipes {
 		ItemStack[] test = new ItemStack[] {new ItemStack(Items.apple, 3), new ItemStack(Items.leather, 1), new ItemStack(Items.sugar, 3), new ItemStack(Items.blaze_powder, 2)};
 		ItemStack[] euphemium = new ItemStack[] {new ItemStack(ModItems.nugget_euphemium, 3), null, null, new ItemStack(ModItems.rod_quad_empty, 1)};
 		ItemStack[] schrabidium = new ItemStack[] {new ItemStack(ModItems.ingot_schrabidium, 1), new ItemStack(ModItems.sulfur, 2), null, new ItemStack(ModItems.cell_empty, 1)};
+		ItemStack[] lithium = new ItemStack[] {new ItemStack(ModItems.lithium, 2), null, null, null};
 
 		ItemStack[] uran1 = new ItemStack[] {new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.nugget_u238, 3), new ItemStack(ModItems.nugget_pu239, 2), new ItemStack(ModItems.rod_waste, 1)};
 		ItemStack[] uran2 = new ItemStack[] {new ItemStack(ModItems.nugget_u235, 2), new ItemStack(ModItems.nugget_u238, 6), new ItemStack(ModItems.nugget_pu239, 4), new ItemStack(ModItems.rod_dual_waste, 1)};
@@ -171,6 +172,11 @@ public class MachineRecipes {
 		if(item == ModItems.rod_quad_schrabidium_fuel_depleted)
 		{
 			return schrabidium3;
+		}
+		
+		if(item == item.getItemFromBlock(Blocks.cobblestone) || item == item.getItemFromBlock(Blocks.stone))
+		{
+			return lithium;
 		}
 		
 		return null;
@@ -305,6 +311,21 @@ public class MachineRecipes {
 		if(item == ModItems.rod_quad_schrabidium)
 		{
 			return new ItemStack(ModItems.rod_quad_euphemium, 1);
+		}
+		
+		if(item == ModItems.rod_lithium)
+		{
+			return new ItemStack(ModItems.rod_tritium, 1);
+		}
+		
+		if(item == ModItems.rod_dual_lithium)
+		{
+			return new ItemStack(ModItems.rod_dual_tritium, 1);
+		}
+		
+		if(item == ModItems.rod_quad_lithium)
+		{
+			return new ItemStack(ModItems.rod_quad_tritium, 1);
 		}
 		
 		return null;

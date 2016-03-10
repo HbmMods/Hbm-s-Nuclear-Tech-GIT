@@ -14,6 +14,7 @@ import com.hbm.world.Radio01;
 import com.hbm.world.Relay;
 import com.hbm.world.Satellite;
 import com.hbm.world.Silo;
+import com.hbm.world.Spaceship;
 import com.hbm.world.Vertibird;
 
 import net.minecraft.world.World;
@@ -271,6 +272,15 @@ public class HbmWorldGen implements IWorldGenerator {
 			int y = world.getHeightValue(x, z);
 
 			new Dud().generate(world, rand, x, y, z);
+		}
+		
+		if(rand.nextInt(1000) == 0)
+		{
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int y = world.getHeightValue(x, z);
+
+			new Spaceship().generate(world, rand, x, y, z);
 		}
 
 	}

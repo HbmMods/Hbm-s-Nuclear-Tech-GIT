@@ -1,13 +1,19 @@
 package com.hbm.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ItemFuelRod;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -30,6 +36,8 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public int power;
 	public final int powerMax = 100000;
 	public boolean isLoaded = false;
+	public int age = 0;
+	public List<IConsumer> list = new ArrayList();
 	
 	private static final int[] slots_top = new int[] {};
 	private static final int[] slots_bottom = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
@@ -229,8 +237,17 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 
 	@Override
 	public void updateEntity() {
+
+		age++;
+		if(age >= 20)
+		{
+			age = 0;
+		}
 		
-		if(!worldObj.isRemote)
+		if(age == 9 || age == 19)
+			ffgeuaInit();
+		
+		//if(!worldObj.isRemote)
 		{
 			if(slots[9] != null && slots[9].getItem() == Items.water_bucket && this.water + 250000 <= waterMax)
 			{
@@ -567,11 +584,124 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
+		Block block = this.worldObj.getBlock(x, y, z);
+		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
+
+		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
+		}
+		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
+		}
+		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
+		}
+		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
+		{
+			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
+		}
 		
+		if(tileentity instanceof IConductor)
+		{
+			if(tileentity instanceof TileEntityCable)
+			{
+				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, this))
+				{
+					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityCable)tileentity).uoteab.get(i).source == this)
+						{
+							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
+								ffgeua(x, y + 1, z, getTact());
+								ffgeua(x, y - 1, z, getTact());
+								ffgeua(x - 1, y, z, getTact());
+								ffgeua(x + 1, y, z, getTact());
+								ffgeua(x, y, z - 1, getTact());
+								ffgeua(x, y, z + 1, getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityWireCoated)
+			{
+				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, this))
+				{
+					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == this)
+						{
+							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
+								ffgeua(x, y + 1, z, getTact());
+								ffgeua(x, y - 1, z, getTact());
+								ffgeua(x - 1, y, z, getTact());
+								ffgeua(x + 1, y, z, getTact());
+								ffgeua(x, y, z - 1, getTact());
+								ffgeua(x, y, z + 1, getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
+				}
+			}
+		}
+		
+		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
+		{
+			list.add((IConsumer)tileentity);
+		}
+		
+		if(!newTact)
+		{
+			int size = list.size();
+			if(size > 0)
+			{
+				int part = this.power / size;
+				for(IConsumer consume : list)
+				{
+					if(consume.getPower() < consume.getMaxPower())
+					{
+						if(consume.getMaxPower() - consume.getPower() >= part)
+						{
+							this.power -= part;
+							consume.setPower(consume.getPower() + part);
+						} else {
+							this.power -= consume.getMaxPower() - consume.getPower();
+							consume.setPower(consume.getMaxPower());
+						}
+					}
+				}
+			}
+			list.clear();
+		}
 	}
 
 	@Override
 	public void ffgeuaInit() {
+		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
+		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
+	}
+	
+	public boolean getTact() {
+		if(age >= 0 && age < 10)
+		{
+			return true;
+		}
 		
+		return false;
 	}
 }

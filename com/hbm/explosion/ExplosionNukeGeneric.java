@@ -233,7 +233,8 @@ public class ExplosionNukeGeneric {
 				world.getBlock(x, y, z) == Blocks.wooden_button ||
 				world.getBlock(x, y, z) == Blocks.stone_button ||
 				world.getBlock(x, y, z) == Blocks.lever ||
-				world.getBlock(x, y, z) == Blocks.deadbush)
+				world.getBlock(x, y, z) == Blocks.deadbush ||
+				world.getBlock(x, y, z) == ModBlocks.red_cable)
 		{
 			world.setBlock(x, y, z, Blocks.air);
 		}

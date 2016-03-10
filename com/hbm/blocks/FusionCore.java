@@ -23,13 +23,19 @@ public class FusionCore extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_tungsten");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_top");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_core_side");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityFusionMultiblock();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int metadata) {
+		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
 	}
 
 }

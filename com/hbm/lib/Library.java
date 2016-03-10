@@ -52,7 +52,8 @@ public class Library {
 	public static String book212 = "§lElectric Furnace§r\nThe electric furnace works like a normal furnace, but uses electricity instead of fuel items. It can be powered either with wires or with battery items.";
 	public static String book213 = "§lDeuterium Extractor§r\nThis machine needs electricity, water, sulfur and empty cells to extract deuterium from the water. Water will deplete much faster than sulfur.";
 	public static String book214 = "§lFactories§r\nFactories are big 3x3x3 furnaces on steroids. Depending on what type you use, it can smelt 2 or 4 items at the same time, while having nine additional in and output slots!";
-	public static String book215 = "§lFactory Schematics§r\nX - Factory Casing\n# - Factory Hatch\nO - Factory Core\n\nXXX X#X XXX\nXXX #O# XXX\nXXX X#X XXX";
+	public static String book215 = "§lLarge Nuclear Reactor§r\nThese big machines work like regular nuclear reactors, but can store much more energy, water, coolant and up to 30 slots of fuel! Be sure to protect it with a concrete shell, or else it will emit deadly doses of radiation.";
+	public static String book216 = "§lFusion Reactor§r\nHarness the mighty power of the sun with this high-tech machinery! It will not present any danger as it can not explode or radiate, unlike other reactors. It needs deuterium, tritium, a fuse and four energy cores to start the fusion process.";
 
 	public static String book31 = "§lBombs§r\nThis mod also features many different bombs, some of them work like regular TNT, others are nukes and need additional items to ignite.";
 	public static String book32 = "§lThe Gadget§r\nThe Gadget was the first functional nuclear explosive ever built. It needs four special propellants, a plutonium core and a cable drum. It's crater has a radius up to 150 meters.";
@@ -184,7 +185,9 @@ public class Library {
 				tileentity instanceof IConsumer ||
 				tileentity instanceof ISource)) ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_center ||
-				world.getBlock(x, y, z) == ModBlocks.reactor_conductor)
+				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
+				world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor ||
+				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor)
 		{
 			return true;
 		}

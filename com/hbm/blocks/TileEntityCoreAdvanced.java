@@ -1,5 +1,6 @@
 package com.hbm.blocks;
 
+import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFactory;
 import com.hbm.items.ModItems;
 
@@ -12,7 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventory, IFactory {
+public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventory, IFactory, IConsumer {
 	
 	public int progress = 0;
 	public int power = 0;
@@ -178,7 +179,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord + 1, this.yCoord - 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
-				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
+				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_conductor &&
 				world.getBlock(this.xCoord + 1, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord - 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
@@ -195,7 +196,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
-				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
+				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_conductor &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
@@ -617,5 +618,20 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 				}
 			}
 		}
+	}
+	@Override
+	public void setPower(int i) {
+		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_advanced)
+		{
+			slots[22].setItemDamage(maxPower - i);
+		}
+	}
+	@Override
+	public int getPower() {
+		return power;
+	}
+	@Override
+	public int getMaxPower() {
+		return maxPower;
 	}
 }

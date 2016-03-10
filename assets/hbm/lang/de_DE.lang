@@ -271,6 +271,8 @@ item.cell_anti_schrabidium.name=Antischrabidiumzelle
 item.inf_water.name=Unendlicher Wassertank
 item.inf_deuterium.name=Unendlicher Deuteriumtank
 item.inf_tritium.name=Unendlicher Tritiumtank
+item.inf_coolant.name=Unendlicher Kühlflüssigkeitstank
+item.inf_sulfur.name=Unendlicher Schwefeltank
 
 item.canister_empty.name=Leerer Kanister
 item.canister_fuel.name=Treibstoffkanister
@@ -616,4 +618,4 @@ item.alloy_shovel.name=Legierungsschaufel
 item.alloy_hoe.name=Legierungsfeldhacke
 
 tile.red_cable.name=Rotes Kupferkabel
-tile.meteor.name=Meteoritenblock
+tile.block_meteor.name=Meteoritenblock

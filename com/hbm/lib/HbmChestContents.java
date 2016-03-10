@@ -137,6 +137,22 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.fuel_tank_medium, 0, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5)};
+
+	private static WeightedRandomChestContent[] spaceship = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.ingot_advanced_alloy, 0, 2, 16, 5),
+				new WeightedRandomChestContent(ModItems.wire_advanced_alloy, 0, 8, 32, 5),
+				new WeightedRandomChestContent(ModItems.coil_advanced_alloy, 0, 2, 16, 5),
+				new WeightedRandomChestContent(ModItems.cell_deuterium, 0, 1, 8, 5),
+				new WeightedRandomChestContent(ModItems.cell_tritium, 0, 1, 8, 5),
+				new WeightedRandomChestContent(ModItems.cell_antimatter, 0, 1, 4, 5),
+				new WeightedRandomChestContent(ModItems.cell_anti_schrabidium, 0, 1, 2, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 4, 8, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 6, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.reactor_element), 0, 1, 2, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 8, 32, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 16, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 32, 5)};
 	
 	/**
 	 * @param i
@@ -149,6 +165,7 @@ public class HbmChestContents {
 	 * case 5: nuclear loot (U235 and Pu239 nuggets and rods, fuel rods)
 	 * case 6: vertibrid loot (T45 power armor, fusion cores, circuits, nuclear material)
 	 * case 7: missile loot (Missiles, designators, missile parts)
+	 * case 8: spaceship loot (reactor elements, super conductors)
 	 **/
 	
 	public static WeightedRandomChestContent[] getLoot(int i)
@@ -169,6 +186,8 @@ public class HbmChestContents {
 			return vertibird;
 		case 7:
 			return missile;
+		case 8:
+			return spaceship;
 		}
 		
 		return null;

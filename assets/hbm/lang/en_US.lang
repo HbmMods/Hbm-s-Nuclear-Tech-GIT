@@ -271,6 +271,8 @@ item.cell_anti_schrabidium.name=Antischrabidium Cell
 item.inf_water.name=Infinite Water Tank
 item.inf_deuterium.name=Infinite Deuterium Tank
 item.inf_tritium.name=Infinite Tritium Tank
+item.inf_coolant.name=Infinite Coolant Tank
+item.inf_sulfur.name=Infinite Sulfur Tank
 
 item.canister_empty.name=Empty Canister
 item.canister_fuel.name=Fuel Canister
@@ -616,5 +618,5 @@ item.alloy_axe.name=Advanced Alloy Axe
 item.alloy_shovel.name=Advanced Alloy Shovel
 item.alloy_hoe.name=Advanced Alloy Hoe
 
-tile.red_cable.name=Red Cable
-tile.meteor.name=Meteor Block
+tile.red_cable.name=Red Copper Cable
+tile.block_meteor.name=Meteor Block
