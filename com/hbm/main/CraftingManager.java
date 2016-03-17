@@ -352,13 +352,17 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 1), new Object[] { "PIP", "I I", "PIP", 'P', ModItems.plate_titanium, 'I', ModItems.ingot_titanium });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_furnace), 1), new Object[] { "HMH", "MFM", "HMH", 'H', Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 'M', ModItems.motor, 'F', Item.getItemFromBlock(Blocks.furnace) });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_conductor), 1), new Object[] { "SWS", "FFF", "SWS", 'S', ModItems.ingot_titanium, 'W', Item.getItemFromBlock(ModBlocks.red_wire_coated), 'F', ModItems.fuse });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_core), 1), new Object[] { "HPH", "PCP", "HPH", 'H', Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 'C', ModItems.circuit_aluminium, 'P', Item.getItemFromBlock(Blocks.piston) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.factory_core_titanium, 1, ModItems.factory_core_titanium.getMaxDamage()), new Object[] { "BRB", "RHR", "BRB", 'B', new ItemStack(ModItems.battery_generic, 1, ModItems.battery_generic.getMaxDamage()), 'R', Item.getItemFromBlock(Blocks.redstone_block), 'H', Item.getItemFromBlock(ModBlocks.factory_titanium_hull) });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_advanced_hull), 1), new Object[] { "PIP", "I I", "PIP", 'P', ModItems.plate_advanced_alloy, 'I', ModItems.ingot_advanced_alloy });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_advanced_furnace), 1), new Object[] { "HMH", "MFM", "HMH", 'H', Item.getItemFromBlock(ModBlocks.factory_advanced_hull), 'M', ModItems.motor, 'F', Item.getItemFromBlock(Blocks.furnace) });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_advanced_conductor), 1), new Object[] { "SWS", "FFF", "SWS", 'S', ModItems.ingot_advanced_alloy, 'W', Item.getItemFromBlock(ModBlocks.red_wire_coated), 'F', ModItems.fuse });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_advanced_core), 1), new Object[] { "HPH", "PCP", "HPH", 'H', Item.getItemFromBlock(ModBlocks.factory_advanced_hull), 'C', ModItems.circuit_red_copper, 'P', Item.getItemFromBlock(Blocks.piston) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.factory_core_advanced, 1, ModItems.factory_core_advanced.getMaxDamage()), new Object[] { "BLB", "SHS", "BLB", 'B', new ItemStack(ModItems.battery_advanced, 1, ModItems.battery_advanced.getMaxDamage()), 'S', Item.getItemFromBlock(ModBlocks.block_sulfur), 'L', Item.getItemFromBlock(ModBlocks.block_lead), 'H', Item.getItemFromBlock(ModBlocks.factory_advanced_hull) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.factory_core_advanced, 1, ModItems.factory_core_advanced.getMaxDamage()), new Object[] { "BSB", "LHL", "BSB", 'B', new ItemStack(ModItems.battery_advanced, 1, ModItems.battery_advanced.getMaxDamage()), 'S', Item.getItemFromBlock(ModBlocks.block_sulfur), 'L', Item.getItemFromBlock(ModBlocks.block_lead), 'H', Item.getItemFromBlock(ModBlocks.factory_advanced_hull) });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.fuse, 1), new Object[] { " S ", "GAG", " S ", 'S', ModItems.plate_steel, 'G', Item.getItemFromBlock(Blocks.glass_pane), 'A', ModItems.wire_aluminium });
 
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reactor_element), 1), new Object[] { "SCS", "CSC", "SCS", 'S', ModItems.ingot_steel, 'C', ModItems.rod_quad_empty });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reactor_control), 1), new Object[] { "SLS", "SLS", "SLS", 'S', ModItems.ingot_steel, 'L', ModItems.ingot_lead });
@@ -419,6 +423,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_gas, 2), new Object[] { " G ", "CGC", " C ", 'G', ModItems.grenade_generic, 'C', ModItems.pellet_gas });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_schrabidium, 2), new Object[] { " G ", "CFC", " C ", 'G', ModItems.grenade_generic, 'C', ModItems.ingot_schrabidium, 'F', ModItems.grenade_flare });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_nuclear, 1), new Object[] {"RS ", "ITI", " I ", 'I', ModItems.plate_iron, 'R', ModItems.wire_red_copper, 'S', ModItems.plate_steel, 'T', ModItems.gun_fatman_ammo });
+		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_plasma, 2), new Object[] { " G ", "SGS", " S ", 'G', ModItems.grenade_generic, 'S', ModItems.wire_advanced_alloy });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.bomb_waffle, 1), new Object[] { "WEW", "MPM", "WEW", 'W', Items.wheat, 'E', Items.egg, 'M', Items.milk_bucket, 'P', ModItems.man_core });
 		GameRegistry.addRecipe(new ItemStack(ModItems.schnitzel_vegan, 3), new Object[] { "RWR", "WPW", "RWR", 'W', ModItems.nuclear_waste, 'R', Items.reeds, 'P', Items.pumpkin_seeds });
@@ -551,6 +556,11 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.goggles, 1), new Object[] { "P P", "GPG", 'G', Item.getItemFromBlock(Blocks.glass_pane), 'P', ModItems.plate_steel });
 		GameRegistry.addRecipe(new ItemStack(ModItems.gas_mask, 1), new Object[] { "PPP", "GPG", " P ", 'G', Item.getItemFromBlock(Blocks.glass_pane), 'P', ModItems.plate_steel });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.cape_radiation, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 11), 'D', new ItemStack(Items.dye, 1, 11), 'I', ModItems.nuclear_waste });
+		GameRegistry.addRecipe(new ItemStack(ModItems.cape_gasmask, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 4), 'D', new ItemStack(Items.dye, 1, 0), 'I', ModItems.gas_mask });
+		GameRegistry.addRecipe(new ItemStack(ModItems.cape_schrabidium, 1), new Object[] { "W W", "WIW", "WDW", 'W', ModItems.ingot_schrabidium, 'D', new ItemStack(Items.dye, 1, 0), 'I', ModItems.circuit_red_copper });
+		GameRegistry.addRecipe(new ItemStack(ModItems.cape_hbm, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 15), 'D', ModItems.ingot_neptunium, 'I', ModItems.ingot_euphemium });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.igniter, 1), new Object[] { " W", "SC", "CE", 'S', ModItems.plate_steel, 'W', ModItems.wire_schrabidium, 'C', ModItems.circuit_schrabidium, 'E', ModItems.ingot_euphemium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_euphemium });

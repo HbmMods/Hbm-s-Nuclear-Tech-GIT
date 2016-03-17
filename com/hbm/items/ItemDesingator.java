@@ -46,8 +46,9 @@ public class ItemDesingator extends Item {
 				p_77648_1_.stackTagCompound.setInteger("xCoord", p_77648_4_);
 				p_77648_1_.stackTagCompound.setInteger("zCoord", p_77648_6_);
 			}
+	        return true;
 		}
     	
-        return true;
+        return false;
     }
 }

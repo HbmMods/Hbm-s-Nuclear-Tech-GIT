@@ -106,7 +106,9 @@ public class TestEventTester extends Block {
     	//ExplosionChaos.anvil(par1World, par2, par3 + 2, par4, 1);
     	
     	//return true;
-    	return false;
+    	System.out.println(par5EntityPlayer.getCommandSenderName());
+    	System.out.println(par5EntityPlayer.getUniqueID());
+    	return true;
     }
     
     /*public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c)

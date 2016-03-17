@@ -1,0 +1,2 @@
+The included images are schematics for all multiblock structures, layer by layer. If a block is seperated by a black line, it is interchangeable, such as the electricity ports of factories which are opitonal, the inner tungsten blanked of the fusion reactor which can be removed completely and the concrete arround the nuclear reactor (leaving out these potions will have it's downsites, such as less energy, missing ports or radiation)
+The advanced factory can be built like the basic one, but with it's own parts.

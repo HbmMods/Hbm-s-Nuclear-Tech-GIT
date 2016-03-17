@@ -106,11 +106,13 @@ tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch
 
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
+tile.factory_titanium_conductor.name=Einfacher Fabriksstromanschluss
 tile.factory_titanium_core.name=Einfache Fabrikkernkomponente
 item.factory_core_titanium.name=Einfacher Fabrikenergiecluster
 container.factoryTitanium=Einfache Fabrik
 tile.factory_advanced_hull.name=Fortgeschrittene Fabrikshülle
 tile.factory_advanced_furnace.name=Fortgeschrittene Fabrikzugriffsluke
+tile.factory_advanced_conductor.name=Fortgeschrittener Fabriksstromanschluss
 tile.factory_advanced_core.name=Fortgeschrittene Fabrikkernkomponente
 item.factory_core_advanced.name=Fortgeschrittener Fabrikenergiecluster
 container.factoryAdvanced=Fortgeschrittene Fabrik
@@ -118,7 +120,7 @@ container.factoryAdvanced=Fortgeschrittene Fabrik
 tile.reactor_element.name=Reaktorkammer
 tile.reactor_control.name=Steuerstäbe
 tile.reactor_hatch.name=Kraftwerkszugriffsluke
-tile.reactor_conductor.name=Stromanschluss
+tile.reactor_conductor.name=Reaktorstromanschluss
 tile.reactor_computer.name=Reaktorsteuerung
 container.reactorMultiblock=Großer Atomreaktor
 
@@ -389,6 +391,7 @@ item.grenade_flare.name=Blendgranate
 item.grenade_electric.name=Blitzbombe
 item.grenade_poison.name=Giftgranate
 item.grenade_gas.name=Gasgranate
+item.grenade_plasma.name=Plasmagranate
 item.grenade_schrabidium.name=Schrabidiumgranate
 item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
@@ -619,3 +622,8 @@ item.alloy_hoe.name=Legierungsfeldhacke
 
 tile.red_cable.name=Rotes Kupferkabel
 tile.block_meteor.name=Meteoritenblock
+
+item.cape_radiation.name=Cape (Radioaktiv)
+item.cape_gasmask.name=Cape (Gasmaske)
+item.cape_schrabidium.name=Cape (Schrabidisch)
+item.cape_hbm.name=Hbms Cape

@@ -180,7 +180,7 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord - 1) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord + 1, this.yCoord - 1, this.zCoord - 1) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord - 1, this.zCoord) == ModBlocks.factory_titanium_hull &&
-				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_titanium_conductor &&
+				(world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_titanium_conductor || world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_titanium_hull) &&
 				world.getBlock(this.xCoord + 1, this.yCoord - 1, this.zCoord) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord - 1, this.zCoord + 1) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord + 1) == ModBlocks.factory_titanium_hull &&
@@ -197,7 +197,7 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord - 1) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord - 1) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord) == ModBlocks.factory_titanium_hull &&
-				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_titanium_conductor &&
+				(world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_titanium_conductor || world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_titanium_hull) &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord + 1) == ModBlocks.factory_titanium_hull &&
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord + 1) == ModBlocks.factory_titanium_hull &&

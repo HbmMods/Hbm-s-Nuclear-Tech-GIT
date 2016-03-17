@@ -1,6 +1,7 @@
 package com.hbm.lib;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityLaunchPad;
@@ -96,6 +97,9 @@ public class Library {
 	public static String book58 = "§lFood§r\nSurprisingly enough, this mod offers a great variety of different food. Be sure not to eat anything, you may explode/combust/die of radiation poisoning/starve to death/experience a rare case of waffles taking over the world.";
 
 	public static String book61;
+
+	public static /*UUID*/String HbMinecraft = /*UUID.fromString(*/"192af5d7-ed0f-48d8-bd89-9d41af8524f8"/*)*/;
+	public static UUID LPkukin = UUID.fromString("937c9804-e11f-4ad2-a5b1-42e62ac73077");
 	
 	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
 		

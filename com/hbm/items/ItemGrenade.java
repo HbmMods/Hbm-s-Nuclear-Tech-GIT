@@ -9,6 +9,7 @@ import com.hbm.entity.EntityGrenadeGas;
 import com.hbm.entity.EntityGrenadeGeneric;
 import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityGrenadeNuke;
+import com.hbm.entity.EntityGrenadePlasma;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
@@ -90,6 +91,10 @@ public class ItemGrenade extends Item {
         	{
         		p_77659_2_.spawnEntityInWorld(new EntityGrenadeNuclear(p_77659_2_, p_77659_3_));
         	}
+        	if(this == ModItems.grenade_plasma)
+        	{
+        		p_77659_2_.spawnEntityInWorld(new EntityGrenadePlasma(p_77659_2_, p_77659_3_));
+        	}
         }
 
         return p_77659_1_;
@@ -101,6 +106,16 @@ public class ItemGrenade extends Item {
     	if(this == ModItems.grenade_schrabidium)
     	{
         	return EnumRarity.rare;
+    	}
+    	
+    	if(this == ModItems.grenade_plasma)
+    	{
+        	return EnumRarity.epic;
+    	}
+    	
+    	if(this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear)
+    	{
+        	return EnumRarity.uncommon;
     	}
     	
     	return EnumRarity.common;

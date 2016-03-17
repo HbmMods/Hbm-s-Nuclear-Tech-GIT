@@ -106,11 +106,13 @@ tile.book_guide.name=Hbm's Nuclear Tech Mod Manual
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
+tile.factory_titanium_conductor.name=Basic Factory Electricity Port
 tile.factory_titanium_core.name=Basic Factory Core Component
 item.factory_core_titanium.name=Basic Factory Energy Cluster
 container.factoryTitanium=Basic Factory
 tile.factory_advanced_hull.name=Advanced Factory Casing
 tile.factory_advanced_furnace.name=Advanced Factory Access Hatch
+tile.factory_advanced_conductor.name=Advanced Factory Electricity Port
 tile.factory_advanced_core.name=Advanced Factory Core Component
 item.factory_core_advanced.name=Advanced Factory Energy Cluster
 container.factoryAdvanced=Advanced Factory
@@ -390,6 +392,7 @@ item.grenade_flare.name=Flare Grenade
 item.grenade_electric.name=Lightning Bomb
 item.grenade_poison.name=Poison Grenade
 item.grenade_gas.name=Gas Grenade
+item.grenade_plasma.name=Plasma Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
 item.grenade_nuke.name=Mark VI Drill Grenade
 item.grenade_nuclear.name=Nuka Grenade
@@ -620,3 +623,8 @@ item.alloy_hoe.name=Advanced Alloy Hoe
 
 tile.red_cable.name=Red Copper Cable
 tile.block_meteor.name=Meteor Block
+
+item.cape_radiation.name=Cape (Radiation)
+item.cape_gasmask.name=Cape (Gas Mask)
+item.cape_schrabidium.name=Cape (Schrabidic)
+item.cape_hbm.name=Hbm's Cape

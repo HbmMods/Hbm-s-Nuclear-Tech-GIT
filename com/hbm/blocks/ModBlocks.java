@@ -1,5 +1,6 @@
 package com.hbm.blocks;
 
+import com.hbm.items.ItemPlasmaBlock;
 import com.hbm.items.ItemPrototypeBlock;
 import com.hbm.items.ItemSchrabidiumBlock;
 import com.hbm.lib.RefStrings;
@@ -570,7 +571,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fusion_heater, fusion_heater.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_hatch, fusion_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_core, fusion_core.getUnlocalizedName());
-		GameRegistry.registerBlock(plasma, plasma.getUnlocalizedName());
+		GameRegistry.registerBlock(plasma, ItemPlasmaBlock.class, plasma.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

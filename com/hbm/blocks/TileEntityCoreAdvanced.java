@@ -179,7 +179,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord + 1, this.yCoord - 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
-				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_conductor &&
+				(world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_conductor || world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_hull) &&
 				world.getBlock(this.xCoord + 1, this.yCoord - 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord - 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord, this.yCoord - 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
@@ -196,7 +196,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord - 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
-				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_conductor &&
+				(world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_conductor || world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_hull) &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 1, this.zCoord) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord - 1, this.yCoord + 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord + 1) == ModBlocks.factory_advanced_hull &&

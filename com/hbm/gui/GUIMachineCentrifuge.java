@@ -43,9 +43,12 @@ public class GUIMachineCentrifuge extends GuiContainer {
 			int i1 = centrifuge.getPowerRemainingScaled(54);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i1, 177, 107 - i1, 16, i1);
 		}
-		
-		int j1 = centrifuge.getCentrifugeProgressScaled(55);
-		drawTexturedModalRect(guiLeft + 61, guiTop + 16, 176, 0, j1, 54);
+
+		if(centrifuge.isProcessing())
+		{
+			int j1 = centrifuge.getCentrifugeProgressScaled(55);
+			drawTexturedModalRect(guiLeft + 61, guiTop + 16, 176, 0, j1, 54);
+		}
 		
 		if(centrifuge.hasPower() && centrifuge.canProcess()) {
 			drawTexturedModalRect(guiLeft + 25, guiTop + 34, 194, 54, 18, 18);

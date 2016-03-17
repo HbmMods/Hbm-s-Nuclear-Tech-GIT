@@ -325,6 +325,7 @@ public class ModItems {
 	public static Item grenade_electric;
 	public static Item grenade_poison;
 	public static Item grenade_gas;
+	public static Item grenade_plasma;
 	public static Item grenade_schrabidium;
 	public static Item grenade_nuke;
 	public static Item grenade_nuclear;
@@ -445,6 +446,12 @@ public class ModItems {
 	public static Item hazmat_boots;
 	
 	public static Item wand;
+
+	public static Item cape_test;
+	public static Item cape_radiation;
+	public static Item cape_gasmask;
+	public static Item cape_schrabidium;
+	public static Item cape_hbm;
 
 	public static Item nuke_starter_kit;
 	public static Item nuke_advanced_kit;
@@ -791,6 +798,7 @@ public class ModItems {
 		grenade_electric = new ItemGrenade().setUnlocalizedName("grenade_electric").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_electric");
 		grenade_poison = new ItemGrenade().setUnlocalizedName("grenade_poison").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_poison");
 		grenade_gas = new ItemGrenade().setUnlocalizedName("grenade_gas").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_gas");
+		grenade_plasma = new ItemGrenade().setUnlocalizedName("grenade_plasma").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_plasma");
 		grenade_schrabidium = new ItemGrenade().setUnlocalizedName("grenade_schrabidium").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_schrabidium");
 		grenade_nuke = new ItemGrenade().setUnlocalizedName("grenade_nuke").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_nuke");
 		grenade_nuclear = new ItemGrenade().setUnlocalizedName("grenade_nuclear").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_nuclear");
@@ -884,7 +892,7 @@ public class ModItems {
 		t45_legs = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 2).setUnlocalizedName("t45_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_legs");
 		t45_boots = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 3).setUnlocalizedName("t45_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_boots");
 		
-		chainsaw = new ItemModAxe(MainRegistry.enumToolMaterialChainsaw).setUnlocalizedName("chainsaw").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":chainsaw");
+		chainsaw = new ModAxe(MainRegistry.enumToolMaterialChainsaw).setUnlocalizedName("chainsaw").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":chainsaw");
 
 		schrabidium_helmet = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 0).setUnlocalizedName("schrabidium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_helmet");
 		schrabidium_plate = new ArmorSchrabidium(MainRegistry.enumArmorMaterialSchrabidium, 7, 1).setUnlocalizedName("schrabidium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_plate");
@@ -931,6 +939,12 @@ public class ModItems {
 		hazmat_legs = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 2).setUnlocalizedName("hazmat_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_legs");
 		hazmat_boots = new ArmorHazmat(MainRegistry.enumArmorMaterialHazmat, 9, 3).setUnlocalizedName("hazmat_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hazmat_boots");
 
+		cape_test = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_test").setCreativeTab(MainRegistry.tabTest).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_test");
+		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
+		cape_gasmask = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_gasmask").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_gasmask");
+		cape_schrabidium = new ArmorModel(MainRegistry.enumArmorMaterialSchrabidium, 9, 1).setUnlocalizedName("cape_schrabidium").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_schrabidium");
+		cape_hbm = new ArmorModel(MainRegistry.enumArmorMaterialEuphemium, 9, 1).setUnlocalizedName("cape_hbm").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
+
 		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
 		smoke2 = new Item().setUnlocalizedName("smoke2").setTextureName(RefStrings.MODID + ":smoke2");
 		smoke3 = new Item().setUnlocalizedName("smoke3").setTextureName(RefStrings.MODID + ":smoke3");
@@ -959,6 +973,7 @@ public class ModItems {
 		GameRegistry.registerItem(test_chestplate, test_chestplate.getUnlocalizedName());
 		GameRegistry.registerItem(test_leggings, test_leggings.getUnlocalizedName());
 		GameRegistry.registerItem(test_boots, test_boots.getUnlocalizedName());
+		GameRegistry.registerItem(cape_test, cape_test.getUnlocalizedName());
 		
 		//Test Nuke
 		GameRegistry.registerItem(test_nuke_igniter, test_nuke_igniter.getUnlocalizedName());
@@ -1299,9 +1314,16 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_electric, grenade_electric.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_poison, grenade_poison.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_plasma, grenade_plasma.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_schrabidium, grenade_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuke, grenade_nuke.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());
+		
+		//Capes
+		GameRegistry.registerItem(cape_radiation, cape_radiation.getUnlocalizedName());
+		GameRegistry.registerItem(cape_gasmask, cape_gasmask.getUnlocalizedName());
+		GameRegistry.registerItem(cape_schrabidium, cape_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(cape_hbm, cape_hbm.getUnlocalizedName());
 		
 		//Tools
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());

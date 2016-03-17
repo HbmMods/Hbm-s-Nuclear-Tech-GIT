@@ -280,34 +280,6 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			{
 				slots[5].stackSize += itemStack[3].stackSize;
 			}
-			/*
-			if(slots[2] == null && slots[3] == null && slots[4] == null && slots[5] == null)
-			{
-				if(itemStack[0] != null)
-				{
-					slots[2] = itemStack[0].copy();
-				}
-
-				if(itemStack[1] != null)
-				{
-					slots[3] = itemStack[1].copy();
-				}
-
-				if(itemStack[2] != null)
-				{
-					slots[4] = itemStack[2].copy();
-				}
-
-				if(itemStack[3] != null)
-				{
-					slots[5] = itemStack[3].copy();
-				}
-			}else if(slots[2].isItemEqual(itemStack[0]) && slots[3].isItemEqual(itemStack[1]) && slots[4].isItemEqual(itemStack[2]) && slots[5].isItemEqual(itemStack[3])) {
-				slots[2].stackSize += itemStack[0].stackSize;
-				slots[3].stackSize += itemStack[1].stackSize;
-				slots[4].stackSize += itemStack[2].stackSize;
-				slots[5].stackSize += itemStack[3].stackSize;
-			}*/
 			
 			for(int i = 0; i < 1; i++)
 			{
@@ -386,7 +358,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			{
 				dualCookTime++;
 				
-				if(this.dualCookTime == TileEntityMachineCentrifuge.processingSpeed)
+				if(this.dualCookTime >= TileEntityMachineCentrifuge.processingSpeed)
 				{
 					this.dualCookTime = 0;
 					this.processItem();

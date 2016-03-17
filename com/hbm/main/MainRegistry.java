@@ -73,6 +73,7 @@ import com.hbm.entity.EntityGrenadeGas;
 import com.hbm.entity.EntityGrenadeGeneric;
 import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityGrenadeNuke;
+import com.hbm.entity.EntityGrenadePlasma;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
@@ -267,6 +268,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityNukeCloudBig.class, "entity_nuke_cloud_big", 38, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 39, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 40, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 41, this, 500, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	}
