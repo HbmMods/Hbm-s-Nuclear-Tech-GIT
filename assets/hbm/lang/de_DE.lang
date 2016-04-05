@@ -627,3 +627,7 @@ item.cape_radiation.name=Cape (Radioaktiv)
 item.cape_gasmask.name=Cape (Gasmaske)
 item.cape_schrabidium.name=Cape (Schrabidisch)
 item.cape_hbm.name=Hbms Cape
+item.cape_dafnik.name=Dafniks Cape
+
+tile.machine_converter_he_rf.name=HE zu RF Konverter
+tile.machine_converter_rf_he.name=RF zu HE Konverter
