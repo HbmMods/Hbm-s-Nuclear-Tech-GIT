@@ -2,6 +2,8 @@ package com.hbm.main;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityBombMulti;
+import com.hbm.blocks.TileEntityConverterHeRf;
+import com.hbm.blocks.TileEntityConverterRfHe;
 import com.hbm.blocks.TileEntityCoreAdvanced;
 import com.hbm.blocks.TileEntityCoreTitanium;
 import com.hbm.blocks.TileEntityDiFurnace;
@@ -30,6 +32,8 @@ import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.gui.ContainerBombMulti;
 import com.hbm.gui.ContainerDiFurnace;
 import com.hbm.gui.ContainerCentrifuge;
+import com.hbm.gui.ContainerConverterHeRf;
+import com.hbm.gui.ContainerConverterRfHe;
 import com.hbm.gui.ContainerCoreAdvanced;
 import com.hbm.gui.ContainerCoreTitanium;
 import com.hbm.gui.ContainerElectricFurnace;
@@ -54,6 +58,8 @@ import com.hbm.gui.ContainerRtgFurnace;
 import com.hbm.gui.ContainerTestNuke;
 import com.hbm.gui.ContainerUF6Tank;
 import com.hbm.gui.GUIBombMulti;
+import com.hbm.gui.GUIConverterHeRf;
+import com.hbm.gui.GUIConverterRfHe;
 import com.hbm.gui.GUICoreAdvanced;
 import com.hbm.gui.GUICoreTitanium;
 import com.hbm.gui.GUIFusionMultiblock;
@@ -301,6 +307,22 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
 				}
 			}
+			
+			case ModBlocks.guiID_converter_he_rf:
+			{
+				if(entity instanceof TileEntityConverterHeRf)
+				{
+					return new ContainerConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
+				}
+			}
+			
+			case ModBlocks.guiID_converter_rf_he:
+			{
+				if(entity instanceof TileEntityConverterRfHe)
+				{
+					return new ContainerConverterRfHe(player.inventory, (TileEntityConverterRfHe) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -519,6 +541,22 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityFusionMultiblock)
 					{
 						return new GUIFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_converter_he_rf:
+				{
+					if(entity instanceof TileEntityConverterHeRf)
+					{
+						return new GUIConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_converter_rf_he:
+				{
+					if(entity instanceof TileEntityConverterRfHe)
+					{
+						return new GUIConverterRfHe(player.inventory, (TileEntityConverterRfHe) entity);
 					}
 				}
 			}

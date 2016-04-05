@@ -50,7 +50,7 @@ public class GUIReactorMultiblock extends GuiContainer {
 		int k = diFurnace.getPowerScaled(70);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 88 - k, 208, 70 - k, 16, k);
 
-		int l = diFurnace.getHeatScaled(124);
+		int l = diFurnace.getHeatScaled(142);
 		drawTexturedModalRect(guiLeft + 26, guiTop + 108, 0, 222, l, 16);
 	}
 }

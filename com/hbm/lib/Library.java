@@ -98,8 +98,9 @@ public class Library {
 
 	public static String book61;
 
-	public static /*UUID*/String HbMinecraft = /*UUID.fromString(*/"192af5d7-ed0f-48d8-bd89-9d41af8524f8"/*)*/;
-	public static UUID LPkukin = UUID.fromString("937c9804-e11f-4ad2-a5b1-42e62ac73077");
+	public static String HbMinecraft = "192af5d7-ed0f-48d8-bd89-9d41af8524f8";
+	public static String LPkukin = "937c9804-e11f-4ad2-a5b1-42e62ac73077";
+	public static String Dafnik = "???";
 	
 	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
 		

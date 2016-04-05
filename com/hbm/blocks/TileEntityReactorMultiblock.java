@@ -854,7 +854,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 			}
 		}
 		
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && !((TileEntityMachineBattery)tileentity).conducts))
+		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
 		{
 			list.add((IConsumer)tileentity);
 		}

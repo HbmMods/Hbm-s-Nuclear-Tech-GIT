@@ -331,9 +331,11 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			{
 				water -= 1;
 				
-				if(power + 1 <= maxPower)
+				if(power + 10 <= maxPower)
 				{
 					power += 10;
+				} else {
+					power = maxPower;
 				}
 			}
 		}
@@ -427,7 +429,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			}
 		}
 		
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && !((TileEntityMachineBattery)tileentity).conducts))
+		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
 		{
 			list.add((IConsumer)tileentity);
 		}

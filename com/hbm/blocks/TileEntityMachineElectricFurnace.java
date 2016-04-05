@@ -248,10 +248,6 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 					slots[i] = null;
 				}
 			}
-			
-			{
-				power--;
-			}
 		}
 	}
 	

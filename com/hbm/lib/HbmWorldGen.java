@@ -56,7 +56,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int randPosY = rand.nextInt(35);
 			int randPosZ = j + rand.nextInt(16);
 			
-			(new WorldGenMinable(ModBlocks.ore_titanium, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+			(new WorldGenMinable(ModBlocks.ore_titanium, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 		
 		for (int k = 0; k < 5; k++)
@@ -77,16 +77,16 @@ public class HbmWorldGen implements IWorldGenerator {
 			(new WorldGenMinable(ModBlocks.ore_aluminium, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 		
-		for (int k = 0; k < 10; k++)
+		for (int k = 0; k < 12; k++)
 		{
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(50);
 			int randPosZ = j + rand.nextInt(16);
 			
-			(new WorldGenMinable(ModBlocks.ore_copper, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+			(new WorldGenMinable(ModBlocks.ore_copper, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 		
-		for (int k = 0; k < 8; k++)
+		for (int k = 0; k < 6; k++)
 		{
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(40);
@@ -104,7 +104,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			(new WorldGenMinable(ModBlocks.ore_niter, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 		
-		for (int k = 0; k < 8; k++)
+		for (int k = 0; k < 10; k++)
 		{
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(35);

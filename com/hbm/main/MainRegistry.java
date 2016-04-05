@@ -20,6 +20,8 @@ import cpw.mods.fml.common.ModMetadata;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.TileEntityBombMulti;
 import com.hbm.blocks.TileEntityCable;
+import com.hbm.blocks.TileEntityConverterHeRf;
+import com.hbm.blocks.TileEntityConverterRfHe;
 import com.hbm.blocks.TileEntityCoreAdvanced;
 import com.hbm.blocks.TileEntityCoreTitanium;
 import com.hbm.blocks.TileEntityCrashedBomb;
@@ -226,6 +228,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityFusionMultiblock.class, "tileentity_fusion_multiblock");
 		GameRegistry.registerTileEntity(TileEntityCrashedBomb.class, "tileentity_crashed_balefire");
 		GameRegistry.registerTileEntity(TileEntityCable.class, "tileentity_cable");
+		GameRegistry.registerTileEntity(TileEntityConverterHeRf.class, "tileentity_converter_herf");
+		GameRegistry.registerTileEntity(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

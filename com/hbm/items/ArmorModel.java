@@ -49,6 +49,9 @@ public class ArmorModel extends ItemArmor {
 		if (this == ModItems.cape_hbm) {
 			return armorType == 1;
 		}
+		if (this == ModItems.cape_dafnik) {
+			return armorType == 1;
+		}
 		return armorType == 0;
 	}
 
@@ -79,7 +82,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelCloak;
 			}
 		}
-		if (this == ModItems.cape_hbm) {
+		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
@@ -110,6 +113,9 @@ public class ArmorModel extends ItemArmor {
 		if (stack.getItem() == ModItems.cape_hbm && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.HbMinecraft)) {
 			return "hbm:textures/models/CapeHbm.png";
 		}
+		if (stack.getItem() == ModItems.cape_dafnik && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.Dafnik)) {
+			return "hbm:textures/models/CapeDafnik.png";
+		}
 		return "hbm:textures/models/CapeUnknown.png";
 	}
 
@@ -127,6 +133,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (itemstack.getItem() == ModItems.cape_hbm) {
 			list.add("Only works for HbMinecraft");
+		}
+		if (itemstack.getItem() == ModItems.cape_dafnik) {
+			list.add("Only works for Dafnik");
 		}
 	}
 }
