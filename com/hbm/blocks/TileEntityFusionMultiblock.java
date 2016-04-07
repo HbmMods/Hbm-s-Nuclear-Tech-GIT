@@ -153,6 +153,11 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
+
+		water = nbt.getShort("water") * 1000;
+		deut = nbt.getShort("deut") * 1000;
+		power = nbt.getShort("power") * 1000;
+		trit = nbt.getShort("trit") * 1000;
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -165,20 +170,15 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-		
-		water = nbt.getShort("water");
-		deut = nbt.getShort("deut");
-		power = nbt.getShort("power");
-		trit = nbt.getShort("trit");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("water", (short) water);
-		nbt.setShort("deut", (short) deut);
-		nbt.setShort("power", (short) power);
-		nbt.setShort("trit", (short) trit);
+		nbt.setShort("water", (short) (water/1000));
+		nbt.setShort("deut", (short) (deut/1000));
+		nbt.setShort("power", (short) (power/1000));
+		nbt.setShort("trit", (short) (trit/1000));
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -1018,11 +1018,19 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 			{
 				this.slots[2].stackSize--;
 				this.deut += 1000000;
+				if(this.slots[2].stackSize == 0)
+				{
+					this.slots[2] = null;
+				}
 			}
 			if(slots[3] != null && slots[3].getItem() == ModItems.cell_tritium && this.trit + 1000000 <= tritMax)
 			{
 				this.slots[3].stackSize--;
 				this.trit += 1000000;
+				if(this.slots[3].stackSize == 0)
+				{
+					this.slots[3] = null;
+				}
 			}
 			
 			if(slots[0] != null && slots[0].getItem() == ModItems.inf_water)

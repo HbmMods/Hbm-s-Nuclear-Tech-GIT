@@ -173,6 +173,11 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
+
+		water = nbt.getShort("water") * 1000;
+		cool = nbt.getShort("cool") * 1000;
+		power = nbt.getShort("power") * 100;
+		heat = nbt.getShort("heat") * 100;
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -185,20 +190,15 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-		
-		water = nbt.getShort("water");
-		cool = nbt.getShort("cool");
-		power = nbt.getShort("power");
-		heat = nbt.getShort("heat");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("water", (short) water);
-		nbt.setShort("cool", (short) cool);
-		nbt.setShort("power", (short) power);
-		nbt.setShort("heat", (short) heat);
+		nbt.setShort("water", (short) (water/1000));
+		nbt.setShort("cool", (short) (cool/1000));
+		nbt.setShort("power", (short) (power/100));
+		nbt.setShort("heat", (short) (heat/100));
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)

@@ -147,10 +147,10 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		water = nbt.getShort("water");
-		cool = nbt.getShort("cool");
-		power = nbt.getShort("power");
-		heat = nbt.getShort("heat");
+		water = nbt.getShort("water") * 100;
+		cool = nbt.getShort("cool") * 100;
+		power = nbt.getShort("power") * 100;
+		heat = nbt.getShort("heat") * 100;
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -167,10 +167,10 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("water", (short) water);
-		nbt.setShort("cool", (short) cool);
-		nbt.setShort("power", (short) power);
-		nbt.setShort("heat", (short) heat);
+		nbt.setShort("water", (short) (water/100));
+		nbt.setShort("cool", (short) (cool/100));
+		nbt.setShort("power", (short) (power/100));
+		nbt.setShort("heat", (short) (heat/100));
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
