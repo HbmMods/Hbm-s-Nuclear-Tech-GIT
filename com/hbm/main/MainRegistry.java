@@ -134,6 +134,7 @@ public class MainRegistry
 	
 	//Tool Materials
 	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
+	public static ToolMaterial enumToolMaterialHammer = EnumHelper.addToolMaterial("SCHRABIDIUMHAMMER", 3, 0, 50.0F, 999999996F, 200);
 	public static ToolMaterial enumToolMaterialChainsaw = EnumHelper.addToolMaterial("CHAINSAW", 3, 5000, 50.0F, 47.0F, 0);
 	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("STEEL", 2, 500, 7.5F, 2.0F, 10);
 	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
@@ -181,6 +182,7 @@ public class MainRegistry
 		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
 		enumArmorMaterialAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
 		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
+		enumToolMaterialHammer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
 		enumToolMaterialTitanium.setRepairItem(new ItemStack(ModItems.ingot_titanium));
 		enumToolMaterialSteel.setRepairItem(new ItemStack(ModItems.ingot_steel));
@@ -283,8 +285,14 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotPlutonium", ModItems.ingot_pu239);
 		OreDictionary.registerOre("ingotTitanium", ModItems.ingot_titanium);
+		OreDictionary.registerOre("ingotSchrabidium", ModItems.ingot_schrabidium);
+		OreDictionary.registerOre("dustSchrabidium", ModItems.powder_schrabidium);
 		OreDictionary.registerOre("dustSulfur", ModItems.sulfur);
 		OreDictionary.registerOre("dustNiter", ModItems.niter);
+		OreDictionary.registerOre("dustSalpeter", ModItems.niter);
+		OreDictionary.registerOre("sulfur", ModItems.sulfur);
+		OreDictionary.registerOre("niter", ModItems.niter);
+		OreDictionary.registerOre("salpeter", ModItems.niter);
 		OreDictionary.registerOre("dustLead", ModItems.powder_lead);
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("ingotCopper", ModItems.ingot_copper);
@@ -294,6 +302,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotNeptunium", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotLead", ModItems.ingot_lead);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
+		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
 		OreDictionary.registerOre("nuggetUranium235", ModItems.nugget_u235);
 		OreDictionary.registerOre("nuggetUranium238", ModItems.nugget_u238);
@@ -302,6 +311,7 @@ public class MainRegistry
 		OreDictionary.registerOre("nuggetPlutonium239", ModItems.nugget_pu239);
 		OreDictionary.registerOre("nuggetPlutonium240", ModItems.nugget_pu240);
 		OreDictionary.registerOre("nuggetNeptunium", ModItems.nugget_neptunium);
+		OreDictionary.registerOre("nuggetSchrabidium", ModItems.nugget_schrabidium);
 		OreDictionary.registerOre("plateTitanium", ModItems.plate_titanium);
 		OreDictionary.registerOre("plateAluminum", ModItems.plate_aluminium);
 		OreDictionary.registerOre("plateDenseLead", ModItems.neutron_reflector);
@@ -309,16 +319,32 @@ public class MainRegistry
 		OreDictionary.registerOre("plateSteel", ModItems.plate_steel);
 		OreDictionary.registerOre("plateLead", ModItems.plate_lead);
 		OreDictionary.registerOre("plateCopper", ModItems.plate_copper);
+		OreDictionary.registerOre("plateIron", ModItems.plate_iron);
+		OreDictionary.registerOre("plateGold", ModItems.plate_gold);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
 		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_titanium);
+		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_schrabidium);
 		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_sulfur);
 		OreDictionary.registerOre("oreNiter", ModBlocks.ore_niter);
+		OreDictionary.registerOre("oreSapeter", ModBlocks.ore_niter);
 		OreDictionary.registerOre("oreCopper", ModBlocks.ore_copper);
 		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_tungsten);
 		OreDictionary.registerOre("oreAluminum", ModBlocks.ore_aluminium);
 		OreDictionary.registerOre("oreFluorite", ModBlocks.ore_fluorite);
 		OreDictionary.registerOre("oreLead", ModBlocks.ore_lead);
+
+		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
+		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
+		OreDictionary.registerOre("blockSulfur", ModBlocks.block_sulfur);
+		OreDictionary.registerOre("blockNiter", ModBlocks.block_niter);
+		OreDictionary.registerOre("blockSalpeter", ModBlocks.block_niter);
+		OreDictionary.registerOre("blockCopper", ModBlocks.block_copper);
+		OreDictionary.registerOre("blockTungsten", ModBlocks.block_tungsten);
+		OreDictionary.registerOre("blockAluminum", ModBlocks.block_aluminium);
+		OreDictionary.registerOre("blockFluorite", ModBlocks.block_fluorite);
+		OreDictionary.registerOre("blockSteel", ModBlocks.block_steel);
+		OreDictionary.registerOre("blockLead", ModBlocks.block_lead);
 		
 		/*achievementGetTitanium = new Achievement("achievement.getTitanium", "getTitanium", 0, -8, ModItems.ingot_titanium, (Achievement)null).initIndependentStat().registerStat();
 		

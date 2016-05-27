@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUITestDiFurnace extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUIDiFurnace.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUIDiFurnace.png");
 	private TileEntityDiFurnace diFurnace;
 
 	public GUITestDiFurnace(InventoryPlayer invPlayer, TileEntityDiFurnace tedf) {
@@ -40,7 +40,7 @@ public class GUITestDiFurnace extends GuiContainer {
 		
 		if(diFurnace.hasPower())
 		{
-			int i1 = diFurnace.getPowerRemainingScaled(56);
+			int i1 = diFurnace.getPowerRemainingScaled(52);
 			drawTexturedModalRect(guiLeft + 44, guiTop + 70 - i1, 201, 53 - i1, 16, i1);
 		}
 		

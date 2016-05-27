@@ -2,6 +2,7 @@ package com.hbm.items;
 
 import java.util.List;
 
+import com.google.common.collect.Multimap;
 import com.hbm.lib.Library;
 import com.hbm.render.ModelT45Boots;
 import com.hbm.render.ModelT45Chest;
@@ -13,6 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -233,4 +236,11 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 			}
 		}
 	}
+    
+    public Multimap getItemAttributeModifiers()
+    {
+        Multimap multimap = super.getItemAttributeModifiers();
+        multimap.put(SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Armor modifier", (double)0.5, 0));
+        return multimap;
+    }
 }

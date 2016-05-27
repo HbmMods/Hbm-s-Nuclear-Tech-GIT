@@ -389,6 +389,7 @@ public class ModItems {
 	public static Item euphemium_boots;
 	public static Item apple_euphemium;
 	public static Item watch;
+	public static Item euphemium_stopper;
 
 	public static Item goggles;
 	public static Item gas_mask;
@@ -439,6 +440,8 @@ public class ModItems {
 	public static Item alloy_hoe;
 	
 	public static Item mask_of_infamy;
+
+	public static Item schrabidium_hammer;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -947,6 +950,9 @@ public class ModItems {
 		cape_hbm = new ArmorModel(MainRegistry.enumArmorMaterialEuphemium, 9, 1).setUnlocalizedName("cape_hbm").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 		cape_dafnik = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_dafnik").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
+		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
+		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
+
 		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
 		smoke2 = new Item().setUnlocalizedName("smoke2").setTextureName(RefStrings.MODID + ":smoke2");
 		smoke3 = new Item().setUnlocalizedName("smoke3").setTextureName(RefStrings.MODID + ":smoke3");
@@ -1330,6 +1336,7 @@ public class ModItems {
 		
 		//Tools
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());
+		GameRegistry.registerItem(schrabidium_hammer, schrabidium_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_pickaxe, schrabidium_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_axe, schrabidium_axe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_shovel, schrabidium_shovel.getUnlocalizedName());
@@ -1448,6 +1455,7 @@ public class ModItems {
 		
 		//OP Tools
 		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
+		GameRegistry.registerItem(euphemium_stopper, euphemium_stopper.getUnlocalizedName());
 		
 		//Kits
 		GameRegistry.registerItem(nuke_starter_kit, nuke_starter_kit.getUnlocalizedName());

@@ -631,3 +631,6 @@ item.cape_dafnik.name=Dafniks Cape
 
 tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter
+
+item.schrabidium_hammer.name=Schrabidiumhammer
+item.euphemium_stopper.name=Stopper

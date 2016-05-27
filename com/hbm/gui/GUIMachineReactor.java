@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineReactor extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUIReactor.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUIReactor.png");
 	private TileEntityMachineReactor diFurnace;
 
 	public GUIMachineReactor(InventoryPlayer invPlayer, TileEntityMachineReactor tedf) {

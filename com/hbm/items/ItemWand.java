@@ -17,8 +17,8 @@ public class ItemWand extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("§5Creative-only item");
-		list.add("§5\"§oDestruction brings creation§5\"");
+		list.add("Creative-only item");
+		list.add("\"Destruction brings creation\"");
 		list.add("(Set positions with right click,");
 		list.add("set block with shift-right click!)");
 		

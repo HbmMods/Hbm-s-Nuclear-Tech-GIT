@@ -170,6 +170,10 @@ public class ItemSyringe extends Item {
     	{
     		return EnumRarity.uncommon;
     	}
+    	if(this == ModItems.euphemium_stopper)
+    	{
+    		return EnumRarity.epic;
+    	}
     	
 		return EnumRarity.common;
     }
@@ -257,7 +261,7 @@ public class ItemSyringe extends Item {
             	if(entityPlayer instanceof EntityPlayer)
             	{
             		EntityPlayer player = (EntityPlayer)entityPlayer;
-            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty)))
+            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
             		{
             			player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
             		}
@@ -276,7 +280,7 @@ public class ItemSyringe extends Item {
             	if(entityPlayer instanceof EntityPlayer)
             	{
             		EntityPlayer player = (EntityPlayer)entityPlayer;
-            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty)))
+            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
             		{
             			player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
             		}
@@ -296,13 +300,24 @@ public class ItemSyringe extends Item {
             	if(entityPlayer instanceof EntityPlayer)
             	{
             		EntityPlayer player = (EntityPlayer)entityPlayer;
-            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty)))
+            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
             		{
             			player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
             		}
             	}
             }
 		}
+		
+		if(this == ModItems.euphemium_stopper)
+		{
+            if (!world.isRemote)
+            {
+            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 30 * 20, 9));
+            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 30 * 20, 9));
+            	entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 30 * 20, 9));
+            }
+		}
+		
         return false;
     }
 }
