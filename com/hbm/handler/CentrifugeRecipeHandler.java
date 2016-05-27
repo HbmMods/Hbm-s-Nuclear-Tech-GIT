@@ -14,6 +14,7 @@ import com.hbm.handler.AlloyFurnaceRecipeHandler.SmeltingSet;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -95,7 +96,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
     }
 	
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("centrifugeprocessing"))	&& (getClass() == CentrifugeRecipeHandler.class)) {
+		if ((outputId.equals("centrifugeprocessing")) && getClass() == CentrifugeRecipeHandler.class) {
 			Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
 			for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));
@@ -114,7 +115,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("centrifugeprocessing"))&& (getClass() == CentrifugeRecipeHandler.class)) {
+		if ((inputId.equals("centrifugeprocessing")) && getClass() == CentrifugeRecipeHandler.class) {
 			loadCraftingRecipes("centrifugeprocessing", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);

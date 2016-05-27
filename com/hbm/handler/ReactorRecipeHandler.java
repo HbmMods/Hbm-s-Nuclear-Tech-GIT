@@ -16,6 +16,7 @@ import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.api.IOverlayHandler;
 import codechicken.nei.api.IRecipeOverlayRenderer;
+import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
@@ -73,7 +74,7 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 	}
 	
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("breeding"))	&& (getClass() == ReactorRecipeHandler.class)) {
+		if ((outputId.equals("breeding")) && getClass() == ReactorRecipeHandler.class) {
 			Map<Object, Object> recipes = MachineRecipes.instance().getReactorRecipes();
 			for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));
@@ -92,7 +93,7 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("breeding"))&& (getClass() == ReactorRecipeHandler.class)) {
+		if ((inputId.equals("breeding")) && getClass() == ReactorRecipeHandler.class) {
 			loadCraftingRecipes("breeding", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);

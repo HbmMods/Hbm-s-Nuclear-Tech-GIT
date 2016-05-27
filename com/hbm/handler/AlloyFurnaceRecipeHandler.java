@@ -75,7 +75,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 	}
 	
 	public void loadCraftingRecipes(String outputId, Object... results) {
-		if ((outputId.equals("alloysmelting"))	&& (getClass() == AlloyFurnaceRecipeHandler.class)) {
+		if ((outputId.equals("alloysmelting")) && getClass() == AlloyFurnaceRecipeHandler.class) {
 			Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
 			for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()[0], (ItemStack)recipe.getKey()[1], (ItemStack)recipe.getValue()));
@@ -94,7 +94,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 	}
 
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
-		if ((inputId.equals("alloysmelting"))&& (getClass() == AlloyFurnaceRecipeHandler.class)) {
+		if ((inputId.equals("alloysmelting")) && getClass() == AlloyFurnaceRecipeHandler.class) {
 			loadCraftingRecipes("alloysmelting", new Object[0]);
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
