@@ -447,8 +447,9 @@ public class ModItems {
 	public static Item hazmat_plate;
 	public static Item hazmat_legs;
 	public static Item hazmat_boots;
-	
+
 	public static Item wand;
+	public static Item wand_s;
 
 	public static Item cape_test;
 	public static Item cape_radiation;
@@ -456,6 +457,7 @@ public class ModItems {
 	public static Item cape_schrabidium;
 	public static Item cape_hbm;
 	public static Item cape_dafnik;
+	public static Item cape_lpkukin;
 
 	public static Item nuke_starter_kit;
 	public static Item nuke_advanced_kit;
@@ -856,8 +858,9 @@ public class ModItems {
 
 		factory_core_titanium = new ItemBattery(70400).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_titanium");
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
-		
+
 		wand = new ItemWand().setUnlocalizedName("wand").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand");
+		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
 		
 		nuke_starter_kit = new ItemStarterKit().setUnlocalizedName("nuke_starter_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":nuke_starter_kit");
 		nuke_advanced_kit = new ItemStarterKit().setUnlocalizedName("nuke_advanced_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":nuke_advanced_kit");
@@ -949,6 +952,7 @@ public class ModItems {
 		cape_schrabidium = new ArmorModel(MainRegistry.enumArmorMaterialSchrabidium, 9, 1).setUnlocalizedName("cape_schrabidium").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_schrabidium");
 		cape_hbm = new ArmorModel(MainRegistry.enumArmorMaterialEuphemium, 9, 1).setUnlocalizedName("cape_hbm").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 		cape_dafnik = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_dafnik").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
+		cape_lpkukin = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_lpkukin").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
 		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
 		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
@@ -1333,6 +1337,7 @@ public class ModItems {
 		GameRegistry.registerItem(cape_schrabidium, cape_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(cape_hbm, cape_hbm.getUnlocalizedName());
 		GameRegistry.registerItem(cape_dafnik, cape_dafnik.getUnlocalizedName());
+		GameRegistry.registerItem(cape_lpkukin, cape_lpkukin.getUnlocalizedName());
 		
 		//Tools
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());
@@ -1455,6 +1460,7 @@ public class ModItems {
 		
 		//OP Tools
 		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
+		GameRegistry.registerItem(wand_s, wand_s.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_stopper, euphemium_stopper.getUnlocalizedName());
 		
 		//Kits

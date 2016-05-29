@@ -35,6 +35,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -394,6 +395,12 @@ public class LaunchPad extends BlockContainer {
         float f = 0.0625F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
     }
+	
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+        float f = 0.0625F;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
 
     @Override
 	@SideOnly(Side.CLIENT)

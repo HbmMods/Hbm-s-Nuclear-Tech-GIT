@@ -83,6 +83,8 @@ public class MachineRecipes {
 		ItemStack[] euphemium = new ItemStack[] {new ItemStack(ModItems.nugget_euphemium, 1), new ItemStack(ModItems.nugget_euphemium, 1), new ItemStack(ModItems.nugget_euphemium, 1), new ItemStack(ModItems.rod_quad_empty, 1)};
 		ItemStack[] schrabidium = new ItemStack[] {new ItemStack(ModItems.ingot_schrabidium, 1), new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.cell_empty, 1)};
 		ItemStack[] lithium = new ItemStack[] {new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1), new ItemStack(Item.getItemFromBlock(Blocks.gravel))};
+		ItemStack[] lithium2 = new ItemStack[] {new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1)};
+		ItemStack[] lithium3 = new ItemStack[] {new ItemStack(ModItems.lithium, 4), new ItemStack(ModItems.lithium, 4), new ItemStack(ModItems.lithium, 4), new ItemStack(ModItems.lithium, 4)};
 
 		ItemStack[] uran1 = new ItemStack[] {new ItemStack(ModItems.nugget_u235, 1), new ItemStack(ModItems.nugget_u238, 3), new ItemStack(ModItems.nugget_pu239, 2), new ItemStack(ModItems.rod_waste, 1)};
 		ItemStack[] uran2 = new ItemStack[] {new ItemStack(ModItems.nugget_u235, 2), new ItemStack(ModItems.nugget_u238, 6), new ItemStack(ModItems.nugget_pu239, 4), new ItemStack(ModItems.rod_dual_waste, 1)};
@@ -185,6 +187,16 @@ public class MachineRecipes {
 		if(item == item.getItemFromBlock(Blocks.cobblestone) || item == item.getItemFromBlock(Blocks.stone))
 		{
 			return lithium;
+		}
+		
+		if(item == item.getItemFromBlock(Blocks.quartz_block) || item == item.getItemFromBlock(Blocks.quartz_stairs))
+		{
+			return lithium3;
+		}
+		
+		if(item == Items.quartz)
+		{
+			return lithium2;
 		}
 		
 		return null;
@@ -386,6 +398,8 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_schrabidium_fuel_depleted));
 		recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_dual_schrabidium_fuel_depleted));
 		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_quad_schrabidium_fuel_depleted));
+		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), getCentrifugeOutput(Item.getItemFromBlock(Blocks.quartz_block)));
+		recipes.put(new ItemStack(Items.quartz), getCentrifugeOutput(Items.quartz));
 		return recipes;
 	}
 	

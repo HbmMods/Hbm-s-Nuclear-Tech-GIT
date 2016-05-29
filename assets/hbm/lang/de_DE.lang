@@ -590,6 +590,7 @@ item.thruster_medium.name=Mittleres Raketentriebwerk
 item.thruster_large.name=Großes Raketentriebwerk
 
 item.wand.name=Konstruktions-Zauberstab
+item.wand_s.name=Struktur-Zauberstab
 
 item.steel_helmet.name=Stahlhelm
 item.steel_plate.name=Stahlbrustpanzer

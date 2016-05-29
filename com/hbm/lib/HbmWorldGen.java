@@ -3,6 +3,7 @@ package com.hbm.lib;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.main.MainRegistry;
 import com.hbm.world.Antenna;
 import com.hbm.world.Bunker;
 import com.hbm.world.CrashedVertibird;
@@ -131,7 +132,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			(new WorldGenMinable(ModBlocks.ore_beryllium, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 		
-		
+		if(MainRegistry.enableDungeons) {
 		
 		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 		
@@ -281,6 +282,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			int y = world.getHeightValue(x, z);
 
 			new Spaceship().generate(world, rand, x, y, z);
+		}
+		
 		}
 
 	}

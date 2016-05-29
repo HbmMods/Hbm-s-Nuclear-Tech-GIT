@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -119,5 +120,67 @@ public class DecoBlock extends BlockContainer {
         
         //this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
+	
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+
+		int te = world.getBlockMetadata(x, y, z);
+        float f = 0.0625F;
+        
+        if(this == ModBlocks.steel_wall)
+        {
+			switch(te)
+			{
+			case 4:
+            	this.setBlockBounds(14*f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            	break;
+			case 2:
+            	this.setBlockBounds(0.0F, 0.0F, 14*f, 1.0F, 1.0F, 1.0F);
+            	break;
+			case 5:
+            	this.setBlockBounds(0.0F, 0.0F, 0.0F, 2*f, 1.0F, 1.0F);
+            	break;
+			case 3:
+            	this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2*f);
+            	break;
+			}
+        }
+        
+        if(this == ModBlocks.steel_corner)
+        {
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        }
+        
+        if(this == ModBlocks.steel_roof)
+        {
+            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1*f, 1.0F);
+        }
+        
+        if(this == ModBlocks.steel_beam)
+        {
+            this.setBlockBounds(7*f, 0.0F, 7*f, 9*f, 1.0F, 9*f);
+        }
+        
+        if(this == ModBlocks.steel_scaffold)
+        {
+            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
+			switch(te)
+			{
+			case 4:
+	            this.setBlockBounds(2*f, 0.0F, 0.0F, 14*f, 1.0F, 1.0F);
+            	break;
+			case 2:
+	            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
+            	break;
+			case 5:
+	            this.setBlockBounds(2*f, 0.0F, 0.0F, 14*f, 1.0F, 1.0F);
+            	break;
+			case 3:
+	            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
+            	break;
+			}
+        }
+        
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
 
 }

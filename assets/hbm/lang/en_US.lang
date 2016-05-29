@@ -591,6 +591,7 @@ item.thruster_medium.name=Medium Thruster
 item.thruster_large.name=Large Thruster
 
 item.wand.name=Construction Wand
+item.wand_s.name=Structure Wand
 
 item.steel_helmet.name=Steel Helmet
 item.steel_plate.name=Steel Chestplate

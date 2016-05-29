@@ -157,7 +157,9 @@ public class MainRegistry
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
 	
 	public static boolean enableDebugMode = true;
-	public static boolean enableMycelium = true;
+	public static boolean enableMycelium = false;
+	public static boolean enableDungeons = true;
+	public static boolean enableMDOres = true;
 	public static int gadgetRadius = 150;
 	public static int boyRadius = 120;
 	public static int manRadius = 175;
@@ -370,7 +372,9 @@ public class MainRegistry
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
         enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "_enableDebugMode", false).getBoolean(true);
-        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "_enableMyceliumSpread", true).getBoolean(true);
+        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "_enableMyceliumSpread", false).getBoolean(false);
+        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "_enableDungeonSpawn", true).getBoolean(true);
+        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "_enableOresInModdedDimensions", true).getBoolean(true);
         
         Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "gadgetRadius", 150);
         propGadget.comment = "Radius of the Gadget";
