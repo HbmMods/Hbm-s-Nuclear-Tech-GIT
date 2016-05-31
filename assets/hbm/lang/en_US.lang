@@ -630,6 +630,7 @@ item.cape_gasmask.name=Cape (Gas Mask)
 item.cape_schrabidium.name=Cape (Schrabidic)
 item.cape_hbm.name=Hbm's Cape
 item.cape_dafnik.name=Dafnik's Cape
+item.cape_lpkukin.name=LPkukin's Cape
 
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter

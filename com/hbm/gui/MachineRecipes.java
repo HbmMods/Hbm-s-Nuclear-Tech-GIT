@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -27,10 +28,11 @@ public class MachineRecipes {
 	}
 	
 	public static ItemStack getFurnaceOutput(Item item, Item item2) {
-		if(item == Items.iron_ingot && item2 == Items.quartz || item == Items.quartz && item2 == Items.iron_ingot) {
-			return new ItemStack(ModBlocks.test_render, 1); 
+		if(MainRegistry.enableDebugMode) {
+			if(item == Items.iron_ingot && item2 == Items.quartz || item == Items.quartz && item2 == Items.iron_ingot) {
+				return new ItemStack(ModBlocks.test_render, 1); 
+			}
 		}
-		
 
 		if(item == ModItems.ingot_tungsten && item2 == Items.coal || item == Items.coal && item2 == ModItems.ingot_tungsten) {
 			return new ItemStack(ModItems.neutron_reflector, 2); 
@@ -109,11 +111,14 @@ public class MachineRecipes {
 			return plutonium;
 		}
 		
-		if(item == Item.getItemFromBlock(ModBlocks.test_render))
-		{
-			return test;
+
+		if(MainRegistry.enableDebugMode) {
+			if(item == Item.getItemFromBlock(ModBlocks.test_render))
+			{
+				return test;
+			}
 		}
-		
+			
 		if(item == ModItems.rod_quad_euphemium)
 		{
 			return euphemium;
@@ -353,7 +358,9 @@ public class MachineRecipes {
 	
 	public Map<Object[], Object> getAlloyRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
-		recipes.put(new ItemStack[] {new ItemStack(Items.iron_ingot), new ItemStack(Items.quartz)}, new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)));
+		if(MainRegistry.enableDebugMode) {
+			recipes.put(new ItemStack[] {new ItemStack(Items.iron_ingot), new ItemStack(Items.quartz)}, new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)));
+		}
 		recipes.put(new ItemStack[] {new ItemStack(Items.iron_ingot), new ItemStack(Items.coal)}, new ItemStack(ModItems.ingot_steel));
 		recipes.put(new ItemStack[] {new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper)}, new ItemStack(ModItems.neutron_reflector, 2));
 		recipes.put(new ItemStack[] {new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper)}, new ItemStack(ModItems.neutron_reflector));
@@ -381,7 +388,9 @@ public class MachineRecipes {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		recipes.put(new ItemStack(ModItems.cell_uf6), getCentrifugeOutput(ModItems.cell_uf6));
 		recipes.put(new ItemStack(ModItems.cell_puf6), getCentrifugeOutput(ModItems.cell_puf6));
-		recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)), getCentrifugeOutput(Item.getItemFromBlock(ModBlocks.test_render)));
+		if(MainRegistry.enableDebugMode) {
+			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)), getCentrifugeOutput(Item.getItemFromBlock(ModBlocks.test_render)));
+		}
 		recipes.put(new ItemStack(ModItems.rod_quad_euphemium), getCentrifugeOutput(ModItems.rod_quad_euphemium));
 		recipes.put(new ItemStack(ModItems.cell_sas3), getCentrifugeOutput(ModItems.cell_sas3));
 		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.stone)), getCentrifugeOutput(Item.getItemFromBlock(Blocks.stone)));

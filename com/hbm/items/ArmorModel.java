@@ -104,6 +104,9 @@ public class ArmorModel extends ItemArmor {
 		if (stack.getItem() == ModItems.gas_mask) {
 			return "hbm:textures/models/GasMask.png";
 		}
+		if (stack.getItem() == ModItems.cape_test) {
+			return "hbm:textures/models/TestCape.png";
+		}
 		if (stack.getItem() == ModItems.cape_radiation) {
 			return "hbm:textures/models/CapeRadiation.png";
 		}
