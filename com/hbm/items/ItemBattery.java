@@ -11,6 +11,7 @@ public class ItemBattery extends Item {
 
 	public ItemBattery(int dura) {
 		this.setMaxDamage(dura);
+		this.setNoRepair();
 	}
 	
 	@Override

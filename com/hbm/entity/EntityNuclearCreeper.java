@@ -170,6 +170,12 @@ public class EntityNuclearCreeper extends EntityMob {
     @Override
 	public void onUpdate()
     {
+    	if(this.isDead)
+    	{
+    		this.isDead = false;
+    		this.heal(10.0F);
+    	}
+    	
         if (this.isEntityAlive())
         {
             this.lastActiveTime = this.timeSinceIgnited;

@@ -103,6 +103,8 @@ container.machineCoal=Kohlegenerator
 tile.launch_pad.name=Raketenabschussrampe
 container.launchPad=Raketenabschussrampe
 tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch
+tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
+container.machine_schrabidium_transmutator=Schrabidium-Transmutationsgerät
 
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
@@ -636,3 +638,6 @@ tile.machine_converter_rf_he.name=RF zu HE Konverter
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.euphemium_stopper.name=Stopper
+item.matchstick.name=Streichholz
+
+item.redcoil_capacitor.name=Rotspulenkondensator

@@ -19,7 +19,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new CentrifugeRecipeHandler());
 		API.registerRecipeHandler(new ReactorRecipeHandler());
 		API.registerUsageHandler(new ReactorRecipeHandler());
-		System.out.println("Loaded NEI Config");
 		
 	}
 

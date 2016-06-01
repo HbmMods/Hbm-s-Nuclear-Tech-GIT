@@ -41,6 +41,7 @@ import com.hbm.blocks.TileEntityMachineGenerator;
 import com.hbm.blocks.TileEntityMachineCentrifuge;
 import com.hbm.blocks.TileEntityMachinePuF6Tank;
 import com.hbm.blocks.TileEntityMachineReactor;
+import com.hbm.blocks.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.blocks.TileEntityMachineUF6Tank;
 import com.hbm.blocks.TileEntityNukeBoy;
 import com.hbm.blocks.TileEntityNukeFleija;
@@ -160,6 +161,7 @@ public class MainRegistry
 	public static boolean enableMycelium = false;
 	public static boolean enableDungeons = true;
 	public static boolean enableMDOres = true;
+	public static boolean enableBarrels = false;
 	public static int gadgetRadius = 150;
 	public static int boyRadius = 120;
 	public static int manRadius = 175;
@@ -234,6 +236,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCable.class, "tileentity_cable");
 		GameRegistry.registerTileEntity(TileEntityConverterHeRf.class, "tileentity_converter_herf");
 		GameRegistry.registerTileEntity(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
+		GameRegistry.registerTileEntity(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -285,7 +288,17 @@ public class MainRegistry
 	public static void load(FMLInitializationEvent event)
 	{
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
-		OreDictionary.registerOre("ingotPlutonium", ModItems.ingot_pu239);
+		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
+		OreDictionary.registerOre("ingotUranium238", ModItems.ingot_u238);
+		OreDictionary.registerOre("ingotPlutonium", ModItems.ingot_plutonium);
+		OreDictionary.registerOre("ingotPlutonium238", ModItems.ingot_pu238);
+		OreDictionary.registerOre("ingotPlutonium239", ModItems.ingot_pu239);
+		OreDictionary.registerOre("ingotPlutonium240", ModItems.ingot_pu240);
+		OreDictionary.registerOre("U235", ModItems.ingot_u235);
+		OreDictionary.registerOre("U238", ModItems.ingot_u238);
+		OreDictionary.registerOre("Pu238", ModItems.ingot_pu238);
+		OreDictionary.registerOre("Pu39", ModItems.ingot_pu239);
+		OreDictionary.registerOre("Pu240", ModItems.ingot_pu240);
 		OreDictionary.registerOre("ingotTitanium", ModItems.ingot_titanium);
 		OreDictionary.registerOre("ingotSchrabidium", ModItems.ingot_schrabidium);
 		OreDictionary.registerOre("dustSchrabidium", ModItems.powder_schrabidium);
@@ -303,6 +316,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotAluminum", ModItems.ingot_aluminium);
 		OreDictionary.registerOre("ingotNeptunium", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotLead", ModItems.ingot_lead);
+		OreDictionary.registerOre("ingotLithium", ModItems.lithium);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -312,6 +326,11 @@ public class MainRegistry
 		OreDictionary.registerOre("nuggetPlutonium238", ModItems.nugget_pu238);
 		OreDictionary.registerOre("nuggetPlutonium239", ModItems.nugget_pu239);
 		OreDictionary.registerOre("nuggetPlutonium240", ModItems.nugget_pu240);
+		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
+		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
+		OreDictionary.registerOre("tinyPu238", ModItems.nugget_pu238);
+		OreDictionary.registerOre("tinyPu239", ModItems.nugget_pu239);
+		OreDictionary.registerOre("tinyPu240", ModItems.nugget_pu240);
 		OreDictionary.registerOre("nuggetNeptunium", ModItems.nugget_neptunium);
 		OreDictionary.registerOre("nuggetSchrabidium", ModItems.nugget_schrabidium);
 		OreDictionary.registerOre("plateTitanium", ModItems.plate_titanium);
@@ -323,6 +342,7 @@ public class MainRegistry
 		OreDictionary.registerOre("plateCopper", ModItems.plate_copper);
 		OreDictionary.registerOre("plateIron", ModItems.plate_iron);
 		OreDictionary.registerOre("plateGold", ModItems.plate_gold);
+		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
 		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_titanium);
@@ -371,36 +391,37 @@ public class MainRegistry
 
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "_enableDebugMode", false).getBoolean(true);
-        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "_enableMyceliumSpread", false).getBoolean(false);
-        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "_enableDungeonSpawn", true).getBoolean(true);
-        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "_enableOresInModdedDimensions", true).getBoolean(true);
+        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "1.0_enableDebugMode", false).getBoolean(false);
+        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "1.1_enableMyceliumSpread", false).getBoolean(false);
+        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.2_enableDungeonSpawn", true).getBoolean(true);
+        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.3_enableOresInModdedDimensions", true).getBoolean(true);
+        enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.4_enableNuclearBarrelSpawn", false).getBoolean(false);
         
-        Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "gadgetRadius", 150);
+        Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "2.0_gadgetRadius", 150);
         propGadget.comment = "Radius of the Gadget";
         gadgetRadius = propGadget.getInt();
         
-        Property propBoy = config.get(Configuration.CATEGORY_GENERAL, "boyRadius", 120);
+        Property propBoy = config.get(Configuration.CATEGORY_GENERAL, "2.1_boyRadius", 120);
         propBoy.comment = "Radius of Little Boy";
         boyRadius = propBoy.getInt();
         
-        Property propMan = config.get(Configuration.CATEGORY_GENERAL, "manRadius", 175);
+        Property propMan = config.get(Configuration.CATEGORY_GENERAL, "2.2_manRadius", 175);
         propMan.comment = "Radius of Fat Man";
         manRadius = propMan.getInt();
         
-        Property propMike = config.get(Configuration.CATEGORY_GENERAL, "mikeRadius", 250);
+        Property propMike = config.get(Configuration.CATEGORY_GENERAL, "2.3_mikeRadius", 250);
         propMike.comment = "Radius of Ivy Mike";
         mikeRadius = propMike.getInt();
         
-        Property propTsar = config.get(Configuration.CATEGORY_GENERAL, "tsarRadius", 500);
+        Property propTsar = config.get(Configuration.CATEGORY_GENERAL, "2.4_tsarRadius", 500);
         propTsar.comment = "Radius of the Tsar Bomba";
         tsarRadius = propTsar.getInt();
         
-        Property propPrototype = config.get(Configuration.CATEGORY_GENERAL, "prototypeRadius", 150);
+        Property propPrototype = config.get(Configuration.CATEGORY_GENERAL, "2.5_prototypeRadius", 150);
         propPrototype.comment = "Radius of the Prototype";
         prototypeRadius = propPrototype.getInt();
         
-        Property propFleija = config.get(Configuration.CATEGORY_GENERAL, "fleijaRadius", 50);
+        Property propFleija = config.get(Configuration.CATEGORY_GENERAL, "2.6_fleijaRadius", 50);
         propFleija.comment = "Radius of F.L.E.I.J.A.";
         fleijaRadius = propFleija.getInt();
         

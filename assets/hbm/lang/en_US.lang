@@ -103,6 +103,8 @@ container.machineCoal=Coal Generator
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Missile Launch Pad
 tile.book_guide.name=Hbm's Nuclear Tech Mod Manual
+tile.machine_schrabidium_transmutator.name=Schrabidium Transmutation Device
+container.machine_schrabidium_transmutator=Schrabidium Transmutation Device
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
@@ -426,7 +428,7 @@ item.rod_tritium.name=Tritium Cell
 item.rod_dual_tritium.name=Dual Tritium Cell
 item.rod_quad_tritium.name=Quad Tritium Cell
 
-item.levitation_unit.name=Gravitymanipulator
+item.levitation_unit.name=Gravity Manipulator
 item.thermo_unit_empty.name=Thermic Distribution Unit
 item.thermo_unit_endo.name=Coldness Distribution Unit
 item.thermo_unit_exo.name=Heat Distribution Unit
@@ -637,3 +639,6 @@ tile.machine_converter_rf_he.name=RF to HE Converter
 
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.euphemium_stopper.name=Stopper
+item.matchstick.name=Matchstick
+
+item.redcoil_capacitor.name=Redcoil Capacitor
