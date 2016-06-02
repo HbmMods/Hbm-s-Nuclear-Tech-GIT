@@ -19,6 +19,7 @@ import com.hbm.entity.EntityMissileMirv;
 import com.hbm.entity.EntityMissileNuclear;
 import com.hbm.entity.EntityMissileRain;
 import com.hbm.entity.EntityMissileStrong;
+import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -40,7 +41,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class LaunchPad extends BlockContainer {
+public class LaunchPad extends BlockContainer implements IBomb {
 
 	public TileEntityLaunchPad tetn = new TileEntityLaunchPad();
 	public static boolean keepInventory = false;
@@ -407,6 +408,161 @@ public class LaunchPad extends BlockContainer {
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Item.getItemFromBlock(ModBlocks.launch_pad);
+    }
+    
+    public void explode(World p_149695_1_, int x, int y, int z)
+    {
+		TileEntityLaunchPad entity = (TileEntityLaunchPad) p_149695_1_.getTileEntity(x, y, z);
+        //if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+        	if(entity.slots[1] != null && entity.slots[1].getItem() == ModItems.designator && entity.slots[1].stackTagCompound != null)
+        	{
+        		int xCoord = entity.slots[1].stackTagCompound.getInteger("xCoord");
+        		int zCoord = entity.slots[1].stackTagCompound.getInteger("zCoord");
+        		
+        		if(xCoord == entity.xCoord && zCoord == entity.zCoord)
+        		{
+        			xCoord += 1;
+        		}
+        		
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_generic && entity.power >= 75000)
+        		{
+            		EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            	
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000)
+        		{
+            		EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            	
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_incendiary && entity.power >= 75000)
+        		{
+            		EntityMissileIncendiary missile = new EntityMissileIncendiary(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            	
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_cluster && entity.power >= 75000)
+        		{
+            		EntityMissileCluster missile = new EntityMissileCluster(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_buster && entity.power >= 75000)
+        		{
+            		EntityMissileBunkerBuster missile = new EntityMissileBunkerBuster(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_strong && entity.power >= 75000)
+        		{
+            		EntityMissileStrong missile = new EntityMissileStrong(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_incendiary_strong && entity.power >= 75000)
+        		{
+            		EntityMissileIncendiaryStrong missile = new EntityMissileIncendiaryStrong(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_cluster_strong && entity.power >= 75000)
+        		{
+            		EntityMissileClusterStrong missile = new EntityMissileClusterStrong(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_buster_strong && entity.power >= 75000)
+        		{
+            		EntityMissileBusterStrong missile = new EntityMissileBusterStrong(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_burst && entity.power >= 75000)
+        		{
+            		EntityMissileBurst missile = new EntityMissileBurst(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_inferno && entity.power >= 75000)
+        		{
+            		EntityMissileInferno missile = new EntityMissileInferno(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_rain && entity.power >= 75000)
+        		{
+            		EntityMissileRain missile = new EntityMissileRain(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_drill && entity.power >= 75000)
+        		{
+            		EntityMissileDrill missile = new EntityMissileDrill(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_nuclear && entity.power >= 75000)
+        		{
+            		EntityMissileNuclear missile = new EntityMissileNuclear(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_endo && entity.power >= 75000)
+        		{
+            		EntityMissileEndo missile = new EntityMissileEndo(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_exo && entity.power >= 75000)
+        		{
+            		EntityMissileExo missile = new EntityMissileExo(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_nuclear_cluster && entity.power >= 75000)
+        		{
+            		EntityMissileMirv missile = new EntityMissileMirv(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+        		}
+        	}
+        }
     }
 
 }

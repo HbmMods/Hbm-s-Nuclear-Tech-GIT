@@ -47,7 +47,7 @@ public class EntityGrenadePoison extends EntityThrowable
         {
             this.setDead();
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, true);
-            ExplosionNukeGeneric.waste(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
+            ExplosionNukeGeneric.wasteNoSchrab(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
         }
     }
 

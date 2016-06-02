@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -22,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class NukePrototype extends BlockContainer {
+public class NukePrototype extends BlockContainer implements IBomb {
 
 	public TileEntityNukePrototype tetn = new TileEntityNukePrototype();
 
@@ -199,6 +200,20 @@ public class NukePrototype extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+	}
+
+	public void explode(World world, int x, int y, int z) {
+    	TileEntityNukePrototype entity = (TileEntityNukePrototype) world.getTileEntity(x, y, z);
+        //if (world.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+        	if(entity.isReady())
+        	{
+        		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
+            	entity.clearSlots();
+            	world.setBlockToAir(x, y, z);
+            	igniteTestBomb(world, x, y, z, MainRegistry.prototypeRadius);
+        	}
+        }
 	}
 
 }

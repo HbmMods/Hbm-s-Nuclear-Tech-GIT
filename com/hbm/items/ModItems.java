@@ -480,6 +480,7 @@ public class ModItems {
 	public static Item euphemium_kit;
 
 	public static Item igniter;
+	public static Item detonator;
 
 	public static Item smoke1;
 	public static Item smoke2;
@@ -883,12 +884,14 @@ public class ModItems {
 		t45_kit = new ItemStarterKit().setUnlocalizedName("t45_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":t45_kit");
 		euphemium_kit = new ItemStarterKit().setUnlocalizedName("euphemium_kit").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":code");
 		
-		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":trigger");
 		ingot_euphemium = new ItemCustomLore().setUnlocalizedName("ingot_euphemium").setTextureName(RefStrings.MODID + ":ingot_euphemium");
 		nugget_euphemium = new ItemCustomLore().setUnlocalizedName("nugget_euphemium").setTextureName(RefStrings.MODID + ":nugget_euphemium");
 		rod_quad_euphemium = new ItemCustomLore().setUnlocalizedName("rod_quad_euphemium").setMaxStackSize(1).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_euphemium");
 		watch = new ItemCustomLore().setUnlocalizedName("watch").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":watch");
 		apple_euphemium = new ItemAppleEuphemium(20, 100, false).setUnlocalizedName("apple_euphemium").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":apple_euphemium");
+
+		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":trigger");
+		detonator = new ItemDetonator().setUnlocalizedName("detonator").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":detonator");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("euphemium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
 		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("euphemium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
@@ -1446,6 +1449,7 @@ public class ModItems {
 		//Nobody will ever read this anyway, so it shouldn't matter.
 		GameRegistry.registerItem(chainsaw, chainsaw.getUnlocalizedName());
 		GameRegistry.registerItem(igniter, igniter.getUnlocalizedName());
+		GameRegistry.registerItem(detonator, detonator.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_helmet, hazmat_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_plate, hazmat_plate.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_legs, hazmat_legs.getUnlocalizedName());

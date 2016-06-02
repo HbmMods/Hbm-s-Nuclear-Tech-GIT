@@ -10,21 +10,24 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 
-public class BombMulti extends BlockContainer {
+public class BombMulti extends BlockContainer implements IBomb {
 
 	public TileEntityBombMulti tetn = new TileEntityBombMulti();
 	
@@ -244,7 +247,7 @@ public class BombMulti extends BlockContainer {
         		
         		if(this.poisonRadius > 0)
         		{
-                	ExplosionNukeGeneric.waste(world, x, y, z, this.poisonRadius);
+                	ExplosionNukeGeneric.wasteNoSchrab(world, x, y, z, this.poisonRadius);
         		}
         		
         		if(this.gasCloud > 0)
@@ -306,5 +309,20 @@ public class BombMulti extends BlockContainer {
         float f = 0.0625F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F);
     }
+	
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+        float f = 0.0625F;
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	public void explode(World world, int x, int y, int z) {
+    	TileEntityBombMulti entity = (TileEntityBombMulti) world.getTileEntity(x, y, z);
+    	if(/*entity.getExplosionType() != 0*/entity.isLoaded())
+    	{
+    		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
+        	igniteTestBomb(world, x, y, z);
+    	}
+	}
 
 }

@@ -2,13 +2,17 @@ package com.hbm.blocks;
 
 import java.util.Random;
 
+import com.hbm.explosion.ExplosionChaos;
+import com.hbm.interfaces.IBomb;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class DetCord extends Block {
+public class DetCord extends Block implements IBomb {
 
 	protected DetCord(Material p_i45394_1_) {
 		super(p_i45394_1_);
@@ -37,5 +41,9 @@ public class DetCord extends Block {
     {
         return null;
     }
+
+	public void explode(World world, int x, int y, int z) {
+		world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 1.5F, true);
+	}
 
 }

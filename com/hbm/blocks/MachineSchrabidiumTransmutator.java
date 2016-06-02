@@ -26,6 +26,25 @@ public class MachineSchrabidiumTransmutator extends BlockContainer {
     private final Random field_149933_a = new Random();
 	private Random rand;
 	private static boolean keepInventory;
+	
+	@SideOnly(Side.CLIENT)
+	//private IIcon iconFront;
+	private IIcon iconTop;
+	private IIcon iconBottom;
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":transmutator_top"));
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":transmutator_bottom"));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":transmutator_side");
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int metadata) {
+		return side == 1 ? this.iconTop : (side == 0 ? this.iconBottom : this.blockIcon);
+	}
 
 	protected MachineSchrabidiumTransmutator(Material p_i45386_1_) {
 		super(p_i45386_1_);

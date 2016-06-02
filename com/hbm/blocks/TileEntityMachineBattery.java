@@ -136,8 +136,9 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		this.power = nbt.getShort("power");
+		this.conducts = nbt.getBoolean("conducts");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -155,6 +156,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setShort("power", (short) power);
+		nbt.setBoolean("conducts", conducts);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)

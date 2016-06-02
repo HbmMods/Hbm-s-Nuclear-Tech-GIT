@@ -361,6 +361,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_coal_off), 1), new Object[] { "STS", "SCS", "SFS", 'S', "ingotSteel", 'T', ModItems.tank_steel, 'C', ModItems.ingot_red_copper, 'F', Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_converter_he_rf), 1), new Object[] { "SSS", "CRC", "SSS", 'S', "ingotSteel", 'C', ModItems.coil_copper, 'R', ModItems.coil_copper_torus }));
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_converter_rf_he), 1), new Object[] { "SSS", "CRC", "SSS", 'S', ModItems.ingot_beryllium, 'C', ModItems.coil_copper, 'R', ModItems.coil_copper_torus });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_schrabidium_transmutator), 1), new Object[] { "TST", "ARA", "BBB", 'S', ModItems.nugget_schrabidium , 'T', "ingotTitanium", 'A', Item.getItemFromBlock(ModBlocks.factory_advanced_hull), 'R', Item.getItemFromBlock(ModBlocks.machine_reactor), 'B', Item.getItemFromBlock(ModBlocks.machine_battery) }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 1), new Object[] { "PIP", "I I", "PIP", 'P', "plateTitanium", 'I', "ingotTitanium" }));
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_furnace), 1), new Object[] { "HMH", "MFM", "HMH", 'H', Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 'M', ModItems.motor, 'F', Item.getItemFromBlock(Blocks.furnace) });
@@ -376,6 +377,7 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.fuse, 1), new Object[] { " S ", "GAG", " S ", 'S', "plateSteel", 'G', Item.getItemFromBlock(Blocks.glass_pane), 'A', ModItems.wire_aluminium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.redcoil_capacitor, 1), new Object[] { "PFP", "CBC", "CBC", 'P', "plateGold", 'B', Item.getItemFromBlock(Blocks.redstone_block), 'C', ModItems.coil_advanced_alloy, 'F', ModItems.fuse }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.detonator, 1), new Object[] { " W", "SC", "CE", 'S', "plateSteel", 'W', ModItems.wire_red_copper, 'C', ModItems.circuit_red_copper, 'E', ModItems.ingot_steel }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reactor_element), 1), new Object[] { "SCS", "CSC", "SCS", 'S', "ingotSteel", 'C', ModItems.rod_quad_empty }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.reactor_control), 1), new Object[] { "SLS", "SLS", "SLS", 'S', "ingotSteel", 'L', "ingotLead" }));
@@ -583,6 +585,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.cape_schrabidium, 1), new Object[] { "W W", "WIW", "WDW", 'W', ModItems.ingot_schrabidium, 'D', new ItemStack(Items.dye, 1, 0), 'I', ModItems.circuit_red_copper });
 		GameRegistry.addRecipe(new ItemStack(ModItems.cape_hbm, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 15), 'D', ModItems.ingot_neptunium, 'I', ModItems.ingot_euphemium });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cape_dafnik, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 1), 'D', new ItemStack(Items.dye, 1, 0), 'I', "ingotSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cape_lpkukin, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 13), 'D', new ItemStack(Items.dye, 1, 8), 'I', "plateSteel" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igniter, 1), new Object[] { " W", "SC", "CE", 'S', "plateSteel", 'W', ModItems.wire_schrabidium, 'C', ModItems.circuit_schrabidium, 'E', ModItems.ingot_euphemium }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.ingot_euphemium });

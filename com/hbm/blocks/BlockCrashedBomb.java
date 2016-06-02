@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -22,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockCrashedBomb extends BlockContainer {
+public class BlockCrashedBomb extends BlockContainer implements IBomb {
 
 	protected BlockCrashedBomb(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -74,5 +76,21 @@ public class BlockCrashedBomb extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+	}
+	
+	public void explode(World world, int x, int y, int z) {
+        if (!world.isRemote)
+        {
+        	EntityNukeExplosionAdvanced entity0 = new EntityNukeExplosionAdvanced(world);
+	    	entity0.posX = x;
+	    	entity0.posY = y;
+	    	entity0.posZ = z;
+	    	entity0.destructionRange = 35;
+	    	entity0.speed = 25;
+	    	entity0.coefficient = 10.0F;
+	    	
+	    	world.spawnEntityInWorld(entity0);
+    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
+        }
 	}
 }

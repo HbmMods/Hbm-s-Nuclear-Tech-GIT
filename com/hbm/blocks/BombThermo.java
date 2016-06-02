@@ -3,6 +3,7 @@ package com.hbm.blocks;
 import java.util.Random;
 
 import com.hbm.explosion.ExplosionThermo;
+import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -15,7 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BombThermo extends Block {
+public class BombThermo extends Block implements IBomb {
 
 	private World worldObj;
 	
@@ -73,4 +74,20 @@ public class BombThermo extends Block {
         }
     }
 
+	public void explode(World world, int x, int y, int z) {
+		world.setBlock(x, y, z, Blocks.air);
+    	if(this == ModBlocks.therm_endo)
+    	{
+    		ExplosionThermo.freeze(world, x, y, z, 15);
+    		ExplosionThermo.freezer(world, x, y, z, 20);
+    	}
+
+    	if(this == ModBlocks.therm_exo)
+    	{
+    		ExplosionThermo.scorch(world, x, y, z, 15);
+    		ExplosionThermo.setEntitiesOnFire(world, x, y, z, 20);
+    	}
+    	
+    	world.createExplosion(null, x, y, z, 5.0F, true);
+	}
 }

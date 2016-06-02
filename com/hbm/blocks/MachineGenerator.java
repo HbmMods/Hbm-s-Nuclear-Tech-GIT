@@ -141,7 +141,7 @@ public class MachineGenerator extends BlockContainer {
 			if(entity != null && entity.isLoaded)
 			{
 				p_149723_1_.createExplosion(null, p_149723_2_, p_149723_3_, p_149723_4_, 18.0F, true);
-		    	ExplosionNukeGeneric.waste(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_, 35);
+		    	ExplosionNukeGeneric.wasteNoSchrab(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_, 35);
 		    	p_149723_1_.setBlock(p_149723_2_, p_149723_3_, p_149723_4_, Blocks.flowing_lava);
 			}
         }

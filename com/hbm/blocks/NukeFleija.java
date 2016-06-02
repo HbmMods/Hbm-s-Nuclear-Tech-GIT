@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -21,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class NukeFleija extends BlockContainer {
+public class NukeFleija extends BlockContainer implements IBomb {
 
 	public TileEntityNukeFleija tetn = new TileEntityNukeFleija();
 
@@ -188,6 +189,20 @@ public class NukeFleija extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+	}
+
+	public void explode(World world, int x, int y, int z) {
+    	TileEntityNukeFleija entity = (TileEntityNukeFleija) world.getTileEntity(x, y, z);
+        //if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+        	if(entity.isReady())
+        	{
+        		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
+            	entity.clearSlots();
+            	world.setBlockToAir(x, y, z);
+            	igniteTestBomb(world, x, y, z, MainRegistry.fleijaRadius);
+        	}
+        }
 	}
 
 }

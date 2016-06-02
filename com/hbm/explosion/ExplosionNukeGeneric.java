@@ -372,4 +372,126 @@ public class ExplosionNukeGeneric {
 		}
 		}
 	}
+	
+
+
+	public static void wasteNoSchrab(World world, int x, int y, int z, int radius)
+	{
+		int r = radius;
+		int r2 = r*r;
+		int r22 = r2/2;
+		for (int xx = -r; xx < r; xx++)
+		{
+			int X = xx+x;
+			int XX = xx*xx;
+			for (int yy = -r; yy < r; yy++)
+			{
+				int Y = yy+y;
+				int YY = XX+yy*yy;
+				for (int zz = -r; zz < r; zz++)
+				{
+					int Z = zz+z;
+					int ZZ = YY+zz*zz;
+					if (ZZ<r22+world.rand.nextInt(r22/5))
+					{
+						if(world.getBlock(X, Y, Z) != Blocks.air) wasteDestNoSchrab(world, X, Y, Z);
+					}
+				}
+			}
+		}	
+	}
+	
+	public static void wasteDestNoSchrab(World world, int x, int y, int z)
+	{
+		if(!world.isRemote)
+		{
+		int rand;
+
+		if(world.getBlock(x, y, z) == Blocks.glass ||
+				world.getBlock(x, y, z) == Blocks.stained_glass ||
+				world.getBlock(x, y, z) == Blocks.wooden_door ||
+				world.getBlock(x, y, z) == Blocks.iron_door ||
+				world.getBlock(x, y, z) == Blocks.leaves ||
+				world.getBlock(x, y, z) == Blocks.leaves2)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.grass)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_earth);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.mycelium)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_mycelium);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.sand)
+		{
+			rand = field_149933_a.nextInt(20);
+			if(rand == 1 && world.getBlockMetadata(x, y, z) == 0)
+			{
+				world.setBlock(x, y, z, ModBlocks.waste_trinitite);
+			}
+			if(rand == 1 && world.getBlockMetadata(x, y, z) == 1)
+			{
+				world.setBlock(x, y, z, ModBlocks.waste_trinitite_red);
+			}
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.clay)
+		{
+			world.setBlock(x, y, z, Blocks.hardened_clay);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.mossy_cobblestone)
+		{
+			world.setBlock(x, y, z, Blocks.coal_ore);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.coal_ore)
+		{
+			rand = field_149933_a.nextInt(10);
+			if(rand == 1 || rand == 2 || rand == 3)
+			{
+				world.setBlock(x, y, z, Blocks.diamond_ore);
+			}
+			if(rand == 9)
+			{
+				world.setBlock(x, y, z, Blocks.emerald_ore);
+			}
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.log || world.getBlock(x, y, z) == Blocks.log2)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_log);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.planks)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_planks);
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.brown_mushroom_block)
+		{
+			if(world.getBlockMetadata(x, y, z) == 10)
+			{
+				world.setBlock(x, y, z, ModBlocks.waste_log);
+			} else {
+				world.setBlock(x, y, z, Blocks.air);
+			}
+		}
+		
+		else if(world.getBlock(x, y, z) == Blocks.red_mushroom_block)
+		{
+			if(world.getBlockMetadata(x, y, z) == 10)
+			{
+				world.setBlock(x, y, z, ModBlocks.waste_log);
+			} else {
+				world.setBlock(x, y, z, Blocks.air);
+			}
+		}
+		}
+	}
 }

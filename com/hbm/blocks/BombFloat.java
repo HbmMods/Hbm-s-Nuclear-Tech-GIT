@@ -1,6 +1,8 @@
 package com.hbm.blocks;
 
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionThermo;
+import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BombFloat extends Block {
+public class BombFloat extends Block implements IBomb {
 	
     public World worldObj;
 	
@@ -47,5 +49,11 @@ public class BombFloat extends Block {
         	ExplosionChaos.move(p_149695_1_, x, y, z, 15, 0, 50, 0);
         }
     }
+
+	public void explode(World world, int x, int y, int z) {
+		world.setBlock(x, y, z, Blocks.air);
+        	ExplosionChaos.floater(world, x, y, z, 15, 50);
+        	ExplosionChaos.move(world, x, y, z, 15, 0, 50, 0);
+	}
 
 }
