@@ -18,6 +18,7 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.items.ItemBattery;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -34,8 +35,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	public List<IConsumer> list = new ArrayList();
 	
 	private static final int[] slots_top = new int[] {1};
-	private static final int[] slots_bottom = new int[] {2};
-	private static final int[] slots_side = new int[] {0};
+	private static final int[] slots_bottom = new int[] {0, 2};
+	private static final int[] slots_side = new int[] {0, 2};
 	
 	private String customName;
 	
@@ -110,8 +111,18 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return true;
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		if(i == 0)
+			if(stack.getItem() == ModItems.rod_water || stack.getItem() == ModItems.rod_dual_water || stack.getItem() == ModItems.rod_quad_water || stack.getItem() == Items.water_bucket)
+				return true;
+		if(i == 2)
+			if(stack.getItem() instanceof ItemBattery)
+				return true;
+		if(i == 1)
+			if(stack.getItem() == Items.coal || stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
+				return true;
+		
+		return false;
 	}
 	
 	@Override
@@ -189,7 +200,14 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		if(i == 0)
+			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
+				return true;
+		if(i == 2)
+			if(itemStack.getItemDamage() == 0)
+				return true;
+		
+		return false;
 	}
 	
 	public int getWaterScaled(int i) {

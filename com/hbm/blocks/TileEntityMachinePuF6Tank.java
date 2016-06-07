@@ -94,7 +94,12 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		if(i == 0 && stack.getItem() == ModItems.cell_puf6)
+			return true;
+		if(i == 2 && stack.getItem() == ModItems.cell_empty)
+			return true;
+		
 		return false;
 	}
 	
@@ -171,7 +176,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		return true;
 	}
 	
 	public int getFillStateScaled(int i) {

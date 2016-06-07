@@ -17,6 +17,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 	
 	public int progress = 0;
 	public int power = 0;
+	public int soundCycle = 0;
 	public final static int processTime = 100;
 	public final static int maxPower = ModItems.factory_core_advanced.getMaxDamage();
 	private ItemStack slots[];
@@ -369,6 +370,12 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 		{
 			this.progress += 1;
 			this.slots[22].setItemDamage(this.slots[22].getItemDamage() + 1);
+			if(soundCycle == 0)
+	        	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 0.75F);
+			soundCycle++;
+			
+			if(soundCycle >= 50)
+				soundCycle = 0;
 		} else {
 			this.progress = 0;
 		}

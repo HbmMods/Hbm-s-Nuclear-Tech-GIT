@@ -1,5 +1,7 @@
 package com.hbm.blocks;
 
+import com.hbm.items.ItemCustomLore;
+import com.hbm.items.ItemFuelRod;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +23,7 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 	public static final int processingSpeed = 30;
 	
 	private static final int[] slots_top = new int[] {1};
-	private static final int[] slots_bottom = new int[] {2};
+	private static final int[] slots_bottom = new int[] {2, 0};
 	private static final int[] slots_side = new int[] {0};
 	
 	private String customName;
@@ -208,13 +210,31 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		//return this.isItemValidForSlot(i, itemStack);
+		if(i == 0)
+		{
+			if(itemStack.getItem() instanceof ItemCustomLore)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
 		return true;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		//return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		if(i == 0)
+		{
+			if(itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
 		return true;
 	}
 	

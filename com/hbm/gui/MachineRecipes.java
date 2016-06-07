@@ -391,7 +391,8 @@ public class MachineRecipes {
 		if(MainRegistry.enableDebugMode) {
 			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)), getCentrifugeOutput(Item.getItemFromBlock(ModBlocks.test_render)));
 		}
-		recipes.put(new ItemStack(ModItems.rod_quad_euphemium), getCentrifugeOutput(ModItems.rod_quad_euphemium));
+		//[REDACTED]
+		//recipes.put(new ItemStack(ModItems.rod_quad_euphemium), getCentrifugeOutput(ModItems.rod_quad_euphemium));
 		recipes.put(new ItemStack(ModItems.cell_sas3), getCentrifugeOutput(ModItems.cell_sas3));
 		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.stone)), getCentrifugeOutput(Item.getItemFromBlock(Blocks.stone)));
 		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.cobblestone)), getCentrifugeOutput(Item.getItemFromBlock(Blocks.cobblestone)));
@@ -406,7 +407,8 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_quad_mox_fuel_depleted), getCentrifugeOutput(ModItems.rod_quad_mox_fuel_depleted));
 		recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_schrabidium_fuel_depleted));
 		recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_dual_schrabidium_fuel_depleted));
-		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_quad_schrabidium_fuel_depleted));
+		//[REDACTED]
+		//recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted), getCentrifugeOutput(ModItems.rod_quad_schrabidium_fuel_depleted));
 		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)), getCentrifugeOutput(Item.getItemFromBlock(Blocks.quartz_block)));
 		recipes.put(new ItemStack(Items.quartz), getCentrifugeOutput(Items.quartz));
 		return recipes;
@@ -451,7 +453,8 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_neptunium), getReactorOutput(ModItems.rod_neptunium));
 		recipes.put(new ItemStack(ModItems.rod_dual_neptunium), getReactorOutput(ModItems.rod_dual_neptunium));
 		recipes.put(new ItemStack(ModItems.rod_quad_neptunium), getReactorOutput(ModItems.rod_quad_neptunium));
-		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium), getReactorOutput(ModItems.rod_quad_schrabidium));
+		//[REDACTED]
+		//recipes.put(new ItemStack(ModItems.rod_quad_schrabidium), getReactorOutput(ModItems.rod_quad_schrabidium));
 		recipes.put(new ItemStack(ModItems.rod_lithium), getReactorOutput(ModItems.rod_lithium));
 		recipes.put(new ItemStack(ModItems.rod_dual_lithium), getReactorOutput(ModItems.rod_dual_lithium));
 		recipes.put(new ItemStack(ModItems.rod_quad_lithium), getReactorOutput(ModItems.rod_quad_lithium));

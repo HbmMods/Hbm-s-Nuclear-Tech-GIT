@@ -23,7 +23,7 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 	public boolean runsOnRtg = false;
 	
 	private static final int[] slots_top = new int[] {1};
-	private static final int[] slots_bottom = new int[] {2};
+	private static final int[] slots_bottom = new int[] {2, 0};
 	private static final int[] slots_side = new int[] {0};
 	
 	private String customName;
@@ -217,7 +217,17 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		if(i == 0)
+		{
+			if(itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public int getDiFurnaceProgressScaled(int i) {

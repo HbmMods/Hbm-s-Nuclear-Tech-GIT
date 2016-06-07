@@ -2,6 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.items.ItemBattery;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	public static final int processingSpeed = 100;
 	
 	private static final int[] slots_top = new int[] {1};
-	private static final int[] slots_bottom = new int[] {2};
+	private static final int[] slots_bottom = new int[] {2, 0};
 	private static final int[] slots_side = new int[] {0};
 	
 	private String customName;
@@ -100,7 +101,14 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return true;
+		if(i == 0)
+			if(itemStack.getItem() instanceof ItemBattery)
+				return true;
+		
+		if(i == 1)
+			return true;
+		
+		return false;
 	}
 	
 	@Override
@@ -178,7 +186,13 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		if(i == 0)
+			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+				return true;
+		if(i == 2)
+			return true;
+		
+		return false;
 	}
 	
 	public int getDiFurnaceProgressScaled(int i) {

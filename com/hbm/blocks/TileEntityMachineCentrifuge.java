@@ -20,13 +20,14 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	public int dualCookTime;
 	public int dualPower;
+	public int soundCycle = 0;
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 500;
 	public boolean runsOnRtg = false;
 	
-	private static final int[] slots_top = new int[] {0, 1};
-	private static final int[] slots_bottom = new int[] {3};
-	private static final int[] slots_side = new int[] {2};
+	private static final int[] slots_top = new int[] {0};
+	private static final int[] slots_bottom = new int[] {2, 3, 4, 5};
+	private static final int[] slots_side = new int[] {1};
 	
 	private String customName;
 	
@@ -102,7 +103,17 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i == 2 ? false : (i == 1 ? hasItemPower(itemStack) : true);
+		if(i == 2 || i == 3 || i == 4 || i == 5)
+		{
+			return false;
+		}
+		
+		if(i == 1 && hasItemPower(itemStack))
+		{
+			return true;
+		}
+		
+		return true;
 	}
 	
 	public boolean hasItemPower(ItemStack itemStack) {
@@ -219,6 +230,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	
 	public boolean canProcess() {
+		
 		if(slots[0] == null)
 		{
 			return false;
@@ -354,19 +366,6 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 				this.runsOnRtg = true;
 			}
 			
-			if(hasPower() && canProcess())
-			{
-				dualCookTime++;
-				
-				if(this.dualCookTime >= TileEntityMachineCentrifuge.processingSpeed)
-				{
-					this.dualCookTime = 0;
-					this.processItem();
-				}
-			}else{
-				dualCookTime = 0;
-			}
-			
 			boolean trigger = true;
 			
 			if(hasPower() && canProcess() && this.dualCookTime == 0)
@@ -378,6 +377,25 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
             {
                 flag1 = true;
             }
+		}
+		
+		if(hasPower() && canProcess())
+		{
+			dualCookTime++;
+			if(soundCycle == 0)
+		        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 1.5F);
+			soundCycle++;
+				
+			if(soundCycle >= 25)
+				soundCycle = 0;
+			
+			if(this.dualCookTime >= TileEntityMachineCentrifuge.processingSpeed)
+			{
+				this.dualCookTime = 0;
+				this.processItem();
+			}
+		}else{
+			dualCookTime = 0;
 		}
 		
 		if(flag1)

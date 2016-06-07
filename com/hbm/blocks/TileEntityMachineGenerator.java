@@ -9,6 +9,7 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.items.ItemBattery;
 import com.hbm.items.ItemFuelRod;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -39,9 +40,9 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	
-	private static final int[] slots_top = new int[] {};
+	private static final int[] slots_top = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
 	private static final int[] slots_bottom = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-	private static final int[] slots_side = new int[] {};
+	private static final int[] slots_side = new int[] {9, 10, 11};
 	
 	private String customName;
 	
@@ -117,7 +118,27 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return true;
+		if(i == 0 || 
+				i == 1 || 
+				i == 2 || 
+				i == 3 || 
+				i == 4 || 
+				i == 5 || 
+				i == 6 || 
+				i == 7 || 
+				i == 8)
+			if(itemStack.getItem() instanceof ItemFuelRod)
+				return true;
+		if(i == 9)
+			if(itemStack.getItem() == ModItems.rod_water || itemStack.getItem() == ModItems.rod_dual_water || itemStack.getItem() == ModItems.rod_quad_water || itemStack.getItem() == Items.water_bucket)
+				return true;
+		if(i == 10)
+			if(itemStack.getItem() == ModItems.rod_coolant || itemStack.getItem() == ModItems.rod_dual_coolant || itemStack.getItem() == ModItems.rod_quad_coolant)
+				return true;
+		if(i == 11)
+			if(itemStack.getItem() instanceof ItemBattery)
+				return true;
+		return false;
 	}
 	
 	@Override
@@ -199,8 +220,36 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		//return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
-		return true;
+		if(i == 0 ||
+				i == 1 ||
+				i == 2 ||
+				i == 3 ||
+				i == 4 ||
+				i == 5 ||
+				i == 6 ||
+				i == 7 ||
+				i == 8)
+			if(itemStack.getItem() == ModItems.rod_uranium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_dual_uranium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_quad_uranium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_plutonium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_dual_plutonium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_quad_plutonium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_mox_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_dual_mox_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_quad_mox_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_schrabidium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted ||
+					itemStack.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted)
+				return true;
+		if(i == 9 || i == 10)
+			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
+				return true;
+		if(i == 11)
+			if(itemStack.getItemDamage() == 0)
+				return true;
+		
+		return false;
 	}
 	
 	public int getWaterScaled(int i) {

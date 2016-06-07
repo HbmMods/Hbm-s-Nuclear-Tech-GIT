@@ -2,6 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.items.ItemBattery;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +26,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public static final int processSpeed = 200;
 
 	private static final int[] slots_top = new int[] {3};
-	private static final int[] slots_bottom = new int[] {4};
+	private static final int[] slots_bottom = new int[] {4, 0, 1};
 	private static final int[] slots_side = new int[] {0, 1, 2};
 	
 	private String customName;
@@ -100,7 +101,27 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		switch(i)
+		{
+		case 0:
+			if(stack.getItem() instanceof ItemBattery)
+				return true;
+			break;
+		case 1:
+			if(stack.getItem() == ModItems.rod_water || stack.getItem() == ModItems.rod_dual_water || stack.getItem() == ModItems.rod_quad_water || stack.getItem() == Items.water_bucket)
+				return true;
+			break;
+		case 2:
+			if(stack.getItem() == ModItems.sulfur)
+				return true;
+			break;
+		case 3:
+			if(stack.getItem() == ModItems.cell_empty)
+				return true;
+			break;
+		}
+		
 		return false;
 	}
 	
@@ -183,7 +204,16 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		if(i == 4)
+			return true;
+		if(i == 0 && itemStack.getItem() instanceof ItemBattery)
+			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+				return true;
+		if(i == 1)
+			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
+				return true;
+		
+		return false;
 	}
 	
 	public int getPowerScaled(int i) {
@@ -244,105 +274,94 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	
 	@Override
 	public void updateEntity() {
-		if(slots[2] != null && slots[2].getItem() == ModItems.sulfur && sulfur + 125 <= maxFill)
-		{
-			sulfur += 125;
-			slots[2].stackSize--;
-			if(slots[2].stackSize == 0)
-			{
-				slots[2] = null;
+
+		if (!worldObj.isRemote) {
+			if (slots[2] != null && slots[2].getItem() == ModItems.sulfur && sulfur + 125 <= maxFill) {
+				sulfur += 125;
+				slots[2].stackSize--;
+				if (slots[2].stackSize == 0) {
+					slots[2] = null;
+				}
 			}
-		}
-		if(slots[2] != null && slots[2].getItem() == ModItems.inf_sulfur)
-		{
-			sulfur = maxFill;
-		}
-		
-		if(slots[1] != null && slots[1].getItem() == Items.water_bucket && water + 250 <= maxFill)
-		{
-			water += 250;
-			slots[1].stackSize--;
-			if(slots[1].stackSize == 0)
-			{
-				this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+			if (slots[2] != null && slots[2].getItem() == ModItems.inf_sulfur) {
+				sulfur = maxFill;
 			}
-		}
-		
-		if(slots[1] != null && slots[1].getItem() == ModItems.rod_water && water + 250 <= maxFill)
-		{
-			water += 250;
-			slots[1].stackSize--;
-			if(slots[1].stackSize == 0)
-			{
-				this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+
+			if (slots[1] != null && slots[1].getItem() == Items.water_bucket && water + 250 <= maxFill) {
+				water += 250;
+				slots[1].stackSize--;
+				if (slots[1].stackSize == 0) {
+					this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+				}
 			}
-		}
-		
-		if(slots[1] != null && slots[1].getItem() == ModItems.rod_dual_water && water + 500 <= maxFill)
-		{
-			water += 500;
-			slots[1].stackSize--;
-			if(slots[1].stackSize == 0)
-			{
-				this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+
+			if (slots[1] != null && slots[1].getItem() == ModItems.rod_water && water + 250 <= maxFill) {
+				water += 250;
+				slots[1].stackSize--;
+				if (slots[1].stackSize == 0) {
+					this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+				}
 			}
-		}
-		
-		if(slots[1] != null && slots[1].getItem() == ModItems.rod_quad_water && water + 1000 <= maxFill)
-		{
-			water += 1000;
-			slots[1].stackSize--;
-			if(slots[1].stackSize == 0)
-			{
-				this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+
+			if (slots[1] != null && slots[1].getItem() == ModItems.rod_dual_water && water + 500 <= maxFill) {
+				water += 500;
+				slots[1].stackSize--;
+				if (slots[1].stackSize == 0) {
+					this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+				}
 			}
-		}
-		
-		if(slots[1] != null && slots[1].getItem() == ModItems.inf_water)
-		{
-			water = maxFill;
-		}
-		
-		if(/*power + 100 <= maxPower && */slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
-		{
-			power = maxPower;
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_generic && slots[0].getItemDamage() < 50)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_advanced && slots[0].getItemDamage() < 200)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium && slots[0].getItemDamage() < 1000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.fusion_core && slots[0].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core && slots[0].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(canProcess())
-		{
-			process();
-		} else {
-			process = 0;
+
+			if (slots[1] != null && slots[1].getItem() == ModItems.rod_quad_water && water + 1000 <= maxFill) {
+				water += 1000;
+				slots[1].stackSize--;
+				if (slots[1].stackSize == 0) {
+					this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
+				}
+			}
+
+			if (slots[1] != null && slots[1].getItem() == ModItems.inf_water) {
+				water = maxFill;
+			}
+
+			if (/* power + 100 <= maxPower && */slots[0] != null && slots[0].getItem() == ModItems.battery_creative) {
+				power = maxPower;
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_generic
+					&& slots[0].getItemDamage() < 50) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_advanced
+					&& slots[0].getItemDamage() < 200) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium
+					&& slots[0].getItemDamage() < 1000) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.fusion_core
+					&& slots[0].getItemDamage() < 5000) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core
+					&& slots[0].getItemDamage() < 5000) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (canProcess()) {
+				process();
+			} else {
+				process = 0;
+			}
 		}
 	}
 

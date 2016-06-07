@@ -8,6 +8,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerDiFurnace extends Container {
 	
@@ -50,8 +52,9 @@ public class ContainerDiFurnace extends Container {
 		/**=====We are entering the magic realm of broken shit.=====**/
 	}
 	
+	//What is this!?
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
     {
         /*ItemStack itemstack = null;
         Slot slot = (Slot)this.inventorySlots.get(p_82846_2_);
@@ -65,7 +68,7 @@ public class ContainerDiFurnace extends Container {
             {
                 if (!this.mergeItemStack(itemstack1, 3, 39, true))
                 {
-                    */return null;/*
+                    return null;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
@@ -121,6 +124,8 @@ public class ContainerDiFurnace extends Container {
         }
 
         return itemstack;*/
+		
+		return null;
     }
 
 	@Override

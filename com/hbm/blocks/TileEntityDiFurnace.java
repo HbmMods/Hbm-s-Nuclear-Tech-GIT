@@ -23,9 +23,9 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	public static final int processingSpeed = 100;
 	public boolean runsOnRtg = false;
 	
-	private static final int[] slots_top = new int[] {0, 1};
+	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {3};
-	private static final int[] slots_side = new int[] {2};
+	private static final int[] slots_side = new int[] {1};
 	
 	private String customName;
 	
@@ -101,7 +101,12 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i == 2 ? false : (i == 1 ? hasItemPower(itemStack) : true);
+		if(i == 3)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public boolean hasItemPower(ItemStack itemStack) {
@@ -205,7 +210,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		return true;
 	}
 	
 	public int getDiFurnaceProgressScaled(int i) {

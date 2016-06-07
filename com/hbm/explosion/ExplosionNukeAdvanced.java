@@ -95,8 +95,10 @@ public class ExplosionNukeAdvanced
 			dist = (int) Math.sqrt(dist);
 			for (int y = dist; y > -dist; y--)
 			{
-				
-				ExplosionNukeGeneric.wasteDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				if(radius >= 95)
+					ExplosionNukeGeneric.wasteDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				else
+					ExplosionNukeGeneric.wasteDestNoSchrab(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
 			}
 		}
 	}
