@@ -87,7 +87,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 
 	@Override
 	public int getInventoryStackLimit() {
-		return 1;
+		return 64;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.blocks.TileEntityMachineBattery;
 import com.hbm.blocks.TileEntityMachineCoal;
 import com.hbm.blocks.TileEntityMachineDeuterium;
+import com.hbm.blocks.TileEntityMachineDiesel;
 import com.hbm.blocks.TileEntityMachineElectricFurnace;
 import com.hbm.blocks.TileEntityMachineGenerator;
 import com.hbm.blocks.TileEntityMachineCentrifuge;
@@ -44,6 +45,7 @@ import com.hbm.gui.ContainerLaunchPadTier1;
 import com.hbm.gui.ContainerMachineBattery;
 import com.hbm.gui.ContainerMachineCoal;
 import com.hbm.gui.ContainerMachineDeuterium;
+import com.hbm.gui.ContainerMachineDiesel;
 import com.hbm.gui.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.gui.ContainerNukeBoy;
 import com.hbm.gui.ContainerNukeFleija;
@@ -70,6 +72,7 @@ import com.hbm.gui.GUIMachineBattery;
 import com.hbm.gui.GUIMachineCentrifuge;
 import com.hbm.gui.GUIMachineCoal;
 import com.hbm.gui.GUIMachineDeuterium;
+import com.hbm.gui.GUIMachineDiesel;
 import com.hbm.gui.GUIMachineElectricFurnace;
 import com.hbm.gui.GUIMachineGenerator;
 import com.hbm.gui.GUIMachinePuF6Tank;
@@ -334,6 +337,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineSchrabidiumTransmutator(player.inventory, (TileEntityMachineSchrabidiumTransmutator) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_diesel:
+			{
+				if(entity instanceof TileEntityMachineDiesel)
+				{
+					return new ContainerMachineDiesel(player.inventory, (TileEntityMachineDiesel) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -576,6 +587,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineSchrabidiumTransmutator)
 					{
 						return new GUIMachineSchrabidiumTransmutator(player.inventory, (TileEntityMachineSchrabidiumTransmutator) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_diesel:
+				{
+					if(entity instanceof TileEntityMachineDiesel)
+					{
+						return new GUIMachineDiesel(player.inventory, (TileEntityMachineDiesel) entity);
 					}
 				}
 			}

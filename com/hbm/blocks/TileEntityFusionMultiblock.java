@@ -1033,6 +1033,28 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 				}
 			}
 			
+			if(slots[2] != null && slots[2].getItem() == ModItems.tritium_deuterium_cake && trit + 7500000 <= tritMax && deut + 7500000 <= deutMax)
+			{
+				this.slots[2].stackSize--;
+				this.deut += 7500000;
+				this.trit += 7500000;
+				if(this.slots[2].stackSize == 0)
+				{
+					this.slots[2] = null;
+				}
+			}
+			
+			if(slots[3] != null && slots[3].getItem() == ModItems.tritium_deuterium_cake && trit + 7500000 <= tritMax && deut + 7500000 <= deutMax)
+			{
+				this.slots[3].stackSize--;
+				this.deut += 7500000;
+				this.trit += 7500000;
+				if(this.slots[3].stackSize == 0)
+				{
+					this.slots[3] = null;
+				}
+			}
+			
 			if(slots[0] != null && slots[0].getItem() == ModItems.inf_water)
 			{
 				this.water = waterMax;

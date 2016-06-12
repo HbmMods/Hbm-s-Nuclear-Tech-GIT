@@ -21,7 +21,6 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	public int dualPower;
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 100;
-	public boolean runsOnRtg = false;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {3};
@@ -162,7 +161,6 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		
 		this.dualPower = nbt.getShort("powerTime");
 		this.dualCookTime = nbt.getShort("cookTime");
-		this.runsOnRtg = nbt.getBoolean("runsOnRtg");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -181,7 +179,6 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		super.writeToNBT(nbt);
 		nbt.setShort("powerTime", (short) dualPower);
 		nbt.setShort("cookTime", (short) dualCookTime);
-		nbt.setBoolean("runsOnRtg", runsOnRtg);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -288,69 +285,51 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		boolean flag = this.hasPower();
 		boolean flag1 = false;
 		
-		if(this.runsOnRtg && this.dualPower != maxPower)
-		{
-			this.dualPower = maxPower;
-		}
-		
 		if(hasPower() && isProcessing())
 		{
-			if(!this.runsOnRtg)
-			{
-				this.dualPower = this.dualPower - 50;
-			}
+			this.dualPower = this.dualPower - 50;
+			
 			if(this.dualPower < 0)
 			{
 				this.dualPower = 0;
 			}
 		}
-		
-		//if(!worldObj.isRemote)
-		{
-			if(this.hasItemPower(this.slots[2]) && this.dualPower <= (TileEntityDiFurnace.maxPower - TileEntityDiFurnace.getItemPower(this.slots[2])))
-			{
-				this.dualPower += getItemPower(this.slots[2]);
-				if(this.slots[2] != null)
-				{
-					flag1 = true;
-					this.slots[2].stackSize--;
-					if(this.slots[2].stackSize == 0)
-					{
-						this.slots[2] = this.slots[2].getItem().getContainerItem(this.slots[2]);
-					}
-				}
-			}
-			
-			if(this.slots[2] != null && this.slots[2].getItem() == ModItems.pellet_rtg && this.dualPower == 0)
-			{
+		if (this.hasItemPower(this.slots[2])
+				&& this.dualPower <= (TileEntityDiFurnace.maxPower - TileEntityDiFurnace.getItemPower(this.slots[2]))) {
+			this.dualPower += getItemPower(this.slots[2]);
+			if (this.slots[2] != null) {
+				flag1 = true;
 				this.slots[2].stackSize--;
-				if(this.slots[2].stackSize == 0)
-				{
+				if (this.slots[2].stackSize == 0) {
 					this.slots[2] = this.slots[2].getItem().getContainerItem(this.slots[2]);
 				}
-				
-				this.runsOnRtg = true;
 			}
-			
-			if(hasPower() && canProcess())
-			{
-				dualCookTime++;
-				
-				if(this.dualCookTime == TileEntityDiFurnace.processingSpeed)
-				{
-					this.dualCookTime = 0;
-					this.processItem();
-					flag1 = true;
-				}
-			}else{
-				dualCookTime = 0;
+		}
+
+		if (hasPower() && canProcess()) {
+			dualCookTime++;
+
+			if (this.dualCookTime == TileEntityDiFurnace.processingSpeed) {
+				this.dualCookTime = 0;
+				this.processItem();
+				flag1 = true;
 			}
-			
+		} else {
+			dualCookTime = 0;
+		}
+
+		if(!worldObj.isRemote)
+		{
 			boolean trigger = true;
 			
 			if(hasPower() && canProcess() && this.dualCookTime == 0)
 			{
 				trigger = false;
+			}
+
+			if (this.slots[2] != null && this.slots[2].getItem() == ModItems.pellet_rtg) {
+
+				this.dualPower = maxPower;
 			}
 			
 			if(trigger)

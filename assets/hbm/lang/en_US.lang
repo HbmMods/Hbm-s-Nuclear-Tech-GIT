@@ -105,6 +105,8 @@ container.launchPad=Missile Launch Pad
 tile.book_guide.name=Hbm's Nuclear Tech Mod Manual
 tile.machine_schrabidium_transmutator.name=Schrabidium Transmutation Device
 container.machine_schrabidium_transmutator=Schrabidium Transmutation Device
+tile.machine_diesel.name=Diesel Generator
+container.machineDiesel=Diesel Generator
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
@@ -262,6 +264,7 @@ item.reactor_core.name=Breeding Reactor Core
 item.pellet_rtg.name=Plutonium 238 Fuel Pellet
 item.rtg_unit.name=RTG Unit
 item.hazmat_cloth.name=Hazmat Cloth
+item.tritium_deuterium_cake.name=Tritium-Deuterium-Cake
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
@@ -277,6 +280,7 @@ item.inf_deuterium.name=Infinite Deuterium Tank
 item.inf_tritium.name=Infinite Tritium Tank
 item.inf_coolant.name=Infinite Coolant Tank
 item.inf_sulfur.name=Infinite Sulfur Tank
+item.inf_diesel.name=Unendlicher Dieseltank
 
 item.canister_empty.name=Empty Canister
 item.canister_fuel.name=Fuel Canister

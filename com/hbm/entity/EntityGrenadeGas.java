@@ -47,7 +47,7 @@ public class EntityGrenadeGas extends EntityThrowable
         {
             this.setDead();
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, true);
-            ExplosionChaos.poison(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
+            ExplosionChaos.poison(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
         }
     }
 

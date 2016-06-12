@@ -2,6 +2,7 @@ package com.hbm.entity;
 
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -49,7 +50,7 @@ public class EntityGrenadeNuclear extends EntityThrowable
     	    entity0.posX = this.posX;
     	    entity0.posY = this.posY;
     	    entity0.posZ = this.posZ;
-    	    entity0.destructionRange = 25;
+    	    entity0.destructionRange = MainRegistry.nukaRadius;
     	    entity0.speed = 25;
     	    entity0.coefficient = 10.0F;
     	    	

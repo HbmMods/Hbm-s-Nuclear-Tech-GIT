@@ -314,6 +314,12 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("Turns into Quad Tritium Rod");
 		}
+		
+		if(this == ModItems.tritium_deuterium_cake)
+		{
+			list.add("Not actual cake, but great");
+			list.add("universal fusion fuel!");
+		}
 	}
 
     @Override

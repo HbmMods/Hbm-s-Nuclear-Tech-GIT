@@ -46,9 +46,36 @@ private TileEntityNukePrototype nukeTsar;
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
     {
-		return null;
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
+		
+		if (var4 != null && var4.getHasStack())
+		{
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
+			
+            if (par2 <= 13) {
+				if (!this.mergeItemStack(var5, 14, this.inventorySlots.size(), true))
+				{
+					return null;
+				}
+			} else {
+				return null;
+			}
+            
+			if (var5.stackSize == 0)
+			{
+				var4.putStack((ItemStack) null);
+			}
+			else
+			{
+				var4.onSlotChanged();
+			}
+		}
+		
+		return var3;
     }
 
 	@Override

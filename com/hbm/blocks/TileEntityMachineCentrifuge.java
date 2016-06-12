@@ -23,7 +23,6 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	public int soundCycle = 0;
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 500;
-	public boolean runsOnRtg = false;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {2, 3, 4, 5};
@@ -169,7 +168,6 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		
 		dualPower = nbt.getShort("powerTime");
 		dualCookTime = nbt.getShort("CookTime");
-		runsOnRtg = nbt.getBoolean("runsOnRtg");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -188,7 +186,6 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		super.writeToNBT(nbt);
 		nbt.setShort("powerTime", (short) dualPower);
 		nbt.setShort("cookTime", (short) dualCookTime);
-		nbt.setBoolean("runsOnRtg", runsOnRtg);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -322,17 +319,10 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		boolean flag = this.hasPower();
 		boolean flag1 = false;
 		
-		if(this.runsOnRtg && this.dualPower != maxPower)
-		{
-			this.dualPower = maxPower;
-		}
-		
 		if(hasPower() && isProcessing())
 		{
-			if(!this.runsOnRtg)
-			{
-				this.dualPower = this.dualPower - 50;
-			}
+			this.dualPower = this.dualPower - 50;
+			
 			if(this.dualPower < 0)
 			{
 				this.dualPower = 0;
@@ -355,15 +345,9 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 				}
 			}
 			
-			if(this.slots[1] != null && this.slots[1].getItem() == ModItems.pellet_rtg && this.dualPower == 0)
+			if(this.slots[1] != null && this.slots[1].getItem() == ModItems.pellet_rtg)
 			{
-				this.slots[1].stackSize--;
-				if(this.slots[1].stackSize == 0)
-				{
-					this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
-				}
-				
-				this.runsOnRtg = true;
+				this.dualPower = maxPower;
 			}
 			
 			boolean trigger = true;

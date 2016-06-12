@@ -1,5 +1,6 @@
 package com.hbm.entity;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.particles.EntitySmokeFX;
 
 import net.minecraft.init.Blocks;
@@ -148,7 +149,7 @@ public class EntityMissileNuclear extends EntityMissileBase {
     	    	entity.posX = this.posX;
     	    	entity.posY = this.posY;
     	    	entity.posZ = this.posZ;
-    	    	entity.destructionRange = 100;
+    	    	entity.destructionRange = MainRegistry.missileRadius;
     	    	entity.speed = 25;
     	    	entity.coefficient = 10.0F;
     	    	

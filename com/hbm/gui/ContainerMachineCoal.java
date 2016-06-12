@@ -50,9 +50,40 @@ public class ContainerMachineCoal extends Container {
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
     {
-		return null;
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
+		
+		if (var4 != null && var4.getHasStack())
+		{
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
+			
+            if (par2 <= 2) {
+				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true))
+				{
+					return null;
+				}
+			}
+			else if (!this.mergeItemStack(var5, 1, 2, false))
+			{
+				if (!this.mergeItemStack(var5, 0, 1, false))
+					if (!this.mergeItemStack(var5, 2, 3, false))
+						return null;
+			}
+			
+			if (var5.stackSize == 0)
+			{
+				var4.putStack((ItemStack) null);
+			}
+			else
+			{
+				var4.onSlotChanged();
+			}
+		}
+		
+		return var3;
     }
 
 	@Override

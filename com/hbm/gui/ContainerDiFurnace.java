@@ -54,78 +54,38 @@ public class ContainerDiFurnace extends Container {
 	
 	//What is this!?
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int p_82846_2_)
+    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
     {
-        /*ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(p_82846_2_);
-
-        if (slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
-
-            if (p_82846_2_ == 2)
-            {
-                if (!this.mergeItemStack(itemstack1, 3, 39, true))
-                {
-                    return null;
-                }
-
-                slot.onSlotChange(itemstack1, itemstack);
-            }
-            else if (p_82846_2_ != 1 && p_82846_2_ != 0)
-            {
-                if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null)
-                {
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (TileEntityFurnace.isItemFuel(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 1, 2, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (p_82846_2_ >= 3 && p_82846_2_ < 30)
-                {
-                    if (!this.mergeItemStack(itemstack1, 30, 39, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (p_82846_2_ >= 30 && p_82846_2_ < 39 && !this.mergeItemStack(itemstack1, 3, 30, false))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 3, 39, false))
-            {
-                return null;
-            }
-
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
-
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
-                return null;
-            }
-
-            slot.onPickupFromSlot(p_82846_1_, itemstack1);
-        }
-
-        return itemstack;*/
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
 		
-		return null;
+		if (var4 != null && var4.getHasStack())
+		{
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
+			
+            if (par2 <= 3) {
+				if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true))
+				{
+					return null;
+				}
+			}
+			else if (!this.mergeItemStack(var5, 0, 3, false))
+			{
+				return null;
+			}
+			
+			if (var5.stackSize == 0)
+			{
+				var4.putStack((ItemStack) null);
+			}
+			else
+			{
+				var4.onSlotChanged();
+			}
+		}
+		
+		return var3;
     }
 
 	@Override

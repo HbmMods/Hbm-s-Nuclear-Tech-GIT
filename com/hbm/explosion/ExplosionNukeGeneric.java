@@ -452,12 +452,12 @@ public class ExplosionNukeGeneric {
 		
 		else if(world.getBlock(x, y, z) == Blocks.coal_ore)
 		{
-			rand = field_149933_a.nextInt(10);
+			rand = field_149933_a.nextInt(30);
 			if(rand == 1 || rand == 2 || rand == 3)
 			{
 				world.setBlock(x, y, z, Blocks.diamond_ore);
 			}
-			if(rand == 9)
+			if(rand == 29)
 			{
 				world.setBlock(x, y, z, Blocks.emerald_ore);
 			}

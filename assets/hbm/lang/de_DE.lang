@@ -105,6 +105,8 @@ container.launchPad=Raketenabschussrampe
 tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch
 tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
 container.machine_schrabidium_transmutator=Schrabidium-Transmutationsgerät
+tile.machine_diesel.name=Dieselgenerator
+container.machineDiesel=Dieselgenerator
 
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
@@ -262,6 +264,7 @@ item.reactor_core.name=Brutreaktorkern
 item.pellet_rtg.name=Plutonium 238 Pellet
 item.rtg_unit.name=RTG Einheit
 item.hazmat_cloth.name=Strahlenschutzanzugsstoff
+item.tritium_deuterium_cake.name=Tritium-Deuterium-Kuchen
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -277,6 +280,7 @@ item.inf_deuterium.name=Unendlicher Deuteriumtank
 item.inf_tritium.name=Unendlicher Tritiumtank
 item.inf_coolant.name=Unendlicher Kühlflüssigkeitstank
 item.inf_sulfur.name=Unendlicher Schwefeltank
+item.inf_diesel.name=Unendlicher Dieseltank
 
 item.canister_empty.name=Leerer Kanister
 item.canister_fuel.name=Treibstoffkanister

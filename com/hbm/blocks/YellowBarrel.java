@@ -37,7 +37,7 @@ public class YellowBarrel extends BlockContainer {
 	
 	public void explode(World p_149695_1_, int x, int y, int z) {
 		p_149695_1_.createExplosion(null, x, y, z, 18.0F, true);
-    	ExplosionNukeGeneric.wasteNoSchrab(p_149695_1_, x, y, z, 35);
+    	ExplosionNukeGeneric.waste(p_149695_1_, x, y, z, 35);
 	}
 	
 	@Override

@@ -86,11 +86,12 @@ public class EntityNukeCloudBig extends Entity {
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		
+		age = p_70037_1_.getShort("age");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+		p_70014_1_.setShort("age", (short)age);
 		
 	}
 }

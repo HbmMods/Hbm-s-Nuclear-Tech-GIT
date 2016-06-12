@@ -153,8 +153,9 @@ public class ModItems {
 	public static Item thruster_small;
 	public static Item thruster_medium;
 	public static Item thruster_large;
-	
+
 	public static Item pellet_rtg;
+	public static Item tritium_deuterium_cake;
 	
 	public static Item cell_empty;
 	public static Item cell_uf6;
@@ -169,6 +170,7 @@ public class ModItems {
 	public static Item inf_deuterium;
 	public static Item inf_tritium;
 	public static Item inf_sulfur;
+	public static Item inf_diesel;
 
 	public static Item canister_empty;
 	public static Item canister_fuel;
@@ -646,8 +648,9 @@ public class ModItems {
 		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_red_copper");
 		circuit_gold = new Item().setUnlocalizedName("circuit_gold").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_gold");
 		circuit_schrabidium = new ItemCustomLore().setUnlocalizedName("circuit_schrabidium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
-		
+
 		pellet_rtg = new ItemCustomLore().setUnlocalizedName("pellet_rtg").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg");
+		tritium_deuterium_cake = new ItemCustomLore().setUnlocalizedName("tritium_deuterium_cake").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":tritium_deuterium_cake");
 
 		cell_empty = new ItemCell().setUnlocalizedName("cell_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cell_empty");
 		cell_uf6 = new Item().setUnlocalizedName("cell_uf6").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_uf6");
@@ -662,6 +665,7 @@ public class ModItems {
 		inf_deuterium = new Item().setUnlocalizedName("inf_deuterium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_deuterium");
 		inf_tritium = new Item().setUnlocalizedName("inf_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_tritium");
 		inf_sulfur = new Item().setUnlocalizedName("inf_sulfur").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_sulfur");
+		inf_diesel = new Item().setUnlocalizedName("inf_diesel").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_diesel");
 
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
@@ -1151,6 +1155,7 @@ public class ModItems {
 		
 		//Pellets
 		GameRegistry.registerItem(pellet_rtg, pellet_rtg.getUnlocalizedName());
+		GameRegistry.registerItem(tritium_deuterium_cake, tritium_deuterium_cake.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_cluster, pellet_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_gas, pellet_gas.getUnlocalizedName());
 		
@@ -1170,6 +1175,7 @@ public class ModItems {
 		GameRegistry.registerItem(inf_deuterium, inf_deuterium.getUnlocalizedName());
 		GameRegistry.registerItem(inf_tritium, inf_tritium.getUnlocalizedName());
 		GameRegistry.registerItem(inf_sulfur, inf_sulfur.getUnlocalizedName());
+		GameRegistry.registerItem(inf_diesel, inf_diesel.getUnlocalizedName());
 
 		//Canisters
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());

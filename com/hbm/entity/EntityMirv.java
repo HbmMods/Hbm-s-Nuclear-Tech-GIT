@@ -1,5 +1,6 @@
 package com.hbm.entity;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.particles.EntitySmokeFX;
 
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +40,7 @@ public class EntityMirv extends EntityThrowable {
     	    	entity.posX = this.posX;
     	    	entity.posY = this.posY;
     	    	entity.posZ = this.posZ;
-    	    	entity.destructionRange = 100;
+    	    	entity.destructionRange = MainRegistry.mirvRadius;
     	    	entity.speed = 25;
     	    	entity.coefficient = 10.0F;
     	    	
