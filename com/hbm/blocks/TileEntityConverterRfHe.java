@@ -19,15 +19,25 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityConverterRfHe extends TileEntity implements ISource, IEnergyReceiver {
 	
 	public int power;
-	public final int maxPower = 10000;
+	public final int maxPower = 1000000;
 	public List<IConsumer> list = new ArrayList();
 	public int age = 0;
-	public EnergyStorage storage = new EnergyStorage(40000, 25000, 25000);
+	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
 	
 	@Override
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
 
+			if(storage.getEnergyStored() >= 400000 && power + 100000 <= maxPower)
+			{
+				storage.setEnergyStored(storage.getEnergyStored() - 400000);
+				power += 100000;
+			}
+			if(storage.getEnergyStored() >= 40000 && power + 10000 <= maxPower)
+			{
+				storage.setEnergyStored(storage.getEnergyStored() - 40000);
+				power += 10000;
+			}
 			if(storage.getEnergyStored() >= 4000 && power + 1000 <= maxPower)
 			{
 				storage.setEnergyStored(storage.getEnergyStored() - 4000);

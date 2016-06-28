@@ -13,8 +13,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IEnergyProvider {
 	
 	public int power;
-	public final int maxPower = 10000;
-	public EnergyStorage storage = new EnergyStorage(40000, 25000, 25000);
+	public final int maxPower = 1000000;
+	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
 	
 	//Thanks to the great people of Fusion Warfare for helping me with this part.
 
@@ -22,6 +22,16 @@ public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IE
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
 
+			if(power >= 100000 && storage.getEnergyStored() + 400000 <= storage.getMaxEnergyStored())
+			{
+				power -= 100000;
+				storage.setEnergyStored(storage.getEnergyStored() + 400000);
+			}
+			if(power >= 10000 && storage.getEnergyStored() + 40000 <= storage.getMaxEnergyStored())
+			{
+				power -= 10000;
+				storage.setEnergyStored(storage.getEnergyStored() + 40000);
+			}
 			if(power >= 1000 && storage.getEnergyStored() + 4000 <= storage.getMaxEnergyStored())
 			{
 				power -= 1000;

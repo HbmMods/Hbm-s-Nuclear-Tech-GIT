@@ -10,6 +10,7 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 public class ModDamageSource extends DamageSource {
 	
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
+	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);

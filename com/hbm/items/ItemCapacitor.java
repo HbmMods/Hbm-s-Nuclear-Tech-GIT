@@ -16,32 +16,36 @@ public class ItemCapacitor extends Item {
 		this.setMaxDamage(dura);
 		this.setNoRepair();
 	}
-	
+
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
-		list.add("Right-click a block to negate positive charge.");
-		list.add("Does not work in creative mode!");
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		if (this == ModItems.redcoil_capacitor) {
+			list.add("Right-click a block to negate positive charge.");
+			list.add("Does not work in creative mode!");
+			list.add("[Needed for Schrabidium Synthesis]");
+		}
+		if (this == ModItems.titanium_filter) {
+			list.add("[Needed for Watz Reaction]");
+		}
 	}
 
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
-    {
-		if(!player.isSneaking())
-		{
-			if(stack.getItemDamage() > 0)
-			{
-				stack.setItemDamage((stack.getItemDamage() - 1));
-				if(!world.isRemote)
-				{
-					world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 2.5F, true);
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_,
+			float p_77648_8_, float p_77648_9_, float p_77648_10_) {
+		if (this == ModItems.redcoil_capacitor) {
+			if (!player.isSneaking()) {
+				if (stack.getItemDamage() > 0) {
+					stack.setItemDamage((stack.getItemDamage() - 1));
+					if (!world.isRemote) {
+						world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 2.5F, true);
+					}
+					world.spawnEntityInWorld(new EntityLightningBolt(world, x, y, z));
+
+					return true;
 				}
-				world.spawnEntityInWorld(new EntityLightningBolt(world, x, y, z));
-				
-				return true;
 			}
 		}
-		
+
 		return false;
-    }
+	}
 }

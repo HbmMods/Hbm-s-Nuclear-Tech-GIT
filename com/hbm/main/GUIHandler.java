@@ -31,6 +31,7 @@ import com.hbm.blocks.TileEntityNukeTsar;
 import com.hbm.blocks.TileEntityReactorMultiblock;
 import com.hbm.blocks.TileEntityRtgFurnace;
 import com.hbm.blocks.TileEntityTestNuke;
+import com.hbm.blocks.TileEntityWatzCore;
 import com.hbm.gui.ContainerBombMulti;
 import com.hbm.gui.ContainerDiFurnace;
 import com.hbm.gui.ContainerCentrifuge;
@@ -61,6 +62,7 @@ import com.hbm.gui.ContainerReactorMultiblock;
 import com.hbm.gui.ContainerRtgFurnace;
 import com.hbm.gui.ContainerTestNuke;
 import com.hbm.gui.ContainerUF6Tank;
+import com.hbm.gui.ContainerWatzCore;
 import com.hbm.gui.GUIBombMulti;
 import com.hbm.gui.GUIConverterHeRf;
 import com.hbm.gui.GUIConverterRfHe;
@@ -91,6 +93,7 @@ import com.hbm.gui.GUIReactorMultiblock;
 import com.hbm.gui.GUIRtgFurnace;
 import com.hbm.gui.GUITestDiFurnace;
 import com.hbm.gui.GUITestNuke;
+import com.hbm.gui.GUIWatzCore;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -345,6 +348,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineDiesel(player.inventory, (TileEntityMachineDiesel) entity);
 				}
 			}
+
+			case ModBlocks.guiID_watz_multiblock:
+			{
+				if(entity instanceof TileEntityWatzCore)
+				{
+					return new ContainerWatzCore(player.inventory, (TileEntityWatzCore) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -595,6 +606,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineDiesel)
 					{
 						return new GUIMachineDiesel(player.inventory, (TileEntityMachineDiesel) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_watz_multiblock:
+				{
+					if(entity instanceof TileEntityWatzCore)
+					{
+						return new GUIWatzCore(player.inventory, (TileEntityWatzCore) entity);
 					}
 				}
 			}

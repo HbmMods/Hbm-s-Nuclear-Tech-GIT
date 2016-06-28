@@ -5,6 +5,7 @@ itemGroup.tabNuke=Nuclear Tech Mod Bomben
 
 death.attack.nuclearBlast=%1$s wurde von einer Atomexplosion weggeblasen.
 death.attack.revolverBullet=%1$s wurde von %2$s in den Kopf geschossen.
+death.attack.mudPoisoning=%1$s starb an Giftschlamm.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -136,6 +137,15 @@ tile.fusion_hatch.name=Fusionsreaktorzugriffsluke
 tile.fusion_core.name=Fusionsreaktorsteuerung
 tile.plasma.name=Plasma
 container.fusionMultiblock=Großer Fusionsreaktor
+
+tile.watz_element.name=Watzreaktionskammer
+tile.watz_control.name=Verstärkte Steuerstäbe
+tile.watz_cooler.name=Watz-Superkühler
+tile.watz_end.name=Watz-Stabilitätselement
+tile.watz_hatch.name=Watzreaktorzugriffsluke
+tile.watz_conductor.name=Watz-Stromanschluss
+tile.watz_core.name=Watzreaktorkern
+container.watzPowerplant=Watzkraftwerk
 
 item.fuse.name=Sicherung
 
@@ -595,7 +605,7 @@ item.thruster_small.name=Kleines Raketentriebwerk
 item.thruster_medium.name=Mittleres Raketentriebwerk
 item.thruster_large.name=Großes Raketentriebwerk
 
-item.wand.name=Konstruktions-Zauberstab
+item.wand_k.name=Konstruktions-Zauberstab
 item.wand_s.name=Struktur-Zauberstab
 
 item.steel_helmet.name=Stahlhelm
@@ -646,3 +656,22 @@ item.matchstick.name=Streichholz
 
 item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder
+
+item.ingot_hes.name=Stark angereicherter Schrabidiumkernbrennstoffbarren
+item.ingot_les.name=Schwach angereicherter Schrabidiumkernbrennstoffbarren
+item.nugget_hes.name=Stark angereichertes Schrabidiumkernbrennstoffnugget
+item.nugget_les.name=Schwach angereichertes Schrabidiumkernbrennstoffnugget
+
+item.pellet_schrabidium.name=Pures Schrabidium-Watzpellet
+item.pellet_hes.name=HES-Watzpellet
+item.pellet_mes.name=MES-Watzpellet
+item.pellet_les.name=LES-Watzpellet
+item.pellet_beryllium.name=Beryllium-Moderatonspellet
+item.pellet_neptunium.name=Neptunium-Watzpellet
+item.pellet_lead.name=Bleireflektorpellet
+item.pellet_advanced.name=Fortgeschrittenes Watzaufwertugspellet
+
+item.titanium_filter.name=Titanfilter
+
+tile.mud_block.name=Giftiger Schlamm
+item.bucket_mud.name=Eimer mit giftigem Schlamm

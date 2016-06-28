@@ -3,12 +3,17 @@ package com.hbm.blocks;
 import com.hbm.items.ItemPlasmaBlock;
 import com.hbm.items.ItemPrototypeBlock;
 import com.hbm.items.ItemSchrabidiumBlock;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 
 public class ModBlocks {
 	
@@ -206,6 +211,15 @@ public class ModBlocks {
 	public static Block plasma;
 	public static final int guiID_fusion_multiblock = 27;
 
+	public static Block watz_element;
+	public static Block watz_control;
+	public static Block watz_cooler;
+	public static Block watz_end;
+	public static Block watz_hatch;
+	public static Block watz_conductor;
+	public static Block watz_core;
+	public static final int guiID_watz_multiblock = 32;
+
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
 
@@ -243,6 +257,10 @@ public class ModBlocks {
 	public static Block statue_elb_g;
 	public static Block statue_elb_w;
 	public static Block statue_elb_f;
+
+	public static Block mud_block;
+	public static Fluid mud_fluid;
+	public static final Material fluidmud = (new MaterialLiquid(MapColor.adobeColor));
 	
 
 	private static void initializeBlock() {
@@ -406,6 +424,14 @@ public class ModBlocks {
 		fusion_core = new FusionCore(Material.iron).setBlockName("fusion_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fusion_core_side");
 		plasma = new BlockPlasma(Material.iron).setBlockName("plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":plasma");
 
+		watz_element = new BlockReactor(Material.iron).setBlockName("watz_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_element");
+		watz_control = new BlockReactor(Material.iron).setBlockName("watz_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_control");
+		watz_cooler = new BlockGeneric(Material.iron).setBlockName("watz_cooler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_cooler");
+		watz_end = new BlockGeneric(Material.iron).setBlockName("watz_end").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_end");
+		watz_hatch = new WatzHatch(Material.iron).setBlockName("watz_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_hatch");
+		watz_conductor = new BlockReactor(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_conductor");
+		watz_core = new WatzCore(Material.iron).setBlockName("watz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_computer");
+
 		machine_converter_he_rf = new BlockConverterHeRf(Material.iron).setBlockName("machine_converter_he_rf").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_converter_he_rf");
 		machine_converter_rf_he = new BlockConverterRfHe(Material.iron).setBlockName("machine_converter_rf_he").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_converter_rf_he");
 		
@@ -435,6 +461,10 @@ public class ModBlocks {
 		statue_elb_g = new DecoBlockAlt(Material.iron).setBlockName("#void").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
 		statue_elb_w = new DecoBlockAlt(Material.iron).setBlockName("#ngtv").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
 		statue_elb_f = new DecoBlockAlt(Material.iron).setBlockName("#undef").setHardness(Float.POSITIVE_INFINITY).setLightLevel(1.0F).setResistance(Float.POSITIVE_INFINITY);
+
+		mud_fluid = new MudFluid().setDensity(2500).setViscosity(3000).setLuminosity(5).setTemperature(2773).setUnlocalizedName("mud_fluid");
+		FluidRegistry.registerFluid(mud_fluid);
+		mud_block = new MudBlock(mud_fluid, fluidmud.setReplaceable(), ModDamageSource.mudPoisoning).setBlockName("mud_block");
 	}
 
 	private static void registerBlock() {
@@ -595,6 +625,14 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fusion_hatch, fusion_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma, ItemPlasmaBlock.class, plasma.getUnlocalizedName());
+
+		GameRegistry.registerBlock(watz_element, watz_element.getUnlocalizedName());
+		GameRegistry.registerBlock(watz_control, watz_control.getUnlocalizedName());
+		GameRegistry.registerBlock(watz_cooler, watz_cooler.getUnlocalizedName());
+		GameRegistry.registerBlock(watz_end, watz_end.getUnlocalizedName());
+		GameRegistry.registerBlock(watz_hatch, watz_hatch.getUnlocalizedName());
+		GameRegistry.registerBlock(watz_conductor, watz_conductor.getUnlocalizedName());
+		GameRegistry.registerBlock(watz_core, watz_core.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());
@@ -623,5 +661,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(statue_elb_g, statue_elb_g.getUnlocalizedName());
 		GameRegistry.registerBlock(statue_elb_w, statue_elb_w.getUnlocalizedName());
 		GameRegistry.registerBlock(statue_elb_f, statue_elb_f.getUnlocalizedName());
+		
+		//Fluids
+		GameRegistry.registerBlock(mud_block, mud_block.getUnlocalizedName());
 	}
 }

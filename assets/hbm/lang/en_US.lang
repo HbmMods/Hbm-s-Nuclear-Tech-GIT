@@ -5,6 +5,7 @@ itemGroup.tabNuke=Nuclear Tech Mod Nukes
 
 death.attack.nuclearBlast=%1$s was blown away by a nuclear explosion.
 death.attack.revolverBullet=%1$s was shot in the head by %2$s.
+death.attack.mudPoisoning=%1$s died in poisonous mud.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -136,6 +137,15 @@ tile.fusion_hatch.name=Fusion Reactor Access Hatch
 tile.fusion_core.name=Fusion Reactor Control
 tile.plasma.name=Plasma
 container.fusionMultiblock=Big Fusion Reactor
+
+tile.watz_element.name=Watz Reaction Chamber
+tile.watz_control.name=Reinforced Control Rods
+tile.watz_cooler.name=Watz Reactor Supercooler
+tile.watz_end.name=Watz Reactor Stability Element
+tile.watz_hatch.name=Watz Reactor Access Hatch
+tile.watz_conductor.name=Watz Electricity Port
+tile.watz_core.name=Watz Reactor Control
+container.watzPowerplant=Watz Power Plant
 
 item.fuse.name=Fuse
 
@@ -369,7 +379,6 @@ item.missile_kit.name=Missile Kit
 item.t45_kit.name=T45 Power Armor Kit
 item.euphemium_kit.name=Euphemium Kit
 
-
 tile.waste_earth.name=Dead Grass
 tile.waste_trinitite.name=Trinitite Ore
 tile.waste_trinitite_red.name=Red Trinitite Ore
@@ -596,7 +605,7 @@ item.thruster_small.name=Small Thruster
 item.thruster_medium.name=Medium Thruster
 item.thruster_large.name=Large Thruster
 
-item.wand.name=Construction Wand
+item.wand_k.name=Construction Wand
 item.wand_s.name=Structure Wand
 
 item.steel_helmet.name=Steel Helmet
@@ -647,3 +656,22 @@ item.matchstick.name=Matchstick
 
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator
+
+item.ingot_hes.name=Higly Enriched Schrabidium Fuel Ingot
+item.ingot_les.name=Low Enriched Schrabidium Fuel Ingot
+item.nugget_hes.name=Higly Enriched Schrabidium Fuel Nugget
+item.nugget_les.name=Low Enriched Schrabidium Fuel Nugget
+
+item.pellet_schrabidium.name=Pure Schrabidium Watz Pellet
+item.pellet_hes.name=HES Watz Pellet
+item.pellet_mes.name=MES Watz Pellet
+item.pellet_les.name=LES Watz Pellet
+item.pellet_beryllium.name=Beryllium Moderator Pellet
+item.pellet_neptunium.name=Neptunium Watz Pellet
+item.pellet_lead.name=Lead Reflector Pellet
+item.pellet_advanced.name=Advanced Watz Performance Improver
+
+item.titanium_filter.name=Titanium Filter
+
+tile.mud_block.name=Poisonous Mud
+item.bucket_mud.name=Bucket of Poisonous Mud

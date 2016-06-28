@@ -61,6 +61,7 @@ import com.hbm.blocks.TileEntityTestBombAdvanced;
 import com.hbm.blocks.TileEntityTestContainer;
 import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.blocks.TileEntityTestRender;
+import com.hbm.blocks.TileEntityWatzCore;
 import com.hbm.blocks.TileEntityWireCoated;
 import com.hbm.blocks.TileEntityYellowBarrel;
 import com.hbm.creativetabs.BlockTab;
@@ -265,6 +266,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
 		GameRegistry.registerTileEntity(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 		GameRegistry.registerTileEntity(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
+		GameRegistry.registerTileEntity(TileEntityWatzCore.class, "tileentity_watz_powerplant");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -340,6 +342,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("ingotCopper", ModItems.ingot_copper);
 		OreDictionary.registerOre("ingotRedAlloy", ModItems.ingot_red_copper);
+		OreDictionary.registerOre("ingotRedstoneAlloy", ModItems.ingot_red_copper);
 		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
 		OreDictionary.registerOre("ingotAluminum", ModItems.ingot_aluminium);
 		OreDictionary.registerOre("ingotNeptunium", ModItems.ingot_neptunium);
@@ -395,12 +398,6 @@ public class MainRegistry
 		OreDictionary.registerOre("blockFluorite", ModBlocks.block_fluorite);
 		OreDictionary.registerOre("blockSteel", ModBlocks.block_steel);
 		OreDictionary.registerOre("blockLead", ModBlocks.block_lead);
-		
-		/*achievementGetTitanium = new Achievement("achievement.getTitanium", "getTitanium", 0, -8, ModItems.ingot_titanium, (Achievement)null).initIndependentStat().registerStat();
-		
-		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
-				achievementGetTitanium
-		}));*/
 	}
 	
 	@EventHandler

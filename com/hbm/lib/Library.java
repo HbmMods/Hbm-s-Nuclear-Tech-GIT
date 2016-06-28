@@ -193,7 +193,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.fusion_center ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor ||
-				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor)
+				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor ||
+				world.getBlock(x, y, z) == ModBlocks.watz_conductor)
 		{
 			return true;
 		}

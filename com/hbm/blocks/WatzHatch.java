@@ -20,28 +20,26 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class FusionHatch extends Block {
+public class WatzHatch extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
-	private IIcon iconTop;
 
-	protected FusionHatch(Material p_i45394_1_) {
+	protected WatzHatch(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":fusion_hatch");
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_tungsten");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_heater_side");
+		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":watz_hatch");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":reinforced_brick");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : (metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon)));
+		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
 	}
 	
 	@Override
@@ -118,58 +116,58 @@ public class FusionHatch extends Block {
 		{
 			if(world.getBlockMetadata(x, y, z) == 2)
 			{
-				if(world.getTileEntity(x, y, z + 8) instanceof TileEntityFusionMultiblock)
+				if(world.getTileEntity(x, y, z + 3) instanceof TileEntityWatzCore)
 				{
-					if(((TileEntityFusionMultiblock)world.getTileEntity(x, y, z + 8)).isStructureValid(world))
+					if(((TileEntityWatzCore)world.getTileEntity(x, y, z + 3)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x, y, z + 8);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x, y, z + 3);
 					} else {
-						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
 				} else {
-					player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Core not found!"));
+					player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Core not found!"));
 				}
 			}
 			if(world.getBlockMetadata(x, y, z) == 3)
 			{
-				if(world.getTileEntity(x, y, z - 8) instanceof TileEntityFusionMultiblock)
+				if(world.getTileEntity(x, y, z - 3) instanceof TileEntityWatzCore)
 				{
-					if(((TileEntityFusionMultiblock)world.getTileEntity(x, y, z - 8)).isStructureValid(world))
+					if(((TileEntityWatzCore)world.getTileEntity(x, y, z - 3)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x, y, z - 8);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x, y, z - 3);
 					} else {
-						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
 				} else {
-					player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Core not found!"));
+					player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Core not found!"));
 				}
 			}
 			if(world.getBlockMetadata(x, y, z) == 4)
 			{
-				if(world.getTileEntity(x + 8, y, z) instanceof TileEntityFusionMultiblock)
+				if(world.getTileEntity(x + 3, y, z) instanceof TileEntityWatzCore)
 				{
-					if(((TileEntityFusionMultiblock)world.getTileEntity(x + 8, y, z)).isStructureValid(world))
+					if(((TileEntityWatzCore)world.getTileEntity(x + 3, y, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x + 8, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x + 3, y, z);
 					} else {
-						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
 				} else {
-					player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Core not found!"));
+					player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Core not found!"));
 				}
 			}
 			if(world.getBlockMetadata(x, y, z) == 5)
 			{
-				if(world.getTileEntity(x - 8, y, z) instanceof TileEntityFusionMultiblock)
+				if(world.getTileEntity(x - 3, y, z) instanceof TileEntityWatzCore)
 				{
-					if(((TileEntityFusionMultiblock)world.getTileEntity(x - 8, y, z)).isStructureValid(world))
+					if(((TileEntityWatzCore)world.getTileEntity(x - 3, y, z)).isStructureValid(world))
 					{
-						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fusion_multiblock, world, x - 8, y, z);
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_watz_multiblock, world, x - 3, y, z);
 					} else {
-						player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Structure not valid!"));
+						player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Structure not valid!"));
 					}
 				} else {
-					player.addChatMessage(new ChatComponentText("[Fusion Reactor] Error: Reactor Core not found!"));
+					player.addChatMessage(new ChatComponentText("[Watz Power Plant] Error: Reactor Core not found!"));
 				}
 			}
 			return true;
