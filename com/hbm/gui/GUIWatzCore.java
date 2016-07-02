@@ -35,6 +35,9 @@ public class GUIWatzCore extends GuiContainer {
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.powerList + " HE/tick"), 8, this.ySize - 50 + 2 + 13, 4210752);
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.heatList + " heat"), 8, this.ySize - 50 + 2 + 22, 4210752);
 		this.fontRendererObj.drawString(String.valueOf((diFurnace.decayMultiplier * diFurnace.heat)/100 + " waste/tick"), 8, this.ySize - 50 + 2 + 31, 4210752);
+		this.fontRendererObj.drawString(String.valueOf(diFurnace.powerMultiplier + "% power"), 100, this.ySize - 50 + 2 + 13, 4210752);
+		this.fontRendererObj.drawString(String.valueOf(diFurnace.heatMultiplier + "% heat"), 100, this.ySize - 50 + 2 + 22, 4210752);
+		this.fontRendererObj.drawString(String.valueOf(diFurnace.decayMultiplier + "% decay"), 100, this.ySize - 50 + 2 + 31, 4210752);
 	}
 
 	@Override

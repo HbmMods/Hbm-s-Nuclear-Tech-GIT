@@ -675,3 +675,18 @@ item.titanium_filter.name=Titanfilter
 
 tile.mud_block.name=Giftiger Schlamm
 item.bucket_mud.name=Eimer mit giftigem Schlamm
+item.tank_waste_0.name=Schlammcontainer
+item.tank_waste_1.name=Schlammcontainer
+item.tank_waste_2.name=Schlammcontainer
+item.tank_waste_3.name=Schlammcontainer
+item.tank_waste_4.name=Schlammcontainer
+item.tank_waste_5.name=Schlammcontainer
+item.tank_waste_6.name=Schlammcontainer
+item.tank_waste_7.name=Schlammcontainer
+item.tank_waste_8.name=Schlammcontainer
+
+item.can_empty.name=Leere Dose
+item.can_smart.name='Smart' Energy-Drink
+item.can_creature.name='Creature' Energy-Drink
+item.can_redbomb.name='Red Bomb' Energy-Drink
+item.can_mrsugar.name='Dr. Sugar' Softdrink

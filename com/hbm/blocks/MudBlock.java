@@ -61,14 +61,7 @@ public class MudBlock extends BlockFluidClassic {
 	}
 
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-				entity.motionY *= 0.05D;
-				entity.motionZ *= 0.05D;
-				entity.motionX *= 0.05D;
-		if (!world.isRemote) {
-			entity.attackEntityFrom(damageSource, 8.0F);
-		}
-		if(entity.fallDistance > 2)
-			entity.fallDistance = 2;
+				entity.setInWeb();
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {

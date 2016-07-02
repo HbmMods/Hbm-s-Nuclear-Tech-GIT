@@ -206,6 +206,12 @@ public class ModItems {
 	public static Item syringe_metal_psycho;
 	public static Item stealth_boy;
 
+	public static Item can_empty;
+	public static Item can_smart;
+	public static Item can_creature;
+	public static Item can_redbomb;
+	public static Item can_mrsugar;
+
 	public static Item rod_empty;
 	public static Item rod_uranium;
 	public static Item rod_u235;
@@ -712,6 +718,12 @@ public class ModItems {
 		syringe_metal_psycho = new ItemSyringe().setUnlocalizedName("syringe_metal_psycho").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_psycho");
 		stealth_boy = new ItemStarterKit().setUnlocalizedName("stealth_boy").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":stealth_boy");
 
+		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":can_empty");
+		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":can_smart");
+		can_creature = new ItemEnergy().setUnlocalizedName("can_creature").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":can_creature");
+		can_redbomb = new ItemEnergy().setUnlocalizedName("can_redbomb").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":can_redbomb");
+		can_mrsugar = new ItemEnergy().setUnlocalizedName("can_mrsugar").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":can_mrsugar");
+
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod_uranium = new ItemCustomLore().setUnlocalizedName("rod_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
 		rod_u235 = new ItemCustomLore().setUnlocalizedName("rod_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
@@ -807,7 +819,7 @@ public class ModItems {
 		pellet_beryllium = new WatzFuel(864000, 50, 0.995F, 0, 0.95F, 1.025F).setUnlocalizedName("pellet_beryllium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_beryllium").setMaxStackSize(1);
 		pellet_neptunium = new WatzFuel(216000, 3000, 1.075F, 25, 1.025F, 1.01F).setUnlocalizedName("pellet_neptunium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_neptunium").setMaxStackSize(1);
 		pellet_lead = new WatzFuel(1728000, 0, 0.975F, 0, 0.975F, 0.975F).setUnlocalizedName("pellet_lead").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_lead").setMaxStackSize(1);
-		pellet_advanced = new WatzFuel(216000, 1000, 1.1F, 0, 0.995F, 0.975F).setUnlocalizedName("pellet_advanced").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_advanced").setMaxStackSize(1);
+		pellet_advanced = new WatzFuel(216000, 1000, 1.075F, 0, 0.995F, 0.975F).setUnlocalizedName("pellet_advanced").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_advanced").setMaxStackSize(1);
 
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator");
 		missile_generic = new Item().setUnlocalizedName("missile_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_generic");
@@ -1461,6 +1473,13 @@ public class ModItems {
 		GameRegistry.registerItem(apple_schrabidium, apple_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(tem_flakes, tem_flakes.getUnlocalizedName());
 		GameRegistry.registerItem(glowing_stew, glowing_stew.getUnlocalizedName());
+		
+		//Energy Drinks
+		GameRegistry.registerItem(can_empty, can_empty.getUnlocalizedName());
+		GameRegistry.registerItem(can_smart, can_smart.getUnlocalizedName());
+		GameRegistry.registerItem(can_creature, can_creature.getUnlocalizedName());
+		GameRegistry.registerItem(can_redbomb, can_redbomb.getUnlocalizedName());
+		GameRegistry.registerItem(can_mrsugar, can_mrsugar.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

@@ -517,6 +517,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 				ffgeuaInit();
 
 			powerMultiplier = 100;
+			heatMultiplier = 100;
 			decayMultiplier = 100;
 			powerList = 0;
 			heatList = 0;
@@ -543,11 +544,15 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 				slots[38].setItemDamage(slots[38].getItemDamage() + 1);
 			}
 
+			heatList *= heatMultiplier;
+			heatList /= 100;
 			heat = heatList;
 
+			powerList *= powerMultiplier;
+			powerList /= 100;
 			power += powerList;
 
-			waste += (decayMultiplier * heat) / 100;
+			waste += ((decayMultiplier * heat) / 100);
 			
 			if(power > maxPower)
 				power = maxPower;
@@ -603,8 +608,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		if(stack != null && stack.getItem() instanceof WatzFuel)
 		{
 			WatzFuel fuel = (WatzFuel)stack.getItem();
-			this.powerList *= fuel.powerMultiplier;
-			this.heatList *= fuel.heatMultiplier;
+			this.powerMultiplier *= fuel.powerMultiplier;
+			this.heatMultiplier *= fuel.heatMultiplier;
 			this.decayMultiplier *= fuel.decayMultiplier;
 		}
 	}

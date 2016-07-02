@@ -675,3 +675,18 @@ item.titanium_filter.name=Titanium Filter
 
 tile.mud_block.name=Poisonous Mud
 item.bucket_mud.name=Bucket of Poisonous Mud
+item.tank_waste_0.name=Mud Container
+item.tank_waste_1.name=Mud Container
+item.tank_waste_2.name=Mud Container
+item.tank_waste_3.name=Mud Container
+item.tank_waste_4.name=Mud Container
+item.tank_waste_5.name=Mud Container
+item.tank_waste_6.name=Mud Container
+item.tank_waste_7.name=Mud Container
+item.tank_waste_8.name=Mud Container
+
+item.can_empty.name=Empty Can
+item.can_smart.name='Smart' Energy Drink
+item.can_creature.name='Creature' Energy Drink
+item.can_redbomb.name='Red Bomb' Energy Drink
+item.can_mrsugar.name='Dr. Sugar' Soft Drink
