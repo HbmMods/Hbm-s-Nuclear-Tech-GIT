@@ -410,13 +410,13 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.fusion_hatch), 1), new Object[] { "TTT", "TFT", "TTT", 'T', Item.getItemFromBlock(ModBlocks.fusion_heater), 'F', Item.getItemFromBlock(Blocks.furnace) });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.fusion_core), 1), new Object[] { "CWC", "CRC", "CWC", 'C', ModItems.circuit_gold, 'W', Item.getItemFromBlock(ModBlocks.red_wire_coated), 'R', Item.getItemFromBlock(ModBlocks.fusion_center) });
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_element), 2), new Object[] { "TET", "ERE", "TET", 'T', "ingotTungsten", 'R', ModItems.rod_quad_empty, 'E', Item.getItemFromBlock(ModBlocks.reactor_element) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_element), 2), new Object[] { "TET", "ERE", "TET", 'T', "ingotTungsten", 'R', Item.getItemFromBlock(ModBlocks.fusion_conductor), 'E', Item.getItemFromBlock(ModBlocks.reactor_element) }));
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_control), 2), new Object[] { "TMT", "MWM", "TMT", 'T', ModItems.ingot_advanced_alloy, 'M', Item.getItemFromBlock(ModBlocks.reactor_control), 'W', ModItems.coil_copper_torus });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_cooler), 1), new Object[] { "SCS", "CNC", "SCS", 'N', "blockSteel", 'C', ModItems.rod_quad_coolant, 'S', ModItems.powder_neptunium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_end), 1), new Object[] { "TST", "SBS", "TST", 'T', "ingotTungsten", 'S', "ingotSteel", 'B', "blockLead" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_conductor), 1), new Object[] { "TWT", "FNF", "TWT", 'T', "ingotTungsten", 'W', Item.getItemFromBlock(ModBlocks.red_wire_coated), 'F', ModItems.fuse, 'N', "nuggetSchrabidium" }));
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_hatch), 1), new Object[] { "RRR", "RFR", "RRR", 'R', Item.getItemFromBlock(ModBlocks.reinforced_brick), 'F', Item.getItemFromBlock(Blocks.furnace) });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_core), 1), new Object[] { "CWC", "CRC", "CWC", 'C', ModItems.circuit_schrabidium, 'W', Item.getItemFromBlock(ModBlocks.red_wire_coated), 'R', Item.getItemFromBlock(ModBlocks.watz_conductor) });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.watz_core), 1), new Object[] { "CWC", "CRC", "CWC", 'C', ModItems.circuit_schrabidium, 'W', Item.getItemFromBlock(ModBlocks.watz_conductor), 'R', Item.getItemFromBlock(ModBlocks.block_meteor) });
 		
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_light), 8), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.fence, 'B', Blocks.brick_block });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_concrete), 8), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.stone });
@@ -603,6 +603,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.alloy_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_advanced_alloy, 'S', Items.stick });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.chainsaw, 1), new Object[] { "TTG", "SSM", 'T', "plateIron", 'S', "plateSteel", 'M', ModItems.motor, 'G', ModItems.circuit_gold }));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.tank_waste, 1), new Object[] { "PTP", "PTP", "PTP", 'T', ModItems.tank_steel, 'P', "plateSteel" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.hazmat_helmet, 1), new Object[] { "EEE", "EIE", " P ", 'E', ModItems.hazmat_cloth, 'I', Item.getItemFromBlock(Blocks.glass_pane), 'P', "plateSteel" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.hazmat_cloth });

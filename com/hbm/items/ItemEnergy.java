@@ -95,7 +95,7 @@ public class ItemEnergy extends Item {
     	}
     	if(this == ModItems.can_redbomb)
     	{
-            list.add("Liquified explosives");
+            list.add("Liquefied explosives");
     	}
     	if(this == ModItems.can_mrsugar)
     	{

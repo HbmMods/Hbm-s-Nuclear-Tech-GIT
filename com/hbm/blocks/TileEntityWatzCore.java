@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IReactor;
@@ -12,6 +13,7 @@ import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.items.WatzFuel;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -592,6 +594,27 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 				waste -= 2500000;
 				slots[36].setItemDamage(slots[36].getItemDamage() + 1);
 			}
+			
+			if(waste - 2500000 >= 0 && slots[36] != null && slots[36].getItem() == Items.bucket)
+			{
+				waste -= 2500000;
+				slots[36] = new ItemStack(ModItems.bucket_mud).copy();
+			}
+			
+			if(slots[36] != null && slots[36].getItem() == ModItems.titanium_filter && slots[36].getItemDamage() + 100 <= slots[36].getMaxDamage())
+			{
+				if(waste - 10000 >= 0)
+				{
+					waste -= 10000;
+					slots[36].setItemDamage(slots[36].getItemDamage() + 100);
+				} else {
+					if(waste > 0)
+					{
+						waste = 0;
+						slots[36].setItemDamage(slots[36].getItemDamage() + 100);
+					}
+				}
+			}
 		}
 	}
 	
@@ -634,21 +657,48 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		this.waste *= 3;
 		if (!worldObj.isRemote) {
 			if (this.worldObj.getBlock(this.xCoord + 4, this.yCoord, this.zCoord) == Blocks.air)
+			{
 				this.worldObj.setBlock(this.xCoord + 4, this.yCoord, this.zCoord, ModBlocks.mud_block);
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
+			}
 			else if (this.worldObj.getBlock(this.xCoord - 4, this.yCoord, this.zCoord) == Blocks.air)
+			{
 				this.worldObj.setBlock(this.xCoord - 4, this.yCoord, this.zCoord, ModBlocks.mud_block);
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
+			}
 			else if (this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord + 4) == Blocks.air)
+			{
 				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord + 4, ModBlocks.mud_block);
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
+			}
 			else if (this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord - 4) == Blocks.air)
+			{
 				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord - 4, ModBlocks.mud_block);
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
+			}
 			else {
-				for (int i = -3; i <= 3; i++)
-					for (int j = -5; j <= 5; j++)
-						for (int k = -3; k <= 3; k++)
-							if (rand.nextInt(2) == 0)
-								this.worldObj.setBlock(this.xCoord + i, this.yCoord + j, this.zCoord + k,
-										ModBlocks.mud_block);
-				this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.mud_block);
+				if (rand.nextInt(10) != 0) {
+					for (int i = -3; i <= 3; i++)
+						for (int j = -5; j <= 5; j++)
+							for (int k = -3; k <= 3; k++)
+								if (rand.nextInt(2) == 0)
+									this.worldObj.setBlock(this.xCoord + i, this.yCoord + j, this.zCoord + k,
+											ModBlocks.mud_block);
+					this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.mud_block);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "random.explode", 3.0F, 0.75F);
+				} else {
+					EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(worldObj);
+					entity.posX = this.xCoord;
+					entity.posY = this.yCoord;
+					entity.posZ = this.zCoord;
+					entity.destructionRange = MainRegistry.fleijaRadius;
+					entity.speed = 25;
+					entity.coefficient = 1.0F;
+					entity.waste = false;
+	    	
+					worldObj.spawnEntityInWorld(entity);
+				}
 			}
 		}
 	}

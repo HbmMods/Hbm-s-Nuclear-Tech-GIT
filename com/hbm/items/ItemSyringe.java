@@ -1,5 +1,9 @@
 package com.hbm.items;
 
+import java.util.Random;
+
+import com.hbm.lib.ModDamageSource;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,6 +16,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class ItemSyringe extends Item {
+	
+	Random rand = new Random();
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -69,9 +75,10 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
-            	player.addPotionEffect(new PotionEffect(Potion.poison.id, 30 * 20, 4));
-            	player.addPotionEffect(new PotionEffect(Potion.wither.id, 15 * 20, 2));
-            	player.addPotionEffect(new PotionEffect(Potion.confusion.id, 15 * 20, 0));
+            	if(rand.nextInt(2) == 0)
+            		player.attackEntityFrom(ModDamageSource.euthanizedSelf, 30);
+            	else
+            		player.attackEntityFrom(ModDamageSource.euthanizedSelf2, 30);
                 
                 stack.stackSize--;
 
@@ -233,9 +240,7 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
-            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 30 * 20, 4));
-            	entity.addPotionEffect(new PotionEffect(Potion.wither.id, 15 * 20, 2));
-            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 15 * 20, 0));
+            	entity.attackEntityFrom(ModDamageSource.euthanized(entityPlayer, entityPlayer), 30);
                 
                 stack.stackSize--;
 

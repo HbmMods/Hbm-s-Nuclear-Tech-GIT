@@ -6,6 +6,9 @@ itemGroup.tabNuke=Nuclear Tech Mod Nukes
 death.attack.nuclearBlast=%1$s was blown away by a nuclear explosion.
 death.attack.revolverBullet=%1$s was shot in the head by %2$s.
 death.attack.mudPoisoning=%1$s died in poisonous mud.
+death.attack.euthanized=%1$s was euthanized by %2$s.
+death.attack.euthanizedSelf=%1$s euthanized himself, what a dork.
+death.attack.euthanizedSelf2=%1$s wins the Darwin Award.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -176,7 +179,7 @@ item.nugget_schrabidium.name=Schrabidium Nugget
 item.plate_copper.name=Copper Plate
 item.ingot_advanced_alloy.name=Advanced Alloy Ingot
 item.plate_advanced_alloy.name=Advanced Alloy Plate
-item.wire_advanced_alloy.name=Super Cunductor
+item.wire_advanced_alloy.name=Super Conductor
 item.coil_advanced_alloy.name=Super Conducting Coil
 item.lithium.name=Lithium Cube
 
@@ -282,7 +285,7 @@ item.cell_puf6.name=Plutonium Hexafluorite Cell
 item.cell_antimatter.name=Antimatter Cell
 item.cell_deuterium.name=Deuterium Cell
 item.cell_tritium.name=Tritium Cell
-item.cell_sas3.name=Schrabidiumtrisulfide Cell
+item.cell_sas3.name=Schrabidium Trisulfide Cell
 item.cell_anti_schrabidium.name=Antischrabidium Cell
 
 item.inf_water.name=Infinite Water Tank
@@ -290,7 +293,7 @@ item.inf_deuterium.name=Infinite Deuterium Tank
 item.inf_tritium.name=Infinite Tritium Tank
 item.inf_coolant.name=Infinite Coolant Tank
 item.inf_sulfur.name=Infinite Sulfur Tank
-item.inf_diesel.name=Unendlicher Dieseltank
+item.inf_diesel.name=Infinite Diesel Tank
 
 item.canister_empty.name=Empty Canister
 item.canister_fuel.name=Fuel Canister
@@ -487,7 +490,7 @@ item.plate_gold.name=Gold Plate
 
 item.syringe_empty.name=Empty Syringe
 item.syringe_antidote.name=Antidote
-item.syringe_poison.name=Poisnous Injection
+item.syringe_poison.name=Poisonous Injection
 item.syringe_awesome.name=AWESOME
 item.syringe_metal_empty.name=Metal Syringe
 item.syringe_metal_stimpak.name=Stimpak
@@ -657,9 +660,9 @@ item.matchstick.name=Matchstick
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator
 
-item.ingot_hes.name=Higly Enriched Schrabidium Fuel Ingot
+item.ingot_hes.name=Highly Enriched Schrabidium Fuel Ingot
 item.ingot_les.name=Low Enriched Schrabidium Fuel Ingot
-item.nugget_hes.name=Higly Enriched Schrabidium Fuel Nugget
+item.nugget_hes.name=Highly Enriched Schrabidium Fuel Nugget
 item.nugget_les.name=Low Enriched Schrabidium Fuel Nugget
 
 item.pellet_schrabidium.name=Pure Schrabidium Watz Pellet

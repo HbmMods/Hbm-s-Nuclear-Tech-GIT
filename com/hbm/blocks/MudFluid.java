@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.Fluid;
 public class MudFluid extends Fluid {
 
 	public MudFluid() {
-		super("liquidHelium");
+		super("mud_fluid");
 	}
 
 	@SideOnly(Side.CLIENT)

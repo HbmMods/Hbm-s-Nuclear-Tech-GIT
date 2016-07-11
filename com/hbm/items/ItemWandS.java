@@ -7,6 +7,7 @@ import com.hbm.world.FactoryAdvanced;
 import com.hbm.world.FactoryTitanium;
 import com.hbm.world.FusionReactor;
 import com.hbm.world.NuclearReactor;
+import com.hbm.world.Watz;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,6 +43,9 @@ public class ItemWandS extends Item {
 			case 3:
 				list.add("Structure: Fusion Reactor");
 				break;
+			case 4:
+				list.add("Structure: Watz Power Plant");
+				break;
 			}
 		}
 	}
@@ -75,6 +79,9 @@ public class ItemWandS extends Item {
 			case 3:
 				new FusionReactor().generate(world, rand, x, up ? y : y - 4, z);
 				break;
+			case 4:
+				new Watz().generate(world, rand, x, up ? y : y - 12, z);
+				break;
 			}
 			
 		}
@@ -90,11 +97,13 @@ public class ItemWandS extends Item {
 			{
 				stack.stackTagCompound = new NBTTagCompound();
 				stack.stackTagCompound.setInteger("building", 0);
+				if(world.isRemote)
+					player.addChatMessage(new ChatComponentText("Set Structure: Titanium Factory"));
 			} else {
 				int i = stack.stackTagCompound.getInteger("building");
 				i++;
 				stack.stackTagCompound.setInteger("building", i);
-				if(i >= 4) {
+				if(i >= 5) {
 					stack.stackTagCompound.setInteger("building", 0);
 				}
 				
@@ -113,6 +122,9 @@ public class ItemWandS extends Item {
 						break;
 					case 3:
 						player.addChatMessage(new ChatComponentText("Set Structure: Fusion Reactor"));
+						break;
+					case 4:
+						player.addChatMessage(new ChatComponentText("Set Structure: Watz Power Plant"));
 						break;
 					default:
 						player.addChatMessage(new ChatComponentText("Set Structure: Titanium Factory"));

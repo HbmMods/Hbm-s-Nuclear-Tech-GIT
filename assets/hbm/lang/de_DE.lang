@@ -6,6 +6,9 @@ itemGroup.tabNuke=Nuclear Tech Mod Bomben
 death.attack.nuclearBlast=%1$s wurde von einer Atomexplosion weggeblasen.
 death.attack.revolverBullet=%1$s wurde von %2$s in den Kopf geschossen.
 death.attack.mudPoisoning=%1$s starb an Giftschlamm.
+death.attack.euthanized=%1$s wurde von %2$s eingeschläfert.
+death.attack.euthanizedSelf=%1$s hat sich selbst eingeschläfert, was für ein Vollpfosten.
+death.attack.euthanizedSelf2=%1$s gewinnt den Darwin Award.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

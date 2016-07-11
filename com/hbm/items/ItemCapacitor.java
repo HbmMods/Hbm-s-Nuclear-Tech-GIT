@@ -25,6 +25,8 @@ public class ItemCapacitor extends Item {
 			list.add("[Needed for Schrabidium Synthesis]");
 		}
 		if (this == ModItems.titanium_filter) {
+			list.add("Can be used to remove waste");
+			list.add("from a watz reactor!");
 			list.add("[Needed for Watz Reaction]");
 		}
 	}

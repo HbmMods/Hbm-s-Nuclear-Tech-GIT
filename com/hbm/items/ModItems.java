@@ -816,10 +816,10 @@ public class ModItems {
 		pellet_hes = new WatzFuel(108000, 65000, 1F, 85, 1, 1.025F).setUnlocalizedName("pellet_hes").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_hes").setMaxStackSize(1);
 		pellet_mes = new WatzFuel(216000, 23000, 1.025F, 50, 1, 1F).setUnlocalizedName("pellet_mes").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_mes").setMaxStackSize(1);
 		pellet_les = new WatzFuel(432000, 7000, 1.05F, 15, 1, 0.975F).setUnlocalizedName("pellet_les").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_les").setMaxStackSize(1);
-		pellet_beryllium = new WatzFuel(864000, 50, 0.995F, 0, 0.95F, 1.025F).setUnlocalizedName("pellet_beryllium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_beryllium").setMaxStackSize(1);
-		pellet_neptunium = new WatzFuel(216000, 3000, 1.075F, 25, 1.025F, 1.01F).setUnlocalizedName("pellet_neptunium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_neptunium").setMaxStackSize(1);
-		pellet_lead = new WatzFuel(1728000, 0, 0.975F, 0, 0.975F, 0.975F).setUnlocalizedName("pellet_lead").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_lead").setMaxStackSize(1);
-		pellet_advanced = new WatzFuel(216000, 1000, 1.075F, 0, 0.995F, 0.975F).setUnlocalizedName("pellet_advanced").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_advanced").setMaxStackSize(1);
+		pellet_beryllium = new WatzFuel(864000, 50, 0, 0, 0.95F, 1.025F).setUnlocalizedName("pellet_beryllium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_beryllium").setMaxStackSize(1);
+		pellet_neptunium = new WatzFuel(216000, 3000, 1.1F, 25, 1.1F, 1.005F).setUnlocalizedName("pellet_neptunium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_neptunium").setMaxStackSize(1);
+		pellet_lead = new WatzFuel(1728000, 0, 0.95F, 0, 0.95F, 0.95F).setUnlocalizedName("pellet_lead").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_lead").setMaxStackSize(1);
+		pellet_advanced = new WatzFuel(216000, 1000, 1.1F, 0, 0.995F, 0.99F).setUnlocalizedName("pellet_advanced").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_advanced").setMaxStackSize(1);
 
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator");
 		missile_generic = new Item().setUnlocalizedName("missile_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_generic");

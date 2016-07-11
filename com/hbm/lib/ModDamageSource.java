@@ -11,6 +11,8 @@ public class ModDamageSource extends DamageSource {
 	
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
+	public static DamageSource euthanizedSelf = (new DamageSource("euthanizedSelf")).setDamageBypassesArmor();
+	public static DamageSource euthanizedSelf2 = (new DamageSource("euthanizedSelf2")).setDamageBypassesArmor();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
@@ -18,6 +20,10 @@ public class ModDamageSource extends DamageSource {
     public static DamageSource causeBulletDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("revolverBullet", p_76353_0_, p_76353_1_)).setProjectile();
+    }
+    public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("euthanized", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
     }
 
 }
