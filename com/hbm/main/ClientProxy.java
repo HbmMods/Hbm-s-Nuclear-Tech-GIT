@@ -96,6 +96,7 @@ import com.hbm.render.ItemRenderSteelPoles;
 import com.hbm.render.ItemRenderTapeRecorder;
 import com.hbm.render.ItemRenderTestBombAdvanced;
 import com.hbm.render.ItemRenderTestContainer;
+import com.hbm.render.ItemRenderXVL1456;
 import com.hbm.render.ModEffectRenderer;
 import com.hbm.render.RenderBigNuke;
 import com.hbm.render.RenderBombMulti;
@@ -221,6 +222,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_schrabidium, new ItemRenderRevolverSchrabidium());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_cursed, new ItemRenderRevolverCursed());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman, new ItemRenderFatMan());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_xvl1456, new ItemRenderXVL1456());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());

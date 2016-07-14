@@ -90,10 +90,6 @@ public class GunRevolver extends Item
 
         ArrowLooseEvent event = new ArrowLooseEvent(p_77615_3_, p_77615_1_, j);
         MinecraftForge.EVENT_BUS.post(event);
-        if (event.isCanceled())
-        {
-            return;
-        }
         j = event.charge;
 
         boolean flag = p_77615_3_.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
@@ -116,11 +112,6 @@ public class GunRevolver extends Item
 
             EntityBullet entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, instakill);
             entityarrow.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-
-            if (f == 1.0F)
-            {
-            	entityarrow.setIsCritical(true);
-            }
 
             p_77615_1_.damageItem(1, p_77615_3_);
             if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_schrabidium)
@@ -185,10 +176,6 @@ public class GunRevolver extends Item
     {
         ArrowNockEvent event = new ArrowNockEvent(p_77659_3_, p_77659_1_);
         MinecraftForge.EVENT_BUS.post(event);
-        if (event.isCanceled())
-        {
-            return event.result;
-        }
 
         if (p_77659_3_.capabilities.isCreativeMode || p_77659_3_.inventory.hasItem(ammo))
         {
@@ -205,9 +192,5 @@ public class GunRevolver extends Item
 	public int getItemEnchantability()
     {
         return 1;
-    }
-    
-    public Item getAmmo() {
-    	return null;
     }
 }

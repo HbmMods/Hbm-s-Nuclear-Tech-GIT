@@ -342,6 +342,8 @@ public class ModItems {
 	public static Item gun_revolver_cursed_ammo;
 	public static Item gun_fatman;
 	public static Item gun_fatman_ammo;
+	public static Item gun_xvl1456;
+	public static Item gun_xvl1456_ammo;
 	public static Item gun_waluigi;
 
 	public static Item grenade_generic;
@@ -854,6 +856,8 @@ public class ModItems {
 		gun_revolver_cursed = new GunRevolver(gun_revolver_cursed_ammo, 25, 40, false).setMaxDamage(5000).setUnlocalizedName("gun_revolver_cursed").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_revolver_cursed");
 		gun_fatman_ammo = new Item().setUnlocalizedName("gun_fatman_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_fatman_ammo");
 		gun_fatman = new GunFatman().setMaxDamage(5000).setUnlocalizedName("gun_fatman").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_fatman");
+		gun_xvl1456_ammo = new Item().setUnlocalizedName("gun_xvl1456_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456_ammo");
+		gun_xvl1456 = new GunXVL1456().setUnlocalizedName("gun_xvl1456").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456");
 		
 		grenade_generic = new ItemGrenade().setUnlocalizedName("grenade_generic").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_generic");
 		grenade_strong = new ItemGrenade().setUnlocalizedName("grenade_strong").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_strong");
@@ -1407,6 +1411,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_rpg_ammo, gun_rpg_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman_ammo, gun_fatman_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());
+		GameRegistry.registerItem(gun_xvl1456_ammo, gun_xvl1456_ammo.getUnlocalizedName());
 		
 		//Grenades
 		GameRegistry.registerItem(grenade_generic, grenade_generic.getUnlocalizedName());

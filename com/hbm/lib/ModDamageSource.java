@@ -21,6 +21,10 @@ public class ModDamageSource extends DamageSource {
     {
         return (new EntityDamageSourceIndirect("revolverBullet", p_76353_0_, p_76353_1_)).setProjectile();
     }
+    public static DamageSource causeTauDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("tau", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
     public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("euthanized", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();

@@ -9,6 +9,7 @@ death.attack.mudPoisoning=%1$s starb an Giftschlamm.
 death.attack.euthanized=%1$s wurde von %2$s eingeschläfert.
 death.attack.euthanizedSelf=%1$s hat sich selbst eingeschläfert, was für ein Vollpfosten.
 death.attack.euthanizedSelf2=%1$s gewinnt den Darwin Award.
+death.attack.tau=%1$s wurde von %2$s mit negativ geladenen Tauonen durchsiebt.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

@@ -48,12 +48,13 @@ public class EntityBullet extends Entity implements IProjectile
     public Entity shootingEntity;
     private int ticksInGround;
     private int ticksInAir;
-    private double damage = 2.0D;
+    public double damage;
     /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
     private static final String __OBFID = "CL_00001715";
     private int dmgMin = 0;
     private int dmgMax = 1;
+    private boolean isTau = false;
     private boolean instakill = false;
     
 
@@ -131,6 +132,32 @@ public class EntityBullet extends Entity implements IProjectile
     	this.instakill = instakill;
     }
 
+    public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax, boolean instakill, String isTau)
+    {
+        super(p_i1756_1_);
+        this.renderDistanceWeight = 10.0D;
+        this.shootingEntity = p_i1756_2_;
+
+        if (p_i1756_2_ instanceof EntityPlayer)
+        {
+            this.canBePickedUp = 1;
+        }
+
+        this.setSize(0.5F, 0.5F);
+        this.setLocationAndAngles(p_i1756_2_.posX, p_i1756_2_.posY + p_i1756_2_.getEyeHeight(), p_i1756_2_.posZ, p_i1756_2_.rotationYaw, p_i1756_2_.rotationPitch);
+        this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
+        this.posY -= 0.10000000149011612D;
+        this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F;
+        this.setPosition(this.posX, this.posY, this.posZ);
+        this.yOffset = 0.0F;
+        this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI);
+        this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI);
+        this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
+        this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
+        this.setTau(isTau == "tauDay");
+        this.setIsCritical(true);
+    }
+
     public EntityBullet(World world, int x, int y, int z, double mx, double my, double mz, double grav) {
         super(world);
     	this.posX = x + 0.5F;
@@ -148,6 +175,7 @@ public class EntityBullet extends Entity implements IProjectile
 	protected void entityInit()
     {
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
     }
 
     /**
@@ -228,12 +256,12 @@ public class EntityBullet extends Entity implements IProjectile
 
         Block block = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f);
 
-        if (block.getMaterial() != Material.air && !(block instanceof DecoBlockAlt))
+        if (block.getMaterial() != Material.air)
         {
             block.setBlockBoundsBasedOnState(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
             AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
 
-            if (axisalignedbb != null && axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ)))
+            if (axisalignedbb != null && axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ)) && !this.getIsCritical())
             {
                 this.inGround = true;
             }
@@ -255,7 +283,7 @@ public class EntityBullet extends Entity implements IProjectile
             --this.arrowShake;
         }
 
-        if (this.inGround)
+        if (this.inGround && !this.getIsCritical())
         {
         	this.setDead();
         }
@@ -334,14 +362,19 @@ public class EntityBullet extends Entity implements IProjectile
 
                     DamageSource damagesource = null;
 
-                    if (this.shootingEntity == null)
-                    {
-                        damagesource = ModDamageSource.causeBulletDamage(this, this);
-                    }
-                    else
-                    {
-                        damagesource = ModDamageSource.causeBulletDamage(this, shootingEntity);
-                    }
+					if (!this.getIsCritical()) {
+						if (this.shootingEntity == null) {
+							damagesource = ModDamageSource.causeBulletDamage(this, this);
+						} else {
+							damagesource = ModDamageSource.causeBulletDamage(this, shootingEntity);
+						}
+					} else {
+						if (this.shootingEntity == null) {
+							damagesource = ModDamageSource.causeTauDamage(this, this);
+						} else {
+							damagesource = ModDamageSource.causeTauDamage(this, shootingEntity);
+						}
+					}
 
                     if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))
                     {
@@ -353,11 +386,6 @@ public class EntityBullet extends Entity implements IProjectile
                         if (movingobjectposition.entityHit instanceof EntityLivingBase)
                         {
                             EntityLivingBase entitylivingbase = (EntityLivingBase)movingobjectposition.entityHit;
-
-                            if (!this.worldObj.isRemote)
-                            {
-                                //entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
-                            }
 
                             if (this.knockbackStrength > 0)
                             {
@@ -393,10 +421,11 @@ public class EntityBullet extends Entity implements IProjectile
                             		((EntityLivingBase)movingobjectposition.entityHit).setHealth(0.0F);
                             	}
                             }
-                        	this.setDead();
+                            if(!this.getIsCritical())
+                            	this.setDead();
                         }
                     }
-                    else
+                    else if(!this.getIsCritical())
                     {
                         this.motionX *= -0.10000000149011612D;
                         this.motionY *= -0.10000000149011612D;
@@ -406,7 +435,7 @@ public class EntityBullet extends Entity implements IProjectile
                         this.ticksInAir = 0;
                     }
                 }
-                else
+                else if(!this.getIsCritical())
                 {
                     this.field_145791_d = movingobjectposition.blockX;
                     this.field_145792_e = movingobjectposition.blockY;
@@ -422,12 +451,22 @@ public class EntityBullet extends Entity implements IProjectile
                     this.posZ -= this.motionZ / f2 * 0.05000000074505806D;
                     this.inGround = true;
                     this.arrowShake = 7;
-                    this.setIsCritical(false);
 
                     if (this.field_145790_g.getMaterial() != Material.air)
                     {
                         this.field_145790_g.onEntityCollidedWithBlock(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f, this);
                     }
+                }
+            }
+
+            if (this.getIsCritical())
+            {
+                for (i = 0; i < 8; ++i)
+                {
+                	if(!this.getIsTau())
+                		this.worldObj.spawnParticle("fireworksSpark", this.posX + this.motionX * (double)i / 8.0D, this.posY + this.motionY * (double)i / 8.0D, this.posZ + this.motionZ * (double)i / 8.0D, 0, 0, 0/*-this.motionX, -this.motionY + 0.2D, -this.motionZ*/);
+                	else
+                		this.worldObj.spawnParticle("reddust", this.posX + this.motionX * (double)i / 8.0D, this.posY + this.motionY * (double)i / 8.0D, this.posZ + this.motionZ * (double)i / 8.0D, 0, 0, 0/*-this.motionX, -this.motionY + 0.2D, -this.motionZ*/);
                 }
             }
 
@@ -485,6 +524,9 @@ public class EntityBullet extends Entity implements IProjectile
             this.setPosition(this.posX, this.posY, this.posZ);
             this.func_145775_I();
         }
+
+        if(this.ticksExisted > 250)
+        	this.setDead();
     }
 
     /**
@@ -618,6 +660,19 @@ public class EntityBullet extends Entity implements IProjectile
             this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
         }
     }
+    public void setTau(boolean p_70243_1_)
+    {
+        byte b0 = this.dataWatcher.getWatchableObjectByte(17);
+
+        if (p_70243_1_)
+        {
+            this.dataWatcher.updateObject(17, Byte.valueOf((byte)(b0 | 1)));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(17, Byte.valueOf((byte)(b0 & -2)));
+        }
+    }
 
     /**
      * Whether the arrow has a stream of critical hit particles flying behind it.
@@ -625,6 +680,12 @@ public class EntityBullet extends Entity implements IProjectile
     public boolean getIsCritical()
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        return (b0 & 1) != 0;
+    }
+    
+    public boolean getIsTau()
+    {
+        byte b0 = this.dataWatcher.getWatchableObjectByte(17);
         return (b0 & 1) != 0;
     }
 }
