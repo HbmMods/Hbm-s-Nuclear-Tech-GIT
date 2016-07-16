@@ -10,6 +10,7 @@ death.attack.euthanized=%1$s was euthanized by %2$s.
 death.attack.euthanizedSelf=%1$s euthanized himself, what a dork.
 death.attack.euthanizedSelf2=%1$s wins the Darwin Award.
 death.attack.tau=%1$s was riddeled by %2$s using negatively charged tauons.
+death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into pieces.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -44,8 +45,8 @@ item.mike_cooling_unit.name=Deuterium Cooling Unit
 
 item.tsar_core.name=Tsar Bomba Core
 
-item.fleija_igniter.name=Pulseigniter
-item.fleija_propellant.name=Schrabidiumpropellant
+item.fleija_igniter.name=Pulse Igniter
+item.fleija_propellant.name=Schrabidium Propellant
 item.fleija_core.name=F.L.E.I.J.A. Uranium 235 Charge
 
 container.nukeGadget=The Gadget
@@ -182,6 +183,7 @@ item.ingot_advanced_alloy.name=Advanced Alloy Ingot
 item.plate_advanced_alloy.name=Advanced Alloy Plate
 item.wire_advanced_alloy.name=Super Conductor
 item.coil_advanced_alloy.name=Super Conducting Coil
+item.coil_advanced_torus.name=Super Conducting Ring Coil
 item.lithium.name=Lithium Cube
 
 item.nugget_u235.name=U235 Nugget
@@ -478,6 +480,7 @@ item.gun_revolver_gold.name=Golden Revolver
 item.gun_revolver_schrabidium.name=Schrabidium Revolver
 item.gun_revolver_cursed.name=Cursed Revolver
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
+item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
@@ -485,6 +488,7 @@ item.gun_revolver_gold_ammo.name=Golden Bullet
 item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
 item.gun_revolver_cursed_ammo.name=Steel Bullet
 item.gun_fatman_ammo.name=Mini Nuke
+item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
 
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate

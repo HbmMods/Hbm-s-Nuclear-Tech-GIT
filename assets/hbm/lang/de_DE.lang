@@ -10,6 +10,7 @@ death.attack.euthanized=%1$s wurde von %2$s eingeschläfert.
 death.attack.euthanizedSelf=%1$s hat sich selbst eingeschläfert, was für ein Vollpfosten.
 death.attack.euthanizedSelf2=%1$s gewinnt den Darwin Award.
 death.attack.tau=%1$s wurde von %2$s mit negativ geladenen Tauonen durchsiebt.
+death.attack.tauBlast=%1$s lud die XVL1456 zu lange auf und wurde in Stücke gerissen.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -182,6 +183,7 @@ item.ingot_advanced_alloy.name=Fortgeschrittene Legierung
 item.plate_advanced_alloy.name=Fortgeschrittene Legierungsplatte
 item.wire_advanced_alloy.name=Supraleiter
 item.coil_advanced_alloy.name=Supraleitende Magnetspule
+item.coil_advanced_torus.name=Supraleitende Ringspule
 item.lithium.name=Lithiumwürfel
 
 item.nugget_u235.name=U235-Nugget
@@ -478,6 +480,7 @@ item.gun_revolver_gold.name=Goldener Revolver
 item.gun_revolver_schrabidium.name=Schrabidiumrevolver
 item.gun_revolver_cursed.name=Verfluchte Pistole
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
+item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
@@ -485,6 +488,7 @@ item.gun_revolver_gold_ammo.name=Goldene Kugel
 item.gun_revolver_schrabidium_ammo.name=Schrabidiumpatrone
 item.gun_revolver_cursed_ammo.name=Stahlpatrone
 item.gun_fatman_ammo.name=Miniatombombe
+item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
 
 tile.block_schrabidium.name=Schrabidiumblock
 item.plate_gold.name=Goldplatte

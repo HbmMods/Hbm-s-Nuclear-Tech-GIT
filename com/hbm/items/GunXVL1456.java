@@ -1,13 +1,16 @@
 package com.hbm.items;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityMiniNuke;
+import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -22,6 +25,12 @@ public class GunXVL1456 extends Item {
 
 	Random rand = new Random();
 
+    public GunXVL1456()
+    {
+        this.maxStackSize = 1;
+        this.setMaxDamage(2500);
+    }
+
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
 		return EnumAction.bow;
@@ -35,13 +44,13 @@ public class GunXVL1456 extends Item {
 		// if (event.isCanceled()) {
 		// return;
 		// }
-        j = event.charge;
+        j = event.charge * 2;
 
 		if (player.isSneaking() && j >= 20) {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 
-			if ((flag || player.inventory.hasItem(ModItems.gun_xvl1456_ammo) && stack.hasTagCompound())) {
+			if (flag || player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
 				EntityBullet entitybullet = new EntityBullet(world, player, 3.0F, j, j + 5, false, "tauDay");
 
 				entitybullet.setDamage(j + rand.nextInt(6));
@@ -60,6 +69,9 @@ public class GunXVL1456 extends Item {
 				if (!world.isRemote) {
 					world.spawnEntityInWorld(entitybullet);
 				}
+				stack.damageItem((int)(j * 0.05F), player);
+				
+				player.rotationPitch -= (j * 0.1F);
 			}
 		}
 	}
@@ -91,7 +103,10 @@ public class GunXVL1456 extends Item {
 			{
 				if(!p_77663_2_.isRemote)
 				{
+					p_77663_1_.damageItem(1250, (EntityLivingBase) p_77663_3_);
+					
 					p_77663_2_.createExplosion(p_77663_3_, p_77663_3_.posX, p_77663_3_.posY, p_77663_3_.posZ, 10.0F, true);
+					p_77663_3_.attackEntityFrom(ModDamageSource.tauBlast, 1000F);
 					((EntityPlayer)p_77663_3_).dropOneItem(false);
 				}
 			}
@@ -105,7 +120,7 @@ public class GunXVL1456 extends Item {
 		if (!player.isSneaking()) {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) && count % 5 == 0) {
+			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) && count % 4 == 0) {
 
 				EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, "eyyOk");
 				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
@@ -132,12 +147,27 @@ public class GunXVL1456 extends Item {
 					}
 				}
 			}
+			if(count % 2 == 0)
+			{
+				//world.playSoundAtEntity(player, "dig.stone", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1F);
+				//world.playSoundAtEntity(player, "random.click", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1F);
+				world.playSoundAtEntity(player, "random.click", 1.0F, (this.getMaxItemUseDuration(stack) - count) * 0.01F);
+			}
 		}
 	}
 
 	@Override
 	public int getItemEnchantability() {
 		return 1;
+	}
+
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+		list.add("Hold right mouse button");
+		list.add("to shoot tauons,");
+		list.add("sneak to charge up for");
+		list.add("stronger shots!");
 	}
 
 }
