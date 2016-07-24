@@ -154,6 +154,31 @@ public class EntityBullet extends Entity implements IProjectile {
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
 		this.setTau(isTau == "tauDay");
+		this.setChopper(isTau == "chopper");
+		this.setIsCritical(isTau != "chopper");
+	}
+	
+	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax,
+			boolean instakill, String isTau, EntityGrenadeTau grenade) {
+		super(p_i1756_1_);
+		this.renderDistanceWeight = 10.0D;
+		this.shootingEntity = p_i1756_2_;
+
+		this.setSize(0.5F, 0.5F);
+		this.setLocationAndAngles(grenade.posX, grenade.posY + grenade.getEyeHeight(), grenade.posZ,
+				grenade.rotationYaw, grenade.rotationPitch);
+		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+		this.posY -= 0.10000000149011612D;
+		this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+		this.setPosition(this.posX, this.posY, this.posZ);
+		this.yOffset = 0.0F;
+		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
+		this.setTau(isTau == "tauDay");
 		this.setIsCritical(true);
 	}
 
@@ -174,6 +199,7 @@ public class EntityBullet extends Entity implements IProjectile {
 	protected void entityInit() {
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		this.dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+		this.dataWatcher.addObject(18, Byte.valueOf((byte) 0));
 	}
 
 	/**
@@ -241,7 +267,6 @@ public class EntityBullet extends Entity implements IProjectile {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	// @Override
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -364,17 +389,34 @@ public class EntityBullet extends Entity implements IProjectile {
 
 						DamageSource damagesource = null;
 
-						if (!this.getIsCritical()) {
+						//L: Crit
+						//R: Chop
+						//X: NOT
+						//O: Direct
+						
+						//   X X   Bullet
+						//   \ |
+						//   O-X   Tau
+						//   | /
+						//   X-O   Displacer
+						
+						if (!this.getIsCritical() && !this.getIsChopper()) {
 							if (this.shootingEntity == null) {
 								damagesource = ModDamageSource.causeBulletDamage(this, this);
 							} else {
 								damagesource = ModDamageSource.causeBulletDamage(this, shootingEntity);
 							}
-						} else {
+						} else if(!this.getIsChopper()) {
 							if (this.shootingEntity == null) {
 								damagesource = ModDamageSource.causeTauDamage(this, this);
 							} else {
 								damagesource = ModDamageSource.causeTauDamage(this, shootingEntity);
+							}
+						} else if(!this.getIsCritical()) {
+							if (this.shootingEntity == null) {
+								damagesource = ModDamageSource.causeDisplacementDamage(this, this);
+							} else {
+								damagesource = ModDamageSource.causeDisplacementDamage(this, shootingEntity);
 							}
 						}
 
@@ -426,12 +468,13 @@ public class EntityBullet extends Entity implements IProjectile {
 									this.setDead();
 							}
 						} else if (!this.getIsCritical()) {
-							this.motionX *= -0.10000000149011612D;
+							/*this.motionX *= -0.10000000149011612D;
 							this.motionY *= -0.10000000149011612D;
 							this.motionZ *= -0.10000000149011612D;
 							this.rotationYaw += 180.0F;
 							this.prevRotationYaw += 180.0F;
-							this.ticksInAir = 0;
+							this.ticksInAir = 0;*/
+							this.setDead();
 						}
 					}
 				} else if (!this.getIsCritical()) {
@@ -657,6 +700,16 @@ public class EntityBullet extends Entity implements IProjectile {
 		}
 	}
 
+	public void setChopper(boolean p_70243_1_) {
+		byte b0 = this.dataWatcher.getWatchableObjectByte(18);
+
+		if (p_70243_1_) {
+			this.dataWatcher.updateObject(18, Byte.valueOf((byte) (b0 | 1)));
+		} else {
+			this.dataWatcher.updateObject(18, Byte.valueOf((byte) (b0 & -2)));
+		}
+	}
+
 	/**
 	 * Whether the arrow has a stream of critical hit particles flying behind
 	 * it.
@@ -670,4 +723,28 @@ public class EntityBullet extends Entity implements IProjectile {
 		byte b0 = this.dataWatcher.getWatchableObjectByte(17);
 		return (b0 & 1) != 0;
 	}
+
+	public boolean getIsChopper() {
+		byte b0 = this.dataWatcher.getWatchableObjectByte(18);
+		return (b0 & 1) != 0;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public int getBrightnessForRender(float p_70070_1_)
+    {
+		if(this.getIsCritical() || this.getIsChopper())
+			return 15728880;
+		else
+			return super.getBrightnessForRender(p_70070_1_);
+    }
+
+    @Override
+	public float getBrightness(float p_70013_1_)
+    {
+		if(this.getIsCritical() || this.getIsChopper())
+			return 1.0F;
+		else
+			return super.getBrightness(p_70013_1_);
+    }
 }

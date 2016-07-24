@@ -44,6 +44,7 @@ public class MudBlock extends BlockFluidClassic {
 		damageSource = damage;
 		setQuantaPerBlock(4);
 		setCreativeTab(null);
+		displacements.put(this, false);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -57,57 +58,63 @@ public class MudBlock extends BlockFluidClassic {
 		flowingIcon = register.registerIcon(RefStrings.MODID + ":mud_flowing");
 	}
 
+	@Override
 	public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
-		if (world.getBlock(x, y, z).getMaterial().isLiquid())
+
+		if (world.getBlock(x, y, z).getMaterial().isLiquid()) {
 			return false;
+		}
 		return super.canDisplace(world, x, y, z);
 	}
 
+	@Override
 	public boolean displaceIfPossible(World world, int x, int y, int z) {
-		if (world.getBlock(x, y, z).getMaterial().isLiquid())
+
+		if (world.getBlock(x, y, z).getMaterial().isLiquid()) {
 			return false;
+		}
 		return super.displaceIfPossible(world, x, y, z);
 	}
 
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-			entity.setInWeb();
-			//if(entity instanceof EntityLivingBase)
-			//{
-			//	entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
-			//}
-			if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{
-        		/*Library.damageSuit(((EntityPlayer)entity), 0);
-        		Library.damageSuit(((EntityPlayer)entity), 1);
-        		Library.damageSuit(((EntityPlayer)entity), 2);
-        		Library.damageSuit(((EntityPlayer)entity), 3);*/
-        		
-        	} else if(entity instanceof EntityCreeper) {
-        		EntityNuclearCreeper creep = new EntityNuclearCreeper(world);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		if(!entity.isDead)
-        			if(!world.isRemote)
-        				world.spawnEntityInWorld(creep);
-        		entity.setDead();
-        	} else if(entity instanceof EntityVillager) {
-        		EntityZombie creep = new EntityZombie(world);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		entity.setDead();
-        		if(!world.isRemote)
-        			world.spawnEntityInWorld(creep);
-        	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
-            {
-        		entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
-            }
+		entity.setInWeb();
+		// if(entity instanceof EntityLivingBase)
+		// {
+		// entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
+		// }
+		if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) {
+			/*
+			 * Library.damageSuit(((EntityPlayer)entity), 0);
+			 * Library.damageSuit(((EntityPlayer)entity), 1);
+			 * Library.damageSuit(((EntityPlayer)entity), 2);
+			 * Library.damageSuit(((EntityPlayer)entity), 3);
+			 */
+
+		} else if (entity instanceof EntityCreeper) {
+			EntityNuclearCreeper creep = new EntityNuclearCreeper(world);
+			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			if (!entity.isDead)
+				if (!world.isRemote)
+					world.spawnEntityInWorld(creep);
+			entity.setDead();
+		} else if (entity instanceof EntityVillager) {
+			EntityZombie creep = new EntityZombie(world);
+			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			entity.setDead();
+			if (!world.isRemote)
+				world.spawnEntityInWorld(creep);
+		} else if (entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper)
+				&& !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
+			entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
+		}
 	}
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		super.updateTick(world, x, y, z, rand);
 	}
-	
-    public int tickRate(World p_149738_1_)
-    {
-        return 15;
-    }
+
+	public int tickRate(World p_149738_1_) {
+		return 15;
+	}
 
 }

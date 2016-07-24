@@ -81,6 +81,16 @@ public class BlockReactor extends Block {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":watz_conductor_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":watz_conductor_side");
 		}
+		if(this == ModBlocks.fwatz_conductor)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_combine_steel");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fwatz_conductor_side");
+		}
+		if(this == ModBlocks.fwatz_cooler)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fwatz_cooler_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fwatz_cooler");
+		}
 	}
 
 	@Override

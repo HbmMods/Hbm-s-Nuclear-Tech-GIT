@@ -36,6 +36,7 @@ import com.hbm.blocks.TileEntityTestContainer;
 import com.hbm.blocks.TileEntityTestRender;
 import com.hbm.blocks.TileEntityYellowBarrel;
 import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityChopperMine;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
 import com.hbm.entity.EntityGrenadeFire;
@@ -49,6 +50,8 @@ import com.hbm.entity.EntityGrenadePlasma;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityHunterChopper;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityMissileAntiBallistic;
@@ -102,10 +105,12 @@ import com.hbm.render.RenderBigNuke;
 import com.hbm.render.RenderBombMulti;
 import com.hbm.render.RenderCable;
 import com.hbm.render.RenderCentrifuge;
+import com.hbm.render.RenderChopperMine;
 import com.hbm.render.RenderCrashedBomb;
 import com.hbm.render.RenderDecoBlock;
 import com.hbm.render.RenderDecoBlockAlt;
 import com.hbm.render.RenderFlare;
+import com.hbm.render.RenderHunterChopper;
 import com.hbm.render.RenderLaunchPadTier1;
 import com.hbm.render.RenderMiniNuke;
 import com.hbm.render.RenderMirv;
@@ -194,6 +199,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuke.class, new RenderSnowball(ModItems.grenade_nuke));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadePlasma.class, new RenderSnowball(ModItems.grenade_plasma));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeTau.class, new RenderSnowball(ModItems.grenade_tau));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 
@@ -273,6 +279,9 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_scaffold), new ItemRenderDecoBlock());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNuclearCreeper.class, new RenderNuclearCreeper());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityHunterChopper.class, new RenderHunterChopper());
+
+	    RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new ModEffectRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBSmokeFX.class, new BSmokeRenderer(ModItems.nuclear_waste));

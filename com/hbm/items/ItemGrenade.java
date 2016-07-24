@@ -13,6 +13,7 @@ import com.hbm.entity.EntityGrenadePlasma;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityGrenadeTau;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -95,6 +96,10 @@ public class ItemGrenade extends Item {
         	{
         		p_77659_2_.spawnEntityInWorld(new EntityGrenadePlasma(p_77659_2_, p_77659_3_));
         	}
+        	if(this == ModItems.grenade_tau)
+        	{
+        		p_77659_2_.spawnEntityInWorld(new EntityGrenadeTau(p_77659_2_, p_77659_3_));
+        	}
         }
 
         return p_77659_1_;
@@ -113,7 +118,7 @@ public class ItemGrenade extends Item {
         	return EnumRarity.epic;
     	}
     	
-    	if(this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear)
+    	if(this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear || this == ModItems.grenade_tau)
     	{
         	return EnumRarity.uncommon;
     	}

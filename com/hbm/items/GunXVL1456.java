@@ -95,24 +95,6 @@ public class GunXVL1456 extends Item {
 		return p_77659_1_;
 	}
 
-	public void onUpdate(ItemStack p_77663_1_, World p_77663_2_, Entity p_77663_3_, int p_77663_4_,
-			boolean p_77663_5_) {
-		if(p_77663_3_ instanceof EntityPlayer)
-		{
-			if(((EntityPlayer)p_77663_3_).getItemInUseCount() < getMaxItemUseDuration(p_77663_1_) - 200 && p_77663_3_.isSneaking() && ((EntityPlayer)p_77663_3_).getItemInUseCount() != 0)
-			{
-				if(!p_77663_2_.isRemote)
-				{
-					p_77663_1_.damageItem(1250, (EntityLivingBase) p_77663_3_);
-					
-					p_77663_2_.createExplosion(p_77663_3_, p_77663_3_.posX, p_77663_3_.posY, p_77663_3_.posZ, 10.0F, true);
-					p_77663_3_.attackEntityFrom(ModDamageSource.tauBlast, 1000F);
-					((EntityPlayer)p_77663_3_).dropOneItem(false);
-				}
-			}
-		}
-	}
-
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
 		World world = player.worldObj;
@@ -152,6 +134,21 @@ public class GunXVL1456 extends Item {
 				//world.playSoundAtEntity(player, "dig.stone", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1F);
 				//world.playSoundAtEntity(player, "random.click", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1F);
 				world.playSoundAtEntity(player, "random.click", 1.0F, (this.getMaxItemUseDuration(stack) - count) * 0.01F);
+			}
+		}
+		
+		if(player instanceof EntityPlayer)
+		{
+			if(((EntityPlayer)player).getItemInUseCount() < getMaxItemUseDuration(stack) - 200 && player.isSneaking() && ((EntityPlayer)player).getItemInUseCount() != 0)
+			{
+				if(!world.isRemote)
+				{
+					stack.damageItem(1250, (EntityLivingBase) player);
+					
+					world.createExplosion(player, player.posX, player.posY, player.posZ, 10.0F, true);
+					player.attackEntityFrom(ModDamageSource.tauBlast, 1000F);
+					((EntityPlayer)player).dropOneItem(false);
+				}
 			}
 		}
 	}

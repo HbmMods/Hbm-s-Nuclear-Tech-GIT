@@ -64,6 +64,8 @@ public class ModBlocks {
 	public static Block block_beryllium;
 	public static Block block_schrabidium;
 	public static Block block_advanced_alloy;
+	public static Block block_magnetized_tungsten;
+	public static Block block_combine_steel;
 	
 	public static Block reinforced_brick;
 	public static Block reinforced_glass;
@@ -220,6 +222,16 @@ public class ModBlocks {
 	public static Block watz_core;
 	public static final int guiID_watz_multiblock = 32;
 
+	public static Block fwatz_conductor;
+	public static Block fwatz_cooler;
+	public static Block fwatz_tank;
+	public static Block fwatz_scaffold;
+	public static Block fwatz_hatch;
+	public static Block fwatz_computer;
+	public static Block fwatz_core;
+	public static Block fwatz_plasma;
+	public static final int guiID_fwatz_multiblock = 33;
+
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
 
@@ -308,6 +320,8 @@ public class ModBlocks {
 		block_beryllium = new BlockGeneric(Material.iron).setBlockName("block_beryllium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_beryllium");
 		block_schrabidium = new BlockGeneric(Material.iron).setBlockName("block_schrabidium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_schrabidium");
 		block_advanced_alloy = new BlockGeneric(Material.iron).setBlockName("block_advanced_alloy").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_advanced_alloy");
+		block_magnetized_tungsten = new BlockGeneric(Material.iron).setBlockName("block_magnetized_tungsten").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(35.0F).setBlockTextureName(RefStrings.MODID + ":block_magnetized_tungsten");
+		block_combine_steel = new BlockGeneric(Material.iron).setBlockName("block_combine_steel").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_combine_steel");
 
 		reinforced_brick = new BlockGeneric(Material.rock).setBlockName("reinforced_brick").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_brick");
 		reinforced_glass = new ReinforcedBlock(Material.glass).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(0).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_glass");
@@ -432,6 +446,15 @@ public class ModBlocks {
 		watz_conductor = new BlockReactor(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_conductor");
 		watz_core = new WatzCore(Material.iron).setBlockName("watz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":watz_computer");
 
+		fwatz_conductor = new BlockReactor(Material.iron).setBlockName("fwatz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_conductor");
+		fwatz_cooler = new BlockReactor(Material.iron).setBlockName("fwatz_cooler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_cooler");
+		fwatz_tank = new ReinforcedBlock(Material.iron).setBlockName("fwatz_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_tank");
+		fwatz_scaffold = new BlockGeneric(Material.iron).setBlockName("fwatz_scaffold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_scaffold");
+		fwatz_hatch = new FWatzHatch(Material.iron).setBlockName("fwatz_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_computer");
+		fwatz_computer = new BlockGeneric(Material.iron).setBlockName("fwatz_computer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_computer");
+		fwatz_core = new FWatzCore(Material.iron).setBlockName("fwatz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_core");
+		fwatz_plasma = new BlockPlasma(Material.iron).setBlockName("fwatz_plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_plasma");
+
 		machine_converter_he_rf = new BlockConverterHeRf(Material.iron).setBlockName("machine_converter_he_rf").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_converter_he_rf");
 		machine_converter_rf_he = new BlockConverterRfHe(Material.iron).setBlockName("machine_converter_rf_he").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_converter_rf_he");
 		
@@ -512,6 +535,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_trinitite, block_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste, block_waste.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidium, ItemSchrabidiumBlock.class, block_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_magnetized_tungsten, block_magnetized_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(block_combine_steel, block_combine_steel.getUnlocalizedName());
 
 		//Reinforced Blocks
 		GameRegistry.registerBlock(reinforced_brick, reinforced_brick.getUnlocalizedName());
@@ -633,6 +658,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(watz_hatch, watz_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_conductor, watz_conductor.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_core, watz_core.getUnlocalizedName());
+
+		GameRegistry.registerBlock(fwatz_conductor, fwatz_conductor.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_scaffold, fwatz_scaffold.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_hatch, fwatz_hatch.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_computer, fwatz_computer.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_core, fwatz_core.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_cooler, fwatz_cooler.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_tank, fwatz_tank.getUnlocalizedName());
+		GameRegistry.registerBlock(fwatz_plasma, fwatz_plasma.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

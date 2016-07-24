@@ -69,6 +69,7 @@ import com.hbm.creativetabs.NukeTab;
 import com.hbm.creativetabs.PartsTab;
 import com.hbm.creativetabs.TestTab;
 import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityChopperMine;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
 import com.hbm.entity.EntityGrenadeFire;
@@ -82,6 +83,8 @@ import com.hbm.entity.EntityGrenadePlasma;
 import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityHunterChopper;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityMissileAntiBallistic;
@@ -185,6 +188,7 @@ public class MainRegistry
 	public static int mirvRadius = 100;
 	public static int fatmanRadius = 35;
 	public static int nukaRadius = 25;
+	public static int aSchrabRadius = 20;
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
 	public static int atomStructure = 500;
@@ -197,6 +201,10 @@ public class MainRegistry
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
+
+	public static int x;
+	public static int y;
+	public static int z;
 	
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
@@ -310,8 +318,11 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 39, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 40, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 41, this, 500, 1, true);
-	    
+	    EntityRegistry.registerModEntity(EntityGrenadeTau.class, "entity_grenade_tau", 42, this, 500, 1, true);
+	    EntityRegistry.registerModEntity(EntityChopperMine.class, "entity_chopper_mine", 43, this, 1000, 1, true);
+
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
+	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0xffffff, 0xffffff);
 	}
 
 	@EventHandler
@@ -486,6 +497,9 @@ public class MainRegistry
         Property propNuka = config.get(Configuration.CATEGORY_GENERAL, "3.91_nukaRadius", 25);
         propNuka.comment = "Radius of the nuka grenade";
         nukaRadius = propNuka.getInt();
+        Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.92_aSchrabRadius", 20);
+        propASchrab.comment = "Radius of dropped anti schrabidium";
+        aSchrabRadius = propASchrab.getInt();
 
         Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.0_radioSpawn", 500);
         propRadio.comment = "Spawn radio station on every nTH chunk";

@@ -10,11 +10,13 @@ import com.hbm.blocks.TileEntityMachineDeuterium;
 import com.hbm.blocks.TileEntityMachineElectricFurnace;
 import com.hbm.blocks.TileEntityWireCoated;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.entity.EntityHunterChopper;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -212,5 +214,32 @@ public class Library {
 		}
 		
 		return false;
+	}
+
+	public static EntityLivingBase getClosestEntityForChopper(World world, double x, double y, double z, double radius) {
+		double d4 = -1.0D;
+		EntityLivingBase entityplayer = null;
+
+		for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+			if (world.loadedEntityList.get(i) instanceof EntityLivingBase && !(world.loadedEntityList.get(i) instanceof EntityHunterChopper)) {
+				EntityLivingBase entityplayer1 = (EntityLivingBase) world.loadedEntityList.get(i);
+
+				if (entityplayer1.isEntityAlive() && !(entityplayer1 instanceof EntityPlayer && ((EntityPlayer)entityplayer1).capabilities.disableDamage)) {
+					double d5 = entityplayer1.getDistanceSq(x, y, z);
+					double d6 = radius;
+
+					if (entityplayer1.isSneaking()) {
+						d6 = radius * 0.800000011920929D;
+					}
+
+					if ((radius < 0.0D || d5 < d6 * d6) && (d4 == -1.0D || d5 < d4)) {
+						d4 = d5;
+						entityplayer = entityplayer1;
+					}
+				}
+			}
+		}
+
+		return entityplayer;
 	}
 }

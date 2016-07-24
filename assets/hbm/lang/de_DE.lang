@@ -11,6 +11,7 @@ death.attack.euthanizedSelf=%1$s hat sich selbst eingeschläfert, was für ein V
 death.attack.euthanizedSelf2=%1$s gewinnt den Darwin Award.
 death.attack.tau=%1$s wurde von %2$s mit negativ geladenen Tauonen durchsiebt.
 death.attack.tauBlast=%1$s lud die XVL1456 zu lange auf und wurde in Stücke gerissen.
+death.attack.chopperBullet=%1$s wurde von %2$s gerekt.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -185,6 +186,10 @@ item.wire_advanced_alloy.name=Supraleiter
 item.coil_advanced_alloy.name=Supraleitende Magnetspule
 item.coil_advanced_torus.name=Supraleitende Ringspule
 item.lithium.name=Lithiumwürfel
+item.ingot_magnetized_tungsten.name=Magnetisierter Wolframbarren
+item.ingot_combine_steel.name=CMB-Stahlbarren
+item.plate_combine_steel.name=CMB-Stahlplatte
+item.wire_magnetized_tungsten.name=4000K Hochtemperaturensupraleiter
 
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget
@@ -222,6 +227,8 @@ tile.block_trinitite.name=Trinititblock
 tile.block_beryllium.name=Berylliumblock
 tile.block_waste.name=Atommüllblock
 tile.block_advanced_alloy.name=Fortgeschrittener Legierungsblock
+tile.block_magnetized_tungsten.name=Magnetisierter Wolframblock
+tile.block_combine_steel.name=CMB-Stahlblock
 
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_copper.name=Kupfererz
@@ -414,6 +421,7 @@ item.grenade_electric.name=Blitzbombe
 item.grenade_poison.name=Giftgranate
 item.grenade_gas.name=Gasgranate
 item.grenade_plasma.name=Plasmagranate
+item.grenade_tau.name=Taugranate
 item.grenade_schrabidium.name=Schrabidiumgranate
 item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
@@ -508,6 +516,7 @@ entity.hbm.entity_bullet.name=Patrone
 entity.hbm.entity_rocket.name=Rakete
 entity.hbm.entity_schrabnel.name=Schrabnel
 entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper
+entity.entity_mob_hunter_chopper.name=Jagdschrauber
 
 item.cap_aluminium.name=Aluminiumdeckel
 item.hull_small_steel.name=Kleine Stahlhülle

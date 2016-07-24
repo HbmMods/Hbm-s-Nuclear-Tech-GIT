@@ -27,7 +27,7 @@ public class ReinforcedBlock extends Block {
     {
         Block block = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_);
 
-        if (this == ModBlocks.reinforced_glass)
+        if (this == ModBlocks.reinforced_glass || this == ModBlocks.fwatz_tank)
         {
             if (p_149646_1_.getBlockMetadata(p_149646_2_, p_149646_3_, p_149646_4_) != p_149646_1_.getBlockMetadata(p_149646_2_ - Facing.offsetsXForSide[p_149646_5_], p_149646_3_ - Facing.offsetsYForSide[p_149646_5_], p_149646_4_ - Facing.offsetsZForSide[p_149646_5_]))
             {

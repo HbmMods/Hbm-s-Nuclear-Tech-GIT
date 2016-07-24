@@ -52,7 +52,7 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 8, 2),
 				new WeightedRandomChestContent(ModItems.gun_xvl1456, 0, 1, 1, 1),
-				new WeightedRandomChestContent(ModItems.gun_xvl1456_ammo, 0, 1, 8, 2),
+				new WeightedRandomChestContent(ModItems.gun_xvl1456_ammo, 0, 16, 64, 2),
 				new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),

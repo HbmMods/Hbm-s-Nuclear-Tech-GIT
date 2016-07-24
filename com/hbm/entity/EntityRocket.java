@@ -403,12 +403,11 @@ public class EntityRocket extends Entity implements IProjectile
                     }
                     else
                     {
-                        this.motionX *= -0.10000000149011612D;
-                        this.motionY *= -0.10000000149011612D;
-                        this.motionZ *= -0.10000000149011612D;
-                        this.rotationYaw += 180.0F;
-                        this.prevRotationYaw += 180.0F;
-                        this.ticksInAir = 0;
+                        if (!this.worldObj.isRemote)
+                        {
+                        	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+                        }
+                    	this.setDead();
                     }
                 }
                 else

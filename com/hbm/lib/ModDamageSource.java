@@ -22,6 +22,10 @@ public class ModDamageSource extends DamageSource {
     {
         return (new EntityDamageSourceIndirect("revolverBullet", p_76353_0_, p_76353_1_)).setProjectile();
     }
+    public static DamageSource causeDisplacementDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("chopperBullet", p_76353_0_, p_76353_1_)).setProjectile();
+    }
     public static DamageSource causeTauDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("tau", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
@@ -29,6 +33,38 @@ public class ModDamageSource extends DamageSource {
     public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("euthanized", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
+    }
+    
+    public static boolean getIsBullet(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("revolverBullet");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsEmplacer(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("chopperBullet");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsTau(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("tau");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsPoison(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("euthanized");
+    	}
+    	return false;
     }
 
 }

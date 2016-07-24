@@ -471,8 +471,9 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_poison, 2), new Object[] { " G ", "PGP", " P ", 'G', ModItems.grenade_generic, 'P', ModItems.powder_poison });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_gas, 2), new Object[] { " G ", "CGC", " C ", 'G', ModItems.grenade_generic, 'C', ModItems.pellet_gas });
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_schrabidium, 2), new Object[] { " G ", "CFC", " C ", 'G', ModItems.grenade_generic, 'C', ModItems.ingot_schrabidium, 'F', ModItems.grenade_flare });
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.grenade_nuclear, 1), new Object[] {"RS ", "ITI", " I ", 'I', "plateIron", 'R', ModItems.wire_red_copper, 'S', ModItems.plate_steel, 'T', ModItems.gun_fatman_ammo }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.grenade_nuclear, 1), new Object[] {"RS ", "ITI", " I ", 'I', "plateIron", 'R', ModItems.wire_red_copper, 'S', "plateSteel", 'T', ModItems.gun_fatman_ammo }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.grenade_plasma, 2), new Object[] { " G ", "SGS", " S ", 'G', ModItems.grenade_generic, 'S', ModItems.wire_advanced_alloy });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.grenade_tau, 1), new Object[] {"RS ", "ITI", "UIU", 'I', "plateLead", 'R', ModItems.wire_red_copper, 'S', "plateAdvanced", 'T', ModItems.coil_advanced_torus, 'U', ModItems.gun_xvl1456_ammo }));
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.bomb_waffle, 1), new Object[] { "WEW", "MPM", "WEW", 'W', Items.wheat, 'E', Items.egg, 'M', Items.milk_bucket, 'P', ModItems.man_core });
 		GameRegistry.addRecipe(new ItemStack(ModItems.schnitzel_vegan, 3), new Object[] { "RWR", "WPW", "RWR", 'W', ModItems.nuclear_waste, 'R', Items.reeds, 'P', Items.pumpkin_seeds });
