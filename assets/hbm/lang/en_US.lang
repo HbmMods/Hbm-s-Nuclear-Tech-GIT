@@ -489,6 +489,7 @@ item.gun_revolver_schrabidium.name=Schrabidium Revolver
 item.gun_revolver_cursed.name=Cursed Revolver
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
+item.gun_osipr.name=Overwatch Standard Issue Pulse Rifle
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
@@ -497,6 +498,8 @@ item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
 item.gun_revolver_cursed_ammo.name=Steel Bullet
 item.gun_fatman_ammo.name=Mini Nuke
 item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
+item.gun_osipr_ammo.name=Dark Energy Pulse Plug
+item.gun_osipr_ammo2.name=Combine Ball
 
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate
@@ -532,6 +535,14 @@ item.fins_quad_titanium.name=Small Titanium Fins
 item.sphere_steel.name=Steel Sphere
 item.pedestal_steel.name=Steel Pedestal
 item.dysfunctional_reactor.name=Dysfunctional Nuclear Reactor
+
+item.combine_scrap.name=CMB Scrap Metal
+item.chopper_head.name=Hunter Chopper Cockpit
+item.chopper_gun.name=Emplacement Gun
+item.chopper_torso.name=Hunter Chopper Body
+item.chopper_tail.name=Hunter Chopper Tail
+item.chopper_wing.name=Hunter Chopper Wing
+item.chopper_blades.name=Hunter Chopper Rotor Blades
 
 item.igniter.name=Igniter
 item.watch.name=Broken Pocket Watch

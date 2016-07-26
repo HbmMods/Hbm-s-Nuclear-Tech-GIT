@@ -111,7 +111,7 @@ public class ArmorModel extends ItemArmor {
 			return "hbm:textures/models/CapeRadiation.png";
 		}
 		if (stack.getItem() == ModItems.cape_gasmask) {
-			return "hbm:textures/models/CapeGasmask.png";
+			return "hbm:textures/models/CapeGasMask.png";
 		}
 		if (stack.getItem() == ModItems.cape_schrabidium) {
 			return "hbm:textures/models/CapeSchrabidium.png";

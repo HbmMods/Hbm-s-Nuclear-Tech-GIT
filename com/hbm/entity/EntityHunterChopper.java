@@ -3,6 +3,7 @@ package com.hbm.entity;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.particles.EntitySmokeFX;
 
 import cpw.mods.fml.relauncher.Side;
@@ -60,14 +61,14 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (this.isEntityInvulnerable() || !(source.isExplosion()  || ModDamageSource.getIsTau(source) || (ModDamageSource.getIsEmplacer(source) && source.getEntity() != this))) {
+		if (this.isEntityInvulnerable() || !(source.isExplosion()  || ModDamageSource.getIsTau(source) || (ModDamageSource.getIsEmplacer(source) && source.getSourceOfDamage() != this))) {
 			return false;
 		} else if(amount >= this.getHealth()) {
 			this.initDeath();
 			return false;
 		}
 		
-		if(rand.nextInt(20) == 0)
+		if(rand.nextInt(15) == 0)
 		{
 			if(!worldObj.isRemote)
 			{
@@ -83,7 +84,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 
 			for (int i = 0; i < 8; i++)
 				if(this.worldObj.isRemote)
-					worldObj.spawnParticle("fireworksSpark", this.posX, this.posY, this.posZ, d0 * i, d1 * i, d2 * i);
+					worldObj.spawnParticle("fireworksSpark", this.posX, this.posY, this.posZ, d0 * i * 0.25, d1 * i * 0.25, d2 * i * 0.25);
 		}
 
 		return super.attackEntityFrom(source, amount);
@@ -92,11 +93,13 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+		this.dataWatcher.addObject(17, Float.valueOf((float) 0));
+		this.dataWatcher.addObject(18, Float.valueOf((float) 0));
 	}
 
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1500.0D);
 	}
 
 	protected void updateEntityActionState() {
@@ -177,7 +180,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				++this.attackCounter;
 				if (attackCounter >= 200) {
 					attackCounter -= 200;
-					System.out.println(this.targetedEntity.toString());
 				}
 
 				if (this.attackCounter % 2 == 0 && attackCounter >= 120) {
@@ -251,7 +253,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				this.motionZ *= 1.2;
 			}
 			
-			if(rand.nextInt(30) == 0)
+			if(rand.nextInt(20) == 0)
 			{
 		    	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5F, true);
 			}
@@ -262,18 +264,53 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 			{
 		    	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15F, true);
 		    	this.dropItems();
-		    	this.setDead();
+				this.setDead();
 			}
 		}
 
-		float f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		if(this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) >= 10)
-			this.prevRotationYaw = this.rotationYaw -= 10;
-		if(this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) <= -10)
-			this.prevRotationYaw = this.rotationYaw += 10;
-		if(this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) < 10 && this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) > 10)
-			this.prevRotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f3) * 180.0D / Math.PI);
+		if (this.targetedEntity == null) {
+			float f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			if (this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) >= 10)
+				this.prevRotationYaw = this.rotationYaw -= 10;
+			if (this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) <= -10)
+				this.prevRotationYaw = this.rotationYaw += 10;
+			if (this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) < 10
+					&& this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) > 10)
+				this.prevRotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f3) * 180.0D / Math.PI);
+		} else {
+			float f3 = MathHelper.sqrt_double((this.posX - targetedEntity.posX) * (this.posX - targetedEntity.posX)
+					+ (this.posZ - targetedEntity.posZ) * (this.posZ - targetedEntity.posZ));
+			if (this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) >= 10)
+				this.prevRotationYaw = this.rotationYaw -= 10;
+			if (this.rotationYaw
+					- (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) <= -10)
+				this.prevRotationYaw = this.rotationYaw += 10;
+			if (this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) < 10 && this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) > 10)
+				this.rotationYaw = (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI);
+			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f3) * 180.0D / Math.PI);
+
+			double d8 = 2.0D;
+			Vec3 vec3 = this.getLook(1.0F);
+			double xStart = this.posX + vec3.xCoord * d8;
+			double yStart = this.posY - 0.5;
+			double zStart = this.posZ + vec3.zCoord * d8;
+			double d5 = this.targetedEntity.posX - xStart;
+			double d6 = this.targetedEntity.boundingBox.minY + (double) (this.targetedEntity.height / 2.0F) - yStart;
+			double d7 = this.targetedEntity.posZ - zStart;
+			
+			this.setYaw(-((float) (Math.atan2(d5, d7) * 180.0D / Math.PI) + 90));
+			f3 = MathHelper.sqrt_double(d5 * d5 + d7 * d7);
+			this.setPitch((float) (Math.atan2(d6, f3) * 180.0D / Math.PI));
+		}
+
+		if(rotationPitch <= 330 && rotationPitch >= 30)
+		{
+			if(rotationPitch < 180)
+				rotationPitch = 30;
+			if(rotationPitch >= 180)
+				rotationPitch = 330;
+		}
 	}
 
 	/**
@@ -297,11 +334,11 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	}
 
 	protected String getHurtSound() {
-		return "none";
+		return null;
 	}
 
 	protected String getDeathSound() {
-		return "none";
+		return null;
 	}
 
 	/**
@@ -393,4 +430,20 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
     	else
 			this.dropItem(ModItems.wire_magnetized_tungsten, 1);
     }
+
+	public void setYaw(float f) {
+		this.dataWatcher.updateObject(17, Float.valueOf((float) f));
+	}
+
+	public void setPitch(float f) {
+		this.dataWatcher.updateObject(18, Float.valueOf((float) f));
+	}
+	
+	public float getYaw() {
+		return this.dataWatcher.getWatchableObjectFloat(17);
+	}
+	
+	public float getPitch() {
+		return this.dataWatcher.getWatchableObjectFloat(18);
+	}
 }

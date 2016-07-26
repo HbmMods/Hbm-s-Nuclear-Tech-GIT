@@ -155,7 +155,7 @@ public class GunXVL1456 extends Item {
 
 	@Override
 	public int getItemEnchantability() {
-		return 1;
+		return 0;
 	}
 
 	@Override

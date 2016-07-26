@@ -489,6 +489,7 @@ item.gun_revolver_schrabidium.name=Schrabidiumrevolver
 item.gun_revolver_cursed.name=Verfluchte Pistole
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
+item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
@@ -497,6 +498,8 @@ item.gun_revolver_schrabidium_ammo.name=Schrabidiumpatrone
 item.gun_revolver_cursed_ammo.name=Stahlpatrone
 item.gun_fatman_ammo.name=Miniatombombe
 item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
+item.gun_osipr_ammo.name=Dunker Energiepuls-Plug
+item.gun_osipr_ammo2.name=Combine Ball
 
 tile.block_schrabidium.name=Schrabidiumblock
 item.plate_gold.name=Goldplatte
@@ -532,6 +535,14 @@ item.fins_quad_titanium.name=Kleine Titanflossen
 item.sphere_steel.name=Stahlhohlkugel
 item.pedestal_steel.name=Stahlsockel
 item.dysfunctional_reactor.name=Funktionsunfähiger Atomreaktor
+
+item.combine_scrap.name=CMB Schrott
+item.chopper_head.name=Jagdschrauber Cockpit
+item.chopper_gun.name=Pulskanone
+item.chopper_torso.name=Jagdschrauber Rumpf
+item.chopper_tail.name=Jagdschrauber Heck
+item.chopper_wing.name=Jagdschrauber Seitentragfläche
+item.chopper_blades.name=Jagdschrauber Rotorblätter
 
 item.igniter.name=Zünder
 item.watch.name=Zerbrochene Taschenuhr
