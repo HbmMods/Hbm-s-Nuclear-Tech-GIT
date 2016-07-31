@@ -491,12 +491,6 @@ public class ModelHunterChopper extends ModelBase {
 	}
 
 	public void setGunRotations(EntityHunterChopper rocket, float yaw, float pitch) {
-		//setRotation(GunBarrel, 0F, rocket.gunYaw - yaw, rocket.gunPitch - pitch);
-		//setRotation(GunBack, 0F, rocket.gunYaw - yaw, rocket.gunPitch - pitch);
-		//setRotation(GunBarrel, 0F, 0 - yaw, 0 - pitch);
-		//setRotation(GunBack, 0F, 0 - yaw, 0 - pitch);
-		//setRotation(GunBarrel, 0F, rocket.gunYaw, rocket.gunPitch);
-		//setRotation(GunBack, 0F, rocket.gunYaw, rocket.gunPitch);
 		setRotation(GunBarrel, 0F, (rocket.getYaw() - yaw) / (180F / (float)Math.PI), (rocket.getPitch() - pitch) / (180F / (float)Math.PI));
 		setRotation(GunBack, 0F, (rocket.getYaw() - yaw) / (180F / (float)Math.PI), (rocket.getPitch() - pitch) / (180F / (float)Math.PI));
 		System.out.println(rocket.getYaw());

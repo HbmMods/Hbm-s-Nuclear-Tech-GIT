@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityCombineBall;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.lib.ModDamageSource;
 
@@ -58,16 +59,34 @@ public class GunOSIPR extends Item {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo)) && count % 3 == 0) {
-
-				EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, "chopper");
+					EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, "chopper");
 				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
 
-				world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() * 0.5F));
+				world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
 
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
 				} else {
 					player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo);
+				}
+				
+				if (!world.isRemote) {
+					world.spawnEntityInWorld(entityarrow);
+				}
+			}
+		} else {
+			boolean flag = player.capabilities.isCreativeMode
+					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo2)) && count % 50 == 0 && (this.getMaxItemUseDuration(stack) - count) != 0) {
+				EntityCombineBall entityarrow = new EntityCombineBall(player.worldObj, player, 3.0F);
+				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
+
+				world.playSoundAtEntity(player, "tile.piston.in", 1.0F, 0.75F);
+
+				if (flag) {
+					entityarrow.canBePickedUp = 2;
+				} else {
+					player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo2);
 				}
 				
 				if (!world.isRemote) {

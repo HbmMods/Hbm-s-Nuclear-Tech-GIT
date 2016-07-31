@@ -424,8 +424,7 @@ public class EntityBullet extends Entity implements IProjectile {
 							movingobjectposition.entityHit.setFire(5);
 						}
 
-						if (movingobjectposition.entityHit.attackEntityFrom(damagesource,
-								/* (float)k */(float) damage)) {
+						if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float) damage)) {
 							if (movingobjectposition.entityHit instanceof EntityLivingBase) {
 								EntityLivingBase entitylivingbase = (EntityLivingBase) movingobjectposition.entityHit;
 
@@ -465,7 +464,8 @@ public class EntityBullet extends Entity implements IProjectile {
 									}
 								}
 								if (!this.getIsCritical())
-									this.setDead();
+									//this.setDead();
+									;
 							}
 						} else if (!this.getIsCritical()) {
 							/*this.motionX *= -0.10000000149011612D;
@@ -474,7 +474,7 @@ public class EntityBullet extends Entity implements IProjectile {
 							this.rotationYaw += 180.0F;
 							this.prevRotationYaw += 180.0F;
 							this.ticksInAir = 0;*/
-							this.setDead();
+							//this.setDead();
 						}
 					}
 				} else if (!this.getIsCritical()) {

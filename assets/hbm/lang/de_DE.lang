@@ -12,6 +12,8 @@ death.attack.euthanizedSelf2=%1$s gewinnt den Darwin Award.
 death.attack.tau=%1$s wurde von %2$s mit negativ geladenen Tauonen durchsiebt.
 death.attack.tauBlast=%1$s lud die XVL1456 zu lange auf und wurde in Stücke gerissen.
 death.attack.chopperBullet=%1$s wurde von %2$s gerekt.
+death.attack.cmb=%1$s wurde von %2$s pulverisiert.
+death.attack.subAtomic=%1$s's Atome wurden von %2$s vernichtet.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -297,6 +299,8 @@ item.cell_deuterium.name=Deuteriumzelle
 item.cell_tritium.name=Tritiumzelle
 item.cell_sas3.name=Schrabidiumtrisulfat-Zelle
 item.cell_anti_schrabidium.name=Antischrabidiumzelle
+item.singularity.name=Singularität
+item.singularity_counter_resonant.name=Eingefasste nicht-resonante Singularität
 
 item.inf_water.name=Unendlicher Wassertank
 item.inf_deuterium.name=Unendlicher Deuteriumtank

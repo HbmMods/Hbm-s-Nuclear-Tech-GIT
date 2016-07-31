@@ -70,6 +70,7 @@ import com.hbm.creativetabs.PartsTab;
 import com.hbm.creativetabs.TestTab;
 import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityChopperMine;
+import com.hbm.entity.EntityCombineBall;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
 import com.hbm.entity.EntityGrenadeFire;
@@ -77,6 +78,7 @@ import com.hbm.entity.EntityGrenadeFlare;
 import com.hbm.entity.EntityGrenadeFrag;
 import com.hbm.entity.EntityGrenadeGas;
 import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeLemon;
 import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityGrenadeNuke;
 import com.hbm.entity.EntityGrenadePlasma;
@@ -109,11 +111,13 @@ import com.hbm.entity.EntityNukeCloudBig;
 import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityNukeExplosion;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.entity.EntityRainbow;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.particles.EntityBSmokeFX;
 import com.hbm.particles.EntitySmokeFX;
@@ -214,6 +218,8 @@ public class MainRegistry
 		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
+		
+		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 
 		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
 		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
@@ -320,6 +326,9 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 41, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeTau.class, "entity_grenade_tau", 42, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityChopperMine.class, "entity_chopper_mine", 43, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityCombineBall.class, "entity_combine_ball", 44, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityRainbow.class, "entity_rainbow", 45, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeLemon.class, "entity_grenade_lemon", 46, this, 500, 1, true);
 
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0xffffff, 0xffffff);

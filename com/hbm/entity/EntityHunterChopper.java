@@ -93,8 +93,8 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		this.dataWatcher.addObject(17, Float.valueOf((float) 0));
-		this.dataWatcher.addObject(18, Float.valueOf((float) 0));
+		this.dataWatcher.addObject(21, Float.valueOf((float) 0));
+		this.dataWatcher.addObject(22, Float.valueOf((float) 0));
 	}
 
 	protected void applyEntityAttributes() {
@@ -274,20 +274,18 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				this.prevRotationYaw = this.rotationYaw -= 10;
 			if (this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) <= -10)
 				this.prevRotationYaw = this.rotationYaw += 10;
-			if (this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) < 10
-					&& this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) > 10)
-				this.prevRotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+			if (this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) < 10 && this.rotationYaw - (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI) > 10)
+				this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f3) * 180.0D / Math.PI);
 		} else {
-			float f3 = MathHelper.sqrt_double((this.posX - targetedEntity.posX) * (this.posX - targetedEntity.posX)
-					+ (this.posZ - targetedEntity.posZ) * (this.posZ - targetedEntity.posZ));
+			float f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			if (this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) >= 10)
 				this.prevRotationYaw = this.rotationYaw -= 10;
-			if (this.rotationYaw
-					- (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) <= -10)
+			if (this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) <= -10)
 				this.prevRotationYaw = this.rotationYaw += 10;
 			if (this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) < 10 && this.rotationYaw - (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI) > 10)
-				this.rotationYaw = (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI);
+				this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.posX - targetedEntity.posX, this.posZ - targetedEntity.posZ) * 180.0D / Math.PI);
+			
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f3) * 180.0D / Math.PI);
 
 			double d8 = 2.0D;
@@ -432,18 +430,18 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
     }
 
 	public void setYaw(float f) {
-		this.dataWatcher.updateObject(17, Float.valueOf((float) f));
+		this.dataWatcher.updateObject(21, Float.valueOf((float) f));
 	}
 
 	public void setPitch(float f) {
-		this.dataWatcher.updateObject(18, Float.valueOf((float) f));
+		this.dataWatcher.updateObject(22, Float.valueOf((float) f));
 	}
 	
 	public float getYaw() {
-		return this.dataWatcher.getWatchableObjectFloat(17);
+		return this.dataWatcher.getWatchableObjectFloat(21);
 	}
 	
 	public float getPitch() {
-		return this.dataWatcher.getWatchableObjectFloat(18);
+		return this.dataWatcher.getWatchableObjectFloat(22);
 	}
 }

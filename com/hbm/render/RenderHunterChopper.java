@@ -32,6 +32,9 @@ public class RenderHunterChopper extends Render {
 		
 		float yaw = rocket.prevRotationYaw + (rocket.rotationYaw - rocket.prevRotationYaw) * p_76986_9_ - 90.0F;
 		float pitch = rocket.prevRotationPitch + (rocket.rotationPitch - rocket.prevRotationPitch) * p_76986_9_;
+
+		GL11.glRotatef(rocket.prevRotationYaw + (rocket.rotationYaw - rocket.prevRotationYaw) * p_76986_9_ - 90.0F, 0, 1.0F, 0);
+		GL11.glRotatef(rocket.prevRotationPitch + (rocket.rotationPitch - rocket.prevRotationPitch) * p_76986_9_, 0, 0, 1.0F);
 		
 		bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/TheGadget3_.png"));
 		

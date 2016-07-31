@@ -24,6 +24,7 @@ public class EntityNukeExplosionAdvanced extends Entity {
 	public ExplosionFleija expl;
 	public int speed = 1;
 	public float coefficient = 1;
+	public float coefficient2 = 1;
 	public boolean did = false;
 	public boolean waste = true;
 
@@ -43,7 +44,7 @@ public class EntityNukeExplosionAdvanced extends Entity {
         		wst = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 1.8), this.coefficient, 2);
         		vap = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 2.5), this.coefficient, 1);
         	} else {
-            	expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient);
+            	expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
         	}
         	
         	this.did = true;

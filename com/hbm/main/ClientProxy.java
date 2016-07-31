@@ -37,6 +37,7 @@ import com.hbm.blocks.TileEntityTestRender;
 import com.hbm.blocks.TileEntityYellowBarrel;
 import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityChopperMine;
+import com.hbm.entity.EntityCombineBall;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
 import com.hbm.entity.EntityGrenadeFire;
@@ -44,6 +45,7 @@ import com.hbm.entity.EntityGrenadeFlare;
 import com.hbm.entity.EntityGrenadeFrag;
 import com.hbm.entity.EntityGrenadeGas;
 import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeLemon;
 import com.hbm.entity.EntityGrenadeNuclear;
 import com.hbm.entity.EntityGrenadeNuke;
 import com.hbm.entity.EntityGrenadePlasma;
@@ -74,6 +76,7 @@ import com.hbm.entity.EntityMissileStrong;
 import com.hbm.entity.EntityNuclearCreeper;
 import com.hbm.entity.EntityNukeCloudBig;
 import com.hbm.entity.EntityNukeCloudSmall;
+import com.hbm.entity.EntityRainbow;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
@@ -131,6 +134,7 @@ import com.hbm.render.RenderNukeTsar;
 import com.hbm.render.RenderPoleSatelliteReceiver;
 import com.hbm.render.RenderPoleTop;
 import com.hbm.render.RenderPuF6Tank;
+import com.hbm.render.RenderRainbow;
 import com.hbm.render.RenderRedBarrel;
 import com.hbm.render.RenderRocket;
 import com.hbm.render.RenderRotationTester;
@@ -200,6 +204,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeNuclear.class, new RenderSnowball(ModItems.grenade_nuclear));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadePlasma.class, new RenderSnowball(ModItems.grenade_plasma));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeTau.class, new RenderSnowball(ModItems.grenade_tau));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeLemon.class, new RenderSnowball(ModItems.grenade_lemon));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 
@@ -233,6 +238,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman_ammo, new ItemRenderMiniNuke());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRainbow.class, new RenderRainbow());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukePrototype.class, new RenderNukePrototype());
 
@@ -285,6 +291,7 @@ public class ClientProxy extends ServerProxy
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new ModEffectRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBSmokeFX.class, new BSmokeRenderer(ModItems.nuclear_waste));
+	    RenderingRegistry.registerEntityRenderingHandler(EntityCombineBall.class, new RenderSnowball(ModItems.energy_ball));
 	    
 		RenderingRegistry.addNewArmourRendererPrefix("5");
 		RenderingRegistry.addNewArmourRendererPrefix("6");

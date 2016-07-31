@@ -1,6 +1,8 @@
 package com.hbm.lib;
 
 import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityCombineBall;
+import com.hbm.entity.EntityRainbow;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -29,6 +31,14 @@ public class ModDamageSource extends DamageSource {
     public static DamageSource causeTauDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("tau", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeCombineDamage(EntityCombineBall p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("cmb", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
     }
     public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
     {
@@ -63,6 +73,22 @@ public class ModDamageSource extends DamageSource {
     	if(source instanceof EntityDamageSourceIndirect)
     	{
     		return ((EntityDamageSourceIndirect)source).damageType.equals("euthanized");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsCmb(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("cmb");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsSubatomic(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("subAtomic");
     	}
     	return false;
     }

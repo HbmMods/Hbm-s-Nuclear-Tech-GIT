@@ -20,8 +20,9 @@ public class ExplosionFleija
 	private int leg;
 	private int element;
 	public float explosionCoefficient = 1.0F;
+	public float explosionCoefficient2 = 1.0F;
 	
-	public ExplosionFleija(int x, int y, int z, World world, int rad, float coefficient)
+	public ExplosionFleija(int x, int y, int z, World world, int rad, float coefficient, float coefficient2)
 	{
 		this.posX = x;
 		this.posY = y;
@@ -31,8 +32,9 @@ public class ExplosionFleija
 		
 		this.radius = rad;
 		this.radius2 = this.radius * this.radius;
-		
+
 		this.explosionCoefficient = coefficient;
+		this.explosionCoefficient2 = coefficient2;
 		
 		this.nlimit = this.radius2 * 4;
 	}
@@ -56,7 +58,7 @@ public class ExplosionFleija
 		if (dist > 0)
 		{
 			dist = (int) Math.sqrt(dist);
-			for (int y = dist; y > -dist / this.explosionCoefficient; y--)
+			for (int y = (int)(dist / this.explosionCoefficient2); y > -dist / this.explosionCoefficient; y--)
 			{
 				if(!(this.worldObj.getBlock(this.posX+x, this.posY+y, this.posZ+z) == Blocks.bedrock && this.posY+y <= 0) && !(this.worldObj.getBlock(this.posX+x, this.posY+y, this.posZ+z) instanceof DecoBlockAlt))this.worldObj.setBlock(this.posX+x, this.posY+y, this.posZ+z, Blocks.air);
 			}
