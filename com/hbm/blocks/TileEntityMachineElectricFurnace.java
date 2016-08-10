@@ -1,5 +1,6 @@
 package com.hbm.blocks;
 
+import com.hbm.gui.MachineRecipes;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ItemBattery;
@@ -216,7 +217,8 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		{
 			return false;
 		}
-        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+        //ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+        ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
 		if(itemStack == null)
 		{
 			return false;
@@ -240,7 +242,8 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	
 	private void processItem() {
 		if(canProcess()) {
-	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+	        //ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+	        ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
 			
 			if(slots[2] == null)
 			{

@@ -286,7 +286,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.battery_schrabidium
 					&& slots[3].getItemDamage() < 1000) {
 				power += 100;
-				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+				slots[3].setItemDamage(slots[3].getItemDamage() + 1);
 			}
 
 			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.fusion_core

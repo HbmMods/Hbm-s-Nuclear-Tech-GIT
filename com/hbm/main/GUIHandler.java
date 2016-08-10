@@ -19,6 +19,7 @@ import com.hbm.blocks.TileEntityMachineCentrifuge;
 import com.hbm.blocks.TileEntityMachinePuF6Tank;
 import com.hbm.blocks.TileEntityMachineReactor;
 import com.hbm.blocks.TileEntityMachineSchrabidiumTransmutator;
+import com.hbm.blocks.TileEntityMachineShredder;
 import com.hbm.blocks.TileEntityMachineUF6Tank;
 import com.hbm.blocks.TileEntityNukeBoy;
 import com.hbm.blocks.TileEntityNukeFleija;
@@ -48,6 +49,7 @@ import com.hbm.gui.ContainerMachineCoal;
 import com.hbm.gui.ContainerMachineDeuterium;
 import com.hbm.gui.ContainerMachineDiesel;
 import com.hbm.gui.ContainerMachineSchrabidiumTransmutator;
+import com.hbm.gui.ContainerMachineShredder;
 import com.hbm.gui.ContainerNukeBoy;
 import com.hbm.gui.ContainerNukeFleija;
 import com.hbm.gui.ContainerNukeFurnace;
@@ -80,6 +82,7 @@ import com.hbm.gui.GUIMachineGenerator;
 import com.hbm.gui.GUIMachinePuF6Tank;
 import com.hbm.gui.GUIMachineReactor;
 import com.hbm.gui.GUIMachineSchrabidiumTransmutator;
+import com.hbm.gui.GUIMachineShredder;
 import com.hbm.gui.GUIMachineUF6Tank;
 import com.hbm.gui.GUINukeBoy;
 import com.hbm.gui.GUINukeFleija;
@@ -356,6 +359,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerWatzCore(player.inventory, (TileEntityWatzCore) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_shredder:
+			{
+				if(entity instanceof TileEntityMachineShredder)
+				{
+					return new ContainerMachineShredder(player.inventory, (TileEntityMachineShredder) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -614,6 +625,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityWatzCore)
 					{
 						return new GUIWatzCore(player.inventory, (TileEntityWatzCore) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_shredder:
+				{
+					if(entity instanceof TileEntityMachineShredder)
+					{
+						return new GUIMachineShredder(player.inventory, (TileEntityMachineShredder) entity);
 					}
 				}
 			}

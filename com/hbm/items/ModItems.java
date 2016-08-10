@@ -179,6 +179,10 @@ public class ModItems {
 	public static Item chopper_blades;
 	public static Item combine_scrap;
 
+	public static Item blades_steel;
+	public static Item blades_titanium;
+	public static Item blades_advanced_alloy;
+
 	public static Item pellet_rtg;
 	public static Item tritium_deuterium_cake;
 
@@ -285,6 +289,7 @@ public class ModItems {
 	public static Item rod_dual_coolant;
 	public static Item rod_quad_coolant;
 
+	public static Item scrap;
 	public static Item trinitite;
 	public static Item nuclear_waste;
 	public static Item rod_uranium_fuel_depleted;
@@ -501,6 +506,8 @@ public class ModItems {
 	public static Item mask_of_infamy;
 
 	public static Item schrabidium_hammer;
+
+	public static Item crowbar;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -744,6 +751,10 @@ public class ModItems {
 		inf_sulfur = new Item().setUnlocalizedName("inf_sulfur").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_sulfur");
 		inf_diesel = new Item().setUnlocalizedName("inf_diesel").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_diesel");
 
+		blades_steel = new ItemBlades(12000).setUnlocalizedName("blades_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":blades_steel");
+		blades_titanium = new ItemBlades(42000).setUnlocalizedName("blades_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":blades_titanium");
+		blades_advanced_alloy = new ItemBlades(72000).setUnlocalizedName("blades_advanced_alloy").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":blades_advanced_alloy");
+		
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
 		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
@@ -833,6 +844,7 @@ public class ModItems {
 
 		trinitite = new Item().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste = new Item().setUnlocalizedName("nuclear_waste").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nuclear_waste");
+		scrap = new Item().setUnlocalizedName("scrap").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":scrap");
 		rod_uranium_fuel_depleted = new Item().setUnlocalizedName("rod_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium_fuel_depleted");
 		rod_dual_uranium_fuel_depleted = new Item().setUnlocalizedName("rod_dual_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium_fuel_depleted");
 		rod_quad_uranium_fuel_depleted = new Item().setUnlocalizedName("rod_quad_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_uranium_fuel_depleted");
@@ -1073,6 +1085,7 @@ public class ModItems {
 		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
 		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
 		matchstick = new ItemMatch().setUnlocalizedName("matchstick").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":matchstick");
+		crowbar = new ModSword(MainRegistry.enumToolMaterialTitanium).setUnlocalizedName("crowbar").setFull3D().setTextureName(RefStrings.MODID + ":crowbar");
 
 		bucket_mud = new ItemModBucket(ModBlocks.mud_block).setUnlocalizedName("bucket_mud").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.tabBlock).setTextureName(RefStrings.MODID + ":bucket_mud");
 
@@ -1342,6 +1355,11 @@ public class ModItems {
 		GameRegistry.registerItem(redcoil_capacitor, redcoil_capacitor.getUnlocalizedName());
 		GameRegistry.registerItem(titanium_filter, titanium_filter.getUnlocalizedName());
 		
+		//Shredder Blades
+		GameRegistry.registerItem(blades_steel, blades_steel.getUnlocalizedName());
+		GameRegistry.registerItem(blades_titanium, blades_titanium.getUnlocalizedName());
+		GameRegistry.registerItem(blades_advanced_alloy, blades_advanced_alloy.getUnlocalizedName());
+		
 		//Fuelrods
 		GameRegistry.registerItem(rod_empty, rod_empty.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_empty, rod_dual_empty.getUnlocalizedName());
@@ -1440,6 +1458,7 @@ public class ModItems {
 		GameRegistry.registerItem(rod_dual_waste, rod_dual_waste.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_waste, rod_quad_waste.getUnlocalizedName());
 		
+		GameRegistry.registerItem(scrap, scrap.getUnlocalizedName());
 		GameRegistry.registerItem(trinitite, trinitite.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste, nuclear_waste.getUnlocalizedName());
 		
@@ -1533,6 +1552,7 @@ public class ModItems {
 		GameRegistry.registerItem(alloy_shovel, alloy_shovel.getUnlocalizedName());
 		GameRegistry.registerItem(alloy_hoe, alloy_hoe.getUnlocalizedName());
 		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
+		GameRegistry.registerItem(crowbar, crowbar.getUnlocalizedName());
 		
 		//Syringes
 		GameRegistry.registerItem(syringe_empty, syringe_empty.getUnlocalizedName());

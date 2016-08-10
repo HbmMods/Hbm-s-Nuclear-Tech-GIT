@@ -320,20 +320,6 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			}
 		}
 	}
-	
-	public boolean isItemValid() {
-		
-		if(slots[1] != null && slots[1].getItem() == Items.coal)
-		{
-			return true;
-		}
-		if(slots[1] != null && slots[1].getItem() == Item.getItemFromBlock(Blocks.coal_block))
-		{
-			return true;
-		}
-		
-		return false;
-	}
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {

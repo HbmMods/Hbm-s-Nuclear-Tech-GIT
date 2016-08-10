@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
@@ -43,6 +44,7 @@ import com.hbm.blocks.TileEntityMachineCentrifuge;
 import com.hbm.blocks.TileEntityMachinePuF6Tank;
 import com.hbm.blocks.TileEntityMachineReactor;
 import com.hbm.blocks.TileEntityMachineSchrabidiumTransmutator;
+import com.hbm.blocks.TileEntityMachineShredder;
 import com.hbm.blocks.TileEntityMachineUF6Tank;
 import com.hbm.blocks.TileEntityNukeBoy;
 import com.hbm.blocks.TileEntityNukeFleija;
@@ -115,6 +117,8 @@ import com.hbm.entity.EntityRainbow;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
+import com.hbm.gui.MachineRecipes;
+import com.hbm.gui.MachineRecipes.ShredderRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
@@ -128,6 +132,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = RefStrings.MODID, name = RefStrings.NAME, version = RefStrings.VERSION)
@@ -281,6 +286,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 		GameRegistry.registerTileEntity(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
 		GameRegistry.registerTileEntity(TileEntityWatzCore.class, "tileentity_watz_powerplant");
+		GameRegistry.registerTileEntity(TileEntityMachineShredder.class, "tileentity_machine_shredder");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -423,7 +429,14 @@ public class MainRegistry
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent)
 	{
+		ShredderRecipe recipes = new MachineRecipes().new ShredderRecipe();
 		
+		recipes.registerEverythingImSrs();
+		
+		recipes.addRecipes();
+		
+		//if(MainRegistry.enableDebugMode)
+			recipes.PrintRecipes();
 	}
 	
 	@EventHandler

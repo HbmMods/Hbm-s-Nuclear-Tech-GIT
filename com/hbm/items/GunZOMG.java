@@ -90,7 +90,7 @@ public class GunZOMG extends Item {
 						if (world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, user!"));
 						}
-						stack.stackTagCompound.setBoolean("superuser", true);
+						stack.stackTagCompound.setBoolean("superuser", false);
 					}
 				} else {
 					if (world.isRemote) {
@@ -177,5 +177,24 @@ public class GunZOMG extends Item {
 	@Override
 	public int getItemEnchantability() {
 		return 0;
+	}
+
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+		if(itemstack.getTagCompound() == null)
+		{
+			list.add("Gun not validated.");
+		} else if(itemstack.getTagCompound().getBoolean("valid")) {
+			if(itemstack.getTagCompound().getBoolean("superuser")) {
+				list.add("Gun set to superuser mode.");
+				list.add("Firing mode: Negative energy bursts");
+			} else {
+				list.add("Gun set to regular user mode.");
+				list.add("Firing mode: Dark pulse spray");
+			}
+		} else {
+			list.add("Gun not validated.");
+		}
 	}
 }

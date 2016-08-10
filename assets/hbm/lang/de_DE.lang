@@ -155,6 +155,15 @@ tile.watz_conductor.name=Watz-Stromanschluss
 tile.watz_core.name=Watzreaktorkern
 container.watzPowerplant=Watzkraftwerk
 
+tile.fwatz_conductor.name=4000K Supraleiter-Magnet
+tile.fwatz_cooler.name=Kühlmitteltankhülle
+tile.fwatz_tank.name=Kühlmitteltank
+tile.fwatz_scaffold.name=Watzwerkstützen
+tile.fwatz_hatch.name=Watzwerkzugriffsluke
+tile.fwatz_computer.name=Watzwerkrechenmatrix
+tile.fwatz_core.name=Fusionarer Watzwerkkern
+tile.fwatz_plasma.name=Destabilisiertes Antischrabidiumplasma
+
 item.fuse.name=Sicherung
 
 tile.test_nuke.name=Test Atombombe
@@ -427,6 +436,7 @@ item.grenade_gas.name=Gasgranate
 item.grenade_plasma.name=Plasmagranate
 item.grenade_tau.name=Taugranate
 item.grenade_schrabidium.name=Schrabidiumgranate
+item.grenade_lemon.name=Zitronengranate
 item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
 
@@ -470,6 +480,7 @@ item.apple_schrabidium.name=Schrabidiumapfel
 item.cotton_candy.name=Radioaktive Zuckerwatte
 item.tem_flakes.name=Tem Flakes
 item.glowing_stew.name=Leuchtende Pilzsuppe
+item.lemon.name="Zitrone"
 
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_dirt.name=Gefrorene Erde
@@ -494,6 +505,7 @@ item.gun_revolver_cursed.name=Verfluchte Pistole
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
+item.gun_zomg.name=Singularitätsbetriebener Paarvernichtungsstrahl "ZOMG Kanone"
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone

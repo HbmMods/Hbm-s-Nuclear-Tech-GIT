@@ -155,6 +155,15 @@ tile.watz_conductor.name=Watz Electricity Port
 tile.watz_core.name=Watz Reactor Control
 container.watzPowerplant=Watz Power Plant
 
+tile.fwatz_conductor.name=4000K Superconducting Magnet
+tile.fwatz_cooler.name=Regenerative Coolant Fluid Tank Shell
+tile.fwatz_tank.name=Regenerative Coolant Fluid Tank
+tile.fwatz_scaffold.name=Fusionary Watz Plant Structural Support
+tile.fwatz_hatch.name=Fusionary Watz Plant Access Hatch
+tile.fwatz_computer.name=Fusionary Watz Reactor Calculation Matrix
+tile.fwatz_core.name=Fusionary Watz Reactor Control
+tile.fwatz_plasma.name=Destabilized Antischrabidium Plasma
+
 item.fuse.name=Fuse
 
 tile.test_nuke.name=Test Nuke
@@ -427,6 +436,7 @@ item.grenade_gas.name=Gas Grenade
 item.grenade_plasma.name=Plasma Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
+item.grenade_lemon.name=Combustible Lemon
 item.grenade_nuke.name=Mark VI Drill Grenade
 item.grenade_nuclear.name=Nuka Grenade
 
@@ -470,6 +480,7 @@ item.apple_schrabidium.name=Schrabidium Apple
 item.cotton_candy.name=Radioactive Cotton Candy
 item.tem_flakes.name=Tem Flakes
 item.glowing_stew.name=Glowing Mushroom Stew
+item.lemon.name="Lemon"
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt
@@ -494,6 +505,7 @@ item.gun_revolver_cursed.name=Cursed Revolver
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
 item.gun_osipr.name=Overwatch Standard Issue Pulse Rifle
+item.gun_zomg.name=Singularity Powered Annihilation Ray "ZOMG Cannon"
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet

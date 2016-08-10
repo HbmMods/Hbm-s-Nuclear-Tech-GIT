@@ -2,16 +2,20 @@ package com.hbm.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.registry.GameData;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class MachineRecipes {
 
@@ -369,7 +373,8 @@ public class MachineRecipes {
 				new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
 				new ItemStack(ModItems.canister_fuel, 1));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
+		recipes.put(
+				new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
 				new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
 		return recipes;
 	}
@@ -507,5 +512,203 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.rod_quad_schrabidium));
 		fuels.add(new ItemStack(ModItems.pellet_rtg));
 		return fuels;
+	}
+
+	public class ShredderRecipe {
+
+		public ItemStack input;
+		public ItemStack output;
+
+		public void registerEverythingImSrs() {
+			
+			//Makes the OreDict easily accessible. Neat.
+
+			for (Object item : GameData.getItemRegistry()) {
+
+				List<String> list = new ArrayList<String>();
+				int[] array;
+
+				if (item instanceof Item) {
+
+					ItemStack stack = new ItemStack((Item) item);
+					array = OreDictionary.getOreIDs(stack);
+
+					for (int i = 0; i < array.length; i++) {
+						//if (!OreDictionary.getOreName(array[i]).equals("Unknown")) {
+							list.add(OreDictionary.getOreName(array[i]));
+						//}
+					}
+					//if(list.size() > 0)
+						theWholeThing.add(new DictCouple(stack, list));
+				}
+			}
+
+			for (Object block : GameData.getBlockRegistry()) {
+
+				List<String> list = new ArrayList<String>();
+				int[] array;
+
+				if (block instanceof Block) {
+
+					ItemStack stack = new ItemStack((Block) block);
+					array = OreDictionary.getOreIDs(stack);
+
+					for (int i = 0; i < array.length; i++) {
+						//if (!OreDictionary.getOreName(array[i]).equals("Unknown")) {
+							list.add(OreDictionary.getOreName(array[i]));
+						//}
+					}
+					
+					//if(list.size() > 0)
+						theWholeThing.add(new DictCouple(stack, list));
+				}
+			}
+			
+			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");
+		}
+
+		public void addRecipes() {
+
+			// Not very efficient, I know, but at least it works AND it's
+			// somewhat smart!
+			
+			for(int i = 0; i < theWholeThing.size(); i++)
+			{
+				for(int j = 0; j < theWholeThing.get(i).list.size(); j++)
+				{
+					String s = theWholeThing.get(i).list.get(j);
+					
+					if (s.length() > 5 && s.substring(0, 5).equals("ingot")) {
+						ItemStack stack = canFindDustByName(s.substring(5));
+						if (stack != null) {
+							setRecipe(theWholeThing.get(i).item, stack);
+						} else {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+						}
+					} else if (s.length() > 3 && s.substring(0, 3).equals("ore")) {
+						ItemStack stack = canFindDustByName(s.substring(3));
+						if (stack != null) {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2));
+						} else {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+						}
+					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
+						ItemStack stack = canFindDustByName(s.substring(5));
+						if (stack != null) {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 9));
+						} else {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+						}
+					} else if (s.length() > 4 && s.substring(0, 4).equals("dust")) {
+							setRecipe(theWholeThing.get(i).item, theWholeThing.get(i).item);
+					} else {
+						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+					}
+				}
+				
+				if(theWholeThing.get(i).list.isEmpty())
+					setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+			}
+
+			System.out.println("Added " + recipes.size() + " in total.");
+			System.out.println("Added " + dustCount + " ore dust recipes.");
+		}
+		
+		public ItemStack canFindDustByName(String s) {
+			
+			for(DictCouple d : theWholeThing)
+			{
+				for(String s1 : d.list)
+				{
+					if(s1.length() > 4 && s1.substring(0, 4).equals("dust") && s1.substring(4).equals(s))
+					{
+						dustCount++;
+						return d.item;
+					}
+				}
+			}
+			
+			return null;
+		}
+		
+		public void setRecipe(ItemStack inp, ItemStack outp) {
+			ShredderRecipe recipe = new ShredderRecipe();
+			
+			recipe.input = inp;
+			recipe.output = outp;
+			
+			recipes.add(recipe);
+		}
+		
+		public void PrintRecipes() {
+			/*for(int i = 0; i < recipes.size(); i++) {
+				System.out.println("Recipe #" + i + ", " + recipes.get(i).input + " - " + recipes.get(i).output);
+			}*/
+			/*for(int i = 0; i < theWholeThing.size(); i++) {
+			System.out.println(theWholeThing.get(i).item);
+			}*/
+			/*for(int i = 0; i < theWholeThing.size(); i++) {
+				//for(int j = 0; j < theWholeThing.get(i).list.size(); j++)
+				{
+					//System.out.println(theWholeThing.get(i).item + " | " + getShredderResult(theWholeThing.get(i).item));
+				}
+				
+				
+			}*/
+
+			/*for (int j = 0; j < recipes.size(); j++) {
+				if (recipes.get(j) != null && recipes.get(j).input != null && recipes.get(j).output != null &&
+						recipes.get(j).input.getItem() != null && recipes.get(j).output.getItem() != null)
+					System.out.println(recipes.get(j).input + " | " + recipes.get(j).output);
+				else
+					System.out.println(recipes.get(j));
+			}
+
+			System.out.println("TWT: " + theWholeThing.size() + ", REC: " + recipes.size());*/
+		}
+	}
+
+	public static class DictCouple {
+		
+		public ItemStack item;
+		public List<String> list;
+
+		public DictCouple(ItemStack item, List<String> list) {
+			this.item = item;
+			this.list = list;
+		}
+		
+		public static List<String> findWithStack(ItemStack stack) {
+			for(DictCouple couple : theWholeThing) {
+				if(couple.item.equals(stack));
+					return couple.list;
+			}
+			
+			return null;
+		}
+	}
+
+	public static List<ShredderRecipe> recipes = new ArrayList<ShredderRecipe>();
+	public static List<DictCouple> theWholeThing = new ArrayList<DictCouple>();
+	public static int dustCount = 0;
+	
+	public static ItemStack getShredderResult(ItemStack stack) {
+		for(ShredderRecipe rec : recipes)
+		{
+			if(stack != null && rec.input.getItem().equals(stack.getItem()))
+				return rec.output.copy();
+		}
+		
+		return null;
+	}
+	
+	public Map<Object, Object> getShredderRecipes() {
+		Map<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(int i = 0; i < this.recipes.size(); i++) {
+			recipes.put(((ShredderRecipe)recipes.get(i)).input, ((ShredderRecipe)recipes.get(i)).output);
+		}
+		
+		return recipes;
 	}
 }
