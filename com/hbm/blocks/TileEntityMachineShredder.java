@@ -34,9 +34,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	public static final int maxPower = 10000;
 	public static final int processingSpeed = 60;
 	
-	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] {1, 2};
-	private static final int[] slots_side = new int[] {2};
+	private static final int[] slots_top = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
+	private static final int[] slots_bottom = new int[] {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29};
+	private static final int[] slots_side = new int[] {27, 28, 29};
 	
 	private String customName;
 	
@@ -77,7 +77,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machineDiesel";
+		return this.hasCustomInventoryName() ? this.customName : "container.machineShredder";
 	}
 
 	@Override
@@ -113,10 +113,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		if(i == 0)
-			if(stack.getItem() == ModItems.canister_fuel || stack.getItem() == Item.getItemFromBlock(ModBlocks.red_barrel))
 				return true;
 		if(i == 2)
-			if(stack.getItem() instanceof ItemBattery)
+			if(stack.getItem() instanceof ItemBattery || stack.getItem() instanceof ItemBlades)
 				return true;
 		
 		return false;
@@ -195,11 +194,10 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 1)
-			if(itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
+		if(i >= 9 && i <= 28)
 				return true;
-		if(i == 2)
-			if(itemStack.getItemDamage() == 0)
+		if(i >= 27 && i <= 29)
+			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
 				return true;
 		
 		return false;
@@ -239,6 +237,12 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 					this.processItem();
 					flag1 = true;
 				}
+				if(soundCycle == 0)
+		        	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 0.75F);
+				soundCycle++;
+				
+				if(soundCycle >= 50)
+					soundCycle = 0;
 			}else{
 				progress = 0;
 			}
@@ -437,5 +441,39 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	@Override
 	public int getMaxPower() {
 		return this.maxPower;
+	}
+	
+	public int getGearLeft() {
+		
+		if(slots[27] != null && slots[27].getItem() instanceof ItemBlades)
+		{
+			if(slots[27].getItemDamage() < slots[27].getItem().getMaxDamage()/2)
+			{
+				return 1;
+			} else if(slots[27].getItemDamage() != slots[27].getItem().getMaxDamage()) {
+				return 2;
+			} else {
+				return 3;
+			}
+		}
+		
+		return 0;
+	}
+	
+	public int getGearRight() {
+		
+		if(slots[28] != null && slots[28].getItem() instanceof ItemBlades)
+		{
+			if(slots[28].getItemDamage() < slots[28].getItem().getMaxDamage()/2)
+			{
+				return 1;
+			} else if(slots[28].getItemDamage() != slots[28].getItem().getMaxDamage()) {
+				return 2;
+			} else {
+				return 3;
+			}
+		}
+		
+		return 0;
 	}
 }

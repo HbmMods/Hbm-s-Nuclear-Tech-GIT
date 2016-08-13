@@ -14,6 +14,7 @@ public class ContainerMachineShredder extends Container {
 	
 	private TileEntityMachineShredder diFurnace;
 	private int power;
+	private int progress;
 	
 	public ContainerMachineShredder(InventoryPlayer invPlayer, TileEntityMachineShredder tedf) {
 		power = 0;
@@ -69,6 +70,7 @@ public class ContainerMachineShredder extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.progress);
 	}
 	
 	@Override
@@ -82,16 +84,17 @@ public class ContainerMachineShredder extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 2) {
-				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true))
+            if (par2 <= 29) {
+				if (!this.mergeItemStack(var5, 30, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 1, false))
+			else
 			{
-				if (!this.mergeItemStack(var5, 2, 3, false))
-					return null;
+				if (!this.mergeItemStack(var5, 0, 9, false))
+					if (!this.mergeItemStack(var5, 27, 30, false))
+						return null;
 			}
 			
 			if (var5.stackSize == 0)
@@ -124,9 +127,15 @@ public class ContainerMachineShredder extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
+			
+			if(this.progress != this.diFurnace.progress)
+			{
+				par1.sendProgressBarUpdate(this, 1, this.diFurnace.progress);
+			}
 		}
-		
+
 		this.power = this.diFurnace.power;
+		this.progress = this.diFurnace.progress;
 	}
 	
 	@Override
@@ -134,6 +143,10 @@ public class ContainerMachineShredder extends Container {
 		if(i == 0)
 		{
 			diFurnace.power = j;
+		}
+		if(i == 1)
+		{
+			diFurnace.progress = j;
 		}
 	}
 }

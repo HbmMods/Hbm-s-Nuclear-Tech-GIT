@@ -600,7 +600,7 @@ public class MachineRecipes {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
 					} else if (s.length() > 4 && s.substring(0, 4).equals("dust")) {
-							setRecipe(theWholeThing.get(i).item, theWholeThing.get(i).item);
+							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
 					} else {
 						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 					}
@@ -640,6 +640,21 @@ public class MachineRecipes {
 			recipes.add(recipe);
 		}
 		
+		public void overridePreSetRecipe(ItemStack inp, ItemStack outp) {
+			for(int i = 0; i < recipes.size(); i++)
+			{
+				if(recipes.get(i) != null && 
+						recipes.get(i).input != null && 
+						recipes.get(i).input.getItem() != null && 
+						recipes.get(i).output != null && 
+						inp != null && 
+						inp.getItem() != null && 
+						outp != null && 
+						recipes.get(i).input.getItem().equals(inp.getItem()))
+					recipes.get(i).output = outp;
+			}
+		}
+		
 		public void PrintRecipes() {
 			/*for(int i = 0; i < recipes.size(); i++) {
 				System.out.println("Recipe #" + i + ", " + recipes.get(i).input + " - " + recipes.get(i).output);
@@ -656,7 +671,7 @@ public class MachineRecipes {
 				
 			}*/
 
-			/*for (int j = 0; j < recipes.size(); j++) {
+			for (int j = 0; j < recipes.size(); j++) {
 				if (recipes.get(j) != null && recipes.get(j).input != null && recipes.get(j).output != null &&
 						recipes.get(j).input.getItem() != null && recipes.get(j).output.getItem() != null)
 					System.out.println(recipes.get(j).input + " | " + recipes.get(j).output);
@@ -664,7 +679,7 @@ public class MachineRecipes {
 					System.out.println(recipes.get(j));
 			}
 
-			System.out.println("TWT: " + theWholeThing.size() + ", REC: " + recipes.size());*/
+			System.out.println("TWT: " + theWholeThing.size() + ", REC: " + recipes.size());
 		}
 	}
 

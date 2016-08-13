@@ -217,8 +217,8 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		{
 			return false;
 		}
-        //ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
-        ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
+        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+        //ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
 		if(itemStack == null)
 		{
 			return false;
@@ -242,8 +242,8 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	
 	private void processItem() {
 		if(canProcess()) {
-	        //ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
-	        ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
+	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+	        //ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
 			
 			if(slots[2] == null)
 			{

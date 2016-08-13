@@ -569,4 +569,15 @@ public class EntityCombineBall extends Entity implements IProjectile
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
         return (b0 & 1) != 0;
     }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender(float p_70070_1_) {
+		return super.getBrightnessForRender(p_70070_1_);
+	}
+
+	@Override
+	public float getBrightness(float p_70013_1_) {
+		return super.getBrightness(p_70013_1_);
+	}
 }

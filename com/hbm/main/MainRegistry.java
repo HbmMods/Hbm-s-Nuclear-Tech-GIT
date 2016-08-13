@@ -2,6 +2,8 @@ package com.hbm.main;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -119,6 +121,7 @@ import com.hbm.entity.EntitySchrab;
 import com.hbm.entity.EntityTestMissile;
 import com.hbm.gui.MachineRecipes;
 import com.hbm.gui.MachineRecipes.ShredderRecipe;
+import com.hbm.handler.FuelHandler;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
@@ -223,6 +226,7 @@ public class MainRegistry
 		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
+		GameRegistry.registerFuelHandler(new FuelHandler());
 		
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 
@@ -400,6 +404,14 @@ public class MainRegistry
 		OreDictionary.registerOre("plateIron", ModItems.plate_iron);
 		OreDictionary.registerOre("plateGold", ModItems.plate_gold);
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
+		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
+		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
+		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
+		OreDictionary.registerOre("dustTitanium", ModItems.powder_titanium);
+		OreDictionary.registerOre("dustTungsten", ModItems.powder_tungsten);
+		OreDictionary.registerOre("dustCopper", ModItems.powder_copper);
+		OreDictionary.registerOre("dustBeryllium", ModItems.powder_beryllium);
+		OreDictionary.registerOre("dustAluminum", ModItems.powder_aluminium);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
 		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_titanium);
@@ -412,6 +424,7 @@ public class MainRegistry
 		OreDictionary.registerOre("oreAluminum", ModBlocks.ore_aluminium);
 		OreDictionary.registerOre("oreFluorite", ModBlocks.ore_fluorite);
 		OreDictionary.registerOre("oreLead", ModBlocks.ore_lead);
+		OreDictionary.registerOre("oreBeryllium", ModBlocks.ore_beryllium);
 
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
 		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
@@ -424,6 +437,7 @@ public class MainRegistry
 		OreDictionary.registerOre("blockFluorite", ModBlocks.block_fluorite);
 		OreDictionary.registerOre("blockSteel", ModBlocks.block_steel);
 		OreDictionary.registerOre("blockLead", ModBlocks.block_lead);
+		OreDictionary.registerOre("blockBeryllium", ModBlocks.block_beryllium);
 	}
 	
 	@EventHandler
@@ -434,9 +448,12 @@ public class MainRegistry
 		recipes.registerEverythingImSrs();
 		
 		recipes.addRecipes();
+
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
 		
-		//if(MainRegistry.enableDebugMode)
-			recipes.PrintRecipes();
+		recipes.PrintRecipes();
 	}
 	
 	@EventHandler

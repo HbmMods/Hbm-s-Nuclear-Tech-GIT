@@ -40,8 +40,45 @@ public class GUIMachineShredder extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
-			//drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 176, 52 - i, 16, i);
+			int i = diFurnace.getPowerScaled(88);
+			drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 160 - i, 16, i);
 		}
+		
+		if(diFurnace.getGearLeft() != 0)
+		{
+			int i = diFurnace.getGearLeft();
+			if(i == 1)
+			{
+				drawTexturedModalRect(guiLeft + 43, guiTop + 71, 176, 0, 18, 18);
+			}
+			if(i == 2)
+			{
+				drawTexturedModalRect(guiLeft + 43, guiTop + 71, 176, 18, 18, 18);
+			}
+			if(i == 3)
+			{
+				drawTexturedModalRect(guiLeft + 43, guiTop + 71, 176, 36, 18, 18);
+			}
+		}
+		
+		if(diFurnace.getGearRight() != 0)
+		{
+			int i = diFurnace.getGearRight();
+			if(i == 1)
+			{
+				drawTexturedModalRect(guiLeft + 79, guiTop + 71, 194, 0, 18, 18);
+			}
+			if(i == 2)
+			{
+				drawTexturedModalRect(guiLeft + 79, guiTop + 71, 194, 18, 18, 18);
+			}
+			if(i == 3)
+			{
+				drawTexturedModalRect(guiLeft + 79, guiTop + 71, 194, 36, 18, 18);
+			}
+		}
+		
+		int j1 = diFurnace.getDiFurnaceProgressScaled(34);
+		drawTexturedModalRect(guiLeft + 63, guiTop + 89, 176, 54, j1 + 1, 18);
 	}
 }

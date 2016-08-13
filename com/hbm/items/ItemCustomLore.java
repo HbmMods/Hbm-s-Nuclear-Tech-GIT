@@ -320,6 +320,11 @@ public class ItemCustomLore extends Item {
 			list.add("Not actual cake, but great");
 			list.add("universal fusion fuel!");
 		}
+		
+		if(this == ModItems.dust)
+		{
+			list.add("I hate dust!");
+		}
 	}
 
     @Override

@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemArmor;
@@ -137,7 +138,7 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 			if(source.isExplosion())
 				return new ArmorProperties(1, 1, MathHelper.floor_double(10));
 		}
-		return new ArmorProperties(1, 1, MathHelper.floor_double(3));
+		return new ArmorProperties(1, 1, MathHelper.floor_double(15));
 	}
 
 	@Override

@@ -35,10 +35,10 @@ public class MachineShredder extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_bottom");
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_top");
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_side");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_front");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_bottom");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_top");
+		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_side");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_front");
 	}
 	
 	@Override

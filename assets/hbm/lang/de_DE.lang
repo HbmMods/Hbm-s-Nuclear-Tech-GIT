@@ -79,6 +79,8 @@ tile.therm_exo.name=Exothermische Bombe
 
 tile.crashed_bomb.name=Blindgänger
 
+tile.crate.name=Vorratskiste
+
 tile.machine_difurnace_off.name=Legierungshochofen
 tile.machine_difurnace_on.name=Legierungshochofen
 container.diFurnace=Legierungshochofen
@@ -116,6 +118,8 @@ tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
 container.machine_schrabidium_transmutator=Schrabidium-Transmutationsgerät
 tile.machine_diesel.name=Dieselgenerator
 container.machineDiesel=Dieselgenerator
+tile.machine_shredder.name=Shredder
+container.machineShredder=Shredder
 
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
@@ -275,6 +279,15 @@ tile.ore_lead.name=Bleierz
 item.powder_lead.name=Bleistaub
 item.powder_neptunium.name=Neptuniumstaub
 item.powder_schrabidium.name=Schrabidiumstaub
+item.powder_iron.name=Eisenstaub
+item.powder_gold.name=Goldstaub
+item.powder_aluminium.name=Aluminiumstaub
+item.powder_beryllium.name=Berylliumstaub
+item.powder_copper.name=Kupferstaub
+item.powder_titanium.name=Titanstaub
+item.powder_tungsten.name=Wolframstaub
+item.powder_uranium.name=Uranstaub
+item.dust.name=Staub
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -413,6 +426,7 @@ tile.waste_planks.name=Verkohlte Holzbretter
 
 item.trinitite.name=Trinitit
 item.nuclear_waste.name=Atommüll
+item.scrap.name=Schrott
 
 item.ingot_uranium_fuel.name=Urankernbrennstoffbarren
 item.ingot_plutonium_fuel.name=Plutoniumkernbrennstoffbarren
@@ -517,6 +531,14 @@ item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
 item.gun_osipr_ammo.name=Dunker Energiepuls-Plug
 item.gun_osipr_ammo2.name=Combine Ball
 
+item.clip_revolver_iron.name=Box voll Eisenkugeln
+item.clip_revolver.name=.357 Magnum Patronen
+item.clip_revolver_gold.name=Schatulle mit goldenen Patronen
+item.clip_revolver_schrabidium.name=Schrabidium-Muntionsbehälter
+item.clip_rpg.name=Raketenbehälter
+item.clip_xvl1456.name=Große Isotopenbox
+item.clip_osipr.name=AR2 Magazin
+
 tile.block_schrabidium.name=Schrabidiumblock
 item.plate_gold.name=Goldplatte
 
@@ -583,6 +605,7 @@ item.schrabidium_shovel.name=Schrabidiumschaufel
 item.schrabidium_hoe.name=Schrabidiumfeldhacke
 
 item.chainsaw.name=Kettensäge
+item.crowbar.name=Mk.V Kistenöffnungsapparat "Brechstange"
 
 item.mask_of_infamy.name=Maske der Schande
 
@@ -651,6 +674,7 @@ item.thruster_large.name=Großes Raketentriebwerk
 
 item.wand_k.name=Konstruktions-Zauberstab
 item.wand_s.name=Struktur-Zauberstab
+item.wand_d.name=Debug-Zauberstab
 
 item.steel_helmet.name=Stahlhelm
 item.steel_plate.name=Stahlbrustpanzer
@@ -734,3 +758,12 @@ item.can_smart.name='Smart' Energy-Drink
 item.can_creature.name='Creature' Energy-Drink
 item.can_redbomb.name='Red Bomb' Energy-Drink
 item.can_mrsugar.name='Dr. Sugar' Softdrink
+
+item.blades_aluminium.name=Aluminiumsägeblatt
+item.blades_gold.name=Goldenes Sägeblatt
+item.blades_iron.name=Eisensägeblatt
+item.blades_steel.name=Stahlsägeblatt
+item.blades_titanium.name=Titansägeblatt
+item.blades_advanced_alloy.name=Fortgeschrittenes Sägeblatt
+item.blades_combine_steel.name=CMB-Sägeblatt
+item.blades_schrabidium.name=Schrabidiumsägeblatt

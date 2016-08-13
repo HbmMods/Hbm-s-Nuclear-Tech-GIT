@@ -79,6 +79,8 @@ tile.therm_exo.name=Exothermic Bomb
 
 tile.crashed_bomb.name=Dud
 
+tile.crate.name=Supply Crate
+
 tile.machine_difurnace_off.name=Alloy Furnace
 tile.machine_difurnace_on.name=Alloy Furnace
 container.diFurnace=Alloy Furnace
@@ -116,6 +118,8 @@ tile.machine_schrabidium_transmutator.name=Schrabidium Transmutation Device
 container.machine_schrabidium_transmutator=Schrabidium Transmutation Device
 tile.machine_diesel.name=Diesel Generator
 container.machineDiesel=Diesel Generator
+tile.machine_shredder.name=Shredder
+container.machineShredder=Shredder
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
@@ -275,6 +279,15 @@ tile.ore_lead.name=Lead Ore
 item.powder_lead.name=Lead Powder
 item.powder_neptunium.name=Neptunium Powder
 item.powder_schrabidium.name=Schrabidium Powder
+item.powder_iron.name=Iron Powder
+item.powder_gold.name=Gold Powder
+item.powder_aluminium.name=Aluminium Powder
+item.powder_beryllium.name=Beryllium Powder
+item.powder_copper.name=Copper Powder
+item.powder_titanium.name=Titanium Powder
+item.powder_tungsten.name=Tungsten Powder
+item.powder_uranium.name=Uranium Powder
+item.dust.name=Dust
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
@@ -413,6 +426,7 @@ tile.waste_planks.name=Charred Wooden Planks
 
 item.trinitite.name=Trinitite
 item.nuclear_waste.name=Nuclear Waste
+item.scrap.name=Scrap
 
 item.ingot_uranium_fuel.name=Ingot of Uranium Fuel
 item.ingot_plutonium_fuel.name=Ingot of Plutonium Fuel
@@ -517,6 +531,14 @@ item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
 item.gun_osipr_ammo.name=Dark Energy Pulse Plug
 item.gun_osipr_ammo2.name=Combine Ball
 
+item.clip_revolver_iron.name=Box of Iron Rounds
+item.clip_revolver.name=Box of .357 Rounds
+item.clip_revolver_gold.name=Small Coffer of Golden Bullets
+item.clip_revolver_schrabidium.name=Schrabidium Ammo Container
+item.clip_rpg.name=Rocket Container
+item.clip_xvl1456.name=Large Isotope Box
+item.clip_osipr.name=AR2 Magazine
+
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate
 
@@ -583,6 +605,7 @@ item.schrabidium_shovel.name=Schrabidium Shovel
 item.schrabidium_hoe.name=Schrabidium Hoe
 
 item.chainsaw.name=Chainsaw
+item.crowbar.name=Mk.V Crate Opening Device "Crowbar"
 
 item.mask_of_infamy.name=Mask of Infamy
 
@@ -651,6 +674,7 @@ item.thruster_large.name=Large Thruster
 
 item.wand_k.name=Construction Wand
 item.wand_s.name=Structure Wand
+item.wand_d.name=Debug Wand
 
 item.steel_helmet.name=Steel Helmet
 item.steel_plate.name=Steel Chestplate
@@ -734,3 +758,12 @@ item.can_smart.name='Smart' Energy Drink
 item.can_creature.name='Creature' Energy Drink
 item.can_redbomb.name='Red Bomb' Energy Drink
 item.can_mrsugar.name='Dr. Sugar' Soft Drink
+
+item.blades_aluminium.name=Aluminium Shredder Blades
+item.blades_gold.name=Golden Shredder Blades
+item.blades_iron.name=Iron Shredder Blades
+item.blades_steel.name=Steel Shredder Blades
+item.blades_titanium.name=Titanium Shredder Blades
+item.blades_advanced_alloy.name=Advanced Shredder Blades
+item.blades_combine_steel.name=CMB Shredder Blades
+item.blades_schrabidium.name=Schrabidium Shredder Blades

@@ -113,6 +113,8 @@ public class ModBlocks {
 	public static Block red_barrel;
 	public static Block yellow_barrel;
 	public static Block crashed_balefire;
+
+	public static Block crate;
 	
 	public static Block nuke_gadget;
 	public static final int guiID_nuke_gadget = 3;
@@ -482,6 +484,8 @@ public class ModBlocks {
 		launch_pad_mirv = new LaunchPad(Material.iron).setBlockName("launch_pad_mirv").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
+		
+		crate = new Crate(Material.iron).setBlockName("crate").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":crate");
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 
@@ -695,6 +699,9 @@ public class ModBlocks {
 		
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());
+		
+		//Crate
+		GameRegistry.registerBlock(crate, crate.getUnlocalizedName());
 		
 		//ElB
 		GameRegistry.registerBlock(statue_elb, statue_elb.getUnlocalizedName());
