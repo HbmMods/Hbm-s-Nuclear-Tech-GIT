@@ -1,7 +1,7 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityMachineDeuterium;
-import com.hbm.blocks.TileEntityMachineSchrabidiumTransmutator;
+import com.hbm.tileentity.TileEntityMachineDeuterium;
+import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

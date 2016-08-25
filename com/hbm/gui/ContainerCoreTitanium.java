@@ -1,7 +1,7 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityCoreTitanium;
-import com.hbm.blocks.TileEntityMachineGenerator;
+import com.hbm.tileentity.TileEntityCoreTitanium;
+import com.hbm.tileentity.TileEntityMachineGenerator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

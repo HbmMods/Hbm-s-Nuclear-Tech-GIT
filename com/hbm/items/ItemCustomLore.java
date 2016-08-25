@@ -325,6 +325,27 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("I hate dust!");
 		}
+		
+		if(this == ModItems.ingot_combine_steel)
+		{
+			list.add("\"I mean, it's a verb for crying out loud.");
+			list.add("The aliens aren't verbs. They're nouns!\"");
+			list.add("\"Actually, I think it's also the name");
+			list.add("of some kind of farm equipment, like a");
+			list.add("thresher or something.\"");
+			list.add("\"That's even worse. Now we have a word");
+			list.add("that could mean 'to mix things together',");
+			list.add("a piece of farm equipment, and let's see...");
+			list.add("oh yea, it can also mean 'the most advanced");
+			list.add("form of life in the known universe'.\"");
+			list.add("\"So?\"");
+			list.add("\"'So?' C'mon man, they're ALIENS!\"");
+		}
+		
+		if(this == ModItems.gun_super_shotgun)
+		{
+			list.add("It's super broken!");
+		}
 	}
 
     @Override

@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityNukeTsar;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

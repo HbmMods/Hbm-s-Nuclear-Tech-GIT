@@ -288,6 +288,18 @@ item.powder_titanium.name=Titanium Powder
 item.powder_tungsten.name=Tungsten Powder
 item.powder_uranium.name=Uranium Powder
 item.dust.name=Dust
+item.powder_coal.name=Coal Powder
+item.powder_lapis.name=Lapis Lazuli Powder
+item.powder_emerald.name=Emerald Powder
+item.powder_diamond.name=Diamond Powder
+item.powder_red_copper.name=Red Copper Powder
+item.powder_steel.name=Steel Powder
+item.powder_magnetized_tungsten.name=Magnetized Tungsten Powder
+item.powder_combine_steel.name=CMB Steel Powder
+item.powder_lithium.name=Lithium Powder
+item.powder_advanced_alloy.name=Advanced Alloy Powder
+item.powder_quartz.name=Quartz Powder
+item.powder_power.name=Energy Powder
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
@@ -323,6 +335,9 @@ item.cell_sas3.name=Schrabidium Trisulfide Cell
 item.cell_anti_schrabidium.name=Antischrabidium Cell
 item.singularity.name=Singularity
 item.singularity_counter_resonant.name=Contained Counter-Resonant Singularity
+item.singularity_super_heated.name=Superheated Resonating Singularity
+item.black_hole.name=Miniature Black Hole
+item.crystal_xen.name=Artificial Xen Crystal
 
 item.inf_water.name=Infinite Water Tank
 item.inf_deuterium.name=Infinite Deuterium Tank
@@ -451,6 +466,7 @@ item.grenade_plasma.name=Plasma Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
 item.grenade_lemon.name=Combustible Lemon
+item.grenade_mk2.name=Mk 2 Grenade "Ambassador Pineapple"
 item.grenade_nuke.name=Mark VI Drill Grenade
 item.grenade_nuclear.name=Nuka Grenade
 
@@ -514,16 +530,20 @@ tile.steel_scaffold.name=Steel Scaffold
 item.gun_revolver_iron.name=Simple Revolver
 item.gun_revolver.name=Enhanced Revolver
 item.gun_revolver_gold.name=Golden Revolver
+item.gun_revolver_lead.name=Nuka Revolver
 item.gun_revolver_schrabidium.name=Schrabidium Revolver
 item.gun_revolver_cursed.name=Cursed Revolver
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
 item.gun_osipr.name=Overwatch Standard Issue Pulse Rifle
 item.gun_zomg.name=Singularity Powered Annihilation Ray "ZOMG Cannon"
+item.gun_super_shotgun.name=Super Shotgun
+item.gun_moist_nugget.name=Moisn-Nagant
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
 item.gun_revolver_gold_ammo.name=Golden Bullet
+item.gun_revolver_lead_ammo.name=Glass Covered Nuclear Bullet
 item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
 item.gun_revolver_cursed_ammo.name=Steel Bullet
 item.gun_fatman_ammo.name=Mini Nuke
@@ -724,6 +744,7 @@ item.matchstick.name=Matchstick
 
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator
+item.crate_caller.name=Supply Drop Requester
 
 item.ingot_hes.name=Highly Enriched Schrabidium Fuel Ingot
 item.ingot_les.name=Low Enriched Schrabidium Fuel Ingot

@@ -50,6 +50,8 @@ public class EntityNukeExplosionAdvanced extends Entity {
         	this.did = true;
         }
         
+        speed = 160;
+        
         boolean flag = false;
         boolean flag2 = false;
         boolean flag3 = false;
@@ -94,47 +96,6 @@ public class EntityNukeExplosionAdvanced extends Entity {
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
 		
-	}
-	
-	private void removeEntities(World world, int x, int y, int z) {
-		float f = 10;
-        HashSet hashset = new HashSet();
-        int i;
-        int j;
-        int k;
-        double d5;
-        double d6;
-        double d7;
-        boolean isOccupied = false;
-        
-        i = MathHelper.floor_double(x - f - 1.0D);
-        j = MathHelper.floor_double(x + f + 1.0D);
-        k = MathHelper.floor_double(y - f - 1.0D);
-        int i2 = MathHelper.floor_double(y + f + 1.0D);
-        int l = MathHelper.floor_double(z - f - 1.0D);
-        int j2 = MathHelper.floor_double(z + f + 1.0D);
-        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
-
-        for (int i1 = 0; i1 < list.size(); ++i1)
-        {
-            Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(x, y, z) / f;
-
-            if (d4 <= 1.0D)
-            {
-                d5 = entity.posX - x;
-                d6 = entity.posY + entity.getEyeHeight() - y;
-                d7 = entity.posZ - z;
-                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-                if (d9 < f && (entity instanceof EntityNukeCloudSmall))
-                {
-                    {
-                    	entity.setDead();
-                    }
-            	}
-            }
-        }
 	}
 
 }

@@ -2,8 +2,8 @@ package com.hbm.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityCable;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityCable;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

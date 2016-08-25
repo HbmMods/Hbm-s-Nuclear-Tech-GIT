@@ -1,6 +1,8 @@
 package com.hbm.blocks;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityTestRender;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;

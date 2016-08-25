@@ -1,7 +1,7 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityFusionMultiblock;
-import com.hbm.blocks.TileEntityWatzCore;
+import com.hbm.tileentity.TileEntityFusionMultiblock;
+import com.hbm.tileentity.TileEntityWatzCore;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

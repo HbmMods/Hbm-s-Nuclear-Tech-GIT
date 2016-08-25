@@ -1,6 +1,6 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityNukeMike;
+import com.hbm.tileentity.TileEntityNukeMike;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -5,17 +5,17 @@ import java.util.List;
 import java.util.UUID;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.TileEntityLaunchPad;
-import com.hbm.blocks.TileEntityMachineBattery;
-import com.hbm.blocks.TileEntityMachineDeuterium;
-import com.hbm.blocks.TileEntityMachineElectricFurnace;
-import com.hbm.blocks.TileEntityWireCoated;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.entity.EntityHunterChopper;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.TileEntityLaunchPad;
+import com.hbm.tileentity.TileEntityMachineBattery;
+import com.hbm.tileentity.TileEntityMachineDeuterium;
+import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.TileEntityWireCoated;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

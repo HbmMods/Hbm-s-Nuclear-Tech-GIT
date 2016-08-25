@@ -1,6 +1,6 @@
 package com.hbm.render;
 
-import com.hbm.blocks.TileEntityTestContainer;
+import com.hbm.tileentity.TileEntityTestContainer;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;

@@ -288,6 +288,18 @@ item.powder_titanium.name=Titanstaub
 item.powder_tungsten.name=Wolframstaub
 item.powder_uranium.name=Uranstaub
 item.dust.name=Staub
+item.powder_coal.name=Kohlestaub
+item.powder_lapis.name=Lapis Lazuli-Staub
+item.powder_emerald.name=Smaragdstaub
+item.powder_diamond.name=Diamantstaub
+item.powder_red_copper.name=Roter Kupfer Staub
+item.powder_steel.name=Stahlstaub
+item.powder_magnetized_tungsten.name=Magnetisierter Wolframstaub
+item.powder_combine_steel.name=CMB-Stahlstaustaub
+item.powder_lithium.name=Lithiumstaub
+item.powder_advanced_alloy.name=Fortgeschrittener Legierungsstaub
+item.powder_quartz.name=Quarzstaub
+item.powder_power.name=Energiepulver
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -323,6 +335,9 @@ item.cell_sas3.name=Schrabidiumtrisulfat-Zelle
 item.cell_anti_schrabidium.name=Antischrabidiumzelle
 item.singularity.name=Singularität
 item.singularity_counter_resonant.name=Eingefasste nicht-resonante Singularität
+item.singularity_super_heated.name=Supererhitzte resonante Singularität
+item.black_hole.name=Miniatur Schwarzes Loch
+item.crystal_xen.name=Künstlicher Xen-Kristall
 
 item.inf_water.name=Unendlicher Wassertank
 item.inf_deuterium.name=Unendlicher Deuteriumtank
@@ -451,6 +466,7 @@ item.grenade_plasma.name=Plasmagranate
 item.grenade_tau.name=Taugranate
 item.grenade_schrabidium.name=Schrabidiumgranate
 item.grenade_lemon.name=Zitronengranate
+item.grenade_mk2.name=Mk 2 Granate "Botschafter Ananas"
 item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
 
@@ -514,16 +530,20 @@ tile.steel_scaffold.name=Stahlgerüst
 item.gun_revolver_iron.name=Einfacher Revolver
 item.gun_revolver.name=Verbesserter Revolver
 item.gun_revolver_gold.name=Goldener Revolver
+item.gun_revolver_lead.name=Nuka-Revolver
 item.gun_revolver_schrabidium.name=Schrabidiumrevolver
 item.gun_revolver_cursed.name=Verfluchte Pistole
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
 item.gun_zomg.name=Singularitätsbetriebener Paarvernichtungsstrahl "ZOMG Kanone"
+item.gun_super_shotgun.name=Super Shotgun
+item.gun_moist_nugget.name=Moisn-Nagant
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
 item.gun_revolver_gold_ammo.name=Goldene Kugel
+item.gun_revolver_lead_ammo.name=Mit Glas umhüllte Atompatrone
 item.gun_revolver_schrabidium_ammo.name=Schrabidiumpatrone
 item.gun_revolver_cursed_ammo.name=Stahlpatrone
 item.gun_fatman_ammo.name=Miniatombombe
@@ -724,6 +744,7 @@ item.matchstick.name=Streichholz
 
 item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder
+item.crate_caller.name=Nachschub-Requester
 
 item.ingot_hes.name=Stark angereicherter Schrabidiumkernbrennstoffbarren
 item.ingot_les.name=Schwach angereicherter Schrabidiumkernbrennstoffbarren

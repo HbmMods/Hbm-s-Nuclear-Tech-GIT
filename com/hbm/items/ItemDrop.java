@@ -2,7 +2,9 @@ package com.hbm.items;
 
 import java.util.List;
 
+import com.hbm.entity.EntityCloudFleija;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.explosion.ExplosionChaos;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.item.EntityItem;
@@ -27,7 +29,7 @@ public class ItemDrop extends Item {
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium) {
 					if (!entityItem.worldObj.isRemote) {
 						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 1.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
 						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
 						entity.posX = entityItem.posX;
@@ -39,12 +41,18 @@ public class ItemDrop extends Item {
 						entity.waste = false;
 
 						entityItem.worldObj.spawnEntityInWorld(entity);
+			    		
+			    		EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, MainRegistry.aSchrabRadius);
+			    		cloud.posX = entityItem.posX;
+			    		cloud.posY = entityItem.posY;
+			    		cloud.posZ = entityItem.posZ;
+			    		entityItem.worldObj.spawnEntityInWorld(cloud);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity) {
 					if (!entityItem.worldObj.isRemote) {
 						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 1.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
 						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
 						entity.posX = entityItem.posX;
@@ -62,7 +70,7 @@ public class ItemDrop extends Item {
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_counter_resonant) {
 					if (!entityItem.worldObj.isRemote) {
 						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 1.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
 						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
 						entity.posX = entityItem.posX;
@@ -75,6 +83,48 @@ public class ItemDrop extends Item {
 						entity.waste = false;
 
 						entityItem.worldObj.spawnEntityInWorld(entity);
+					}
+				}
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_super_heated) {
+					if (!entityItem.worldObj.isRemote) {
+						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
+								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
+						entity.posX = entityItem.posX;
+						entity.posY = entityItem.posY;
+						entity.posZ = entityItem.posZ;
+						entity.destructionRange = MainRegistry.aSchrabRadius * 2;
+						entity.speed = 25;
+						entity.coefficient = 0.01F;
+						entity.coefficient2 = 0.01F;
+						entity.waste = false;
+
+						entityItem.worldObj.spawnEntityInWorld(entity);
+					}
+				}
+				if (stack.getItem() != null && stack.getItem() == ModItems.black_hole) {
+					if (!entityItem.worldObj.isRemote) {
+						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
+								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
+						entity.posX = entityItem.posX;
+						entity.posY = entityItem.posY;
+						entity.posZ = entityItem.posZ;
+						entity.destructionRange = MainRegistry.aSchrabRadius * 3;
+						entity.speed = 25;
+						entity.coefficient = 0.01F;
+						entity.coefficient2 = 0.01F;
+						entity.waste = false;
+
+						entityItem.worldObj.spawnEntityInWorld(entity);
+					}
+				}
+				if (stack.getItem() != null && stack.getItem() == ModItems.crystal_xen) {
+					if (!entityItem.worldObj.isRemote) {
+						ExplosionChaos.floater(entityItem.worldObj, (int)entityItem.posX, (int)entityItem.posY, (int)entityItem.posZ, 25, 75);
+						ExplosionChaos.move(entityItem.worldObj, (int)entityItem.posX, (int)entityItem.posY, (int)entityItem.posZ, 25, 0, 75, 0);
 					}
 				}
 
@@ -106,8 +156,23 @@ public class ItemDrop extends Item {
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity_counter_resonant) {
 			list.add("Nullifies resonance of objects in");
 			list.add("non-euclidean space, creates variable");
-			list.add("gravity well. Spontaneously creates");
-			list.add("tesseracts.");
+			list.add("gravity well. Spontaneously spawns");
+			list.add("tesseracts. If a tesseract happens to");
+			list.add("appear near you, do not directly look");
+			list.add("at it.");
+		}
+		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity_super_heated) {
+			list.add("Continuously heats up matter by");
+			list.add("resonating every planck second.");
+			list.add("Tends to catch fire or to create");
+			list.add("small plamsa arcs. Not edible.");
+		}
+		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.black_hole) {
+			list.add("Contains a regular singularity");
+			list.add("in the center. Too small to");
+			list.add("stac stable. It's not the end");
+			list.add("of the world as we know it,");
+			list.add("and I don't feel fine.");
 		}
 	}
 

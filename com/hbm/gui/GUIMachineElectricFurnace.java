@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityMachineElectricFurnace;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 
 public class GUIMachineElectricFurnace extends GuiContainer {
 	

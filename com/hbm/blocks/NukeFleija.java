@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.hbm.entity.EntityCloudFleija;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityNukeFleija;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -149,6 +151,12 @@ public class NukeFleija extends BlockContainer implements IBomb {
     		entity.waste = false;
     	
     		world.spawnEntityInWorld(entity);
+    		
+    		EntityCloudFleija cloud = new EntityCloudFleija(world, r);
+    		cloud.posX = x;
+    		cloud.posY = y;
+    		cloud.posZ = z;
+    		world.spawnEntityInWorld(cloud);
     	}
     	
 		return false;

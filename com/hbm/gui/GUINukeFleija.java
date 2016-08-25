@@ -8,9 +8,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityNukeFleija;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityNukeFleija;
 
 public class GUINukeFleija extends GuiContainer {
 	

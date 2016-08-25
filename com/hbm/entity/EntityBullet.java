@@ -9,13 +9,19 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -27,6 +33,7 @@ import com.hbm.blocks.DecoBlockAlt;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.RedBarrel;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
@@ -56,6 +63,7 @@ public class EntityBullet extends Entity implements IProjectile {
 	private int dmgMax = 1;
 	private boolean isTau = false;
 	private boolean instakill = false;
+	private boolean rad = false;
 
 	public EntityBullet(World p_i1753_1_) {
 		super(p_i1753_1_);
@@ -100,7 +108,7 @@ public class EntityBullet extends Entity implements IProjectile {
 	}
 
 	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax,
-			boolean instakill) {
+			boolean instakill, boolean rad) {
 		super(p_i1756_1_);
 		this.renderDistanceWeight = 10.0D;
 		this.shootingEntity = p_i1756_2_;
@@ -127,6 +135,7 @@ public class EntityBullet extends Entity implements IProjectile {
 		// this.dmgMin = dmgMin;
 		// this.dmgMax = dmgMax;
 		this.instakill = instakill;
+		this.rad = rad;
 	}
 
 	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax,
@@ -428,6 +437,34 @@ public class EntityBullet extends Entity implements IProjectile {
 							if (movingobjectposition.entityHit instanceof EntityLivingBase) {
 								EntityLivingBase entitylivingbase = (EntityLivingBase) movingobjectposition.entityHit;
 
+								if (rad) {
+									if (entitylivingbase instanceof EntityPlayer
+											&& Library.checkForHazmat((EntityPlayer) entitylivingbase)) {
+									} else if (entitylivingbase instanceof EntityCreeper) {
+										EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
+										creep.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ,
+												entitylivingbase.rotationYaw, entitylivingbase.rotationPitch);
+										if (!entitylivingbase.isDead)
+											if (!worldObj.isRemote)
+												worldObj.spawnEntityInWorld(creep);
+										entitylivingbase.setDead();
+									} else if (entitylivingbase instanceof EntityVillager) {
+										EntityZombie creep = new EntityZombie(this.worldObj);
+										creep.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ,
+												entitylivingbase.rotationYaw, entitylivingbase.rotationPitch);
+										entitylivingbase.setDead();
+										if (!this.worldObj.isRemote)
+											this.worldObj.spawnEntityInWorld(creep);
+									} else if (entitylivingbase instanceof EntityLivingBase
+											&& !(entitylivingbase instanceof EntityNuclearCreeper)
+											&& !(entitylivingbase instanceof EntityMooshroom)
+											&& !(entitylivingbase instanceof EntityZombie)) {
+										entitylivingbase.addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
+										entitylivingbase.addPotionEffect(new PotionEffect(Potion.wither.getId(), 20, 4));
+										entitylivingbase.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 1 * 60 * 20, 1));
+									}
+								}
+								
 								if (this.knockbackStrength > 0) {
 									f4 = MathHelper
 											.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);

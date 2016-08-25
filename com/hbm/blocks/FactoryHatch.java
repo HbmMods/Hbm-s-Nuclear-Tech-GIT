@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityCoreAdvanced;
+import com.hbm.tileentity.TileEntityCoreTitanium;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

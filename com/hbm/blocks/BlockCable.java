@@ -1,5 +1,7 @@
 package com.hbm.blocks;
 
+import com.hbm.tileentity.TileEntityCable;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

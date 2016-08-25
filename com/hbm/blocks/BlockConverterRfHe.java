@@ -1,6 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityConverterRfHe;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;

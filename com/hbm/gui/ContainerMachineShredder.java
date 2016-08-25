@@ -1,7 +1,7 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityMachineDiesel;
-import com.hbm.blocks.TileEntityMachineShredder;
+import com.hbm.tileentity.TileEntityMachineDiesel;
+import com.hbm.tileentity.TileEntityMachineShredder;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

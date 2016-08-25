@@ -8,8 +8,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-import com.hbm.blocks.TileEntityTestNuke;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityTestNuke;
 
 public class GUITestNuke extends GuiContainer {
 

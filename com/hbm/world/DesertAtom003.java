@@ -5,10 +5,10 @@ package com.hbm.world;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.TileEntityMachinePuF6Tank;
-import com.hbm.blocks.TileEntityMachineUF6Tank;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.TileEntityMachineUF6Tank;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

@@ -3,6 +3,7 @@ package com.hbm.blocks;
 import java.util.Random;
 
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.tileentity.TileEntityReactorMultiblock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

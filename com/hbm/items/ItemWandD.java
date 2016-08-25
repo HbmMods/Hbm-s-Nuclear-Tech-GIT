@@ -1,5 +1,7 @@
 package com.hbm.items;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 
@@ -18,20 +20,23 @@ public class ItemWandD extends Item {
     {
 		Block b = world.getBlock(x, y, z);
 
-		if(b == ModBlocks.ore_aluminium)
-			MainRegistry.x++;
-		if(b == ModBlocks.block_aluminium)
-			MainRegistry.x--;
-		if(b == ModBlocks.ore_beryllium)
-			MainRegistry.y++;
-		if(b == ModBlocks.block_beryllium)
-			MainRegistry.y--;
-		if(b == ModBlocks.ore_copper)
-			MainRegistry.z++;
-		if(b == ModBlocks.block_copper)
-			MainRegistry.z--;
+		if(!world.isRemote)
+		{
+			if (b == ModBlocks.ore_aluminium)
+				MainRegistry.x++;
+			if (b == ModBlocks.block_aluminium)
+				MainRegistry.x--;
+			if (b == ModBlocks.ore_beryllium)
+				MainRegistry.y++;
+			if (b == ModBlocks.block_beryllium)
+				MainRegistry.y--;
+			if (b == ModBlocks.ore_copper)
+				MainRegistry.z++;
+			if (b == ModBlocks.block_copper)
+				MainRegistry.z--;
+		}
 		
-		return false;
+		return true;
     }
 
 	@Override
@@ -45,4 +50,9 @@ public class ItemWandD extends Item {
 		return stack;
 	}
 
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add("Used for debugging purposes.");
+	}
 }

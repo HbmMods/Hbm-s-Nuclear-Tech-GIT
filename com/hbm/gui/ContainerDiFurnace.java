@@ -1,6 +1,6 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityDiFurnace;
+import com.hbm.tileentity.TileEntityDiFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

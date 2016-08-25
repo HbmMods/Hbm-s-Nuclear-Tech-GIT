@@ -62,6 +62,33 @@ public class ExplosionChaos {
     	}
     }
     
+    public static void explodeZOMG(World world, int x, int y, int z, int bombStartStrength) {
+    	
+    	int r = bombStartStrength;
+    	int r2 = r*r;
+    	int r22 = r2/2;
+    	for (int xx = -r; xx < r; xx++)
+    	{
+    		int X = xx+x;
+    		int XX = xx*xx;
+    		for (int yy = -r; yy < r; yy++)
+    		{
+    			int Y = yy+y;
+    			int YY = XX+yy*yy;
+    			for (int zz = -r; zz < r; zz++)
+    			{
+    				int Z = zz+z;
+    				int ZZ = YY+zz*zz;
+    				if (ZZ<r22)
+    				{
+    					if(!(world.getBlock(X, Y, Z) == Blocks.bedrock && Y <= 0))
+    						world.setBlock(X, Y, Z, Blocks.air);
+    				}
+    			}
+    		}
+    	}
+    }
+    
     public static void spawnExplosion(World world, int x, int y, int z, int bound) {
     	
     	int randX;

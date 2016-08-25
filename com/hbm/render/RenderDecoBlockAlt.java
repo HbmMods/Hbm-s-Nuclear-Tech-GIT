@@ -2,11 +2,11 @@ package com.hbm.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityDecoBlockAltF;
-import com.hbm.blocks.TileEntityDecoBlockAltG;
-import com.hbm.blocks.TileEntityDecoBlockAltW;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityDecoBlockAltF;
+import com.hbm.tileentity.TileEntityDecoBlockAltG;
+import com.hbm.tileentity.TileEntityDecoBlockAltW;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;

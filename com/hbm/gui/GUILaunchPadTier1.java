@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityLaunchPad;
 
 public class GUILaunchPadTier1 extends GuiContainer {
 	

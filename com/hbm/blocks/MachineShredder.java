@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityMachineShredder;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -35,10 +36,10 @@ public class MachineShredder extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_bottom");
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_top");
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_side");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_front");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_bottom_alt");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_top_alt");
+		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_side_alt");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_shredder_front_alt");
 	}
 	
 	@Override

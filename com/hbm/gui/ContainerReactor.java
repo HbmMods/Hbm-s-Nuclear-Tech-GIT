@@ -1,6 +1,6 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityMachineReactor;
+import com.hbm.tileentity.TileEntityMachineReactor;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

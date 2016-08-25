@@ -4,6 +4,10 @@ import java.util.Random;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityDecoBlockAlt;
+import com.hbm.tileentity.TileEntityDecoBlockAltF;
+import com.hbm.tileentity.TileEntityDecoBlockAltG;
+import com.hbm.tileentity.TileEntityDecoBlockAltW;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

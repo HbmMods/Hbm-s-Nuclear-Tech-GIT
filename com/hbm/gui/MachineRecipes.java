@@ -599,6 +599,13 @@ public class MachineRecipes {
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
+					} else if (s.length() > 3 && s.substring(0, 3).equals("gem")) {
+						ItemStack stack = canFindDustByName(s.substring(3));
+						if (stack != null) {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 1));
+						} else {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+						}
 					} else if (s.length() > 4 && s.substring(0, 4).equals("dust")) {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
 					} else {
@@ -651,6 +658,7 @@ public class MachineRecipes {
 						inp.getItem() != null && 
 						outp != null && 
 						recipes.get(i).input.getItem().equals(inp.getItem()))
+					//TODO: check if i didn't break anything
 					recipes.get(i).output = outp;
 			}
 		}

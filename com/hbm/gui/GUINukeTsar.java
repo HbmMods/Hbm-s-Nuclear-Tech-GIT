@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityNukeTsar;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityNukeTsar;
 
 public class GUINukeTsar extends GuiContainer {
 	

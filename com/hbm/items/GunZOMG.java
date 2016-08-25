@@ -147,9 +147,13 @@ public class GunZOMG extends Item {
 						EntityRainbow entityarrow = new EntityRainbow(world, player, 1F);
 						EntityRainbow entityarrow1 = new EntityRainbow(world, player, 1F);
 						EntityRainbow entityarrow2 = new EntityRainbow(world, player, 1F);
-						entityarrow.setDamage(35 + rand.nextInt(45 - 35));
-						entityarrow1.setDamage(35 + rand.nextInt(45 - 35));
-						entityarrow2.setDamage(35 + rand.nextInt(45 - 35));
+						EntityRainbow entityarrow3 = new EntityRainbow(world, player, 1F);
+						EntityRainbow entityarrow4 = new EntityRainbow(world, player, 1F);
+						entityarrow.setDamage(10000 + rand.nextInt(90000));
+						entityarrow1.setDamage(10000 + rand.nextInt(90000));
+						entityarrow2.setDamage(10000 + rand.nextInt(90000));
+						entityarrow3.setDamage(10000 + rand.nextInt(90000));
+						entityarrow4.setDamage(10000 + rand.nextInt(90000));
 
 						//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
 						world.playSoundAtEntity(player, "ambient.weather.thunder", 1.0F, 2);
@@ -158,6 +162,8 @@ public class GunZOMG extends Item {
 							world.spawnEntityInWorld(entityarrow);
 							world.spawnEntityInWorld(entityarrow1);
 							world.spawnEntityInWorld(entityarrow2);
+							world.spawnEntityInWorld(entityarrow3);
+							world.spawnEntityInWorld(entityarrow4);
 						}
 					}
 				} else {

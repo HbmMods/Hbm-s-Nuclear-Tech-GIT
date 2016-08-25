@@ -2,6 +2,8 @@ package com.hbm.blocks;
 
 import java.util.Random;
 
+import com.hbm.tileentity.TileEntityCoreAdvanced;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

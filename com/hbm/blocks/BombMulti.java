@@ -24,6 +24,7 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityBombMulti;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 

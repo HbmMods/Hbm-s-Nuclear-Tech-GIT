@@ -224,7 +224,7 @@ public class EntityRainbow extends Entity implements IProjectile
             block.setBlockBoundsBasedOnState(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f); 
             AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
         	if(!worldObj.isRemote)
-        		ExplosionChaos.explode(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
+        		ExplosionChaos.explodeZOMG(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
         }
 
         if (this.arrowShake > 0)
@@ -359,7 +359,7 @@ public class EntityRainbow extends Entity implements IProjectile
                             {
                             	movingobjectposition.entityHit.attackEntityFrom(damagesource, 100000F);
                             	if(!worldObj.isRemote)
-                            		ExplosionChaos.explode(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
+                            		ExplosionChaos.explodeZOMG(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
                             }
                         }
                     }

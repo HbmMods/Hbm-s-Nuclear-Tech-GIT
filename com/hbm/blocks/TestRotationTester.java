@@ -1,6 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityRotationTester;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityMachineCoal;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityMachineCoal;
 
 public class GUIMachineCoal extends GuiContainer {
 	

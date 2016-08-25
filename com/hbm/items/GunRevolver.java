@@ -32,9 +32,10 @@ public class GunRevolver extends Item
     private int dmgMin;
     private int dmgMax;
     private boolean instakill = false;
+    private boolean rad = false;
     Random rand = new Random();
 
-    public GunRevolver(Item ammo, int dmgMin, int dmgMax, boolean instakill)
+    public GunRevolver(Item ammo, int dmgMin, int dmgMax, boolean instakill, boolean rad)
     {
         this.maxStackSize = 1;
         if(this == ModItems.gun_revolver_iron)
@@ -49,6 +50,10 @@ public class GunRevolver extends Item
         {
         	this.setMaxDamage(1000);
         }
+        if(this == ModItems.gun_revolver_lead)
+        {
+        	this.setMaxDamage(250);
+        }
         if(this == ModItems.gun_revolver_schrabidium)
         {
         	this.setMaxDamage(100000);
@@ -62,6 +67,7 @@ public class GunRevolver extends Item
         this.dmgMin = dmgMin;
         this.dmgMax = dmgMax;
         this.instakill = instakill;
+        this.rad = rad;
     }
 
     @Override
@@ -110,11 +116,11 @@ public class GunRevolver extends Item
                	f = 10.0F;
             }
 
-            EntityBullet entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, instakill);
+            EntityBullet entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, instakill, rad);
             entityarrow.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
 
             p_77615_1_.damageItem(1, p_77615_3_);
-            if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_schrabidium)
+            if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead || this == ModItems.gun_revolver_schrabidium)
             {
             	p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
             }

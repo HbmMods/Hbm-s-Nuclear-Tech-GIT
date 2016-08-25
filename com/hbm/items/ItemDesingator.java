@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemDesingator extends Item {
@@ -45,6 +46,10 @@ public class ItemDesingator extends Item {
 				p_77648_1_.stackTagCompound = new NBTTagCompound();
 				p_77648_1_.stackTagCompound.setInteger("xCoord", p_77648_4_);
 				p_77648_1_.stackTagCompound.setInteger("zCoord", p_77648_6_);
+			}
+	        if(p_77648_3_.isRemote)
+			{
+	        	p_77648_2_.addChatMessage(new ChatComponentText("Position set!"));
 			}
 	        return true;
 		}

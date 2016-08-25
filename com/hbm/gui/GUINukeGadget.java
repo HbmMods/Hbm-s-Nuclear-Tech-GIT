@@ -8,8 +8,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityNukeGadget;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityNukeGadget;
 
 public class GUINukeGadget extends GuiContainer {
 	

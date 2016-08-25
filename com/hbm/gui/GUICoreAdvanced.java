@@ -2,9 +2,9 @@ package com.hbm.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityCoreAdvanced;
-import com.hbm.blocks.TileEntityCoreTitanium;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityCoreAdvanced;
+import com.hbm.tileentity.TileEntityCoreTitanium;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

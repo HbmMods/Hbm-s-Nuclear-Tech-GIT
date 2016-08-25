@@ -1,7 +1,7 @@
 package com.hbm.gui;
 
-import com.hbm.blocks.TileEntityConverterRfHe;
-import com.hbm.blocks.TileEntityReactorMultiblock;
+import com.hbm.tileentity.TileEntityConverterRfHe;
+import com.hbm.tileentity.TileEntityReactorMultiblock;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

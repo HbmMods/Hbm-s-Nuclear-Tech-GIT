@@ -2,8 +2,8 @@ package com.hbm.render;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityLaunchPad;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityLaunchPad;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

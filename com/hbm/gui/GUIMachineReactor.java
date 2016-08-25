@@ -2,8 +2,8 @@ package com.hbm.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.TileEntityMachineReactor;
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityMachineReactor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
