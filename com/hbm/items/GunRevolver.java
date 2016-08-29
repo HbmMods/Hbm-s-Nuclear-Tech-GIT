@@ -1,5 +1,6 @@
 package com.hbm.items;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.enchantment.Enchantment;
@@ -199,4 +200,54 @@ public class GunRevolver extends Item
     {
         return 1;
     }
+
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+		if(this == ModItems.gun_revolver_iron)
+		{
+			list.add("Cheap.");
+			list.add("");
+			list.add("Ammo: Iron Bullets");
+			list.add("Damage: 5 - 15");
+		}
+		if(this == ModItems.gun_revolver)
+		{
+			list.add("I feel like a cowboy!");
+			list.add("");
+			list.add("Ammo: Lead Bullets");
+			list.add("Damage: 10 - 25");
+		}
+		if(this == ModItems.gun_revolver_gold)
+		{
+			list.add("GoldenEye would be proud!");
+			list.add("");
+			list.add("Ammo: Golden Bullets");
+			list.add("Damage: 20 - 30");
+		}
+		if(this == ModItems.gun_revolver_lead)
+		{
+			list.add("Made from lead for your safety!");
+			list.add("");
+			list.add("Ammo: Atomic Bullets");
+			list.add("Damage: 5 - 15");
+			list.add("Bullets are radioactive.");
+		}
+		if(this == ModItems.gun_revolver_schrabidium)
+		{
+			list.add("Kills everyone and everything.");
+			list.add("");
+			list.add("Ammo: Schrabidium Bullets");
+			list.add("Damage: 10000 - 100000");
+			list.add("Sets enemy's health to zero.");
+		}
+		if(this == ModItems.gun_revolver_cursed)
+		{
+			list.add("You're dead.");
+			list.add("");
+			list.add("Ammo: Steel Bullets");
+			list.add("Damage: 25 - 40");
+			list.add("33% chance of user being withered.");
+		}
+	}
 }

@@ -2,8 +2,10 @@ package com.hbm.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
@@ -523,23 +525,35 @@ public class MachineRecipes {
 			
 			//Makes the OreDict easily accessible. Neat.
 
+			System.out.println("Loading all items and blocks, please wait...");
+			System.out.println("This process normally takes very long due to the incompetence of other modders I have to compensate for. Sorry for the inconvenience.");
+
 			for (Object item : GameData.getItemRegistry()) {
 
 				List<String> list = new ArrayList<String>();
 				int[] array;
 
 				if (item instanceof Item) {
+					
+					int x = 1;
+					//if(((Item)item).getHasSubtypes())
+					//	x = 126;
 
-					ItemStack stack = new ItemStack((Item) item);
-					array = OreDictionary.getOreIDs(stack);
+					for(int j = 0; j < x; j++)
+					{
+						ItemStack stack = new ItemStack((Item) item, 1, j);
+						array = OreDictionary.getOreIDs(stack);
 
-					for (int i = 0; i < array.length; i++) {
-						//if (!OreDictionary.getOreName(array[i]).equals("Unknown")) {
+						for (int i = 0; i < array.length; i++) {
+							// if
+							// (!OreDictionary.getOreName(array[i]).equals("Unknown"))
+							// {
 							list.add(OreDictionary.getOreName(array[i]));
-						//}
-					}
-					//if(list.size() > 0)
+							// }
+						}
+						// if(list.size() > 0)
 						theWholeThing.add(new DictCouple(stack, list));
+					}
 				}
 			}
 
@@ -549,22 +563,43 @@ public class MachineRecipes {
 				int[] array;
 
 				if (block instanceof Block) {
-
-					ItemStack stack = new ItemStack((Block) block);
-					array = OreDictionary.getOreIDs(stack);
-
-					for (int i = 0; i < array.length; i++) {
-						//if (!OreDictionary.getOreName(array[i]).equals("Unknown")) {
-							list.add(OreDictionary.getOreName(array[i]));
-						//}
-					}
+					Item item = Item.getItemFromBlock((Block)block);
 					
-					//if(list.size() > 0)
-						theWholeThing.add(new DictCouple(stack, list));
+					int x = 1;
+					//if(item != null && item.getHasSubtypes())
+					//	x = 16;
+					
+					for(int j = 0; j < x; j++)
+					{
+						ItemStack stack = new ItemStack((Block) block, 1, j);
+						array = OreDictionary.getOreIDs(stack);
+
+						for (int i = 0; i < array.length; i++) {
+							// if
+							// (!OreDictionary.getOreName(array[i]).equals("Unknown"))
+							// {
+							list.add(OreDictionary.getOreName(array[i]));
+							// }
+						}
+
+						// if(list.size() > 0)
+						if(!doesExist(stack))
+							theWholeThing.add(new DictCouple(stack, list));
+					}
 				}
 			}
 			
 			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");
+		}
+		
+		public boolean doesExist(ItemStack stack) {
+			
+			for(DictCouple dic : theWholeThing) {
+				if(dic.item.getItem() == stack.getItem())
+					return true;
+			}
+			
+			return false;
 		}
 
 		public void addRecipes() {
@@ -652,14 +687,38 @@ public class MachineRecipes {
 			{
 				if(recipes.get(i) != null && 
 						recipes.get(i).input != null && 
-						recipes.get(i).input.getItem() != null && 
 						recipes.get(i).output != null && 
 						inp != null && 
-						inp.getItem() != null && 
 						outp != null && 
-						recipes.get(i).input.getItem().equals(inp.getItem()))
-					//TODO: check if i didn't break anything
+						recipes.get(i).input.getItem() == inp.getItem() && 
+						recipes.get(i).input.getItemDamage() == inp.getItemDamage())
 					recipes.get(i).output = outp;
+			}
+		}
+		
+		public void removeDuplicates() {
+			List<ShredderRecipe> newList = new ArrayList<ShredderRecipe>();
+			
+			for(ShredderRecipe piv : recipes)
+			{
+				boolean flag = false;
+				
+				if(newList.size() == 0)
+				{
+					newList.add(piv);
+				} else {
+					for(ShredderRecipe rec : newList) {
+						if(piv != null && rec != null && piv.input != null && rec.input != null && rec.input.getItem() != null && piv.input.getItem() != null && rec.input.getItemDamage() == piv.input.getItemDamage() && rec.input.getItem() == piv.input.getItem())
+							flag = true;
+						if(piv == null || rec == null || piv.input == null || rec.input == null)
+							flag = true;
+					}
+				}
+				
+				if(!flag)
+				{
+					newList.add(piv);
+				}
 			}
 		}
 		
@@ -679,13 +738,13 @@ public class MachineRecipes {
 				
 			}*/
 
-			for (int j = 0; j < recipes.size(); j++) {
+			/*for (int j = 0; j < recipes.size(); j++) {
 				if (recipes.get(j) != null && recipes.get(j).input != null && recipes.get(j).output != null &&
 						recipes.get(j).input.getItem() != null && recipes.get(j).output.getItem() != null)
 					System.out.println(recipes.get(j).input + " | " + recipes.get(j).output);
 				else
 					System.out.println(recipes.get(j));
-			}
+			}*/
 
 			System.out.println("TWT: " + theWholeThing.size() + ", REC: " + recipes.size());
 		}
@@ -703,7 +762,7 @@ public class MachineRecipes {
 		
 		public static List<String> findWithStack(ItemStack stack) {
 			for(DictCouple couple : theWholeThing) {
-				if(couple.item.equals(stack));
+				if(couple.item == stack);
 					return couple.list;
 			}
 			
@@ -718,7 +777,9 @@ public class MachineRecipes {
 	public static ItemStack getShredderResult(ItemStack stack) {
 		for(ShredderRecipe rec : recipes)
 		{
-			if(stack != null && rec.input.getItem().equals(stack.getItem()))
+			if(stack != null && 
+					rec.input.getItem() == stack.getItem() && 
+					rec.input.getItemDamage() == stack.getItemDamage())
 				return rec.output.copy();
 		}
 		
@@ -729,9 +790,33 @@ public class MachineRecipes {
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
 		for(int i = 0; i < this.recipes.size(); i++) {
-			recipes.put(((ShredderRecipe)recipes.get(i)).input, ((ShredderRecipe)recipes.get(i)).output);
+			if(this.recipes.get(i) != null && this.recipes.get(i).output.getItem() != ModItems.dust && this.recipes.get(i).output.getItem() != ModItems.scrap)
+				recipes.put(((ShredderRecipe)this.recipes.get(i)).input, getShredderResult(((ShredderRecipe)this.recipes.get(i)).input));
 		}
 		
 		return recipes;
+	}
+
+	public ArrayList<ItemStack> getBatteries() {
+		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
+		fuels.add(new ItemStack(ModItems.battery_generic));
+		fuels.add(new ItemStack(ModItems.battery_advanced));
+		fuels.add(new ItemStack(ModItems.battery_schrabidium));
+		fuels.add(new ItemStack(ModItems.fusion_core));
+		fuels.add(new ItemStack(ModItems.energy_core));
+		return fuels;
+	}
+
+	public ArrayList<ItemStack> getBlades() {
+		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
+		fuels.add(new ItemStack(ModItems.blades_advanced_alloy));
+		fuels.add(new ItemStack(ModItems.blades_aluminium));
+		fuels.add(new ItemStack(ModItems.blades_combine_steel));
+		fuels.add(new ItemStack(ModItems.blades_gold));
+		fuels.add(new ItemStack(ModItems.blades_iron));
+		fuels.add(new ItemStack(ModItems.blades_steel));
+		fuels.add(new ItemStack(ModItems.blades_titanium));
+		fuels.add(new ItemStack(ModItems.blades_schrabidium));
+		return fuels;
 	}
 }

@@ -108,6 +108,11 @@ public class GunOSIPR extends Item {
 		list.add("to shoot,");
 		list.add("sneak to shoot a");
 		list.add("dark energy ball!");
+		list.add("");
+		list.add("Ammo: Dark Energy Plugs");
+		list.add("Secondary Ammo: Combine Ball");
+		list.add("Damage: 35 - 45");
+		list.add("Secondary Damage: 1000");
 	}
 
 }

@@ -63,6 +63,7 @@ import com.hbm.render.ItemRenderBigSword;
 import com.hbm.render.ItemRenderDecoBlock;
 import com.hbm.render.ItemRenderFatMan;
 import com.hbm.render.ItemRenderMiniNuke;
+import com.hbm.render.ItemRenderOSIPR;
 import com.hbm.render.ItemRenderPoleTop;
 import com.hbm.render.ItemRenderRedstoneSword;
 import com.hbm.render.ItemRenderRevolver;
@@ -187,7 +188,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderSnowball(ModItems.man_core));
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg_ammo, new ItemRenderRocket());
+		//MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg_ammo, new ItemRenderRocket());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombMulti.class, new RenderBombMulti());
 
@@ -243,6 +244,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman, new ItemRenderFatMan());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_xvl1456, new ItemRenderXVL1456());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_zomg, new ItemRenderZOMG());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_osipr, new ItemRenderOSIPR());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());

@@ -202,5 +202,10 @@ public class GunZOMG extends Item {
 		} else {
 			list.add("Gun not validated.");
 		}
+		list.add("");
+		list.add("Ammo: None (Requires Validation)");
+		list.add("Damage: 35 - 45");
+		list.add("Energy Damage: 10000 - 100000");
+		list.add("Energy projectiles destroy blocks.");
 	}
 }

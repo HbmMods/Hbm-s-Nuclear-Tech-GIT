@@ -17,6 +17,7 @@ import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.TileEntityWireCoated;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -244,5 +245,19 @@ public class Library {
 		}
 
 		return entityplayer;
+	}
+
+	public static Item getItemByCode(int i) {
+		
+		if(i == 1337)
+			return ModItems.schrabidium_hammer;
+		if(i == 234)
+			return ModItems.euphemium_kit;
+		if(i == 69)
+			return ModItems.nuke_advanced_kit;
+		if(i == 34)
+			return ModItems.t45_kit;
+		
+		return null;
 	}
 }

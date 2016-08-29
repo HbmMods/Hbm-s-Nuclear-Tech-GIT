@@ -1,5 +1,7 @@
 package com.hbm.items;
 
+import java.util.List;
+
 import com.google.common.collect.Multimap;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityRocket;
@@ -146,4 +148,14 @@ public class GunFatman extends Item {
 	        multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)-0.3, 1));
 	        return multimap;
 	    }
+
+		@Override
+		public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+			list.add("When normal nukes aren't enough...");
+			list.add("");
+			list.add("Ammo: Mini Nukes");
+			list.add("Damage: 1000");
+			list.add("Creates small nuclear explosion.");
+		}
 }

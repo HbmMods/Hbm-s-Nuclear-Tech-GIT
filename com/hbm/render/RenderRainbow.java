@@ -49,7 +49,7 @@ public class RenderRainbow extends Render {
 			if (color < 0)
 				color = 0;
 			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(red ? 1 : color, color, blue ? 1 : color, 1f);
+			tessellator.setColorRGBA_F(red ? 1 : color, green ? 1 : color, blue ? 1 : color, 1f);
 			tessellator.addVertex(0 + o, 0 - o, 0);
 			tessellator.addVertex(0 + o, 0 + o, 0);
 			tessellator.addVertex(0 + o, 0 + o, 0 + distance);

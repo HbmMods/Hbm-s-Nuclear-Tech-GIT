@@ -1,5 +1,7 @@
 package com.hbm.items;
 
+import java.util.List;
+
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityRocket;
 
@@ -142,4 +144,13 @@ public class GunRpg extends Item
     {
         return 1;
     }
+
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+		list.add("Kaboom!");
+		list.add("");
+		list.add("Ammo: Rockets");
+		list.add("Projectiles explodes on impact.");
+	}
 }

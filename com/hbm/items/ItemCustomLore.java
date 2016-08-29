@@ -361,7 +361,7 @@ public class ItemCustomLore extends Item {
     		return EnumRarity.rare;
     	}
     	
-    	if(this == ModItems.gun_revolver_cursed_ammo)
+    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || this == ModItems.gun_pm_ammo)
     	{
     		return EnumRarity.uncommon;
     	}

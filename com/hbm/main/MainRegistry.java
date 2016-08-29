@@ -229,8 +229,13 @@ public class MainRegistry
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
 		GameRegistry.registerFuelHandler(new FuelHandler());
-		
+
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
+		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
+		Library.superuser.add("937c9804-e11f-4ad2-a5b1-42e62ac73077");
+		Library.superuser.add("3af1c262-61c0-4b12-a4cb-424cc3a9c8c0");
+		Library.superuser.add("4729b498-a81c-42fd-8acd-20d6d9f759e0");
+		Library.superuser.add("c3f5e449-6d8c-4fe3-acc9-47ef50e7e7ae");
 
 		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
 		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
@@ -431,7 +436,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustRedstoneAlloy", ModItems.powder_red_copper);
 		OreDictionary.registerOre("dustSteel", ModItems.powder_steel);
 		OreDictionary.registerOre("dustLithium", ModItems.powder_lithium);
-		OreDictionary.registerOre("dustQuartz", ModItems.powder_quartz);
+		OreDictionary.registerOre("dustNetherQuartz", ModItems.powder_quartz);
 
 		OreDictionary.registerOre("gemCoal", Items.coal);
 
@@ -476,12 +481,20 @@ public class MainRegistry
 		recipes.registerEverythingImSrs();
 		
 		recipes.addRecipes();
+		
+		recipes.removeDuplicates();
 
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Items.dye, 1, 4), new ItemStack(ModItems.powder_lapis));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block), new ItemStack(ModItems.powder_quartz));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 2), new ItemStack(ModItems.powder_quartz, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_stairs), new ItemStack(ModItems.powder_quartz, 3));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
+		recipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
 		
 		recipes.PrintRecipes();
 	}

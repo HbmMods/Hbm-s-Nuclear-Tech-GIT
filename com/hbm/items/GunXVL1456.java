@@ -165,6 +165,11 @@ public class GunXVL1456 extends Item {
 		list.add("to shoot tauons,");
 		list.add("sneak to charge up for");
 		list.add("stronger shots!");
+		list.add("");
+		list.add("Ammo: Depleted Uranium");
+		list.add("Damage: 35 - 45");
+		list.add("Charged Damage: 40 - 400");
+		list.add("Projectiles penetrate walls.");
 	}
 
 }
