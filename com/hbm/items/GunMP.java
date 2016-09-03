@@ -15,11 +15,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
-public class GunPM extends Item {
+public class GunMP extends Item {
 
 	Random rand = new Random();
 
-    public GunPM()
+    public GunMP()
     {
         this.maxStackSize = 1;
         this.setMaxDamage(10000);
@@ -50,7 +50,7 @@ public class GunPM extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo))
+		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp_ammo))
 				&& count % 3 == 0) {
 			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, false);
 			entityarrow.setDamage(100 + rand.nextInt(50));
@@ -60,7 +60,7 @@ public class GunPM extends Item {
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
 			} else {
-				player.inventory.consumeInventoryItem(ModItems.gun_osipr_ammo);
+				player.inventory.consumeInventoryItem(ModItems.gun_mp_ammo);
 			}
 
 			if (!world.isRemote) {
@@ -77,9 +77,13 @@ public class GunPM extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("EVERYBODY HAS TO DIE!");
+		list.add("Isn't that name a little contrary,");
+		list.add("you can't be a pacifist AND");
+		list.add("shoot people. Logic errors aside,");
+		list.add("whose blood is that? The former");
+		list.add("user's? The victim's? Both?");
 		list.add("");
-		list.add("Ammo: x");
+		list.add("Ammo: Smal Propellantless Machine Gun Round");
 		list.add("Damage: x - x");
 	}
 }

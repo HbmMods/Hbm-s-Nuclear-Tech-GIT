@@ -351,7 +351,7 @@ public class ItemCustomLore extends Item {
     @Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-    	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || this == ModItems.rod_quad_euphemium || this == ModItems.watch)
+    	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || this == ModItems.rod_quad_euphemium || this == ModItems.watch || this == ModItems.powder_iodine || this == ModItems.powder_thorium || this == ModItems.powder_neodymium || this == ModItems.powder_neptunium || this == ModItems.powder_astatine)
     	{
     		return EnumRarity.epic;
     	}
@@ -361,7 +361,7 @@ public class ItemCustomLore extends Item {
     		return EnumRarity.rare;
     	}
     	
-    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || this == ModItems.gun_pm_ammo)
+    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || this == ModItems.gun_mp_ammo || this == ModItems.powder_power)
     	{
     		return EnumRarity.uncommon;
     	}

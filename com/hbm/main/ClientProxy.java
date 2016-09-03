@@ -62,6 +62,7 @@ import com.hbm.render.BSmokeRenderer;
 import com.hbm.render.ItemRenderBigSword;
 import com.hbm.render.ItemRenderDecoBlock;
 import com.hbm.render.ItemRenderFatMan;
+import com.hbm.render.ItemRenderMP;
 import com.hbm.render.ItemRenderMiniNuke;
 import com.hbm.render.ItemRenderOSIPR;
 import com.hbm.render.ItemRenderPoleTop;
@@ -245,6 +246,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_xvl1456, new ItemRenderXVL1456());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_zomg, new ItemRenderZOMG());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_osipr, new ItemRenderOSIPR());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mp, new ItemRenderMP());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());

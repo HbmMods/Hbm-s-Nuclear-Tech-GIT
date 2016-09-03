@@ -13,6 +13,7 @@ import com.hbm.gui.ContainerFusionMultiblock;
 import com.hbm.gui.ContainerGenerator;
 import com.hbm.gui.ContainerLaunchPadTier1;
 import com.hbm.gui.ContainerMachineBattery;
+import com.hbm.gui.ContainerMachineCMBFactory;
 import com.hbm.gui.ContainerMachineCoal;
 import com.hbm.gui.ContainerMachineDeuterium;
 import com.hbm.gui.ContainerMachineDiesel;
@@ -41,6 +42,7 @@ import com.hbm.gui.GUICoreTitanium;
 import com.hbm.gui.GUIFusionMultiblock;
 import com.hbm.gui.GUILaunchPadTier1;
 import com.hbm.gui.GUIMachineBattery;
+import com.hbm.gui.GUIMachineCMBFactory;
 import com.hbm.gui.GUIMachineCentrifuge;
 import com.hbm.gui.GUIMachineCoal;
 import com.hbm.gui.GUIMachineDeuterium;
@@ -74,6 +76,7 @@ import com.hbm.tileentity.TileEntityDiFurnace;
 import com.hbm.tileentity.TileEntityFusionMultiblock;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
+import com.hbm.tileentity.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.TileEntityMachineCoal;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
@@ -367,6 +370,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineShredder(player.inventory, (TileEntityMachineShredder) entity);
 				}
 			}
+
+			case ModBlocks.guiID_combine_factory:
+			{
+				if(entity instanceof TileEntityMachineCMBFactory)
+				{
+					return new ContainerMachineCMBFactory(player.inventory, (TileEntityMachineCMBFactory) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -633,6 +644,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineShredder)
 					{
 						return new GUIMachineShredder(player.inventory, (TileEntityMachineShredder) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_combine_factory:
+				{
+					if(entity instanceof TileEntityMachineCMBFactory)
+					{
+						return new GUIMachineCMBFactory(player.inventory, (TileEntityMachineCMBFactory) entity);
 					}
 				}
 			}

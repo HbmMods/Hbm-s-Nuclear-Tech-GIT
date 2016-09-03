@@ -151,6 +151,6 @@ public class GunRpg extends Item
 		list.add("Kaboom!");
 		list.add("");
 		list.add("Ammo: Rockets");
-		list.add("Projectiles explodes on impact.");
+		list.add("Projectiles explode on impact.");
 	}
 }

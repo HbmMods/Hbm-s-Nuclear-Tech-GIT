@@ -120,6 +120,7 @@ tile.machine_diesel.name=Diesel Generator
 container.machineDiesel=Diesel Generator
 tile.machine_shredder.name=Shredder
 container.machineShredder=Shredder
+tile.machine_combine_factory.name=CMB Steel Furnace
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
@@ -205,6 +206,9 @@ item.ingot_magnetized_tungsten.name=Magnetized Tungsten Ingot
 item.ingot_combine_steel.name=CMB Steel Ingot
 item.plate_combine_steel.name=CMB Steel Plate
 item.wire_magnetized_tungsten.name=4000K High Temperature Super Conductor
+item.coil_magnetized_tungsten.name=4000K High Temperature Super Conducting Coil
+item.plate_mixed.name=Mixed Plate
+item.plate_paa.name=PaA Alloy Plate
 
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget
@@ -300,6 +304,10 @@ item.powder_lithium.name=Lithium Powder
 item.powder_advanced_alloy.name=Advanced Alloy Powder
 item.powder_quartz.name=Quartz Powder
 item.powder_power.name=Energy Powder
+item.powder_iodine.name=Iodine Powder
+item.powder_thorium.name=Thorium Powder
+item.powder_neodymium.name=Neodymium Powder
+item.powder_astatine.name=Astatine Powder
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
@@ -536,6 +544,7 @@ item.gun_revolver_cursed.name=Cursed Revolver
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
 item.gun_osipr.name=Overwatch Standard Issue Pulse Rifle
+item.gun_mp.name=Pacifist's Machine Gun
 item.gun_zomg.name=Singularity Powered Annihilation Ray "ZOMG Cannon"
 item.gun_super_shotgun.name=Super Shotgun
 item.gun_moist_nugget.name=Moisn-Nagant
@@ -550,6 +559,7 @@ item.gun_fatman_ammo.name=Mini Nuke
 item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
 item.gun_osipr_ammo.name=Dark Energy Pulse Plug
 item.gun_osipr_ammo2.name=Combine Ball
+item.gun_mp_ammo.name=Small Propellantless Machine Gun Round
 
 item.clip_revolver_iron.name=Box of Iron Rounds
 item.clip_revolver.name=Box of .357 Rounds
@@ -741,6 +751,7 @@ tile.machine_converter_rf_he.name=RF to HE Converter
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.euphemium_stopper.name=Stopper
 item.matchstick.name=Matchstick
+item.remote.name=Broken Remote
 
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator

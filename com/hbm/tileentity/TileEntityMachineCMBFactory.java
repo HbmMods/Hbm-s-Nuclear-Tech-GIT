@@ -66,7 +66,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machine_deuterium";
+		return this.hasCustomInventoryName() ? this.customName : "container.machineCMB";
 	}
 
 	@Override

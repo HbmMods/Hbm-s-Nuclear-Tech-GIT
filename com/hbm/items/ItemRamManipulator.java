@@ -34,10 +34,6 @@ public class ItemRamManipulator extends Item {
 		}
 
 		if (!player.isSneaking()) {
-
-			if (world.isRemote) {
-				player.addChatMessage(new ChatComponentText("Position set!"));
-			}
 			
 			Block block = world.getBlock(x, y, z);
 

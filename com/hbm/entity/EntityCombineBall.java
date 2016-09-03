@@ -382,7 +382,6 @@ public class EntityCombineBall extends Entity implements IProjectile
                     this.posX -= this.motionX / f2 * 0.05000000074505806D;
                     this.posY -= this.motionY / f2 * 0.05000000074505806D;
                     this.posZ -= this.motionZ / f2 * 0.05000000074505806D;
-                    this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
                     this.inGround = true;
                     this.arrowShake = 7;
                     this.setIsCritical(false);
@@ -493,7 +492,6 @@ public class EntityCombineBall extends Entity implements IProjectile
 
             if (flag)
             {
-                this.playSound("random.pop", 0.2F, ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
                 p_70100_1_.onItemPickup(this, 1);
                 this.setDead();
             }

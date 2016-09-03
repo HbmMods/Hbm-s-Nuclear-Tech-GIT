@@ -30,32 +30,19 @@ public class MachineCMBFactory extends BlockContainer {
 	private static boolean keepInventory;
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon iconBottom;
 	private IIcon iconTop;
-	private IIcon iconSide;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_bottom");
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_top");
-		this.iconSide = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_side");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_diesel_front");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_cmb_top");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_cmb_side");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		if(side == 0)
-			return iconBottom;
-		if(side == 1)
-			return iconTop;
-		if(side == 2 || side == 3)
-			return blockIcon;
-		if(side == 4 || side == 5)
-			return iconSide;
-		
-		return null;
+		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
 	}
 	
 	@Override

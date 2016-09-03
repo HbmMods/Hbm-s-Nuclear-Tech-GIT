@@ -142,7 +142,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 
         drawProgressBar(83 - (18 * 4) - 9 + 1, 6, 36, 86, 16, 18 * 3 - 2, 480, 7);
         
-        drawProgressBar(83 - 3, 5 + 19, 100, 118, 24, 16, 48, 0);
+        drawProgressBar(83 - 3, 5 + 18, 100, 118, 24, 16, 48, 0);
     }
 
     @Override

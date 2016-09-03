@@ -637,9 +637,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_converter_rf_he, machine_converter_rf_he.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_off, machine_electric_furnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_on, machine_electric_furnace_on.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_combine_factory, machine_combine_factory.getUnlocalizedName());
 		
 		//Industrial Factories
 		GameRegistry.registerBlock(factory_titanium_hull, factory_titanium_hull.getUnlocalizedName());
