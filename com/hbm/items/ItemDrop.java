@@ -169,8 +169,8 @@ public class ItemDrop extends Item {
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.black_hole) {
 			list.add("Contains a regular singularity");
-			list.add("in the center. Too small to");
-			list.add("stac stable. It's not the end");
+			list.add("in the center. Large enough to");
+			list.add("stay stable. It's not the end");
 			list.add("of the world as we know it,");
 			list.add("and I don't feel fine.");
 		}

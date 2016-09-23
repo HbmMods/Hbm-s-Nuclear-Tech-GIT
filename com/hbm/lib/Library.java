@@ -182,6 +182,10 @@ public class Library {
 		{
 			return true;
 		}
+		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3))
+		{
+			return true;
+		}
 		if(checkArmorPiece(player, ModItems.euphemium_helmet, 3))
 		{
 			return true;
@@ -200,7 +204,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor ||
-				world.getBlock(x, y, z) == ModBlocks.watz_conductor)
+				world.getBlock(x, y, z) == ModBlocks.watz_conductor ||
+				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch)
 		{
 			return true;
 		}

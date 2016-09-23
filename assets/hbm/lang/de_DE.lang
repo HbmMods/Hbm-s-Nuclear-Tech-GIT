@@ -14,6 +14,8 @@ death.attack.tauBlast=%1$s lud die XVL1456 zu lange auf und wurde in Stücke ger
 death.attack.chopperBullet=%1$s wurde von %2$s gerekt.
 death.attack.cmb=%1$s wurde von %2$s pulverisiert.
 death.attack.subAtomic=%1$s's Atome wurden von %2$s vernichtet.
+death.attack.radiation=%1$s starb an Strahlenvergiftung.
+death.attack.acid=%1$s fiel in Säure.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -121,6 +123,7 @@ container.machineDiesel=Dieselgenerator
 tile.machine_shredder.name=Shredder
 container.machineShredder=Shredder
 tile.machine_combine_factory.name=CMB-Stahl Hochofen
+container.machineCMB=CMB-Stahl Hochofen
 
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
@@ -271,6 +274,9 @@ tile.brick_concrete.name=Betonziegel
 tile.brick_obsidian.name=Obsidianziegel
 tile.brick_light.name=Helle Ziegel
 
+tile.cmb_brick.name=CMB-Stahlfliese
+tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
+
 item.nugget_uranium.name=Urannugget
 item.nugget_plutonium.name=Plutoniumnugget
 item.nugget_neptunium.name=Neptuniumnugget
@@ -353,6 +359,8 @@ item.inf_tritium.name=Unendlicher Tritiumtank
 item.inf_coolant.name=Unendlicher Kühlflüssigkeitstank
 item.inf_sulfur.name=Unendlicher Schwefeltank
 item.inf_diesel.name=Unendlicher Dieseltank
+item.inf_antimatter.name=Unendlicher Antimaterietank
+item.inf_antischrabidium.name=Unendlicher Antischrabidiumtank
 
 item.canister_empty.name=Leerer Kanister
 item.canister_fuel.name=Treibstoffkanister
@@ -411,7 +419,7 @@ item.rod_waste.name=Atommüllstab
 item.rod_dual_waste.name=Doppelter Atommüllstab
 item.rod_quad_waste.name=Vierfacher Atommüllstab
 
-item.gun_rpg.name=RPG
+item.gun_rpg.name=Raketenwerfer
 item.gun_rpg_ammo.name=Rakete
 
 item.flame_pony.name=Bild eines Cartoon Ponys
@@ -544,7 +552,7 @@ item.gun_revolver_cursed.name=Verfluchte Pistole
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
-item.gun_mp.name=Des Pazifistens Machinegewehr
+item.gun_mp.name=Des Pazifistens Maschinengewehr
 item.gun_zomg.name=Singularitätsbetriebener Paarvernichtungsstrahl "ZOMG Kanone"
 item.gun_super_shotgun.name=Super Shotgun
 item.gun_moist_nugget.name=Moisn-Nagant
@@ -568,6 +576,10 @@ item.clip_revolver_schrabidium.name=Schrabidium-Muntionsbehälter
 item.clip_rpg.name=Raketenbehälter
 item.clip_xvl1456.name=Große Isotopenbox
 item.clip_osipr.name=AR2 Magazin
+item.clip_revolver_lead.name=Box voll Atompatronen
+item.clip_revolver_cursed.name=Magazin der Standardpistole des Britannischen Militärs
+item.clip_fatman.name=Miniatombomben im Sechserpack
+item.clip_mp.name=Magazin des Standardsturmgewehrs des Britannischen Militärs
 
 tile.block_schrabidium.name=Schrabidiumblock
 item.plate_gold.name=Goldplatte
@@ -706,6 +718,9 @@ item.wand_k.name=Konstruktions-Zauberstab
 item.wand_s.name=Struktur-Zauberstab
 item.wand_d.name=Debug-Zauberstab
 
+item.screwdriver.name=Schraubenzieher
+item.overfuse.name=Singularitätsschraubenzieher
+
 item.steel_helmet.name=Stahlhelm
 item.steel_plate.name=Stahlbrustpanzer
 item.steel_legs.name=Stahlbeinschutz
@@ -774,7 +789,14 @@ item.pellet_advanced.name=Fortgeschrittenes Watzaufwertugspellet
 item.titanium_filter.name=Titanfilter
 
 tile.mud_block.name=Giftiger Schlamm
+fluid.mud_fluid=Giftiger Schlamm
 item.bucket_mud.name=Eimer mit giftigem Schlamm
+tile.acid_block.name=Säure
+fluid.acid_fluid=Säure
+item.bucket_acid.name=Säureeimer
+tile.toxic_block.name=Stereotypischer grüner Schleim
+fluid.toxic_fluid=Stereotypischer grüner Schleim
+item.bucket_toxic.name=Eimer mit stereotypischem grünen Schleim
 item.tank_waste_0.name=Schlammcontainer
 item.tank_waste_1.name=Schlammcontainer
 item.tank_waste_2.name=Schlammcontainer

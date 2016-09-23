@@ -3,6 +3,7 @@ package com.hbm.items;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.world.FWatz;
 import com.hbm.world.FactoryAdvanced;
 import com.hbm.world.FactoryTitanium;
 import com.hbm.world.FusionReactor;
@@ -46,6 +47,9 @@ public class ItemWandS extends Item {
 			case 4:
 				list.add("Structure: Watz Power Plant");
 				break;
+			case 5:
+				list.add("Structure: Fusionary Watz Plant");
+				break;
 			}
 		}
 	}
@@ -82,6 +86,9 @@ public class ItemWandS extends Item {
 			case 4:
 				new Watz().generate(world, rand, x, up ? y : y - 12, z);
 				break;
+			case 5:
+				new FWatz().generateHull(world, rand, x, up ? y : y - 18, z);
+				break;
 			}
 			
 		}
@@ -103,7 +110,7 @@ public class ItemWandS extends Item {
 				int i = stack.stackTagCompound.getInteger("building");
 				i++;
 				stack.stackTagCompound.setInteger("building", i);
-				if(i >= 5) {
+				if(i >= 6) {
 					stack.stackTagCompound.setInteger("building", 0);
 				}
 				
@@ -125,6 +132,9 @@ public class ItemWandS extends Item {
 						break;
 					case 4:
 						player.addChatMessage(new ChatComponentText("Set Structure: Watz Power Plant"));
+						break;
+					case 5:
+						player.addChatMessage(new ChatComponentText("Set Structure: Fusionary Watz Plant"));
 						break;
 					default:
 						player.addChatMessage(new ChatComponentText("Set Structure: Titanium Factory"));

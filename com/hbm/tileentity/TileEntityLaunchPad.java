@@ -210,7 +210,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
 		}
 		
-		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.battery_schrabidium && slots[2].getItemDamage() < 1000)
+		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.battery_schrabidium && slots[2].getItemDamage() < 10000)
 		{
 			power += 100;
 			slots[2].setItemDamage(slots[2].getItemDamage() + 1);

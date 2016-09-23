@@ -36,6 +36,7 @@ public class MudBlock extends BlockFluidClassic {
 	public static IIcon stillIcon;
 	@SideOnly(Side.CLIENT)
 	public static IIcon flowingIcon;
+	public Random rand = new Random();
 
 	public static DamageSource damageSource;
 
@@ -111,6 +112,103 @@ public class MudBlock extends BlockFluidClassic {
 
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		super.updateTick(world, x, y, z, rand);
+		
+		reactToBlocks2(world, x + 1, y, z);
+		reactToBlocks2(world, x - 1, y, z);
+		reactToBlocks2(world, x, y + 1, z);
+		reactToBlocks2(world, x, y - 1, z);
+		reactToBlocks2(world, x, y, z + 1);
+		reactToBlocks2(world, x, y, z - 1);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    {
+		super.onNeighborBlockChange(world, x, y, z, block);
+		
+		reactToBlocks(world, x + 1, y, z);
+		reactToBlocks(world, x - 1, y, z);
+		reactToBlocks(world, x, y + 1, z);
+		reactToBlocks(world, x, y - 1, z);
+		reactToBlocks(world, x, y, z + 1);
+		reactToBlocks(world, x, y, z - 1);
+    }
+	
+	public void reactToBlocks(World world, int x, int y, int z) {
+		if(world.getBlock(x, y, z).getMaterial() != ModBlocks.fluidmud) {
+			Block block = world.getBlock(x, y, z);
+			
+			if(block.getMaterial().isLiquid()) {
+				world.setBlock(x, y, z, Blocks.air);
+			}
+		}
+	}
+	
+	public void reactToBlocks2(World world, int x, int y, int z) {
+		if(world.getBlock(x, y, z).getMaterial() != ModBlocks.fluidmud) {
+			Block block = world.getBlock(x, y, z);
+
+			if (block == Blocks.stone || 
+					block == Blocks.stone_brick_stairs || 
+					block == Blocks.stonebrick || 
+					block == Blocks.stone_slab || 
+					block == Blocks.stone) {
+				if(rand.nextInt(20) == 0)
+					world.setBlock(x, y, z, Blocks.cobblestone);
+			} else if (block == Blocks.cobblestone) {
+				if(rand.nextInt(15) == 0)
+					world.setBlock(x, y, z, Blocks.gravel);
+			} else if (block == Blocks.sandstone) {
+				if(rand.nextInt(5) == 0)
+					world.setBlock(x, y, z, Blocks.sand);
+			} else if (block == Blocks.hardened_clay || 
+					block == Blocks.stained_hardened_clay) {
+				if(rand.nextInt(10) == 0)
+					world.setBlock(x, y, z, Blocks.clay);
+			} else if (block.getMaterial() == Material.wood) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.cactus) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.cake) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.circuits) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.cloth) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.coral) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.craftedSnow) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.glass) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.gourd) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.ice) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.leaves) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.packedIce) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.piston) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.plants) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.portal) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.redstoneLight) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.snow) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.sponge) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.vine) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getMaterial() == Material.web) {
+				world.setBlock(x, y, z, Blocks.air);
+			} else if (block.getExplosionResistance(null) < 1.2F) {
+				world.setBlock(x, y, z, Blocks.air);
+			}
+		}
 	}
 
 	public int tickRate(World p_149738_1_) {

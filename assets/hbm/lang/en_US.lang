@@ -14,6 +14,8 @@ death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into p
 death.attack.chopperBullet=%1$s was rekt by %2$s.
 death.attack.cmb=%1$s was fizzeled by %2$s.
 death.attack.subAtomic=%1$s's atoms were annihilated by %2$s.
+death.attack.radiation=%1$s died from radiation poisoning.
+death.attack.acid=%1$s fell into acid.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -121,6 +123,7 @@ container.machineDiesel=Diesel Generator
 tile.machine_shredder.name=Shredder
 container.machineShredder=Shredder
 tile.machine_combine_factory.name=CMB Steel Furnace
+container.machineCMB=CMB Steel Furnace
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
@@ -271,6 +274,9 @@ tile.brick_concrete.name=Concrete Bricks
 tile.brick_obsidian.name=Obsidian Bricks
 tile.brick_light.name=Light Bricks
 
+tile.cmb_brick.name=CMB Steel Tile
+tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
+
 item.nugget_uranium.name=Uranium Nugget
 item.nugget_plutonium.name=Plutonium Nugget
 item.nugget_neptunium.name=Neptunium Nugget
@@ -353,6 +359,8 @@ item.inf_tritium.name=Infinite Tritium Tank
 item.inf_coolant.name=Infinite Coolant Tank
 item.inf_sulfur.name=Infinite Sulfur Tank
 item.inf_diesel.name=Infinite Diesel Tank
+item.inf_antimatter.name=Infinite Antimatter Tank
+item.inf_antischrabidium.name=Infinite Antischrabidium Tank
 
 item.canister_empty.name=Empty Canister
 item.canister_fuel.name=Fuel Canister
@@ -411,7 +419,7 @@ item.rod_waste.name=Nuclear Waste Rod
 item.rod_dual_waste.name=Nuclear Waste Dual Rod
 item.rod_quad_waste.name=Nuclear Waste Quad Rod
 
-item.gun_rpg.name=RPG
+item.gun_rpg.name=Rocket Launcher
 item.gun_rpg_ammo.name=Rocket
 
 item.flame_pony.name=Painting of a Cartoon Pony
@@ -568,6 +576,10 @@ item.clip_revolver_schrabidium.name=Schrabidium Ammo Container
 item.clip_rpg.name=Rocket Container
 item.clip_xvl1456.name=Large Isotope Box
 item.clip_osipr.name=AR2 Magazine
+item.clip_revolver_lead.name=Box of Nuclear Bullets
+item.clip_revolver_cursed.name=Britannia Military Standard Issue Pisol Magazine
+item.clip_fatman.name=Six Pack of Mini Nukes
+item.clip_mp.name=Britannia Military Standard Issue Assult Rifle Magazine
 
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate
@@ -706,6 +718,9 @@ item.wand_k.name=Construction Wand
 item.wand_s.name=Structure Wand
 item.wand_d.name=Debug Wand
 
+item.screwdriver.name=Screwdriver
+item.overfuse.name=Singularity Screwdriver
+
 item.steel_helmet.name=Steel Helmet
 item.steel_plate.name=Steel Chestplate
 item.steel_legs.name=Steel Leggings
@@ -774,7 +789,14 @@ item.pellet_advanced.name=Advanced Watz Performance Improver
 item.titanium_filter.name=Titanium Filter
 
 tile.mud_block.name=Poisonous Mud
+fluid.mud_fluid=Poisonous Mud
 item.bucket_mud.name=Bucket of Poisonous Mud
+tile.acid_block.name=Acid
+fluid.acid_fluid=Acid
+item.bucket_acid.name=Bucket of Acid
+tile.toxic_block.name=Stereotypical Green Ooze
+fluid.toxic_fluid=Stereotypical Green Ooze
+item.bucket_toxic.name=Bucket of Stereotypical Green Ooze
 item.tank_waste_0.name=Mud Container
 item.tank_waste_1.name=Mud Container
 item.tank_waste_2.name=Mud Container

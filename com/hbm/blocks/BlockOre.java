@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.entity.EntityNuclearCreeper;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -122,6 +123,7 @@ public class BlockOre extends Block {
         	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 60 * 20, 2));
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 30 * 20, 0));
+    		entity.attackEntityFrom(ModDamageSource.radiation, 0.5F);
         	}
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_waste)
@@ -159,6 +161,7 @@ public class BlockOre extends Block {
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 10 * 60 * 20, 4));
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 4 * 60 * 20, 2));
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 60 * 20, 2));
+    		entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
         	}
     	}
     	if (entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red))

@@ -308,7 +308,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				}
 				
 				
-				if(slots[33] != null && slots[33].getItem() == ModItems.fuse)
+				if(hasFuse())
 				{
 					for(int i = 0; i < 30; i++)
 					{
@@ -741,7 +741,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	
 	@Override
 	public boolean hasFuse() {
-		return false;
+		return slots[33] != null && (slots[33].getItem() == ModItems.fuse || slots[33].getItem() == ModItems.screwdriver);
 	}
 	
 	public void attemptPower(int i) {

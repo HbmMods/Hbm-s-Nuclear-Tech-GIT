@@ -323,7 +323,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
 		}
 		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium && slots[0].getItemDamage() < 1000)
+		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium && slots[0].getItemDamage() < 10000)
 		{
 			power += 100;
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);

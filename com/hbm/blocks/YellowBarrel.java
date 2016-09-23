@@ -17,6 +17,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class YellowBarrel extends BlockContainer {
+	
+	Random rand = new Random();
 
 	protected YellowBarrel(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -37,7 +39,11 @@ public class YellowBarrel extends BlockContainer {
     }
 	
 	public void explode(World p_149695_1_, int x, int y, int z) {
-		p_149695_1_.createExplosion(null, x, y, z, 18.0F, true);
+		if(rand.nextInt(5) == 0) {
+			p_149695_1_.setBlock(x, y, z, ModBlocks.toxic_block);
+		} else {
+			p_149695_1_.createExplosion(null, x, y, z, 18.0F, true);
+		}
     	ExplosionNukeGeneric.waste(p_149695_1_, x, y, z, 35);
 	}
 	

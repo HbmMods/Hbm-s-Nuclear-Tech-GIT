@@ -9,6 +9,7 @@ import com.hbm.gui.ContainerConverterRfHe;
 import com.hbm.gui.ContainerCoreAdvanced;
 import com.hbm.gui.ContainerCoreTitanium;
 import com.hbm.gui.ContainerElectricFurnace;
+import com.hbm.gui.ContainerFWatzCore;
 import com.hbm.gui.ContainerFusionMultiblock;
 import com.hbm.gui.ContainerGenerator;
 import com.hbm.gui.ContainerLaunchPadTier1;
@@ -39,6 +40,7 @@ import com.hbm.gui.GUIConverterHeRf;
 import com.hbm.gui.GUIConverterRfHe;
 import com.hbm.gui.GUICoreAdvanced;
 import com.hbm.gui.GUICoreTitanium;
+import com.hbm.gui.GUIFWatzCore;
 import com.hbm.gui.GUIFusionMultiblock;
 import com.hbm.gui.GUILaunchPadTier1;
 import com.hbm.gui.GUIMachineBattery;
@@ -73,6 +75,7 @@ import com.hbm.tileentity.TileEntityConverterRfHe;
 import com.hbm.tileentity.TileEntityCoreAdvanced;
 import com.hbm.tileentity.TileEntityCoreTitanium;
 import com.hbm.tileentity.TileEntityDiFurnace;
+import com.hbm.tileentity.TileEntityFWatzCore;
 import com.hbm.tileentity.TileEntityFusionMultiblock;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
@@ -378,6 +381,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineCMBFactory(player.inventory, (TileEntityMachineCMBFactory) entity);
 				}
 			}
+
+			case ModBlocks.guiID_fwatz_multiblock:
+			{
+				if(entity instanceof TileEntityFWatzCore)
+				{
+					return new ContainerFWatzCore(player.inventory, (TileEntityFWatzCore) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -652,6 +663,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineCMBFactory)
 					{
 						return new GUIMachineCMBFactory(player.inventory, (TileEntityMachineCMBFactory) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_fwatz_multiblock:
+				{
+					if(entity instanceof TileEntityFWatzCore)
+					{
+						return new GUIFWatzCore(player.inventory, (TileEntityFWatzCore) entity);
 					}
 				}
 			}

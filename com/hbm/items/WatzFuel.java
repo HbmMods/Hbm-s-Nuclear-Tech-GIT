@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class WatzFuel extends Item {
+public class WatzFuel extends ItemRadioactive {
 	
 	public int power;
 	public float powerMultiplier;

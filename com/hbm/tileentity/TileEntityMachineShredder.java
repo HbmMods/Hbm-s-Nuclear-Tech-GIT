@@ -277,7 +277,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 			slots[29].setItemDamage(slots[29].getItemDamage() + 1);
 		}
 		
-		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.battery_schrabidium && slots[29].getItemDamage() < 1000)
+		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.battery_schrabidium && slots[29].getItemDamage() < 10000)
 		{
 			power += 100;
 			slots[29].setItemDamage(slots[29].getItemDamage() + 1);

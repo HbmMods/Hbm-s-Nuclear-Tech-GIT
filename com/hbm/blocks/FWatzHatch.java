@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityFWatzCore;
+import com.hbm.tileentity.TileEntityFusionMultiblock;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -106,6 +108,75 @@ public class FWatzHatch extends Block {
 		if(i == 3)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		}
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote)
+		{
+			return true;
+		} else if(!player.isSneaking())
+		{
+			if(world.getBlockMetadata(x, y, z) == 2)
+			{
+				if(world.getTileEntity(x, y + 11, z + 9) instanceof TileEntityFWatzCore)
+				{
+					if(((TileEntityFWatzCore)world.getTileEntity(x, y + 11, z + 9)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x, y + 11, z + 9);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Core not found!"));
+				}
+			}
+			if(world.getBlockMetadata(x, y, z) == 3)
+			{
+				if(world.getTileEntity(x, y + 11, z - 9) instanceof TileEntityFWatzCore)
+				{
+					if(((TileEntityFWatzCore)world.getTileEntity(x, y + 11, z - 9)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x, y + 11, z - 9);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Core not found!"));
+				}
+			}
+			if(world.getBlockMetadata(x, y, z) == 4)
+			{
+				if(world.getTileEntity(x + 9, y + 11, z) instanceof TileEntityFWatzCore)
+				{
+					if(((TileEntityFWatzCore)world.getTileEntity(x + 9, y + 11, z)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x + 9, y + 11, z);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Core not found!"));
+				}
+			}
+			if(world.getBlockMetadata(x, y, z) == 5)
+			{
+				if(world.getTileEntity(x - 9, y + 11, z) instanceof TileEntityFWatzCore)
+				{
+					if(((TileEntityFWatzCore)world.getTileEntity(x - 9, y + 11, z)).isStructureValid(world))
+					{
+						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x - 9, y + 11, z);
+					} else {
+						player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Structure not valid!"));
+					}
+				} else {
+					player.addChatMessage(new ChatComponentText("[Fusionary Watz Plant] Error: Reactor Core not found!"));
+				}
+			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

@@ -38,10 +38,17 @@ public class GUIMachineCMBFactory extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-		
+
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(88);
-			drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 160 - i, 16, i);
+			int i = diFurnace.getPowerScaled(52);
+			drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 176, 52 - i, 16, i);
 		}
+		if(diFurnace.waste > 0) {
+			int i = diFurnace.getWasteScaled(52);
+			drawTexturedModalRect(guiLeft + 26, guiTop + 69 - i, 192, 52 - i, 16, i);
+		}
+		
+		int j1 = diFurnace.getProgressScaled(24);
+		drawTexturedModalRect(guiLeft + 101, guiTop + 34, 208, 0, j1 + 1, 16);
 	}
 }

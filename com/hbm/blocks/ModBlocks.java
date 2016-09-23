@@ -77,6 +77,9 @@ public class ModBlocks {
 	public static Block brick_concrete;
 	public static Block brick_obsidian;
 	public static Block brick_light;
+
+	public static Block cmb_brick;
+	public static Block cmb_brick_reinforced;
 	
 	public static Block block_meteor;
 
@@ -281,6 +284,14 @@ public class ModBlocks {
 	public static Block mud_block;
 	public static Fluid mud_fluid;
 	public static final Material fluidmud = (new MaterialLiquid(MapColor.adobeColor));
+
+	public static Block acid_block;
+	public static Fluid acid_fluid;
+	public static final Material fluidacid = (new MaterialLiquid(MapColor.purpleColor));
+
+	public static Block toxic_block;
+	public static Fluid toxic_fluid;
+	public static final Material fluidtoxic = (new MaterialLiquid(MapColor.greenColor));
 	
 
 	private static void initializeBlock() {
@@ -341,6 +352,9 @@ public class ModBlocks {
 		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
 		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
 		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.tabBlock).setLightOpacity(15).setHardness(15.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
+
+		cmb_brick = new BlockGeneric(Material.rock).setBlockName("cmb_brick").setCreativeTab(MainRegistry.tabBlock).setHardness(25.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick");
+		cmb_brick_reinforced = new BlockGeneric(Material.rock).setBlockName("cmb_brick_reinforced").setCreativeTab(MainRegistry.tabBlock).setHardness(25.0F).setResistance(60000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick_reinforced");
 
 		block_meteor = new BlockGeneric(Material.rock).setBlockName("block_meteor").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":block_meteor");
 		
@@ -502,6 +516,14 @@ public class ModBlocks {
 		mud_fluid = new MudFluid().setDensity(2500).setViscosity(3000).setLuminosity(5).setTemperature(2773).setUnlocalizedName("mud_fluid");
 		FluidRegistry.registerFluid(mud_fluid);
 		mud_block = new MudBlock(mud_fluid, fluidmud.setReplaceable(), ModDamageSource.mudPoisoning).setBlockName("mud_block").setResistance(500F);
+
+		acid_fluid = new AcidFluid().setDensity(2500).setViscosity(1500).setLuminosity(5).setTemperature(2773).setUnlocalizedName("mud_fluid");
+		FluidRegistry.registerFluid(acid_fluid);
+		acid_block = new AcidBlock(acid_fluid, fluidacid.setReplaceable(), ModDamageSource.acid).setBlockName("acid_block").setResistance(500F);
+
+		toxic_fluid = new ToxicFluid().setDensity(2500).setViscosity(2000).setLuminosity(15).setTemperature(2773).setUnlocalizedName("mud_fluid");
+		FluidRegistry.registerFluid(toxic_fluid);
+		toxic_block = new ToxicBlock(toxic_fluid, fluidtoxic.setReplaceable(), ModDamageSource.radiation).setBlockName("toxic_block").setResistance(500F);
 	}
 
 	private static void registerBlock() {
@@ -564,6 +586,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_concrete, brick_concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_obsidian, brick_obsidian.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_light, brick_light.getUnlocalizedName());
+		
+		//CMB Building Elements
+		GameRegistry.registerBlock(cmb_brick, cmb_brick.getUnlocalizedName());
+		GameRegistry.registerBlock(cmb_brick_reinforced, cmb_brick_reinforced.getUnlocalizedName());
 		
 		//Decoration Blocks
 		GameRegistry.registerBlock(block_meteor, block_meteor.getUnlocalizedName());
@@ -717,5 +743,7 @@ public class ModBlocks {
 		
 		//Fluids
 		GameRegistry.registerBlock(mud_block, mud_block.getUnlocalizedName());
+		GameRegistry.registerBlock(acid_block, acid_block.getUnlocalizedName());
+		GameRegistry.registerBlock(toxic_block, toxic_block.getUnlocalizedName());
 	}
 }

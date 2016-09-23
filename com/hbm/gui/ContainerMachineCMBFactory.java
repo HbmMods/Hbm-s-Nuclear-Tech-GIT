@@ -23,11 +23,11 @@ public class ContainerMachineCMBFactory extends Container {
 		
 		diFurnace = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 44, 18));
-		this.addSlotToContainer(new Slot(tedf, 1, 62, 18));
-		this.addSlotToContainer(new Slot(tedf, 2, 80, 18));
-		this.addSlotToContainer(new Slot(tedf, 3, 44, 36));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 4, 116, 18));
+		this.addSlotToContainer(new Slot(tedf, 0, 62, 17));
+		this.addSlotToContainer(new Slot(tedf, 1, 80, 17));
+		this.addSlotToContainer(new Slot(tedf, 2, 62, 53));
+		this.addSlotToContainer(new Slot(tedf, 3, 80, 53));
+		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 4, 134, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -62,16 +62,15 @@ public class ContainerMachineCMBFactory extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 29) {
-				if (!this.mergeItemStack(var5, 30, this.inventorySlots.size(), true))
+            if (par2 <= 4) {
+				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
 			else
 			{
-				if (!this.mergeItemStack(var5, 0, 9, false))
-					if (!this.mergeItemStack(var5, 27, 30, false))
+				if (!this.mergeItemStack(var5, 0, 4, false))
 						return null;
 			}
 			

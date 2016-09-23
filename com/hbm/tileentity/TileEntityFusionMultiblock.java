@@ -942,7 +942,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean hasFuse() {
-		return false;
+		return slots[8] != null && (slots[8].getItem() == ModItems.fuse || slots[8].getItem() == ModItems.screwdriver);
 	}
 	
 	@Override
@@ -1074,7 +1074,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 					slots[5] != null && (slots[5].getItem() == ModItems.fusion_core || slots[5].getItem() == ModItems.energy_core) && slots[5].getItemDamage() == 0 &&
 					slots[6] != null && (slots[6].getItem() == ModItems.fusion_core || slots[6].getItem() == ModItems.energy_core) && slots[6].getItemDamage() == 0 &&
 					slots[7] != null && (slots[7].getItem() == ModItems.fusion_core || slots[7].getItem() == ModItems.energy_core) && slots[7].getItemDamage() == 0 &&
-					slots[8] != null && slots[8].getItem() == ModItems.fuse &&
+					hasFuse() &&
 					deut > 0 && trit > 0)
 			{
 				slots[4] = null;
@@ -1148,7 +1148,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	}
 	
 	public boolean isRunning() {
-		if(slots[8] != null && slots[8].getItem() == ModItems.fuse && (
+		if(hasFuse() && (
 				worldObj.getBlock(xCoord + 4, yCoord, zCoord - 3) == ModBlocks.plasma ||
 				worldObj.getBlock(xCoord + 4, yCoord, zCoord - 2) == ModBlocks.plasma ||
 				worldObj.getBlock(xCoord + 4, yCoord, zCoord - 1) == ModBlocks.plasma ||

@@ -19,13 +19,14 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	public int power = 0;
 	public int waste = 0;
 	public int process = 0;
+	public int soundCycle = 0;
 	public static final int maxFill = 1000;
 	public static final int maxPower = 10000;
 	public static final int processSpeed = 200;
 
-	private static final int[] slots_top = new int[] {3};
-	private static final int[] slots_bottom = new int[] {4, 0, 1};
-	private static final int[] slots_side = new int[] {0, 1, 2};
+	private static final int[] slots_top = new int[] {1, 3};
+	private static final int[] slots_bottom = new int[] {0, 2, 4};
+	private static final int[] slots_side = new int[] {0, 2};
 	
 	private String customName;
 	
@@ -107,15 +108,15 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 				return true;
 			break;
 		case 1:
-			if(stack.getItem() == ModItems.rod_water || stack.getItem() == ModItems.rod_dual_water || stack.getItem() == ModItems.rod_quad_water || stack.getItem() == Items.water_bucket)
+			if(stack.getItem() == ModItems.ingot_magnetized_tungsten || stack.getItem() == ModItems.powder_magnetized_tungsten)
 				return true;
 			break;
 		case 2:
-			if(stack.getItem() == ModItems.sulfur)
+			if(stack.getItem() == ModItems.bucket_mud || (stack.getItem() == ModItems.tank_waste && stack.getItemDamage() > 0))
 				return true;
 			break;
 		case 3:
-			if(stack.getItem() == ModItems.cell_empty)
+			if(stack.getItem() == ModItems.ingot_advanced_alloy || stack.getItem() == ModItems.powder_advanced_alloy)
 				return true;
 			break;
 		}
@@ -205,8 +206,8 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		if(i == 0 && itemStack.getItem() instanceof ItemBattery)
 			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
 				return true;
-		if(i == 1)
-			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
+		if(i == 2)
+			if(itemStack.getItem() == Items.bucket || (itemStack.getItem() == ModItems.tank_waste && itemStack.getItemDamage() <= 0))
 				return true;
 		
 		return false;
@@ -225,7 +226,18 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	}
 	
 	public boolean canProcess() {
-		return false;
+		
+		boolean b = false;
+		
+		if(waste > 0 && power > 0 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
+		{
+			boolean flag0 = slots[1].getItem() == ModItems.ingot_magnetized_tungsten || slots[1].getItem() == ModItems.powder_magnetized_tungsten;
+			boolean flag1 = slots[3].getItem() == ModItems.ingot_advanced_alloy || slots[3].getItem() == ModItems.powder_advanced_alloy;
+			
+			b = flag0 && flag1;
+		}
+		
+		return  b;
 	}
 	
 	public boolean isProcessing() {
@@ -234,25 +246,28 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	
 	public void process() {
 		waste -= 1;
-		power -= 25;
+		power -= 3;
 		
 		process++;
 		
 		if(process >= processSpeed) {
 			
+			slots[1].stackSize--;
+			if (slots[1].stackSize == 0) {
+				slots[1] = null;
+			}
+
 			slots[3].stackSize--;
-			
-			if(slots[3].stackSize == 0)
-			{
+			if (slots[3].stackSize == 0) {
 				slots[3] = null;
 			}
 			
 			if(slots[4] == null)
 			{
-				slots[4] = new ItemStack(ModItems.cell_deuterium);
+				slots[4] = new ItemStack(ModItems.ingot_combine_steel, 4);
 			} else {
 				
-				slots[4].stackSize++;
+				slots[4].stackSize += 4;
 			}
 			
 			process = 0;
@@ -264,14 +279,58 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 
 		if (!worldObj.isRemote) {
 
-			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core
+			if (slots[0] != null && slots[0].getItem() == ModItems.battery_creative) {
+				power = maxPower;
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_generic
+					&& slots[0].getItemDamage() < 50) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_advanced
+					&& slots[0].getItemDamage() < 200) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium
+					&& slots[0].getItemDamage() < 1000) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.fusion_core
 					&& slots[0].getItemDamage() < 5000) {
 				power += 100;
 				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
 			}
 
+			if (power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core
+					&& slots[0].getItemDamage() < 5000) {
+				power += 100;
+				slots[0].setItemDamage(slots[0].getItemDamage() + 1);
+			}
+			
+			if(waste + 500 <= maxFill && slots[2] != null && slots[2].getItem() == ModItems.bucket_mud) {
+				waste += 500;
+				slots[2] = new ItemStack(slots[2].getItem().getContainerItem());
+			}
+			
+			if(waste + 500 <= maxFill && slots[2] != null && slots[2].getItem() == ModItems.tank_waste && slots[2].getItemDamage() > 0) {
+				waste += 500;
+				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+			}
+
 			if (canProcess()) {
 				process();
+				if(soundCycle == 0)
+			        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 1.5F);
+				soundCycle++;
+					
+				if(soundCycle >= 25)
+					soundCycle = 0;
 			} else {
 				process = 0;
 			}

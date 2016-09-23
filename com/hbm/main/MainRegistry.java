@@ -96,9 +96,11 @@ import com.hbm.tileentity.TileEntityDecoPoleTop;
 import com.hbm.tileentity.TileEntityDecoSteelPoles;
 import com.hbm.tileentity.TileEntityDecoTapeRecorder;
 import com.hbm.tileentity.TileEntityDiFurnace;
+import com.hbm.tileentity.TileEntityFWatzCore;
 import com.hbm.tileentity.TileEntityFusionMultiblock;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
+import com.hbm.tileentity.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.TileEntityMachineCoal;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
@@ -296,8 +298,10 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
 		GameRegistry.registerTileEntity(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 		GameRegistry.registerTileEntity(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
-		GameRegistry.registerTileEntity(TileEntityWatzCore.class, "tileentity_watz_powerplant");
+		GameRegistry.registerTileEntity(TileEntityWatzCore.class, "tileentity_watz_multiblock");
 		GameRegistry.registerTileEntity(TileEntityMachineShredder.class, "tileentity_machine_shredder");
+		GameRegistry.registerTileEntity(TileEntityMachineCMBFactory.class, "tileentity_machine_cmb");
+		GameRegistry.registerTileEntity(TileEntityFWatzCore.class, "tileentity_fwatz_multiblock");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

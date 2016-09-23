@@ -84,6 +84,38 @@ public class ItemClip extends Item {
         	}
 		}
 		
+		if(this == ModItems.clip_revolver_lead)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_lead_ammo, 12)))
+        	{
+        		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_revolver_lead_ammo, 12), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_revolver_cursed)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_cursed_ammo, 17)))
+        	{
+        		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_revolver_cursed_ammo, 17), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_fatman)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_fatman_ammo, 6)))
+        	{
+        		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_fatman_ammo, 6), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_mp)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mp_ammo, 30)))
+        	{
+        		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp_ammo, 30), false);
+        	}
+		}
+		
 		return stack;
 		
 	}
