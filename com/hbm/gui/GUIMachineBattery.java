@@ -27,6 +27,7 @@ public class GUIMachineBattery extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		name += (" (" + this.diFurnace.power + " HE)");
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);

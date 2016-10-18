@@ -35,14 +35,10 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	public double waypointY;
 	public double waypointZ;
 	private Entity targetedEntity;
-	/** Cooldown time between target loss and new target aquirement. */
 	private int aggroCooldown;
 	public int prevAttackCounter;
 	public int attackCounter;
 	public int mineDropCounter;
-	/** The explosion radius of spawned fireballs. */
-	private int explosionStrength = 1;
-	private static final String __OBFID = "CL_00001689";
 	public boolean isDying = false;
 
 	public EntityHunterChopper(World p_i1735_1_) {
@@ -50,6 +46,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 		this.setSize(8.25F, 3.0F);
 		this.isImmuneToFire = true;
 		this.experienceValue = 500;
+		this.ignoreFrustumCheck = true;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -61,10 +58,12 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if (this.isEntityInvulnerable() || !(source.isExplosion()  || ModDamageSource.getIsTau(source) || (ModDamageSource.getIsEmplacer(source) && source.getSourceOfDamage() != this))) {
+		if (this.isEntityInvulnerable() || !(source == ModDamageSource.nuclearBlast || source.isExplosion()  || ModDamageSource.getIsTau(source) || ModDamageSource.getIsSubatomic(source))) {
 			return false;
 		} else if(amount >= this.getHealth()) {
 			this.initDeath();
+			this.setIsDying(true);
+			this.setHealth(0.1F);
 			return false;
 		}
 		
@@ -95,11 +94,12 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		this.dataWatcher.addObject(21, Float.valueOf((float) 0));
 		this.dataWatcher.addObject(22, Float.valueOf((float) 0));
+		this.dataWatcher.addObject(23, Byte.valueOf((byte) 0));
 	}
 
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1500.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(750.0D);
 	}
 
 	protected void updateEntityActionState() {
@@ -108,10 +108,8 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 		}
 
 		if (!isDying) {
-			if (this.ticksExisted % 2 == 0)
-				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "fireworks.blast", 10.0F, 0.5F);
+			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:misc.nullChopper", 10.0F, 0.5F);
 
-			this.despawnEntity();
 			this.prevAttackCounter = this.attackCounter;
 			double d0 = this.waypointX - this.posX;
 			double d1 = this.waypointY - this.posY;
@@ -156,8 +154,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				// this.targetedEntity =
 				// this.worldObj.getClosestVulnerablePlayerToEntity(this,
 				// 100.0D);
-				this.targetedEntity = Library.getClosestEntityForChopper(worldObj, this.posX, this.posY, this.posZ,
-						250);
+				this.targetedEntity = Library.getClosestEntityForChopper(worldObj, this.posX, this.posY, this.posZ, 250);
 
 				if (this.targetedEntity != null) {
 					this.aggroCooldown = 20;
@@ -183,7 +180,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				}
 
 				if (this.attackCounter % 2 == 0 && attackCounter >= 120) {
-					worldObj.playSoundAtEntity(this, "random.explode", 10.0F, 3.0F);
+					worldObj.playSoundAtEntity(this, "hbm:weapon.osiprShoot", 10.0F, 1.0F);
 					// EntityLargeFireball entitylargefireball = new
 					// EntityLargeFireball(this.worldObj, this, d5, d6, d7);
 					EntityBullet entityarrow = new EntityBullet(this.worldObj, this, 3.0F, 35, 45, false, "chopper");
@@ -207,12 +204,13 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 					// this.worldObj.spawnEntityInWorld(entitylargefireball);
 					this.worldObj.spawnEntityInWorld(entityarrow);
 				}
-				if (this.attackCounter >= 80 && this.attackCounter < 120) {
-					worldObj.playSoundAtEntity(this, "random.click", 10.0F, 0.5F + ((attackCounter / 100) - 0.8F));
+				if (this.attackCounter == 80) {
+					worldObj.playSoundAtEntity(this, "hbm:entity.chopperCharge", 5.0F, 1.0F);
 				}
 
 				this.mineDropCounter++;
 				if (mineDropCounter > 100 && rand.nextInt(15) == 0) {
+		    		worldObj.playSoundAtEntity(this, "hbm:entity.chopperDrop", 15.0F, 1.0F);
 					EntityChopperMine mine = new EntityChopperMine(worldObj, this.posX, this.posY - 0.5, this.posZ, 0, -0.3, 0, this);
 					this.mineDropCounter = 0;
 					this.worldObj.spawnEntityInWorld(mine);
@@ -260,12 +258,16 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 			
 			this.worldObj.spawnEntityInWorld(new EntitySmokeFX(worldObj, this.posX, this.posY, this.posZ, 0, 0, 0));
 			
+			rotationYaw += 20;
+			
 			if(this.onGround)
 			{
 		    	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15F, true);
 		    	this.dropItems();
 				this.setDead();
 			}
+			if (this.ticksExisted % 2 == 0)
+				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:misc.nullCrashing", 10.0F, 0.5F);
 		}
 
 		if (this.targetedEntity == null) {
@@ -296,10 +298,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 			double d5 = this.targetedEntity.posX - xStart;
 			double d6 = this.targetedEntity.boundingBox.minY + (double) (this.targetedEntity.height / 2.0F) - yStart;
 			double d7 = this.targetedEntity.posZ - zStart;
-			
-			this.setYaw(-((float) (Math.atan2(d5, d7) * 180.0D / Math.PI) + 90));
-			f3 = MathHelper.sqrt_double(d5 * d5 + d7 * d7);
-			this.setPitch((float) (Math.atan2(d6, f3) * 180.0D / Math.PI));
 		}
 
 		if(rotationPitch <= 330 && rotationPitch >= 30)
@@ -392,7 +390,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 */
 	public void writeEntityToNBT(NBTTagCompound p_70014_1_) {
 		super.writeEntityToNBT(p_70014_1_);
-		p_70014_1_.setInteger("ExplosionPower", this.explosionStrength);
 	}
 
 	/**
@@ -400,10 +397,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 */
 	public void readEntityFromNBT(NBTTagCompound p_70037_1_) {
 		super.readEntityFromNBT(p_70037_1_);
-
-		if (p_70037_1_.hasKey("ExplosionPower", 99)) {
-			this.explosionStrength = p_70037_1_.getInteger("ExplosionPower");
-		}
 	}
 	
     @Override
@@ -415,6 +408,8 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
     
     public void initDeath() {
     	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 10F, true);
+    	if(!this.isDying)
+    		worldObj.playSoundAtEntity(this, "hbm:entity.chopperDamage", 10.0F, 1.0F);
     	isDying = true;
     }
     
@@ -429,19 +424,11 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 			this.dropItem(ModItems.wire_magnetized_tungsten, 1);
     }
 
-	public void setYaw(float f) {
-		this.dataWatcher.updateObject(21, Float.valueOf((float) f));
+	public void setIsDying(boolean b) {
+		this.dataWatcher.updateObject(23, Byte.valueOf((byte) (b ? 1 : 0)));
 	}
 
-	public void setPitch(float f) {
-		this.dataWatcher.updateObject(22, Float.valueOf((float) f));
-	}
-	
-	public float getYaw() {
-		return this.dataWatcher.getWatchableObjectFloat(21);
-	}
-	
-	public float getPitch() {
-		return this.dataWatcher.getWatchableObjectFloat(22);
+	public boolean getIsDying() {
+		return this.dataWatcher.getWatchableObjectByte(23) == 1;
 	}
 }

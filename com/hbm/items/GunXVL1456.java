@@ -6,6 +6,9 @@ import java.util.Random;
 import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.sound.MovingSoundPlayerLoop;
+import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
+import com.hbm.sound.MovingSoundXVL1456;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -16,6 +19,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
@@ -55,8 +59,7 @@ public class GunXVL1456 extends Item {
 
 				entitybullet.setDamage(j + rand.nextInt(6));
 
-				world.playSoundAtEntity(player, "fireworks.blast", 1.0F,
-						1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) * 0.75F);
+				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.5F);
 
 				if (flag) {
 					entitybullet.canBePickedUp = 2;
@@ -107,7 +110,7 @@ public class GunXVL1456 extends Item {
 				EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, "eyyOk");
 				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
 
-				world.playSoundAtEntity(player, "fireworks.blast", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 0.5F);
+				world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
@@ -129,17 +132,13 @@ public class GunXVL1456 extends Item {
 					}
 				}
 			}
-			if(count % 2 == 0)
-			{
-				//world.playSoundAtEntity(player, "dig.stone", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1F);
-				//world.playSoundAtEntity(player, "random.click", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1F);
-				world.playSoundAtEntity(player, "random.click", 1.0F, (this.getMaxItemUseDuration(stack) - count) * 0.01F);
-			}
+			
+			world.playSoundAtEntity(player, "hbm:misc.nullTau", 0.1F, 1.0F);
 		}
 		
 		if(player instanceof EntityPlayer)
 		{
-			if(((EntityPlayer)player).getItemInUseCount() < getMaxItemUseDuration(stack) - 200 && player.isSneaking() && ((EntityPlayer)player).getItemInUseCount() != 0)
+			if(count < getMaxItemUseDuration(stack) - 200 && player.isSneaking() && count != 0)
 			{
 				if(!world.isRemote)
 				{

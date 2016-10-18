@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.entity.EntityNukeCloudBig;
+import com.hbm.entity.EntityNukeCloudNoShroom;
 import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
@@ -160,20 +161,28 @@ public class NukeMike extends BlockContainer implements IBomb {
     	
     		world.spawnEntityInWorld(entity);
     		
-    		if(r < 200)
-    		{
-    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
-    			entity2.posX = x;
-    			entity2.posY = y - (r / 10);
-    			entity2.posZ = z;
-    	    	world.spawnEntityInWorld(entity2);
-    		} else {
-    			EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
-    			entity2.posX = x;
-    			entity2.posY = y - (r / 10);
-    			entity2.posZ = z;
-    	    	world.spawnEntityInWorld(entity2);
-    		}
+
+			if (MainRegistry.enableNukeClouds) {
+				if (r < 200) {
+					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+					entity2.posX = x;
+					entity2.posY = y - (r / 10);
+					entity2.posZ = z;
+					world.spawnEntityInWorld(entity2);
+				} else {
+					EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
+					entity2.posX = x;
+					entity2.posY = y - (r / 10);
+					entity2.posZ = z;
+					world.spawnEntityInWorld(entity2);
+				}
+			} else {
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+				entity2.posX = x;
+				entity2.posY = y - (r / 10);
+				entity2.posZ = z;
+				world.spawnEntityInWorld(entity2);
+			}
     		
     		//ExplosionNukeAdvanced.mush(world, x, y, z);
     	}

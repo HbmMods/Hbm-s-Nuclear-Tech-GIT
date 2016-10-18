@@ -65,6 +65,7 @@ public class ModelHunterChopper extends ModelBase {
 	ModelRenderer GunPivot;
 	ModelRenderer GunBarrel;
 	ModelRenderer GunBack;
+	float f = 0.1F;
 
 	public ModelHunterChopper() {
 		textureWidth = 256;
@@ -245,8 +246,8 @@ public class ModelHunterChopper extends ModelBase {
 		TailRotorBottom.mirror = true;
 		setRotation(TailRotorBottom, 0F, 0F, 0F);
 		TailRotorBlades = new ModelRenderer(this, 120, 120);
-		TailRotorBlades.addBox(0F, 0F, 0F, 3, 3, 0);
-		TailRotorBlades.setRotationPoint(17F, 7F, 0F);
+		TailRotorBlades.addBox(-1.5F, -1.5F, 0F, 3, 3, 0);
+		TailRotorBlades.setRotationPoint(17F + 1.5F, 7F + 1.5F, 0F);
 		TailRotorBlades.setTextureSize(256, 128);
 		TailRotorBlades.mirror = true;
 		setRotation(TailRotorBlades, 0F, 0F, 0F);
@@ -323,8 +324,8 @@ public class ModelHunterChopper extends ModelBase {
 		TorsoRotorBack.mirror = true;
 		setRotation(TorsoRotorBack, 0F, 0F, 0F);
 		TorsoRotorBlades = new ModelRenderer(this, 112, 120);
-		TorsoRotorBlades.addBox(0F, 0F, 0F, 3, 3, 0);
-		TorsoRotorBlades.setRotationPoint(-7F, 8.5F, 0F);
+		TorsoRotorBlades.addBox(-1.5F, -1.5F, 0F, 3, 3, 0);
+		TorsoRotorBlades.setRotationPoint(-7F + 1.5F, 8.5F + 1.5F, 0F);
 		TorsoRotorBlades.setTextureSize(256, 128);
 		TorsoRotorBlades.mirror = true;
 		setRotation(TorsoRotorBlades, 0F, 0F, 0F);
@@ -422,9 +423,9 @@ public class ModelHunterChopper extends ModelBase {
 		RotorBlades.render(f5);
 		Antenna1.render(f5);
 		Antenna2.render(f5);
-		GunPivot.render(f5);
-		GunBarrel.render(f5);
-		GunBack.render(f5);
+		//GunPivot.render(f5);
+		//GunBarrel.render(f5);
+		//GunBack.render(f5);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
@@ -485,15 +486,13 @@ public class ModelHunterChopper extends ModelBase {
 		RotorBlades.render(f5);
 		Antenna1.render(f5);
 		Antenna2.render(f5);
-		GunPivot.render(f5);
-		GunBarrel.render(f5);
-		GunBack.render(f5);
-	}
+		//GunPivot.render(f5);
+		//GunBarrel.render(f5);
+		//GunBack.render(f5);
 
-	public void setGunRotations(EntityHunterChopper rocket, float yaw, float pitch) {
-		setRotation(GunBarrel, 0F, (rocket.getYaw() - yaw) / (180F / (float)Math.PI), (rocket.getPitch() - pitch) / (180F / (float)Math.PI));
-		setRotation(GunBack, 0F, (rocket.getYaw() - yaw) / (180F / (float)Math.PI), (rocket.getPitch() - pitch) / (180F / (float)Math.PI));
-		//System.out.println(rocket.getYaw());
+		RotorBlades.rotateAngleY += f * 5;
+		TorsoRotorBlades.rotateAngleZ += f * 5;
+		TailRotorBlades.rotateAngleZ += f * 5;
 	}
 
 }

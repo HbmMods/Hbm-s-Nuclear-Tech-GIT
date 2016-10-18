@@ -131,7 +131,7 @@ public class ExplosionNukeGeneric {
 		                    if(!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP && ((EntityPlayerMP)entity).theItemInWorldManager.getGameType() != GameType.CREATIVE))
 		                    {
 		                    	//entity.attackEntityFrom(DamageSource.generic, ((int)((d11 * d11 + d11) / 2.0D * 8.0D * bombStartStrength + 1.0D)));
-		                    	entity.attackEntityFrom(ModDamageSource.nuclearBlast, 5F);
+		                    	entity.attackEntityFrom(ModDamageSource.nuclearBlast, 10F);
 		                    	entity.setFire(5);
 		                    	double d8 = EnchantmentProtection.func_92092_a(entity, d11);
 		                    	entity.motionX += d5 * d8;
@@ -173,7 +173,7 @@ public class ExplosionNukeGeneric {
 		int rand;
 		if(!world.isRemote)
 		{
-		if(world.getBlock(x, y, z) != Blocks.bedrock && world.getBlock(x, y, z) != ModBlocks.reinforced_brick && world.getBlock(x, y, z) != ModBlocks.reinforced_glass && world.getBlock(x, y, z) != ModBlocks.reinforced_light && world.getBlock(x, y, z) != ModBlocks.reinforced_sand && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_off && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_on && !(world.getBlock(x, y, z) instanceof DecoBlockAlt))
+		if(world.getBlock(x, y, z) != Blocks.bedrock && world.getBlock(x, y, z) != ModBlocks.reinforced_brick && world.getBlock(x, y, z) != ModBlocks.reinforced_glass && world.getBlock(x, y, z) != ModBlocks.reinforced_light && world.getBlock(x, y, z) != ModBlocks.reinforced_sand && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_off && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_on && world.getBlock(x, y, z) != ModBlocks.cmb_brick && world.getBlock(x, y, z) != ModBlocks.cmb_brick_reinforced && !(world.getBlock(x, y, z) instanceof DecoBlockAlt))
 		{
 			if(world.getBlock(x, y, z) == ModBlocks.brick_concrete)
 			{
@@ -348,6 +348,15 @@ public class ExplosionNukeGeneric {
 			if(rand == 1)
 			{
 				world.setBlock(x, y, z, ModBlocks.ore_schrabidium);
+			}
+		}
+		
+		else if(world.getBlock(x, y, z) == ModBlocks.ore_nether_uranium)
+		{
+			rand = field_149933_a.nextInt(30);
+			if(rand == 1)
+			{
+				world.setBlock(x, y, z, ModBlocks.ore_nether_schrabidium);
 			}
 		}
 		

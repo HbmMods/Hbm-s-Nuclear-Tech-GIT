@@ -7,8 +7,10 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
 import com.hbm.entity.EntityMirv;
 import com.hbm.entity.EntityMissileBase;
+import com.hbm.entity.EntityRainbow;
 import com.hbm.entity.EntityRocket;
 import com.hbm.entity.EntitySchrab;
 import com.hbm.lib.Library;
@@ -787,11 +789,12 @@ public class ExplosionChaos {
 		}	
 	}
 
-	public static void tauMeSinPi(World world, double x, double y, double z, int count, Entity shooter, EntityGrenadeTau tau) {
-    	
-    	double d1 = 0;
-    	double d2 = 0;
-    	double d3 = 0;
+	public static void tauMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
+			EntityGrenadeTau tau) {
+
+		double d1 = 0;
+		double d2 = 0;
+		double d3 = 0;
 		EntityBullet fragment;
 
 		if (shooter != null && shooter instanceof EntityPlayer)
@@ -813,10 +816,10 @@ public class ExplosionChaos {
 				}
 
 				if (rand.nextInt(5) == 0) {
-					fragment = new EntityBullet(world, (EntityPlayer)shooter, 3.0F, 35, 45, false, "tauDay", tau);
+					fragment = new EntityBullet(world, (EntityPlayer) shooter, 3.0F, 35, 45, false, "tauDay", tau);
 					fragment.setDamage(rand.nextInt(301) + 100);
 				} else {
-					fragment = new EntityBullet(world, (EntityPlayer)shooter, 3.0F, 35, 45, false, "eyyOk", tau);
+					fragment = new EntityBullet(world, (EntityPlayer) shooter, 3.0F, 35, 45, false, "eyyOk", tau);
 					fragment.setDamage(rand.nextInt(11) + 35);
 				}
 
@@ -828,6 +831,44 @@ public class ExplosionChaos {
 				fragment.setIsCritical(true);
 
 				world.spawnEntityInWorld(fragment);
+			}
+	}
+
+	public static void zomgMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
+			EntityGrenadeZOMG zomg) {
+
+		double d1 = 0;
+		double d2 = 0;
+		double d3 = 0;
+		EntityBullet fragment;
+
+		if (shooter != null && shooter instanceof EntityPlayer)
+			for (int i = 0; i < count; i++) {
+				d1 = rand.nextDouble();
+				d2 = rand.nextDouble();
+				d3 = rand.nextDouble();
+
+				if (rand.nextInt(2) == 0) {
+					d1 *= -1;
+				}
+
+				if (rand.nextInt(2) == 0) {
+					d2 *= -1;
+				}
+
+				if (rand.nextInt(2) == 0) {
+					d3 *= -1;
+				}
+				
+				EntityRainbow entityZomg = new EntityRainbow(world, (EntityPlayer) shooter, 1F, 10000, 100000, zomg);
+
+				entityZomg.motionX = d1;// * 5;
+				entityZomg.motionY = d2;// * 5;
+				entityZomg.motionZ = d3;// * 5;
+				entityZomg.shootingEntity = shooter;
+
+				world.spawnEntityInWorld(entityZomg);
+				world.playSoundAtEntity(zomg, "hbm:weapon.zomgShoot", 10.0F, 0.8F + (rand.nextFloat() * 0.4F));
 			}
 	}
 

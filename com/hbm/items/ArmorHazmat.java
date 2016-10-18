@@ -20,6 +20,12 @@ public class ArmorHazmat extends ItemArmor {
 		if(stack.getItem().equals(ModItems.hazmat_legs)) {
 			return (RefStrings.MODID + ":textures/armor/hazmat_2.png");
 		}
+		if(stack.getItem().equals(ModItems.hazmat_paa_helmet) || stack.getItem().equals(ModItems.hazmat_paa_plate) || stack.getItem().equals(ModItems.hazmat_paa_boots)) {
+			return (RefStrings.MODID + ":textures/armor/hazmat_paa_1.png");
+		}
+		if(stack.getItem().equals(ModItems.hazmat_paa_legs)) {
+			return (RefStrings.MODID + ":textures/armor/hazmat_paa_2.png");
+		}
 		
 		else return null;
 	}

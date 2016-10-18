@@ -9,6 +9,7 @@ import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -48,6 +49,13 @@ public class ModBlocks {
 	public static Block ore_schrabidium;
 	public static Block ore_beryllium;
 
+	public static Block ore_nether_uranium;
+	public static Block ore_nether_plutonium;
+	public static Block ore_nether_tungsten;
+	public static Block ore_nether_sulfur;
+	public static Block ore_nether_fire;
+	public static Block ore_nether_schrabidium;
+
 	public static Block block_uranium;
 	public static Block block_titanium;
 	public static Block block_sulfur;
@@ -61,6 +69,7 @@ public class ModBlocks {
 	public static Block block_lead;
 	public static Block block_trinitite;
 	public static Block block_waste;
+	public static Block block_scrap;
 	public static Block block_beryllium;
 	public static Block block_schrabidium;
 	public static Block block_advanced_alloy;
@@ -322,6 +331,13 @@ public class ModBlocks {
 		ore_lead = new BlockGeneric(Material.rock).setBlockName("ore_lead").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_lead");
 		ore_schrabidium = new BlockGeneric(Material.rock).setBlockName("ore_schrabidium").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":ore_schrabidium");
 		ore_beryllium = new BlockGeneric(Material.rock).setBlockName("ore_beryllium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_beryllium");
+
+		ore_nether_uranium = new BlockGeneric(Material.rock).setBlockName("ore_nether_uranium").setCreativeTab(MainRegistry.tabBlock).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_uranium");
+		ore_nether_plutonium = new BlockGeneric(Material.rock).setBlockName("ore_nether_plutonium").setCreativeTab(MainRegistry.tabBlock).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_plutonium");
+		ore_nether_tungsten = new BlockGeneric(Material.rock).setBlockName("ore_nether_tungsten").setCreativeTab(MainRegistry.tabBlock).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_tungsten");
+		ore_nether_sulfur = new BlockOre(Material.rock).setBlockName("ore_nether_sulfur").setCreativeTab(MainRegistry.tabBlock).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_sulfur");
+		ore_nether_fire = new BlockOre(Material.rock).setBlockName("ore_nether_fire").setCreativeTab(MainRegistry.tabBlock).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_fire");
+		ore_nether_schrabidium = new BlockGeneric(Material.rock).setBlockName("ore_nether_schrabidium").setCreativeTab(MainRegistry.tabBlock).setHardness(15.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_schrabidium");
 		
 		block_uranium = new BlockGeneric(Material.iron).setBlockName("block_uranium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_uranium");
 		block_titanium = new BlockGeneric(Material.iron).setBlockName("block_titanium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_titanium");
@@ -336,6 +352,7 @@ public class ModBlocks {
 		block_lead = new BlockGeneric(Material.iron).setBlockName("block_lead").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lead");
 		block_trinitite = new BlockOre(Material.iron).setBlockName("block_trinitite").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_trinitite");
 		block_waste = new BlockOre(Material.iron).setBlockName("block_waste").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_waste");
+		block_scrap = new BlockFalling(Material.sand).setBlockName("block_scrap").setCreativeTab(MainRegistry.tabBlock).setHardness(2.5F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":block_scrap");
 		block_beryllium = new BlockGeneric(Material.iron).setBlockName("block_beryllium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_beryllium");
 		block_schrabidium = new BlockGeneric(Material.iron).setBlockName("block_schrabidium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_schrabidium");
 		block_advanced_alloy = new BlockGeneric(Material.iron).setBlockName("block_advanced_alloy").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_advanced_alloy");
@@ -529,7 +546,7 @@ public class ModBlocks {
 	private static void registerBlock() {
 		//Test
 		GameRegistry.registerBlock(test_render, test_render.getUnlocalizedName());
-		GameRegistry.registerBlock(test_container, test_container.getUnlocalizedName());
+		//GameRegistry.registerBlock(test_container, test_container.getUnlocalizedName());
 		GameRegistry.registerBlock(test_bomb, test_bomb.getUnlocalizedName());
 		GameRegistry.registerBlock(test_bomb_advanced, test_bomb_advanced.getUnlocalizedName());
 		
@@ -554,6 +571,14 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_lead, ore_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_schrabidium, ItemSchrabidiumBlock.class, ore_schrabidium.getUnlocalizedName());
 		
+		//Nether Ores
+		GameRegistry.registerBlock(ore_nether_uranium, ore_nether_uranium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nether_plutonium, ore_nether_plutonium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nether_tungsten, ore_nether_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nether_sulfur, ore_nether_sulfur.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nether_fire, ore_nether_fire.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nether_schrabidium, ItemSchrabidiumBlock.class, ore_nether_schrabidium.getUnlocalizedName());
+		
 		//Blocks
 		GameRegistry.registerBlock(block_uranium, block_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_titanium, block_titanium.getUnlocalizedName());
@@ -568,6 +593,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_beryllium, block_beryllium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_steel, block_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lead, block_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(block_scrap, block_scrap.getUnlocalizedName());
 		GameRegistry.registerBlock(block_trinitite, block_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste, block_waste.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidium, ItemSchrabidiumBlock.class, block_schrabidium.getUnlocalizedName());

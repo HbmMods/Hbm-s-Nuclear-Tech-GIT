@@ -160,7 +160,8 @@ public class ItemRadioactive extends Item {
 			
 			//Powder
 
-			if (this == ModItems.powder_neptunium) {
+			if (this == ModItems.powder_neptunium || 
+					this == ModItems.powder_plutonium) {
 				living.addPotionEffect(new PotionEffect(Potion.poison.id, 25 * 20, 4));
 				living.attackEntityFrom(ModDamageSource.radiation, 1);
 				living.setFire(5);

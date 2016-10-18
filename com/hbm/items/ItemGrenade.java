@@ -1,5 +1,6 @@
 package com.hbm.items;
 
+import com.hbm.entity.EntityGrenadeASchrab;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
 import com.hbm.entity.EntityGrenadeFire;
@@ -16,6 +17,7 @@ import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
 import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -90,6 +92,12 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_mk2) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeMk2(p_77659_2_, p_77659_3_));
 			}
+			if (this == ModItems.grenade_aschrab) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeASchrab(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_zomg) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeZOMG(p_77659_2_, p_77659_3_));
+			}
 		}
 
 		return p_77659_1_;
@@ -98,15 +106,15 @@ public class ItemGrenade extends Item {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if (this == ModItems.grenade_schrabidium) {
+		if (this == ModItems.grenade_schrabidium || this == ModItems.grenade_aschrab) {
 			return EnumRarity.rare;
 		}
 
-		if (this == ModItems.grenade_plasma) {
+		if (this == ModItems.grenade_plasma || this == ModItems.grenade_zomg) {
 			return EnumRarity.epic;
 		}
 
-		if (this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear || this == ModItems.grenade_tau || this == ModItems.grenade_lemon) {
+		if (this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear || this == ModItems.grenade_tau || this == ModItems.grenade_lemon || this == ModItems.grenade_mk2) {
 			return EnumRarity.uncommon;
 		}
 

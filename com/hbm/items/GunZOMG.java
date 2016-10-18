@@ -133,7 +133,7 @@ public class GunZOMG extends Item {
 						entityarrow4.setDamage(35 + rand.nextInt(45 - 35));
 						entityarrow5.setDamage(35 + rand.nextInt(45 - 35));
 
-						world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
+						world.playSoundAtEntity(player, "hbm:weapon.osiprShoot", 1.0F, 0.6F + (rand.nextFloat() * 0.4F));
 
 						if (!world.isRemote) {
 							world.spawnEntityInWorld(entityarrow);
@@ -156,7 +156,7 @@ public class GunZOMG extends Item {
 						entityarrow4.setDamage(10000 + rand.nextInt(90000));
 
 						//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
-						world.playSoundAtEntity(player, "ambient.weather.thunder", 1.0F, 2);
+						world.playSoundAtEntity(player, "hbm:weapon.zomgShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 						if (!world.isRemote) {
 							world.spawnEntityInWorld(entityarrow);

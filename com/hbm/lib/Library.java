@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.entity.EntityChopperMine;
 import com.hbm.entity.EntityHunterChopper;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
@@ -18,6 +19,8 @@ import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.TileEntityWireCoated;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -70,7 +73,7 @@ public class Library {
 	public static String book37 = "The Prototype\nThe Prototype was the first (and strongest) Schrabidium-powered bomb. It was made from a pimped makeshift nuclear reactor using liquid Schrabidiumtrisulfide. Like any other Schrabidium bomb, the Prototype's crater is 100% spherical,";
 	public static String book38 = "leaving no blocks untouched, besides Bedrock on Y: 0. It needs four quad rods of regular uranium, four quad rods filled with lead, two quad rods of neptunium and four Schrabidiumtrisulfide cells in order to explode. It has a crater radius of only";
 	public static String book39 = "150 meters, but because it's shape, it can destroy a whopping 14 million blocks, the seven million blocks of the bottom half are ten times more than the ammount of blocks the Gadget will destroy below it's Y axis.";
-	public static String book310 = "F.L.E.I.J.A.\nF.L.E.I.J.A. (pronounced §oFre-ja§r) is a high-tech Schrabidium bomb which consists of two special impulse igniters, three Schrabidium propellants and six magnetized F.L.E.I.J.A. uranium 235 cores. It has a range of 50 meters.";
+	public static String book310 = "F.L.E.I.J.A.\nF.L.E.I.J.A. (pronounced ï¿½oFre-jaï¿½r) is a high-tech Schrabidium bomb which consists of two special impulse igniters, three Schrabidium propellants and six magnetized F.L.E.I.J.A. uranium 235 cores. It has a range of 50 meters.";
 	public static String book311 = "Multi Purpose Bomb\nThe multi purpose bomb is a small customizable explosive which requires four blocks of TNT to work. It has a base explosion value which can be modified with different items. You can either use two of a kind (the small box will show";
 	public static String book312 = "you what kind of explosion it will create), only one item (with half the radius/effect of the modifier) or two different items (two different items or one single are part of scambled mode, indicated by a question mark. It will have two different effects.)";
 	public static String book313 = "Modifying items:\nBase Value: 8\nGunpowder: +1\nTNT: +4\nExplosive Pellets: +50 bomblets\nFire Powder: +10 fire radius\nPoison Powder: +15 poison radius\nGas Cartridge: +15 gas radius";
@@ -106,6 +109,7 @@ public class Library {
 	public static String HbMinecraft = "192af5d7-ed0f-48d8-bd89-9d41af8524f8";
 	public static String LPkukin = "937c9804-e11f-4ad2-a5b1-42e62ac73077";
 	public static String Dafnik = "3af1c262-61c0-4b12-a4cb-424cc3a9c8c0";
+	public static String a20 = "4729b498-a81c-42fd-8acd-20d6d9f759e0";
 	
 	public static List<String> superuser = new ArrayList<String>();
 	
@@ -160,7 +164,10 @@ public class Library {
 	
 	public static boolean checkForHazmat(EntityPlayer player) {
 		
-		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) || checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
+		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || 
+				checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) || 
+				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots) || 
+				checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots))
 		{
 			return true;
 		}
@@ -169,8 +176,12 @@ public class Library {
 	}
 	
 	public static boolean checkForGasMask(EntityPlayer player) {
-		
+
 		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hazmat_paa_helmet, 3))
 		{
 			return true;
 		}
@@ -264,5 +275,68 @@ public class Library {
 			return ModItems.t45_kit;
 		
 		return null;
+	}
+
+	public static EntityPlayer getClosestPlayerForSound(World world, double x, double y, double z, double radius) {
+		double d4 = -1.0D;
+		EntityPlayer entity = null;
+
+		for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+				Entity entityplayer1 = (Entity)world.loadedEntityList.get(i);
+
+				if (entityplayer1.isEntityAlive() && entityplayer1 instanceof EntityPlayer) {
+					double d5 = entityplayer1.getDistanceSq(x, y, z);
+					double d6 = radius;
+
+					if ((radius < 0.0D || d5 < d6 * d6) && (d4 == -1.0D || d5 < d4)) {
+						d4 = d5;
+						entity = (EntityPlayer)entityplayer1;
+					}
+			}
+		}
+
+		return entity;
+	}
+
+	public static EntityHunterChopper getClosestChopperForSound(World world, double x, double y, double z, double radius) {
+		double d4 = -1.0D;
+		EntityHunterChopper entity = null;
+
+		for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+				Entity entityplayer1 = (Entity)world.loadedEntityList.get(i);
+
+				if (entityplayer1.isEntityAlive() && entityplayer1 instanceof EntityHunterChopper) {
+					double d5 = entityplayer1.getDistanceSq(x, y, z);
+					double d6 = radius;
+
+					if ((radius < 0.0D || d5 < d6 * d6) && (d4 == -1.0D || d5 < d4)) {
+						d4 = d5;
+						entity = (EntityHunterChopper)entityplayer1;
+					}
+			}
+		}
+
+		return entity;
+	}
+
+	public static EntityChopperMine getClosestMineForSound(World world, double x, double y, double z, double radius) {
+		double d4 = -1.0D;
+		EntityChopperMine entity = null;
+
+		for (int i = 0; i < world.loadedEntityList.size(); ++i) {
+				Entity entityplayer1 = (Entity)world.loadedEntityList.get(i);
+
+				if (entityplayer1.isEntityAlive() && entityplayer1 instanceof EntityChopperMine) {
+					double d5 = entityplayer1.getDistanceSq(x, y, z);
+					double d6 = radius;
+
+					if ((radius < 0.0D || d5 < d6 * d6) && (d4 == -1.0D || d5 < d4)) {
+						d4 = d5;
+						entity = (EntityChopperMine)entityplayer1;
+					}
+			}
+		}
+
+		return entity;
 	}
 }

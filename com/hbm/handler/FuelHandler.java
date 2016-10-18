@@ -11,11 +11,15 @@ public class FuelHandler implements IFuelHandler {
 	public int getBurnTime(ItemStack fuel) {
 
 		if(fuel.getItem().equals(ModItems.canister_fuel))
-			return 32000;
+			return 3200;
+		if(fuel.getItem().equals(ModItems.powder_coal))
+			return 1600;
 		if(fuel.getItem().equals(ModItems.scrap))
-			return 4000;
+			return 800;
+		if(fuel.getItem().equals(ModItems.dust))
+			return 400;
 		if(fuel.getItem().equals(ModItems.powder_fire))
-			return 20000;
+			return 6400;
 		
 		return 0;
 	}

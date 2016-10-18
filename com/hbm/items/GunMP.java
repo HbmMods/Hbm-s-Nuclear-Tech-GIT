@@ -55,7 +55,8 @@ public class GunMP extends Item {
 			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, false);
 			entityarrow.setDamage(100 + rand.nextInt(50));
 
-			world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
+			//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
+			world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
@@ -83,7 +84,7 @@ public class GunMP extends Item {
 		list.add("whose blood is that? The former");
 		list.add("user's? The victim's? Both?");
 		list.add("");
-		list.add("Ammo: Smal Propellantless Machine Gun Round");
-		list.add("Damage: x - x");
+		list.add("Ammo: Small Propellantless Machine Gun Round");
+		list.add("Damage: 35 - 45");
 	}
 }

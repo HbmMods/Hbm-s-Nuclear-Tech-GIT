@@ -121,13 +121,20 @@ public class GunRevolver extends Item
             entityarrow.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
 
             p_77615_1_.damageItem(1, p_77615_3_);
-            if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead || this == ModItems.gun_revolver_schrabidium)
+            if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead)
             {
-            	p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
+            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
+            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
             }
             if(this == ModItems.gun_revolver_cursed)
             {
-            	p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 3.0F, 1.5F);
+            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 3.0F, 1.5F);
+            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.heavyShoot", 3.0F, 1.0F);
+            }
+            if(this == ModItems.gun_revolver_schrabidium)
+            {
+            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
+            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
             }
             
             if (flag)

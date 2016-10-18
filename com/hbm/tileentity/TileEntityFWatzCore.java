@@ -215,8 +215,6 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 		{
 			return true;
 		}
-		
-		//return false;
 	}
 
 	@Override
@@ -266,7 +264,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public void updateEntity() {
-		if (this.isStructureValid(this.worldObj) && !this.worldObj.isRemote) {
+		if (this.isStructureValid(this.worldObj)) {
 
 			age++;
 			if (age >= 20) {
@@ -276,10 +274,8 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 			if (age == 9 || age == 19)
 				ffgeuaInit();
 
-			if (hasFuse() && getSingularityType() > 0) {
+			if (hasFuse() && getSingularityType() > 0 && isStructureValid(worldObj)) {
 				if(cooldown) {
-					
-					this.emptyPlasma();
 					
 					int i = getSingularityType();
 
@@ -302,37 +298,42 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 				} else {
 					int i = getSingularityType();
 					
-					this.fillPlasma();
+					boolean isWorking = false;
 
 					if(i == 1 && amat - 750 >= 0 && aSchrab - 750 >= 0) {
 						cool -= 150;
 						amat -= 750;
 						aSchrab -= 750;
 						power += 500000;
+						isWorking = true;
 					}
 					if(i == 2 && amat - 750 >= 0 && aSchrab - 350 >= 0) {
 						cool -= 75;
 						amat -= 350;
 						aSchrab -= 300;
 						power += 250000;
+						isWorking = true;
 					}
 					if(i == 3 && amat - 750 >= 0 && aSchrab - 1400 >= 0) {
 						cool -= 300;
 						amat -= 750;
 						aSchrab -= 1400;
 						power += 1000000;
+						isWorking = true;
 					}
 					if(i == 4 && amat - 1000 >= 0 && aSchrab - 1000 >= 0) {
 						cool -= 100;
 						amat -= 1000;
 						aSchrab -= 1000;
 						power += 1000000;
+						isWorking = true;
 					}
 					if(i == 5 && amat - 150 >= 0 && aSchrab - 150 >= 0) {
 						cool -= 150;
 						amat -= 150;
 						aSchrab -= 150;
 						power += 10000000;
+						isWorking = true;
 					}
 					
 					if(power > maxPower)
@@ -401,14 +402,22 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 				this.aSchrab = maxASchrab;
 			}
 		}
+		
+		if(this.isRunning() && (amat <= 0 || aSchrab <= 0 || !hasFuse() || getSingularityType() == 0) || cooldown || !this.isStructureValid(worldObj))
+			this.emptyPlasma();
+		
+		if(!this.isRunning() && amat >= 1000 && aSchrab >= 1000 && hasFuse() && getSingularityType() > 0 && !cooldown && this.isStructureValid(worldObj))
+			this.fillPlasma();
 	}
 	
 	public void fillPlasma() {
-		FWatz.fillPlasma(worldObj, this.xCoord, this.yCoord, this.zCoord);
+		if(!this.worldObj.isRemote)
+			FWatz.fillPlasma(worldObj, this.xCoord, this.yCoord, this.zCoord);
 	}
 	
 	public void emptyPlasma() {
-		FWatz.emptyPlasma(worldObj, this.xCoord, this.yCoord, this.zCoord);
+		if(!this.worldObj.isRemote)
+			FWatz.emptyPlasma(worldObj, this.xCoord, this.yCoord, this.zCoord);
 	}
 	
 	public boolean isRunning() {

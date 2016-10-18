@@ -144,7 +144,7 @@ public class ItemDrop extends Item {
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.cell_anti_schrabidium) {
 			list.add("Warning: Exposure to matter will");
-			list.add("create a fólkvangr field!");
+			list.add("create a fï¿½lkvangr field!");
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity) {
 			list.add("You may be asking:");
@@ -158,7 +158,7 @@ public class ItemDrop extends Item {
 			list.add("non-euclidean space, creates variable");
 			list.add("gravity well. Spontaneously spawns");
 			list.add("tesseracts. If a tesseract happens to");
-			list.add("appear near you, do not directly look");
+			list.add("appear near you, do not look directly");
 			list.add("at it.");
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity_super_heated) {
