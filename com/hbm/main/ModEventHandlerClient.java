@@ -1,8 +1,11 @@
 package com.hbm.main;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 import com.hbm.entity.EntityChopperMine;
 import com.hbm.entity.EntityHunterChopper;
 import com.hbm.lib.Library;
@@ -22,7 +25,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
+<<<<<<< HEAD
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 
 public class ModEventHandlerClient {
 
@@ -32,11 +38,14 @@ public class ModEventHandlerClient {
 
 		WorldClient wc = Minecraft.getMinecraft().theWorld;
 		
+<<<<<<< HEAD
 		//Alright, alright, I give the fuck up, you've wasted my time enough with this bullshit. You win.
 		//A winner is you.
 		//Conglaturations.
 		//Fuck you.
 		
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 		if(r.toString().equals("hbm:misc.nullTau") && Library.getClosestPlayerForSound(wc, e.sound.getXPosF(), e.sound.getYPosF(), e.sound.getZPosF(), 2) != null)
 		{
 			EntityPlayer ent = Library.getClosestPlayerForSound(wc, e.sound.getXPosF(), e.sound.getYPosF(), e.sound.getZPosF(), 2);

@@ -170,6 +170,7 @@ public class ExplosionNukeGeneric {
 
 	public static void destruction(World world, int x, int y, int z) {
 		int rand;
+<<<<<<< HEAD
 		if (!world.isRemote) {
 			if (world.getBlock(x, y, z) != Blocks.bedrock && world.getBlock(x, y, z) != ModBlocks.reinforced_brick
 					&& world.getBlock(x, y, z) != ModBlocks.reinforced_glass
@@ -199,6 +200,32 @@ public class ExplosionNukeGeneric {
 					world.setBlock(x, y, z, ModBlocks.gravel_obsidian, 0, 3);
 				} else {
 					world.setBlock(x, y, z, Blocks.air, 0, 3);
+=======
+		if(!world.isRemote)
+		{
+		if(world.getBlock(x, y, z) != Blocks.bedrock && world.getBlock(x, y, z) != ModBlocks.reinforced_brick && world.getBlock(x, y, z) != ModBlocks.reinforced_glass && world.getBlock(x, y, z) != ModBlocks.reinforced_light && world.getBlock(x, y, z) != ModBlocks.reinforced_sand && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_off && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_on && world.getBlock(x, y, z) != ModBlocks.cmb_brick && world.getBlock(x, y, z) != ModBlocks.cmb_brick_reinforced && !(world.getBlock(x, y, z) instanceof DecoBlockAlt))
+		{
+			if(world.getBlock(x, y, z) == ModBlocks.brick_concrete)
+			{
+				rand = field_149933_a.nextInt(8);
+				if(rand == 0)
+				{
+					world.setBlock(x, y, z, Blocks.gravel, 0, 3);
+				}
+			}else if(world.getBlock(x, y, z) == ModBlocks.brick_light)
+			{
+				rand = field_149933_a.nextInt(2);
+				if(rand == 0)
+				{
+					world.setBlock(x, y, z, ModBlocks.waste_planks, 0, 3);
+				}
+			}else if(world.getBlock(x, y, z) == ModBlocks.brick_obsidian)
+			{
+				rand = field_149933_a.nextInt(20);
+				if(rand == 0)
+				{
+					world.setBlock(x, y, z, Blocks.obsidian, 0, 3);
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 				}
 			}
 		}

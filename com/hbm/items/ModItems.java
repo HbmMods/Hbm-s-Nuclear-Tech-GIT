@@ -539,9 +539,12 @@ public class ModItems {
 	public static Item cmb_plate;
 	public static Item cmb_legs;
 	public static Item cmb_boots;
+<<<<<<< HEAD
 	public static Item paa_plate;
 	public static Item paa_legs;
 	public static Item paa_boots;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 
 	public static Item schrabidium_sword;
 	public static Item schrabidium_pickaxe;
@@ -1213,9 +1216,12 @@ public class ModItems {
 		cmb_plate = new ModArmor(MainRegistry.enumArmorMaterialCmb, 7, 1).setUnlocalizedName("cmb_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cmb_plate");
 		cmb_legs = new ModArmor(MainRegistry.enumArmorMaterialCmb, 7, 2).setUnlocalizedName("cmb_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cmb_legs");
 		cmb_boots = new ModArmor(MainRegistry.enumArmorMaterialCmb, 7, 3).setUnlocalizedName("cmb_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cmb_boots");
+<<<<<<< HEAD
 		paa_plate = new ModArmor(MainRegistry.enumArmorMaterialPaa, 7, 1).setUnlocalizedName("paa_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":paa_plate");
 		paa_legs = new ModArmor(MainRegistry.enumArmorMaterialPaa, 7, 2).setUnlocalizedName("paa_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":paa_legs");
 		paa_boots = new ModArmor(MainRegistry.enumArmorMaterialPaa, 7, 3).setUnlocalizedName("paa_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":paa_boots");
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 
 		schrabidium_sword = new SwordSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_sword");
 		schrabidium_pickaxe = new PickaxeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
@@ -1921,9 +1927,12 @@ public class ModItems {
 		GameRegistry.registerItem(cmb_plate, cmb_plate.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_legs, cmb_legs.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_boots, cmb_boots.getUnlocalizedName());
+<<<<<<< HEAD
 		GameRegistry.registerItem(paa_plate, paa_plate.getUnlocalizedName());
 		GameRegistry.registerItem(paa_legs, paa_legs.getUnlocalizedName());
 		GameRegistry.registerItem(paa_boots, paa_boots.getUnlocalizedName());
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 		GameRegistry.registerItem(schrabidium_helmet, schrabidium_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_plate, schrabidium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_legs, schrabidium_legs.getUnlocalizedName());

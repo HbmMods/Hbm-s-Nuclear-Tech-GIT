@@ -10,7 +10,10 @@ import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityChopperMine;
 import com.hbm.entity.EntityCloudFleija;
 import com.hbm.entity.EntityCombineBall;
+<<<<<<< HEAD
 import com.hbm.entity.EntityFalloutRain;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 import com.hbm.entity.EntityGrenadeASchrab;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
@@ -238,7 +241,10 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudBig.class, new RenderBigNuke());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCloudFleija.class, new RenderCloudFleija());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudNoShroom.class, new RenderNoCloud());
+<<<<<<< HEAD
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFalloutRain.class, new RenderFallout());
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());

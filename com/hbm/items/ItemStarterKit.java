@@ -345,7 +345,11 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
 		}
 		
+<<<<<<< HEAD
 		if(this == ModItems.letter && world.isRemote)
+=======
+		if(this == ModItems.letter && !world.isRemote)
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 		{
 			if(player.getUniqueID().toString().equals(Library.a20)) {
 				player.addChatMessage(new ChatComponentText("Error: null reference @ com.hbm.items.ItemStarterKit.class, please report this to the modder!"));

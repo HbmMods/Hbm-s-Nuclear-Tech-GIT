@@ -85,6 +85,10 @@ public class GunMP extends Item {
 		list.add("user's? The victim's? Both?");
 		list.add("");
 		list.add("Ammo: Small Propellantless Machine Gun Round");
+<<<<<<< HEAD
 		list.add("Damage: 100 - 150");
+=======
+		list.add("Damage: 35 - 45");
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 	}
 }

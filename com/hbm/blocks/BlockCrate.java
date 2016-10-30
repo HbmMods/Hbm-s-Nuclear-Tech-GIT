@@ -50,7 +50,11 @@ public class BlockCrate extends BlockFalling {
     	Random rand = new Random();
     	List<Item> list = new ArrayList<Item>();
     	
+<<<<<<< HEAD
     	switch(rand.nextInt(32)) {
+=======
+    	switch(rand.nextInt(29)) {
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
     	case 0:
     		list.add(ModItems.clip_revolver_iron);
     		list.add(ModItems.clip_revolver_iron);
@@ -173,6 +177,7 @@ public class BlockCrate extends BlockFalling {
     		list.add(ModItems.clip_fatman);
     		list.add(ModItems.clip_rpg);
     		break;
+<<<<<<< HEAD
     	case 29:
     		list.add(ModItems.grenade_generic);
     		list.add(ModItems.grenade_generic);
@@ -187,6 +192,8 @@ public class BlockCrate extends BlockFalling {
     		list.add(ModItems.grenade_mk2);
     		list.add(ModItems.grenade_mk2);
     		break;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
     	}
     	
     	for(Item stack : list) {

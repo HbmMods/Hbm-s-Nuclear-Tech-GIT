@@ -707,10 +707,13 @@ item.hazmat_paa_helmet.name=PaA-Kampfschutzanzug Helm
 item.hazmat_paa_plate.name=PaA-Kampfschutzanzug Brustplatte
 item.hazmat_paa_legs.name=PaA-Kampfschutzanzug Hose
 item.hazmat_paa_boots.name=PaA-Kampfschutzanzug Stiefel
+<<<<<<< HEAD
 
 item.paa_plate.name=PaA-Brustschutzplatte
 item.paa_legs.name=PaA-Beinverstärkungsschienen
 item.paa_boots.name=PaA-"olle Latschen"
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
 
 item.goggles.name=Schutzbrille
 item.gas_mask.name=Gasmaske
@@ -864,6 +867,10 @@ item.blades_advanced_alloy.name=Fortgeschrittenes Sägeblatt
 item.blades_combine_steel.name=CMB-Sägeblatt
 item.blades_schrabidium.name=Schrabidiumsägeblatt
 
+<<<<<<< HEAD
 item.letter.name=Eilbrief
 
 item.chopper.name=Jagdschrauber
+=======
+item.letter.name=Eilbrief
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
