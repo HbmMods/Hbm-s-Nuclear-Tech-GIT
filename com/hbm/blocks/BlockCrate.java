@@ -34,6 +34,7 @@ public class BlockCrate extends BlockFalling {
     	{
     		dropItems(world, x, y, z);
     		world.setBlockToAir(x, y, z);
+    		world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 1.0F, 1.0F);
     		return true;
     	} else {
 			if(world.isRemote)
@@ -49,7 +50,7 @@ public class BlockCrate extends BlockFalling {
     	Random rand = new Random();
     	List<Item> list = new ArrayList<Item>();
     	
-    	switch(rand.nextInt(23)) {
+    	switch(rand.nextInt(32)) {
     	case 0:
     		list.add(ModItems.clip_revolver_iron);
     		list.add(ModItems.clip_revolver_iron);
@@ -148,6 +149,43 @@ public class BlockCrate extends BlockFalling {
     		list.add(ModItems.syringe_metal_stimpak);
     		list.add(ModItems.syringe_metal_stimpak);
     		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 23:
+    		list.add(ModItems.clip_revolver_cursed);
+    		list.add(ModItems.clip_revolver_cursed);
+    		list.add(ModItems.clip_revolver_cursed);
+    		break;
+    	case 24:
+    		list.add(ModItems.clip_revolver_lead);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 25:
+    		list.add(ModItems.clip_revolver_lead);
+    		list.add(ModItems.clip_revolver_lead);
+    		break;
+    	case 26:
+    		list.add(ModItems.clip_mp);
+    		break;
+    	case 27:
+    		list.add(ModItems.clip_fatman);
+    		break;
+    	case 28:
+    		list.add(ModItems.clip_fatman);
+    		list.add(ModItems.clip_rpg);
+    		break;
+    	case 29:
+    		list.add(ModItems.grenade_generic);
+    		list.add(ModItems.grenade_generic);
+    		list.add(ModItems.grenade_generic);
+    		break;
+    	case 30:
+    		list.add(ModItems.grenade_strong);
+    		list.add(ModItems.grenade_strong);
+    		list.add(ModItems.grenade_strong);
+    		break;
+    	case 31:
+    		list.add(ModItems.grenade_mk2);
+    		list.add(ModItems.grenade_mk2);
     		break;
     	}
     	

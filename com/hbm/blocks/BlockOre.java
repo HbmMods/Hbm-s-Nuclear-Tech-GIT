@@ -42,7 +42,7 @@ public class BlockOre extends Block {
 		{
 			return ModItems.niter;
 		}
-		if(this == ModBlocks.ore_sulfur)
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur)
 		{
 			return ModItems.sulfur;
 		}
@@ -62,6 +62,10 @@ public class BlockOre extends Block {
 		{
 			return Items.snowball;
 		}
+		if(this == ModBlocks.ore_nether_fire)
+		{
+			return p_149650_2_.nextInt(2) == 0 ? ModItems.powder_fire : Items.blaze_powder;
+		}
 		
 		return Item.getItemFromBlock(this);
     }
@@ -77,7 +81,11 @@ public class BlockOre extends Block {
 		{
 			return 2 + p_149745_1_.nextInt(3);
 		}
-		if(this == ModBlocks.ore_sulfur)
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur)
+		{
+			return 2 + p_149745_1_.nextInt(3);
+		}
+		if(this == ModBlocks.ore_nether_fire)
 		{
 			return 2 + p_149745_1_.nextInt(3);
 		}

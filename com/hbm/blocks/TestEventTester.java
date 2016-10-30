@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.hbm.entity.EntityFalloutRain;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.particles.EntitySmokeFX;
@@ -43,7 +44,7 @@ public class TestEventTester extends Block {
 			//ExplosionChaos.frag(p_149695_1_, x, y + 2, z, 10, false, null);
         	//EntitySmokeFX smoke = new EntitySmokeFX(p_149695_1_, x + 0.5, y + 1, z + 0.5, 0.0, 0.0, 0.0);
         	//p_149695_1_.spawnEntityInWorld(smoke);
-        	ExplosionParticle.spawnMush(p_149695_1_, x, y, z);
+        	//ExplosionParticle.spawnMush(p_149695_1_, x, y, z);
 			//mirv(this.worldObj, x, y + 20, z);
         	//killEvent(p_149695_1_, x, y, z);
         	/*EntityNuclearCreeper e = new EntityNuclearCreeper(p_149695_1_);
@@ -58,6 +59,13 @@ public class TestEventTester extends Block {
 			 {
 				 ExplosionNukeAdvanced.mush(p_149695_1_, x, y, z);
 			 }*/
+        	EntityFalloutRain fallout = new EntityFalloutRain(p_149695_1_, 1000);
+        	fallout.posX = x;
+        	fallout.posY = y + 3;
+        	fallout.posZ = z;
+        	fallout.setScale(50);
+        	
+        	p_149695_1_.spawnEntityInWorld(fallout);
         }
     }
     

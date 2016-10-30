@@ -3,6 +3,10 @@ itemGroup.tabParts=Nuclear Tech Mod Parts
 itemGroup.tabBlocks=Nuclear Tech Mod Blocks
 itemGroup.tabNuke=Nuclear Tech Mod Nukes
 
+item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
+item.record.ss.desc=Valve - Sector Sweep
+item.record.vc.desc=Valve - Vortal Combat
+
 death.attack.nuclearBlast=%1$s was blown away by a nuclear explosion.
 death.attack.revolverBullet=%1$s was shot in the head by %2$s.
 death.attack.mudPoisoning=%1$s died in poisonous mud.
@@ -13,9 +17,14 @@ death.attack.tau=%1$s was riddeled by %2$s using negatively charged tauons.
 death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into pieces.
 death.attack.chopperBullet=%1$s was rekt by %2$s.
 death.attack.cmb=%1$s was fizzeled by %2$s.
-death.attack.subAtomic=%1$s's atoms were annihilated by %2$s.
+death.attack.subAtomic=%1$s's atoms have been destroyed by %2$s.
+death.attack.subAtomic2=%1$s was QPU-misaligned because %2$s tampered with his de facto speed.
+death.attack.subAtomic3=%1$s's divergence dropped below 1% because of %2$s.
+death.attack.subAtomic4=%1$s was divided by zero by %2$s.
+death.attack.subAtomic5=%1$s was nullified by %2$s.
 death.attack.radiation=%1$s died from radiation poisoning.
 death.attack.acid=%1$s fell into acid.
+death.attack.suicide=%1$s blew their head off.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -30,7 +39,7 @@ item.test_nuke_tier2_target.name=Subcritical MOX Target (Tier 2)
 
 item.gadget_explosive.name=Propellant
 item.gadget_explosive8.name=Bundle of Propellant
-item.gadget_wireing.name=Wireing
+item.gadget_wireing.name=Wiring
 item.gadget_core.name=Plutonium Core
 
 item.boy_igniter.name=Bomb Igniter
@@ -88,9 +97,9 @@ tile.machine_difurnace_on.name=Alloy Furnace
 container.diFurnace=Alloy Furnace
 tile.machine_centrifuge.name=Centrifuge
 container.centrifuge=Centrifuge
-tile.machine_uf6_tank.name=Uranium Hexafluorite Tank
+tile.machine_uf6_tank.name=Uranium Hexafluoride Tank
 container.uf6_tank=UF6 Tank
-tile.machine_puf6_tank.name=Plutonium Hexafluorite Tank
+tile.machine_puf6_tank.name=Plutonium Hexafluoride Tank
 container.puf6_tank=PuF6 Tank
 tile.machine_reactor.name=Breeding Reactor
 container.reactor=Breeding Reactor
@@ -109,7 +118,7 @@ tile.red_wire_coated.name=Coated Red Copper Cable
 tile.machine_deuterium.name=Deuterium Extractor
 container.machine_deuterium=Deuterium Extractor
 tile.machine_battery.name=Energy Storage Block
-container.battery=Energy Storage Block
+container.battery=Energy Storage
 tile.machine_coal_off.name=Coal Generator
 tile.machine_coal_on.name=Coal Generator
 container.machineCoal=Coal Generator
@@ -248,6 +257,7 @@ tile.block_uranium.name=Block of Uranium
 tile.block_trinitite.name=Block of Trinitite
 tile.block_beryllium.name=Block of Beryllium
 tile.block_waste.name=Block of Nuclear Waste
+tile.block_scrap.name=Block of Scrap
 tile.block_advanced_alloy.name=Block of Advanced Alloy
 tile.block_magnetized_tungsten.name=Block of Magnetized Tungsten
 tile.block_combine_steel.name=Block of CMB Steel
@@ -263,6 +273,13 @@ tile.ore_uranium.name=Uranium Ore
 tile.ore_schrabidium.name=Schrabidium Ore
 tile.ore_beryllium.name=Beryllium Ore
 
+tile.ore_nether_uranium.name=Nether Uranium Ore
+tile.ore_nether_plutonium.name=Nether Plutonium Ore
+tile.ore_nether_tungsten.name=Nether Tungsten Ore
+tile.ore_nether_sulfur.name=Nether Sulfur Ore
+tile.ore_nether_fire.name=Fire Ore
+tile.ore_nether_schrabidium.name=Nether Schrabidium Ore
+
 tile.reinforced_brick.name=Reinforced Stone
 tile.reinforced_glass.name=Reinforced Glass
 tile.reinforced_sand.name=Reinforced Sandstone
@@ -276,6 +293,8 @@ tile.brick_light.name=Light Bricks
 
 tile.cmb_brick.name=CMB Steel Tile
 tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
+
+tile.gravel_obsidian.name=Crushed Obsidian
 
 item.nugget_uranium.name=Uranium Nugget
 item.nugget_plutonium.name=Plutonium Nugget
@@ -297,6 +316,7 @@ item.powder_copper.name=Copper Powder
 item.powder_titanium.name=Titanium Powder
 item.powder_tungsten.name=Tungsten Powder
 item.powder_uranium.name=Uranium Powder
+item.powder_plutonium.name=Plutonium Powder
 item.dust.name=Dust
 item.powder_coal.name=Coal Powder
 item.powder_lapis.name=Lapis Lazuli Powder
@@ -337,6 +357,7 @@ item.reactor_core.name=Breeding Reactor Core
 item.pellet_rtg.name=Plutonium 238 Fuel Pellet
 item.rtg_unit.name=RTG Unit
 item.hazmat_cloth.name=Hazmat Cloth
+item.filter_coal.name=Activated Carbon Filter
 item.tritium_deuterium_cake.name=Tritium-Deuterium-Cake
 
 item.cell_empty.name=Empty Cell
@@ -365,6 +386,7 @@ item.inf_antischrabidium.name=Infinite Antischrabidium Tank
 item.canister_empty.name=Empty Canister
 item.canister_fuel.name=Fuel Canister
 item.canister_napalm.name=Napalm B
+item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
 
 item.rod_empty.name=Emty Rod
 item.rod_uranium.name=Uranium Rod
@@ -433,7 +455,7 @@ item.powder_poison.name=Poison Powder
 item.pellet_gas.name=Poison Gas Cartridge
 
 item.nuke_starter_kit.name=Atomic Science Starter Kit
-item.nuke_commercially_kit.name=Atomic Science Kit for Commercialy Uses
+item.nuke_commercially_kit.name=Atomic Science Kit for Commercial Uses
 item.nuke_advanced_kit.name=Atomic Science Advanced Kit
 item.gadget_kit.name=The Gadget Kit
 item.boy_kit.name=Little Boy Kit
@@ -483,8 +505,10 @@ item.grenade_tau.name=Tau Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
 item.grenade_lemon.name=Combustible Lemon
 item.grenade_mk2.name=Mk 2 Grenade "Ambassador Pineapple"
+item.grenade_aschrab.name=Tossable Antischrabidium Cell
 item.grenade_nuke.name=Mark VI Drill Grenade
 item.grenade_nuclear.name=Nuka Grenade
+item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
 
 item.rod_uranium_fuel.name=Uranium Fuel Rod
 item.rod_dual_uranium_fuel.name=Uranium Dual Fuel Rod
@@ -556,6 +580,7 @@ item.gun_mp.name=Pacifist's Machine Gun
 item.gun_zomg.name=Singularity Powered Annihilation Ray "ZOMG Cannon"
 item.gun_super_shotgun.name=Super Shotgun
 item.gun_moist_nugget.name=Moisn-Nagant
+item.gun_revolver_inverted.name=Flipped Revolver
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
@@ -678,6 +703,14 @@ item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmmat Chestplate
 item.hazmat_legs.name=Hazmat Leggings
 item.hazmat_boots.name=Hazmat Boots
+item.hazmat_paa_helmet.name=PaA Battle Hazmat Suit Helmet
+item.hazmat_paa_plate.name=PaA Battle Hazmat Suit Chestplate
+item.hazmat_paa_legs.name=PaA Battle Hazmat Suit Leggings
+item.hazmat_paa_boots.name=PaA Battle Hazmat Suit Boots
+
+item.paa_plate.name=PaA Chest Protection Plate
+item.paa_legs.name=PaA Leg Reinforcements
+item.paa_boots.name=PaA "good ol' shoes"
 
 item.goggles.name=Protection Goggles
 item.gas_mask.name=Gas Mask
@@ -733,6 +766,10 @@ item.alloy_helmet.name=Advanced Alloy Helmet
 item.alloy_plate.name=Advanced Alloy Chestplate
 item.alloy_legs.name=Advanced Alloy Leggings
 item.alloy_boots.name=Advanced Alloy Boots
+item.cmb_helmet.name=CMB Steel Helmet
+item.cmb_plate.name=CMB Steel Chestplate
+item.cmb_legs.name=CMB Steel Leggings
+item.cmb_boots.name=CMB Steel Boots
 
 item.steel_sword.name=Steel Sword
 item.steel_pickaxe.name=Steel Pickaxe
@@ -749,6 +786,11 @@ item.alloy_pickaxe.name=Advanced Alloy Pickaxe
 item.alloy_axe.name=Advanced Alloy Axe
 item.alloy_shovel.name=Advanced Alloy Shovel
 item.alloy_hoe.name=Advanced Alloy Hoe
+item.cmb_sword.name=CMB Steel Sword
+item.cmb_pickaxe.name=CMB Steel Pickaxe
+item.cmb_axe.name=CMB Steel Axe
+item.cmb_shovel.name=CMB Steel Shovel
+item.cmb_hoe.name=CMB Steel Hoe
 
 tile.red_cable.name=Red Copper Cable
 tile.block_meteor.name=Meteor Block
@@ -821,3 +863,7 @@ item.blades_titanium.name=Titanium Shredder Blades
 item.blades_advanced_alloy.name=Advanced Shredder Blades
 item.blades_combine_steel.name=CMB Shredder Blades
 item.blades_schrabidium.name=Schrabidium Shredder Blades
+
+item.letter.name=Express Mail
+
+item.chopper.name=Hunter Chopper

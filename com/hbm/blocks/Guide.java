@@ -149,27 +149,17 @@ public class Guide extends Block {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!player.isSneaking())
 		{
+			
 			ItemStack book1 = new ItemStack(Items.written_book);
 			book1.stackTagCompound = new NBTTagCompound();
 			book1.stackTagCompound.setString("author", "HbMinecraft");
 			book1.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 1: Resources");
 			NBTTagList pages1 = new NBTTagList();
-			pages1.appendTag(new NBTTagString(Library.book11));
-			pages1.appendTag(new NBTTagString(Library.book12));
-			pages1.appendTag(new NBTTagString(Library.book13));
-			pages1.appendTag(new NBTTagString(Library.book14));
-			pages1.appendTag(new NBTTagString(Library.book15));
-			pages1.appendTag(new NBTTagString(Library.book16));
-			pages1.appendTag(new NBTTagString(Library.book17));
-			pages1.appendTag(new NBTTagString(Library.book18));
-			pages1.appendTag(new NBTTagString(Library.book19));
-			pages1.appendTag(new NBTTagString(Library.book110));
-			pages1.appendTag(new NBTTagString(Library.book111));
-			pages1.appendTag(new NBTTagString(Library.book112));
-			pages1.appendTag(new NBTTagString(Library.book113));
-			pages1.appendTag(new NBTTagString(Library.book114));
-			pages1.appendTag(new NBTTagString(Library.book115));
-			pages1.appendTag(new NBTTagString(Library.book116));
+
+			for(String s : Library.book1) {
+				pages1.appendTag(new NBTTagString(s));
+			}
+			
 			book1.stackTagCompound.setTag("pages", pages1);
 			player.inventory.addItemStackToInventory(book1);
 			
@@ -178,23 +168,11 @@ public class Guide extends Block {
 			book2.stackTagCompound.setString("author", "HbMinecraft");
 			book2.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 2: Machines");
 			NBTTagList pages2 = new NBTTagList();
-			pages2.appendTag(new NBTTagString(Library.book21));
-			pages2.appendTag(new NBTTagString(Library.book22));
-			pages2.appendTag(new NBTTagString(Library.book23));
-			pages2.appendTag(new NBTTagString(Library.book24));
-			pages2.appendTag(new NBTTagString(Library.book25));
-			pages2.appendTag(new NBTTagString(Library.book26));
-			pages2.appendTag(new NBTTagString(Library.book27));
-			pages2.appendTag(new NBTTagString(Library.book28));
-			pages2.appendTag(new NBTTagString(Library.book29));
-			pages2.appendTag(new NBTTagString(Library.book210));
-			pages2.appendTag(new NBTTagString(Library.book211));
-			pages2.appendTag(new NBTTagString(Library.book212));
-			pages2.appendTag(new NBTTagString(Library.book213));
-			pages2.appendTag(new NBTTagString(Library.book214));
-			pages2.appendTag(new NBTTagString(Library.book215));
-			pages2.appendTag(new NBTTagString(Library.book216));
-			pages2.appendTag(new NBTTagString(Library.book217));
+
+			for(String s : Library.book2) {
+				pages2.appendTag(new NBTTagString(s));
+			}
+			
 			book2.stackTagCompound.setTag("pages", pages2);
 			player.inventory.addItemStackToInventory(book2);
 			
@@ -203,26 +181,11 @@ public class Guide extends Block {
 			book3.stackTagCompound.setString("author", "HbMinecraft");
 			book3.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 3: Bombs");
 			NBTTagList pages3 = new NBTTagList();
-			pages3.appendTag(new NBTTagString(Library.book31));
-			pages3.appendTag(new NBTTagString(Library.book32));
-			pages3.appendTag(new NBTTagString(Library.book33));
-			pages3.appendTag(new NBTTagString(Library.book34));
-			pages3.appendTag(new NBTTagString(Library.book35));
-			pages3.appendTag(new NBTTagString(Library.book36));
-			pages3.appendTag(new NBTTagString(Library.book37));
-			pages3.appendTag(new NBTTagString(Library.book38));
-			pages3.appendTag(new NBTTagString(Library.book39));
-			pages3.appendTag(new NBTTagString(Library.book310));
-			pages3.appendTag(new NBTTagString(Library.book311));
-			pages3.appendTag(new NBTTagString(Library.book312));
-			pages3.appendTag(new NBTTagString(Library.book313));
-			pages3.appendTag(new NBTTagString(Library.book314));
-			pages3.appendTag(new NBTTagString(Library.book315));
-			pages3.appendTag(new NBTTagString(Library.book316));
-			pages3.appendTag(new NBTTagString(Library.book317));
-			pages3.appendTag(new NBTTagString(Library.book318));
-			pages3.appendTag(new NBTTagString(Library.book319));
-			pages3.appendTag(new NBTTagString(Library.book320));
+
+			for(String s : Library.book3) {
+				pages3.appendTag(new NBTTagString(s));
+			}
+			
 			book3.stackTagCompound.setTag("pages", pages3);
 			player.inventory.addItemStackToInventory(book3);
 			
@@ -231,15 +194,11 @@ public class Guide extends Block {
 			book4.stackTagCompound.setString("author", "HbMinecraft");
 			book4.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 4: Missiles");
 			NBTTagList pages4 = new NBTTagList();
-			pages4.appendTag(new NBTTagString(Library.book41));
-			pages4.appendTag(new NBTTagString(Library.book42));
-			pages4.appendTag(new NBTTagString(Library.book43));
-			pages4.appendTag(new NBTTagString(Library.book44));
-			pages4.appendTag(new NBTTagString(Library.book45));
-			pages4.appendTag(new NBTTagString(Library.book46));
-			pages4.appendTag(new NBTTagString(Library.book47));
-			pages4.appendTag(new NBTTagString(Library.book48));
-			pages4.appendTag(new NBTTagString(Library.book49));
+
+			for(String s : Library.book4) {
+				pages4.appendTag(new NBTTagString(s));
+			}
+			
 			book4.stackTagCompound.setTag("pages", pages4);
 			player.inventory.addItemStackToInventory(book4);
 			
@@ -248,14 +207,11 @@ public class Guide extends Block {
 			book5.stackTagCompound.setString("author", "HbMinecraft");
 			book5.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 5: Misc");
 			NBTTagList pages5 = new NBTTagList();
-			pages5.appendTag(new NBTTagString(Library.book51));
-			pages5.appendTag(new NBTTagString(Library.book52));
-			pages5.appendTag(new NBTTagString(Library.book53));
-			pages5.appendTag(new NBTTagString(Library.book54));
-			pages5.appendTag(new NBTTagString(Library.book55));
-			pages5.appendTag(new NBTTagString(Library.book56));
-			pages5.appendTag(new NBTTagString(Library.book57));
-			pages5.appendTag(new NBTTagString(Library.book58));
+
+			for(String s : Library.book5) {
+				pages5.appendTag(new NBTTagString(s));
+			}
+			
 			book5.stackTagCompound.setTag("pages", pages5);
 			player.inventory.addItemStackToInventory(book5);
 			

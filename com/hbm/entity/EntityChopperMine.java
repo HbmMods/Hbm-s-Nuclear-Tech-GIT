@@ -119,10 +119,12 @@ public class EntityChopperMine extends Entity implements IProjectile {
 			this.setDead();
 		}
 		
-		if(timer % 10 == 0 && timer % 20 != 0)
-			worldObj.playSoundAtEntity(this, "random.click", 10.0F, 1F);
-		if(timer % 20 == 0)
-			worldObj.playSoundAtEntity(this, "random.click", 10.0F, 1.5F);
+		//if(timer % 10 == 0 && timer % 20 != 0)
+		//	worldObj.playSoundAtEntity(this, "random.click", 10.0F, 1F);
+		//if(timer % 20 == 0)
+		//	worldObj.playSoundAtEntity(this, "random.click", 10.0F, 1.5F);
+		
+		worldObj.playSoundAtEntity(this, "hbm:misc.nullMine", 10.0F, 1F);
 		
 		if(timer >= 100 || worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ).getMaterial() != Material.air)
 		{

@@ -1,6 +1,7 @@
 package com.hbm.items;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -9,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemStarterKit extends Item {
@@ -341,6 +343,15 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_cursed, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
+		}
+		
+		if(this == ModItems.letter && world.isRemote)
+		{
+			if(player.getUniqueID().toString().equals(Library.a20)) {
+				player.addChatMessage(new ChatComponentText("Error: null reference @ com.hbm.items.ItemStarterKit.class, please report this to the modder!"));
+			} else {
+				player.addChatMessage(new ChatComponentText("You rip the letter in half; nothing happens."));
+			}
 		}
 		
 		return stack;

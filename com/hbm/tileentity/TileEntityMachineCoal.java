@@ -121,7 +121,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			if(stack.getItem() instanceof ItemBattery)
 				return true;
 		if(i == 1)
-			if(stack.getItem() == Items.coal || stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
+			if(stack.getItem() == Items.coal || stack.getItem() == ModItems.powder_coal || stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
 				return true;
 		
 		return false;
@@ -333,6 +333,15 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 				slots[1] = null;
 			}
 		}
+		if(slots[1] != null && slots[1].getItem() == ModItems.powder_coal && burnTime <= 0)
+		{
+			slots[1].stackSize -= 1;
+			burnTime = 200;
+			if(slots[1].stackSize == 0)
+			{
+				slots[1] = null;
+			}
+		}
 		if(slots[1] != null && slots[1].getItem() == Item.getItemFromBlock(Blocks.coal_block) && burnTime <= 0)
 		{
 			slots[1].stackSize -= 1;
@@ -362,8 +371,12 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	}
 	
 	public boolean isItemValid() {
-		
+
 		if(slots[1] != null && slots[1].getItem() == Items.coal)
+		{
+			return true;
+		}
+		if(slots[1] != null && slots[1].getItem() == ModItems.powder_coal)
 		{
 			return true;
 		}

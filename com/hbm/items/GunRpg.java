@@ -73,7 +73,7 @@ public class GunRpg extends Item
             }
 
             p_77615_1_.damageItem(1, p_77615_3_);
-            p_77615_2_.playSoundAtEntity(p_77615_3_, "fireworks.launch", 1.0F, 0.25F);
+            p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.rpgShoot", 1.0F, 0.25F);
 
             if (flag)
             {

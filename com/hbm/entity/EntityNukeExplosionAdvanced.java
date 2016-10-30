@@ -26,6 +26,7 @@ public class EntityNukeExplosionAdvanced extends Entity {
 	public float coefficient = 1;
 	public float coefficient2 = 1;
 	public boolean did = false;
+	public boolean did2 = false;
 	public boolean waste = true;
 
 	public EntityNukeExplosionAdvanced(World p_i1582_1_) {
@@ -78,6 +79,17 @@ public class EntityNukeExplosionAdvanced extends Entity {
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
         	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
         } else {
+			if (!did2 && waste) {
+				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.destructionRange * 1.8) * 10);
+				fallout.posX = this.posX;
+				fallout.posY = this.posY;
+				fallout.posZ = this.posZ;
+				fallout.setScale((int)(this.destructionRange * 1.8));
+
+				this.worldObj.spawnEntityInWorld(fallout);
+				
+				did2 = true;
+        	}
         }
         
         age++;

@@ -3,12 +3,15 @@ package com.hbm.main;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.EntityBullet;
 import com.hbm.entity.EntityChopperMine;
 import com.hbm.entity.EntityCloudFleija;
 import com.hbm.entity.EntityCombineBall;
+import com.hbm.entity.EntityFalloutRain;
+import com.hbm.entity.EntityGrenadeASchrab;
 import com.hbm.entity.EntityGrenadeCluster;
 import com.hbm.entity.EntityGrenadeElectric;
 import com.hbm.entity.EntityGrenadeFire;
@@ -25,6 +28,7 @@ import com.hbm.entity.EntityGrenadePoison;
 import com.hbm.entity.EntityGrenadeSchrabidium;
 import com.hbm.entity.EntityGrenadeStrong;
 import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
 import com.hbm.entity.EntityHunterChopper;
 import com.hbm.entity.EntityMiniNuke;
 import com.hbm.entity.EntityMirv;
@@ -47,6 +51,7 @@ import com.hbm.entity.EntityMissileRain;
 import com.hbm.entity.EntityMissileStrong;
 import com.hbm.entity.EntityNuclearCreeper;
 import com.hbm.entity.EntityNukeCloudBig;
+import com.hbm.entity.EntityNukeCloudNoShroom;
 import com.hbm.entity.EntityNukeCloudSmall;
 import com.hbm.entity.EntityRainbow;
 import com.hbm.entity.EntityRocket;
@@ -69,6 +74,7 @@ import com.hbm.render.ItemRenderPoleTop;
 import com.hbm.render.ItemRenderRedstoneSword;
 import com.hbm.render.ItemRenderRevolver;
 import com.hbm.render.ItemRenderRevolverGold;
+import com.hbm.render.ItemRenderRevolverInverted;
 import com.hbm.render.ItemRenderRevolverSchrabidium;
 import com.hbm.render.ItemRenderRocket;
 import com.hbm.render.ItemRenderRpg;
@@ -89,6 +95,7 @@ import com.hbm.render.RenderCloudFleija;
 import com.hbm.render.RenderCrashedBomb;
 import com.hbm.render.RenderDecoBlock;
 import com.hbm.render.RenderDecoBlockAlt;
+import com.hbm.render.RenderFallout;
 import com.hbm.render.RenderFlare;
 import com.hbm.render.RenderHunterChopper;
 import com.hbm.render.RenderLaunchPadTier1;
@@ -100,6 +107,7 @@ import com.hbm.render.RenderMissileMirv;
 import com.hbm.render.RenderMissileNuclear;
 import com.hbm.render.RenderMissileStrong;
 import com.hbm.render.RenderMissileThermo;
+import com.hbm.render.RenderNoCloud;
 import com.hbm.render.RenderNuclearCreeper;
 import com.hbm.render.RenderNukeBoy;
 import com.hbm.render.RenderNukeFleija;
@@ -164,6 +172,8 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerRenderInfo()
 	{
+		MinecraftForge.EVENT_BUS.register(new ModEventHandlerClient());
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestRender.class, new RenderTestRender());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestContainer.class, new RenderTestContainer());
@@ -213,6 +223,8 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeTau.class, new RenderSnowball(ModItems.grenade_tau));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeLemon.class, new RenderSnowball(ModItems.grenade_lemon));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeMk2.class, new RenderSnowball(ModItems.grenade_mk2));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeZOMG.class, new RenderSnowball(ModItems.grenade_zomg));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeASchrab.class, new RenderSnowball(ModItems.grenade_aschrab));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 
@@ -225,6 +237,8 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeAlt());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudBig.class, new RenderBigNuke());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCloudFleija.class, new RenderCloudFleija());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudNoShroom.class, new RenderNoCloud());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityFalloutRain.class, new RenderFallout());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());
@@ -247,6 +261,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_zomg, new ItemRenderZOMG());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_osipr, new ItemRenderOSIPR());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mp, new ItemRenderMP());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_inverted, new ItemRenderRevolverInverted());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());

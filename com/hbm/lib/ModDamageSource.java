@@ -18,6 +18,7 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource euthanizedSelf2 = (new DamageSource("euthanizedSelf2")).setDamageBypassesArmor();
 	public static DamageSource tauBlast = (new DamageSource("tauBlast")).setDamageBypassesArmor();
 	public static DamageSource radiation = (new DamageSource("radiation")).setDamageBypassesArmor();
+	public static DamageSource suicide = (new DamageSource("suicide")).setProjectile();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
@@ -41,6 +42,22 @@ public class ModDamageSource extends DamageSource {
     public static DamageSource causeSubatomicDamage(EntityRainbow p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("subAtomic", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage2(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic2", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage3(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic3", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage4(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic4", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage5(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic5", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
     }
     public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
     {
@@ -90,7 +107,8 @@ public class ModDamageSource extends DamageSource {
     public static boolean getIsSubatomic(DamageSource source) {
     	if(source instanceof EntityDamageSourceIndirect)
     	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("subAtomic");
+    		String s = ((EntityDamageSourceIndirect)source).damageType;
+    		return s.equals("subAtomic") || s.equals("subAtomic2") || s.equals("subAtomic3") || s.equals("subAtomic4") || s.equals("subAtomic5");
     	}
     	return false;
     }

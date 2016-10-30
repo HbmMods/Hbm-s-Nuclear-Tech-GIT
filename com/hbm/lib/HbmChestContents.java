@@ -19,6 +19,7 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.ingot_beryllium, 0, 1, 5, 2),
 				new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 7, 10, 4),
 				new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 2, 6, 2),
 				new WeightedRandomChestContent(ModItems.battery_generic, 50, 1, 1, 4),
 				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 1),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 0, 3, 1)};
@@ -33,8 +34,10 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 2, 1),
 				new WeightedRandomChestContent(ModItems.battery_generic, 50, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
+				new WeightedRandomChestContent(ModItems.powder_iodine, 0, 1, 1, 1),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 1, 2, 2),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_poles), 0, 4, 9, 5),
+				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_scaffold), 0, 4, 6, 3),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_top), 0, 2, 4, 4),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 3, 5, 3)};
 
@@ -47,6 +50,8 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.nuke_electric_kit, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.gun_revolver_gold, 0, 1, 1, 4),
 				new WeightedRandomChestContent(ModItems.gun_revolver_gold_ammo, 0, 1, 6, 5),
+				new WeightedRandomChestContent(ModItems.gun_revolver_lead, 0, 1, 1, 4),
+				new WeightedRandomChestContent(ModItems.gun_revolver_lead_ammo, 0, 1, 6, 5),
 				new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 4),
 				new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 32, 5),
 				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
@@ -58,6 +63,7 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
 				new WeightedRandomChestContent(ModItems.battery_schrabidium, 1000, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.syringe_awesome, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 4),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 3, 1)};
 
@@ -94,7 +100,7 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.rod_quad_plutonium_fuel, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.rod_quad_mox_fuel, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.pellet_rtg, 0, 1, 1, 3),
-				new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.powder_thorium, 0, 1, 1, 1),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3)};
 
 	private static WeightedRandomChestContent[] vertibird = new WeightedRandomChestContent[]
@@ -113,7 +119,9 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.rod_dual_uranium_fuel, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 2),
 				new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 2),
-				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1)};
+				new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
+				new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 2)};
 
 	private static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[]
 			{new WeightedRandomChestContent(ModItems.missile_generic, 0, 1, 1, 4),
@@ -135,6 +143,7 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.launch_pad), 0, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.designator, 0, 1, 1, 5),
+				new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
 				new WeightedRandomChestContent(ModItems.thruster_small, 0, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.thruster_medium, 0, 1, 1, 5),
 				new WeightedRandomChestContent(ModItems.thruster_large, 0, 1, 1, 5),
@@ -151,12 +160,20 @@ public class HbmChestContents {
 				new WeightedRandomChestContent(ModItems.cell_tritium, 0, 1, 8, 5),
 				new WeightedRandomChestContent(ModItems.cell_antimatter, 0, 1, 4, 5),
 				new WeightedRandomChestContent(ModItems.cell_anti_schrabidium, 0, 1, 2, 5),
+				new WeightedRandomChestContent(ModItems.powder_neodymium, 0, 1, 1, 1),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 4, 8, 5),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 6, 5),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.reactor_element), 0, 1, 2, 5),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 8, 32, 5),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 16, 5),
 				new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 32, 5)};
+
+	private static WeightedRandomChestContent[] powder = new WeightedRandomChestContent[]
+			{new WeightedRandomChestContent(ModItems.powder_neptunium, 0, 1, 32, 1),
+				new WeightedRandomChestContent(ModItems.powder_iodine, 0, 1, 32, 1),
+				new WeightedRandomChestContent(ModItems.powder_thorium, 0, 1, 32, 1),
+				new WeightedRandomChestContent(ModItems.powder_astatine, 0, 1, 32, 1),
+				new WeightedRandomChestContent(ModItems.powder_neodymium, 0, 1, 32, 1)};
 	
 	/**
 	 * @param i
@@ -168,8 +185,9 @@ public class HbmChestContents {
 	 * case 4: nukeTrash loot (U238 and Pu240 nuggets and rods)
 	 * case 5: nuclear loot (U235 and Pu239 nuggets and rods, fuel rods)
 	 * case 6: vertibrid loot (T45 power armor, fusion cores, circuits, nuclear material)
-	 * case 7: missile loot (Missiles, designators, missile parts)
+	 * case 7: missile loot (missiles, designators, missile parts)
 	 * case 8: spaceship loot (reactor elements, super conductors)
+	 * case 9: powder loot (secret chest with the five powders for NITAN)
 	 **/
 	
 	public static WeightedRandomChestContent[] getLoot(int i)
@@ -192,6 +210,8 @@ public class HbmChestContents {
 			return missile;
 		case 8:
 			return spaceship;
+		case 9:
+			return powder;
 		}
 		
 		return null;

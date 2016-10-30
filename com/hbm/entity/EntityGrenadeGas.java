@@ -7,6 +7,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 import com.hbm.explosion.ExplosionChaos;
 
 public class EntityGrenadeGas extends EntityThrowable
@@ -48,6 +50,11 @@ public class EntityGrenadeGas extends EntityThrowable
             this.setDead();
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, true);
             ExplosionChaos.poison(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
+        }
+
+		for (int i = 0; i < 10; i++) {
+			for(int j = 0; j < 10; j++)
+				this.worldObj.spawnParticle("cloud", this.posX - 2.5D + (((double)i) / 2), this.posY + 0.5D, this.posZ - 2.5D + (((double)j) / 2), 0, rand.nextDouble() * 0.1D, 0);
         }
     }
 

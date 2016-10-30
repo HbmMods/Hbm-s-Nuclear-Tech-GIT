@@ -59,10 +59,11 @@ public class GunOSIPR extends Item {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo)) && count % 3 == 0) {
-					EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 35, 45, false, "chopper");
-				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
+					EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 5, 15, false, "chopper");
+				entityarrow.setDamage(5 + rand.nextInt(10));
 
-				world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
+				//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
+				world.playSoundAtEntity(player, "hbm:weapon.osiprShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
@@ -77,11 +78,12 @@ public class GunOSIPR extends Item {
 		} else {
 			boolean flag = player.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo2)) && count % 50 == 0 && (this.getMaxItemUseDuration(stack) - count) != 0) {
+			if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo2)) && count % 30 == 0 && (this.getMaxItemUseDuration(stack) - count) != 0) {
 				EntityCombineBall entityarrow = new EntityCombineBall(player.worldObj, player, 3.0F);
 				entityarrow.setDamage(35 + rand.nextInt(45 - 35));
 
-				world.playSoundAtEntity(player, "tile.piston.in", 1.0F, 0.75F);
+				//world.playSoundAtEntity(player, "tile.piston.in", 1.0F, 0.75F);
+				world.playSoundAtEntity(player, "hbm:weapon.singFlyby", 1.0F, 1F);
 
 				if (flag) {
 					entityarrow.canBePickedUp = 2;
@@ -93,6 +95,9 @@ public class GunOSIPR extends Item {
 					world.spawnEntityInWorld(entityarrow);
 				}
 			}
+			
+			if((this.getMaxItemUseDuration(stack) - count) % 30 == 15 && (player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_osipr_ammo2)))
+				world.playSoundAtEntity(player, "hbm:weapon.osiprCharging", 1.0F, 1F);
 		}
 	}
 
@@ -111,7 +116,7 @@ public class GunOSIPR extends Item {
 		list.add("");
 		list.add("Ammo: Dark Energy Plugs");
 		list.add("Secondary Ammo: Combine Ball");
-		list.add("Damage: 35 - 45");
+		list.add("Damage: 5 - 15");
 		list.add("Secondary Damage: 1000");
 	}
 

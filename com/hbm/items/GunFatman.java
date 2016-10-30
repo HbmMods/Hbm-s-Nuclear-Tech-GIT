@@ -74,7 +74,8 @@ public class GunFatman extends Item {
 	            entityarrow.setDamage(1000);
 
 	            p_77615_1_.damageItem(1, p_77615_3_);
-	            p_77615_2_.playSoundAtEntity(p_77615_3_, "tile.piston.out", 1.0F, 0.5F);
+	            //p_77615_2_.playSoundAtEntity(p_77615_3_, "tile.piston.out", 1.0F, 0.5F);
+	            p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.fatmanShoot", 1.0F, 1F);
 	            
 	            if(!flag)
 	            {

@@ -75,7 +75,8 @@ public class ItemRadioactive extends Item {
 					this == ModItems.boy_bullet || 
 					this == ModItems.boy_target || 
 					this == ModItems.gadget_core || 
-					this == ModItems.man_core) {
+					this == ModItems.man_core || 
+					this == ModItems.nuclear_waste) {
 				living.addPotionEffect(new PotionEffect(Potion.poison.id, 45 * 20, 4));
 				living.addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 2));
 				living.attackEntityFrom(ModDamageSource.radiation, 3);
@@ -116,7 +117,8 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_quad_plutonium || 
 					this == ModItems.rod_dual_plutonium || 
 					this == ModItems.mike_core || 
-					this == ModItems.tsar_core) {
+					this == ModItems.tsar_core || 
+					this == ModItems.trinitite) {
 				living.addPotionEffect(new PotionEffect(Potion.poison.id, 25 * 20, 4));
 				living.attackEntityFrom(ModDamageSource.radiation, 1);
 			}
@@ -160,7 +162,8 @@ public class ItemRadioactive extends Item {
 			
 			//Powder
 
-			if (this == ModItems.powder_neptunium) {
+			if (this == ModItems.powder_neptunium || 
+					this == ModItems.powder_plutonium) {
 				living.addPotionEffect(new PotionEffect(Potion.poison.id, 25 * 20, 4));
 				living.attackEntityFrom(ModDamageSource.radiation, 1);
 				living.setFire(5);
@@ -178,7 +181,14 @@ public class ItemRadioactive extends Item {
 					this == ModItems.ingot_hes || 
 					this == ModItems.ingot_les || 
 					this == ModItems.cell_sas3 || 
-					this == ModItems.fleija_propellant) {
+					this == ModItems.fleija_propellant || 
+					this == ModItems.gun_revolver_schrabidium_ammo || 
+					this == ModItems.rod_schrabidium || 
+					this == ModItems.rod_dual_schrabidium || 
+					this == ModItems.rod_quad_schrabidium || 
+					this == ModItems.rod_schrabidium_fuel || 
+					this == ModItems.rod_dual_schrabidium_fuel || 
+					this == ModItems.rod_quad_schrabidium_fuel) {
 				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 2 * 60 * 20, 0));
 				living.attackEntityFrom(ModDamageSource.radiation, 30);
 			}
@@ -191,7 +201,8 @@ public class ItemRadioactive extends Item {
 				living.attackEntityFrom(ModDamageSource.radiation, 10);
 			}
 
-			if (this == ModItems.plate_schrabidium) {
+			if (this == ModItems.plate_schrabidium || 
+					this == ModItems.wire_schrabidium) {
 				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 2 * 60 * 20, 0));
 				living.attackEntityFrom(ModDamageSource.radiation, 15);
 			}
