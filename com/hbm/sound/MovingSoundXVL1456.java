@@ -26,7 +26,15 @@ public class MovingSoundXVL1456 extends MovingSoundPlayerLoop {
 			i = ((EntityPlayer)this.player).getItemInUse();
 		}
 		
+<<<<<<< HEAD
 		//this.setPitch(this.getPitch() + 0.1F);
+=======
+<<<<<<< HEAD
+		//this.setPitch(this.getPitch() + 0.1F);
+=======
+		this.setPitch(this.getPitch() + 0.1F);
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 		
 		if(i == null || (i != null && i.getItem() != ModItems.gun_xvl1456) || !((EntityPlayer)this.player).isSneaking() || ((EntityPlayer)this.player).getItemInUseDuration() <= 0)
 			this.stop();

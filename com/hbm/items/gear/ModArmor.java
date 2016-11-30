@@ -39,12 +39,21 @@ public class ModArmor extends ItemArmor {
 		if(stack.getItem().equals(ModItems.cmb_legs)) {
 			return (RefStrings.MODID + ":textures/armor/cmb_2.png");
 		}
+<<<<<<< HEAD:com/hbm/items/gear/ModArmor.java
+=======
+<<<<<<< HEAD
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/items/ModArmor.java
 		if(stack.getItem().equals(ModItems.paa_plate) || stack.getItem().equals(ModItems.paa_boots)) {
 			return (RefStrings.MODID + ":textures/armor/paa_1.png");
 		}
 		if(stack.getItem().equals(ModItems.paa_legs)) {
 			return (RefStrings.MODID + ":textures/armor/paa_2.png");
 		}
+<<<<<<< HEAD:com/hbm/items/gear/ModArmor.java
+=======
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/items/ModArmor.java
 		
 		else return null;
 	}

@@ -60,7 +60,11 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+<<<<<<< HEAD:com/hbm/entity/mob/EntityHunterChopper.java
 		if (this.isEntityInvulnerable() || !(source == ModDamageSource.nuclearBlast || source.isExplosion()  || ModDamageSource.getIsTau(source) || ModDamageSource.getIsSubatomic(source) || ModDamageSource.getIsDischarge(source))) {
+=======
+		if (this.isEntityInvulnerable() || !(source == ModDamageSource.nuclearBlast || source.isExplosion()  || ModDamageSource.getIsTau(source) || ModDamageSource.getIsSubatomic(source))) {
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/entity/EntityHunterChopper.java
 			return false;
 		} else if(amount >= this.getHealth()) {
 			this.initDeath();

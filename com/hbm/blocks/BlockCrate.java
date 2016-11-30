@@ -76,10 +76,158 @@ public class BlockCrate extends BlockFalling {
 
     	List<Item> list = new ArrayList<Item>();
     	
+<<<<<<< HEAD
     	int i = rand.nextInt(5);
     	for(int j = 0; j < i; j++)
     		list.add(list1.get(rand.nextInt(list1.size())));
     		
+=======
+<<<<<<< HEAD
+    	switch(rand.nextInt(32)) {
+=======
+    	switch(rand.nextInt(29)) {
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+    	case 0:
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.clip_revolver_iron);
+    		break;
+    	case 1:
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 2:
+    		list.add(ModItems.clip_revolver);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 3:
+    		list.add(ModItems.clip_osipr);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 4:
+    		list.add(ModItems.clip_osipr);
+    		list.add(ModItems.clip_osipr);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 5:
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.clip_revolver);
+    		break;
+    	case 6:
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.clip_revolver);
+    		break;
+    	case 7:
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.clip_osipr);
+    		break;
+    	case 8:
+    		list.add(ModItems.clip_revolver_gold);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 9:
+    		list.add(ModItems.clip_revolver_gold);
+    		list.add(ModItems.clip_revolver_gold);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 10:
+    		list.add(ModItems.clip_revolver_schrabidium);
+    		break;
+    	case 11:
+    		list.add(ModItems.clip_xvl1456);
+    		break;
+    	case 12:
+    		list.add(ModItems.clip_xvl1456);
+    		list.add(ModItems.clip_xvl1456);
+    		break;
+    	case 13:
+    		list.add(ModItems.clip_xvl1456);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 14:
+    		list.add(ModItems.clip_osipr);
+    		list.add(ModItems.clip_osipr);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 15:
+    		list.add(ModItems.clip_osipr);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 16:
+    		list.add(ModItems.clip_revolver_gold);
+    		list.add(ModItems.clip_revolver_gold);
+    		break;
+    	case 17:
+    		list.add(ModItems.clip_rpg);
+    		list.add(ModItems.clip_rpg);
+    		break;
+    	case 18:
+    		list.add(ModItems.clip_rpg);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 19:
+    		list.add(ModItems.clip_rpg);
+    		list.add(ModItems.clip_revolver_iron);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 20:
+    		list.add(ModItems.clip_rpg);
+    		list.add(ModItems.clip_revolver);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 21:
+    		list.add(ModItems.syringe_metal_stimpak);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 22:
+    		list.add(ModItems.syringe_metal_stimpak);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 23:
+    		list.add(ModItems.clip_revolver_cursed);
+    		list.add(ModItems.clip_revolver_cursed);
+    		list.add(ModItems.clip_revolver_cursed);
+    		break;
+    	case 24:
+    		list.add(ModItems.clip_revolver_lead);
+    		list.add(ModItems.syringe_metal_stimpak);
+    		break;
+    	case 25:
+    		list.add(ModItems.clip_revolver_lead);
+    		list.add(ModItems.clip_revolver_lead);
+    		break;
+    	case 26:
+    		list.add(ModItems.clip_mp);
+    		break;
+    	case 27:
+    		list.add(ModItems.clip_fatman);
+    		break;
+    	case 28:
+    		list.add(ModItems.clip_fatman);
+    		list.add(ModItems.clip_rpg);
+    		break;
+<<<<<<< HEAD
+    	case 29:
+    		list.add(ModItems.grenade_generic);
+    		list.add(ModItems.grenade_generic);
+    		list.add(ModItems.grenade_generic);
+    		break;
+    	case 30:
+    		list.add(ModItems.grenade_strong);
+    		list.add(ModItems.grenade_strong);
+    		list.add(ModItems.grenade_strong);
+    		break;
+    	case 31:
+    		list.add(ModItems.grenade_mk2);
+    		list.add(ModItems.grenade_mk2);
+    		break;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+    	}
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
     	
     	for(Item stack : list) {
             float f = rand.nextFloat() * 0.8F + 0.1F;

@@ -6,6 +6,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hbm.blocks.ModBlocks;
+<<<<<<< HEAD
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.effect.EntityFalloutRain;
@@ -155,6 +156,138 @@ import com.hbm.render.tileentity.RenderTestRender;
 import com.hbm.render.tileentity.RenderUF6Tank;
 import com.hbm.render.tileentity.RenderYellowBarrel;
 import com.hbm.render.tileentity.RendererObjTester;
+=======
+import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityChopperMine;
+import com.hbm.entity.EntityCloudFleija;
+import com.hbm.entity.EntityCombineBall;
+<<<<<<< HEAD
+import com.hbm.entity.EntityFalloutRain;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+import com.hbm.entity.EntityGrenadeASchrab;
+import com.hbm.entity.EntityGrenadeCluster;
+import com.hbm.entity.EntityGrenadeElectric;
+import com.hbm.entity.EntityGrenadeFire;
+import com.hbm.entity.EntityGrenadeFlare;
+import com.hbm.entity.EntityGrenadeFrag;
+import com.hbm.entity.EntityGrenadeGas;
+import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeLemon;
+import com.hbm.entity.EntityGrenadeMk2;
+import com.hbm.entity.EntityGrenadeNuclear;
+import com.hbm.entity.EntityGrenadeNuke;
+import com.hbm.entity.EntityGrenadePlasma;
+import com.hbm.entity.EntityGrenadePoison;
+import com.hbm.entity.EntityGrenadeSchrabidium;
+import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
+import com.hbm.entity.EntityHunterChopper;
+import com.hbm.entity.EntityMiniNuke;
+import com.hbm.entity.EntityMirv;
+import com.hbm.entity.EntityMissileAntiBallistic;
+import com.hbm.entity.EntityMissileBunkerBuster;
+import com.hbm.entity.EntityMissileBurst;
+import com.hbm.entity.EntityMissileBusterStrong;
+import com.hbm.entity.EntityMissileCluster;
+import com.hbm.entity.EntityMissileClusterStrong;
+import com.hbm.entity.EntityMissileDrill;
+import com.hbm.entity.EntityMissileEndo;
+import com.hbm.entity.EntityMissileExo;
+import com.hbm.entity.EntityMissileGeneric;
+import com.hbm.entity.EntityMissileIncendiary;
+import com.hbm.entity.EntityMissileIncendiaryStrong;
+import com.hbm.entity.EntityMissileInferno;
+import com.hbm.entity.EntityMissileMirv;
+import com.hbm.entity.EntityMissileNuclear;
+import com.hbm.entity.EntityMissileRain;
+import com.hbm.entity.EntityMissileStrong;
+import com.hbm.entity.EntityNuclearCreeper;
+import com.hbm.entity.EntityNukeCloudBig;
+import com.hbm.entity.EntityNukeCloudNoShroom;
+import com.hbm.entity.EntityNukeCloudSmall;
+import com.hbm.entity.EntityRainbow;
+import com.hbm.entity.EntityRocket;
+import com.hbm.entity.EntitySchrab;
+import com.hbm.entity.EntityTestMissile;
+import com.hbm.items.ModItems;
+import com.hbm.particles.EntityBSmokeFX;
+import com.hbm.particles.EntitySmokeFX;
+import com.hbm.render.ItemRenderRevolverCursed;
+import com.hbm.render.ItemRenderRevolverIron;
+import com.hbm.render.ItemRenderRevolverLead;
+import com.hbm.render.BSmokeRenderer;
+import com.hbm.render.ItemRenderBigSword;
+import com.hbm.render.ItemRenderDecoBlock;
+import com.hbm.render.ItemRenderFatMan;
+import com.hbm.render.ItemRenderMP;
+import com.hbm.render.ItemRenderMiniNuke;
+import com.hbm.render.ItemRenderOSIPR;
+import com.hbm.render.ItemRenderPoleTop;
+import com.hbm.render.ItemRenderRedstoneSword;
+import com.hbm.render.ItemRenderRevolver;
+import com.hbm.render.ItemRenderRevolverGold;
+import com.hbm.render.ItemRenderRevolverInverted;
+import com.hbm.render.ItemRenderRevolverSchrabidium;
+import com.hbm.render.ItemRenderRocket;
+import com.hbm.render.ItemRenderRpg;
+import com.hbm.render.ItemRenderSatelliteReceiver;
+import com.hbm.render.ItemRenderSteelPoles;
+import com.hbm.render.ItemRenderTapeRecorder;
+import com.hbm.render.ItemRenderTestBombAdvanced;
+import com.hbm.render.ItemRenderTestContainer;
+import com.hbm.render.ItemRenderXVL1456;
+import com.hbm.render.ItemRenderZOMG;
+import com.hbm.render.ModEffectRenderer;
+import com.hbm.render.RenderBigNuke;
+import com.hbm.render.RenderBombMulti;
+import com.hbm.render.RenderCable;
+import com.hbm.render.RenderCentrifuge;
+import com.hbm.render.RenderChopperMine;
+import com.hbm.render.RenderCloudFleija;
+import com.hbm.render.RenderCrashedBomb;
+import com.hbm.render.RenderDecoBlock;
+import com.hbm.render.RenderDecoBlockAlt;
+import com.hbm.render.RenderFallout;
+import com.hbm.render.RenderFlare;
+import com.hbm.render.RenderHunterChopper;
+import com.hbm.render.RenderLaunchPadTier1;
+import com.hbm.render.RenderMiniNuke;
+import com.hbm.render.RenderMirv;
+import com.hbm.render.RenderMissileGeneric;
+import com.hbm.render.RenderMissileHuge;
+import com.hbm.render.RenderMissileMirv;
+import com.hbm.render.RenderMissileNuclear;
+import com.hbm.render.RenderMissileStrong;
+import com.hbm.render.RenderMissileThermo;
+import com.hbm.render.RenderNoCloud;
+import com.hbm.render.RenderNuclearCreeper;
+import com.hbm.render.RenderNukeBoy;
+import com.hbm.render.RenderNukeFleija;
+import com.hbm.render.RenderNukeGadget;
+import com.hbm.render.RenderNukeMan;
+import com.hbm.render.RenderNukeMike;
+import com.hbm.render.RenderNukePrototype;
+import com.hbm.render.RenderNukeTsar;
+import com.hbm.render.RenderPoleSatelliteReceiver;
+import com.hbm.render.RenderPoleTop;
+import com.hbm.render.RenderPuF6Tank;
+import com.hbm.render.RenderRainbow;
+import com.hbm.render.RenderRedBarrel;
+import com.hbm.render.RenderRocket;
+import com.hbm.render.RenderRotationTester;
+import com.hbm.render.RenderSmallNukeAlt;
+import com.hbm.render.RenderSteelPoles;
+import com.hbm.render.RenderTapeRecorder;
+import com.hbm.render.RenderTestBombAdvanced;
+import com.hbm.render.RenderTestContainer;
+import com.hbm.render.RenderTestMissile;
+import com.hbm.render.RenderTestRender;
+import com.hbm.render.RenderUF6Tank;
+import com.hbm.render.RenderYellowBarrel;
+import com.hbm.render.RendererObjTester;
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 import com.hbm.tileentity.TileEntityBombMulti;
 import com.hbm.tileentity.TileEntityCable;
 import com.hbm.tileentity.TileEntityCrashedBomb;
@@ -260,7 +393,14 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudBig.class, new RenderBigNuke());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCloudFleija.class, new RenderCloudFleija());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudNoShroom.class, new RenderNoCloud());
+<<<<<<< HEAD
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFalloutRain.class, new RenderFallout());
+=======
+<<<<<<< HEAD
+	    RenderingRegistry.registerEntityRenderingHandler(EntityFalloutRain.class, new RenderFallout());
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());
@@ -286,10 +426,13 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_osipr, new ItemRenderOSIPR());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mp, new ItemRenderMP());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_inverted, new ItemRenderRevolverInverted());
+<<<<<<< HEAD
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mp40, new ItemRenderMP40());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_emp, new ItemRenderEMPRay());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_immolator, new ItemRenderImmolator());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_cryolator, new ItemRenderCryolator());
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());

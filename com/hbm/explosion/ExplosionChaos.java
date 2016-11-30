@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+<<<<<<< HEAD
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.missile.EntityMIRV;
@@ -14,6 +15,16 @@ import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntitySchrab;
+=======
+import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
+import com.hbm.entity.EntityMirv;
+import com.hbm.entity.EntityMissileBase;
+import com.hbm.entity.EntityRainbow;
+import com.hbm.entity.EntityRocket;
+import com.hbm.entity.EntitySchrab;
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;

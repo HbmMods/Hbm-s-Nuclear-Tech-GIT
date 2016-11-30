@@ -125,13 +125,21 @@ public class HbmWorldGen implements IWorldGenerator {
 			(new WorldGenMinable(ModBlocks.ore_beryllium, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
+<<<<<<< HEAD
 		if (MainRegistry.enableBarrels && rand.nextInt(5) == 0) {
+=======
+		if (MainRegistry.enableBarrels) {
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 			for (int k = 0; k < 1; k++) {
 				int randPosX = i + rand.nextInt(16);
 				int randPosY = rand.nextInt(25);
 				int randPosZ = j + rand.nextInt(16);
 
+<<<<<<< HEAD
 				(new WorldGenMinable(ModBlocks.yellow_barrel, 10)).generate(world, rand, randPosX, randPosY, randPosZ);
+=======
+				(new WorldGenMinable(ModBlocks.yellow_barrel, 20)).generate(world, rand, randPosX, randPosY, randPosZ);
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 			}
 		}
 

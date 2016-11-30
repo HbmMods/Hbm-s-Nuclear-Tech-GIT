@@ -17,18 +17,30 @@ death.attack.tau=%1$s was riddeled by %2$s using negatively charged tauons.
 death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into pieces.
 death.attack.chopperBullet=%1$s was rekt by %2$s.
 death.attack.cmb=%1$s was fizzeled by %2$s.
+<<<<<<< HEAD
 death.attack.subAtomic=%1$s's atoms have been destroyed by %2$s.
 death.attack.subAtomic2=%1$s was QPU-misaligned because %2$s tampered with his de facto speed.
 death.attack.subAtomic3=%1$s's divergence dropped below 1 percent because of %2$s.
+=======
+<<<<<<< HEAD
+death.attack.subAtomic=%1$s's atoms have been destroyed by %2$s.
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+death.attack.subAtomic2=%1$s was QPU-misaligned because %2$s tampered with his de facto speed.
+death.attack.subAtomic3=%1$s's divergence dropped below 1% because of %2$s.
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 death.attack.subAtomic4=%1$s was divided by zero by %2$s.
 death.attack.subAtomic5=%1$s was nullified by %2$s.
 death.attack.radiation=%1$s died from radiation poisoning.
 death.attack.acid=%1$s fell into acid.
 death.attack.suicide=%1$s blew their head off.
+<<<<<<< HEAD
 death.attack.electrified=%1$s was electrified by %2$s.
 death.attack.flamethrower=%1$s was cremated by %2$s.
 death.attack.plasma=%1$s was immolated by %2$s.
 death.attack.ice=%1$s was turned into a popsicle by %2$s.
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -263,7 +275,10 @@ tile.block_trinitite.name=Block of Trinitite
 tile.block_beryllium.name=Block of Beryllium
 tile.block_waste.name=Block of Nuclear Waste
 tile.block_scrap.name=Block of Scrap
+<<<<<<< HEAD
 tile.block_electrical_scrap.name=Block of Electrical Scrap
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 tile.block_advanced_alloy.name=Block of Advanced Alloy
 tile.block_magnetized_tungsten.name=Block of Magnetized Tungsten
 tile.block_combine_steel.name=Block of CMB Steel
@@ -736,10 +751,19 @@ item.hazmat_paa_helmet.name=PaA Battle Hazmat Suit Helmet
 item.hazmat_paa_plate.name=PaA Battle Hazmat Suit Chestplate
 item.hazmat_paa_legs.name=PaA Battle Hazmat Suit Leggings
 item.hazmat_paa_boots.name=PaA Battle Hazmat Suit Boots
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.paa_plate.name=PaA Chest Protection Plate
 item.paa_legs.name=PaA Leg Reinforcements
 item.paa_boots.name=PaA "good ol' shoes"
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.goggles.name=Protection Goggles
 item.gas_mask.name=Gas Mask
@@ -893,8 +917,18 @@ item.blades_advanced_alloy.name=Advanced Shredder Blades
 item.blades_combine_steel.name=CMB Shredder Blades
 item.blades_schrabidium.name=Schrabidium Shredder Blades
 
+<<<<<<< HEAD
 item.linker.name=Telelinker
 
 item.letter.name=Express Mail
 
 item.chopper.name=Hunter Chopper
+=======
+<<<<<<< HEAD
+item.letter.name=Express Mail
+
+item.chopper.name=Hunter Chopper
+=======
+item.letter.name=Express Mail
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af

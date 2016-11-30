@@ -19,16 +19,23 @@ death.attack.chopperBullet=%1$s wurde von %2$s gerekt.
 death.attack.cmb=%1$s wurde von %2$s pulverisiert.
 death.attack.subAtomic=%1$s's Atome wurden von %2$s vernichtet.
 death.attack.subAtomic2=%1$s verließ das QPU-Gitter weil %2$s seine De-Facto-Geschwindigkeit manipulierte.
+<<<<<<< HEAD
 death.attack.subAtomic3=%1$s's Divergenzwert fiel wegen %2$s unter 1 Prozent.
+=======
+death.attack.subAtomic3=%1$s's Divergenzwert fiel wegen %2$s unter den 1%-Wert.
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 death.attack.subAtomic4=%1$s wurde von %2$s durch null geteilt.
 death.attack.subAtomic5=%1$s wurde von %2$s nullifiziert.
 death.attack.radiation=%1$s starb an Strahlenvergiftung.
 death.attack.acid=%1$s fiel in Säure.
 death.attack.suicide=%1$s blies sich die Rübe weg.
+<<<<<<< HEAD
 death.attack.electrified=%1$s wurde von %2$s elektrisiert.
 death.attack.flamethrower=%1$s wurde von %2$s gegrillt.
 death.attack.plasma=%1$s wurde von %2$s eingeäschert.
 death.attack.ice=%1$s wurde von %2$s in ein Eis am Stiel verwandelt.
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -263,7 +270,10 @@ tile.block_trinitite.name=Trinititblock
 tile.block_beryllium.name=Berylliumblock
 tile.block_waste.name=Atommüllblock
 tile.block_scrap.name=Schrottblock
+<<<<<<< HEAD
 tile.block_electrical_scrap.name=Elektroschrottblock
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 tile.block_advanced_alloy.name=Fortgeschrittener Legierungsblock
 tile.block_magnetized_tungsten.name=Magnetisierter Wolframblock
 tile.block_combine_steel.name=CMB-Stahlblock
@@ -340,7 +350,10 @@ item.powder_iodine.name=Iodstaub
 item.powder_thorium.name=Thoriumstaub
 item.powder_neodymium.name=Neodymstaub
 item.powder_astatine.name=Astatstaub
+<<<<<<< HEAD
 item.powder_caesium.name=Caesiumstaub
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -590,8 +603,11 @@ item.gun_bf.name=M42_2 Nukleares Katapult "Antimaterienwerfer"
 item.gun_mp40.name=Maschinenpistole
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
+<<<<<<< HEAD
 item.gun_immolator.name=Der Immolator
 item.gun_cryolator.name=Der Cryolator
+=======
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 item.gun_mp.name=Maschinengewehr des Pazifisten
 item.gun_zomg.name=Singularitätsbetriebener Paarvernichtungsstrahl "ZOMG Kanone"
 item.gun_emp.name=EMP-Strahler
@@ -736,10 +752,19 @@ item.hazmat_paa_helmet.name=PaA-Kampfschutzanzug Helm
 item.hazmat_paa_plate.name=PaA-Kampfschutzanzug Brustplatte
 item.hazmat_paa_legs.name=PaA-Kampfschutzanzug Hose
 item.hazmat_paa_boots.name=PaA-Kampfschutzanzug Stiefel
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.paa_plate.name=PaA-Brustschutzplatte
 item.paa_legs.name=PaA-Beinverstärkungsschienen
 item.paa_boots.name=PaA-"olle Latschen"
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.goggles.name=Schutzbrille
 item.gas_mask.name=Gasmaske
@@ -893,8 +918,18 @@ item.blades_advanced_alloy.name=Fortgeschrittenes Sägeblatt
 item.blades_combine_steel.name=CMB-Sägeblatt
 item.blades_schrabidium.name=Schrabidiumsägeblatt
 
+<<<<<<< HEAD
 item.linker.name=Telelinker
 
 item.letter.name=Eilbrief
 
 item.chopper.name=Jagdschrauber
+=======
+<<<<<<< HEAD
+item.letter.name=Eilbrief
+
+item.chopper.name=Jagdschrauber
+=======
+item.letter.name=Eilbrief
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af

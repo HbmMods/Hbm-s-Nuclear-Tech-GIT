@@ -1,5 +1,6 @@
 package com.hbm.items.weapon;
 
+<<<<<<< HEAD:com/hbm/items/weapon/ItemGrenade.java
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
@@ -19,6 +20,26 @@ import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.items.ModItems;
+=======
+import com.hbm.entity.EntityGrenadeASchrab;
+import com.hbm.entity.EntityGrenadeCluster;
+import com.hbm.entity.EntityGrenadeElectric;
+import com.hbm.entity.EntityGrenadeFire;
+import com.hbm.entity.EntityGrenadeFlare;
+import com.hbm.entity.EntityGrenadeFrag;
+import com.hbm.entity.EntityGrenadeGas;
+import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeLemon;
+import com.hbm.entity.EntityGrenadeMk2;
+import com.hbm.entity.EntityGrenadeNuclear;
+import com.hbm.entity.EntityGrenadeNuke;
+import com.hbm.entity.EntityGrenadePlasma;
+import com.hbm.entity.EntityGrenadePoison;
+import com.hbm.entity.EntityGrenadeSchrabidium;
+import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/items/ItemGrenade.java
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;

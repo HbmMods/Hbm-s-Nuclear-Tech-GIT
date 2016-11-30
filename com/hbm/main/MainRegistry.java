@@ -25,6 +25,7 @@ import com.hbm.creativetabs.BlockTab;
 import com.hbm.creativetabs.NukeTab;
 import com.hbm.creativetabs.PartsTab;
 import com.hbm.creativetabs.TestTab;
+<<<<<<< HEAD
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.effect.EntityFalloutRain;
@@ -87,6 +88,64 @@ import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntitySchrab;
+=======
+import com.hbm.entity.EntityBullet;
+import com.hbm.entity.EntityChopperMine;
+import com.hbm.entity.EntityCloudFleija;
+import com.hbm.entity.EntityCombineBall;
+<<<<<<< HEAD
+import com.hbm.entity.EntityFalloutRain;
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+import com.hbm.entity.EntityGrenadeASchrab;
+import com.hbm.entity.EntityGrenadeCluster;
+import com.hbm.entity.EntityGrenadeElectric;
+import com.hbm.entity.EntityGrenadeFire;
+import com.hbm.entity.EntityGrenadeFlare;
+import com.hbm.entity.EntityGrenadeFrag;
+import com.hbm.entity.EntityGrenadeGas;
+import com.hbm.entity.EntityGrenadeGeneric;
+import com.hbm.entity.EntityGrenadeLemon;
+import com.hbm.entity.EntityGrenadeMk2;
+import com.hbm.entity.EntityGrenadeNuclear;
+import com.hbm.entity.EntityGrenadeNuke;
+import com.hbm.entity.EntityGrenadePlasma;
+import com.hbm.entity.EntityGrenadePoison;
+import com.hbm.entity.EntityGrenadeSchrabidium;
+import com.hbm.entity.EntityGrenadeStrong;
+import com.hbm.entity.EntityGrenadeTau;
+import com.hbm.entity.EntityGrenadeZOMG;
+import com.hbm.entity.EntityHunterChopper;
+import com.hbm.entity.EntityMiniNuke;
+import com.hbm.entity.EntityMirv;
+import com.hbm.entity.EntityMissileAntiBallistic;
+import com.hbm.entity.EntityMissileBunkerBuster;
+import com.hbm.entity.EntityMissileBurst;
+import com.hbm.entity.EntityMissileBusterStrong;
+import com.hbm.entity.EntityMissileCluster;
+import com.hbm.entity.EntityMissileClusterStrong;
+import com.hbm.entity.EntityMissileDrill;
+import com.hbm.entity.EntityMissileEndo;
+import com.hbm.entity.EntityMissileExo;
+import com.hbm.entity.EntityMissileGeneric;
+import com.hbm.entity.EntityMissileIncendiary;
+import com.hbm.entity.EntityMissileIncendiaryStrong;
+import com.hbm.entity.EntityMissileInferno;
+import com.hbm.entity.EntityMissileMirv;
+import com.hbm.entity.EntityMissileNuclear;
+import com.hbm.entity.EntityMissileRain;
+import com.hbm.entity.EntityMissileStrong;
+import com.hbm.entity.EntityNuclearCreeper;
+import com.hbm.entity.EntityNukeCloudBig;
+import com.hbm.entity.EntityNukeCloudNoShroom;
+import com.hbm.entity.EntityNukeCloudSmall;
+import com.hbm.entity.EntityNukeExplosion;
+import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.entity.EntityRainbow;
+import com.hbm.entity.EntityRocket;
+import com.hbm.entity.EntitySchrab;
+import com.hbm.entity.EntityTestMissile;
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 import com.hbm.gui.MachineRecipes;
 import com.hbm.gui.MachineRecipes.ShredderRecipe;
 import com.hbm.handler.FuelHandler;
@@ -184,7 +243,15 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
 	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
 	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
+<<<<<<< HEAD
 	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
+=======
+<<<<<<< HEAD
+	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
+=======
+	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 50, new int[] {3, 8, 6, 3}, 12);
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 	public static ArmorMaterial enumArmorMaterialPaa = EnumHelper.addArmorMaterial("PAA", 75, new int[] {3, 8, 6, 3}, 25);
 	public static ArmorMaterial enumArmorMaterialCmb = EnumHelper.addArmorMaterial("CMB", 60, new int[] {3, 8, 6, 3}, 50);
 	
@@ -380,6 +447,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeZOMG.class, "entity_grenade_zomg", 49, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 50, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeCloudNoShroom.class, "entity_nuke_cloud_no", 51, this, 1000, 1, true);
+<<<<<<< HEAD
 	    EntityRegistry.registerModEntity(EntityFalloutRain.class, "entity_fallout", 52, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityDischarge.class, "entity_emp_discharge", 53, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityEMPBlast.class, "entity_emp_blast", 54, this, 1000, 1, true);
@@ -389,6 +457,14 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityPlasmaBeam.class, "entity_immolator_beam", 58, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityLN2.class, "entity_LN2", 59, this, 1000, 1, true);
 	    
+=======
+<<<<<<< HEAD
+	    EntityRegistry.registerModEntity(EntityFalloutRain.class, "entity_fallout", 52, this, 1000, 1, true);
+	    
+=======
+
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	}
@@ -542,6 +618,10 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
 		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
@@ -574,6 +654,11 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 14), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
+>>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 		
 		recipes.PrintRecipes();
 	}
