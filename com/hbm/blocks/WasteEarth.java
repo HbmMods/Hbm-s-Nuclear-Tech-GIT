@@ -2,7 +2,7 @@ package com.hbm.blocks;
 
 import java.util.Random;
 
-import com.hbm.entity.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
@@ -86,7 +86,7 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 	    	entity0.posX = x;
 	    	entity0.posY = y;
 	    	entity0.posZ = z;
-	    	entity0.destructionRange = 35;
+	    	entity0.destructionRange = MainRegistry.fatmanRadius;
 	    	entity0.speed = 25;
 	    	entity0.coefficient = 10.0F;
 	    	

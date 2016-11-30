@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.gui.GUIMachineReactor;
-import com.hbm.gui.GUITestDiFurnace;
 import com.hbm.gui.MachineRecipes;
+import com.hbm.gui.gui.GUIMachineReactor;
+import com.hbm.gui.gui.GUITestDiFurnace;
 import com.hbm.handler.AlloyFurnaceRecipeHandler.Fuel;
 import com.hbm.handler.AlloyFurnaceRecipeHandler.SmeltingSet;
 

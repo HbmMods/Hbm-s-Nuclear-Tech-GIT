@@ -21,23 +21,5 @@ public class FWatzCore extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityFWatzCore();
 	}
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
-			return true;
-		} else if(!player.isSneaking())
-		{
-			TileEntityFWatzCore entity = (TileEntityFWatzCore) world.getTileEntity(x, y, z);
-			if(entity != null)
-			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_fwatz_multiblock, world, x, y, z);
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 }

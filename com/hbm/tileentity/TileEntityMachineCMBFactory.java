@@ -1,8 +1,8 @@
 package com.hbm.tileentity;
 
 import com.hbm.interfaces.IConsumer;
-import com.hbm.items.ItemBattery;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;

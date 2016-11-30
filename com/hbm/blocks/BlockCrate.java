@@ -34,6 +34,7 @@ public class BlockCrate extends BlockFalling {
     	{
     		dropItems(world, x, y, z);
     		world.setBlockToAir(x, y, z);
+    		world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 1.0F, 1.0F);
     		return true;
     	} else {
 			if(world.isRemote)
@@ -47,109 +48,38 @@ public class BlockCrate extends BlockFalling {
     
     public void dropItems(World world, int x, int y, int z) {
     	Random rand = new Random();
+    	List<Item> list1 = new ArrayList<Item>();
+
+    	list1 = this.addToListWithWeight(list1, ModItems.syringe_metal_stimpak, 10);
+    	list1 = this.addToListWithWeight(list1, ModItems.syringe_antidote, 5);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_revolver_iron, 9);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_revolver, 7);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_revolver_gold, 4);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_revolver_lead, 6);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_revolver_schrabidium, 1);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_revolver_cursed, 5);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_rpg, 5);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_fatman, 3);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_mirv, 1);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_bf, 0);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_mp40, 7);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_osipr, 7);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_immolator, 4);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_cryolator, 4);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_mp, 3);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_xvl1456, 5);
+    	list1 = this.addToListWithWeight(list1, ModItems.clip_emp, 3);
+    	list1 = this.addToListWithWeight(list1, ModItems.grenade_generic, 8);
+    	list1 = this.addToListWithWeight(list1, ModItems.grenade_strong, 6);
+    	list1 = this.addToListWithWeight(list1, ModItems.grenade_mk2, 4);
+    	list1 = this.addToListWithWeight(list1, ModItems.grenade_flare, 4);
+
     	List<Item> list = new ArrayList<Item>();
     	
-    	switch(rand.nextInt(23)) {
-    	case 0:
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.clip_revolver_iron);
-    		break;
-    	case 1:
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 2:
-    		list.add(ModItems.clip_revolver);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 3:
-    		list.add(ModItems.clip_osipr);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 4:
-    		list.add(ModItems.clip_osipr);
-    		list.add(ModItems.clip_osipr);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 5:
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.clip_revolver);
-    		break;
-    	case 6:
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.clip_revolver);
-    		break;
-    	case 7:
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.clip_osipr);
-    		break;
-    	case 8:
-    		list.add(ModItems.clip_revolver_gold);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 9:
-    		list.add(ModItems.clip_revolver_gold);
-    		list.add(ModItems.clip_revolver_gold);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 10:
-    		list.add(ModItems.clip_revolver_schrabidium);
-    		break;
-    	case 11:
-    		list.add(ModItems.clip_xvl1456);
-    		break;
-    	case 12:
-    		list.add(ModItems.clip_xvl1456);
-    		list.add(ModItems.clip_xvl1456);
-    		break;
-    	case 13:
-    		list.add(ModItems.clip_xvl1456);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 14:
-    		list.add(ModItems.clip_osipr);
-    		list.add(ModItems.clip_osipr);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 15:
-    		list.add(ModItems.clip_osipr);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 16:
-    		list.add(ModItems.clip_revolver_gold);
-    		list.add(ModItems.clip_revolver_gold);
-    		break;
-    	case 17:
-    		list.add(ModItems.clip_rpg);
-    		list.add(ModItems.clip_rpg);
-    		break;
-    	case 18:
-    		list.add(ModItems.clip_rpg);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 19:
-    		list.add(ModItems.clip_rpg);
-    		list.add(ModItems.clip_revolver_iron);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 20:
-    		list.add(ModItems.clip_rpg);
-    		list.add(ModItems.clip_revolver);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 21:
-    		list.add(ModItems.syringe_metal_stimpak);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	case 22:
-    		list.add(ModItems.syringe_metal_stimpak);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		list.add(ModItems.syringe_metal_stimpak);
-    		break;
-    	}
+    	int i = rand.nextInt(5);
+    	for(int j = 0; j < i; j++)
+    		list.add(list1.get(rand.nextInt(list1.size())));
+    		
     	
     	for(Item stack : list) {
             float f = rand.nextFloat() * 0.8F + 0.1F;
@@ -164,5 +94,12 @@ public class BlockCrate extends BlockFalling {
             if(!world.isRemote)
             	world.spawnEntityInWorld(entityitem);
     	}
+    }
+    
+    public static List<Item> addToListWithWeight(List<Item> list, Item item, int weight) {
+    	for(int i = 0; i < weight; i++)
+    		list.add(item);
+    	
+    	return list;
     }
 }

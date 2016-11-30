@@ -70,6 +70,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.canister_fuel, 1);
 		}
 
+		if (item == ModItems.canister_fuel && item2 == Items.slime_ball
+				|| item == Items.slime_ball && item2 == ModItems.canister_fuel) {
+			return new ItemStack(ModItems.canister_napalm, 1);
+		}
+
 		if (item == ModItems.ingot_red_copper && item2 == ModItems.ingot_steel
 				|| item == ModItems.ingot_steel && item2 == ModItems.ingot_red_copper) {
 			return new ItemStack(ModItems.ingot_advanced_alloy, 2);
@@ -78,6 +83,11 @@ public class MachineRecipes {
 		if (item == ModItems.ingot_tungsten && item2 == ModItems.nugget_schrabidium
 				|| item == ModItems.nugget_schrabidium && item2 == ModItems.ingot_tungsten) {
 			return new ItemStack(ModItems.ingot_magnetized_tungsten, 1);
+		}
+
+		if (item == ModItems.plate_mixed && item2 == ModItems.plate_gold
+				|| item == ModItems.plate_gold && item2 == ModItems.plate_mixed) {
+			return new ItemStack(ModItems.plate_paa, 2);
 		}
 
 		return null;
@@ -105,8 +115,6 @@ public class MachineRecipes {
 		ItemStack[] schrabidium = new ItemStack[] { new ItemStack(ModItems.ingot_schrabidium, 1),
 				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.sulfur, 1),
 				new ItemStack(ModItems.cell_empty, 1) };
-		ItemStack[] lithium = new ItemStack[] { new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1),
-				new ItemStack(ModItems.lithium, 1), new ItemStack(Item.getItemFromBlock(Blocks.gravel)) };
 		ItemStack[] lithium2 = new ItemStack[] { new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1),
 				new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1) };
 		ItemStack[] lithium3 = new ItemStack[] { new ItemStack(ModItems.lithium, 4), new ItemStack(ModItems.lithium, 4),
@@ -217,10 +225,6 @@ public class MachineRecipes {
 
 		if (item == ModItems.rod_quad_schrabidium_fuel_depleted) {
 			return schrabidium3;
-		}
-
-		if (item == item.getItemFromBlock(Blocks.cobblestone) || item == item.getItemFromBlock(Blocks.stone)) {
-			return lithium;
 		}
 
 		if (item == item.getItemFromBlock(Blocks.quartz_block) || item == item.getItemFromBlock(Blocks.quartz_stairs)) {
@@ -375,9 +379,14 @@ public class MachineRecipes {
 				new ItemStack(ModItems.ingot_advanced_alloy, 2));
 		recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
 				new ItemStack(ModItems.canister_fuel, 1));
+		recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball) },
+				new ItemStack(ModItems.canister_napalm, 1));
 		recipes.put(
 				new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
 				new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
+		recipes.put(
+				new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
+				new ItemStack(ModItems.plate_paa, 2));
 		return recipes;
 	}
 
@@ -406,10 +415,6 @@ public class MachineRecipes {
 		// recipes.put(new ItemStack(ModItems.rod_quad_euphemium),
 		// getCentrifugeOutput(ModItems.rod_quad_euphemium));
 		recipes.put(new ItemStack(ModItems.cell_sas3), getCentrifugeOutput(ModItems.cell_sas3));
-		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.stone)),
-				getCentrifugeOutput(Item.getItemFromBlock(Blocks.stone)));
-		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.cobblestone)),
-				getCentrifugeOutput(Item.getItemFromBlock(Blocks.cobblestone)));
 		recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
 				getCentrifugeOutput(ModItems.rod_uranium_fuel_depleted));
 		recipes.put(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted),
@@ -524,8 +529,10 @@ public class MachineRecipes {
 		public void registerEverythingImSrs() {
 			
 			//Makes the OreDict easily accessible. Neat.
+			
+			//You see that guy up there? He's a liar. "easily accessible" may be true, but the detection is bullshit.
 
-			System.out.println("Loading all items and blocks, please wait...");
+			/*System.out.println("Loading all items and blocks, please wait...");
 			System.out.println("This process normally takes very long due to the incompetence of other modders I have to compensate for. Sorry for the inconvenience.");
 
 			for (Object item : GameData.getItemRegistry()) {
@@ -589,6 +596,28 @@ public class MachineRecipes {
 				}
 			}
 			
+			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");*/
+			
+			String[] names = OreDictionary.getOreNames();
+			List<ItemStack> stacks = new ArrayList<ItemStack>();
+			
+			for(int i = 0; i < names.length; i++) {
+				stacks.addAll(OreDictionary.getOres(names[i]));
+			}
+			
+			for(int i = 0; i < stacks.size(); i++) {
+				
+				int[] ids = OreDictionary.getOreIDs(stacks.get(i));
+
+				List<String> oreNames = new ArrayList<String>();
+				
+				for(int j = 0; j < ids.length; j++) {
+					oreNames.add(OreDictionary.getOreName(ids[j]));
+				}
+				
+				theWholeThing.add(new DictCouple(stacks.get(i), oreNames));
+			}
+			
 			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");
 		}
 		
@@ -627,6 +656,13 @@ public class MachineRecipes {
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
+					} else if (s.length() > 3 && s.substring(0, 3).equals("rod")) {
+						ItemStack stack = canFindDustByName(s.substring(3));
+						if (stack != null) {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2));
+						} else {
+							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+						}
 					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
 						ItemStack stack = canFindDustByName(s.substring(5));
 						if (stack != null) {
@@ -642,13 +678,17 @@ public class MachineRecipes {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
 					} else if (s.length() > 4 && s.substring(0, 4).equals("dust")) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
+						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
+					} else if (s.length() > 6 && s.substring(0, 6).equals("powder")) {
+						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.dust));
 					} else {
 						setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 					}
 				}
-				
+
 				if(theWholeThing.get(i).list.isEmpty())
+					setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
+				if(!theWholeThing.get(i).list.isEmpty() && theWholeThing.get(i).list.get(0).equals("Unknown"))
 					setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 			}
 
@@ -683,6 +723,9 @@ public class MachineRecipes {
 		}
 		
 		public void overridePreSetRecipe(ItemStack inp, ItemStack outp) {
+			
+			boolean flag = false;
+			
 			for(int i = 0; i < recipes.size(); i++)
 			{
 				if(recipes.get(i) != null && 
@@ -691,8 +734,17 @@ public class MachineRecipes {
 						inp != null && 
 						outp != null && 
 						recipes.get(i).input.getItem() == inp.getItem() && 
-						recipes.get(i).input.getItemDamage() == inp.getItemDamage())
+						recipes.get(i).input.getItemDamage() == inp.getItemDamage()) {
 					recipes.get(i).output = outp;
+					flag = true;
+				}
+			}
+			
+			if(!flag) {
+				ShredderRecipe rec = new ShredderRecipe();
+				rec.input = inp;
+				rec.output = outp;
+				recipes.add(rec);
 			}
 		}
 		
@@ -783,14 +835,14 @@ public class MachineRecipes {
 				return rec.output.copy();
 		}
 		
-		return null;
+		return new ItemStack(ModItems.scrap);
 	}
 	
 	public Map<Object, Object> getShredderRecipes() {
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
 		for(int i = 0; i < this.recipes.size(); i++) {
-			if(this.recipes.get(i) != null && this.recipes.get(i).output.getItem() != ModItems.dust && this.recipes.get(i).output.getItem() != ModItems.scrap)
+			if(this.recipes.get(i) != null && this.recipes.get(i).output.getItem() != ModItems.scrap)
 				recipes.put(((ShredderRecipe)this.recipes.get(i)).input, getShredderResult(((ShredderRecipe)this.recipes.get(i)).input));
 		}
 		

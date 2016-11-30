@@ -1,6 +1,6 @@
 package com.hbm.blocks;
 
-import com.hbm.entity.EntityTestMissile;
+import com.hbm.entity.missile.EntityTestMissile;
 import com.hbm.tileentity.TileEntityTestNuke;
 
 import net.minecraft.block.Block;

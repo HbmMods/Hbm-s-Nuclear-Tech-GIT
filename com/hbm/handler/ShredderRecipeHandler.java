@@ -5,12 +5,13 @@ import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.gui.GUIMachineReactor;
-import com.hbm.gui.GUIMachineShredder;
 import com.hbm.gui.MachineRecipes;
+import com.hbm.gui.gui.GUIMachineReactor;
+import com.hbm.gui.gui.GUIMachineShredder;
 import com.hbm.handler.ReactorRecipeHandler.Fuel;
 import com.hbm.handler.ReactorRecipeHandler.SmeltingSet;
 import com.hbm.lib.RefStrings;
@@ -23,6 +24,7 @@ import codechicken.nei.recipe.GuiRecipe;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
+import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -30,6 +32,11 @@ import net.minecraft.item.ItemStack;
 public class ShredderRecipeHandler extends TemplateRecipeHandler {
 
     public static ArrayList<Fuel> fuels;
+
+    public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
+    public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
+    public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
+    public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
     public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe
     {
@@ -117,12 +124,27 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 
     @Override
     public Class<? extends GuiContainer> getGuiClass() {
-        return GUIMachineShredder.class;
+        //return GUIMachineShredder.class;
+    	return null;
     }
     
     @Override
     public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(74, 23, 24, 18), "shredding"));
+        //transferRectsRec = new LinkedList<RecipeTransferRect>();
+        transferRectsGui = new LinkedList<RecipeTransferRect>();
+        //guiRec = new LinkedList<Class<? extends GuiContainer>>();
+        guiGui = new LinkedList<Class<? extends GuiContainer>>();
+        
+        transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6, 23, 24, 18), "shredding"));
+        transferRectsGui.add(new RecipeTransferRect(new Rectangle(63 - 7 + 4, 89 - 11, 34, 18), "shredding"));
+        //guiRec.add(GuiRecipe.class);
+        guiGui.add(GUIMachineShredder.class);
+        RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
+        //RecipeTransferRectHandler.registerRectsToGuis(guiRec, transferRectsRec);
+        RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
+        
+        //for(Class<? extends GuiContainer> r : getRecipeTransferRectGuis())
+       	//	System.out.println(r.toString());
     }
 
     @Override

@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.EntityBullet;
-import com.hbm.entity.EntityGrenadeTau;
-import com.hbm.entity.EntityMirv;
-import com.hbm.entity.EntityMissileBase;
-import com.hbm.entity.EntityRocket;
-import com.hbm.entity.EntitySchrab;
+import com.hbm.entity.grenade.EntityGrenadeTau;
+import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.missile.EntityMissileBase;
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityMiniNuke;
+import com.hbm.entity.projectile.EntityRainbow;
+import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
@@ -219,7 +222,7 @@ public class ExplosionChaos {
     				int ZZ = YY+zz*zz;
     				if (ZZ<r22)
     				{
-    					if(world.getBlock(X, Y + 1, Z) == Blocks.air) {
+    					if((world.getBlock(X, Y + 1, Z) == Blocks.air || world.getBlock(X, Y + 1, Z) == Blocks.snow_layer) && world.getBlock(X, Y, Z) != Blocks.air) {
     						world.setBlock(X, Y + 1, Z, Blocks.fire);
     					}
     				}
@@ -672,10 +675,10 @@ public class ExplosionChaos {
 		double modifier = 2.5;
     	double zeta = Math.sqrt(2)/2;
     	double theta = Math.sqrt(1 - Math.pow(0.5, 2));
-    	EntityMirv mirv1 = new EntityMirv(world);
-    	EntityMirv mirv2 = new EntityMirv(world);
-    	EntityMirv mirv3 = new EntityMirv(world);
-    	EntityMirv mirv4 = new EntityMirv(world);
+    	EntityMIRV mirv1 = new EntityMIRV(world);
+    	EntityMIRV mirv2 = new EntityMIRV(world);
+    	EntityMIRV mirv3 = new EntityMIRV(world);
+    	EntityMIRV mirv4 = new EntityMIRV(world);
     	//double vx1 = rand.nextDouble();
     	//double vy1 = rand.nextDouble() * -1;
     	//double vz1 = Math.sqrt(Math.pow(1, 2) - Math.pow(vx1, 2));
@@ -716,10 +719,100 @@ public class ExplosionChaos {
     	mirv4.motionZ = -vx1 * modifier;	
     	world.spawnEntityInWorld(mirv4);
     	
-    	EntityMirv mirv5 = new EntityMirv(world);
-    	EntityMirv mirv6 = new EntityMirv(world);
-    	EntityMirv mirv7 = new EntityMirv(world);
-    	EntityMirv mirv8 = new EntityMirv(world);
+    	EntityMIRV mirv5 = new EntityMIRV(world);
+    	EntityMIRV mirv6 = new EntityMIRV(world);
+    	EntityMIRV mirv7 = new EntityMIRV(world);
+    	EntityMIRV mirv8 = new EntityMIRV(world);
+    	//double vx2 = vx1 < theta ? vx1 + theta : vx1 - theta;
+    	//double vy2 = vy1;
+    	//double vz2 = Math.sqrt(Math.pow(1, 2) - Math.pow(vx2, 2));
+    	double vx2 = zeta;     
+    	double vy2 = vy1;                                         
+    	double vz2 = zeta;
+
+    	mirv5.posX = x;
+    	mirv5.posY = y;
+    	mirv5.posZ = z;
+    	mirv5.motionY = vy2;
+    	mirv6.posX = x;
+    	mirv6.posY = y;
+    	mirv6.posZ = z;
+    	mirv6.motionY = vy2;
+    	mirv7.posX = x;
+    	mirv7.posY = y;
+    	mirv7.posZ = z;
+    	mirv7.motionY = vy2;
+    	mirv8.posX = x;
+    	mirv8.posY = y;
+    	mirv8.posZ = z;
+    	mirv8.motionY = vy2;
+    	
+    	mirv5.motionX = vx2 * modifier;
+    	mirv5.motionZ = vz2 * modifier;	
+    	world.spawnEntityInWorld(mirv5);
+    	
+    	mirv6.motionX = -vz2 * modifier;
+    	mirv6.motionZ = vx2 * modifier;	
+    	world.spawnEntityInWorld(mirv6);
+    	
+    	mirv7.motionX = -vx2 * modifier;
+    	mirv7.motionZ = -vz2 * modifier;	
+    	world.spawnEntityInWorld(mirv7);
+    	
+    	mirv8.motionX = vz2 * modifier;
+    	mirv8.motionZ = -vx2 * modifier;	
+    	world.spawnEntityInWorld(mirv8);
+	}
+	
+	public static void miniMirv(World world, double x, double y, double z) {
+		double modifier = 1.25;
+    	double zeta = Math.sqrt(2)/2;
+    	double theta = Math.sqrt(1 - Math.pow(0.5, 2));
+    	EntityMiniNuke mirv1 = new EntityMiniNuke(world);
+    	EntityMiniNuke mirv2 = new EntityMiniNuke(world);
+    	EntityMiniNuke mirv3 = new EntityMiniNuke(world);
+    	EntityMiniNuke mirv4 = new EntityMiniNuke(world);
+    	double vx1 = 1;                           
+    	double vy1 = rand.nextDouble() * -1;                      
+    	double vz1 = 0;
+
+    	mirv1.posX = x;
+    	mirv1.posY = y;
+    	mirv1.posZ = z;
+    	mirv1.motionY = vy1;
+    	mirv2.posX = x;
+    	mirv2.posY = y;
+    	mirv2.posZ = z;
+    	mirv2.motionY = vy1;
+    	mirv3.posX = x;
+    	mirv3.posY = y;
+    	mirv3.posZ = z;
+    	mirv3.motionY = vy1;
+    	mirv4.posX = x;
+    	mirv4.posY = y;
+    	mirv4.posZ = z;
+    	mirv4.motionY = vy1;
+    	
+    	mirv1.motionX = vx1 * modifier;
+    	mirv1.motionZ = vz1 * modifier;	
+    	world.spawnEntityInWorld(mirv1);
+    	
+    	mirv2.motionX = -vz1 * modifier;
+    	mirv2.motionZ = vx1 * modifier;	
+    	world.spawnEntityInWorld(mirv2);
+    	
+    	mirv3.motionX = -vx1 * modifier;
+    	mirv3.motionZ = -vz1 * modifier;	
+    	world.spawnEntityInWorld(mirv3);
+    	
+    	mirv4.motionX = vz1 * modifier;
+    	mirv4.motionZ = -vx1 * modifier;	
+    	world.spawnEntityInWorld(mirv4);
+    	
+    	EntityMiniNuke mirv5 = new EntityMiniNuke(world);
+    	EntityMiniNuke mirv6 = new EntityMiniNuke(world);
+    	EntityMiniNuke mirv7 = new EntityMiniNuke(world);
+    	EntityMiniNuke mirv8 = new EntityMiniNuke(world);
     	//double vx2 = vx1 < theta ? vx1 + theta : vx1 - theta;
     	//double vy2 = vy1;
     	//double vz2 = Math.sqrt(Math.pow(1, 2) - Math.pow(vx2, 2));
@@ -787,11 +880,12 @@ public class ExplosionChaos {
 		}	
 	}
 
-	public static void tauMeSinPi(World world, double x, double y, double z, int count, Entity shooter, EntityGrenadeTau tau) {
-    	
-    	double d1 = 0;
-    	double d2 = 0;
-    	double d3 = 0;
+	public static void tauMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
+			EntityGrenadeTau tau) {
+
+		double d1 = 0;
+		double d2 = 0;
+		double d3 = 0;
 		EntityBullet fragment;
 
 		if (shooter != null && shooter instanceof EntityPlayer)
@@ -813,10 +907,10 @@ public class ExplosionChaos {
 				}
 
 				if (rand.nextInt(5) == 0) {
-					fragment = new EntityBullet(world, (EntityPlayer)shooter, 3.0F, 35, 45, false, "tauDay", tau);
+					fragment = new EntityBullet(world, (EntityPlayer) shooter, 3.0F, 35, 45, false, "tauDay", tau);
 					fragment.setDamage(rand.nextInt(301) + 100);
 				} else {
-					fragment = new EntityBullet(world, (EntityPlayer)shooter, 3.0F, 35, 45, false, "eyyOk", tau);
+					fragment = new EntityBullet(world, (EntityPlayer) shooter, 3.0F, 35, 45, false, "eyyOk", tau);
 					fragment.setDamage(rand.nextInt(11) + 35);
 				}
 
@@ -828,6 +922,44 @@ public class ExplosionChaos {
 				fragment.setIsCritical(true);
 
 				world.spawnEntityInWorld(fragment);
+			}
+	}
+
+	public static void zomgMeSinPi(World world, double x, double y, double z, int count, Entity shooter,
+			EntityGrenadeZOMG zomg) {
+
+		double d1 = 0;
+		double d2 = 0;
+		double d3 = 0;
+		EntityBullet fragment;
+
+		if (shooter != null && shooter instanceof EntityPlayer)
+			for (int i = 0; i < count; i++) {
+				d1 = rand.nextDouble();
+				d2 = rand.nextDouble();
+				d3 = rand.nextDouble();
+
+				if (rand.nextInt(2) == 0) {
+					d1 *= -1;
+				}
+
+				if (rand.nextInt(2) == 0) {
+					d2 *= -1;
+				}
+
+				if (rand.nextInt(2) == 0) {
+					d3 *= -1;
+				}
+				
+				EntityRainbow entityZomg = new EntityRainbow(world, (EntityPlayer) shooter, 1F, 10000, 100000, zomg);
+
+				entityZomg.motionX = d1;// * 5;
+				entityZomg.motionY = d2;// * 5;
+				entityZomg.motionZ = d3;// * 5;
+				entityZomg.shootingEntity = shooter;
+
+				world.spawnEntityInWorld(entityZomg);
+				world.playSoundAtEntity(zomg, "hbm:weapon.zomgShoot", 10.0F, 0.8F + (rand.nextFloat() * 0.4F));
 			}
 	}
 

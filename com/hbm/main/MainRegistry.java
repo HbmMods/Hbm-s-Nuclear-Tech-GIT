@@ -25,64 +25,76 @@ import com.hbm.creativetabs.BlockTab;
 import com.hbm.creativetabs.NukeTab;
 import com.hbm.creativetabs.PartsTab;
 import com.hbm.creativetabs.TestTab;
-import com.hbm.entity.EntityBullet;
-import com.hbm.entity.EntityChopperMine;
-import com.hbm.entity.EntityCloudFleija;
-import com.hbm.entity.EntityCombineBall;
-import com.hbm.entity.EntityGrenadeCluster;
-import com.hbm.entity.EntityGrenadeElectric;
-import com.hbm.entity.EntityGrenadeFire;
-import com.hbm.entity.EntityGrenadeFlare;
-import com.hbm.entity.EntityGrenadeFrag;
-import com.hbm.entity.EntityGrenadeGas;
-import com.hbm.entity.EntityGrenadeGeneric;
-import com.hbm.entity.EntityGrenadeLemon;
-import com.hbm.entity.EntityGrenadeMk2;
-import com.hbm.entity.EntityGrenadeNuclear;
-import com.hbm.entity.EntityGrenadeNuke;
-import com.hbm.entity.EntityGrenadePlasma;
-import com.hbm.entity.EntityGrenadePoison;
-import com.hbm.entity.EntityGrenadeSchrabidium;
-import com.hbm.entity.EntityGrenadeStrong;
-import com.hbm.entity.EntityGrenadeTau;
-import com.hbm.entity.EntityHunterChopper;
-import com.hbm.entity.EntityMiniNuke;
-import com.hbm.entity.EntityMirv;
-import com.hbm.entity.EntityMissileAntiBallistic;
-import com.hbm.entity.EntityMissileBunkerBuster;
-import com.hbm.entity.EntityMissileBurst;
-import com.hbm.entity.EntityMissileBusterStrong;
-import com.hbm.entity.EntityMissileCluster;
-import com.hbm.entity.EntityMissileClusterStrong;
-import com.hbm.entity.EntityMissileDrill;
-import com.hbm.entity.EntityMissileEndo;
-import com.hbm.entity.EntityMissileExo;
-import com.hbm.entity.EntityMissileGeneric;
-import com.hbm.entity.EntityMissileIncendiary;
-import com.hbm.entity.EntityMissileIncendiaryStrong;
-import com.hbm.entity.EntityMissileInferno;
-import com.hbm.entity.EntityMissileMirv;
-import com.hbm.entity.EntityMissileNuclear;
-import com.hbm.entity.EntityMissileRain;
-import com.hbm.entity.EntityMissileStrong;
-import com.hbm.entity.EntityNuclearCreeper;
-import com.hbm.entity.EntityNukeCloudBig;
-import com.hbm.entity.EntityNukeCloudSmall;
-import com.hbm.entity.EntityNukeExplosion;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
-import com.hbm.entity.EntityRainbow;
-import com.hbm.entity.EntityRocket;
-import com.hbm.entity.EntitySchrab;
-import com.hbm.entity.EntityTestMissile;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityEMPBlast;
+import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.EntityNukeCloudBig;
+import com.hbm.entity.effect.EntityNukeCloudNoShroom;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeCluster;
+import com.hbm.entity.grenade.EntityGrenadeElectric;
+import com.hbm.entity.grenade.EntityGrenadeFire;
+import com.hbm.entity.grenade.EntityGrenadeFlare;
+import com.hbm.entity.grenade.EntityGrenadeFrag;
+import com.hbm.entity.grenade.EntityGrenadeGas;
+import com.hbm.entity.grenade.EntityGrenadeGeneric;
+import com.hbm.entity.grenade.EntityGrenadeLemon;
+import com.hbm.entity.grenade.EntityGrenadeMk2;
+import com.hbm.entity.grenade.EntityGrenadeNuclear;
+import com.hbm.entity.grenade.EntityGrenadeNuke;
+import com.hbm.entity.grenade.EntityGrenadePlasma;
+import com.hbm.entity.grenade.EntityGrenadePoison;
+import com.hbm.entity.grenade.EntityGrenadeSchrabidium;
+import com.hbm.entity.grenade.EntityGrenadeStrong;
+import com.hbm.entity.grenade.EntityGrenadeTau;
+import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.logic.EntityNukeExplosion;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
+import com.hbm.entity.missile.EntityMissileBunkerBuster;
+import com.hbm.entity.missile.EntityMissileBurst;
+import com.hbm.entity.missile.EntityMissileBusterStrong;
+import com.hbm.entity.missile.EntityMissileCluster;
+import com.hbm.entity.missile.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileDrill;
+import com.hbm.entity.missile.EntityMissileEndo;
+import com.hbm.entity.missile.EntityMissileExo;
+import com.hbm.entity.missile.EntityMissileGeneric;
+import com.hbm.entity.missile.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileIncendiaryStrong;
+import com.hbm.entity.missile.EntityMissileInferno;
+import com.hbm.entity.missile.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileNuclear;
+import com.hbm.entity.missile.EntityMissileRain;
+import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityTestMissile;
+import com.hbm.entity.mob.EntityHunterChopper;
+import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.projectile.EntityBaleflare;
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.entity.projectile.EntityCombineBall;
+import com.hbm.entity.projectile.EntityDischarge;
+import com.hbm.entity.projectile.EntityFire;
+import com.hbm.entity.projectile.EntityLN2;
+import com.hbm.entity.projectile.EntityMiniMIRV;
+import com.hbm.entity.projectile.EntityMiniNuke;
+import com.hbm.entity.projectile.EntityPlasmaBeam;
+import com.hbm.entity.projectile.EntityRainbow;
+import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.gui.MachineRecipes;
 import com.hbm.gui.MachineRecipes.ShredderRecipe;
 import com.hbm.handler.FuelHandler;
+import com.hbm.handler.GUIHandler;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
-import com.hbm.particles.EntityBSmokeFX;
-import com.hbm.particles.EntitySmokeFX;
 import com.hbm.tileentity.TileEntityBombMulti;
 import com.hbm.tileentity.TileEntityCable;
 import com.hbm.tileentity.TileEntityConverterHeRf;
@@ -111,6 +123,7 @@ import com.hbm.tileentity.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.TileEntityMachineReactor;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.TileEntityMachineShredder;
+import com.hbm.tileentity.TileEntityMachineTeleporter;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.TileEntityNukeBoy;
 import com.hbm.tileentity.TileEntityNukeFleija;
@@ -161,6 +174,7 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("STEEL", 2, 500, 7.5F, 2.0F, 10);
 	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
 	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
+	public static ToolMaterial enumToolMaterialCmb = EnumHelper.addToolMaterial("CMB", 3, 8500, 40.0F, 50F, 100);
 	
 	//Armor Materials
 	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
@@ -170,7 +184,9 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
 	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
 	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
-	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 50, new int[] {3, 8, 6, 3}, 12);
+	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
+	public static ArmorMaterial enumArmorMaterialPaa = EnumHelper.addArmorMaterial("PAA", 75, new int[] {3, 8, 6, 3}, 25);
+	public static ArmorMaterial enumArmorMaterialCmb = EnumHelper.addArmorMaterial("CMB", 60, new int[] {3, 8, 6, 3}, 50);
 	
 	//Creative Tabs
 	public static CreativeTabs tabTest = new TestTab(CreativeTabs.getNextID(), "tabTest");
@@ -180,9 +196,12 @@ public class MainRegistry
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
+	public static boolean enablePlutoniumOre = false;
 	public static boolean enableDungeons = true;
 	public static boolean enableMDOres = true;
 	public static boolean enableBarrels = false;
+	public static boolean enableNITAN = true;
+	public static boolean enableNukeClouds = true;
 	public static int uraniumSpawn = 7;
 	public static int titaniumSpawn = 8;
 	public static int sulfurSpawn = 5;
@@ -238,6 +257,8 @@ public class MainRegistry
 		Library.superuser.add("3af1c262-61c0-4b12-a4cb-424cc3a9c8c0");
 		Library.superuser.add("4729b498-a81c-42fd-8acd-20d6d9f759e0");
 		Library.superuser.add("c3f5e449-6d8c-4fe3-acc9-47ef50e7e7ae");
+		
+		Library.initBooks();
 
 		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
 		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
@@ -245,12 +266,15 @@ public class MainRegistry
 		enumArmorMaterialTitanium.customCraftingMaterial = ModItems.ingot_titanium;
 		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
 		enumArmorMaterialAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
+		enumArmorMaterialPaa.customCraftingMaterial = ModItems.plate_paa;
+		enumArmorMaterialCmb.customCraftingMaterial = ModItems.ingot_combine_steel;
 		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		enumToolMaterialHammer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
 		enumToolMaterialTitanium.setRepairItem(new ItemStack(ModItems.ingot_titanium));
 		enumToolMaterialSteel.setRepairItem(new ItemStack(ModItems.ingot_steel));
 		enumToolMaterialAlloy.setRepairItem(new ItemStack(ModItems.ingot_advanced_alloy));
+		enumToolMaterialCmb.setRepairItem(new ItemStack(ModItems.ingot_combine_steel));
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -302,6 +326,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineShredder.class, "tileentity_machine_shredder");
 		GameRegistry.registerTileEntity(TileEntityMachineCMBFactory.class, "tileentity_machine_cmb");
 		GameRegistry.registerTileEntity(TileEntityFWatzCore.class, "tileentity_fwatz_multiblock");
+		GameRegistry.registerTileEntity(TileEntityMachineTeleporter.class, "tileentity_teleblock");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -338,7 +363,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileEndo.class, "entity_missile_endo", 32, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileExo.class, "entity_missile_exo", 33, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileMirv.class, "entity_missile_mirv", 34, this, 1000, 1, true);
-	    EntityRegistry.registerModEntity(EntityMirv.class, "entity_mirvlet", 35, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMIRV.class, "entity_mirvlet", 35, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMiniNuke.class, "entity_mini_nuke", 36, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntitySmokeFX.class, "entity_smoke_fx", 37, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeCloudBig.class, "entity_nuke_cloud_big", 38, this, 1000, 1, true);
@@ -352,9 +377,20 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeLemon.class, "entity_grenade_lemon", 46, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityCloudFleija.class, "entity_cloud_fleija", 47, this, 500, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeMk2.class, "entity_grenade_mk2", 48, this, 500, 1, true);
-
+	    EntityRegistry.registerModEntity(EntityGrenadeZOMG.class, "entity_grenade_zomg", 49, this, 500, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 50, this, 500, 1, true);
+	    EntityRegistry.registerModEntity(EntityNukeCloudNoShroom.class, "entity_nuke_cloud_no", 51, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityFalloutRain.class, "entity_fallout", 52, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityDischarge.class, "entity_emp_discharge", 53, this, 500, 1, true);
+	    EntityRegistry.registerModEntity(EntityEMPBlast.class, "entity_emp_blast", 54, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMiniMIRV.class, "entity_mini_mirv", 55, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBaleflare.class, "entity_bf_projectile", 56, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityFire.class, "entity_fire", 57, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityPlasmaBeam.class, "entity_immolator_beam", 58, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityLN2.class, "entity_LN2", 59, this, 1000, 1, true);
+	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
-	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0xffffff, 0xffffff);
+	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	}
 
 	@EventHandler
@@ -378,9 +414,6 @@ public class MainRegistry
 		OreDictionary.registerOre("dustSulfur", ModItems.sulfur);
 		OreDictionary.registerOre("dustNiter", ModItems.niter);
 		OreDictionary.registerOre("dustSalpeter", ModItems.niter);
-		OreDictionary.registerOre("sulfur", ModItems.sulfur);
-		OreDictionary.registerOre("niter", ModItems.niter);
-		OreDictionary.registerOre("salpeter", ModItems.niter);
 		OreDictionary.registerOre("dustLead", ModItems.powder_lead);
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("ingotCopper", ModItems.ingot_copper);
@@ -421,9 +454,12 @@ public class MainRegistry
 		OreDictionary.registerOre("plateIron", ModItems.plate_iron);
 		OreDictionary.registerOre("plateGold", ModItems.plate_gold);
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
+		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
+		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
 		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
+		OreDictionary.registerOre("dustPlutonium", ModItems.powder_plutonium);
 		OreDictionary.registerOre("dustTitanium", ModItems.powder_titanium);
 		OreDictionary.registerOre("dustTungsten", ModItems.powder_tungsten);
 		OreDictionary.registerOre("dustCopper", ModItems.powder_copper);
@@ -434,6 +470,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustLapis", ModItems.powder_lapis);
 		OreDictionary.registerOre("dustCoal", ModItems.powder_coal);
 		OreDictionary.registerOre("dustAdvanced", ModItems.powder_advanced_alloy);
+		OreDictionary.registerOre("dustAdvancedAlloy", ModItems.powder_advanced_alloy);
 		OreDictionary.registerOre("dustCMBSteel", ModItems.powder_combine_steel);
 		OreDictionary.registerOre("dustMagnetizedTungsten", ModItems.powder_magnetized_tungsten);
 		OreDictionary.registerOre("dustRedAlloy", ModItems.powder_red_copper);
@@ -456,6 +493,12 @@ public class MainRegistry
 		OreDictionary.registerOre("oreFluorite", ModBlocks.ore_fluorite);
 		OreDictionary.registerOre("oreLead", ModBlocks.ore_lead);
 		OreDictionary.registerOre("oreBeryllium", ModBlocks.ore_beryllium);
+
+		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium);
+		OreDictionary.registerOre("orePlutonium", ModBlocks.ore_nether_plutonium);
+		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_nether_tungsten);
+		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_nether_sulfur);
+		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_nether_schrabidium);
 
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
 		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
@@ -491,7 +534,6 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Items.dye, 1, 4), new ItemStack(ModItems.powder_lapis));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 2), new ItemStack(ModItems.powder_quartz, 4));
@@ -499,6 +541,39 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
 		recipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
+		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
+		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.gravel, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stonebrick), new ItemStack(Blocks.gravel, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_block), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_stairs), new ItemStack(Items.clay_ball, 3));
+		recipes.overridePreSetRecipe(new ItemStack(Items.flower_pot), new ItemStack(Items.clay_ball, 3));
+		recipes.overridePreSetRecipe(new ItemStack(Items.brick), new ItemStack(Items.clay_ball, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone), new ItemStack(Blocks.sand, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone_stairs), new ItemStack(Blocks.sand, 6));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.hardened_clay), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 0), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 1), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 2), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 3), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 4), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 5), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 6), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 7), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 8), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 9), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 10), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 11), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 12), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 13), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 14), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(Items.clay_ball, 4));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
 		
 		recipes.PrintRecipes();
 	}
@@ -515,9 +590,12 @@ public class MainRegistry
 		config.load();
         enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "1.0_enableDebugMode", false).getBoolean(false);
         enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "1.1_enableMyceliumSpread", false).getBoolean(false);
-        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.2_enableDungeonSpawn", true).getBoolean(true);
-        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.3_enableOresInModdedDimensions", true).getBoolean(true);
-        enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.4_enableNuclearBarrelSpawn", false).getBoolean(false);
+        enablePlutoniumOre = config.get(Configuration.CATEGORY_GENERAL, "1.2_enablePlutoniumNetherOre", false).getBoolean(false);
+        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.3_enableDungeonSpawn", true).getBoolean(true);
+        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.4_enableOresInModdedDimensions", true).getBoolean(true);
+        enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.5_enableNuclearBarrelSpawn", false).getBoolean(false);
+        enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.6_enableNITANChestSpawn", true).getBoolean(true);
+        enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.7_enableMushroomClouds", true).getBoolean(true);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.0_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";

@@ -520,8 +520,9 @@ public class FWatz {
 				for(int k = 0; k < 19; k++) {
 					String c = fwatz[j][i].substring(k, k + 1);
 
-					if(c.equals("P") && world.getBlock(x + i, y + j, z + k) == ModBlocks.fwatz_plasma)
-						world.setBlock(x + i, y + j, z + k, Blocks.air);
+					if(c.equals("P"))
+						if(world.getBlock(x + i, y + j, z + k) == ModBlocks.fwatz_plasma)
+							world.setBlock(x + i, y + j, z + k, Blocks.air);
 				}
 			}
 		}
@@ -541,7 +542,7 @@ public class FWatz {
 				for(int k = 0; k < 19; k++) {
 					String c = fwatz[j][i].substring(k, k + 1);
 					
-					if(c == "P" && world.getBlock(x + i, y + j, z + k) == ModBlocks.plasma)
+					if(c.equals("P") && world.getBlock(x + i, y + j, z + k) == ModBlocks.fwatz_plasma)
 						flag = true;
 				}
 			}

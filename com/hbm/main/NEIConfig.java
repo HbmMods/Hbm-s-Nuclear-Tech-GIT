@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.gui.GUITestDiFurnace;
+import com.hbm.gui.gui.GUITestDiFurnace;
 import com.hbm.handler.AlloyFurnaceRecipeHandler;
 import com.hbm.handler.CentrifugeRecipeHandler;
 import com.hbm.handler.ReactorRecipeHandler;

@@ -1,8 +1,12 @@
 package com.hbm.lib;
 
-import com.hbm.entity.EntityBullet;
-import com.hbm.entity.EntityCombineBall;
-import com.hbm.entity.EntityRainbow;
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityCombineBall;
+import com.hbm.entity.projectile.EntityDischarge;
+import com.hbm.entity.projectile.EntityFire;
+import com.hbm.entity.projectile.EntityLN2;
+import com.hbm.entity.projectile.EntityPlasmaBeam;
+import com.hbm.entity.projectile.EntityRainbow;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -18,6 +22,8 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource euthanizedSelf2 = (new DamageSource("euthanizedSelf2")).setDamageBypassesArmor();
 	public static DamageSource tauBlast = (new DamageSource("tauBlast")).setDamageBypassesArmor();
 	public static DamageSource radiation = (new DamageSource("radiation")).setDamageBypassesArmor();
+	public static DamageSource suicide = (new DamageSource("suicide")).setProjectile();
+	public static DamageSource teleporter = (new DamageSource("teleporter")).setDamageIsAbsolute();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
@@ -42,9 +48,41 @@ public class ModDamageSource extends DamageSource {
     {
         return (new EntityDamageSourceIndirect("subAtomic", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
     }
+    public static DamageSource causeSubatomicDamage2(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic2", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage3(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic3", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage4(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic4", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
+    public static DamageSource causeSubatomicDamage5(EntityRainbow p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("subAtomic5", p_76353_0_, p_76353_1_)).setProjectile().setDamageBypassesArmor();
+    }
     public static DamageSource euthanized(Entity p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("euthanized", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
+    }
+    public static DamageSource causeDischargeDamage(EntityDischarge p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("electrified", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
+    }
+    public static DamageSource causeFireDamage(EntityFire p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("flamethrower", p_76353_0_, p_76353_1_)).setFireDamage().setDamageBypassesArmor();
+    }
+    public static DamageSource causePlasmaDamage(EntityPlasmaBeam p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("plasma", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
+    }
+    public static DamageSource causeIceDamage(EntityLN2 p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("ice", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
     }
     
     public static boolean getIsBullet(DamageSource source) {
@@ -90,7 +128,40 @@ public class ModDamageSource extends DamageSource {
     public static boolean getIsSubatomic(DamageSource source) {
     	if(source instanceof EntityDamageSourceIndirect)
     	{
-    		return ((EntityDamageSourceIndirect)source).damageType.equals("subAtomic");
+    		String s = ((EntityDamageSourceIndirect)source).damageType;
+    		return s.equals("subAtomic") || s.equals("subAtomic2") || s.equals("subAtomic3") || s.equals("subAtomic4") || s.equals("subAtomic5");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsDischarge(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("electrified");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsFire(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("flamethrower");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsPlasma(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("plasma");
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsLiquidNitrogen(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("ice");
     	}
     	return false;
     }

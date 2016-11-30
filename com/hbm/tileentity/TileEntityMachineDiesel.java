@@ -8,8 +8,8 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
-import com.hbm.items.ItemBattery;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
@@ -26,21 +26,23 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityMachineDiesel extends TileEntity implements ISidedInventory, ISource {
 
 	private ItemStack slots[];
-	
+
 	public int power;
 	public int diesel;
 	public int soundCycle = 0;
 	public static final int maxPower = 10000;
+	public int powerCap = 10000;
+	public int superTimer;
 	public static final int maxDiesel = 10000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
-	
-	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] {1, 2};
-	private static final int[] slots_side = new int[] {2};
-	
+
+	private static final int[] slots_top = new int[] { 0 };
+	private static final int[] slots_bottom = new int[] { 1, 2 };
+	private static final int[] slots_side = new int[] { 2 };
+
 	private String customName;
-	
+
 	public TileEntityMachineDiesel() {
 		slots = new ItemStack[3];
 	}
@@ -57,21 +59,19 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
+		if (slots[i] != null) {
 			ItemStack itemStack = slots[i];
 			slots[i] = null;
 			return itemStack;
 		} else {
-		return null;
+			return null;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemStack) {
 		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
+		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
 			itemStack.stackSize = getInventoryStackLimit();
 		}
 	}
@@ -85,7 +85,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
@@ -97,99 +97,98 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
 			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
 		}
 	}
-	
-	//You scrubs aren't needed for anything (right now)
+
+	// You scrubs aren't needed for anything (right now)
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
+
 	@Override
-	public void closeInventory() {}
+	public void closeInventory() {
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i == 0)
-			if(stack.getItem() == ModItems.canister_fuel || stack.getItem() == Item.getItemFromBlock(ModBlocks.red_barrel))
+		if (i == 0)
+			if (stack.getItem() == ModItems.canister_fuel || stack.getItem() == ModItems.canister_NITAN
+					|| stack.getItem() == Item.getItemFromBlock(ModBlocks.red_barrel))
 				return true;
-		if(i == 2)
-			if(stack.getItem() instanceof ItemBattery)
+		if (i == 2)
+			if (stack.getItem() instanceof ItemBattery)
 				return true;
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
+		if (slots[i] != null) {
+			if (slots[i].stackSize <= j) {
 				ItemStack itemStack = slots[i];
 				slots[i] = null;
 				return itemStack;
 			}
 			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
+			if (slots[i].stackSize == 0) {
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
-		this.power = nbt.getShort("powerTime");
+
+		this.power = nbt.getInteger("powerTime");
 		this.diesel = nbt.getShort("diesel");
+		this.powerCap = nbt.getInteger("powerCap");
+		this.superTimer = nbt.getInteger("superTimer");
 		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
+
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
+			if (b0 >= 0 && b0 < slots.length) {
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("powerTime", (short) power);
+		nbt.setInteger("powerTime", power);
 		nbt.setShort("diesel", (short) diesel);
+		nbt.setInteger("powerCap", powerCap);
+		nbt.setInteger("superTimer", superTimer);
 		NBTTagList list = new NBTTagList();
-		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
+
+		for (int i = 0; i < slots.length; i++) {
+			if (slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
+				nbt1.setByte("slot", (byte) i);
 				slots[i].writeToNBT(nbt1);
 				list.appendTag(nbt1);
 			}
 		}
 		nbt.setTag("items", list);
 	}
-	
+
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
-    {
-        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-    }
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
@@ -198,126 +197,159 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 1)
-			if(itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
+		if (i == 1)
+			if (itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
 				return true;
-		if(i == 2)
-			if(itemStack.getItemDamage() == 0)
+		if (i == 2)
+			if (itemStack.getItemDamage() == 0)
 				return true;
-		
+
 		return false;
 	}
-	
+
 	public int getDieselScaled(int i) {
 		return (diesel * i) / maxDiesel;
 	}
-	
+
 	public int getPowerScaled(int i) {
-		return (power * i) / maxPower;
+		return (power * i) / powerCap;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
-		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
-		
-		if(slots[0] != null && slots[0].getItem() == ModItems.inf_diesel)
-		{
-			diesel = maxDiesel;
-		}
-		
-		if(slots[0] != null && slots[0].getItem() == ModItems.canister_fuel && diesel + 625 <= maxDiesel)
-		{
-			if(slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem() && slots[1].stackSize < slots[1].getMaxStackSize())
-			{
-				if(slots[1] == null)
-					slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
-				else
-					slots[1].stackSize++;
-				
-				slots[0].stackSize--;
-				if(slots[0].stackSize <= 0)
-					slots[0] = null;
-				
-				diesel += 625;
+			age++;
+			if (age >= 20) {
+				age = 0;
 			}
-		}
-		
-		if(slots[0] != null && slots[0].getItem() == Item.getItemFromBlock(ModBlocks.red_barrel) && diesel + 5000 <= maxDiesel)
-		{
-			if(slots[1] == null || slots[1] != null && slots[1].getItem() == ModItems.tank_steel && slots[1].stackSize < slots[1].getMaxStackSize())
+			
+			if(superTimer > 0)
 			{
-				if(slots[1] == null)
-					slots[1] = new ItemStack(ModItems.tank_steel);
-				else
-					slots[1].stackSize++;
-				
-				slots[0].stackSize--;
-				if(slots[0].stackSize <= 0)
-					slots[0] = null;
-				
-				diesel += 5000;
+				superTimer--;
+				powerCap = 1000000000;
 			}
-		}
+			
+			if(superTimer <= 0 && powerCap != maxPower)
+			{
+				powerCap = maxPower;
+				
+				if(worldObj.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == Blocks.air)
+					worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
+			}
 
-		//Battery Item
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_generic && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_advanced && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_schrabidium && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_titanium && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_advanced && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		
-		generate();
+			if (age == 9 || age == 19)
+				ffgeuaInit();
+
+			if (slots[0] != null && slots[0].getItem() == ModItems.inf_diesel) {
+				diesel = maxDiesel;
+			}
+
+			if (slots[0] != null && slots[0].getItem() == ModItems.canister_fuel && diesel + 625 <= maxDiesel) {
+				if (slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem()
+						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
+					if (slots[1] == null)
+						slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
+					else
+						slots[1].stackSize++;
+
+					slots[0].stackSize--;
+					if (slots[0].stackSize <= 0)
+						slots[0] = null;
+
+					diesel += 625;
+				}
+			}
+
+			if (slots[0] != null && slots[0].getItem() == ModItems.canister_NITAN && diesel + 625 <= maxDiesel) {
+				if (slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem()
+						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
+					if (slots[1] == null)
+						slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
+					else
+						slots[1].stackSize++;
+
+					slots[0].stackSize--;
+					if (slots[0].stackSize <= 0)
+						slots[0] = null;
+
+					diesel += 625;
+					superTimer += 200;
+				}
+			}
+
+			if (slots[0] != null && slots[0].getItem() == Item.getItemFromBlock(ModBlocks.red_barrel)
+					&& diesel + 5000 <= maxDiesel) {
+				if (slots[1] == null || slots[1] != null && slots[1].getItem() == ModItems.tank_steel
+						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
+					if (slots[1] == null)
+						slots[1] = new ItemStack(ModItems.tank_steel);
+					else
+						slots[1].stackSize++;
+
+					slots[0].stackSize--;
+					if (slots[0].stackSize <= 0)
+						slots[0] = null;
+
+					diesel += 5000;
+				}
+			}
+
+			// Battery Item
+			if (power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_generic
+					&& slots[2].getItemDamage() > 0) {
+				power -= 100;
+				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+			}
+			if (power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_advanced
+					&& slots[2].getItemDamage() > 0) {
+				power -= 100;
+				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+			}
+			if (power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_schrabidium
+					&& slots[2].getItemDamage() > 0) {
+				power -= 100;
+				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+			}
+			if (power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_titanium
+					&& slots[2].getItemDamage() > 0) {
+				power -= 100;
+				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+			}
+			if (power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_advanced
+					&& slots[2].getItemDamage() > 0) {
+				power -= 100;
+				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
+			}
+
+			generate();
 		}
 	}
-	
-	public void generate() {
-		if(diesel > 0)
-		{
-			if(soundCycle == 0)
-			    this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 0.5F);
-			soundCycle++;
-				
-			if(soundCycle >= 3)
-				soundCycle = 0;
-			
-			diesel -= 10;
-			if(diesel < 0)
-				diesel = 0;
-			
 
-			if(power + 25 <= maxPower)
-			{
+	public void generate() {
+		if (diesel > 0) {
+			if (soundCycle == 0) {
+				if(this.superTimer > 0)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 1.0F);
+				else
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 0.5F);
+			}
+			soundCycle++;
+
+			if (soundCycle >= 3 && this.superTimer <= 0)
+				soundCycle = 0;
+			if(this.superTimer > 0)
+				soundCycle = 0;
+
+			diesel -= 10;
+			if (diesel < 0)
+				diesel = 0;
+
+			if (power + 25 <= powerCap && this.superTimer <= 0) {
 				power += 25;
+			} else if (power + 1000000000 <= powerCap && this.superTimer > 0) {
+				power += 1000000000;
 			} else {
-				power = maxPower;
+				power = powerCap;
 			}
 		}
 	}
@@ -327,36 +359,30 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		Block block = this.worldObj.getBlock(x, y, z);
 		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
 
-		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
-		{
+		if (block == ModBlocks.factory_titanium_conductor
+				&& this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core) {
 			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
 		}
-		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
-		{
+		if (block == ModBlocks.factory_titanium_conductor
+				&& this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core) {
 			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
 		}
-		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
-		{
+		if (block == ModBlocks.factory_advanced_conductor
+				&& this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core) {
 			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
 		}
-		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
-		{
+		if (block == ModBlocks.factory_advanced_conductor
+				&& this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core) {
 			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
 		}
-		
-		if(tileentity instanceof IConductor)
-		{
-			if(tileentity instanceof TileEntityCable)
-			{
-				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, this))
-				{
-					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityCable)tileentity).uoteab.get(i).source == this)
-						{
-							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
+
+		if (tileentity instanceof IConductor) {
+			if (tileentity instanceof TileEntityCable) {
+				if (Library.checkUnionList(((TileEntityCable) tileentity).uoteab, this)) {
+					for (int i = 0; i < ((TileEntityCable) tileentity).uoteab.size(); i++) {
+						if (((TileEntityCable) tileentity).uoteab.get(i).source == this) {
+							if (((TileEntityCable) tileentity).uoteab.get(i).ticked != newTact) {
+								((TileEntityCable) tileentity).uoteab.get(i).ticked = newTact;
 								ffgeua(x, y + 1, z, getTact());
 								ffgeua(x, y - 1, z, getTact());
 								ffgeua(x - 1, y, z, getTact());
@@ -367,20 +393,15 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 						}
 					}
 				} else {
-					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
+					((TileEntityCable) tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
 				}
 			}
-			if(tileentity instanceof TileEntityWireCoated)
-			{
-				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, this))
-				{
-					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == this)
-						{
-							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
+			if (tileentity instanceof TileEntityWireCoated) {
+				if (Library.checkUnionList(((TileEntityWireCoated) tileentity).uoteab, this)) {
+					for (int i = 0; i < ((TileEntityWireCoated) tileentity).uoteab.size(); i++) {
+						if (((TileEntityWireCoated) tileentity).uoteab.get(i).source == this) {
+							if (((TileEntityWireCoated) tileentity).uoteab.get(i).ticked != newTact) {
+								((TileEntityWireCoated) tileentity).uoteab.get(i).ticked = newTact;
 								ffgeua(x, y + 1, z, getTact());
 								ffgeua(x, y - 1, z, getTact());
 								ffgeua(x - 1, y, z, getTact());
@@ -391,28 +412,23 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 						}
 					}
 				} else {
-					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
+					((TileEntityWireCoated) tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
 				}
 			}
 		}
-		
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
-		{
-			list.add((IConsumer)tileentity);
+
+		if (tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery
+				&& ((TileEntityMachineBattery) tileentity).conducts)) {
+			list.add((IConsumer) tileentity);
 		}
-		
-		if(!newTact)
-		{
+
+		if (!newTact) {
 			int size = list.size();
-			if(size > 0)
-			{
+			if (size > 0) {
 				int part = this.power / size;
-				for(IConsumer consume : list)
-				{
-					if(consume.getPower() < consume.getMaxPower())
-					{
-						if(consume.getMaxPower() - consume.getPower() >= part)
-						{
+				for (IConsumer consume : list) {
+					if (consume.getPower() < consume.getMaxPower()) {
+						if (consume.getMaxPower() - consume.getPower() >= part) {
 							this.power -= part;
 							consume.setPower(consume.getPower() + part);
 						} else {
@@ -435,13 +451,12 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
 		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 	}
-	
+
 	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
+		if (age >= 0 && age < 10) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

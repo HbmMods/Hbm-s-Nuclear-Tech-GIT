@@ -3,7 +3,7 @@ package com.hbm.tileentity;
 import java.util.HashSet;
 import java.util.List;
 
-import com.hbm.entity.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.Entity;

@@ -16,6 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ExplosionThermo {
 
@@ -41,6 +42,34 @@ public class ExplosionThermo {
 			}
 		}
 	}
+    public static void snow(World world, int x, int y, int z, int bound) {
+    	
+    	int r = bound;
+    	int r2 = r*r;
+    	int r22 = r2/2;
+    	for (int xx = -r; xx < r; xx++)
+    	{
+    		int X = xx+x;
+    		int XX = xx*xx;
+    		for (int yy = -r; yy < r; yy++)
+    		{
+    			int Y = yy+y;
+    			int YY = XX+yy*yy;
+    			for (int zz = -r; zz < r; zz++)
+    			{
+    				int Z = zz+z;
+    				int ZZ = YY+zz*zz;
+    				if (ZZ<r22)
+    				{
+    					if(Blocks.snow_layer.canPlaceBlockAt(world, X, Y + 1, Z) && (world.getBlock(X, Y + 1, Z) == Blocks.air || world.getBlock(X, Y + 1, Z) == Blocks.fire)) {
+    						world.setBlock(X, Y + 1, Z, Blocks.snow_layer);
+    					}
+    				}
+    			}
+    		}
+    	}
+    	
+    }
 
 	public static void scorch(World world, int x, int y, int z, int bombStartStrength) {
 		int r = bombStartStrength * 2;
@@ -60,6 +89,29 @@ public class ExplosionThermo {
 					int ZZ = YY+zz*zz;
 					if (ZZ<r22 + world.rand.nextInt(r22/2))
 						scorchDest(world, X, Y, Z);
+				}
+			}
+		}
+	}
+
+	public static void scorchLight(World world, int x, int y, int z, int bombStartStrength) {
+		int r = bombStartStrength * 2;
+		int r2 = r*r;
+		int r22 = r2/2;
+		for (int xx = -r; xx < r; xx++)
+		{
+			int X = xx+x;
+			int XX = xx*xx;
+			for (int yy = -r; yy < r; yy++)
+			{
+				int Y = yy+y;
+				int YY = XX+yy*yy;
+				for (int zz = -r; zz < r; zz++)
+				{
+					int Z = zz+z;
+					int ZZ = YY+zz*zz;
+					if (ZZ<r22 + world.rand.nextInt(r22/2))
+						scorchDestLight(world, X, Y, Z);
 				}
 			}
 		}
@@ -250,6 +302,106 @@ public class ExplosionThermo {
 		if(block == Blocks.ice)
 		{
 			world.setBlock(x, y, z, Blocks.air);
+		}
+	}
+	
+	public static void scorchDestLight(World world, int x, int y, int z) {
+		Block block = world.getBlock(x, y, z);
+		
+		if(block == Blocks.grass)
+		{
+			world.setBlock(x, y, z, Blocks.dirt);
+		}
+		
+		if(block == ModBlocks.frozen_grass)
+		{
+			world.setBlock(x, y, z, Blocks.dirt);
+		}
+		
+		if(block == Blocks.dirt)
+		{
+			world.setBlock(x, y, z, Blocks.netherrack);
+		}
+		
+		if(block == ModBlocks.frozen_dirt)
+		{
+			world.setBlock(x, y, z, Blocks.dirt);
+		}
+		
+		if(block == ModBlocks.waste_earth)
+		{
+			world.setBlock(x, y, z, Blocks.netherrack);
+		}
+		
+		if(block == Blocks.log)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_log);
+		}
+		
+		if(block == Blocks.log2)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_log);
+		}
+		
+		if(block == ModBlocks.frozen_log)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_log);
+		}
+		
+		if(block == ModBlocks.frozen_planks)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_planks);
+		}
+		
+		if(block == Blocks.planks)
+		{
+			world.setBlock(x, y, z, ModBlocks.waste_planks);
+		}
+		
+		if(block == Blocks.obsidian)
+		{
+			world.setBlock(x, y, z, ModBlocks.gravel_obsidian);
+		}
+		
+		if(block == Blocks.leaves)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.leaves2)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.water)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.flowing_water)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.packed_ice)
+		{
+			world.setBlock(x, y, z, Blocks.flowing_water);
+		}
+		
+		if(block == Blocks.ice)
+		{
+			world.setBlock(x, y, z, Blocks.air);
+		}
+		
+		if(block == Blocks.sand)
+		{
+			world.setBlock(x, y, z, Blocks.glass);
+		}
+		
+		if(block == Blocks.clay)
+		{
+			world.setBlock(x, y, z, Blocks.stained_hardened_clay);
+			world.setBlockMetadataWithNotify(x, y, z, world.rand.nextInt(16), 3);
 		}
 	}
 	

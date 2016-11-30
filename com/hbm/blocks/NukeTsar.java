@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityNukeTsar;

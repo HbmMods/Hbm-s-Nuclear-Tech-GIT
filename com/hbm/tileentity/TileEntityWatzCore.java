@@ -6,13 +6,13 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
-import com.hbm.items.WatzFuel;
+import com.hbm.items.special.WatzFuel;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 

@@ -1,6 +1,6 @@
 package com.hbm.explosion;
 
-import com.hbm.particles.EntityBSmokeFX;
+import com.hbm.entity.particle.EntityBSmokeFX;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

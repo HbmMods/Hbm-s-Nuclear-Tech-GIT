@@ -8,9 +8,9 @@ import com.hbm.gui.MachineRecipes;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
-import com.hbm.items.ItemBattery;
-import com.hbm.items.ItemBlades;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
+import com.hbm.items.special.ItemBlades;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;

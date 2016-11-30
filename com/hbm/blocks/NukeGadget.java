@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.hbm.entity.EntityNukeCloudSmall;
-import com.hbm.entity.EntityNukeExplosionAdvanced;
+import com.hbm.entity.effect.EntityNukeCloudNoShroom;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityNukeGadget;
@@ -183,11 +184,19 @@ public class NukeGadget extends BlockContainer implements IBomb {
     	
 		//ExplosionNukeAdvanced.mush(world, x, y, z);
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
-		entity2.posX = x;
-		entity2.posY = y - 15;
-		entity2.posZ = z;
-    	world.spawnEntityInWorld(entity2);
+    	if (MainRegistry.enableNukeClouds) {
+			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+			entity2.posX = x;
+			entity2.posY = y - 15;
+			entity2.posZ = z;
+			world.spawnEntityInWorld(entity2);
+		} else {
+			EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+			entity2.posX = x;
+			entity2.posY = y - 15;
+			entity2.posZ = z;
+			world.spawnEntityInWorld(entity2);
+		}
 		}
     	
 		return false;

@@ -1,9 +1,9 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.MachineNukeFurnace;
-import com.hbm.items.ItemCustomLore;
-import com.hbm.items.ItemFuelRod;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemCustomLore;
+import com.hbm.items.special.ItemFuelRod;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
