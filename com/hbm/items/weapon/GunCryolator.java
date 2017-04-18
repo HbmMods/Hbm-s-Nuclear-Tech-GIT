@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
@@ -10,6 +11,8 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -59,8 +62,6 @@ public class GunCryolator extends Item {
 					player.inventory.consumeInventoryItem(ModItems.gun_cryolator_ammo);
 			}
 
-			System.out.println(count);
-
 			if (count % 5 == 0)
 				world.playSoundAtEntity(player, "hbm:weapon.cryolatorShoot", 1.0F, 1F);
 
@@ -82,5 +83,12 @@ public class GunCryolator extends Item {
 		list.add("");
 		list.add("Ammo: Cryolator Ammo");
 		list.add("Damage: 5");
+	}
+
+	public Multimap getItemAttributeModifiers() {
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+		return multimap;
 	}
 }

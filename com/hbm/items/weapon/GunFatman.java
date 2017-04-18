@@ -139,6 +139,8 @@ public class GunFatman extends Item {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
 				new AttributeModifier(field_111210_e, "Weapon modifier", (double) -0.3, 1));
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
 		return multimap;
 	}
 

@@ -1,6 +1,7 @@
 package com.hbm.explosion;
 
-import com.hbm.blocks.DecoBlockAlt;
+import com.hbm.blocks.generic.DecoBlockAlt;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 

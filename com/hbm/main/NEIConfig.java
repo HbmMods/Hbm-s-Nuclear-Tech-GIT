@@ -38,6 +38,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_g)));
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_w)));
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_f)));
+		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.cheater_virus)));
+		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.cheater_virus_seed)));
 		API.hideItem(new ItemStack(ModItems.euphemium_helmet));
 		API.hideItem(new ItemStack(ModItems.euphemium_plate));
 		API.hideItem(new ItemStack(ModItems.euphemium_legs));
@@ -49,6 +51,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModItems.euphemium_stopper));
 		API.hideItem(new ItemStack(ModItems.watch));
 		API.hideItem(new ItemStack(ModItems.rod_quad_euphemium));
+		API.hideItem(new ItemStack(ModItems.rod_euphemium));
 	}
 
 	@Override

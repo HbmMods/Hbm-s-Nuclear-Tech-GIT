@@ -3,12 +3,15 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -20,10 +23,9 @@ public class GunMP extends Item {
 
 	Random rand = new Random();
 
-    public GunMP()
-    {
-        this.maxStackSize = 1;
-    }
+	public GunMP() {
+		this.maxStackSize = 1;
+	}
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
@@ -44,18 +46,17 @@ public class GunMP extends Item {
 		return p_77659_1_;
 	}
 
-	public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
-    {
+	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		World world = player.worldObj;
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp_ammo))
-				&& count % 3 == 0) {
+		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp_ammo)) && count % 3 == 0) {
 			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 100, 150, false, false);
 			entityarrow.setDamage(100 + rand.nextInt(50));
 
-			//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
+			// world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F +
+			// (rand.nextFloat() / 4));
 			world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (flag) {
@@ -85,14 +86,13 @@ public class GunMP extends Item {
 		list.add("user's? The victim's? Both?");
 		list.add("");
 		list.add("Ammo: Small Propellantless Machine Gun Round");
-<<<<<<< HEAD:com/hbm/items/weapon/GunMP.java
 		list.add("Damage: 100 - 150");
-=======
-<<<<<<< HEAD
-		list.add("Damage: 100 - 150");
-=======
-		list.add("Damage: 35 - 45");
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/items/GunMP.java
+	}
+
+	public Multimap getItemAttributeModifiers() {
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 5, 0));
+		return multimap;
 	}
 }

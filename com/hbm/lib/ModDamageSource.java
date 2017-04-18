@@ -5,6 +5,8 @@ import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityDischarge;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
+import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMinerBeam;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.entity.projectile.EntityRainbow;
 
@@ -23,10 +25,8 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource tauBlast = (new DamageSource("tauBlast")).setDamageBypassesArmor();
 	public static DamageSource radiation = (new DamageSource("radiation")).setDamageBypassesArmor();
 	public static DamageSource suicide = (new DamageSource("suicide")).setProjectile();
-<<<<<<< HEAD
 	public static DamageSource teleporter = (new DamageSource("teleporter")).setDamageIsAbsolute();
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+	public static DamageSource cheater = (new DamageSource("cheater")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);
@@ -87,6 +87,14 @@ public class ModDamageSource extends DamageSource {
     {
         return (new EntityDamageSourceIndirect("ice", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
     }
+    public static DamageSource causeLaserDamage(EntityLaserBeam p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("laser", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
+    }
+    public static DamageSource causeLaserDamage(EntityMinerBeam p_76353_0_, Entity p_76353_1_)
+    {
+        return (new EntityDamageSourceIndirect("laser", p_76353_0_, p_76353_1_)).setDamageBypassesArmor();
+    }
     
     public static boolean getIsBullet(DamageSource source) {
     	if(source instanceof EntityDamageSourceIndirect)
@@ -133,7 +141,6 @@ public class ModDamageSource extends DamageSource {
     	{
     		String s = ((EntityDamageSourceIndirect)source).damageType;
     		return s.equals("subAtomic") || s.equals("subAtomic2") || s.equals("subAtomic3") || s.equals("subAtomic4") || s.equals("subAtomic5");
-<<<<<<< HEAD
     	}
     	return false;
     }
@@ -166,8 +173,14 @@ public class ModDamageSource extends DamageSource {
     	if(source instanceof EntityDamageSourceIndirect)
     	{
     		return ((EntityDamageSourceIndirect)source).damageType.equals("ice");
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+    	}
+    	return false;
+    }
+    
+    public static boolean getIsLaser(DamageSource source) {
+    	if(source instanceof EntityDamageSourceIndirect)
+    	{
+    		return ((EntityDamageSourceIndirect)source).damageType.equals("laser");
     	}
     	return false;
     }

@@ -1,6 +1,7 @@
 package com.hbm.entity.missile;
 
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -148,6 +149,9 @@ public class EntityMissileBusterStrong extends EntityMissileBase {
     			{
     				this.worldObj.createExplosion(this, this.posX, this.posY - i, this.posZ, 7.5F, true);
     			}
+    			ExplosionLarge.spawnParticles(worldObj, this.posX, this.posY, this.posZ, 8);
+    			ExplosionLarge.spawnShrapnels(worldObj, this.posX, this.posY, this.posZ, 8);
+    			ExplosionLarge.spawnRubble(worldObj, this.posX, this.posY, this.posZ, 8);
     		}
 		this.setDead();
         }

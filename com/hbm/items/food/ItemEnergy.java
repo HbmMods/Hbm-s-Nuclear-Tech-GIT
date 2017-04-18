@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,16 +54,93 @@ public class ItemEnergy extends Item {
                 p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
                 p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
         	}
+        	if(this == ModItems.can_overcharge)
+        	{
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
+        	}
+        	if(this == ModItems.chocolate_milk)
+        	{
+        		p_77654_2_.createExplosion(null, p_77654_3_.posX, p_77654_3_.posY, p_77654_3_.posZ, 50, true);
+        	}
+        	if(this == ModItems.bottle_nuka)
+        	{
+        		p_77654_3_.heal(4F);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
+        	}
+        	if(this == ModItems.bottle_cherry)
+        	{
+        		p_77654_3_.heal(6F);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+        	}
+        	if(this == ModItems.bottle_quantum)
+        	{
+        		p_77654_3_.heal(10F);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+        	}
+        	if(this == ModItems.bottle2_korl)
+        	{
+        		p_77654_3_.heal(6);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 2));
+        	}
+        	if(this == ModItems.bottle2_fritz)
+        	{
+        		p_77654_3_.heal(6);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+        	}
+        	if(this == ModItems.bottle2_korl_special)
+        	{
+        		p_77654_3_.heal(16);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
+        	}
+        	if(this == ModItems.bottle2_fritz_special)
+        	{
+        		p_77654_3_.heal(16);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 120 * 20, 2));
+        	}
         }
 
-        if (!p_77654_3_.capabilities.isCreativeMode)
+        if (!p_77654_3_.capabilities.isCreativeMode && this != ModItems.chocolate_milk)
         {
-            if (p_77654_1_.stackSize <= 0)
-            {
-                return new ItemStack(ModItems.can_empty);
-            }
+        	if(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart) {
+        		if (p_77654_1_.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.can_empty);
+            	}
 
-            p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
+        	}
+        	
+        	if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka || this == ModItems.bottle_quantum) {
+        		if (p_77654_1_.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.bottle_empty);
+            	}
+
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+        	}
+        	
+        	if(this == ModItems.bottle2_korl || this == ModItems.bottle2_fritz || this == ModItems.bottle2_korl_special || this == ModItems.bottle2_fritz_special) {
+        		if (p_77654_1_.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.bottle2_empty);
+            	}
+
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+        	}
         }
 
         return p_77654_1_;
@@ -102,6 +180,49 @@ public class ItemEnergy extends Item {
     	if(this == ModItems.can_mrsugar)
     	{
             list.add("An intellectual drink, for the chosen ones!");
+    	}
+    	if(this == ModItems.can_overcharge)
+    	{
+            list.add("Possible side effects include heart attacks, seizures or zombification");
+    	}
+    	if(this == ModItems.chocolate_milk)
+    	{
+            list.add("Regular chocolate milk. Safe to drink.");
+            list.add("Totally not made from nitroglycerine.");
+    	}
+    	if(this == ModItems.bottle_nuka)
+    	{
+            list.add("Contains about 210 kcal and 1500 mSv.");
+    	}
+    	if(this == ModItems.bottle_cherry)
+    	{
+            list.add("Now with severe radiation poisoning in every seventh bottle!");
+    	}
+    	if(this == ModItems.bottle_quantum)
+    	{
+            list.add("Comes with a colorful mix of over 70 isotopes!");
+    	}
+    	if(this == ModItems.bottle2_korl)
+    	{
+            list.add("Contains actual orange juice!");
+    	}
+    	if(this == ModItems.bottle2_fritz)
+    	{
+            list.add("moremore caffeine");
+    	}
+    	if(this == ModItems.bottle2_korl_special)
+    	{
+    		if(MainRegistry.polaroidID == 11)
+    			list.add("shgehgev u rguer");
+    		else
+                list.add("Contains actual orange juice!");
+    	}
+    	if(this == ModItems.bottle2_fritz_special)
+    	{
+    		if(MainRegistry.polaroidID == 11)
+    			list.add("ygrogr fgrof bf");
+    		else
+    			list.add("moremore caffeine");
     	}
     }
 }

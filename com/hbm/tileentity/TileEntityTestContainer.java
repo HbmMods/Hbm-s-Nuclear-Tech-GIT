@@ -1,6 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.TestContainer;
+import com.hbm.blocks.test.TestContainer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;

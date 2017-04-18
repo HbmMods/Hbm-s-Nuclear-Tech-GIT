@@ -1,10 +1,7 @@
 package com.hbm.items.special;
 
 import com.hbm.blocks.ModBlocks;
-<<<<<<< HEAD:com/hbm/items/special/ItemStarterKit.java
 import com.hbm.items.ModItems;
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/items/ItemStarterKit.java
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -245,6 +242,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_electric, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_poison, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gas, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_pulse, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_plasma, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_tau, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_schrabidium, 16));
@@ -352,15 +350,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
 		}
 		
-<<<<<<< HEAD:com/hbm/items/special/ItemStarterKit.java
 		if(this == ModItems.letter && world.isRemote)
-=======
-<<<<<<< HEAD
-		if(this == ModItems.letter && world.isRemote)
-=======
-		if(this == ModItems.letter && !world.isRemote)
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af:com/hbm/items/ItemStarterKit.java
 		{
 			if(player.getUniqueID().toString().equals(Library.a20)) {
 				player.addChatMessage(new ChatComponentText("Error: null reference @ com.hbm.items.ItemStarterKit.class, please report this to the modder!"));

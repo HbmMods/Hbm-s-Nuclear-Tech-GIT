@@ -1,5 +1,7 @@
 package com.hbm.entity.grenade;
 
+import com.hbm.explosion.ExplosionLarge;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -44,7 +46,7 @@ public class EntityGrenadeStrong extends EntityThrowable
         if (!this.worldObj.isRemote)
         {
             this.setDead();
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5.0F, true);
+            ExplosionLarge.explode(worldObj, posX, posY, posZ, 5.0F, true, false, false);
         }
     }
 }

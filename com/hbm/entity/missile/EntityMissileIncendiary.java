@@ -1,6 +1,7 @@
 package com.hbm.entity.missile;
 
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -146,7 +147,7 @@ public class EntityMissileIncendiary extends EntityMissileBase {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			this.worldObj.newExplosion((Entity)null, (float)this.posX + 0.5F, (float)this.posY + 0.5F, (float)this.posZ + 0.5F, 10.0F, true, true);
+    			ExplosionLarge.explodeFire(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 10.0F, true, true, true);
     		}
 		this.setDead();
         }

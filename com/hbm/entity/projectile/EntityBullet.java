@@ -29,9 +29,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.hbm.blocks.DecoBlockAlt;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.RedBarrel;
+import com.hbm.blocks.generic.DecoBlockAlt;
+import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.items.ModItems;
@@ -140,6 +140,31 @@ public class EntityBullet extends Entity implements IProjectile {
 		this.rad = rad;
 	}
 
+	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_) {
+		super(p_i1756_1_);
+		this.renderDistanceWeight = 10.0D;
+		this.shootingEntity = p_i1756_2_;
+
+		if (p_i1756_2_ instanceof EntityPlayer) {
+			this.canBePickedUp = 1;
+		}
+
+		this.setSize(0.5F, 0.5F);
+		this.setLocationAndAngles(p_i1756_2_.posX, p_i1756_2_.posY + p_i1756_2_.getEyeHeight(), p_i1756_2_.posZ,
+				p_i1756_2_.rotationYaw, p_i1756_2_.rotationPitch);
+		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+		this.posY -= 0.10000000149011612D;
+		this.posZ -= MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
+		this.setPosition(this.posX, this.posY, this.posZ);
+		this.yOffset = 0.0F;
+		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.setThrowableHeading2(this.motionX, this.motionY, this.motionZ, p_i1756_3_ * 1.5F, 1.0F);
+	}
+
 	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax,
 			boolean instakill, String isTau) {
 		super(p_i1756_1_);
@@ -229,6 +254,30 @@ public class EntityBullet extends Entity implements IProjectile {
 		p_70186_3_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D
 				* p_70186_8_;
 		p_70186_5_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.007499999832361937D
+				* p_70186_8_;
+		p_70186_1_ *= p_70186_7_;
+		p_70186_3_ *= p_70186_7_;
+		p_70186_5_ *= p_70186_7_;
+		this.motionX = p_70186_1_;
+		this.motionY = p_70186_3_;
+		this.motionZ = p_70186_5_;
+		float f3 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_5_ * p_70186_5_);
+		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(p_70186_1_, p_70186_5_) * 180.0D / Math.PI);
+		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(p_70186_3_, f3) * 180.0D / Math.PI);
+		this.ticksInGround = 0;
+	}
+	
+	public void setThrowableHeading2(double p_70186_1_, double p_70186_3_, double p_70186_5_, float p_70186_7_,
+			float p_70186_8_) {
+		float f2 = MathHelper.sqrt_double(p_70186_1_ * p_70186_1_ + p_70186_3_ * p_70186_3_ + p_70186_5_ * p_70186_5_);
+		p_70186_1_ /= f2;
+		p_70186_3_ /= f2;
+		p_70186_5_ /= f2;
+		p_70186_1_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.042499999832361937D
+				* p_70186_8_;
+		p_70186_3_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.042499999832361937D
+				* p_70186_8_;
+		p_70186_5_ += this.rand.nextGaussian() * (this.rand.nextBoolean() ? -1 : 1) * 0.042499999832361937D
 				* p_70186_8_;
 		p_70186_1_ *= p_70186_7_;
 		p_70186_3_ *= p_70186_7_;

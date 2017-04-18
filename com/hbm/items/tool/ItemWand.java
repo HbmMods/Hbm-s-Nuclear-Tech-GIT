@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.LaunchPad;
+import com.hbm.blocks.bomb.LaunchPad;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

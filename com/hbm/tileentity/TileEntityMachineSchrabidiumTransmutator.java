@@ -142,7 +142,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getShort("power") * 50000;
+		power = nbt.getInteger("power");
 		process = nbt.getShort("process");
 		slots = new ItemStack[getSizeInventory()];
 
@@ -158,7 +158,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("power", (short) (power / 50000));
+		nbt.setInteger("power", (short) (power));
 		nbt.setShort("process", (short) process);
 		NBTTagList list = new NBTTagList();
 

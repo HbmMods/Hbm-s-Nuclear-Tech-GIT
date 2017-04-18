@@ -90,6 +90,21 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.plate_paa, 2);
 		}
 
+		if (item == ModItems.rod_quad_euphemium && item2 == ModItems.powder_caesium
+				|| item == ModItems.powder_caesium && item2 == ModItems.rod_quad_euphemium) {
+			return new ItemStack(ModItems.nugget_euphemium, 2, 34);
+		}
+
+		if (item == ModItems.rod_quad_euphemium && item2 == ModItems.powder_astatine
+				|| item == ModItems.powder_astatine && item2 == ModItems.rod_quad_euphemium) {
+			return new ItemStack(ModItems.nugget_euphemium, 2, 34);
+		}
+
+		if (item == ModItems.oil_canola && item2 == ModItems.canister_empty
+				|| item == ModItems.canister_empty && item2 == ModItems.oil_canola) {
+			return new ItemStack(ModItems.canister_canola);
+		}
+
 		return null;
 	}
 
@@ -154,8 +169,8 @@ public class MachineRecipes {
 				new ItemStack(ModItems.nugget_lead, 6), new ItemStack(ModItems.nugget_schrabidium, 4),
 				new ItemStack(ModItems.rod_dual_waste, 1) };
 		ItemStack[] schrabidium3 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 4),
-				new ItemStack(ModItems.nugget_lead, 19), new ItemStack(ModItems.nugget_euphemium, 1),
-				new ItemStack(ModItems.rod_quad_waste, 1) };
+				new ItemStack(ModItems.nugget_lead, 19), new ItemStack(ModItems.nugget_neptunium, 1),
+				new ItemStack(ModItems.rod_quad_euphemium, 1, 34) };
 
 		if (item == ModItems.cell_uf6) {
 			return uranium;
@@ -387,6 +402,9 @@ public class MachineRecipes {
 		recipes.put(
 				new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
 				new ItemStack(ModItems.plate_paa, 2));
+		recipes.put(
+				new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(ModItems.oil_canola) },
+				new ItemStack(ModItems.canister_canola, 1));
 		return recipes;
 	}
 

@@ -2,6 +2,7 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.items.ModItems;
@@ -10,6 +11,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -153,5 +156,12 @@ public class GunRpg extends Item
 		list.add("");
 		list.add("Ammo: Rockets");
 		list.add("Projectiles explode on impact.");
+	}
+
+	public Multimap getItemAttributeModifiers() {
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+		return multimap;
 	}
 }

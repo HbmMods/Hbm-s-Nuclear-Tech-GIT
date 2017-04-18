@@ -325,7 +325,7 @@ public class EntityLN2 extends Entity implements IProjectile
                     }
                     else
                     {
-                        damagesource = ModDamageSource.causeIceDamage(this, this);
+                        damagesource = ModDamageSource.causeIceDamage(this, this.shootingEntity);
                     }
 
                     if (movingobjectposition.entityHit.attackEntityFrom(damagesource, k))

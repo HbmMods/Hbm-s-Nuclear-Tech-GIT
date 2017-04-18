@@ -17,30 +17,20 @@ death.attack.tau=%1$s was riddeled by %2$s using negatively charged tauons.
 death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into pieces.
 death.attack.chopperBullet=%1$s was rekt by %2$s.
 death.attack.cmb=%1$s was fizzeled by %2$s.
-<<<<<<< HEAD
 death.attack.subAtomic=%1$s's atoms have been destroyed by %2$s.
 death.attack.subAtomic2=%1$s was QPU-misaligned because %2$s tampered with his de facto speed.
 death.attack.subAtomic3=%1$s's divergence dropped below 1 percent because of %2$s.
-=======
-<<<<<<< HEAD
-death.attack.subAtomic=%1$s's atoms have been destroyed by %2$s.
-=======
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
-death.attack.subAtomic2=%1$s was QPU-misaligned because %2$s tampered with his de facto speed.
-death.attack.subAtomic3=%1$s's divergence dropped below 1% because of %2$s.
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 death.attack.subAtomic4=%1$s was divided by zero by %2$s.
 death.attack.subAtomic5=%1$s was nullified by %2$s.
 death.attack.radiation=%1$s died from radiation poisoning.
 death.attack.acid=%1$s fell into acid.
 death.attack.suicide=%1$s blew their head off.
-<<<<<<< HEAD
 death.attack.electrified=%1$s was electrified by %2$s.
 death.attack.flamethrower=%1$s was cremated by %2$s.
 death.attack.plasma=%1$s was immolated by %2$s.
 death.attack.ice=%1$s was turned into a popsicle by %2$s.
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+death.attack.cheater=%1$s died as a dirty cheater. Play fair, or piss off.
+death.attack.laser=%1$s was turned into ash by %2$s.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -86,6 +76,7 @@ container.nukeMike=Ivy Mike
 container.nukeTsar=Tsar Bomba
 container.nukeFleija=F.L.E.I.J.A.
 container.nukePrototype=The Prototype
+container.nukeCustom=Custom Nuke
 
 container.bombMulti=Multi Purpose Bomb
 
@@ -96,6 +87,7 @@ tile.nuke_mike.name=Ivy Mike
 tile.nuke_tsar.name=Tsar Bomba
 tile.nuke_fleija.name=F.L.E.I.J.A.
 tile.nuke_prototype.name=The Prototype
+tile.nuke_custom.name=Custom Nuke
 
 tile.bomb_multi.name=Multi Purpose Bomb
 
@@ -150,6 +142,14 @@ container.machineShredder=Shredder
 tile.machine_combine_factory.name=CMB Steel Furnace
 container.machineCMB=CMB Steel Furnace
 tile.machine_teleporter.name=Teleporter
+container.teleporter=Teleporter
+tile.machine_reix_mainframe.name=Rei-X Mainframe
+container.reix=Rei-X Mainframe
+tile.machine_industrial_generator.name=Industrial Generator
+container.iGenerator=Industrial Generator
+
+tile.rail_highspeed.name=High Speed Rail
+tile.rail_booster.name=High Speed Booster Rail
 
 tile.factory_titanium_hull.name=Basic Factory Casing
 tile.factory_titanium_furnace.name=Basic Factory Access Hatch
@@ -164,11 +164,11 @@ tile.factory_advanced_core.name=Advanced Factory Core Component
 item.factory_core_advanced.name=Advanced Factory Energy Cluster
 container.factoryAdvanced=Advanced Factory
 
-tile.reactor_element.name=Reaktor Chamber
+tile.reactor_element.name=Reactor Chamber
 tile.reactor_control.name=Control Rods
 tile.reactor_hatch.name=Reactor Access Hatch
 tile.reactor_conductor.name=Reactor Electricity Port
-tile.reactor_computer.name=Reaktor Control
+tile.reactor_computer.name=Reactor Control
 container.reactorMultiblock=Big Nuclear Reactor
 
 tile.fusion_conductor.name=Superconducting Magnet
@@ -197,6 +197,16 @@ tile.fwatz_hatch.name=Fusionary Watz Plant Access Hatch
 tile.fwatz_computer.name=Fusionary Watz Reactor Calculation Matrix
 tile.fwatz_core.name=Fusionary Watz Reactor Control
 tile.fwatz_plasma.name=Destabilized Antischrabidium Plasma
+container.fusionaryWatzPlant=Fusionary Watz Plant
+
+tile.machine_rtg_grey.name=Radioisotope Thermoelectric Generator
+tile.machine_rtg_red.name=Fulmination Generator
+tile.machine_rtg_orange.name=Strong RT Generator
+tile.machine_rtg_yellow.name=Australium Superfuel Reactor
+tile.machine_rtg_green.name=Verticium Wealth Generator
+tile.machine_rtg_cyan.name=Schrabidium Decay Generator
+tile.machine_rtg_blue.name=Convection Generator
+tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 
 item.fuse.name=Fuse
 
@@ -225,11 +235,14 @@ item.plate_schrabidium.name=Schrabidium Plate
 item.ingot_schrabidium.name=Schrabidium Ingot
 item.nugget_schrabidium.name=Schrabidium Nugget
 item.plate_copper.name=Copper Plate
+item.board_copper.name=Copper Panel
 item.ingot_advanced_alloy.name=Advanced Alloy Ingot
 item.plate_advanced_alloy.name=Advanced Alloy Plate
 item.wire_advanced_alloy.name=Super Conductor
 item.coil_advanced_alloy.name=Super Conducting Coil
 item.coil_advanced_torus.name=Super Conducting Ring Coil
+item.coil_gold.name=Gold Coil
+item.coil_gold_torus.name=Golden Ring Coil
 item.lithium.name=Lithium Cube
 item.ingot_magnetized_tungsten.name=Magnetized Tungsten Ingot
 item.ingot_combine_steel.name=CMB Steel Ingot
@@ -238,6 +251,19 @@ item.wire_magnetized_tungsten.name=4000K High Temperature Super Conductor
 item.coil_magnetized_tungsten.name=4000K High Temperature Super Conducting Coil
 item.plate_mixed.name=Mixed Plate
 item.plate_paa.name=PaA Alloy Plate
+
+item.ingot_australium.name=Australium Ingot
+item.ingot_weidanium.name=Weidanium Ingot
+item.ingot_reiium.name=Reiium Ingot
+item.ingot_unobtainium.name=Unobtainium Ingot
+item.ingot_daffergon.name=Daffergon Ingot
+item.ingot_verticium.name=Verticium Ingot
+item.nugget_australium.name=Australium Nugget
+item.nugget_weidanium.name=Weidanium Nugget
+item.nugget_reiium.name=Reiium Nugget
+item.nugget_unobtainium.name=Unobtainium Nugget
+item.nugget_daffergon.name=Daffergon Nugget
+item.nugget_verticium.name=Verticium Nugget
 
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget
@@ -275,13 +301,16 @@ tile.block_trinitite.name=Block of Trinitite
 tile.block_beryllium.name=Block of Beryllium
 tile.block_waste.name=Block of Nuclear Waste
 tile.block_scrap.name=Block of Scrap
-<<<<<<< HEAD
 tile.block_electrical_scrap.name=Block of Electrical Scrap
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 tile.block_advanced_alloy.name=Block of Advanced Alloy
 tile.block_magnetized_tungsten.name=Block of Magnetized Tungsten
 tile.block_combine_steel.name=Block of CMB Steel
+tile.block_australium.name=Block of Australium
+tile.block_weidanium.name=Block of Weidanium
+tile.block_reiium.name=Block of Reiium
+tile.block_unobtainium.name=Block of Unobtainium
+tile.block_daffergon.name=Block of Daffergon
+tile.block_verticium.name=Block of Verticium
 
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_copper.name=Copper Ore
@@ -301,6 +330,13 @@ tile.ore_nether_sulfur.name=Nether Sulfur Ore
 tile.ore_nether_fire.name=Fire Ore
 tile.ore_nether_schrabidium.name=Nether Schrabidium Ore
 
+tile.ore_australium.name=Australian Ore
+tile.ore_weidanium.name=Weidite
+tile.ore_reiium.name=Reiite
+tile.ore_unobtainium.name=Brightblende Ore
+tile.ore_daffergon.name=Dellite
+tile.ore_verticium.name=Dollar Green Mineral
+
 tile.reinforced_brick.name=Reinforced Stone
 tile.reinforced_glass.name=Reinforced Glass
 tile.reinforced_sand.name=Reinforced Sandstone
@@ -316,6 +352,10 @@ tile.cmb_brick.name=CMB Steel Tile
 tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
 
 tile.gravel_obsidian.name=Crushed Obsidian
+
+tile.seal_frame.name=Silo Hatch Frame
+tile.seal_controller.name=Silo Hatch Opener
+tile.seal_hatch.name=Silo Hatch
 
 item.nugget_uranium.name=Uranium Nugget
 item.nugget_plutonium.name=Plutonium Nugget
@@ -356,6 +396,18 @@ item.powder_thorium.name=Thorium Powder
 item.powder_neodymium.name=Neodymium Powder
 item.powder_astatine.name=Astatine Powder
 item.powder_caesium.name=Caesium Powder
+item.powder_australium.name=Australium Powder
+item.powder_weidanium.name=Weidanium Powder
+item.powder_reiium.name=Reiium Powder
+item.powder_unobtainium.name=Unobtainium Powder
+item.powder_daffergon.name=Daffergon Powder
+item.powder_verticium.name=Verticium Powder
+item.powder_strontium.name=Strontium Powder
+item.powder_cobalt.name=Cobalt Powder
+item.powder_bromine.name=Bromine Powder
+item.powder_niobium.name=Niobium Powder
+item.powder_tennessine.name=Tennessine Powder
+item.powder_cerium.name=Cerium Powder
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
@@ -383,6 +435,8 @@ item.filter_coal.name=Activated Carbon Filter
 item.tritium_deuterium_cake.name=Tritium-Deuterium-Cake
 item.telepad.name=Telepad
 item.entanglement_kit.name=Entaglement Kit
+item.toothpicks.name=Toothpicks
+item.ducttape.name=Duct Tape
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
@@ -407,7 +461,10 @@ item.inf_diesel.name=Infinite Diesel Tank
 item.inf_antimatter.name=Infinite Antimatter Tank
 item.inf_antischrabidium.name=Infinite Antischrabidium Tank
 
+item.oil_canola.name=Raw Canola Oil
+
 item.canister_empty.name=Empty Canister
+item.canister_canola.name=Engine Lubricant
 item.canister_fuel.name=Fuel Canister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
@@ -423,6 +480,13 @@ item.rod_pu240.name=Pu240 Rod
 item.rod_neptunium.name=Neptunium Rod
 item.rod_lead.name=Lead Rod
 item.rod_schrabidium.name=Schrabidium Rod
+item.rod_astatine.name=Euphemium Rod
+item.rod_australium.name=Australium Rod
+item.rod_weidanium.name=Weidanium Rod
+item.rod_reiium.name=Reiium Rod
+item.rod_unobtainium.name=Unobtainium Rod
+item.rod_daffergon.name=Daffergon Rod
+item.rod_verticium.name=Verticium Rod
 
 item.rod_dual_empty.name=Emty Dual Rod
 item.rod_dual_uranium.name=Uranium Dual Fl Rod
@@ -474,7 +538,9 @@ item.flame_politics.name=Political Topic
 item.flame_opinion.name=Own Opinion
 
 item.pellet_cluster.name=Explosive Pellets
+item.pellet_buckshot.name=Lead Pellets
 item.powder_fire.name=Flame Powder
+item.powder_ice.name=Cryo Powder
 item.powder_poison.name=Poison Powder
 item.pellet_gas.name=Poison Gas Cartridge
 item.magnetron.name=Magnetron
@@ -526,6 +592,7 @@ item.grenade_flare.name=Flare Grenade
 item.grenade_electric.name=Lightning Bomb
 item.grenade_poison.name=Poison Grenade
 item.grenade_gas.name=Gas Grenade
+item.grenade_pulse.name=Impulse Grenade
 item.grenade_plasma.name=Plasma Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
@@ -535,6 +602,7 @@ item.grenade_aschrab.name=Tossable Antischrabidium Cell
 item.grenade_nuke.name=Mark VI Drill Grenade
 item.grenade_nuclear.name=Nuka Grenade
 item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
+item.ullapool_caber.name=Ullapool Caber
 
 item.rod_uranium_fuel.name=Uranium Fuel Rod
 item.rod_dual_uranium_fuel.name=Uranium Dual Fuel Rod
@@ -599,10 +667,13 @@ item.gun_revolver_gold.name=Golden Revolver
 item.gun_revolver_lead.name=Nuka Revolver
 item.gun_revolver_schrabidium.name=Schrabidium Revolver
 item.gun_revolver_cursed.name=Cursed Revolver
+item.gun_revolver_nightmare.name=Nightmare Revolver (Original)
+item.gun_revolver_nightmare2.name=Nightmare Revolver (Dark)
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_mirv.name=M42 Nuclear Catapult "Experimental MIRV"
 item.gun_bf.name=M42_2 Nuclear Catapult "Antimatter Launcher"
 item.gun_mp40.name=Submachine Gun
+item.gun_uboinik.name=Uboinik
 item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
 item.gun_osipr.name=Overwatch Standard Issue Pulse Rifle
 item.gun_immolator.name=The Immolator
@@ -613,6 +684,10 @@ item.gun_emp.name=EMP Ray
 item.gun_super_shotgun.name=Super Shotgun
 item.gun_moist_nugget.name=Moisn-Nagant
 item.gun_revolver_inverted.name=Flipped Revolver
+item.gun_jack.name=Jackhammer
+item.gun_spark.name=Spark Plug
+item.gun_hp.name=HPP Lazerjet
+item.gun_euthanasia.name=Euthanasia
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
@@ -620,10 +695,13 @@ item.gun_revolver_gold_ammo.name=Golden Bullet
 item.gun_revolver_lead_ammo.name=Glass Covered Nuclear Bullet
 item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
 item.gun_revolver_cursed_ammo.name=Steel Bullet
+item.gun_revolver_nightmare_ammo.name=Nightmare Bullet
+item.gun_revolver_nightmare2_ammo.name=Laser Buckshot
 item.gun_fatman_ammo.name=Mini Nuke
 item.gun_mirv_ammo.name=Eightfold MIRV
 item.gun_bf_ammo.name=Mk.V Compact AMAT-Artillery Shell - Type B.F.
 item.gun_mp40_ammo.name=Submachine Gun Round
+item.gun_uboinik_ammo.name=12x70 Buckshot
 item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
 item.gun_osipr_ammo.name=Dark Energy Pulse Plug
 item.gun_osipr_ammo2.name=Combine Ball
@@ -631,6 +709,10 @@ item.gun_immolator_ammo.name=Immolator Fuel
 item.gun_cryolator_ammo.name=Cryo Cell
 item.gun_mp_ammo.name=Small Propellantless Machine Gun Round
 item.gun_emp_ammo.name=Energy Cell
+item.gun_jack_ammo.name=Quadruple Shotgun Shell
+item.gun_spark_ammo.name=Electromagnetic Cartridge
+item.gun_hp_ammo.name=Ink Cartridge
+item.gun_euthanasia_ammo.name=Syringe
 
 item.clip_revolver_iron.name=Box of Iron Rounds
 item.clip_revolver.name=Box of .357 Rounds
@@ -648,7 +730,10 @@ item.clip_mirv.name=Three-In-One Pack of Mini MIRVs
 item.clip_bf.name=BF-Shell Double Pack
 item.clip_mp.name=Britannia Military Standard Issue Assult Rifle Magazine
 item.clip_mp40.name=9mm SMG Magazine
+item.clip_uboinik.name=Box of Buckshot Rounds
 item.clip_emp.name=Small Pack of Energy Cells
+item.clip_revolver_nightmare.name=Bag of Bullets
+item.clip_revolver_nightmare2.name=Belt with Laser Buckshot
 
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate
@@ -685,6 +770,12 @@ item.sphere_steel.name=Steel Sphere
 item.pedestal_steel.name=Steel Pedestal
 item.dysfunctional_reactor.name=Dysfunctional Nuclear Reactor
 
+item.rotor_steel.name=Large Steel Rotor
+item.generator_steel.name=Generator Body
+item.blade_titanium.name=Titanium Blade
+item.turbine_titanium.name=Titanium Steam Turbine
+item.generator_front.name=Generator Front
+
 item.combine_scrap.name=CMB Scrap Metal
 item.chopper_head.name=Hunter Chopper Cockpit
 item.chopper_gun.name=Emplacement Gun
@@ -695,15 +786,15 @@ item.chopper_blades.name=Hunter Chopper Rotor Blades
 
 item.igniter.name=Igniter
 item.watch.name=Broken Pocket Watch
-item.apple_euphemium.name=Euphemium Apple
-item.ingot_euphemium.name=Euphemium Ingot
-item.nugget_euphemium.name=Euphemium Nugget
-item.rod_quad_euphemium.name=Burned Out Quad Schrabidium Fuel Rod
+item.apple_astatine.name=Euphemium Apple
+item.ingot_astatine.name=Euphemium Ingot
+item.nugget_astatine.name=Euphemium Nugget
+item.rod_quad_astatine.name=Burned Out Quad Schrabidium Fuel Rod
 
-item.euphemium_helmet.name=Euphemium Helemt
-item.euphemium_plate.name=Euphemium Chestplate
-item.euphemium_legs.name=Euphemium Leggings
-item.euphemium_boots.name=Euphemiums Boots
+item.astatine_helmet.name=Euphemium Helemt
+item.astatine_plate.name=Euphemium Chestplate
+item.astatine_legs.name=Euphemium Leggings
+item.astatine_boots.name=Euphemiums Boots
 
 item.schrabidium_helmet.name=Schrabidium Helmet
 item.schrabidium_plate.name=Schrabidium Chestpate
@@ -744,26 +835,17 @@ item.missile_endo.name=Endothermic Missile
 item.missile_exo.name=Exothermic Missile
 
 item.hazmat_helmet.name=Hazmat Helmet
-item.hazmat_plate.name=Hazmmat Chestplate
+item.hazmat_plate.name=Hazmat Chestplate
 item.hazmat_legs.name=Hazmat Leggings
 item.hazmat_boots.name=Hazmat Boots
 item.hazmat_paa_helmet.name=PaA Battle Hazmat Suit Helmet
 item.hazmat_paa_plate.name=PaA Battle Hazmat Suit Chestplate
 item.hazmat_paa_legs.name=PaA Battle Hazmat Suit Leggings
 item.hazmat_paa_boots.name=PaA Battle Hazmat Suit Boots
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.paa_plate.name=PaA Chest Protection Plate
 item.paa_legs.name=PaA Leg Reinforcements
 item.paa_boots.name=PaA "good ol' shoes"
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.goggles.name=Protection Goggles
 item.gas_mask.name=Gas Mask
@@ -854,6 +936,7 @@ item.cape_schrabidium.name=Cape (Schrabidic)
 item.cape_hbm.name=Hbm's Cape
 item.cape_dafnik.name=Dafnik's Cape
 item.cape_lpkukin.name=LPkukin's Cape
+item.cape_vertice.name=Lord Vertice's Cape
 
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter
@@ -907,6 +990,17 @@ item.can_smart.name='Smart' Energy Drink
 item.can_creature.name='Creature' Energy Drink
 item.can_redbomb.name='Red Bomb' Energy Drink
 item.can_mrsugar.name='Dr. Sugar' Soft Drink
+item.can_overcharge.name=Overcharge Delirium XT
+item.bottle_empty.name=Empty Bomb-Shaped Bottle
+item.bottle_nuka.name=Bottle of Nuka Cola
+item.bottle_cherry.name=Bottle of Nuka Cherry
+item.bottle_quantum.name=Bottle of Nuka Cola Quantum
+item.bottle2_empty.name=Empty Bottle
+item.bottle2_korl.name=Korl
+item.bottle2_fritz.name=Fritz Cola
+item.bottle2_korl_special.name=The First Korl
+item.bottle2_fritz_special.name=The First Fritz Cola
+item.chocolate_milk.name=Chocolate Milk
 
 item.blades_aluminium.name=Aluminium Shredder Blades
 item.blades_gold.name=Golden Shredder Blades
@@ -917,18 +1011,49 @@ item.blades_advanced_alloy.name=Advanced Shredder Blades
 item.blades_combine_steel.name=CMB Shredder Blades
 item.blades_schrabidium.name=Schrabidium Shredder Blades
 
-<<<<<<< HEAD
 item.linker.name=Telelinker
 
+item.thermo_element.name=Thermoelectric Element
+item.limiter.name=Generator Limiter
+
+item.multitool_dig.name=Power Fist (Digging Claw)
+item.multitool_silk.name=Power Fist (Silk Touch Claw)
+item.multitool_ext.name=Power Fist (Ore Extracter)
+item.multitool_miner.name=Power Fist (Extracting Mining Laser)
+item.multitool_hit.name=Power Fist (Fist)
+item.multitool_beam.name=Power Fist (Zapper)
+item.multitool_sky.name=Power Fist (Crack the Sky)
+item.multitool_mega.name=Power Fist (Super Punch)
+item.multitool_joule.name=Power Fist (Giga Joule)
+item.multitool_decon.name=Power Fist (Decontaminator)
+
+item.australium_iii.name=Mark III Life Extender
+item.australium_iv.name=Mark IV Life Extender
+item.australium_v.name=Mark V Life Extender
+
+item.weapon_saw.name=Doctor Assisted Homicide
+item.weapon_bat.name=Richard's Default
+item.weapon_bat_nail.name=The Cliché
+item.weapon_golf_club.name=Russian Mobster's Club
+item.weapon_pipe_rusty.name=The Attitude Adjuster
+item.weapon_pipe_lead.name=The Manual Override
+item.reer_graar.name=The Reer Graar
+
 item.letter.name=Express Mail
+item.polaroid.name=The Polaroid
+
+item.crystal_horn.name=Crystal Horn
+item.crystal_charred.name=Charred Crystal
+item.ingot_lanthanium.name=Semi-Stable Lanthanium Ingot
+item.ingot_actinium.name=Semi-Stable Actinium Ingot
+
+tile.dummy_block.name=Dummy Block
+tile.dummy_port.name=Dummy Block (Electricity Port)
 
 item.chopper.name=Hunter Chopper
-=======
-<<<<<<< HEAD
-item.letter.name=Express Mail
 
-item.chopper.name=Hunter Chopper
-=======
-item.letter.name=Express Mail
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+tile.crystal_virus.name=Dark Crystal
+tile.crystal_hardened.name=Hardened Dark Crystal
+
+tile.cheater_virus.name=Gelid Euphemium
+tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

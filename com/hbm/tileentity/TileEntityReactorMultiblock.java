@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.MachineGenerator;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;

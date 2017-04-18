@@ -21,7 +21,8 @@ public class ItemCustomLore extends ItemRadioactive {
 	{
 		if(this == ModItems.flame_pony)
 		{
-			list.add("Blue horse beats yellow horse, look it up!");
+			//list.add("Blue horse beats yellow horse, look it up!");
+			list.add("Yellow horse beats blue horse, that's a proven fact!");
 		}
 		if(this == ModItems.flame_conspiracy)
 		{
@@ -29,7 +30,7 @@ public class ItemCustomLore extends ItemRadioactive {
 		}
 		if(this == ModItems.flame_politics)
 		{
-			list.add("Donald Drumpf 4 president!");
+			list.add("Donald Duck will build the wall!");
 		}
 		if(this == ModItems.flame_opinion)
 		{
@@ -275,6 +276,11 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("A quad fuel rod which contains a");
 			list.add("very small ammount of a strange new element.");
+			list.add("");
+			list.add("If you tell anybody about this, I will");
+			list.add("tear your living guts out and use them to");
+			list.add("grease the treads of my tank.");
+			list.add("Got that? Good.");
 		}
 		
 		if(this == ModItems.ingot_euphemium)
@@ -363,6 +369,16 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("Say what?");
 		}
+		
+		if(this == ModItems.crystal_horn)
+		{
+			list.add("Not an actual horn.");
+		}
+		
+		if(this == ModItems.crystal_charred)
+		{
+			list.add("High quality silicate, slightly burned.");
+		}
 	}
 
     @Override
@@ -378,7 +394,7 @@ public class ItemCustomLore extends ItemRadioactive {
     		return EnumRarity.rare;
     	}
     	
-    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || this == ModItems.gun_mp_ammo || this == ModItems.powder_power)
+    	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || this == ModItems.gun_mp_ammo || this == ModItems.powder_power || this == ModItems.ingot_australium || this == ModItems.ingot_weidanium || this == ModItems.ingot_reiium || this == ModItems.ingot_unobtainium || this == ModItems.ingot_daffergon || this == ModItems.ingot_verticium || this == ModItems.nugget_australium || this == ModItems.nugget_weidanium || this == ModItems.nugget_reiium || this == ModItems.nugget_unobtainium || this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium)
     	{
     		return EnumRarity.uncommon;
     	}

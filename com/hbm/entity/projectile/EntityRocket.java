@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import java.util.List;
 
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -258,7 +259,8 @@ public class EntityRocket extends Entity implements IProjectile
 
             if (!this.worldObj.isRemote)
             {
-            	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+            	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+            	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
                 /*EntityNukeExplosionAdvanced explosion = new EntityNukeExplosionAdvanced(this.worldObj);
                 explosion.speed = 25;
                 explosion.coefficient = 5.0F;
@@ -391,7 +393,8 @@ public class EntityRocket extends Entity implements IProjectile
                         {
                             if (!this.worldObj.isRemote)
                             {
-                            	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+                            	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+                            	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
                             }
                         	this.setDead();
                         }
@@ -400,7 +403,8 @@ public class EntityRocket extends Entity implements IProjectile
                     {
                         if (!this.worldObj.isRemote)
                         {
-                        	this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+                        	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
+                        	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
                         }
                     	this.setDead();
                     }

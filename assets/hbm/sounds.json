@@ -14,6 +14,7 @@
 	"weapon.tauChargeLoop2": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop2", "stream": true}]},
 	"weapon.revolverShoot": {"category": "player", "sounds": [{"name": "weapon/revolverShoot", "stream": false}]},
 	"weapon.heavyShoot": {"category": "player", "sounds": [{"name": "weapon/heavyShoot", "stream": false}]},
+	"weapon.shotgunShoot": {"category": "player", "sounds": [{"name": "weapon/shotgunShoot", "stream": false}]},
 	"weapon.schrabidiumShoot": {"category": "player", "sounds": [{"name": "weapon/schrabidiumShoot", "stream": false}]},
 	"weapon.osiprShoot": {"category": "player", "sounds": [{"name": "weapon/osiprShoot", "stream": false}]},
 	"weapon.osiprAltFire": {"category": "player", "sounds": [{"name": "weapon/osiprAltFire", "stream": false}]},
@@ -23,14 +24,11 @@
 	"weapon.rpgShoot": {"category": "player", "sounds": [{"name": "weapon/rpgShoot", "stream": false}]},
 	"weapon.fatmanShoot": {"category": "player", "sounds": [{"name": "weapon/fatmanShoot", "stream": false}]},
 	"weapon.zomgShoot": {"category": "player", "sounds": [{"name": "weapon/zomgShoot", "stream": false}]},
-<<<<<<< HEAD
 	"weapon.flamethrowerIgnite": {"category": "player", "sounds": [{"name": "weapon/flamethrowerIgnite", "stream": false}]},
 	"weapon.flamethrowerShoot": {"category": "player", "sounds": [{"name": "weapon/flamethrowerShoot", "stream": false}]},
 	"weapon.immolatorIgnite": {"category": "player", "sounds": [{"name": "weapon/immolatorIgnite", "stream": false}]},
 	"weapon.immolatorShoot": {"category": "player", "sounds": [{"name": "weapon/immolatorShoot", "stream": false}]},
 	"weapon.cryolatorShoot": {"category": "player", "sounds": [{"name": "weapon/cryolatorShoot", "stream": false}]},
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 	"entity.chopperFlyingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperFlyingLoop", "stream": true}]},
 	"entity.chopperDrop": {"category": "hostile", "sounds": [{"name": "entity/chopperDrop", "stream": false}]},

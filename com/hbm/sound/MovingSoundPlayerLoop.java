@@ -9,20 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class MovingSoundPlayerLoop extends MovingSound {
-<<<<<<< HEAD
 
 	public static List<MovingSoundPlayerLoop> globalSoundList = new ArrayList<MovingSoundPlayerLoop>();
 	public List<Entity> playerForSound = new ArrayList<Entity>();
-=======
-<<<<<<< HEAD
-
-	public static List<MovingSoundPlayerLoop> globalSoundList = new ArrayList<MovingSoundPlayerLoop>();
-	public List<Entity> playerForSound = new ArrayList<Entity>();
-=======
-	
-	public static List<MovingSoundPlayerLoop> globalSoundList = new ArrayList<MovingSoundPlayerLoop>();
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 	public Entity player;
 	public enum EnumHbmSound { soundTauLoop, soundChopperLoop, soundCrashingLoop, soundMineLoop };
 	public EnumHbmSound type;
@@ -52,14 +41,6 @@ public abstract class MovingSoundPlayerLoop extends MovingSound {
 	}
 	
 	public void stop() {
-<<<<<<< HEAD
-		
-=======
-<<<<<<< HEAD
-		
-=======
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 		this.donePlaying = true;
 		this.repeat = false;
 		while(MovingSoundPlayerLoop.getSoundByPlayer(player, type) != null)

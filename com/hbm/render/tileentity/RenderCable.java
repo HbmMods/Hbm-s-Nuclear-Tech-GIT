@@ -70,8 +70,8 @@ public class RenderCable extends TileEntitySpecialRenderer {
 			tesseract.addVertexWithUV(1 - 11 * pixel / 2, 11 * pixel / 2, 1 - 11 * pixel / 2, 0 * textureP, 5 * textureP);
 		tesseract.draw();
 		
-		// M�hsam muss ich hier im BSH meine genialen Mods schreiben, obwohl ich die Zeit eigentlich doch besser nutzen k�nnte.
-		// Da mir das aber Spa� macht, wird auch in Zukunft gutes Zeug von mir geben (und damit meine ich NICHT Drogen, etc.)
+		// Muehsam muss ich hier im BSH meine genialen Mods schreiben, obwohl ich die Zeit eigentlich doch besser nutzen koennte.
+		// Da mir das aber Spass macht, wird auch in Zukunft gutes Zeug von mir geben (und damit meine ich NICHT Drogen, etc.)
 		// Danke.
 		
 		//I didn't write this, but I'm gonna leave it there.

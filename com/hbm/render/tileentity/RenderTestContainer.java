@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.blocks.TestContainer;
+import com.hbm.blocks.test.TestContainer;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityTestContainer;
 

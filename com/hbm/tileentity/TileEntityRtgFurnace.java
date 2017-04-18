@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-import com.hbm.blocks.MachineRtgFurnace;
+import com.hbm.blocks.machine.MachineRtgFurnace;
 import com.hbm.items.ModItems;
 
 public class TileEntityRtgFurnace extends TileEntity implements ISidedInventory {

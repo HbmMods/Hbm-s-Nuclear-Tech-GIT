@@ -7,6 +7,7 @@ import com.hbm.lib.Library;
 import com.hbm.render.model.ModelCloak;
 import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelGoggles;
+import com.hbm.render.model.ModelOxygenMask;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,6 +23,7 @@ public class ArmorModel extends ItemArmor {
 	private ModelGoggles modelGoggles;
 	private ModelGasMask modelGas;
 	private ModelCloak modelCloak;
+	private ModelOxygenMask modelOxy;
 
 	public ArmorModel(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
 		super(armorMaterial, renderIndex, armorType);
@@ -33,6 +35,9 @@ public class ArmorModel extends ItemArmor {
 			return armorType == 0;
 		}
 		if (this == ModItems.gas_mask) {
+			return armorType == 0;
+		}
+		if (this == ModItems.oxy_mask) {
 			return armorType == 0;
 		}
 		if (this == ModItems.cape_test) {
@@ -54,6 +59,9 @@ public class ArmorModel extends ItemArmor {
 			return armorType == 1;
 		}
 		if (this == ModItems.cape_lpkukin) {
+			return armorType == 1;
+		}
+		if (this == ModItems.cape_vertice) {
 			return armorType == 1;
 		}
 		return armorType == 0;
@@ -78,6 +86,14 @@ public class ArmorModel extends ItemArmor {
 				return this.modelGas;
 			}
 		}
+		if (this == ModItems.oxy_mask) {
+			if (armorSlot == 0) {
+				if (this.modelOxy == null) {
+					this.modelOxy = new ModelOxygenMask();
+				}
+				return this.modelOxy;
+			}
+		}
 		if (this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
@@ -86,7 +102,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelCloak;
 			}
 		}
-		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin) {
+		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
@@ -104,6 +120,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (stack.getItem() == ModItems.gas_mask) {
 			return "hbm:textures/models/GasMask.png";
+		}
+		if (stack.getItem() == ModItems.oxy_mask) {
+			return null;
 		}
 		if (stack.getItem() == ModItems.cape_test) {
 			return "hbm:textures/models/TestCape.png";
@@ -125,6 +144,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (stack.getItem() == ModItems.cape_lpkukin && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.LPkukin)) {
 			return "hbm:textures/models/CapeShield.png";
+		}
+		if (stack.getItem() == ModItems.cape_vertice && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.LordVertice)) {
+			return "hbm:textures/models/CapeVertice_2.png";
 		}
 		return "hbm:textures/models/CapeUnknown.png";
 	}
@@ -149,6 +171,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (itemstack.getItem() == ModItems.cape_lpkukin) {
 			list.add("Only works for LPkukin");
+		}
+		if (itemstack.getItem() == ModItems.cape_vertice) {
+			list.add("Only works for LordVertice");
 		}
 	}
 }

@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityRainbow;
@@ -11,6 +12,8 @@ import com.hbm.lib.Library;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -208,5 +211,12 @@ public class GunZOMG extends Item {
 		list.add("Damage: 35 - 45");
 		list.add("Energy Damage: 10000 - 100000");
 		list.add("Energy projectiles destroy blocks.");
+	}
+
+	public Multimap getItemAttributeModifiers() {
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 6, 0));
+		return multimap;
 	}
 }

@@ -14,8 +14,8 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.MachineCoal;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;

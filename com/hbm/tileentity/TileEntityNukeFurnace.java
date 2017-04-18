@@ -1,6 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.MachineNukeFurnace;
+import com.hbm.blocks.machine.MachineNukeFurnace;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
 import com.hbm.items.special.ItemFuelRod;

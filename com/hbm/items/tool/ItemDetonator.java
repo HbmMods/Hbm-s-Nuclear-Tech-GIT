@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.NukeGadget;
+import com.hbm.blocks.bomb.NukeGadget;
 import com.hbm.interfaces.IBomb;
 
 import net.minecraft.entity.player.EntityPlayer;

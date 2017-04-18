@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Multimap;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.projectile.EntityBullet;
@@ -13,6 +14,8 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -134,11 +137,18 @@ public class GunEMPRay extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Hold right mouse buttom");
+		list.add("Hold right mouse button");
 		list.add("to shoot ball lightning,");
 		list.add("sneak to create EMP wave!");
 		list.add("");
 		list.add("Ammo: Energy Cell");
 		list.add("Damage: 25 - 35");
+	}
+
+	public Multimap getItemAttributeModifiers() {
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+		return multimap;
 	}
 }

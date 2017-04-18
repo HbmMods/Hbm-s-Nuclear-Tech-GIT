@@ -12,6 +12,7 @@ import com.hbm.gui.container.ContainerElectricFurnace;
 import com.hbm.gui.container.ContainerFWatzCore;
 import com.hbm.gui.container.ContainerFusionMultiblock;
 import com.hbm.gui.container.ContainerGenerator;
+import com.hbm.gui.container.ContainerIGenerator;
 import com.hbm.gui.container.ContainerLaunchPadTier1;
 import com.hbm.gui.container.ContainerMachineBattery;
 import com.hbm.gui.container.ContainerMachineCMBFactory;
@@ -22,6 +23,7 @@ import com.hbm.gui.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.gui.container.ContainerMachineShredder;
 import com.hbm.gui.container.ContainerMachineTeleporter;
 import com.hbm.gui.container.ContainerNukeBoy;
+import com.hbm.gui.container.ContainerNukeCustom;
 import com.hbm.gui.container.ContainerNukeFleija;
 import com.hbm.gui.container.ContainerNukeFurnace;
 import com.hbm.gui.container.ContainerNukeGadget;
@@ -32,6 +34,7 @@ import com.hbm.gui.container.ContainerNukeTsar;
 import com.hbm.gui.container.ContainerPuF6Tank;
 import com.hbm.gui.container.ContainerReactor;
 import com.hbm.gui.container.ContainerReactorMultiblock;
+import com.hbm.gui.container.ContainerReiXMainframe;
 import com.hbm.gui.container.ContainerRtgFurnace;
 import com.hbm.gui.container.ContainerTestNuke;
 import com.hbm.gui.container.ContainerUF6Tank;
@@ -43,6 +46,7 @@ import com.hbm.gui.gui.GUICoreAdvanced;
 import com.hbm.gui.gui.GUICoreTitanium;
 import com.hbm.gui.gui.GUIFWatzCore;
 import com.hbm.gui.gui.GUIFusionMultiblock;
+import com.hbm.gui.gui.GUIIGenerator;
 import com.hbm.gui.gui.GUILaunchPadTier1;
 import com.hbm.gui.gui.GUIMachineBattery;
 import com.hbm.gui.gui.GUIMachineCMBFactory;
@@ -59,6 +63,7 @@ import com.hbm.gui.gui.GUIMachineShredder;
 import com.hbm.gui.gui.GUIMachineTeleporter;
 import com.hbm.gui.gui.GUIMachineUF6Tank;
 import com.hbm.gui.gui.GUINukeBoy;
+import com.hbm.gui.gui.GUINukeCustom;
 import com.hbm.gui.gui.GUINukeFleija;
 import com.hbm.gui.gui.GUINukeFurnace;
 import com.hbm.gui.gui.GUINukeGadget;
@@ -67,6 +72,7 @@ import com.hbm.gui.gui.GUINukeMike;
 import com.hbm.gui.gui.GUINukePrototype;
 import com.hbm.gui.gui.GUINukeTsar;
 import com.hbm.gui.gui.GUIReactorMultiblock;
+import com.hbm.gui.gui.GUIReiXMainframe;
 import com.hbm.gui.gui.GUIRtgFurnace;
 import com.hbm.gui.gui.GUITestDiFurnace;
 import com.hbm.gui.gui.GUITestNuke;
@@ -79,6 +85,7 @@ import com.hbm.tileentity.TileEntityCoreTitanium;
 import com.hbm.tileentity.TileEntityDiFurnace;
 import com.hbm.tileentity.TileEntityFWatzCore;
 import com.hbm.tileentity.TileEntityFusionMultiblock;
+import com.hbm.tileentity.TileEntityIGenerator;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineCMBFactory;
@@ -95,6 +102,7 @@ import com.hbm.tileentity.TileEntityMachineShredder;
 import com.hbm.tileentity.TileEntityMachineTeleporter;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.TileEntityNukeBoy;
+import com.hbm.tileentity.TileEntityNukeCustom;
 import com.hbm.tileentity.TileEntityNukeFleija;
 import com.hbm.tileentity.TileEntityNukeFurnace;
 import com.hbm.tileentity.TileEntityNukeGadget;
@@ -103,6 +111,7 @@ import com.hbm.tileentity.TileEntityNukeMike;
 import com.hbm.tileentity.TileEntityNukePrototype;
 import com.hbm.tileentity.TileEntityNukeTsar;
 import com.hbm.tileentity.TileEntityReactorMultiblock;
+import com.hbm.tileentity.TileEntityReiXMainframe;
 import com.hbm.tileentity.TileEntityRtgFurnace;
 import com.hbm.tileentity.TileEntityTestNuke;
 import com.hbm.tileentity.TileEntityWatzCore;
@@ -400,6 +409,30 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
 				}
 			}
+
+			case ModBlocks.guiID_nuke_custom:
+			{
+				if(entity instanceof TileEntityNukeCustom)
+				{
+					return new ContainerNukeCustom(player.inventory, (TileEntityNukeCustom) entity);
+				}
+			}
+
+			case ModBlocks.guiID_machine_reix_mainframe:
+			{
+				if(entity instanceof TileEntityReiXMainframe)
+				{
+					return new ContainerReiXMainframe(player.inventory, (TileEntityReiXMainframe) entity);
+				}
+			}
+
+			case ModBlocks.guiID_machine_industrial_generator:
+			{
+				if(entity instanceof TileEntityIGenerator)
+				{
+					return new ContainerIGenerator(player.inventory, (TileEntityIGenerator) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -690,6 +723,30 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineTeleporter)
 					{
 						return new GUIMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_nuke_custom:
+				{
+					if(entity instanceof TileEntityNukeCustom)
+					{
+						return new GUINukeCustom(player.inventory, (TileEntityNukeCustom) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_reix_mainframe:
+				{
+					if(entity instanceof TileEntityReiXMainframe)
+					{
+						return new GUIReiXMainframe(player.inventory, (TileEntityReiXMainframe) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_industrial_generator:
+				{
+					if(entity instanceof TileEntityIGenerator)
+					{
+						return new GUIIGenerator(player.inventory, (TileEntityIGenerator) entity);
 					}
 				}
 			}

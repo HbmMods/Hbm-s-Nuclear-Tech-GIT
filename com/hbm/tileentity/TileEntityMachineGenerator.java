@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.MachineGenerator;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IConductor;

@@ -1,6 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.MachineDiFurnace;
+import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.gui.MachineRecipes;
 import com.hbm.items.ModItems;
 

@@ -2,8 +2,8 @@ package com.hbm.items.special;
 
 import java.util.Random;
 
-import com.hbm.blocks.BlockCrashedBomb;
-import com.hbm.blocks.LaunchPad;
+import com.hbm.blocks.bomb.BlockCrashedBomb;
+import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;

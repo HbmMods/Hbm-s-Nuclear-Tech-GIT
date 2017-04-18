@@ -11,7 +11,7 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderNukeGadget extends TileEntitySpecialRenderer {
-	
+
 	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TheGadget3.obj");
 	private IModelCustom gadgetModel;
     private ResourceLocation gadgetTexture;

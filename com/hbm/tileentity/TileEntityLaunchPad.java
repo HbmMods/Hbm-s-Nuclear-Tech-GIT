@@ -1,6 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.LaunchPad;
+import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;

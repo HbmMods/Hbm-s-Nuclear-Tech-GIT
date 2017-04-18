@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.items.ModItems;
@@ -15,6 +16,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -170,6 +173,13 @@ public class GunXVL1456 extends Item {
 		list.add("Damage: 25 - 65");
 		list.add("Charged Damage: 40 - 400");
 		list.add("Projectiles penetrate walls.");
+	}
+
+	public Multimap getItemAttributeModifiers() {
+		Multimap multimap = super.getItemAttributeModifiers();
+		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
+				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 6, 0));
+		return multimap;
 	}
 
 }

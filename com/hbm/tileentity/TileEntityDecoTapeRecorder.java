@@ -1,6 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.DecoTapeRecorder;
+import com.hbm.blocks.generic.DecoTapeRecorder;
 
 import net.minecraft.tileentity.TileEntity;
 

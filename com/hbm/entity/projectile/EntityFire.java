@@ -325,7 +325,7 @@ public class EntityFire extends Entity implements IProjectile
                     }
                     else
                     {
-                        damagesource = ModDamageSource.causeFireDamage(this, this);
+                        damagesource = ModDamageSource.causeFireDamage(this, this.shootingEntity);
                     }
 
                     if (!(movingobjectposition.entityHit instanceof EntityEnderman) && this.ticksExisted >= 5)

@@ -19,23 +19,18 @@ death.attack.chopperBullet=%1$s wurde von %2$s gerekt.
 death.attack.cmb=%1$s wurde von %2$s pulverisiert.
 death.attack.subAtomic=%1$s's Atome wurden von %2$s vernichtet.
 death.attack.subAtomic2=%1$s verließ das QPU-Gitter weil %2$s seine De-Facto-Geschwindigkeit manipulierte.
-<<<<<<< HEAD
 death.attack.subAtomic3=%1$s's Divergenzwert fiel wegen %2$s unter 1 Prozent.
-=======
-death.attack.subAtomic3=%1$s's Divergenzwert fiel wegen %2$s unter den 1%-Wert.
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 death.attack.subAtomic4=%1$s wurde von %2$s durch null geteilt.
 death.attack.subAtomic5=%1$s wurde von %2$s nullifiziert.
 death.attack.radiation=%1$s starb an Strahlenvergiftung.
 death.attack.acid=%1$s fiel in Säure.
 death.attack.suicide=%1$s blies sich die Rübe weg.
-<<<<<<< HEAD
 death.attack.electrified=%1$s wurde von %2$s elektrisiert.
 death.attack.flamethrower=%1$s wurde von %2$s gegrillt.
 death.attack.plasma=%1$s wurde von %2$s eingeäschert.
 death.attack.ice=%1$s wurde von %2$s in ein Eis am Stiel verwandelt.
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+death.attack.cheater=%1$s starb als dreckiger Cheater. Spiel fair, oder verpiss dich!
+death.attack.laser=%1$s wurde von %2$s in Asche verwandet.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -81,6 +76,7 @@ container.nukeMike=Ivy Mike
 container.nukeTsar=Tsar Bombe
 container.nukeFleija=F.L.E.I.J.A.
 container.nukePrototype=Der Prototyp
+container.nukeCustom=Anpassbare Bombe
 
 container.bombMulti=Mehrzweckbombe
 
@@ -91,6 +87,7 @@ tile.nuke_mike.name=Ivy Mike
 tile.nuke_tsar.name=Tsar Bombe
 tile.nuke_fleija.name=F.L.E.I.J.A.
 tile.nuke_prototype.name=Der Prototyp
+tile.nuke_custom.name=Anpassbare Bombe
 
 tile.bomb_multi.name=Mehrzweckbombe
 
@@ -140,11 +137,19 @@ tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
 container.machine_schrabidium_transmutator=Schrabidium-Transmutationsgerät
 tile.machine_diesel.name=Dieselgenerator
 container.machineDiesel=Dieselgenerator
-tile.machine_shredder.name=Shredder
-container.machineShredder=Shredder
+tile.machine_shredder.name=Brecher
+container.machineShredder=Brecher
 tile.machine_combine_factory.name=CMB-Stahl Hochofen
 container.machineCMB=CMB-Stahl Hochofen
 tile.machine_teleporter.name=Teleporter
+container.teleporter=Teleporter
+tile.machine_reix_mainframe.name=Rei-X Hauptrechner
+container.reix=Rei-X Hauptrechner
+tile.machine_industrial_generator.name=Industrieller Generator
+container.iGenerator=Industrieller Generator
+
+tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
+tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
 
 tile.factory_titanium_hull.name=Einfache Fabrikshülle
 tile.factory_titanium_furnace.name=Einfache Fabrikzugriffsluke
@@ -192,6 +197,16 @@ tile.fwatz_hatch.name=Watzwerkzugriffsluke
 tile.fwatz_computer.name=Watzwerkrechenmatrix
 tile.fwatz_core.name=Fusionarer Watzwerkkern
 tile.fwatz_plasma.name=Destabilisiertes Antischrabidiumplasma
+container.fusionaryWatzPlant=Fusionares Watzwerk
+
+tile.machine_rtg_grey.name=Radioisotopengenerator
+tile.machine_rtg_red.name=Fulminationsgenerator
+tile.machine_rtg_orange.name=Starker RTG
+tile.machine_rtg_yellow.name=Australium Supergenerator
+tile.machine_rtg_green.name=Verticium-Reichtumsgenerator
+tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator
+tile.machine_rtg_blue.name=Convectionsgenerator
+tile.machine_rtg_purple.name=Paarvernichtungsgenerator
 
 item.fuse.name=Sicherung
 
@@ -220,11 +235,14 @@ item.plate_schrabidium.name=Schrabidiumplatte
 item.ingot_schrabidium.name=Schrabidiumbarren
 item.nugget_schrabidium.name=Schrabidiumnugget
 item.plate_copper.name=Kupferplatte
+item.board_copper.name=Kupfertafel
 item.ingot_advanced_alloy.name=Fortgeschrittene Legierung
 item.plate_advanced_alloy.name=Fortgeschrittene Legierungsplatte
 item.wire_advanced_alloy.name=Supraleiter
 item.coil_advanced_alloy.name=Supraleitende Magnetspule
 item.coil_advanced_torus.name=Supraleitende Ringspule
+item.coil_gold.name=Goldspule
+item.coil_gold_torus.name=Goldene Ringspule
 item.lithium.name=Lithiumwürfel
 item.ingot_magnetized_tungsten.name=Magnetisierter Wolframbarren
 item.ingot_combine_steel.name=CMB-Stahlbarren
@@ -233,6 +251,19 @@ item.wire_magnetized_tungsten.name=4000K Hochtemperaturensupraleiter
 item.coil_magnetized_tungsten.name=4000K Hochtemperaturensupraleitermagnetspule
 item.plate_mixed.name=Gemischte Platte
 item.plate_paa.name=PaA-Legierungsplatte
+
+item.ingot_australium.name=Australiumbarren
+item.ingot_weidanium.name=Weidaniumbarren
+item.ingot_reiium.name=Reiiumbarren
+item.ingot_unobtainium.name=Unobtainiumbarren
+item.ingot_daffergon.name=Daffergonbarren
+item.ingot_verticium.name=Verticiumbarren
+item.nugget_australium.name=Australiumnugget
+item.nugget_weidanium.name=Weidaniumnugget
+item.nugget_reiium.name=Reiiumnugget
+item.nugget_unobtainium.name=Unobtainiumnugget
+item.nugget_daffergon.name=Daffergonnugget
+item.nugget_verticium.name=Verticiumnugget
 
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget
@@ -270,13 +301,16 @@ tile.block_trinitite.name=Trinititblock
 tile.block_beryllium.name=Berylliumblock
 tile.block_waste.name=Atommüllblock
 tile.block_scrap.name=Schrottblock
-<<<<<<< HEAD
 tile.block_electrical_scrap.name=Elektroschrottblock
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 tile.block_advanced_alloy.name=Fortgeschrittener Legierungsblock
 tile.block_magnetized_tungsten.name=Magnetisierter Wolframblock
 tile.block_combine_steel.name=CMB-Stahlblock
+tile.block_australium.name=Australiumblock
+tile.block_weidanium.name=Weidaniumblock
+tile.block_reiium.name=Reiiumblock
+tile.block_unobtainium.name=Unobtainiumblock
+tile.block_daffergon.name=Daffergonblock
+tile.block_verticium.name=Verticiumblock
 
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_copper.name=Kupfererz
@@ -296,6 +330,13 @@ tile.ore_nether_sulfur.name=Nether-Schwefelerz
 tile.ore_nether_fire.name=Feuererz
 tile.ore_nether_schrabidium.name=Nether-Schrabidiumerz
 
+tile.ore_australium.name=Australisches Erz
+tile.ore_weidanium.name=Weidit
+tile.ore_reiium.name=Reiit
+tile.ore_unobtainium.name=Glimmerblende
+tile.ore_daffergon.name=Dellit
+tile.ore_verticium.name=Dollargrünes Mineral
+
 tile.reinforced_brick.name=Verstärkter Stein
 tile.reinforced_glass.name=Verstärktes Glas
 tile.reinforced_sand.name=Verstärkter Sandstein
@@ -311,6 +352,10 @@ tile.cmb_brick.name=CMB-Stahlfliese
 tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
 
 tile.gravel_obsidian.name=Gebrochener Obsidian
+
+tile.seal_frame.name=Siloluke (Rahmen)
+tile.seal_controller.name=Silolukenöffner
+tile.seal_hatch.name=Siloluke (Deckel)
 
 item.nugget_uranium.name=Urannugget
 item.nugget_plutonium.name=Plutoniumnugget
@@ -350,10 +395,19 @@ item.powder_iodine.name=Iodstaub
 item.powder_thorium.name=Thoriumstaub
 item.powder_neodymium.name=Neodymstaub
 item.powder_astatine.name=Astatstaub
-<<<<<<< HEAD
 item.powder_caesium.name=Caesiumstaub
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+item.powder_australium.name=Australiumstaub
+item.powder_weidanium.name=Weidaniumstaub
+item.powder_reiium.name=Reiiumstaub
+item.powder_unobtainium.name=Unobtainiumstaub
+item.powder_daffergon.name=Daffergonstaub
+item.powder_verticium.name=Verticiumstaub
+item.powder_strontium.name=Strontiumstaub
+item.powder_cobalt.name=Cobaltstaub
+item.powder_bromine.name=Bromstaub
+item.powder_niobium.name=Niobstaub
+item.powder_tennessine.name=Tennessinstaub
+item.powder_cerium.name=Cerstaub
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -381,6 +435,8 @@ item.filter_coal.name=Aktivkohlefilter
 item.tritium_deuterium_cake.name=Tritium-Deuterium-Kuchen
 item.telepad.name=Teleplatte
 item.entanglement_kit.name=Verschränkungskit
+item.toothpicks.name=Zahnstocher
+item.ducttape.name=Klebeband
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -405,7 +461,10 @@ item.inf_diesel.name=Unendlicher Dieseltank
 item.inf_antimatter.name=Unendlicher Antimaterietank
 item.inf_antischrabidium.name=Unendlicher Antischrabidiumtank
 
+item.oil_canola.name=Rohes Canola-Öl
+
 item.canister_empty.name=Leerer Kanister
+item.canister_canola.name=Schmiermittelkanister
 item.canister_fuel.name=Treibstoffkanister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Oktan Supertreibstoff
@@ -421,6 +480,13 @@ item.rod_pu240.name=Pu240-Brennstab
 item.rod_neptunium.name=Neptuniumbrennstab
 item.rod_lead.name=Bleistab
 item.rod_schrabidium.name=Schrabidiumbrennstab
+item.rod_astatine.name=Euphemiumbrennstab
+item.rod_australium.name=Australiumbrennstab
+item.rod_weidanium.name=Weidaniumbrennstab
+item.rod_reiium.name=Reiiumbrennstab
+item.rod_unobtainium.name=Unobtainiumbrennstab
+item.rod_daffergon.name=Daffergonbrennstab
+item.rod_verticium.name=Verticiumbrennstab
 
 item.rod_dual_empty.name=Leerer Doppelbrennstab
 item.rod_dual_uranium.name=Urandoppelbrennstab
@@ -472,7 +538,9 @@ item.flame_politics.name=Politisches Thema
 item.flame_opinion.name=Eigene Meinung
 
 item.pellet_cluster.name=Explosive Pellets
+item.pellet_buckshot.name=Schrotkugeln
 item.powder_fire.name=Flammenpulver
+item.powder_ice.name=Kryopulver
 item.powder_poison.name=Giftpulver
 item.pellet_gas.name=Giftgaskatusche
 item.magnetron.name=Magnetron
@@ -524,6 +592,7 @@ item.grenade_flare.name=Blendgranate
 item.grenade_electric.name=Blitzbombe
 item.grenade_poison.name=Giftgranate
 item.grenade_gas.name=Gasgranate
+item.grenade_pulse.name=Impulsgranate
 item.grenade_plasma.name=Plasmagranate
 item.grenade_tau.name=Taugranate
 item.grenade_schrabidium.name=Schrabidiumgranate
@@ -533,6 +602,7 @@ item.grenade_aschrab.name=Werfbare Antischrabidiumzelle
 item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
 item.grenade_zomg.name=Negativenergie-Paarvernichtungsgranate
+item.ullapool_caber.name=Ullapool'sche Stiel
 
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
@@ -597,23 +667,27 @@ item.gun_revolver_gold.name=Goldener Revolver
 item.gun_revolver_lead.name=Nuka-Revolver
 item.gun_revolver_schrabidium.name=Schrabidiumrevolver
 item.gun_revolver_cursed.name=Verfluchte Pistole
+item.gun_revolver_nightmare.name=Nightmare-Revolver (Original)
+item.gun_revolver_nightmare2.name=Nightmare-Revolver (Dunkel)
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
 item.gun_bf.name=M42_2 Nukleares Katapult "Antimaterienwerfer"
 item.gun_mp40.name=Maschinenpistole
+item.gun_uboinik.name=Ubojnik
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
-<<<<<<< HEAD
 item.gun_immolator.name=Der Immolator
 item.gun_cryolator.name=Der Cryolator
-=======
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 item.gun_mp.name=Maschinengewehr des Pazifisten
 item.gun_zomg.name=Singularitätsbetriebener Paarvernichtungsstrahl "ZOMG Kanone"
 item.gun_emp.name=EMP-Strahler
 item.gun_super_shotgun.name=Super Shotgun
 item.gun_moist_nugget.name=Moisn-Nagant
 item.gun_revolver_inverted.name=Umgedrehter Revolver
+item.gun_jack.name=Jackhammer
+item.gun_spark.name=Die Zündkerze
+item.gun_hp.name=HPP Lazerjet
+item.gun_euthanasia.name=Euthanasia
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
@@ -621,10 +695,13 @@ item.gun_revolver_gold_ammo.name=Goldene Kugel
 item.gun_revolver_lead_ammo.name=Mit Glas umhüllte Atompatrone
 item.gun_revolver_schrabidium_ammo.name=Schrabidiumpatrone
 item.gun_revolver_cursed_ammo.name=Stahlpatrone
+item.gun_revolver_nightmare_ammo.name=Nightmare-Kugel
+item.gun_revolver_nightmare2_ammo.name=Laserschrot
 item.gun_fatman_ammo.name=Miniatombombe
 item.gun_mirv_ammo.name=Achtfaches MIRV
 item.gun_bf_ammo.name=Mk.V kompaktes AMAT-Artilleriegeschoss - Typ B.F.
 item.gun_mp40_ammo.name=SMG-Patrone
+item.gun_uboinik_ammo.name=12x70 Schrotmunition
 item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
 item.gun_osipr_ammo.name=Dunkler Energiepuls-Plug
 item.gun_osipr_ammo2.name=Combine Ball
@@ -632,6 +709,10 @@ item.gun_immolator_ammo.name=Immolatorkraftstoff
 item.gun_cryolator_ammo.name=Kryozelle
 item.gun_mp_ammo.name=Kleine treibmittellose MG-Patrone
 item.gun_emp_ammo.name=Energiezelle
+item.gun_jack_ammo.name=Vierfache Schrotpatrone
+item.gun_spark_ammo.name=Elektromagnetische Katusche
+item.gun_hp_ammo.name=Tintenpatrone
+item.gun_euthanasia_ammo.name=Spritze
 
 item.clip_revolver_iron.name=Box voll Eisenkugeln
 item.clip_revolver.name=.357 Magnum Patronen
@@ -649,7 +730,10 @@ item.clip_mirv.name=Kauf-drei-zahl-eins Packung Mini MIRVs
 item.clip_bf.name=BF-Geschosse im Doppelpack
 item.clip_mp.name=Magazin des Standardsturmgewehrs des Britannischen Militärs
 item.clip_mp40.name=9mm SMG-Magazin
+item.clip_uboinik.name=Schrotpatronenbox
 item.clip_emp.name=Magnetsteifen mit Energiezellen
+item.clip_revolver_nightmare.name=Sack voll Kugeln
+item.clip_revolver_nightmare2.name=Munitionsgürtel mit Laserschrot
 
 tile.block_schrabidium.name=Schrabidiumblock
 item.plate_gold.name=Goldplatte
@@ -686,6 +770,12 @@ item.sphere_steel.name=Stahlhohlkugel
 item.pedestal_steel.name=Stahlsockel
 item.dysfunctional_reactor.name=Funktionsunfähiger Atomreaktor
 
+item.rotor_steel.name=Großer Stahlrotor
+item.generator_steel.name=Generator
+item.blade_titanium.name=Titanturbinenschaufel
+item.turbine_titanium.name=Dampfturbine
+item.generator_front.name=Generatorfront
+
 item.combine_scrap.name=CMB Schrott
 item.chopper_head.name=Jagdschrauber Cockpit
 item.chopper_gun.name=Pulskanone
@@ -696,15 +786,15 @@ item.chopper_blades.name=Jagdschrauber Rotorblätter
 
 item.igniter.name=Zünder
 item.watch.name=Zerbrochene Taschenuhr
-item.apple_euphemium.name=Euphemiumapfel
-item.ingot_euphemium.name=Euphemiumbarren
-item.nugget_euphemium.name=Euphemiumnugget
-item.rod_quad_euphemium.name=Ausgebrannter Schrabidiumvierfachbrennstab
+item.apple_astatine.name=Euphemiumapfel
+item.ingot_astatine.name=Euphemiumbarren
+item.nugget_astatine.name=Euphemiumnugget
+item.rod_quad_astatine.name=Ausgebrannter Schrabidiumvierfachbrennstab
 
-item.euphemium_helmet.name=Euphemiumstiefel
-item.euphemium_plate.name=Euphemiumbrustplatte
-item.euphemium_legs.name=Euphemiumbeinschutz
-item.euphemium_boots.name=Euphemiumstiefel
+item.astatine_helmet.name=Euphemiumstiefel
+item.astatine_plate.name=Euphemiumbrustplatte
+item.astatine_legs.name=Euphemiumbeinschutz
+item.astatine_boots.name=Euphemiumstiefel
 
 item.schrabidium_helmet.name=Schrabidiumhelm
 item.schrabidium_plate.name=Schrabidiumbrustplatte
@@ -752,19 +842,10 @@ item.hazmat_paa_helmet.name=PaA-Kampfschutzanzug Helm
 item.hazmat_paa_plate.name=PaA-Kampfschutzanzug Brustplatte
 item.hazmat_paa_legs.name=PaA-Kampfschutzanzug Hose
 item.hazmat_paa_boots.name=PaA-Kampfschutzanzug Stiefel
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.paa_plate.name=PaA-Brustschutzplatte
 item.paa_legs.name=PaA-Beinverstärkungsschienen
 item.paa_boots.name=PaA-"olle Latschen"
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
 
 item.goggles.name=Schutzbrille
 item.gas_mask.name=Gasmaske
@@ -855,6 +936,7 @@ item.cape_schrabidium.name=Cape (Schrabidisch)
 item.cape_hbm.name=Hbms Cape
 item.cape_dafnik.name=Dafniks Cape
 item.cape_lpkukin.name=LPkukins Cape
+item.cape_vertice.name=Lord Vertices Cape
 
 tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter
@@ -908,6 +990,17 @@ item.can_smart.name='Smart' Energy-Drink
 item.can_creature.name='Creature' Energy-Drink
 item.can_redbomb.name='Red Bomb' Energy-Drink
 item.can_mrsugar.name='Dr. Sugar' Softdrink
+item.can_overcharge.name=Overcharge Delirium XT
+item.bottle_empty.name=Leere bombenförmige Glasflasche
+item.bottle_nuka.name=Nuka-Cola Flasche
+item.bottle_cherry.name=Nuka-Cherry Flasche
+item.bottle_quantum.name=Nuka Cola Quantum
+item.bottle2_empty.name=Leere Glasflasche
+item.bottle2_korl.name=Korl
+item.bottle2_fritz.name=Fritz-Kola
+item.bottle2_korl_special.name=Das erste Korl
+item.bottle2_fritz_special.name=Die erste Fritz-Kola
+item.chocolate_milk.name=Schokomilch
 
 item.blades_aluminium.name=Aluminiumsägeblatt
 item.blades_gold.name=Goldenes Sägeblatt
@@ -918,18 +1011,49 @@ item.blades_advanced_alloy.name=Fortgeschrittenes Sägeblatt
 item.blades_combine_steel.name=CMB-Sägeblatt
 item.blades_schrabidium.name=Schrabidiumsägeblatt
 
-<<<<<<< HEAD
 item.linker.name=Telelinker
 
+item.thermo_element.name=Thermoelektrisches Element
+item.limiter.name=Generator-Limiter
+
+item.multitool_dig.name=Power Fist (Grabklaue)
+item.multitool_silk.name=Power Fist (Behutsamkeitsklaue)
+item.multitool_ext.name=Power Fist (Erzextraktor)
+item.multitool_miner.name=Power Fist (Extrahierender Mininglaser)
+item.multitool_hit.name=Power Fist (Faust)
+item.multitool_beam.name=Power Fist (Zapper)
+item.multitool_sky.name=Power Fist (Crack the Sky)
+item.multitool_mega.name=Power Fist (Superhieb)
+item.multitool_joule.name=Power Fist (Gigajoule)
+item.multitool_decon.name=Power Fist (Dekontaminator)
+
+item.australium_iii.name=Mark III Lebensverlängerer
+item.australium_iv.name=Mark IV Lebensverlängerer
+item.australium_v.name=Mark V Lebensverlängerer
+
+item.weapon_saw.name=Ärztlich autorisierter Mord
+item.weapon_bat.name=Richards Standard
+item.weapon_bat_nail.name=Das Klischee
+item.weapon_golf_club.name=Schläger des russischen Mafiosos
+item.weapon_pipe_rusty.name=Der Einstellungskorrigierer
+item.weapon_pipe_lead.name=Die Handüberbrückung
+item.reer_graar.name=The Reer Graar
+
 item.letter.name=Eilbrief
+item.polaroid.name=Das Polaroid
+
+item.crystal_horn.name=Kristallhorn
+item.crystal_charred.name=Verkohlter Kristall
+item.ingot_lanthanium.name=Semistabiler Lanthanbarren
+item.ingot_actinium.name=Semistabiler Actiniumbarren
+
+tile.dummy_block.name=Dummyblock
+tile.dummy_port.name=Dummyblock (Stromanschluss)
 
 item.chopper.name=Jagdschrauber
-=======
-<<<<<<< HEAD
-item.letter.name=Eilbrief
 
-item.chopper.name=Jagdschrauber
-=======
-item.letter.name=Eilbrief
->>>>>>> 540fb3d256a0f4ae6a8b1db586f8e9cfd6ed7372
->>>>>>> 5525318475377d238c79edc90a14ee8fa48397af
+tile.crystal_virus.name=Dunkler Kristall
+tile.crystal_hardened.name=Gehärteter Dunkler Kristall
+
+tile.cheater_virus.name=Geliertes Euphemium
+tile.cheater_virus_seed.name=Instabiler Euphemiumschrabid-Block

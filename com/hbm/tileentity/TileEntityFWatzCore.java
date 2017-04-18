@@ -352,27 +352,27 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 			if(power - 100 >= 0 && slots[0] != null && slots[0].getItem() == ModItems.battery_generic && slots[0].getItemDamage() > 0)
 			{
 				power -= 100;
-				slots[37].setItemDamage(slots[0].getItemDamage() - 1);
+				slots[0].setItemDamage(slots[0].getItemDamage() - 1);
 			}
 			if(power - 100 >= 0 && slots[0] != null && slots[0].getItem() == ModItems.battery_advanced && slots[0].getItemDamage() > 0)
 			{
 				power -= 100;
-				slots[37].setItemDamage(slots[0].getItemDamage() - 1);
+				slots[0].setItemDamage(slots[0].getItemDamage() - 1);
 			}
 			if(power - 100 >= 0 && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium && slots[0].getItemDamage() > 0)
 			{
 				power -= 100;
-				slots[37].setItemDamage(slots[0].getItemDamage() - 1);
+				slots[0].setItemDamage(slots[0].getItemDamage() - 1);
 			}
 			if(power - 100 >= 0 && slots[0] != null && slots[0].getItem() == ModItems.factory_core_titanium && slots[0].getItemDamage() > 0)
 			{
 				power -= 100;
-				slots[37].setItemDamage(slots[0].getItemDamage() - 1);
+				slots[0].setItemDamage(slots[0].getItemDamage() - 1);
 			}
 			if(power - 100 >= 0 && slots[0] != null && slots[0].getItem() == ModItems.factory_core_advanced && slots[0].getItemDamage() > 0)
 			{
 				power -= 100;
-				slots[37].setItemDamage(slots[0].getItemDamage() - 1);
+				slots[0].setItemDamage(slots[0].getItemDamage() - 1);
 			}
 			if(amat + 1000000 <= maxAmat && slots[3] != null && slots[3].getItem() == ModItems.cell_antimatter)
 			{

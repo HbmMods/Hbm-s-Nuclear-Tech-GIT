@@ -125,6 +125,14 @@ public class ItemClip extends Item {
         	}
 		}
 		
+		if(this == ModItems.clip_uboinik)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uboinik_ammo, 24)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_uboinik_ammo, 24), false);
+        	}
+		}
+		
 		if(this == ModItems.clip_mirv)
 		{
 			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mirv_ammo, 3)))
@@ -160,6 +168,22 @@ public class ItemClip extends Item {
 		if(this == ModItems.clip_emp)
 		{
 			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_emp_ammo, 6)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_revolver_nightmare)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nightmare_ammo, 6)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_revolver_nightmare2)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nightmare2_ammo, 6)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}

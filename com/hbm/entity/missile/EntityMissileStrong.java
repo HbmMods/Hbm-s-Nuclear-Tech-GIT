@@ -1,6 +1,7 @@
 package com.hbm.entity.missile;
 
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -144,7 +145,7 @@ public class EntityMissileStrong extends EntityMissileBase {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 25.0F, true);
+				ExplosionLarge.explode(worldObj, posX, posY, posZ, 25.0F, true, true, true);
     		}
 		this.setDead();
         }

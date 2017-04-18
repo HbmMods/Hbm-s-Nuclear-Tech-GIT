@@ -2,6 +2,7 @@ package com.hbm.entity.missile;
 
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -146,7 +147,7 @@ public class EntityMissileInferno extends EntityMissileBase {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			this.worldObj.newExplosion((Entity)null, (float)this.posX + 0.5F, (float)this.posY + 0.5F, (float)this.posZ + 0.5F, 35.0F, true, true);
+    			ExplosionLarge.explodeFire(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 35.0F, true, true, true);
     			ExplosionChaos.burn(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
     			ExplosionChaos.flameDeath(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25);
     		}
