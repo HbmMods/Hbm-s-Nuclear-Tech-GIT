@@ -218,6 +218,15 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 	public void updateEntity() {
 		
 		if (!worldObj.isRemote) {
+			
+			age++;
+			if(age >= 20)
+			{
+				age = 0;
+			}
+			
+			if(age == 9 || age == 19)
+				ffgeuaInit();
 
 			if(burn > 0) {
 				burn--;
@@ -242,6 +251,8 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 					torque += 5;
 				}
 			}
+
+			heat += (7 * this.canLocateRTG());
 			
 			for(int i = 0; i < this.canLocateThermalElement(); i++) {
 				if(heat >= 10) {
@@ -290,6 +301,7 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 			doFuelTask();
 			doLubeTask();
 			doWaterTask();
+			doBatteryTask();
 		}
 	}
 	
@@ -445,6 +457,34 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 			}
 		}
 	}
+	
+	public void doBatteryTask() {
+		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.battery_generic && slots[15].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.battery_advanced && slots[15].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.battery_schrabidium && slots[15].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.factory_core_titanium && slots[15].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.factory_core_advanced && slots[15].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
+		}
+	}
 
 	public int canLocateThermalElement() {
 		
@@ -456,6 +496,18 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 		}
 		
 		return thermo;
+	}
+
+	public int canLocateRTG() {
+		
+		int rtg = 0;
+		
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null && slots[i].getItem() == ModItems.pellet_rtg)
+				rtg ++;
+		}
+		
+		return rtg;
 	}
 
 	public boolean hasLimiter() {
@@ -582,12 +634,23 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 
 	@Override
 	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
+		int i = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+		if(i == 5) {
+			ffgeua(this.xCoord + 3, this.yCoord, this.zCoord, getTact());
+			ffgeua(this.xCoord - 4, this.yCoord, this.zCoord, getTact());
+		}
+		if(i == 3) {
+			ffgeua(this.xCoord, this.yCoord, this.zCoord + 3, getTact());
+			ffgeua(this.xCoord, this.yCoord, this.zCoord - 4, getTact());
+		}
+		if(i == 4) {
+			ffgeua(this.xCoord + 4, this.yCoord, this.zCoord, getTact());
+			ffgeua(this.xCoord - 3, this.yCoord, this.zCoord, getTact());
+		}
+		if(i == 2) {
+			ffgeua(this.xCoord, this.yCoord, this.zCoord + 4, getTact());
+			ffgeua(this.xCoord, this.yCoord, this.zCoord - 3, getTact());
+		}
 	}
 
 	public boolean getTact() {

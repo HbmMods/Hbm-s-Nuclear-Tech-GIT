@@ -59,6 +59,7 @@ import com.hbm.items.special.ItemTeleLink;
 import com.hbm.items.special.WatzFuel;
 import com.hbm.items.tool.ItemCrateCaller;
 import com.hbm.items.tool.ItemDesingator;
+import com.hbm.items.tool.ItemDesingatorRange;
 import com.hbm.items.tool.ItemDetonator;
 import com.hbm.items.tool.ItemMatch;
 import com.hbm.items.tool.ItemModBucket;
@@ -532,6 +533,7 @@ public class ModItems {
 	public static Item pellet_buckshot;
 
 	public static Item designator;
+	public static Item designator_range;
 	public static Item linker;
 	
 	public static Item missile_generic;
@@ -1339,6 +1341,7 @@ public class ModItems {
 		pellet_advanced = new WatzFuel(216000, 1000, 1.1F, 0, 0.995F, 0.99F).setUnlocalizedName("pellet_advanced").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_advanced").setMaxStackSize(1);
 
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator");
+		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator_range");
 		missile_generic = new Item().setUnlocalizedName("missile_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_generic");
 		missile_anti_ballistic = new Item().setUnlocalizedName("missile_anti_ballistic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_anti_ballistic");
 		missile_incendiary = new Item().setUnlocalizedName("missile_incendiary").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_incendiary");
@@ -2188,11 +2191,12 @@ public class ModItems {
 		
 		//Computer Tools
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
+		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
 		GameRegistry.registerItem(linker, linker.getUnlocalizedName());
 		
 		//Missiles
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());
-		//GameRegistry.registerItem(missile_anti_ballistic, missile_anti_ballistic.getUnlocalizedName());
+		GameRegistry.registerItem(missile_anti_ballistic, missile_anti_ballistic.getUnlocalizedName());
 		GameRegistry.registerItem(missile_incendiary, missile_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(missile_cluster, missile_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(missile_buster, missile_buster.getUnlocalizedName());

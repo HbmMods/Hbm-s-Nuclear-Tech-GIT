@@ -2,6 +2,7 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
 import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileGeneric;
@@ -22,6 +23,7 @@ public class RenderMissileGeneric extends Render {
     private ResourceLocation missileIncendiaryTexture;
     private ResourceLocation missileClusterTexture;
     private ResourceLocation missileBusterTexture;
+    private ResourceLocation missileAATexture;
 	
 	public RenderMissileGeneric() {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
@@ -29,6 +31,7 @@ public class RenderMissileGeneric extends Render {
 		missileIncendiaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileIncendiary.png");
 		missileClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileCluster.png");
 		missileBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileBuster.png");
+		missileAATexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileV2.png");
 	}
 
 	@Override
@@ -47,6 +50,8 @@ public class RenderMissileGeneric extends Render {
         	bindTexture(missileClusterTexture);
         if(p_76986_1_ instanceof EntityMissileBunkerBuster)
         	bindTexture(missileBusterTexture);
+        if(p_76986_1_ instanceof EntityMissileAntiBallistic)
+        	bindTexture(missileAATexture);
         boyModel.renderAll();
 		GL11.glPopMatrix();
 	}

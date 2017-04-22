@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
@@ -234,7 +235,8 @@ public class BombMulti extends BlockContainer implements IBomb {
 
         		entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	world.createExplosion(null, x , y , z , this.explosionValue, true);
+            	//world.createExplosion(null, x , y , z , this.explosionValue, true);
+            	ExplosionLarge.explode(world, x, y, z, explosionValue, true, true, true);
             	this.explosionValue = 0;
         		
         		if(this.clusterCount > 0)

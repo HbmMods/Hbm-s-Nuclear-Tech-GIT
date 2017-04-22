@@ -7,6 +7,7 @@ import com.hbm.blocks.bomb.BombMulti;
 import com.hbm.blocks.bomb.BombThermo;
 import com.hbm.blocks.bomb.CheaterVirus;
 import com.hbm.blocks.bomb.CheaterVirusSeed;
+import com.hbm.blocks.bomb.CrystalPulsar;
 import com.hbm.blocks.bomb.CrystalVirus;
 import com.hbm.blocks.bomb.DetCord;
 import com.hbm.blocks.bomb.LaunchPad;
@@ -423,6 +424,7 @@ public class ModBlocks {
 	public static Block launch_pad_endo;
 	public static Block launch_pad_exo;
 	public static Block launch_pad_mirv;
+	public static Block launch_pad_anti;
 	public static final int guiID_launch_pad = 19;
 
 	public static Block book_guide;
@@ -439,6 +441,7 @@ public class ModBlocks {
 	public static Block cheater_virus_seed;
 	public static Block crystal_virus;
 	public static Block crystal_hardened;
+	public static Block crystal_pulsar;
 
 	public static Block mud_block;
 	public static Fluid mud_fluid;
@@ -708,6 +711,7 @@ public class ModBlocks {
 		launch_pad_endo = new LaunchPad(Material.iron).setBlockName("launch_pad_endo").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad_exo = new LaunchPad(Material.iron).setBlockName("launch_pad_exo").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad_mirv = new LaunchPad(Material.iron).setBlockName("launch_pad_mirv").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_anti = new LaunchPad(Material.iron).setBlockName("launch_pad_anti").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
 		
@@ -720,10 +724,11 @@ public class ModBlocks {
 
 		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 
-		cheater_virus = new CheaterVirus(Material.cloth).setBlockName("cheater_virus").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus");
-		cheater_virus_seed = new CheaterVirusSeed(Material.cloth).setBlockName("cheater_virus_seed").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus_seed");
-		crystal_virus = new CrystalVirus(Material.cloth).setBlockName("crystal_virus").setHardness(15.0F).setResistance(100.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_virus");
-		crystal_hardened = new BlockGeneric(Material.cloth).setBlockName("crystal_hardened").setHardness(15.0F).setResistance(100.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_hardened");
+		cheater_virus = new CheaterVirus(Material.iron).setBlockName("cheater_virus").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus");
+		cheater_virus_seed = new CheaterVirusSeed(Material.iron).setBlockName("cheater_virus_seed").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus_seed");
+		crystal_virus = new CrystalVirus(Material.iron).setBlockName("crystal_virus").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_virus");
+		crystal_hardened = new BlockGeneric(Material.iron).setBlockName("crystal_hardened").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_hardened");
+		crystal_pulsar = new CrystalPulsar(Material.iron).setBlockName("crystal_pulsar").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_pulsar");
 
 		statue_elb = new DecoBlockAlt(Material.iron).setBlockName("#null").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
 		statue_elb_g = new DecoBlockAlt(Material.iron).setBlockName("#void").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
@@ -996,6 +1001,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(launch_pad_endo, launch_pad_endo.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad_exo, launch_pad_exo.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad_mirv, launch_pad_mirv.getUnlocalizedName());
+		GameRegistry.registerBlock(launch_pad_anti, launch_pad_anti.getUnlocalizedName());
 		
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());
@@ -1026,6 +1032,7 @@ public class ModBlocks {
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_hardened, crystal_hardened.getUnlocalizedName());
+		GameRegistry.registerBlock(crystal_pulsar, crystal_pulsar.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus, cheater_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus_seed, cheater_virus_seed.getUnlocalizedName());
 	}

@@ -143,7 +143,7 @@ tile.machine_combine_factory.name=CMB Steel Furnace
 container.machineCMB=CMB Steel Furnace
 tile.machine_teleporter.name=Teleporter
 container.teleporter=Teleporter
-tile.machine_reix_mainframe.name=Rei-X Mainframe
+tile.machine_reix_mainframe.name=Rei-X Mainframe (WIP)
 container.reix=Rei-X Mainframe
 tile.machine_industrial_generator.name=Industrial Generator
 container.iGenerator=Industrial Generator
@@ -587,6 +587,7 @@ item.grenade_generic.name=Grenade
 item.grenade_strong.name=Enhanced Grenade
 item.grenade_frag.name=Frag Grenade
 item.grenade_fire.name=Flame Frag Grenade
+item.grenade_shrapnel.name=Shrapnel Grenade
 item.grenade_cluster.name=Cluster Bomb
 item.grenade_flare.name=Flare Grenade
 item.grenade_electric.name=Lightning Bomb
@@ -812,10 +813,12 @@ item.crowbar.name=Mk.V Crate Opening Device "Crowbar"
 item.mask_of_infamy.name=Mask of Infamy
 
 tile.det_cord.name=Det Cord
+tile.det_charge.name=Explosive Charge
 tile.red_barrel.name=Explosive Barrel
 tile.yellow_barrel.name=Radioactive Barrel
 
 item.designator.name=Short Range Target Designator
+item.designator_range.name=Long Range Target Designator
 item.missile_generic.name=High Explosive Missile
 item.missile_anti_ballistic.name=Anti Ballistic Missile
 item.missile_incendiary.name=Incendiary Missile
@@ -849,6 +852,7 @@ item.paa_boots.name=PaA "good ol' shoes"
 
 item.goggles.name=Protection Goggles
 item.gas_mask.name=Gas Mask
+item.oxy_mask.name=Oxygen Mask
 
 item.t45_helmet.name=T45 Power Armor Helmet
 item.t45_plate.name=T45 Power Armor Chestplate
@@ -1054,6 +1058,7 @@ item.chopper.name=Hunter Chopper
 
 tile.crystal_virus.name=Dark Crystal
 tile.crystal_hardened.name=Hardened Dark Crystal
+tile.crystal_pulsar.name=Pulsating Crystal
 
 tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

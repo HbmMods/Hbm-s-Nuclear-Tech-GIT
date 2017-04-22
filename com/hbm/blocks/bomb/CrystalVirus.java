@@ -19,27 +19,27 @@ public class CrystalVirus extends Block {
     @Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
     	{
-    		if(world.getBlock(x + 1, y, z) != ModBlocks.crystal_virus && world.getBlock(x + 1, y, z) != Blocks.air && world.getBlock(x + 1, y, z) != ModBlocks.crystal_hardened) {
+    		if(world.getBlock(x + 1, y, z) != ModBlocks.crystal_virus && world.getBlock(x + 1, y, z) != Blocks.air && world.getBlock(x + 1, y, z) != ModBlocks.crystal_hardened && world.getBlock(x + 1, y, z) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x + 1, y, z, ModBlocks.crystal_virus);
     		}
     	
-    		if(world.getBlock(x, y + 1, z) != ModBlocks.crystal_virus && world.getBlock(x, y + 1, z) != Blocks.air && world.getBlock(x, y + 1, z) != ModBlocks.crystal_hardened) {
+    		if(world.getBlock(x, y + 1, z) != ModBlocks.crystal_virus && world.getBlock(x, y + 1, z) != Blocks.air && world.getBlock(x, y + 1, z) != ModBlocks.crystal_hardened && world.getBlock(x, y + 1, z) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x, y + 1, z, ModBlocks.crystal_virus);
     		}
     	
-    		if(world.getBlock(x, y, z + 1) != ModBlocks.crystal_virus && world.getBlock(x, y, z + 1) != Blocks.air && world.getBlock(x, y, z + 1) != ModBlocks.crystal_hardened) {
+    		if(world.getBlock(x, y, z + 1) != ModBlocks.crystal_virus && world.getBlock(x, y, z + 1) != Blocks.air && world.getBlock(x, y, z + 1) != ModBlocks.crystal_hardened && world.getBlock(x, y, z + 1) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x, y, z + 1, ModBlocks.crystal_virus);
     		}
     	
-    		if(world.getBlock(x - 1, y, z) != ModBlocks.crystal_virus && world.getBlock(x - 1, y, z) != Blocks.air && world.getBlock(x - 1, y, z) != ModBlocks.crystal_hardened) {
+    		if(world.getBlock(x - 1, y, z) != ModBlocks.crystal_virus && world.getBlock(x - 1, y, z) != Blocks.air && world.getBlock(x - 1, y, z) != ModBlocks.crystal_hardened && world.getBlock(x - 1, y, z) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x - 1, y, z, ModBlocks.crystal_virus);
     		}
     	
-    		if(world.getBlock(x, y - 1, z) != ModBlocks.crystal_virus && world.getBlock(x, y - 1, z) != Blocks.air && world.getBlock(x, y - 1, z) != ModBlocks.crystal_hardened) {
+    		if(world.getBlock(x, y - 1, z) != ModBlocks.crystal_virus && world.getBlock(x, y - 1, z) != Blocks.air && world.getBlock(x, y - 1, z) != ModBlocks.crystal_hardened && world.getBlock(x, y - 1, z) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x, y - 1, z, ModBlocks.crystal_virus);
     		}
     	
-    		if(world.getBlock(x, y, z - 1) != ModBlocks.crystal_virus && world.getBlock(x, y, z - 1) != Blocks.air && world.getBlock(x, y, z - 1) != ModBlocks.crystal_hardened) {
+    		if(world.getBlock(x, y, z - 1) != ModBlocks.crystal_virus && world.getBlock(x, y, z - 1) != Blocks.air && world.getBlock(x, y, z - 1) != ModBlocks.crystal_hardened && world.getBlock(x, y, z - 1) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x, y, z - 1, ModBlocks.crystal_virus);
     		}
 			world.setBlock(x, y, z, ModBlocks.crystal_hardened);
@@ -49,12 +49,12 @@ public class CrystalVirus extends Block {
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
     	
-    	if((world.getBlock(x + 1, y, z) == Blocks.air || world.getBlock(x + 1, y, z) == ModBlocks.crystal_virus || world.getBlock(x + 1, y, z) == ModBlocks.crystal_hardened) && 
-    			(world.getBlock(x - 1, y, z) == Blocks.air || world.getBlock(x - 1, y, z) == ModBlocks.crystal_virus || world.getBlock(x - 1, y, z) == ModBlocks.crystal_hardened) && 
-    			(world.getBlock(x, y + 1, z) == Blocks.air || world.getBlock(x, y + 1, z) == ModBlocks.crystal_virus || world.getBlock(x, y + 1, z) == ModBlocks.crystal_hardened) && 
-    			(world.getBlock(x, y - 1, z) == Blocks.air || world.getBlock(x, y - 1, z) == ModBlocks.crystal_virus || world.getBlock(x, y - 1, z) == ModBlocks.crystal_hardened) && 
-    			(world.getBlock(x, y, z + 1) == Blocks.air || world.getBlock(x, y, z + 1) == ModBlocks.crystal_virus || world.getBlock(x, y, z + 1) == ModBlocks.crystal_hardened) && 
-    			(world.getBlock(x, y, z - 1) == Blocks.air || world.getBlock(x, y, z - 1) == ModBlocks.crystal_virus || world.getBlock(x, y, z - 1) == ModBlocks.crystal_hardened) && 
+    	if((world.getBlock(x + 1, y, z) == Blocks.air || world.getBlock(x + 1, y, z) == ModBlocks.crystal_virus || world.getBlock(x + 1, y, z) == ModBlocks.crystal_hardened || world.getBlock(x + 1, y, z) == ModBlocks.crystal_pulsar) && 
+    			(world.getBlock(x - 1, y, z) == Blocks.air || world.getBlock(x - 1, y, z) == ModBlocks.crystal_virus || world.getBlock(x - 1, y, z) == ModBlocks.crystal_hardened || world.getBlock(x - 1, y, z) == ModBlocks.crystal_pulsar) && 
+    			(world.getBlock(x, y + 1, z) == Blocks.air || world.getBlock(x, y + 1, z) == ModBlocks.crystal_virus || world.getBlock(x, y + 1, z) == ModBlocks.crystal_hardened || world.getBlock(x, y + 1, z) == ModBlocks.crystal_pulsar) && 
+    			(world.getBlock(x, y - 1, z) == Blocks.air || world.getBlock(x, y - 1, z) == ModBlocks.crystal_virus || world.getBlock(x, y - 1, z) == ModBlocks.crystal_hardened || world.getBlock(x, y - 1, z) == ModBlocks.crystal_pulsar) && 
+    			(world.getBlock(x, y, z + 1) == Blocks.air || world.getBlock(x, y, z + 1) == ModBlocks.crystal_virus || world.getBlock(x, y, z + 1) == ModBlocks.crystal_hardened || world.getBlock(x, y, z + 1) == ModBlocks.crystal_pulsar) && 
+    			(world.getBlock(x, y, z - 1) == Blocks.air || world.getBlock(x, y, z - 1) == ModBlocks.crystal_virus || world.getBlock(x, y, z - 1) == ModBlocks.crystal_hardened || world.getBlock(x, y, z - 1) == ModBlocks.crystal_pulsar) && 
     			!world.isRemote) {
 			world.setBlock(x, y, z, ModBlocks.crystal_hardened);
     	}

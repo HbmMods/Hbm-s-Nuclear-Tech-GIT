@@ -1,6 +1,8 @@
 package com.hbm.entity.missile;
 
 import com.hbm.calc.EasyLocation;
+import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 
 import net.minecraft.entity.Entity;
@@ -33,7 +35,7 @@ public class EntityMissileAntiBallistic extends EntityMissileBase {
         {
         	missile0 = ExplosionChaos.getHomingTarget(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25, this);
         }
-        if(missile0 != null && missile == null)
+        if(missile0 != null)
         {
         	missile = new EasyLocation(missile0.posX, missile0.posY, missile0.posZ);
         	this.phase = -1;
@@ -58,7 +60,6 @@ public class EntityMissileAntiBallistic extends EntityMissileBase {
             			}
             			this.setDead();
             			missile0.setDead();
-            			missile0 = null;
             			//ExplosionChaos.delMissiles(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5, (Entity)this);
             		}
         	}
@@ -173,6 +174,8 @@ public class EntityMissileAntiBallistic extends EntityMissileBase {
         	}
         	break;
         }
+        
+        this.worldObj.spawnEntityInWorld(new EntityDSmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
         
         if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air)
         {
