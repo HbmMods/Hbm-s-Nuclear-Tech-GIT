@@ -385,12 +385,26 @@ public class Library {
 	}
 	
 	public static MovingObjectPosition rayTrace(EntityPlayer player, double d, float f) {
-        Vec3 vec3 = player.getPosition(f);
+        Vec3 vec3 = getPosition(f, player);
         vec3.yCoord += player.eyeHeight;
         Vec3 vec31 = player.getLook(f);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * d, vec31.yCoord * d, vec31.zCoord * d);
         return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
 	}
+	
+    public static Vec3 getPosition(float par1, EntityPlayer player) {
+        if (par1 == 1.0F)
+        {
+            return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
+        }
+        else
+        {
+            double d0 = player.prevPosX + (player.posX - player.prevPosX) * (double)par1;
+            double d1 = player.prevPosY + (player.posY - player.prevPosY) * (double)par1 + (player.getEyeHeight() - player.getDefaultEyeHeight());
+            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * (double)par1;
+            return Vec3.createVectorHelper(d0, d1, d2);
+        }
+    }
 	
 	public static List<int[]> getBlockPosInPath(EntityPlayer player, int x, int y, int z, int length, Vec3 vec0) {
 		List<int[]> list = new ArrayList<int[]>();
