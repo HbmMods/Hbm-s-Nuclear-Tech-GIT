@@ -19,6 +19,7 @@ import com.hbm.gui.container.ContainerMachineCMBFactory;
 import com.hbm.gui.container.ContainerMachineCoal;
 import com.hbm.gui.container.ContainerMachineDeuterium;
 import com.hbm.gui.container.ContainerMachineDiesel;
+import com.hbm.gui.container.ContainerMachineRTG;
 import com.hbm.gui.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.gui.container.ContainerMachineShredder;
 import com.hbm.gui.container.ContainerMachineTeleporter;
@@ -57,6 +58,7 @@ import com.hbm.gui.gui.GUIMachineDiesel;
 import com.hbm.gui.gui.GUIMachineElectricFurnace;
 import com.hbm.gui.gui.GUIMachineGenerator;
 import com.hbm.gui.gui.GUIMachinePuF6Tank;
+import com.hbm.gui.gui.GUIMachineRTG;
 import com.hbm.gui.gui.GUIMachineReactor;
 import com.hbm.gui.gui.GUIMachineSchrabidiumTransmutator;
 import com.hbm.gui.gui.GUIMachineShredder;
@@ -96,6 +98,7 @@ import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.TileEntityMachineRTG;
 import com.hbm.tileentity.TileEntityMachineReactor;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.TileEntityMachineShredder;
@@ -433,6 +436,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerIGenerator(player.inventory, (TileEntityIGenerator) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_rtg:
+			{
+				if(entity instanceof TileEntityMachineRTG)
+				{
+					return new ContainerMachineRTG(player.inventory, (TileEntityMachineRTG) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -747,6 +758,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityIGenerator)
 					{
 						return new GUIIGenerator(player.inventory, (TileEntityIGenerator) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_rtg:
+				{
+					if(entity instanceof TileEntityMachineRTG)
+					{
+						return new GUIMachineRTG(player.inventory, (TileEntityMachineRTG) entity);
 					}
 				}
 			}

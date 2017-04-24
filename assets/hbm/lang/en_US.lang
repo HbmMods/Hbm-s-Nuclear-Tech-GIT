@@ -747,6 +747,8 @@ item.syringe_metal_empty.name=Metal Syringe
 item.syringe_metal_stimpak.name=Stimpak
 item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
+item.pill_iodine.name=Iodine Pill
+item.plan_c.name=Plan C
 
 item.stealth_boy.name=Stealth Device
 

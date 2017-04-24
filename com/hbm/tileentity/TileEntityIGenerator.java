@@ -254,6 +254,8 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 
 			heat += (7 * this.canLocateRTG());
 			
+			heat += (3 * this.canLocateWeakRTG());
+			
 			for(int i = 0; i < this.canLocateThermalElement(); i++) {
 				if(heat >= 10) {
 					heat -= 10;
@@ -504,6 +506,18 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 		
 		for(int i = 0; i < slots.length; i++) {
 			if(slots[i] != null && slots[i].getItem() == ModItems.pellet_rtg)
+				rtg ++;
+		}
+		
+		return rtg;
+	}
+
+	public int canLocateWeakRTG() {
+		
+		int rtg = 0;
+		
+		for(int i = 0; i < slots.length; i++) {
+			if(slots[i] != null && slots[i].getItem() == ModItems.pellet_rtg_weak)
 				rtg ++;
 		}
 		

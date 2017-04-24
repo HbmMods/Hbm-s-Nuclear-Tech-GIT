@@ -399,6 +399,7 @@ public class ModBlocks {
 	public static final int guiID_machine_reix_mainframe = 38;
 
 	public static Block machine_rtg_grey;
+	public static final int guiID_machine_rtg = 40;
 	//public static Block machine_rtg_red;
 	//public static Block machine_rtg_orange;
 	//public static Block machine_rtg_yellow;

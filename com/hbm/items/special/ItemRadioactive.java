@@ -131,7 +131,8 @@ public class ItemRadioactive extends Item {
 					this == ModItems.nugget_plutonium || 
 					this == ModItems.rod_neptunium || 
 					this == ModItems.rod_pu238 || 
-					this == ModItems.rod_plutonium) {
+					this == ModItems.rod_plutonium || 
+					this == ModItems.pellet_rtg_weak) {
 				living.addPotionEffect(new PotionEffect(Potion.poison.id, 15 * 20, 2));
 			}
 			
@@ -183,7 +184,6 @@ public class ItemRadioactive extends Item {
 					this == ModItems.ingot_les || 
 					this == ModItems.cell_sas3 || 
 					this == ModItems.fleija_propellant || 
-					this == ModItems.gun_revolver_schrabidium_ammo || 
 					this == ModItems.rod_schrabidium || 
 					this == ModItems.rod_dual_schrabidium || 
 					this == ModItems.rod_quad_schrabidium || 

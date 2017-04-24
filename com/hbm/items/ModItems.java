@@ -15,6 +15,7 @@ import com.hbm.items.food.ItemCottonCandy;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.food.ItemLemon;
 import com.hbm.items.food.ItemNugget;
+import com.hbm.items.food.ItemPill;
 import com.hbm.items.food.ItemSchnitzelVegan;
 import com.hbm.items.food.ItemTemFlakes;
 import com.hbm.items.food.ItemWaffle;
@@ -357,6 +358,7 @@ public class ModItems {
 	public static Item limiter;
 
 	public static Item pellet_rtg;
+	public static Item pellet_rtg_weak;
 	public static Item tritium_deuterium_cake;
 
 	public static Item pellet_schrabidium;
@@ -405,6 +407,8 @@ public class ModItems {
 	public static Item syringe_metal_stimpak;
 	public static Item syringe_metal_medx;
 	public static Item syringe_metal_psycho;
+	public static Item pill_iodine;
+	public static Item plan_c;
 	public static Item stealth_boy;
 
 	public static Item can_empty;
@@ -1159,6 +1163,7 @@ public class ModItems {
 		circuit_schrabidium = new ItemCustomLore().setUnlocalizedName("circuit_schrabidium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
 
 		pellet_rtg = new ItemCustomLore().setUnlocalizedName("pellet_rtg").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg");
+		pellet_rtg_weak = new ItemCustomLore().setUnlocalizedName("pellet_rtg_weak").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_weak");
 		tritium_deuterium_cake = new ItemCustomLore().setUnlocalizedName("tritium_deuterium_cake").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":tritium_deuterium_cake");
 
 		cell_empty = new ItemCell().setUnlocalizedName("cell_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cell_empty");
@@ -1212,6 +1217,8 @@ public class ModItems {
 		syringe_metal_stimpak = new ItemSyringe().setUnlocalizedName("syringe_metal_stimpak").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_stimpak");
 		syringe_metal_medx = new ItemSyringe().setUnlocalizedName("syringe_metal_medx").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_medx");
 		syringe_metal_psycho = new ItemSyringe().setUnlocalizedName("syringe_metal_psycho").setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":syringe_metal_psycho");
+		pill_iodine = new ItemPill(0).setUnlocalizedName("pill_iodine").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":pill_iodine");
+		plan_c = new ItemPill(0).setUnlocalizedName("plan_c").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":plan_c");
 		stealth_boy = new ItemStarterKit().setUnlocalizedName("stealth_boy").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":stealth_boy");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":can_empty");
@@ -1990,6 +1997,7 @@ public class ModItems {
 		
 		//Pellets
 		GameRegistry.registerItem(pellet_rtg, pellet_rtg.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_rtg_weak, pellet_rtg_weak.getUnlocalizedName());
 		GameRegistry.registerItem(tritium_deuterium_cake, tritium_deuterium_cake.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_cluster, pellet_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_buckshot, pellet_buckshot.getUnlocalizedName());
@@ -2374,7 +2382,7 @@ public class ModItems {
 		GameRegistry.registerItem(multitool_joule, multitool_joule.getUnlocalizedName());
 		GameRegistry.registerItem(multitool_decon, multitool_decon.getUnlocalizedName());
 		
-		//Syringes
+		//Syringes & Pills
 		GameRegistry.registerItem(syringe_empty, syringe_empty.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_antidote, syringe_antidote.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_poison, syringe_poison.getUnlocalizedName());
@@ -2383,6 +2391,8 @@ public class ModItems {
 		GameRegistry.registerItem(syringe_metal_stimpak, syringe_metal_stimpak.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_metal_medx, syringe_metal_medx.getUnlocalizedName());
 		GameRegistry.registerItem(syringe_metal_psycho, syringe_metal_psycho.getUnlocalizedName());
+		GameRegistry.registerItem(pill_iodine, pill_iodine.getUnlocalizedName());
+		GameRegistry.registerItem(plan_c, plan_c.getUnlocalizedName());
 		GameRegistry.registerItem(stealth_boy, stealth_boy.getUnlocalizedName());
 		
 		//Food
