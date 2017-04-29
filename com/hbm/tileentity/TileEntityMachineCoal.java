@@ -31,7 +31,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	public int power;
 	public int water;
 	public int burnTime;
-	public static final int maxPower = 10000;
+	public static final int maxPower = 100000;
 	public static final int maxWater = 10000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
@@ -154,8 +154,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getShort("powerTime");
-		this.water = nbt.getShort("water");
+		this.power = nbt.getInteger("powerTime");
+		this.water = nbt.getInteger("water");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -172,8 +172,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("powerTime", (short) power);
-		nbt.setShort("water", (short) water);
+		nbt.setInteger("powerTime", power);
+		nbt.setInteger("water", water);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -360,9 +360,9 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			{
 				water -= 1;
 				
-				if(power + 10 <= maxPower)
+				if(power + 100 <= maxPower)
 				{
-					power += 10;
+					power += 100;
 				} else {
 					power = maxPower;
 				}

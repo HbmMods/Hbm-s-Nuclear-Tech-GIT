@@ -176,10 +176,10 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		water = nbt.getShort("water") * 1000;
-		cool = nbt.getShort("cool") * 1000;
-		power = nbt.getShort("power") * 100;
-		heat = nbt.getShort("heat") * 100;
+		water = nbt.getInteger("water");
+		cool = nbt.getInteger("cool");
+		power = nbt.getInteger("power");
+		heat = nbt.getInteger("heat");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -197,10 +197,10 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("water", (short) (water/1000));
-		nbt.setShort("cool", (short) (cool/1000));
-		nbt.setShort("power", (short) (power/100));
-		nbt.setShort("heat", (short) (heat/100));
+		nbt.setInteger("water", water);
+		nbt.setInteger("cool", cool);
+		nbt.setInteger("power", power);
+		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -317,7 +317,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(1);
-							attemptPower(10);
+							attemptPower(250);
 					
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -329,7 +329,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(1);
-							attemptPower(10);
+							attemptPower(250);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -341,7 +341,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(1);
-							attemptPower(10);
+							attemptPower(250);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -353,7 +353,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(2);
-							attemptPower(15);
+							attemptPower(375);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -365,7 +365,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(2);
-							attemptPower(15);
+							attemptPower(375);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -377,7 +377,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(2);
-							attemptPower(15);
+							attemptPower(375);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -389,7 +389,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(1);
-							attemptPower(5);
+							attemptPower(125);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -401,7 +401,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(1);
-							attemptPower(5);
+							attemptPower(125);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -413,7 +413,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(1);
-							attemptPower(5);
+							attemptPower(125);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -425,7 +425,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(10);
-							attemptPower(25);
+							attemptPower(62500);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -437,7 +437,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(10);
-							attemptPower(25);
+							attemptPower(62500);
 
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -449,7 +449,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 							int j = slots[i].getItemDamage();
 							this.slots[i].setItemDamage(j += 1);
 							attemptHeat(10);
-							attemptPower(25);
+							attemptPower(62500);
 						
 							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 							{
@@ -503,7 +503,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 					if(this.heat - 10 >= 0 && this.cool - 10 >= 0)
 					{
 						this.heat -= 10;
-						this.cool -= 10;
+						this.cool -= 2;
 					}
 					
 					if(this.heat < 10 && this.cool != 0)

@@ -44,6 +44,9 @@ public class ItemMultitoolPassive extends Item {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
 		if(player.isSneaking()) {
+			
+	        world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
+	        
 			if (this == ModItems.multitool_ext) {
 				return new ItemStack(ModItems.multitool_miner, 1, stack.getItemDamage());
 			} else if(this == ModItems.multitool_miner) {
@@ -72,6 +75,7 @@ public class ItemMultitoolPassive extends Item {
 				item.addEnchantment(Enchantment.fortune, 3);
 				return item;
 			}
+	        
 		} else {
 			if(this == ModItems.multitool_ext) {
 				return stack;

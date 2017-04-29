@@ -199,12 +199,13 @@ tile.fwatz_core.name=Fusionary Watz Reactor Control
 tile.fwatz_plasma.name=Destabilized Antischrabidium Plasma
 container.fusionaryWatzPlant=Fusionary Watz Plant
 
-tile.machine_rtg_grey.name=Radioisotope Thermoelectric Generator
+tile.machine_rtg_grey.name=RT Generator
+container.rtg=Radioisotope Thermoelectric Generator
 tile.machine_rtg_red.name=Fulmination Generator
 tile.machine_rtg_orange.name=Strong RT Generator
 tile.machine_rtg_yellow.name=Australium Superfuel Reactor
 tile.machine_rtg_green.name=Verticium Wealth Generator
-tile.machine_rtg_cyan.name=Schrabidium Decay Generator
+tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 
@@ -429,6 +430,7 @@ item.centrifuge_element.name=Centrifuge Element
 item.centrifuge_tower.name=Centrifuge Tower
 item.reactor_core.name=Breeding Reactor Core
 item.pellet_rtg.name=Plutonium 238 Fuel Pellet
+item.pellet_rtg_weak.name=Weak Uranium RTG Pellet
 item.rtg_unit.name=RTG Unit
 item.hazmat_cloth.name=Hazmat Cloth
 item.filter_coal.name=Activated Carbon Filter

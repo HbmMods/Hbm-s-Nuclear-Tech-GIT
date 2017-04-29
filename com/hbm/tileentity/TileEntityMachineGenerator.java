@@ -170,10 +170,10 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		water = nbt.getShort("water") * 100;
-		cool = nbt.getShort("cool") * 100;
-		power = nbt.getShort("power") * 100;
-		heat = nbt.getShort("heat") * 100;
+		water = nbt.getInteger("water");
+		cool = nbt.getInteger("cool");
+		power = nbt.getInteger("power");
+		heat = nbt.getInteger("heat");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -190,10 +190,10 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("water", (short) (water/100));
-		nbt.setShort("cool", (short) (cool/100));
-		nbt.setShort("power", (short) (power/100));
-		nbt.setShort("heat", (short) (heat/100));
+		nbt.setInteger("water", water);
+		nbt.setInteger("cool", cool);
+		nbt.setInteger("power", power);
+		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -385,7 +385,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(1);
-					attemptPower(10);
+					attemptPower(100);
 				
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -397,7 +397,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(1);
-					attemptPower(10);
+					attemptPower(100);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -409,7 +409,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(1);
-					attemptPower(10);
+					attemptPower(100);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -421,7 +421,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(2);
-					attemptPower(15);
+					attemptPower(150);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -433,7 +433,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(2);
-					attemptPower(15);
+					attemptPower(150);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -445,7 +445,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(2);
-					attemptPower(15);
+					attemptPower(150);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -457,7 +457,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(1);
-					attemptPower(5);
+					attemptPower(50);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -469,7 +469,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(1);
-					attemptPower(5);
+					attemptPower(50);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -481,7 +481,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(1);
-					attemptPower(5);
+					attemptPower(50);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -493,7 +493,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(10);
-					attemptPower(25);
+					attemptPower(25000);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -505,7 +505,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(10);
-					attemptPower(25);
+					attemptPower(25000);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -517,7 +517,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					int j = slots[i].getItemDamage();
 					this.slots[i].setItemDamage(j += 1);
 					attemptHeat(10);
-					attemptPower(25);
+					attemptPower(25000);
 
 					if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
 					{
@@ -546,10 +546,10 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					((slots[7] != null && !(slots[7].getItem() instanceof ItemFuelRod)) || slots[7] == null) && 
 					((slots[8] != null && !(slots[8].getItem() instanceof ItemFuelRod)) || slots[8] == null))
 			{
-				if(this.heat - 10 >= 0 && this.cool - 10 >= 0)
+				if(this.heat - 10 >= 0 && this.cool - 2 >= 0)
 				{
 					this.heat -= 10;
-					this.cool -= 10;
+					this.cool -= 2;
 				}
 				
 				if(this.heat < 10 && this.cool != 0)

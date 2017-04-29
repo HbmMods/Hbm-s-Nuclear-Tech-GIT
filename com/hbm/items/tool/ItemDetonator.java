@@ -45,6 +45,9 @@ public class ItemDetonator extends Item {
 			{
 				player.addChatMessage(new ChatComponentText("Position set!"));
 			}
+			
+	        world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
+        	
 			return true;
 		}
 		
@@ -56,7 +59,8 @@ public class ItemDetonator extends Item {
 
 		if(stack.stackTagCompound == null)
 		{
-			player.addChatMessage(new ChatComponentText("Error: Position not set."));
+			if(world.isRemote)
+				player.addChatMessage(new ChatComponentText("Error: Position not set."));
 		} else {
 			 int x = stack.stackTagCompound.getInteger("x");
 			 int y = stack.stackTagCompound.getInteger("y");
@@ -64,6 +68,7 @@ public class ItemDetonator extends Item {
 			 
 			 if(world.getBlock(x, y, z) instanceof IBomb)
 			 {
+				world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 				if(!world.isRemote)
 				{
 					((IBomb)world.getBlock(x, y, z)).explode(world, x, y, z);

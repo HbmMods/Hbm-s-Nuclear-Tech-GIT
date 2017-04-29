@@ -198,6 +198,9 @@ public class ExplosionNukeGeneric {
 					&& world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_off
 					&& world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_on
 					&& world.getBlock(x, y, z) != ModBlocks.cmb_brick
+					&& world.getBlock(x, y, z) != ModBlocks.crystal_virus
+					&& world.getBlock(x, y, z) != ModBlocks.crystal_hardened
+					&& world.getBlock(x, y, z) != ModBlocks.crystal_pulsar
 					&& world.getBlock(x, y, z) != ModBlocks.cmb_brick_reinforced
 					&& !(world.getBlock(x, y, z) instanceof DecoBlockAlt)) {
 				if (world.getBlock(x, y, z) == ModBlocks.brick_concrete) {

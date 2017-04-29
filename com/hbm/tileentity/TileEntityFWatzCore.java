@@ -165,10 +165,10 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		cool = nbt.getShort("cool") * 10000;
-		power = nbt.getShort("power") * 10000;
-		amat = nbt.getShort("amat") * 10000;
-		aSchrab = nbt.getShort("aSchrab") * 10000;
+		cool = nbt.getInteger("cool");
+		power = nbt.getInteger("power");
+		amat = nbt.getInteger("amat");
+		aSchrab = nbt.getInteger("aSchrab");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -186,10 +186,10 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("cool", (short) (cool/10000));
-		nbt.setShort("power", (short) (power/10000));
-		nbt.setShort("amat", (short) (amat/10000));
-		nbt.setShort("aSchrab", (short) (aSchrab/10000));
+		nbt.setInteger("cool", cool);
+		nbt.setInteger("power", power);
+		nbt.setInteger("amat", amat);
+		nbt.setInteger("aSchrab", aSchrab);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)

@@ -46,6 +46,8 @@ public class ItemCrateCaller extends Item {
 		{
 			player.addChatMessage(new ChatComponentText("Called in supply drop!"));
 		}
+
+    	world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 		
 		player.swingItem();
 		

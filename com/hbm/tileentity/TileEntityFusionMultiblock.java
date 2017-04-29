@@ -32,7 +32,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public int trit;
 	public final static int tritMax = 10000000;
 	public int power;
-	public final static int maxPower = 10000000;
+	public final static int maxPower = 100000000;
 	private ItemStack slots[];
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
@@ -155,10 +155,10 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		water = nbt.getShort("water") * 1000;
-		deut = nbt.getShort("deut") * 1000;
-		power = nbt.getShort("power") * 1000;
-		trit = nbt.getShort("trit") * 1000;
+		water = nbt.getInteger("water");
+		deut = nbt.getInteger("deut");
+		power = nbt.getInteger("power");
+		trit = nbt.getInteger("trit");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -176,10 +176,10 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("water", (short) (water/1000));
-		nbt.setShort("deut", (short) (deut/1000));
-		nbt.setShort("power", (short) (power/1000));
-		nbt.setShort("trit", (short) (trit/1000));
+		nbt.setInteger("water", water);
+		nbt.setInteger("deut", deut);
+		nbt.setInteger("power", power);
+		nbt.setInteger("trit", trit);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -197,6 +197,9 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean isStructureValid(World world) {
+		
+		//...and I wrote all of this by hand! Ha!
+		
 		if(world.getBlock(this.xCoord + 5, this.yCoord - 2, this.zCoord - 3) == ModBlocks.fusion_conductor &&
 				world.getBlock(this.xCoord + 5, this.yCoord - 2, this.zCoord - 2) == ModBlocks.fusion_conductor &&
 				world.getBlock(this.xCoord + 5, this.yCoord - 2, this.zCoord - 1) == ModBlocks.fusion_conductor &&
@@ -1088,14 +1091,14 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 					deut -= 100;
 					trit -= 100;
 					
-					if(water - 1000 >= 0)
+					if(water - 100 >= 0)
 					{
-						water -= 1000;
-						power += 10000;
+						water -= 100;
+						power += 100000;
 						
 						if(isCoatingValid(worldObj))
 						{
-							power += 10000;
+							power += 100000;
 						}
 						
 						if(power > maxPower)

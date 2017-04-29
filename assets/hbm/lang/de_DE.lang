@@ -200,12 +200,13 @@ tile.fwatz_plasma.name=Destabilisiertes Antischrabidiumplasma
 container.fusionaryWatzPlant=Fusionares Watzwerk
 
 tile.machine_rtg_grey.name=Radioisotopengenerator
+container.rtg=Radioisotopengenerator
 tile.machine_rtg_red.name=Fulminationsgenerator
 tile.machine_rtg_orange.name=Starker RTG
 tile.machine_rtg_yellow.name=Australium Supergenerator
 tile.machine_rtg_green.name=Verticium-Reichtumsgenerator
-tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator
-tile.machine_rtg_blue.name=Convectionsgenerator
+tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator (WIP)
+tile.machine_rtg_blue.name=Konvektionsgenerator
 tile.machine_rtg_purple.name=Paarvernichtungsgenerator
 
 item.fuse.name=Sicherung
@@ -429,6 +430,7 @@ item.centrifuge_element.name=Zentrifugenelement
 item.centrifuge_tower.name=Zentrifugenturm
 item.reactor_core.name=Brutreaktorkern
 item.pellet_rtg.name=Plutonium 238 Pellet
+item.pellet_rtg_weak.name=Schwaches Uran RTG-Pellet
 item.rtg_unit.name=RTG Einheit
 item.hazmat_cloth.name=Strahlenschutzanzugsstoff
 item.filter_coal.name=Aktivkohlefilter

@@ -37,7 +37,8 @@ public class RedBarrel extends BlockContainer {
     {
         if (p_149695_1_.getBlock(x + 1, y, z) == Blocks.fire || p_149695_1_.getBlock(x - 1, y, z) == Blocks.fire || p_149695_1_.getBlock(x, y + 1, z) == Blocks.fire || p_149695_1_.getBlock(x, y - 1, z) == Blocks.fire || p_149695_1_.getBlock(x, y, z + 1) == Blocks.fire || p_149695_1_.getBlock(x, y, z - 1) == Blocks.fire)
         {
-        	explode(p_149695_1_, x, y, z);
+        	if(!p_149695_1_.isRemote)
+        		explode(p_149695_1_, x, y, z);
         }
     }
 	

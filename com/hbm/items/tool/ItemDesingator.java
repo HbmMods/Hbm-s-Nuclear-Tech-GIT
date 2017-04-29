@@ -51,6 +51,9 @@ public class ItemDesingator extends Item {
 			{
 	        	p_77648_2_.addChatMessage(new ChatComponentText("Position set!"));
 			}
+
+	        p_77648_3_.playSoundAtEntity(p_77648_2_, "hbm:item.techBleep", 1.0F, 1.0F);
+        	
 	        return true;
 		}
     	

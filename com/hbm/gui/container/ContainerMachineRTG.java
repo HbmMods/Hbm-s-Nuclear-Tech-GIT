@@ -77,7 +77,7 @@ public class ContainerMachineRTG extends Container {
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 16, false))
+			else if (!this.mergeItemStack(var5, 0, 15, false))
 			{
 					return null;
 			}

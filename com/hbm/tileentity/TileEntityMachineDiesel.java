@@ -30,7 +30,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public int power;
 	public int diesel;
 	public int soundCycle = 0;
-	public static final int maxPower = 10000;
+	public static final int maxPower = 100000;
 	public int powerCap = 10000;
 	public int superTimer;
 	public static final int maxDiesel = 10000;
@@ -151,7 +151,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getInteger("powerTime");
-		this.diesel = nbt.getShort("diesel");
+		this.diesel = nbt.getInteger("diesel");
 		this.powerCap = nbt.getInteger("powerCap");
 		this.superTimer = nbt.getInteger("superTimer");
 		slots = new ItemStack[getSizeInventory()];
@@ -169,7 +169,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
-		nbt.setShort("diesel", (short) diesel);
+		nbt.setInteger("diesel", diesel);
 		nbt.setInteger("powerCap", powerCap);
 		nbt.setInteger("superTimer", superTimer);
 		NBTTagList list = new NBTTagList();
@@ -344,8 +344,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			if (diesel < 0)
 				diesel = 0;
 
-			if (power + 25 <= powerCap && this.superTimer <= 0) {
-				power += 25;
+			if (power + 250 <= powerCap && this.superTimer <= 0) {
+				power += 250;
 			} else if (power + 1000000000 <= powerCap && this.superTimer > 0) {
 				power += 1000000000;
 			} else {

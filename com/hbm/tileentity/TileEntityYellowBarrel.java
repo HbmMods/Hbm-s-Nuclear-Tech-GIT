@@ -6,6 +6,8 @@ import java.util.List;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -94,4 +96,11 @@ public class TileEntityYellowBarrel extends TileEntity {
 
         strength = (int)f;
     }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
+	}
 }

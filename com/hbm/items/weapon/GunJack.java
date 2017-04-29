@@ -129,9 +129,9 @@ public class GunJack extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		//list.add("POW! Haha!");
-		list.add("Alright, alright, I couldn't think of a proper name,");
-		list.add("are you happy now?");
+		list.add("One barrel? Boring.");
+		list.add("Two barrels? Nah.");
+		list.add("Four barrels? Heck yes!");
 		list.add("");
 		list.add("Ammo: Quadruple Shotgun Shells");
 		list.add("Damage: 12 - 24");

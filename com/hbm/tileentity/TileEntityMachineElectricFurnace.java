@@ -22,7 +22,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	
 	public int dualCookTime;
 	public int power;
-	public static final int maxPower = 10000;
+	public static final int maxPower = 100000;
 	public static final int processingSpeed = 100;
 	
 	private static final int[] slots_top = new int[] {1};
@@ -140,8 +140,8 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getShort("powerTime");
-		this.dualCookTime = nbt.getShort("cookTime");
+		this.power = nbt.getInteger("powerTime");
+		this.dualCookTime = nbt.getInteger("cookTime");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -158,8 +158,8 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("powerTime", (short) power);
-		nbt.setShort("cookTime", (short) dualCookTime);
+		nbt.setInteger("powerTime", power);
+		nbt.setInteger("cookTime", dualCookTime);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -280,7 +280,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 			{
 				dualCookTime++;
 				
-				power -= 5;
+				power -= 50;
 				
 				if(this.dualCookTime == TileEntityMachineElectricFurnace.processingSpeed)
 				{

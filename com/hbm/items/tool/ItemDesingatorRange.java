@@ -56,6 +56,9 @@ public class ItemDesingatorRange extends Item {
 			{
 	        	player.addChatMessage(new ChatComponentText("Position set to X:" + x + ", Z:" + z));
 			}
+	        
+        	world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+        	
 	        return stack;
 		}
     	

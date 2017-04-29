@@ -3,6 +3,8 @@ package com.hbm.tileentity;
 import com.hbm.gui.MachineRecipes;
 import com.hbm.items.ModItems;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -166,7 +168,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		dualPower = nbt.getShort("powerTime");
+		dualPower = nbt.getInteger("powerTime");
 		dualCookTime = nbt.getShort("CookTime");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -184,7 +186,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("powerTime", (short) dualPower);
+		nbt.setInteger("powerTime", dualPower);
 		nbt.setShort("cookTime", (short) dualCookTime);
 		NBTTagList list = new NBTTagList();
 		
@@ -391,5 +393,12 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

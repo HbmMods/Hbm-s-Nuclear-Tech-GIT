@@ -12,6 +12,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -36,7 +38,7 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 	public int fuel;
 	public int burn;
 	public int soundCycle = 0;
-	public static final int maxPower = 100000;
+	public static final int maxPower = 10000;
 	public static final int maxTorque = 2500;
 	public static final int maxHeat = 7500;
 	public static final int maxWater = 10000;
@@ -678,6 +680,13 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 
 }

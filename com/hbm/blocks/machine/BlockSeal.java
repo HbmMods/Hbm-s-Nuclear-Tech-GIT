@@ -9,6 +9,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityCoreAdvanced;
 import com.hbm.tileentity.TileEntityCoreTitanium;
 import com.hbm.tileentity.TileEntityHatch;
+import com.hbm.tileentity.TileEntityMachineBattery;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -46,6 +47,9 @@ public class BlockSeal extends Block implements IBomb {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
+		metadata = metadata % 4;
+		if(metadata == 0 || metadata == 1)
+			metadata += 4;
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : (metadata == 0 && side == 3 ? this.blockIcon : (side == metadata ? this.blockIcon : this.iconTop)));
 	}
 	
@@ -81,11 +85,11 @@ public class BlockSeal extends Block implements IBomb {
 			}
 			if(block3.func_149730_j() && !block4.func_149730_j())
 			{
-				b0 = 5;
+				b0 = 1;
 			}
 			if(block4.func_149730_j() && !block3.func_149730_j())
 			{
-				b0 = 4;
+				b0 = 0;
 			}
 			
 			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
@@ -102,7 +106,7 @@ public class BlockSeal extends Block implements IBomb {
 		}
 		if(i == 1)
 		{
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+			world.setBlockMetadataWithNotify(x, y, z, 1, 2);
 		}
 		if(i == 2)
 		{
@@ -110,7 +114,7 @@ public class BlockSeal extends Block implements IBomb {
 		}
 		if(i == 3)
 		{
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+			world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 		}
 	}
 	
@@ -145,13 +149,13 @@ public class BlockSeal extends Block implements IBomb {
 			
 			int xOff = 0;
 			int zOff = 0;
-			if(world.getBlockMetadata(x, y, z) == 2)
+			if(world.getBlockMetadata(x, y, z) % 4 == 2)
 				zOff += size;
-			if(world.getBlockMetadata(x, y, z) == 3)
+			if(world.getBlockMetadata(x, y, z) % 4 == 3)
 				zOff -= size;
-			if(world.getBlockMetadata(x, y, z) == 4)
+			if(world.getBlockMetadata(x, y, z) % 4 == 0)
 				xOff += size;
-			if(world.getBlockMetadata(x, y, z) == 5)
+			if(world.getBlockMetadata(x, y, z) % 4 == 1)
 				xOff -= size;
 
 			for(int X = x - size; X <= x + size; X ++) {
@@ -195,13 +199,13 @@ public class BlockSeal extends Block implements IBomb {
 
 		int xOff = 0;
 		int zOff = 0;
-		if(world.getBlockMetadata(x, y, z) == 2)
+		if(world.getBlockMetadata(x, y, z) % 4 == 2)
 			zOff += size;
-		if(world.getBlockMetadata(x, y, z) == 3)
+		if(world.getBlockMetadata(x, y, z) % 4 == 3)
 			zOff -= size;
-		if(world.getBlockMetadata(x, y, z) == 4)
+		if(world.getBlockMetadata(x, y, z) % 4 == 0)
 			xOff += size;
-		if(world.getBlockMetadata(x, y, z) == 5)
+		if(world.getBlockMetadata(x, y, z) % 4 == 1)
 			xOff -= size;
 		
 		for(int X = x - size + 1; X <= x + size - 1; X++) {
@@ -221,13 +225,13 @@ public class BlockSeal extends Block implements IBomb {
 		
 		int xOff = 0;
 		int zOff = 0;
-		if(world.getBlockMetadata(x, y, z) == 2)
+		if(world.getBlockMetadata(x, y, z) % 4 == 2)
 			zOff += size;
-		if(world.getBlockMetadata(x, y, z) == 3)
+		if(world.getBlockMetadata(x, y, z) % 4 == 3)
 			zOff -= size;
-		if(world.getBlockMetadata(x, y, z) == 4)
+		if(world.getBlockMetadata(x, y, z) % 4 == 0)
 			xOff += size;
-		if(world.getBlockMetadata(x, y, z) == 5)
+		if(world.getBlockMetadata(x, y, z) % 4 == 1)
 			xOff -= size;
 		
 		for(int X = x - size + 1; X <= x + size - 1; X++) {
@@ -243,13 +247,13 @@ public class BlockSeal extends Block implements IBomb {
 		
 		int xOff = 0;
 		int zOff = 0;
-		if(world.getBlockMetadata(x, y, z) == 2)
+		if(world.getBlockMetadata(x, y, z) % 4 == 2)
 			zOff += size;
-		if(world.getBlockMetadata(x, y, z) == 3)
+		if(world.getBlockMetadata(x, y, z) % 4 == 3)
 			zOff -= size;
-		if(world.getBlockMetadata(x, y, z) == 4)
+		if(world.getBlockMetadata(x, y, z) % 4 == 0)
 			xOff += size;
-		if(world.getBlockMetadata(x, y, z) == 5)
+		if(world.getBlockMetadata(x, y, z) % 4 == 1)
 			xOff -= size;
 		
 		for(int X = x - size + 1; X <= x + size - 1; X++) {
@@ -274,5 +278,32 @@ public class BlockSeal extends Block implements IBomb {
 				this.closeSeal(world, x, y, z, i);
 		
 	}
+	
+    @Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    {
+        if (world.isBlockIndirectlyGettingPowered(x, y, z))
+        {
+        	int meta = world.getBlockMetadata(x, y, z);
+        	if(meta < 4) {
+        		world.setBlockMetadataWithNotify(x, y, z, meta + 4, 2);
+        		
+        		int i = this.getFrameSize(world, x, y, z);
+        		
+        		if(i != 0)
+        			if(this.isSealClosed(world, x, y, z, i))
+        				this.openSeal(world, x, y, z, i);
+        			else
+        				this.closeSeal(world, x, y, z, i);
+        	}
+        }
+        else
+        {
+        	int meta = world.getBlockMetadata(x, y, z);
+        	if(meta >= 4) {
+        		world.setBlockMetadataWithNotify(x, y, z, meta % 4, 2);
+        	}
+        }
+    }
 
 }

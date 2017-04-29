@@ -7,6 +7,8 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
 import com.hbm.lib.Library;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import scala.Int;
@@ -43,6 +45,13 @@ public class TileEntityCable extends TileEntity implements IConductor {
 		
 		if(Library.checkConnectables(this.worldObj, xCoord - 1, yCoord, zCoord)) connections[5] = ForgeDirection.WEST;
 		else connections[5] = null;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 
 }

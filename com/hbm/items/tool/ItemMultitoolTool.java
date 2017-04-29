@@ -41,6 +41,9 @@ public class ItemMultitoolTool extends ItemTool {
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
 		if(player.isSneaking()) {
+			
+	        world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
+	        
 			if(this == ModItems.multitool_dig) {
 				ItemStack item = new ItemStack(ModItems.multitool_silk, 1, stack.getItemDamage());
 				item.addEnchantment(Enchantment.silkTouch, 3);

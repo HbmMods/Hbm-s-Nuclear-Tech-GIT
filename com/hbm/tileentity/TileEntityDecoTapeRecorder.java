@@ -2,6 +2,8 @@ package com.hbm.tileentity;
 
 import com.hbm.blocks.generic.DecoTapeRecorder;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityDecoTapeRecorder extends TileEntity {
@@ -25,5 +27,12 @@ public class TileEntityDecoTapeRecorder extends TileEntity {
 		}
 		
 		return 0;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

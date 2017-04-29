@@ -167,8 +167,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		waste = nbt.getShort("deut") * 1000;
-		power = nbt.getShort("power") * 10000;
+		waste = nbt.getInteger("deut");
+		power = nbt.getInteger("power");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -186,8 +186,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("deut", (short) (waste/1000));
-		nbt.setShort("power", (short) (power/10000));
+		nbt.setInteger("deut", waste);
+		nbt.setInteger("power", power);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)

@@ -160,7 +160,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.dualPower = nbt.getShort("powerTime");
+		this.dualPower = nbt.getInteger("powerTime");
 		this.dualCookTime = nbt.getShort("cookTime");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -178,7 +178,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("powerTime", (short) dualPower);
+		nbt.setInteger("powerTime", dualPower);
 		nbt.setShort("cookTime", (short) dualCookTime);
 		NBTTagList list = new NBTTagList();
 		

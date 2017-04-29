@@ -5,6 +5,8 @@ import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -135,7 +137,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		power = nbt.getShort("power");
+		power = nbt.getInteger("power");
 		state = nbt.getShort("state");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -154,7 +156,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
-		nbt.setShort("power", (short) power);
+		nbt.setInteger("power", power);
 		nbt.setShort("state", (short) state);
 		
 		for(int i = 0; i < slots.length; i++)
@@ -442,6 +444,13 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	@Override
 	public int getMaxPower() {
 		return maxPower;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 
 }

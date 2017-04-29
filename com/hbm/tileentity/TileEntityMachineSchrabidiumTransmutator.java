@@ -20,7 +20,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	public int power = 0;
 	public int process = 0;
 	public int soundCycle = 0;
-	public static final int maxPower = 500000000;
+	public static final int maxPower = 5000000;
 	public static final int processSpeed = 60;
 	Random rand = new Random();
 
@@ -158,7 +158,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", (short) (power));
+		nbt.setInteger("power", power);
 		nbt.setShort("process", (short) process);
 		NBTTagList list = new NBTTagList();
 
@@ -202,10 +202,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	}
 
 	public int getPowerScaled(int i) {
-		int p = (int) (power / 50000);
-		int m = (int) (maxPower / 50000);
-		int r = (p * i) / m;
-		return r;
+		return (power * i) / maxPower;
 	}
 
 	public int getProgressScaled(int i) {
@@ -213,7 +210,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	}
 
 	public boolean canProcess() {
-		if (power >= 499000000 && slots[0] != null && slots[0].getItem() == ModItems.ingot_uranium && slots[2] != null
+		if (power >= 4990000 && slots[0] != null && slots[0].getItem() == ModItems.ingot_uranium && slots[2] != null
 				&& slots[2].getItem() == ModItems.redcoil_capacitor
 				&& slots[2].getItemDamage() < slots[2].getMaxDamage()
 				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == ModItems.ingot_schrabidium

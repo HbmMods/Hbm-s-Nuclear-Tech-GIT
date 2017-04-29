@@ -22,7 +22,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public int sulfur = 0;
 	public int process = 0;
 	public static final int maxFill = 1000;
-	public static final int maxPower = 10000;
+	public static final int maxPower = 100000;
 	public static final int processSpeed = 200;
 
 	private static final int[] slots_top = new int[] {3};
@@ -152,10 +152,10 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		power = nbt.getShort("power");
-		water = nbt.getShort("water");
-		sulfur = nbt.getShort("sulfur");
-		process = nbt.getShort("process");
+		power = nbt.getInteger("power");
+		water = nbt.getInteger("water");
+		sulfur = nbt.getInteger("sulfur");
+		process = nbt.getInteger("process");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -172,10 +172,10 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("power", (short) power);
-		nbt.setShort("water", (short) water);
-		nbt.setShort("sulfur", (short) sulfur);
-		nbt.setShort("process", (short) process);
+		nbt.setInteger("power", power);
+		nbt.setInteger("water", water);
+		nbt.setInteger("sulfur", sulfur);
+		nbt.setInteger("process", process);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -247,7 +247,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public void process() {
 		water -= 2;
 		sulfur -= 1;
-		power -= 5;
+		power -= 25;
 		
 		process++;
 		
