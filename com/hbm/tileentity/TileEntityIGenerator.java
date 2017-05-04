@@ -38,7 +38,7 @@ public class TileEntityIGenerator extends TileEntity implements ISidedInventory,
 	public int fuel;
 	public int burn;
 	public int soundCycle = 0;
-	public static final int maxPower = 10000;
+	public static final int maxPower = 100000;
 	public static final int maxTorque = 2500;
 	public static final int maxHeat = 7500;
 	public static final int maxWater = 10000;

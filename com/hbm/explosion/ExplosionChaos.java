@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityMiniNuke;
@@ -738,7 +739,7 @@ public class ExplosionChaos {
 					d6 /= d9;
 					d7 /= d9;
 					double d10 = world.getBlockDensity(vec3, entity.boundingBox);
-					if (entity instanceof EntityMissileBase) {
+					if (entity instanceof EntityMissileBase && !(entity instanceof EntityMissileAntiBallistic)) {
 						return entity;
 					}
 				}

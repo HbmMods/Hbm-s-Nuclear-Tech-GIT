@@ -27,6 +27,8 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource suicide = (new DamageSource("suicide")).setProjectile();
 	public static DamageSource teleporter = (new DamageSource("teleporter")).setDamageIsAbsolute();
 	public static DamageSource cheater = (new DamageSource("cheater")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
+	public static DamageSource rubble = (new DamageSource("rubble")).setProjectile();
+	public static DamageSource shrapnel = (new DamageSource("shrapnel")).setProjectile();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);

@@ -22,7 +22,8 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
     {
 		genModel = AdvancedModelLoader.loadModel(body);
 		rotModel = AdvancedModelLoader.loadModel(rotor);
-		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		//gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGen.png");
     }
 
     @Override

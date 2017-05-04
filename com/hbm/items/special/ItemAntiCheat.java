@@ -20,10 +20,18 @@ public class ItemAntiCheat extends ItemCustomLore {
 
     	if(stack.getItemDamage() != 34) {
         	
+        	if(entity instanceof EntityPlayer) {
+        		EntityPlayer player = (EntityPlayer)entity;
+        		for(ItemStack s : player.inventory.mainInventory) {
+        			player.inventory.consumeInventoryItem(ModItems.ingot_euphemium);
+        			player.inventory.consumeInventoryItem(ModItems.nugget_euphemium);
+        		}
+        	}
+        	
         	entity.attackEntityFrom(ModDamageSource.cheater, Float.POSITIVE_INFINITY);
         	
-        	if(!world.isRemote)
-        		ExplosionChaos.antiCheat(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ, 20);
+        	//if(!world.isRemote)
+        	//	ExplosionChaos.antiCheat(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ, 20);
     	}
     }
 

@@ -3,6 +3,7 @@ package com.hbm.entity.projectile;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.material.Material;
@@ -43,7 +44,7 @@ public class EntityRubble extends EntityThrowable {
         {
             byte b0 = 15;
 
-            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), b0);
+            p_70184_1_.entityHit.attackEntityFrom(ModDamageSource.rubble, b0);
         }
 
         if(this.ticksExisted > 5) {

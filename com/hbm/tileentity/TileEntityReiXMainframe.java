@@ -67,7 +67,7 @@ public class TileEntityReiXMainframe extends TileEntity implements ISidedInvento
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machineCMB";
+		return this.hasCustomInventoryName() ? this.customName : "container.machineReiX";
 	}
 
 	@Override

@@ -25,6 +25,8 @@ public class EntityMissileAntiBallistic extends EntityMissileBase {
 	@Override
     public void onUpdate()
     {
+		System.out.println(phase);
+		
 		this.baseHeight = 35;
 
         this.posX += this.motionX;
