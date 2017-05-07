@@ -3,6 +3,7 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
@@ -471,6 +472,12 @@ public class EntityBaleflare extends Entity implements IProjectile {
             this.setPosition(this.posX, this.posY, this.posZ);
             this.func_145775_I();
         }
+        
+        if(!this.inGround)
+        	if(!worldObj.isRemote) {
+        		worldObj.spawnEntityInWorld(new EntitySSmokeFX(worldObj, this.posX, this.posY - 0.5, this.posZ, 0.0, 0.0, 0.0));
+        		worldObj.spawnEntityInWorld(new EntitySSmokeFX(worldObj, this.posX - this.motionX, this.posY - 0.5 - this.motionY, this.posZ - this.motionZ, 0.0, 0.0, 0.0));
+        	}
     }
 
 	/**

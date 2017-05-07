@@ -1011,6 +1011,13 @@ item.bottle2_fritz.name=Fritz-Kola
 item.bottle2_korl_special.name=Das erste Korl
 item.bottle2_fritz_special.name=Die erste Fritz-Kola
 item.chocolate_milk.name=Schokomilch
+item.cap_nuka.name=Nuka-Cola Kronkorken
+item.cap_quantum.name=Nuka Cola Quantum Kronkorken
+item.cap_korl.name=Korl Kronkorken
+item.cap_fritz.name=Fritz-Kola Kronkorken
+item.ring_pull.name=Dosenring
+
+item.bottle_opener.name=Hbms eigener selbstgebauter Flaschenöffner
 
 item.blades_aluminium.name=Aluminiumsägeblatt
 item.blades_gold.name=Goldenes Sägeblatt

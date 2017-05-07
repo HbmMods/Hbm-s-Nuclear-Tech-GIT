@@ -100,6 +100,16 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.nugget_euphemium, 2, 34);
 		}
 
+		if (item == ModItems.rod_quad_euphemium && item2 == ModItems.powder_tennessine
+				|| item == ModItems.powder_tennessine && item2 == ModItems.rod_quad_euphemium) {
+			return new ItemStack(ModItems.nugget_euphemium, 2, 34);
+		}
+
+		if (item == ModItems.rod_quad_euphemium && item2 == ModItems.powder_cerium
+				|| item == ModItems.powder_cerium && item2 == ModItems.rod_quad_euphemium) {
+			return new ItemStack(ModItems.nugget_euphemium, 2, 34);
+		}
+
 		if (item == ModItems.oil_canola && item2 == ModItems.canister_empty
 				|| item == ModItems.canister_empty && item2 == ModItems.oil_canola) {
 			return new ItemStack(ModItems.canister_canola);
@@ -124,9 +134,6 @@ public class MachineRecipes {
 				new ItemStack(ModItems.cell_empty, 1) };
 		ItemStack[] test = new ItemStack[] { new ItemStack(Items.apple, 3), new ItemStack(Items.leather, 1),
 				new ItemStack(Items.sugar, 3), new ItemStack(Items.blaze_powder, 2) };
-		ItemStack[] euphemium = new ItemStack[] { new ItemStack(ModItems.nugget_euphemium, 1),
-				new ItemStack(ModItems.nugget_euphemium, 1), new ItemStack(ModItems.nugget_euphemium, 1),
-				new ItemStack(ModItems.rod_quad_empty, 1) };
 		ItemStack[] schrabidium = new ItemStack[] { new ItemStack(ModItems.ingot_schrabidium, 1),
 				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.sulfur, 1),
 				new ItemStack(ModItems.cell_empty, 1) };
@@ -184,10 +191,6 @@ public class MachineRecipes {
 			if (item == Item.getItemFromBlock(ModBlocks.test_render)) {
 				return test;
 			}
-		}
-
-		if (item == ModItems.rod_quad_euphemium) {
-			return euphemium;
 		}
 
 		if (item == ModItems.cell_sas3) {

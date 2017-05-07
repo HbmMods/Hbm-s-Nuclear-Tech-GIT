@@ -116,6 +116,7 @@ public class ItemEnergy extends Item {
         if (!p_77654_3_.capabilities.isCreativeMode && this != ModItems.chocolate_milk)
         {
         	if(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart) {
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
         		if (p_77654_1_.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.can_empty);
@@ -124,7 +125,8 @@ public class ItemEnergy extends Item {
             	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
         	}
         	
-        	if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka || this == ModItems.bottle_quantum) {
+        	if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka) {
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_nuka));
         		if (p_77654_1_.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle_empty);
@@ -133,7 +135,28 @@ public class ItemEnergy extends Item {
             	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
         	}
         	
-        	if(this == ModItems.bottle2_korl || this == ModItems.bottle2_fritz || this == ModItems.bottle2_korl_special || this == ModItems.bottle2_fritz_special) {
+        	if(this == ModItems.bottle_quantum) {
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_quantum));
+        		if (p_77654_1_.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.bottle_empty);
+            	}
+
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+        	}
+        	
+        	if(this == ModItems.bottle2_korl || this == ModItems.bottle2_korl_special) {
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_korl));
+        		if (p_77654_1_.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.bottle2_empty);
+            	}
+
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+        	}
+        	
+        	if(this == ModItems.bottle2_fritz || this == ModItems.bottle2_fritz_special) {
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_fritz));
         		if (p_77654_1_.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle2_empty);
@@ -158,6 +181,10 @@ public class ItemEnergy extends Item {
 
     public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
+    	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart))
+    		if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
+    			return p_77659_1_;
+    	
     	p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
     	return p_77659_1_;
     }

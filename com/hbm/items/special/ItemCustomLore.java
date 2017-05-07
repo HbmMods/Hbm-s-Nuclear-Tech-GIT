@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,12 +45,18 @@ public class ItemCustomLore extends ItemRadioactive {
 
 		if(this == ModItems.pellet_rtg)
 		{
-			list.add("RTG fuel pellet for infinite energy! (almost)");
+			if(MainRegistry.polaroidID == 11)
+				list.add("Contains ~100% Pu238 oxide.");
+			else
+				list.add("RTG fuel pellet for infinite energy! (almost)");
 		}
 
 		if(this == ModItems.pellet_rtg_weak)
 		{
-			list.add("Cheaper and weaker pellet, now with more U238!");
+			if(MainRegistry.polaroidID == 11)
+				list.add("Meh.");
+			else
+				list.add("Cheaper and weaker pellet, now with more U238!");
 		}
 
 		if(this == ModItems.pellet_cluster)
@@ -341,12 +348,15 @@ public class ItemCustomLore extends ItemRadioactive {
 		
 		if(this == ModItems.dust)
 		{
-			list.add("I hate dust!");
+			if(MainRegistry.polaroidID == 11)
+				list.add("Another one bites the dust!");
+			else
+				list.add("I hate dust!");
 		}
 		
 		if(this == ModItems.ingot_combine_steel)
 		{
-			list.add("\"I mean, it's a verb for crying out loud.");
+			/*list.add("\"I mean, it's a verb for crying out loud.");
 			list.add("The aliens aren't verbs. They're nouns!\"");
 			list.add("\"Actually, I think it's also the name");
 			list.add("of some kind of farm equipment, like a");
@@ -357,7 +367,8 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("oh yea, it can also mean 'the most advanced");
 			list.add("form of life in the known universe'.\"");
 			list.add("\"So?\"");
-			list.add("\"'So?' C'mon man, they're ALIENS!\"");
+			list.add("\"'So?' C'mon man, they're ALIENS!\"");*/
+			list.add("*insert Freeman's Mind reference here*");
 		}
 		
 		if(this == ModItems.gun_super_shotgun)
@@ -377,12 +388,18 @@ public class ItemCustomLore extends ItemRadioactive {
 		
 		if(this == ModItems.crystal_horn)
 		{
-			list.add("Not an actual horn.");
+			if(MainRegistry.polaroidID == 11)
+				list.add("An actual horn");
+			else
+				list.add("Not an actual horn.");
 		}
 		
 		if(this == ModItems.crystal_charred)
 		{
-			list.add("High quality silicate, slightly burned.");
+			if(MainRegistry.polaroidID == 11)
+				list.add("Also a real horn. Weird, right?");
+			else
+				list.add("High quality silicate, slightly burned.");
 		}
 	}
 

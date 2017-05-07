@@ -427,6 +427,11 @@ public class ModItems {
 	public static Item bottle2_korl_special;
 	public static Item bottle2_fritz_special;
 	public static Item chocolate_milk;
+	public static Item cap_nuka;
+	public static Item cap_quantum;
+	public static Item cap_korl;
+	public static Item cap_fritz;
+	public static Item ring_pull;
 
 	public static Item rod_empty;
 	public static Item rod_uranium;
@@ -773,6 +778,7 @@ public class ModItems {
 	public static Item mask_of_infamy;
 
 	public static Item schrabidium_hammer;
+	public static Item bottle_opener;
 
 	public static Item crowbar;
 
@@ -1237,6 +1243,11 @@ public class ModItems {
 		bottle2_korl_special = new ItemEnergy().setUnlocalizedName("bottle2_korl_special").setContainerItem(ModItems.bottle2_empty).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":bottle2_korl");
 		bottle2_fritz_special = new ItemEnergy().setUnlocalizedName("bottle2_fritz_special").setContainerItem(ModItems.bottle2_empty).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":bottle2_fritz");
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":chocolate_milk");
+		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":cap_nuka");
+		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":cap_quantum");
+		cap_korl = new Item().setUnlocalizedName("cap_korl").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":cap_korl");
+		cap_fritz = new Item().setUnlocalizedName("cap_fritz").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":cap_fritz");
+		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":ring_pull");
 
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod_uranium = new ItemCustomLore().setUnlocalizedName("rod_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
@@ -1644,6 +1655,7 @@ public class ModItems {
 		cape_vertice = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_vertice").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
 		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
+		bottle_opener = new WeaponSpecial(MainRegistry.enumToolMaterialBottleOpener).setUnlocalizedName("bottle_opener").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":bottle_opener");
 		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
 		matchstick = new ItemMatch().setUnlocalizedName("matchstick").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":matchstick");
 		crowbar = new ModSword(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("crowbar").setFull3D().setTextureName(RefStrings.MODID + ":crowbar");
@@ -2369,6 +2381,7 @@ public class ModItems {
 		GameRegistry.registerItem(pipe_rusty, pipe_rusty.getUnlocalizedName());
 		GameRegistry.registerItem(pipe_lead, pipe_lead.getUnlocalizedName());
 		GameRegistry.registerItem(reer_graar, reer_graar.getUnlocalizedName());
+		GameRegistry.registerItem(bottle_opener, bottle_opener.getUnlocalizedName());
 		
 		//Multitool
 		GameRegistry.registerItem(multitool_hit, multitool_hit.getUnlocalizedName());
@@ -2422,6 +2435,13 @@ public class ModItems {
 		GameRegistry.registerItem(bottle2_fritz, bottle2_fritz.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_korl_special, bottle2_korl_special.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_fritz_special, bottle2_fritz_special.getUnlocalizedName());
+		
+		//Money
+		GameRegistry.registerItem(cap_nuka, cap_nuka.getUnlocalizedName());
+		GameRegistry.registerItem(cap_quantum, cap_quantum.getUnlocalizedName());
+		GameRegistry.registerItem(cap_korl, cap_korl.getUnlocalizedName());
+		GameRegistry.registerItem(cap_fritz, cap_fritz.getUnlocalizedName());
+		GameRegistry.registerItem(ring_pull, ring_pull.getUnlocalizedName());
 		
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());

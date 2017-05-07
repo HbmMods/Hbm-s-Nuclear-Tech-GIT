@@ -1011,6 +1011,13 @@ item.bottle2_fritz.name=Fritz Cola
 item.bottle2_korl_special.name=The First Korl
 item.bottle2_fritz_special.name=The First Fritz Cola
 item.chocolate_milk.name=Chocolate Milk
+item.cap_nuka.name=Nuka Cola Bottle Cap
+item.cap_quantum.name=Nuka Cola Quantum Bottle Cap
+item.cap_korl.name=Korl Bottle Cap
+item.cap_fritz.name=Fritz Cola Bottle Cap
+item.ring_pull.name=Ring Pull
+
+item.bottle_opener.name=Hbm's Own Self-Made Bottle Opener
 
 item.blades_aluminium.name=Aluminium Shredder Blades
 item.blades_gold.name=Golden Shredder Blades

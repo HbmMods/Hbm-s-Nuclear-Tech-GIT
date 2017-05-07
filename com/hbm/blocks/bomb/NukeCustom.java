@@ -162,6 +162,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 				amat += (hydro/2);
 				schrab += (amat/2);
 				
+				if(schrab > 300)
+					schrab = 300;
+				
 				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
 				entity.posX = x + 0.5;
 				entity.posY = y + 0.5;
@@ -183,6 +186,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 				nuke += (tnt/2);
 				hydro += (nuke/2);
 				amat += (hydro/2);
+
+				if(amat > 350)
+					amat = 350;
 
 				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
 				entity.posX = x + 0.5;
@@ -231,6 +237,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 				nuke += (tnt/2);
 				hydro += (nuke/2);
 
+				if(hydro > 350)
+					hydro = 350;
+
 				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
 				entity.posX = x + 0.5;
 				entity.posY = y + 0.5;
@@ -277,6 +286,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			} else if(nuke > 0) {
 				nuke += (tnt/2);
 
+				if(nuke > 350)
+					nuke = 350;
+
 				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
 				entity.posX = x + 0.5;
 				entity.posY = y + 0.5;
@@ -321,6 +333,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	    	    }
 				
 			} else if(tnt > 0) {
+
+				if(tnt > 100)
+					tnt = 100;
 				//world.newExplosion((Entity)null, x + 0.5F, y + 0.5F, z + 0.5F, tnt, field_149933_a.nextInt(5) == 0 ? true : false, true);
 				ExplosionLarge.explode(world, x, y, z, tnt, true, true, true);
 			}

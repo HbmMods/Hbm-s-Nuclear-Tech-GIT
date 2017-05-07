@@ -199,6 +199,8 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialPipeRusty = EnumHelper.addToolMaterial("PIPERUSTY", 1, 350, 1.5F, 4.5F, 25);
 	public static ToolMaterial enumToolMaterialPipeLead = EnumHelper.addToolMaterial("PIPELEAD", 1, 250, 1.5F, 5.5F, 25);
 
+	public static ToolMaterial enumToolMaterialBottleOpener = EnumHelper.addToolMaterial("OPENER", 1, 250, 1.5F, 0.5F, 200);
+
 	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F, 25);
 	
 	//Armor Materials
@@ -315,6 +317,7 @@ public class MainRegistry
 		enumToolMaterialSteel.setRepairItem(new ItemStack(ModItems.ingot_steel));
 		enumToolMaterialAlloy.setRepairItem(new ItemStack(ModItems.ingot_advanced_alloy));
 		enumToolMaterialCmb.setRepairItem(new ItemStack(ModItems.ingot_combine_steel));
+		enumToolMaterialBottleOpener.setRepairItem(new ItemStack(ModItems.plate_steel));
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -565,6 +568,12 @@ public class MainRegistry
 		OreDictionary.registerOre("oreFluorite", ModBlocks.ore_fluorite);
 		OreDictionary.registerOre("oreLead", ModBlocks.ore_lead);
 		OreDictionary.registerOre("oreBeryllium", ModBlocks.ore_beryllium);
+		OreDictionary.registerOre("oreAustralium", ModBlocks.ore_australium);
+		OreDictionary.registerOre("oreWeidanium", ModBlocks.ore_weidanium);
+		OreDictionary.registerOre("oreReiium", ModBlocks.ore_reiium);
+		OreDictionary.registerOre("oreUnobtainium", ModBlocks.ore_unobtainium);
+		OreDictionary.registerOre("oreDaffergon", ModBlocks.ore_daffergon);
+		OreDictionary.registerOre("oreVerticium", ModBlocks.ore_verticium);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium);
 		OreDictionary.registerOre("orePlutonium", ModBlocks.ore_nether_plutonium);
