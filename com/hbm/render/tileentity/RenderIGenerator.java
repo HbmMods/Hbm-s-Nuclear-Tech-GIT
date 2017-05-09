@@ -16,14 +16,16 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 	private static final ResourceLocation rotor = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/generator_rotor.obj");
 	private IModelCustom genModel;
 	private IModelCustom rotModel;
-    private ResourceLocation gadgetTexture;
+    private ResourceLocation genTexture;
+    private ResourceLocation rotTexture;
 	
 	public RenderIGenerator()
     {
 		genModel = AdvancedModelLoader.loadModel(body);
 		rotModel = AdvancedModelLoader.loadModel(rotor);
 		//gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
-		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGen.png");
+		genTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGen.png");
+		rotTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
     }
 
     @Override
@@ -50,7 +52,7 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 	        GL11.glTranslated(0.5D, 0.0D, 0.0D); break;
 		}
 
-        bindTexture(gadgetTexture);
+        bindTexture(genTexture);
         
         genModel.renderAll();
 
@@ -86,7 +88,7 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 		i++;
 		GL11.glRotatef(i, 1F, 0F, 0F);
 
-        bindTexture(gadgetTexture);
+        bindTexture(rotTexture);
         rotModel.renderAll();
 
         GL11.glPopMatrix();

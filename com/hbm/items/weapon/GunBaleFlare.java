@@ -150,7 +150,7 @@ public class GunBaleFlare extends Item {
 		list.add("These bombs were meant for artillery, but");
 		list.add("this makeshift launcher works just fine!");
 		list.add("");
-		list.add("Ammo: Mini Nukes");
+		list.add("Ammo: Mk.V AMAT Shell");
 		list.add("Damage: 1000");
 		list.add("Creates small nuclear explosion.");
 	}

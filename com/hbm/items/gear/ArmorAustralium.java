@@ -39,19 +39,22 @@ public class ArmorAustralium extends ItemArmor {
 				if(rand.nextInt(3) == 0) {
 					armor.damageItem(1, player);
 				}
-				player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 10, 2, true));
+				if(!player.isPotionActive(Potion.field_76444_x.id))
+					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 80, 2, true));
 			}
 			if (armor.getItem() == ModItems.australium_iv) {
 				if(rand.nextInt(5) == 0) {
 					armor.damageItem(1, player);
 				}
-				player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 10, 4, true));
+				if(!player.isPotionActive(Potion.field_76444_x.id))
+					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 80, 4, true));
 			}
 			if (armor.getItem() == ModItems.australium_v) {
 				if(rand.nextInt(7) == 0) {
 					armor.damageItem(1, player);
 				}
-				player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 10, 3, true));
+				if(!player.isPotionActive(Potion.field_76444_x.id))
+					player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 80, 3, true));
 			}
 		}
 	}

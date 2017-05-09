@@ -923,7 +923,7 @@ public class ModBlocks {
 		//GameRegistry.registerBlock(machine_rtg_orange, machine_rtg_orange.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_yellow, machine_rtg_yellow.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_green, machine_rtg_green.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_rtg_cyan, machine_rtg_cyan.getUnlocalizedName());
+		//GameRegistry.registerBlock(machine_rtg_cyan, machine_rtg_cyan.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_blue, machine_rtg_blue.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_purple, machine_rtg_purple.getUnlocalizedName());
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
@@ -940,7 +940,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
 		
 		//ReiX Machines
-		GameRegistry.registerBlock(machine_reix_mainframe, machine_reix_mainframe.getUnlocalizedName());
+		//GameRegistry.registerBlock(machine_reix_mainframe, machine_reix_mainframe.getUnlocalizedName());
 		
 		//Industrial Factories
 		GameRegistry.registerBlock(factory_titanium_hull, factory_titanium_hull.getUnlocalizedName());

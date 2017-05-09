@@ -40,7 +40,11 @@ public class ItemCustomLore extends ItemRadioactive {
 
 		if(this == ModItems.ingot_neptunium)
 		{
-			list.add("That one's my favourite!");
+			if(MainRegistry.polaroidID == 11) {
+				list.add("Pretty weird...you know what I mean, right?");
+				list.add("All of it. The lore, the polaroid, the...");
+			} else
+				list.add("That one's my favourite!");
 		}
 
 		if(this == ModItems.pellet_rtg)
@@ -389,7 +393,7 @@ public class ItemCustomLore extends ItemRadioactive {
 		if(this == ModItems.crystal_horn)
 		{
 			if(MainRegistry.polaroidID == 11)
-				list.add("An actual horn");
+				list.add("An actual horn.");
 			else
 				list.add("Not an actual horn.");
 		}

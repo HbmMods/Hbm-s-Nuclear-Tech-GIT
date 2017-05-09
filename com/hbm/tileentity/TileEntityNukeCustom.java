@@ -234,6 +234,9 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			if(item == Item.getItemFromBlock(ModBlocks.det_cord)) {
 				this.tntStrength += 1.5F;
 			}
+			if(item == Item.getItemFromBlock(ModBlocks.det_charge)) {
+				this.tntStrength += 15F;
+			}
 			if(item == ModItems.canister_fuel) {
 				this.tntStrength += 0.3F;
 			}

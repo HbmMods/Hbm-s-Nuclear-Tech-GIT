@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +19,11 @@ public class ItemRamManipulator extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add("A broken remote.");
+
+		if(MainRegistry.polaroidID == 11)
+			list.add("A cheating device.");
+		else
+			list.add("A broken remote.");
 		if (itemstack.getTagCompound() == null) {
 		} else {
 			list.add("");
