@@ -156,23 +156,23 @@ public class ItemMultitoolPassive extends Item {
 			
 			Vec3 vec0 = player.getLookVec();
 			vec0.rotateAroundY(.25F);
-			List<int[]> list = Library.getBlockPosInPath(player, x, y, z, l, vec0);
+			List<int[]> list = Library.getBlockPosInPath(x, y, z, l, vec0);
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 			vec0.rotateAroundY(part);
-			list.addAll(Library.getBlockPosInPath(player, x, y, z, l, vec0));
+			list.addAll(Library.getBlockPosInPath(x, y, z, l, vec0));
 
 			if(!world.isRemote)
 				for(int j = 0; j < list.size(); j++) {

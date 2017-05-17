@@ -6,6 +6,8 @@ import java.util.Random;
 
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,6 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.DecoBlockAlt;
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
@@ -166,6 +169,127 @@ public class ExplosionNukeGeneric {
 		}
 
 		bombStartStrength = (int) f;
+	}
+
+	public static void succ(World world, int x, int y, int z, int radius) {
+		float f = radius;
+		HashSet hashset = new HashSet();
+		int i;
+		int j;
+		int k;
+		double d5;
+		double d6;
+		double d7;
+		double wat = radius/** 2 */
+		;
+		boolean isOccupied = false;
+
+		// bombStartStrength *= 2.0F;
+		i = MathHelper.floor_double(x - wat - 1.0D);
+		j = MathHelper.floor_double(x + wat + 1.0D);
+		k = MathHelper.floor_double(y - wat - 1.0D);
+		int i2 = MathHelper.floor_double(y + wat + 1.0D);
+		int l = MathHelper.floor_double(z - wat - 1.0D);
+		int j2 = MathHelper.floor_double(z + wat + 1.0D);
+		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
+
+		for (int i1 = 0; i1 < list.size(); ++i1) {
+			Entity entity = (Entity) list.get(i1);
+			double d4 = entity.getDistance(x, y, z) / radius;
+
+			if (d4 <= 1.0D) {
+				d5 = entity.posX - x;
+				d6 = entity.posY + entity.getEyeHeight() - y;
+				d7 = entity.posZ - z;
+				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+				if (d9 < wat && !(entity instanceof EntityPlayer
+								&& Library.checkArmor((EntityPlayer) entity, ModItems.euphemium_helmet,
+										ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))) {
+					d5 /= d9;
+					d6 /= d9;
+					d7 /= d9;
+					// double d10 = (double)world.getBlockDensity(vec3,
+					// entity.boundingBox);
+					// if(d10 > 0) isOccupied = true;
+					double d11 = (1.0D - d4);// * d10;
+					if (!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP
+							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() != GameType.CREATIVE)) {
+						// entity.attackEntityFrom(DamageSource.generic,
+						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
+						// bombStartStrength + 1.0D)));
+						double d8 = 0.125 + (field_149933_a.nextDouble() * 0.25);
+						entity.motionX -= d5 * d8;
+						entity.motionY -= d6 * d8;
+						entity.motionZ -= d7 * d8;
+					}
+				}
+			}
+		}
+	}
+
+	public static boolean dedify(World world, int x, int y, int z, int radius) {
+		float f = radius;
+		HashSet hashset = new HashSet();
+		int i;
+		int j;
+		int k;
+		double d5;
+		double d6;
+		double d7;
+		double wat = radius/** 2 */
+		;
+		boolean isOccupied = false;
+
+		// bombStartStrength *= 2.0F;
+		i = MathHelper.floor_double(x - wat - 1.0D);
+		j = MathHelper.floor_double(x + wat + 1.0D);
+		k = MathHelper.floor_double(y - wat - 1.0D);
+		int i2 = MathHelper.floor_double(y + wat + 1.0D);
+		int l = MathHelper.floor_double(z - wat - 1.0D);
+		int j2 = MathHelper.floor_double(z + wat + 1.0D);
+		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
+
+		for (int i1 = 0; i1 < list.size(); ++i1) {
+			Entity entity = (Entity) list.get(i1);
+			double d4 = entity.getDistance(x, y, z) / radius;
+
+			if (d4 <= 1.0D) {
+				d5 = entity.posX - x;
+				d6 = entity.posY + entity.getEyeHeight() - y;
+				d7 = entity.posZ - z;
+				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+				if (d9 < wat && !(entity instanceof EntityPlayer
+								&& Library.checkArmor((EntityPlayer) entity, ModItems.euphemium_helmet,
+										ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))) {
+					d5 /= d9;
+					d6 /= d9;
+					d7 /= d9;
+					// double d10 = (double)world.getBlockDensity(vec3,
+					// entity.boundingBox);
+					// if(d10 > 0) isOccupied = true;
+					double d11 = (1.0D - d4);// * d10;
+					
+					if(entity instanceof EntityItem && ((EntityItem)entity).getEntityItem().getItem() == ModItems.flame_pony) {
+						entity.setDead();
+						return true;
+					}
+						
+					if (!(entity instanceof EntityPlayerMP
+							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() == GameType.CREATIVE)) {
+						entity.attackEntityFrom(ModDamageSource.blackhole, Float.POSITIVE_INFINITY);
+					}
+					
+					if(!(entity instanceof EntityLivingBase) && !(entity instanceof EntityPlayerMP) && !(entity instanceof EntityBlackHole)) {
+						if(field_149933_a.nextInt(8) == 0)
+							entity.setDead();
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	public static void vapor(World world, int x, int y, int z, int bombStartStrength) {

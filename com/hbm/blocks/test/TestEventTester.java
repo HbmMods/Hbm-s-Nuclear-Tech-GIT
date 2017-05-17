@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
@@ -70,8 +71,14 @@ public class TestEventTester extends Block {
         	
         	p_149695_1_.spawnEntityInWorld(fallout);*/
         	
-        	worldObj.setBlock(x, y, z, Blocks.air);
-        	ExplosionLarge.explode(worldObj, x + 0.5, y + 0.5, z + 0.5, MainRegistry.x, true, true, true);
+        	//worldObj.setBlock(x, y, z, Blocks.air);
+        	//ExplosionLarge.explode(worldObj, x + 0.5, y + 0.5, z + 0.5, MainRegistry.x, true, true, true);
+        	
+        	EntityBlackHole bl = new EntityBlackHole(worldObj, MainRegistry.x * 0.1F);
+        	bl.posX = x + 0.5F;
+        	bl.posY = y + 0.5F;
+        	bl.posZ = z + 0.5F;
+        	worldObj.spawnEntityInWorld(bl);
         }
     }
     

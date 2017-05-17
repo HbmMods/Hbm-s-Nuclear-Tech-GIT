@@ -58,6 +58,21 @@ public class ExplosionLarge {
 		}
 	}
 	
+	public static void spawnTracers(World world, double x, double y, double z, int count) {
+		
+		for(int i = 0; i < count; i++) {
+			EntityShrapnel shrapnel = new EntityShrapnel(world);
+			shrapnel.posX = x;
+			shrapnel.posY = y;
+			shrapnel.posZ = z;
+			shrapnel.motionY = ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count) * 0.25F;
+			shrapnel.motionX = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
+			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
+			shrapnel.setTrail(true);
+			world.spawnEntityInWorld(shrapnel);
+		}
+	}
+	
 	public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
 		world.createExplosion(null, x, y, z, strength, true);
 		if(cloud)

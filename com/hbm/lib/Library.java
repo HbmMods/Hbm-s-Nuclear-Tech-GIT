@@ -254,7 +254,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.watz_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_igenerator)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_igenerator ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron)
 		{
 			return true;
 		}
@@ -406,7 +407,7 @@ public class Library {
         }
     }
 	
-	public static List<int[]> getBlockPosInPath(EntityPlayer player, int x, int y, int z, int length, Vec3 vec0) {
+	public static List<int[]> getBlockPosInPath(int x, int y, int z, int length, Vec3 vec0) {
 		List<int[]> list = new ArrayList<int[]>();
 		
 		for(int i = 0; i <= length; i++) {

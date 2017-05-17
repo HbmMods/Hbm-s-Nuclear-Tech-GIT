@@ -6,7 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityIGenerator;
+import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -92,7 +92,7 @@ public class DummyBlockIGenerator extends BlockContainer implements IDummy {
     			int b = ((TileEntityDummy)te).targetY;
     			int c = ((TileEntityDummy)te).targetZ;
     			
-    			TileEntityIGenerator entity = (TileEntityIGenerator) world.getTileEntity(a, b, c);
+    			TileEntityMachineIGenerator entity = (TileEntityMachineIGenerator) world.getTileEntity(a, b, c);
     			if(entity != null)
     			{
     				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_electric_furnace, world, a, b, c);

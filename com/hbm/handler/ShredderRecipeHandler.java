@@ -9,11 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.gui.MachineRecipes;
-import com.hbm.gui.gui.GUIMachineReactor;
-import com.hbm.gui.gui.GUIMachineShredder;
 import com.hbm.handler.ReactorRecipeHandler.Fuel;
 import com.hbm.handler.ReactorRecipeHandler.SmeltingSet;
+import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.gui.GUIMachineReactor;
+import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

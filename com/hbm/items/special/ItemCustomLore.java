@@ -405,6 +405,18 @@ public class ItemCustomLore extends ItemRadioactive {
 			else
 				list.add("High quality silicate, slightly burned.");
 		}
+		
+		if(this == ModItems.crystal_energy)
+		{
+			list.add("Densely packed energy powder.");
+			list.add("Not edible.");
+		}
+		
+		if(this == ModItems.pellet_coolant)
+		{
+			list.add("Required for cyclotron operation.");
+			list.add("Do NOT operate cyclotron without it!");
+		}
 	}
 
     @Override

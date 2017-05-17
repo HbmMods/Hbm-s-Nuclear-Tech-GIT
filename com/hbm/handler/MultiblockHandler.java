@@ -45,6 +45,7 @@ public class MultiblockHandler {
 	public static final int[] iGenDimensionSouth = new int[] { 1, 1, 2, 0, 2, 3 };
 	public static final int[] iGenDimensionWest  = new int[] { 3, 2, 2, 0, 1, 1 };
 	public static final int[] centDimension  = new int[] { 0, 0, 2, 0, 0, 0 };
+	public static final int[] cyclDimension  = new int[] { 1, 1, 5, 0, 1, 1 };
 	
 	//Approved!
 	public static boolean checkSpace(World world, int x, int y, int z, int[] i) {

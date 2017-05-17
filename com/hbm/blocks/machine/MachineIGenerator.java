@@ -6,7 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityIGenerator;
+import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityNukeGadget;
 
 import net.minecraft.block.Block;
@@ -27,7 +27,7 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityIGenerator();
+		return new TileEntityMachineIGenerator();
 
 	}
 

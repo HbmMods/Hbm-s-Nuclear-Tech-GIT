@@ -33,6 +33,8 @@ death.attack.cheater=%1$s's intestines turned into oats. (???)
 death.attack.laser=%1$s was turned into ash by %2$s.
 death.attack.rubble=%1$s was squashed by debris.
 death.attack.shrapnel=%1$s was ragged by a shrapnel.
+death.attack.teleporter=%1$s was teleported into nothingness.
+death.attack.blackhole=%1$s was spaghettified.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -149,6 +151,8 @@ tile.machine_reix_mainframe.name=Rei-X Mainframe (WIP)
 container.reix=Rei-X Mainframe
 tile.machine_industrial_generator.name=Industrial Generator
 container.iGenerator=Industrial Generator
+tile.machine_cyclotron.name=Cyclotron
+container.cyclotron=Cyclotron
 
 tile.rail_highspeed.name=High Speed Rail
 tile.rail_booster.name=High Speed Booster Rail
@@ -1027,6 +1031,15 @@ item.blades_titanium.name=Titanium Shredder Blades
 item.blades_advanced_alloy.name=Advanced Shredder Blades
 item.blades_combine_steel.name=CMB Shredder Blades
 item.blades_schrabidium.name=Schrabidium Shredder Blades
+
+item.part_lithium.name=Box of Lithium Dust
+item.part_beryllium.name=Box of Beryllium Dust
+item.part_carbon.name=Box of Carbon Dust
+item.part_copper.name=Box of Copper Dust
+item.part_plutonium.name=Box of Plutonium Dust
+
+item.crystal_energy.name=Energy Crystal
+item.pellet_coolant.name=Coolant Cluster
 
 item.linker.name=Telelinker
 

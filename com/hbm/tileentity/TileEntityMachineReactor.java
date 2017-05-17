@@ -1,6 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.gui.MachineRecipes;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;

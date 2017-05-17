@@ -6,7 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityIGenerator;
+import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 

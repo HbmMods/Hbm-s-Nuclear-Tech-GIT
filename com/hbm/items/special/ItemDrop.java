@@ -2,6 +2,7 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionChaos;
@@ -106,7 +107,7 @@ public class ItemDrop extends Item {
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.black_hole) {
 					if (!entityItem.worldObj.isRemote) {
-						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
+						/*entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
 								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
 						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
@@ -119,7 +120,13 @@ public class ItemDrop extends Item {
 						entity.coefficient2 = 0.01F;
 						entity.waste = false;
 
-						entityItem.worldObj.spawnEntityInWorld(entity);
+						entityItem.worldObj.spawnEntityInWorld(entity);*/
+
+			        	EntityBlackHole bl = new EntityBlackHole(entityItem.worldObj, 0.5F);
+			        	bl.posX = entityItem.posX ;
+			        	bl.posY = entityItem.posY ;
+			        	bl.posZ = entityItem.posZ ;
+			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.crystal_xen) {
@@ -145,7 +152,7 @@ public class ItemDrop extends Item {
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.cell_anti_schrabidium) {
 			list.add("Warning: Exposure to matter will");
-			list.add("create a f�lkvangr field!");
+			list.add("create a fólkvangr field!");
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity) {
 			list.add("You may be asking:");

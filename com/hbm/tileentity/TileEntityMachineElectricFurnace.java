@@ -1,9 +1,9 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.machine.MachineElectricFurnace;
-import com.hbm.gui.MachineRecipes;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 

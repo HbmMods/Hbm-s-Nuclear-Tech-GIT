@@ -6,6 +6,7 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.effect.EntityFalloutRain;
@@ -85,6 +86,7 @@ import com.hbm.render.entity.RenderBeam;
 import com.hbm.render.entity.RenderBeam2;
 import com.hbm.render.entity.RenderBeam3;
 import com.hbm.render.entity.RenderBigNuke;
+import com.hbm.render.entity.RenderBlackHole;
 import com.hbm.render.entity.RenderChopperMine;
 import com.hbm.render.entity.RenderCloudFleija;
 import com.hbm.render.entity.RenderEMPBlast;
@@ -151,6 +153,7 @@ import com.hbm.render.tileentity.RenderBombMulti;
 import com.hbm.render.tileentity.RenderCable;
 import com.hbm.render.tileentity.RenderCentrifuge;
 import com.hbm.render.tileentity.RenderCrashedBomb;
+import com.hbm.render.tileentity.RenderCyclotron;
 import com.hbm.render.tileentity.RenderDecoBlock;
 import com.hbm.render.tileentity.RenderDecoBlockAlt;
 import com.hbm.render.tileentity.RenderIGenerator;
@@ -189,9 +192,10 @@ import com.hbm.tileentity.TileEntityDecoPoleSatelliteReceiver;
 import com.hbm.tileentity.TileEntityDecoPoleTop;
 import com.hbm.tileentity.TileEntityDecoSteelPoles;
 import com.hbm.tileentity.TileEntityDecoTapeRecorder;
-import com.hbm.tileentity.TileEntityIGenerator;
+import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
+import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.TileEntityNukeBoy;
@@ -241,7 +245,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeMan.class, new RenderNukeMan());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineUF6Tank.class, new RenderUF6Tank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePuF6Tank.class, new RenderPuF6Tank());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityIGenerator.class, new RenderIGenerator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineIGenerator.class, new RenderIGenerator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCyclotron.class, new RenderCyclotron());
 
 		//RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderSnowball(ModItems.man_core));
@@ -289,6 +294,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCloudFleija.class, new RenderCloudFleija());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudNoShroom.class, new RenderNoCloud());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFalloutRain.class, new RenderFallout());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityBlackHole.class, new RenderBlackHole());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());

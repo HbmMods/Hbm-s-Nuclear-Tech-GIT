@@ -29,6 +29,7 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource cheater = (new DamageSource("cheater")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 	public static DamageSource rubble = (new DamageSource("rubble")).setProjectile();
 	public static DamageSource shrapnel = (new DamageSource("shrapnel")).setProjectile();
+	public static DamageSource blackhole = (new DamageSource("blackhole")).setDamageIsAbsolute().setDamageBypassesArmor();
 
 	public ModDamageSource(String p_i1566_1_) {
 		super(p_i1566_1_);

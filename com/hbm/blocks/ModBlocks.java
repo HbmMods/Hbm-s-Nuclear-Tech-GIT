@@ -51,6 +51,7 @@ import com.hbm.blocks.machine.BlockHatch;
 import com.hbm.blocks.machine.BlockReactor;
 import com.hbm.blocks.machine.BlockSeal;
 import com.hbm.blocks.machine.DummyBlockCentrifuge;
+import com.hbm.blocks.machine.DummyBlockCyclotron;
 import com.hbm.blocks.machine.DummyBlockIGenerator;
 import com.hbm.blocks.machine.FWatzCore;
 import com.hbm.blocks.machine.FWatzHatch;
@@ -63,6 +64,7 @@ import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.blocks.machine.MachineCMBFactory;
 import com.hbm.blocks.machine.MachineCentrifuge;
 import com.hbm.blocks.machine.MachineCoal;
+import com.hbm.blocks.machine.MachineCyclotron;
 import com.hbm.blocks.machine.MachineDeuterium;
 import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.blocks.machine.MachineDiesel;
@@ -306,6 +308,9 @@ public class ModBlocks {
 
 	public static Block machine_industrial_generator;
 	public static final int guiID_machine_industrial_generator = 39;
+
+	public static Block machine_cyclotron;
+	public static final int guiID_machine_cyclotron = 41;
 	
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
@@ -459,6 +464,8 @@ public class ModBlocks {
 	public static Block dummy_block_igenerator;
 	public static Block dummy_port_igenerator;
 	public static Block dummy_block_centrifuge;
+	public static Block dummy_block_cyclotron;
+	public static Block dummy_port_cyclotron;
 	
 
 	private static void initializeBlock() {
@@ -617,6 +624,7 @@ public class ModBlocks {
 
 		machine_generator = new MachineGenerator(Material.iron).setBlockName("machine_generator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		machine_industrial_generator = new MachineIGenerator(Material.iron).setBlockName("machine_industrial_generator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":industrial_generator");
+		machine_cyclotron = new MachineCyclotron(Material.iron).setBlockName("machine_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":cyclotron");
 		
 		machine_electric_furnace_off = new MachineElectricFurnace(false).setBlockName("machine_electric_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		machine_electric_furnace_on = new MachineElectricFurnace(true).setBlockName("machine_electric_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -751,6 +759,8 @@ public class ModBlocks {
 		dummy_block_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_block_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_port_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_centrifuge = new DummyBlockCentrifuge(Material.iron).setBlockName("dummy_block_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_block_cyclotron = new DummyBlockCyclotron(Material.iron).setBlockName("dummy_block_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_port_cyclotron = new DummyBlockCyclotron(Material.iron).setBlockName("dummy_port_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -918,6 +928,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_diesel, machine_diesel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_generator, machine_generator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_industrial_generator, machine_industrial_generator.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rtg_grey, machine_rtg_grey.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_red, machine_rtg_red.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_orange, machine_rtg_orange.getUnlocalizedName());
@@ -1029,6 +1040,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_block_igenerator, dummy_block_igenerator.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_igenerator, dummy_port_igenerator.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_centrifuge, dummy_block_centrifuge.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_block_cyclotron, dummy_block_cyclotron.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_port_cyclotron, dummy_port_cyclotron.getUnlocalizedName());
 		
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());

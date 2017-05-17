@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.hbm.gui.MachineRecipes;
-import com.hbm.gui.gui.GUITestDiFurnace;
+import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.gui.GUITestDiFurnace;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;

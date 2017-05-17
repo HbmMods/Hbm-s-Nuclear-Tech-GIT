@@ -33,6 +33,8 @@ death.attack.cheater=%1$s's Innereien wurden zu Hafer. (???)
 death.attack.laser=%1$s wurde von %2$s in Asche verwandet.
 death.attack.rubble=%1$s wurde von Schutt zerquetscht.
 death.attack.shrapnel=%1$s wurde von einem Schrapnell zerfetzt.
+death.attack.teleporter=%1$s wurde ins Nichts teleportiert.
+death.attack.blackhole=%1$s wurde spaghettifiziert.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -149,6 +151,8 @@ tile.machine_reix_mainframe.name=Rei-X Hauptrechner (WIP)
 container.reix=Rei-X Hauptrechner
 tile.machine_industrial_generator.name=Industrieller Generator
 container.iGenerator=Industrieller Generator
+tile.machine_cyclotron.name=Zyklotron
+container.cyclotron=Zyklotron
 
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
@@ -1027,6 +1031,15 @@ item.blades_titanium.name=Titansägeblatt
 item.blades_advanced_alloy.name=Fortgeschrittenes Sägeblatt
 item.blades_combine_steel.name=CMB-Sägeblatt
 item.blades_schrabidium.name=Schrabidiumsägeblatt
+
+item.part_lithium.name=Lithiumstaubkiste
+item.part_beryllium.name=Berylliumstaubkiste
+item.part_carbon.name=Kohlenstoffstaubkiste
+item.part_copper.name=Kupferstaubkiste
+item.part_plutonium.name=Plutoniumstaubkiste
+
+item.crystal_energy.name=Energiekristall
+item.pellet_coolant.name=Kühlcluster
 
 item.linker.name=Telelinker
 
