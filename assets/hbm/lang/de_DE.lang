@@ -258,6 +258,8 @@ item.wire_magnetized_tungsten.name=4000K Hochtemperaturensupraleiter
 item.coil_magnetized_tungsten.name=4000K Hochtemperaturensupraleitermagnetspule
 item.plate_mixed.name=Gemischte Platte
 item.plate_paa.name=PaA-Legierungsplatte
+item.ingot_dura_steel.name=Schnellarbeitsstahlbarren
+item.ingot_polymer.name=Polymerbarren
 
 item.ingot_australium.name=Australiumbarren
 item.ingot_weidanium.name=Weidaniumbarren
@@ -415,6 +417,10 @@ item.powder_bromine.name=Bromstaub
 item.powder_niobium.name=Niobstaub
 item.powder_tennessine.name=Tennessinstaub
 item.powder_cerium.name=Cerstaub
+item.powder_dura_steel.name=Schnellarbeitsstahlstaub
+item.powder_polymer.name=Polymerstaub
+item.powder_lanthanium.name=Lanthanstaub
+item.powder_actinium.name=Actiniumstaub
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -445,6 +451,9 @@ item.telepad.name=Teleplatte
 item.entanglement_kit.name=Verschränkungskit
 item.toothpicks.name=Zahnstocher
 item.ducttape.name=Klebeband
+item.magnet_dee.name=Duantenmagnete
+item.magnet_circular.name=Flachmagnet
+item.cyclotron_tower.name=Zyklotronenturm
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -863,7 +872,6 @@ item.paa_boots.name=PaA-"olle Latschen"
 item.goggles.name=Schutzbrille
 item.gas_mask.name=Gasmaske
 item.oxy_mask.name=Sauerstoffmaske
-
 item.t45_helmet.name=T45-Powerrüstungshelm
 item.t45_plate.name=T45-Powerrüstungsbrustpanzer
 item.t45_legs.name=T45-Powerrüstungsbeinschutz
@@ -1081,6 +1089,8 @@ tile.dummy_block.name=Dummyblock
 tile.dummy_port.name=Dummyblock (Stromanschluss)
 
 item.chopper.name=Jagdschrauber
+
+item.nothing.name=Diesen Slot freilassen
 
 tile.crystal_virus.name=Dunkler Kristall
 tile.crystal_hardened.name=Gehärteter Dunkler Kristall

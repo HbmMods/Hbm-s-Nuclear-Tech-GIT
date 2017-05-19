@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.AlloyFurnaceRecipeHandler;
 import com.hbm.handler.CMBFurnaceRecipeHandler;
 import com.hbm.handler.CentrifugeRecipeHandler;
+import com.hbm.handler.CyclotronRecipeHandler;
 import com.hbm.handler.ReactorRecipeHandler;
 import com.hbm.handler.ShredderRecipeHandler;
 import com.hbm.inventory.gui.GUITestDiFurnace;
@@ -29,6 +30,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new ShredderRecipeHandler());
 		API.registerRecipeHandler(new CMBFurnaceRecipeHandler());
 		API.registerUsageHandler(new CMBFurnaceRecipeHandler());
+		API.registerRecipeHandler(new CyclotronRecipeHandler());
+		API.registerUsageHandler(new CyclotronRecipeHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_coal_on)));

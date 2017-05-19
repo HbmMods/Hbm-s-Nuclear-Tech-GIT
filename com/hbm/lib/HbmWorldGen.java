@@ -98,7 +98,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			int randPosY = rand.nextInt(35);
 			int randPosZ = j + rand.nextInt(16);
 
-			(new WorldGenMinable(ModBlocks.ore_niter, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+			(new WorldGenMinable(ModBlocks.ore_niter, 6)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
 		for (int k = 0; k < MainRegistry.tungstenSpawn; k++) {

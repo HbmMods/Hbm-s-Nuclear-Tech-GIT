@@ -35,6 +35,7 @@ import com.hbm.entity.effect.EntityNukeCloudBig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeBlackHole;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
 import com.hbm.entity.grenade.EntityGrenadeFire;
@@ -240,7 +241,7 @@ public class MainRegistry
 	public static int aluminiumSpawn = 7;
 	public static int copperSpawn = 12;
 	public static int fluoriteSpawn = 6;
-	public static int niterSpawn = 4;
+	public static int niterSpawn = 6;
 	public static int tungstenSpawn = 10;
 	public static int leadSpawn = 6;
 	public static int berylliumSpawn = 6;
@@ -449,6 +450,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityShrapnel.class, "entity_shrapnel", 68, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeShrapnel.class, "entity_grenade_shrapnel", 69, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityBlackHole.class, "entity_black_hole", 70, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeBlackHole.class, "entity_grenade_black_hole", 71, this, 250, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -495,6 +497,8 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotUnobtainium", ModItems.ingot_unobtainium);
 		OreDictionary.registerOre("ingotDaffergon", ModItems.ingot_daffergon);
 		OreDictionary.registerOre("ingotVerticium", ModItems.ingot_verticium);
+		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
+		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -557,6 +561,8 @@ public class MainRegistry
 		OreDictionary.registerOre("dustUnobtainium", ModItems.powder_unobtainium);
 		OreDictionary.registerOre("dustDaffergon", ModItems.powder_daffergon);
 		OreDictionary.registerOre("dustVerticium", ModItems.powder_verticium);
+		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
+		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
 
 		OreDictionary.registerOre("gemCoal", Items.coal);
 
@@ -709,7 +715,7 @@ public class MainRegistry
         Property PFluoriteSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.5_fluoriteSpawnrate", 6);
         PFluoriteSpawn.comment = "Ammount of fluorite ore veins per chunk";
         fluoriteSpawn = PFluoriteSpawn.getInt();
-        Property PNiterSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.6_niterSpawnrate", 4);
+        Property PNiterSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.6_niterSpawnrate", 6);
         PNiterSpawn.comment = "Ammount of niter ore veins per chunk";
         niterSpawn = PNiterSpawn.getInt();
         Property PtungstenSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.7_tungstenSpawnrate", 10);

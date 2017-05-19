@@ -213,8 +213,7 @@ public class ExplosionNukeGeneric {
 					// entity.boundingBox);
 					// if(d10 > 0) isOccupied = true;
 					double d11 = (1.0D - d4);// * d10;
-					if (!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP
-							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() != GameType.CREATIVE)) {
+					if (!(entity instanceof EntityPlayerMP && ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() == GameType.CREATIVE)) {
 						// entity.attackEntityFrom(DamageSource.generic,
 						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
 						// bombStartStrength + 1.0D)));

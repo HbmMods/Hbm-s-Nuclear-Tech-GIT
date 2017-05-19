@@ -14,6 +14,7 @@ import com.hbm.entity.effect.EntityNukeCloudBig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeBlackHole;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
 import com.hbm.entity.grenade.EntityGrenadeFire;
@@ -280,6 +281,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeASchrab.class, new RenderSnowball(ModItems.grenade_aschrab));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadePulse.class, new RenderSnowball(ModItems.grenade_pulse));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeShrapnel.class, new RenderSnowball(ModItems.grenade_shrapnel));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBlackHole.class, new RenderSnowball(ModItems.grenade_black_hole));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 

@@ -104,6 +104,7 @@ public class RenderBlackHole extends Render {
             }
 
             GL11.glPopMatrix();
+        	GL11.glPopMatrix();
             GL11.glDepthMask(true);
             GL11.glDisable(GL11.GL_CULL_FACE);
             GL11.glDisable(GL11.GL_BLEND);
@@ -114,7 +115,6 @@ public class RenderBlackHole extends Render {
             RenderHelper.enableStandardItemLighting();
             //FLARE END
             
-        	GL11.glPopMatrix();
 		}
 	}
 

@@ -20,6 +20,8 @@ public class EntityBlackHole extends Entity {
 
 	public EntityBlackHole(World p_i1582_1_) {
 		super(p_i1582_1_);
+		this.ignoreFrustumCheck = true;
+		this.isImmuneToFire = true;
 	}
 
 	public EntityBlackHole(World world, float size) {
@@ -87,6 +89,8 @@ public class EntityBlackHole extends Entity {
 					}
 				}
 			}
+			
+			worldObj.createExplosion(null, this.posX, this.posY, this.posZ, 5.0F, true);
 		}
 	}
 
@@ -110,6 +114,19 @@ public class EntityBlackHole extends Entity {
     public boolean isInRangeToRenderDist(double distance)
     {
         return distance < 25000;
+    }
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public int getBrightnessForRender(float p_70070_1_)
+    {
+        return 15728880;
+    }
+
+    @Override
+	public float getBrightness(float p_70013_1_)
+    {
+        return 1.0F;
     }
 
 }

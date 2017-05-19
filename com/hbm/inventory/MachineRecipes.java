@@ -115,6 +115,21 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.canister_canola);
 		}
 
+		if (item == Items.coal && item2 == ModItems.niter
+				|| item == ModItems.niter && item2 == Items.coal) {
+			return new ItemStack(ModItems.ingot_polymer, 2);
+		}
+
+		if (item == ModItems.ingot_steel && item2 == ModItems.ingot_tungsten
+				|| item == ModItems.ingot_tungsten && item2 == ModItems.ingot_steel) {
+			return new ItemStack(ModItems.ingot_dura_steel, 2);
+		}
+
+		if (item == ModItems.ingot_steel && item2 == ModItems.powder_cobalt
+				|| item == ModItems.powder_cobalt && item2 == ModItems.ingot_steel) {
+			return new ItemStack(ModItems.ingot_dura_steel, 2);
+		}
+
 		return null;
 	}
 
@@ -501,7 +516,7 @@ public class MachineRecipes {
 			if(item.getItem() == ModItems.powder_lithium)
 				return new ItemStack(ModItems.fluorite, 1);
 			if(item.getItem() == ModItems.powder_iodine)
-				return new ItemStack(ModItems.powder_astatine, 1);
+				return new ItemStack(ModItems.powder_tungsten, 1);
 			if(item.getItem() == ModItems.powder_neodymium)
 				return new ItemStack(ModItems.powder_tungsten, 1);
 			if(item.getItem() == ModItems.powder_australium)
@@ -553,7 +568,7 @@ public class MachineRecipes {
 			if(item.getItem() == ModItems.powder_lithium)
 				return new ItemStack(ModItems.powder_bromine, 1);
 			if(item.getItem() == ModItems.powder_iodine)
-				return new ItemStack(ModItems.powder_tungsten, 1);
+				return new ItemStack(ModItems.powder_astatine, 1);
 			if(item.getItem() == ModItems.powder_thorium)
 				return new ItemStack(ModItems.powder_tennessine, 1);
 			if(item.getItem() == ModItems.powder_neodymium)
@@ -590,6 +605,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.powder_schrabidium, 1);
 			if(item.getItem() == ModItems.powder_unobtainium)
 				return new ItemStack(ModItems.powder_daffergon, 1);
+			if(item.getItem() == ModItems.cell_antimatter)
+				return new ItemStack(ModItems.cell_anti_schrabidium, 1);
 		}
 
 		return null;
@@ -602,7 +619,7 @@ public class MachineRecipes {
 					new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)));
 		}
 		recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.coal) },
-				new ItemStack(ModItems.ingot_steel));
+				new ItemStack(ModItems.ingot_steel, 2));
 		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper) },
 				new ItemStack(ModItems.neutron_reflector, 2));
 		recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper) },
@@ -626,6 +643,15 @@ public class MachineRecipes {
 		recipes.put(
 				new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(ModItems.oil_canola) },
 				new ItemStack(ModItems.canister_canola, 1));
+		recipes.put(
+				new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten) },
+				new ItemStack(ModItems.ingot_dura_steel, 2));
+		recipes.put(
+				new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
+				new ItemStack(ModItems.ingot_dura_steel, 2));
+		recipes.put(
+				new ItemStack[] { new ItemStack(Items.coal), new ItemStack(ModItems.niter) },
+				new ItemStack(ModItems.ingot_polymer, 2));
 		return recipes;
 	}
 
@@ -730,6 +756,323 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_lithium), getReactorOutput(ModItems.rod_lithium));
 		recipes.put(new ItemStack(ModItems.rod_dual_lithium), getReactorOutput(ModItems.rod_dual_lithium));
 		recipes.put(new ItemStack(ModItems.rod_quad_lithium), getReactorOutput(ModItems.rod_quad_lithium));
+		return recipes;
+	}
+	
+	public Map<Object[], Object> getCyclotronRecipes() {
+		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
+		Item part = ModItems.part_lithium;
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.niter) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.niter)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_coal) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_coal)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iron) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iron)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_gold) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_gold)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_quartz) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_quartz)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_uranium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_uranium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_aluminium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_aluminium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_beryllium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_beryllium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_schrabidium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_schrabidium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lithium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lithium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iodine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iodine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_thorium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_thorium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_caesium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_caesium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_reiium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_reiium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_cobalt) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_cobalt)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_cerium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_cerium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_actinium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_actinium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lanthanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lanthanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.nothing) },
+				new ItemStack(ModItems.cell_antimatter));
+
+		part = ModItems.part_beryllium;
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.sulfur) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.sulfur)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.fluorite) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.fluorite)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iron) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iron)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_quartz) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_quartz)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_titanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_titanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_copper) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_copper)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_tungsten) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_tungsten)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_aluminium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_aluminium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lead) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lead)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_beryllium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_beryllium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lithium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lithium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iodine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iodine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_thorium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_thorium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_astatine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_astatine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_caesium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_caesium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_weidanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_weidanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_strontium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_strontium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_bromine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_bromine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_actinium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_actinium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lanthanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lanthanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.nothing) },
+				new ItemStack(ModItems.cell_antimatter));
+		
+		part = ModItems.part_carbon;
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.sulfur) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.sulfur)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.niter) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.niter)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.fluorite) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.fluorite)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_coal) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_coal)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iron) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iron)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_gold) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_gold)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_quartz) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_quartz)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_plutonium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_plutonium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_neptunium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_neptunium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_titanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_titanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_copper) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_copper)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_tungsten) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_tungsten)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_aluminium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_aluminium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lead) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lead)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_beryllium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_beryllium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lithium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lithium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iodine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iodine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_neodymium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_neodymium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_australium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_australium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_strontium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_strontium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_cobalt) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_cobalt)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_bromine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_bromine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_niobium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_niobium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_tennessine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_tennessine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_cerium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_cerium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.nothing) },
+				new ItemStack(ModItems.cell_antimatter));
+		
+		part = ModItems.part_copper;
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.sulfur) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.sulfur)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.niter) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.niter)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.fluorite) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.fluorite)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_coal) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_coal)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iron) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iron)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_gold) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_gold)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_quartz) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_quartz)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_uranium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_uranium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_titanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_titanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_copper) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_copper)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_tungsten) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_tungsten)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_aluminium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_aluminium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lead) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lead)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_beryllium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_beryllium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lithium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lithium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_iodine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_iodine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_thorium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_thorium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_neodymium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_neodymium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_astatine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_astatine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_caesium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_caesium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_verticium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_verticium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_cobalt) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_cobalt)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_bromine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_bromine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_niobium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_niobium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_tennessine) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_tennessine)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_cerium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_cerium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_actinium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_actinium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_lanthanium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_lanthanium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.nothing) },
+				new ItemStack(ModItems.cell_antimatter));
+		
+		part = ModItems.part_plutonium;
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_uranium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_uranium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_plutonium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_plutonium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_neptunium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_neptunium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.powder_unobtainium) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.powder_unobtainium)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.cell_antimatter) },
+				getCyclotronOutput(new ItemStack(part), new ItemStack(ModItems.cell_antimatter)));
+		
+		recipes.put(new ItemStack[] { new ItemStack(part), new ItemStack(ModItems.nothing) },
+				new ItemStack(ModItems.cell_antimatter));
+		
 		return recipes;
 	}
 

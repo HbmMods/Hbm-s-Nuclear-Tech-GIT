@@ -1,6 +1,7 @@
 package com.hbm.items.weapon;
 
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeBlackHole;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
 import com.hbm.entity.grenade.EntityGrenadeFire;
@@ -107,6 +108,9 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_shrapnel) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeShrapnel(p_77659_2_, p_77659_3_));
 			}
+			if (this == ModItems.grenade_black_hole) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeBlackHole(p_77659_2_, p_77659_3_));
+			}
 		}
 
 		return p_77659_1_;
@@ -119,7 +123,7 @@ public class ItemGrenade extends Item {
 			return EnumRarity.rare;
 		}
 
-		if (this == ModItems.grenade_plasma || this == ModItems.grenade_zomg) {
+		if (this == ModItems.grenade_plasma || this == ModItems.grenade_zomg || this == ModItems.grenade_black_hole) {
 			return EnumRarity.epic;
 		}
 
