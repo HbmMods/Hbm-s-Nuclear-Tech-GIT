@@ -260,6 +260,7 @@ item.plate_mixed.name=Gemischte Platte
 item.plate_paa.name=PaA-Legierungsplatte
 item.ingot_dura_steel.name=Schnellarbeitsstahlbarren
 item.ingot_polymer.name=Polymerbarren
+item.bolt_dura_steel.name=Schnellarbeitsstahlbolzen
 
 item.ingot_australium.name=Australiumbarren
 item.ingot_weidanium.name=Weidaniumbarren
@@ -620,6 +621,7 @@ item.grenade_aschrab.name=Werfbare Antischrabidiumzelle
 item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
 item.grenade_zomg.name=Negativenergie-Paarvernichtungsgranate
+item.grenade_black_hole.name=Schwarzes-Loch-Granate
 item.ullapool_caber.name=Ullapool'sche Stiel
 
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
@@ -948,6 +950,10 @@ item.cmb_pickaxe.name=CMB-Stahlspitzhacke
 item.cmb_axe.name=CMB-Stahlaxt
 item.cmb_shovel.name=CMB-Stahlschaufel
 item.cmb_hoe.name=CMB-Stahlfeldhacke
+item.elec_sword.name=Elektroimpulswaffe
+item.elec_pickaxe.name=Schlagbohrmaschine
+item.elec_axe.name=Elektrische Kettensäge
+item.elec_shovel.name=Spiralbohrer
 
 tile.red_cable.name=Rotes Kupferkabel
 tile.block_meteor.name=Meteoritenblock

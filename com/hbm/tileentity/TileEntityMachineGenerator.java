@@ -574,31 +574,8 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		}
 		
 		//Batteries
-		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.battery_generic && slots[11].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.battery_advanced && slots[11].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.battery_schrabidium && slots[11].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.factory_core_titanium && slots[11].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[11] != null && slots[11].getItem() == ModItems.factory_core_advanced && slots[11].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[11].setItemDamage(slots[11].getItemDamage() - 1);
-		}
+		
+		power = Library.chargeItemsFromTE(slots, 11, power, powerMax);
 	}
 	
 	public void attemptPower(int i) {

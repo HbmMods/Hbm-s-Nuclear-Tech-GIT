@@ -589,31 +589,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				}
 				
 				//Batteries
-				if(power - 100 >= 0 && slots[32] != null && slots[32].getItem() == ModItems.battery_generic && slots[32].getItemDamage() > 0)
-				{
-					power -= 100;
-					slots[32].setItemDamage(slots[32].getItemDamage() - 1);
-				}
-				if(power - 100 >= 0 && slots[32] != null && slots[32].getItem() == ModItems.battery_advanced && slots[32].getItemDamage() > 0)
-				{
-					power -= 100;
-					slots[32].setItemDamage(slots[32].getItemDamage() - 1);
-				}
-				if(power - 100 >= 0 && slots[32] != null && slots[32].getItem() == ModItems.battery_schrabidium && slots[32].getItemDamage() > 0)
-				{
-					power -= 100;
-					slots[32].setItemDamage(slots[32].getItemDamage() - 1);
-				}
-				if(power - 100 >= 0 && slots[32] != null && slots[32].getItem() == ModItems.factory_core_titanium && slots[32].getItemDamage() > 0)
-				{
-					power -= 100;
-					slots[32].setItemDamage(slots[32].getItemDamage() - 1);
-				}
-				if(power - 100 >= 0 && slots[32] != null && slots[32].getItem() == ModItems.factory_core_advanced && slots[32].getItemDamage() > 0)
-				{
-					power -= 100;
-					slots[32].setItemDamage(slots[32].getItemDamage() - 1);
-				}
+				
+				power = Library.chargeItemsFromTE(slots, 32, power, maxPower);
 			}
 		}
 		

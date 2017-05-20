@@ -4,6 +4,7 @@ import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -194,41 +195,9 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public void updateEntity() {
+
 		
-		if(/*power + 100 <= maxPower && */slots[2] != null && slots[2].getItem() == ModItems.battery_creative)
-		{
-			power = maxPower;
-		}
-		
-		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.battery_generic && slots[2].getItemDamage() < 50)
-		{
-			power += 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.battery_advanced && slots[2].getItemDamage() < 200)
-		{
-			power += 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.battery_schrabidium && slots[2].getItemDamage() < 10000)
-		{
-			power += 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.fusion_core && slots[2].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[2] != null && slots[2].getItem() == ModItems.energy_core && slots[2].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() + 1);
-		}
+		power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 		
 		this.preState = this.state;
 		

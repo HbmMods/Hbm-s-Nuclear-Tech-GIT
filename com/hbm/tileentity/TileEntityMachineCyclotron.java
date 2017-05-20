@@ -247,6 +247,10 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 						slots[7] = null;
 				}
 				
+				if(getCoolantTicksLeft() == 100) {
+			        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.shutdown", 10.0F, 1.0F);
+				}
+				
 				if(getHeatLevel() == 1) {
 					ExplosionChaos.flameDeath(worldObj, this.xCoord, this.yCoord, zCoord, 15);
 				}
@@ -318,6 +322,8 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 			} else {
 				progress = 0;
 			}
+			
+			power = Library.chargeItemsFromTE(slots, 9, power, maxPower);
 		}
 	}
 	
@@ -481,6 +487,15 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 		}
 		
 		return 4;
+	}
+	
+	public int getCoolantTicksLeft() {
+		if(slots[7] != null && slots[7].getItem() == ModItems.pellet_coolant) {
+			int i = slots[7].getMaxDamage() - slots[7].getItemDamage();
+			return i;
+		}
+		
+		return 0;
 	}
 	
 	public boolean isPart(ItemStack stack) {

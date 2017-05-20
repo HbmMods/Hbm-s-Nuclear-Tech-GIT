@@ -1122,31 +1122,8 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 			{
 				emptyPlasma();
 			}
-			if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.battery_generic && slots[1].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.battery_advanced && slots[1].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.battery_schrabidium && slots[1].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.factory_core_titanium && slots[1].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.factory_core_advanced && slots[1].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-			}
+			
+			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
 		}
 	}
 	

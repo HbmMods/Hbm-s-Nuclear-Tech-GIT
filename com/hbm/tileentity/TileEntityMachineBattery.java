@@ -206,34 +206,12 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 			if(age == 9 || age == 19)
 				ffgeuaInit();
 		}
-
-		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.battery_generic && slots[1].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.battery_advanced && slots[1].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.battery_schrabidium && slots[1].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.factory_core_titanium && slots[1].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[1] != null && slots[1].getItem() == ModItems.factory_core_advanced && slots[1].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[1].setItemDamage(slots[1].getItemDamage() - 1);
-		}
 		
-		if(slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
+		power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+		
+		power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
+		
+		/*if(slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
 		{
 			power = maxPower;
 		}
@@ -266,7 +244,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 		{
 			power += 100;
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
+		}*/
 	}
 
 	@Override

@@ -274,31 +274,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		}
 
 		//Battery Item
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_generic && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_advanced && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.battery_schrabidium && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_titanium && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[2] != null && slots[2].getItem() == ModItems.factory_core_advanced && slots[2].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-		}
+		
+		power = Library.chargeItemsFromTE(slots, 2, power, maxPower);
 
 		boolean flag = this.burnTime > 0;
 		boolean flag1 = false;

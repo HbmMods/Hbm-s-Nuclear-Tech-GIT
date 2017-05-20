@@ -6,6 +6,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -306,40 +307,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
             }
 		}
 		
-		if(/*power + 100 <= maxPower && */slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
-		{
-			power = maxPower;
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_generic && slots[0].getItemDamage() < 50)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_advanced && slots[0].getItemDamage() < 200)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium && slots[0].getItemDamage() < 10000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.fusion_core && slots[0].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core && slots[0].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
+		power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 		
 		if(flag1)
 		{

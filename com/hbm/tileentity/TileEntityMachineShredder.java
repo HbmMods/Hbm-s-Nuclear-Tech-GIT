@@ -260,40 +260,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
             }
 		}
 		
-		if(/*power + 100 <= maxPower && */slots[29] != null && slots[29].getItem() == ModItems.battery_creative)
-		{
-			power = maxPower;
-		}
-		
-		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.battery_generic && slots[29].getItemDamage() < 50)
-		{
-			power += 100;
-			slots[29].setItemDamage(slots[29].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.battery_advanced && slots[29].getItemDamage() < 200)
-		{
-			power += 100;
-			slots[29].setItemDamage(slots[29].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.battery_schrabidium && slots[29].getItemDamage() < 10000)
-		{
-			power += 100;
-			slots[29].setItemDamage(slots[29].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.fusion_core && slots[29].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[29].setItemDamage(slots[29].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[29] != null && slots[29].getItem() == ModItems.energy_core && slots[29].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[29].setItemDamage(slots[29].getItemDamage() + 1);
-		}
+		power = Library.chargeTEFromItems(slots, 29, power, maxPower);
 		
 		if(flag1)
 		{

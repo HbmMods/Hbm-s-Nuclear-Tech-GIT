@@ -455,31 +455,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 	}
 	
 	public void doBatteryTask() {
-		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.battery_generic && slots[15].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.battery_advanced && slots[15].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.battery_schrabidium && slots[15].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.factory_core_titanium && slots[15].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[15] != null && slots[15].getItem() == ModItems.factory_core_advanced && slots[15].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[15].setItemDamage(slots[15].getItemDamage() - 1);
-		}
+		power = Library.chargeItemsFromTE(slots, 15, power, maxPower);
 	}
 
 	public int canLocateThermalElement() {

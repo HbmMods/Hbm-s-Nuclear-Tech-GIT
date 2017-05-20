@@ -260,6 +260,7 @@ item.plate_mixed.name=Mixed Plate
 item.plate_paa.name=PaA Alloy Plate
 item.ingot_dura_steel.name=High-Speed Steel Ingot
 item.ingot_polymer.name=Polymer Ingot
+item.bolt_dura_steel.name=High-Speed Steel Bolt
 
 item.ingot_australium.name=Australium Ingot
 item.ingot_weidanium.name=Weidanium Ingot
@@ -620,6 +621,7 @@ item.grenade_aschrab.name=Tossable Antischrabidium Cell
 item.grenade_nuke.name=Mark VI Drill Grenade
 item.grenade_nuclear.name=Nuka Grenade
 item.grenade_zomg.name=Negative Energy Pair Annihilation Grenade
+item.grenade_black_hole.name=Black Hole Grenade
 item.ullapool_caber.name=Ullapool Caber
 
 item.rod_uranium_fuel.name=Uranium Fuel Rod
@@ -948,6 +950,10 @@ item.cmb_pickaxe.name=CMB Steel Pickaxe
 item.cmb_axe.name=CMB Steel Axe
 item.cmb_shovel.name=CMB Steel Shovel
 item.cmb_hoe.name=CMB Steel Hoe
+item.elec_sword.name=Stunstick
+item.elec_pickaxe.name=Impact Drill
+item.elec_axe.name=Electric Chainsaw
+item.elec_shovel.name=Spiral Drill
 
 tile.red_cable.name=Red Copper Cable
 tile.block_meteor.name=Meteor Block

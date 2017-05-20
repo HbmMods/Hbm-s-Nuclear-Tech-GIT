@@ -25,6 +25,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -415,5 +416,74 @@ public class Library {
 		}
 		
 		return list;
+	}
+	
+	public static int chargeItemsFromTE(ItemStack[] slots, int index, int power, int maxPower) {
+		
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && slots[index].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_titanium && slots[index].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+		}
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_advanced && slots[index].getItemDamage() > 0)
+		{
+			power -= 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+		}
+		return power;
+	}
+	
+	public static int chargeTEFromItems(ItemStack[] slots, int index, int power, int maxPower) {
+		
+		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)
+		{
+			power = maxPower;
+		}
+		
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && slots[index].getItemDamage() < 50)
+		{
+			power += 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+		}
+		
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() < 200)
+		{
+			power += 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+		}
+		
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() < 10000)
+		{
+			power += 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+		}
+		
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.fusion_core && slots[index].getItemDamage() < 5000)
+		{
+			power += 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+		}
+		
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.energy_core && slots[index].getItemDamage() < 5000)
+		{
+			power += 100;
+			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+		}
+		return power;
 	}
 }

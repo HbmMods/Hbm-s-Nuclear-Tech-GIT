@@ -564,31 +564,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 			if(waste > wasteMax)
 				emptyWaste();
 			
-			if(power - 100 >= 0 && slots[37] != null && slots[37].getItem() == ModItems.battery_generic && slots[37].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[37].setItemDamage(slots[37].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[37] != null && slots[37].getItem() == ModItems.battery_advanced && slots[37].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[37].setItemDamage(slots[37].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[37] != null && slots[37].getItem() == ModItems.battery_schrabidium && slots[37].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[37].setItemDamage(slots[37].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[37] != null && slots[37].getItem() == ModItems.factory_core_titanium && slots[37].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[37].setItemDamage(slots[37].getItemDamage() - 1);
-			}
-			if(power - 100 >= 0 && slots[37] != null && slots[37].getItem() == ModItems.factory_core_advanced && slots[37].getItemDamage() > 0)
-			{
-				power -= 100;
-				slots[37].setItemDamage(slots[37].getItemDamage() - 1);
-			}
+			power = Library.chargeItemsFromTE(slots, 37, power, maxPower);
 			
 			if(waste - 2500000 >= 0 && slots[36] != null && slots[36].getItem() == ModItems.tank_waste && slots[36].getItemDamage() < 8)
 			{

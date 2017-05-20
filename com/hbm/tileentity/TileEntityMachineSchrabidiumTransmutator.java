@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -264,40 +265,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			if (slots[3] != null && slots[3].getItem() == ModItems.battery_creative) {
-				power = maxPower;
-			}
-
-			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.battery_generic
-					&& slots[3].getItemDamage() < 50) {
-				power += 100;
-				slots[3].setItemDamage(slots[3].getItemDamage() + 1);
-			}
-
-			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.battery_advanced
-					&& slots[3].getItemDamage() < 200) {
-				power += 100;
-				slots[3].setItemDamage(slots[3].getItemDamage() + 1);
-			}
-
-			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.battery_schrabidium
-					&& slots[3].getItemDamage() < 10000) {
-				power += 100;
-				slots[3].setItemDamage(slots[3].getItemDamage() + 1);
-			}
-
-			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.fusion_core
-					&& slots[3].getItemDamage() < 5000) {
-				power += 100;
-				slots[3].setItemDamage(slots[3].getItemDamage() + 1);
-			}
-
-			if (power + 100 <= maxPower && slots[3] != null && slots[3].getItem() == ModItems.energy_core
-					&& slots[3].getItemDamage() < 5000) {
-				power += 100;
-				slots[3].setItemDamage(slots[3].getItemDamage() + 1);
-			}
-		}
+			
+			power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 
 			if (canProcess()) {
 
@@ -307,6 +276,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			} else {
 				process = 0;
 			}
+		}
 	}
 
 	@Override

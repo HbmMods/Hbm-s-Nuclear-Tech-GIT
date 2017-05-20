@@ -194,6 +194,7 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
 	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
 	public static ToolMaterial enumToolMaterialCmb = EnumHelper.addToolMaterial("CMB", 3, 8500, 40.0F, 55F, 100);
+	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 4700, 30.0F, 12.0F, 2);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
@@ -497,6 +498,8 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotUnobtainium", ModItems.ingot_unobtainium);
 		OreDictionary.registerOre("ingotDaffergon", ModItems.ingot_daffergon);
 		OreDictionary.registerOre("ingotVerticium", ModItems.ingot_verticium);
+		OreDictionary.registerOre("ingotDuraSteel", ModItems.ingot_dura_steel);
+		OreDictionary.registerOre("ingotPolymer", ModItems.ingot_polymer);
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
@@ -561,6 +564,8 @@ public class MainRegistry
 		OreDictionary.registerOre("dustUnobtainium", ModItems.powder_unobtainium);
 		OreDictionary.registerOre("dustDaffergon", ModItems.powder_daffergon);
 		OreDictionary.registerOre("dustVerticium", ModItems.powder_verticium);
+		OreDictionary.registerOre("dustDuraSteel", ModItems.powder_dura_steel);
+		OreDictionary.registerOre("dustPolymer", ModItems.powder_polymer);
 		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
 		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
 
