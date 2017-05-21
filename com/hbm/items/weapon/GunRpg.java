@@ -90,6 +90,7 @@ public class GunRpg extends Item
 
             if (!p_77615_2_.isRemote)
             {
+                entityarrow.canBePickedUp = 2;
                 p_77615_2_.spawnEntityInWorld(entityarrow);
             }
         }

@@ -1249,106 +1249,8 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Block block = this.worldObj.getBlock(x, y, z);
-		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
-
-		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
-		}
-		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
-		}
-		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
-		}
-		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
-		}
 		
-		if(tileentity instanceof IConductor)
-		{
-			if(tileentity instanceof TileEntityCable)
-			{
-				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, this))
-				{
-					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityCable)tileentity).uoteab.get(i).source == this)
-						{
-							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
-								ffgeua(x, y + 1, z, getTact());
-								ffgeua(x, y - 1, z, getTact());
-								ffgeua(x - 1, y, z, getTact());
-								ffgeua(x + 1, y, z, getTact());
-								ffgeua(x, y, z - 1, getTact());
-								ffgeua(x, y, z + 1, getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityWireCoated)
-			{
-				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, this))
-				{
-					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == this)
-						{
-							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
-								ffgeua(x, y + 1, z, getTact());
-								ffgeua(x, y - 1, z, getTact());
-								ffgeua(x - 1, y, z, getTact());
-								ffgeua(x + 1, y, z, getTact());
-								ffgeua(x, y, z - 1, getTact());
-								ffgeua(x, y, z + 1, getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
-				}
-			}
-		}
-		
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
-		{
-			list.add((IConsumer)tileentity);
-		}
-		
-		if(!newTact)
-		{
-			int size = list.size();
-			if(size > 0)
-			{
-				int part = this.power / size;
-				for(IConsumer consume : list)
-				{
-					if(consume.getPower() < consume.getMaxPower())
-					{
-						if(consume.getMaxPower() - consume.getPower() >= part)
-						{
-							this.power -= part;
-							consume.setPower(consume.getPower() + part);
-						} else {
-							this.power -= consume.getMaxPower() - consume.getPower();
-							consume.setPower(consume.getMaxPower());
-						}
-					}
-				}
-			}
-			list.clear();
-		}
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
@@ -1364,6 +1266,26 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 		}
 		
 		return false;
+	}
+
+	@Override
+	public int getSPower() {
+		return power;
+	}
+
+	@Override
+	public void setSPower(int i) {
+		this.power = i;
+	}
+
+	@Override
+	public List<IConsumer> getList() {
+		return list;
+	}
+
+	@Override
+	public void clearList() {
+		this.list.clear();
 	}
 
 }

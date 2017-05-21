@@ -20,6 +20,7 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
@@ -211,6 +212,16 @@ public class BlockOre extends Block {
         if (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red || this == ModBlocks.block_trinitite || this == ModBlocks.block_waste)
         {
             p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat(), p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
+        }
+    }
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    {
+        if (world.getBlock(x, y - 1, z) == ModBlocks.ore_oil_empty)
+        {
+        	world.setBlock(x, y, z, ModBlocks.ore_oil_empty);
+        	world.setBlock(x, y - 1, z, ModBlocks.ore_oil);
         }
     }
 

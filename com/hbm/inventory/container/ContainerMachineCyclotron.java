@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotDiFurnace;
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineRTG;
 
@@ -40,11 +40,11 @@ public class ContainerMachineCyclotron extends Container {
 		//Cell
 		this.addSlotToContainer(new Slot(tedf, 10, 8, 108));
 		//Output
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 11, 44, 108));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 12, 62, 108));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 13, 80, 108));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 14, 98, 108));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 15, 116, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 44, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 62, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 80, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 14, 98, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 15, 116, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -78,13 +78,13 @@ public class ContainerMachineCyclotron extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 14) {
-				if (!this.mergeItemStack(var5, 15, this.inventorySlots.size(), true))
+            if (par2 <= 15) {
+				if (!this.mergeItemStack(var5, 16, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 15, false))
+			else if (!this.mergeItemStack(var5, 0, 16, false))
 			{
 					return null;
 			}

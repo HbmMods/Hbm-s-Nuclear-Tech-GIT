@@ -5,9 +5,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class SlotDiFurnace extends Slot {
+public class SlotMachineOutput extends Slot {
 
-	public SlotDiFurnace(EntityPlayer player, IInventory inventory, int i, int j, int k) {
+	public SlotMachineOutput(EntityPlayer player, IInventory inventory, int i, int j, int k) {
 		super(inventory, i, j, k);
 	}
 	

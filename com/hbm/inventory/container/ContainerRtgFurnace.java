@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotDiFurnace;
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityRtgFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public class ContainerRtgFurnace extends Container {
 		this.addSlotToContainer(new Slot(tedf, 1, 38, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 56, 53));
 		this.addSlotToContainer(new Slot(tedf, 3, 74, 53));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 4, 116, 35));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 116, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{

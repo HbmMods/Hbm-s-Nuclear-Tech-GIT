@@ -66,6 +66,7 @@ import com.hbm.items.tool.ItemMatch;
 import com.hbm.items.tool.ItemModBucket;
 import com.hbm.items.tool.ItemMultitoolPassive;
 import com.hbm.items.tool.ItemMultitoolTool;
+import com.hbm.items.tool.ItemOilDetector;
 import com.hbm.items.tool.ItemRamManipulator;
 import com.hbm.items.tool.ItemWand;
 import com.hbm.items.tool.ItemWandD;
@@ -417,6 +418,7 @@ public class ModItems {
 	public static Item oil_canola;
 	public static Item canister_empty;
 	public static Item canister_canola;
+	public static Item canister_oil;
 	public static Item canister_fuel;
 	public static Item canister_napalm;
 	public static Item canister_NITAN;
@@ -566,6 +568,7 @@ public class ModItems {
 	public static Item designator;
 	public static Item designator_range;
 	public static Item linker;
+	public static Item oil_detector;
 	
 	public static Item missile_generic;
 	public static Item missile_anti_ballistic;
@@ -933,6 +936,14 @@ public class ModItems {
 	public static Item d_smoke6;
 	public static Item d_smoke7;
 	public static Item d_smoke8;
+	public static Item spill1;
+	public static Item spill2;
+	public static Item spill3;
+	public static Item spill4;
+	public static Item spill5;
+	public static Item spill6;
+	public static Item spill7;
+	public static Item spill8;
 	public static Item energy_ball;
 	public static Item discharge;
 	public static Item empblast;
@@ -1257,6 +1268,7 @@ public class ModItems {
 		oil_canola = new Item().setUnlocalizedName("oil_canola").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":oil_canola");
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_canola");
+		canister_oil = new ItemCustomLore().setUnlocalizedName("canister_oil").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_oil");
 		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
 		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
 		canister_NITAN = new ItemCustomLore().setUnlocalizedName("canister_NITAN").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_superfuel");
@@ -1612,6 +1624,7 @@ public class ModItems {
 		remote = new ItemRamManipulator().setUnlocalizedName("remote").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":remote");
 		chopper = new ItemChopper().setUnlocalizedName("chopper").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":chopper");
 		linker = new ItemTeleLink().setUnlocalizedName("linker").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":linker");
+		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":oil_detector");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("astatine_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
 		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("astatine_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
@@ -1770,6 +1783,14 @@ public class ModItems {
 		d_smoke6 = new Item().setUnlocalizedName("d_smoke6").setTextureName(RefStrings.MODID + ":d_smoke6");
 		d_smoke7 = new Item().setUnlocalizedName("d_smoke7").setTextureName(RefStrings.MODID + ":d_smoke7");
 		d_smoke8 = new Item().setUnlocalizedName("d_smoke8").setTextureName(RefStrings.MODID + ":d_smoke8");
+		spill1 = new Item().setUnlocalizedName("spill1").setTextureName(RefStrings.MODID + ":spill1");
+		spill2 = new Item().setUnlocalizedName("spill2").setTextureName(RefStrings.MODID + ":spill2");
+		spill3 = new Item().setUnlocalizedName("spill3").setTextureName(RefStrings.MODID + ":spill3");
+		spill4 = new Item().setUnlocalizedName("spill4").setTextureName(RefStrings.MODID + ":spill4");
+		spill5 = new Item().setUnlocalizedName("spill5").setTextureName(RefStrings.MODID + ":spill5");
+		spill6 = new Item().setUnlocalizedName("spill6").setTextureName(RefStrings.MODID + ":spill6");
+		spill7 = new Item().setUnlocalizedName("spill7").setTextureName(RefStrings.MODID + ":spill7");
+		spill8 = new Item().setUnlocalizedName("spill8").setTextureName(RefStrings.MODID + ":spill8");
 		energy_ball = new Item().setUnlocalizedName("energy_ball").setTextureName(RefStrings.MODID + ":energy_ball");
 		discharge = new Item().setUnlocalizedName("discharge").setTextureName(RefStrings.MODID + ":discharge");
 		empblast = new Item().setUnlocalizedName("empblast").setTextureName(RefStrings.MODID + ":empblast");
@@ -2133,6 +2154,7 @@ public class ModItems {
 		//Canisters
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
 		GameRegistry.registerItem(canister_canola, canister_canola.getUnlocalizedName());
+		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_fuel, canister_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(canister_napalm, canister_napalm.getUnlocalizedName());
 		GameRegistry.registerItem(canister_NITAN, canister_NITAN.getUnlocalizedName());
@@ -2294,6 +2316,7 @@ public class ModItems {
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
 		GameRegistry.registerItem(linker, linker.getUnlocalizedName());
+		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		
 		//Missiles
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());
@@ -2692,6 +2715,14 @@ public class ModItems {
 		GameRegistry.registerItem(d_smoke6, d_smoke6.getUnlocalizedName());
 		GameRegistry.registerItem(d_smoke7, d_smoke7.getUnlocalizedName());
 		GameRegistry.registerItem(d_smoke8, d_smoke8.getUnlocalizedName());
+		GameRegistry.registerItem(spill1, spill1.getUnlocalizedName());
+		GameRegistry.registerItem(spill2, spill2.getUnlocalizedName());
+		GameRegistry.registerItem(spill3, spill3.getUnlocalizedName());
+		GameRegistry.registerItem(spill4, spill4.getUnlocalizedName());
+		GameRegistry.registerItem(spill5, spill5.getUnlocalizedName());
+		GameRegistry.registerItem(spill6, spill6.getUnlocalizedName());
+		GameRegistry.registerItem(spill7, spill7.getUnlocalizedName());
+		GameRegistry.registerItem(spill8, spill8.getUnlocalizedName());
 		GameRegistry.registerItem(energy_ball, energy_ball.getUnlocalizedName());
 		GameRegistry.registerItem(discharge, discharge.getUnlocalizedName());
 		GameRegistry.registerItem(empblast, empblast.getUnlocalizedName());

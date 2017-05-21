@@ -261,7 +261,10 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
-		Block block = this.worldObj.getBlock(x, y, z);
+		
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
+		
+		/*Block block = this.worldObj.getBlock(x, y, z);
 		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
 
 		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
@@ -360,7 +363,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 				}
 			}
 			list.clear();
-		}
+		}*/
 	}
 
 	@Override
@@ -385,6 +388,26 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	@Override
 	public int getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public int getSPower() {
+		return power;
+	}
+
+	@Override
+	public void setSPower(int i) {
+		this.power = i;
+	}
+
+	@Override
+	public List<IConsumer> getList() {
+		return list;
+	}
+
+	@Override
+	public void clearList() {
+		this.list.clear();
 	}
 
 }

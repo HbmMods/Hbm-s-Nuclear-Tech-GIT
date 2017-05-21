@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotDiFurnace;
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineReactor;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public class ContainerReactor extends Container {
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 56, 53));
 		this.addSlotToContainer(new Slot(tedf, 1, 56, 17));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 2, 116, 35));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 116, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{

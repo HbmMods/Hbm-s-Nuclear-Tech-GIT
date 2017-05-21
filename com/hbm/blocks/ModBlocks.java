@@ -29,6 +29,7 @@ import com.hbm.blocks.generic.BlockCrate;
 import com.hbm.blocks.generic.BlockGeneric;
 import com.hbm.blocks.generic.BlockMush;
 import com.hbm.blocks.generic.BlockMushHuge;
+import com.hbm.blocks.generic.BlockNoDrop;
 import com.hbm.blocks.generic.BlockOre;
 import com.hbm.blocks.generic.BlockPlasma;
 import com.hbm.blocks.generic.DecoBlock;
@@ -53,6 +54,7 @@ import com.hbm.blocks.machine.BlockSeal;
 import com.hbm.blocks.machine.DummyBlockCentrifuge;
 import com.hbm.blocks.machine.DummyBlockCyclotron;
 import com.hbm.blocks.machine.DummyBlockIGenerator;
+import com.hbm.blocks.machine.DummyBlockWell;
 import com.hbm.blocks.machine.FWatzCore;
 import com.hbm.blocks.machine.FWatzHatch;
 import com.hbm.blocks.machine.FactoryCoreAdvanced;
@@ -72,6 +74,7 @@ import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.blocks.machine.MachineIGenerator;
 import com.hbm.blocks.machine.MachineNukeFurnace;
+import com.hbm.blocks.machine.MachineOilWell;
 import com.hbm.blocks.machine.MachinePuF6Tank;
 import com.hbm.blocks.machine.MachineRTG;
 import com.hbm.blocks.machine.MachineReactor;
@@ -164,6 +167,9 @@ public class ModBlocks {
 	public static Block ore_unobtainium;
 	public static Block ore_daffergon;
 	public static Block ore_verticium;
+
+	public static Block ore_oil;
+	public static Block ore_oil_empty;
 
 	public static Block block_uranium;
 	public static Block block_titanium;
@@ -404,7 +410,7 @@ public class ModBlocks {
 	public static final int guiID_machine_reix_mainframe = 38;
 
 	public static Block machine_rtg_grey;
-	public static final int guiID_machine_rtg = 40;
+	public static final int guiID_machine_rtg = 42;
 	//public static Block machine_rtg_red;
 	//public static Block machine_rtg_orange;
 	//public static Block machine_rtg_yellow;
@@ -412,6 +418,10 @@ public class ModBlocks {
 	public static Block machine_rtg_cyan;
 	//public static Block machine_rtg_blue;
 	//public static Block machine_rtg_purple;
+
+	public static Block machine_well;
+	public static Block oil_pipe;
+	public static final int guiID_machine_well = 40;
 
 	public static Block launch_pad;
 	public static Block launch_pad_generic;
@@ -466,6 +476,8 @@ public class ModBlocks {
 	public static Block dummy_block_centrifuge;
 	public static Block dummy_block_cyclotron;
 	public static Block dummy_port_cyclotron;
+	public static Block dummy_block_well;
+	public static Block dummy_port_well;
 	
 
 	private static void initializeBlock() {
@@ -510,6 +522,9 @@ public class ModBlocks {
 		ore_unobtainium = new BlockGeneric(Material.rock).setBlockName("ore_unobtainium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_unobtainium");
 		ore_daffergon = new BlockGeneric(Material.rock).setBlockName("ore_daffergon").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_daffergon");
 		ore_verticium = new BlockGeneric(Material.rock).setBlockName("ore_verticium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_verticium");
+
+		ore_oil = new BlockOre(Material.rock).setBlockName("ore_oil").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil");
+		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		
 		block_uranium = new BlockGeneric(Material.iron).setBlockName("block_uranium").setCreativeTab(MainRegistry.tabBlock).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_uranium");
 		block_titanium = new BlockGeneric(Material.iron).setBlockName("block_titanium").setCreativeTab(MainRegistry.tabBlock).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_titanium");
@@ -726,8 +741,11 @@ public class ModBlocks {
 		
 		rail_highspeed = new RailHighspeed().setBlockName("rail_highspeed").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":rail_highspeed");
 		rail_booster = new RailBooster().setBlockName("rail_booster").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":rail_booster");
-		
+
 		crate = new BlockCrate(Material.iron).setBlockName("crate").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":crate");
+
+		machine_well = new MachineOilWell(Material.iron).setBlockName("machine_well").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_well");
+		oil_pipe = new BlockNoDrop(Material.iron).setBlockName("oil_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":oil_pipe");
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 
@@ -761,6 +779,8 @@ public class ModBlocks {
 		dummy_block_centrifuge = new DummyBlockCentrifuge(Material.iron).setBlockName("dummy_block_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_cyclotron = new DummyBlockCyclotron(Material.iron).setBlockName("dummy_block_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_cyclotron = new DummyBlockCyclotron(Material.iron).setBlockName("dummy_port_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_block_well = new DummyBlockWell(Material.iron).setBlockName("dummy_block_well").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_port_well = new DummyBlockWell(Material.iron).setBlockName("dummy_port_well").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -789,6 +809,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_fluorite, ore_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_beryllium, ore_beryllium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_lead, ore_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_oil, ore_oil.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_oil_empty, ore_oil_empty.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_schrabidium, ItemSchrabidiumBlock.class, ore_schrabidium.getUnlocalizedName());
 		
 		//Rare Minerals
@@ -946,6 +968,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_electric_furnace_on, machine_electric_furnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_well, machine_well.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_combine_factory, machine_combine_factory.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
@@ -1042,6 +1065,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_block_centrifuge, dummy_block_centrifuge.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_cyclotron, dummy_block_cyclotron.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_cyclotron, dummy_port_cyclotron.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_block_well, dummy_block_well.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_port_well, dummy_port_well.getUnlocalizedName());
+		
+		//Other Technical Blocks
+		GameRegistry.registerBlock(oil_pipe, oil_pipe.getUnlocalizedName());
 		
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotDiFurnace;
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,9 +21,9 @@ public class ContainerUF6Tank extends Container {
 		testNuke = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 17));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 1, 44, 53));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 44, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 116, 17));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 3, 116, 53));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 116, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotDiFurnace;
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.TileEntityMachineShredder;
 
@@ -28,7 +28,7 @@ public class ContainerMachineCMBFactory extends Container {
 		this.addSlotToContainer(new Slot(tedf, 1, 80, 17));
 		this.addSlotToContainer(new Slot(tedf, 2, 62, 53));
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 53));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 4, 134, 35));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 134, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{

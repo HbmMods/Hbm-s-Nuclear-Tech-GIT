@@ -3,6 +3,7 @@ package com.hbm.explosion;
 import java.util.Random;
 
 import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
 
@@ -69,6 +70,20 @@ public class ExplosionLarge {
 			shrapnel.motionX = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
 			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.25F;
 			shrapnel.setTrail(true);
+			world.spawnEntityInWorld(shrapnel);
+		}
+	}
+	
+	public static void spawnOilSpills(World world, double x, double y, double z, int count) {
+		
+		for(int i = 0; i < count; i++) {
+			EntityOilSpill shrapnel = new EntityOilSpill(world);
+			shrapnel.posX = x;
+			shrapnel.posY = y;
+			shrapnel.posZ = z;
+			shrapnel.motionY = ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count) * 0.25F;
+			shrapnel.motionX = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.15F;
+			shrapnel.motionZ = rand.nextGaussian() * 1	* (1 + (count / 50)) * 0.15F;
 			world.spawnEntityInWorld(shrapnel);
 		}
 	}

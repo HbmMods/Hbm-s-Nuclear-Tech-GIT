@@ -13,6 +13,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityCable;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
@@ -256,14 +257,15 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.watz_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_igenerator ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_well)
 		{
 			return true;
 		}
 		return false;
 	}
 	
-	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, TileEntity that) {
+	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, ISource that) {
 		
 		for(UnionOfTileEntitiesAndBooleans union : list)
 		{
@@ -425,26 +427,63 @@ public class Library {
 			power -= 100;
 			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 		}
-		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_titanium && slots[index].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-		}
-		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_advanced && slots[index].getItemDamage() > 0)
-		{
-			power -= 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-		}
+		
+		for(int i = 0; i < 5; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() > 0)
+			{
+				power -= 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 15; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() > 0)
+			{
+				power -= 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 10; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_titanium && slots[index].getItemDamage() > 0)
+			{
+				power -= 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 10; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_advanced && slots[index].getItemDamage() > 0)
+			{
+				power -= 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 50; i++)
+			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_sword && slots[index].getItemDamage() > 0)
+			{
+				power -= 1;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 50; i++)
+			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_pickaxe && slots[index].getItemDamage() > 0)
+			{
+				power -= 1;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 50; i++)
+			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_axe && slots[index].getItemDamage() > 0)
+			{
+				power -= 1;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
+		for(int i = 0; i < 50; i++)
+			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_shovel && slots[index].getItemDamage() > 0)
+			{
+				power -= 1;
+				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			} else break;
+		
 		return power;
 	}
 	
@@ -452,7 +491,7 @@ public class Library {
 		
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)
 		{
-			power = maxPower;
+			return maxPower;
 		}
 		
 		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && slots[index].getItemDamage() < 50)
@@ -461,29 +500,155 @@ public class Library {
 			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
 		}
 		
-		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() < 200)
-		{
-			power += 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
-		}
+		for(int i = 0; i < 5; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() < 200)
+			{
+				power += 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+			} else break;
+
+		for(int i = 0; i < 15; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() < 10000)
+			{
+				power += 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+			} else break;
 		
-		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() < 10000)
-		{
-			power += 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
-		}
+		for(int i = 0; i < 25; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.fusion_core && slots[index].getItemDamage() < 5000)
+			{
+				power += 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+			} else break;
 		
-		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.fusion_core && slots[index].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
-		}
+		for(int i = 0; i < 10; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.energy_core && slots[index].getItemDamage() < 5000)
+			{
+				power += 100;
+				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+			} else break;
 		
-		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.energy_core && slots[index].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
-		}
 		return power;
+	}
+	
+	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
+	//Flood fill controlle energy transmission algorithm
+	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
+		Block block = worldObj.getBlock(x, y, z);
+		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
+
+		if(block == ModBlocks.factory_titanium_conductor && worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y + 1, z);
+		}
+		if(block == ModBlocks.factory_titanium_conductor && worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y - 1, z);
+		}
+		if(block == ModBlocks.factory_advanced_conductor && worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y + 1, z);
+		}
+		if(block == ModBlocks.factory_advanced_conductor && worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y - 1, z);
+		}
+		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_well)
+		{
+			tileentity = worldObj.getTileEntity(x + 1, y, z);
+		}
+		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x - 1, y, z) == ModBlocks.machine_well)
+		{
+			tileentity = worldObj.getTileEntity(x - 1, y, z);
+		}
+		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x, y, z + 1) == ModBlocks.machine_well)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z + 1);
+		}
+		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_well)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z - 1);
+		}
+		
+		if(tileentity instanceof IConductor)
+		{
+			if(tileentity instanceof TileEntityCable)
+			{
+				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityCable)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
+								that.ffgeua(x, y + 1, z, that.getTact());
+								that.ffgeua(x, y - 1, z, that.getTact());
+								that.ffgeua(x - 1, y, z, that.getTact());
+								that.ffgeua(x + 1, y, z, that.getTact());
+								that.ffgeua(x, y, z - 1, that.getTact());
+								that.ffgeua(x, y, z + 1, that.getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityWireCoated)
+			{
+				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
+								that.ffgeua(x, y + 1, z, that.getTact());
+								that.ffgeua(x, y - 1, z, that.getTact());
+								that.ffgeua(x - 1, y, z, that.getTact());
+								that.ffgeua(x + 1, y, z, that.getTact());
+								that.ffgeua(x, y, z - 1, that.getTact());
+								that.ffgeua(x, y, z + 1, that.getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
+				}
+			}
+		}
+		
+		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
+		{
+			that.getList().add((IConsumer)tileentity);
+		}
+		
+		if(!newTact)
+		{
+			int size = that.getList().size();
+			if(size > 0)
+			{
+				int part = that.getSPower() / size;
+				for(IConsumer consume : that.getList())
+				{
+					if(consume.getPower() < consume.getMaxPower())
+					{
+						if(consume.getMaxPower() - consume.getPower() >= part)
+						{
+							that.setSPower(that.getSPower()-part);
+							consume.setPower(consume.getPower() + part);
+						} else {
+							that.setSPower(that.getSPower() - (consume.getMaxPower() - consume.getPower()));
+							consume.setPower(consume.getMaxPower());
+						}
+					}
+				}
+			}
+			that.clearList();
+		}
 	}
 }

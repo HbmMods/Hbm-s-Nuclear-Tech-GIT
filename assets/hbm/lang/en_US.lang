@@ -153,6 +153,9 @@ tile.machine_industrial_generator.name=Industrial Generator
 container.iGenerator=Industrial Generator
 tile.machine_cyclotron.name=Cyclotron
 container.cyclotron=Cyclotron
+tile.machine_well.name=Oil Derrick
+tile.oil_pipe.name=Cruse Oil Pipe
+container.oilWell=Oil Derrick
 
 tile.rail_highspeed.name=High Speed Rail
 tile.rail_booster.name=High Speed Booster Rail
@@ -347,6 +350,9 @@ tile.ore_unobtainium.name=Brightblende Ore
 tile.ore_daffergon.name=Dellite
 tile.ore_verticium.name=Dollar Green Mineral
 
+tile.ore_oil.name=Oil Deposit
+tile.ore_oil_empty.name=Empty Oil Deposit
+
 tile.reinforced_brick.name=Reinforced Stone
 tile.reinforced_glass.name=Reinforced Glass
 tile.reinforced_sand.name=Reinforced Sandstone
@@ -483,6 +489,7 @@ item.oil_canola.name=Raw Canola Oil
 
 item.canister_empty.name=Empty Canister
 item.canister_canola.name=Engine Lubricant
+item.canister_oil.name=Crude Oil Canister
 item.canister_fuel.name=Fuel Canister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
@@ -1056,6 +1063,7 @@ item.crystal_energy.name=Energy Crystal
 item.pellet_coolant.name=Coolant Cluster
 
 item.linker.name=Telelinker
+item.oil_detector.name=Oil Reservoir Detector
 
 item.thermo_element.name=Thermoelectric Element
 item.limiter.name=Generator Limiter

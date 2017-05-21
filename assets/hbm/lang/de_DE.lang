@@ -153,6 +153,9 @@ tile.machine_industrial_generator.name=Industrieller Generator
 container.iGenerator=Industrieller Generator
 tile.machine_cyclotron.name=Zyklotron
 container.cyclotron=Zyklotron
+tile.machine_well.name=Ölbohrturm
+tile.oil_pipe.name=Rohölrohr
+container.oilWell=Ölbohrturm
 
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
@@ -347,6 +350,9 @@ tile.ore_unobtainium.name=Glimmerblende
 tile.ore_daffergon.name=Dellit
 tile.ore_verticium.name=Dollargrünes Mineral
 
+tile.ore_oil.name=Ölvorkommen
+tile.ore_oil_empty.name=Leeres Ölvorkommen
+
 tile.reinforced_brick.name=Verstärkter Stein
 tile.reinforced_glass.name=Verstärktes Glas
 tile.reinforced_sand.name=Verstärkter Sandstein
@@ -483,6 +489,7 @@ item.oil_canola.name=Rohes Canola-Öl
 
 item.canister_empty.name=Leerer Kanister
 item.canister_canola.name=Schmiermittelkanister
+item.canister_oil.name=Rohölkanister
 item.canister_fuel.name=Treibstoffkanister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Oktan Supertreibstoff
@@ -1056,6 +1063,7 @@ item.crystal_energy.name=Energiekristall
 item.pellet_coolant.name=Kühlcluster
 
 item.linker.name=Telelinker
+item.oil_detector.name=Ölvorkommen-Detektor
 
 item.thermo_element.name=Thermoelektrisches Element
 item.limiter.name=Generator-Limiter

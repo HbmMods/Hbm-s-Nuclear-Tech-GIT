@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotDiFurnace;
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineCoal;
 import com.hbm.tileentity.TileEntityMachineDiesel;
 
@@ -26,7 +26,7 @@ public class ContainerMachineDiesel extends Container {
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 53));
-		this.addSlotToContainer(new SlotDiFurnace(invPlayer.player, tedf, 1, 80, 53));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 80, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 116, 53));
 		
 		for(int i = 0; i < 3; i++)
