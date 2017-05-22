@@ -49,6 +49,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.filter_coal, 1), new Object[] { "SCS", "CPC", "SCS", 'S', Items.string, 'P', Items.paper, 'C', "dustCoal" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_mixed, 3), new Object[] { "ANA", "NCN", "ANA", 'A', ModItems.plate_advanced_alloy, 'N', "plateDenseLead", 'C', ModItems.plate_combine_steel }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.bolt_dura_steel, 4), new Object[] { "D", "D", 'D', ModItems.ingot_dura_steel});
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pipes_steel, 1), new Object[] { "B", "B", "B", 'B', "blockSteel" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.drill_titanium, 1), new Object[] { " B ", "IBI", "PPP", 'B', ModItems.bolt_dura_steel, 'I', ModItems.ingot_dura_steel, 'P', "plateTitanium" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.magnet_dee, 1), new Object[] { "SMM", "M M", "MMT", 'S', "ingotSteel", 'M', ModBlocks.fusion_conductor, 'T', ModItems.coil_advanced_torus }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.magnet_circular, 2), new Object[] { "PSP", "MMM", "PSP", 'S', "ingotSteel", 'M', ModBlocks.fusion_conductor, 'P', "plateAdvanced" }));
@@ -466,6 +468,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_teleporter), 1), new Object[] { "PTP", "FKF", "BBB", 'P', "plateTitanium", 'T', ModItems.telepad, 'F', Item.getItemFromBlock(ModBlocks.factory_advanced_hull), 'K', ModItems.entanglement_kit, 'B', Item.getItemFromBlock(ModBlocks.machine_battery) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_rtg_grey), 1), new Object[] { "UPU", "UWU", "UPU", 'P', "plateSteel", 'U', ModItems.rtg_unit, 'W', ModBlocks.red_wire_coated }));
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_cyclotron), 1), new Object[] { "PTP", "PCP", "WBW", 'P', ModItems.board_copper, 'T', ModItems.cyclotron_tower, 'C', ModBlocks.fusion_core, 'W', ModBlocks.red_wire_coated, 'B', ModBlocks.machine_battery });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_well), 1), new Object[] { "TPM", "GPG", "GDG", 'T', ModItems.tank_steel, 'P', ModItems.pipes_steel, 'M', ModItems.motor, 'G', ModBlocks.steel_scaffold, 'D', ModItems.drill_titanium });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 1), new Object[] { "PIP", "I I", "PIP", 'P', "plateTitanium", 'I', "ingotTitanium" }));
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.factory_titanium_furnace), 1), new Object[] { "HMH", "MFM", "HMH", 'H', Item.getItemFromBlock(ModBlocks.factory_titanium_hull), 'M', ModItems.motor, 'F', Item.getItemFromBlock(Blocks.furnace) });
@@ -859,6 +862,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.designator, 1), new Object[] { "  A", "#B#", "#B#", '#', "plateIron", 'A', "plateSteel", 'B', ModItems.circuit_red_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.designator_range, 1), new Object[] { "RRD", "PIC", "  P", 'P', "plateSteel", 'R', Items.redstone, 'C', ModItems.circuit_gold, 'D', ModItems.designator, 'I', "ingotSteel" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.linker, 1), new Object[] { "I I", "ICI", "GGG", 'I', "plateIron", 'G', "plateGold", 'C', ModItems.circuit_gold }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.oil_detector, 1), new Object[] { "W I", "WCI", "PPP", 'W', ModItems.wire_gold, 'I', "ingotCopper", 'C', ModItems.circuit_red_copper, 'P', "plateSteel" }));
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hammer, 1), new Object[] { "BBB", "BBB", " S ", 'B', Item.getItemFromBlock(ModBlocks.block_schrabidium), 'S', Items.stick });
 		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_stopper, 1), new Object[] { "I", "S", "S", 'I', new ItemStack(ModItems.ingot_euphemium, 1, 34), 'S', Items.stick });

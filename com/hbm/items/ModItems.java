@@ -204,6 +204,8 @@ public class ModItems {
 	public static Item plate_paa;
 	public static Item board_copper;
 	public static Item bolt_dura_steel;
+	public static Item pipes_steel;
+	public static Item drill_titanium;
 	
 	public static Item ingot_dura_steel;
 	public static Item ingot_polymer;
@@ -420,6 +422,7 @@ public class ModItems {
 	public static Item canister_canola;
 	public static Item canister_oil;
 	public static Item canister_fuel;
+	public static Item canister_kerosene;
 	public static Item canister_napalm;
 	public static Item canister_NITAN;
 
@@ -1036,6 +1039,8 @@ public class ModItems {
 		plate_paa = new ItemCustomLore().setUnlocalizedName("plate_paa").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_paa");
 		board_copper = new Item().setUnlocalizedName("board_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":board_copper");
 		bolt_dura_steel = new Item().setUnlocalizedName("bolt_dura_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":bolt_dura_steel");
+		pipes_steel = new Item().setUnlocalizedName("pipes_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pipes_steel");
+		drill_titanium = new Item().setUnlocalizedName("drill_titanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":drill_titanium");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -1270,6 +1275,7 @@ public class ModItems {
 		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_canola");
 		canister_oil = new ItemCustomLore().setUnlocalizedName("canister_oil").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_oil");
 		canister_fuel = new ItemCustomLore().setUnlocalizedName("canister_fuel").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_fuel");
+		canister_kerosene = new ItemCustomLore().setUnlocalizedName("canister_kerosene").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_kerosene");
 		canister_napalm = new ItemCustomLore().setUnlocalizedName("canister_napalm").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_napalm");
 		canister_NITAN = new ItemCustomLore().setUnlocalizedName("canister_NITAN").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_superfuel");
 		
@@ -2025,6 +2031,8 @@ public class ModItems {
 		GameRegistry.registerItem(thermo_unit_endo, thermo_unit_endo.getUnlocalizedName());
 		GameRegistry.registerItem(thermo_unit_exo, thermo_unit_exo.getUnlocalizedName());
 		GameRegistry.registerItem(levitation_unit, levitation_unit.getUnlocalizedName());
+		GameRegistry.registerItem(pipes_steel, pipes_steel.getUnlocalizedName());
+		GameRegistry.registerItem(drill_titanium, drill_titanium.getUnlocalizedName());
 		
 		//Teleporter Parts
 		GameRegistry.registerItem(telepad, telepad.getUnlocalizedName());
@@ -2156,6 +2164,7 @@ public class ModItems {
 		GameRegistry.registerItem(canister_canola, canister_canola.getUnlocalizedName());
 		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_fuel, canister_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(canister_kerosene, canister_kerosene.getUnlocalizedName());
 		GameRegistry.registerItem(canister_napalm, canister_napalm.getUnlocalizedName());
 		GameRegistry.registerItem(canister_NITAN, canister_NITAN.getUnlocalizedName());
 		

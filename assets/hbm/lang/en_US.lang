@@ -264,6 +264,8 @@ item.plate_paa.name=PaA Alloy Plate
 item.ingot_dura_steel.name=High-Speed Steel Ingot
 item.ingot_polymer.name=Polymer Ingot
 item.bolt_dura_steel.name=High-Speed Steel Bolt
+item.pipes_steel.name=Steel Pipes
+item.drill_titanium.name=Titanium Drill
 
 item.ingot_australium.name=Australium Ingot
 item.ingot_weidanium.name=Weidanium Ingot
@@ -491,6 +493,7 @@ item.canister_empty.name=Empty Canister
 item.canister_canola.name=Engine Lubricant
 item.canister_oil.name=Crude Oil Canister
 item.canister_fuel.name=Fuel Canister
+item.canister_kerosene.name=Kerosene Canister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
 

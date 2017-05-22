@@ -7,7 +7,9 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.handler.ShredderRecipeHandler;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -24,6 +26,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer {
 
@@ -154,6 +157,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		
 		this.power = nbt.getInteger("powerTime");
 		this.oil = nbt.getInteger("oil");
+		this.age = nbt.getInteger("age");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -172,6 +176,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
 		nbt.setInteger("oil", oil);
+		nbt.setInteger("age", age);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -244,7 +249,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 				
 				//operation start
 				
-				if(age % timer == 0) {
+				if(age == timer - 1) {
 					warning = 0;
 					
 					//warning 0, green: derrick is operational
@@ -264,7 +269,9 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 							continue;
 						
 						if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || 
-								b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone) {
+								b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
+								b == Blocks.gravel || isOre(b, worldObj.getBlockMetadata(xCoord, i, zCoord)) ||
+								b.isReplaceable(worldObj, xCoord, i, zCoord)) {
 							worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
 						
 							//Code 2: The drilling ended
@@ -302,6 +309,21 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 			}
 		}
 		
+	}
+	
+	public boolean isOre(Block b, int meta) {
+		
+		int[] ids = OreDictionary.getOreIDs(new ItemStack(b, 1, meta));
+		
+		for(int i = 0; i < ids.length; i++) {
+			
+			String s = OreDictionary.getOreName(ids[i]);
+			
+			if(s.length() > 3 && s.substring(0, 3).equals("ore"))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	public boolean succ(int x, int y, int z) {

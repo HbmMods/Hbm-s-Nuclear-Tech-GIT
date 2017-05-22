@@ -1234,28 +1234,28 @@ public class MachineRecipes {
 					} else if (s.length() > 3 && s.substring(0, 3).equals("ore")) {
 						ItemStack stack = canFindDustByName(s.substring(3));
 						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2));
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2, stack.getItemDamage()));
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
 					} else if (s.length() > 3 && s.substring(0, 3).equals("rod")) {
 						ItemStack stack = canFindDustByName(s.substring(3));
 						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2));
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2, stack.getItemDamage()));
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
 					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
 						ItemStack stack = canFindDustByName(s.substring(5));
 						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 9));
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 9, stack.getItemDamage()));
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
 					} else if (s.length() > 3 && s.substring(0, 3).equals("gem")) {
 						ItemStack stack = canFindDustByName(s.substring(3));
 						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 1));
+							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}

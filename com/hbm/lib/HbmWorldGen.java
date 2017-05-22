@@ -11,6 +11,7 @@ import com.hbm.world.DesertAtom001;
 import com.hbm.world.Dud;
 import com.hbm.world.Factory;
 import com.hbm.world.LibraryDungeon;
+import com.hbm.world.OilBubble;
 import com.hbm.world.Radio01;
 import com.hbm.world.Relay;
 import com.hbm.world.Satellite;
@@ -316,6 +317,14 @@ public class HbmWorldGen implements IWorldGenerator {
 				int y = world.getHeightValue(x, z);
 
 				new Spaceship().generate(world, rand, x, y, z);
+			}
+
+			if (rand.nextInt(15) == 0) {
+				int randPosX = i + rand.nextInt(16);
+				int randPosY = rand.nextInt(25);
+				int randPosZ = j + rand.nextInt(16);
+
+				OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 7 + rand.nextInt(9));
 			}
 		}
 

@@ -45,6 +45,32 @@ public class ItemOilDetector extends Item {
 			if(world.getBlock(x, i, z - 5) == ModBlocks.ore_oil)
 				oil = true;
 		
+		for(int i =  y + 15; i > 10; i--)
+			if(world.getBlock(x + 10, i, z) == ModBlocks.ore_oil)
+				oil = true;
+		for(int i =  y + 15; i > 10; i--)
+			if(world.getBlock(x - 10, i, z) == ModBlocks.ore_oil)
+				oil = true;
+		for(int i =  y + 15; i > 10; i--)
+			if(world.getBlock(x, i, z + 10) == ModBlocks.ore_oil)
+				oil = true;
+		for(int i =  y + 15; i > 10; i--)
+			if(world.getBlock(x, i, z - 10) == ModBlocks.ore_oil)
+				oil = true;
+
+		for(int i =  y + 15; i > 5; i--)
+			if(world.getBlock(x + 5, i, z + 5) == ModBlocks.ore_oil)
+				oil = true;
+		for(int i =  y + 15; i > 5; i--)
+			if(world.getBlock(x - 5, i, z + 5) == ModBlocks.ore_oil)
+				oil = true;
+		for(int i =  y + 15; i > 5; i--)
+			if(world.getBlock(x + 5, i, z - 5) == ModBlocks.ore_oil)
+				oil = true;
+		for(int i =  y + 15; i > 5; i--)
+			if(world.getBlock(x - 5, i, z - 5) == ModBlocks.ore_oil)
+				oil = true;
+		
 		if(direct)
 			oil = true;
 		
