@@ -6,9 +6,13 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineElectricFurnace;
+import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.ShredderRecipeHandler;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IOilAcceptor;
+import com.hbm.interfaces.IOilSource;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
@@ -26,28 +30,34 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IOilSource {
 
 	private ItemStack slots[];
-	
+
 	public int oil;
+	public int gas;
 	public int power;
 	public int warning;
+	public int warning2;
 	public static final int maxPower = 100000;
 	public static final int maxOil = 640;
+	public static final int maxGas = 640;
+	public int age = 0;
+	public int age2 = 0;
+	public List<IOilAcceptor> aclist = new ArrayList();
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
 	private static final int[] slots_side = new int[] {0};
 	Random rand = new Random();
-	int age = 0;
 	
 	private String customName;
 	
 	public TileEntityMachineOilWell() {
-		slots = new ItemStack[3];
+		slots = new ItemStack[6];
 	}
 
 	@Override
@@ -106,7 +116,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		{
 			return false;
 		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
 		}
 	}
 	
@@ -157,6 +167,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		
 		this.power = nbt.getInteger("powerTime");
 		this.oil = nbt.getInteger("oil");
+		this.gas = nbt.getInteger("gas");
 		this.age = nbt.getInteger("age");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -176,6 +187,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
 		nbt.setInteger("oil", oil);
+		nbt.setInteger("gas", gas);
 		nbt.setInteger("age", age);
 		NBTTagList list = new NBTTagList();
 		
@@ -212,6 +224,10 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		return (oil * i) / maxOil;
 	}
 	
+	public int getGasScaled(int i) {
+		return (gas * i) / maxGas;
+	}
+	
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
@@ -222,8 +238,13 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		int timer = 50;
 		
 		age++;
+		age2++;
 		if(age >= timer)
 			age -= timer;
+		if(age2 >= 20)
+			age2 -= 20;
+		if(age2 == 9 || age2 == 19)
+			fillInit();
 		
 		if(!worldObj.isRemote) {
 			
@@ -233,19 +254,35 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 					slots[2] = new ItemStack(ModItems.canister_oil);
 					slots[1].stackSize--;
 					if(slots[1].stackSize <= 0)
-						slots[1]= null;
+						slots[1] = null;
 				} else  if(slots[2] != null && slots[2].getItem() == ModItems.canister_oil && slots[2].stackSize < slots[2].getMaxStackSize()) {
 					oil -= 10;
 					slots[2].stackSize++;
 					slots[1].stackSize--;
 					if(slots[1].stackSize <= 0)
-						slots[1]= null;
+						slots[1] = null;
+				}
+			}
+			
+			if(slots[3] != null && slots[3].getItem() == ModItems.gas_empty && gas >= 10) {
+				if(slots[4] == null) {
+					gas -= 10;
+					slots[4] = new ItemStack(ModItems.gas_full);
+					slots[3].stackSize--;
+					if(slots[3].stackSize <= 0)
+						slots[3] = null;
+				} else  if(slots[4] != null && slots[4].getItem() == ModItems.gas_full && slots[4].stackSize < slots[4].getMaxStackSize()) {
+					gas -= 10;
+					slots[4].stackSize++;
+					slots[3].stackSize--;
+					if(slots[3].stackSize <= 0)
+						slots[3] = null;
 				}
 			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			if(power >= 10) {
+			if(power >= 100) {
 				
 				//operation start
 				
@@ -279,13 +316,18 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 								warning = 2;
 							break;
 							
-						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.oil < this.maxOil) {
+						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.oil < this.maxOil && this.gas < this.maxGas) {
 							if(succ(this.xCoord, i, this.zCoord)) {
 								oil += 5;
 								if(oil > maxOil)
 									oil = maxOil;
 								
+								gas += rand.nextInt(26) + 25;
+								if(gas > maxGas)
+									gas = maxGas;
+								
 								ExplosionLarge.spawnOilSpills(worldObj, xCoord + 0.5F, yCoord + 5.5F, zCoord + 0.5F, 3);
+								worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
 								
 								break;
 							} else {
@@ -303,9 +345,22 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 				
 				//operation end
 				
-				power -= 10;
+				power -= 100;
 			} else {
 				warning = 1;
+			}
+
+			warning2 = 0;
+			if(gas > 0) {
+				if(slots[5] != null && (slots[5].getItem() == ModItems.fuse || slots[5].getItem() == ModItems.screwdriver)) {
+					warning2 = 2;
+					gas -= 1;
+					if(gas <= 0)
+						gas = 0;
+		    		worldObj.spawnEntityInWorld(new EntityGasFX(worldObj, this.xCoord + 0.5F, this.yCoord + 6.5F, this.zCoord + 0.5F, 0.0, 0.0, 0.0));
+				} else {
+					warning2 = 1;
+				}
 			}
 		}
 		
@@ -415,6 +470,48 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public void fillInit() {
+		fill(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
+		fill(this.xCoord - 2, this.yCoord, this.zCoord, getTact());
+		fill(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
+		fill(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
+	}
+
+	@Override
+	public void fill(int x, int y, int z, boolean newTact) {
+		Library.transmitOil(x, y, z, newTact, this, worldObj);
+	}
+
+	@Override
+	public boolean getTact() {
+		if (age2 >= 0 && age2 < 10) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int getSFill() {
+		return this.oil;
+	}
+
+	@Override
+	public void setSFill(int i) {
+		this.oil = i;
+	}
+
+	@Override
+	public List<IOilAcceptor> getList() {
+		return aclist;
+	}
+
+	@Override
+	public void clearList() {
+		this.aclist.clear();
 	}
 
 }

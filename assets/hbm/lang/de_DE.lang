@@ -156,6 +156,12 @@ container.cyclotron=Zyklotron
 tile.machine_well.name=Ölbohrturm
 tile.oil_pipe.name=Rohölrohr
 container.oilWell=Ölbohrturm
+tile.machine_refinery.name=Ölraffinerie
+container.machineRefinery=Ölraffinerie
+tile.oil_duct.name=Ölrohr
+tile.oil_duct_solid.name=Verstärktes Ölrohr
+tile.machine_flare.name=Abfackelturm
+container.gasFlare=Abfackelturm
 
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
@@ -490,6 +496,7 @@ item.inf_antischrabidium.name=Unendlicher Antischrabidiumtank
 item.oil_canola.name=Rohes Canola-Öl
 
 item.canister_empty.name=Leerer Kanister
+item.canister_smear.name=Industrieölkanister
 item.canister_canola.name=Schmiermittelkanister
 item.canister_oil.name=Rohölkanister
 item.canister_fuel.name=Treibstoffkanister

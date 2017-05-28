@@ -81,6 +81,7 @@ import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntityGasFX;
 import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
@@ -139,9 +140,11 @@ import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.TileEntityMachineReactor;
+import com.hbm.tileentity.TileEntityMachineRefinery;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.TileEntityMachineShredder;
 import com.hbm.tileentity.TileEntityMachineTeleporter;
@@ -156,6 +159,8 @@ import com.hbm.tileentity.TileEntityNukeMike;
 import com.hbm.tileentity.TileEntityNukePrototype;
 import com.hbm.tileentity.TileEntityNukeTsar;
 import com.hbm.tileentity.TileEntityObjTester;
+import com.hbm.tileentity.TileEntityOilDuct;
+import com.hbm.tileentity.TileEntityOilDuctSolid;
 import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityRedBarrel;
 import com.hbm.tileentity.TileEntityRotationTester;
@@ -383,6 +388,10 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDummy.class, "tileentity_dummy");
 		GameRegistry.registerTileEntity(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
 		GameRegistry.registerTileEntity(TileEntityMachineOilWell.class, "tileentity_derrick");
+		GameRegistry.registerTileEntity(TileEntityMachineGasFlare.class, "tileentity_gasflare");
+		GameRegistry.registerTileEntity(TileEntityMachineRefinery.class, "tileentity_refinery");
+		GameRegistry.registerTileEntity(TileEntityOilDuct.class, "tileentity_oil_duct");
+		GameRegistry.registerTileEntity(TileEntityOilDuctSolid.class, "tileentity_oil_duct_solid");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -458,6 +467,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeBlackHole.class, "entity_grenade_black_hole", 71, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityOilSpillFX.class, "entity_spill_fx", 72, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityOilSpill.class, "entity_oil_spill", 73, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGasFX.class, "entity_spill_fx", 74, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

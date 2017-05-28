@@ -53,13 +53,6 @@ public class EntityOilSpill extends EntityThrowable {
     @Override
 	protected void onImpact(MovingObjectPosition p_70184_1_)
     {
-        if (p_70184_1_.entityHit != null)
-        {
-            byte b0 = 0;
-
-            p_70184_1_.entityHit.attackEntityFrom(ModDamageSource.shrapnel, b0);
-        }
-
         if(this.ticksExisted > 5) {
         	this.setDead();
         }

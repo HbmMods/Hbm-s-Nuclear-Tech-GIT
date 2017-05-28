@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineOilWell extends GuiContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_well.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_well_large.png");
 	private TileEntityMachineOilWell derrick;
 	
 	public GUIMachineOilWell(InventoryPlayer invPlayer, TileEntityMachineOilWell tedf) {
@@ -26,7 +26,7 @@ public class GUIMachineOilWell extends GuiContainer {
 		derrick = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 166;
+		this.ySize = 222;
 	}
 
 	@Override
@@ -44,15 +44,24 @@ public class GUIMachineOilWell extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		int i = derrick.getPowerScaled(52);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 176, 52 - i, 16, i);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - i, 176, 52 - i, 16, i);
 		
 		int j = derrick.getOilScaled(52);
-		drawTexturedModalRect(guiLeft + 80, guiTop + 69 - j, 192, 52 - j, 34, j);
+		drawTexturedModalRect(guiLeft + 80, guiTop + 70 - j, 192, 52 - j, 34, j);
+		
+		int x = derrick.getGasScaled(52);
+		drawTexturedModalRect(guiLeft + 80, guiTop + 124 - x, 176, 120 - x, 34, x);
 		
 		int k = derrick.warning;
 		if(k == 2)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 176, 52, 16, 16);
+			drawTexturedModalRect(guiLeft + 44, guiTop + 18, 176, 52, 16, 16);
 		if(k == 1)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 192, 52, 16, 16);
+			drawTexturedModalRect(guiLeft + 44, guiTop + 18, 192, 52, 16, 16);
+		
+		int l = derrick.warning2;
+		if(l == 1)
+			drawTexturedModalRect(guiLeft + 44, guiTop + 90, 208, 52, 16, 16);
+		if(l == 2)
+			drawTexturedModalRect(guiLeft + 44, guiTop + 90, 224, 52, 16, 16);
 	}
 }

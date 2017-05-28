@@ -18,32 +18,42 @@ public class ContainerMachineOilWell extends Container {
 	private int oil;
 	private int power;
 	private int warning;
+	private int gas;
+	private int warning2;
 	
 	public ContainerMachineOilWell(InventoryPlayer invPlayer, TileEntityMachineOilWell tedf) {
 		oil = 0;
 		power = 0;
 		warning = 0;
+		gas = 0;
+		warning2 = 0;
 		
 		testNuke = tedf;
 		
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 44, 53));
+		this.addSlotToContainer(new Slot(tedf, 0, 44, 54));
 		//Canister Input
-		this.addSlotToContainer(new Slot(tedf, 1, 134, 17));
+		this.addSlotToContainer(new Slot(tedf, 1, 134, 18));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 134, 53));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 134, 54));
+		//Gas Input
+		this.addSlotToContainer(new Slot(tedf, 3, 134, 72));
+		//Gas Output
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 134, 108));
+		//Chip
+		this.addSlotToContainer(new Slot(tedf, 5, 8, 90));
 		
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++)
 		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 56));
 		}
 	}
 	
@@ -53,6 +63,8 @@ public class ContainerMachineOilWell extends Container {
 		crafting.sendProgressBarUpdate(this, 0, this.testNuke.oil);
 		crafting.sendProgressBarUpdate(this, 1, this.testNuke.power);
 		crafting.sendProgressBarUpdate(this, 2, this.testNuke.warning);
+		crafting.sendProgressBarUpdate(this, 3, this.testNuke.gas);
+		crafting.sendProgressBarUpdate(this, 4, this.testNuke.warning2);
 	}
 	
 	@Override
@@ -66,14 +78,16 @@ public class ContainerMachineOilWell extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 14) {
-				if (!this.mergeItemStack(var5, 15, this.inventorySlots.size(), true))
+            if (par2 <= 5) {
+				if (!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 15, false))
+			else if (!this.mergeItemStack(var5, 0, 2, false))
 			{
+				if (!this.mergeItemStack(var5, 3, 4, false))
+					if (!this.mergeItemStack(var5, 5, 6, false))
 					return null;
 			}
 			
@@ -111,15 +125,25 @@ public class ContainerMachineOilWell extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 1, this.testNuke.power);
 			}
-			if(this.power != this.testNuke.warning)
+			if(this.warning != this.testNuke.warning)
 			{
 				par1.sendProgressBarUpdate(this, 2, this.testNuke.warning);
+			}
+			if(this.gas != this.testNuke.gas)
+			{
+				par1.sendProgressBarUpdate(this, 3, this.testNuke.gas);
+			}
+			if(this.warning2 != this.testNuke.warning2)
+			{
+				par1.sendProgressBarUpdate(this, 4, this.testNuke.warning2);
 			}
 		}
 
 		this.oil = this.testNuke.oil;
 		this.power = this.testNuke.power;
 		this.warning = this.testNuke.warning;
+		this.gas = this.testNuke.gas;
+		this.warning2 = this.testNuke.warning2;
 	}
 	
 	@Override
@@ -135,6 +159,14 @@ public class ContainerMachineOilWell extends Container {
 		if(i == 2)
 		{
 			testNuke.warning = j;
+		}
+		if(i == 3)
+		{
+			testNuke.gas = j;
+		}
+		if(i == 4)
+		{
+			testNuke.warning2 = j;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityReiXMainframe;
 
@@ -44,7 +45,7 @@ public class ContainerIGenerator extends Container {
 		//Fluid Slot
 		this.addSlotToContainer(new Slot(tedf, 13, 98, 108));
 		//Container Slot
-		this.addSlotToContainer(new Slot(tedf, 14, 98, 72));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 14, 98, 72));
 		//Battery Slot
 		this.addSlotToContainer(new Slot(tedf, 15, 152, 108));
 		
@@ -85,8 +86,8 @@ public class ContainerIGenerator extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 4) {
-				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true))
+            if (par2 <= 15) {
+				if (!this.mergeItemStack(var5, 16, this.inventorySlots.size(), true))
 				{
 					return null;
 				}

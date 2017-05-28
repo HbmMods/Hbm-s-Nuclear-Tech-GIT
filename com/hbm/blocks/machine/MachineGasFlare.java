@@ -7,7 +7,7 @@ import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityMachineCyclotron;
+import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -23,13 +23,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachineOilWell extends BlockContainer implements IMultiblock {
+public class MachineGasFlare extends BlockContainer implements IMultiblock {
 
     private final Random field_149933_a = new Random();
 	private Random rand;
 	private static boolean keepInventory;
 
-	public MachineOilWell(Material p_i45386_1_) {
+	public MachineGasFlare(Material p_i45386_1_) {
 		super(p_i45386_1_);
 		rand = new Random();
 	}
@@ -37,7 +37,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-        return Item.getItemFromBlock(ModBlocks.machine_well);
+        return Item.getItemFromBlock(ModBlocks.machine_flare);
     }
 
 	@Override
@@ -62,10 +62,10 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			TileEntityMachineOilWell entity = (TileEntityMachineOilWell) world.getTileEntity(x, y, z);
+			TileEntityMachineGasFlare entity = (TileEntityMachineGasFlare) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_well, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_flare, world, x, y, z);
 			}
 			return true;
 		} else {
@@ -75,7 +75,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineOilWell();
+		return new TileEntityMachineGasFlare();
 	}
 	
 	@Override
@@ -83,7 +83,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
     {
         if (!keepInventory)
         {
-        	TileEntityMachineOilWell tileentityfurnace = (TileEntityMachineOilWell)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	TileEntityMachineGasFlare tileentityfurnace = (TileEntityMachineGasFlare)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (tileentityfurnace != null)
             {
@@ -133,11 +133,11 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 
-		if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.wellDimension)) {
-			MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.wellDimension, ModBlocks.dummy_block_well);
+		if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.flareDimension)) {
+			MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.flareDimension, ModBlocks.dummy_block_flare);
 
-			DummyBlockWell.safeBreak = true;
-			world.setBlock(x, y, z + 1, ModBlocks.dummy_port_well);
+			DummyBlockFlare.safeBreak = true;
+			world.setBlock(x, y, z + 1, ModBlocks.dummy_port_flare);
 			TileEntity te = world.getTileEntity(x, y, z + 1);
 			if(te instanceof TileEntityDummy) {
 				TileEntityDummy dummy = (TileEntityDummy)te;
@@ -145,7 +145,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 				dummy.targetY = y;
 				dummy.targetZ = z;
 			}
-			world.setBlock(x, y, z - 1, ModBlocks.dummy_port_well);
+			world.setBlock(x, y, z - 1, ModBlocks.dummy_port_flare);
 			TileEntity te2 = world.getTileEntity(x, y, z - 1);
 			if(te instanceof TileEntityDummy) {
 				TileEntityDummy dummy = (TileEntityDummy)te2;
@@ -153,7 +153,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 				dummy.targetY = y;
 				dummy.targetZ = z;
 			}
-			world.setBlock(x + 1, y, z, ModBlocks.dummy_port_well);
+			world.setBlock(x + 1, y, z, ModBlocks.dummy_port_flare);
 			TileEntity te3 = world.getTileEntity(x + 1, y, z);
 			if(te3 instanceof TileEntityDummy) {
 				TileEntityDummy dummy = (TileEntityDummy)te3;
@@ -161,7 +161,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 				dummy.targetY = y;
 				dummy.targetZ = z;
 			}
-			world.setBlock(x - 1, y, z, ModBlocks.dummy_port_well);
+			world.setBlock(x - 1, y, z, ModBlocks.dummy_port_flare);
 			TileEntity te4 = world.getTileEntity(x - 1, y, z);
 			if(te4 instanceof TileEntityDummy) {
 				TileEntityDummy dummy = (TileEntityDummy)te4;
@@ -169,7 +169,7 @@ public class MachineOilWell extends BlockContainer implements IMultiblock {
 				dummy.targetY = y;
 				dummy.targetZ = z;
 			}
-			DummyBlockWell.safeBreak = false;
+			DummyBlockFlare.safeBreak = false;
 			
 		} else
 			world.func_147480_a(x, y, z, true);

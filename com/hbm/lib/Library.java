@@ -6,10 +6,14 @@ import java.util.UUID;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IDuct;
+import com.hbm.interfaces.IOilAcceptor;
+import com.hbm.interfaces.IOilSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -18,6 +22,8 @@ import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.TileEntityOilDuct;
+import com.hbm.tileentity.TileEntityOilDuctSolid;
 import com.hbm.tileentity.TileEntityWireCoated;
 
 import net.minecraft.block.Block;
@@ -244,7 +250,7 @@ public class Library {
 		return false;
 	}
 	
-	public static boolean checkConnectables(World world, int x, int y, int z)
+	public static boolean checkCableConnectables(World world, int x, int y, int z)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if((tileentity != null && (tileentity instanceof IConductor ||
@@ -265,9 +271,34 @@ public class Library {
 		return false;
 	}
 	
+	public static boolean checkDuctConnectables(World world, int x, int y, int z)
+	{
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		if((tileentity != null && tileentity instanceof IDuct) || 
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
+				world.getBlock(x, y, z) == ModBlocks.machine_refinery)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, ISource that) {
 		
 		for(UnionOfTileEntitiesAndBooleans union : list)
+		{
+			if(union.source == that)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static boolean checkOilUnionListForOil(List<UnionOfTileEntitiesAndBooleansForOil> list, IOilSource that) {
+		
+		for(UnionOfTileEntitiesAndBooleansForOil union : list)
 		{
 			if(union.source == that)
 			{
@@ -644,6 +675,92 @@ public class Library {
 						} else {
 							that.setSPower(that.getSPower() - (consume.getMaxPower() - consume.getPower()));
 							consume.setPower(consume.getMaxPower());
+						}
+					}
+				}
+			}
+			that.clearList();
+		}
+	}
+	
+	public static void transmitOil(int x, int y, int z, boolean newTact, IOilSource that, World worldObj) {
+		Block block = worldObj.getBlock(x, y, z);
+		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
+		
+		if(tileentity instanceof IDuct)
+		{
+			if(tileentity instanceof TileEntityOilDuct)
+			{
+				if(Library.checkOilUnionListForOil(((TileEntityOilDuct)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityOilDuct)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityOilDuct)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityOilDuct)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityOilDuct)tileentity).uoteab.get(i).ticked = newTact;
+								that.fill(x, y + 1, z, that.getTact());
+								that.fill(x, y - 1, z, that.getTact());
+								that.fill(x - 1, y, z, that.getTact());
+								that.fill(x + 1, y, z, that.getTact());
+								that.fill(x, y, z - 1, that.getTact());
+								that.fill(x, y, z + 1, that.getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityOilDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForOil(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityOilDuctSolid)
+			{
+				if(Library.checkOilUnionListForOil(((TileEntityOilDuctSolid)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityOilDuctSolid)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
+								that.fill(x, y + 1, z, that.getTact());
+								that.fill(x, y - 1, z, that.getTact());
+								that.fill(x - 1, y, z, that.getTact());
+								that.fill(x + 1, y, z, that.getTact());
+								that.fill(x, y, z - 1, that.getTact());
+								that.fill(x, y, z + 1, that.getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityOilDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForOil(that, newTact));
+				}
+			}
+		}
+		
+		if(tileentity instanceof IOilAcceptor && newTact)
+		{
+			that.getList().add((IOilAcceptor)tileentity);
+		}
+		
+		if(!newTact)
+		{
+			int size = that.getList().size();
+			if(size > 0)
+			{
+				int part = that.getSFill() / size;
+				for(IOilAcceptor consume : that.getList())
+				{
+					if(consume.getFill() < consume.getMaxFill())
+					{
+						if(consume.getMaxFill() - consume.getFill() >= part)
+						{
+							that.setSFill(that.getSFill()-part);
+							consume.setFill(consume.getFill() + part);
+						} else {
+							that.setSFill(that.getSFill() - (consume.getMaxFill() - consume.getFill()));
+							consume.setFill(consume.getMaxFill());
 						}
 					}
 				}

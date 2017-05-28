@@ -154,8 +154,14 @@ container.iGenerator=Industrial Generator
 tile.machine_cyclotron.name=Cyclotron
 container.cyclotron=Cyclotron
 tile.machine_well.name=Oil Derrick
-tile.oil_pipe.name=Cruse Oil Pipe
+tile.oil_pipe.name=Crude Oil Extraction Pipe
 container.oilWell=Oil Derrick
+tile.machine_refinery.name=Oil Refinery
+container.machineRefinery=Oil Refinery
+tile.oil_duct.name=Oil Pipe
+tile.oil_duct_solid.name=Coated Oil Pipe
+tile.machine_flare.name=Gas Flare
+container.gasFlare=Gas Flare
 
 tile.rail_highspeed.name=High Speed Rail
 tile.rail_booster.name=High Speed Booster Rail
@@ -490,6 +496,7 @@ item.inf_antischrabidium.name=Infinite Antischrabidium Tank
 item.oil_canola.name=Raw Canola Oil
 
 item.canister_empty.name=Empty Canister
+item.canister_smear.name=Industrial Oil Canister
 item.canister_canola.name=Engine Lubricant
 item.canister_oil.name=Crude Oil Canister
 item.canister_fuel.name=Fuel Canister

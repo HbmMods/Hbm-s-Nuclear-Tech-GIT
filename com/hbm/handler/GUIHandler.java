@@ -20,8 +20,10 @@ import com.hbm.inventory.container.ContainerMachineCoal;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.inventory.container.ContainerMachineDeuterium;
 import com.hbm.inventory.container.ContainerMachineDiesel;
+import com.hbm.inventory.container.ContainerMachineGasFlare;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.inventory.container.ContainerMachineRTG;
+import com.hbm.inventory.container.ContainerMachineRefinery;
 import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.inventory.container.ContainerMachineShredder;
 import com.hbm.inventory.container.ContainerMachineTeleporter;
@@ -59,11 +61,13 @@ import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.inventory.gui.GUIMachineDeuterium;
 import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.inventory.gui.GUIMachineElectricFurnace;
+import com.hbm.inventory.gui.GUIMachineGasFlare;
 import com.hbm.inventory.gui.GUIMachineGenerator;
 import com.hbm.inventory.gui.GUIMachineOilWell;
 import com.hbm.inventory.gui.GUIMachinePuF6Tank;
 import com.hbm.inventory.gui.GUIMachineRTG;
 import com.hbm.inventory.gui.GUIMachineReactor;
+import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.inventory.gui.GUIMachineSchrabidiumTransmutator;
 import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.inventory.gui.GUIMachineTeleporter;
@@ -102,10 +106,12 @@ import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.TileEntityMachineRTG;
 import com.hbm.tileentity.TileEntityMachineReactor;
+import com.hbm.tileentity.TileEntityMachineRefinery;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.TileEntityMachineShredder;
 import com.hbm.tileentity.TileEntityMachineTeleporter;
@@ -466,6 +472,22 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineOilWell(player.inventory, (TileEntityMachineOilWell) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_refinery:
+			{
+				if(entity instanceof TileEntityMachineRefinery)
+				{
+					return new ContainerMachineRefinery(player.inventory, (TileEntityMachineRefinery) entity);
+				}
+			}
+
+			case ModBlocks.guiID_machine_flare:
+			{
+				if(entity instanceof TileEntityMachineGasFlare)
+				{
+					return new ContainerMachineGasFlare(player.inventory, (TileEntityMachineGasFlare) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -804,6 +826,22 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineOilWell)
 					{
 						return new GUIMachineOilWell(player.inventory, (TileEntityMachineOilWell) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_refinery:
+				{
+					if(entity instanceof TileEntityMachineRefinery)
+					{
+						return new GUIMachineRefinery(player.inventory, (TileEntityMachineRefinery) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_flare:
+				{
+					if(entity instanceof TileEntityMachineGasFlare)
+					{
+						return new GUIMachineGasFlare(player.inventory, (TileEntityMachineGasFlare) entity);
 					}
 				}
 			}
