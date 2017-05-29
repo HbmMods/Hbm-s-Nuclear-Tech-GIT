@@ -162,6 +162,8 @@ tile.oil_duct.name=Ölrohr
 tile.oil_duct_solid.name=Verstärktes Ölrohr
 tile.machine_flare.name=Abfackelturm
 container.gasFlare=Abfackelturm
+tile.gas_duct.name=Gasleitung
+tile.gas_duct_solid.name=Verstärkter Gasleitung
 
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
@@ -503,6 +505,8 @@ item.canister_fuel.name=Treibstoffkanister
 item.canister_kerosene.name=Kerosinkanister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Oktan Supertreibstoff
+item.gas_empty.name=Leerer Gastank
+item.gas_full.name=Gastank
 
 item.rod_empty.name=Leerer Brennstab
 item.rod_uranium.name=Uranbrennstab
@@ -1103,6 +1107,7 @@ item.reer_graar.name=The Reer Graar
 
 item.letter.name=Eilbrief
 item.polaroid.name=Das Polaroid
+item.book_secret.name=3-596-50802-9
 
 item.crystal_horn.name=Kristallhorn
 item.crystal_charred.name=Verkohlter Kristall

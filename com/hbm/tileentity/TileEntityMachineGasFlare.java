@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionThermo;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IGasAcceptor;
 import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.interfaces.IOilSource;
 import com.hbm.interfaces.ISource;
@@ -27,14 +31,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, ISource, IGasAcceptor {
 
 	private ItemStack slots[];
 	
 	public int gas;
 	public int power;
 	public static final int maxPower = 100000;
-	public static final int maxGas = 640;
+	public static final int maxGas = 64 * 50;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	
@@ -223,6 +227,35 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 			ffgeuaInit();
 		
 		if(!worldObj.isRemote) {
+			
+			if(slots[1] != null && slots[1].getItem() == ModItems.gas_full && gas + 50 <= maxGas) {
+				if(slots[2] == null) {
+					gas += 50;
+					slots[1].stackSize--;
+					if(slots[1].stackSize <= 0)
+					slots[1] = null;
+					slots[2] = new ItemStack(ModItems.gas_empty);
+				}else if(slots[2] != null && slots[2].getItem() == ModItems.gas_empty && slots[2].stackSize < slots[2].getMaxStackSize()) {
+					gas += 50;
+					slots[1].stackSize--;
+					if(slots[1].stackSize <= 0)
+						slots[1] = null;
+					slots[2].stackSize++;
+				}
+			}
+			
+			if(gas >= 0) {
+				gas--;
+				power += 5;
+
+	    		worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, this.xCoord + 0.5F, this.yCoord + 11F, this.zCoord + 0.5F, 0.0, 0.0, 0.0));
+				ExplosionThermo.setEntitiesOnFire(worldObj, this.xCoord, this.yCoord + 11, zCoord, 5);
+	    		
+	    		if(age % 5 == 0)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "hbm:weapon.flamethrowerShoot", 1.5F, 1F);
+			}
+			
+			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 		}
 		
 	}
@@ -280,5 +313,20 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	@Override
 	public List<IConsumer> getList() {
 		return this.list;
+	}
+
+	@Override
+	public void setGasFill(int i) {
+		this.gas = i;
+	}
+
+	@Override
+	public int getGasFill() {
+		return this.gas;
+	}
+
+	@Override
+	public int getMaxGasFill() {
+		return this.maxGas;
 	}
 }

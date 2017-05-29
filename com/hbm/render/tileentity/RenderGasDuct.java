@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityCable;
+import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityOilDuct;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -12,9 +13,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RenderOilDuct extends TileEntitySpecialRenderer {
+public class RenderGasDuct extends TileEntitySpecialRenderer {
 	
-	public ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/blocks/oil_duct_alt.png");
+	public ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/blocks/gas_duct.png");
 	float pixel = 1F/16F;
 	float textureP = 1F / 32F;
 
@@ -24,7 +25,7 @@ public class RenderOilDuct extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.bindTexture(texture);
 		drawCore(tileentity);
-		TileEntityOilDuct cable = (TileEntityOilDuct) tileentity;
+		TileEntityGasDuct cable = (TileEntityGasDuct) tileentity;
 		for(int i = 0; i < cable.connections.length; i++)
 		{
 			if(cable.connections[i] != null)

@@ -58,6 +58,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
@@ -84,6 +85,7 @@ import com.hbm.items.ModItems;
 import com.hbm.render.entity.BSmokeRenderer;
 import com.hbm.render.entity.DSmokeRenderer;
 import com.hbm.render.entity.ElectricityRenderer;
+import com.hbm.render.entity.GasFlameRenderer;
 import com.hbm.render.entity.GasRenderer;
 import com.hbm.render.entity.ModEffectRenderer;
 import com.hbm.render.entity.RenderBaleflare;
@@ -164,6 +166,7 @@ import com.hbm.render.tileentity.RenderCyclotron;
 import com.hbm.render.tileentity.RenderDecoBlock;
 import com.hbm.render.tileentity.RenderDecoBlockAlt;
 import com.hbm.render.tileentity.RenderDerrick;
+import com.hbm.render.tileentity.RenderGasDuct;
 import com.hbm.render.tileentity.RenderGasFlare;
 import com.hbm.render.tileentity.RenderIGenerator;
 import com.hbm.render.tileentity.RenderLaunchPadTier1;
@@ -202,6 +205,7 @@ import com.hbm.tileentity.TileEntityDecoPoleSatelliteReceiver;
 import com.hbm.tileentity.TileEntityDecoPoleTop;
 import com.hbm.tileentity.TileEntityDecoSteelPoles;
 import com.hbm.tileentity.TileEntityDecoTapeRecorder;
+import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityLaunchPad;
@@ -383,6 +387,7 @@ public class ClientProxy extends ServerProxy
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOilDuct.class, new RenderOilDuct());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGasDuct.class, new RenderGasDuct());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileAntiBallistic.class, new RenderMissileGeneric());
@@ -433,6 +438,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySSmokeFX.class, new SSmokeRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityOilSpillFX.class, new SpillRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityGasFX.class, new GasRenderer(ModItems.nuclear_waste));
+	    RenderingRegistry.registerEntityRenderingHandler(EntityGasFlameFX.class, new GasFlameRenderer(ModItems.nuclear_waste));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCombineBall.class, new RenderSnowball(ModItems.energy_ball));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDischarge.class, new ElectricityRenderer(ModItems.discharge));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityEMPBlast.class, new RenderEMPBlast());

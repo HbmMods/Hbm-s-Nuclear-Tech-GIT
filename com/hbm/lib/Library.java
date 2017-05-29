@@ -6,18 +6,24 @@ import java.util.UUID;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.calc.UnionOfTileEntitiesAndBooleansForGas;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.IDuct;
+import com.hbm.interfaces.IGasAcceptor;
+import com.hbm.interfaces.IGasDuct;
+import com.hbm.interfaces.IGasSource;
+import com.hbm.interfaces.IOilDuct;
 import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.interfaces.IOilSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityCable;
+import com.hbm.tileentity.TileEntityGasDuct;
+import com.hbm.tileentity.TileEntityGasDuctSolid;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
@@ -220,6 +226,16 @@ public class Library {
 		return false;
 	}
 	
+	public static boolean checkForAsbestos(EntityPlayer player) {
+		
+		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean checkForGasMask(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))
@@ -264,19 +280,32 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_igenerator ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_well)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare)
 		{
 			return true;
 		}
 		return false;
 	}
 	
-	public static boolean checkDuctConnectables(World world, int x, int y, int z)
+	public static boolean checkOilConnectables(World world, int x, int y, int z)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if((tileentity != null && tileentity instanceof IDuct) || 
+		if((tileentity != null && tileentity instanceof IOilDuct) || 
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
 				world.getBlock(x, y, z) == ModBlocks.machine_refinery)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean checkGasConnectables(World world, int x, int y, int z)
+	{
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		if((tileentity != null && tileentity instanceof IGasDuct) || 
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare)
 		{
 			return true;
 		}
@@ -299,6 +328,19 @@ public class Library {
 	public static boolean checkOilUnionListForOil(List<UnionOfTileEntitiesAndBooleansForOil> list, IOilSource that) {
 		
 		for(UnionOfTileEntitiesAndBooleansForOil union : list)
+		{
+			if(union.source == that)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static boolean checkGasUnionListForGas(List<UnionOfTileEntitiesAndBooleansForGas> list, IGasSource that) {
+		
+		for(UnionOfTileEntitiesAndBooleansForGas union : list)
 		{
 			if(union.source == that)
 			{
@@ -687,7 +729,7 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		
-		if(tileentity instanceof IDuct)
+		if(tileentity instanceof IOilDuct)
 		{
 			if(tileentity instanceof TileEntityOilDuct)
 			{
@@ -766,6 +808,109 @@ public class Library {
 				}
 			}
 			that.clearList();
+		}
+	}
+	
+	public static void transmitGas(int x, int y, int z, boolean newTact, IGasSource that, World worldObj) {
+		Block block = worldObj.getBlock(x, y, z);
+		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
+		
+		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_flare)
+		{
+			tileentity = worldObj.getTileEntity(x + 1, y, z);
+		}
+		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x - 1, y, z) == ModBlocks.machine_flare)
+		{
+			tileentity = worldObj.getTileEntity(x - 1, y, z);
+		}
+		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x, y, z + 1) == ModBlocks.machine_flare)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z + 1);
+		}
+		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_flare)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z - 1);
+		}
+		
+		if(tileentity instanceof IGasDuct)
+		{
+			if(tileentity instanceof TileEntityGasDuct)
+			{
+				if(Library.checkGasUnionListForGas(((TileEntityGasDuct)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityGasDuct)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityGasDuct)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityGasDuct)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityGasDuct)tileentity).uoteab.get(i).ticked = newTact;
+								that.fillGas(x, y + 1, z, that.getTact());
+								that.fillGas(x, y - 1, z, that.getTact());
+								that.fillGas(x - 1, y, z, that.getTact());
+								that.fillGas(x + 1, y, z, that.getTact());
+								that.fillGas(x, y, z - 1, that.getTact());
+								that.fillGas(x, y, z + 1, that.getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityGasDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForGas(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityGasDuctSolid)
+			{
+				if(Library.checkGasUnionListForGas(((TileEntityGasDuctSolid)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityGasDuctSolid)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
+								that.fillGas(x, y + 1, z, that.getTact());
+								that.fillGas(x, y - 1, z, that.getTact());
+								that.fillGas(x - 1, y, z, that.getTact());
+								that.fillGas(x + 1, y, z, that.getTact());
+								that.fillGas(x, y, z - 1, that.getTact());
+								that.fillGas(x, y, z + 1, that.getTact());
+							}
+						}
+					}
+				} else {
+					((TileEntityGasDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForGas(that, newTact));
+				}
+			}
+		}
+		
+		if(tileentity instanceof IGasAcceptor && newTact)
+		{
+			that.getGasList().add((IGasAcceptor)tileentity);
+		}
+		
+		if(!newTact)
+		{
+			int size = that.getGasList().size();
+			if(size > 0)
+			{
+				int part = that.getGasFill() / size;
+				for(IGasAcceptor consume : that.getGasList())
+				{
+					if(consume.getGasFill() < consume.getMaxGasFill())
+					{
+						if(consume.getMaxGasFill() - consume.getGasFill() >= part)
+						{
+							that.setGasFill(that.getGasFill()-part);
+							consume.setGasFill(consume.getGasFill() + part);
+						} else {
+							that.setGasFill(that.getGasFill() - (consume.getMaxGasFill() - consume.getGasFill()));
+							consume.setGasFill(consume.getMaxGasFill());
+						}
+					}
+				}
+			}
+			that.clearGasList();
 		}
 	}
 }

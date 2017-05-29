@@ -58,6 +58,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModItems.watch));
 		API.hideItem(new ItemStack(ModItems.rod_quad_euphemium));
 		API.hideItem(new ItemStack(ModItems.rod_euphemium));
+		API.hideItem(new ItemStack(ModItems.book_secret));
 	}
 
 	@Override

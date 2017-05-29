@@ -11,6 +11,8 @@ import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.ShredderRecipeHandler;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IGasAcceptor;
+import com.hbm.interfaces.IGasSource;
 import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.interfaces.IOilSource;
 import com.hbm.inventory.MachineRecipes;
@@ -33,7 +35,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IOilSource {
+public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IOilSource, IGasSource {
 
 	private ItemStack slots[];
 
@@ -48,6 +50,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	public int age = 0;
 	public int age2 = 0;
 	public List<IOilAcceptor> aclist = new ArrayList();
+	public List<IGasAcceptor> gaslist = new ArrayList();
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -243,8 +246,10 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 			age -= timer;
 		if(age2 >= 20)
 			age2 -= 20;
-		if(age2 == 9 || age2 == 19)
+		if(age2 == 9 || age2 == 19) {
 			fillInit();
+			fillGasInit();
+		}
 		
 		if(!worldObj.isRemote) {
 			
@@ -307,6 +312,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 						
 						if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || 
 								b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
+								b == Blocks.clay || b == Blocks.hardened_clay || b == Blocks.stained_hardened_clay || 
 								b == Blocks.gravel || isOre(b, worldObj.getBlockMetadata(xCoord, i, zCoord)) ||
 								b.isReplaceable(worldObj, xCoord, i, zCoord)) {
 							worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
@@ -486,6 +492,19 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	}
 
 	@Override
+	public void fillGasInit() {
+		fillGas(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
+		fillGas(this.xCoord - 2, this.yCoord, this.zCoord, getTact());
+		fillGas(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
+		fillGas(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
+	}
+
+	@Override
+	public void fillGas(int x, int y, int z, boolean newTact) {
+		Library.transmitGas(x, y, z, newTact, this, worldObj);
+	}
+
+	@Override
 	public boolean getTact() {
 		if (age2 >= 0 && age2 < 10) {
 			return true;
@@ -512,6 +531,26 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	@Override
 	public void clearList() {
 		this.aclist.clear();
+	}
+
+	@Override
+	public int getGasFill() {
+		return this.gas;
+	}
+
+	@Override
+	public void setGasFill(int i) {
+		this.gas = i;
+	}
+
+	@Override
+	public List<IGasAcceptor> getGasList() {
+		return this.gaslist;
+	}
+
+	@Override
+	public void clearGasList() {
+		this.gaslist.clear();
 	}
 
 }

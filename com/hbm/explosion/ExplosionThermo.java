@@ -4,11 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -499,8 +501,10 @@ public class ExplosionThermo {
 		                if (d9 < wat && !(entity instanceof EntityOcelot) && entity instanceof EntityLivingBase)
 		                {
 
-	                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 2 * 60 * 20, 4));
-	                    	entity.setFire(10);
+	                    	if(!(entity instanceof EntityPlayer && Library.checkForAsbestos((EntityPlayer) entity))) {
+	                    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 15 * 20, 4));
+	                    		entity.setFire(10);
+	                    	}
 		                }
 		            }
 		        }

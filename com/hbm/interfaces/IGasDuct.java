@@ -1,5 +1,5 @@
 package com.hbm.interfaces;
 
-public interface IDuct {
+public interface IGasDuct {
 
 }

@@ -45,6 +45,12 @@ public class ModArmor extends ItemArmor {
 		if(stack.getItem().equals(ModItems.paa_legs)) {
 			return (RefStrings.MODID + ":textures/armor/paa_2.png");
 		}
+		if(stack.getItem().equals(ModItems.asbestos_helmet) || stack.getItem().equals(ModItems.asbestos_plate) || stack.getItem().equals(ModItems.asbestos_boots)) {
+			return (RefStrings.MODID + ":textures/armor/asbestos_1.png");
+		}
+		if(stack.getItem().equals(ModItems.asbestos_legs)) {
+			return (RefStrings.MODID + ":textures/armor/asbestos_2.png");
+		}
 		
 		else return null;
 	}

@@ -48,6 +48,7 @@ import com.hbm.blocks.generic.YellowBarrel;
 import com.hbm.blocks.machine.BlockCable;
 import com.hbm.blocks.machine.BlockConverterHeRf;
 import com.hbm.blocks.machine.BlockConverterRfHe;
+import com.hbm.blocks.machine.BlockGasDuct;
 import com.hbm.blocks.machine.BlockHatch;
 import com.hbm.blocks.machine.BlockOilDuct;
 import com.hbm.blocks.machine.OilDuctSolid;
@@ -65,6 +66,7 @@ import com.hbm.blocks.machine.FactoryCoreTitanium;
 import com.hbm.blocks.machine.FactoryHatch;
 import com.hbm.blocks.machine.FusionCore;
 import com.hbm.blocks.machine.FusionHatch;
+import com.hbm.blocks.machine.GasDuctSolid;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.blocks.machine.MachineCMBFactory;
 import com.hbm.blocks.machine.MachineCentrifuge;
@@ -341,6 +343,8 @@ public class ModBlocks {
 	public static Block red_cable;
 	public static Block oil_duct_solid;
 	public static Block oil_duct;
+	public static Block gas_duct_solid;
+	public static Block gas_duct;
 
 	public static Block bomb_multi_large;
 	public static final int guiID_bomb_multi_large = 18;
@@ -685,8 +689,10 @@ public class ModBlocks {
 
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
 		red_cable = new BlockCable(Material.iron).setBlockName("red_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":red_cable_icon");
-		oil_duct_solid = new OilDuctSolid(Material.iron).setBlockName("oil_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":oil_duct_solid");
-		oil_duct = new BlockOilDuct(Material.iron).setBlockName("oil_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":oil_duct_icon");
+		oil_duct_solid = new OilDuctSolid(Material.iron).setBlockName("oil_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":oil_duct_solid_alt");
+		oil_duct = new BlockOilDuct(Material.iron).setBlockName("oil_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":oil_duct_icon_alt");
+		gas_duct_solid = new GasDuctSolid(Material.iron).setBlockName("gas_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":gas_duct_solid");
+		gas_duct = new BlockGasDuct(Material.iron).setBlockName("gas_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":gas_duct_icon");
 
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
@@ -984,6 +990,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
 		GameRegistry.registerBlock(oil_duct, oil_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(oil_duct_solid, oil_duct_solid.getUnlocalizedName());
+		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
+		GameRegistry.registerBlock(gas_duct_solid, gas_duct_solid.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_battery, machine_battery.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_converter_he_rf, machine_converter_he_rf.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_converter_rf_he, machine_converter_rf_he.getUnlocalizedName());

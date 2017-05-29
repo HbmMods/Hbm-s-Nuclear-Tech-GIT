@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.tileentity.TileEntityCable;
+import com.hbm.tileentity.TileEntityOilDuct;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -19,6 +20,7 @@ public class BlockCable extends BlockContainer {
 	}
 	
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		if(world.getTileEntity(x, y, z) instanceof TileEntityCable) {
 		TileEntityCable cable = (TileEntityCable)world.getTileEntity(x, y, z);
 
 		if(cable != null)
@@ -33,10 +35,12 @@ public class BlockCable extends BlockContainer {
 			
 			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
 		}
+		}
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 	
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		if(world.getTileEntity(x, y, z) instanceof TileEntityCable) {
 		TileEntityCable cable = (TileEntityCable)world.getTileEntity(x, y, z);
 
 		if(cable != null)
@@ -50,6 +54,7 @@ public class BlockCable extends BlockContainer {
 			float maxZ = 1 - 11 * p / 2 + (cable.connections[4] != null ? (11 * p / 2) : 0);
 			
 			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
+		}
 		}
 	}
 

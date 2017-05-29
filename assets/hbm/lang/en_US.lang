@@ -162,6 +162,8 @@ tile.oil_duct.name=Oil Pipe
 tile.oil_duct_solid.name=Coated Oil Pipe
 tile.machine_flare.name=Gas Flare
 container.gasFlare=Gas Flare
+tile.gas_duct.name=Gas Pipe
+tile.gas_duct_solid.name=Coated Gas Pipe
 
 tile.rail_highspeed.name=High Speed Rail
 tile.rail_booster.name=High Speed Booster Rail
@@ -503,6 +505,8 @@ item.canister_fuel.name=Fuel Canister
 item.canister_kerosene.name=Kerosene Canister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
+item.gas_empty.name=Empty Gas Tank
+item.gas_full.name=Gas Tank
 
 item.rod_empty.name=Emty Rod
 item.rod_uranium.name=Uranium Rod
@@ -1103,6 +1107,7 @@ item.reer_graar.name=The Reer Graar
 
 item.letter.name=Express Mail
 item.polaroid.name=The Polaroid
+item.book_secret.name=3-596-50802-9
 
 item.crystal_horn.name=Crystal Horn
 item.crystal_charred.name=Charred Crystal

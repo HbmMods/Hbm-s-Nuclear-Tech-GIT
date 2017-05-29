@@ -19,6 +19,7 @@ import com.hbm.items.food.ItemPill;
 import com.hbm.items.food.ItemSchnitzelVegan;
 import com.hbm.items.food.ItemTemFlakes;
 import com.hbm.items.food.ItemWaffle;
+import com.hbm.items.gear.ArmorAsbestos;
 import com.hbm.items.gear.ArmorAustralium;
 import com.hbm.items.gear.ArmorEuphemium;
 import com.hbm.items.gear.ArmorHazmat;
@@ -775,6 +776,10 @@ public class ModItems {
 	public static Item paa_plate;
 	public static Item paa_legs;
 	public static Item paa_boots;
+	public static Item asbestos_helmet;
+	public static Item asbestos_plate;
+	public static Item asbestos_legs;
+	public static Item asbestos_boots;
 
 	public static Item australium_iii;
 	public static Item australium_iv;
@@ -918,6 +923,7 @@ public class ModItems {
 
 	public static Item polaroid;
 	public static Item letter;
+	public static Item book_secret;
 
 	public static Item smoke1;
 	public static Item smoke2;
@@ -959,6 +965,14 @@ public class ModItems {
 	public static Item gas6;
 	public static Item gas7;
 	public static Item gas8;
+	public static Item gasflame1;
+	public static Item gasflame2;
+	public static Item gasflame3;
+	public static Item gasflame4;
+	public static Item gasflame5;
+	public static Item gasflame6;
+	public static Item gasflame7;
+	public static Item gasflame8;
 	public static Item energy_ball;
 	public static Item discharge;
 	public static Item empblast;
@@ -1686,6 +1700,10 @@ public class ModItems {
 		paa_plate = new ModArmor(MainRegistry.enumArmorMaterialPaa, 7, 1).setUnlocalizedName("paa_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":paa_plate");
 		paa_legs = new ModArmor(MainRegistry.enumArmorMaterialPaa, 7, 2).setUnlocalizedName("paa_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":paa_legs");
 		paa_boots = new ModArmor(MainRegistry.enumArmorMaterialPaa, 7, 3).setUnlocalizedName("paa_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":paa_boots");
+		asbestos_helmet = new ArmorAsbestos(MainRegistry.enumArmorMaterialSteel, 7, 0).setUnlocalizedName("asbestos_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":asbestos_helmet");
+		asbestos_plate = new ArmorAsbestos(MainRegistry.enumArmorMaterialSteel, 7, 1).setUnlocalizedName("asbestos_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":asbestos_plate");
+		asbestos_legs = new ArmorAsbestos(MainRegistry.enumArmorMaterialSteel, 7, 2).setUnlocalizedName("asbestos_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":asbestos_legs");
+		asbestos_boots = new ArmorAsbestos(MainRegistry.enumArmorMaterialSteel, 7, 3).setUnlocalizedName("asbestos_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":asbestos_boots");
 
 		schrabidium_sword = new SwordSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_sword");
 		schrabidium_pickaxe = new PickaxeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
@@ -1779,6 +1797,7 @@ public class ModItems {
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
 		letter = new ItemStarterKit().setUnlocalizedName("letter").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":letter");
+		book_secret = new ItemCustomLore().setUnlocalizedName("book_secret").setCreativeTab(MainRegistry.polaroidID == 11 ? MainRegistry.tabNuke : null).setTextureName(RefStrings.MODID + ":book_secret");
 
 		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
 		smoke2 = new Item().setUnlocalizedName("smoke2").setTextureName(RefStrings.MODID + ":smoke2");
@@ -1820,6 +1839,14 @@ public class ModItems {
 		gas6 = new Item().setUnlocalizedName("gas6").setTextureName(RefStrings.MODID + ":gas6");
 		gas7 = new Item().setUnlocalizedName("gas7").setTextureName(RefStrings.MODID + ":gas7");
 		gas8 = new Item().setUnlocalizedName("gas8").setTextureName(RefStrings.MODID + ":gas8");
+		gasflame1 = new Item().setUnlocalizedName("gasflame1").setTextureName(RefStrings.MODID + ":gasflame1");
+		gasflame2 = new Item().setUnlocalizedName("gasflame2").setTextureName(RefStrings.MODID + ":gasflame2");
+		gasflame3 = new Item().setUnlocalizedName("gasflame3").setTextureName(RefStrings.MODID + ":gasflame3");
+		gasflame4 = new Item().setUnlocalizedName("gasflame4").setTextureName(RefStrings.MODID + ":gasflame4");
+		gasflame5 = new Item().setUnlocalizedName("gasflame5").setTextureName(RefStrings.MODID + ":gasflame5");
+		gasflame6 = new Item().setUnlocalizedName("gasflame6").setTextureName(RefStrings.MODID + ":gasflame6");
+		gasflame7 = new Item().setUnlocalizedName("gasflame7").setTextureName(RefStrings.MODID + ":gasflame7");
+		gasflame8 = new Item().setUnlocalizedName("gasflame8").setTextureName(RefStrings.MODID + ":gasflame8");
 		energy_ball = new Item().setUnlocalizedName("energy_ball").setTextureName(RefStrings.MODID + ":energy_ball");
 		discharge = new Item().setUnlocalizedName("discharge").setTextureName(RefStrings.MODID + ":discharge");
 		empblast = new Item().setUnlocalizedName("empblast").setTextureName(RefStrings.MODID + ":empblast");
@@ -2184,9 +2211,9 @@ public class ModItems {
 		
 		//Canisters
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());
+		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_smear, canister_smear.getUnlocalizedName());
 		GameRegistry.registerItem(canister_canola, canister_canola.getUnlocalizedName());
-		GameRegistry.registerItem(canister_oil, canister_oil.getUnlocalizedName());
 		GameRegistry.registerItem(canister_fuel, canister_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(canister_kerosene, canister_kerosene.getUnlocalizedName());
 		GameRegistry.registerItem(canister_napalm, canister_napalm.getUnlocalizedName());
@@ -2668,6 +2695,10 @@ public class ModItems {
 		GameRegistry.registerItem(paa_plate, paa_plate.getUnlocalizedName());
 		GameRegistry.registerItem(paa_legs, paa_legs.getUnlocalizedName());
 		GameRegistry.registerItem(paa_boots, paa_boots.getUnlocalizedName());
+		GameRegistry.registerItem(asbestos_helmet, asbestos_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(asbestos_plate, asbestos_plate.getUnlocalizedName());
+		GameRegistry.registerItem(asbestos_legs, asbestos_legs.getUnlocalizedName());
+		GameRegistry.registerItem(asbestos_boots, asbestos_boots.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_helmet, schrabidium_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_plate, schrabidium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_legs, schrabidium_legs.getUnlocalizedName());
@@ -2697,6 +2728,7 @@ public class ModItems {
 		GameRegistry.registerItem(remote, remote.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_stopper, euphemium_stopper.getUnlocalizedName());
 		GameRegistry.registerItem(polaroid, polaroid.getUnlocalizedName());
+		GameRegistry.registerItem(book_secret, book_secret.getUnlocalizedName());
 		
 		//Kits
 		GameRegistry.registerItem(nuke_starter_kit, nuke_starter_kit.getUnlocalizedName());
@@ -2768,6 +2800,14 @@ public class ModItems {
 		GameRegistry.registerItem(gas6, gas6.getUnlocalizedName());
 		GameRegistry.registerItem(gas7, gas7.getUnlocalizedName());
 		GameRegistry.registerItem(gas8, gas8.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame1, gasflame1.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame2, gasflame2.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame3, gasflame3.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame4, gasflame4.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame5, gasflame5.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame6, gasflame6.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame7, gasflame7.getUnlocalizedName());
+		GameRegistry.registerItem(gasflame8, gasflame8.getUnlocalizedName());
 		GameRegistry.registerItem(energy_ball, energy_ball.getUnlocalizedName());
 		GameRegistry.registerItem(discharge, discharge.getUnlocalizedName());
 		GameRegistry.registerItem(empblast, empblast.getUnlocalizedName());
