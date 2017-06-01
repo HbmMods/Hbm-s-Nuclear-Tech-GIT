@@ -20,6 +20,7 @@ import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.interfaces.IOilSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityCable;
 import com.hbm.tileentity.TileEntityGasDuct;
@@ -494,39 +495,115 @@ public class Library {
 	}
 	
 	public static int chargeItemsFromTE(ItemStack[] slots, int index, int power, int maxPower) {
-		
-		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && slots[index].getItemDamage() > 0)
+
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 		{
 			power -= 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+			((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 		}
-		
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_red_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+		{
+			power -= 100;
+			((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+		}
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_red_cell_6 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+		{
+			power -= 100;
+			((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+		}
+		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_red_cell_24 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+		{
+			power -= 100;
+			((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+		}
+
 		for(int i = 0; i < 5; i++)
-			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() > 0)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		
+		for(int i = 0; i < 5; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 5; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced_cell_4 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 5; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced_cell_12 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 10; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium_cell_3 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium_cell_6 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+
 		for(int i = 0; i < 15; i++)
-			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() > 0)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 15; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 15; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_2 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 15; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
 		
 		for(int i = 0; i < 10; i++)
-			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_titanium && slots[index].getItemDamage() > 0)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_titanium && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
 		
 		for(int i = 0; i < 10; i++)
-			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_advanced && slots[index].getItemDamage() > 0)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_advanced && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
 		
 		for(int i = 0; i < 50; i++)
@@ -566,39 +643,115 @@ public class Library {
 		{
 			return maxPower;
 		}
-		
-		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && slots[index].getItemDamage() < 50)
+
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
 		{
 			power += 100;
-			slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 		}
-		
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_red_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_red_cell_6 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_red_cell_24 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
+
 		for(int i = 0; i < 5; i++)
-			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && slots[index].getItemDamage() < 200)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
 			{
 				power += 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 5; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 5; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced_cell_4 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 5; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_advanced_cell_12 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 10; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium_cell_3 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_lithium_cell_6 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 
 		for(int i = 0; i < 15; i++)
-			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && slots[index].getItemDamage() < 10000)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
 			{
 				power += 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 15; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 15; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_2 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 15; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 		
 		for(int i = 0; i < 25; i++)
-			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.fusion_core && slots[index].getItemDamage() < 5000)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.fusion_core && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
 			{
 				power += 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 		
 		for(int i = 0; i < 10; i++)
-			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.energy_core && slots[index].getItemDamage() < 5000)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.energy_core && ((ItemBattery)slots[index].getItem()).getCharge(slots[index]) > 0)
 			{
 				power += 100;
-				slots[index].setItemDamage(slots[index].getItemDamage() + 1);
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 		
 		return power;

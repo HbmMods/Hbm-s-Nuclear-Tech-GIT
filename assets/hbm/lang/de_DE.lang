@@ -441,8 +441,22 @@ item.powder_actinium.name=Actiniumstaub
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
+item.battery_lithium.name=Lithium-Ionen-Batterie
 item.battery_schrabidium.name=Schrabidiumbatterie
 item.battery_creative.name=Unendliche Batterie
+
+item.battery_red_cell.name=Redstone-Energiezelle
+item.battery_advanced_cell.name=Fortgeschrittene Energiezelle
+item.battery_lithium_cell.name=Lithium-Ionen-Energiezelle
+item.battery_schrabidium_cell.name=Schrabidium-Energiezelle
+item.battery_red_cell_6.name=Sechsfache Redstone-Energiezelle
+item.battery_advanced_cell_4.name=Vierfache fortgeschrittene Energiezelle
+item.battery_lithium_cell_3.name=Dreifache Lithium-Ionen-Energiezelle
+item.battery_schrabidium_cell_2.name=Doppelte Schrabidium-Energiezelle
+item.battery_red_cell_24.name=24-fache Redstone-Energiezelle
+item.battery_advanced_cell_12.name=Zwölffache fortgeschrittene Energiezelle
+item.battery_lithium_cell_6.name=Sechsfache Lithium-Ionen-Energiezelle
+item.battery_schrabidium_cell_4.name=Vierfache Schrabidium-Energiezelle
 
 item.fusion_core.name=Fusionskern
 item.energy_core.name=Selbstgebauter Energiekern

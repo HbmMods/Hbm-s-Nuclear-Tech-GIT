@@ -34,6 +34,7 @@ import com.hbm.entity.grenade.EntityGrenadeShrapnel;
 import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
@@ -103,6 +104,7 @@ import com.hbm.render.entity.RenderFireball;
 import com.hbm.render.entity.RenderFlare;
 import com.hbm.render.entity.RenderHunterChopper;
 import com.hbm.render.entity.RenderLN2;
+import com.hbm.render.entity.RenderMinecartTest;
 import com.hbm.render.entity.RenderMiniMIRV;
 import com.hbm.render.entity.RenderMiniNuke;
 import com.hbm.render.entity.RenderMirv;
@@ -377,6 +379,8 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityLaserBeam.class, new RenderBeam2());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinerBeam.class, new RenderBeam3());
 		RenderingRegistry.registerEntityRenderingHandler(EntityLN2.class, new RenderLN2(ModItems.energy_ball));
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukePrototype.class, new RenderNukePrototype());
 

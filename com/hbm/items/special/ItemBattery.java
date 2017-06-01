@@ -8,23 +8,29 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemBattery extends Item {
+	
+	private long maxCharge;
 
 	public ItemBattery(int dura) {
-		this.setMaxDamage(dura);
-		this.setNoRepair();
+		this.maxCharge = dura;
 	}
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
+		long charge = maxCharge;
+		if(itemstack.hasTagCompound())
+			charge = this.getCharge(itemstack);
+		
 		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core)
 		{
-			list.add("Energy stored: " + ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) + " HE");
+			list.add("Energy stored: " + (charge * 100) + " HE");
 		} else {
-			int charge = ((this.getMaxDamage() - this.getDamage(itemstack)) * 100) / this.getMaxDamage();
-			list.add("Charge: " + charge + "%");
+			long charge1 = (charge  * 100) / this.maxCharge;
+			list.add("Charge: " + charge1 + "%");
 		}
 	}
 
@@ -42,6 +48,57 @@ public class ItemBattery extends Item {
     	}
     	
     	return EnumRarity.common;
+    }
+    
+    public void chargeBattery(ItemStack stack, int i) {
+    	if(stack.getItem() instanceof ItemBattery) {
+    		if(stack.hasTagCompound()) {
+    			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", i);
+    		}
+    	}
+    }
+    
+    public void setCharge(ItemStack stack, int i) {
+    	if(stack.getItem() instanceof ItemBattery) {
+    		if(stack.hasTagCompound()) {
+    			stack.stackTagCompound.setLong("charge", i);
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", i);
+    		}
+    	}
+    }
+    
+    public void dischargeBattery(ItemStack stack, int i) {
+    	if(stack.getItem() instanceof ItemBattery) {
+    		if(stack.hasTagCompound()) {
+    			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", this.maxCharge - i);
+    		}
+    	}
+    }
+    
+    public long getCharge(ItemStack stack) {
+    	if(stack.getItem() instanceof ItemBattery) {
+    		if(stack.hasTagCompound()) {
+    			return stack.stackTagCompound.getLong("charge");
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", this.maxCharge);
+    			return stack.stackTagCompound.getLong("charge");
+    		}
+    	}
+    	
+    	return 0;
+    }
+    
+    public long getMaxCharge() {
+    	return maxCharge;
     }
 	
 }

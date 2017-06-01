@@ -441,8 +441,22 @@ item.powder_actinium.name=Actinium Powder
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
+item.battery_lithium.name=Lithium-Ion Battery
 item.battery_schrabidium.name=Schrabidium Battery
 item.battery_creative.name=Infinite Battery
+
+item.battery_red_cell.name=Redstone Power Cell
+item.battery_advanced_cell.name=Advanced Power Cell
+item.battery_lithium_cell.name=Lithium-Ion Power Cell
+item.battery_schrabidium_cell.name=Schrabidium Power Cell
+item.battery_red_cell_6.name=Sixfold Redstone Power Cell
+item.battery_advanced_cell_4.name=Quadruple Advanced Power Cell
+item.battery_lithium_cell_3.name=Tripple Lithium-Ion Power Cell
+item.battery_schrabidium_cell_2.name=Double Schrabidium Power Cell
+item.battery_red_cell_24.name=24-Fold Redstone Power Cell
+item.battery_advanced_cell_12.name=Twelvefold Advanced Power Cell
+item.battery_lithium_cell_6.name=Sixfold Lithium-Ion Power Cell
+item.battery_schrabidium_cell_4.name=Quadruple Schrabidium Power Cell
 
 item.fusion_core.name=Fusion Core
 item.energy_core.name=Makeshift Energy Core

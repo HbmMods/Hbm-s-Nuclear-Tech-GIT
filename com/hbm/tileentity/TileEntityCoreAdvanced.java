@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFactory;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -20,7 +21,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 	public int power = 0;
 	public int soundCycle = 0;
 	public final static int processTime = 100;
-	public final static int maxPower = ModItems.factory_core_advanced.getMaxDamage();
+	public final static int maxPower = (int)((ItemBattery)ModItems.factory_core_advanced).getMaxCharge();
 	private ItemStack slots[];
 	
 	private String customName;
@@ -230,7 +231,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 	public void updateEntity() {
 		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_advanced)
 		{
-			this.power = ModItems.factory_core_advanced.getMaxDamage() - this.slots[22].getItemDamage();
+			this.power = (int) ((ItemBattery)ModItems.factory_core_advanced).getCharge(slots[22]);
 		} else {
 			this.power = 0;
 		}
@@ -370,7 +371,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 		if(this.power > 0 && (isProcessable(slots[9]) || isProcessable(slots[10]) || isProcessable(slots[23]) || isProcessable(slots[24])) && isStructureValid(worldObj))
 		{
 			this.progress += 1;
-			this.slots[22].setItemDamage(this.slots[22].getItemDamage() + 1);
+			((ItemBattery)slots[22].getItem()).dischargeBattery(slots[22], 1);
 			if(soundCycle == 0)
 	        	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 0.75F);
 			soundCycle++;
@@ -631,7 +632,7 @@ public class TileEntityCoreAdvanced extends TileEntity implements ISidedInventor
 	public void setPower(int i) {
 		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_advanced)
 		{
-			slots[22].setItemDamage(maxPower - i);
+			((ItemBattery)slots[22].getItem()).setCharge(slots[22], i);
 		}
 	}
 	@Override
