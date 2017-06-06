@@ -32,7 +32,7 @@ public class DesertAtom002
 	Block Block14 = ModBlocks.machine_generator;
 	Block Block15 = ModBlocks.block_titanium;
 	Block Block16 = ModBlocks.machine_reactor;
-	Block Block17 = ModBlocks.ore_schrabidium;
+	Block Block17 = ModBlocks.ore_nether_plutonium;
 	Block Block18 = ModBlocks.waste_planks;
 	Block Block19 = ModBlocks.machine_centrifuge;
 	Block Block20 = ModBlocks.machine_uf6_tank;

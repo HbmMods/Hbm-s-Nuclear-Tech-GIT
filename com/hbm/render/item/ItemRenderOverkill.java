@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.model.ModelDefabricator;
 import com.hbm.render.model.ModelEuthanasia;
 import com.hbm.render.model.ModelHP;
 import com.hbm.render.model.ModelJack;
@@ -24,12 +25,14 @@ public class ItemRenderOverkill implements IItemRenderer {
 	protected ModelSpark sparkPlug;
 	protected ModelHP hppLaserjet;
 	protected ModelEuthanasia euthanasia;
+	protected ModelDefabricator defab;
 	
 	public ItemRenderOverkill() {
 		powerJack = new ModelJack();
 		sparkPlug = new ModelSpark();
 		hppLaserjet = new ModelHP();
 		euthanasia = new ModelEuthanasia();
+		defab = new ModelDefabricator();
 	}
 
 	@Override
@@ -57,12 +60,14 @@ public class ItemRenderOverkill implements IItemRenderer {
 				
 				if(item.getItem() == ModItems.gun_jack)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelJack.png"));
-				//if(item.getItem() == ModItems.gun_spark)
-				//	Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelSpark.png"));
-				//if(item.getItem() == ModItems.gun_hp)
-				//	Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelHP.png"));
+				if(item.getItem() == ModItems.gun_spark)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelSpark.png"));
+				if(item.getItem() == ModItems.gun_hp)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelHP.png"));
 				if(item.getItem() == ModItems.gun_euthanasia)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
+				if(item.getItem() == ModItems.gun_defabricator)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
 				
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
@@ -73,12 +78,14 @@ public class ItemRenderOverkill implements IItemRenderer {
 				
 				if(item.getItem() == ModItems.gun_jack)
 					powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				//if(item.getItem() == ModItems.gun_spark)
-				//	sparkPlug.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				//if(item.getItem() == ModItems.gun_hp)
-				//	hppLaserjet.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_spark)
+					sparkPlug.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_hp)
+					hppLaserjet.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_euthanasia)
 					euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_defabricator)
+					defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
@@ -87,12 +94,14 @@ public class ItemRenderOverkill implements IItemRenderer {
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				if(item.getItem() == ModItems.gun_jack)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelJack.png"));
-				//if(item.getItem() == ModItems.gun_spark)
-				//	Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelSpark.png"));
-				//if(item.getItem() == ModItems.gun_hp)
-				//	Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelHP.png"));
+				if(item.getItem() == ModItems.gun_spark)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelSpark.png"));
+				if(item.getItem() == ModItems.gun_hp)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelHP.png"));
 				if(item.getItem() == ModItems.gun_euthanasia)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
+				if(item.getItem() == ModItems.gun_defabricator)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
 				
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
@@ -105,12 +114,14 @@ public class ItemRenderOverkill implements IItemRenderer {
 				
 				if(item.getItem() == ModItems.gun_jack)
 					powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				//if(item.getItem() == ModItems.gun_spark)
-				//	sparkPlug.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				//if(item.getItem() == ModItems.gun_hp)
-				//	hppLaserjet.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_spark)
+					sparkPlug.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_hp)
+					hppLaserjet.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_euthanasia)
 					euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_defabricator)
+					defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 		default: break;
 		}

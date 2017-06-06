@@ -3,6 +3,9 @@ itemGroup.tabParts=Nuclear Tech Mod Bauteile
 itemGroup.tabBlocks=Nuclear Tech Mod Blöcke
 itemGroup.tabNuke=Nuclear Tech Mod Bomben
 
+achievement.getTitanium=Es ist ein Anfang
+achievement.getTitanium.desc=Finde etwas Titanerz
+
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
 item.record.vc.desc=Valve - Vortal Combat
@@ -163,7 +166,7 @@ tile.oil_duct_solid.name=Verstärktes Ölrohr
 tile.machine_flare.name=Abfackelturm
 container.gasFlare=Abfackelturm
 tile.gas_duct.name=Gasleitung
-tile.gas_duct_solid.name=Verstärkter Gasleitung
+tile.gas_duct_solid.name=Verstärkte Gasleitung
 
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
@@ -476,6 +479,7 @@ item.pellet_rtg.name=Plutonium 238 Pellet
 item.pellet_rtg_weak.name=Schwaches Uran RTG-Pellet
 item.rtg_unit.name=RTG Einheit
 item.hazmat_cloth.name=Strahlenschutzanzugsstoff
+item.asbestos_cloth.name=Hitzeschutzanzugsstoff
 item.filter_coal.name=Aktivkohlefilter
 item.tritium_deuterium_cake.name=Tritium-Deuterium-Kuchen
 item.telepad.name=Teleplatte
@@ -901,6 +905,10 @@ item.hazmat_paa_helmet.name=PaA-Kampfschutzanzug Helm
 item.hazmat_paa_plate.name=PaA-Kampfschutzanzug Brustplatte
 item.hazmat_paa_legs.name=PaA-Kampfschutzanzug Hose
 item.hazmat_paa_boots.name=PaA-Kampfschutzanzug Stiefel
+item.asbestos_helmet.name=Hitzeschutzhelm
+item.asbestos_plate.name=Hitzeschutzbrustplatte
+item.asbestos_legs.name=Hitzeschutzhose
+item.asbestos_boots.name=Hitzeschutzstiefel
 
 item.paa_plate.name=PaA-Brustschutzplatte
 item.paa_legs.name=PaA-Beinverstärkungsschienen

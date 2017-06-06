@@ -30,10 +30,12 @@ import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.projectile.EntityMiniMIRV;
 import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IDummy;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.tileentity.TileEntityDummy;
 
 public class ExplosionNukeGeneric {
 
@@ -585,7 +587,8 @@ public class ExplosionNukeGeneric {
 		if (!world.isRemote) {
 
 			if (world.getTileEntity(x, y, z) != null && (world.getTileEntity(x, y, z) instanceof ISource
-					|| world.getTileEntity(x, y, z) instanceof IConsumer)) {
+					|| world.getTileEntity(x, y, z) instanceof IConsumer
+					|| world.getTileEntity(x, y, z) instanceof TileEntityDummy)) {
 				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
 

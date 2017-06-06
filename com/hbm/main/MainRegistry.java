@@ -8,6 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -147,6 +149,7 @@ import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.TileEntityMachineRTG;
 import com.hbm.tileentity.TileEntityMachineReactor;
 import com.hbm.tileentity.TileEntityMachineRefinery;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
@@ -239,6 +242,47 @@ public class MainRegistry
 	public static CreativeTabs tabParts = new PartsTab(CreativeTabs.getNextID(), "tabParts");
 	public static CreativeTabs tabBlock = new BlockTab(CreativeTabs.getNextID(), "tabBlocks");
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
+	
+	//Achievements
+	public static Achievement achievementGetTitanium;
+	public static Achievement achievementGetCopper;
+	public static Achievement achievementCraftAlloyFurnace;
+	public static Achievement achievementCraftElectricFurnace;
+	public static Achievement achievementCraftDerrick;
+	public static Achievement achievementCraftRefinery;
+	public static Achievement achievementCraftFactoryTitanium;
+	public static Achievement achievementCraftFactoryAdvanced;
+	public static Achievement achievementCraftGeneratorCoal;
+	public static Achievement achievementCraftGeneratorDiesel;
+	public static Achievement achievementCraftGeneratorIndustrial;
+	public static Achievement achievementGetLead;
+	public static Achievement achievementCraftBreedingReactor;
+	public static Achievement achievementCraftAtomicFurnace;
+	public static Achievement achievementCraftCentrifuge;
+	public static Achievement achievementCraftMissile;
+	public static Achievement achievementCraftMIRV;
+	public static Achievement achievementCraftNuclearReactor;
+	public static Achievement achievementCraftRTGFurnace;
+	public static Achievement achievementCraftRTG;
+	public static Achievement achievementCraftReactor;
+	public static Achievement achievementCraftTransmutator;
+	public static Achievement achievementCraftWatz;
+	public static Achievement achievementCraftCMB;
+	public static Achievement achievementCraftTeleporter;
+	public static Achievement achievementCraftFWatz;
+	public static Achievement achievementCraftDeuterium;
+	public static Achievement achievementCraftFusion;
+	public static Achievement achievementCraftCyclotron;
+	public static Achievement achievementCraftNuke;
+	public static Achievement achievementCraftFLEIJA;
+	public static Achievement achievementCraftHammer;
+	public static Achievement achievementCraftOutlaw;
+	public static Achievement achievementGetReiium;
+	public static Achievement achievementGetWeidanium;
+	public static Achievement achievementGetAustalium;
+	public static Achievement achievementGetVerticium;
+	public static Achievement achievementGetUnobtainium;
+	public static Achievement achievementGetDaffergon;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -398,6 +442,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityOilDuctSolid.class, "tileentity_oil_duct_solid");
 		GameRegistry.registerTileEntity(TileEntityGasDuct.class, "tileentity_gas_duct");
 		GameRegistry.registerTileEntity(TileEntityGasDuctSolid.class, "tileentity_gas_duct_solid");
+		GameRegistry.registerTileEntity(TileEntityMachineRTG.class, "tileentity_machine_rtg");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -484,6 +529,17 @@ public class MainRegistry
 	@EventHandler
 	public static void load(FMLInitializationEvent event)
 	{
+		achievementGetTitanium = new Achievement("achievement.getTitanium", "getTitanium", 0, -6, ModItems.ingot_titanium, (Achievement)null).initIndependentStat() .registerStat();
+		achievementCraftAlloyFurnace = new Achievement("achievement.craftAlloyFurnace", "craftAlloyFurnace", -2, -4, Item.getItemFromBlock(ModBlocks.machine_difurnace_off), (Achievement)null).initIndependentStat() .registerStat();
+		achievementCraftBreedingReactor = new Achievement("achievement.craftBreedingReactor", "craftBreedingReactor", 2, -4, Item.getItemFromBlock(ModBlocks.machine_reactor), (Achievement)null).initIndependentStat() .registerStat();
+		achievementCraftCentrifuge = new Achievement("achievement.craftCentrifuge", "craftCentrifuge", 2, -2, Item.getItemFromBlock(ModBlocks.machine_centrifuge), achievementCraftBreedingReactor).initIndependentStat() .registerStat();
+		AchievementPage.registerAchievementPage(new AchievementPage("NTM Achievements", new Achievement[]{ 
+				achievementGetTitanium,
+				achievementCraftAlloyFurnace,
+				achievementCraftBreedingReactor,
+				achievementCraftCentrifuge
+		}));
+		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
 		OreDictionary.registerOre("ingotUranium238", ModItems.ingot_u238);
@@ -511,6 +567,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotAdvancedAlloy", ModItems.ingot_advanced_alloy);
 		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
 		OreDictionary.registerOre("ingotAluminum", ModItems.ingot_aluminium);
+		OreDictionary.registerOre("ingotBeryllium", ModItems.ingot_beryllium);
 		OreDictionary.registerOre("ingotNeptunium", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotLead", ModItems.ingot_lead);
 		OreDictionary.registerOre("ingotLithium", ModItems.lithium);

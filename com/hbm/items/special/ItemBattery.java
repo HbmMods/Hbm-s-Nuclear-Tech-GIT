@@ -27,7 +27,7 @@ public class ItemBattery extends Item {
 		
 		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core)
 		{
-			list.add("Energy stored: " + (charge * 100) + " HE");
+			list.add("Energy stored: " + (charge * 100) + "/" + (maxCharge * 100) + " HE");
 		} else {
 			long charge1 = (charge  * 100) / this.maxCharge;
 			list.add("Charge: " + charge1 + "%");
@@ -99,6 +99,18 @@ public class ItemBattery extends Item {
     
     public long getMaxCharge() {
     	return maxCharge;
+    }
+    
+    public static ItemStack getEmptyBattery(Item item) {
+    	
+    	if(item instanceof ItemBattery) {
+    		ItemStack stack = new ItemStack(item);
+    		stack.stackTagCompound = new NBTTagCompound();
+    		stack.stackTagCompound.setLong("charge", 0);
+    		return stack.copy();
+    	}
+    	
+    	return null;
     }
 	
 }

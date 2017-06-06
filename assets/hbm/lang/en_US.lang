@@ -3,6 +3,9 @@ itemGroup.tabParts=Nuclear Tech Mod Parts
 itemGroup.tabBlocks=Nuclear Tech Mod Blocks
 itemGroup.tabNuke=Nuclear Tech Mod Nukes
 
+achievement.getTitanium=It's A Start
+achievement.getTitanium.desc=Collect titanium ore
+
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
 item.record.vc.desc=Valve - Vortal Combat
@@ -476,6 +479,7 @@ item.pellet_rtg.name=Plutonium 238 Fuel Pellet
 item.pellet_rtg_weak.name=Weak Uranium RTG Pellet
 item.rtg_unit.name=RTG Unit
 item.hazmat_cloth.name=Hazmat Cloth
+item.asbestos_cloth.name=Fire Proximity Cloth
 item.filter_coal.name=Activated Carbon Filter
 item.tritium_deuterium_cake.name=Tritium-Deuterium-Cake
 item.telepad.name=Telepad
@@ -901,6 +905,10 @@ item.hazmat_paa_helmet.name=PaA Battle Hazmat Suit Helmet
 item.hazmat_paa_plate.name=PaA Battle Hazmat Suit Chestplate
 item.hazmat_paa_legs.name=PaA Battle Hazmat Suit Leggings
 item.hazmat_paa_boots.name=PaA Battle Hazmat Suit Boots
+item.asbestos_helmet.name=Fire Proximity Helmet
+item.asbestos_plate.name=Fire Proximity Chestplate
+item.asbestos_legs.name=Fire Proximity Leggings
+item.asbestos_boots.name=Fire Proximity Boots
 
 item.paa_plate.name=PaA Chest Protection Plate
 item.paa_legs.name=PaA Leg Reinforcements

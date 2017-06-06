@@ -15,7 +15,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class EntityMinecartTest extends EntityMinecart
+public class EntityMinecartTest extends EntityMinecartModBase
 {
     private int minecartTNTFuse = -1;
     private static final String __OBFID = "CL_00001680";
@@ -66,6 +66,8 @@ public class EntityMinecartTest extends EntityMinecart
                 this.explodeCart(d0);
             }
         }
+        
+        System.out.println(this.rotationYaw);
     }
 
     public void killMinecart(DamageSource p_94095_1_)

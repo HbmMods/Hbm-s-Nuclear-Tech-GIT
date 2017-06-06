@@ -9,11 +9,15 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 
-public class EntityGrenadeGas extends EntityThrowable
+public class EntityGrenadeGas extends EntityGrenadeBase
 {
     private static final String __OBFID = "CL_00001722";
+    Random rand = new Random();
 
     public EntityGrenadeGas(World p_i1773_1_)
     {
@@ -25,36 +29,21 @@ public class EntityGrenadeGas extends EntityThrowable
         super(p_i1774_1_, p_i1774_2_);
     }
 
-    public EntityGrenadeGas(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
-    {
-        super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
-    }
-
     @Override
-	protected void onImpact(MovingObjectPosition p_70184_1_)
-    {
-        if (p_70184_1_.entityHit != null)
-        {
-            byte b0 = 0;
-
-            if (p_70184_1_.entityHit instanceof EntityBlaze)
-            {
-                b0 = 3;
-            }
-
-            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), b0);
-        }
-
+    public void explode() {
+    	
         if (!this.worldObj.isRemote)
         {
             this.setDead();
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, true);
             ExplosionChaos.poison(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
-        }
+            //for(int i = 0; 0 < 15; i++) {
 
-		for (int i = 0; i < 10; i++) {
-			for(int j = 0; j < 10; j++)
-				this.worldObj.spawnParticle("cloud", this.posX - 2.5D + (((double)i) / 2), this.posY + 0.5D, this.posZ - 2.5D + (((double)j) / 2), 0, rand.nextDouble() * 0.1D, 0);
+        	ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 15);
+        	ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 15);
+        	ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 15);
+        
+            //}
         }
     }
 
