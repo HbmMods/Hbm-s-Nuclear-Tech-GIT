@@ -27,13 +27,13 @@ public class RenderMiniMIRV extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_ + 180, 0.0F, 0.0F, 1.0F);
         GL11.glScalef(1.5F, 1.5F, 1.5F);
         
-        bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/MIRV.png"));
+        bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/Mirv.png"));
         miniNuke.renderAll(0.0625F);
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID + ":textures/models/MIRV.png");
+		return new ResourceLocation(RefStrings.MODID + ":textures/models/Mirv.png");
 	}
 }

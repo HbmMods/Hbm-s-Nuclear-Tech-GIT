@@ -54,6 +54,7 @@ import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
 import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.entity.missile.EntityTestMissile;
+import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
@@ -97,6 +98,7 @@ import com.hbm.render.entity.RenderBigNuke;
 import com.hbm.render.entity.RenderBlackHole;
 import com.hbm.render.entity.RenderChopperMine;
 import com.hbm.render.entity.RenderCloudFleija;
+import com.hbm.render.entity.RenderCyberCrab;
 import com.hbm.render.entity.RenderEMPBlast;
 import com.hbm.render.entity.RenderEmpty;
 import com.hbm.render.entity.RenderFallout;
@@ -431,6 +433,7 @@ public class ClientProxy extends ServerProxy
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNuclearCreeper.class, new RenderNuclearCreeper());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityHunterChopper.class, new RenderHunterChopper());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityCyberCrab.class, new RenderCyberCrab());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRubble.class, new RenderRubble());

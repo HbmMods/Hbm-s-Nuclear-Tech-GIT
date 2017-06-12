@@ -31,6 +31,7 @@ import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.TileEntityOilDuct;
 import com.hbm.tileentity.TileEntityOilDuctSolid;
+import com.hbm.tileentity.TileEntityPylonRedWire;
 import com.hbm.tileentity.TileEntityWireCoated;
 
 import net.minecraft.block.Block;
@@ -844,6 +845,31 @@ public class Library {
 					}
 				} else {
 					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityPylonRedWire)
+			{
+				if(Library.checkUnionList(((TileEntityPylonRedWire)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityPylonRedWire)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityPylonRedWire)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked = newTact;
+								//that.ffgeua(x, y + 1, z, that.getTact());
+								//that.ffgeua(x, y - 1, z, that.getTact());
+								//that.ffgeua(x - 1, y, z, that.getTact());
+								//that.ffgeua(x + 1, y, z, that.getTact());
+								//that.ffgeua(x, y, z - 1, that.getTact());
+								//that.ffgeua(x, y, z + 1, that.getTact());
+								//TODO: connections
+							}
+						}
+					}
+				} else {
+					((TileEntityPylonRedWire)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
 				}
 			}
 		}

@@ -72,6 +72,7 @@ import com.hbm.items.tool.ItemRamManipulator;
 import com.hbm.items.tool.ItemWand;
 import com.hbm.items.tool.ItemWandD;
 import com.hbm.items.tool.ItemWandS;
+import com.hbm.items.tool.ItemWiring;
 import com.hbm.items.weapon.GunBaleFlare;
 import com.hbm.items.weapon.GunCryolator;
 import com.hbm.items.weapon.GunEMPRay;
@@ -302,6 +303,8 @@ public class ModItems {
 	public static Item circuit_red_copper;
 	public static Item circuit_gold;
 	public static Item circuit_schrabidium;
+
+	public static Item wiring_red_copper;
 
 	public static Item cap_aluminium;
 	public static Item hull_small_steel;
@@ -1266,6 +1269,8 @@ public class ModItems {
 		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_red_copper");
 		circuit_gold = new Item().setUnlocalizedName("circuit_gold").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_gold");
 		circuit_schrabidium = new ItemCustomLore().setUnlocalizedName("circuit_schrabidium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
+		
+		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
 		pellet_rtg = new ItemCustomLore().setUnlocalizedName("pellet_rtg").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg");
 		pellet_rtg_weak = new ItemCustomLore().setUnlocalizedName("pellet_rtg_weak").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_rtg_weak");
@@ -2184,6 +2189,9 @@ public class ModItems {
 		GameRegistry.registerItem(circuit_red_copper, circuit_red_copper.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_gold, circuit_gold.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_schrabidium, circuit_schrabidium.getUnlocalizedName());
+		
+		//Wiring
+		GameRegistry.registerItem(wiring_red_copper, wiring_red_copper.getUnlocalizedName());
 		
 		//Flame War in a Box
 		GameRegistry.registerItem(flame_pony, flame_pony.getUnlocalizedName());

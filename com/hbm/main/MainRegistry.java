@@ -80,6 +80,7 @@ import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
 import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.entity.missile.EntityTestMissile;
+import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
@@ -168,6 +169,7 @@ import com.hbm.tileentity.TileEntityNukeTsar;
 import com.hbm.tileentity.TileEntityObjTester;
 import com.hbm.tileentity.TileEntityOilDuct;
 import com.hbm.tileentity.TileEntityOilDuctSolid;
+import com.hbm.tileentity.TileEntityPylonRedWire;
 import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityRedBarrel;
 import com.hbm.tileentity.TileEntityRotationTester;
@@ -443,6 +445,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityGasDuct.class, "tileentity_gas_duct");
 		GameRegistry.registerTileEntity(TileEntityGasDuctSolid.class, "tileentity_gas_duct_solid");
 		GameRegistry.registerTileEntity(TileEntityMachineRTG.class, "tileentity_machine_rtg");
+		GameRegistry.registerTileEntity(TileEntityPylonRedWire.class, "tileentity_pylon_redwire");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -524,6 +527,7 @@ public class MainRegistry
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
+	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
 	}
 
 	@EventHandler
