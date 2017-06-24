@@ -34,6 +34,9 @@
 	"weapon.immolatorShoot": {"category": "player", "sounds": [{"name": "weapon/immolatorShoot", "stream": false}]},
 	"weapon.cryolatorShoot": {"category": "player", "sounds": [{"name": "weapon/cryolatorShoot", "stream": false}]},
 	"weapon.missileTakeOff": {"category": "player", "sounds": [{"name": "weapon/missileTakeOff", "stream": false}]},
+	"weapon.defabSpinup": {"category": "player", "sounds": [{"name": "weapon/defabSpinup", "stream": false}]},
+	"weapon.defabShoot": {"category": "player", "sounds": [{"name": "weapon/defabShoot", "stream": false}]},
+	"weapon.sparkShoot": {"category": "player", "sounds": ["weapon/sparkShoot1", "weapon/sparkShoot2", "weapon/sparkShoot3"]},
 
 	"entity.chopperFlyingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperFlyingLoop", "stream": true}]},
 	"entity.chopperDrop": {"category": "hostile", "sounds": [{"name": "entity/chopperDrop", "stream": false}]},

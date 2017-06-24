@@ -195,8 +195,9 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			return true;
 		}
 
-		if (i == 3 && stack.getItemDamage() == stack.getMaxDamage()) {
-			return true;
+		if (i == 3) {
+			if (stack.getItem() instanceof ItemBattery && ItemBattery.getCharge(stack) == 0)
+				return true;
 		}
 
 		return false;

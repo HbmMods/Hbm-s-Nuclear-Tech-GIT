@@ -204,8 +204,8 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 4)
 			return true;
-		if(i == 0 && itemStack.getItem() instanceof ItemBattery)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+		if(i == 0)
+			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
 				return true;
 		if(i == 2)
 			if(itemStack.getItem() == Items.bucket || (itemStack.getItem() == ModItems.tank_waste && itemStack.getItemDamage() <= 0))

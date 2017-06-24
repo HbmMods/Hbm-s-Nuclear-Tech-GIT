@@ -34,7 +34,7 @@ public class BlockOre extends Block {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	public Item getItemDropped(int i, Random rand, int j)
     {
 		if(this == ModBlocks.ore_fluorite)
 		{
@@ -66,7 +66,11 @@ public class BlockOre extends Block {
 		}
 		if(this == ModBlocks.ore_nether_fire)
 		{
-			return p_149650_2_.nextInt(2) == 0 ? ModItems.powder_fire : Items.blaze_powder;
+			return rand.nextInt(2) == 0 ? ModItems.powder_fire : Items.blaze_powder;
+		}
+		if(this == ModBlocks.block_meteor)
+		{
+			return rand.nextInt(10) == 0 ? ModItems.plate_dalekanium : Item.getItemFromBlock(ModBlocks.block_meteor);
 		}
 		
 		return Item.getItemFromBlock(this);

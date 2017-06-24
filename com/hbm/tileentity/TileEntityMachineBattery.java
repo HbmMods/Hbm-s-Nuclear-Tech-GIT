@@ -9,6 +9,7 @@ import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
@@ -107,7 +108,19 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		switch(i)
+		{
+		case 0:
+			if(stack.getItem() instanceof ItemBattery)
+				return true;
+			break;
+		case 1:
+			if(stack.getItem() instanceof ItemBattery)
+				return true;
+			break;
+		}
+		
 		return true;
 	}
 	
@@ -186,7 +199,17 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		
+		if(itemStack.getItem() instanceof ItemBattery) {
+			if(i == 0 && ItemBattery.getCharge(itemStack) == 0) {
+				return true;
+			}
+			if(i == 1 && ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack)) {
+				return true;
+			}
+		}
+			
+		return false;
 	}
 
 	public int getPowerRemainingScaled(int i) {

@@ -109,6 +109,7 @@ import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.entity.projectile.EntitySparkBeam;
 import com.hbm.handler.FuelHandler;
 import com.hbm.handler.GUIHandler;
 import com.hbm.inventory.MachineRecipes;
@@ -117,6 +118,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityBombMulti;
 import com.hbm.tileentity.TileEntityCable;
 import com.hbm.tileentity.TileEntityConverterHeRf;
@@ -137,6 +139,7 @@ import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityGasDuctSolid;
 import com.hbm.tileentity.TileEntityHatch;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
+import com.hbm.tileentity.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
@@ -174,6 +177,7 @@ import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityRedBarrel;
 import com.hbm.tileentity.TileEntityRotationTester;
 import com.hbm.tileentity.TileEntityRtgFurnace;
+import com.hbm.tileentity.TileEntityStructureMarker;
 import com.hbm.tileentity.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.TileEntityTestContainer;
 import com.hbm.tileentity.TileEntityTestNuke;
@@ -199,6 +203,9 @@ public class MainRegistry
 	
 	@SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE)
 	public static ServerProxy proxy;
+	
+	//We'll get to that eventually
+	//public static PacketHandler packetHandler;
 	
 	@Metadata
 	public static ModMetadata meta;
@@ -246,7 +253,7 @@ public class MainRegistry
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
 	
 	//Achievements
-	public static Achievement achievementGetTitanium;
+	/*public static Achievement achievementGetTitanium;
 	public static Achievement achievementGetCopper;
 	public static Achievement achievementCraftAlloyFurnace;
 	public static Achievement achievementCraftElectricFurnace;
@@ -284,7 +291,7 @@ public class MainRegistry
 	public static Achievement achievementGetAustalium;
 	public static Achievement achievementGetVerticium;
 	public static Achievement achievementGetUnobtainium;
-	public static Achievement achievementGetDaffergon;
+	public static Achievement achievementGetDaffergon;*/
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -446,6 +453,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityGasDuctSolid.class, "tileentity_gas_duct_solid");
 		GameRegistry.registerTileEntity(TileEntityMachineRTG.class, "tileentity_machine_rtg");
 		GameRegistry.registerTileEntity(TileEntityPylonRedWire.class, "tileentity_pylon_redwire");
+		GameRegistry.registerTileEntity(TileEntityStructureMarker.class, "tileentity_structure_marker");
+		GameRegistry.registerTileEntity(TileEntityMachineMiningDrill.class, "tileentity_mining_drill");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -524,6 +533,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGasFX.class, "entity_spill_fx", 74, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGasFlameFX.class, "entity_gasflame_fx", 75, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMinecartTest.class, "entity_minecart_test", 76, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntitySparkBeam.class, "entity_spark_beam", 77, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -533,7 +543,7 @@ public class MainRegistry
 	@EventHandler
 	public static void load(FMLInitializationEvent event)
 	{
-		achievementGetTitanium = new Achievement("achievement.getTitanium", "getTitanium", 0, -6, ModItems.ingot_titanium, (Achievement)null).initIndependentStat() .registerStat();
+		/*achievementGetTitanium = new Achievement("achievement.getTitanium", "getTitanium", 0, -6, ModItems.ingot_titanium, (Achievement)null).initIndependentStat() .registerStat();
 		achievementCraftAlloyFurnace = new Achievement("achievement.craftAlloyFurnace", "craftAlloyFurnace", -2, -4, Item.getItemFromBlock(ModBlocks.machine_difurnace_off), (Achievement)null).initIndependentStat() .registerStat();
 		achievementCraftBreedingReactor = new Achievement("achievement.craftBreedingReactor", "craftBreedingReactor", 2, -4, Item.getItemFromBlock(ModBlocks.machine_reactor), (Achievement)null).initIndependentStat() .registerStat();
 		achievementCraftCentrifuge = new Achievement("achievement.craftCentrifuge", "craftCentrifuge", 2, -2, Item.getItemFromBlock(ModBlocks.machine_centrifuge), achievementCraftBreedingReactor).initIndependentStat() .registerStat();
@@ -542,7 +552,7 @@ public class MainRegistry
 				achievementCraftAlloyFurnace,
 				achievementCraftBreedingReactor,
 				achievementCraftCentrifuge
-		}));
+		}));*/
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
@@ -764,6 +774,8 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
 		recipes.overridePreSetRecipe(new ItemStack(Items.wheat_seeds), new ItemStack(ModItems.oil_canola, 1));
 		recipes.overridePreSetRecipe(new ItemStack(Items.pumpkin_seeds), new ItemStack(ModItems.oil_canola, 2));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		
 		recipes.PrintRecipes();
 	}
@@ -775,6 +787,7 @@ public class MainRegistry
 		MinecraftForge.EVENT_BUS.register(new ModEventHandler());
 		MinecraftForge.TERRAIN_GEN_BUS.register(new ModEventHandler());
 		MinecraftForge.ORE_GEN_BUS.register(new ModEventHandler());
+		PacketDispatcher.registerPackets();
 
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();

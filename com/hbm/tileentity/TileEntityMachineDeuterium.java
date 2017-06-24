@@ -207,8 +207,8 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 4)
 			return true;
-		if(i == 0 && itemStack.getItem() instanceof ItemBattery)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+		if(i == 0)
+			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
 				return true;
 		if(i == 1)
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)

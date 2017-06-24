@@ -11,6 +11,8 @@
 
 package com.hbm.render.model;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -152,7 +154,9 @@ public class ModelSpark extends ModelBase
     BarrelMain.render(f5);
     BarrelSide.render(f5);
     PlateFront.render(f5);
+	GL11.glDisable(GL11.GL_CULL_FACE);
     Sight.render(f5);
+	GL11.glEnable(GL11.GL_CULL_FACE);
     Grip.render(f5);
     Cell1.render(f5);
     Cell2.render(f5);

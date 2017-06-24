@@ -21,6 +21,7 @@ import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.inventory.container.ContainerMachineDeuterium;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.inventory.container.ContainerMachineGasFlare;
+import com.hbm.inventory.container.ContainerMachineMiningDrill;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.inventory.container.ContainerMachineRTG;
 import com.hbm.inventory.container.ContainerMachineRefinery;
@@ -63,6 +64,7 @@ import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.inventory.gui.GUIMachineElectricFurnace;
 import com.hbm.inventory.gui.GUIMachineGasFlare;
 import com.hbm.inventory.gui.GUIMachineGenerator;
+import com.hbm.inventory.gui.GUIMachineMiningDrill;
 import com.hbm.inventory.gui.GUIMachineOilWell;
 import com.hbm.inventory.gui.GUIMachinePuF6Tank;
 import com.hbm.inventory.gui.GUIMachineRTG;
@@ -96,6 +98,7 @@ import com.hbm.tileentity.TileEntityDiFurnace;
 import com.hbm.tileentity.TileEntityFWatzCore;
 import com.hbm.tileentity.TileEntityFusionMultiblock;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
+import com.hbm.tileentity.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import com.hbm.tileentity.TileEntityMachineBattery;
@@ -488,6 +491,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineGasFlare(player.inventory, (TileEntityMachineGasFlare) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_drill:
+			{
+				if(entity instanceof TileEntityMachineMiningDrill)
+				{
+					return new ContainerMachineMiningDrill(player.inventory, (TileEntityMachineMiningDrill) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -842,6 +853,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineGasFlare)
 					{
 						return new GUIMachineGasFlare(player.inventory, (TileEntityMachineGasFlare) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_drill:
+				{
+					if(entity instanceof TileEntityMachineMiningDrill)
+					{
+						return new GUIMachineMiningDrill(player.inventory, (TileEntityMachineMiningDrill) entity);
 					}
 				}
 			}

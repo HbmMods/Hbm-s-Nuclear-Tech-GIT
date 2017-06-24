@@ -15,6 +15,24 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class FactoryTitanium extends WorldGenerator
 {
+	public static String[][] array = new String[][] {
+		{
+			"HHH",
+			"HHH",
+			"HHH"
+		},
+		{
+			"HFH",
+			"FCF",
+			"HFH"
+		},
+		{
+			"HHH",
+			"HHH",
+			"HHH"
+		}
+	};
+	
 	Block Block1 = ModBlocks.factory_titanium_hull;
 	Block Block2 = ModBlocks.factory_titanium_conductor;
 	Block Block3 = ModBlocks.factory_titanium_furnace;

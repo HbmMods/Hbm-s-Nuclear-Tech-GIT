@@ -11,6 +11,9 @@ import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TEIGeneratorPacket;
+import com.hbm.packet.TEPylonSenderPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,6 +41,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 	public int fuel;
 	public int burn;
 	public int soundCycle = 0;
+	public float rotation;
 	public static final int maxPower = 100000;
 	public static final int maxTorque = 2500;
 	public static final int maxHeat = 7500;
@@ -221,6 +225,8 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 			
 			if(age == 9 || age == 19)
 				ffgeuaInit();
+			
+			rotation += ((float)(this.torque / 100F));
 
 			if(burn > 0) {
 				burn--;
@@ -299,10 +305,13 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 			doWaterTask();
 			doBatteryTask();
 		}
+		
+		if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAll(new TEIGeneratorPacket(xCoord, yCoord, zCoord, rotation));
 	}
 	
 	public void doFuelTask() {
-		
+
 		if (slots[13] != null && slots[13].getItem() == ModItems.canister_fuel && fuel + 625 <= maxFuel) {
 			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
 					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
@@ -316,6 +325,51 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 					slots[13] = null;
 
 				fuel += 625;
+			}
+		}
+		if (slots[13] != null && slots[13].getItem() == ModItems.canister_smear && fuel + 200 <= maxFuel) {
+			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
+					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
+				if (slots[14] == null)
+					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
+				else
+					slots[14].stackSize++;
+
+				slots[13].stackSize--;
+				if (slots[13].stackSize <= 0)
+					slots[13] = null;
+
+				fuel += 200;
+			}
+		}
+		if (slots[13] != null && slots[13].getItem() == ModItems.canister_reoil && fuel + 350 <= maxFuel) {
+			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
+					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
+				if (slots[14] == null)
+					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
+				else
+					slots[14].stackSize++;
+
+				slots[13].stackSize--;
+				if (slots[13].stackSize <= 0)
+					slots[13] = null;
+
+				fuel += 350;
+			}
+		}
+		if (slots[13] != null && slots[13].getItem() == ModItems.canister_petroil && fuel + 500 <= maxFuel) {
+			if (slots[14] == null || slots[14] != null && slots[14].getItem() == slots[13].getItem().getContainerItem()
+					&& slots[14].stackSize < slots[14].getMaxStackSize()) {
+				if (slots[14] == null)
+					slots[14] = new ItemStack(slots[13].getItem().getContainerItem());
+				else
+					slots[14].stackSize++;
+
+				slots[13].stackSize--;
+				if (slots[13].stackSize <= 0)
+					slots[13] = null;
+
+				fuel += 500;
 			}
 		}
 		if (slots[13] != null && slots[13].getItem() == Item.getItemFromBlock(ModBlocks.red_barrel) && fuel + 5000 <= maxFuel) {

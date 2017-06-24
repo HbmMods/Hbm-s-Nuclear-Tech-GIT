@@ -106,6 +106,7 @@ tile.therm_exo.name=Exothermische Bombe
 tile.crashed_bomb.name=Blindgänger
 
 tile.crate.name=Vorratskiste
+tile.marker_structure.name=Multiblock-Strukturvorlage
 
 tile.machine_difurnace_off.name=Legierungshochofen
 tile.machine_difurnace_on.name=Legierungshochofen
@@ -167,6 +168,11 @@ tile.machine_flare.name=Abfackelturm
 container.gasFlare=Abfackelturm
 tile.gas_duct.name=Gasleitung
 tile.gas_duct_solid.name=Verstärkte Gasleitung
+tile.machine_drill.name=Automatischer Minenbohrer
+container.miningDrill=Automatischer Minenbohrer
+
+tile.red_pylon.name=Strommasten
+item.wiring_red_copper.name=Kabeltrommel
 
 tile.rail_highspeed.name=Hochgeschwindigkeitsschienen
 tile.rail_booster.name=Hochgeschwindigkeits-Boosterschienen
@@ -291,6 +297,10 @@ item.nugget_unobtainium.name=Unobtainiumnugget
 item.nugget_daffergon.name=Daffergonnugget
 item.nugget_verticium.name=Verticiumnugget
 
+item.ingot_desh.name=Deshbarren
+item.nugget_desh.name=Deshnugget
+item.powder_desh.name=Deshstaub
+
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget
 item.nugget_pu238.name=Pu238-Nugget
@@ -337,6 +347,7 @@ tile.block_reiium.name=Reiiumblock
 tile.block_unobtainium.name=Unobtainiumblock
 tile.block_daffergon.name=Daffergonblock
 tile.block_verticium.name=Verticiumblock
+tile.block_desh.name=Verstärketer Deshblock
 
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_copper.name=Kupfererz
@@ -376,6 +387,7 @@ tile.reinforced_lamp_on.name=Verstärkte Lampe
 tile.brick_concrete.name=Betonziegel
 tile.brick_obsidian.name=Obsidianziegel
 tile.brick_light.name=Helle Ziegel
+tile.asphalt.name=Asphalt
 
 tile.cmb_brick.name=CMB-Stahlfliese
 tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
@@ -441,6 +453,8 @@ item.powder_dura_steel.name=Schnellarbeitsstahlstaub
 item.powder_polymer.name=Polymerstaub
 item.powder_lanthanium.name=Lanthanstaub
 item.powder_actinium.name=Actiniumstaub
+item.powder_lithium_tiny.name=Kleiner Haufen Lithiumstaub
+item.powder_cobalt_tiny.name=Kleiner Haufen Cobaltstaub
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -460,6 +474,20 @@ item.battery_red_cell_24.name=24-fache Redstone-Energiezelle
 item.battery_advanced_cell_12.name=Zwölffache fortgeschrittene Energiezelle
 item.battery_lithium_cell_6.name=Sechsfache Lithium-Ionen-Energiezelle
 item.battery_schrabidium_cell_4.name=Vierfache Schrabidium-Energiezelle
+
+item.upgrade_template.name=Maschinenupgrade-Vorlage
+item.upgrade_speed_1.name=Rotes Maschinenupgrade Mk.I
+item.upgrade_speed_2.name=Rotes Maschinenupgrade Mk.II
+item.upgrade_speed_3.name=Rotes Maschinenupgrade Mk.III
+item.upgrade_effect_1.name=Grünes Maschinenupgrade Mk.I
+item.upgrade_effect_2.name=Grünes Maschinenupgrade Mk.II
+item.upgrade_effect_3.name=Grünes Maschinenupgrade Mk.III
+item.upgrade_power_1.name=Blaues Maschinenupgrade Mk.I
+item.upgrade_power_2.name=Blaues Maschinenupgrade Mk.II
+item.upgrade_power_3.name=Blaues Maschinenupgrade Mk.III
+item.upgrade_fortune_1.name=Lila Maschinenupgrade Mk.I
+item.upgrade_fortune_2.name=Lila Maschinenupgrade Mk.II
+item.upgrade_fortune_3.name=Lila Maschinenupgrade Mk.III
 
 item.fusion_core.name=Fusionskern
 item.energy_core.name=Selbstgebauter Energiekern
@@ -489,6 +517,7 @@ item.ducttape.name=Klebeband
 item.magnet_dee.name=Duantenmagnete
 item.magnet_circular.name=Flachmagnet
 item.cyclotron_tower.name=Zyklotronenturm
+item.plate_dalekanium.name=Wütendes Metall
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -521,6 +550,8 @@ item.canister_canola.name=Schmiermittelkanister
 item.canister_oil.name=Rohölkanister
 item.canister_fuel.name=Treibstoffkanister
 item.canister_kerosene.name=Kerosinkanister
+item.canister_reoil.name=Kanister voll aufbereitetem Industrieöl
+item.canister_petroil.name=Gemischkanister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Oktan Supertreibstoff
 item.gas_empty.name=Leerer Gastank
@@ -747,6 +778,7 @@ item.gun_jack.name=Jackhammer
 item.gun_spark.name=Die Zündkerze
 item.gun_hp.name=HPP Lazerjet
 item.gun_euthanasia.name=Euthanasia
+item.gun_defabricator.name=Defabrikator
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
@@ -772,6 +804,7 @@ item.gun_jack_ammo.name=Vierfache Schrotpatrone
 item.gun_spark_ammo.name=Elektromagnetische Katusche
 item.gun_hp_ammo.name=Tintenpatrone
 item.gun_euthanasia_ammo.name=Spritze
+item.gun_defabricator_ammo.name=Defabrikator-Energiezelle
 
 item.clip_revolver_iron.name=Box voll Eisenkugeln
 item.clip_revolver.name=.357 Magnum Patronen
@@ -815,6 +848,7 @@ entity.hbm.entity_rocket.name=Rakete
 entity.hbm.entity_schrabnel.name=Schrabnel
 entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper
 entity.entity_mob_hunter_chopper.name=Jagdschrauber
+entity.entity_cyber_crab.name=Cyber-Krabbe
 
 item.cap_aluminium.name=Aluminiumdeckel
 item.hull_small_steel.name=Kleine Stahlhülle

@@ -237,6 +237,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_strong, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_frag, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_fire, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_shrapnel, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_cluster, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_flare, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_electric, 16));
@@ -252,6 +253,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuke, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuclear, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_zomg, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_black_hole, 16));
 		}
 		
 		if(this == ModItems.fleija_kit)

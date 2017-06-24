@@ -14,6 +14,44 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class NuclearReactor extends WorldGenerator
 {
+	public static String[][] array2 = new String[][] {
+		{
+			"     ",
+			" BBB ",
+			" B B ",
+			" BBB ",
+			"     "
+		},
+		{
+			" BBB ",
+			"BRCRB",
+			"BCICB",
+			"BRCRB",
+			" BBB "
+		},
+		{
+			" BAB ",
+			"BRCRB",
+			"AC#CA",
+			"BRCRB",
+			" BAB "
+		},
+		{
+			" BBB ",
+			"BRCRB",
+			"BCICB",
+			"BRCRB",
+			" BBB "
+		},
+		{
+			"     ",
+			" BBB ",
+			" B B ",
+			" BBB ",
+			"     "
+		}
+	};
+	
 	Block Block1 = ModBlocks.brick_concrete;
 	Block Block2 = ModBlocks.reactor_element;
 	Block Block3 = ModBlocks.reactor_control;

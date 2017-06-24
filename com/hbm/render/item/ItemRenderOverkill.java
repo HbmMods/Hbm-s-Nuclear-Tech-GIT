@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelDefabricator;
 import com.hbm.render.model.ModelEuthanasia;
 import com.hbm.render.model.ModelHP;
@@ -75,6 +76,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				//GL11.glTranslatef(-0.4F, -0.1F, 0.1F);
 				GL11.glTranslatef(-0.2F, -0.1F, -0.1F);
+				if(item.getItem() == ModItems.gun_defabricator)
+					GL11.glTranslatef(0, 0.5F, 0.4F);
 				
 				if(item.getItem() == ModItems.gun_jack)
 					powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
@@ -109,8 +112,16 @@ public class ItemRenderOverkill implements IItemRenderer {
 				GL11.glTranslatef(0.0F, -0.2F, -0.5F);
 				GL11.glRotatef(-5.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(0.5F, -0.2F, 0.0F);
-				GL11.glScalef(0.75F, 0.75F, 0.75F);
+				//GL11.glScalef(0.75F, 0.75F, 0.75F);
 				GL11.glTranslatef(-1.4F, 0.0F, 0.0F);
+				if(item.getItem() == ModItems.gun_jack)
+					GL11.glTranslatef(0.3F, 0, 0);
+				if(item.getItem() == ModItems.gun_spark)
+					GL11.glTranslatef(0.4F, 0, 0);
+				if(item.getItem() == ModItems.gun_hp)
+					GL11.glTranslatef(0.5F, 0.2F, 0);
+				if(item.getItem() == ModItems.gun_defabricator)
+					GL11.glTranslatef(0.5F, 0.6F, -0.2F);
 				
 				if(item.getItem() == ModItems.gun_jack)
 					powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);

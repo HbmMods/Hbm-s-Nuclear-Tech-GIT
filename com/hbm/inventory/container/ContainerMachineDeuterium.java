@@ -92,7 +92,7 @@ private TileEntityMachineDeuterium nukeBoy;
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.nukeBoy.process)
+			if(this.progress != this.nukeBoy.process)
 			{
 				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.process);
 			}

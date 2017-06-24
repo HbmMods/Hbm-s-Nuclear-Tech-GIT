@@ -190,7 +190,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 0)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
 				return true;
 		if(i == 2)
 			return true;

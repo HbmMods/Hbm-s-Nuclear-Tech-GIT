@@ -160,10 +160,6 @@ public class Library {
 		book5.add("Supply Drop Requester\nRight click to call in a supply drop, has five uses in survival mode.");
 		book5.add("Magazines\nRight click to retrieve ammo for a specific gun.");
 		book5.add("Syringes\nRight click to inject the syringe's content, hit somebody else to give them the effects.");
-		book5.add("");
-		book5.add("");
-		book5.add("");
-		book5.add("Coincidences are less likely than most people believe, don't you think? Look at things twice. Try imagining what the creators and inventors were thinking. All things happen for a reason, tough sometimes they are not as clear. \n\nPPPPPPP");
 	}
 	
 	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
@@ -283,7 +279,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_igenerator ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_drill)
 		{
 			return true;
 		}
@@ -796,6 +793,22 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(x, y, z - 1);
 		}
+		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_drill)
+		{
+			tileentity = worldObj.getTileEntity(x + 1, y, z);
+		}
+		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x - 1, y, z) == ModBlocks.machine_drill)
+		{
+			tileentity = worldObj.getTileEntity(x - 1, y, z);
+		}
+		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x, y, z + 1) == ModBlocks.machine_drill)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z + 1);
+		}
+		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_drill)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z - 1);
+		}
 		
 		if(tileentity instanceof IConductor)
 		{
@@ -858,13 +871,19 @@ public class Library {
 							if(((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked != newTact)
 							{
 								((TileEntityPylonRedWire)tileentity).uoteab.get(i).ticked = newTact;
-								//that.ffgeua(x, y + 1, z, that.getTact());
-								//that.ffgeua(x, y - 1, z, that.getTact());
-								//that.ffgeua(x - 1, y, z, that.getTact());
-								//that.ffgeua(x + 1, y, z, that.getTact());
-								//that.ffgeua(x, y, z - 1, that.getTact());
-								//that.ffgeua(x, y, z + 1, that.getTact());
-								//TODO: connections
+								for(int j = 0; j < ((TileEntityPylonRedWire)tileentity).connected.size(); j++) {
+									TileEntityPylonRedWire pylon = ((TileEntityPylonRedWire)tileentity).connected.get(j);
+									if(pylon != null) {
+										that.ffgeua(pylon.xCoord + 1, pylon.yCoord, pylon.zCoord, that.getTact());
+										that.ffgeua(pylon.xCoord - 1, pylon.yCoord, pylon.zCoord, that.getTact());
+										that.ffgeua(pylon.xCoord, pylon.yCoord + 1, pylon.zCoord, that.getTact());
+										that.ffgeua(pylon.xCoord, pylon.yCoord - 1, pylon.zCoord, that.getTact());
+										that.ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord + 1, that.getTact());
+										that.ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord - 1, that.getTact());
+										
+										that.ffgeua(pylon.xCoord, pylon.yCoord, pylon.zCoord, that.getTact());
+									}
+								}
 							}
 						}
 					}

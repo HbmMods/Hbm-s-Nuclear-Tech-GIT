@@ -24,7 +24,7 @@ public class ModEventHandler
         showMessage = !showMessage;
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void itemSmelted(PlayerEvent.ItemSmeltedEvent e) {
 		if(e.smelting.getItem().equals(ModItems.ingot_titanium)) {
 			e.player.addStat(MainRegistry.achievementGetTitanium, 1);
@@ -52,5 +52,5 @@ public class ModEventHandler
 		if(e.pickedUp.getEntityItem().equals(ModItems.nothing)) {
 			//e.player.addStat(MainRegistry.achievementGetAmblygonite, 1);
 		}
-	}
+	}*/
 }

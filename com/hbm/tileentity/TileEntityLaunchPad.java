@@ -186,7 +186,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		return false;
 	}
 
 	public int getPowerScaled(int i) {

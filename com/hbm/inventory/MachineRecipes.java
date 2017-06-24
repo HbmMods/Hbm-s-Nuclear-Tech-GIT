@@ -41,8 +41,8 @@ public class MachineRecipes {
 			}
 		}
 
-		if (item == ModItems.ingot_tungsten && item2 == Items.coal
-				|| item == Items.coal && item2 == ModItems.ingot_tungsten) {
+		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, "gemCoal")
+				|| mODE(item, "gemCoal") && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})) {
 			return new ItemStack(ModItems.neutron_reflector, 2);
 		}
 
@@ -63,11 +63,6 @@ public class MachineRecipes {
 		if (item == ModItems.ingot_copper && item2 == Items.redstone
 				|| item == Items.redstone && item2 == ModItems.ingot_copper) {
 			return new ItemStack(ModItems.ingot_red_copper, 2);
-		}
-
-		if (item == ModItems.canister_empty && item2 == Items.coal
-				|| item == Items.coal && item2 == ModItems.canister_empty) {
-			return new ItemStack(ModItems.canister_fuel, 1);
 		}
 
 		if (item == ModItems.canister_fuel && item2 == Items.slime_ball
@@ -152,10 +147,6 @@ public class MachineRecipes {
 		ItemStack[] schrabidium = new ItemStack[] { new ItemStack(ModItems.ingot_schrabidium, 1),
 				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.sulfur, 1),
 				new ItemStack(ModItems.cell_empty, 1) };
-		ItemStack[] lithium2 = new ItemStack[] { new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1),
-				new ItemStack(ModItems.lithium, 1), new ItemStack(ModItems.lithium, 1) };
-		ItemStack[] lithium3 = new ItemStack[] { new ItemStack(ModItems.lithium, 4), new ItemStack(ModItems.lithium, 4),
-				new ItemStack(ModItems.lithium, 4), new ItemStack(ModItems.lithium, 4) };
 
 		ItemStack[] uran1 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 1),
 				new ItemStack(ModItems.nugget_u238, 3), new ItemStack(ModItems.nugget_pu239, 2),
@@ -258,14 +249,6 @@ public class MachineRecipes {
 
 		if (item == ModItems.rod_quad_schrabidium_fuel_depleted) {
 			return schrabidium3;
-		}
-
-		if (item == item.getItemFromBlock(Blocks.quartz_block) || item == item.getItemFromBlock(Blocks.quartz_stairs)) {
-			return lithium3;
-		}
-
-		if (item == Items.quartz) {
-			return lithium2;
 		}
 
 		return null;
@@ -630,8 +613,6 @@ public class MachineRecipes {
 				new ItemStack(ModItems.ingot_red_copper, 2));
 		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
 				new ItemStack(ModItems.ingot_advanced_alloy, 2));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
-				new ItemStack(ModItems.canister_fuel, 1));
 		recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball) },
 				new ItemStack(ModItems.canister_napalm, 1));
 		recipes.put(
@@ -705,9 +686,6 @@ public class MachineRecipes {
 		// recipes.put(new
 		// ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
 		// getCentrifugeOutput(ModItems.rod_quad_schrabidium_fuel_depleted));
-		recipes.put(new ItemStack(Item.getItemFromBlock(Blocks.quartz_block)),
-				getCentrifugeOutput(Item.getItemFromBlock(Blocks.quartz_block)));
-		recipes.put(new ItemStack(Items.quartz), getCentrifugeOutput(Items.quartz));
 		return recipes;
 	}
 
@@ -1443,8 +1421,21 @@ public class MachineRecipes {
 	public ArrayList<ItemStack> getBatteries() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(ModItems.battery_generic));
+		fuels.add(new ItemStack(ModItems.battery_red_cell));
+		fuels.add(new ItemStack(ModItems.battery_red_cell_6));
+		fuels.add(new ItemStack(ModItems.battery_red_cell_24));
 		fuels.add(new ItemStack(ModItems.battery_advanced));
+		fuels.add(new ItemStack(ModItems.battery_advanced_cell));
+		fuels.add(new ItemStack(ModItems.battery_advanced_cell_4));
+		fuels.add(new ItemStack(ModItems.battery_advanced_cell_12));
+		fuels.add(new ItemStack(ModItems.battery_lithium));
+		fuels.add(new ItemStack(ModItems.battery_lithium_cell));
+		fuels.add(new ItemStack(ModItems.battery_lithium_cell_3));
+		fuels.add(new ItemStack(ModItems.battery_lithium_cell_6));
 		fuels.add(new ItemStack(ModItems.battery_schrabidium));
+		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell));
+		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell_2));
+		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell_4));
 		fuels.add(new ItemStack(ModItems.fusion_core));
 		fuels.add(new ItemStack(ModItems.energy_core));
 		return fuels;
@@ -1461,5 +1452,41 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.blades_titanium));
 		fuels.add(new ItemStack(ModItems.blades_schrabidium));
 		return fuels;
+	}
+	
+	public static boolean mODE(Item item, String[] names) {
+		return mODE(new ItemStack(item), names);
+	}
+	
+	public static boolean mODE(ItemStack item, String[] names) {
+		boolean flag = false;
+		if(names.length > 0) {
+			for(int i = 0; i < names.length; i++) {
+				if(mODE(item, names[i]))
+					flag = true;
+			}
+		}
+		
+		return flag;
+	}
+	
+	public static boolean mODE(Item item, String name) {
+		return mODE(new ItemStack(item), name);
+	}
+	
+	//Matches Ore Dict Entry
+	public static boolean mODE(ItemStack stack, String name) {
+		
+		int[] ids = OreDictionary.getOreIDs(new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
+		
+		for(int i = 0; i < ids.length; i++) {
+			
+			String s = OreDictionary.getOreName(ids[i]);
+			
+			if(s.length() > 0 && s.equals(name))
+				return true;
+		}
+		
+		return false;
 	}
 }

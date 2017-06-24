@@ -14,6 +14,104 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class FusionReactor extends WorldGenerator
 {
+	public static String[][] array = new String[][] {
+		{
+			"       HHH       ",
+			"       HHH       ",
+			"                 ",
+			"     MMMMMMM     ",
+			"    MMMMMMMMM    ",
+			"   MMMMMMMMMMM   ",
+			"   MMM     MMM   ",
+			"HH MMM RRR MMM HH",
+			"HH MMM RCR MMM HH",
+			"HH MMM RRR MMM HH",
+			"   MMM     MMM   ",
+			"   MMMMMMMMMMM   ",
+			"    MMMMMMMMM    ",
+			"     MMMMMMM     ",
+			"                 ",
+			"       HHH       ",
+			"       HHH       "
+		},
+		{
+			"       HHH       ",
+			"       HHH       ",
+			"     MMMMMMM     ",
+			"    MMMMMMMMM    ",
+			"   MMTTTTTTTMM   ",
+			"  MMTTMMMMMTTMM  ",
+			"  MMTMMMMMMMTMM  ",
+			"HHMMTMM   MMTMMHH",
+			"HHMMTMM C MMTMMHH",
+			"HHMMTMM   MMTMMHH",
+			"  MMTMMMMMMMTMM  ",
+			"  MMTTMMMMMTTMM  ",
+			"   MMTTTTTTTMM   ",
+			"    MMMMMMMMM    ",
+			"     MMMMMMM     ",
+			"       HHH       ",
+			"       HHH       "
+		},
+		{
+			"       HAH       ",
+			"       HHH       ",
+			"     MMMMMMM     ",
+			"    MTTTTTTTM    ",
+			"   MT       TM   ",
+			"  MT  TTTTT  TM  ",
+			"  MT TMMMMMT TM  ",
+			"HHMT TM   MT TMHH",
+			"AHMT TM # MT TMHA",
+			"HHMT TM   MT TMHH",
+			"  MT TMMMMMT TM  ",
+			"  MT  TTTTT  TM  ",
+			"   MT       TM   ",
+			"    MTTTTTTTM    ",
+			"     MMMMMMM     ",
+			"       HHH       ",
+			"       HAH       "
+		},
+		{
+			"       HHH       ",
+			"       HHH       ",
+			"     MMMMMMM     ",
+			"    MMMMMMMMM    ",
+			"   MMTTTTTTTMM   ",
+			"  MMTTMMMMMTTMM  ",
+			"  MMTMMMMMMMTMM  ",
+			"HHMMTMM   MMTMMHH",
+			"HHMMTMM C MMTMMHH",
+			"HHMMTMM   MMTMMHH",
+			"  MMTMMMMMMMTMM  ",
+			"  MMTTMMMMMTTMM  ",
+			"   MMTTTTTTTMM   ",
+			"    MMMMMMMMM    ",
+			"     MMMMMMM     ",
+			"       HHH       ",
+			"       HHH       "
+		},
+		{
+			"       HHH       ",
+			"       HHH       ",
+			"                 ",
+			"     MMMMMMM     ",
+			"    MMMMMMMMM    ",
+			"   MMMMMMMMMMM   ",
+			"   MMM     MMM   ",
+			"HH MMM RRR MMM HH",
+			"HH MMM RCR MMM HH",
+			"HH MMM RRR MMM HH",
+			"   MMM     MMM   ",
+			"   MMMMMMMMMMM   ",
+			"    MMMMMMMMM    ",
+			"     MMMMMMM     ",
+			"                 ",
+			"       HHH       ",
+			"       HHH       "
+		}
+	};
+	
 	Block Block1 = ModBlocks.fusion_heater;
 	Block Block2 = ModBlocks.fusion_conductor;
 	Block Block3 = ModBlocks.fusion_motor;

@@ -14,6 +14,126 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class Watz extends WorldGenerator
 { 
+	public static String[][] array = new String[][] {
+		{
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSISSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS"
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CAC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"ARK#KRA",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CAC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"  CCC  ",
+			" CWRWC ",
+			"CWRKRWC",
+			"CRKIKRC",
+			"CWRKRWC",
+			" CWRWC ",
+			"  CCC  "
+		},
+		{
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSISSS",
+			"SSSSSSS",
+			"SSSSSSS",
+			"SSSSSSS"
+		}
+	};
+	
 	public boolean generate(World world, Random rand, int x, int y, int z)
 	{
 		int i = rand.nextInt(1);

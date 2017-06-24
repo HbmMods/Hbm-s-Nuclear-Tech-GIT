@@ -206,7 +206,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
 				return true;
 		if(i == 2)
-			if(itemStack.getItemDamage() == 0)
+			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack))
 				return true;
 		
 		return false;

@@ -311,7 +311,7 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 						worldObj.spawnEntityInWorld(cloud);
 					}
 					if(i == 3) {
-						EntityBlackHole bl = new EntityBlackHole(worldObj, 0.5F + rand.nextFloat());
+						EntityBlackHole bl = new EntityBlackHole(worldObj, 1.5F + rand.nextFloat());
 						bl.posX = xCoord + 0.5F;
 						bl.posY = yCoord + 3.5F;
 						bl.posZ = zCoord + 0.5F;

@@ -106,6 +106,7 @@ tile.therm_exo.name=Exothermic Bomb
 tile.crashed_bomb.name=Dud
 
 tile.crate.name=Supply Crate
+tile.marker_structure.name=Multiblock Structure Marker
 
 tile.machine_difurnace_off.name=Alloy Furnace
 tile.machine_difurnace_on.name=Alloy Furnace
@@ -167,6 +168,11 @@ tile.machine_flare.name=Gas Flare
 container.gasFlare=Gas Flare
 tile.gas_duct.name=Gas Pipe
 tile.gas_duct_solid.name=Coated Gas Pipe
+tile.machine_drill.name=Automatic Mining Drill
+container.miningDrill=Automatic Mining Drill
+
+tile.red_pylon.name=Electricity Pole
+item.wiring_red_copper.name=Cable Drum
 
 tile.rail_highspeed.name=High Speed Rail
 tile.rail_booster.name=High Speed Booster Rail
@@ -291,6 +297,10 @@ item.nugget_unobtainium.name=Unobtainium Nugget
 item.nugget_daffergon.name=Daffergon Nugget
 item.nugget_verticium.name=Verticium Nugget
 
+item.ingot_desh.name=Desh Ingot
+item.nugget_desh.name=Desh Nugget
+item.powder_desh.name=Desh Powder
+
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget
 item.nugget_pu238.name=Pu238 Nugget
@@ -337,6 +347,7 @@ tile.block_reiium.name=Block of Reiium
 tile.block_unobtainium.name=Block of Unobtainium
 tile.block_daffergon.name=Block of Daffergon
 tile.block_verticium.name=Block of Verticium
+tile.block_desh.name=Reinfoced Block of Desh
 
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_copper.name=Copper Ore
@@ -376,6 +387,7 @@ tile.reinforced_lamp_on.name=Reinforced Lamp
 tile.brick_concrete.name=Concrete Bricks
 tile.brick_obsidian.name=Obsidian Bricks
 tile.brick_light.name=Light Bricks
+tile.asphalt.name=Asphalt
 
 tile.cmb_brick.name=CMB Steel Tile
 tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
@@ -441,6 +453,8 @@ item.powder_dura_steel.name=High-Speed Steel Powder
 item.powder_polymer.name=Polymer Powder
 item.powder_lanthanium.name=Lanthanium Powder
 item.powder_actinium.name=Actinium Powder
+item.powder_lithium_tiny.name=Tiny Pile of Lithium Powder
+item.powder_cobalt_tiny.name=Tiny Pile of Cobalt Powder
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
@@ -460,6 +474,20 @@ item.battery_red_cell_24.name=24-Fold Redstone Power Cell
 item.battery_advanced_cell_12.name=Twelvefold Advanced Power Cell
 item.battery_lithium_cell_6.name=Sixfold Lithium-Ion Power Cell
 item.battery_schrabidium_cell_4.name=Quadruple Schrabidium Power Cell
+
+item.upgrade_template.name=Machine Upgrade Piece Template
+item.upgrade_speed_1.name=Red Machine Upgrade Mk.I
+item.upgrade_speed_2.name=Red Machine Upgrade Mk.II
+item.upgrade_speed_3.name=Red Machine Upgrade Mk.III
+item.upgrade_effect_1.name=Green Machine Upgrade Mk.I
+item.upgrade_effect_2.name=Green Machine Upgrade Mk.II
+item.upgrade_effect_3.name=Green Machine Upgrade Mk.III
+item.upgrade_power_1.name=Blue Machine Upgrade Mk.I
+item.upgrade_power_2.name=Blue Machine Upgrade Mk.II
+item.upgrade_power_3.name=Blue Machine Upgrade Mk.III
+item.upgrade_fortune_1.name=Purple Machine Upgrade Mk.I
+item.upgrade_fortune_2.name=Purple Machine Upgrade Mk.II
+item.upgrade_fortune_3.name=Purple Machine Upgrade Mk.III
 
 item.fusion_core.name=Fusion Core
 item.energy_core.name=Makeshift Energy Core
@@ -489,6 +517,7 @@ item.ducttape.name=Duct Tape
 item.magnet_dee.name=Dee Magnets
 item.magnet_circular.name=Flat Magnet
 item.cyclotron_tower.name=Cyclotron Tower
+item.plate_dalekanium.name=Angry Metal
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
@@ -521,6 +550,8 @@ item.canister_canola.name=Engine Lubricant
 item.canister_oil.name=Crude Oil Canister
 item.canister_fuel.name=Fuel Canister
 item.canister_kerosene.name=Kerosene Canister
+item.canister_reoil.name=Canister of Reclaimed Industrial Oil
+item.canister_petroil.name=Petroil Canister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
 item.gas_empty.name=Empty Gas Tank
@@ -747,6 +778,7 @@ item.gun_jack.name=Jackhammer
 item.gun_spark.name=Spark Plug
 item.gun_hp.name=HPP Lazerjet
 item.gun_euthanasia.name=Euthanasia
+item.gun_defabricator.name=Defabricator
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
@@ -772,6 +804,7 @@ item.gun_jack_ammo.name=Quadruple Shotgun Shell
 item.gun_spark_ammo.name=Electromagnetic Cartridge
 item.gun_hp_ammo.name=Ink Cartridge
 item.gun_euthanasia_ammo.name=Syringe
+item.gun_defabricator_ammo.name=Defabricator Energy Cell
 
 item.clip_revolver_iron.name=Box of Iron Rounds
 item.clip_revolver.name=Box of .357 Rounds
@@ -814,7 +847,8 @@ entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket
 entity.hbm.entity_schrabnel.name=Schrabnel
 entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
-entity.entity_mob_hunter_chopper.name=Hunter Chopper
+entity.entity_mob_hunter_chopper.name=Hunter ChopperCreeper
+entity.entity_cyber_crab.name=Cyber Crab
 
 item.cap_aluminium.name=Aluminium Cap
 item.hull_small_steel.name=Small Steel Shell

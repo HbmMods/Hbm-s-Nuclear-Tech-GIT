@@ -83,13 +83,13 @@ public class ItemBattery extends Item {
     	}
     }
     
-    public long getCharge(ItemStack stack) {
+    public static long getCharge(ItemStack stack) {
     	if(stack.getItem() instanceof ItemBattery) {
     		if(stack.hasTagCompound()) {
     			return stack.stackTagCompound.getLong("charge");
     		} else {
     			stack.stackTagCompound = new NBTTagCompound();
-    			stack.stackTagCompound.setLong("charge", this.maxCharge);
+    			stack.stackTagCompound.setLong("charge", ((ItemBattery)stack.getItem()).maxCharge);
     			return stack.stackTagCompound.getLong("charge");
     		}
     	}
@@ -99,6 +99,10 @@ public class ItemBattery extends Item {
     
     public long getMaxCharge() {
     	return maxCharge;
+    }
+    
+    public static long getMaxChargeStatic(ItemStack stack) {
+    	return ((ItemBattery)stack.getItem()).maxCharge;
     }
     
     public static ItemStack getEmptyBattery(Item item) {

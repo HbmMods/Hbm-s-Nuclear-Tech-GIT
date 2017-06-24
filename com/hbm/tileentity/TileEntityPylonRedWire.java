@@ -3,8 +3,12 @@ package com.hbm.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TEPylonDestructorPacket;
+import com.hbm.packet.TEPylonSenderPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,11 +16,43 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 
 public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 	
 	public List<UnionOfTileEntitiesAndBooleans> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleans>();
 	public List<TileEntityPylonRedWire> connected = new ArrayList<TileEntityPylonRedWire>();
+	public boolean scheduleConnectionCheck = false;
+	public int[][] scheduleBuffer;
+	
+	@Override
+	public void updateEntity() {
+		
+		for(int i = connected.size() - 1; i >= 0; i--) {
+			if(connected.size() >= i + 1 && connected.get(i) == null)
+				connected.remove(i);
+		}
+		
+		for(int i = connected.size() - 1; i >= 0; i--) {
+			if(connected.size() >= i + 1 && connected.get(i) != null && 
+					this.worldObj.getBlock(connected.get(i).xCoord, connected.get(i).yCoord, connected.get(i).zCoord) != ModBlocks.red_pylon)
+				connected.remove(i);
+		}
+		
+		if(scheduleConnectionCheck && this.scheduleBuffer != null) {
+			scheduleConnectionCheck = false;
+			this.connected = this.convertArrayToList(this.scheduleBuffer, worldObj);
+		}
+		
+		if(!worldObj.isRemote) {}
+			if(!connected.isEmpty()) {
+				PacketDispatcher.wrapper.sendToAll(new TEPylonDestructorPacket(xCoord, yCoord, zCoord));
+				for(TileEntityPylonRedWire wire : connected)
+					PacketDispatcher.wrapper.sendToAll(new TEPylonSenderPacket(xCoord, yCoord, zCoord,
+						wire.xCoord, wire.yCoord, wire.zCoord));
+			}
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -24,41 +60,41 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 		int[] conX = nbt.getIntArray("conX");
 		int[] conY = nbt.getIntArray("conY");
 		int[] conZ = nbt.getIntArray("conZ");
-		if(conX.length == conY.length && conY.length == conZ.length)
-		{
-			int[][] con = new int[conX.length][3];
-			
-			for(int i = 0; i < conX.length; i++) {
-				con[i][0] = conX[i];
-				con[i][1] = conY[i];
-				con[i][2] = conZ[i];
-			}
-			
-			this.connected = this.convertArrayToList(con);
-		} else {
-            throw new RuntimeException(this.getClass() + " failed to read connected electricity poles from NBT!");
+
+		int[][] con = new int[conX.length][3];
+		
+		for(int i = 0; i < conX.length; i++) {
+			con[i][0] = conX[i];
+			con[i][1] = conY[i];
+			con[i][2] = conZ[i];
 		}
+			
+		scheduleConnectionCheck = true;
+		scheduleBuffer = con;
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		int[] conX = new int[this.connected.size()];
-		int[] conY = new int[this.connected.size()];
-		int[] conZ = new int[this.connected.size()];
+
+		int[][] con = this.convertListToArray(connected);
+
+		int[] conX = new int[con.length];
+		int[] conY = new int[con.length];
+		int[] conZ = new int[con.length];
 		
-		for(int i = 0; i < this.connected.size(); i++) {
-			conX[i] = this.connected.get(i).xCoord;
-			conY[i] = this.connected.get(i).yCoord;
-			conZ[i] = this.connected.get(i).zCoord;
+		for(int i = 0; i < conX.length; i++) {
+			conX[i] = con[i][0];
+			conY[i] = con[i][1];
+			conZ[i] = con[i][2];
 		}
-		
+
 		nbt.setIntArray("conX", conX);
 		nbt.setIntArray("conY", conY);
 		nbt.setIntArray("conZ", conZ);
 	}
 	
-	public List<TileEntityPylonRedWire> convertArrayToList(int[][] array) {
+	public static List<TileEntityPylonRedWire> convertArrayToList(int[][] array, World worldObj) {
 		
 		List<TileEntityPylonRedWire> list = new ArrayList<TileEntityPylonRedWire>();
 		
@@ -71,7 +107,7 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 		return list;
 	}
 	
-	public int[][] convertListToArray(List<TileEntityPylonRedWire> list) {
+	public static int[][] convertListToArray(List<TileEntityPylonRedWire> list) {
 		
 		int[][] array = new int[list.size()][3];
 		
@@ -85,12 +121,24 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 		return array;
 	}
 	
-	/*@Override
+	public void addTileEntityBasedOnCoords(int x, int y, int z) {
+
+		TileEntity te = worldObj.getTileEntity(x, y, z);
+		if(te != null && te instanceof TileEntityPylonRedWire)
+			this.connected.add((TileEntityPylonRedWire)te);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
-	}*/
+	}
 	
 	/*Princess cards she sends me with her regards,
 	Oh, bar-room eyes shine vacancy

@@ -116,7 +116,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		if (i == 0)
-			if (stack.getItem() == ModItems.canister_fuel || stack.getItem() == ModItems.canister_NITAN
+			if (stack.getItem() == ModItems.canister_fuel || stack.getItem() == ModItems.canister_petroil || stack.getItem() == ModItems.canister_NITAN
 					|| stack.getItem() == Item.getItemFromBlock(ModBlocks.red_barrel))
 				return true;
 		if (i == 2)
@@ -201,7 +201,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			if (itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
 				return true;
 		if (i == 2)
-			if (itemStack.getItemDamage() == 0)
+			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack))
 				return true;
 
 		return false;
@@ -257,6 +257,22 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 						slots[0] = null;
 
 					diesel += 625;
+				}
+			}
+
+			if (slots[0] != null && slots[0].getItem() == ModItems.canister_petroil && diesel + 450 <= maxDiesel) {
+				if (slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem()
+						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
+					if (slots[1] == null)
+						slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
+					else
+						slots[1].stackSize++;
+
+					slots[0].stackSize--;
+					if (slots[0].stackSize <= 0)
+						slots[0] = null;
+
+					diesel += 450;
 				}
 			}
 

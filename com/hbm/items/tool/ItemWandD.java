@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityPylonRedWire;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +35,12 @@ public class ItemWandD extends Item {
 				MainRegistry.z++;
 			if (b == ModBlocks.block_copper)
 				MainRegistry.z--;
+			if (b == ModBlocks.red_pylon) {
+				TileEntityPylonRedWire te = (TileEntityPylonRedWire) world.getTileEntity(x, y, z);
+				for(int i = 0; i < te.connected.size(); i++)
+					if(world.isRemote)
+						player.addChatMessage(new ChatComponentText(te.connected.get(i).xCoord + " " + te.connected.get(i).yCoord + " " + te.connected.get(i).zCoord));
+			}
 		}
 		
 		return true;

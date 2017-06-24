@@ -417,6 +417,90 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Required for cyclotron operation.");
 			list.add("Do NOT operate cyclotron without it!");
 		}
+		
+		if(this == ModItems.upgrade_speed_1)
+		{
+			list.add("Mining drill speed upgrade");
+			list.add("Effect: Delay -15 (from 50)");
+			list.add("Drawback: Power consumption +300 (from 100)");
+		}
+		
+		if(this == ModItems.upgrade_speed_2)
+		{
+			list.add("Mining drill speed upgrade");
+			list.add("Effect: Delay -30 (from 50)");
+			list.add("Drawback: Power consumption +600 (from 100)");
+		}
+		
+		if(this == ModItems.upgrade_speed_3)
+		{
+			list.add("Mining drill speed upgrade");
+			list.add("Effect: Delay -45 (from 50)");
+			list.add("Drawback: Power consumption +900 (from 100)");
+		}
+		
+		if(this == ModItems.upgrade_effect_1)
+		{
+			list.add("Mining drill effectiveness upgrade");
+			list.add("Effect: Radius +1 (from 1)");
+			list.add("Drawback: Power consumption +80 (from 100)");
+		}
+		
+		if(this == ModItems.upgrade_effect_2)
+		{
+			list.add("Mining drill effectiveness upgrade");
+			list.add("Effect: Radius +2 (from 1)");
+			list.add("Drawback: Power consumption +160 (from 100)");
+		}
+		
+		if(this == ModItems.upgrade_effect_3)
+		{
+			list.add("Mining drill effectiveness upgrade");
+			list.add("Effect: Radius +3 (from 1)");
+			list.add("Drawback: Power consumption +240 (from 100)");
+		}
+		
+		if(this == ModItems.upgrade_power_1)
+		{
+			list.add("Mining drill power saving upgrade");
+			list.add("Effect: Power consumption -30 (from 100)");
+			list.add("Drawback: Delay +5 (from 50)");
+		}
+		
+		if(this == ModItems.upgrade_power_2)
+		{
+			list.add("Mining drill power saving upgrade");
+			list.add("Effect: Power consumption -60 (from 100)");
+			list.add("Drawback: Delay +10 (from 50)");
+		}
+		
+		if(this == ModItems.upgrade_power_3)
+		{
+			list.add("Mining drill power saving upgrade");
+			list.add("Effect: Power consumption -90 (from 100)");
+			list.add("Drawback: Delay +15 (from 50)");
+		}
+		
+		if(this == ModItems.upgrade_fortune_1)
+		{
+			list.add("Mining drill fortune upgrade");
+			list.add("Effect: Fortune +1 (from 0");
+			list.add("Drawback: Delay +15 (from 50)");
+		}
+		
+		if(this == ModItems.upgrade_fortune_2)
+		{
+			list.add("Mining drill fortune upgrade");
+			list.add("Effect: Fortune +2 (from 0");
+			list.add("Drawback: Delay +30 (from 50)");
+		}
+		
+		if(this == ModItems.upgrade_fortune_3)
+		{
+			list.add("Mining drill fortune upgrade");
+			list.add("Effect: Fortune +3 (from 0");
+			list.add("Drawback: Delay +45 (from 50)");
+		}
 	}
 
     @Override

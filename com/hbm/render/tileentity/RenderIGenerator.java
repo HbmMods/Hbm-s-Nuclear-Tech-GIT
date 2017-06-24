@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityMachineIGenerator;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -61,8 +62,6 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
         renderTileEntityAt2(tileEntity, x, y, z, f);
     }
     
-    int i = 0;
-    
 	public void renderTileEntityAt2(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
@@ -85,8 +84,8 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F);
 	        GL11.glTranslated(0.5D, 0.0D, 0.0D); break;
 		}
-		i++;
-		GL11.glRotatef(i, 1F, 0F, 0F);
+		
+		GL11.glRotatef(((TileEntityMachineIGenerator)tileEntity).rotation, 1F, 0F, 0F);
 
         bindTexture(rotTexture);
         rotModel.renderAll();

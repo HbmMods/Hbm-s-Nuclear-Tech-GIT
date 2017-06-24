@@ -20,8 +20,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 7, 10, 4),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 2, 6, 2),
-			new WeightedRandomChestContent(ModItems.battery_generic, 50, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 0, 3, 1) };
 
 	private static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[] {
@@ -32,8 +32,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.circuit_aluminium, 0, 1, 5, 3),
 			new WeightedRandomChestContent(ModItems.circuit_copper, 0, 1, 3, 2),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.battery_generic, 50, 1, 1, 5),
-			new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.powder_iodine, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_bromine, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 1, 2, 2),
@@ -61,8 +61,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_xvl1456_ammo, 0, 16, 64, 2),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.battery_advanced, 200, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.battery_schrabidium, 10000, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.battery_schrabidium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.syringe_awesome, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 4),
