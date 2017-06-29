@@ -576,7 +576,9 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 							if(!tryDrill(x - 1, y, z - 1))
 								if(!tryDrill(x, y, z - 1))
 									if(!tryDrill(x + 1, y, z - 1))
-										return false;
+
+										if(!tryDrill(x, y - 1, z))
+											return false;
 					
 		return true;
 	}
@@ -607,7 +609,9 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 																			if(!tryDrill(x, y, z - 2))
 																				if(!tryDrill(x + 1, y, z - 2))
 																					if(!tryDrill(x + 2, y, z - 1))
-																						return false;
+
+																						if(!tryDrill(x, y - 1, z))
+																							return false;
 					
 		return true;
 	}
@@ -655,7 +659,9 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 																																			if(!tryDrill(x + 1, y, z - 3))
 																																				if(!tryDrill(x + 2, y, z - 2))
 																																					if(!tryDrill(x + 3, y, z - 1))
-																						return false;
+
+																																						if(!tryDrill(x, y - 1, z))
+																																							return false;
 					
 		return true;
 	}
@@ -736,7 +742,9 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 																																																																			if(!tryDrill(x + 3, y, z - 2))
 																																																																				if(!tryDrill(x + 4, y, z - 2))
 																																																																					if(!tryDrill(x + 4, y, z - 1))
-																																																																						return false;
+
+																																																																						if(!tryDrill(x, y - 1, z))
+																																																																							return false;
 					
 		return true;
 	}

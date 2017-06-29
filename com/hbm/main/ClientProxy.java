@@ -164,6 +164,7 @@ import com.hbm.render.item.ItemRenderTestContainer;
 import com.hbm.render.item.ItemRenderUboinik;
 import com.hbm.render.item.ItemRenderXVL1456;
 import com.hbm.render.item.ItemRenderZOMG;
+import com.hbm.render.tileentity.RenderAssembler;
 import com.hbm.render.tileentity.RenderBombMulti;
 import com.hbm.render.tileentity.RenderCable;
 import com.hbm.render.tileentity.RenderCentrifuge;
@@ -219,6 +220,7 @@ import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityLaunchPad;
+import com.hbm.tileentity.TileEntityMachineAssembler;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
@@ -279,6 +281,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOilWell.class, new RenderDerrick());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineGasFlare.class, new RenderGasFlare());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMiningDrill.class, new RenderMiningDrill());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssembler.class, new RenderAssembler());
 
 		//RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderSnowball(ModItems.man_core));

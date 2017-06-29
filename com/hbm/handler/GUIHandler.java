@@ -14,6 +14,7 @@ import com.hbm.inventory.container.ContainerFusionMultiblock;
 import com.hbm.inventory.container.ContainerGenerator;
 import com.hbm.inventory.container.ContainerIGenerator;
 import com.hbm.inventory.container.ContainerLaunchPadTier1;
+import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.container.ContainerMachineCMBFactory;
 import com.hbm.inventory.container.ContainerMachineCoal;
@@ -54,6 +55,7 @@ import com.hbm.inventory.gui.GUIFWatzCore;
 import com.hbm.inventory.gui.GUIFusionMultiblock;
 import com.hbm.inventory.gui.GUIIGenerator;
 import com.hbm.inventory.gui.GUILaunchPadTier1;
+import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.gui.GUIMachineBattery;
 import com.hbm.inventory.gui.GUIMachineCMBFactory;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
@@ -101,6 +103,7 @@ import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityLaunchPad;
+import com.hbm.tileentity.TileEntityMachineAssembler;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
@@ -499,6 +502,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineMiningDrill(player.inventory, (TileEntityMachineMiningDrill) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_assembler:
+			{
+				if(entity instanceof TileEntityMachineAssembler)
+				{
+					return new ContainerMachineAssembler(player.inventory, (TileEntityMachineAssembler) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -861,6 +872,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineMiningDrill)
 					{
 						return new GUIMachineMiningDrill(player.inventory, (TileEntityMachineMiningDrill) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_assembler:
+				{
+					if(entity instanceof TileEntityMachineAssembler)
+					{
+						return new GUIMachineAssembler(player.inventory, (TileEntityMachineAssembler) entity);
 					}
 				}
 			}

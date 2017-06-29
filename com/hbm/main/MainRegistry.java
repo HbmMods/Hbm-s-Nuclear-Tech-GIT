@@ -142,6 +142,7 @@ import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityLaunchPad;
+import com.hbm.tileentity.TileEntityMachineAssembler;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
@@ -455,6 +456,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityPylonRedWire.class, "tileentity_pylon_redwire");
 		GameRegistry.registerTileEntity(TileEntityStructureMarker.class, "tileentity_structure_marker");
 		GameRegistry.registerTileEntity(TileEntityMachineMiningDrill.class, "tileentity_mining_drill");
+		GameRegistry.registerTileEntity(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

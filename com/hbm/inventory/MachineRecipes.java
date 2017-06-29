@@ -9,6 +9,8 @@ import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemAssemblyTemplate;
+import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.GameData;
@@ -1488,5 +1490,42 @@ public class MachineRecipes {
 		}
 		
 		return false;
+	}
+	
+	public static List<ItemStack> getRecipeFromTempate(ItemStack stack) {
+		
+		if(stack == null || !(stack.getItem() instanceof ItemAssemblyTemplate))
+			return null;
+		
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		
+		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
+		case TEST:
+			list.add(new ItemStack(Items.iron_ingot, 4));
+			list.add(new ItemStack(Items.gold_ingot, 2));
+			list.add(new ItemStack(Items.coal, 8));
+			break;
+		}
+		
+		if(list.isEmpty())
+			return null;
+		else
+			return list;
+	}
+	
+	public static ItemStack getOutputFromTempate(ItemStack stack) {
+		
+		if(stack == null || !(stack.getItem() instanceof ItemAssemblyTemplate))
+			return null;
+		
+		ItemStack output = null;
+		
+		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
+		case TEST:
+			output = new ItemStack(ModItems.rotor_steel, 2);
+			break;
+		}
+		
+		return output;
 	}
 }
