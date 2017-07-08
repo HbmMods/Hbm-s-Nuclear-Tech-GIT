@@ -237,8 +237,10 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 						
 						power -= 100;
 					}
-				}
-			}
+				} else
+					progress = 0;
+			} else
+				progress = 0;
 			
 		}
 		
@@ -412,7 +414,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 				ItemStack sta = array[i].copy();
 				sta.stackSize = 1;
 			
-				if(sta != null && sta.isItemEqual(st) && array[i].stackSize > 0) {
+				if(sta != null && isItemAcceptible(sta, st) && array[i].stackSize > 0) {
 					array[i].stackSize--;
 					
 					if(array[i].stackSize <= 0)
@@ -420,6 +422,26 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					
 					return true;
 				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean isItemAcceptible(ItemStack stack1, ItemStack stack2) {
+		
+		if(stack1 != null && stack2 != null) {
+			if(ItemStack.areItemStacksEqual(stack1, stack2))
+				return true;
+		
+			int[] ids1 = OreDictionary.getOreIDs(stack1);
+			int[] ids2 = OreDictionary.getOreIDs(stack2);
+			
+			if(ids1 != null && ids2 != null && ids1.length > 0 && ids2.length > 0) {
+				for(int i = 0; i < ids1.length; i++)
+					for(int j = 0; j < ids2.length; j++)
+						if(ids1[i] == ids2[j])
+							return true;
 			}
 		}
 		

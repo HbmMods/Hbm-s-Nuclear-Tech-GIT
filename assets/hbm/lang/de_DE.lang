@@ -1175,7 +1175,7 @@ tile.dummy_port.name=Dummyblock (Stromanschluss)
 
 item.chopper.name=Jagdschrauber
 
-item.nothing.name=Diesen Slot freilassen
+item.nothing.name=Leer
 
 tile.crystal_virus.name=Dunkler Kristall
 tile.crystal_hardened.name=Gehärteter Dunkler Kristall

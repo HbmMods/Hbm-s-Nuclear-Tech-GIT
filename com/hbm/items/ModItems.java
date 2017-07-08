@@ -507,6 +507,7 @@ public class ModItems {
 	public static Item oil_detector;
 
 	public static Item assembly_template;
+	public static Item fluid_identifier;
 	
 	public static Item missile_generic;
 	public static Item missile_anti_ballistic;
@@ -963,19 +964,19 @@ public class ModItems {
 		redstone_sword = new RedstoneSword(ToolMaterial.STONE).setUnlocalizedName("redstone_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":redstone_sword");
 		big_sword = new BigSword(ToolMaterial.EMERALD).setUnlocalizedName("big_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":big_sword");
 
-		test_helmet = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 0).setUnlocalizedName("test_helmet").setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_helmet");
-		test_chestplate = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 1).setUnlocalizedName("test_chestplate").setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_chestplate");
-		test_leggings = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 2).setUnlocalizedName("test_leggings").setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_leggings");
-		test_boots = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 3).setUnlocalizedName("test_boots").setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_boots");
+		test_helmet = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 0).setUnlocalizedName("test_helmet").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_helmet");
+		test_chestplate = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 1).setUnlocalizedName("test_chestplate").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_chestplate");
+		test_leggings = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 2).setUnlocalizedName("test_leggings").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_leggings");
+		test_boots = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 5, 3).setUnlocalizedName("test_boots").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_boots");
 		
-		test_nuke_igniter = new Item().setUnlocalizedName("test_nuke_igniter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_igniter");
-		test_nuke_propellant = new Item().setUnlocalizedName("test_nuke_propellant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_propellant");
-		test_nuke_tier1_shielding = new Item().setUnlocalizedName("test_nuke_tier1_shielding").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_tier1_shielding");
-		test_nuke_tier2_shielding = new Item().setUnlocalizedName("test_nuke_tier2_shielding").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_tier2_shielding");
-		test_nuke_tier1_bullet = new Item().setUnlocalizedName("test_nuke_tier1_bullet").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_tier1_bullet");
-		test_nuke_tier2_bullet = new Item().setUnlocalizedName("test_nuke_tier2_bullet").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_tier2_bullet");
-		test_nuke_tier1_target = new Item().setUnlocalizedName("test_nuke_tier1_target").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_tier1_target");
-		test_nuke_tier2_target = new Item().setUnlocalizedName("test_nuke_tier2_target").setMaxStackSize(1).setCreativeTab(MainRegistry.tabTest).setTextureName(RefStrings.MODID + ":test_nuke_tier2_target");
+		test_nuke_igniter = new Item().setUnlocalizedName("test_nuke_igniter").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_igniter");
+		test_nuke_propellant = new Item().setUnlocalizedName("test_nuke_propellant").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_propellant");
+		test_nuke_tier1_shielding = new Item().setUnlocalizedName("test_nuke_tier1_shielding").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier1_shielding");
+		test_nuke_tier2_shielding = new Item().setUnlocalizedName("test_nuke_tier2_shielding").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier2_shielding");
+		test_nuke_tier1_bullet = new Item().setUnlocalizedName("test_nuke_tier1_bullet").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier1_bullet");
+		test_nuke_tier2_bullet = new Item().setUnlocalizedName("test_nuke_tier2_bullet").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier2_bullet");
+		test_nuke_tier1_target = new Item().setUnlocalizedName("test_nuke_tier1_target").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier1_target");
+		test_nuke_tier2_target = new Item().setUnlocalizedName("test_nuke_tier2_target").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_tier2_target");
 		
 		ingot_uranium = new ItemRadioactive().setUnlocalizedName("ingot_uranium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_uranium");
 		ingot_u235 = new ItemRadioactive().setUnlocalizedName("ingot_u235").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_uranium");
@@ -1593,18 +1594,18 @@ public class ModItems {
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
 
 		upgrade_template = new ItemCustomLore().setUnlocalizedName("upgrade_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_template");
-		upgrade_speed_1 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_speed_1");
-		upgrade_speed_2 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_speed_2");
-		upgrade_speed_3 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_speed_3");
-		upgrade_effect_1 = new ItemCustomLore().setUnlocalizedName("upgrade_effect_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_effect_1");
-		upgrade_effect_2 = new ItemCustomLore().setUnlocalizedName("upgrade_effect_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_effect_2");
-		upgrade_effect_3 = new ItemCustomLore().setUnlocalizedName("upgrade_effect_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_effect_3");
-		upgrade_power_1 = new ItemCustomLore().setUnlocalizedName("upgrade_power_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_power_1");
-		upgrade_power_2 = new ItemCustomLore().setUnlocalizedName("upgrade_power_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_power_2");
-		upgrade_power_3 = new ItemCustomLore().setUnlocalizedName("upgrade_power_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_power_3");
-		upgrade_fortune_1 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_fortune_1");
-		upgrade_fortune_2 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_fortune_2");
-		upgrade_fortune_3 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_fortune_3");
+		upgrade_speed_1 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_speed_1");
+		upgrade_speed_2 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_speed_2");
+		upgrade_speed_3 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_speed_3");
+		upgrade_effect_1 = new ItemCustomLore().setUnlocalizedName("upgrade_effect_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_effect_1");
+		upgrade_effect_2 = new ItemCustomLore().setUnlocalizedName("upgrade_effect_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_effect_2");
+		upgrade_effect_3 = new ItemCustomLore().setUnlocalizedName("upgrade_effect_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_effect_3");
+		upgrade_power_1 = new ItemCustomLore().setUnlocalizedName("upgrade_power_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_power_1");
+		upgrade_power_2 = new ItemCustomLore().setUnlocalizedName("upgrade_power_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_power_2");
+		upgrade_power_3 = new ItemCustomLore().setUnlocalizedName("upgrade_power_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_power_3");
+		upgrade_fortune_1 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_fortune_1");
+		upgrade_fortune_2 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_fortune_2");
+		upgrade_fortune_3 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_fortune_3");
 
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
@@ -1662,7 +1663,8 @@ public class ModItems {
 		linker = new ItemTeleLink().setUnlocalizedName("linker").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":linker");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":oil_detector");
 		
-		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":assembly_template");
+		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
+		fluid_identifier = new ItemFluidIdentifier().setUnlocalizedName("fluid_identifier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":fluid_identifier");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("astatine_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
 		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("astatine_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
@@ -1753,7 +1755,7 @@ public class ModItems {
 		australium_iv = new ArmorAustralium(MainRegistry.enumArmorMaterialAusIV, 9, 1).setUnlocalizedName("australium_iv").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":australium_iv");
 		australium_v = new ArmorAustralium(MainRegistry.enumArmorMaterialAusV, 9, 1).setUnlocalizedName("australium_v").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":australium_v");
 
-		cape_test = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_test").setCreativeTab(MainRegistry.tabTest).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_test");
+		cape_test = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_test").setCreativeTab(null).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_test");
 		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
 		cape_gasmask = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_gasmask").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_gasmask");
 		cape_schrabidium = new ArmorModel(MainRegistry.enumArmorMaterialSchrabidium, 9, 1).setUnlocalizedName("cape_schrabidium").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_schrabidium");
@@ -2262,6 +2264,7 @@ public class ModItems {
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
 		
 		//Machine Templates
+		GameRegistry.registerItem(fluid_identifier, fluid_identifier.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());
 		
 		//Machine Upgrades

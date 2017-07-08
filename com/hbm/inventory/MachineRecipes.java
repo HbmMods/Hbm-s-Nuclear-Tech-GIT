@@ -1505,6 +1505,296 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.gold_ingot, 2));
 			list.add(new ItemStack(Items.coal, 8));
 			break;
+		case MIXED_PLATE:
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 2));
+			list.add(new ItemStack(ModItems.neutron_reflector, 2));
+			list.add(new ItemStack(ModItems.plate_combine_steel, 1));
+			list.add(new ItemStack(ModItems.plate_lead, 4));
+			break;
+		case HAZMAT_CLOTH:
+			list.add(new ItemStack(ModItems.powder_lead, 4));
+			list.add(new ItemStack(Items.string, 8));
+			break;
+		case ASBESTOS_CLOTH:
+			list.add(new ItemStack(ModItems.powder_quartz, 4));
+			list.add(new ItemStack(Items.string, 6));
+			list.add(new ItemStack(Blocks.wool, 1));
+			break;
+		case COAL_FILTER:
+			list.add(new ItemStack(ModItems.powder_coal, 4));
+			list.add(new ItemStack(Items.string, 6));
+			list.add(new ItemStack(Items.paper, 1));
+			break;
+		case CENTRIFUGE_ELEMENT:
+			list.add(new ItemStack(ModItems.tank_steel, 2));
+			list.add(new ItemStack(ModItems.coil_tungsten, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 6));
+			list.add(new ItemStack(ModItems.motor, 1));
+			break;
+		case CENTRIFUGE_TOWER:
+			list.add(new ItemStack(ModItems.centrifuge_element, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 4));
+			list.add(new ItemStack(ModItems.wire_red_copper, 6));
+			list.add(new ItemStack(ModItems.powder_lapis, 2));
+			break;
+		case DEE_MAGNET:
+			list.add(new ItemStack(ModBlocks.fusion_conductor, 6));
+			list.add(new ItemStack(ModItems.ingot_steel, 3));
+			list.add(new ItemStack(ModItems.coil_advanced_torus, 1));
+			break;
+		case FLAT_MAGNET:
+			list.add(new ItemStack(ModBlocks.fusion_conductor, 5));
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 6));
+			break;
+		case CYCLOTRON_TOWER:
+			list.add(new ItemStack(ModItems.magnet_circular, 6));
+			list.add(new ItemStack(ModItems.magnet_dee, 3));
+			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 8));
+			break;
+		case REACTOR_CORE:
+			list.add(new ItemStack(ModItems.ingot_lead, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 4));
+			list.add(new ItemStack(ModItems.neutron_reflector, 4));
+			break;
+		case RTG_UNIT:
+			list.add(new ItemStack(ModItems.thermo_element, 6));
+			list.add(new ItemStack(ModItems.board_copper, 2));
+			list.add(new ItemStack(ModItems.ingot_lead, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(ModItems.circuit_copper, 2));
+			break;
+		case HEAT_UNIT:
+			list.add(new ItemStack(ModItems.coil_copper_torus, 3));
+			list.add(new ItemStack(ModItems.ingot_steel, 3));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case GRAVITY_UNIT:
+			list.add(new ItemStack(ModItems.coil_copper, 4));
+			list.add(new ItemStack(ModItems.coil_tungsten, 2));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.nugget_schrabidium, 2));
+			break;
+		case TITANIUM_DRILL:
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.ingot_dura_steel, 2));
+			list.add(new ItemStack(ModItems.bolt_dura_steel, 2));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case TELEPAD:
+			list.add(new ItemStack(ModItems.plate_schrabidium, 2));
+			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(ModItems.wire_gold, 6));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 1));
+			break;
+		case TELEKIT:
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 6));
+			list.add(new ItemStack(ModItems.plate_lead, 16));
+			list.add(new ItemStack(ModItems.neutron_reflector, 4));
+			list.add(new ItemStack(ModItems.singularity_counter_resonant, 1));
+			list.add(new ItemStack(ModItems.singularity_super_heated, 1));
+			list.add(new ItemStack(ModItems.powder_power, 4));
+			break;
+		case GEASS_REACTOR:
+			list.add(new ItemStack(ModItems.plate_steel, 15));
+			list.add(new ItemStack(ModItems.ingot_lead, 5));
+			list.add(new ItemStack(ModItems.rod_quad_empty, 10));
+			list.add(new ItemStack(Items.dye, 4, 3));
+			break;
+		case GENERATOR_FRONT:
+			list.add(new ItemStack(ModItems.ingot_steel, 3));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(ModItems.tank_steel, 4));
+			list.add(new ItemStack(ModItems.turbine_titanium, 1));
+			list.add(new ItemStack(ModItems.wire_red_copper, 6));
+			list.add(new ItemStack(ModItems.wire_gold, 4));
+			break;
+		case WT1_GENERIC:
+			list.add(new ItemStack(ModItems.plate_titanium, 5));
+			list.add(new ItemStack(ModItems.plate_steel, 3));
+			list.add(new ItemStack(Blocks.tnt, 2));
+			break;
+		case WT2_GENERIC:
+			list.add(new ItemStack(ModItems.plate_titanium, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 5));
+			list.add(new ItemStack(Blocks.tnt, 4));
+			break;
+		case WT3_GENERIC:
+			list.add(new ItemStack(ModItems.plate_titanium, 15));
+			list.add(new ItemStack(ModItems.plate_steel, 8));
+			list.add(new ItemStack(Blocks.tnt, 8));
+			break;
+		case WT1_FIRE:
+			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
+			list.add(new ItemStack(ModItems.powder_fire, 4));
+			break;
+		case WT2_FIRE:
+			list.add(new ItemStack(ModItems.warhead_generic_medium, 1));
+			list.add(new ItemStack(ModItems.powder_fire, 8));
+			break;
+		case WT3_FIRE:
+			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
+			list.add(new ItemStack(ModItems.powder_fire, 16));
+			break;
+		case WT1_CLUSTER:
+			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
+			list.add(new ItemStack(ModItems.pellet_cluster, 4));
+			break;
+		case WT2_CLUSTER:
+			list.add(new ItemStack(ModItems.warhead_generic_medium, 1));
+			list.add(new ItemStack(ModItems.pellet_cluster, 8));
+			break;
+		case WT3_CLUSTER:
+			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
+			list.add(new ItemStack(ModItems.powder_fire, 16));
+			break;
+		case WT1_BUSTER:
+			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
+			list.add(new ItemStack(ModBlocks.det_cord, 8));
+			break;
+		case WT2_BUSTER:
+			list.add(new ItemStack(ModItems.warhead_generic_medium, 1));
+			list.add(new ItemStack(ModBlocks.det_cord, 4));
+			list.add(new ItemStack(ModBlocks.det_charge, 4));
+			break;
+		case WT3_BUSTER:
+			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
+			list.add(new ItemStack(ModBlocks.det_charge, 8));
+			break;
+		case W_NUCLEAR:
+			list.add(new ItemStack(ModItems.boy_shielding, 1));
+			list.add(new ItemStack(ModItems.boy_target, 1));
+			list.add(new ItemStack(ModItems.boy_bullet, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 20));
+			list.add(new ItemStack(ModItems.plate_steel, 12));
+			break;
+		case W_MIRVLET:
+			list.add(new ItemStack(ModItems.ingot_steel, 5));
+			list.add(new ItemStack(ModItems.plate_steel, 18));
+			list.add(new ItemStack(ModItems.ingot_pu239, 1));
+			list.add(new ItemStack(Blocks.tnt, 2));
+			break;
+		case W_MIRV:
+			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
+			list.add(new ItemStack(ModItems.plate_steel, 16));
+			list.add(new ItemStack(ModBlocks.det_cord, 8));
+			list.add(new ItemStack(ModItems.warhead_mirvlet, 8));
+			break;
+		case W_ENDOTHERMIC:
+			list.add(new ItemStack(ModBlocks.therm_endo, 2));
+			list.add(new ItemStack(ModItems.plate_titanium, 12));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			break;
+		case W_EXOTHERMIC:
+			list.add(new ItemStack(ModBlocks.therm_exo, 2));
+			list.add(new ItemStack(ModItems.plate_titanium, 12));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			break;
+		case T1_TANK:
+			list.add(new ItemStack(ModItems.canister_kerosene, 4));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			break;
+		case T2_TANK:
+			list.add(new ItemStack(ModItems.fuel_tank_small, 3));
+			list.add(new ItemStack(ModItems.plate_titanium, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			break;
+		case T3_TANK:
+			list.add(new ItemStack(ModItems.fuel_tank_medium, 3));
+			list.add(new ItemStack(ModItems.plate_titanium, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			break;
+		case T1_THRUSTER:
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.wire_aluminium, 4));
+			break;
+		case T2_THRUSTER:
+			list.add(new ItemStack(ModItems.thruster_small, 1));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(ModItems.hull_small_steel, 1));
+			list.add(new ItemStack(ModItems.hull_big_steel, 1));
+			list.add(new ItemStack(ModItems.wire_copper, 4));
+			break;
+		case T3_THRUSTER:
+			list.add(new ItemStack(ModItems.thruster_medium, 1));
+			list.add(new ItemStack(ModItems.plate_steel, 4));
+			list.add(new ItemStack(ModItems.hull_big_steel, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 4));
+			break;
+		case CHOPPER_HEAD:
+			list.add(new ItemStack(ModBlocks.reinforced_glass, 2));
+			list.add(new ItemStack(ModBlocks.fwatz_computer, 1));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 22));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
+			break;
+		case CHOPPER_GUN:
+			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 2));
+			list.add(new ItemStack(ModItems.wire_tungsten, 6));
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 1));
+			list.add(new ItemStack(ModItems.motor, 1));
+			break;
+		case CHOPPER_BODY:
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 26));
+			list.add(new ItemStack(ModBlocks.fwatz_computer, 1));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.chopper_blades, 2));
+			break;
+		case CHOPPER_TAIL:
+			list.add(new ItemStack(ModItems.plate_combine_steel, 8));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 5));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
+			list.add(new ItemStack(ModItems.motor, 1));
+			list.add(new ItemStack(ModItems.chopper_blades, 2));
+			break;
+		case CHOPPER_WING:
+			list.add(new ItemStack(ModItems.plate_combine_steel, 6));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 3));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 2));
+			break;
+		case CHOPPER_BLADES:
+			list.add(new ItemStack(ModItems.plate_combine_steel, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 2));
+			break;
+		case CIRCUIT_2:
+			list.add(new ItemStack(ModItems.circuit_aluminium, 1));
+			list.add(new ItemStack(ModItems.wire_copper, 6));
+			list.add(new ItemStack(ModItems.powder_quartz, 4));
+			break;
+		case CIRCUIT_3:
+			list.add(new ItemStack(ModItems.circuit_copper, 1));
+			list.add(new ItemStack(ModItems.wire_red_copper, 6));
+			list.add(new ItemStack(ModItems.powder_gold, 4));
+			break;
+		case RTG_PELLET:
+			list.add(new ItemStack(ModItems.nugget_pu238, 5));
+			list.add(new ItemStack(ModItems.plate_iron, 2));
+			break;
+		case WEAK_PELLET:
+			list.add(new ItemStack(ModItems.nugget_u238, 4));
+			list.add(new ItemStack(ModItems.nugget_pu238, 1));
+			list.add(new ItemStack(ModItems.plate_iron, 2));
+			break;
+		case FUSION_PELLET:
+			list.add(new ItemStack(ModItems.cell_deuterium, 6));
+			list.add(new ItemStack(ModItems.cell_tritium, 2));
+			list.add(new ItemStack(ModItems.lithium, 4));
+			break;
+		case CLUSTER_PELLETS:
+			list.add(new ItemStack(ModItems.plate_steel, 4));
+			list.add(new ItemStack(Blocks.tnt, 1));
+			break;
+		case GUN_PELLETS:
+			list.add(new ItemStack(ModItems.nugget_lead, 6));
+			break;
+		default:
+			break;
 		}
 		
 		if(list.isEmpty())
@@ -1523,6 +1813,170 @@ public class MachineRecipes {
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
 		case TEST:
 			output = new ItemStack(ModItems.rotor_steel, 2);
+			break;
+		case MIXED_PLATE:
+			output = new ItemStack(ModItems.plate_mixed, 6);
+			break;
+		case HAZMAT_CLOTH:
+			output = new ItemStack(ModItems.hazmat_cloth, 4);
+			break;
+		case ASBESTOS_CLOTH:
+			output = new ItemStack(ModItems.asbestos_cloth, 4);
+			break;
+		case COAL_FILTER:
+			output = new ItemStack(ModItems.filter_coal, 1);
+			break;
+		case CENTRIFUGE_ELEMENT:
+			output = new ItemStack(ModItems.centrifuge_element, 1);
+			break;
+		case CENTRIFUGE_TOWER:
+			output = new ItemStack(ModItems.centrifuge_tower, 1);
+			break;
+		case DEE_MAGNET:
+			output = new ItemStack(ModItems.magnet_dee, 1);
+			break;
+		case FLAT_MAGNET:
+			output = new ItemStack(ModItems.magnet_circular, 1);
+			break;
+		case CYCLOTRON_TOWER:
+			output = new ItemStack(ModItems.cyclotron_tower, 1);
+			break;
+		case REACTOR_CORE:
+			output = new ItemStack(ModItems.reactor_core, 1);
+			break;
+		case RTG_UNIT:
+			output = new ItemStack(ModItems.rtg_unit, 2);
+			break;
+		case HEAT_UNIT:
+			output = new ItemStack(ModItems.thermo_unit_empty, 1);
+			break;
+		case GRAVITY_UNIT:
+			output = new ItemStack(ModItems.levitation_unit, 1);
+			break;
+		case TITANIUM_DRILL:
+			output = new ItemStack(ModItems.drill_titanium, 1);
+			break;
+		case TELEPAD:
+			output = new ItemStack(ModItems.telepad, 1);
+			break;
+		case TELEKIT:
+			output = new ItemStack(ModItems.entanglement_kit, 1);
+			break;
+		case GEASS_REACTOR:
+			output = new ItemStack(ModItems.dysfunctional_reactor, 1);
+			break;
+		case GENERATOR_FRONT:
+			output = new ItemStack(ModItems.generator_front, 1);
+			break;
+		case WT1_GENERIC:
+			output = new ItemStack(ModItems.warhead_generic_small, 1);
+			break;
+		case WT2_GENERIC:
+			output = new ItemStack(ModItems.warhead_generic_medium, 1);
+			break;
+		case WT3_GENERIC:
+			output = new ItemStack(ModItems.warhead_generic_large, 1);
+			break;
+		case WT1_FIRE:
+			output = new ItemStack(ModItems.warhead_incendiary_small, 1);
+			break;
+		case WT2_FIRE:
+			output = new ItemStack(ModItems.warhead_incendiary_medium, 1);
+			break;
+		case WT3_FIRE:
+			output = new ItemStack(ModItems.warhead_incendiary_large, 1);
+			break;
+		case WT1_CLUSTER:
+			output = new ItemStack(ModItems.warhead_cluster_small, 1);
+			break;
+		case WT2_CLUSTER:
+			output = new ItemStack(ModItems.warhead_cluster_medium, 1);
+			break;
+		case WT3_CLUSTER:
+			output = new ItemStack(ModItems.warhead_cluster_large, 1);
+			break;
+		case WT1_BUSTER:
+			output = new ItemStack(ModItems.warhead_buster_small, 1);
+			break;
+		case WT2_BUSTER:
+			output = new ItemStack(ModItems.warhead_buster_medium, 1);
+			break;
+		case WT3_BUSTER:
+			output = new ItemStack(ModItems.warhead_buster_large, 1);
+			break;
+		case W_NUCLEAR:
+			output = new ItemStack(ModItems.warhead_nuclear, 1);
+			break;
+		case W_MIRVLET:
+			output = new ItemStack(ModItems.warhead_mirvlet, 1);
+			break;
+		case W_MIRV:
+			output = new ItemStack(ModItems.warhead_mirv, 1);
+			break;
+		case W_ENDOTHERMIC:
+			output = new ItemStack(ModItems.warhead_thermo_endo, 1);
+			break;
+		case W_EXOTHERMIC:
+			output = new ItemStack(ModItems.warhead_thermo_exo, 1);
+			break;
+		case T1_TANK:
+			output = new ItemStack(ModItems.fuel_tank_small, 1);
+			break;
+		case T2_TANK:
+			output = new ItemStack(ModItems.fuel_tank_medium, 1);
+			break;
+		case T3_TANK:
+			output = new ItemStack(ModItems.fuel_tank_large, 1);
+			break;
+		case T1_THRUSTER:
+			output = new ItemStack(ModItems.thruster_small, 1);
+			break;
+		case T2_THRUSTER:
+			output = new ItemStack(ModItems.thruster_medium, 1);
+			break;
+		case T3_THRUSTER:
+			output = new ItemStack(ModItems.thruster_large, 1);
+			break;
+		case CHOPPER_HEAD:
+			output = new ItemStack(ModItems.chopper_head, 1);
+			break;
+		case CHOPPER_GUN:
+			output = new ItemStack(ModItems.chopper_gun, 1);
+			break;
+		case CHOPPER_BODY:
+			output = new ItemStack(ModItems.chopper_torso, 1);
+			break;
+		case CHOPPER_TAIL:
+			output = new ItemStack(ModItems.chopper_tail, 1);
+			break;
+		case CHOPPER_WING:
+			output = new ItemStack(ModItems.chopper_wing, 1);
+			break;
+		case CHOPPER_BLADES:
+			output = new ItemStack(ModItems.chopper_blades, 1);
+			break;
+		case CIRCUIT_2:
+			output = new ItemStack(ModItems.circuit_copper, 1);
+			break;
+		case CIRCUIT_3:
+			output = new ItemStack(ModItems.circuit_red_copper, 1);
+			break;
+		case RTG_PELLET:
+			output = new ItemStack(ModItems.pellet_rtg, 1);
+			break;
+		case WEAK_PELLET:
+			output = new ItemStack(ModItems.pellet_rtg_weak, 1);
+			break;
+		case FUSION_PELLET:
+			output = new ItemStack(ModItems.tritium_deuterium_cake, 1);
+			break;
+		case CLUSTER_PELLETS:
+			output = new ItemStack(ModItems.pellet_cluster, 1);
+			break;
+		case GUN_PELLETS:
+			output = new ItemStack(ModItems.pellet_buckshot, 1);
+			break;
+		default:
 			break;
 		}
 		

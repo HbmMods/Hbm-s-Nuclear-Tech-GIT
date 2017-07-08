@@ -10,8 +10,10 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleansForGas;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IGasAcceptor;
 import com.hbm.interfaces.IGasDuct;
 import com.hbm.interfaces.IGasSource;
@@ -23,6 +25,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityCable;
+import com.hbm.tileentity.TileEntityFluidDuct;
 import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityGasDuctSolid;
 import com.hbm.tileentity.TileEntityLaunchPad;
@@ -307,6 +310,17 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare)
 		{
 			return true;
+		}
+		return false;
+	}
+	
+	public static boolean checkFluidConnectables(World world, int x, int y, int z, FluidType type)
+	{
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		if((tileentity != null && tileentity instanceof TileEntityFluidDuct))
+		{
+			if(((TileEntityFluidDuct)tileentity).type == type)
+				return true;
 		}
 		return false;
 	}

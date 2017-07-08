@@ -26,6 +26,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.creativetabs.BlockTab;
+import com.hbm.creativetabs.MachineTab;
 import com.hbm.creativetabs.NukeTab;
 import com.hbm.creativetabs.PartsTab;
 import com.hbm.creativetabs.TestTab;
@@ -115,6 +116,7 @@ import com.hbm.handler.GUIHandler;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.MachineRecipes.ShredderRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -134,6 +136,7 @@ import com.hbm.tileentity.TileEntityDecoTapeRecorder;
 import com.hbm.tileentity.TileEntityDiFurnace;
 import com.hbm.tileentity.TileEntityDummy;
 import com.hbm.tileentity.TileEntityFWatzCore;
+import com.hbm.tileentity.TileEntityFluidDuct;
 import com.hbm.tileentity.TileEntityFusionMultiblock;
 import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityGasDuctSolid;
@@ -248,9 +251,9 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialAusV = EnumHelper.addArmorMaterial("AUSV", 375, new int[] {2, 6, 5, 2}, 0);
 	
 	//Creative Tabs
-	public static CreativeTabs tabTest = new TestTab(CreativeTabs.getNextID(), "tabTest");
 	public static CreativeTabs tabParts = new PartsTab(CreativeTabs.getNextID(), "tabParts");
 	public static CreativeTabs tabBlock = new BlockTab(CreativeTabs.getNextID(), "tabBlocks");
+	public static CreativeTabs tabMachine = new MachineTab(CreativeTabs.getNextID(), "tabMachine");
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
 	
 	//Achievements
@@ -457,6 +460,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityStructureMarker.class, "tileentity_structure_marker");
 		GameRegistry.registerTileEntity(TileEntityMachineMiningDrill.class, "tileentity_mining_drill");
 		GameRegistry.registerTileEntity(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
+		GameRegistry.registerTileEntity(TileEntityFluidDuct.class, "tileentity_universal_duct");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

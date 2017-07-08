@@ -561,7 +561,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	
 	/**
 	 * returns true if there has been a successful mining operation
-	 * returns false if no block could be mined
+	 * returns false if no block could be mined and the drill is ready to extend
 	 * */
 	public boolean drill1(int x, int y, int z) {
 		

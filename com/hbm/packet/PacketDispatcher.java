@@ -23,6 +23,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, 3, Side.CLIENT);
 		//Mingin drill rotation for rendering
 		wrapper.registerMessage(TEDrillPacket.Handler.class, TEDrillPacket.class, 4, Side.CLIENT);
+		//Fluid type for pipe rendering
+		wrapper.registerMessage(TEFluidPipePacket.Handler.class, TEFluidPipePacket.class, 5, Side.CLIENT);
 	}
 	
 }

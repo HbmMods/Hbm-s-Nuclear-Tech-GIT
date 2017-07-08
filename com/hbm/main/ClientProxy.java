@@ -173,6 +173,7 @@ import com.hbm.render.tileentity.RenderCyclotron;
 import com.hbm.render.tileentity.RenderDecoBlock;
 import com.hbm.render.tileentity.RenderDecoBlockAlt;
 import com.hbm.render.tileentity.RenderDerrick;
+import com.hbm.render.tileentity.RenderFluidDuct;
 import com.hbm.render.tileentity.RenderGasDuct;
 import com.hbm.render.tileentity.RenderGasFlare;
 import com.hbm.render.tileentity.RenderIGenerator;
@@ -215,6 +216,7 @@ import com.hbm.tileentity.TileEntityDecoPoleSatelliteReceiver;
 import com.hbm.tileentity.TileEntityDecoPoleTop;
 import com.hbm.tileentity.TileEntityDecoSteelPoles;
 import com.hbm.tileentity.TileEntityDecoTapeRecorder;
+import com.hbm.tileentity.TileEntityFluidDuct;
 import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineMiningDrill;
@@ -408,6 +410,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOilDuct.class, new RenderOilDuct());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityGasDuct.class, new RenderGasDuct());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidDuct.class, new RenderFluidDuct());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonRedWire.class, new RenderPylon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStructureMarker.class, new RenderStructureMaker());

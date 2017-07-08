@@ -253,6 +253,7 @@ public class ModBlocks {
 	public static Block oil_duct;
 	public static Block gas_duct_solid;
 	public static Block gas_duct;
+	public static Block fluid_duct;
 
 	public static Block bomb_multi_large;
 	public static final int guiID_bomb_multi_large = 18;
@@ -420,19 +421,19 @@ public class ModBlocks {
 
 	private static void initializeBlock() {
 		
-		test_render = new TestRender(Material.rock).setBlockName("test_render").setCreativeTab(MainRegistry.tabTest);
-		test_container = new TestContainer(0).setBlockName("test_container").setCreativeTab(MainRegistry.tabTest);
-		test_bomb = new TestBomb(Material.tnt).setBlockName("test_bomb").setCreativeTab(MainRegistry.tabTest).setBlockTextureName(RefStrings.MODID + ":test_bomb");
-		test_bomb_advanced = new TestBombAdvanced(Material.tnt).setBlockName("test_bomb_advanced").setCreativeTab(MainRegistry.tabTest);
+		test_render = new TestRender(Material.rock).setBlockName("test_render").setCreativeTab(null);
+		test_container = new TestContainer(0).setBlockName("test_container").setCreativeTab(null);
+		test_bomb = new TestBomb(Material.tnt).setBlockName("test_bomb").setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":test_bomb");
+		test_bomb_advanced = new TestBombAdvanced(Material.tnt).setBlockName("test_bomb_advanced").setCreativeTab(null);
 		
-		test_nuke = new TestNuke(Material.iron).setBlockName("test_nuke").setCreativeTab(MainRegistry.tabTest).setHardness(2.5F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":test_nuke");
-		event_tester = new TestEventTester(Material.iron).setBlockName("event_tester").setCreativeTab(MainRegistry.tabTest).setHardness(2.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":event_tester");
-		rotation_tester = new TestRotationTester(Material.iron).setBlockName("rotation_tester").setCreativeTab(MainRegistry.tabTest).setHardness(2.5F).setResistance(10.0F);
-		obj_tester = new TestObjTester(Material.iron).setBlockName("obj_tester").setCreativeTab(MainRegistry.tabTest).setHardness(2.5F).setResistance(10.0F);
+		test_nuke = new TestNuke(Material.iron).setBlockName("test_nuke").setCreativeTab(null).setHardness(2.5F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":test_nuke");
+		event_tester = new TestEventTester(Material.iron).setBlockName("event_tester").setCreativeTab(null).setHardness(2.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":event_tester");
+		rotation_tester = new TestRotationTester(Material.iron).setBlockName("rotation_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
+		obj_tester = new TestObjTester(Material.iron).setBlockName("obj_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
 		
-		test_ticker = new TestTicker(Material.iron).setBlockName("test_ticker").setCreativeTab(MainRegistry.tabTest).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ticker");
+		test_ticker = new TestTicker(Material.iron).setBlockName("test_ticker").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ticker");
 		
-		test_missile = new TestMissile(Material.iron).setBlockName("test_missile").setCreativeTab(MainRegistry.tabTest).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_missile");
+		test_missile = new TestMissile(Material.iron).setBlockName("test_missile").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_missile");
 		
 		ore_uranium = new BlockGeneric(Material.rock).setBlockName("ore_uranium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
 		ore_titanium = new BlockGeneric(Material.rock).setBlockName("ore_titanium").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_titanium");
@@ -615,6 +616,7 @@ public class ModBlocks {
 		oil_duct = new BlockOilDuct(Material.iron).setBlockName("oil_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":oil_duct_icon_alt");
 		gas_duct_solid = new GasDuctSolid(Material.iron).setBlockName("gas_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":gas_duct_solid");
 		gas_duct = new BlockGasDuct(Material.iron).setBlockName("gas_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":gas_duct_icon");
+		fluid_duct = new BlockFluidDuct(Material.iron).setBlockName("fluid_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fluid_duct_icon");
 
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
@@ -932,6 +934,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(oil_duct_solid, oil_duct_solid.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_duct_solid, gas_duct_solid.getUnlocalizedName());
+		GameRegistry.registerBlock(fluid_duct, fluid_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_battery, machine_battery.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_converter_he_rf, machine_converter_he_rf.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_converter_rf_he, machine_converter_rf_he.getUnlocalizedName());
