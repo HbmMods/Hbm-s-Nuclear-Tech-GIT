@@ -60,26 +60,42 @@ public class MachineAssembler extends BlockContainer implements IMultiblock {
 			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
 			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionEast)) {
 				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionEast, ModBlocks.dummy_block_assembler);
-				
+
 				//
-				/*DummyBlockIGenerator.safeBreak = true;
-				world.setBlock(x + 2, y, z, ModBlocks.dummy_port_igenerator);
-				TileEntity te = world.getTileEntity(x + 2, y, z);
+				DummyBlockAssembler.safeBreak = true;
+				world.setBlock(x - 1, y, z, ModBlocks.dummy_port_assembler);
+				TileEntity te = world.getTileEntity(x - 1, y, z);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 3, y, z, ModBlocks.dummy_port_igenerator);
-				TileEntity te2 = world.getTileEntity(x - 3, y, z);
-				if(te instanceof TileEntityDummy) {
+				world.setBlock(x - 1, y, z + 1, ModBlocks.dummy_port_assembler);
+				TileEntity te2 = world.getTileEntity(x - 1, y, z + 1);
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				DummyBlockIGenerator.safeBreak = false;*/
+				world.setBlock(x + 2, y, z, ModBlocks.dummy_port_assembler);
+				TileEntity te3 = world.getTileEntity(x + 2, y, z);
+				if(te3 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te3;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x + 2, y, z + 1, ModBlocks.dummy_port_assembler);
+				TileEntity te4 = world.getTileEntity(x + 2, y, z + 1);
+				if(te4 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te4;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAssembler.safeBreak = false;
 				//
 				
 			} else
@@ -89,26 +105,42 @@ public class MachineAssembler extends BlockContainer implements IMultiblock {
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionSouth)) {
 				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionSouth, ModBlocks.dummy_block_assembler);
-				
+
 				//
-				/*DummyBlockIGenerator.safeBreak = true;
-				world.setBlock(x, y, z + 2, ModBlocks.dummy_port_igenerator);
-				TileEntity te = world.getTileEntity(x, y, z + 2);
+				DummyBlockAssembler.safeBreak = true;
+				world.setBlock(x, y, z - 1, ModBlocks.dummy_port_assembler);
+				TileEntity te = world.getTileEntity(x, y, z - 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x, y, z - 3, ModBlocks.dummy_port_igenerator);
-				TileEntity te2 = world.getTileEntity(x, y, z - 3);
-				if(te instanceof TileEntityDummy) {
+				world.setBlock(x - 1, y, z - 1, ModBlocks.dummy_port_assembler);
+				TileEntity te2 = world.getTileEntity(x - 1, y, z - 1);
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				DummyBlockIGenerator.safeBreak = false;*/
+				world.setBlock(x, y, z + 2, ModBlocks.dummy_port_assembler);
+				TileEntity te3 = world.getTileEntity(x, y, z + 2);
+				if(te3 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te3;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x - 1, y, z + 2, ModBlocks.dummy_port_assembler);
+				TileEntity te4 = world.getTileEntity(x - 1, y, z + 2);
+				if(te4 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te4;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAssembler.safeBreak = false;
 				//
 				
 			} else
@@ -118,26 +150,42 @@ public class MachineAssembler extends BlockContainer implements IMultiblock {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionWest)) {
 				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionWest, ModBlocks.dummy_block_assembler);
-				
+
 				//
-				/*DummyBlockIGenerator.safeBreak = true;
-				world.setBlock(x + 3, y, z, ModBlocks.dummy_port_igenerator);
-				TileEntity te = world.getTileEntity(x + 3, y, z);
+				DummyBlockAssembler.safeBreak = true;
+				world.setBlock(x + 1, y, z, ModBlocks.dummy_port_assembler);
+				TileEntity te = world.getTileEntity(x + 1, y, z);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x - 2, y, z, ModBlocks.dummy_port_igenerator);
-				TileEntity te2 = world.getTileEntity(x - 2, y, z);
-				if(te instanceof TileEntityDummy) {
+				world.setBlock(x + 1, y, z - 1, ModBlocks.dummy_port_assembler);
+				TileEntity te2 = world.getTileEntity(x + 1, y, z - 1);
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				DummyBlockIGenerator.safeBreak = false;*/
+				world.setBlock(x - 2, y, z, ModBlocks.dummy_port_assembler);
+				TileEntity te3 = world.getTileEntity(x - 2, y, z);
+				if(te3 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te3;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x - 2, y, z - 1, ModBlocks.dummy_port_assembler);
+				TileEntity te4 = world.getTileEntity(x - 2, y, z - 1);
+				if(te4 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te4;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAssembler.safeBreak = false;
 				//
 				
 			} else
@@ -147,26 +195,42 @@ public class MachineAssembler extends BlockContainer implements IMultiblock {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionNorth)) {
 				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionNorth, ModBlocks.dummy_block_assembler);
-				
+
 				//
-				/*DummyBlockIGenerator.safeBreak = true;
-				world.setBlock(x, y, z + 3, ModBlocks.dummy_port_igenerator);
-				TileEntity te = world.getTileEntity(x, y, z + 3);
+				DummyBlockAssembler.safeBreak = true;
+				world.setBlock(x, y, z + 1, ModBlocks.dummy_port_assembler);
+				TileEntity te = world.getTileEntity(x, y, z + 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				world.setBlock(x, y, z - 2, ModBlocks.dummy_port_igenerator);
-				TileEntity te2 = world.getTileEntity(x, y, z - 2);
-				if(te instanceof TileEntityDummy) {
+				world.setBlock(x + 1, y, z + 1, ModBlocks.dummy_port_assembler);
+				TileEntity te2 = world.getTileEntity(x + 1, y, z + 1);
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
 					dummy.targetZ = z;
 				}
-				DummyBlockIGenerator.safeBreak = false;*/
+				world.setBlock(x, y, z - 2, ModBlocks.dummy_port_assembler);
+				TileEntity te3 = world.getTileEntity(x, y, z - 2);
+				if(te3 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te3;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x + 1, y, z - 2, ModBlocks.dummy_port_assembler);
+				TileEntity te4 = world.getTileEntity(x + 1, y, z - 2);
+				if(te4 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te4;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAssembler.safeBreak = false;
 				//
 				
 			} else

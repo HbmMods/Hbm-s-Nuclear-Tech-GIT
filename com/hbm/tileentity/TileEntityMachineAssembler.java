@@ -242,6 +242,63 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			} else
 				progress = 0;
 			
+			int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+			TileEntity te = null;
+			if(meta == 2) {
+				te = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
+			}
+			if(meta == 3) {
+				te = worldObj.getTileEntity(xCoord + 2, yCoord, zCoord);
+			}
+			if(meta == 4) {
+				te = worldObj.getTileEntity(xCoord, yCoord, zCoord + 2);
+			}
+			if(meta == 5) {
+				te = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
+			}
+			
+			if(te != null && te instanceof TileEntityChest) {
+				TileEntityChest chest = (TileEntityChest)te;
+				
+				tryFillContainer(chest, 5);
+			}
+			
+			if(te != null && te instanceof TileEntityHopper) {
+				TileEntityHopper hopper = (TileEntityHopper)te;
+
+				tryFillContainer(hopper, 5);
+			}
+			
+			te = null;
+			if(meta == 2) {
+				te = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
+			}
+			if(meta == 3) {
+				te = worldObj.getTileEntity(xCoord - 3, yCoord, zCoord + 1);
+			}
+			if(meta == 4) {
+				te = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord - 3);
+			}
+			if(meta == 5) {
+				te = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 3);
+			}
+			
+			if(te != null && te instanceof TileEntityChest) {
+				TileEntityChest chest = (TileEntityChest)te;
+				
+				for(int i = 0; i < chest.getSizeInventory(); i++)
+					if(tryFillAssembler(chest, i))
+						break;
+			}
+			
+			if(te != null && te instanceof TileEntityHopper) {
+				TileEntityHopper hopper = (TileEntityHopper)te;
+
+				for(int i = 0; i < hopper.getSizeInventory(); i++)
+					if(tryFillAssembler(hopper, i))
+						break;
+			}
+			
 		}
 		
 	}
@@ -259,6 +316,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		return stack;
 	}
 	
+	//Unloads output into chests
 	public boolean tryFillContainer(IInventory inventory, int slot) {
 		
 		int size = inventory.getSizeInventory();
@@ -305,6 +363,79 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 				
 				inventory.setInventorySlotContents(i, sta2);
 					
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	//Loads assembler's input queue from chests
+	public boolean tryFillAssembler(IInventory inventory, int slot) {
+		
+		if(MachineRecipes.getOutputFromTempate(slots[4]) == null || MachineRecipes.getRecipeFromTempate(slots[4]) == null)
+			return false;
+		else {
+			List<ItemStack> list = MachineRecipes.getRecipeFromTempate(slots[4]);
+			
+			for(int i = 0; i < list.size(); i++)
+				list.get(i).stackSize = 1;
+
+
+			if(inventory.getStackInSlot(slot) == null)
+				return false;
+			
+			ItemStack stack = inventory.getStackInSlot(slot).copy();
+			stack.stackSize = 1;
+			
+			boolean flag = false;
+			
+			for(int i = 0; i < list.size(); i++)
+				if(ItemStack.areItemStacksEqual(stack, list.get(i)) && ItemStack.areItemStackTagsEqual(stack, list.get(i)))
+					flag = true;
+			
+			if(!flag)
+				return false;
+			
+		}
+		
+		for(int i = 6; i < 18; i++) {
+			
+			if(slots[i] != null) {
+			
+				ItemStack sta1 = inventory.getStackInSlot(slot).copy();
+				ItemStack sta2 = slots[i].copy();
+				if(sta1 != null && sta2 != null) {
+					sta1.stackSize = 1;
+					sta2.stackSize = 1;
+			
+					if(ItemStack.areItemStacksEqual(sta1, sta2) && ItemStack.areItemStackTagsEqual(sta1, sta2) && slots[i].stackSize < slots[i].getMaxStackSize()) {
+						ItemStack sta3 = inventory.getStackInSlot(slot).copy();
+						sta3.stackSize--;
+						if(sta3.stackSize <= 0)
+							sta3 = null;
+						inventory.setInventorySlotContents(slot, sta3);
+				
+						slots[i].stackSize++;
+						return true;
+					}
+				}
+			}
+		}
+		
+		for(int i = 6; i < 18; i++) {
+
+			ItemStack sta2 = inventory.getStackInSlot(slot).copy();
+			if(slots[i] == null && sta2 != null) {
+				sta2.stackSize = 1;
+				slots[i] = sta2.copy();
+				
+				ItemStack sta3 = inventory.getStackInSlot(slot).copy();
+				sta3.stackSize--;
+				if(sta3.stackSize <= 0)
+					sta3 = null;
+				inventory.setInventorySlotContents(slot, sta3);
+				
 				return true;
 			}
 		}

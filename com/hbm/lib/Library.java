@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.DummyBlockAssembler;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForGas;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
@@ -25,6 +26,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityCable;
+import com.hbm.tileentity.TileEntityDummy;
 import com.hbm.tileentity.TileEntityFluidDuct;
 import com.hbm.tileentity.TileEntityGasDuct;
 import com.hbm.tileentity.TileEntityGasDuctSolid;
@@ -283,7 +285,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_cyclotron ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_drill)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_drill ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_assembler)
 		{
 			return true;
 		}
@@ -775,6 +778,7 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 
+		//Factories
 		if(block == ModBlocks.factory_titanium_conductor && worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
 		{
 			tileentity = worldObj.getTileEntity(x, y + 1, z);
@@ -791,6 +795,7 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(x, y - 1, z);
 		}
+		//Derrick
 		if(block == ModBlocks.dummy_port_well && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_well)
 		{
 			tileentity = worldObj.getTileEntity(x + 1, y, z);
@@ -807,6 +812,7 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(x, y, z - 1);
 		}
+		//Mining Drill
 		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_drill)
 		{
 			tileentity = worldObj.getTileEntity(x + 1, y, z);
@@ -822,6 +828,11 @@ public class Library {
 		if(block == ModBlocks.dummy_port_drill && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_drill)
 		{
 			tileentity = worldObj.getTileEntity(x, y, z - 1);
+		}
+		//Assembler
+		if(block == ModBlocks.dummy_port_assembler)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
 		
 		if(tileentity instanceof IConductor)

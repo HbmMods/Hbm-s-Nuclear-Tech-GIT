@@ -226,7 +226,7 @@ tile.fwatz_plasma.name=Destabilized Antischrabidium Plasma
 container.fusionaryWatzPlant=Fusionary Watz Plant
 
 tile.machine_rtg_grey.name=RT Generator
-container.rtg=Radioisotope Thermoelectric Generator
+container.rtg=RT Generator
 tile.machine_rtg_red.name=Fulmination Generator
 tile.machine_rtg_orange.name=Strong RT Generator
 tile.machine_rtg_yellow.name=Australium Superfuel Reactor
