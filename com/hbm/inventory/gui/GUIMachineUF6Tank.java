@@ -39,10 +39,6 @@ public class GUIMachineUF6Tank extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(tank.fillState > 0)
-		{
-			int i1 = tank.getFillStateScaled(52);
-			drawTexturedModalRect(guiLeft + 80, guiTop + 69 - i1, 177, 52 - i1, 16, i1);
-		}
+		tank.tank.renderTank(this, guiLeft + 80, guiTop + 69, 177, 52, 16, 52);
 	}
 }

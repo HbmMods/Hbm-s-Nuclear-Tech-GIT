@@ -11,7 +11,9 @@ import com.hbm.items.special.ItemBattery;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEDrillPacket;
+import com.hbm.packet.TEIGeneratorPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +39,10 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	public static final int maxPower = 100000;
 	public int progress;
 	public int maxProgress = 100;
+	public float rotation = 0;
 	int age = 0;
+	int consumption = 100;
+	int speed = 100;
 	
 	Random rand = new Random();
 	
@@ -211,18 +216,62 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	
 	@Override
 	public void updateEntity() {
+
+		this.consumption = 100;
+		this.speed = 100;
+		
+		for(int i = 1; i < 4; i++) {
+			ItemStack stack = slots[i];
+			
+			if(stack != null) {
+				if(stack.getItem() == ModItems.upgrade_speed_1) {
+					this.speed -= 25;
+					this.consumption += 300;
+				}
+				if(stack.getItem() == ModItems.upgrade_speed_2) {
+					this.speed -= 50;
+					this.consumption += 600;
+				}
+				if(stack.getItem() == ModItems.upgrade_speed_3) {
+					this.speed -= 75;
+					this.consumption += 900;
+				}
+				if(stack.getItem() == ModItems.upgrade_power_1) {
+					this.consumption -= 30;
+					this.speed += 5;
+				}
+				if(stack.getItem() == ModItems.upgrade_power_2) {
+					this.consumption -= 60;
+					this.speed += 10;
+				}
+				if(stack.getItem() == ModItems.upgrade_power_3) {
+					this.consumption -= 90;
+					this.speed += 15;
+				}
+			}
+		}
+		
+		if(speed < 25)
+			speed = 25;
+		if(consumption < 10)
+			consumption = 10;
 		
 		if(!worldObj.isRemote) {
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(MachineRecipes.getOutputFromTempate(slots[4]) != null && MachineRecipes.getRecipeFromTempate(slots[4]) != null) {
-				this.maxProgress = ItemAssemblyTemplate.getProcessTime(slots[4]);
+				this.maxProgress = (ItemAssemblyTemplate.getProcessTime(slots[4]) * speed) / 100;
 				
-				if(power >= 100 && removeItems(MachineRecipes.getRecipeFromTempate(slots[4]), cloneItemStackProper(slots))) {
+				if(power >= consumption && removeItems(MachineRecipes.getRecipeFromTempate(slots[4]), cloneItemStackProper(slots))) {
 					
 					if(slots[5] == null || (slots[5] != null && slots[5].getItem() == MachineRecipes.getOutputFromTempate(slots[4]).copy().getItem()) && slots[5].stackSize + MachineRecipes.getOutputFromTempate(slots[4]).copy().stackSize <= slots[5].getMaxStackSize()) {
 						progress++;
+						
+						rotation += 5;
+						
+						if(rotation >= 360)
+							rotation -= 360;
 						
 						if(progress >= maxProgress) {
 							progress = 0;
@@ -235,7 +284,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 							removeItems(MachineRecipes.getRecipeFromTempate(slots[4]), slots);
 						}
 						
-						power -= 100;
+						power -= consumption;
 					}
 				} else
 					progress = 0;
@@ -298,7 +347,8 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					if(tryFillAssembler(hopper, i))
 						break;
 			}
-			
+
+			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, rotation));
 		}
 		
 	}

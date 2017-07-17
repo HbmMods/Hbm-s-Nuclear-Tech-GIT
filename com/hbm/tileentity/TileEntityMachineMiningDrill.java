@@ -17,11 +17,14 @@ import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDrillPacket;
+import com.hbm.packet.TEDrillSoundPacket;
 import com.hbm.packet.TEIGeneratorPacket;
+import com.hbm.sound.SoundLoopMachine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -33,6 +36,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -51,6 +55,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	boolean flag = true;
 	public float torque;
 	public float rotation;
+	//SoundLoopMachine sound;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -454,8 +459,23 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 				rotation -= 360;
 
 			PacketDispatcher.wrapper.sendToAll(new TEDrillPacket(xCoord, yCoord, zCoord, rotation));
+			PacketDispatcher.wrapper.sendToAll(new TEDrillSoundPacket(xCoord, yCoord, zCoord, torque));
 		}
 		
+		/*if(worldObj.isRemote) {
+			if(torque > 0) {
+				if(sound == null) {
+					sound = new SoundLoopMachine(new ResourceLocation("hbm:block.minerOperate"), this);
+					sound.setVolume(2.5F);
+					Minecraft.getMinecraft().getSoundHandler().playSound(sound);
+				}
+			} else {
+				if(sound != null) {
+					sound.stop();
+					sound = null;
+				}
+			}
+		}*/
 	}
 	
 	public boolean tryFillContainer(IInventory inventory, int slot) {

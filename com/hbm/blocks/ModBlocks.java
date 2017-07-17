@@ -357,23 +357,6 @@ public class ModBlocks {
 	public static final int guiID_machine_assembler = 48;
 
 	public static Block launch_pad;
-	public static Block launch_pad_generic;
-	public static Block launch_pad_incendiary;
-	public static Block launch_pad_cluster;
-	public static Block launch_pad_buster;
-	public static Block launch_pad_strong;
-	public static Block launch_pad_incendiary_strong;
-	public static Block launch_pad_cluster_strong;
-	public static Block launch_pad_buster_strong;
-	public static Block launch_pad_burst;
-	public static Block launch_pad_inferno;
-	public static Block launch_pad_rain;
-	public static Block launch_pad_drill;
-	public static Block launch_pad_nuclear;
-	public static Block launch_pad_endo;
-	public static Block launch_pad_exo;
-	public static Block launch_pad_mirv;
-	public static Block launch_pad_anti;
 	public static final int guiID_launch_pad = 19;
 
 	public static Block book_guide;
@@ -668,23 +651,6 @@ public class ModBlocks {
 		marker_structure = new BlockMarker(Material.iron).setBlockName("marker_structure").setHardness(0.0F).setResistance(0.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":marker_structure");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_generic = new LaunchPad(Material.iron).setBlockName("launch_pad_generic").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_incendiary = new LaunchPad(Material.iron).setBlockName("launch_pad_incendiary").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_cluster = new LaunchPad(Material.iron).setBlockName("launch_pad_cluster").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_buster = new LaunchPad(Material.iron).setBlockName("launch_pad_buster").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_incendiary_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_incendiary_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_cluster_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_cluster_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_buster_strong = new LaunchPad(Material.iron).setBlockName("launch_pad_buster_strong").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_burst = new LaunchPad(Material.iron).setBlockName("launch_pad_burst").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_inferno = new LaunchPad(Material.iron).setBlockName("launch_pad_inferno").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_rain = new LaunchPad(Material.iron).setBlockName("launch_pad_rain").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_drill = new LaunchPad(Material.iron).setBlockName("launch_pad_drill").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_nuclear = new LaunchPad(Material.iron).setBlockName("launch_pad_nuclear").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_endo = new LaunchPad(Material.iron).setBlockName("launch_pad_endo").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_exo = new LaunchPad(Material.iron).setBlockName("launch_pad_exo").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_mirv = new LaunchPad(Material.iron).setBlockName("launch_pad_mirv").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
-		launch_pad_anti = new LaunchPad(Material.iron).setBlockName("launch_pad_anti").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
 		
@@ -1001,23 +967,6 @@ public class ModBlocks {
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_generic, launch_pad_generic.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_incendiary, launch_pad_incendiary.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_cluster, launch_pad_cluster.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_buster, launch_pad_buster.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_strong, launch_pad_strong.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_incendiary_strong, launch_pad_incendiary_strong.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_cluster_strong, launch_pad_cluster_strong.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_buster_strong, launch_pad_buster_strong.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_burst, launch_pad_burst.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_inferno, launch_pad_inferno.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_rain, launch_pad_rain.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_drill, launch_pad_drill.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_nuclear, launch_pad_nuclear.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_endo, launch_pad_endo.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_exo, launch_pad_exo.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_mirv, launch_pad_mirv.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_anti, launch_pad_anti.getUnlocalizedName());
 		
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());

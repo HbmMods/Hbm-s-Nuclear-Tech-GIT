@@ -5,6 +5,9 @@ import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TEFluidPipePacket;
+import com.hbm.packet.TEMissilePacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,12 +31,10 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {2};
 	private static final int[] slots_side = new int[] {1};
+	public int state = 0;
 	
 	public int targetX = this.xCoord + 50;
 	public int targetZ = this.zCoord;
-	
-	public int state = 0;
-	public int preState = 0;
 	
 	private String customName;
 	
@@ -139,7 +140,6 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		power = nbt.getInteger("power");
-		state = nbt.getShort("state");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -158,7 +158,6 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
 		nbt.setInteger("power", power);
-		nbt.setShort("state", (short) state);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -199,193 +198,44 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 		
 		power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 		
-		this.preState = this.state;
+		ItemStack stack = slots[0];
 		
-		if(this.slots[0] == null || 
-				(this.slots[0] != null && 
-				(this.slots[0].getItem() != ModItems.missile_generic && 
-				this.slots[0].getItem() != ModItems.missile_strong && 
-				this.slots[0].getItem() != ModItems.missile_cluster && 
-				this.slots[0].getItem() != ModItems.missile_nuclear && 
-				this.slots[0].getItem() != ModItems.missile_incendiary && 
-				this.slots[0].getItem() != ModItems.missile_buster && 
-				this.slots[0].getItem() != ModItems.missile_incendiary_strong && 
-				this.slots[0].getItem() != ModItems.missile_cluster_strong && 
-				this.slots[0].getItem() != ModItems.missile_buster_strong && 
-				this.slots[0].getItem() != ModItems.missile_burst && 
-				this.slots[0].getItem() != ModItems.missile_inferno && 
-				this.slots[0].getItem() != ModItems.missile_rain && 
-				this.slots[0].getItem() != ModItems.missile_drill && 
-				this.slots[0].getItem() != ModItems.missile_endo && 
-				this.slots[0].getItem() != ModItems.missile_exo && 
-				this.slots[0].getItem() != ModItems.missile_nuclear_cluster)))
-		{
-			this.state = 0;
+		if(stack != null) {
+			if(stack.getItem() == ModItems.missile_generic)
+				state = 1;
+			if(stack.getItem() == ModItems.missile_strong)
+				state = 2;
+			if(stack.getItem() == ModItems.missile_cluster)
+				state = 3;
+			if(stack.getItem() == ModItems.missile_nuclear)
+				state = 4;
+			if(stack.getItem() == ModItems.missile_incendiary)
+				state = 5;
+			if(stack.getItem() == ModItems.missile_buster)
+				state = 6;
+			if(stack.getItem() == ModItems.missile_incendiary_strong)
+				state = 7;
+			if(stack.getItem() == ModItems.missile_cluster_strong)
+				state = 8;
+			if(stack.getItem() == ModItems.missile_buster_strong)
+				state = 9;
+			if(stack.getItem() == ModItems.missile_burst)
+				state = 10;
+			if(stack.getItem() == ModItems.missile_inferno)
+				state = 11;
+			if(stack.getItem() == ModItems.missile_rain)
+				state = 12;
+			if(stack.getItem() == ModItems.missile_drill)
+				state = 13;
+			if(stack.getItem() == ModItems.missile_endo)
+				state = 14;
+			if(stack.getItem() == ModItems.missile_exo)
+				state = 15;
+			if(stack.getItem() == ModItems.missile_nuclear_cluster)
+				state = 16;
 			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_generic)
-		{
-			this.state = 1;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_strong)
-		{
-			this.state = 2;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_cluster)
-		{
-			this.state = 3;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_nuclear)
-		{
-			this.state = 4;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_incendiary)
-		{
-			this.state = 5;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_buster)
-		{
-			this.state = 6;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_incendiary_strong)
-		{
-			this.state = 7;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_cluster_strong)
-		{
-			this.state = 8;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_buster_strong)
-		{
-			this.state = 9;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_burst)
-		{
-			this.state = 10;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_inferno)
-		{
-			this.state = 11;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_rain)
-		{
-			this.state = 12;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_drill)
-		{
-			this.state = 13;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_endo)
-		{
-			this.state = 14;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_exo)
-		{
-			this.state = 15;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
-		}
-		
-		if(this.slots[0] != null && this.slots[0].getItem() == ModItems.missile_nuclear_cluster)
-		{
-			this.state = 16;
-			
-			if(this.state != this.preState)
-			{
-				LaunchPad.updateBlockState(this.state, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-			}
+			if(!worldObj.isRemote)
+				PacketDispatcher.wrapper.sendToAll(new TEMissilePacket(xCoord, yCoord, zCoord, state));
 		}
 	}
 	

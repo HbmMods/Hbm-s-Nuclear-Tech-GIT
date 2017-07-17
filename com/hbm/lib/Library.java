@@ -773,7 +773,7 @@ public class Library {
 	}
 	
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
-	//Flood fill controlle energy transmission algorithm
+	//Flood fill controlled energy transmission algorithm
 	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);

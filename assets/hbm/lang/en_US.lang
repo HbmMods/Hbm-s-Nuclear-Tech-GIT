@@ -1,7 +1,8 @@
 itemGroup.tabTest=Nuclear Tech Mod Test Tab
-itemGroup.tabParts=Nuclear Tech Mod Parts
-itemGroup.tabBlocks=Nuclear Tech Mod Blocks
-itemGroup.tabNuke=Nuclear Tech Mod Nukes
+itemGroup.tabParts=NTM Resources and Parts
+itemGroup.tabBlocks=NTM Blocks and Machines
+itemGroup.tabNuke=NTM Bombs and Gear
+itemGroup.tabMachine=NTM Templates
 
 achievement.getTitanium=It's A Start
 achievement.getTitanium.desc=Collect titanium ore

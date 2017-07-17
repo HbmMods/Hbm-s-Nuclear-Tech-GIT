@@ -27,8 +27,9 @@ public class ItemAntiCheat extends ItemCustomLore {
         			player.inventory.consumeInventoryItem(ModItems.nugget_euphemium);
         		}
         	}
-        	
-        	entity.attackEntityFrom(ModDamageSource.cheater, Float.POSITIVE_INFINITY);
+
+        	//entity.attackEntityFrom(ModDamageSource.cheater, Float.POSITIVE_INFINITY);
+        	entity.attackEntityFrom(ModDamageSource.cheater, 10000);
         	
         	//if(!world.isRemote)
         	//	ExplosionChaos.antiCheat(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ, 20);

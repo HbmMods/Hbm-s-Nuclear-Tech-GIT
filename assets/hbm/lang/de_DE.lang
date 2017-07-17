@@ -1,7 +1,8 @@
 itemGroup.tabTest=Nuclear Tech Mod Test Tab
-itemGroup.tabParts=Nuclear Tech Mod Bauteile
-itemGroup.tabBlocks=Nuclear Tech Mod Blöcke
-itemGroup.tabNuke=Nuclear Tech Mod Bomben
+itemGroup.tabParts=NTM Ressourcen und Bauteile
+itemGroup.tabBlocks=NTM Blöcke und Maschinen
+itemGroup.tabNuke=NTM Bomben und Ausrüstung
+itemGroup.tabMachine=NTM Vorlagen
 
 achievement.getTitanium=Es ist ein Anfang
 achievement.getTitanium.desc=Finde etwas Titanerz

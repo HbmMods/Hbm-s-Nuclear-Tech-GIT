@@ -111,8 +111,11 @@ import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.entity.projectile.EntityShrapnel;
 import com.hbm.entity.projectile.EntitySparkBeam;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.FuelHandler;
 import com.hbm.handler.GUIHandler;
+import com.hbm.inventory.FluidContainer;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.MachineRecipes.ShredderRecipe;
 import com.hbm.items.ModItems;
@@ -784,6 +787,19 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		
 		recipes.PrintRecipes();
+
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_oil), new ItemStack(ModItems.canister_empty), FluidType.LAVA, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_deuterium), new ItemStack(ModItems.cell_empty), FluidType.DEUTERIUM, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_tritium), new ItemStack(ModItems.cell_empty), FluidType.TRITIUM, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_uf6), new ItemStack(ModItems.cell_empty), FluidType.UF6, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_puf6), new ItemStack(ModItems.cell_empty), FluidType.PUF6, 1000));
+
+		/*System.out.println(FluidContainerRegistry.getEmptyContainer(new ItemStack(ModItems.cell_deuterium))); //cell_empty
+		System.out.println(FluidContainerRegistry.getEmptyContainer(new ItemStack(ModItems.board_copper))); //null
+		System.out.println(FluidContainerRegistry.getFluidContent(new ItemStack(ModItems.cell_deuterium), FluidType.DEUTERIUM)); //1000
+		System.out.println(FluidContainerRegistry.getFluidContent(new ItemStack(ModItems.cell_deuterium), FluidType.WATER)); //0
+		System.out.println(FluidContainerRegistry.containsFluid(new ItemStack(ModItems.cell_deuterium), FluidType.DEUTERIUM)); //true
+		System.out.println(FluidContainerRegistry.containsFluid(new ItemStack(ModItems.cell_deuterium), FluidType.WATER)); //false*/
 	}
 	
 	@EventHandler

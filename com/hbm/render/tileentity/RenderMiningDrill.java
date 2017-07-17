@@ -25,7 +25,7 @@ public class RenderMiningDrill extends TileEntitySpecialRenderer {
 	public RenderMiningDrill()
     {
 		bodyModel = AdvancedModelLoader.loadModel(body);
-		bodyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		bodyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/mining_drill.png");
 		boltModel = AdvancedModelLoader.loadModel(bolt);
 		boltTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
     }

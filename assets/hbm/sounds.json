@@ -6,6 +6,7 @@
 
 	"block.crateBreak": {"category": "block", "sounds": ["block/crateBreak1", "block/crateBreak2", "block/crateBreak3", "block/crateBreak4", "block/crateBreak5"]},
 	"block.shutdown": {"category": "block", "sounds": [{"name": "block/shutdown", "stream": false}]},
+    "block.minerOperate": {"category": "block", "sounds": [{"name": "block/minerOperate", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
 	"item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

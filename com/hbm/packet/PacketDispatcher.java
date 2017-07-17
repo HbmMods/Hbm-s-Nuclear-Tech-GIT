@@ -13,18 +13,28 @@ public class PacketDispatcher {
 
 	public static final void registerPackets()
 	{
+		int i = 0;
+		
 		//Packet sent for every connected electricity pole, for wire rendering
-		wrapper.registerMessage(TEPylonSenderPacket.Handler.class, TEPylonSenderPacket.class, 0, Side.CLIENT);
+		wrapper.registerMessage(TEPylonSenderPacket.Handler.class, TEPylonSenderPacket.class, i++, Side.CLIENT);
 		//Resets connection list in client-sided pole rendering
-		wrapper.registerMessage(TEPylonDestructorPacket.Handler.class, TEPylonDestructorPacket.class, 1, Side.CLIENT);
+		wrapper.registerMessage(TEPylonDestructorPacket.Handler.class, TEPylonDestructorPacket.class, i++, Side.CLIENT);
 		//Flywheel rotation for industrial generator rendering
-		wrapper.registerMessage(TEIGeneratorPacket.Handler.class, TEIGeneratorPacket.class, 2, Side.CLIENT);
+		wrapper.registerMessage(TEIGeneratorPacket.Handler.class, TEIGeneratorPacket.class, i++, Side.CLIENT);
 		//Machine type for marker rendering
-		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, 3, Side.CLIENT);
-		//Mingin drill rotation for rendering
-		wrapper.registerMessage(TEDrillPacket.Handler.class, TEDrillPacket.class, 4, Side.CLIENT);
+		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, i++, Side.CLIENT);
+		//Mining drill rotation for rendering
+		wrapper.registerMessage(TEDrillPacket.Handler.class, TEDrillPacket.class, i++, Side.CLIENT);
+		//Mining drill torque for sounds
+		wrapper.registerMessage(TEDrillSoundPacket.Handler.class, TEDrillSoundPacket.class, i++, Side.CLIENT);
+		//Assembler cog rotation for rendering
+		wrapper.registerMessage(TEAssemblerPacket.Handler.class, TEAssemblerPacket.class, i++, Side.CLIENT);
 		//Fluid type for pipe rendering
-		wrapper.registerMessage(TEFluidPipePacket.Handler.class, TEFluidPipePacket.class, 5, Side.CLIENT);
+		wrapper.registerMessage(TEFluidPipePacket.Handler.class, TEFluidPipePacket.class, i++, Side.CLIENT);
+		//Missile type for rendering
+		wrapper.registerMessage(TEMissilePacket.Handler.class, TEMissilePacket.class, i++, Side.CLIENT);
+		//Fluid packet for GUI
+		wrapper.registerMessage(TEFluidPacket.Handler.class, TEFluidPacket.class, i++, Side.CLIENT);
 	}
 	
 }
