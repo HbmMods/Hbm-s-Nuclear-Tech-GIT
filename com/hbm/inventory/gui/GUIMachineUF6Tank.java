@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineUF6Tank extends GuiContainer {
+public class GUIMachineUF6Tank extends GuiFluidContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/uf6Tank.png");
 	private TileEntityMachineUF6Tank tank;
@@ -23,6 +23,13 @@ public class GUIMachineUF6Tank extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		tank.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 16, 52);
 	}
 
 	@Override

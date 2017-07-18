@@ -18,7 +18,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	private ItemStack slots[];
 	
 	public int fillState;
-	public static final int maxFill = 64 * 3;
+	public static final int maxFill = 64000;
 
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {1, 3};
@@ -228,7 +228,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 					slots[0] = null;
 				}
 				
-				this.fillState++;
+				this.fillState += 1000;
 				
 				if(slots[1] != null)
 				{
@@ -247,8 +247,8 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 				{
 					slots[2] = null;
 				}
-				
-				this.fillState--;
+
+				this.fillState -= 1000;
 				
 				if(slots[3] != null)
 				{

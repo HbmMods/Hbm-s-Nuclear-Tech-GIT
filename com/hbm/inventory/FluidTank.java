@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.Arrays;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.gui.GuiFluidContainer;
 import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
@@ -94,6 +95,16 @@ public class FluidTank {
 		
 		int i = (fluid * height) / maxFluid;
 		gui.drawTexturedModalRect(x, y - i, tx, ty - i, width, i);
+	}
+
+	public void renderTankInfo(GuiContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
+		if(gui instanceof GuiFluidContainer)
+			renderTankInfo((GuiFluidContainer)gui, mouseX, mouseY, x, y, width, height);
+	}
+	
+	public void renderTankInfo(GuiFluidContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
+		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
+			gui.drawFluidInfo(new String[] { this.type.getName(), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
 	}
 
 	//Called by TE to save fillstate

@@ -48,22 +48,23 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.neutron_reflector, 2);
 		}
 
-		if (item == ModItems.ingot_lead && item2 == ModItems.ingot_copper
-				|| item == ModItems.ingot_copper && item2 == ModItems.ingot_lead) {
-			return new ItemStack(ModItems.neutron_reflector, 2);
+		if (mODE(item, new String[] {"ingotLead", "dustLead"}) && mODE(item2, new String[] {"ingotCopper", "dustCopper"})
+				|| mODE(item, new String[] {"ingotCopper", "dustCopper"}) && mODE(item2, new String[] {"ingotLead", "dustLead"})) {
+			return new ItemStack(ModItems.neutron_reflector, 4);
 		}
 
-		if (item == ModItems.plate_lead && item2 == ModItems.plate_copper
-				|| item == ModItems.plate_copper && item2 == ModItems.plate_lead) {
+		if (mODE(item, "plateLead") && mODE(item2, "plateCopper")
+				|| mODE(item, "plateCopper") && mODE(item2, "plateLead")) {
 			return new ItemStack(ModItems.neutron_reflector, 1);
 		}
 
-		if (item == Items.iron_ingot && item2 == Items.coal || item == Items.coal && item2 == Items.iron_ingot) {
+		if (mODE(item, new String[] {"ingotIron", "dustIron"}) && mODE(item2, new String[] {"gemCoal", "dustCoal"})
+				|| mODE(item, new String[] {"gemCoal", "dustCoal"}) && mODE(item2, new String[] {"ingotIron", "dustIron"})) {
 			return new ItemStack(ModItems.ingot_steel, 2);
 		}
 
-		if (item == ModItems.ingot_copper && item2 == Items.redstone
-				|| item == Items.redstone && item2 == ModItems.ingot_copper) {
+		if (mODE(item, new String[] {"ingotCopper", "dustCopper"}) && item2 == Items.redstone
+				|| item == Items.redstone && mODE(item2, new String[] {"ingotCopper", "dustCopper"})) {
 			return new ItemStack(ModItems.ingot_red_copper, 2);
 		}
 
@@ -72,18 +73,18 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.canister_napalm, 1);
 		}
 
-		if (item == ModItems.ingot_red_copper && item2 == ModItems.ingot_steel
-				|| item == ModItems.ingot_steel && item2 == ModItems.ingot_red_copper) {
+		if (mODE(item, new String[] {"ingotRedstoneAlloy", "dustRedstoneAlloy"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})
+				|| mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotRedstoneAlloy", "dustRedstoneAlloy"})) {
 			return new ItemStack(ModItems.ingot_advanced_alloy, 2);
 		}
 
-		if (item == ModItems.ingot_tungsten && item2 == ModItems.nugget_schrabidium
-				|| item == ModItems.nugget_schrabidium && item2 == ModItems.ingot_tungsten) {
+		if (mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, "nuggetSchrabidium")
+				|| mODE(item, "nuggetSchrabidium") && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})) {
 			return new ItemStack(ModItems.ingot_magnetized_tungsten, 1);
 		}
 
-		if (item == ModItems.plate_mixed && item2 == ModItems.plate_gold
-				|| item == ModItems.plate_gold && item2 == ModItems.plate_mixed) {
+		if (item == ModItems.plate_mixed && mODE(item2, "plateGold")
+				|| mODE(item, "plateGold") && item2 == ModItems.plate_mixed) {
 			return new ItemStack(ModItems.plate_paa, 2);
 		}
 
@@ -107,23 +108,18 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.nugget_euphemium, 2, 34);
 		}
 
-		if (item == ModItems.oil_canola && item2 == ModItems.canister_empty
-				|| item == ModItems.canister_empty && item2 == ModItems.oil_canola) {
-			return new ItemStack(ModItems.canister_canola);
-		}
-
-		if (item == Items.coal && item2 == ModItems.niter
-				|| item == ModItems.niter && item2 == Items.coal) {
+		if (mODE(item, new String[] {"gemCoal", "dustCoal"}) && mODE(item2, "dustSalpeter")
+				|| mODE(item, "dustSalpeter") && mODE(item2, new String[] {"gemCoal", "dustCoal"})) {
 			return new ItemStack(ModItems.ingot_polymer, 2);
 		}
 
-		if (item == ModItems.ingot_steel && item2 == ModItems.ingot_tungsten
-				|| item == ModItems.ingot_tungsten && item2 == ModItems.ingot_steel) {
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotTungsten", "dustTungsten"})
+				|| mODE(item, new String[] {"ingotTungsten", "dustTungsten"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
-		if (item == ModItems.ingot_steel && item2 == ModItems.powder_cobalt
-				|| item == ModItems.powder_cobalt && item2 == ModItems.ingot_steel) {
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2 == ModItems.powder_cobalt
+				|| item == ModItems.powder_cobalt && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
@@ -599,42 +595,39 @@ public class MachineRecipes {
 
 	public Map<Object[], Object> getAlloyRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
+		
 		if (MainRegistry.enableDebugMode) {
 			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.quartz) },
 					new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)));
 		}
-		recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.coal) },
-				new ItemStack(ModItems.ingot_steel, 2));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper) },
-				new ItemStack(ModItems.neutron_reflector, 2));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper) },
-				new ItemStack(ModItems.neutron_reflector));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal) },
-				new ItemStack(ModItems.neutron_reflector, 2));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone) },
-				new ItemStack(ModItems.ingot_red_copper, 2));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
-				new ItemStack(ModItems.ingot_advanced_alloy, 2));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball) },
-				new ItemStack(ModItems.canister_napalm, 1));
-		recipes.put(
-				new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
-				new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
-		recipes.put(
-				new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
-				new ItemStack(ModItems.plate_paa, 2));
-		recipes.put(
-				new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(ModItems.oil_canola) },
-				new ItemStack(ModItems.canister_canola, 1));
-		recipes.put(
-				new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten) },
-				new ItemStack(ModItems.ingot_dura_steel, 2));
-		recipes.put(
-				new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
-				new ItemStack(ModItems.ingot_dura_steel, 2));
-		recipes.put(
-				new ItemStack[] { new ItemStack(Items.coal), new ItemStack(ModItems.niter) },
-				new ItemStack(ModItems.ingot_polymer, 2));
+		try {
+			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.coal) },
+				getFurnaceOutput(Items.iron_ingot, Items.coal).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper) },
+					getFurnaceOutput(ModItems.ingot_lead, ModItems.ingot_copper).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper) },
+					getFurnaceOutput(ModItems.plate_lead, ModItems.plate_copper).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal) },
+					getFurnaceOutput(ModItems.ingot_tungsten, Items.coal).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone) },
+					getFurnaceOutput(ModItems.ingot_copper, Items.redstone).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
+					getFurnaceOutput(ModItems.ingot_red_copper, ModItems.ingot_steel).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball) },
+					getFurnaceOutput(ModItems.canister_fuel, Items.slime_ball).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
+					getFurnaceOutput(ModItems.ingot_tungsten, ModItems.nugget_schrabidium).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
+					getFurnaceOutput(ModItems.plate_mixed, ModItems.plate_gold).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten) },
+					getFurnaceOutput(ModItems.ingot_steel, ModItems.ingot_tungsten).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
+					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_cobalt).copy());
+			recipes.put(new ItemStack[] { new ItemStack(Items.coal), new ItemStack(ModItems.niter) },
+					getFurnaceOutput(Items.coal, ModItems.niter).copy());
+		} catch (Exception x) {
+			System.out.println("Unable to register alloy recipes for NEI!");
+		}
 		return recipes;
 	}
 
