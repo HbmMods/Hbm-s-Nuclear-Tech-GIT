@@ -15,6 +15,7 @@ import com.hbm.interfaces.IOilSource;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDrillPacket;
 import com.hbm.packet.TEDrillSoundPacket;
@@ -460,6 +461,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 
 			PacketDispatcher.wrapper.sendToAll(new TEDrillPacket(xCoord, yCoord, zCoord, rotation));
 			PacketDispatcher.wrapper.sendToAll(new TEDrillSoundPacket(xCoord, yCoord, zCoord, torque));
+			//PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
 		
 		/*if(worldObj.isRemote) {
@@ -476,6 +478,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 				}
 			}
 		}*/
+
 	}
 	
 	public boolean tryFillContainer(IInventory inventory, int slot) {

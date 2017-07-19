@@ -7,6 +7,20 @@ itemGroup.tabMachine=NTM Templates
 achievement.getTitanium=It's A Start
 achievement.getTitanium.desc=Collect titanium ore
 
+hbmfluid.none=None
+hbmfluid.water=Water
+hbmfluid.lava=Lava
+hbmfluid.uf6=Uranium Hexafluoride
+hbmfluid.puf6=Plutonium Hexafluoride
+hbmfluid.deuterium=Deuterium
+hbmfluid.tritium=Tritium
+hbmfluid.oil=Crude Oil
+hbmfluid.smear=Industrial Oil
+hbmfluid.lubricant=Engine Lubricant
+hbmfluid.diesel=Diesel
+hbmfluid.kerosene=Kerosene
+hbmfluid.gas=Natural Gas
+
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
 item.record.vc.desc=Valve - Vortal Combat

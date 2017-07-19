@@ -74,7 +74,7 @@ public class ItemFluidIdentifier extends Item {
     		return;
     	
     	list.add("Universal fluid identifier for:");
-    	list.add("   " + FluidType.getEnum(stack.getItemDamage()).getName());
+    	list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
 	}
 	
 	@Override

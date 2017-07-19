@@ -10,6 +10,7 @@ import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEFluidPacket;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -104,7 +105,7 @@ public class FluidTank {
 	
 	public void renderTankInfo(GuiFluidContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
-			gui.drawFluidInfo(new String[] { this.type.getName(), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
+			gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
 	}
 
 	//Called by TE to save fillstate
