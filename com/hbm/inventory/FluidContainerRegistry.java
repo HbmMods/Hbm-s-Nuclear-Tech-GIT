@@ -41,7 +41,9 @@ public class FluidContainerRegistry {
 		sta.stackSize = 1;
 		
 		for(FluidContainer container : instance.allContainers) {
-			if(container.type.name().equals(type.name()) && getEmptyContainer(sta) != null)
+			if(container.type.name().equals(type.name()) &&
+					ItemStack.areItemStacksEqual(container.fullContainer, sta) &&
+					ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.content;
 		}
 		

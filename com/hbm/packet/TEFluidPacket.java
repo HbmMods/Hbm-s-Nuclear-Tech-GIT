@@ -1,8 +1,10 @@
 package com.hbm.packet;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.tileentity.TileEntityMachineAssembler;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
@@ -23,19 +25,21 @@ public class TEFluidPacket implements IMessage {
 	int z;
 	int fill;
 	int index;
+	int type;
 
 	public TEFluidPacket()
 	{
 		
 	}
 
-	public TEFluidPacket(int x, int y, int z, int fill, int index)
+	public TEFluidPacket(int x, int y, int z, int fill, int index, FluidType type)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.fill = fill;
 		this.index = index;
+		this.type = Arrays.asList(FluidType.values()).indexOf(type);
 	}
 
 	@Override
@@ -45,6 +49,7 @@ public class TEFluidPacket implements IMessage {
 		z = buf.readInt();
 		fill = buf.readInt();
 		index = buf.readInt();
+		type = buf.readInt();
 	}
 
 	@Override
@@ -54,6 +59,7 @@ public class TEFluidPacket implements IMessage {
 		buf.writeInt(z);
 		buf.writeInt(fill);
 		buf.writeInt(index);
+		buf.writeInt(type);
 	}
 
 	public static class Handler implements IMessageHandler<TEFluidPacket, IMessage> {
@@ -66,6 +72,7 @@ public class TEFluidPacket implements IMessage {
 					
 				IFluidContainer gen = (IFluidContainer) te;
 				gen.setFillstate(m.fill, m.index);
+				gen.setType(FluidType.getEnum(m.type), m.index);
 			}
 			return null;
 		}

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiFluidContainer;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEFluidPacket;
@@ -33,10 +34,14 @@ public class FluidTank {
 		fluid = i;
 	}
 	
+	public void setTankType(FluidType type) {
+		this.type = type;
+	}
+	
 	//Called on TE update
 	public void updateTank(int x, int y, int z) {
 
-		PacketDispatcher.wrapper.sendToAll(new TEFluidPacket(x, y, z, fluid, index));
+		PacketDispatcher.wrapper.sendToAll(new TEFluidPacket(x, y, z, fluid, index, type));
 	}
 	
 	//Fills tank from canisters
@@ -87,6 +92,20 @@ public class FluidTank {
 				if(slots[in].stackSize <= 0)
 					slots[in] = null;
 				slots[out].stackSize++;
+			}
+		}
+	}
+	
+	//Changes tank type
+	public void setType(int in, int out, ItemStack[] slots) {
+		
+		if(slots[in] != null && slots[out] == null && slots[in].getItem() instanceof ItemFluidIdentifier) {
+			FluidType newType = ItemFluidIdentifier.getType(slots[in].copy());
+			if(!type.name().equals(newType.name())) {
+				type = newType;
+				slots[out] = slots[in].copy();
+				slots[in] = null;
+				fluid = 0;
 			}
 		}
 	}

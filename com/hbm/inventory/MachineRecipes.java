@@ -2023,8 +2023,9 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.ingot_steel, 6));
 			list.add(new ItemStack(ModItems.plate_lead, 8));
 			list.add(new ItemStack(ModItems.plate_copper, 4));
-			list.add(new ItemStack(ModItems.rod_lead, 12));
+			list.add(new ItemStack(ModItems.ingot_lead, 12));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 6));
+			list.add(new ItemStack(ModItems.circuit_copper, 8));
 			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
 			break;
 		case INDUSTRIAL_GENERATOR:
@@ -2036,6 +2037,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.wire_gold, 8));
 			list.add(new ItemStack(ModBlocks.red_wire_coated, 2));
 			list.add(new ItemStack(ModItems.pedestal_steel, 2));
+			list.add(new ItemStack(ModItems.circuit_copper, 4));
 			break;
 		case CYCLOTRON:
 			list.add(new ItemStack(ModItems.cyclotron_tower, 1));
@@ -2076,7 +2078,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_steel, 4));
 			list.add(new ItemStack(ModItems.motor, 2));
 			list.add(new ItemStack(ModItems.wire_red_copper, 2));
-			list.add(new ItemStack(ModBlocks.steel_poles, 2));
+			list.add(new ItemStack(ModBlocks.steel_beam, 2));
 			list.add(new ItemStack(Blocks.iron_bars, 2));
 			list.add(new ItemStack(ModBlocks.red_wire_coated, 1));
 			break;
@@ -2089,7 +2091,7 @@ public class MachineRecipes {
 			break;
 		case DERRICK:
 			list.add(new ItemStack(ModBlocks.steel_scaffold, 20));
-			list.add(new ItemStack(ModBlocks.steel_poles, 8));
+			list.add(new ItemStack(ModBlocks.steel_beam, 8));
 			list.add(new ItemStack(ModItems.tank_steel, 2));
 			list.add(new ItemStack(ModItems.motor, 1));
 			list.add(new ItemStack(ModItems.pipes_steel, 3));
@@ -2460,5 +2462,42 @@ public class MachineRecipes {
 		}
 		
 		return output;
+	}
+	
+	public Map<Object[], Object> getAssemblyRecipes() {
+
+		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
+		
+        for (int i = 0; i < EnumAssemblyTemplate.values().length; ++i)
+        {
+        	ItemStack[] array = new ItemStack[13];
+        	array[12] = new ItemStack(ModItems.assembly_template, 1, i);
+        	List<ItemStack> list = MachineRecipes.getRecipeFromTempate(array[12]);
+        	
+        	for(int j = 0; j < list.size(); j++)
+        		array[j] = list.get(j).copy();
+        	
+        	for(int j = 0; j < 12; j++)
+        		if(array[j] == null)
+        			array[j] = new ItemStack(ModItems.nothing);
+        	
+        	recipes.put(array, MachineRecipes.getOutputFromTempate(array[12]));
+        }
+		
+		return recipes;
+	}
+	
+	public Map<Object, Object[]> getRefineryRecipe() {
+
+		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+		
+        recipes.put(new ItemStack(ModItems.canister_oil, 1) , new ItemStack[] { 
+        		new ItemStack(ModItems.canister_smear, 1), 
+        		new ItemStack(ModItems.canister_canola, 1), 
+        		new ItemStack(ModItems.canister_fuel, 1), 
+        		new ItemStack(ModItems.canister_kerosene, 1), 
+        		new ItemStack(ModItems.sulfur, 1) });
+		
+		return recipes;
 	}
 }

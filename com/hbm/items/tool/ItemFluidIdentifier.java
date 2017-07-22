@@ -77,6 +77,13 @@ public class ItemFluidIdentifier extends Item {
     	list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
 	}
 	
+	public static FluidType getType(ItemStack stack) {
+		if(stack != null && stack.getItem() instanceof ItemFluidIdentifier)
+			return FluidType.getEnum(stack.getItemDamage());
+		else
+			return FluidType.NONE;
+	}
+	
 	@Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f1, float f2, float f3)
     {

@@ -56,7 +56,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	boolean flag = true;
 	public float torque;
 	public float rotation;
-	//SoundLoopMachine sound;
+	SoundLoopMachine sound;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -461,24 +461,8 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 
 			PacketDispatcher.wrapper.sendToAll(new TEDrillPacket(xCoord, yCoord, zCoord, rotation));
 			PacketDispatcher.wrapper.sendToAll(new TEDrillSoundPacket(xCoord, yCoord, zCoord, torque));
-			//PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
-		
-		/*if(worldObj.isRemote) {
-			if(torque > 0) {
-				if(sound == null) {
-					sound = new SoundLoopMachine(new ResourceLocation("hbm:block.minerOperate"), this);
-					sound.setVolume(2.5F);
-					Minecraft.getMinecraft().getSoundHandler().playSound(sound);
-				}
-			} else {
-				if(sound != null) {
-					sound.stop();
-					sound = null;
-				}
-			}
-		}*/
-
 	}
 	
 	public boolean tryFillContainer(IInventory inventory, int slot) {
@@ -534,6 +518,9 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 		return false;
 	}
 	
+	//Method: isOre
+	//"make it oreo!"
+	//"ok"
 	public boolean isOreo(int x, int y, int z) {
 		
 		Block b = worldObj.getBlock(x, y, z);

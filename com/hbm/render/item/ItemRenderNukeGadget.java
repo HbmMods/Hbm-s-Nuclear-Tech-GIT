@@ -40,9 +40,6 @@ public class ItemRenderNukeGadget implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		f += 0.1F;
-		if(f > 1.0F)
-			f = -1.0F;
 		switch(type) {
 		case EQUIPPED:
 		case EQUIPPED_FIRST_PERSON:

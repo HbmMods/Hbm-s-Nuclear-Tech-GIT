@@ -12,6 +12,8 @@ import com.hbm.tileentity.TileEntityPylonRedWire;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
@@ -52,10 +54,11 @@ public class LoopedSoundPacket implements IMessage {
 	public static class Handler implements IMessageHandler<LoopedSoundPacket, IMessage> {
 		
 		@Override
+		//Tamaized, I love you!
+		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(LoopedSoundPacket m, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
-			try {
 			if (te != null && te instanceof TileEntityMachineMiningDrill) {
 				
 				boolean flag = true;
@@ -64,11 +67,8 @@ public class LoopedSoundPacket implements IMessage {
 						flag = false;
 				}
 				
-				//if(flag && te.getWorldObj().isRemote)
-				//	Minecraft.getMinecraft().
-			}
-			} catch(Exception ex) {
-				System.out.println("Sorry folks, not today.");
+				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineMiningDrill)te).torque > 0.2F)
+					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopMiner(new ResourceLocation("hbm:block.minerOperate"), te));
 			}
 			return null;
 		}

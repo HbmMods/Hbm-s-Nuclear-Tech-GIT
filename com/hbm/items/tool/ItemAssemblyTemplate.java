@@ -342,6 +342,8 @@ public class ItemAssemblyTemplate extends Item {
     			if(stacks.get(i) != null)
     	    		list.add(stacks.get(i).stackSize + "x " + stacks.get(i).getDisplayName());
     		}
+    		list.add("Production time:");
+        	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
     	} catch(Exception e) {
     		list.add("###INVALID###");
     		list.add("0x334077-0x6A298F-0xDF3795-0x334077");

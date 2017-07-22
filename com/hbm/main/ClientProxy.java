@@ -142,6 +142,7 @@ import com.hbm.render.item.ItemRenderMP;
 import com.hbm.render.item.ItemRenderMP40;
 import com.hbm.render.item.ItemRenderMiniNuke;
 import com.hbm.render.item.ItemRenderMultitool;
+import com.hbm.render.item.ItemRenderNukeGadget;
 import com.hbm.render.item.ItemRenderOSIPR;
 import com.hbm.render.item.ItemRenderOverkill;
 import com.hbm.render.item.ItemRenderPoleTop;
@@ -272,6 +273,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObjTester.class, new RendererObjTester());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeGadget.class, new RenderNukeGadget());
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.nuke_gadget), new ItemRenderNukeGadget());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeBoy.class, new RenderNukeBoy());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukeCustom.class, new RenderNukeCustom());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCentrifuge.class, new RenderCentrifuge());
