@@ -24,7 +24,7 @@ public class EntityCloudFleija extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(16, Integer.valueOf((int) 0));
+		this.dataWatcher.addObject(16, Integer.valueOf(0));
 	}
 
     @Override

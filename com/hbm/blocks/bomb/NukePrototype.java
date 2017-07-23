@@ -211,6 +211,7 @@ public class NukePrototype extends BlockContainer implements IBomb {
 		}
 	}
 
+	@Override
 	public void explode(World world, int x, int y, int z) {
     	TileEntityNukePrototype entity = (TileEntityNukePrototype) world.getTileEntity(x, y, z);
         //if (world.isBlockIndirectlyGettingPowered(x, y, z))

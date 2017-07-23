@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineShredder;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineShredder;
 
 import net.minecraft.client.Minecraft;

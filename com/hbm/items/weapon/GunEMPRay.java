@@ -4,11 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityEMPBlast;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityDischarge;
-import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.items.ModItems;
 
@@ -38,6 +35,7 @@ public class GunEMPRay extends Item {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
@@ -145,10 +143,11 @@ public class GunEMPRay extends Item {
 		list.add("Damage: 25 - 35");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 4, 0));
 		return multimap;
 	}
 }

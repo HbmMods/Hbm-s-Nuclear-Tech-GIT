@@ -7,7 +7,6 @@ import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineOilWell;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

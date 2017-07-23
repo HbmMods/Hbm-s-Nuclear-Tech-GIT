@@ -9,7 +9,6 @@ import com.hbm.handler.CyclotronRecipeHandler;
 import com.hbm.handler.ReactorRecipeHandler;
 import com.hbm.handler.RefineryRecipeHandler;
 import com.hbm.handler.ShredderRecipeHandler;
-import com.hbm.inventory.gui.GUITestDiFurnace;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 

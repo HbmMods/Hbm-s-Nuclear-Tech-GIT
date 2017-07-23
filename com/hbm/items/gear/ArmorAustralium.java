@@ -3,26 +3,16 @@ package com.hbm.items.gear;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.collect.Multimap;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ISpecialArmor;
 
 public class ArmorAustralium extends ItemArmor {
 

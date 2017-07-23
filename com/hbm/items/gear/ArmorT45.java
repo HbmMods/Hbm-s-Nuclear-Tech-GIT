@@ -22,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemArmor;
@@ -215,10 +214,11 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		}
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Armor modifier", (double) 0.5, 0));
+				new AttributeModifier(field_111210_e, "Armor modifier", 0.5, 0));
 		return multimap;
 	}
 }

@@ -2,10 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerConverterRfHe;
 import com.hbm.inventory.container.ContainerMachineTeleporter;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityConverterRfHe;
 import com.hbm.tileentity.TileEntityMachineTeleporter;
 
 import net.minecraft.client.Minecraft;
@@ -34,7 +32,7 @@ public class GUIMachineTeleporter extends GuiContainer {
 
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6,
 				4210752);
-		this.fontRendererObj.drawString("Power: " + diFurnace.power + "HE/" + diFurnace.maxPower + "HE", 10, 20,
+		this.fontRendererObj.drawString("Power: " + diFurnace.power + "HE/" + TileEntityMachineTeleporter.maxPower + "HE", 10, 20,
 				4210752);
 		this.fontRendererObj.drawString("Mode: " + (diFurnace.mode ? "Send" : "Receive"), 10, 29, 4210752);
 		if (diFurnace.mode) {

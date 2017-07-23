@@ -3,11 +3,8 @@ package com.hbm.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IOilDuct;
-import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -25,6 +22,7 @@ public class TileEntityOilDuct extends TileEntity implements IOilDuct {
 		
 	}
 	
+	@Override
 	public void updateEntity() {
 		this.updateConnections();
 	}

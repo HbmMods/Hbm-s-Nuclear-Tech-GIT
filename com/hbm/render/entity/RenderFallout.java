@@ -16,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Timer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.IRenderHandler;
@@ -91,8 +90,8 @@ public class RenderFallout extends Render {
 
 				for (int i = 0; i < 32; ++i) {
 					for (int j = 0; j < 32; ++j) {
-						float f2 = (float) (j - 16);
-						float f3 = (float) (i - 16);
+						float f2 = j - 16;
+						float f3 = i - 16;
 						float f4 = MathHelper.sqrt_float(f2 * f2 + f3 * f3);
 						this.rainXCoords[i << 5 | j] = -f3 / f4;
 						this.rainYCoords[i << 5 | j] = f2 / f4;
@@ -112,11 +111,11 @@ public class RenderFallout extends Render {
 			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 			double d0 = entitylivingbase.lastTickPosX
-					+ (entitylivingbase.posX - entitylivingbase.lastTickPosX) * (double) p_78474_1_;
+					+ (entitylivingbase.posX - entitylivingbase.lastTickPosX) * p_78474_1_;
 			double d1 = entitylivingbase.lastTickPosY
-					+ (entitylivingbase.posY - entitylivingbase.lastTickPosY) * (double) p_78474_1_;
+					+ (entitylivingbase.posY - entitylivingbase.lastTickPosY) * p_78474_1_;
 			double d2 = entitylivingbase.lastTickPosZ
-					+ (entitylivingbase.posZ - entitylivingbase.lastTickPosZ) * (double) p_78474_1_;
+					+ (entitylivingbase.posZ - entitylivingbase.lastTickPosZ) * p_78474_1_;
 			int k = MathHelper.floor_double(d1);
 			byte b0 = 5;
 
@@ -126,7 +125,7 @@ public class RenderFallout extends Render {
 
 			boolean flag = false;
 			byte b1 = -1;
-			float f5 = (float) this.rendererUpdateCount + p_78474_1_;
+			float f5 = this.rendererUpdateCount + p_78474_1_;
 
 			if (this.mc.gameSettings.fancyGraphics) {
 				b0 = 10;
@@ -163,7 +162,7 @@ public class RenderFallout extends Render {
 						}
 
 						if (l1 != i2) {
-							this.random.setSeed((long) (i1 * i1 * 3121 + i1 * 45238971 ^ l * l * 418711 + l * 13761));
+							this.random.setSeed(i1 * i1 * 3121 + i1 * 45238971 ^ l * l * 418711 + l * 13761);
 							float f9 = biomegenbase.getFloatTemperature(i1, l1, l);
 							float f10;
 							double d4;
@@ -218,33 +217,33 @@ public class RenderFallout extends Render {
 									}
 
 									b1 = 1;
-									this.mc.getTextureManager().bindTexture(this.falloutTexture);
+									this.mc.getTextureManager().bindTexture(RenderFallout.falloutTexture);
 									tessellator.startDrawingQuads();
 								}
 
-								f10 = ((float) (this.rendererUpdateCount & 511) + p_78474_1_) / 512.0F;
+								f10 = ((this.rendererUpdateCount & 511) + p_78474_1_) / 512.0F;
 								float f16 = this.random.nextFloat() + f5 * 0.01F * (float) this.random.nextGaussian();
 								float f11 = this.random.nextFloat() + f5 * (float) this.random.nextGaussian() * 0.001F;
-								d4 = (double) ((float) i1 + 0.5F) - entitylivingbase.posX;
-								double d5 = (double) ((float) l + 0.5F) - entitylivingbase.posZ;
-								float f14 = MathHelper.sqrt_double(d4 * d4 + d5 * d5) / (float) b0;
+								d4 = i1 + 0.5F - entitylivingbase.posX;
+								double d5 = l + 0.5F - entitylivingbase.posZ;
+								float f14 = MathHelper.sqrt_double(d4 * d4 + d5 * d5) / b0;
 								float f15 = 1.0F;
 								tessellator.setBrightness(
 										(worldclient.getLightBrightnessForSkyBlocks(i1, j2, l, 0) * 3 + 15728880) / 4);
 								tessellator.setColorRGBA_F(f15, f15, f15, ((1.0F - f14 * f14) * 0.3F + 0.5F) * f1);
 								tessellator.setTranslation(-d0 * 1.0D, -d1 * 1.0D, -d2 * 1.0D);
-								tessellator.addVertexWithUV((double) ((float) i1 - f6) + 0.5D, (double) l1,
-										(double) ((float) l - f7) + 0.5D, (double) (0.0F * f8 + f16),
-										(double) ((float) l1 * f8 / 4.0F + f10 * f8 + f11));
-								tessellator.addVertexWithUV((double) ((float) i1 + f6) + 0.5D, (double) l1,
-										(double) ((float) l + f7) + 0.5D, (double) (1.0F * f8 + f16),
-										(double) ((float) l1 * f8 / 4.0F + f10 * f8 + f11));
-								tessellator.addVertexWithUV((double) ((float) i1 + f6) + 0.5D, (double) i2,
-										(double) ((float) l + f7) + 0.5D, (double) (1.0F * f8 + f16),
-										(double) ((float) i2 * f8 / 4.0F + f10 * f8 + f11));
-								tessellator.addVertexWithUV((double) ((float) i1 - f6) + 0.5D, (double) i2,
-										(double) ((float) l - f7) + 0.5D, (double) (0.0F * f8 + f16),
-										(double) ((float) i2 * f8 / 4.0F + f10 * f8 + f11));
+								tessellator.addVertexWithUV(i1 - f6 + 0.5D, l1,
+										l - f7 + 0.5D, 0.0F * f8 + f16,
+										l1 * f8 / 4.0F + f10 * f8 + f11);
+								tessellator.addVertexWithUV(i1 + f6 + 0.5D, l1,
+										l + f7 + 0.5D, 1.0F * f8 + f16,
+										l1 * f8 / 4.0F + f10 * f8 + f11);
+								tessellator.addVertexWithUV(i1 + f6 + 0.5D, i2,
+										l + f7 + 0.5D, 1.0F * f8 + f16,
+										i2 * f8 / 4.0F + f10 * f8 + f11);
+								tessellator.addVertexWithUV(i1 - f6 + 0.5D, i2,
+										l - f7 + 0.5D, 0.0F * f8 + f16,
+										i2 * f8 / 4.0F + f10 * f8 + f11);
 								tessellator.setTranslation(0.0D, 0.0D, 0.0D);
 							}
 						}

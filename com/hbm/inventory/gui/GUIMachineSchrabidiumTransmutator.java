@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 
 import net.minecraft.client.Minecraft;

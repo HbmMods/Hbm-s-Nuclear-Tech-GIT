@@ -2,34 +2,13 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.ModItems;
-
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.event.entity.player.BonemealEvent;
 
 public class ItemAssemblyTemplate extends Item {
 	
@@ -76,13 +55,15 @@ public class ItemAssemblyTemplate extends Item {
         this.setMaxDamage(0);
     }
 
-    public String getUnlocalizedName(ItemStack stack)
+    @Override
+	public String getUnlocalizedName(ItemStack stack)
     {
         int i = stack.getItemDamage();
         return super.getUnlocalizedName() + "." + EnumAssemblyTemplate.getEnum(i).getName();
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list)
     {
         for (int i = 0; i < EnumAssemblyTemplate.values().length; ++i)

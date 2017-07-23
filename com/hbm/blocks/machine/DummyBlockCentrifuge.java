@@ -6,10 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
-import com.hbm.tileentity.TileEntityMachineElectricFurnace;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +14,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -35,7 +31,8 @@ public class DummyBlockCentrifuge extends BlockContainer implements IDummy {
 		return new TileEntityDummy();
 	}
 
-    public void breakBlock(World world, int x, int y, int z, Block block, int i)
+    @Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i)
     {
     	if(!safeBreak) {
     		TileEntity te = world.getTileEntity(x, y, z);

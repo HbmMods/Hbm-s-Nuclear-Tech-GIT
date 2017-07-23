@@ -1,13 +1,7 @@
 package com.hbm.entity.logic;
 
-import java.util.HashSet;
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.hbm.entity.effect.EntityFalloutRain;

@@ -38,7 +38,8 @@ public class WeaponSpecial extends ItemSword {
 		return EnumRarity.common;
     }
     
-    public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer)
+    @Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer)
     {
     	World world = entity.worldObj;
 
@@ -78,11 +79,12 @@ public class WeaponSpecial extends ItemSword {
 		return false;
     }
     
-    public Multimap getItemAttributeModifiers()
+    @Override
+	public Multimap getItemAttributeModifiers()
     {
         Multimap multimap = super.getItemAttributeModifiers();
 		if(this == ModItems.schrabidium_hammer) {
-			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double)-0.5, 1));
+			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.5, 1));
 		}
         return multimap;
     }

@@ -2,7 +2,6 @@ package com.hbm.items.special;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
@@ -15,7 +14,8 @@ import net.minecraft.world.World;
 
 public class ItemPolaroid extends Item {
 	
-    public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
+    @Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
     	if(entity instanceof EntityPlayer)
     		if(((EntityPlayer)entity).getHealth() < 10F) {
     			((EntityPlayer) entity).addPotionEffect(new PotionEffect(Potion.resistance.id, 10, 2));

@@ -151,6 +151,7 @@ public class ModelCrab extends ModelBase {
 		GL11.glPopMatrix();
 	}
 
+	@Override
 	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
 		
 		modelcrabModel[10].rotateAngleY = 0.78539816F;

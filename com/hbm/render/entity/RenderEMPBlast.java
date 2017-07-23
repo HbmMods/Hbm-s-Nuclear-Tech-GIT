@@ -1,23 +1,11 @@
 package com.hbm.render.entity;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import com.hbm.entity.effect.EntityEMPBlast;
-import com.hbm.entity.effect.EntityNukeCloudNoShroom;
-import com.hbm.entity.particle.EntityBSmokeFX;
-import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;

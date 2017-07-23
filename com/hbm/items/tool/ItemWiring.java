@@ -2,10 +2,6 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEPylonSenderPacket;
-import com.hbm.tileentity.TileEntityMachineTeleporter;
 import com.hbm.tileentity.TileEntityPylonRedWire;
 
 import net.minecraft.entity.player.EntityPlayer;

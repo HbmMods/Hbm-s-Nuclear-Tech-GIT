@@ -23,7 +23,7 @@ public class ItemBattery extends Item {
 	{
 		long charge = maxCharge;
 		if(itemstack.hasTagCompound())
-			charge = this.getCharge(itemstack);
+			charge = ItemBattery.getCharge(itemstack);
 		
 		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core)
 		{

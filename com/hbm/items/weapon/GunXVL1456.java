@@ -5,16 +5,10 @@ import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.sound.MovingSoundPlayerLoop;
-import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
-import com.hbm.sound.MovingSoundXVL1456;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -22,8 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
@@ -44,6 +36,7 @@ public class GunXVL1456 extends Item {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int i) {
 
 		int j = this.getMaxItemUseDuration(stack) - i;
@@ -83,6 +76,7 @@ public class GunXVL1456 extends Item {
 		}
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
@@ -102,6 +96,7 @@ public class GunXVL1456 extends Item {
 		return p_77659_1_;
 	}
 
+	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
 		World world = player.worldObj;
@@ -146,11 +141,11 @@ public class GunXVL1456 extends Item {
 			{
 				if(!world.isRemote)
 				{
-					stack.damageItem(1250, (EntityLivingBase) player);
+					stack.damageItem(1250, player);
 					
 					world.createExplosion(player, player.posX, player.posY, player.posZ, 10.0F, true);
 					player.attackEntityFrom(ModDamageSource.tauBlast, 1000F);
-					((EntityPlayer)player).dropOneItem(false);
+					player.dropOneItem(false);
 				}
 			}
 		}
@@ -175,10 +170,11 @@ public class GunXVL1456 extends Item {
 		list.add("Projectiles penetrate walls.");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 6, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 6, 0));
 		return multimap;
 	}
 

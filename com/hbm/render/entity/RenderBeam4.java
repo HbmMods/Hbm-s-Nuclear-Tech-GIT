@@ -4,13 +4,7 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.projectile.EntityPlasmaBeam;
-import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelBullet;
-import com.hbm.render.model.ModelMiniNuke;
-
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

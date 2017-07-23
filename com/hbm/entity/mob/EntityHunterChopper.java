@@ -6,24 +6,14 @@ import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityLargeFireball;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.AchievementList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -59,6 +49,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	/**
 	 * Called when the entity is attacked.
 	 */
+	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable() || !(source == ModDamageSource.nuclearBlast || source == ModDamageSource.blackhole || source.isExplosion()  || ModDamageSource.getIsTau(source) || ModDamageSource.getIsSubatomic(source) || ModDamageSource.getIsDischarge(source))) {
 			return false;
@@ -91,19 +82,22 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 		return super.attackEntityFrom(source, amount);
 	}
 
+	@Override
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
-		this.dataWatcher.addObject(21, Float.valueOf((float) 0));
-		this.dataWatcher.addObject(22, Float.valueOf((float) 0));
+		this.dataWatcher.addObject(21, Float.valueOf(0));
+		this.dataWatcher.addObject(22, Float.valueOf(0));
 		this.dataWatcher.addObject(23, Byte.valueOf((byte) 0));
 	}
 
+	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(750.0D);
 	}
 
+	@Override
 	protected void updateEntityActionState() {
 		if (!this.worldObj.isRemote && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
 			this.setDead();
@@ -120,13 +114,13 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 
 			if (d3 < 1.0D || d3 > 3600.0D) {
 				if (this.targetedEntity != null) {
-					this.waypointX = targetedEntity.posX + (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
-					this.waypointZ = targetedEntity.posZ + (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
+					this.waypointX = targetedEntity.posX + (this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F;
+					this.waypointZ = targetedEntity.posZ + (this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F;
 					this.waypointY = this.worldObj.getHeightValue((int) waypointX, (int) waypointZ) + 10
 							+ rand.nextInt(15);
 				} else {
-					this.waypointX = this.posX + (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
-					this.waypointZ = this.posZ + (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
+					this.waypointX = this.posX + (this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F;
+					this.waypointZ = this.posZ + (this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F;
 					this.waypointY = this.worldObj.getHeightValue((int) waypointX, (int) waypointZ) + 10
 							+ rand.nextInt(15);
 				}
@@ -134,15 +128,15 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 
 			if (this.courseChangeCooldown-- <= 0) {
 				this.courseChangeCooldown += this.rand.nextInt(5) + 2;
-				d3 = (double) MathHelper.sqrt_double(d3);
+				d3 = MathHelper.sqrt_double(d3);
 
 				if (this.isCourseTraversable(this.waypointX, this.waypointY, this.waypointZ, d3)) {
 					this.motionX += d0 / d3 * 0.1D;
 					this.motionY += d1 / d3 * 0.1D;
 					this.motionZ += d2 / d3 * 0.1D;
 				} else {
-					this.waypointX = this.posX + (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
-					this.waypointZ = this.posZ + (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F);
+					this.waypointX = this.posX + (this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F;
+					this.waypointZ = this.posZ + (this.rand.nextFloat() * 2.0F - 1.0F) * 16.0F;
 					this.waypointY = this.worldObj.getHeightValue((int) waypointX, (int) waypointZ) + 10
 							+ rand.nextInt(15);
 				}
@@ -172,7 +166,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				double yStart = this.posY - 0.5;
 				double zStart = this.posZ + vec3.zCoord * d8;
 				double d5 = this.targetedEntity.posX - xStart;
-				double d6 = this.targetedEntity.boundingBox.minY + (double) (this.targetedEntity.height / 2.0F)
+				double d6 = this.targetedEntity.boundingBox.minY + this.targetedEntity.height / 2.0F
 						- yStart;
 				double d7 = this.targetedEntity.posZ - zStart;
 
@@ -298,7 +292,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 			double yStart = this.posY - 0.5;
 			double zStart = this.posZ + vec3.zCoord * d8;
 			double d5 = this.targetedEntity.posX - xStart;
-			double d6 = this.targetedEntity.boundingBox.minY + (double) (this.targetedEntity.height / 2.0F) - yStart;
+			double d6 = this.targetedEntity.boundingBox.minY + this.targetedEntity.height / 2.0F - yStart;
 			double d7 = this.targetedEntity.posZ - zStart;
 		}
 
@@ -320,7 +314,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 		double d6 = (this.waypointZ - this.posZ) / p_70790_7_;
 		AxisAlignedBB axisalignedbb = this.boundingBox.copy();
 
-		for (int i = 1; (double) i < p_70790_7_; ++i) {
+		for (int i = 1; i < p_70790_7_; ++i) {
 			axisalignedbb.offset(d4, d5, d6);
 
 			if (!this.worldObj.getCollidingBoundingBoxes(this, axisalignedbb).isEmpty()) {
@@ -331,10 +325,12 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 		return true;
 	}
 
+	@Override
 	protected String getHurtSound() {
 		return null;
 	}
 
+	@Override
 	protected String getDeathSound() {
 		return null;
 	}
@@ -367,6 +363,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	/**
 	 * Returns the volume for the sounds this mob makes.
 	 */
+	@Override
 	protected float getSoundVolume() {
 		return 10.0F;
 	}
@@ -375,6 +372,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	 * Checks if the entity's current position is a valid location to spawn this
 	 * entity.
 	 */
+	@Override
 	public boolean getCanSpawnHere() {
 		return this.rand.nextInt(20) == 0 && super.getCanSpawnHere()
 				&& this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL;
@@ -383,6 +381,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	/**
 	 * Will return how many at most can spawn in a chunk at once.
 	 */
+	@Override
 	public int getMaxSpawnedInChunk() {
 		return 1;
 	}
@@ -390,6 +389,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
+	@Override
 	public void writeEntityToNBT(NBTTagCompound p_70014_1_) {
 		super.writeEntityToNBT(p_70014_1_);
 	}
@@ -397,6 +397,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
+	@Override
 	public void readEntityFromNBT(NBTTagCompound p_70037_1_) {
 		super.readEntityFromNBT(p_70037_1_);
 	}

@@ -5,7 +5,6 @@ import com.hbm.entity.mob.EntityHunterChopper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -19,7 +18,8 @@ import net.minecraft.world.World;
 
 public class ItemChopper extends Item {
 	
-    public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    @Override
+	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
     {
         if (p_77648_3_.isRemote)
         {
@@ -38,7 +38,7 @@ public class ItemChopper extends Item {
                 d0 = 0.5D;
             }
 
-            Entity entity = spawnCreature(p_77648_3_, p_77648_1_.getItemDamage(), (double)p_77648_4_ + 0.5D, (double)p_77648_5_ + d0, (double)p_77648_6_ + 0.5D);
+            Entity entity = spawnCreature(p_77648_3_, p_77648_1_.getItemDamage(), p_77648_4_ + 0.5D, p_77648_5_ + d0, p_77648_6_ + 0.5D);
 
             if (entity != null)
             {
@@ -60,7 +60,8 @@ public class ItemChopper extends Item {
     /**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+    @Override
+	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
         if (p_77659_2_.isRemote)
         {
@@ -94,7 +95,7 @@ public class ItemChopper extends Item {
 
                     if (p_77659_2_.getBlock(i, j, k) instanceof BlockLiquid)
                     {
-                        Entity entity = spawnCreature(p_77659_2_, p_77659_1_.getItemDamage(), (double)i, (double)j, (double)k);
+                        Entity entity = spawnCreature(p_77659_2_, p_77659_1_.getItemDamage(), i, j, k);
 
                         if (entity != null)
                         {

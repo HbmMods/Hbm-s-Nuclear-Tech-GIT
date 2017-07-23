@@ -11,16 +11,19 @@ public class ToxicFluid extends Fluid {
 		super("toxic_fluid");
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getIcon() {
     	return getStillIcon();
     }
 
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getStillIcon() {
         return ToxicBlock.stillIcon;
     }
 
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getFlowingIcon() {
         return ToxicBlock.flowingIcon;

@@ -4,10 +4,8 @@ import java.util.Arrays;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiFluidContainer;
-import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEFluidPacket;
 
 import net.minecraft.client.gui.inventory.GuiContainer;

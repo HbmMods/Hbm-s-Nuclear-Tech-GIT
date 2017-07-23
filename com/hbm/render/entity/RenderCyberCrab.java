@@ -1,19 +1,9 @@
 package com.hbm.render.entity;
 
-import org.lwjgl.opengl.GL11;
-
-import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelCrab;
-import com.hbm.render.model.ModelHunterChopper;
-import com.hbm.render.model.ProtoCopter;
-
-import net.minecraft.client.model.ModelSpider;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderCyberCrab extends RenderLiving {

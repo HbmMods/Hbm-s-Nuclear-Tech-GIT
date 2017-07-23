@@ -1,13 +1,9 @@
 package com.hbm.render.entity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityMinecartTNT;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -16,7 +12,6 @@ import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.lib.RefStrings;
 
@@ -32,19 +27,20 @@ public class RenderMinecartTest extends RenderMinecart
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
 		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/LilBoy2.png");
     }
-    public void doRender(EntityMinecart p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    @Override
+	public void doRender(EntityMinecart p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
         GL11.glPushMatrix();
         this.bindEntityTexture(p_76986_1_);
-        long i = (long)p_76986_1_.getEntityId() * 493286711L;
+        long i = p_76986_1_.getEntityId() * 493286711L;
         i = i * i * 4392167121L + i * 98761L;
-        float f2 = (((float)(i >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
-        float f3 = (((float)(i >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
-        float f4 = (((float)(i >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        float f2 = (((i >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        float f3 = (((i >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        float f4 = (((i >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
         GL11.glTranslatef(f2, f3, f4);
-        double d3 = p_76986_1_.lastTickPosX + (p_76986_1_.posX - p_76986_1_.lastTickPosX) * (double)p_76986_9_;
-        double d4 = p_76986_1_.lastTickPosY + (p_76986_1_.posY - p_76986_1_.lastTickPosY) * (double)p_76986_9_;
-        double d5 = p_76986_1_.lastTickPosZ + (p_76986_1_.posZ - p_76986_1_.lastTickPosZ) * (double)p_76986_9_;
+        double d3 = p_76986_1_.lastTickPosX + (p_76986_1_.posX - p_76986_1_.lastTickPosX) * p_76986_9_;
+        double d4 = p_76986_1_.lastTickPosY + (p_76986_1_.posY - p_76986_1_.lastTickPosY) * p_76986_9_;
+        double d5 = p_76986_1_.lastTickPosZ + (p_76986_1_.posZ - p_76986_1_.lastTickPosZ) * p_76986_9_;
         double d6 = 0.30000001192092896D;
         Vec3 vec3 = p_76986_1_.func_70489_a(d3, d4, d5);
         float f5 = p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_;
@@ -86,7 +82,7 @@ public class RenderMinecartTest extends RenderMinecart
         //
         
         GL11.glRotatef(-f5, 0.0F, 0.0F, 1.0F);
-        float f7 = (float)p_76986_1_.getRollingAmplitude() - p_76986_9_;
+        float f7 = p_76986_1_.getRollingAmplitude() - p_76986_9_;
         float f8 = p_76986_1_.getDamage() - p_76986_9_;
 
         if (f8 < 0.0F)
@@ -96,7 +92,7 @@ public class RenderMinecartTest extends RenderMinecart
 
         if (f7 > 0.0F)
         {
-            GL11.glRotatef(MathHelper.sin(f7) * f7 * f8 / 10.0F * (float)p_76986_1_.getRollingDirection(), 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(MathHelper.sin(f7) * f7 * f8 / 10.0F * p_76986_1_.getRollingDirection(), 1.0F, 0.0F, 0.0F);
         }
 
         int k = p_76986_1_.getDisplayTileOffset();
@@ -109,7 +105,7 @@ public class RenderMinecartTest extends RenderMinecart
             this.bindTexture(TextureMap.locationBlocksTexture);
             float f6 = 0.75F;
             GL11.glScalef(f6, f6, f6);
-            GL11.glTranslatef(0.0F, (float)k / 16.0F, 0.0F);
+            GL11.glTranslatef(0.0F, k / 16.0F, 0.0F);
             this.func_147910_a(p_76986_1_, p_76986_9_, block, j);
             GL11.glPopMatrix();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -125,9 +121,9 @@ public class RenderMinecartTest extends RenderMinecart
     {
         int j = p_147910_1_.func_94104_d();
 
-        if (j > -1 && (float)j - p_147910_2_ + 1.0F < 10.0F)
+        if (j > -1 && j - p_147910_2_ + 1.0F < 10.0F)
         {
-            float f1 = 1.0F - ((float)j - p_147910_2_ + 1.0F) / 10.0F;
+            float f1 = 1.0F - (j - p_147910_2_ + 1.0F) / 10.0F;
 
             if (f1 < 0.0F)
             {
@@ -158,7 +154,7 @@ public class RenderMinecartTest extends RenderMinecart
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, (1.0F - ((float)j - p_147910_2_ + 1.0F) / 100.0F) * 0.8F);
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, (1.0F - (j - p_147910_2_ + 1.0F) / 100.0F) * 0.8F);
             GL11.glPushMatrix();
             //this.field_94145_f.renderBlockAsItem(ModBlocks.crate, 0, 1.0F);
             bindTexture(boyTexture);
@@ -171,7 +167,8 @@ public class RenderMinecartTest extends RenderMinecart
         }
     }
 
-    protected void func_147910_a(EntityMinecart p_147910_1_, float p_147910_2_, Block p_147910_3_, int p_147910_4_)
+    @Override
+	protected void func_147910_a(EntityMinecart p_147910_1_, float p_147910_2_, Block p_147910_3_, int p_147910_4_)
     {
         this.func_147910_a((EntityMinecartTest)p_147910_1_, p_147910_2_, p_147910_3_, p_147910_4_);
     }

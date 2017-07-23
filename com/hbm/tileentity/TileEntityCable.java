@@ -11,7 +11,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import scala.Int;
 
 public class TileEntityCable extends TileEntity implements IConductor {
 	
@@ -23,6 +22,7 @@ public class TileEntityCable extends TileEntity implements IConductor {
 		
 	}
 	
+	@Override
 	public void updateEntity() {
 		this.updateConnections();
 	}

@@ -3,7 +3,6 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
 
@@ -41,6 +40,7 @@ public class DetCord extends Block implements IBomb {
         return null;
     }
 
+	@Override
 	public void explode(World world, int x, int y, int z) {
 		if(!world.isRemote) {
 			

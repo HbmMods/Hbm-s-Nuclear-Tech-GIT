@@ -3,8 +3,6 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
-import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionThermo;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.item.EntityItem;

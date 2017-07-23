@@ -4,7 +4,6 @@ import com.hbm.calc.Location;
 import com.hbm.interfaces.IConsumer;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;

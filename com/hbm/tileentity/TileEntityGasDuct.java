@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForGas;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IGasDuct;
-import com.hbm.interfaces.IOilDuct;
-import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -25,6 +22,7 @@ public class TileEntityGasDuct extends TileEntity implements IGasDuct {
 		
 	}
 	
+	@Override
 	public void updateEntity() {
 		this.updateConnections();
 	}

@@ -1,6 +1,5 @@
 package com.hbm.tileentity;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -14,10 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineCoal;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
@@ -270,7 +266,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		}
 		if(slots[0] != null && slots[0].getItem() == ModItems.inf_water)
 		{
-			this.water = this.maxWater;
+			this.water = TileEntityMachineCoal.maxWater;
 		}
 
 		//Battery Item
@@ -381,6 +377,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 	}
 	
+	@Override
 	public boolean getTact() {
 		if(age >= 0 && age < 10)
 		{

@@ -38,7 +38,7 @@ public class EntityNukeExplosionPlus extends Entity {
         	if(this.waste)
         	{
             	exp = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, 0);
-        		wst = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.wasteRange), this.coefficient, 2);
+        		wst = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (this.wasteRange), this.coefficient, 2);
         		vap = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.wasteRange * 1.5), this.coefficient, 1);
         	} else {
             	expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
@@ -76,11 +76,11 @@ public class EntityNukeExplosionPlus extends Entity {
         	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
         } else {
 			if (!did2 && waste) {
-				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.wasteRange) * 10);
+				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (this.wasteRange) * 10);
 				fallout.posX = this.posX;
 				fallout.posY = this.posY;
 				fallout.posZ = this.posZ;
-				fallout.setScale((int)(this.wasteRange));
+				fallout.setScale((this.wasteRange));
 
 				this.worldObj.spawnEntityInWorld(fallout);
 				

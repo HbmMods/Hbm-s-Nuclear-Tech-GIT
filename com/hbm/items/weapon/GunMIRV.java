@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityMiniMIRV;
-import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -134,12 +133,13 @@ public class GunMIRV extends Item {
 		return 0;
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) -0.3, 1));
+				new AttributeModifier(field_111210_e, "Weapon modifier", -0.3, 1));
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 4, 0));
 		return multimap;
 	}
 

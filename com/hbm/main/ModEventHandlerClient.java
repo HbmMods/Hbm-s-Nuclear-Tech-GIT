@@ -1,8 +1,5 @@
 package com.hbm.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.lib.Library;
@@ -13,16 +10,12 @@ import com.hbm.sound.MovingSoundPlayerLoop;
 import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
-import codechicken.lib.render.IFaceRenderer;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class ModEventHandlerClient {
 

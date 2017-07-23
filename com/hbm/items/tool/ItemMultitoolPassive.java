@@ -4,34 +4,25 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.blocks.bomb.BlockCrashedBomb;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
-import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLaserBeam;
 import com.hbm.entity.projectile.EntityMinerBeam;
-import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class ItemMultitoolPassive extends Item {
 	
@@ -41,6 +32,7 @@ public class ItemMultitoolPassive extends Item {
 		this.setMaxDamage(5000);
 	}
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
 		if(player.isSneaking()) {
@@ -214,32 +206,33 @@ public class ItemMultitoolPassive extends Item {
 		return false;
     }
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		if(this == ModItems.multitool_ext) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 7, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 7, 0));
 		} else if (this == ModItems.multitool_miner) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 8, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 8, 0));
 		} else if (this == ModItems.multitool_hit) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 16, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 16, 0));
 		} else if (this == ModItems.multitool_beam) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 8, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 8, 0));
 		} else if (this == ModItems.multitool_sky) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 5, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 5, 0));
 		} else if (this == ModItems.multitool_mega) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 12, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 12, 0));
 		} else if (this == ModItems.multitool_joule) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 12, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 12, 0));
 		} else if (this == ModItems.multitool_decon) {
 			multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-					new AttributeModifier(field_111210_e, "Weapon modifier", (double) 5, 0));
+					new AttributeModifier(field_111210_e, "Weapon modifier", 5, 0));
 		}
 		return multimap;
 	}

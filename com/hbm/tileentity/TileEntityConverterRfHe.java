@@ -3,17 +3,12 @@ package com.hbm.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -107,6 +102,7 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 	}
 	
+	@Override
 	public boolean getTact() {
 		if(age >= 0 && age < 10)
 		{

@@ -12,9 +12,7 @@ import com.hbm.packet.TEPylonSenderPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -42,7 +40,7 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 		
 		if(scheduleConnectionCheck && this.scheduleBuffer != null) {
 			scheduleConnectionCheck = false;
-			this.connected = this.convertArrayToList(this.scheduleBuffer, worldObj);
+			this.connected = TileEntityPylonRedWire.convertArrayToList(this.scheduleBuffer, worldObj);
 		}
 		
 		if(!worldObj.isRemote) {}
@@ -77,7 +75,7 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		int[][] con = this.convertListToArray(connected);
+		int[][] con = TileEntityPylonRedWire.convertListToArray(connected);
 
 		int[] conX = new int[con.length];
 		int[] conY = new int[con.length];

@@ -75,6 +75,7 @@ public class BombThermo extends Block implements IBomb {
         }
     }
 
+	@Override
 	public void explode(World world, int x, int y, int z) {
 		world.setBlock(x, y, z, Blocks.air);
     	if(this == ModBlocks.therm_endo)

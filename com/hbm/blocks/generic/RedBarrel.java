@@ -81,6 +81,7 @@ public class RedBarrel extends BlockContainer {
         this.setBlockBounds(2*f, 0.0F, 2*f, 14*f, 1.0F, 14*f);
     }
 	
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         float f = 0.0625F;
         this.setBlockBounds(2*f, 0.0F, 2*f, 14*f, 1.0F, 14*f);

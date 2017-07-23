@@ -1,7 +1,6 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.TileEntityMachineOilWell;
 import com.hbm.tileentity.TileEntityMachineRefinery;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,7 +73,7 @@ public class ContainerMachineRefinery extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.testNuke.power);
-		crafting.sendProgressBarUpdate(this, 1, (int)this.testNuke.oil);
+		crafting.sendProgressBarUpdate(this, 1, this.testNuke.oil);
 		crafting.sendProgressBarUpdate(this, 2, this.testNuke.fuel);
 		crafting.sendProgressBarUpdate(this, 3, this.testNuke.lubricant);
 		crafting.sendProgressBarUpdate(this, 4, this.testNuke.diesel);
@@ -139,7 +138,7 @@ public class ContainerMachineRefinery extends Container {
 			}
 			if(this.oil != this.testNuke.oil)
 			{
-				par1.sendProgressBarUpdate(this, 1, (int)this.testNuke.oil);
+				par1.sendProgressBarUpdate(this, 1, this.testNuke.oil);
 			}
 			if(this.fuel != this.testNuke.fuel)
 			{

@@ -1,11 +1,6 @@
 package com.hbm.tileentity;
 
-import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiblock;
-import com.hbm.interfaces.ISource;
-
-import net.minecraft.block.BlockContainer;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -15,7 +10,8 @@ public class TileEntityDummy extends TileEntity {
 	public int targetY;
 	public int targetZ;
 	
-    public void updateEntity() {
+    @Override
+	public void updateEntity() {
     	if(!this.worldObj.isRemote) {
     		if(!(this.worldObj.getBlock(targetX, targetY, targetZ) instanceof IMultiblock)) {
     			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
@@ -23,7 +19,8 @@ public class TileEntityDummy extends TileEntity {
     	}
     }
 
-    public void readFromNBT(NBTTagCompound nbt)
+    @Override
+	public void readFromNBT(NBTTagCompound nbt)
     {
     	super.readFromNBT(nbt);
         this.targetX = nbt.getInteger("tx");
@@ -31,7 +28,8 @@ public class TileEntityDummy extends TileEntity {
         this.targetZ = nbt.getInteger("tz");
     }
 
-    public void writeToNBT(NBTTagCompound nbt)
+    @Override
+	public void writeToNBT(NBTTagCompound nbt)
     {
     	super.writeToNBT(nbt);
     	nbt.setInteger("tx", this.targetX);

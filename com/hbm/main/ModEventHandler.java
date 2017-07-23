@@ -1,13 +1,9 @@
 package com.hbm.main;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
 
 public class ModEventHandler

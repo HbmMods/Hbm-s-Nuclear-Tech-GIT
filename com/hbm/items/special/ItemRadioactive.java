@@ -15,7 +15,8 @@ import net.minecraft.world.World;
 
 public class ItemRadioactive extends Item {
 	
-    public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
+    @Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
     	if((entity instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)entity)) || !(entity instanceof EntityPlayer))
     	{
     		doRadiationDamage(entity);

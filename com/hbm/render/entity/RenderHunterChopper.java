@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelHunterChopper;
 import com.hbm.render.model.ProtoCopter;
 

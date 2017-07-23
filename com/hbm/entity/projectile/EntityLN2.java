@@ -2,7 +2,6 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;

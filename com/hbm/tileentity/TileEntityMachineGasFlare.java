@@ -4,15 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IGasAcceptor;
-import com.hbm.interfaces.IOilAcceptor;
-import com.hbm.interfaces.IOilSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
@@ -20,16 +15,13 @@ import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, ISource, IGasAcceptor {
 
@@ -327,6 +319,6 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 
 	@Override
 	public int getMaxGasFill() {
-		return this.maxGas;
+		return TileEntityMachineGasFlare.maxGas;
 	}
 }

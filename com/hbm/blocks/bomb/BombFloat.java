@@ -1,7 +1,6 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionThermo;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 
@@ -50,6 +49,7 @@ public class BombFloat extends Block implements IBomb {
         }
     }
 
+	@Override
 	public void explode(World world, int x, int y, int z) {
 		world.setBlock(x, y, z, Blocks.air);
         	ExplosionChaos.floater(world, x, y, z, 15, 50);

@@ -5,10 +5,8 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class FWatz {
 

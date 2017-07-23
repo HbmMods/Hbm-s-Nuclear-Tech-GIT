@@ -1,8 +1,6 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.tileentity.TileEntityGasDuct;
-import com.hbm.tileentity.TileEntityOilDuct;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -19,6 +17,7 @@ public class BlockGasDuct extends BlockContainer {
 		this.useNeighborBrightness = true;
 	}
 	
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		if(world.getTileEntity(x, y, z) instanceof TileEntityGasDuct) {
 		TileEntityGasDuct cable = (TileEntityGasDuct)world.getTileEntity(x, y, z);
@@ -39,6 +38,7 @@ public class BlockGasDuct extends BlockContainer {
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 	
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		if(world.getTileEntity(x, y, z) instanceof TileEntityGasDuct) {
 			TileEntityGasDuct cable = (TileEntityGasDuct)world.getTileEntity(x, y, z);

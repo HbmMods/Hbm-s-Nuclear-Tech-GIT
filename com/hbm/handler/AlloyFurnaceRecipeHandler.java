@@ -5,23 +5,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUITestDiFurnace;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.FurnaceRecipeHandler.FuelPair;
-import codechicken.nei.recipe.FurnaceRecipeHandler.SmeltingPair;
-import codechicken.nei.recipe.TemplateRecipeHandler.CachedRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 
@@ -41,15 +32,18 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
             this.result = new PositionedStack(result, 129, 25);
         }
 
-        public List<PositionedStack> getIngredients() {
+        @Override
+		public List<PositionedStack> getIngredients() {
             return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input1, input2}));
         }
 
-        public PositionedStack getOtherStack() {
+        @Override
+		public PositionedStack getOtherStack() {
             return fuels.get((cycleticks / 48) % fuels.size()).stack;
         }
 
-        public PositionedStack getResult() {
+        @Override
+		public PositionedStack getResult() {
             return result;
         }
     }
@@ -74,6 +68,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		return GUITestDiFurnace.texture.toString();
 	}
 	
+	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("alloysmelting")) && getClass() == AlloyFurnaceRecipeHandler.class) {
 			Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
@@ -85,6 +80,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
@@ -93,6 +89,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
 		if ((inputId.equals("alloysmelting")) && getClass() == AlloyFurnaceRecipeHandler.class) {
 			loadCraftingRecipes("alloysmelting", new Object[0]);
@@ -101,6 +98,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object[], Object> recipes = MachineRecipes.instance().getAlloyRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {

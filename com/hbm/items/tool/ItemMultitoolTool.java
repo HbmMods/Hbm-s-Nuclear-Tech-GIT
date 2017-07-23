@@ -4,18 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.world.World;
@@ -32,12 +28,13 @@ public class ItemMultitoolTool extends ItemTool {
     	Set all = new HashSet();
     	
     	for(Object b : GameData.getBlockRegistry()) {
-    		all.add((Block)b);
+    		all.add(b);
     	}
     	
     	return all;
     }
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
 		if(player.isSneaking()) {
@@ -58,7 +55,8 @@ public class ItemMultitoolTool extends ItemTool {
 		return stack;
 	}
 	
-    public boolean func_150897_b(Block p_150897_1_) {
+    @Override
+	public boolean func_150897_b(Block p_150897_1_) {
     	return true;
     }
     

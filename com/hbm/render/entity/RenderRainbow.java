@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.lib.RefStrings;
 

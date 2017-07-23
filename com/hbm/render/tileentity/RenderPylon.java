@@ -2,21 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelPylon;
-import com.hbm.render.model.ModelSteelBeam;
-import com.hbm.render.model.ModelSteelCorner;
-import com.hbm.render.model.ModelSteelRoof;
-import com.hbm.render.model.ModelSteelScaffold;
-import com.hbm.render.model.ModelSteelWall;
 import com.hbm.tileentity.TileEntityPylonRedWire;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 

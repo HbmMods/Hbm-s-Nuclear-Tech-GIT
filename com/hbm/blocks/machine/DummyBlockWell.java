@@ -6,10 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineOilWell;
-import com.hbm.tileentity.TileEntityMachineCyclotron;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +31,8 @@ public class DummyBlockWell extends BlockContainer implements IDummy {
 		return new TileEntityDummy();
 	}
 
-    public void breakBlock(World world, int x, int y, int z, Block block, int i)
+    @Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i)
     {
     	if(!safeBreak) {
     		TileEntity te = world.getTileEntity(x, y, z);

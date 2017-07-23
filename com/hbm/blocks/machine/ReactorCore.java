@@ -2,14 +2,12 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.tileentity.TileEntityReactorMultiblock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

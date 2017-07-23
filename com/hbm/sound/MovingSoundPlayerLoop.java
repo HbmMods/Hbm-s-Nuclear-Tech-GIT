@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class MovingSoundPlayerLoop extends MovingSound {

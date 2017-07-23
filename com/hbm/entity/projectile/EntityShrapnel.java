@@ -1,19 +1,9 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -29,7 +19,8 @@ public class EntityShrapnel extends EntityThrowable {
         super(p_i1774_1_, p_i1774_2_);
     }
 
-    public void entityInit() {
+    @Override
+	public void entityInit() {
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
 

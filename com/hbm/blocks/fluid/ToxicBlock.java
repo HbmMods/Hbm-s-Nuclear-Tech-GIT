@@ -7,8 +7,6 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -21,9 +19,6 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -49,11 +44,13 @@ public class ToxicBlock extends BlockFluidClassic {
 		displacements.put(this, false);
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return (side == 0 || side == 1) ? stillIcon : flowingIcon;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
 		stillIcon = register.registerIcon(RefStrings.MODID + ":toxic_still");
@@ -78,6 +75,7 @@ public class ToxicBlock extends BlockFluidClassic {
 		return super.displaceIfPossible(world, x, y, z);
 	}
 
+	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		entity.setInWeb();
 		// if(entity instanceof EntityLivingBase)
@@ -139,6 +137,7 @@ public class ToxicBlock extends BlockFluidClassic {
 		return false;
 	}
 
+	@Override
 	public int tickRate(World p_149738_1_) {
 		return 15;
 	}

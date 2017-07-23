@@ -6,11 +6,9 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSettings.GameType;
 
 public class ItemCapacitor extends Item {
 

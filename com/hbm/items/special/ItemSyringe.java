@@ -186,7 +186,8 @@ public class ItemSyringe extends Item {
 		return EnumRarity.common;
     }
     
-    public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer)
+    @Override
+	public boolean hitEntity(ItemStack stack, EntityLivingBase entity, EntityLivingBase entityPlayer)
     {
     	World world = entity.worldObj;
     	

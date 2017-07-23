@@ -1,41 +1,17 @@
 package com.hbm.render.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.items.ModItems;
-import com.hbm.lib.RefStrings;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.particle.EntityDiggingFX;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
 public class SSmokeRenderer extends Render {
 	private Item field_94151_a;
@@ -59,6 +35,7 @@ public class SSmokeRenderer extends Render {
 	 * void func_76986_a(T entity, double d, double d1, double d2, float f,
 	 * float f1). But JAD is pre 1.5 so doesn't do that.
 	 */
+	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
 			float p_76986_9_) {
 		if (p_76986_1_ instanceof EntitySSmokeFX) {
@@ -121,6 +98,7 @@ public class SSmokeRenderer extends Render {
 	 * Returns the location of an entity's texture. Doesn't seem to be called
 	 * unless you call Render.bindEntityTexture.
 	 */
+	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return TextureMap.locationItemsTexture;
 	}
@@ -137,10 +115,10 @@ public class SSmokeRenderer extends Render {
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 		p_77026_1_.startDrawingQuads();
 		p_77026_1_.setNormal(0.0F, 1.0F, 0.0F);
-		p_77026_1_.addVertexWithUV((double) (0.0F - f5), (double) (0.0F - f6), 0.0D, (double) f, (double) f3);
-		p_77026_1_.addVertexWithUV((double) (f4 - f5), (double) (0.0F - f6), 0.0D, (double) f1, (double) f3);
-		p_77026_1_.addVertexWithUV((double) (f4 - f5), (double) (f4 - f6), 0.0D, (double) f1, (double) f2);
-		p_77026_1_.addVertexWithUV((double) (0.0F - f5), (double) (f4 - f6), 0.0D, (double) f, (double) f2);
+		p_77026_1_.addVertexWithUV(0.0F - f5, 0.0F - f6, 0.0D, f, f3);
+		p_77026_1_.addVertexWithUV(f4 - f5, 0.0F - f6, 0.0D, f1, f3);
+		p_77026_1_.addVertexWithUV(f4 - f5, f4 - f6, 0.0D, f1, f2);
+		p_77026_1_.addVertexWithUV(0.0F - f5, f4 - f6, 0.0D, f, f2);
 		p_77026_1_.draw();
 	}
 }

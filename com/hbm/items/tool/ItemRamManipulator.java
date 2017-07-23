@@ -2,7 +2,6 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
@@ -12,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemRamManipulator extends Item {

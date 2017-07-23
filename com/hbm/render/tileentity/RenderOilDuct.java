@@ -3,7 +3,6 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityCable;
 import com.hbm.tileentity.TileEntityOilDuct;
 
 import net.minecraft.client.renderer.Tessellator;

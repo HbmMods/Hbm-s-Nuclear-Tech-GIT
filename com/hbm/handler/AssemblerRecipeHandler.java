@@ -1,33 +1,19 @@
 package com.hbm.handler;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineAssembler;
-import com.hbm.inventory.gui.GUIMachineCMBFactory;
-import com.hbm.inventory.gui.GUIMachineShredder;
-import com.hbm.inventory.gui.GUITestDiFurnace;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.FurnaceRecipeHandler.FuelPair;
-import codechicken.nei.recipe.FurnaceRecipeHandler.SmeltingPair;
-import codechicken.nei.recipe.TemplateRecipeHandler.CachedRecipe;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 	
@@ -73,11 +59,13 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
             this.result = new PositionedStack(result, 138, 24);
         }
 
-        public List<PositionedStack> getIngredients() {
+        @Override
+		public List<PositionedStack> getIngredients() {
             return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, input12, template}));
         }
 
-        public PositionedStack getResult() {
+        @Override
+		public PositionedStack getResult() {
             return result;
         }
     }
@@ -92,6 +80,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 		return RefStrings.MODID + ":textures/gui/gui_nei_assembler.png";
 	}
 	
+	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("assembly")) && getClass() == AssemblerRecipeHandler.class) {
 			Map<Object[], Object> recipes = MachineRecipes.instance().getAssemblyRecipes();
@@ -117,6 +106,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object[], Object> recipes = MachineRecipes.instance().getAssemblyRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
@@ -139,6 +129,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
 		if ((inputId.equals("assembly")) && getClass() == AssemblerRecipeHandler.class) {
 			loadCraftingRecipes("assembly", new Object[0]);
@@ -147,6 +138,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object[], Object> recipes = MachineRecipes.instance().getAssemblyRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {

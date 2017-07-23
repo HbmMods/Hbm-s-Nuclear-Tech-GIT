@@ -2,7 +2,6 @@ package com.hbm.inventory;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class FluidContainer {

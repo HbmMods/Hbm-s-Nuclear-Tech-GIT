@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineGenerator;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
@@ -16,7 +13,6 @@ import com.hbm.items.special.ItemBattery;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -626,6 +622,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 	}
 	
+	@Override
 	public boolean getTact() {
 		if(age >= 0 && age < 10)
 		{

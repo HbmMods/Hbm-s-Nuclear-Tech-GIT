@@ -7,13 +7,9 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineGenerator;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
-import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionParticle;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
@@ -21,17 +17,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -756,7 +749,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
         explosion.posY = this.yCoord;
         explosion.posZ = this.zCoord;
         this.worldObj.spawnEntityInWorld(explosion);
-        ExplosionParticle.spawnMush(this.worldObj, (int)this.xCoord, (int)this.yCoord - 3, (int)this.zCoord);
+        ExplosionParticle.spawnMush(this.worldObj, this.xCoord, this.yCoord - 3, this.zCoord);
 	}
 
 	@Override
@@ -771,6 +764,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		ffgeua(this.xCoord, this.yCoord - 2, this.zCoord, getTact());
 	}
 	
+	@Override
 	public boolean getTact() {
 		if(age >= 0 && age < 10)
 		{

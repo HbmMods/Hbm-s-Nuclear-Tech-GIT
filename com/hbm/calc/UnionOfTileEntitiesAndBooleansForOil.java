@@ -1,9 +1,6 @@
 package com.hbm.calc;
 
 import com.hbm.interfaces.IOilSource;
-import com.hbm.interfaces.ISource;
-
-import net.minecraft.tileentity.TileEntity;
 
 public class UnionOfTileEntitiesAndBooleansForOil {
 	

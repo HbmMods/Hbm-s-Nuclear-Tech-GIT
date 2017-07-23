@@ -2,10 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerIGenerator;
 import com.hbm.inventory.container.ContainerMachineRefinery;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineIGenerator;
 import com.hbm.tileentity.TileEntityMachineRefinery;
 
 import net.minecraft.client.Minecraft;

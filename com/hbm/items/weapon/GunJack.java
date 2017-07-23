@@ -138,10 +138,11 @@ public class GunJack extends Item {
 		list.add("Projectiles: 24 - 48");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4.5, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 4.5, 0));
 		return multimap;
 	}
 }

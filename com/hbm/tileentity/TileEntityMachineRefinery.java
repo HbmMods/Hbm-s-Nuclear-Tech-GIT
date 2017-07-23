@@ -7,7 +7,6 @@ import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -359,7 +358,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	}
 	
 	public int getOilScaled(int i) {
-		return (int)((oil * i) / maxOil);
+		return (oil * i) / maxOil;
 	}
 	
 	public int getSmearScaled(int i) {
@@ -407,6 +406,6 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 
 	@Override
 	public int getMaxFill() {
-		return this.maxOil;
+		return TileEntityMachineRefinery.maxOil;
 	}
 }

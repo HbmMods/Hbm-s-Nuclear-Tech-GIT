@@ -1,15 +1,11 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.machine.MachineElectricFurnace;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;

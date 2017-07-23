@@ -27,12 +27,14 @@ public class TileEntityHatch extends TileEntity {
 		}
 	}
 
+	@Override
 	public void readFromNBT(NBTTagCompound p_145839_1_) {
 		this.x = p_145839_1_.getInteger("x1");
 		this.y = p_145839_1_.getInteger("y1");
 		this.z = p_145839_1_.getInteger("z1");
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound p_145841_1_) {
 		p_145841_1_.setInteger("x1", this.x);
 		p_145841_1_.setInteger("y1", this.y);

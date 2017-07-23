@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
-import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -20,8 +18,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 import net.minecraft.util.AxisAlignedBB;
@@ -205,7 +201,8 @@ public class EntityBaleflare extends Entity implements IProjectile {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-    public void onUpdate()
+    @Override
+	public void onUpdate()
     {
         super.onUpdate();
 
@@ -213,7 +210,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
         {
             float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, f) * 180.0D / Math.PI);
         }
 
         Block block = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f);
@@ -264,9 +261,9 @@ public class EntityBaleflare extends Entity implements IProjectile {
             else
             {
                 this.inGround = false;
-                this.motionX *= (double)(this.rand.nextFloat() * 0.2F);
-                this.motionY *= (double)(this.rand.nextFloat() * 0.2F);
-                this.motionZ *= (double)(this.rand.nextFloat() * 0.2F);
+                this.motionX *= this.rand.nextFloat() * 0.2F;
+                this.motionY *= this.rand.nextFloat() * 0.2F;
+                this.motionZ *= this.rand.nextFloat() * 0.2F;
                 this.ticksInGround = 0;
                 this.ticksInAir = 0;
             }
@@ -298,7 +295,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
                 if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
                 {
                     f1 = 0.3F;
-                    AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand((double)f1, (double)f1, (double)f1);
+                    AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f1, f1, f1);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
 
                     if (movingobjectposition1 != null)
@@ -337,7 +334,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
                 if (movingobjectposition.entityHit != null)
                 {
                     f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    int k = MathHelper.ceiling_double_int((double)f2 * this.damage);
+                    int k = MathHelper.ceiling_double_int(f2 * this.damage);
 
                     if (this.getIsCritical())
                     {
@@ -360,7 +357,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
                         movingobjectposition.entityHit.setFire(5);
                     }
 
-                    if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float)k))
+                    if (movingobjectposition.entityHit.attackEntityFrom(damagesource, k))
                     {
                         if (movingobjectposition.entityHit instanceof EntityLivingBase)
                         {
@@ -372,7 +369,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
 
                                 if (f4 > 0.0F)
                                 {
-                                    movingobjectposition.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.6000000238418579D / (double)f4, 0.1D, this.motionZ * (double)this.knockbackStrength * 0.6000000238418579D / (double)f4);
+                                    movingobjectposition.entityHit.addVelocity(this.motionX * this.knockbackStrength * 0.6000000238418579D / f4, 0.1D, this.motionZ * this.knockbackStrength * 0.6000000238418579D / f4);
                                 }
                             }
 
@@ -396,13 +393,13 @@ public class EntityBaleflare extends Entity implements IProjectile {
                     this.field_145789_f = movingobjectposition.blockZ;
                     this.field_145790_g = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f);
                     this.inData = this.worldObj.getBlockMetadata(this.field_145791_d, this.field_145792_e, this.field_145789_f);
-                    this.motionX = (double)((float)(movingobjectposition.hitVec.xCoord - this.posX));
-                    this.motionY = (double)((float)(movingobjectposition.hitVec.yCoord - this.posY));
-                    this.motionZ = (double)((float)(movingobjectposition.hitVec.zCoord - this.posZ));
+                    this.motionX = ((float)(movingobjectposition.hitVec.xCoord - this.posX));
+                    this.motionY = ((float)(movingobjectposition.hitVec.yCoord - this.posY));
+                    this.motionZ = ((float)(movingobjectposition.hitVec.zCoord - this.posZ));
                     f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    this.posX -= this.motionX / (double)f2 * 0.05000000074505806D;
-                    this.posY -= this.motionY / (double)f2 * 0.05000000074505806D;
-                    this.posZ -= this.motionZ / (double)f2 * 0.05000000074505806D;
+                    this.posX -= this.motionX / f2 * 0.05000000074505806D;
+                    this.posY -= this.motionY / f2 * 0.05000000074505806D;
+                    this.posZ -= this.motionZ / f2 * 0.05000000074505806D;
                     this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
                     this.inGround = true;
                     this.arrowShake = 7;
@@ -421,7 +418,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
             f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-            for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+            for (this.rotationPitch = (float)(Math.atan2(this.motionY, f2) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
             {
                 ;
             }
@@ -451,7 +448,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
                 for (int l = 0; l < 4; ++l)
                 {
                     f4 = 0.25F;
-                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * (double)f4, this.posY - this.motionY * (double)f4, this.posZ - this.motionZ * (double)f4, this.motionX, this.motionY, this.motionZ);
+                    this.worldObj.spawnParticle("bubble", this.posX - this.motionX * f4, this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY, this.motionZ);
                 }
 
                 f3 = 0.8F;
@@ -465,10 +462,10 @@ public class EntityBaleflare extends Entity implements IProjectile {
             //
             f1 *= 0.25F;
             //
-            this.motionX *= (double)f3;
-            this.motionY *= (double)f3;
-            this.motionZ *= (double)f3;
-            this.motionY -= (double)f1;
+            this.motionX *= f3;
+            this.motionY *= f3;
+            this.motionZ *= f3;
+            this.motionY -= f1;
             this.setPosition(this.posX, this.posY, this.posZ);
             this.func_145775_I();
         }

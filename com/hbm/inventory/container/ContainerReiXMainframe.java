@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityReiXMainframe;
 
 import net.minecraft.entity.player.EntityPlayer;

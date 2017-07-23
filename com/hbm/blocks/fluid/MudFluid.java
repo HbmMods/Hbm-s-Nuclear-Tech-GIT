@@ -11,16 +11,19 @@ public class MudFluid extends Fluid {
 		super("mud_fluid");
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getIcon() {
     	return getStillIcon();
     }
 
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getStillIcon() {
         return MudBlock.stillIcon;
     }
 
+	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getFlowingIcon() {
         return MudBlock.flowingIcon;

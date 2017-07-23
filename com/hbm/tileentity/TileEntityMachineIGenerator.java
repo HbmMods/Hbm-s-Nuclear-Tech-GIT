@@ -4,20 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEIGeneratorPacket;
-import com.hbm.packet.TEPylonSenderPacket;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -226,7 +220,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 			if(age == 9 || age == 19)
 				ffgeuaInit();
 			
-			rotation += ((float)(this.torque / 100F));
+			rotation += (this.torque / 100F);
 
 			if(burn > 0) {
 				burn--;
@@ -389,7 +383,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 		}
 		
 		if (slots[13] != null && slots[13].getItem() == ModItems.inf_diesel)
-			this.fuel = this.maxFuel;
+			this.fuel = TileEntityMachineIGenerator.maxFuel;
 	}
 	
 	public void doLubeTask() {
@@ -475,7 +469,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 		}
 		
 		if (slots[13] != null && slots[13].getItem() == ModItems.inf_water)
-			this.water = this.maxWater;
+			this.water = TileEntityMachineIGenerator.maxWater;
 	}
 	
 	public void doSolidFuelTask() {
@@ -609,6 +603,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 		}
 	}
 
+	@Override
 	public boolean getTact() {
 		if (age >= 0 && age < 10) {
 			return true;

@@ -235,10 +235,11 @@ public class GunRevolver extends Item {
 		}
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 2.5, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 2.5, 0));
 		return multimap;
 	}
 }

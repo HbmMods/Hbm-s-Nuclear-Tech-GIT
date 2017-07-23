@@ -1,17 +1,10 @@
 package com.hbm.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.calc.UnionOfTileEntitiesAndBooleansForGas;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
-import com.hbm.interfaces.IGasDuct;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPipePacket;
-import com.hbm.packet.TEIGeneratorPacket;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,6 +22,7 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 		
 	}
 	
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote)
@@ -57,12 +51,14 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 		else connections[5] = null;
 	}
 
-    public void readFromNBT(NBTTagCompound nbt)
+    @Override
+	public void readFromNBT(NBTTagCompound nbt)
     {
     	this.type = FluidType.values()[nbt.getInteger("fluid")];
     }
 
-    public void writeToNBT(NBTTagCompound nbt)
+    @Override
+	public void writeToNBT(NBTTagCompound nbt)
     {
     	for(int i = 0; i < FluidType.values().length; i++)
     		if(FluidType.values()[i] == this.type)

@@ -5,13 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityCoreAdvanced;
-import com.hbm.tileentity.TileEntityCoreTitanium;
 import com.hbm.tileentity.TileEntityHatch;
-import com.hbm.tileentity.TileEntityMachineBattery;
-
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,7 +17,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -125,13 +118,13 @@ public class BlockSeal extends Block implements IBomb {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			int i = this.getFrameSize(world, x, y, z);
+			int i = BlockSeal.getFrameSize(world, x, y, z);
 			
 			if(i != 0)
-				if(this.isSealClosed(world, x, y, z, i))
-					this.openSeal(world, x, y, z, i);
+				if(BlockSeal.isSealClosed(world, x, y, z, i))
+					BlockSeal.openSeal(world, x, y, z, i);
 				else
-					this.closeSeal(world, x, y, z, i);
+					BlockSeal.closeSeal(world, x, y, z, i);
 			
 			return true;
 		} else {
@@ -269,13 +262,13 @@ public class BlockSeal extends Block implements IBomb {
 
 	@Override
 	public void explode(World world, int x, int y, int z) {
-		int i = this.getFrameSize(world, x, y, z);
+		int i = BlockSeal.getFrameSize(world, x, y, z);
 		
 		if(i != 0)
-			if(this.isSealClosed(world, x, y, z, i))
-				this.openSeal(world, x, y, z, i);
+			if(BlockSeal.isSealClosed(world, x, y, z, i))
+				BlockSeal.openSeal(world, x, y, z, i);
 			else
-				this.closeSeal(world, x, y, z, i);
+				BlockSeal.closeSeal(world, x, y, z, i);
 		
 	}
 	
@@ -288,13 +281,13 @@ public class BlockSeal extends Block implements IBomb {
         	if(meta < 4) {
         		world.setBlockMetadataWithNotify(x, y, z, meta + 4, 2);
         		
-        		int i = this.getFrameSize(world, x, y, z);
+        		int i = BlockSeal.getFrameSize(world, x, y, z);
         		
         		if(i != 0)
-        			if(this.isSealClosed(world, x, y, z, i))
-        				this.openSeal(world, x, y, z, i);
+        			if(BlockSeal.isSealClosed(world, x, y, z, i))
+        				BlockSeal.openSeal(world, x, y, z, i);
         			else
-        				this.closeSeal(world, x, y, z, i);
+        				BlockSeal.closeSeal(world, x, y, z, i);
         	}
         }
         else

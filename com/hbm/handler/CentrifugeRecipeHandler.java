@@ -6,17 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.AlloyFurnaceRecipeHandler.Fuel;
-import com.hbm.handler.AlloyFurnaceRecipeHandler.SmeltingSet;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
-import com.hbm.inventory.gui.GUITestDiFurnace;
-
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.FurnaceRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
@@ -41,11 +35,13 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
             this.result4 = new PositionedStack(result4, 147, 42);
         }
 
-        public List<PositionedStack> getIngredients() {
+        @Override
+		public List<PositionedStack> getIngredients() {
             return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input}));
         }
 
-        public List<PositionedStack> getOtherStacks() {
+        @Override
+		public List<PositionedStack> getOtherStacks() {
         	List<PositionedStack> stacks = new ArrayList<PositionedStack>();
             stacks.add(fuels.get((cycleticks / 48) % fuels.size()).stack);
             stacks.add(result2);
@@ -54,7 +50,8 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
         	return stacks;
         }
 
-        public PositionedStack getResult() {
+        @Override
+		public PositionedStack getResult() {
             return result1;
         }
     }
@@ -95,6 +92,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
         return super.newInstance();
     }
 	
+	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("centrifugeprocessing")) && getClass() == CentrifugeRecipeHandler.class) {
 			Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
@@ -106,6 +104,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
@@ -114,6 +113,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
 		if ((inputId.equals("centrifugeprocessing")) && getClass() == CentrifugeRecipeHandler.class) {
 			loadCraftingRecipes("centrifugeprocessing", new Object[0]);
@@ -122,6 +122,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {

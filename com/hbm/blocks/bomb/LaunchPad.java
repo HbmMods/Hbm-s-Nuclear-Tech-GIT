@@ -187,6 +187,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
     }
 	
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         float f = 0.0625F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F);
@@ -200,7 +201,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         return Item.getItemFromBlock(ModBlocks.launch_pad);
     }
     
-    public void explode(World p_149695_1_, int x, int y, int z)
+    @Override
+	public void explode(World p_149695_1_, int x, int y, int z)
     {
 		TileEntityLaunchPad entity = (TileEntityLaunchPad) p_149695_1_.getTileEntity(x, y, z);
         //if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))

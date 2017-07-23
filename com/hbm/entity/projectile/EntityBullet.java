@@ -30,7 +30,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.DecoBlockAlt;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityNuclearCreeper;
@@ -594,14 +593,14 @@ public class EntityBullet extends Entity implements IProjectile {
 			if (this.getIsCritical()) {
 				for (i = 0; i < 8; ++i) {
 					if (!this.getIsTau())
-						this.worldObj.spawnParticle("fireworksSpark", this.posX + this.motionX * (double) i / 8.0D,
-								this.posY + this.motionY * (double) i / 8.0D,
-								this.posZ + this.motionZ * (double) i / 8.0D, 0, 0,
+						this.worldObj.spawnParticle("fireworksSpark", this.posX + this.motionX * i / 8.0D,
+								this.posY + this.motionY * i / 8.0D,
+								this.posZ + this.motionZ * i / 8.0D, 0, 0,
 								0/*-this.motionX, -this.motionY + 0.2D, -this.motionZ*/);
 					else
-						this.worldObj.spawnParticle("reddust", this.posX + this.motionX * (double) i / 8.0D,
-								this.posY + this.motionY * (double) i / 8.0D,
-								this.posZ + this.motionZ * (double) i / 8.0D, 0, 0,
+						this.worldObj.spawnParticle("reddust", this.posX + this.motionX * i / 8.0D,
+								this.posY + this.motionY * i / 8.0D,
+								this.posZ + this.motionZ * i / 8.0D, 0, 0,
 								0/*-this.motionX, -this.motionY + 0.2D, -this.motionZ*/);
 				}
 			}

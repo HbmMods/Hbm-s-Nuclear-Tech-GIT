@@ -8,7 +8,6 @@ import com.hbm.entity.effect.EntityNukeCloudBig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionPlus;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -16,14 +15,12 @@ import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityNukeBoy;
 import com.hbm.tileentity.TileEntityNukeCustom;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,12 +65,12 @@ public class NukeCustom extends BlockContainer implements IBomb {
 					ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
 
 					if (itemstack != null) {
-						float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-						float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-						float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
+						float f = NukeCustom.field_149933_a.nextFloat() * 0.8F + 0.1F;
+						float f1 = NukeCustom.field_149933_a.nextFloat() * 0.8F + 0.1F;
+						float f2 = NukeCustom.field_149933_a.nextFloat() * 0.8F + 0.1F;
 
 						while (itemstack.stackSize > 0) {
-							int j1 = this.field_149933_a.nextInt(21) + 10;
+							int j1 = NukeCustom.field_149933_a.nextInt(21) + 10;
 
 							if (j1 > itemstack.stackSize) {
 								j1 = itemstack.stackSize;
@@ -90,9 +87,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 							}
 
 							float f3 = 0.05F;
-							entityitem.motionX = (float) this.field_149933_a.nextGaussian() * f3;
-							entityitem.motionY = (float) this.field_149933_a.nextGaussian() * f3 + 0.2F;
-							entityitem.motionZ = (float) this.field_149933_a.nextGaussian() * f3;
+							entityitem.motionX = (float) NukeCustom.field_149933_a.nextGaussian() * f3;
+							entityitem.motionY = (float) NukeCustom.field_149933_a.nextGaussian() * f3 + 0.2F;
+							entityitem.motionZ = (float) NukeCustom.field_149933_a.nextGaussian() * f3;
 							p_149749_1_.spawnEntityInWorld(entityitem);
 						}
 					}
@@ -376,6 +373,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		}
 	}
 
+	@Override
 	public void explode(World world, int x, int y, int z) {
 		TileEntityNukeCustom entity = (TileEntityNukeCustom) world.getTileEntity(x, y, z);
 		{

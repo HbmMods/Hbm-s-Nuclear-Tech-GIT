@@ -1,20 +1,8 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.particle.EntityOilSpillFX;
-import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.explosion.ExplosionChaos;
-import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -30,7 +18,8 @@ public class EntityOilSpill extends EntityThrowable {
         super(p_i1774_1_, p_i1774_2_);
     }
 
-    public void entityInit() {
+    @Override
+	public void entityInit() {
     }
 
     public EntityOilSpill(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)

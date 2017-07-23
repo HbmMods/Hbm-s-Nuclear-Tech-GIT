@@ -45,12 +45,12 @@ public class ModelCloak extends ModelBiped
 
 				GL11.glPushMatrix();
 	            GL11.glTranslatef(0.0F, 0.0F, 0.125F);
-	            double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * (double)par7 - (player.prevPosX + (player.posX - player.prevPosX) * (double)par7);
-	            double d4 = player.field_71096_bN + (player.field_71095_bQ - player.field_71096_bN) * (double)par7 - (player.prevPosY + (player.posY - player.prevPosY) * (double)par7);
-	            double d0 = player.field_71097_bO + (player.field_71085_bR - player.field_71097_bO) * (double)par7 - (player.prevPosZ + (player.posZ - player.prevPosZ) * (double)par7);
+	            double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * par7 - (player.prevPosX + (player.posX - player.prevPosX) * par7);
+	            double d4 = player.field_71096_bN + (player.field_71095_bQ - player.field_71096_bN) * par7 - (player.prevPosY + (player.posY - player.prevPosY) * par7);
+	            double d0 = player.field_71097_bO + (player.field_71085_bR - player.field_71097_bO) * par7 - (player.prevPosZ + (player.posZ - player.prevPosZ) * par7);
 	            float f4 = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * par7;
-	            double d1 = (double)MathHelper.sin(f4 * (float)Math.PI / 180.0F);
-	            double d2 = (double)(-MathHelper.cos(f4 * (float)Math.PI / 180.0F));
+	            double d1 = MathHelper.sin(f4 * (float)Math.PI / 180.0F);
+	            double d2 = (-MathHelper.cos(f4 * (float)Math.PI / 180.0F));
 	            float f5 = (float)d4 * 10.0F;
 
 	            if (f5 < -6.0F)

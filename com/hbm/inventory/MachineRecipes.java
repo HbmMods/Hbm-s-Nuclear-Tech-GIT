@@ -2,19 +2,14 @@ package com.hbm.inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.main.MainRegistry;
 
-import cpw.mods.fml.common.registry.GameData;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -1396,9 +1391,9 @@ public class MachineRecipes {
 	public Map<Object, Object> getShredderRecipes() {
 		Map<Object, Object> recipes = new HashMap<Object, Object>();
 		
-		for(int i = 0; i < this.recipes.size(); i++) {
-			if(this.recipes.get(i) != null && this.recipes.get(i).output.getItem() != ModItems.scrap)
-				recipes.put(((ShredderRecipe)this.recipes.get(i)).input, getShredderResult(((ShredderRecipe)this.recipes.get(i)).input));
+		for(int i = 0; i < MachineRecipes.recipes.size(); i++) {
+			if(MachineRecipes.recipes.get(i) != null && MachineRecipes.recipes.get(i).output.getItem() != ModItems.scrap)
+				recipes.put(MachineRecipes.recipes.get(i).input, getShredderResult(MachineRecipes.recipes.get(i).input));
 		}
 		
 		return recipes;

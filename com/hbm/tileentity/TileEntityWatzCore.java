@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
@@ -16,7 +14,6 @@ import com.hbm.items.special.WatzFuel;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -692,6 +689,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		ffgeua(this.xCoord, this.yCoord - 7, this.zCoord, getTact());
 	}
 	
+	@Override
 	public boolean getTact() {
 		if(age >= 0 && age < 10)
 		{

@@ -5,7 +5,6 @@ import com.hbm.explosion.ExplosionChaos;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class CrystalPulsar extends Block {

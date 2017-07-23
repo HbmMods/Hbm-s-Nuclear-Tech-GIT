@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.entity.projectile.EntitySparkBeam;
 import com.hbm.items.ModItems;
 
@@ -133,10 +131,11 @@ public class GunSpark extends Item {
 		list.add("Projectiles explode on impact.");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4.5, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 4.5, 0));
 		return multimap;
 	}
 }

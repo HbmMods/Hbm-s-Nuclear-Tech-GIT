@@ -8,8 +8,6 @@ import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityDummy;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
-import com.hbm.tileentity.TileEntityMachineOilWell;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

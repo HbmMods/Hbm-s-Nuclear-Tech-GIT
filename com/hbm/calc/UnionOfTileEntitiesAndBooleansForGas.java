@@ -1,7 +1,6 @@
 package com.hbm.calc;
 
 import com.hbm.interfaces.IGasSource;
-import com.hbm.interfaces.IOilSource;
 
 public class UnionOfTileEntitiesAndBooleansForGas {
 	

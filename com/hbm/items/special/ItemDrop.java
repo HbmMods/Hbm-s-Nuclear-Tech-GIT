@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 
 public class ItemDrop extends Item {
 
+	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		if (entityItem != null) {
 			if (entityItem.onGround) {

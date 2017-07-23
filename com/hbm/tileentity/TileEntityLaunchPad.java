@@ -1,18 +1,14 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.bomb.LaunchPad;
-import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEFluidPipePacket;
 import com.hbm.packet.TEMissilePacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

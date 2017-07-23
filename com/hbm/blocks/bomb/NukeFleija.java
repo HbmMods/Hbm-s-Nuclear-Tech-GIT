@@ -200,6 +200,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
 		}
 	}
 
+	@Override
 	public void explode(World world, int x, int y, int z) {
     	TileEntityNukeFleija entity = (TileEntityNukeFleija) world.getTileEntity(x, y, z);
         //if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))

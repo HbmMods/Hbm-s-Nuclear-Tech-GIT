@@ -2,7 +2,6 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;

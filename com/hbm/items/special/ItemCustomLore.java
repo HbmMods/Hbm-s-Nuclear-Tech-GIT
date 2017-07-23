@@ -3,17 +3,11 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 
 public class ItemCustomLore extends ItemRadioactive {
 	

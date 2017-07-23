@@ -2,7 +2,6 @@ package com.hbm.render.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.weapon.GunXVL1456;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelXVL1456;
 
@@ -13,8 +12,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderXVL1456 implements IItemRenderer {
 	

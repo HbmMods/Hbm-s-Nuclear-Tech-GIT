@@ -7,7 +7,6 @@ import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
@@ -114,11 +113,11 @@ public class ExplosionLarge {
 	}
 	
 	public static int rubbleFunction(int i) {
-		return (int)(i/10);
+		return i/10;
 	}
 	
 	public static int shrapnelFunction(int i) {
-		return (int)(i/3);
+		return i/3;
 	}
 	
 }

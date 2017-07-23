@@ -1,17 +1,9 @@
 package com.hbm.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFX;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.IGasAcceptor;
-import com.hbm.interfaces.IGasSource;
-import com.hbm.interfaces.IOilAcceptor;
-import com.hbm.interfaces.IOilSource;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -19,13 +11,11 @@ import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDrillPacket;
 import com.hbm.packet.TEDrillSoundPacket;
-import com.hbm.packet.TEIGeneratorPacket;
 import com.hbm.sound.SoundLoopMachine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -37,8 +27,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachineMiningDrill extends TileEntity implements ISidedInventory, IConsumer {

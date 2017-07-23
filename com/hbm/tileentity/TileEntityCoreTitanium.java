@@ -7,7 +7,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -211,14 +210,17 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 		return false;
 	}
 
+	@Override
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
 
+	@Override
 	public int getProgressScaled(int i) {
 		return (progress * i) / processTime;
 	}
 	
+	@Override
 	public boolean isProcessable(ItemStack item) {
 		if(item != null)
 		{
@@ -232,7 +234,7 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 	public void updateEntity() {
 		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_titanium)
 		{
-			this.power = (int) ((ItemBattery)ModItems.factory_core_titanium).getCharge(slots[22]);
+			this.power = (int) ItemBattery.getCharge(slots[22]);
 		} else {
 			this.power = 0;
 		}
@@ -327,7 +329,7 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 			this.progress = 0;
 		}
 		
-		if(this.progress >= this.processTime)
+		if(this.progress >= TileEntityCoreTitanium.processTime)
 		{
 			if(this.slots[9] != null && isProcessable(this.slots[9]))
 			{

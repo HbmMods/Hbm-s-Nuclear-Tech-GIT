@@ -70,6 +70,7 @@ public class Relay extends WorldGenerator
 		return false;
 	}
 
+	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z)
 	{
 		int i = rand.nextInt(1);

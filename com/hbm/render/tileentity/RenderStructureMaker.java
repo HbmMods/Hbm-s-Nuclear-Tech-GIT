@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL14;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelTapeRecorder;
 import com.hbm.tileentity.TileEntityStructureMarker;
 import com.hbm.world.FWatz;
 import com.hbm.world.FactoryTitanium;
@@ -354,7 +353,7 @@ public class RenderStructureMaker extends TileEntitySpecialRenderer {
 	
 	public void renderSmolBlockAt(ResourceLocation loc1, ResourceLocation loc2, int x, int y, int z) {
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 0F, 0F, 1F);
 		Tessellator tesseract = Tessellator.instance;
 		tesseract.startDrawingQuads();

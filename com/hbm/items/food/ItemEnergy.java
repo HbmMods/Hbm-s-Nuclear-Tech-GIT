@@ -1,6 +1,5 @@
 package com.hbm.items.food;
 
-import java.util.Iterator;
 import java.util.List;
 
 import com.hbm.items.ModItems;
@@ -9,11 +8,8 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -21,7 +17,8 @@ import net.minecraft.world.World;
 
 public class ItemEnergy extends Item {
 
-    public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+    @Override
+	public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
     {
         if (!p_77654_3_.capabilities.isCreativeMode)
         {
@@ -169,17 +166,20 @@ public class ItemEnergy extends Item {
         return p_77654_1_;
     }
     
-    public int getMaxItemUseDuration(ItemStack p_77626_1_)
+    @Override
+	public int getMaxItemUseDuration(ItemStack p_77626_1_)
     {
         return 32;
     }
 
-    public EnumAction getItemUseAction(ItemStack p_77661_1_)
+    @Override
+	public EnumAction getItemUseAction(ItemStack p_77661_1_)
     {
         return EnumAction.drink;
     }
 
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
+    @Override
+	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
     	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart))
     		if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
@@ -189,7 +189,8 @@ public class ItemEnergy extends Item {
     	return p_77659_1_;
     }
     
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List list, boolean p_77624_4_)
     {
     	if(this == ModItems.can_smart)

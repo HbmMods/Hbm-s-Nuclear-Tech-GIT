@@ -96,7 +96,7 @@ public class EntityBlackHole extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(16, (float) 0.5F);
+		this.dataWatcher.addObject(16, 0.5F);
 	}
 
 	@Override

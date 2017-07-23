@@ -60,21 +60,21 @@ public class EntityModFX extends Entity
     public EntityModFX(World p_i1219_1_, double p_i1219_2_, double p_i1219_4_, double p_i1219_6_, double p_i1219_8_, double p_i1219_10_, double p_i1219_12_)
     {
         this(p_i1219_1_, p_i1219_2_, p_i1219_4_, p_i1219_6_);
-        this.motionX = p_i1219_8_ + (double)((float)(Math.random() * 2.0D - 1.0D) * 0.4F);
-        this.motionY = p_i1219_10_ + (double)((float)(Math.random() * 2.0D - 1.0D) * 0.4F);
-        this.motionZ = p_i1219_12_ + (double)((float)(Math.random() * 2.0D - 1.0D) * 0.4F);
+        this.motionX = p_i1219_8_ + (float)(Math.random() * 2.0D - 1.0D) * 0.4F;
+        this.motionY = p_i1219_10_ + (float)(Math.random() * 2.0D - 1.0D) * 0.4F;
+        this.motionZ = p_i1219_12_ + (float)(Math.random() * 2.0D - 1.0D) * 0.4F;
         float f = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
         float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-        this.motionX = this.motionX / (double)f1 * (double)f * 0.4000000059604645D;
-        this.motionY = this.motionY / (double)f1 * (double)f * 0.4000000059604645D + 0.10000000149011612D;
-        this.motionZ = this.motionZ / (double)f1 * (double)f * 0.4000000059604645D;
+        this.motionX = this.motionX / f1 * f * 0.4000000059604645D;
+        this.motionY = this.motionY / f1 * f * 0.4000000059604645D + 0.10000000149011612D;
+        this.motionZ = this.motionZ / f1 * f * 0.4000000059604645D;
     }
 
     public EntityModFX multiplyVelocity(float p_70543_1_)
     {
-        this.motionX *= (double)p_70543_1_;
-        this.motionY = (this.motionY - 0.10000000149011612D) * (double)p_70543_1_ + 0.10000000149011612D;
-        this.motionZ *= (double)p_70543_1_;
+        this.motionX *= p_70543_1_;
+        this.motionY = (this.motionY - 0.10000000149011612D) * p_70543_1_ + 0.10000000149011612D;
+        this.motionZ *= p_70543_1_;
         return this;
     }
 
@@ -119,17 +119,20 @@ public class EntityModFX extends Entity
      * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
      * prevent them from trampling crops
      */
-    protected boolean canTriggerWalking()
+    @Override
+	protected boolean canTriggerWalking()
     {
         return false;
     }
 
-    protected void entityInit() {}
+    @Override
+	protected void entityInit() {}
 
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
+    @Override
+	public void onUpdate()
     {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -140,7 +143,7 @@ public class EntityModFX extends Entity
         //    this.setDead();
         //}
 
-        this.motionY -= 0.04D * (double)this.particleGravity;
+        this.motionY -= 0.04D * this.particleGravity;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
         this.motionX *= 0.9800000190734863D;
         this.motionY *= 0.9800000190734863D;
@@ -155,9 +158,9 @@ public class EntityModFX extends Entity
 
     public void renderParticle(Tessellator p_70539_1_, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_)
     {
-        float f6 = (float)this.particleTextureIndexX / 16.0F;
+        float f6 = this.particleTextureIndexX / 16.0F;
         float f7 = f6 + 0.0624375F;
-        float f8 = (float)this.particleTextureIndexY / 16.0F;
+        float f8 = this.particleTextureIndexY / 16.0F;
         float f9 = f8 + 0.0624375F;
         float f10 = 0.1F * this.particleScale;
 
@@ -169,14 +172,14 @@ public class EntityModFX extends Entity
             f9 = this.particleIcon.getMaxV();
         }
 
-        float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)p_70539_2_ - interpPosX);
-        float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)p_70539_2_ - interpPosY);
-        float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)p_70539_2_ - interpPosZ);
+        float f11 = (float)(this.prevPosX + (this.posX - this.prevPosX) * p_70539_2_ - interpPosX);
+        float f12 = (float)(this.prevPosY + (this.posY - this.prevPosY) * p_70539_2_ - interpPosY);
+        float f13 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * p_70539_2_ - interpPosZ);
         p_70539_1_.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
-        p_70539_1_.addVertexWithUV((double)(f11 - p_70539_3_ * f10 - p_70539_6_ * f10), (double)(f12 - p_70539_4_ * f10), (double)(f13 - p_70539_5_ * f10 - p_70539_7_ * f10), (double)f7, (double)f9);
-        p_70539_1_.addVertexWithUV((double)(f11 - p_70539_3_ * f10 + p_70539_6_ * f10), (double)(f12 + p_70539_4_ * f10), (double)(f13 - p_70539_5_ * f10 + p_70539_7_ * f10), (double)f7, (double)f8);
-        p_70539_1_.addVertexWithUV((double)(f11 + p_70539_3_ * f10 + p_70539_6_ * f10), (double)(f12 + p_70539_4_ * f10), (double)(f13 + p_70539_5_ * f10 + p_70539_7_ * f10), (double)f6, (double)f8);
-        p_70539_1_.addVertexWithUV((double)(f11 + p_70539_3_ * f10 - p_70539_6_ * f10), (double)(f12 - p_70539_4_ * f10), (double)(f13 + p_70539_5_ * f10 - p_70539_7_ * f10), (double)f6, (double)f9);
+        p_70539_1_.addVertexWithUV(f11 - p_70539_3_ * f10 - p_70539_6_ * f10, f12 - p_70539_4_ * f10, f13 - p_70539_5_ * f10 - p_70539_7_ * f10, f7, f9);
+        p_70539_1_.addVertexWithUV(f11 - p_70539_3_ * f10 + p_70539_6_ * f10, f12 + p_70539_4_ * f10, f13 - p_70539_5_ * f10 + p_70539_7_ * f10, f7, f8);
+        p_70539_1_.addVertexWithUV(f11 + p_70539_3_ * f10 + p_70539_6_ * f10, f12 + p_70539_4_ * f10, f13 + p_70539_5_ * f10 + p_70539_7_ * f10, f6, f8);
+        p_70539_1_.addVertexWithUV(f11 + p_70539_3_ * f10 - p_70539_6_ * f10, f12 - p_70539_4_ * f10, f13 + p_70539_5_ * f10 - p_70539_7_ * f10, f6, f9);
     }
 
     public int getFXLayer()
@@ -187,14 +190,16 @@ public class EntityModFX extends Entity
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
-    public void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+    @Override
+	public void writeEntityToNBT(NBTTagCompound p_70014_1_) {
         p_70014_1_.setShort("age", (short)this.particleAge);
     }
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+    @Override
+	public void readEntityFromNBT(NBTTagCompound p_70037_1_) {
         this.particleAge = p_70037_1_.getShort("age");
     }
 
@@ -239,12 +244,14 @@ public class EntityModFX extends Entity
     /**
      * If returns false, the item will not inflict any damage against entities.
      */
-    public boolean canAttackWithItem()
+    @Override
+	public boolean canAttackWithItem()
     {
         return false;
     }
 
-    public String toString()
+    @Override
+	public String toString()
     {
         return this.getClass().getSimpleName() + ", Pos (" + this.posX + "," + this.posY + "," + this.posZ + "), RGBA (" + this.particleRed + "," + this.particleGreen + "," + this.particleBlue + "," + this.particleAlpha + "), Age " + this.particleAge;
     }

@@ -6,23 +6,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.CMBFurnaceRecipeHandler.SmeltingSet;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIMachineCMBFactory;
 import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.IOverlayHandler;
-import codechicken.nei.api.IRecipeOverlayRenderer;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 public class CyclotronRecipeHandler extends TemplateRecipeHandler {
@@ -46,11 +37,13 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
             this.result = new PositionedStack(result, 129, 24);
         }
 
-        public List<PositionedStack> getIngredients() {
+        @Override
+		public List<PositionedStack> getIngredients() {
             return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input1, input2}));
         }
 
-        public PositionedStack getResult() {
+        @Override
+		public PositionedStack getResult() {
             return result;
         }
     }
@@ -65,6 +58,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 		return RefStrings.MODID + ":textures/gui/gui_nei_cyclotron.png";
 	}
 	
+	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("cyclotronProcessing")) && getClass() == CyclotronRecipeHandler.class) {
 			Map<Object[], Object> recipes = MachineRecipes.instance().getCyclotronRecipes();
@@ -76,6 +70,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object[], Object> recipes = MachineRecipes.instance().getCyclotronRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {
@@ -84,6 +79,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
 		if ((inputId.equals("cyclotronProcessing")) && getClass() == CyclotronRecipeHandler.class) {
 			loadCraftingRecipes("cyclotronProcessing", new Object[0]);
@@ -92,6 +88,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object[], Object> recipes = MachineRecipes.instance().getCyclotronRecipes();
 		for (Map.Entry<Object[], Object> recipe : recipes.entrySet()) {

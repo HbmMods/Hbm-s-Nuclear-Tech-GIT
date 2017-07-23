@@ -7,8 +7,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -19,6 +17,7 @@ public class FactoryAdvanced extends WorldGenerator
 	Block Block3 = ModBlocks.factory_advanced_furnace;
 	Block Block4 = ModBlocks.factory_advanced_core;
 	
+	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z)
 	{
 		int i = rand.nextInt(1);

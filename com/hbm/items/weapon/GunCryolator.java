@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
-import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
@@ -33,6 +31,7 @@ public class GunCryolator extends Item {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
@@ -47,6 +46,7 @@ public class GunCryolator extends Item {
 		return p_77659_1_;
 	}
 
+	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		World world = player.worldObj;
 
@@ -85,10 +85,11 @@ public class GunCryolator extends Item {
 		list.add("Damage: 5");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 4, 0));
 		return multimap;
 	}
 }

@@ -6,24 +6,16 @@ import java.util.Random;
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityCombineBall;
-import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
 public class GunOSIPR extends Item {
@@ -41,6 +33,7 @@ public class GunOSIPR extends Item {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
@@ -55,6 +48,7 @@ public class GunOSIPR extends Item {
 		return p_77659_1_;
 	}
 
+	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
 		World world = player.worldObj;
@@ -124,10 +118,11 @@ public class GunOSIPR extends Item {
 		list.add("Secondary Damage: 1000");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 5, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 5, 0));
 		return multimap;
 	}
 

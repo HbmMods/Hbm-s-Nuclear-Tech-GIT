@@ -5,7 +5,6 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.effect.EntityNukeCloudBig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.RenderHelper;

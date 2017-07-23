@@ -1,8 +1,5 @@
 package com.hbm.packet;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.tileentity.TileEntityPylonRedWire;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

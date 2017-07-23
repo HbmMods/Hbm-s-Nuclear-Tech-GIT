@@ -75,7 +75,7 @@ public class ArmorEuphemium extends ItemArmor implements ISpecialArmor {
 	
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
-		if(player instanceof EntityPlayer && Library.checkArmor((EntityPlayer)player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
+		if(player instanceof EntityPlayer && Library.checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
 		{
 			player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5, 127, true));
 			player.addPotionEffect(new PotionEffect(Potion.resistance.id, 5, 127, true));

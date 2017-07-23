@@ -1,9 +1,7 @@
 package com.hbm.threads;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 
 public class ThreadLaser implements Runnable {
 	
@@ -63,7 +61,7 @@ public class ThreadLaser implements Runnable {
 			
 			try {
 				age++;
-				thread.sleep(2000);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -3,11 +3,8 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineAssembler;
-import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityMachineAssembler;
-import com.hbm.tileentity.TileEntityMachineOilWell;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;

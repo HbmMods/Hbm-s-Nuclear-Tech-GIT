@@ -1,7 +1,5 @@
 package com.hbm.handler;
 
-import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
-
 public class FluidTypeHandler {
 	
 	public enum FluidType {

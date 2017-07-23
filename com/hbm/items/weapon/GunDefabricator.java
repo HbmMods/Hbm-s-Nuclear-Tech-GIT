@@ -32,6 +32,7 @@ public class GunDefabricator extends Item {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
@@ -46,6 +47,7 @@ public class GunDefabricator extends Item {
 		return p_77659_1_;
 	}
 
+	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
 		World world = player.worldObj;
@@ -85,10 +87,11 @@ public class GunDefabricator extends Item {
 		list.add("Damage: 40 - 120");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 6.5, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 6.5, 0));
 		return multimap;
 	}
 }

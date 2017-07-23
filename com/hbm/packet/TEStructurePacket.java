@@ -1,10 +1,5 @@
 package com.hbm.packet;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.tileentity.TileEntityMachineIGenerator;
-import com.hbm.tileentity.TileEntityPylonRedWire;
 import com.hbm.tileentity.TileEntityStructureMarker;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

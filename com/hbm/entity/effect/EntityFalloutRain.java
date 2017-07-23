@@ -1,9 +1,6 @@
 package com.hbm.entity.effect;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -43,7 +40,7 @@ public class EntityFalloutRain extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(16, Integer.valueOf((int) 0));
+		this.dataWatcher.addObject(16, Integer.valueOf(0));
 	}
 
 	@Override
@@ -59,7 +56,7 @@ public class EntityFalloutRain extends Entity {
 
 	public void setScale(int i) {
 
-		this.dataWatcher.updateObject(16, Integer.valueOf((int) i));
+		this.dataWatcher.updateObject(16, Integer.valueOf(i));
 	}
 
 	public int getScale() {

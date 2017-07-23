@@ -17,7 +17,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -2263,10 +2262,6 @@ public class ModItems {
 		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
 		
-		//Machine Templates
-		GameRegistry.registerItem(fluid_identifier, fluid_identifier.getUnlocalizedName());
-		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());
-		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_speed_1, upgrade_speed_1.getUnlocalizedName());
@@ -2281,6 +2276,10 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_fortune_1, upgrade_fortune_1.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_fortune_2, upgrade_fortune_2.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_fortune_3, upgrade_fortune_3.getUnlocalizedName());
+		
+		//Machine Templates
+		GameRegistry.registerItem(fluid_identifier, fluid_identifier.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());
 		
 		//Machine Items
 		GameRegistry.registerItem(fuse, fuse.getUnlocalizedName());

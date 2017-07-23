@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.items.special.ItemRadioactive;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemMike extends ItemRadioactive {

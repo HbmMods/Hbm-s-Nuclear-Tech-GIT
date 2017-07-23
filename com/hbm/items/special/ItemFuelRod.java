@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemFuelRod extends ItemRadioactive {

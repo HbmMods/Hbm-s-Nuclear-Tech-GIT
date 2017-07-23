@@ -1,8 +1,5 @@
 package com.hbm.sound;
 
-import com.hbm.entity.mob.EntityHunterChopper;
-import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 

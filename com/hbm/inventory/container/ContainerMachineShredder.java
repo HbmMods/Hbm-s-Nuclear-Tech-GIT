@@ -1,7 +1,6 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineShredder;
 
 import net.minecraft.entity.player.EntityPlayer;

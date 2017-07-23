@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerWatzCore;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityWatzCore;
 
 import net.minecraft.client.Minecraft;

@@ -4,24 +4,17 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
@@ -38,6 +31,7 @@ public class GunImmolator extends Item {
 		return EnumAction.bow;
 	}
 
+	@Override
 	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
 		return 72000;
 	}
@@ -52,6 +46,7 @@ public class GunImmolator extends Item {
 		return p_77659_1_;
 	}
 
+	@Override
 	public void onUsingTick(ItemStack stack, EntityPlayer player, int count) {
 		World world = player.worldObj;
 
@@ -121,10 +116,11 @@ public class GunImmolator extends Item {
 		list.add("Secondary Damage: 25 - 45");
 	}
 
+	@Override
 	public Multimap getItemAttributeModifiers() {
 		Multimap multimap = super.getItemAttributeModifiers();
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
-				new AttributeModifier(field_111210_e, "Weapon modifier", (double) 4, 0));
+				new AttributeModifier(field_111210_e, "Weapon modifier", 4, 0));
 		return multimap;
 	}
 }

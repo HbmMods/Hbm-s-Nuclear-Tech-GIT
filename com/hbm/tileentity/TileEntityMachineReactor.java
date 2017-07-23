@@ -4,7 +4,6 @@ import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

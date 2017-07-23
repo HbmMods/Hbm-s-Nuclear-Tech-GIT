@@ -23,14 +23,16 @@ public class ItemTankWaste extends Item {
         this.setMaxDamage(0);
 	}
 	
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int p_77617_1_)
     {
         int j = MathHelper.clamp_int(p_77617_1_, 0, 8);
         return this.field_150920_d[j];
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister p_94581_1_)
     {
         this.field_150920_d = new IIcon[9];
@@ -40,7 +42,8 @@ public class ItemTankWaste extends Item {
             this.field_150920_d[i] = p_94581_1_.registerIcon(RefStrings.MODID + ":tank_waste_" + i);
         }
     }
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void getSubItems(Item p_150895_1_, CreativeTabs p_150895_2_, List p_150895_3_)
     {
         for (int i = 0; i < 9; ++i)
@@ -48,7 +51,8 @@ public class ItemTankWaste extends Item {
             p_150895_3_.add(new ItemStack(p_150895_1_, 1, i));
         }
     }
-    public String getUnlocalizedName(ItemStack p_77667_1_)
+    @Override
+	public String getUnlocalizedName(ItemStack p_77667_1_)
     {
         int i = MathHelper.clamp_int(p_77667_1_.getItemDamage(), 0, 9);
         return super.getUnlocalizedName() + "_" + i;

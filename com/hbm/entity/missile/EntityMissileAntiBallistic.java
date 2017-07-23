@@ -2,7 +2,6 @@ package com.hbm.entity.missile;
 
 import com.hbm.calc.EasyLocation;
 import com.hbm.entity.particle.EntityDSmokeFX;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 
 import net.minecraft.entity.Entity;

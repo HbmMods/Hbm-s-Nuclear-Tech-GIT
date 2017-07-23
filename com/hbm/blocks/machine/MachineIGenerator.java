@@ -7,8 +7,6 @@ import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.tileentity.TileEntityDummy;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
-import com.hbm.tileentity.TileEntityNukeGadget;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -179,7 +177,8 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 		return true;
     }
 
-    public void breakBlock(World world, int x, int y, int z, Block block, int i)
+    @Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i)
     {
     	/*MultiblockHandler.EnumDirection dir = MultiblockHandler.IntToEnum(world.getBlockMetadata(x, y, z));
     	

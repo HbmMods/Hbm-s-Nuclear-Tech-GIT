@@ -1,7 +1,5 @@
 package com.hbm.handler;
 
-import static codechicken.lib.gui.GuiDraw.drawTexturedModalRect;
-
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,24 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.ReactorRecipeHandler.Fuel;
-import com.hbm.handler.ReactorRecipeHandler.SmeltingSet;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIMachineReactor;
 import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.IOverlayHandler;
-import codechicken.nei.api.IRecipeOverlayRenderer;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 public class ShredderRecipeHandler extends TemplateRecipeHandler {
@@ -49,18 +37,21 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
             this.result = new PositionedStack(result, 83 + 27 + 18 + 1, 5 + 18 + 1);
         }
 
-        public List<PositionedStack> getIngredients() {
+        @Override
+		public List<PositionedStack> getIngredients() {
             return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input}));
         }
 
-        public List<PositionedStack> getOtherStacks() {
+        @Override
+		public List<PositionedStack> getOtherStacks() {
         	List<PositionedStack> stacks = new ArrayList<PositionedStack>();
             stacks.add(fuels.get((cycleticks / 24) % fuels.size()).stack0);
             stacks.add(fuels.get((cycleticks / 24) % fuels.size()).stack1);
         	return stacks;
         }
 
-        public PositionedStack getResult() {
+        @Override
+		public PositionedStack getResult() {
             return result;
         }
     }
@@ -87,6 +78,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		return RefStrings.MODID + ":textures/gui/gui_nei_shredder.png";
 	}
 	
+	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
 		if ((outputId.equals("shredding")) && getClass() == ShredderRecipeHandler.class) {
 			Map<Object, Object> recipes = MachineRecipes.instance().getShredderRecipes();
@@ -98,6 +90,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object, Object> recipes = MachineRecipes.instance().getShredderRecipes();
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
@@ -106,6 +99,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
 		if ((inputId.equals("shredding")) && getClass() == ShredderRecipeHandler.class) {
 			loadCraftingRecipes("shredding", new Object[0]);
@@ -114,6 +108,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
+	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object> recipes = MachineRecipes.instance().getShredderRecipes();
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {

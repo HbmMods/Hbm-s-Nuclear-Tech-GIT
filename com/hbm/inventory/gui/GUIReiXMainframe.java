@@ -2,10 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerReactorMultiblock;
 import com.hbm.inventory.container.ContainerReiXMainframe;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityReiXMainframe;
 
 import net.minecraft.client.Minecraft;

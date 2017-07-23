@@ -1,12 +1,9 @@
 package com.hbm.tileentity;
 
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEIGeneratorPacket;
 import com.hbm.packet.TEStructurePacket;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityStructureMarker extends TileEntity {
@@ -20,6 +17,7 @@ public class TileEntityStructureMarker extends TileEntity {
 	//6: Fusionary Watz Plant
 	public int type = 0;
 	
+	@Override
 	public void updateEntity() {
 		
 		if(this.type > 6)

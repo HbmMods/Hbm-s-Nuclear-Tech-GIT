@@ -124,6 +124,7 @@ public class DecoBlock extends BlockContainer {
         //this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 	
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 
 		int te = world.getBlockMetadata(x, y, z);

@@ -5,17 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.entity.particle.EntityGasFX;
-import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.handler.ShredderRecipeHandler;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IGasAcceptor;
 import com.hbm.interfaces.IGasSource;
 import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.interfaces.IOilSource;
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -27,12 +23,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IOilSource, IGasSource {
@@ -322,7 +316,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 								warning = 2;
 							break;
 							
-						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.oil < this.maxOil && this.gas < this.maxGas) {
+						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.oil < TileEntityMachineOilWell.maxOil && this.gas < TileEntityMachineOilWell.maxGas) {
 							if(succ(this.xCoord, i, this.zCoord)) {
 								oil += 5;
 								if(oil > maxOil)

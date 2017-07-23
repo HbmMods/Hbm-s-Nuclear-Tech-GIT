@@ -1,8 +1,6 @@
 package com.hbm.inventory.container;
 
 import com.hbm.tileentity.TileEntityFWatzCore;
-import com.hbm.tileentity.TileEntityFusionMultiblock;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
