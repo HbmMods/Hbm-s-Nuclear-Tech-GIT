@@ -367,6 +367,8 @@ public class MainRegistry
 		Library.superuser.add("3af1c262-61c0-4b12-a4cb-424cc3a9c8c0");
 		Library.superuser.add("4729b498-a81c-42fd-8acd-20d6d9f759e0");
 		Library.superuser.add("c3f5e449-6d8c-4fe3-acc9-47ef50e7e7ae");
+		//until he manages to do the most basic thing and INSTALL NEI
+		//Library.superuser.add("122fe98f-be19-49ca-a96b-d4dee4f0b22e");
 		
 		Library.initBooks();
 

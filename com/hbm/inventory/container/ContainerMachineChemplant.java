@@ -2,6 +2,8 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineAssembler;
+import com.hbm.tileentity.TileEntityMachineChemplant;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -9,41 +11,48 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineAssembler extends Container {
+public class ContainerMachineChemplant extends Container {
 
-private TileEntityMachineAssembler nukeBoy;
+private TileEntityMachineChemplant nukeBoy;
 
 	private int power;
 	private int progress;
 	private int maxProgress;
 	
-	public ContainerMachineAssembler(InventoryPlayer invPlayer, TileEntityMachineAssembler tedf) {
+	public ContainerMachineChemplant(InventoryPlayer invPlayer, TileEntityMachineChemplant tedf) {
 		
 		nukeBoy = tedf;
 
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 0, 80, 18));
 		//Upgrades
-		this.addSlotToContainer(new Slot(tedf, 1, 152, 18));
-		this.addSlotToContainer(new Slot(tedf, 2, 152, 36));
-		this.addSlotToContainer(new Slot(tedf, 3, 152, 54));
+		this.addSlotToContainer(new Slot(tedf, 1, 116, 18));
+		this.addSlotToContainer(new Slot(tedf, 2, 116, 36));
+		this.addSlotToContainer(new Slot(tedf, 3, 116, 54));
 		//Schematic
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 54));
-		//Output
+		//Outputs
 		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 134, 90));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 6, 152, 90));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 7, 134, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 8, 152, 108));
+		//Fluid Output In
+		this.addSlotToContainer(new Slot(tedf, 9, 134, 54));
+		this.addSlotToContainer(new Slot(tedf, 10, 152, 54));
+		//Fluid Outputs Out
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 134, 72));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 152, 72));
 		//Input
-		this.addSlotToContainer(new Slot(tedf, 6, 8, 18));
-		this.addSlotToContainer(new Slot(tedf, 7, 26, 18));
-		this.addSlotToContainer(new Slot(tedf, 8, 8, 36));
-		this.addSlotToContainer(new Slot(tedf, 9, 26, 36));
-		this.addSlotToContainer(new Slot(tedf, 10, 8, 54));
-		this.addSlotToContainer(new Slot(tedf, 11, 26, 54));
-		this.addSlotToContainer(new Slot(tedf, 12, 8, 72));
-		this.addSlotToContainer(new Slot(tedf, 13, 26, 72));
-		this.addSlotToContainer(new Slot(tedf, 14, 8, 90));
-		this.addSlotToContainer(new Slot(tedf, 15, 26, 90));
-		this.addSlotToContainer(new Slot(tedf, 16, 8, 108));
-		this.addSlotToContainer(new Slot(tedf, 17, 26, 108));
+		this.addSlotToContainer(new Slot(tedf, 13, 8, 90));
+		this.addSlotToContainer(new Slot(tedf, 14, 26, 90));
+		this.addSlotToContainer(new Slot(tedf, 15, 8, 108));
+		this.addSlotToContainer(new Slot(tedf, 16, 26, 108));
+		//Fluid Input In
+		this.addSlotToContainer(new Slot(tedf, 17, 8, 54));
+		this.addSlotToContainer(new Slot(tedf, 18, 26, 54));
+		//Fluid Input Out
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 19, 8, 72));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 20, 26, 72));
 		
 		for(int i = 0; i < 3; i++)
 		{

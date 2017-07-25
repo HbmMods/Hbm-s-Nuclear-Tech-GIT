@@ -20,7 +20,7 @@ public class FluidTank {
 	int maxFluid;
 	public boolean takeIn = true;
 	public boolean letOut = false;
-	int index;
+	public int index;
 	
 	public FluidTank(FluidType type, int maxFluid, int index) {
 		this.type = type;

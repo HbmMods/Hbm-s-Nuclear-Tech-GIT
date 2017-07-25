@@ -54,8 +54,8 @@ public class MachineChemplant extends BlockContainer implements IMultiblock {
 
 		if (i == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionEast)) {
-				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionEast, ModBlocks.dummy_block_chemplant);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.chemplantDimensionEast)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.chemplantDimensionEast, ModBlocks.dummy_block_chemplant);
 
 				//
 				DummyBlockChemplant.safeBreak = true;
@@ -99,8 +99,8 @@ public class MachineChemplant extends BlockContainer implements IMultiblock {
 		}
 		if (i == 1) {
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionSouth)) {
-				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionSouth, ModBlocks.dummy_block_chemplant);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.chemplantDimensionSouth)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.chemplantDimensionSouth, ModBlocks.dummy_block_chemplant);
 
 				//
 				DummyBlockChemplant.safeBreak = true;
@@ -144,8 +144,8 @@ public class MachineChemplant extends BlockContainer implements IMultiblock {
 		}
 		if (i == 2) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionWest)) {
-				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionWest, ModBlocks.dummy_block_chemplant);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.chemplantDimensionWest)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.chemplantDimensionWest, ModBlocks.dummy_block_chemplant);
 
 				//
 				DummyBlockChemplant.safeBreak = true;
@@ -189,8 +189,8 @@ public class MachineChemplant extends BlockContainer implements IMultiblock {
 		}
 		if (i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.assemblerDimensionNorth)) {
-				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.assemblerDimensionNorth, ModBlocks.dummy_block_chemplant);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.chemplantDimensionNorth)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.chemplantDimensionNorth, ModBlocks.dummy_block_chemplant);
 
 				//
 				DummyBlockChemplant.safeBreak = true;

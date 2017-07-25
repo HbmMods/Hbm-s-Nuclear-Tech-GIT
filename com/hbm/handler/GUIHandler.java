@@ -17,6 +17,7 @@ import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.container.ContainerMachineCMBFactory;
+import com.hbm.inventory.container.ContainerMachineChemplant;
 import com.hbm.inventory.container.ContainerMachineCoal;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.inventory.container.ContainerMachineDeuterium;
@@ -59,6 +60,7 @@ import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.gui.GUIMachineBattery;
 import com.hbm.inventory.gui.GUIMachineCMBFactory;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
+import com.hbm.inventory.gui.GUIMachineChemplant;
 import com.hbm.inventory.gui.GUIMachineCoal;
 import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.inventory.gui.GUIMachineDeuterium;
@@ -107,6 +109,7 @@ import com.hbm.tileentity.TileEntityMachineAssembler;
 import com.hbm.tileentity.TileEntityMachineBattery;
 import com.hbm.tileentity.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
+import com.hbm.tileentity.TileEntityMachineChemplant;
 import com.hbm.tileentity.TileEntityMachineCoal;
 import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
@@ -510,6 +513,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineAssembler(player.inventory, (TileEntityMachineAssembler) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_chemplant:
+			{
+				if(entity instanceof TileEntityMachineChemplant)
+				{
+					return new ContainerMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -880,6 +891,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineAssembler)
 					{
 						return new GUIMachineAssembler(player.inventory, (TileEntityMachineAssembler) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_chemplant:
+				{
+					if(entity instanceof TileEntityMachineChemplant)
+					{
+						return new GUIMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
 					}
 				}
 			}
