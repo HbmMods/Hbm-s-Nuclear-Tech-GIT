@@ -22,6 +22,7 @@ import com.hbm.inventory.container.ContainerMachineCoal;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.inventory.container.ContainerMachineDeuterium;
 import com.hbm.inventory.container.ContainerMachineDiesel;
+import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.container.ContainerMachineGasFlare;
 import com.hbm.inventory.container.ContainerMachineMiningDrill;
 import com.hbm.inventory.container.ContainerMachineOilWell;
@@ -66,6 +67,7 @@ import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.inventory.gui.GUIMachineDeuterium;
 import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.inventory.gui.GUIMachineElectricFurnace;
+import com.hbm.inventory.gui.GUIMachineFluidTank;
 import com.hbm.inventory.gui.GUIMachineGasFlare;
 import com.hbm.inventory.gui.GUIMachineGenerator;
 import com.hbm.inventory.gui.GUIMachineMiningDrill;
@@ -115,6 +117,7 @@ import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.TileEntityMachineFluidTank;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
@@ -521,6 +524,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_fluidtank:
+			{
+				if(entity instanceof TileEntityMachineFluidTank)
+				{
+					return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -899,6 +910,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineChemplant)
 					{
 						return new GUIMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_fluidtank:
+				{
+					if(entity instanceof TileEntityMachineFluidTank)
+					{
+						return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 					}
 				}
 			}

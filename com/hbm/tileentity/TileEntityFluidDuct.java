@@ -1,5 +1,10 @@
 package com.hbm.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
+import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.lib.Library;
@@ -15,6 +20,7 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 	
 	public ForgeDirection[] connections = new ForgeDirection[6];
 	public FluidType type = FluidType.NONE;
+	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 	
 	//public List<UnionOfTileEntitiesAndBooleansForGas> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForGas>();
 	

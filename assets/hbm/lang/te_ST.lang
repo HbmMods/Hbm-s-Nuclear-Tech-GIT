@@ -78,7 +78,7 @@ item.boy_bullet.name=U235 Projectile
 item.boy_target.name=Subcritical U235 Target
 item.boy_shielding.name=Neutron Shielding
 
-item.man_explosive.name=Propellant
+item.man_explosive.name=Beans
 item.man_explosive8.name=Bundle of Propellant
 item.man_igniter.name=Bomb Igniter
 item.man_core.name=Plutonium Core
@@ -1241,7 +1241,6 @@ item.reer_graar.name=The Reer Graar
 item.letter.name=Express Mail
 item.polaroid.name=The Polaroid
 item.book_secret.name=3-596-50802-9
-item.burnt_bark.name=Burnt Bark
 
 item.crystal_horn.name=Crystal Horn
 item.crystal_charred.name=Charred Crystal

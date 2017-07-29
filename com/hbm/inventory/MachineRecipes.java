@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
+import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
@@ -2494,5 +2496,76 @@ public class MachineRecipes {
         		new ItemStack(ModItems.sulfur, 1) });
 		
 		return recipes;
+	}
+	
+	public static List<ItemStack> getChemInputFromTempate(ItemStack stack) {
+		
+		if(stack == null || !(stack.getItem() instanceof ItemChemistryTemplate))
+			return null;
+		
+		List<ItemStack> list = new ArrayList<ItemStack>();
+		
+		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
+		case TEST:
+			list.add(new ItemStack(Items.iron_ingot, 4));
+			list.add(new ItemStack(Items.gold_ingot, 2));
+			list.add(new ItemStack(Items.coal, 8));
+			break;
+		}
+		
+		if(list.isEmpty())
+			return null;
+		else
+			return list;
+	}
+	
+	public static FluidStack[] getFluidInputFromTempate(ItemStack stack) {
+		
+		if(stack == null || !(stack.getItem() instanceof ItemChemistryTemplate))
+			return null;
+		
+		FluidStack[] input = new FluidStack[2];
+		
+		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
+		case TEST:
+			input[0] = new FluidStack(400, FluidType.LAVA);
+			input[1] = new FluidStack(200, FluidType.KEROSENE);
+			break;
+		}
+		
+		return input;
+	}
+	
+	public static ItemStack[] getChemOutputFromTempate(ItemStack stack) {
+		
+		if(stack == null || !(stack.getItem() instanceof ItemChemistryTemplate))
+			return null;
+		
+		ItemStack[] output = new ItemStack[4];
+		
+		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
+		case TEST:
+			output[0] = new ItemStack(ModItems.ingot_steel);
+			output[1] = new ItemStack(ModItems.ingot_desh, 2);
+			break;
+		}
+		
+		return output;
+	}
+	
+	public static FluidStack[] getFluidOutputFromTempate(ItemStack stack) {
+		
+		if(stack == null || !(stack.getItem() instanceof ItemChemistryTemplate))
+			return null;
+		
+		FluidStack[] input = new FluidStack[2];
+		
+		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
+		case TEST:
+			input[0] = new FluidStack(200, FluidType.WATER);
+			break;
+		}
+		
+		return input;
 	}
 }

@@ -64,6 +64,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModItems.rod_quad_euphemium));
 		API.hideItem(new ItemStack(ModItems.rod_euphemium));
 		API.hideItem(new ItemStack(ModItems.book_secret));
+		if(MainRegistry.polaroidID != 11)
+			API.hideItem(new ItemStack(ModItems.burnt_bark));
 	}
 
 	@Override

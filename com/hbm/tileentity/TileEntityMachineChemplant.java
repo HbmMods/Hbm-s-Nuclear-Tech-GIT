@@ -6,11 +6,13 @@ import java.util.Random;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidContainer;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.tool.ItemAssemblyTemplate;
+import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
@@ -58,14 +60,6 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		tanks[1].index = 1;
 		tanks[2].index = 2;
 		tanks[3].index = 3;
-		tanks[0].takeIn = true;
-		tanks[1].takeIn = true;
-		tanks[2].takeIn = false;
-		tanks[3].takeIn = false;
-		tanks[0].letOut = false;
-		tanks[1].letOut = false;
-		tanks[2].letOut = true;
-		tanks[3].letOut = true;
 	}
 
 	@Override
@@ -235,14 +229,34 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 
 		if(!worldObj.isRemote)
 		{
+			setContainers();
+			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			tanks[0].loadTank(17, 19, slots);
 			tanks[1].loadTank(18, 20, slots);
 			tanks[2].unloadTank(9, 11, slots);
 			tanks[3].unloadTank(10, 12, slots);
+			
+			for(int i = 0; i < 4; i++) {
+				tanks[i].updateTank(xCoord, yCoord, zCoord);
+			}
 		}
 		
+	}
+	
+	private void setContainers() {
+		
+		if(slots[4] == null || (slots[4] != null && !(slots[4].getItem() instanceof ItemChemistryTemplate))) {
+		} else {
+			FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);
+			FluidStack[] outputs = MachineRecipes.getFluidOutputFromTempate(slots[4]);
+
+			tanks[0].setTankType(inputs[0] == null ? FluidType.NONE : inputs[0].type);
+			tanks[1].setTankType(inputs[1] == null ? FluidType.NONE : inputs[1].type);
+			tanks[2].setTankType(outputs[0] == null ? FluidType.NONE : outputs[0].type);
+			tanks[3].setTankType(outputs[1] == null ? FluidType.NONE : outputs[1].type);
+		}
 	}
 	
 	//I can't believe that worked.

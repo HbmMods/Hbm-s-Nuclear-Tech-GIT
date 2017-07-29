@@ -2,9 +2,12 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -68,27 +71,39 @@ public class ItemChemistryTemplate extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
     	
-    	/*if(!(stack.getItem() instanceof ItemChemistryTemplate))
+    	if(!(stack.getItem() instanceof ItemChemistryTemplate))
     		return;
 
-    	List<ItemStack> stacks = MachineRecipes.getRecipeFromTempate(stack);
-    	ItemStack out = MachineRecipes.getOutputFromTempate(stack);
+    	List<ItemStack> stacks = MachineRecipes.getChemInputFromTempate(stack);
+    	FluidStack[] inF = MachineRecipes.getFluidInputFromTempate(stack);
+    	ItemStack[] out = MachineRecipes.getChemOutputFromTempate(stack);
+    	FluidStack[] outF = MachineRecipes.getFluidOutputFromTempate(stack);
 
-    	try {
-    		list.add("Output:");
-    		list.add(out.stackSize + "x " + out.getDisplayName());
+    	//try {
+    		list.add("Outputs:");
+    		for(int i = 0; i < 4; i++)
+    			if(out[i] != null)
+    				list.add(out[i].stackSize + "x " + out[i].getDisplayName());
+    		
+    		for(int i = 0; i < 2; i++)
+    			if(outF[i] != null)
+    				list.add(outF[i].fill + "mB " + I18n.format(outF[i].type.getUnlocalizedName()));
+    		
     		list.add("Inputs:");
-    	
-    		for(int i = 0; i < stacks.size(); i++) {
-    			if(stacks.get(i) != null)
-    	    		list.add(stacks.get(i).stackSize + "x " + stacks.get(i).getDisplayName());
-    		}
+    		
+    		for(int i = 0; i < stacks.size(); i++)
+				list.add(stacks.get(i).stackSize + "x " + stacks.get(i).getDisplayName());
+    		
+    		for(int i = 0; i < 2; i++)
+    			if(inF[i] != null)
+    				list.add(inF[i].fill + "mB " + I18n.format(inF[i].type.getUnlocalizedName()));
+    		
     		list.add("Production time:");
         	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
-    	} catch(Exception e) {
-    		list.add("###INVALID###");
-    		list.add("0x334077-0x6A298F-0xDF3795-0x334077");
-    	}*/
+    	//} catch(Exception e) {
+    	//	list.add("###INVALID###");
+    	//	list.add("0x334077-0x6A298F-0xDF3795-0x334077");
+    	//}
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiFluidContainer;
 import com.hbm.items.tool.ItemFluidIdentifier;
+import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
@@ -12,15 +13,17 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 public class FluidTank {
 	
 	FluidType type;
 	int fluid;
 	int maxFluid;
-	public boolean takeIn = true;
-	public boolean letOut = false;
 	public int index;
+	public static ResourceLocation fluidTextures = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids2.png");
+	public static int x = 16;
+	public static int y = 100;
 	
 	public FluidTank(FluidType type, int maxFluid, int index) {
 		this.type = type;
@@ -33,7 +36,25 @@ public class FluidTank {
 	}
 	
 	public void setTankType(FluidType type) {
+		
+		if(this.type.name().equals(type.name()))
+			return;
+		
 		this.type = type;
+		this.setFill(0);
+	}
+	
+	public FluidType getTankType() {
+		
+		return type;
+	}
+	
+	public int getFill() {
+		return fluid;
+	}
+	
+	public int getMaxFill() {
+		return maxFluid;
 	}
 	
 	//Called on TE update
@@ -129,16 +150,12 @@ public class FluidTank {
 	public void writeToNBT(NBTTagCompound nbt, String s) {
 		nbt.setInteger(s, fluid);
 		nbt.setInteger(s + "_type", Arrays.asList(FluidType.values()).indexOf(type));
-		nbt.setBoolean(s + "_in", takeIn);
-		nbt.setBoolean(s + "_out", letOut);
 	}
 	
 	//Called by TE to load fillstate
 	public void readFromNBT(NBTTagCompound nbt, String s) {
 		fluid = nbt.getInteger(s);
 		type = FluidType.getEnum(nbt.getInteger(s + "_type"));
-		takeIn = nbt.getBoolean(s + "_in");
-		letOut = nbt.getBoolean(s + "_out");
 	}
 
 }

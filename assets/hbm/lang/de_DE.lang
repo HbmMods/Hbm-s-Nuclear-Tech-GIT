@@ -187,6 +187,10 @@ tile.gas_duct.name=Gasleitung
 tile.gas_duct_solid.name=Verstärkte Gasleitung
 tile.machine_drill.name=Automatischer Minenbohrer
 container.miningDrill=Automatischer Minenbohrer
+tile.machine_assembler.name=Fertigungsmaschine
+container.assembler=Fertigungsmaschine
+tile.machine_chemplant.name=Chemiefabrik
+container.chemplant=Chemiefabrik
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel
@@ -1181,6 +1185,7 @@ item.reer_graar.name=The Reer Graar
 item.letter.name=Eilbrief
 item.polaroid.name=Das Polaroid
 item.book_secret.name=3-596-50802-9
+item.burnt_bark.name=Verbrannte Rinde
 
 item.crystal_horn.name=Kristallhorn
 item.crystal_charred.name=Verkohlter Kristall

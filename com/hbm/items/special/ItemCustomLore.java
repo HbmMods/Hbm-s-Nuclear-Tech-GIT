@@ -400,6 +400,11 @@ public class ItemCustomLore extends ItemRadioactive {
 				list.add("High quality silicate, slightly burned.");
 		}
 		
+		if(this == ModItems.burnt_bark)
+		{
+			list.add("A piece of bark from an exploded golden oak tree.");
+		}
+		
 		if(this == ModItems.crystal_energy)
 		{
 			list.add("Densely packed energy powder.");

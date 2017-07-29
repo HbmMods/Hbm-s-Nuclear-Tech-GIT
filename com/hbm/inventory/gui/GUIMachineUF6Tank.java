@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerUF6Tank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
@@ -45,6 +46,7 @@ public class GUIMachineUF6Tank extends GuiFluidContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		tank.tank.renderTank(this, guiLeft + 80, guiTop + 69, 177, 52, 16, 52);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
+		tank.tank.renderTank(this, guiLeft + 80, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }
