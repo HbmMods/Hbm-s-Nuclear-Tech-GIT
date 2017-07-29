@@ -191,6 +191,12 @@ tile.machine_assembler.name=Assembly Machine
 container.assembler=Assembly Machine
 tile.machine_chemplant.name=Chemical Plant
 container.chemplant=Chemical Plant
+tile.fluid_duct.name=Universal Fluid Duct
+tile.machine_fluidtank.name=Tank
+container.fluidtank=Tank
+
+tile.crate_iron.name=Iron Crate
+tile.crate_steel.name=Steel Crate
 
 tile.red_pylon.name=Electricity Pole
 item.wiring_red_copper.name=Cable Drum
@@ -255,6 +261,8 @@ tile.machine_rtg_green.name=Verticium Wealth Generator
 tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_purple.name=Antimatter Annihilation Generator
+
+item.fluid_identifier.name=Fluid Identifier
 
 item.assembly_template.TEST.name=Assembly Template: Test
 item.assembly_template.MIXED_PLATE.name=Assembly Template: Mixed Plate

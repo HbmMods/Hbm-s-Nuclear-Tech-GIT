@@ -1,6 +1,7 @@
 package com.hbm.tileentity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
@@ -21,8 +22,6 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 	public ForgeDirection[] connections = new ForgeDirection[6];
 	public FluidType type = FluidType.NONE;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
-	
-	//public List<UnionOfTileEntitiesAndBooleansForGas> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForGas>();
 	
 	public TileEntityFluidDuct() {
 		
@@ -60,15 +59,15 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
     @Override
 	public void readFromNBT(NBTTagCompound nbt)
     {
-    	this.type = FluidType.values()[nbt.getInteger("fluid")];
+		super.readFromNBT(nbt);
+		type = FluidType.getEnum(nbt.getInteger("fluid"));
     }
 
     @Override
 	public void writeToNBT(NBTTagCompound nbt)
     {
-    	for(int i = 0; i < FluidType.values().length; i++)
-    		if(FluidType.values()[i] == this.type)
-    			nbt.setInteger("fluid", i);
+		super.writeToNBT(nbt);
+		nbt.setInteger("fluid", Arrays.asList(FluidType.values()).indexOf(type));
     }
 	
 	@Override

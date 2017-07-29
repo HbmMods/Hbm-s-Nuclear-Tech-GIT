@@ -26,12 +26,12 @@ public class ItemFluidIdentifier extends Item {
         this.setMaxDamage(0);
     }
 
-    @Override
+    /*@Override
 	public String getUnlocalizedName(ItemStack stack)
     {
         int i = stack.getItemDamage();
         return super.getUnlocalizedName() + "." + FluidType.getEnum(i).getName();
-    }
+    }*/
 
     @Override
 	@SideOnly(Side.CLIENT)

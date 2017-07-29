@@ -191,6 +191,12 @@ tile.machine_assembler.name=Fertigungsmaschine
 container.assembler=Fertigungsmaschine
 tile.machine_chemplant.name=Chemiefabrik
 container.chemplant=Chemiefabrik
+tile.fluid_duct.name=Universelles Flüssigkeitsrohr
+tile.machine_fluidtank.name=Tank
+container.fluidtank=Tank
+
+tile.crate_iron.name=Eisenkiste
+tile.crate_steel.name=Stahlkiste
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel

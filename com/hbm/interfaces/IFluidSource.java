@@ -11,9 +11,9 @@ public interface IFluidSource {
 	void fillFluid(int x, int y, int z, boolean newTact, FluidType type);
 
 	boolean getTact();
-	int getFluidFill(FluidType type);
-	void setFluidFill(int i, FluidType type);
-	List<IFluidAcceptor> getFluidList();
-	void clearFluidList();
+	int getSFluidFill(FluidType type);
+	void setSFluidFill(int i, FluidType type);
+	List<IFluidAcceptor> getFluidList(FluidType type);
+	void clearFluidList(FluidType type);
 
 }

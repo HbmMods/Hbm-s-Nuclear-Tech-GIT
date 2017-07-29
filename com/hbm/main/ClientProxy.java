@@ -174,6 +174,7 @@ import com.hbm.render.tileentity.RenderDecoBlock;
 import com.hbm.render.tileentity.RenderDecoBlockAlt;
 import com.hbm.render.tileentity.RenderDerrick;
 import com.hbm.render.tileentity.RenderFluidDuct;
+import com.hbm.render.tileentity.RenderFluidTank;
 import com.hbm.render.tileentity.RenderGasDuct;
 import com.hbm.render.tileentity.RenderGasFlare;
 import com.hbm.render.tileentity.RenderIGenerator;
@@ -226,6 +227,7 @@ import com.hbm.tileentity.TileEntityMachineAssembler;
 import com.hbm.tileentity.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.TileEntityMachineChemplant;
 import com.hbm.tileentity.TileEntityMachineCyclotron;
+import com.hbm.tileentity.TileEntityMachineFluidTank;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
@@ -287,6 +289,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMiningDrill.class, new RenderMiningDrill());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAssembler.class, new RenderAssembler());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemplant.class, new RenderChemplant());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 
 		//RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderSnowball(ModItems.man_core));

@@ -158,6 +158,7 @@ import com.hbm.tileentity.TileEntityMachineCyclotron;
 import com.hbm.tileentity.TileEntityMachineDeuterium;
 import com.hbm.tileentity.TileEntityMachineDiesel;
 import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.TileEntityMachineFluidTank;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
@@ -467,6 +468,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineAssembler.class, "tileentity_assembly_machine");
 		GameRegistry.registerTileEntity(TileEntityFluidDuct.class, "tileentity_universal_duct");
 		GameRegistry.registerTileEntity(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
+		GameRegistry.registerTileEntity(TileEntityMachineFluidTank.class, "tileentity_fluid_tank");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

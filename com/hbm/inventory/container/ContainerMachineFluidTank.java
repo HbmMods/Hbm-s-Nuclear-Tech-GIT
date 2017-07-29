@@ -22,8 +22,8 @@ public class ContainerMachineFluidTank extends Container {
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));
 		this.addSlotToContainer(new Slot(tedf, 1, 8, 53));
-		this.addSlotToContainer(new Slot(tedf, 2, 53, 17));
-		this.addSlotToContainer(new Slot(tedf, 3, 53, 53));
+		this.addSlotToContainer(new Slot(tedf, 2, 53 - 18, 17));
+		this.addSlotToContainer(new Slot(tedf, 3, 53 - 18, 53));
 		this.addSlotToContainer(new Slot(tedf, 4, 125, 17));
 		this.addSlotToContainer(new Slot(tedf, 5, 125, 53));
 		this.addSlotToContainer(new Slot(tedf, 6, 152, 17));
@@ -64,10 +64,10 @@ public class ContainerMachineFluidTank extends Container {
 					return null;
 				}
 			}
-			/*else if (!this.mergeItemStack(var5, 0, 2, false))
+			else if (!this.mergeItemStack(var5, 0, 6, false))
 			{
 				return null;
-			}*/
+			}
 			
 			if (var5.stackSize == 0)
 			{

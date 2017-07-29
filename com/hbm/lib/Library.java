@@ -318,13 +318,16 @@ public class Library {
 	public static boolean checkFluidConnectables(World world, int x, int y, int z, FluidType type)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if((tileentity != null && tileentity instanceof TileEntityFluidDuct) || 
+		if(tileentity != null && tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).type == type)
+			return true;
+		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
+				tileentity instanceof IFluidSource)) || 
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank)
 		{
-			if(((TileEntityFluidDuct)tileentity).type == type)
-				return true;
+			return true;
 		}
 		return false;
 	}
@@ -368,7 +371,7 @@ public class Library {
 		return false;
 	}
 	
-	public static boolean checkGasUnionListForFluids(List<UnionOfTileEntitiesAndBooleansForFluids> list, IFluidSource that) {
+	public static boolean checkUnionListForFluids(List<UnionOfTileEntitiesAndBooleansForFluids> list, IFluidSource that) {
 		
 		for(UnionOfTileEntitiesAndBooleansForFluids union : list)
 		{
@@ -1160,11 +1163,17 @@ public class Library {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 		
+		//Chemplant
+		if(block == ModBlocks.dummy_port_chemplant)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
+		
 		if(tileentity instanceof IFluidDuct)
 		{
 			if(tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).type.name().equals(type.name()))
 			{
-				if(Library.checkGasUnionListForFluids(((TileEntityFluidDuct)tileentity).uoteab, that))
+				if(Library.checkUnionListForFluids(((TileEntityFluidDuct)tileentity).uoteab, that))
 				{
 					for(int i = 0; i < ((TileEntityFluidDuct)tileentity).uoteab.size(); i++)
 					{
@@ -1190,31 +1199,54 @@ public class Library {
 		
 		if(tileentity instanceof IFluidAcceptor && newTact && !(tileentity instanceof TileEntityMachineFluidTank && ((TileEntityMachineFluidTank)tileentity).dna()))
 		{
-			that.getFluidList().add((IFluidAcceptor)tileentity);
+			that.getFluidList(type).add((IFluidAcceptor)tileentity);
 		}
 		
 		if(!newTact)
 		{
-			int size = that.getFluidList().size();
+			int size = that.getFluidList(type).size();
 			if(size > 0)
 			{
-				int part = that.getFluidFill(type) / size;
-				for(IFluidAcceptor consume : that.getFluidList())
+				int part = that.getSFluidFill(type) / size;
+				for(IFluidAcceptor consume : that.getFluidList(type))
 				{
-					if(consume.getFluidFill(type) < consume.getMaxFluidFill(type))
+					if(consume.getAFluidFill(type) < consume.getMaxAFluidFill(type))
 					{
-						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
+						if(consume.getMaxAFluidFill(type) - consume.getAFluidFill(type) >= part)
 						{
-							that.setFluidFill(that.getFluidFill(type)-part, type);
-							consume.setFluidFill(consume.getFluidFill(type) + part, type);
+							that.setSFluidFill(that.getSFluidFill(type)-part, type);
+							consume.setAFluidFill(consume.getAFluidFill(type) + part, type);
 						} else {
-							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);
-							consume.setFluidFill(consume.getMaxFluidFill(type), type);
+							that.setSFluidFill(that.getSFluidFill(type) - (consume.getMaxAFluidFill(type) - consume.getAFluidFill(type)), type);
+							consume.setAFluidFill(consume.getMaxAFluidFill(type), type);
 						}
 					}
 				}
 			}
-			that.clearFluidList();
+			that.clearFluidList(type);
 		}
+	}
+	
+	public static boolean isArrayEmpty(Object[] array) {
+		if(array == null)
+			return true;
+		if(array.length == 0)
+			return true;
+		
+		boolean flag = true;
+		
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] != null)
+				flag = false;
+		}
+		
+		return flag;
+	}
+	
+	public static ItemStack carefulCopy(ItemStack stack) {
+		if(stack == null)
+			return null;
+		else
+			return stack.copy();
 	}
 }

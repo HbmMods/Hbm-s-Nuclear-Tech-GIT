@@ -8,6 +8,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -200,6 +201,15 @@ public class TileEntityMachineFluidTank extends TileEntity implements ISidedInve
 
 		if(!worldObj.isRemote)
 		{
+			age++;
+			if(age >= 20)
+			{
+				age = 0;
+			}
+			
+			if((age == 9 || age == 19) && dna())
+				fillFluidInit(tank.getTankType());
+			
 			tank.loadTank(2, 3, slots);
 			tank.setType(0, 1, slots);
 			tank.unloadTank(4, 5, slots);
@@ -236,18 +246,20 @@ public class TileEntityMachineFluidTank extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
+	public int getMaxAFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord, this.yCoord + 1, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 1, getTact(), type);
+		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 1, getTact(), type);
+		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord + 1, getTact(), type);
+		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord - 1, getTact(), type);
+		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord + 1, getTact(), type);
+		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord + 2, getTact(), type);
+		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 2, getTact(), type);
+		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord - 2, getTact(), type);
+		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 2, getTact(), type);
 	}
 
 	@Override
@@ -265,24 +277,34 @@ public class TileEntityMachineFluidTank extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getFluidFill(FluidType type) {
+	public int getAFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setFluidFill(int i, FluidType type) {
+	public void setAFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
-		
 	}
 
 	@Override
-	public List<IFluidAcceptor> getFluidList() {
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
 		return this.list;
 	}
 
 	@Override
-	public void clearFluidList() {
+	public void clearFluidList(FluidType type) {
 		this.list.clear();
+	}
+
+	@Override
+	public int getSFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+	}
+
+	@Override
+	public void setSFluidFill(int i, FluidType type) {
+		if(type.name().equals(tank.getTankType().name()))
+			tank.setFill(i);
 	}
 }
