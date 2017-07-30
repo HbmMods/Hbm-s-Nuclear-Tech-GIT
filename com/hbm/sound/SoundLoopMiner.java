@@ -24,6 +24,9 @@ public class SoundLoopMiner extends SoundLoopMachine {
 		if(te instanceof TileEntityMachineMiningDrill) {
 			TileEntityMachineMiningDrill drill = (TileEntityMachineMiningDrill)te;
 			
+			if(this.volume != 3)
+				volume = 3;
+			
 			if(drill.torque <= 0.5F)
 				this.donePlaying = true;
 		}
