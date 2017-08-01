@@ -22,6 +22,12 @@ hbmfluid.gas=Erdgas
 hbmfluid.coolant=Kühlflüssigkeit
 hbmfluid.amat=Antimaterie
 hbmfluid.aschrab=Antischrabidium
+hbmfluid.heavyoil=Schweröl
+hbmfluid.bitumen=Bitumen
+hbmfluid.heatingoil=Heizöl
+hbmfluid.naphtha=Mitteldestillat
+hbmfluid.lightoil=Leichtöl
+hbmfluid.petroleum=Petroleumgas
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -261,6 +267,9 @@ tile.machine_rtg_green.name=Verticium-Reichtumsgenerator
 tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator (WIP)
 tile.machine_rtg_blue.name=Konvektionsgenerator
 tile.machine_rtg_purple.name=Paarvernichtungsgenerator
+
+item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
+item.assembly_template.name=Fertigungsvorlage:
 
 item.fuse.name=Sicherung
 

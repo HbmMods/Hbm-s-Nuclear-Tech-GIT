@@ -110,11 +110,6 @@ public class TileEntityMachineFluidTank extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		if(i == 0 && stack.getItem() == ModItems.cell_uf6)
-			return true;
-		if(i == 2 && stack.getItem() == ModItems.cell_empty)
-			return true;
-		
 		return false;
 	}
 	

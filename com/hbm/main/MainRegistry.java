@@ -63,6 +63,7 @@ import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionPlus;
+import com.hbm.entity.missile.EntityBombletTheta;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
@@ -70,6 +71,7 @@ import com.hbm.entity.missile.EntityMissileBurst;
 import com.hbm.entity.missile.EntityMissileBusterStrong;
 import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileDoomsday;
 import com.hbm.entity.missile.EntityMissileDrill;
 import com.hbm.entity.missile.EntityMissileEndo;
 import com.hbm.entity.missile.EntityMissileExo;
@@ -548,6 +550,8 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGasFlameFX.class, "entity_gasflame_fx", 75, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMinecartTest.class, "entity_minecart_test", 76, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntitySparkBeam.class, "entity_spark_beam", 77, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 78, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBombletTheta.class, "entity_theta", 79, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

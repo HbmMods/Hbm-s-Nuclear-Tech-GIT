@@ -9,6 +9,7 @@ import com.hbm.entity.missile.EntityMissileBurst;
 import com.hbm.entity.missile.EntityMissileBusterStrong;
 import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileDoomsday;
 import com.hbm.entity.missile.EntityMissileDrill;
 import com.hbm.entity.missile.EntityMissileEndo;
 import com.hbm.entity.missile.EntityMissileExo;
@@ -219,7 +220,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_generic && entity.power >= 75000)
         		{
-            		EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		//EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             	
@@ -246,7 +248,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		}
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_cluster && entity.power >= 75000)
         		{
-            		EntityMissileCluster missile = new EntityMissileCluster(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		EntityMissileCluster missile = new EntityMissileCluster(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
@@ -373,6 +375,15 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000)
         		{
             		EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_doomsday && entity.power >= 75000)
+        		{
+            		EntityMissileDoomsday missile = new EntityMissileDoomsday(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		

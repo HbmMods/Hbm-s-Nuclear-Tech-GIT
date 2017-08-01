@@ -1,106 +1,102 @@
 package com.hbm.entity.missile;
 
-import com.hbm.calc.EasyLocation;
+import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityMissileBase extends EntityThrowable {
+public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
 
-	EasyLocation origin;
-	EasyLocation loc0;
-	EasyLocation loc1;
-	EasyLocation loc2;
-	EasyLocation loc3;
-	EasyLocation loc4;
-	EasyLocation loc5;
-	EasyLocation loc6;
-	EasyLocation loc7;
-	EasyLocation target;
-	
-	public int phase = 0;
-	
-	public int targetPoint = 0;
-	public int lengthX;
-	public int lengthZ;
-	public double lengthFlight;
-	public int baseHeight = 50;
-	public double missileSpeed = 1.5;
-
-	public EntityMissileBase(World p_i1776_1_) {
-		super(p_i1776_1_);
-		this.ignoreFrustumCheck = true;
-	}
-
-	public EntityMissileBase(World p_i1582_1_, int x, int z, double a, double b, double c) {
+	public EntityMissileDoomsday(World p_i1582_1_) {
 		super(p_i1582_1_);
-		this.ignoreFrustumCheck = true;
-		this.posX = a;
-		this.posY = b;
-		this.posZ = c;
-		
-		this.motionY = 0.1;
-		
-		lengthX = (int) (x - this.posX);
-		lengthZ = (int) (z - this.posZ);
-		lengthFlight = Math.sqrt(Math.pow(lengthX, 2) + Math.pow(lengthZ, 2));
-		
-		
-		origin = new EasyLocation(this.posX, this.posY, this.posZ);
-		
-		loc0 = new EasyLocation(this.posX, this.posY + baseHeight, this.posZ);
-		loc1 = new EasyLocation(this.posX + lengthX/lengthFlight * 10, this.posY + baseHeight + 20, this.posZ + lengthZ/lengthFlight * 10);
-		loc2 = new EasyLocation(this.posX + lengthX/lengthFlight * 30, this.posY + baseHeight + 40, this.posZ + lengthZ/lengthFlight * 30);
-		loc3 = new EasyLocation(this.posX + lengthX/lengthFlight * 50, this.posY + baseHeight + 50, this.posZ + lengthZ/lengthFlight * 50);
-			
-		loc4 = new EasyLocation(x - (lengthX/lengthFlight * 50), this.posY + baseHeight + 50, z - (lengthZ/lengthFlight * 50));
-		loc5 = new EasyLocation(x - (lengthX/lengthFlight * 30), this.posY + baseHeight + 40, z - (lengthZ/lengthFlight * 30));
-		loc6 = new EasyLocation(x - (lengthX/lengthFlight * 10), this.posY + baseHeight + 20, z - (lengthZ/lengthFlight * 10));
-		loc7 = new EasyLocation(x, this.posY + baseHeight, z);
-
-		
-		target = new EasyLocation(x, 0, z);
 	}
 	
-	protected void freePizzaGoddammit(EasyLocation loc) {
-		double x = loc.posX - this.posX;
-		double y = loc.posY - this.posY;
-		double z = loc.posZ - this.posZ;
-		lengthFlight = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-		
-		this.motionX = x / this.lengthFlight * missileSpeed;
-		this.motionY = y / this.lengthFlight * missileSpeed;
-		this.motionZ = z / this.lengthFlight * missileSpeed;
+	public EntityMissileDoomsday(World world, float x, float y, float z, int a, int b) {
+		super(world, x, y, z, a, b);
+	}
+
+	@Override
+	public void onImpact() {
+		ExplosionLarge.explode(worldObj, posX, posY, posZ, 10.0F, true, true, true);
 	}
 	
-	protected void rotation() {
-        float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+	public void onUpdate() {
+		super.onUpdate();
+		if(motionY <= 0) {
+			if(!worldObj.isRemote) {
+				this.setDead();
+				EntityBombletTheta bomblet1 = new EntityBombletTheta(worldObj);
+				EntityBombletTheta bomblet2 = new EntityBombletTheta(worldObj);
+				EntityBombletTheta bomblet3 = new EntityBombletTheta(worldObj);
+				EntityBombletTheta bomblet4 = new EntityBombletTheta(worldObj);
+				EntityBombletTheta bomblet5 = new EntityBombletTheta(worldObj);
+				EntityBombletTheta bomblet6 = new EntityBombletTheta(worldObj);
+				bomblet1.motionX = this.motionX * (rand.nextFloat() + 0.5F);
+				bomblet1.motionY = this.motionY * (rand.nextFloat() + 0.5F);
+				bomblet1.motionZ = this.motionZ * (rand.nextFloat() + 0.5F);
+				bomblet2.motionX = this.motionX * (rand.nextFloat() + 0.5F);
+				bomblet2.motionY = this.motionY * (rand.nextFloat() + 0.5F);
+				bomblet2.motionZ = this.motionZ * (rand.nextFloat() + 0.5F);
+				bomblet3.motionX = this.motionX * (rand.nextFloat() + 0.5F);
+				bomblet3.motionY = this.motionY * (rand.nextFloat() + 0.5F);
+				bomblet3.motionZ = this.motionZ * (rand.nextFloat() + 0.5F);
+				bomblet4.motionX = this.motionX * (rand.nextFloat() + 0.5F);
+				bomblet4.motionY = this.motionY * (rand.nextFloat() + 0.5F);
+				bomblet4.motionZ = this.motionZ * (rand.nextFloat() + 0.5F);
+				bomblet5.motionX = this.motionX * (rand.nextFloat() + 0.5F);
+				bomblet5.motionY = this.motionY * (rand.nextFloat() + 0.5F);
+				bomblet5.motionZ = this.motionZ * (rand.nextFloat() + 0.5F);
+				bomblet6.motionX = this.motionX * (rand.nextFloat() + 0.5F);
+				bomblet6.motionY = this.motionY * (rand.nextFloat() + 0.5F);
+				bomblet6.motionZ = this.motionZ * (rand.nextFloat() + 0.5F);
+				bomblet1.posX = this.posX;
+				bomblet1.posY = this.posY;
+				bomblet1.posZ = this.posZ;
+				bomblet2.posX = this.posX;
+				bomblet2.posY = this.posY;
+				bomblet2.posZ = this.posZ;
+				bomblet3.posX = this.posX;
+				bomblet3.posY = this.posY;
+				bomblet3.posZ = this.posZ;
+				bomblet4.posX = this.posX;
+				bomblet4.posY = this.posY;
+				bomblet4.posZ = this.posZ;
+				bomblet5.posX = this.posX;
+				bomblet5.posY = this.posY;
+				bomblet5.posZ = this.posZ;
+				bomblet6.posX = this.posX;
+				bomblet6.posY = this.posY;
+				bomblet6.posZ = this.posZ;
 
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-        {
-            ;
-        }
+				bomblet1.decelY = this.decelY;
+				bomblet2.decelY = this.decelY;
+				bomblet3.decelY = this.decelY;
+				bomblet4.decelY = this.decelY;
+				bomblet5.decelY = this.decelY;
+				bomblet6.decelY = this.decelY;
+				bomblet1.accelXZ = this.accelXZ;
+				bomblet2.accelXZ = this.accelXZ;
+				bomblet3.accelXZ = this.accelXZ;
+				bomblet4.accelXZ = this.accelXZ;
+				bomblet5.accelXZ = this.accelXZ;
+				bomblet6.accelXZ = this.accelXZ;
+				worldObj.spawnEntityInWorld(bomblet1);
+				worldObj.spawnEntityInWorld(bomblet2);
+				worldObj.spawnEntityInWorld(bomblet3);
+				worldObj.spawnEntityInWorld(bomblet4);
+				worldObj.spawnEntityInWorld(bomblet5);
+				worldObj.spawnEntityInWorld(bomblet6);
+			}
+		}
+	}
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-        {
-            this.prevRotationPitch += 360.0F;
-        }
+	/*public EntityMissileGeneric(World p_i1582_1_) {
+		super(p_i1582_1_);
+	}
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-        {
-            this.prevRotationYaw -= 360.0F;
-        }
-
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-        {
-            this.prevRotationYaw += 360.0F;
-        }
+	public EntityMissileGeneric(World p_i1582_1_, int x, int z, double a, double b, double c) {
+		super(p_i1582_1_, x, z, a, b, c);
 	}
 	
 	@Override
@@ -225,26 +221,16 @@ public class EntityMissileBase extends EntityThrowable {
         	break;
         }
         
+        this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+        
         if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water)
         {
     		if(!this.worldObj.isRemote)
     		{
-    			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 5.0F, true);
+				ExplosionLarge.explode(worldObj, posX, posY, posZ, 10.0F, true, true, true);
     		}
     		this.setDead();
         }
-    }
-
-	@Override
-	protected void onImpact(MovingObjectPosition p_70184_1_) {
-		
-	}
-	
-    @Override
-	@SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
-        return distance < 25000;
-    }
+    }*/
 
 }

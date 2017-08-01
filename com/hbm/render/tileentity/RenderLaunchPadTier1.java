@@ -20,6 +20,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 	private static final ResourceLocation missileNuclearModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileNuke.obj");
 	private static final ResourceLocation missileMirvModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileMirv.obj");
 	private static final ResourceLocation missileThermoModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileThermal.obj");
+	private static final ResourceLocation missileDoomModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/missileDoomsday.obj");
 	private IModelCustom padModel;
 	private IModelCustom missileGeneric;
 	private IModelCustom missileStrong;
@@ -27,6 +28,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 	private IModelCustom missileNuclear;
 	private IModelCustom missileMirv;
 	private IModelCustom missileThermo;
+	private IModelCustom missileDoom;
     private ResourceLocation padTexture;
     private ResourceLocation missileGenericTexture;
     private ResourceLocation missileIncendiaryTexture;
@@ -54,6 +56,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		missileNuclear = AdvancedModelLoader.loadModel(missileNuclearModel);
 		missileMirv = AdvancedModelLoader.loadModel(missileMirvModel);
 		missileThermo = AdvancedModelLoader.loadModel(missileThermoModel);
+		missileDoom = AdvancedModelLoader.loadModel(missileDoomModel);
 		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
 		missileGenericTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileV2.png");
 		missileIncendiaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileIncendiary.png");
@@ -93,108 +96,116 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 
         bindTexture(padTexture);
         padModel.renderAll();
-		
-		//if(((TileEntityLaunchPad)tileEntity).getThatWorld().isRemote)
-		{
+        
+        int state = 0;
+        
+        if(tileEntity instanceof TileEntityLaunchPad)
+        	state = ((TileEntityLaunchPad)tileEntity).state;
+        
 	        GL11.glTranslated(0, 0.5, 0);
 	        
-			if(((TileEntityLaunchPad)tileEntity).state == 1)
+			if(state == 1)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
 				bindTexture(missileGenericTexture);
 				missileGeneric.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 2)
+			if(state == 2)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileStrongTexture);
 				missileStrong.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 3)
+			if(state == 3)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
 				bindTexture(missileClusterTexture);
 				missileGeneric.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 4)
+			if(state == 4)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileNuclearTexture);
 				missileNuclear.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 5)
+			if(state == 5)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
 				bindTexture(missileIncendiaryTexture);
 				missileGeneric.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 6)
+			if(state == 6)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
 				bindTexture(missileBusterTexture);
 				missileGeneric.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 7)
+			if(state == 7)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileStrongIncendiaryTexture);
 				missileStrong.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 8)
+			if(state == 8)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileStrongClusterTexture);
 				missileStrong.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 9)
+			if(state == 9)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileStrongBusterTexture);
 				missileStrong.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 10)
+			if(state == 10)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
 				bindTexture(missileHugeTexture);
 				missileHuge.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 11)
+			if(state == 11)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
 				bindTexture(missileHugeIncendiaryTexture);
 				missileHuge.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 12)
+			if(state == 12)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
 				bindTexture(missileHugeClusterTexture);
 				missileHuge.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 13)
+			if(state == 13)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
 				bindTexture(missileHugeBusterTexture);
 				missileHuge.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 14)
+			if(state == 14)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileThermoEndoTexture);
 				missileThermo.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 15)
+			if(state == 15)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(missileThermoExoTexture);
 				missileThermo.renderAll();
 			}
-			if(((TileEntityLaunchPad)tileEntity).state == 16)
+			if(state == 16)
 			{
 		        GL11.glScalef(2F, 2F, 2F);
 				bindTexture(missileMirvTexture);
 				missileMirv.renderAll();
 			}
-		}
+			if(state == 17)
+			{
+		        GL11.glScalef(2F, 2F, 2F);
+				bindTexture(missileStrongTexture);
+				missileDoom.renderAll();
+			}
 
         GL11.glPopMatrix();
     }

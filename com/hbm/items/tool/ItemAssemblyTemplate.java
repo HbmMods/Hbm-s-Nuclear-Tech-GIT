@@ -6,9 +6,11 @@ import com.hbm.inventory.MachineRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 public class ItemAssemblyTemplate extends Item {
 	
@@ -55,11 +57,18 @@ public class ItemAssemblyTemplate extends Item {
         this.setMaxDamage(0);
     }
 
-    @Override
-	public String getUnlocalizedName(ItemStack stack)
+    public String getItemStackDisplayName(ItemStack stack)
     {
-        int i = stack.getItemDamage();
-        return super.getUnlocalizedName() + "." + EnumAssemblyTemplate.getEnum(i).getName();
+        String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+        ItemStack out = MachineRecipes.getOutputFromTempate(stack);
+        String s1 = ("" + StatCollector.translateToLocal((out != null ? out.getUnlocalizedName() : "") + ".name")).trim();
+
+        if (s1 != null)
+        {
+            s = s + " " + s1;
+        }
+
+        return s;
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.hbm.packet;
 
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityLaunchPad;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class TEMissilePacket implements IMessage {
@@ -20,12 +22,49 @@ public class TEMissilePacket implements IMessage {
 		
 	}
 
-	public TEMissilePacket(int x, int y, int z, int type)
+	public TEMissilePacket(int x, int y, int z, ItemStack stack)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.type = type;
+		this.type = 0;
+		if(stack != null) {
+			if(stack.getItem() == ModItems.missile_generic)
+				type = 1;
+			if(stack.getItem() == ModItems.missile_strong)
+				type = 2;
+			if(stack.getItem() == ModItems.missile_cluster)
+				type = 3;
+			if(stack.getItem() == ModItems.missile_nuclear)
+				type = 4;
+			if(stack.getItem() == ModItems.missile_incendiary)
+				type = 5;
+			if(stack.getItem() == ModItems.missile_buster)
+				type = 6;
+			if(stack.getItem() == ModItems.missile_incendiary_strong)
+				type = 7;
+			if(stack.getItem() == ModItems.missile_cluster_strong)
+				type = 8;
+			if(stack.getItem() == ModItems.missile_buster_strong)
+				type = 9;
+			if(stack.getItem() == ModItems.missile_burst)
+				type = 10;
+			if(stack.getItem() == ModItems.missile_inferno)
+				type = 11;
+			if(stack.getItem() == ModItems.missile_rain)
+				type = 12;
+			if(stack.getItem() == ModItems.missile_drill)
+				type = 13;
+			if(stack.getItem() == ModItems.missile_endo)
+				type = 14;
+			if(stack.getItem() == ModItems.missile_exo)
+				type = 15;
+			if(stack.getItem() == ModItems.missile_nuclear_cluster)
+				type = 16;
+			if(stack.getItem() == ModItems.missile_doomsday)
+				type = 17;
+			
+		}
 	}
 
 	@Override
@@ -52,7 +91,7 @@ public class TEMissilePacket implements IMessage {
 
 			if (te != null && te instanceof TileEntityLaunchPad) {
 					
-				TileEntityLaunchPad gen = (TileEntityLaunchPad) te;
+				TileEntityLaunchPad gen = (TileEntityLaunchPad)te;
 				gen.state = m.type;
 			}
 			return null;

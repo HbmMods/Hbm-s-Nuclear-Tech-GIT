@@ -69,6 +69,11 @@ public class FluidTank {
 		FluidType inType = FluidType.NONE;
 		if(slots[in] != null) {
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
+			
+			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
+				return;
+		} else {
+			return;
 		}
 		
 		if(slots[in] != null && inType.name().equals(type.name()) && fluid + FluidContainerRegistry.getFluidContent(slots[in], type) <= maxFluid) {

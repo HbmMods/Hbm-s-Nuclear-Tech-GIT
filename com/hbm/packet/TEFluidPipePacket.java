@@ -55,14 +55,18 @@ public class TEFluidPipePacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(TEFluidPipePacket m, MessageContext ctx) {
-			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
+			try {
+				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
-			if (te != null && te instanceof TileEntityFluidDuct) {
+				if (te != null && te instanceof TileEntityFluidDuct) {
 					
-				TileEntityFluidDuct duct = (TileEntityFluidDuct) te;
-				duct.type = m.type;
+					TileEntityFluidDuct duct = (TileEntityFluidDuct) te;
+					duct.type = m.type;
+				}
+				return null;
+			} catch(Exception ex) {
+				return null;
 			}
-			return null;
 		}
 	}
 }

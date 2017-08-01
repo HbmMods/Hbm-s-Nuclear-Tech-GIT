@@ -29,9 +29,6 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	private static final int[] slots_side = new int[] {1};
 	public int state = 0;
 	
-	public int targetX = this.xCoord + 50;
-	public int targetZ = this.zCoord;
-	
 	private String customName;
 	
 	public TileEntityLaunchPad() {
@@ -194,54 +191,13 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 		
 		power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 		
-		ItemStack stack = slots[0];
-		
-		if(stack != null) {
-			if(stack.getItem() == ModItems.missile_generic)
-				state = 1;
-			if(stack.getItem() == ModItems.missile_strong)
-				state = 2;
-			if(stack.getItem() == ModItems.missile_cluster)
-				state = 3;
-			if(stack.getItem() == ModItems.missile_nuclear)
-				state = 4;
-			if(stack.getItem() == ModItems.missile_incendiary)
-				state = 5;
-			if(stack.getItem() == ModItems.missile_buster)
-				state = 6;
-			if(stack.getItem() == ModItems.missile_incendiary_strong)
-				state = 7;
-			if(stack.getItem() == ModItems.missile_cluster_strong)
-				state = 8;
-			if(stack.getItem() == ModItems.missile_buster_strong)
-				state = 9;
-			if(stack.getItem() == ModItems.missile_burst)
-				state = 10;
-			if(stack.getItem() == ModItems.missile_inferno)
-				state = 11;
-			if(stack.getItem() == ModItems.missile_rain)
-				state = 12;
-			if(stack.getItem() == ModItems.missile_drill)
-				state = 13;
-			if(stack.getItem() == ModItems.missile_endo)
-				state = 14;
-			if(stack.getItem() == ModItems.missile_exo)
-				state = 15;
-			if(stack.getItem() == ModItems.missile_nuclear_cluster)
-				state = 16;
-			
-			if(!worldObj.isRemote)
-				PacketDispatcher.wrapper.sendToAll(new TEMissilePacket(xCoord, yCoord, zCoord, state));
-		}
+		if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAll(new TEMissilePacket(xCoord, yCoord, zCoord, slots[0]));
 	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
-	}
-	
-	public World getThatWorld() {
-		return this.worldObj;
 	}
 
 	@Override
