@@ -14,46 +14,36 @@ public class ContainerMachineRefinery extends Container {
 
 	private TileEntityMachineRefinery testNuke;
 	private int power;
-	private float oil;
-	private int fuel;
-	private int lubricant;
-	private int diesel;
-	private int kerosene;
 	
 	public ContainerMachineRefinery(InventoryPlayer invPlayer, TileEntityMachineRefinery tedf) {
 		power = 0;
-		oil = 0;
-		fuel = 0;
-		lubricant = 0;
-		diesel = 0;
-		kerosene = 0;
 		
 		testNuke = tedf;
 		
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 0, 44, 54));
+		this.addSlotToContainer(new Slot(tedf, 0, 8, 90));
 		//Canister Input
-		this.addSlotToContainer(new Slot(tedf, 1, 134, 18));
+		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 134, 54));
-		//Fuel Input
-		this.addSlotToContainer(new Slot(tedf, 3, 26, 72));
-		//Fuel Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 26, 108));
-		//Lubricant Input
-		this.addSlotToContainer(new Slot(tedf, 5, 62, 72));
-		//Lubricant Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 6, 62, 108));
-		//Diesel Input
-		this.addSlotToContainer(new Slot(tedf, 7, 98, 72));
-		//Diesel Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 8, 98, 108));
-		//Kerosene Input
-		this.addSlotToContainer(new Slot(tedf, 9, 134, 72));
-		//Kerosene Output
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 35, 108));
+		//Heavy Oil Input
+		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
+		//Heavy Oil Output
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 80, 108));
+		//Nahptha Input
+		this.addSlotToContainer(new Slot(tedf, 5, 98, 90));
+		//Nahptha Output
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 6, 98, 108));
+		//Light Oil Input
+		this.addSlotToContainer(new Slot(tedf, 7, 116, 90));
+		//Light Oil Output
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 8, 116, 108));
+		//Petroleum Input
+		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
+		//Petroleum Output
 		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 10, 134, 108));
 		//Sulfur Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 152, 108));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 152, 36));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -73,11 +63,6 @@ public class ContainerMachineRefinery extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.testNuke.power);
-		crafting.sendProgressBarUpdate(this, 1, this.testNuke.oil);
-		crafting.sendProgressBarUpdate(this, 2, this.testNuke.fuel);
-		crafting.sendProgressBarUpdate(this, 3, this.testNuke.lubricant);
-		crafting.sendProgressBarUpdate(this, 4, this.testNuke.diesel);
-		crafting.sendProgressBarUpdate(this, 5, this.testNuke.kerosene);
 	}
 	
 	@Override
@@ -136,34 +121,9 @@ public class ContainerMachineRefinery extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.testNuke.power);
 			}
-			if(this.oil != this.testNuke.oil)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.testNuke.oil);
-			}
-			if(this.fuel != this.testNuke.fuel)
-			{
-				par1.sendProgressBarUpdate(this, 2, this.testNuke.fuel);
-			}
-			if(this.lubricant != this.testNuke.lubricant)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.testNuke.lubricant);
-			}
-			if(this.diesel != this.testNuke.diesel)
-			{
-				par1.sendProgressBarUpdate(this, 4, this.testNuke.diesel);
-			}
-			if(this.kerosene != this.testNuke.kerosene)
-			{
-				par1.sendProgressBarUpdate(this, 5, this.testNuke.kerosene);
-			}
 		}
 
 		this.power = this.testNuke.power;
-		this.oil = this.testNuke.oil;
-		this.oil = this.testNuke.fuel;
-		this.oil = this.testNuke.lubricant;
-		this.oil = this.testNuke.diesel;
-		this.oil = this.testNuke.kerosene;
 	}
 	
 	@Override
@@ -171,26 +131,6 @@ public class ContainerMachineRefinery extends Container {
 		if(i == 0)
 		{
 			testNuke.power = j;
-		}
-		if(i == 1)
-		{
-			testNuke.oil = j;
-		}
-		if(i == 2)
-		{
-			testNuke.fuel = j;
-		}
-		if(i == 3)
-		{
-			testNuke.lubricant = j;
-		}
-		if(i == 4)
-		{
-			testNuke.diesel = j;
-		}
-		if(i == 5)
-		{
-			testNuke.kerosene = j;
 		}
 	}
 }

@@ -17,7 +17,14 @@ public class ItemChemistryTemplate extends Item {
 	
 	public enum EnumChemistryTemplate {
 		
-		TEST;
+		//FP - Fuel Processing
+		//FR - Fuel Reprocessing
+		//FC - Fuel Cracking
+		//CC - Coal Cracking
+		
+		TEST, FP_HEAVYOIL, FP_SMEAR, FP_NAPHTHA, FP_LIGHTOIL, FR_REOIL, FR_PETROIL,
+		FC_I_NAPHTHA, FC_GAS_PETROLEUM, FC_DIESEL_KEROSENE, FC_KEROSENE_PETROLEUM, CC_I,
+		CC_HEATING, CC_HEAVY, CC_NAPHTHA;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			return EnumChemistryTemplate.values()[i];
@@ -62,6 +69,34 @@ public class ItemChemistryTemplate extends Item {
         switch (enum1) {
         case TEST:
         	return 200;
+        case FP_HEAVYOIL:
+        	return 50;
+        case FP_SMEAR:
+        	return 50;
+        case FP_NAPHTHA:
+        	return 50;
+        case FP_LIGHTOIL:
+        	return 50;
+        case FR_REOIL:
+        	return 30;
+        case FR_PETROIL:
+        	return 30;
+        case FC_I_NAPHTHA:
+        	return 150;
+        case FC_GAS_PETROLEUM:
+        	return 100;
+        case FC_DIESEL_KEROSENE:
+        	return 150;
+        case FC_KEROSENE_PETROLEUM:
+        	return 150;
+        case CC_I:
+        	return 200;
+        case CC_HEATING:
+        	return 250;
+        case CC_HEAVY:
+        	return 200;
+        case CC_NAPHTHA:
+        	return 300;
         default:
         	return 100;
         }
@@ -91,8 +126,9 @@ public class ItemChemistryTemplate extends Item {
     		
     		list.add("Inputs:");
     		
-    		for(int i = 0; i < stacks.size(); i++)
-				list.add(stacks.get(i).stackSize + "x " + stacks.get(i).getDisplayName());
+    		if(stacks != null)
+    			for(int i = 0; i < stacks.size(); i++)
+    				list.add(stacks.get(i).stackSize + "x " + stacks.get(i).getDisplayName());
     		
     		for(int i = 0; i < 2; i++)
     			if(inF[i] != null)

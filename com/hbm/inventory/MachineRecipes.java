@@ -1638,7 +1638,7 @@ public class MachineRecipes {
 			break;
 		case WT3_CLUSTER:
 			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
-			list.add(new ItemStack(ModItems.powder_fire, 16));
+			list.add(new ItemStack(ModItems.pellet_cluster, 16));
 			break;
 		case WT1_BUSTER:
 			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
@@ -2511,6 +2511,20 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.gold_ingot, 2));
 			list.add(new ItemStack(Items.coal, 8));
 			break;
+        case CC_I:
+			list.add(new ItemStack(Items.coal, 8));
+			break;
+        case CC_HEATING:
+			list.add(new ItemStack(Items.coal, 8));
+			break;
+        case CC_HEAVY:
+			list.add(new ItemStack(Items.coal, 10));
+			break;
+        case CC_NAPHTHA:
+			list.add(new ItemStack(Items.coal, 10));
+			break;
+		default:
+			break;
 		}
 		
 		if(list.isEmpty())
@@ -2531,6 +2545,59 @@ public class MachineRecipes {
 			input[0] = new FluidStack(400, FluidType.LAVA);
 			input[1] = new FluidStack(200, FluidType.KEROSENE);
 			break;
+        case FP_HEAVYOIL:
+			input[0] = new FluidStack(1000, FluidType.HEAVYOIL);
+			break;
+        case FP_SMEAR:
+			input[0] = new FluidStack(1000, FluidType.SMEAR);
+			break;
+        case FP_NAPHTHA:
+			input[0] = new FluidStack(1000, FluidType.NAPHTHA);
+			break;
+        case FP_LIGHTOIL:
+			input[0] = new FluidStack(1000, FluidType.LIGHTOIL);
+			break;
+        case FR_REOIL:
+			input[0] = new FluidStack(1000, FluidType.SMEAR);
+			break;
+        case FR_PETROIL:
+			input[0] = new FluidStack(800, FluidType.RECLAIMED);
+			input[1] = new FluidStack(200, FluidType.LUBRICANT);
+			break;
+        case FC_I_NAPHTHA:
+			input[0] = new FluidStack(1400, FluidType.SMEAR);
+			input[1] = new FluidStack(800, FluidType.WATER);
+			break;
+        case FC_GAS_PETROLEUM:
+			input[0] = new FluidStack(1800, FluidType.GAS);
+			input[1] = new FluidStack(1200, FluidType.WATER);
+			break;
+        case FC_DIESEL_KEROSENE:
+			input[0] = new FluidStack(1200, FluidType.DIESEL);
+			input[1] = new FluidStack(2000, FluidType.STEAM);
+			break;
+        case FC_KEROSENE_PETROLEUM:
+			input[0] = new FluidStack(1400, FluidType.KEROSENE);
+			input[1] = new FluidStack(2000, FluidType.STEAM);
+			break;
+        case CC_I:
+			input[0] = new FluidStack(800, FluidType.HEAVYOIL);
+			input[1] = new FluidStack(1800, FluidType.WATER);
+			break;
+        case CC_HEATING:
+			input[0] = new FluidStack(800, FluidType.SMEAR);
+			input[1] = new FluidStack(2000, FluidType.STEAM);
+			break;
+        case CC_HEAVY:
+			input[0] = new FluidStack(600, FluidType.SMEAR);
+			input[1] = new FluidStack(1400, FluidType.WATER);
+			break;
+        case CC_NAPHTHA:
+			input[0] = new FluidStack(1200, FluidType.HEAVYOIL);
+			input[1] = new FluidStack(2400, FluidType.STEAM);
+			break;
+		default:
+			break;
 		}
 		
 		return input;
@@ -2548,6 +2615,8 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.ingot_steel);
 			output[1] = new ItemStack(ModItems.ingot_desh, 2);
 			break;
+		default:
+			break;
 		}
 		
 		return output;
@@ -2563,6 +2632,54 @@ public class MachineRecipes {
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
 		case TEST:
 			input[0] = new FluidStack(200, FluidType.WATER);
+			break;
+        case FP_HEAVYOIL:
+			input[0] = new FluidStack(300, FluidType.BITUMEN);
+			input[1] = new FluidStack(700, FluidType.SMEAR);
+			break;
+        case FP_SMEAR:
+			input[0] = new FluidStack(600, FluidType.HEATINGOIL);
+			input[1] = new FluidStack(400, FluidType.LUBRICANT);
+			break;
+        case FP_NAPHTHA:
+			input[0] = new FluidStack(400, FluidType.HEATINGOIL);
+			input[1] = new FluidStack(600, FluidType.DIESEL);
+			break;
+        case FP_LIGHTOIL:
+			input[0] = new FluidStack(400, FluidType.DIESEL);
+			input[1] = new FluidStack(600, FluidType.KEROSENE);
+			break;
+        case FR_REOIL:
+			input[0] = new FluidStack(800, FluidType.RECLAIMED);
+			break;
+        case FR_PETROIL:
+			input[0] = new FluidStack(1000, FluidType.PETROIL);
+			break;
+        case FC_I_NAPHTHA:
+			input[0] = new FluidStack(800, FluidType.NAPHTHA);
+			break;
+        case FC_GAS_PETROLEUM:
+			input[0] = new FluidStack(800, FluidType.PETROLEUM);
+			break;
+        case FC_DIESEL_KEROSENE:
+			input[0] = new FluidStack(400, FluidType.KEROSENE);
+			break;
+        case FC_KEROSENE_PETROLEUM:
+			input[0] = new FluidStack(800, FluidType.PETROLEUM);
+			break;
+        case CC_I:
+			input[0] = new FluidStack(800, FluidType.SMEAR);
+			break;
+        case CC_HEATING:
+			input[0] = new FluidStack(800, FluidType.HEATINGOIL);
+			break;
+        case CC_HEAVY:
+			input[0] = new FluidStack(1800, FluidType.HEAVYOIL);
+			break;
+        case CC_NAPHTHA:
+			input[0] = new FluidStack(2000, FluidType.NAPHTHA);
+			break;
+		default:
 			break;
 		}
 		

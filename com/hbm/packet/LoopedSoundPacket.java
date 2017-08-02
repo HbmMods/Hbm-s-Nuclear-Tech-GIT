@@ -1,6 +1,10 @@
 package com.hbm.packet;
 
+import com.hbm.sound.SoundLoopAssembler;
+import com.hbm.sound.SoundLoopChemplant;
 import com.hbm.sound.SoundLoopMiner;
+import com.hbm.tileentity.TileEntityMachineAssembler;
+import com.hbm.tileentity.TileEntityMachineChemplant;
 import com.hbm.tileentity.TileEntityMachineMiningDrill;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -62,6 +66,30 @@ public class LoopedSoundPacket implements IMessage {
 				
 				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineMiningDrill)te).torque > 0.2F)
 					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopMiner(new ResourceLocation("hbm:block.minerOperate"), te));
+			}
+			
+			if (te != null && te instanceof TileEntityMachineChemplant) {
+				
+				boolean flag = true;
+				for(int i = 0; i < SoundLoopChemplant.list.size(); i++)  {
+					if(SoundLoopChemplant.list.get(i).getTE() == te && !SoundLoopChemplant.list.get(i).isDonePlaying())
+						flag = false;
+				}
+				
+				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineChemplant)te).isProgressing)
+					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopChemplant(new ResourceLocation("hbm:block.chemplantOperate"), te));
+			}
+			
+			if (te != null && te instanceof TileEntityMachineAssembler) {
+				
+				boolean flag = true;
+				for(int i = 0; i < SoundLoopAssembler.list.size(); i++)  {
+					if(SoundLoopAssembler.list.get(i).getTE() == te && !SoundLoopAssembler.list.get(i).isDonePlaying())
+						flag = false;
+				}
+				
+				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineAssembler)te).isProgressing)
+					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopAssembler(new ResourceLocation("hbm:block.assemblerOperate"), te));
 			}
 			return null;
 		}

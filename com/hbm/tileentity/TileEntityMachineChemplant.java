@@ -17,8 +17,10 @@ import com.hbm.items.special.ItemBattery;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.lib.Library;
+import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
+import com.hbm.packet.TEChemplantPacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,6 +46,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	public int progress;
 	public int maxProgress = 100;
 	public float rotation = 0;
+	public boolean isProgressing;
 	int age = 0;
 	int consumption = 100;
 	int speed = 100;
@@ -284,6 +287,8 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 
 		if(!worldObj.isRemote)
 		{
+			isProgressing = false;
+			
 			age++;
 			if(age >= 20)
 			{
@@ -292,7 +297,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			
 			if(age == 9 || age == 19) {
 				fillFluidInit(tanks[2].getTankType());
-				//fillFluidInit(tanks[3].getTankType());
+				fillFluidInit(tanks[3].getTankType());
 			}
 			
 			setContainers();
@@ -319,7 +324,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 					
 					if(hasSpaceForItems(MachineRecipes.getChemOutputFromTempate(slots[4])) && hasSpaceForFluids(outputs)) {
 						progress++;
-						
+						isProgressing = true;
 						rotation += 5;
 						
 						if(rotation >= 360)
@@ -400,6 +405,9 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 					if(tryFillAssembler(hopper, i))
 						break;
 			}
+			
+			PacketDispatcher.wrapper.sendToAll(new TEChemplantPacket(xCoord, yCoord, zCoord, rotation, isProgressing));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
 		
 	}
@@ -666,8 +674,8 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	//boolean true: remove items, boolean false: simulation mode
 	public boolean removeItems(List<ItemStack> stack, ItemStack[] array) {
 		
-		if(stack == null)
-			return false;
+		if(stack == null || stack.isEmpty())
+			return true;
 		
 		for(int i = 0; i < stack.size(); i++) {
 			for(int j = 0; j < stack.get(i).stackSize; j++) {
@@ -830,9 +838,9 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getMaxFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[1].getMaxFill();
+			return tanks[2].getMaxFill();
 		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[1].getMaxFill();
+			return tanks[3].getMaxFill();
 		
 		return 0;
 	}

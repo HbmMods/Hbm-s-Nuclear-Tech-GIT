@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.tileentity.TileEntityMachineFluidTank;
 import com.hbm.tileentity.TileEntityMachineIGenerator;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -25,8 +26,8 @@ public class RenderFluidTank extends TileEntitySpecialRenderer {
 		genModel = AdvancedModelLoader.loadModel(body);
 		rotModel = AdvancedModelLoader.loadModel(rotor);
 		//gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
-		genTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
-		rotTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
+		genTexture = new ResourceLocation(RefStrings.MODID, "textures/models/tank.png");
+		rotTexture = new ResourceLocation(RefStrings.MODID, "textures/models/tank_none.png");
     }
 
     @Override
@@ -87,6 +88,10 @@ public class RenderFluidTank extends TileEntitySpecialRenderer {
 	        //GL11.glTranslated(0.5D, 0.0D, 0.0D);
 		}
 
+		String s = "NONE";
+		if(tileEntity instanceof TileEntityMachineFluidTank)
+			s = ((TileEntityMachineFluidTank)tileEntity).tank.getTankType().name();
+		rotTexture = new ResourceLocation(RefStrings.MODID, "textures/models/tank_" + s + ".png");
         bindTexture(rotTexture);
         rotModel.renderAll();
 

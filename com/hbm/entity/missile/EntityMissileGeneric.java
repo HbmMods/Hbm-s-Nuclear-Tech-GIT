@@ -11,7 +11,7 @@ public class EntityMissileGeneric extends EntityMissileBaseAdvanced {
 	public EntityMissileGeneric(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
-	
+
 	public EntityMissileGeneric(World world, float x, float y, float z, int a, int b) {
 		super(world, x, y, z, a, b);
 	}

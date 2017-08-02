@@ -1,37 +1,43 @@
 package com.hbm.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IOilAcceptor;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineRefinery extends TileEntity implements ISidedInventory, IConsumer, IOilAcceptor {
+public class TileEntityMachineRefinery extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
 
 	public int power = 0;
-	public int oil = 0;
-	public int fuel = 0;
-	public int lubricant = 0;
-	public int diesel = 0;
-	public int kerosene = 0;
 	public int sulfur = 0;
+	public static final int maxSulfur = 1000;
 	public static final int maxPower = 100000;
-	public static final int maxOil = 640;
-	public static final int maxFuel = 64 * 100;
-	public static final int maxLubricant =  64 * 100;
-	public static final int maxDiesel = 64 * 100;
-	public static final int maxKerosene = 64 * 100;
-	public static final int maxSulfur = 100;
 	public int age = 0;
+	public FluidTank[] tanks;
+	public List<IFluidAcceptor> list1 = new ArrayList();
+	public List<IFluidAcceptor> list2 = new ArrayList();
+	public List<IFluidAcceptor> list3 = new ArrayList();
+	public List<IFluidAcceptor> list4 = new ArrayList();
 
 	private static final int[] slots_top = new int[] { 1 };
 	private static final int[] slots_bottom = new int[] { 0, 2, 4, 6, 8, 10, 11};
@@ -41,6 +47,17 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	
 	public TileEntityMachineRefinery() {
 		slots = new ItemStack[12];
+		tanks = new FluidTank[5];
+		tanks[0] = new FluidTank(FluidType.OIL, 64000, 0);
+		tanks[1] = new FluidTank(FluidType.HEAVYOIL, 16000, 0);
+		tanks[2] = new FluidTank(FluidType.NAPHTHA, 16000, 0);
+		tanks[3] = new FluidTank(FluidType.LIGHTOIL, 16000, 0);
+		tanks[4] = new FluidTank(FluidType.PETROLEUM, 16000, 0);
+		tanks[0].index = 0;
+		tanks[1].index = 1;
+		tanks[2].index = 2;
+		tanks[3].index = 3;
+		tanks[4].index = 4;
 	}
 
 	@Override
@@ -99,7 +116,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		{
 			return false;
 		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
 		}
 	}
 	
@@ -157,11 +174,11 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		power = nbt.getInteger("power");
-		oil = nbt.getInteger("oil");
-		fuel = nbt.getInteger("fuel");
-		lubricant = nbt.getInteger("lubricant");
-		diesel = nbt.getInteger("diesel");
-		kerosene = nbt.getInteger("kerosene");
+		tanks[0].readFromNBT(nbt, "input");
+		tanks[1].readFromNBT(nbt, "heavy");
+		tanks[2].readFromNBT(nbt, "naphtha");
+		tanks[3].readFromNBT(nbt, "light");
+		tanks[4].readFromNBT(nbt, "petroleum");
 		sulfur = nbt.getInteger("sulfur");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -180,11 +197,11 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("power", power);
-		nbt.setInteger("oil", oil);
-		nbt.setInteger("fuel", fuel);
-		nbt.setInteger("lubricant", lubricant);
-		nbt.setInteger("diesel", diesel);
-		nbt.setInteger("kerosene", kerosene);
+		tanks[0].writeToNBT(nbt, "input");
+		tanks[1].writeToNBT(nbt, "heavy");
+		tanks[2].writeToNBT(nbt, "naphtha");
+		tanks[3].writeToNBT(nbt, "light");
+		tanks[4].writeToNBT(nbt, "petroleum");
 		nbt.setInteger("sulfur", sulfur);
 		NBTTagList list = new NBTTagList();
 		
@@ -235,109 +252,53 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	
 	@Override
 	public void updateEntity() {
-		
-		int timer = 20;
-		age++;
-		if(age >= timer)
-			age -= timer;
 
 		if (!worldObj.isRemote) {
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			
-			if(slots[1] != null && slots[1].getItem() == ModItems.canister_oil && oil + 5 <= maxOil) {
-				if(slots[2] == null) {
-					oil += 5;
-					slots[1].stackSize--;
-					if(slots[1].stackSize <= 0)
-						slots[1] = null;
-					slots[2] = new ItemStack(ModItems.canister_empty);
-				}else if(slots[2] != null && slots[2].getItem() == ModItems.canister_empty && slots[2].stackSize < slots[2].getMaxStackSize()) {
-					oil += 5;
-					slots[1].stackSize--;
-					if(slots[1].stackSize <= 0)
-						slots[1] = null;
-					slots[2].stackSize++;
-				}
+
+			age++;
+			if(age >= 20)
+			{
+				age = 0;
 			}
 			
-			if(age == 0)
-			if(power >= 100 && oil - 5 >= 0 && fuel + 45 <= maxFuel && 
-					lubricant + 30 <= maxLubricant && 
-					diesel + 20 <= maxDiesel && 
-					kerosene + 5 <= maxKerosene) {
-				
-				oil -= 5;
-				fuel += 45;
-				lubricant += 30;
-				diesel += 20;
-				kerosene += 5;
+			if(age == 9 || age == 19) {
+				fillFluidInit(tanks[1].getTankType());
+				fillFluidInit(tanks[2].getTankType());
+				fillFluidInit(tanks[3].getTankType());
+				fillFluidInit(tanks[4].getTankType());
+			}
+			
+			tanks[0].loadTank(1, 2, slots);
+			
+			int ho = 50;
+			int nt = 25;
+			int lo = 15;
+			int pe = 10;
+			
+			if(power >= 50 && tanks[0].getFill() >= 100 &&
+					tanks[1].getFill() + ho <= tanks[1].getMaxFill() && 
+					tanks[2].getFill() + nt <= tanks[2].getMaxFill() && 
+					tanks[3].getFill() + lo <= tanks[3].getMaxFill() && 
+					tanks[4].getFill() + pe <= tanks[4].getMaxFill()) {
+
+				tanks[0].setFill(tanks[0].getFill() - 100);
+				tanks[1].setFill(tanks[1].getFill() + ho);
+				tanks[2].setFill(tanks[2].getFill() + nt);
+				tanks[3].setFill(tanks[3].getFill() + lo);
+				tanks[4].setFill(tanks[4].getFill() + pe);
 				sulfur += 1;
 				power -= 100;
 			}
+
+			tanks[1].unloadTank(3, 4, slots);
+			tanks[2].unloadTank(5, 6, slots);
+			tanks[3].unloadTank(7, 8, slots);
+			tanks[4].unloadTank(9, 10, slots);
 			
-			if(slots[3] != null && slots[3].getItem() == ModItems.canister_empty && fuel - 100 >= 0) {
-				if(slots[4] == null) {
-					slots[4] = new ItemStack(ModItems.canister_smear);
-					fuel -= 100;
-					slots[3].stackSize--;
-					if(slots[3].stackSize <= 0)
-						slots[3] = null;
-				} else if(slots[4] != null && slots[4].getItem() == ModItems.canister_smear && slots[4].stackSize < slots[4].getMaxStackSize()) {
-					slots[4].stackSize++;
-					fuel -= 100;
-					slots[3].stackSize--;
-					if(slots[3].stackSize <= 0)
-						slots[3] = null;
-				}
-			}
-			
-			if(slots[5] != null && slots[5].getItem() == ModItems.canister_empty && lubricant - 100 >= 0) {
-				if(slots[6] == null) {
-					slots[6] = new ItemStack(ModItems.canister_canola);
-					lubricant -= 100;
-					slots[5].stackSize--;
-					if(slots[5].stackSize <= 0)
-						slots[5] = null;
-				} else if(slots[6] != null && slots[6].getItem() == ModItems.canister_canola && slots[6].stackSize < slots[6].getMaxStackSize()) {
-					slots[6].stackSize++;
-					lubricant -= 100;
-					slots[5].stackSize--;
-					if(slots[5].stackSize <= 0)
-						slots[5] = null;
-				}
-			}
-			
-			if(slots[7] != null && slots[7].getItem() == ModItems.canister_empty && diesel - 100 >= 0) {
-				if(slots[8] == null) {
-					slots[8] = new ItemStack(ModItems.canister_fuel);
-					diesel -= 100;
-					slots[7].stackSize--;
-					if(slots[7].stackSize <= 0)
-						slots[7] = null;
-				} else if(slots[8] != null && slots[8].getItem() == ModItems.canister_fuel && slots[8].stackSize < slots[8].getMaxStackSize()) {
-					slots[8].stackSize++;
-					diesel -= 100;
-					slots[7].stackSize--;
-					if(slots[7].stackSize <= 0)
-						slots[7] = null;
-				}
-			}
-			
-			if(slots[9] != null && slots[9].getItem() == ModItems.canister_empty && kerosene - 100 >= 0) {
-				if(slots[10] == null) {
-					slots[10] = new ItemStack(ModItems.canister_kerosene);
-					kerosene -= 100;
-					slots[9].stackSize--;
-					if(slots[9].stackSize <= 0)
-						slots[9] = null;
-				} else if(slots[10] != null && slots[10].getItem() == ModItems.canister_kerosene && slots[10].stackSize < slots[10].getMaxStackSize()) {
-					slots[10].stackSize++;
-					kerosene -= 100;
-					slots[9].stackSize--;
-					if(slots[9].stackSize <= 0)
-						slots[9] = null;
-				}
+			for(int i = 0; i < 5; i++) {
+				tanks[i].updateTank(xCoord, yCoord, zCoord);
 			}
 			
 			if(sulfur >= maxSulfur) {
@@ -347,7 +308,6 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 				} else if(slots[11] != null && slots[11].getItem() == ModItems.sulfur && slots[11].stackSize < slots[11].getMaxStackSize()) {
 					slots[11].stackSize++;
 					sulfur -= maxSulfur;
-					
 				}
 			}
 		}
@@ -355,26 +315,6 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
-	}
-	
-	public int getOilScaled(int i) {
-		return (oil * i) / maxOil;
-	}
-	
-	public int getSmearScaled(int i) {
-		return (fuel * i) / maxFuel;
-	}
-	
-	public int getLubricantScaled(int i) {
-		return (lubricant * i) / maxLubricant;
-	}
-	
-	public int getDieselScaled(int i) {
-		return (diesel * i) / maxDiesel;
-	}
-	
-	public int getKeroseneScaled(int i) {
-		return (kerosene * i) / maxKerosene;
 	}
 
 	@Override
@@ -395,17 +335,154 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setFill(int i) {
-		this.oil = i;
+	public void fillFluidInit(FluidType type) {
+		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 2, getTact(), type);
+		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 2, getTact(), type);
+		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord - 2, getTact(), type);
+		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord + 2, getTact(), type);
+		
+		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord + 1, getTact(), type);
+		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord + 1, getTact(), type);
+		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord - 1, getTact(), type);
+		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 1, getTact(), type);
 	}
 
 	@Override
-	public int getFill() {
-		return this.oil;
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
 	@Override
-	public int getMaxFill() {
-		return TileEntityMachineRefinery.maxOil;
+	public boolean getTact() {
+		if (age >= 0 && age < 10) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int getSFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getFill();
+		else if(type.name().equals(tanks[3].getTankType().name()))
+			return tanks[3].getFill();
+		else if(type.name().equals(tanks[4].getTankType().name()))
+			return tanks[4].getFill();
+		
+		return 0;
+	}
+
+	@Override
+	public void setSFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			tanks[2].setFill(i);
+		else if(type.name().equals(tanks[3].getTankType().name()))
+			tanks[3].setFill(i);
+		else if(type.name().equals(tanks[4].getTankType().name()))
+			tanks[4].setFill(i);
+	}
+
+	@Override
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		if(type.name().equals(tanks[1].getTankType().name()))
+			return list1;
+		if(type.name().equals(tanks[2].getTankType().name()))
+			return list2;
+		if(type.name().equals(tanks[3].getTankType().name()))
+			return list3;
+		if(type.name().equals(tanks[4].getTankType().name()))
+			return list4;
+		return new ArrayList<IFluidAcceptor>();
+	}
+
+	@Override
+	public void clearFluidList(FluidType type) {
+		if(type.name().equals(tanks[1].getTankType().name()))
+			list1.clear();
+		if(type.name().equals(tanks[2].getTankType().name()))
+			list2.clear();
+		if(type.name().equals(tanks[3].getTankType().name()))
+			list3.clear();
+		if(type.name().equals(tanks[4].getTankType().name()))
+			list4.clear();
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			tanks[2].setFill(i);
+		else if(type.name().equals(tanks[3].getTankType().name()))
+			tanks[3].setFill(i);
+		else if(type.name().equals(tanks[4].getTankType().name()))
+			tanks[4].setFill(i);
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getFill();
+		else if(type.name().equals(tanks[3].getTankType().name()))
+			return tanks[3].getFill();
+		else if(type.name().equals(tanks[4].getTankType().name()))
+			return tanks[4].getFill();
+		
+		return 0;
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getMaxFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getMaxFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getMaxFill();
+		else if(type.name().equals(tanks[3].getTankType().name()))
+			return tanks[3].getMaxFill();
+		else if(type.name().equals(tanks[4].getTankType().name()))
+			return tanks[4].getMaxFill();
+		
+		return 0;
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		if(index < 5 && tanks[index] != null)
+			tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		if(index < 5 && tanks[index] != null)
+			tanks[index].setTankType(type);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

@@ -58,6 +58,7 @@ public class MultiblockHandler {
 	public static final int[] chemplantDimensionWest  = new int[] { 1, 2, 2, 0, 1, 2 };
 	public static final int[] fluidTankDimensionNS = new int[] { 1, 1, 2, 0, 2, 2 };
 	public static final int[] fluidTankDimensionEW  = new int[] { 2, 2, 2, 0, 1, 1 };
+	public static final int[] refineryDimensions  = new int[] { 1, 1, 9, 0, 1, 1 };
 	
 	//Approved!
 	public static boolean checkSpace(World world, int x, int y, int z, int[] i) {

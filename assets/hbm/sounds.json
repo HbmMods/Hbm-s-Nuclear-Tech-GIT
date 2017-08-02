@@ -7,6 +7,10 @@
 	"block.crateBreak": {"category": "block", "sounds": ["block/crateBreak1", "block/crateBreak2", "block/crateBreak3", "block/crateBreak4", "block/crateBreak5"]},
 	"block.shutdown": {"category": "block", "sounds": [{"name": "block/shutdown", "stream": false}]},
     "block.minerOperate": {"category": "block", "sounds": [{"name": "block/minerOperate", "stream": false}]},
+    "block.assemblerOperate": {"category": "block", "sounds": [{"name": "block/assemblerOperate", "stream": false}]},
+    "block.chemplantOperate": {"category": "block", "sounds": [{"name": "block/chemplantOperate", "stream": false}]},
+    "block.dieselOperate": {"category": "block", "sounds": [{"name": "block/dieselOperate", "stream": false}]},
+    "block.igeneratorOperate": {"category": "block", "sounds": [{"name": "block/igeneratorOperate", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
 	"item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

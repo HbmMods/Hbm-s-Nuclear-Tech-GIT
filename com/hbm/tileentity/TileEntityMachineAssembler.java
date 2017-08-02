@@ -9,6 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
+import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
 import cpw.mods.fml.relauncher.Side;
@@ -34,6 +35,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	public int progress;
 	public int maxProgress = 100;
 	public float rotation = 0;
+	public boolean isProgressing;
 	int age = 0;
 	int consumption = 100;
 	int speed = 100;
@@ -252,6 +254,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		
 		if(!worldObj.isRemote) {
 
+			isProgressing = false;
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(MachineRecipes.getOutputFromTempate(slots[4]) != null && MachineRecipes.getRecipeFromTempate(slots[4]) != null) {
@@ -261,7 +264,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					
 					if(slots[5] == null || (slots[5] != null && slots[5].getItem() == MachineRecipes.getOutputFromTempate(slots[4]).copy().getItem()) && slots[5].stackSize + MachineRecipes.getOutputFromTempate(slots[4]).copy().stackSize <= slots[5].getMaxStackSize()) {
 						progress++;
-						
+						isProgressing = true;
 						rotation += 5;
 						
 						if(rotation >= 360)
@@ -342,7 +345,8 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 						break;
 			}
 
-			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, rotation));
+			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, rotation, isProgressing));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
 		
 	}

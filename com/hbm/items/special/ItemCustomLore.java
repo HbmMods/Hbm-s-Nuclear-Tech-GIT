@@ -422,6 +422,14 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Mining drill speed upgrade");
 			list.add("Effect: Delay -15 (from 50)");
 			list.add("Drawback: Power consumption +300 (from 100)");
+			list.add("");
+			list.add("Assembly machine speed upgrade");
+			list.add("Effect: Delay -25 (from 100)");
+			list.add("Drawback: Power consumption +300 (from 100)");
+			list.add("");
+			list.add("Chemical plant speed upgrade");
+			list.add("Effect: Delay -25 (from 100)");
+			list.add("Drawback: Power consumption +300 (from 100)");
 		}
 		
 		if(this == ModItems.upgrade_speed_2)
@@ -429,12 +437,28 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Mining drill speed upgrade");
 			list.add("Effect: Delay -30 (from 50)");
 			list.add("Drawback: Power consumption +600 (from 100)");
+			list.add("");
+			list.add("Assembly machine speed upgrade");
+			list.add("Effect: Delay -50 (from 100)");
+			list.add("Drawback: Power consumption +600 (from 100)");
+			list.add("");
+			list.add("Chemical plant speed upgrade");
+			list.add("Effect: Delay -50 (from 100)");
+			list.add("Drawback: Power consumption +600 (from 100)");
 		}
 		
 		if(this == ModItems.upgrade_speed_3)
 		{
 			list.add("Mining drill speed upgrade");
 			list.add("Effect: Delay -45 (from 50)");
+			list.add("Drawback: Power consumption +900 (from 100)");
+			list.add("");
+			list.add("Assembly machine speed upgrade");
+			list.add("Effect: Delay -75 (from 100)");
+			list.add("Drawback: Power consumption +900 (from 100)");
+			list.add("");
+			list.add("Chemical plant speed upgrade");
+			list.add("Effect: Delay -75 (from 100)");
 			list.add("Drawback: Power consumption +900 (from 100)");
 		}
 		
@@ -464,6 +488,14 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Mining drill power saving upgrade");
 			list.add("Effect: Power consumption -30 (from 100)");
 			list.add("Drawback: Delay +5 (from 50)");
+			list.add("");
+			list.add("Assembly machine power saving upgrade");
+			list.add("Effect: Power consumption -30 (from 100)");
+			list.add("Drawback: Delay +5 (from 50)");
+			list.add("");
+			list.add("Chemical plant power saving upgrade");
+			list.add("Effect: Power consumption -30 (from 100)");
+			list.add("Drawback: Delay +5 (from 50)");
 		}
 		
 		if(this == ModItems.upgrade_power_2)
@@ -471,11 +503,27 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Mining drill power saving upgrade");
 			list.add("Effect: Power consumption -60 (from 100)");
 			list.add("Drawback: Delay +10 (from 50)");
+			list.add("");
+			list.add("Assembly machine power saving upgrade");
+			list.add("Effect: Power consumption -60 (from 100)");
+			list.add("Drawback: Delay +10 (from 50)");
+			list.add("");
+			list.add("Chemical plant power saving upgrade");
+			list.add("Effect: Power consumption -60 (from 100)");
+			list.add("Drawback: Delay +10 (from 50)");
 		}
 		
 		if(this == ModItems.upgrade_power_3)
 		{
 			list.add("Mining drill power saving upgrade");
+			list.add("Effect: Power consumption -90 (from 100)");
+			list.add("Drawback: Delay +15 (from 50)");
+			list.add("");
+			list.add("Assembly machine power saving upgrade");
+			list.add("Effect: Power consumption -90 (from 100)");
+			list.add("Drawback: Delay +15 (from 50)");
+			list.add("");
+			list.add("Chemical plant power saving upgrade");
 			list.add("Effect: Power consumption -90 (from 100)");
 			list.add("Drawback: Delay +15 (from 50)");
 		}

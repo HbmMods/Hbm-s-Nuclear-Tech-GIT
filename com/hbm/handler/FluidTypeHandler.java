@@ -4,16 +4,18 @@ public class FluidTypeHandler {
 	
 	public enum FluidType {
 		NONE		(0x888888, 8947848, 	0,	1, "hbmfluid.none"),
-		
+
 		WATER		(0x3333FF, 3355647, 	1,	1, "hbmfluid.water"),
+		STEAM		(0x3333FF, 3355647, 	1,	1, "hbmfluid.steam"),
 		COOLANT		(0xd8fcff, 14220543, 	2,	1, "hbmfluid.coolant"),
 		
 		LAVA		(0xFF3300, 16724736, 	3,	1, "hbmfluid.lava"),
 		
 		DEUTERIUM	(0x0000FF, 255, 		4,	1, "hbmfluid.deuterium"),
 		TRITIUM		(0x000099, 153, 		5,	1, "hbmfluid.tritium"),
-		
+
 		OIL			(0x020202, 131586, 		6,	1, "hbmfluid.oil"),
+		HOTOIL		(0x020202, 131586, 		6,	1, "hbmfluid.hotoil"),
 		
 		HEAVYOIL	(0x141312, 1315602,		2,	2, "hbmfluid.heavyoil"),
 		BITUMEN		(0x1f2426, 2040870,		3,	2, "hbmfluid.bitumen"),

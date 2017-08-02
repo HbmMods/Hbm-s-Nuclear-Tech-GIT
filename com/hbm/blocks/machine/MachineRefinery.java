@@ -3,8 +3,11 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandler;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityDummy;
 import com.hbm.tileentity.TileEntityMachineRefinery;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -14,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,28 +25,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachineRefinery extends BlockContainer {
+public class MachineRefinery extends BlockContainer implements IMultiblock {
 
     private final Random field_149933_a = new Random();
 	private Random rand;
 	private static boolean keepInventory;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_refinery_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_refinery_side");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
+
+	public MachineRefinery(Material p_i45386_1_) {
+		super(p_i45386_1_);
 	}
 	
 	@Override
@@ -51,8 +44,19 @@ public class MachineRefinery extends BlockContainer {
         return Item.getItemFromBlock(ModBlocks.machine_refinery);
     }
 
-	public MachineRefinery(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 
 	@Override
@@ -129,4 +133,51 @@ public class MachineRefinery extends BlockContainer {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.refineryDimensions)) {
+			MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.refineryDimensions, ModBlocks.dummy_block_refinery);
+				
+			//
+			DummyBlockRefinery.safeBreak = true;
+			world.setBlock(x + 1, y, z + 1, ModBlocks.dummy_port_refinery);
+			TileEntity te = world.getTileEntity(x + 1, y, z + 1);
+			if(te instanceof TileEntityDummy) {
+				TileEntityDummy dummy = (TileEntityDummy)te;
+				dummy.targetX = x;
+				dummy.targetY = y;
+				dummy.targetZ = z;
+			}
+			world.setBlock(x + 1, y, z - 1, ModBlocks.dummy_port_refinery);
+			TileEntity te2 = world.getTileEntity(x + 1, y, z - 1);
+			if(te2 instanceof TileEntityDummy) {
+				TileEntityDummy dummy = (TileEntityDummy)te2;
+				dummy.targetX = x;
+				dummy.targetY = y;
+				dummy.targetZ = z;
+			}
+			world.setBlock(x - 1, y, z - 1, ModBlocks.dummy_port_refinery);
+			TileEntity te3 = world.getTileEntity(x - 1, y, z - 1);
+			if(te3 instanceof TileEntityDummy) {
+				TileEntityDummy dummy = (TileEntityDummy)te3;
+				dummy.targetX = x;
+				dummy.targetY = y;
+				dummy.targetZ = z;
+			}
+			world.setBlock(x - 1, y, z + 1, ModBlocks.dummy_port_refinery);
+			TileEntity te4 = world.getTileEntity(x - 1, y, z + 1);
+			if(te4 instanceof TileEntityDummy) {
+				TileEntityDummy dummy = (TileEntityDummy)te4;
+				dummy.targetX = x;
+				dummy.targetY = y;
+				dummy.targetZ = z;
+			}
+			DummyBlockRefinery.safeBreak = false;
+			//
+				
+		} else
+			world.func_147480_a(x, y, z, true);
+	}
 }

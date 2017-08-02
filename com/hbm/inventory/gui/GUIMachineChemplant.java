@@ -51,6 +51,12 @@ public class GUIMachineChemplant extends GuiFluidContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int i = chemplant.getPowerScaled(52);
+		drawTexturedModalRect(guiLeft + 44, guiTop + 70 - i, 176, 52 - i, 16, i);
+
+		int j = chemplant.getProgressScaled(90);
+		drawTexturedModalRect(guiLeft + 43, guiTop + 89, 0, 222, j, 18);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
 

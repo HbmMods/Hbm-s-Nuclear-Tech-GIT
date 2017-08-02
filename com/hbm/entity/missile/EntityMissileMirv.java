@@ -1,153 +1,47 @@
 package com.hbm.entity.missile;
 
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
-public class EntityMissileMirv extends EntityMissileBase {
+public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 
 	public EntityMissileMirv(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
 
-	public EntityMissileMirv(World p_i1582_1_, int x, int z, double a, double b, double c) {
-		super(p_i1582_1_, x, z, a, b, c);
-		this.baseHeight = 150;
+	public EntityMissileMirv(World world, float x, float y, float z, int a, int b) {
+		super(world, x, y, z, a, b);
+		this.isCluster = true;
+	}
+
+	@Override
+	public void onImpact() {
+		EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(this.worldObj);
+    	entity.posX = this.posX;
+    	entity.posY = this.posY;
+    	entity.posZ = this.posZ;
+    	entity.destructionRange = MainRegistry.missileRadius;
+    	entity.speed = 25;
+    	entity.coefficient = 10.0F;
+    	
+    	this.worldObj.spawnEntityInWorld(entity);
+
+		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
+    	entity2.posX = this.posX;
+    	entity2.posY = this.posY - 9;
+    	entity2.posZ = this.posZ;
+    	this.worldObj.spawnEntityInWorld(entity2);
 	}
 	
 	@Override
-    public void onUpdate()
-    {
-
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
-        
-        this.rotation();
-        
-        switch(phase)
-        {
-        case 0:
-        	if(loc0 != null)
-        	{
-        		freePizzaGoddammit(loc0);
-        		if(loc0.posX + 2 > this.posX && loc0.posX - 2 < this.posX &&
-        			loc0.posY + 2 > this.posY && loc0.posY - 2 < this.posY &&
-        			loc0.posZ + 2 > this.posZ && loc0.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 1;
-        		}
-        	}
-        	break;
-        case 1:
-        	if(loc1 != null)
-        	{
-        		freePizzaGoddammit(loc1);
-        		if(loc1.posX + 2 > this.posX && loc1.posX - 2 < this.posX &&
-        				loc1.posY + 2 > this.posY && loc1.posY - 2 < this.posY &&
-        				loc1.posZ + 2 > this.posZ && loc1.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 2;
-        		}
-        	}
-        	break;
-        case 2:
-        	if(loc2 != null)
-        	{
-        		freePizzaGoddammit(loc2);
-        		if(loc2.posX + 2 > this.posX && loc2.posX - 2 < this.posX &&
-        				loc2.posY + 2 > this.posY && loc2.posY - 2 < this.posY &&
-        				loc2.posZ + 2 > this.posZ && loc2.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 3;
-        		}
-        	}
-        	break;
-        case 3:
-        	if(loc3 != null)
-        	{
-        		freePizzaGoddammit(loc3);
-        		if(loc3.posX + 2 > this.posX && loc3.posX - 2 < this.posX &&
-        				loc3.posY + 2 > this.posY && loc3.posY - 2 < this.posY &&
-        				loc3.posZ + 2 > this.posZ && loc3.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 4;
-        		}
-        	}
-        	break;
-        case 4:
-        	if(loc4 != null)
-        	{
-        		freePizzaGoddammit(loc4);
-        		if(loc4.posX + 2 > this.posX && loc4.posX - 2 < this.posX &&
-        				loc4.posY + 2 > this.posY && loc4.posY - 2 < this.posY &&
-        				loc4.posZ + 2 > this.posZ && loc4.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 5;
-        		}
-        	}
-        	break;
-        case 5:
-        	if(loc5 != null)
-        	{
-        		freePizzaGoddammit(loc5);
-        		if(loc5.posX + 2 > this.posX && loc5.posX - 2 < this.posX &&
-        				loc5.posY + 2 > this.posY && loc5.posY - 2 < this.posY &&
-        				loc5.posZ + 2 > this.posZ && loc5.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 6;
-        		}
-        	}
-        	break;
-        case 6:
-        	if(loc6 != null)
-        	{
-        		freePizzaGoddammit(loc6);
-        		if(loc6.posX + 2 > this.posX && loc6.posX - 2 < this.posX &&
-        				loc6.posY + 2 > this.posY && loc6.posY - 2 < this.posY &&
-        				loc6.posZ + 2 > this.posZ && loc6.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 7;
-        		}
-        	}
-        	break;
-        case 7:
-        	if(loc7 != null)
-        	{
-        		freePizzaGoddammit(loc7);
-        		if(loc7.posX + 2 > this.posX && loc7.posX - 2 < this.posX &&
-        				loc7.posY + 2 > this.posY && loc7.posY - 2 < this.posY &&
-        				loc7.posZ + 2 > this.posZ && loc7.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 8;
-        		}
-        	}
-        	break;
-        case 8:
-        	if(target != null)
-        	{
-        		if(!this.worldObj.isRemote)
-        		{
-        			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15.0F, true);
-        			ExplosionChaos.mirv(this.worldObj,this.posX, this.posY, this.posZ);
-        			this.setDead();
-        		}
-        	}
-        	break;
-        }
-        
-        this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
-        
-        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water)
-        {
-    		if(!this.worldObj.isRemote)
-    		{
-    			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15.0F, true);
-    			ExplosionChaos.mirv(this.worldObj,this.posX, this.posY, this.posZ);
-    		}
-    		this.setDead();
-        }
-    }
+	public void cluster() {
+		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15.0F, true);
+		ExplosionChaos.mirv(this.worldObj,this.posX, this.posY, this.posZ);
+	}
 }

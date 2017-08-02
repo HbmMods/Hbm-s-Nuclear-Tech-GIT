@@ -590,8 +590,14 @@ item.canister_reoil.name=Kanister voll aufbereitetem Industrieöl
 item.canister_petroil.name=Gemischkanister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Oktan Supertreibstoff
+item.canister_heavyoil.name=Schwerölkanister
+item.canister_bitumen.name=Bitumenkanister
+item.canister_heatingoil.name=Heizölkanister
+item.canister_naphtha.name=Mitteldestillatkanister
+item.canister_lightoil.name=Leichtölkanister
 item.gas_empty.name=Leerer Gastank
 item.gas_full.name=Gastank
+item.gas_petroleum.name=Petroleumgastank
 
 item.rod_empty.name=Leerer Brennstab
 item.rod_uranium.name=Uranbrennstab

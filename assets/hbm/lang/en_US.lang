@@ -590,8 +590,14 @@ item.canister_reoil.name=Canister of Reclaimed Industrial Oil
 item.canister_petroil.name=Petroil Canister
 item.canister_napalm.name=Napalm B
 item.canister_NITAN.name=NITAN© 100 Octane Super Fuel
+item.canister_heavyoil.name=Heavy Oil Canister
+item.canister_bitumen.name=Bitumen Canister
+item.canister_heatingoil.name=Heating Oil Canister
+item.canister_naphtha.name=Naphtha Canister
+item.canister_lightoil.name=Light Oil Canister
 item.gas_empty.name=Empty Gas Tank
 item.gas_full.name=Gas Tank
+item.gas_petroleum.name=Petroleum Gas Tank
 
 item.rod_empty.name=Emty Rod
 item.rod_uranium.name=Uranium Rod

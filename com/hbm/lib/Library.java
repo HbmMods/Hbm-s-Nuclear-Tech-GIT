@@ -284,7 +284,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_drill ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_assembler ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery)
 		{
 			return true;
 		}
@@ -325,7 +326,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery)
 		{
 			return true;
 		}
@@ -856,6 +858,11 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
+		//Refinery
+		if(block == ModBlocks.dummy_port_refinery)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
 		
 		if(tileentity instanceof IConductor)
 		{
@@ -1168,7 +1175,13 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
+		//Fluid Tank
 		if(block == ModBlocks.dummy_port_fluidtank)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
+		//Refinery
+		if(block == ModBlocks.dummy_port_refinery)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

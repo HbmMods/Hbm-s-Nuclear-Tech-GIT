@@ -408,6 +408,8 @@ public class ModBlocks {
 	public static Block dummy_port_chemplant;
 	public static Block dummy_block_fluidtank;
 	public static Block dummy_port_fluidtank;
+	public static Block dummy_block_refinery;
+	public static Block dummy_port_refinery;
 	
 
 	private static void initializeBlock() {
@@ -672,7 +674,7 @@ public class ModBlocks {
 		machine_well = new MachineOilWell(Material.iron).setBlockName("machine_well").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_well");
 		oil_pipe = new BlockNoDrop(Material.iron).setBlockName("oil_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":oil_pipe");
 		machine_flare = new MachineGasFlare(Material.iron).setBlockName("machine_flare").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_flare");
-		machine_refinery = new MachineRefinery(Material.iron).setBlockName("machine_refinery").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_refinery_side");
+		machine_refinery = new MachineRefinery(Material.iron).setBlockName("machine_refinery").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_refinery");
 		machine_drill = new MachineMiningDrill(Material.iron).setBlockName("machine_drill").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_drill");
 		drill_pipe = new BlockNoDrop(Material.iron).setBlockName("drill_pipe").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":drill_pipe");
 		machine_assembler = new MachineAssembler(Material.iron).setBlockName("machine_assembler").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_assembler");
@@ -723,6 +725,8 @@ public class ModBlocks {
 		dummy_port_chemplant = new DummyBlockChemplant(Material.iron).setBlockName("dummy_port_chemplant").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_fluidtank = new DummyBlockFluidTank(Material.iron).setBlockName("dummy_block_fluidtank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_fluidtank = new DummyBlockFluidTank(Material.iron).setBlockName("dummy_port_fluidtank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_block_refinery = new DummyBlockRefinery(Material.iron).setBlockName("dummy_block_refinery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_port_refinery = new DummyBlockRefinery(Material.iron).setBlockName("dummy_port_refinery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -1023,6 +1027,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_port_chemplant, dummy_port_chemplant.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_fluidtank, dummy_block_fluidtank.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_fluidtank, dummy_port_fluidtank.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_block_refinery, dummy_block_refinery.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_port_refinery, dummy_port_refinery.getUnlocalizedName());
 		
 		//Other Technical Blocks
 		GameRegistry.registerBlock(oil_pipe, oil_pipe.getUnlocalizedName());

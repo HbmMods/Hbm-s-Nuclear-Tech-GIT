@@ -4,6 +4,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -42,6 +43,19 @@ public class EntityBombletTheta extends EntityThrowable {
 		this.motionY -= decelY;
 		this.motionX -= vector.xCoord;
 		this.motionZ -= vector.zCoord;
+		
+		if(motionY < -0.75D && !worldObj.isRemote && rand.nextInt(10) == 0) {
+			EntityBombletSelena selena = new EntityBombletSelena(worldObj);
+			selena.posX = this.posX;
+			selena.posY = this.posY;
+			selena.posZ = this.posZ;
+			selena.motionX = rand.nextGaussian();
+			selena.motionY = rand.nextGaussian();
+			selena.motionZ = rand.nextGaussian();
+			selena.decelY = this.decelY;
+			selena.accelXZ = this.accelXZ;
+			worldObj.spawnEntityInWorld(selena);
+		}
         
         this.rotation();
         
@@ -49,21 +63,7 @@ public class EntityBombletTheta extends EntityThrowable {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			/*EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(this.worldObj);
-    	    	entity.posX = this.posX;
-    	    	entity.posY = this.posY;
-    	    	entity.posZ = this.posZ;
-    	    	entity.destructionRange = MainRegistry.mirvRadius;
-    	    	entity.speed = 25;
-    	    	entity.coefficient = 10.0F;
-    	    	
-    	    	this.worldObj.spawnEntityInWorld(entity);
-
-    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
-    	    	entity2.posX = this.posX;
-    	    	entity2.posY = this.posY - 9;
-    	    	entity2.posZ = this.posZ;
-    	    	this.worldObj.spawnEntityInWorld(entity2);*/
+    			ExplosionLarge.explodeFire(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 50.0F, true, true, true);
     		}
     		this.setDead();
         }
@@ -99,7 +99,6 @@ public class EntityBombletTheta extends EntityThrowable {
 
 	@Override
 	protected void onImpact(MovingObjectPosition p_70184_1_) {
-		
 	}
 	
     @Override

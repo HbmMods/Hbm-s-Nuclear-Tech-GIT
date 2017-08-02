@@ -18,7 +18,7 @@ public class RenderMissileDoomsday extends Render {
 	
 	public RenderMissileDoomsday() {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileDoomsday.png");
 	}
 
 	@Override
@@ -29,14 +29,16 @@ public class RenderMissileDoomsday extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
         GL11.glScalef(2F, 2F, 2F);
-        
+
+        GL11.glDisable(GL11.GL_CULL_FACE);
         bindTexture(boyTexture);
         boyModel.renderAll();
+        GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID +":textures/models/TheGadget3_.png");
+		return new ResourceLocation(RefStrings.MODID +":textures/models/MissileDoomsday.png");
 	}
 }

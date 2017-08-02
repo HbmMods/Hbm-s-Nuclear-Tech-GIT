@@ -99,7 +99,7 @@ public class MachineMiningDrill extends BlockContainer implements IMultiblock {
 				}
 				world.setBlock(x, y, z - 1, ModBlocks.dummy_port_drill);
 				TileEntity te2 = world.getTileEntity(x, y, z - 1);
-				if(te instanceof TileEntityDummy) {
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;

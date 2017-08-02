@@ -46,6 +46,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
     private ResourceLocation missileMirvTexture;
     private ResourceLocation missileThermoEndoTexture;
     private ResourceLocation missileThermoExoTexture;
+    private ResourceLocation missileDoomTexture;
 	
 	public RenderLaunchPadTier1()
     {
@@ -74,6 +75,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		missileMirvTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileMirv.png");
 		missileThermoEndoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalEndo.png");
 		missileThermoExoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalExo.png");
+		missileDoomTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileDoomsday.png");
     }
 
     @Override
@@ -94,9 +96,12 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
+		GL11.glScalef(1.5F, 1.0F, 1.5F);
         bindTexture(padTexture);
         padModel.renderAll();
-        
+		GL11.glScalef(2/3F, 1.0F, 2/3F);
+
+        GL11.glDisable(GL11.GL_CULL_FACE);
         int state = 0;
         
         if(tileEntity instanceof TileEntityLaunchPad)
@@ -203,9 +208,11 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			if(state == 17)
 			{
 		        GL11.glScalef(2F, 2F, 2F);
-				bindTexture(missileStrongTexture);
+				bindTexture(missileDoomTexture);
 				missileDoom.renderAll();
 			}
+			
+	        GL11.glEnable(GL11.GL_CULL_FACE);
 
         GL11.glPopMatrix();
     }

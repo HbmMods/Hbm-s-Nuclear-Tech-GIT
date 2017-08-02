@@ -18,7 +18,7 @@ public class RenderBombletTheta extends Render {
 	
 	public RenderBombletTheta() {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/bombletThetaTexture.png");
 	}
 
 	@Override
@@ -36,6 +36,6 @@ public class RenderBombletTheta extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID +":textures/models/TheGadget3_.png");
+		return new ResourceLocation(RefStrings.MODID +":textures/models/bombletThetaTexture.png");
 	}
 }
