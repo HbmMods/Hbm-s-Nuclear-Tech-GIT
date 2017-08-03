@@ -598,6 +598,8 @@ item.canister_lightoil.name=Light Oil Canister
 item.gas_empty.name=Empty Gas Tank
 item.gas_full.name=Gas Tank
 item.gas_petroleum.name=Petroleum Gas Tank
+item.fluid_tank_empty.name=Empty Universal Fluid Tank
+item.fluid_tank_full.name=Universal Fluid Tank:
 
 item.rod_empty.name=Emty Rod
 item.rod_uranium.name=Uranium Rod

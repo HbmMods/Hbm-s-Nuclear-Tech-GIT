@@ -365,6 +365,9 @@ public class ModItems {
 	public static Item gas_full;
 	public static Item gas_petroleum;
 
+	public static Item fluid_tank_full;
+	public static Item fluid_tank_empty;
+
 	public static Item syringe_empty;
 	public static Item syringe_antidote;
 	public static Item syringe_poison;
@@ -1682,6 +1685,8 @@ public class ModItems {
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
 		chemistry_template = new ItemChemistryTemplate().setUnlocalizedName("chemistry_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":chemistry_template");
 		fluid_identifier = new ItemFluidIdentifier().setUnlocalizedName("fluid_identifier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":fluid_identifier");
+		fluid_tank_full = new ItemFluidTank().setUnlocalizedName("fluid_tank_full").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
+		fluid_tank_empty = new Item().setUnlocalizedName("fluid_tank_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("astatine_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
 		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("astatine_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
@@ -2259,10 +2264,14 @@ public class ModItems {
 		GameRegistry.registerItem(canister_napalm, canister_napalm.getUnlocalizedName());
 		GameRegistry.registerItem(canister_NITAN, canister_NITAN.getUnlocalizedName());
 		
-		//Gastanks
+		//Gas Tanks
 		GameRegistry.registerItem(gas_empty, gas_empty.getUnlocalizedName());
 		GameRegistry.registerItem(gas_full, gas_full.getUnlocalizedName());
 		GameRegistry.registerItem(gas_petroleum, gas_petroleum.getUnlocalizedName());
+		
+		//Universal Tank
+		GameRegistry.registerItem(fluid_tank_empty, fluid_tank_empty.getUnlocalizedName());
+		GameRegistry.registerItem(fluid_tank_full, fluid_tank_full.getUnlocalizedName());
 		
 		//Batteries
 		GameRegistry.registerItem(battery_generic, battery_generic.getUnlocalizedName());

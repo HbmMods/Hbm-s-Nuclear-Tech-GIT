@@ -43,5 +43,11 @@ public class GUIMachineMiningDrill extends GuiContainer {
 			int i = diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i, 176, 52 - i, 16, i);
 		}
+		
+		int k = diFurnace.warning;
+		if(k == 2)
+			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 192, 0, 16, 16);
+		if(k == 1)
+			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 208, 52, 16, 16);
 	}
 }

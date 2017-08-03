@@ -598,6 +598,8 @@ item.canister_lightoil.name=Leichtölkanister
 item.gas_empty.name=Leerer Gastank
 item.gas_full.name=Gastank
 item.gas_petroleum.name=Petroleumgastank
+item.fluid_tank_empty.name=Leere universelle Flüssigkeitszelle
+item.fluid_tank_full.name=Universelle Flüssigkeitszelle:
 
 item.rod_empty.name=Leerer Brennstab
 item.rod_uranium.name=Uranbrennstab

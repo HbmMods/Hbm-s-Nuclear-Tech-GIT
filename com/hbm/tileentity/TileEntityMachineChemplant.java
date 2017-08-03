@@ -37,6 +37,7 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
+//TODO: remove obso1337 cases for accptr/src cases to prevent conflicting tanks when multiple have the same type
 public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
@@ -785,10 +786,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
-		else if(type.name().equals(tanks[2].getTankType().name()))
+		/*else if(type.name().equals(tanks[2].getTankType().name()))
 			tanks[2].setFill(i);
 		else if(type.name().equals(tanks[3].getTankType().name()))
-			tanks[3].setFill(i);
+			tanks[3].setFill(i);*/
 	}
 
 	@Override
@@ -797,21 +798,21 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
+		else /*if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getFill();
 		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[3].getFill();
+			return tanks[3].getFill();*/
 		
 		return 0;
 	}
 
 	@Override
 	public void setSFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		/*if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
-		else if(type.name().equals(tanks[2].getTankType().name()))
+		else */if(type.name().equals(tanks[2].getTankType().name()))
 			tanks[2].setFill(i);
 		else if(type.name().equals(tanks[3].getTankType().name()))
 			tanks[3].setFill(i);
@@ -819,11 +820,11 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 
 	@Override
 	public int getSFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
+		/*if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
+		else*/ if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getFill();
 		else if(type.name().equals(tanks[3].getTankType().name()))
 			return tanks[3].getFill();
@@ -837,10 +838,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getMaxFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
+		else /*if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getMaxFill();
 		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[3].getMaxFill();
+			return tanks[3].getMaxFill();*/
 		
 		return 0;
 	}
@@ -863,19 +864,18 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		}
 		
 		if(meta == 2) {
-			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord - 1, getTact(), type);
-		}
-		
-		if(meta == 4) {
 			fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, getTact(), type);
 			fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 2, getTact(), type);
 			fillFluid(this.xCoord, this.yCoord, this.zCoord - 3, getTact(), type);
 			fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 3, getTact(), type);
 		}
-		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
+		
+		if(meta == 4) {
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 1, getTact(), type);
+			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord, getTact(), type);
+			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord - 1, getTact(), type);
+		}
 	}
 
 	@Override

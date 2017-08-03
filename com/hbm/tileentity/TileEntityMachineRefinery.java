@@ -363,9 +363,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 
 	@Override
 	public int getSFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getFill();
@@ -379,9 +377,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 
 	@Override
 	public void setSFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
+		if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
 		else if(type.name().equals(tanks[2].getTankType().name()))
 			tanks[2].setFill(i);
@@ -420,46 +416,22 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public void setAFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			tanks[2].setFill(i);
-		else if(type.name().equals(tanks[3].getTankType().name()))
-			tanks[3].setFill(i);
-		else if(type.name().equals(tanks[4].getTankType().name()))
-			tanks[4].setFill(i);
 	}
 
 	@Override
 	public int getAFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getFill();
-		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[3].getFill();
-		else if(type.name().equals(tanks[4].getTankType().name()))
-			return tanks[4].getFill();
-		
-		return 0;
+		else
+			return 0;
 	}
 
 	@Override
 	public int getMaxAFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getMaxFill();
-		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[3].getMaxFill();
-		else if(type.name().equals(tanks[4].getTankType().name()))
-			return tanks[4].getMaxFill();
-		
-		return 0;
+		else
+			return 0;
 	}
 
 	@Override

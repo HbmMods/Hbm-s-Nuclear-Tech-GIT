@@ -2581,19 +2581,19 @@ public class MachineRecipes {
 			input[1] = new FluidStack(2000, FluidType.STEAM);
 			break;
         case CC_I:
-			input[0] = new FluidStack(800, FluidType.HEAVYOIL);
+			input[0] = new FluidStack(800, FluidType.SMEAR);
 			input[1] = new FluidStack(1800, FluidType.WATER);
 			break;
         case CC_HEATING:
-			input[0] = new FluidStack(800, FluidType.SMEAR);
+			input[0] = new FluidStack(800, FluidType.HEATINGOIL);
 			input[1] = new FluidStack(2000, FluidType.STEAM);
 			break;
         case CC_HEAVY:
-			input[0] = new FluidStack(600, FluidType.SMEAR);
+			input[0] = new FluidStack(600, FluidType.HEAVYOIL);
 			input[1] = new FluidStack(1400, FluidType.WATER);
 			break;
         case CC_NAPHTHA:
-			input[0] = new FluidStack(1200, FluidType.HEAVYOIL);
+			input[0] = new FluidStack(1200, FluidType.NAPHTHA);
 			input[1] = new FluidStack(2400, FluidType.STEAM);
 			break;
 		default:
