@@ -2,6 +2,8 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
@@ -11,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import scala.swing.event.Key;
 
 public class ItemPolaroid extends Item {
 	

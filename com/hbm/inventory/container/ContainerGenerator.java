@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,8 +14,6 @@ public class ContainerGenerator extends Container {
 	
 	private TileEntityMachineGenerator diFurnace;
 	
-	private int water;
-	private int cool;
 	private int power;
 	private int heat;
 	
@@ -34,6 +33,8 @@ public class ContainerGenerator extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 8, 90));
 		this.addSlotToContainer(new Slot(tedf, 10, 26, 90));
 		this.addSlotToContainer(new Slot(tedf, 11, 62, 90));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 8, 90 + 18));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 26, 90 + 18));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -52,10 +53,8 @@ public class ContainerGenerator extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.cool);
-		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.power);
-		crafting.sendProgressBarUpdate(this, 3, this.diFurnace.heat);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.heat);
 	}
 	
 	@Override
@@ -106,29 +105,17 @@ public class ContainerGenerator extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.water != this.diFurnace.water)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-			}
-			
-			if(this.cool != this.diFurnace.cool)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.cool);
-			}
-			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 2, this.diFurnace.power);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
 			
 			if(this.heat != this.diFurnace.heat)
 			{
-				par1.sendProgressBarUpdate(this, 3, this.diFurnace.heat);
+				par1.sendProgressBarUpdate(this, 1, this.diFurnace.heat);
 			}
 		}
 		
-		this.water = this.diFurnace.water;
-		this.cool = this.diFurnace.cool;
 		this.power = this.diFurnace.power;
 		this.heat = this.diFurnace.heat;
 	}
@@ -137,17 +124,9 @@ public class ContainerGenerator extends Container {
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{
-			diFurnace.water = j;
-		}
-		if(i == 1)
-		{
-			diFurnace.cool = j;
-		}
-		if(i == 2)
-		{
 			diFurnace.power = j;
 		}
-		if(i == 3)
+		if(i == 1)
 		{
 			diFurnace.heat = j;
 		}

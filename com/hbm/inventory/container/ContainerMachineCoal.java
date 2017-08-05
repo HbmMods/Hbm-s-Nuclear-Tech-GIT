@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.TileEntityMachineCoal;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,19 +14,18 @@ public class ContainerMachineCoal extends Container {
 	
 	private TileEntityMachineCoal diFurnace;
 	private int power;
-	private int water;
 	private int burnTime;
 	
 	public ContainerMachineCoal(InventoryPlayer invPlayer, TileEntityMachineCoal tedf) {
 		power = 0;
-		water = 0;
 		burnTime = 0;
 		
 		diFurnace = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 44, 53));
+		this.addSlotToContainer(new Slot(tedf, 0, 44, 53 - 36));
 		this.addSlotToContainer(new Slot(tedf, 1, 80, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 116, 53));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 44, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -44,9 +44,8 @@ public class ContainerMachineCoal extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.power);
-		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.burnTime);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.burnTime);
 	}
 	
 	@Override
@@ -60,8 +59,8 @@ public class ContainerMachineCoal extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 2) {
-				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true))
+            if (par2 <= 3) {
+				if (!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
@@ -99,23 +98,17 @@ public class ContainerMachineCoal extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.water != this.diFurnace.water)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-			}
-			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
 			
 			if(this.power != this.diFurnace.burnTime)
 			{
-				par1.sendProgressBarUpdate(this, 2, this.diFurnace.burnTime);
+				par1.sendProgressBarUpdate(this, 1, this.diFurnace.burnTime);
 			}
 		}
 		
-		this.water = this.diFurnace.water;
 		this.power = this.diFurnace.power;
 		this.burnTime = this.diFurnace.burnTime;
 	}
@@ -124,13 +117,9 @@ public class ContainerMachineCoal extends Container {
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{
-			diFurnace.water = j;
-		}
-		if(i == 1)
-		{
 			diFurnace.power = j;
 		}
-		if(i == 2)
+		if(i == 1)
 		{
 			diFurnace.burnTime = j;
 		}

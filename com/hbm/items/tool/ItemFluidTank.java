@@ -3,6 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityFluidDuct;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,7 +33,7 @@ public class ItemFluidTank extends Item {
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list)
     {
-        for (int i = 0; i < FluidType.values().length; ++i)
+        for (int i = 1; i < FluidType.values().length; ++i)
         {
             list.add(new ItemStack(item, 1, i));
         }
@@ -64,7 +65,10 @@ public class ItemFluidTank extends Item {
     {
         super.registerIcons(p_94581_1_);
 
-        this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_tank_overlay");
+        if(this == ModItems.fluid_tank_full)
+        	this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_tank_overlay");
+        if(this == ModItems.fluid_barrel_full)
+        	this.overlayIcon = p_94581_1_.registerIcon("hbm:fluid_barrel_overlay");
     }
     
     @Override

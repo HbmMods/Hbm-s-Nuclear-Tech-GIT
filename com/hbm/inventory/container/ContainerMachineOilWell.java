@@ -12,17 +12,13 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineOilWell extends Container {
 
 	private TileEntityMachineOilWell testNuke;
-	private int oil;
 	private int power;
 	private int warning;
-	private int gas;
 	private int warning2;
 	
 	public ContainerMachineOilWell(InventoryPlayer invPlayer, TileEntityMachineOilWell tedf) {
-		oil = 0;
 		power = 0;
 		warning = 0;
-		gas = 0;
 		warning2 = 0;
 		
 		testNuke = tedf;
@@ -57,11 +53,9 @@ public class ContainerMachineOilWell extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.testNuke.oil);
-		crafting.sendProgressBarUpdate(this, 1, this.testNuke.power);
-		crafting.sendProgressBarUpdate(this, 2, this.testNuke.warning);
-		crafting.sendProgressBarUpdate(this, 3, this.testNuke.gas);
-		crafting.sendProgressBarUpdate(this, 4, this.testNuke.warning2);
+		crafting.sendProgressBarUpdate(this, 0, this.testNuke.power);
+		crafting.sendProgressBarUpdate(this, 1, this.testNuke.warning);
+		crafting.sendProgressBarUpdate(this, 2, this.testNuke.warning2);
 	}
 	
 	@Override
@@ -113,33 +107,22 @@ public class ContainerMachineOilWell extends Container {
 		for(int i = 0; i < this.crafters.size(); i++)
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
-
-			if(this.oil != this.testNuke.oil)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.testNuke.oil);
-			}
 			if(this.power != this.testNuke.power)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.testNuke.power);
+				par1.sendProgressBarUpdate(this, 0, this.testNuke.power);
 			}
 			if(this.warning != this.testNuke.warning)
 			{
-				par1.sendProgressBarUpdate(this, 2, this.testNuke.warning);
-			}
-			if(this.gas != this.testNuke.gas)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.testNuke.gas);
+				par1.sendProgressBarUpdate(this, 1, this.testNuke.warning);
 			}
 			if(this.warning2 != this.testNuke.warning2)
 			{
-				par1.sendProgressBarUpdate(this, 4, this.testNuke.warning2);
+				par1.sendProgressBarUpdate(this, 2, this.testNuke.warning2);
 			}
 		}
 
-		this.oil = this.testNuke.oil;
 		this.power = this.testNuke.power;
 		this.warning = this.testNuke.warning;
-		this.gas = this.testNuke.gas;
 		this.warning2 = this.testNuke.warning2;
 	}
 	
@@ -147,21 +130,13 @@ public class ContainerMachineOilWell extends Container {
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{
-			testNuke.oil = j;
+			testNuke.power = j;
 		}
 		if(i == 1)
 		{
-			testNuke.power = j;
-		}
-		if(i == 2)
-		{
 			testNuke.warning = j;
 		}
-		if(i == 3)
-		{
-			testNuke.gas = j;
-		}
-		if(i == 4)
+		if(i == 2)
 		{
 			testNuke.warning2 = j;
 		}

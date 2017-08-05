@@ -49,15 +49,10 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		slots = new ItemStack[12];
 		tanks = new FluidTank[5];
 		tanks[0] = new FluidTank(FluidType.OIL, 64000, 0);
-		tanks[1] = new FluidTank(FluidType.HEAVYOIL, 16000, 0);
-		tanks[2] = new FluidTank(FluidType.NAPHTHA, 16000, 0);
-		tanks[3] = new FluidTank(FluidType.LIGHTOIL, 16000, 0);
-		tanks[4] = new FluidTank(FluidType.PETROLEUM, 16000, 0);
-		tanks[0].index = 0;
-		tanks[1].index = 1;
-		tanks[2].index = 2;
-		tanks[3].index = 3;
-		tanks[4].index = 4;
+		tanks[1] = new FluidTank(FluidType.HEAVYOIL, 16000, 1);
+		tanks[2] = new FluidTank(FluidType.NAPHTHA, 16000, 2);
+		tanks[3] = new FluidTank(FluidType.LIGHTOIL, 16000, 3);
+		tanks[4] = new FluidTank(FluidType.PETROLEUM, 16000, 4);
 	}
 
 	@Override

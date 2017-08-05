@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiFluidContainer;
+import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -70,6 +71,11 @@ public class FluidTank {
 		if(slots[in] != null) {
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
 			
+			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
+				this.fluid = this.maxFluid;
+				return;
+			}
+			
 			if(FluidContainerRegistry.getFluidContent(slots[in], type) <= 0)
 				return;
 		} else {
@@ -98,6 +104,12 @@ public class FluidTank {
 
 		ItemStack full = null;
 		if(slots[in] != null) {
+			
+			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
+				this.fluid = 0;
+				return;
+			}
+			
 			full = FluidContainerRegistry.getFullContainer(slots[in], type);
 		}
 		if(full == null)

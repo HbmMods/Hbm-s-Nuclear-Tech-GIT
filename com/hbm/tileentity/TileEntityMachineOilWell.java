@@ -7,11 +7,16 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityGasFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IGasAcceptor;
 import com.hbm.interfaces.IGasSource;
 import com.hbm.interfaces.IOilAcceptor;
 import com.hbm.interfaces.IOilSource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -29,22 +34,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IOilSource, IGasSource {
+public class TileEntityMachineOilWell extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidSource {
 
 	private ItemStack slots[];
 
-	public int oil;
-	public int gas;
 	public int power;
 	public int warning;
 	public int warning2;
 	public static final int maxPower = 100000;
-	public static final int maxOil = 640;
-	public static final int maxGas = 640;
 	public int age = 0;
 	public int age2 = 0;
-	public List<IOilAcceptor> aclist = new ArrayList();
-	public List<IGasAcceptor> gaslist = new ArrayList();
+	public List<IFluidAcceptor> list1 = new ArrayList();
+	public List<IFluidAcceptor> list2 = new ArrayList();
+	public FluidTank[] tanks;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -55,6 +57,9 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	
 	public TileEntityMachineOilWell() {
 		slots = new ItemStack[6];
+		tanks = new FluidTank[2];
+		tanks[0] = new FluidTank(FluidType.OIL, 64000, 0);
+		tanks[1] = new FluidTank(FluidType.GAS, 64000, 1);
 	}
 
 	@Override
@@ -163,9 +168,11 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		NBTTagList list = nbt.getTagList("items", 10);
 		
 		this.power = nbt.getInteger("powerTime");
-		this.oil = nbt.getInteger("oil");
-		this.gas = nbt.getInteger("gas");
 		this.age = nbt.getInteger("age");
+
+		this.tanks[0].readFromNBT(nbt, "oil");
+		this.tanks[1].readFromNBT(nbt, "gas");
+		
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -183,9 +190,11 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
-		nbt.setInteger("oil", oil);
-		nbt.setInteger("gas", gas);
 		nbt.setInteger("age", age);
+
+		this.tanks[0].writeToNBT(nbt, "oil");
+		this.tanks[1].writeToNBT(nbt, "gas");
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -217,14 +226,6 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		return false;
 	}
 	
-	public int getOilScaled(int i) {
-		return (oil * i) / maxOil;
-	}
-	
-	public int getGasScaled(int i) {
-		return (gas * i) / maxGas;
-	}
-	
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
@@ -241,42 +242,17 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		if(age2 >= 20)
 			age2 -= 20;
 		if(age2 == 9 || age2 == 19) {
-			fillInit();
-			fillGasInit();
+			fillFluidInit(tanks[0].getTankType());
+			fillFluidInit(tanks[1].getTankType());
 		}
 		
 		if(!worldObj.isRemote) {
+
+			this.tanks[0].unloadTank(1, 2, slots);
+			this.tanks[1].unloadTank(3, 4, slots);
 			
-			if(slots[1] != null && slots[1].getItem() == ModItems.canister_empty && oil >= 10) {
-				if(slots[2] == null) {
-					oil -= 10;
-					slots[2] = new ItemStack(ModItems.canister_oil);
-					slots[1].stackSize--;
-					if(slots[1].stackSize <= 0)
-						slots[1] = null;
-				} else  if(slots[2] != null && slots[2].getItem() == ModItems.canister_oil && slots[2].stackSize < slots[2].getMaxStackSize()) {
-					oil -= 10;
-					slots[2].stackSize++;
-					slots[1].stackSize--;
-					if(slots[1].stackSize <= 0)
-						slots[1] = null;
-				}
-			}
-			
-			if(slots[3] != null && slots[3].getItem() == ModItems.gas_empty && gas >= 10) {
-				if(slots[4] == null) {
-					gas -= 10;
-					slots[4] = new ItemStack(ModItems.gas_full);
-					slots[3].stackSize--;
-					if(slots[3].stackSize <= 0)
-						slots[3] = null;
-				} else  if(slots[4] != null && slots[4].getItem() == ModItems.gas_full && slots[4].stackSize < slots[4].getMaxStackSize()) {
-					gas -= 10;
-					slots[4].stackSize++;
-					slots[3].stackSize--;
-					if(slots[3].stackSize <= 0)
-						slots[3] = null;
-				}
+			for(int i = 0; i < 2; i++) {
+				tanks[i].updateTank(xCoord, yCoord, zCoord);
 			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -316,18 +292,20 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 								warning = 2;
 							break;
 							
-						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.oil < TileEntityMachineOilWell.maxOil && this.gas < TileEntityMachineOilWell.maxGas) {
+						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
 							if(succ(this.xCoord, i, this.zCoord)) {
-								oil += 5;
-								if(oil > maxOil)
-									oil = maxOil;
 								
-								gas += rand.nextInt(26) + 25;
-								if(gas > maxGas)
-									gas = maxGas;
+								this.tanks[0].setFill(this.tanks[0].getFill() + 500);
+								if(this.tanks[0].getFill() > this.tanks[0].getMaxFill())
+									this.tanks[0].setFill(tanks[0].getMaxFill());
+								
+
+								this.tanks[1].setFill(this.tanks[1].getFill() + (100 + rand.nextInt(401)));
+								if(this.tanks[1].getFill() > this.tanks[1].getMaxFill())
+									this.tanks[1].setFill(tanks[1].getMaxFill());
 								
 								ExplosionLarge.spawnOilSpills(worldObj, xCoord + 0.5F, yCoord + 5.5F, zCoord + 0.5F, 3);
-								worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
+								worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 2.0F, 0.5F);
 								
 								break;
 							} else {
@@ -351,12 +329,12 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 			}
 
 			warning2 = 0;
-			if(gas > 0) {
+			if(tanks[1].getFill() > 0) {
 				if(slots[5] != null && (slots[5].getItem() == ModItems.fuse || slots[5].getItem() == ModItems.screwdriver)) {
 					warning2 = 2;
-					gas -= 1;
-					if(gas <= 0)
-						gas = 0;
+					tanks[1].setFill(tanks[1].getFill() - 50);
+					if(tanks[1].getFill() <= 0)
+						tanks[1].setFill(0);
 		    		worldObj.spawnEntityInWorld(new EntityGasFX(worldObj, this.xCoord + 0.5F, this.yCoord + 6.5F, this.zCoord + 0.5F, 0.0, 0.0, 0.0));
 				} else {
 					warning2 = 1;
@@ -473,32 +451,6 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public void fillInit() {
-		fill(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
-		fill(this.xCoord - 2, this.yCoord, this.zCoord, getTact());
-		fill(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
-		fill(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
-	}
-
-	@Override
-	public void fill(int x, int y, int z, boolean newTact) {
-		Library.transmitOil(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
-	public void fillGasInit() {
-		fillGas(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
-		fillGas(this.xCoord - 2, this.yCoord, this.zCoord, getTact());
-		fillGas(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
-		fillGas(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
-	}
-
-	@Override
-	public void fillGas(int x, int y, int z, boolean newTact) {
-		Library.transmitGas(x, y, z, newTact, this, worldObj);
-	}
-
-	@Override
 	public boolean getTact() {
 		if (age2 >= 0 && age2 < 10) {
 			return true;
@@ -508,43 +460,63 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public int getSFill() {
-		return this.oil;
+	public void fillFluidInit(FluidType type) {
+		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord - 2, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, getTact(), type);
 	}
 
 	@Override
-	public void setSFill(int i) {
-		this.oil = i;
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 
 	@Override
-	public List<IOilAcceptor> getList() {
-		return aclist;
+	public int getSFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+	
+		return 0;
 	}
 
 	@Override
-	public void clearList() {
-		this.aclist.clear();
+	public void setSFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
 	}
 
 	@Override
-	public int getGasFill() {
-		return this.gas;
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return this.list1;
+		if(type.name().equals(tanks[1].getTankType().name()))
+			return this.list2;
+		return new ArrayList<IFluidAcceptor>();
 	}
 
 	@Override
-	public void setGasFill(int i) {
-		this.gas = i;
+	public void clearFluidList(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			list1.clear();
+		if(type.name().equals(tanks[1].getTankType().name()))
+			list2.clear();
 	}
 
 	@Override
-	public List<IGasAcceptor> getGasList() {
-		return this.gaslist;
+	public void setFillstate(int fill, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setFill(fill);
 	}
 
 	@Override
-	public void clearGasList() {
-		this.gaslist.clear();
+	public void setType(FluidType type, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setTankType(type);
 	}
 
 }

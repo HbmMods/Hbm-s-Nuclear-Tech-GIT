@@ -192,7 +192,6 @@ public class TileEntityMachineUF6Tank extends TileEntity implements ISidedInvent
 		if(!worldObj.isRemote)
 		{
 			tank.loadTank(0, 1, slots);
-			tank.setType(0, 1, slots);
 			tank.unloadTank(2, 3, slots);
 			tank.updateTank(xCoord, yCoord, zCoord);
 		}

@@ -8,11 +8,12 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerGenerator;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityMachineGenerator;
 
-public class GUIMachineGenerator extends GuiContainer {
+public class GUIMachineGenerator extends GuiFluidContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_generator.png");
 	private TileEntityMachineGenerator diFurnace;
@@ -23,6 +24,14 @@ public class GUIMachineGenerator extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 88 - 52, 16, 52);
+		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 88 - 52, 16, 52);
 	}
 	
 	@Override
@@ -39,16 +48,6 @@ public class GUIMachineGenerator extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(diFurnace.hasWater()) {
-			int i = diFurnace.getWaterScaled(52);
-			drawTexturedModalRect(guiLeft + 8, guiTop + 88 - i, 176, 52 - i, 16, i);
-		}
-		
-		if(diFurnace.hasCoolant()) {
-			int i = diFurnace.getCoolantScaled(52);
-			drawTexturedModalRect(guiLeft + 26, guiTop + 88 - i, 192, 52 - i, 16, i);
-		}
-		
 		if(diFurnace.hasPower()) {
 			int i = diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 62, guiTop + 88 - i, 224, 52 - i, 16, i);
@@ -58,5 +57,10 @@ public class GUIMachineGenerator extends GuiContainer {
 			int i = diFurnace.getHeatScaled(52);
 			drawTexturedModalRect(guiLeft + 98, guiTop + 88 - i, 208, 52 - i, 16, i);
 		}
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
+
+		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
+		diFurnace.tanks[1].renderTank(this, guiLeft + 26, guiTop + 88, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }

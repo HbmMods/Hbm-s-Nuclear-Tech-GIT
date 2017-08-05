@@ -37,7 +37,6 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.oredict.OreDictionary;
 
-//TODO: remove obso1337 cases for accptr/src cases to prevent conflicting tanks when multiple have the same type
 public class TileEntityMachineChemplant extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor, IFluidSource {
 
 	private ItemStack slots[];
@@ -63,13 +62,9 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		slots = new ItemStack[21];
 		tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(FluidType.NONE, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.NONE, 16000, 0);
-		tanks[2] = new FluidTank(FluidType.NONE, 16000, 0);
-		tanks[3] = new FluidTank(FluidType.NONE, 16000, 0);
-		tanks[0].index = 0;
-		tanks[1].index = 1;
-		tanks[2].index = 2;
-		tanks[3].index = 3;
+		tanks[1] = new FluidTank(FluidType.NONE, 16000, 1);
+		tanks[2] = new FluidTank(FluidType.NONE, 16000, 2);
+		tanks[3] = new FluidTank(FluidType.NONE, 16000, 3);
 	}
 
 	@Override
@@ -786,10 +781,6 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
-		/*else if(type.name().equals(tanks[2].getTankType().name()))
-			tanks[2].setFill(i);
-		else if(type.name().equals(tanks[3].getTankType().name()))
-			tanks[3].setFill(i);*/
 	}
 
 	@Override
@@ -798,21 +789,13 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
-		else /*if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getFill();
-		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[3].getFill();*/
-		
-		return 0;
+		else
+			return 0;
 	}
 
 	@Override
 	public void setSFluidFill(int i, FluidType type) {
-		/*if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-		else */if(type.name().equals(tanks[2].getTankType().name()))
+		if(type.name().equals(tanks[2].getTankType().name()))
 			tanks[2].setFill(i);
 		else if(type.name().equals(tanks[3].getTankType().name()))
 			tanks[3].setFill(i);
@@ -820,11 +803,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 
 	@Override
 	public int getSFluidFill(FluidType type) {
-		/*if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else*/ if(type.name().equals(tanks[2].getTankType().name()))
+		if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getFill();
 		else if(type.name().equals(tanks[3].getTankType().name()))
 			return tanks[3].getFill();
@@ -838,12 +817,8 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getMaxFill();
-		else /*if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getMaxFill();
-		else if(type.name().equals(tanks[3].getTankType().name()))
-			return tanks[3].getMaxFill();*/
-		
-		return 0;
+		else
+			return 0;
 	}
 
 	@Override

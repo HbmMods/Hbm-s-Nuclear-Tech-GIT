@@ -14,23 +14,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.machine.MachineCoal;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 
-public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
 	public int power;
-	public int water;
 	public int burnTime;
 	public static final int maxPower = 100000;
-	public static final int maxWater = 10000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
+	public FluidTank tank;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {0, 2};
@@ -39,7 +42,8 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	private String customName;
 	
 	public TileEntityMachineCoal() {
-		slots = new ItemStack[3];
+		slots = new ItemStack[4];
+		tank = new FluidTank(FluidType.WATER, 5000, 0);
 	}
 
 	@Override
@@ -151,7 +155,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		NBTTagList list = nbt.getTagList("items", 10);
 		
 		this.power = nbt.getInteger("powerTime");
-		this.water = nbt.getInteger("water");
+		tank.readFromNBT(nbt, "water");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -169,7 +173,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
-		nbt.setInteger("water", water);
+		tank.writeToNBT(nbt, "water");
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -208,10 +212,6 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		return false;
 	}
 	
-	public int getWaterScaled(int i) {
-		return (water * i) / maxWater;
-	}
-	
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
@@ -226,58 +226,20 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		
 		if(age == 9 || age == 19)
 			ffgeuaInit();
-		
-		//Water
-		if(slots[0] != null && slots[0].getItem() == Items.water_bucket && this.water + 2500 <= maxWater)
-		{
-			this.slots[0].stackSize--;
-			this.water += 2500;
-			if(this.slots[0].stackSize == 0)
-			{
-				this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-			}
-		}
-		if(slots[0] != null && slots[0].getItem() == ModItems.rod_water && this.water + 2500 <= maxWater)
-		{
-			this.slots[0].stackSize--;
-			this.water += 2500;
-			if(this.slots[0].stackSize == 0)
-			{
-				this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-			}
-		}
-		if(slots[0] != null && slots[0].getItem() == ModItems.rod_dual_water && this.water + 5000 <= maxWater)
-		{
-			this.slots[0].stackSize--;
-			this.water += 5000;
-			if(this.slots[0].stackSize == 0)
-			{
-				this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-			}
-		}
-		if(slots[0] != null && slots[0].getItem() == ModItems.rod_quad_water && this.water + 10000 <= maxWater)
-		{
-			this.slots[0].stackSize--;
-			this.water += 10000;
-			if(this.slots[0].stackSize == 0)
-			{
-				this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-			}
-		}
-		if(slots[0] != null && slots[0].getItem() == ModItems.inf_water)
-		{
-			this.water = TileEntityMachineCoal.maxWater;
-		}
-
-		//Battery Item
-		
-		power = Library.chargeItemsFromTE(slots, 2, power, maxPower);
 
 		boolean flag = this.burnTime > 0;
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote)
 		{
+		
+			//Water
+			tank.loadTank(0, 3, slots);
+			
+			tank.updateTank(xCoord, yCoord, zCoord);
+
+			//Battery Item
+			power = Library.chargeItemsFromTE(slots, 2, power, maxPower);
 			
 			boolean trigger = true;
 			
@@ -329,9 +291,9 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		{
 			burnTime--;
 			
-			if(water > 0)
+			if(tank.getFill() > 0)
 			{
-				water -= 1;
+				tank.setFill(tank.getFill() - 1);
 				
 				if(power + 100 <= maxPower)
 				{
@@ -405,5 +367,31 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tank.getTankType().name()))
+			tank.setFill(i);
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
 	}
 }
