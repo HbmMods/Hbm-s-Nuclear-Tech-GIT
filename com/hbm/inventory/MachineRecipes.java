@@ -2685,4 +2685,11 @@ public class MachineRecipes {
 		
 		return input;
 	}
+	
+	public Map<Object, Object[]> getItemInfo() {
+		Map<Object, Object[]> map = new HashMap<Object, Object[]>();
+		map.put(new ItemStack(ModBlocks.asphalt), new String[] {"test", "test"});
+		
+		return map;
+	}
 }

@@ -184,12 +184,26 @@ public class ModItems {
 
 	public static Item powder_dura_steel;
 	public static Item powder_polymer;
+	
 	public static Item powder_lithium_tiny;
+	public static Item powder_neodymium_tiny;
+	public static Item powder_caesium_tiny;
 	public static Item powder_cobalt_tiny;
+	public static Item powder_niobium_tiny;
+	public static Item powder_cerium_tiny;
+	public static Item powder_lanthanium_tiny;
+	public static Item powder_actinium_tiny;
 
 	public static Item powder_lanthanium;
 	public static Item powder_actinium;
 	public static Item powder_desh;
+
+	public static Item fragment_neodymium;
+	public static Item fragment_caesium;
+	public static Item fragment_niobium;
+	public static Item fragment_cerium;
+	public static Item fragment_lanthanium;
+	public static Item fragment_actinium;
 	
 	public static Item coil_copper;
 	public static Item coil_copper_torus;
@@ -329,6 +343,7 @@ public class ModItems {
 	public static Item cell_sas3;
 	public static Item cell_antimatter;
 	public static Item cell_anti_schrabidium;
+	public static Item pellet_antimatter;
 	public static Item singularity;
 	public static Item singularity_counter_resonant;
 	public static Item singularity_super_heated;
@@ -1253,6 +1268,7 @@ public class ModItems {
 		singularity_counter_resonant = new ItemDrop().setUnlocalizedName("singularity_counter_resonant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_alt");
 		singularity_super_heated = new ItemDrop().setUnlocalizedName("singularity_super_heated").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_5");
 		black_hole = new ItemDrop().setUnlocalizedName("black_hole").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_4");
+		pellet_antimatter = new ItemDrop().setUnlocalizedName("pellet_antimatter").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":pellet_antimatter");
 		crystal_xen = new ItemDrop().setUnlocalizedName("crystal_xen").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":crystal_xen");
 		inf_water = new Item().setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_water");
 		inf_coolant = new Item().setUnlocalizedName("inf_coolant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_coolant");
@@ -2236,6 +2252,7 @@ public class ModItems {
 		GameRegistry.registerItem(singularity_super_heated, singularity_super_heated.getUnlocalizedName());
 		GameRegistry.registerItem(black_hole, black_hole.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_xen, crystal_xen.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_antimatter, pellet_antimatter.getUnlocalizedName());
 		
 		//Infinite Tanks
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());

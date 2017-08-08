@@ -19,7 +19,7 @@ public class RenderRefinery extends TileEntitySpecialRenderer {
 	public RenderRefinery()
     {
 		genModel = AdvancedModelLoader.loadModel(body);
-		genTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		genTexture = new ResourceLocation(RefStrings.MODID, "textures/models/refinery.png");
     }
 
     @Override

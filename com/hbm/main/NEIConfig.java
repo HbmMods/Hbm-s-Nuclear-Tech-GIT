@@ -1,14 +1,15 @@
 package com.hbm.main;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.AlloyFurnaceRecipeHandler;
-import com.hbm.handler.AssemblerRecipeHandler;
-import com.hbm.handler.CMBFurnaceRecipeHandler;
-import com.hbm.handler.CentrifugeRecipeHandler;
-import com.hbm.handler.CyclotronRecipeHandler;
-import com.hbm.handler.ReactorRecipeHandler;
-import com.hbm.handler.RefineryRecipeHandler;
-import com.hbm.handler.ShredderRecipeHandler;
+import com.hbm.handler.nei.AlloyFurnaceRecipeHandler;
+import com.hbm.handler.nei.AssemblerRecipeHandler;
+import com.hbm.handler.nei.CMBFurnaceRecipeHandler;
+import com.hbm.handler.nei.CentrifugeRecipeHandler;
+import com.hbm.handler.nei.CyclotronRecipeHandler;
+import com.hbm.handler.nei.ModInfoHandler;
+import com.hbm.handler.nei.ReactorRecipeHandler;
+import com.hbm.handler.nei.RefineryRecipeHandler;
+import com.hbm.handler.nei.ShredderRecipeHandler;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
@@ -37,6 +38,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new AssemblerRecipeHandler());
 		API.registerRecipeHandler(new RefineryRecipeHandler());
 		API.registerUsageHandler(new RefineryRecipeHandler());
+		API.registerRecipeHandler(new ModInfoHandler());
+		API.registerUsageHandler(new ModInfoHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_coal_on)));

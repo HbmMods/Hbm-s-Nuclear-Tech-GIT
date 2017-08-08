@@ -24,7 +24,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 	public RenderChemplant()
     {
 		bodyModel = AdvancedModelLoader.loadModel(body);
-		bodyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
+		bodyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/chemplant.png");
 		boltModel = AdvancedModelLoader.loadModel(bolt);
 		boltTexture = new ResourceLocation(RefStrings.MODID, "textures/models/textureIGenRotor.png");
     }

@@ -1,4 +1,4 @@
-package com.hbm.handler;
+package com.hbm.handler.nei;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;

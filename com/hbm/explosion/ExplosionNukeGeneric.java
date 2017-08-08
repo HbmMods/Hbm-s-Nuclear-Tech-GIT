@@ -269,8 +269,12 @@ public class ExplosionNukeGeneric {
 					// entity.boundingBox);
 					// if(d10 > 0) isOccupied = true;
 					double d11 = (1.0D - d4);// * d10;
-					
+
 					if(entity instanceof EntityItem && ((EntityItem)entity).getEntityItem().getItem() == ModItems.flame_pony) {
+						entity.setDead();
+						return true;
+					}
+					if(entity instanceof EntityItem && ((EntityItem)entity).getEntityItem().getItem() == ModItems.pellet_antimatter) {
 						entity.setDead();
 						return true;
 					}

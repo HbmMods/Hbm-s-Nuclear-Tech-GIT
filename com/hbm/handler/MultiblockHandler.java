@@ -48,10 +48,10 @@ public class MultiblockHandler {
 	public static final int[] wellDimension  = new int[] { 1, 1, 5, 0, 1, 1 };
 	public static final int[] flareDimension  = new int[] { 1, 1, 9, 0, 1, 1 };
 	public static final int[] drillDimension  = new int[] { 1, 1, 3, 0, 1, 1 };
-	public static final int[] assemblerDimensionNorth = new int[] { 2, 1, 2, 0, 1, 2 };
-	public static final int[] assemblerDimensionEast  = new int[] { 2, 1, 2, 0, 2, 1 };
-	public static final int[] assemblerDimensionSouth = new int[] { 1, 2, 2, 0, 2, 1 };
-	public static final int[] assemblerDimensionWest  = new int[] { 1, 2, 2, 0, 1, 2 };
+	public static final int[] assemblerDimensionNorth = new int[] { 2, 1, 1, 0, 1, 2 };
+	public static final int[] assemblerDimensionEast  = new int[] { 2, 1, 1, 0, 2, 1 };
+	public static final int[] assemblerDimensionSouth = new int[] { 1, 2, 1, 0, 2, 1 };
+	public static final int[] assemblerDimensionWest  = new int[] { 1, 2, 1, 0, 1, 2 };
 	public static final int[] chemplantDimensionNorth = new int[] { 2, 1, 2, 0, 1, 2 };
 	public static final int[] chemplantDimensionEast  = new int[] { 2, 1, 2, 0, 2, 1 };
 	public static final int[] chemplantDimensionSouth = new int[] { 1, 2, 2, 0, 2, 1 };

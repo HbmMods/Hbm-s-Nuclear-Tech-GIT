@@ -6,6 +6,7 @@ import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -27,6 +28,12 @@ public class ItemDrop extends Item {
 					if (!entityItem.worldObj.isRemote) {
 						entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY,
 								entityItem.posZ, 10.0F, true);
+					}
+				}
+				if (stack.getItem() != null && stack.getItem() == ModItems.pellet_antimatter) {
+					if (!entityItem.worldObj.isRemote) {
+						ExplosionLarge.explodeFire(entityItem.worldObj, entityItem.posX, entityItem.posY,
+								entityItem.posZ, 100, true, true, true);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium) {
@@ -150,6 +157,10 @@ public class ItemDrop extends Item {
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.cell_antimatter) {
 			list.add("Warning: Exposure to matter will");
 			list.add("lead to violent annihilation!");
+		}
+		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.pellet_antimatter) {
+			list.add("Very heavy antimatter cluster.");
+			list.add("Gets rid of black holes.");
 		}
 		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.cell_anti_schrabidium) {
 			list.add("Warning: Exposure to matter will");
