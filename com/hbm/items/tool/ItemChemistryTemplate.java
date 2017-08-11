@@ -12,6 +12,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 public class ItemChemistryTemplate extends Item {
 	
@@ -27,7 +28,10 @@ public class ItemChemistryTemplate extends Item {
 		CC_HEATING, CC_HEAVY, CC_NAPHTHA;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
-			return EnumChemistryTemplate.values()[i];
+			if(i < EnumChemistryTemplate.values().length)
+				return EnumChemistryTemplate.values()[i];
+			else
+				return FP_HEAVYOIL;
 		}
 		
 		public String getName() {
@@ -41,11 +45,17 @@ public class ItemChemistryTemplate extends Item {
         this.setMaxDamage(0);
     }
 
-    @Override
-	public String getUnlocalizedName(ItemStack stack)
+    public String getItemStackDisplayName(ItemStack stack)
     {
-        int i = stack.getItemDamage();
-        return super.getUnlocalizedName() + "." + EnumChemistryTemplate.getEnum(i).getName();
+        String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+        String s1 = ("" + StatCollector.translateToLocal("chem." + EnumChemistryTemplate.getEnum(stack.getItemDamage()).name())).trim();
+
+        if (s1 != null)
+        {
+            s = s + " " + s1;
+        }
+
+        return s;
     }
 
     @Override

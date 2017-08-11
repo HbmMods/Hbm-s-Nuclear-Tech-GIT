@@ -5,6 +5,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import java.util.List;
 
+import com.hbm.entity.particle.EntityGasFX;
+import com.hbm.entity.particle.EntityOilSpillFX;
+import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
@@ -438,7 +441,8 @@ public class EntityRocket extends Entity implements IProjectile
             {
                 for (i = 0; i < 4; ++i)
                 {
-                    this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ, /*0, 0, 0 this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D,*/ -this.motionX/4, -this.motionY/4, -this.motionZ/4);
+                	this.worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ, /*0, 0, 0 this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D,*/ -this.motionX/4, -this.motionY/4, -this.motionZ/4);
+                	//this.worldObj.spawnEntityInWorld(new EntityGasFX(worldObj, this.posX - motionX/4*i, this.posY - motionY/4*i, this.posZ - motionZ/4*i, 0, 0, 0));
                 }
             }
 

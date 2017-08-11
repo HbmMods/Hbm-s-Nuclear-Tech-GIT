@@ -195,6 +195,9 @@ import com.hbm.tileentity.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.TileEntityTestContainer;
 import com.hbm.tileentity.TileEntityTestNuke;
 import com.hbm.tileentity.TileEntityTestRender;
+import com.hbm.tileentity.TileEntityTurretHeavy;
+import com.hbm.tileentity.TileEntityTurretLight;
+import com.hbm.tileentity.TileEntityTurretRocket;
 import com.hbm.tileentity.TileEntityWatzCore;
 import com.hbm.tileentity.TileEntityWireCoated;
 import com.hbm.tileentity.TileEntityYellowBarrel;
@@ -473,6 +476,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityFluidDuct.class, "tileentity_universal_duct");
 		GameRegistry.registerTileEntity(TileEntityMachineChemplant.class, "tileentity_chemical_plant");
 		GameRegistry.registerTileEntity(TileEntityMachineFluidTank.class, "tileentity_fluid_tank");
+		GameRegistry.registerTileEntity(TileEntityTurretHeavy.class, "tileentity_turret_heavy");
+		GameRegistry.registerTileEntity(TileEntityTurretRocket.class, "tileentity_turret_rocket");
+		GameRegistry.registerTileEntity(TileEntityTurretLight.class, "tileentity_turret_light");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -793,10 +799,14 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 14), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
-		recipes.overridePreSetRecipe(new ItemStack(Items.wheat_seeds), new ItemStack(ModItems.oil_canola, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Items.pumpkin_seeds), new ItemStack(ModItems.oil_canola, 2));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_neodymium), new ItemStack(ModItems.powder_neodymium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cobalt), new ItemStack(ModItems.powder_cobalt_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_niobium), new ItemStack(ModItems.powder_niobium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
 		
 		recipes.PrintRecipes();
 

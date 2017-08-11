@@ -183,8 +183,10 @@ import com.hbm.render.tileentity.RenderFluidDuct;
 import com.hbm.render.tileentity.RenderFluidTank;
 import com.hbm.render.tileentity.RenderGasDuct;
 import com.hbm.render.tileentity.RenderGasFlare;
+import com.hbm.render.tileentity.RenderHeavyTurret;
 import com.hbm.render.tileentity.RenderIGenerator;
 import com.hbm.render.tileentity.RenderLaunchPadTier1;
+import com.hbm.render.tileentity.RenderLightTurret;
 import com.hbm.render.tileentity.RenderMiningDrill;
 import com.hbm.render.tileentity.RenderNukeBoy;
 import com.hbm.render.tileentity.RenderNukeCustom;
@@ -201,6 +203,7 @@ import com.hbm.render.tileentity.RenderPuF6Tank;
 import com.hbm.render.tileentity.RenderPylon;
 import com.hbm.render.tileentity.RenderRedBarrel;
 import com.hbm.render.tileentity.RenderRefinery;
+import com.hbm.render.tileentity.RenderRocketTurret;
 import com.hbm.render.tileentity.RenderRotationTester;
 import com.hbm.render.tileentity.RenderSteelPoles;
 import com.hbm.render.tileentity.RenderStructureMaker;
@@ -256,6 +259,9 @@ import com.hbm.tileentity.TileEntityStructureMarker;
 import com.hbm.tileentity.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.TileEntityTestContainer;
 import com.hbm.tileentity.TileEntityTestRender;
+import com.hbm.tileentity.TileEntityTurretHeavy;
+import com.hbm.tileentity.TileEntityTurretLight;
+import com.hbm.tileentity.TileEntityTurretRocket;
 import com.hbm.tileentity.TileEntityYellowBarrel;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -299,6 +305,9 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChemplant.class, new RenderChemplant());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineFluidTank.class, new RenderFluidTank());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRefinery.class, new RenderRefinery());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretHeavy.class, new RenderHeavyTurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretRocket.class, new RenderRocketTurret());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretLight.class, new RenderLightTurret());
 
 		//RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderSnowball(ModItems.man_core));

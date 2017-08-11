@@ -74,7 +74,10 @@ public class FluidTypeHandler {
 		}
 		
 		public static FluidType getEnum(int i) {
-			return FluidType.values()[i];
+			if(i < FluidType.values().length)
+				return FluidType.values()[i];
+			else
+				return FluidType.NONE;
 		}
 		
 		public String getName() {

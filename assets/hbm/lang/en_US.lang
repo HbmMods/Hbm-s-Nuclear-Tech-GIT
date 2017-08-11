@@ -6,12 +6,14 @@ itemGroup.tabMachine=NTM Templates
 
 hbmfluid.none=None
 hbmfluid.water=Water
+hbmfluid.steam=Steam
 hbmfluid.lava=Lava
 hbmfluid.uf6=Uranium Hexafluoride
 hbmfluid.puf6=Plutonium Hexafluoride
 hbmfluid.deuterium=Deuterium
 hbmfluid.tritium=Tritium
 hbmfluid.oil=Crude Oil
+hbmfluid.hotoil=Hot Crude Oil
 hbmfluid.smear=Industrial Oil
 hbmfluid.reclaimed=Reclaimed Industrial Oil
 hbmfluid.petroil=Petroil
@@ -28,6 +30,22 @@ hbmfluid.heatingoil=Heating Oil
 hbmfluid.naphtha=Naphtha
 hbmfluid.lightoil=Light Oil
 hbmfluid.petroleum=Petroleum Gas
+
+chem.TEST=Test
+chem.FP_HEAVYOIL=Heavy Oil Processing
+chem.FP_SMEAR=Industrial Oil Processing
+chem.FP_NAPHTHA=Naphtha Processing
+chem.FP_LIGHTOIL=Light Oil Processing
+chem.FR_REOIL=Oil Reprocessing
+chem.FR_PETROIL=Petroil Mixing
+chem.FC_I_NAPHTHA=Industrial Oil Cracking
+chem.FC_GAS_PETROLEUM=Gas Cracking
+chem.FC_DIESEL_KEROSENE=Diesel Cracking
+chem.FC_KEROSENE_PETROLEUM=Kerosene Cracking
+chem.CC_I=Enhanced Coal Cracking
+chem.CC_HEATING=Advanced Coal Cracking
+chem.CC_HEAVY=Basic Coal Cracking
+chem.CC_NAPHTHA=Naphtha Coal Cracking
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -270,6 +288,7 @@ tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 
 item.fluid_identifier.name=Fluid Identifier
 item.assembly_template.name=Assembly Template:
+item.chemistry_template.name=Chemistry Template:
 
 item.fuse.name=Fuse
 
@@ -491,6 +510,18 @@ item.powder_lanthanium.name=Lanthanium Powder
 item.powder_actinium.name=Actinium Powder
 item.powder_lithium_tiny.name=Tiny Pile of Lithium Powder
 item.powder_cobalt_tiny.name=Tiny Pile of Cobalt Powder
+item.powder_neodymium_tiny.name=Tiny Pile of Neodymium Powder
+item.powder_niobium_tiny.name=Tiny Pile of Niobium Powder
+item.powder_cerium_tiny.name=Tiny Pile of Cerium Powder
+item.powder_lanthanium_tiny.name=Tiny Pile of Lanthanium Powder
+item.powder_actinium_tiny.name=Tiny Pile of Actinium Powder
+
+item.fragment_neodymium.name=Neodymium Fragment
+item.fragment_cobalt.name=Cobalt Fragment
+item.fragment_niobium.name=Niobium Fragment
+item.fragment_cerium.name=Cerium Fragment
+item.fragment_lanthanium.name=Lanthanium Fragment
+item.fragment_actinium.name=Actinium Fragment
 
 item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
@@ -568,6 +599,7 @@ item.singularity_counter_resonant.name=Contained Counter-Resonant Singularity
 item.singularity_super_heated.name=Superheated Resonating Singularity
 item.black_hole.name=Miniature Black Hole
 item.crystal_xen.name=Artificial Xen Crystal
+item.pellet_antimatter.name=Antimatter Cluster
 
 item.inf_water.name=Infinite Water Tank
 item.inf_deuterium.name=Infinite Deuterium Tank
@@ -600,6 +632,9 @@ item.gas_full.name=Gas Tank
 item.gas_petroleum.name=Petroleum Gas Tank
 item.fluid_tank_empty.name=Empty Universal Fluid Tank
 item.fluid_tank_full.name=Universal Fluid Tank:
+item.fluid_barrel_empty.name=Empty Fluid Barrel
+item.fluid_barrel_full.name=Fluid Barrel:
+item.fluid_barrel_infinite.name=Infinite Fluid Barrel
 
 item.rod_empty.name=Emty Rod
 item.rod_uranium.name=Uranium Rod
@@ -974,6 +1009,7 @@ item.missile_nuclear.name=Nuclear Missile
 item.missile_nuclear_cluster.name=Nuclear MIRV Missile
 item.missile_endo.name=Endothermic Missile
 item.missile_exo.name=Exothermic Missile
+item.missile_doomsday.name=Doomsday Missile
 
 item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmat Chestplate

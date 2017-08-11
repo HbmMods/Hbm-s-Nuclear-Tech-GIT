@@ -20,6 +20,8 @@ import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -32,7 +34,7 @@ public class ModInfoHandler extends TemplateRecipeHandler {
     	
         public SmeltingSet(ItemStack item) {
         	item.stackSize = 1;
-            this.item = new PositionedStack(item, 129, 24);
+            this.item = new PositionedStack(item, 129 - 54, 24 - 17);
         }
 
         @Override
@@ -48,7 +50,7 @@ public class ModInfoHandler extends TemplateRecipeHandler {
     
 	@Override
 	public String getRecipeName() {
-		return "Cyclotron";
+		return "Mod Info";
 	}
 
 	@Override
@@ -94,6 +96,19 @@ public class ModInfoHandler extends TemplateRecipeHandler {
 				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey()));				
 		}
 	}
+
+	FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+	
+    @Override
+    public void drawExtras(int recipe) {
+    	ItemStack stack = arecipes.get(recipe).getResult().item;
+    	String[] strings = MachineRecipes.instance().getInfoFromItem(stack);
+    	
+    	font.drawString(stack.getDisplayName() + ":", 5, 24 + 5, 4210752);
+    	
+    	for(int i = 0; i < strings.length; i++)
+        	font.drawString(strings[i], 5 + 3, 34 + 5 + 10 * i, 4210752);
+    }
 
     @Override
     public TemplateRecipeHandler newInstance() {

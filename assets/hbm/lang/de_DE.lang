@@ -6,12 +6,14 @@ itemGroup.tabMachine=NTM Vorlagen
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
+hbmfluid.steam=Dampf
 hbmfluid.lava=Lava
 hbmfluid.uf6=Uranhexafluorid
 hbmfluid.puf6=Plutoniumhexafluorid
 hbmfluid.deuterium=Deuterium
 hbmfluid.tritium=Tritium
 hbmfluid.oil=Rohöl
+hbmfluid.hotoil=Heißes Rohöl
 hbmfluid.smear=Industrieöl
 hbmfluid.reclaimed=Wiederaufbetreitetes Industrieöl
 hbmfluid.petroil=Gemisch
@@ -28,6 +30,22 @@ hbmfluid.heatingoil=Heizöl
 hbmfluid.naphtha=Mitteldestillat
 hbmfluid.lightoil=Leichtöl
 hbmfluid.petroleum=Petroleumgas
+
+chem.TEST=Test
+chem.FP_HEAVYOIL=Schwerölverarbeitung
+chem.FP_SMEAR=Industrieölverarbeitung
+chem.FP_NAPHTHA=Mitteldestillatsverarbeitung
+chem.FP_LIGHTOIL=Leichtölverarbeitung
+chem.FR_REOIL=Öl-Wiederaufbereitung
+chem.FR_PETROIL=Gemischherstellung
+chem.FC_I_NAPHTHA=Industriöl-Cracking
+chem.FC_GAS_PETROLEUM=Erdgas-Cracking
+chem.FC_DIESEL_KEROSENE=Diesel-Cracking
+chem.FC_KEROSENE_PETROLEUM=Kerosin-Cracking
+chem.CC_I=Erweitertes Kohle-Cracking
+chem.CC_HEATING=Fortgeschrittenes Kohle-Cracking
+chem.CC_HEAVY=Einfaches Kohle-Cracking
+chem.CC_NAPHTHA=Naphtha-Kohle-Cracking
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -270,6 +288,7 @@ tile.machine_rtg_purple.name=Paarvernichtungsgenerator
 
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
 item.assembly_template.name=Fertigungsvorlage:
+item.chemistry_template.name=Chemievorlage:
 
 item.fuse.name=Sicherung
 
@@ -491,6 +510,18 @@ item.powder_lanthanium.name=Lanthanstaub
 item.powder_actinium.name=Actiniumstaub
 item.powder_lithium_tiny.name=Kleiner Haufen Lithiumstaub
 item.powder_cobalt_tiny.name=Kleiner Haufen Cobaltstaub
+item.powder_neodymium_tiny.name=Kleiner Haufen Neodymstaub
+item.powder_niobium_tiny.name=Kleiner Haufen Niobstaub
+item.powder_cerium_tiny.name=Kleiner Haufen Cerstaub
+item.powder_lanthanium_tiny.name=Kleiner Haufen Lanthanstaub
+item.powder_actinium_tiny.name=Kleiner Haufen Actiniumstaub
+
+item.fragment_neodymium.name=Neodymfragment
+item.fragment_cobalt.name=Cobaltfragment
+item.fragment_niobium.name=Niobium Ffragment
+item.fragment_cerium.name=Cerium Ffragment
+item.fragment_lanthanium.name=Lanthanfragment
+item.fragment_actinium.name=Actiniumfragment
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -568,6 +599,7 @@ item.singularity_counter_resonant.name=Eingefasste nicht-resonante Singularität
 item.singularity_super_heated.name=Supererhitzte resonante Singularität
 item.black_hole.name=Miniatur Schwarzes Loch
 item.crystal_xen.name=Künstlicher Xen-Kristall
+item.pellet_antimatter.name=Antimateriencluster
 
 item.inf_water.name=Unendlicher Wassertank
 item.inf_deuterium.name=Unendlicher Deuteriumtank
@@ -600,6 +632,9 @@ item.gas_full.name=Gastank
 item.gas_petroleum.name=Petroleumgastank
 item.fluid_tank_empty.name=Leere universelle Flüssigkeitszelle
 item.fluid_tank_full.name=Universelle Flüssigkeitszelle:
+item.fluid_barrel_empty.name=Leeres Fass
+item.fluid_barrel_full.name=Flüssigkeitsfass:
+item.fluid_barrel_infinite.name=Unendliches Fass
 
 item.rod_empty.name=Leerer Brennstab
 item.rod_uranium.name=Uranbrennstab
@@ -974,6 +1009,7 @@ item.missile_nuclear.name=Atomrakete
 item.missile_nuclear_cluster.name=Atomare MIRV-Rakete
 item.missile_endo.name=Endothermische Rakete
 item.missile_exo.name=Exothermische Rakete
+item.missile_doomsday.name=Doomsday Rakete
 
 item.hazmat_helmet.name=Strahlenschutzhelm
 item.hazmat_plate.name=Strahlenschutzbrustplatte
