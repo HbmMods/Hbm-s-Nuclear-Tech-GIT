@@ -30,6 +30,8 @@ hbmfluid.heatingoil=Heating Oil
 hbmfluid.naphtha=Naphtha
 hbmfluid.lightoil=Light Oil
 hbmfluid.petroleum=Petroleum Gas
+hbmfluid.acid=Hydrogen Peroxide
+hbmfluid.watz=Poisonous Mud
 
 chem.TEST=Test
 chem.FP_HEAVYOIL=Heavy Oil Processing
@@ -42,10 +44,17 @@ chem.FC_I_NAPHTHA=Industrial Oil Cracking
 chem.FC_GAS_PETROLEUM=Gas Cracking
 chem.FC_DIESEL_KEROSENE=Diesel Cracking
 chem.FC_KEROSENE_PETROLEUM=Kerosene Cracking
-chem.CC_I=Enhanced Coal Cracking
-chem.CC_HEATING=Advanced Coal Cracking
-chem.CC_HEAVY=Basic Coal Cracking
-chem.CC_NAPHTHA=Naphtha Coal Cracking
+chem.CC_OIL=Coal Liquefaction
+chem.CC_I=Enhanced Coal Liquefaction
+chem.CC_HEATING=Advanced Coal Liquefaction
+chem.CC_HEAVY=Basic Coal Liquefaction
+chem.CC_NAPHTHA=Naphtha Coal Liquefaction
+chem.ASPHALT=Asphalt Production
+chem.COOLANT=Coolant Mixing
+chem.DESH=Desh Production
+chem.PEROXIDE=Hydrogen Peroxide Production
+chem.CIRCUIT_4=Overclocked Circuit Production
+chem.CIRCUIT_5=High Performance Circuit Production
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -146,6 +155,13 @@ tile.therm_exo.name=Exothermic Bomb
 
 tile.crashed_bomb.name=Dud
 
+tile.turret_light.name=Light Machine Gun Turret
+tile.turret_heavy.name=Heavy Machine Gun Turret
+tile.turret_rocket.name=Rocket Turret
+tile.turret_flamer.name=Flamethrower Turret
+tile.turret_tau.name=Tauon Turret
+item.turret_control.name=Turret Controller
+
 tile.crate.name=Supply Crate
 tile.marker_structure.name=Multiblock Structure Marker
 
@@ -211,6 +227,7 @@ tile.gas_duct.name=Gas Pipe
 tile.gas_duct_solid.name=Coated Gas Pipe
 tile.machine_drill.name=Automatic Mining Drill
 container.miningDrill=Automatic Mining Drill
+tile.drill_pipe.name=Drill Pipe
 tile.machine_assembler.name=Assembly Machine
 container.assembler=Assembly Machine
 tile.machine_chemplant.name=Chemical Plant
@@ -355,6 +372,9 @@ item.nugget_verticium.name=Verticium Nugget
 item.ingot_desh.name=Desh Ingot
 item.nugget_desh.name=Desh Nugget
 item.powder_desh.name=Desh Powder
+item.powder_desh_mix.name=Desh Mixture
+
+item.solid_fuel.name=Solid Fuel
 
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget

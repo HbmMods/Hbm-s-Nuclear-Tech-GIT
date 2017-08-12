@@ -24,8 +24,9 @@ public class ItemChemistryTemplate extends Item {
 		//CC - Coal Cracking
 		
 		TEST, FP_HEAVYOIL, FP_SMEAR, FP_NAPHTHA, FP_LIGHTOIL, FR_REOIL, FR_PETROIL,
-		FC_I_NAPHTHA, FC_GAS_PETROLEUM, FC_DIESEL_KEROSENE, FC_KEROSENE_PETROLEUM, CC_I,
-		CC_HEATING, CC_HEAVY, CC_NAPHTHA;
+		FC_I_NAPHTHA, FC_GAS_PETROLEUM, FC_DIESEL_KEROSENE, FC_KEROSENE_PETROLEUM, CC_OIL,
+		CC_I, CC_HEATING, CC_HEAVY, CC_NAPHTHA, ASPHALT, COOLANT, DESH, PEROXIDE, CIRCUIT_4,
+		CIRCUIT_5;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -99,6 +100,8 @@ public class ItemChemistryTemplate extends Item {
         	return 150;
         case FC_KEROSENE_PETROLEUM:
         	return 150;
+        case CC_OIL:
+        	return 150;
         case CC_I:
         	return 200;
         case CC_HEATING:
@@ -107,6 +110,18 @@ public class ItemChemistryTemplate extends Item {
         	return 200;
         case CC_NAPHTHA:
         	return 300;
+        case ASPHALT:
+        	return 100;
+        case COOLANT:
+        	return 50;
+        case DESH:
+        	return 300;
+        case PEROXIDE:
+        	return 50;
+        case CIRCUIT_4:
+        	return 200;
+        case CIRCUIT_5:
+        	return 250;
         default:
         	return 100;
         }

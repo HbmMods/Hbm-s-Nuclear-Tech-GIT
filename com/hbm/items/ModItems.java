@@ -134,6 +134,8 @@ public class ModItems {
 	public static Item ingot_lanthanium;
 	public static Item ingot_actinium;
 
+	public static Item solid_fuel;
+
 	public static Item powder_lead;
 	public static Item powder_neptunium;
 	public static Item powder_schrabidium;
@@ -196,6 +198,7 @@ public class ModItems {
 	public static Item powder_lanthanium;
 	public static Item powder_actinium;
 	public static Item powder_desh;
+	public static Item powder_desh_mix;
 
 	public static Item fragment_neodymium;
 	public static Item fragment_cobalt;
@@ -535,6 +538,7 @@ public class ModItems {
 	public static Item assembly_template;
 	public static Item chemistry_template;
 	public static Item fluid_identifier;
+	public static Item fluid_icon;
 	
 	public static Item missile_generic;
 	public static Item missile_anti_ballistic;
@@ -1067,6 +1071,8 @@ public class ModItems {
 
 		ingot_lanthanium = new ItemCustomLore().setUnlocalizedName("ingot_lanthanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_lanthanium");
 		ingot_actinium = new ItemCustomLore().setUnlocalizedName("ingot_actinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_actinium");
+		
+		solid_fuel = new Item().setUnlocalizedName("solid_fuel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":solid_fuel");
 
 		ingot_australium = new ItemCustomLore().setUnlocalizedName("ingot_australium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_australium");
 		ingot_weidanium = new ItemCustomLore().setUnlocalizedName("ingot_weidanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_weidanium");
@@ -1130,7 +1136,7 @@ public class ModItems {
 		powder_red_copper = new Item().setUnlocalizedName("powder_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_red_copper");
 		powder_steel = new Item().setUnlocalizedName("powder_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_steel");
 		powder_lithium = new Item().setUnlocalizedName("powder_lithium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_lithium");
-		powder_power = new ItemCustomLore().setUnlocalizedName("powder_power").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_energy");
+		powder_power = new ItemCustomLore().setUnlocalizedName("powder_power").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_energy_alt");
 		powder_iodine = new ItemCustomLore().setUnlocalizedName("powder_iodine").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_iodine");
 		powder_thorium = new ItemCustomLore().setUnlocalizedName("powder_thorium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_thorium");
 		powder_neodymium = new ItemCustomLore().setUnlocalizedName("powder_neodymium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_neodymium");
@@ -1152,6 +1158,7 @@ public class ModItems {
 		powder_polymer = new ItemCustomLore().setUnlocalizedName("powder_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_polymer");
 		powder_lanthanium = new ItemCustomLore().setUnlocalizedName("powder_lanthanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_lanthanium");
 		powder_actinium = new ItemCustomLore().setUnlocalizedName("powder_actinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_actinium");
+		powder_desh_mix = new Item().setUnlocalizedName("powder_desh_mix").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_desh_mix");
 		powder_desh = new Item().setUnlocalizedName("powder_desh").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_desh");
 		powder_lithium_tiny = new Item().setUnlocalizedName("powder_lithium_tiny").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_lithium_tiny");
 		powder_neodymium_tiny = new Item().setUnlocalizedName("powder_neodymium_tiny").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_neodymium_tiny");
@@ -1712,11 +1719,12 @@ public class ModItems {
 		chopper = new ItemChopper().setUnlocalizedName("chopper").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":chopper");
 		linker = new ItemTeleLink().setUnlocalizedName("linker").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":linker");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":oil_detector");
-		turret_control = new ItemTurretControl().setUnlocalizedName("turret_control").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_control");
+		turret_control = new ItemTurretControl().setUnlocalizedName("turret_control").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_control");
 		
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
 		chemistry_template = new ItemChemistryTemplate().setUnlocalizedName("chemistry_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":chemistry_template");
 		fluid_identifier = new ItemFluidIdentifier().setUnlocalizedName("fluid_identifier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":fluid_identifier");
+		fluid_icon = new ItemFluidIcon().setUnlocalizedName("fluid_icon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":fluid_icon");
 		fluid_tank_full = new ItemFluidTank().setUnlocalizedName("fluid_tank_full").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
 		fluid_tank_empty = new Item().setUnlocalizedName("fluid_tank_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
 		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel");
@@ -2007,6 +2015,7 @@ public class ModItems {
 
 		//Dusts & Other
 		GameRegistry.registerItem(lithium, lithium.getUnlocalizedName());
+		GameRegistry.registerItem(solid_fuel, solid_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(sulfur, sulfur.getUnlocalizedName());
 		GameRegistry.registerItem(niter, niter.getUnlocalizedName());
 		GameRegistry.registerItem(fluorite, fluorite.getUnlocalizedName());
@@ -2054,6 +2063,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_cerium, powder_cerium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lanthanium, powder_lanthanium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_actinium, powder_actinium.getUnlocalizedName());
+		GameRegistry.registerItem(powder_desh_mix, powder_desh_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh, powder_desh.getUnlocalizedName());
 		GameRegistry.registerItem(dust, dust.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lithium_tiny, powder_lithium_tiny.getUnlocalizedName());
@@ -2365,6 +2375,7 @@ public class ModItems {
 		
 		//Machine Templates
 		GameRegistry.registerItem(fluid_identifier, fluid_identifier.getUnlocalizedName());
+		GameRegistry.registerItem(fluid_icon, fluid_icon.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());
 		GameRegistry.registerItem(chemistry_template, chemistry_template.getUnlocalizedName());
 		

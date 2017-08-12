@@ -195,9 +195,11 @@ import com.hbm.tileentity.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.TileEntityTestContainer;
 import com.hbm.tileentity.TileEntityTestNuke;
 import com.hbm.tileentity.TileEntityTestRender;
+import com.hbm.tileentity.TileEntityTurretFlamer;
 import com.hbm.tileentity.TileEntityTurretHeavy;
 import com.hbm.tileentity.TileEntityTurretLight;
 import com.hbm.tileentity.TileEntityTurretRocket;
+import com.hbm.tileentity.TileEntityTurretTau;
 import com.hbm.tileentity.TileEntityWatzCore;
 import com.hbm.tileentity.TileEntityWireCoated;
 import com.hbm.tileentity.TileEntityYellowBarrel;
@@ -479,6 +481,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTurretHeavy.class, "tileentity_turret_heavy");
 		GameRegistry.registerTileEntity(TileEntityTurretRocket.class, "tileentity_turret_rocket");
 		GameRegistry.registerTileEntity(TileEntityTurretLight.class, "tileentity_turret_light");
+		GameRegistry.registerTileEntity(TileEntityTurretFlamer.class, "tileentity_turret_flamer");
+		GameRegistry.registerTileEntity(TileEntityTurretTau.class, "tileentity_turret_tau");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -812,6 +816,7 @@ public class MainRegistry
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), FluidType.WATER, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), FluidType.LAVA, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket), FluidType.WATZ, 1000));
 		
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_water), new ItemStack(ModItems.rod_empty), FluidType.WATER, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_dual_water), new ItemStack(ModItems.rod_dual_empty), FluidType.WATER, 2000));

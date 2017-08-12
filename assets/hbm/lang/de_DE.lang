@@ -30,6 +30,8 @@ hbmfluid.heatingoil=Heizöl
 hbmfluid.naphtha=Mitteldestillat
 hbmfluid.lightoil=Leichtöl
 hbmfluid.petroleum=Petroleumgas
+hbmfluid.acid=Wasserstoffperoxid
+hbmfluid.watz=Giftiger Schlamm
 
 chem.TEST=Test
 chem.FP_HEAVYOIL=Schwerölverarbeitung
@@ -42,10 +44,17 @@ chem.FC_I_NAPHTHA=Industriöl-Cracking
 chem.FC_GAS_PETROLEUM=Erdgas-Cracking
 chem.FC_DIESEL_KEROSENE=Diesel-Cracking
 chem.FC_KEROSENE_PETROLEUM=Kerosin-Cracking
-chem.CC_I=Erweitertes Kohle-Cracking
-chem.CC_HEATING=Fortgeschrittenes Kohle-Cracking
-chem.CC_HEAVY=Einfaches Kohle-Cracking
-chem.CC_NAPHTHA=Naphtha-Kohle-Cracking
+chem.CC_OIL=Kohleverflüssigung
+chem.CC_I=Erweiterte Kohleverflüssigung
+chem.CC_HEATING=Fortgeschrittene Kohleverflüssigung
+chem.CC_HEAVY=Einfache Kohleverflüssigung
+chem.CC_NAPHTHA=Naphtha-Kohleverflüssigung
+chem.ASPHALT=Asphaltherstellung
+chem.COOLANT=Kühlflüssigkeit mischen
+chem.DESH=Deshherstellung
+chem.PEROXIDE=Wasserstoffperoxidherstellung
+chem.CIRCUIT_4=Überstaktete Schaltkreisherstellung
+chem.CIRCUIT_4=Leistungsstarke Schaltkreisherstellung
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -137,6 +146,13 @@ tile.nuke_fleija.name=F.L.E.I.J.A.
 tile.nuke_prototype.name=Der Prototyp
 tile.nuke_custom.name=Anpassbare Bombe
 
+tile.turret_light.name=Leichtes MG-Geschütz
+tile.turret_heavy.name=Schweres MG-Geschütz
+tile.turret_rocket.name=Raketengeschütz
+tile.turret_flamer.name=Flammenwerfergeschütz
+tile.turret_tau.name=Tauonengeschütz
+item.turret_control.name=Geschützsteuerung
+
 tile.bomb_multi.name=Mehrzweckbombe
 
 tile.flame_war.name=Flamewar aus der Box
@@ -211,6 +227,7 @@ tile.gas_duct.name=Gasleitung
 tile.gas_duct_solid.name=Verstärkte Gasleitung
 tile.machine_drill.name=Automatischer Minenbohrer
 container.miningDrill=Automatischer Minenbohrer
+tile.drill_pipe.name=Bohrgestänge
 tile.machine_assembler.name=Fertigungsmaschine
 container.assembler=Fertigungsmaschine
 tile.machine_chemplant.name=Chemiefabrik
@@ -355,6 +372,9 @@ item.nugget_verticium.name=Verticiumnugget
 item.ingot_desh.name=Deshbarren
 item.nugget_desh.name=Deshnugget
 item.powder_desh.name=Deshstaub
+item.powder_desh_mix.name=Deshmischung
+
+item.solid_fuel.name=Festbrennstoff
 
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget

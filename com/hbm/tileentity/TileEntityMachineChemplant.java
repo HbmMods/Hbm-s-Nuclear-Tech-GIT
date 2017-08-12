@@ -485,10 +485,10 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		if(sta7 != null)
 			sta7.stackSize = 1;
 		
-		if(slots[5] == null || stacks[0] == null || (stacks[0] != null && ItemStack.areItemStacksEqual(sta0, sta1) && ItemStack.areItemStackTagsEqual(sta0, sta1) && slots[5].stackSize + stacks[0].stackSize <= slots[5].getMaxStackSize()) && 
-				slots[6] == null || stacks[1] == null || (stacks[1] != null && ItemStack.areItemStacksEqual(sta2, sta3) && ItemStack.areItemStackTagsEqual(sta2, sta3) && slots[6].stackSize + stacks[1].stackSize <= slots[6].getMaxStackSize()) && 
-				slots[7] == null || stacks[2] == null || (stacks[2] != null && ItemStack.areItemStacksEqual(sta4, sta5) && ItemStack.areItemStackTagsEqual(sta4, sta5) && slots[7].stackSize + stacks[2].stackSize <= slots[7].getMaxStackSize()) && 
-				slots[8] == null || stacks[3] == null || (stacks[3] != null && ItemStack.areItemStacksEqual(sta6, sta7) && ItemStack.areItemStackTagsEqual(sta6, sta7) && slots[8].stackSize + stacks[3].stackSize <= slots[8].getMaxStackSize()))
+		if((slots[5] == null || stacks[0] == null || (stacks[0] != null && ItemStack.areItemStacksEqual(sta0, sta1) && ItemStack.areItemStackTagsEqual(sta0, sta1) && slots[5].stackSize + stacks[0].stackSize <= slots[5].getMaxStackSize())) && 
+				(slots[6] == null || stacks[1] == null || (stacks[1] != null && ItemStack.areItemStacksEqual(sta2, sta3) && ItemStack.areItemStackTagsEqual(sta2, sta3) && slots[6].stackSize + stacks[1].stackSize <= slots[6].getMaxStackSize())) && 
+				(slots[7] == null || stacks[2] == null || (stacks[2] != null && ItemStack.areItemStacksEqual(sta4, sta5) && ItemStack.areItemStackTagsEqual(sta4, sta5) && slots[7].stackSize + stacks[2].stackSize <= slots[7].getMaxStackSize())) && 
+				(slots[8] == null || stacks[3] == null || (stacks[3] != null && ItemStack.areItemStacksEqual(sta6, sta7) && ItemStack.areItemStackTagsEqual(sta6, sta7) && slots[8].stackSize + stacks[3].stackSize <= slots[8].getMaxStackSize())))
 			return true;
 			
 		return false;

@@ -1756,11 +1756,13 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_aluminium, 1));
 			list.add(new ItemStack(ModItems.wire_copper, 6));
 			list.add(new ItemStack(ModItems.powder_quartz, 4));
+			list.add(new ItemStack(ModItems.plate_copper, 1));
 			break;
 		case CIRCUIT_3:
 			list.add(new ItemStack(ModItems.circuit_copper, 1));
 			list.add(new ItemStack(ModItems.wire_red_copper, 6));
 			list.add(new ItemStack(ModItems.powder_gold, 4));
+			list.add(new ItemStack(ModItems.ingot_polymer, 1));
 			break;
 		case RTG_PELLET:
 			list.add(new ItemStack(ModItems.nugget_pu238, 5));
@@ -2489,10 +2491,10 @@ public class MachineRecipes {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 		
         recipes.put(new ItemStack(ModItems.canister_oil, 1) , new ItemStack[] { 
-        		new ItemStack(ModItems.canister_smear, 1), 
-        		new ItemStack(ModItems.canister_canola, 1), 
-        		new ItemStack(ModItems.canister_fuel, 1), 
-        		new ItemStack(ModItems.canister_kerosene, 1), 
+        		new ItemStack(ModItems.canister_heavyoil, 1), 
+        		new ItemStack(ModItems.canister_naphtha, 1), 
+        		new ItemStack(ModItems.canister_lightoil, 1), 
+        		new ItemStack(ModItems.gas_petroleum, 1), 
         		new ItemStack(ModItems.sulfur, 1) });
 		
 		return recipes;
@@ -2511,6 +2513,9 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.gold_ingot, 2));
 			list.add(new ItemStack(Items.coal, 8));
 			break;
+        case CC_OIL:
+			list.add(new ItemStack(Items.coal, 10));
+			break;
         case CC_I:
 			list.add(new ItemStack(Items.coal, 8));
 			break;
@@ -2522,6 +2527,28 @@ public class MachineRecipes {
 			break;
         case CC_NAPHTHA:
 			list.add(new ItemStack(Items.coal, 10));
+			break;
+        case ASPHALT:
+			list.add(new ItemStack(Blocks.gravel, 2));
+			list.add(new ItemStack(Blocks.sand, 6));
+			break;
+        case COOLANT:
+			list.add(new ItemStack(ModItems.niter, 1));
+			break;
+        case DESH:
+			list.add(new ItemStack(ModItems.powder_desh_mix, 2));
+			break;
+        case CIRCUIT_4:
+			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
+			list.add(new ItemStack(ModItems.wire_gold, 6));
+			list.add(new ItemStack(ModItems.powder_lapis, 4));
+			list.add(new ItemStack(ModItems.ingot_desh, 1));
+			break;
+        case CIRCUIT_5:
+			list.add(new ItemStack(ModItems.circuit_gold, 1));
+			list.add(new ItemStack(ModItems.wire_schrabidium, 6));
+			list.add(new ItemStack(ModItems.powder_diamond, 4));
+			list.add(new ItemStack(ModItems.powder_power, 1));
 			break;
 		default:
 			break;
@@ -2584,6 +2611,10 @@ public class MachineRecipes {
 			input[0] = new FluidStack(800, FluidType.SMEAR);
 			input[1] = new FluidStack(1800, FluidType.WATER);
 			break;
+        case CC_OIL:
+			input[0] = new FluidStack(600, FluidType.OIL);
+			input[1] = new FluidStack(1400, FluidType.STEAM);
+			break;
         case CC_HEATING:
 			input[0] = new FluidStack(800, FluidType.HEATINGOIL);
 			input[1] = new FluidStack(2000, FluidType.STEAM);
@@ -2596,6 +2627,26 @@ public class MachineRecipes {
 			input[0] = new FluidStack(1200, FluidType.NAPHTHA);
 			input[1] = new FluidStack(2400, FluidType.STEAM);
 			break;
+        case ASPHALT:
+			input[0] = new FluidStack(8000, FluidType.BITUMEN);
+			break;
+        case COOLANT:
+			input[0] = new FluidStack(1800, FluidType.WATER);
+			break;
+        case DESH:
+			input[0] = new FluidStack(800, FluidType.ACID);
+			input[1] = new FluidStack(200, FluidType.LIGHTOIL);
+			break;
+        case PEROXIDE:
+			input[0] = new FluidStack(1000, FluidType.WATER);
+        	break;
+        case CIRCUIT_4:
+			input[0] = new FluidStack(400, FluidType.ACID);
+        	break;
+        case CIRCUIT_5:
+			input[0] = new FluidStack(800, FluidType.ACID);
+			input[1] = new FluidStack(400, FluidType.PETROLEUM);
+        	break;
 		default:
 			break;
 		}
@@ -2614,6 +2665,21 @@ public class MachineRecipes {
 		case TEST:
 			output[0] = new ItemStack(ModItems.ingot_steel);
 			output[1] = new ItemStack(ModItems.ingot_desh, 2);
+			break;
+		case ASPHALT:
+			output[0] = new ItemStack(ModBlocks.asphalt, 4);
+			output[1] = new ItemStack(ModBlocks.asphalt, 4);
+			output[2] = new ItemStack(ModBlocks.asphalt, 4);
+			output[3] = new ItemStack(ModBlocks.asphalt, 4);
+			break;
+		case DESH:
+			output[0] = new ItemStack(ModItems.ingot_desh, 1);
+			break;
+		case CIRCUIT_4:
+			output[0] = new ItemStack(ModItems.circuit_gold, 1);
+			break;
+		case CIRCUIT_5:
+			output[0] = new ItemStack(ModItems.circuit_schrabidium, 1);
 			break;
 		default:
 			break;
@@ -2667,6 +2733,9 @@ public class MachineRecipes {
         case FC_KEROSENE_PETROLEUM:
 			input[0] = new FluidStack(800, FluidType.PETROLEUM);
 			break;
+        case CC_OIL:
+			input[0] = new FluidStack(1000, FluidType.OIL);
+			break;
         case CC_I:
 			input[0] = new FluidStack(800, FluidType.SMEAR);
 			break;
@@ -2678,6 +2747,12 @@ public class MachineRecipes {
 			break;
         case CC_NAPHTHA:
 			input[0] = new FluidStack(2000, FluidType.NAPHTHA);
+			break;
+        case COOLANT:
+			input[0] = new FluidStack(2000, FluidType.COOLANT);
+			break;
+        case PEROXIDE:
+			input[0] = new FluidStack(800, FluidType.ACID);
 			break;
 		default:
 			break;

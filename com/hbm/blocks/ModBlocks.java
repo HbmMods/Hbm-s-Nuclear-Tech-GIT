@@ -366,6 +366,8 @@ public class ModBlocks {
 	public static Block turret_light;
 	public static Block turret_heavy;
 	public static Block turret_rocket;
+	public static Block turret_flamer;
+	public static Block turret_tau;
 
 	public static Block book_guide;
 
@@ -669,6 +671,8 @@ public class ModBlocks {
 		turret_light = new TurretLight(Material.iron).setBlockName("turret_light").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_light");
 		turret_heavy = new TurretHeavy(Material.iron).setBlockName("turret_heavy").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_heavy");
 		turret_rocket = new TurretRocket(Material.iron).setBlockName("turret_rocket").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_rocket");
+		turret_flamer = new TurretFlamer(Material.iron).setBlockName("turret_flamer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_flamer");
+		turret_tau = new TurretTau(Material.iron).setBlockName("turret_tau").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_tau");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
 		
@@ -879,6 +883,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_light, turret_light.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_heavy, turret_heavy.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_rocket, turret_rocket.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_flamer, turret_flamer.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_tau, turret_tau.getUnlocalizedName());
 		
 		//Block Bombs
 		GameRegistry.registerBlock(flame_war, flame_war.getUnlocalizedName());
