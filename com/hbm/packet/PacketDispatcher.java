@@ -41,6 +41,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEChemplantPacket.Handler.class, TEChemplantPacket.class, i++, Side.CLIENT);
 		//Turret rotation for rendering
 		wrapper.registerMessage(TETurretPacket.Handler.class, TETurretPacket.class, i++, Side.CLIENT);
+		//Signals server to consume items and create template
+		wrapper.registerMessage(ItemFolderPacket.Handler.class, ItemFolderPacket.class, i++, Side.SERVER);
 	}
 	
 }

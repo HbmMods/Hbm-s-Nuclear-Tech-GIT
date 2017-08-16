@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
+import com.hbm.items.tool.ItemFluidIcon;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
@@ -2481,6 +2483,51 @@ public class MachineRecipes {
         			array[j] = new ItemStack(ModItems.nothing);
         	
         	recipes.put(array, MachineRecipes.getOutputFromTempate(array[12]));
+        }
+		
+		return recipes;
+	}
+	
+	public Map<Object[], Object[]> getChemistryRecipes() {
+
+		Map<Object[], Object[]> recipes = new HashMap<Object[], Object[]>();
+		
+        for (int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; ++i)
+        {
+        	ItemStack[] inputs = new ItemStack[7];
+        	ItemStack[] outputs = new ItemStack[6];
+        	inputs[6] = new ItemStack(ModItems.chemistry_template, 1, i);
+        	
+        	List<ItemStack> listIn = MachineRecipes.getChemInputFromTempate(inputs[6]);
+        	if(listIn != null)
+        		for(int j = 0; j < listIn.size(); j++)
+        			if(listIn.get(j) != null)
+        				inputs[j + 2] = listIn.get(j).copy();
+        	
+        	FluidStack[] fluidIn = MachineRecipes.getFluidInputFromTempate(inputs[6]);
+        	for(int j = 0; j < fluidIn.length; j++)
+        		if(fluidIn[j] != null)
+        			inputs[j] = ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(fluidIn[j].type)), fluidIn[j].fill);
+        	
+        	ItemStack[] listOut = MachineRecipes.getChemOutputFromTempate(inputs[6]);
+        	for(int j = 0; j < listOut.length; j++)
+        		if(listOut[j] != null)
+        			outputs[j + 2] = listOut[j].copy();
+        	
+        	FluidStack[] fluidOut = MachineRecipes.getFluidOutputFromTempate(inputs[6]);
+        	for(int j = 0; j < fluidOut.length; j++)
+        		if(fluidOut[j] != null)
+        			outputs[j] = ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(fluidOut[j].type)), fluidOut[j].fill);
+        	
+        	for(int j = 0; j < inputs.length; j++)
+        		if(inputs[j] == null)
+        			inputs[j] = new ItemStack(ModItems.nothing);
+        	
+        	for(int j = 0; j < outputs.length; j++)
+        		if(outputs[j] == null)
+        			outputs[j] = new ItemStack(ModItems.nothing);
+        	
+        	recipes.put(inputs, outputs);
         }
 		
 		return recipes;

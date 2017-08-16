@@ -116,5 +116,17 @@ public class ItemBattery extends Item {
     	
     	return null;
     }
+    
+    public static ItemStack getFullBattery(Item item) {
+    	
+    	if(item instanceof ItemBattery) {
+    		ItemStack stack = new ItemStack(item);
+    		stack.stackTagCompound = new NBTTagCompound();
+    		stack.stackTagCompound.setLong("charge", getMaxChargeStatic(stack));
+    		return stack.copy();
+    	}
+    	
+    	return null;
+    }
 	
 }

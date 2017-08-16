@@ -92,9 +92,11 @@ import com.hbm.inventory.gui.GUINukeTsar;
 import com.hbm.inventory.gui.GUIReactorMultiblock;
 import com.hbm.inventory.gui.GUIReiXMainframe;
 import com.hbm.inventory.gui.GUIRtgFurnace;
+import com.hbm.inventory.gui.GUIScreenTemplateFolder;
 import com.hbm.inventory.gui.GUITestDiFurnace;
 import com.hbm.inventory.gui.GUITestNuke;
 import com.hbm.inventory.gui.GUIWatzCore;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityBombMulti;
 import com.hbm.tileentity.TileEntityConverterHeRf;
 import com.hbm.tileentity.TileEntityConverterRfHe;
@@ -920,6 +922,14 @@ public class GUIHandler implements IGuiHandler {
 						return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 					}
 				}
+			}
+		} else {
+			//CLIENTONLY GUIS
+			
+			switch(ID)
+			{
+			case ModItems.guiID_item_folder:
+				return new GUIScreenTemplateFolder(player);
 			}
 		}
 		return null;

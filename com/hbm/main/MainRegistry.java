@@ -185,6 +185,7 @@ import com.hbm.tileentity.TileEntityNukeTsar;
 import com.hbm.tileentity.TileEntityObjTester;
 import com.hbm.tileentity.TileEntityOilDuct;
 import com.hbm.tileentity.TileEntityOilDuctSolid;
+import com.hbm.tileentity.TileEntityMachinePumpjack;
 import com.hbm.tileentity.TileEntityPylonRedWire;
 import com.hbm.tileentity.TileEntityReactorMultiblock;
 import com.hbm.tileentity.TileEntityRedBarrel;
@@ -483,6 +484,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTurretLight.class, "tileentity_turret_light");
 		GameRegistry.registerTileEntity(TileEntityTurretFlamer.class, "tileentity_turret_flamer");
 		GameRegistry.registerTileEntity(TileEntityTurretTau.class, "tileentity_turret_tau");
+		GameRegistry.registerTileEntity(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

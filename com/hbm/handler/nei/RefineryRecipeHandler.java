@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineAssembler;
+import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -135,9 +136,9 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
         transferRectsGui = new LinkedList<RecipeTransferRect>();
         guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-        transferRects.add(new RecipeTransferRect(new Rectangle(138 - 1 - 36, 23, 36, 18), "refinery"));
-        transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2, 89 - 7 - 11, 18 * 5 - 4, 18 + 16), "refinery"));
-        guiGui.add(GUIMachineAssembler.class);
+        transferRects.add(new RecipeTransferRect(new Rectangle(138 - 1 - 36 - 27, 23, 36, 18), "refinery"));
+        transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2 + 36, 89 - 7 - 11 - 11, 18 * 4, 18), "refinery"));
+        guiGui.add(GUIMachineRefinery.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
         RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
     }

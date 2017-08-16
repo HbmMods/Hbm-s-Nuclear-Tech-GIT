@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
@@ -41,7 +42,19 @@ public class ItemFluidIcon extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
-		super.addInformation(stack, player, list, bool);
+		if(stack.hasTagCompound())
+			if(stack.getTagCompound().getInteger("fill") > 0)
+				list.add(stack.getTagCompound().getInteger("fill") + "mB");
+	}
+	
+	public static ItemStack addQuantity(ItemStack stack, int i) {
+		
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		stack.getTagCompound().setInteger("fill", i);
+		
+		return stack.copy();
 	}
 
     public String getItemStackDisplayName(ItemStack stack)
