@@ -14,19 +14,17 @@ public class ContainerMachineDiesel extends Container {
 	
 	private TileEntityMachineDiesel diFurnace;
 	private int power;
-	private int diesel;
-	private int burnTime;
 	
 	public ContainerMachineDiesel(InventoryPlayer invPlayer, TileEntityMachineDiesel tedf) {
 		power = 0;
-		diesel = 0;
-		burnTime = 0;
 		
 		diFurnace = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 44, 53));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 80, 53));
+		this.addSlotToContainer(new Slot(tedf, 0, 44, 17));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 44, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 116, 53));
+		this.addSlotToContainer(new Slot(tedf, 3, 8, 17));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 8, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -45,8 +43,7 @@ public class ContainerMachineDiesel extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.diesel);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 	}
 	
 	@Override
@@ -60,8 +57,8 @@ public class ContainerMachineDiesel extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 2) {
-				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true))
+            if (par2 <= 4) {
+				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
@@ -69,6 +66,7 @@ public class ContainerMachineDiesel extends Container {
 			else if (!this.mergeItemStack(var5, 0, 1, false))
 			{
 				if (!this.mergeItemStack(var5, 2, 3, false))
+					if (!this.mergeItemStack(var5, 4, 5, false))
 					return null;
 			}
 			
@@ -98,28 +96,18 @@ public class ContainerMachineDiesel extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.diesel != this.diFurnace.diesel)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.diesel);
-			}
-			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
 		}
 		
-		this.diesel = this.diFurnace.diesel;
 		this.power = this.diFurnace.power;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
-		{
-			diFurnace.diesel = j;
-		}
-		if(i == 1)
 		{
 			diFurnace.power = j;
 		}

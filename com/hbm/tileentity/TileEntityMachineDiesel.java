@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -19,19 +23,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineDiesel extends TileEntity implements ISidedInventory, ISource {
+public class TileEntityMachineDiesel extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
 	public int power;
-	public int diesel;
 	public int soundCycle = 0;
-	public static final int maxPower = 100000;
-	public int powerCap = 10000;
-	public int superTimer;
-	public static final int maxDiesel = 10000;
+	public static final int maxPower = 15000;
+	public int powerCap = 15000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
+	public FluidTank tank;
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 1, 2 };
@@ -40,7 +42,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	private String customName;
 
 	public TileEntityMachineDiesel() {
-		slots = new ItemStack[3];
+		slots = new ItemStack[5];
+		tank = new FluidTank(FluidType.DIESEL, 16000, 0);
 	}
 
 	@Override
@@ -147,9 +150,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getInteger("powerTime");
-		this.diesel = nbt.getInteger("diesel");
 		this.powerCap = nbt.getInteger("powerCap");
-		this.superTimer = nbt.getInteger("superTimer");
+		tank.readFromNBT(nbt, "fuel");
 		slots = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < list.tagCount(); i++) {
@@ -165,9 +167,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
-		nbt.setInteger("diesel", diesel);
 		nbt.setInteger("powerCap", powerCap);
-		nbt.setInteger("superTimer", superTimer);
+		tank.writeToNBT(nbt, "fuel");
 		NBTTagList list = new NBTTagList();
 
 		for (int i = 0; i < slots.length; i++) {
@@ -203,10 +204,6 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		return false;
 	}
 
-	public int getDieselScaled(int i) {
-		return (diesel * i) / maxDiesel;
-	}
-
 	public int getPowerScaled(int i) {
 		return (power * i) / powerCap;
 	}
@@ -218,127 +215,65 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			if (age >= 20) {
 				age = 0;
 			}
-			
-			if(superTimer > 0)
-			{
-				superTimer--;
-				powerCap = 1000000000;
-			}
-			
-			if(superTimer <= 0 && powerCap != maxPower)
-			{
-				powerCap = maxPower;
-				
-				if(worldObj.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == Blocks.air)
-					worldObj.setBlock(this.xCoord, this.yCoord + 1, this.zCoord, Blocks.fire);
-			}
 
 			if (age == 9 || age == 19)
 				ffgeuaInit();
 
-			if (slots[0] != null && slots[0].getItem() == ModItems.inf_diesel) {
-				diesel = maxDiesel;
-			}
-
-			if (slots[0] != null && slots[0].getItem() == ModItems.canister_fuel && diesel + 625 <= maxDiesel) {
-				if (slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem()
-						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
-					if (slots[1] == null)
-						slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
-					else
-						slots[1].stackSize++;
-
-					slots[0].stackSize--;
-					if (slots[0].stackSize <= 0)
-						slots[0] = null;
-
-					diesel += 625;
-				}
-			}
-
-			if (slots[0] != null && slots[0].getItem() == ModItems.canister_petroil && diesel + 450 <= maxDiesel) {
-				if (slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem()
-						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
-					if (slots[1] == null)
-						slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
-					else
-						slots[1].stackSize++;
-
-					slots[0].stackSize--;
-					if (slots[0].stackSize <= 0)
-						slots[0] = null;
-
-					diesel += 450;
-				}
-			}
-
-			if (slots[0] != null && slots[0].getItem() == ModItems.canister_NITAN && diesel + 625 <= maxDiesel) {
-				if (slots[1] == null || slots[1] != null && slots[1].getItem() == slots[0].getItem().getContainerItem()
-						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
-					if (slots[1] == null)
-						slots[1] = new ItemStack(slots[0].getItem().getContainerItem());
-					else
-						slots[1].stackSize++;
-
-					slots[0].stackSize--;
-					if (slots[0].stackSize <= 0)
-						slots[0] = null;
-
-					diesel += 625;
-					superTimer += 200;
-				}
-			}
-
-			if (slots[0] != null && slots[0].getItem() == Item.getItemFromBlock(ModBlocks.red_barrel)
-					&& diesel + 5000 <= maxDiesel) {
-				if (slots[1] == null || slots[1] != null && slots[1].getItem() == ModItems.tank_steel
-						&& slots[1].stackSize < slots[1].getMaxStackSize()) {
-					if (slots[1] == null)
-						slots[1] = new ItemStack(ModItems.tank_steel);
-					else
-						slots[1].stackSize++;
-
-					slots[0].stackSize--;
-					if (slots[0].stackSize <= 0)
-						slots[0] = null;
-
-					diesel += 5000;
-				}
-			}
-
-			// Battery Item
+			//Tank Management
+			tank.setType(3, 4, slots);
+			tank.loadTank(0, 1, slots);
+			tank.updateTank(xCoord, yCoord, zCoord);
 			
+			// Battery Item
 			power = Library.chargeItemsFromTE(slots, 2, power, maxPower);
 
 			generate();
 		}
 	}
+	
+	public boolean hasAcceptableFuel() {
+		FluidType type = tank.getTankType();
+		if(type.name().equals(FluidType.DIESEL.name()))
+			return true;
+		if(type.name().equals(FluidType.PETROIL.name()))
+			return true;
+		return false;
+	}
+	
+	public int getHEFromFuel() {
+		FluidType type = tank.getTankType();
+		if(type.name().equals(FluidType.DIESEL.name()))
+			return 250;
+		if(type.name().equals(FluidType.PETROIL.name()))
+			return 150;
+		return 0;
+	}
 
 	public void generate() {
-		if (diesel > 0) {
-			if (soundCycle == 0) {
-				if(this.superTimer > 0)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 1.0F);
-				else
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 0.5F);
-			}
-			soundCycle++;
+		if (hasAcceptableFuel()) {
+			if (tank.getFill() > 0) {
+				if (soundCycle == 0) {
+					//if (tank.getTankType().name().equals(FluidType.) > 0)
+					//	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 1.0F);
+					//else
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 0.5F);
+				}
+				soundCycle++;
 
-			if (soundCycle >= 3 && this.superTimer <= 0)
-				soundCycle = 0;
-			if(this.superTimer > 0)
-				soundCycle = 0;
+				//if (soundCycle >= 3 && this.superTimer <= 0)
+				//	soundCycle = 0;
+				//if (this.superTimer > 0)
+				//	soundCycle = 0;
 
-			diesel -= 10;
-			if (diesel < 0)
-				diesel = 0;
+				tank.setFill(tank.getFill() - 10);
+				if (tank.getFill() < 0)
+					tank.setFill(0);
 
-			if (power + 250 <= powerCap && this.superTimer <= 0) {
-				power += 250;
-			} else if (power + 1000000000 <= powerCap && this.superTimer > 0) {
-				power += 1000000000;
-			} else {
-				power = powerCap;
+				if (power + getHEFromFuel() <= powerCap) {
+					power += getHEFromFuel();
+				} else {
+					power = powerCap;
+				}
 			}
 		}
 	}
@@ -386,5 +321,31 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tank.getTankType().name()))
+			tank.setFill(i);
 	}
 }

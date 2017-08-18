@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.render.model.ModelT45Boots;
 import com.hbm.render.model.ModelT45Chest;
@@ -159,21 +160,25 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 				armor.stackTagCompound = new NBTTagCompound();
 				armor.stackTagCompound.setInteger("charge", 0);
 			}
+			
+			boolean b = true;
+			
+			if(player.inventory.hasItem(ModItems.fusion_core_infinite)) {
+				armor.stackTagCompound.setInteger("charge", (int)ItemBattery.getCharge(ItemBattery.getFullBattery(ModItems.fusion_core)));
+			}
+			
+			if(b)
 			if (armor.stackTagCompound.getInteger("charge") <= 0) {
 				for (int i = 0; i < player.inventory.mainInventory.length; i++) {
 					ItemStack stack = player.inventory.getStackInSlot(i);
 					if (stack != null && stack.getItem() == ModItems.fusion_core
-							&& stack.getItemDamage() != stack.getMaxDamage()) {
+							&& ItemBattery.getCharge(stack) != 0) {
 						if (armor.stackTagCompound.getInteger("charge") == 0) {
-							if (world.isRemote && armor.stackTagCompound.getInteger("charge") == 0) {
-							}
-							if (!player.worldObj.isRemote) {
-								int j = stack.getItemDamage();
-								armor.stackTagCompound.setInteger("charge", stack.getMaxDamage() - j);
-								player.inventory.mainInventory[i] = null;
-								player.addChatMessage(new ChatComponentText("[Power Armor recharged]"));
-								break;
-							}
+							int j = (int) ItemBattery.getCharge(stack);
+							armor.stackTagCompound.setInteger("charge", j);
+							player.inventory.mainInventory[i] = null;
+							player.addChatMessage(new ChatComponentText("[Power Armor recharged]"));
+							break;
 						}
 					}
 				}
@@ -191,13 +196,13 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 					&& player.inventory.armorInventory[2].getItem() == ModItems.t45_plate
 					&& player.inventory.armorInventory[2].stackTagCompound != null
 					&& player.inventory.armorInventory[2].stackTagCompound.getInteger("charge") > 0) {
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 5, 0, true));
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 1, true));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 5, 2, true));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 5, 0, true));
+				player.addPotionEffect(new PotionEffect(Potion.jump.id, 20, 0, true));
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1, true));
+				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 20, 2, true));
+				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 20, 0, true));
 			} else {
-				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5, 1, true));
-				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5, 0, true));
+				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 1, true));
+				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 20, 0, true));
 			}
 		}
 	}

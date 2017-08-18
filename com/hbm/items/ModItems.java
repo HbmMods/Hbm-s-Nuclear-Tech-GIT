@@ -697,8 +697,9 @@ public class ModItems {
 	public static Item battery_schrabidium_cell;
 	public static Item battery_schrabidium_cell_2;
 	public static Item battery_schrabidium_cell_4;
-	
+
 	public static Item fusion_core;
+	public static Item fusion_core_infinite;
 	public static Item energy_core;
 	public static Item fuse;
 	public static Item redcoil_capacitor;
@@ -1643,6 +1644,7 @@ public class ModItems {
 		battery_schrabidium_cell_4 = new ItemBattery(30000 * 4).setUnlocalizedName("battery_schrabidium_cell_4").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_schrabidium_cell_4");
 
 		fusion_core = new ItemBattery(5000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core");
+		fusion_core_infinite = new Item().setUnlocalizedName("fusion_core_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core_infinite");
 		energy_core = new ItemBattery(5000).setUnlocalizedName("energy_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":energy_core");
 		fuse = new ItemCustomLore().setUnlocalizedName("fuse").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fuse");
 		redcoil_capacitor = new ItemCapacitor(10).setUnlocalizedName("redcoil_capacitor").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":redcoil_capacitor");
@@ -2359,6 +2361,7 @@ public class ModItems {
 		GameRegistry.registerItem(battery_creative, battery_creative.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
+		GameRegistry.registerItem(fusion_core_infinite, fusion_core_infinite.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
 		

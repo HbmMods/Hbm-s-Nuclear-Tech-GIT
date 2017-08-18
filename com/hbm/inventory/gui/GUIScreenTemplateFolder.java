@@ -87,11 +87,6 @@ public class GUIScreenTemplateFolder extends GuiScreen {
         if(!buttons.isEmpty())
         	buttons.clear();
         
-        /*for(int u = 0; u < 7; u++)
-        	for(int v = 0; v < 5; v++)
-            	if((currentPage * 35) + (v * 5) + u < stacks.size())
-            		buttons.add(new FolderButton(guiLeft + 25 + (27 * v), guiTop + 26 + (27 * u), stacks.get((currentPage * 35) + (v * 5) + u)));*/
-        
         for(int i = currentPage * 35; i < Math.min(currentPage * 35 + 35, stacks.size()); i++) {
     		buttons.add(new FolderButton(guiLeft + 25 + (27 * (i % 5)), guiTop + 26 + (27 * (int)Math.floor((i / 5D))) - currentPage * 27 * 7, stacks.get(i)));
         }

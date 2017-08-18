@@ -387,14 +387,14 @@ public class DesertAtom003
 		if(tank0 instanceof TileEntityMachinePuF6Tank)
 		{
 			TileEntityMachinePuF6Tank tankuf2 = (TileEntityMachinePuF6Tank)tank2;
-			tankuf2.fillState = rand.nextInt(TileEntityMachinePuF6Tank.maxFill);
+			//tankuf2.fillState = rand.nextInt(TileEntityMachinePuF6Tank.maxFill);
 		}
 		world.setBlock(x + 31, y + 4, z + 7, Block21, 3, 3);
 		TileEntity tank3 = world.getTileEntity(x + 31, y + 4, z + 7);
 		if(tank3 instanceof TileEntityMachinePuF6Tank)
 		{
 			TileEntityMachinePuF6Tank tankuf3 = (TileEntityMachinePuF6Tank)tank3;
-			tankuf3.fillState = rand.nextInt(TileEntityMachinePuF6Tank.maxFill);
+			//tankuf3.fillState = rand.nextInt(TileEntityMachinePuF6Tank.maxFill);
 		}
 		world.setBlock(x + 32, y + 4, z + 7, Block2, 0, 3);
 		world.setBlock(x + 33, y + 4, z + 7, Block22, 0, 3);

@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerPuF6Tank;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
@@ -12,7 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachinePuF6Tank extends GuiContainer {
+public class GUIMachinePuF6Tank extends GuiFluidContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/puf6Tank.png");
 	private TileEntityMachinePuF6Tank tank;
@@ -23,6 +24,13 @@ public class GUIMachinePuF6Tank extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		tank.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 16, 52);
 	}
 
 	@Override
@@ -39,10 +47,7 @@ public class GUIMachinePuF6Tank extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(tank.fillState > 0)
-		{
-			int i1 = tank.getFillStateScaled(52);
-			drawTexturedModalRect(guiLeft + 80, guiTop + 69 - i1, 177, 52 - i1, 16, i1);
-		}
+		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
+		tank.tank.renderTank(this, guiLeft + 80, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }

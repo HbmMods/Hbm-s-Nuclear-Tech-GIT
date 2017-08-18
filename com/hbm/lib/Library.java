@@ -677,6 +677,11 @@ public class Library {
 		{
 			return maxPower;
 		}
+		
+		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite)
+		{
+			return maxPower;
+		}
 
 		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) > 0)
 		{

@@ -1,5 +1,8 @@
 package com.hbm.tileentity;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IFluidContainer;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -12,12 +15,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInventory {
+public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInventory, IFluidContainer {
 
 	private ItemStack slots[];
-	
-	public int fillState;
-	public static final int maxFill = 64000;
+
+	public FluidTank tank;
 
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {1, 3};
@@ -27,6 +29,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	
 	public TileEntityMachinePuF6Tank() {
 		slots = new ItemStack[4];
+		tank = new FluidTank(FluidType.PUF6, 64000, 0);
 	}
 
 	@Override
@@ -131,8 +134,9 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		fillState = nbt.getShort("fillState");
 		slots = new ItemStack[getSizeInventory()];
+		
+		tank.readFromNBT(nbt, "content");
 		
 		for(int i = 0; i < list.tagCount(); i++)
 		{
@@ -148,8 +152,9 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setShort("fillState", (short) fillState);
 		NBTTagList list = new NBTTagList();
+		
+		tank.writeToNBT(nbt, "content");
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -180,84 +185,13 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 		return true;
 	}
 	
-	public int getFillStateScaled(int i) {
-		return (fillState * i) / maxFill;
-	}
-	
-	public boolean canGive() {
-		if(slots[0] != null && slots[0].getItem() == ModItems.cell_puf6)
-		{
-			if(slots[1] == null || (slots[1] != null && slots[1].getItem() ==  ModItems.cell_empty && slots[1].stackSize < slots[1].getMaxStackSize()))
-			{
-				if(fillState < maxFill)
-				{
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	
-	public boolean canTake() {
-		if(slots[2] != null && slots[2].getItem() == ModItems.cell_empty)
-		{
-			if(slots[3] == null || (slots[3] != null && slots[3].getItem() == ModItems.cell_puf6 && slots[3].stackSize < slots[3].getMaxStackSize()))
-			{
-				if(fillState > 0)
-				{
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	
 	@Override
 	public void updateEntity() {
-
 		if(!worldObj.isRemote)
 		{
-			if(this.canGive())
-			{
-				this.slots[0].stackSize--;
-				if(slots[0].stackSize <= 0)
-				{
-					slots[0] = null;
-				}
-				
-				this.fillState += 1000;
-				
-				if(slots[1] != null)
-				{
-					slots[1].stackSize++;
-				}
-				else
-				{
-					slots[1] = new ItemStack(ModItems.cell_empty, 1);
-				}
-			}
-			
-			if(this.canTake())
-			{
-				this.slots[2].stackSize--;
-				if(slots[2].stackSize <= 0)
-				{
-					slots[2] = null;
-				}
-
-				this.fillState -= 1000;
-				
-				if(slots[3] != null)
-				{
-					slots[3].stackSize++;
-				}
-				else
-				{
-					slots[3] = new ItemStack(ModItems.cell_puf6, 1);
-				}
-			}
+			tank.loadTank(0, 1, slots);
+			tank.unloadTank(2, 3, slots);
+			tank.updateTank(xCoord, yCoord, zCoord);
 		}
 	}
 	
@@ -271,5 +205,15 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
 	}
 }
