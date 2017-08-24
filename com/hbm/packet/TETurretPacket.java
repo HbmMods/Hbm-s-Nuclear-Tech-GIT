@@ -54,6 +54,7 @@ public class TETurretPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(TETurretPacket m, MessageContext ctx) {
+			try {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
 			if (te != null && te instanceof TileEntityTurretBase) {
@@ -61,6 +62,9 @@ public class TETurretPacket implements IMessage {
 				TileEntityTurretBase turret = (TileEntityTurretBase) te;
 				turret.rotationYaw = m.yaw;
 				turret.rotationPitch = m.pitch;
+			}
+			} catch(Exception ex) {
+				
 			}
 			return null;
 		}

@@ -41,6 +41,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -1273,5 +1274,19 @@ public class Library {
 			return null;
 		else
 			return stack.copy();
+	}
+	
+	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
+		
+		Vec3 vector = Vec3.createVectorHelper(a - x, b - y, c - z);
+		double length = vector.lengthVector();
+		Vec3 nVec = vector.normalize();
+		
+		for(int i = 0; i < length; i++)
+			if(world.getBlock((int) (x + (nVec.xCoord * i)), (int) (y + (nVec.yCoord * i)), (int) (z + (nVec.zCoord * i))) != Blocks.air && 
+					!world.getBlock((int) (x + (nVec.xCoord * i)), (int) (y + (nVec.yCoord * i)), (int) (z + (nVec.zCoord * i))).isNormalCube())
+				return true;
+		
+		return false;
 	}
 }

@@ -31,7 +31,12 @@ public class ItemAssemblyTemplate extends Item {
 		LIMITER, ANGRY_METAL, CMB_TILE, CMB_BRICKS, HATCH_FRAME, HATCH_CONTROLLER, CENTRIFUGE,
 		BREEDING_REACTOR, RTG_FURNACE, DIESEL_GENERATOR, NUCLEAR_GENERATOR, INDUSTRIAL_GENERATOR, CYCLOTRON,
 		RT_GENERATOR, BATTERY, HE_TO_RF, RF_TO_HE, SHREDDER, DEUTERIUM_EXTRACTOR, DERRICK, FLARE_STACK,
-		REFINERY;
+		REFINERY, CHEMPLANT, TANK, MINER, SCHRABTRANS, CMB_FURNACE, FA_HULL, FA_HATCH, FA_CORE, FA_PORT,
+		LR_ELEMENT, LR_HATCH, LR_PORT, LR_CORE, LF_MAGNET, LF_CENTER, LF_MOTOR, LF_HEATER, LF_HATCH, LF_CORE,
+		LW_ELEMENT, LW_CONTROL, LW_COOLER, LW_STRUTURE, LW_HATCH, LW_PORT, LW_CORE, FW_MAGNET, FW_COMPUTER,
+		FW_CORE, GADGET, LITTLE_BOY, FAT_MAN, IVY_MIKE, TSAR_BOMB, PROTOTYPE, FLEIJA, CUSTOM_NUKE, BOMB_LEV,
+		BOMB_ENDO, BOMB_EXO, LAUNCH_PAD, HUNTER_CHOPPER, MISSILE_HE_1, MISSILE_FIRE_1, MISSILE_CLUSTER_1,
+		MISSILE_BUSTER_1, MISSILE_HE_2, MISSILE_FIRE_2, MISSILE_CLUSTER_2, MISSILE_BUSTER_2;
 		
 		//private final int value;
 		//private EnumAssemblyTemplate(int value) {
@@ -307,7 +312,107 @@ public class ItemAssemblyTemplate extends Item {
 		case FLARE_STACK:
 			return 200;
 		case REFINERY:
+			return 350;
+		case CHEMPLANT:
+			return 200;
+		case TANK:
 			return 150;
+		case MINER:
+			return 200;
+		case SCHRABTRANS:
+			return 300;
+		case CMB_FURNACE:
+			return 150;
+		case FA_HULL:
+			return 50;
+		case FA_HATCH:
+			return 100;
+		case FA_CORE:
+			return 100;
+		case FA_PORT:
+			return 50;
+		case LR_ELEMENT:
+			return 150;
+		case LR_HATCH:
+			return 150;
+		case LR_PORT:
+			return 150;
+		case LR_CORE:
+			return 250;
+		case LF_MAGNET:
+			return 150;
+		case LF_CENTER:
+			return 200;
+		case LF_MOTOR:
+			return 250;
+		case LF_HEATER:
+			return 150;
+		case LF_HATCH:
+			return 250;
+		case LF_CORE:
+			return 350;
+		case LW_ELEMENT:
+			return 200;
+		case LW_CONTROL:
+			return 250;
+		case LW_COOLER:
+			return 300;
+		case LW_STRUTURE:
+			return 150;
+		case LW_HATCH:
+			return 200;
+		case LW_PORT:
+			return 250;
+		case LW_CORE:
+			return 350;
+		case FW_MAGNET:
+			return 250;
+		case FW_COMPUTER:
+			return 300;
+		case FW_CORE:
+			return 450;
+		case GADGET:
+			return 300;
+		case LITTLE_BOY:
+			return 300;
+		case FAT_MAN:
+			return 300;
+		case IVY_MIKE:
+			return 300;
+		case TSAR_BOMB:
+			return 300;
+		case PROTOTYPE:
+			return 500;
+		case FLEIJA:
+			return 400;
+		case CUSTOM_NUKE:
+			return 300;
+		case BOMB_LEV:
+			return 250;
+		case BOMB_ENDO:
+			return 250;
+		case BOMB_EXO:
+			return 250;
+		case LAUNCH_PAD:
+			return 250;
+		case HUNTER_CHOPPER:
+			return 300;
+		case MISSILE_HE_1:
+			return 200;
+		case MISSILE_FIRE_1:
+			return 200;
+		case MISSILE_CLUSTER_1:
+			return 200;
+		case MISSILE_BUSTER_1:
+			return 200;
+		case MISSILE_HE_2:
+			return 250;
+		case MISSILE_FIRE_2:
+			return 250;
+		case MISSILE_CLUSTER_2:
+			return 250;
+		case MISSILE_BUSTER_2:
+			return 250;
         default:
         	return 100;
         }

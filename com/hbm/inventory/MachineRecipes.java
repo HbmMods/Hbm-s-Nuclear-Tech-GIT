@@ -2107,13 +2107,18 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.thermo_element, 3));
 			break;
 		case REFINERY:
-			list.add(new ItemStack(ModItems.ingot_titanium, 6));
-			list.add(new ItemStack(ModItems.plate_copper, 4));
-			list.add(new ItemStack(ModItems.tank_steel, 6));
-			list.add(new ItemStack(ModItems.coil_tungsten, 6));
-			list.add(new ItemStack(ModItems.wire_red_copper, 6));
+			list.add(new ItemStack(ModItems.ingot_steel, 16));
+			list.add(new ItemStack(ModItems.plate_steel, 24));
+			list.add(new ItemStack(ModItems.plate_copper, 16));
+			list.add(new ItemStack(ModItems.tank_steel, 4));
+			list.add(new ItemStack(ModItems.hull_big_steel, 6));
+			list.add(new ItemStack(ModItems.pipes_steel, 4));
+			list.add(new ItemStack(ModItems.coil_tungsten, 10));
+			list.add(new ItemStack(ModItems.wire_red_copper, 8));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
 			break;
 		default:
+			list.add(new ItemStack(Items.stick));
 			break;
 		}
 		
@@ -2458,7 +2463,158 @@ public class MachineRecipes {
 		case REFINERY:
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
+		case CHEMPLANT:
+			output = new ItemStack(ModBlocks.machine_refinery, 1);
+			break;
+		case TANK:
+			output = new ItemStack(ModBlocks.machine_refinery, 1);
+			break;
+		case MINER:
+			output = new ItemStack(ModBlocks.machine_drill, 1);
+			break;
+		case SCHRABTRANS:
+			output = new ItemStack(ModBlocks.machine_schrabidium_transmutator, 1);
+			break;
+		case CMB_FURNACE:
+			output = new ItemStack(ModBlocks.machine_combine_factory, 1);
+			break;
+		case FA_HULL:
+			output = new ItemStack(ModBlocks.factory_advanced_hull, 1);
+			break;
+		case FA_HATCH:
+			output = new ItemStack(ModBlocks.factory_advanced_furnace, 1);
+			break;
+		case FA_CORE:
+			output = new ItemStack(ModBlocks.factory_advanced_core, 1);
+			break;
+		case FA_PORT:
+			output = new ItemStack(ModBlocks.factory_advanced_conductor, 1);
+			break;
+		case LR_ELEMENT:
+			output = new ItemStack(ModBlocks.reactor_element, 1);
+			break;
+		case LR_HATCH:
+			output = new ItemStack(ModBlocks.reactor_hatch, 1);
+			break;
+		case LR_PORT:
+			output = new ItemStack(ModBlocks.reactor_conductor, 1);
+			break;
+		case LR_CORE:
+			output = new ItemStack(ModBlocks.reactor_computer, 1);
+			break;
+		case LF_MAGNET:
+			output = new ItemStack(ModBlocks.fusion_conductor, 1);
+			break;
+		case LF_CENTER:
+			output = new ItemStack(ModBlocks.fusion_center, 1);
+			break;
+		case LF_MOTOR:
+			output = new ItemStack(ModBlocks.fusion_motor, 1);
+			break;
+		case LF_HEATER:
+			output = new ItemStack(ModBlocks.fusion_heater, 1);
+			break;
+		case LF_HATCH:
+			output = new ItemStack(ModBlocks.fusion_hatch, 1);
+			break;
+		case LF_CORE:
+			output = new ItemStack(ModBlocks.fusion_core, 1);
+			break;
+		case LW_ELEMENT:
+			output = new ItemStack(ModBlocks.watz_element, 1);
+			break;
+		case LW_CONTROL:
+			output = new ItemStack(ModBlocks.watz_control, 1);
+			break;
+		case LW_COOLER:
+			output = new ItemStack(ModBlocks.watz_cooler, 1);
+			break;
+		case LW_STRUTURE:
+			output = new ItemStack(ModBlocks.watz_end, 1);
+			break;
+		case LW_HATCH:
+			output = new ItemStack(ModBlocks.watz_hatch, 1);
+			break;
+		case LW_PORT:
+			output = new ItemStack(ModBlocks.watz_conductor, 1);
+			break;
+		case LW_CORE:
+			output = new ItemStack(ModBlocks.watz_core, 1);
+			break;
+		case FW_MAGNET:
+			output = new ItemStack(ModBlocks.fwatz_conductor, 1);
+			break;
+		case FW_COMPUTER:
+			output = new ItemStack(ModBlocks.fwatz_computer, 1);
+			break;
+		case FW_CORE:
+			output = new ItemStack(ModBlocks.fwatz_core, 1);
+			break;
+		case GADGET:
+			output = new ItemStack(ModBlocks.nuke_gadget, 1);
+			break;
+		case LITTLE_BOY:
+			output = new ItemStack(ModBlocks.nuke_boy, 1);
+			break;
+		case FAT_MAN:
+			output = new ItemStack(ModBlocks.nuke_man, 1);
+			break;
+		case IVY_MIKE:
+			output = new ItemStack(ModBlocks.nuke_mike, 1);
+			break;
+		case TSAR_BOMB:
+			output = new ItemStack(ModBlocks.nuke_tsar, 1);
+			break;
+		case PROTOTYPE:
+			output = new ItemStack(ModBlocks.nuke_prototype, 1);
+			break;
+		case FLEIJA:
+			output = new ItemStack(ModBlocks.nuke_fleija, 1);
+			break;
+		case CUSTOM_NUKE:
+			output = new ItemStack(ModBlocks.nuke_custom, 1);
+			break;
+		case BOMB_LEV:
+			output = new ItemStack(ModBlocks.float_bomb, 1);
+			break;
+		case BOMB_ENDO:
+			output = new ItemStack(ModBlocks.therm_endo, 1);
+			break;
+		case BOMB_EXO:
+			output = new ItemStack(ModBlocks.therm_exo, 1);
+			break;
+		case LAUNCH_PAD:
+			output = new ItemStack(ModBlocks.launch_pad, 1);
+			break;
+		case HUNTER_CHOPPER:
+			output = new ItemStack(ModItems.chopper, 1);
+			break;
+		case MISSILE_HE_1:
+			output = new ItemStack(ModItems.missile_generic, 1);
+			break;
+		case MISSILE_FIRE_1:
+			output = new ItemStack(ModItems.missile_incendiary, 1);
+			break;
+		case MISSILE_CLUSTER_1:
+			output = new ItemStack(ModItems.missile_cluster, 1);
+			break;
+		case MISSILE_BUSTER_1:
+			output = new ItemStack(ModItems.missile_buster, 1);
+			break;
+		case MISSILE_HE_2:
+			output = new ItemStack(ModItems.missile_strong, 1);
+			break;
+		case MISSILE_FIRE_2:
+			output = new ItemStack(ModItems.missile_incendiary_strong, 1);
+			break;
+		case MISSILE_CLUSTER_2:
+			output = new ItemStack(ModItems.missile_cluster_strong, 1);
+			break;
+		case MISSILE_BUSTER_2:
+			output = new ItemStack(ModItems.missile_buster_strong, 1);
+			break;
 		default:
+			output = new ItemStack(Items.stick, 1);
 			break;
 		}
 		

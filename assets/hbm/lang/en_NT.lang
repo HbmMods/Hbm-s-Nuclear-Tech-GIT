@@ -1,0 +1,810 @@
+itemGroup.tabParts=NTM Resources and Parts
+itemGroup.tabBlocks=NTM Blocks and Machines
+itemGroup.tabNuke=NTM Bombs and Gear
+itemGroup.tabMachine=NTM Templates
+
+hbmfluid.water=Dihydrogen Monoxide
+hbmfluid.steam=Gaseous Dihydrogen Monoxide
+hbmfluid.lava=Molten Rock
+hbmfluid.oil=Black Gold
+hbmfluid.hotoil=Cooking Black Gold
+hbmfluid.petroil=FlimFlam Industries Two-Stroke Fuel Mixture
+hbmfluid.lubricant=Engine Lubrication Oil
+hbmfluid.diesel=Diesel Fuel
+hbmfluid.kerosene=Tama Aerospace Division Aircraft and Rocket Fuel
+hbmfluid.coolant=FlimFlam Industries Cooling Fluid
+hbmfluid.watz=Watz-Reaction Byproduct
+
+item.record.lc.desc=Volvo - Diabolic Adrenaline Guitar/Lambda Core
+item.record.ss.desc=Volvo - Sector Sweep
+item.record.vc.desc=Volvo - Vortal Combat
+
+death.attack.nuclearBlast=%1$s was blown away by a nuclear explosion.
+death.attack.revolverBullet=%1$s was shot in the head by %2$s.
+death.attack.mudPoisoning=%1$s died in poisonous mud.
+death.attack.euthanized=%1$s was euthanized by %2$s.
+death.attack.euthanizedSelf=%1$s euthanized himself, what a dork.
+death.attack.euthanizedSelf2=%1$s wins the Darwin Award.
+death.attack.tau=%1$s was riddeled by %2$s using negatively charged tauons.
+death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into pieces.
+death.attack.chopperBullet=%1$s was rekt by %2$s.
+death.attack.cmb=%1$s was fizzeled by %2$s.
+death.attack.subAtomic=%1$s's atoms have been destroyed by %2$s.
+death.attack.subAtomic2=%1$s was QPU-misaligned because %2$s tampered with his de facto speed.
+death.attack.subAtomic3=%1$s's divergence dropped below 1 percent because of %2$s.
+death.attack.subAtomic4=%1$s was divided by zero by %2$s.
+death.attack.subAtomic5=%1$s was nullified by %2$s.
+death.attack.radiation=%1$s died from radiation poisoning.
+death.attack.acid=%1$s fell into acid.
+death.attack.suicide=%1$s blew their head off.
+death.attack.electrified=%1$s was electrified by %2$s.
+death.attack.flamethrower=%1$s was cremated by %2$s.
+death.attack.plasma=%1$s was immolated by %2$s.
+death.attack.ice=%1$s was turned into a popsicle by %2$s.
+death.attack.cheater=%1$s's intestines turned into oats. (???)
+death.attack.laser=%1$s was turned into ash by %2$s.
+death.attack.rubble=%1$s was squashed by debris.
+death.attack.shrapnel=%1$s was ragged by a shrapnel.
+death.attack.teleporter=%1$s was teleported into nothingness.
+death.attack.blackhole=%1$s was spaghettified.
+
+container.nukeGadget=TX1 Nuclear Device "The Gadget"
+container.nukeBoy=Mark 1 Nuclear Device "Little Boy"
+container.nukeMan=Mark 3 Nuclear Device "Fat Man"
+container.nukeMike=Mark 16 Thermonuclear Device "Ivy Mike"
+container.nukeTsar=RDS-220 "Tsar Bomba"
+container.nukeFleija=Field Limitary Effective Implosion Armament
+container.nukePrototype=Prototype Schrabidium Device
+container.nukeCustom=DuffNak Weaponry LLC Custom Nuke
+
+container.bombMulti=DuffNak Weaponry LLC Multi Purpose Bomb
+
+tile.nuke_gadget.name=TX1 Nuclear Device "The Gadget"
+tile.nuke_boy.name=Mark 1 Nuclear Device "Little Boy"
+tile.nuke_man.name=Mark 3 Nuclear Device "Fat Man"
+tile.nuke_mike.name=Mark 16 Thermonuclear Device "Ivy Mike"
+tile.nuke_tsar.name=RDS-220 "Tsar Bomba"
+tile.nuke_fleija.name=Field Limitary Effective Implosion Armament
+tile.nuke_prototype.name=Prototype Schrabidium Device
+tile.nuke_custom.name=DuffNak Weaponry LLC Custom Nuke
+
+tile.bomb_multi.name=DuffNak Weaponry LLC Multi Purpose Bomb
+
+tile.flame_war.name=DuffNak Weaponry LLC Flame War
+tile.float_bomb.name=DuffNak Weaponry LLC Matter Teleportation Charge
+tile.therm_endo.name=DuffNak Weaponry LLC Endothermic Device
+tile.therm_exo.name=DuffNak Weaponry LLC Exothermic Device
+
+tile.crashed_bomb.name=Crahsed QuantumTech INC. Baleflare Device
+
+tile.turret_light.name=DuffNak Weaponry LLC Light Machine Gun Turret
+tile.turret_heavy.name=DuffNak Weaponry LLC Heavy Machine Gun Turret
+tile.turret_rocket.name=DuffNak Weaponry LLC Self-Propelled Rocket Turret
+tile.turret_flamer.name=DuffNak Weaponry LLC Flamethrower Turret
+tile.turret_tau.name=DuffNak Weaponry LLC XVL1456 Tauon Turret
+item.turret_control.name=DuffNak Weaponry LLC Turret Remote Control
+
+tile.crate.name=FlimFlam Industries Supply Crate
+tile.marker_structure.name=FlimFlam Industries Multiblock Structure 3D Planner
+
+tile.machine_difurnace_off.name=FlimFlam Industries Alloy Furnace
+tile.machine_difurnace_on.name=FlimFlam Industries Alloy Furnace
+container.diFurnace=FlimFlam Industries Alloy Furnace
+tile.machine_centrifuge.name=FlimFlam Industries Multi Purpose Centrifugal Seperator
+container.centrifuge=FlimFlam Industries Multi Purpose Centrifugal Seperator
+tile.machine_uf6_tank.name=FlimFlam Industries Uranium Hexafluoride Storage Unit
+container.uf6_tank=FlimFlam Industries Uranium Hexafluoride Storage Unit
+tile.machine_puf6_tank.name=FlimFlam Industries Plutonium Hexafluoride Storage Unit
+container.puf6_tank=FlimFlam Industries Plutonium Hexafluoride Storage Unit
+tile.machine_reactor.name=FlimFlam Industries Neutron-Based Enrichment Utility
+container.reactor=FlimFlam Industries Neutron-Based Enrichment Utility
+tile.machine_nuke_furnace_off.name=FlimFlam Industries Radioactive Decay Powered Furnace
+tile.machine_nuke_furnace_on.name=FlimFlam Industries Radioactive Decay Powered Furnace
+container.nukeFurnace=FlimFlam Industries Radioactive Decay Powered Furnace
+tile.machine_rtg_furnace_off.name=FlimFlam Industries Radioisotope Powered Furnace
+tile.machine_rtg_furnace_on.name=FlimFlam Industries Radioisotope Powered Furnace
+container.rtgFurnace=FlimFlam Industries Radioisotope Powered Furnace
+tile.machine_electric_furnace_off.name=InsoKit Electricals Electric Ore Smelter
+tile.machine_electric_furnace_on.name=InsoKit Electricals Electric Ore Smelter
+container.electricFurnace=InsoKit Electricals Electric Ore Smelter
+tile.machine_generator.name=InsoKit Electricals Compact Nuclear Generator
+container.generator=InsoKit Electricals Compact Nuclear Generator
+tile.red_wire_coated.name=InsoKit Electricals Shielded Red Copper Cable
+tile.machine_deuterium.name=FlimFlam Industries Deuterium Extraction Unit
+container.machine_deuterium==FlimFlam Industries Deuterium Extraction Unit
+tile.machine_battery.name=InsoKit Electricals Energy Storage Unit
+container.battery=InsoKit Electricals Energy Storage Unit
+tile.machine_coal_off.name=InsoKit Electricals Coal Generator
+tile.machine_coal_on.name=InsoKit Electricals Coal Generator
+container.machineCoal=InsoKit Electricals Coal Generator
+tile.launch_pad.name=DuffNak LLC Mk.I Missile Launch Pad
+container.launchPad=DuffNak LLC Mk.I Missile Launch Pad
+tile.book_guide.name=Da Manual
+tile.machine_schrabidium_transmutator.name=FlimFlam Industries SchrabTrans 5000
+container.machine_schrabidium_transmutator=FlimFlam Industries SchrabTrans 5000
+tile.machine_diesel.name=InsoKit Electricals Four-Stroke Diesel Engine
+container.machineDiesel=InsoKit Electricals Four-Stroke Diesel Engine
+tile.machine_shredder.name=FlimFlam Industries Industrial Shredding and Recycling Machine
+container.machineShredder=FlimFlam Industries Industrial Shredding and Recycling Machine
+tile.machine_combine_factory.name=FlimFlam Industries CMB Steel Smelter
+container.machineCMB=FlimFlam Industries CMB Steel Smelter
+tile.machine_teleporter.name=FlimFlam Industries Macroscopic Quantum Entangler
+container.teleporter=FlimFlam Industries Macroscopic Quantum Entangler
+tile.machine_industrial_generator.name=FlimFlam Industries Industrial Multi Purpose Generator
+container.iGenerator=FlimFlam Industries Industrial Multi Purpose Generator
+tile.machine_cyclotron.name=FlimFlam Industries Particle Orcane and Neutron Enrichment
+container.cyclotron=FlimFlam Industries Particle Orcane and Neutron Enrichment
+tile.machine_well.name=FlimFlam Industries Basic Oil Rig
+tile.oil_pipe.name=FlimFlam Industries Crude Oil Extraction Pipe
+container.oilWell=FlimFlam Industries Basic Oil Rig
+tile.machine_refinery.name=FlimFlam Industries Oil Distillation Tower
+container.machineRefinery=FlimFlam Industries Oil Distillation Tower
+tile.oil_duct.name=FlimFlam Industries Crude Oil Duct
+tile.oil_duct_solid.name=FlimFlam Industries Reinforced Crude Oil Duct
+tile.machine_flare.name=FlimFlam Industries Advanced Flare Stack
+container.gasFlare=FlimFlam Industries Advanced Flare Stack
+tile.gas_duct.name=FlimFlam Industries Natural Gas Duct
+tile.gas_duct_solid.name=FlimFlam Industries Reinforced Natural Gas Duct
+tile.machine_drill.name=FlimFlam Industries Automatic Electric Vertical Mining Drill
+container.miningDrill=FlimFlam Industries Automatic Electric Vertical Mining Drill
+tile.drill_pipe.name=FlimFlam Industries Drill Bit
+tile.machine_assembler.name=FlimFlam Industries Type 1 Assembly Machine
+container.assembler=FlimFlam Industries Type 1 Assembly Machine
+tile.machine_chemplant.name=FlimFlam Industries Mark III Chemical Fabricator
+container.chemplant=FlimFlam Industries Mark III Chemical Fabricator
+tile.fluid_duct.name=FlimFlam Industries Universal Fluid Duct
+tile.machine_fluidtank.name=FlimFlam Industries 256k Fluid Containment Unit
+container.fluidtank=FlimFlam Industries 256k Fluid Containment Unit
+
+tile.crate_iron.name=DuffNak LLC Military Grade Iron Crate
+tile.crate_steel.name=DuffNak LLC Military Grade Steel Crate
+
+tile.red_pylon.name=InsoKit Electricals Red Copper Electricity Mast
+item.wiring_red_copper.name=InsoKit Electricals Standard Issue Cable Drum
+
+tile.rail_highspeed.name=DuffNak LLC High Speed Minecart Rail
+tile.rail_booster.name=DuffNak LLC Magnetic High Speed Minecart Acceleration Rail
+
+tile.factory_titanium_hull.name=InsoKit Electricals Basic Smelting Factory Casing
+tile.factory_titanium_furnace.name=InsoKit Electricals Basic Smelting Factory Access Hatch
+tile.factory_titanium_conductor.name=InsoKit Electricals Basic Smelting Factory Electricity Connection Piece
+tile.factory_titanium_core.name=InsoKit Electricals Basic Smelting Factory Core Processing Unit
+item.factory_core_titanium.name=InsoKit Electricals Basic Smelting Factory Energy Storage Cluster
+container.factoryTitanium=InsoKit Electricals Basic Smelting Factory
+tile.factory_advanced_hull.name=InsoKit Electricals Advanced Smelting Factory Casing
+tile.factory_advanced_furnace.name=InsoKit Electricals Advanced Smelting Factory Access Hatch
+tile.factory_advanced_conductor.name=InsoKit Electricals Advanced Smelting Factory Electricity Connection Piece
+tile.factory_advanced_core.name=InsoKit Electricals Advanced Smelting Factory Core Processing Unit
+item.factory_core_advanced.name=InsoKit Electricals Advanced Smelting Factory Energy Storage Cluster
+container.factoryAdvanced=InsoKit Electricals Advanced Smelting Factory
+
+tile.reactor_element.name=FlimFlam Industries Mk.V Fission Reaction Chamber
+tile.reactor_control.name=FlimFlam Industries Mk.V Fission Reaction Control Rods
+tile.reactor_hatch.name=FlimFlam Industries Basic Fission Reactor Access Hatch
+tile.reactor_conductor.name=FlimFlam Industries 50kHE Electricity Port
+tile.reactor_computer.name=FlimFlam Industries Mk.IV Fission Reactor Control Unit
+container.reactorMultiblock=FlimFlam Industries Series 7 Compact Fission Reactor
+
+tile.fusion_conductor.name=FlimFlam Industries Industrial Superconducting Electro Magnet
+tile.fusion_center.name=FlimFlam Industries High Power Rotary Solenoid Magnet
+tile.fusion_motor.name=FlimFlam Industries Electric Solenoid Rotation Unit
+tile.fusion_heater.name=FlimFlam Industries Type 6 Microwave Powered Plasma Heater
+tile.fusion_hatch.name=FlimFlam Industries Tokamak Access Hatch
+tile.fusion_core.name=FlimFlam Industries Tokamak Control Unit
+tile.plasma.name=Tritium-Deuterium Plasma
+container.fusionMultiblock=FlimFlam Industries Large TD Tokamak Reactor
+
+tile.watz_element.name=FlimFlam Industries Prototype Watz Reaction Container
+tile.watz_control.name=FlimFlam Industries TX.II Watz Reaction Control Rods
+tile.watz_cooler.name=FlimFlam Industries Watz Reaction Cooling Unit
+tile.watz_end.name=FlimFlam Industries Watz Reactor Stabilizer
+tile.watz_hatch.name=FlimFlam Industries Watz Reactor Access Port
+tile.watz_conductor.name=FlimFlam Industries 3MHE Electricity Port
+tile.watz_core.name=FlimFlam Industries Advanced Watz Control Unit
+container.watzPowerplant=FlimFlam Industries Prototype Watz Power Plant
+
+tile.fwatz_conductor.name=FlimFlam Industries 4000K Tungsten Schrabide Superconducting Electro Magnet
+tile.fwatz_cooler.name=FlimFlam Industries Regenerative Coolant Fluid Tank Shell
+tile.fwatz_tank.name=FlimFlam Industries Regenerative Coolant Fluid Tank
+tile.fwatz_scaffold.name=FlimFlam Industries Fusionary Watz Plant Structural Strut Piece
+tile.fwatz_hatch.name=FlimFlam Industries Fusionary Watz Plant Access Hatch
+tile.fwatz_computer.name=FlimFlam Industries Advanced Fusionary Watz Reactor Calculation Matrix
+tile.fwatz_core.name=FlimFlam Industries Fusionary Watz Reactor Control Unit
+tile.fwatz_plasma.name=Destabilized Antischrabidium Plasma
+container.fusionaryWatzPlant=FlimFlam Industries Fusionary Watz Reaction Vessel
+
+tile.machine_rtg_grey.name=FlimFlam Industries RT-15 Radioisotope Thermoelectric Generator
+container.rtg=FlimFlam Industries RT-15 Radioisotope Thermoelectric Generator
+
+item.ingot_uranium.name=Uranium Ingot
+item.ingot_u235.name=Uranium-235 Ingot
+item.ingot_u238.name=Uranium-238 Ingot
+item.ingot_plutonium.name=Plutonium Ingot
+item.ingot_pu238.name=Plutonium-238 Ingot
+item.ingot_pu239.name=Plutonium-239 Ingot
+item.ingot_pu240.name=Plutonium-240 Ingot
+item.ingot_titanium.name=Titanium Ingot
+item.sulfur.name=Sulfur Dust
+
+item.niter.name=Niter Dust
+item.fluorite.name=Fluorite Dust
+item.ingot_advanced_alloy.name=RedSteel Alloy Ingot
+item.plate_advanced_alloy.name=RedSteel Alloy Plate
+item.wire_advanced_alloy.name=RedSteel Super Conductor
+item.coil_advanced_alloy.name=RedSteel Super Conducting Coil
+item.coil_advanced_torus.name=RedSteel Super Conducting Ring Coil
+item.ingot_magnetized_tungsten.name=Tungsten Schrabide Ingot
+item.wire_magnetized_tungsten.name=4000K High Temperature Tungsten Schrabide Super Conductor
+item.coil_magnetized_tungsten.name=4000K High Temperature Tungsten Schrabide Super Conducting Coil
+item.ingot_dura_steel.name=Tama Aerospace Division Space Grade High-Speed Steel Ingot
+item.bolt_dura_steel.name=Tama Aerospace Division High-Speed Steel Bolt
+
+item.ingot_desh.name=FlimFlam Industries Rare Earth Alloy Ingot
+item.nugget_desh.name=FlimFlam Industries Rare Earth Alloy Nugget
+item.powder_desh.name=FlimFlam Industries Rare Earth Alloy Powder
+item.powder_desh_mix.name=FlimFlam Industries Rare Earth Alloy Mixture
+
+item.nugget_u235.name=Uranium-235 Nugget
+item.nugget_u238.name=Uranium-238 Nugget
+item.nugget_pu238.name=Plutonium-238 Nugget
+item.nugget_pu239.name=Plutonium-239 Nugget
+item.nugget_pu240.name=Plutonium-240 Nugget
+
+item.circuit_aluminium.name=A Piece of Metal with Wires on it
+item.circuit_copper.name=A Slightly Better Piece of Metal with Wires on it
+item.circuit_red_copper.name=A Piece of Metal with Printed Circuits and Transistors
+item.circuit_gold.name=A Circuit Board with Processors and Stuff
+item.circuit_schrabidium.name=A Quantum Computer-Thingy
+
+tile.block_advanced_alloy.name=Block of RedSteel Alloy
+tile.block_magnetized_tungsten.name=Block of Tungsten Schrabide
+tile.block_desh.name=Reinfoced Block of Rare Earth Alloy
+
+tile.reinforced_brick.name=DuffNak LLC Reinforced Stone Block
+tile.reinforced_glass.name=DuffNak LLC Blast-Proof Glass
+tile.reinforced_sand.name=DuffNak LLC Hardened Dense Sandstone
+tile.reinforced_light.name=DuffNak LLC Blast-Proof Glowstone
+tile.reinforced_lamp_off.name=DuffNak LLC Reinforced Lamp
+tile.reinforced_lamp_on.name=DuffNak LLC Reinforced Lamp
+
+tile.brick_concrete.name=DuffNak LLC Reinforced Concrete Brickwork
+tile.brick_obsidian.name=DuffNak LLC Hardened Obsidian Bricks
+tile.brick_light.name=DuffNak LLC Cheap Light Bricks
+
+tile.seal_frame.name=Tama Aerospace Division Missile Silo Hatch Frame
+tile.seal_controller.name=Tama Aerospace Division Missile Silo Hatch Opener
+tile.seal_hatch.name=Tama Aerospace Division Missile Silo Hatch Block
+
+item.powder_magnetized_tungsten.name=Tungsten Schrabide Powder
+item.powder_advanced_alloy.name=RedSteel Alloy Powder
+item.powder_dura_steel.name=Tama Aerospace Division Space Grade High-Speed Steel Powder
+
+item.battery_generic.name=InsoKit Electricals Redstone Battery
+item.battery_advanced.name=InsoKit Electricals Lead-Sulfur Battery
+item.battery_lithium.name=InsoKit Electricals Lithium-Ion Battery
+item.battery_schrabidium.name=InsoKit Electricals Schrabidium-Neptunium Battery
+
+item.battery_red_cell.name=InsoKit Electricals Redstone Power Cell
+item.battery_advanced_cell.name=InsoKit Electricals Lead-Sulfur Power Cell
+item.battery_lithium_cell.name=InsoKit Electricals Lithium-Ion Power Cell
+item.battery_schrabidium_cell.name=InsoKit Electricals Schrabidium-Neptunium Power Cell
+item.battery_red_cell_6.name=InsoKit Electricals Sixfold Redstone Power Cell
+item.battery_advanced_cell_4.name=InsoKit Electricals Quadruple Lead-Sulfur Power Cell
+item.battery_lithium_cell_3.name=InsoKit Electricals Tripple Lithium-Ion Power Cell
+item.battery_schrabidium_cell_2.name=InsoKit Electricals Double Schrabidium-Neptunium Power Cell
+item.battery_red_cell_24.name=InsoKit Electricals 24-Fold Redstone Power Cell
+item.battery_advanced_cell_12.name=InsoKit Electricals Twelvefold Lead-Sulfur Power Cell
+item.battery_lithium_cell_6.name=InsoKit Electricals Sixfold Lithium-Ion Power Cell
+item.battery_schrabidium_cell_4.name=InsoKit Electricals Quadruple Schrabidium-Neptunium Power Cell
+
+item.upgrade_template.name=FlimFlam Industries Machine Upgrade Base
+item.upgrade_speed_1.name=FlimFlam Industries Red Machine Upgrade Mk.I
+item.upgrade_speed_2.name=FlimFlam Industries Red Machine Upgrade Mk.II
+item.upgrade_speed_3.name=FlimFlam Industries Red Machine Upgrade Mk.III
+item.upgrade_effect_1.name=FlimFlam Industries Green Machine Upgrade Mk.I
+item.upgrade_effect_2.name=FlimFlam Industries Green Machine Upgrade Mk.II
+item.upgrade_effect_3.name=FlimFlam Industries Green Machine Upgrade Mk.III
+item.upgrade_power_1.name=FlimFlam Industries Blue Machine Upgrade Mk.I
+item.upgrade_power_2.name=FlimFlam Industries Blue Machine Upgrade Mk.II
+item.upgrade_power_3.name=FlimFlam Industries Blue Machine Upgrade Mk.III
+item.upgrade_fortune_1.name=FlimFlam Industries Purple Machine Upgrade Mk.I
+item.upgrade_fortune_2.name=FlimFlam Industries Purple Machine Upgrade Mk.II
+item.upgrade_fortune_3.name=FlimFlam Industries Purple Machine Upgrade Mk.III
+
+item.fusion_core.name=Mass Fusion Fusion Core
+item.energy_core.name=FlimFlam Industries Energy Core
+
+item.motor.name=Electric Motor
+item.rtg_unit.name=InsoKit Electicals RTG Unit
+item.hazmat_cloth.name=FlimFlam Industries Hazmat Cloth
+item.asbestos_cloth.name=FlimFlam Industries Fire Proximity Cloth
+item.filter_coal.name=FlimFlam Industries Activated Carbon Filter
+item.tritium_deuterium_cake.name=FlimFlam Industries Tritium-Deuterium-Cake
+item.telepad.name=FlimFlam Industries Advanced Quantum Teleportation Element
+item.entanglement_kit.name=FlimFlam Industries Quantum Entanglement Kit
+item.toothpicks.name=FlimFlam Industries High-Tech Toothpicks
+item.ducttape.name=FlimFlam Industries Mk.XXVI Dura Duct Tape
+item.magnet_dee.name=FlimFlam Industries Cyclotron Dee Magnets
+item.magnet_circular.name=FlimFlam Industries Cyclotron Flat Magnet
+item.cyclotron_tower.name=FlimFlam Industries Cyclotron Tower
+
+item.canister_canola.name=Engine Lubrication Oil Canister
+item.canister_oil.name=Black Gold Canister
+item.canister_fuel.name=Diesel Fuel Canister
+item.canister_kerosene.name=Tama Aerospace Division Aircraft and Rocket Fuel Canister
+item.canister_petroil.name=FlimFlam Industries Two-Stroke Fuel Mixture Canister
+item.canister_NITAN.name=FlimFlam Industries NITAN© 100 Octane Lanthanium Super Fuel
+item.gas_full.name=Natural Gas Tank
+
+item.gun_rpg.name=DuffNak LLC Rocket Propelled Grenade Launcher
+item.gun_rpg_ammo.name=DuffNak LLC HE Rocket
+
+item.flame_pony.name=UFP season 5 when?
+item.flame_conspiracy.name=It was Bush, I swear!
+item.flame_politics.name=Maek Amerika gr8 agan
+item.flame_opinion.name=I like to drink gasoline, so what?
+
+item.pellet_cluster.name=DuffNak LLC Brand Bomblets
+item.pellet_buckshot.name=DuffNak LLC Buckshot Pellets
+item.pellet_gas.name=DuffNak LLC Zyklon B
+
+item.nuke_starter_kit.name=ox of Science Stuff
+item.nuke_commercially_kit.name=Box of Expensive Science Stuff
+item.nuke_advanced_kit.name=Box of Very Expensive Science Stuff
+item.grenade_kit.name=Box of Explody Snowballs
+item.nuke_electric_kit.name=Box of Wires 'n' Stuff
+item.euphemium_kit.name=Code Block
+
+item.grenade_generic.name=DuffNak LLC Generic Grenade
+item.grenade_strong.name=DuffNak LLC Enhanced Grenade
+item.grenade_frag.name=DuffNak LLC Fragmentation Grenade
+item.grenade_fire.name=DuffNak LLC Incendiary Fragmentation Grenade
+item.grenade_shrapnel.name=DuffNak LLC Shrapnel Grenade
+item.grenade_cluster.name=DuffNak LLC Cluster Bomb
+item.grenade_flare.name=DuffNak LLC Flare Grenade
+item.grenade_electric.name=DuffNak LLC Electric Discharge Bomb
+item.grenade_poison.name=DuffNak LLC Poison Grenade
+item.grenade_gas.name=DuffNak LLC Gas Grenade
+item.grenade_pulse.name=DuffNak LLC Impulse Grenade
+item.grenade_plasma.name=DuffNak LLC Plasma Grenade
+item.grenade_tau.name=DuffNak LLC Tauon Grenade
+item.grenade_schrabidium.name=DuffNak LLC Schrabidium Grenade
+item.grenade_lemon.name=Aperture Science Combustible Lemon
+item.grenade_mk2.name=DuffNak LLC Mk 2 Grenade "Ambassador Pineapple"
+item.grenade_aschrab.name=DuffNak LLC Tossable Antischrabidium Cell
+item.grenade_nuke.name=DuffNak LLC Mark VI Drill Grenade
+item.grenade_nuclear.name=DuffNak LLC Nuka Grenade
+item.grenade_zomg.name=DuffNak LLC Negative Energy Pair Annihilation Grenade
+item.grenade_black_hole.name=DuffNak LLC Black Hole Grenade
+item.ullapool_caber.name=Mann Co. Ullapool Caber
+
+item.levitation_unit.name=FlimFlam Industries Gravity Manipulation Unit
+item.thermo_unit_empty.name=FlimFlam Industries Thermic Distribution Unit
+item.thermo_unit_endo.name=FlimFlam Industries Coldness Distribution Unit
+item.thermo_unit_exo.name=FlimFlam Industries Heat Distribution Unit
+
+item.gun_revolver_iron.name=DuffNak LLC Basic Metal Revolver
+item.gun_revolver.name=DuffNak LLC Reinforced Steel Revolver
+item.gun_revolver_gold.name=DuffNak LLC GoldenEye's Golden Gun
+item.gun_revolver_lead.name=DuffNak LLC Lead-Coated RadGun "Nuka Revolver"
+item.gun_revolver_schrabidium.name=schrabRev
+item.gun_revolver_cursed.name=Britannia Royal Armory Standard Issue Handgun
+item.gun_revolver_nightmare.name=DuffNak LLC Energy Based Handgun (Nightmare)
+item.gun_revolver_nightmare2.name=DuffNak LLC Energy Based Scattergun (Nightmare)
+item.gun_bf.name=DuffNak LLC Dud Launcher
+item.gun_mp40.name=Maschinenpistole 40
+item.gun_xvl1456.name=Black Mesa XVL1456 Tau Cannon Prototype
+item.gun_immolator.name=Combine Immolator
+item.gun_cryolator.name=Vault-Tec Cryolator
+item.gun_mp.name=Britannia Royal Armory Standard Issue Spring-Powered Machine Gun
+item.gun_zomg.name=The ZOMG
+item.gun_emp.name=FlimFlam Industries Electromagnetic Impulse Generator
+item.gun_super_shotgun.name=Chuper Chotgun
+item.gun_moist_nugget.name=Moist-Nugget
+item.gun_defabricator.name=DuffNak LLC Defabricator Beam
+
+item.gun_revolver_iron_ammo.name=Bullet
+item.gun_revolver_ammo.name=Lead Bullet
+item.gun_revolver_gold_ammo.name=Golden Bullet
+item.gun_revolver_lead_ammo.name=Glass Covered Nuclear Bullet
+item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
+item.gun_revolver_cursed_ammo.name=Steel Bullet
+item.gun_revolver_nightmare_ammo.name=Nightmare Bullet
+item.gun_revolver_nightmare2_ammo.name=Laser Buckshot
+item.gun_fatman_ammo.name=Mini Nuke
+item.gun_mirv_ammo.name=Eightfold MIRV
+item.gun_bf_ammo.name=Mk.V Compact AMAT-Artillery Shell - Type B.F.
+item.gun_mp40_ammo.name=Submachine Gun Round
+item.gun_uboinik_ammo.name=12x70 Buckshot
+item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
+item.gun_osipr_ammo.name=Dark Energy Pulse Plug
+item.gun_osipr_ammo2.name=Combine Ball
+item.gun_immolator_ammo.name=Immolator Fuel
+item.gun_cryolator_ammo.name=Cryo Cell
+item.gun_mp_ammo.name=Small Propellantless Machine Gun Round
+item.gun_emp_ammo.name=Energy Cell
+item.gun_jack_ammo.name=Quadruple Shotgun Shell
+item.gun_spark_ammo.name=Electromagnetic Cartridge
+item.gun_hp_ammo.name=Ink Cartridge
+item.gun_euthanasia_ammo.name=Syringe
+item.gun_defabricator_ammo.name=Defabricator Energy Cell
+
+item.clip_revolver_iron.name=Box of Iron Rounds
+item.clip_revolver.name=Box of .357 Rounds
+item.clip_revolver_gold.name=Small Coffer of Golden Bullets
+item.clip_revolver_schrabidium.name=Schrabidium Ammo Container
+item.clip_rpg.name=Rocket Container
+item.clip_xvl1456.name=Large Isotope Box
+item.clip_osipr.name=AR2 Magazine
+item.clip_immolator.name=Tank of Immolator Fuel
+item.clip_cryolator.name=Tank of Cryolator Fuel
+item.clip_revolver_lead.name=Box of Nuclear Bullets
+item.clip_revolver_cursed.name=Britannia Military Standard Issue Pisol Magazine
+item.clip_fatman.name=Six Pack of Mini Nukes
+item.clip_mirv.name=Three-In-One Pack of Mini MIRVs
+item.clip_bf.name=BF-Shell Double Pack
+item.clip_mp.name=Britannia Military Standard Issue Assult Rifle Magazine
+item.clip_mp40.name=9mm SMG Magazine
+item.clip_uboinik.name=Box of Buckshot Rounds
+item.clip_emp.name=Small Pack of Energy Cells
+item.clip_revolver_nightmare.name=Bag of Bullets
+item.clip_revolver_nightmare2.name=Belt with Laser Buckshot
+
+tile.block_schrabidium.name=Block of Schrabidium
+item.plate_gold.name=Gold Plate
+
+item.syringe_empty.name=Empty Syringe
+item.syringe_antidote.name=Antidote
+item.syringe_poison.name=Poisonous Injection
+item.syringe_awesome.name=AWESOME
+item.syringe_metal_empty.name=Metal Syringe
+item.syringe_metal_stimpak.name=Stimpak
+item.syringe_metal_medx.name=Med-X
+item.syringe_metal_psycho.name=Psycho
+item.pill_iodine.name=Iodine Pill
+item.plan_c.name=Plan C
+
+item.stealth_boy.name=Stealth Device
+
+entity.hbm.entity_bullet.name=Bullet
+entity.hbm.entity_rocket.name=Rocket
+entity.hbm.entity_schrabnel.name=Schrabnel
+entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
+entity.entity_mob_hunter_chopper.name=Hunter ChopperCreeper
+entity.entity_cyber_crab.name=Cyber Crab
+
+item.cap_aluminium.name=Aluminium Cap
+item.hull_small_steel.name=Small Steel Shell
+item.hull_small_aluminium.name=Small Aluminium Shell
+item.hull_big_steel.name=Big Steel Shell
+item.hull_big_aluminium.name=Big Aluminium Shell
+item.hull_big_titanium.name=Big Titanium Shell
+item.fins_flat.name=Flat Steel Casing
+item.fins_small_steel.name=Small Steel Grid Fins
+item.fins_big_steel.name=Big Steel Grid Fins
+item.fins_tri_steel.name=Large Steel Fins
+item.fins_quad_titanium.name=Small Titanium Fins
+item.sphere_steel.name=Steel Sphere
+item.pedestal_steel.name=Steel Pedestal
+item.dysfunctional_reactor.name=Dysfunctional Nuclear Reactor
+
+item.rotor_steel.name=Large Steel Rotor
+item.generator_steel.name=Generator Body
+item.blade_titanium.name=Titanium Blade
+item.turbine_titanium.name=Titanium Steam Turbine
+item.generator_front.name=Generator Front
+
+item.combine_scrap.name=CMB Scrap Metal
+item.chopper_head.name=Hunter Chopper Cockpit
+item.chopper_gun.name=Emplacement Gun
+item.chopper_torso.name=Hunter Chopper Body
+item.chopper_tail.name=Hunter Chopper Tail
+item.chopper_wing.name=Hunter Chopper Wing
+item.chopper_blades.name=Hunter Chopper Rotor Blades
+
+item.igniter.name=Igniter
+item.watch.name=Broken Pocket Watch
+item.apple_astatine.name=Euphemium Apple
+item.ingot_astatine.name=Euphemium Ingot
+item.nugget_astatine.name=Euphemium Nugget
+item.rod_quad_astatine.name=Burned Out Quad Schrabidium Fuel Rod
+
+item.astatine_helmet.name=Euphemium Helemt
+item.astatine_plate.name=Euphemium Chestplate
+item.astatine_legs.name=Euphemium Leggings
+item.astatine_boots.name=Euphemiums Boots
+
+item.schrabidium_helmet.name=Schrabidium Helmet
+item.schrabidium_plate.name=Schrabidium Chestpate
+item.schrabidium_legs.name=Schrabidium Leggings
+item.schrabidium_boots.name=Schrabidium Boots
+item.schrabidium_sword.name=Schrabidium Sword
+item.schrabidium_pickaxe.name=Schrabidium Pickaxe
+item.schrabidium_axe.name=Schrabidium Axe
+item.schrabidium_shovel.name=Schrabidium Shovel
+item.schrabidium_hoe.name=Schrabidium Hoe
+
+item.chainsaw.name=Chainsaw
+item.crowbar.name=Mk.V Crate Opening Device "Crowbar"
+
+item.mask_of_infamy.name=Mask of Infamy
+
+tile.det_cord.name=Det Cord
+tile.det_charge.name=Explosive Charge
+tile.red_barrel.name=Explosive Barrel
+tile.yellow_barrel.name=Radioactive Barrel
+
+item.designator.name=Short Range Target Designator
+item.designator_range.name=Long Range Target Designator
+item.missile_generic.name=High Explosive Missile
+item.missile_anti_ballistic.name=Anti Ballistic Missile (WIP)
+item.missile_incendiary.name=Incendiary Missile
+item.missile_cluster.name=Cluster Missile
+item.missile_buster.name=Bunker Buster
+item.missile_strong.name=Strong HE Missile
+item.missile_incendiary_strong.name=Strong Incendiary Missile
+item.missile_cluster_strong.name=Strong Cluster Missile
+item.missile_buster_strong.name=Enhanced Bunker Buster
+item.missile_burst.name=Spare Missile
+item.missile_inferno.name=Inferno Missile G.R.N. Mk.II
+item.missile_rain.name=Bomblet Rain
+item.missile_drill.name=The Concrete Cracker
+item.missile_nuclear.name=Nuclear Missile
+item.missile_nuclear_cluster.name=Nuclear MIRV Missile
+item.missile_endo.name=Endothermic Missile
+item.missile_exo.name=Exothermic Missile
+item.missile_doomsday.name=Doomsday Missile
+
+item.hazmat_helmet.name=Hazmat Helmet
+item.hazmat_plate.name=Hazmat Chestplate
+item.hazmat_legs.name=Hazmat Leggings
+item.hazmat_boots.name=Hazmat Boots
+item.hazmat_paa_helmet.name=PaA Battle Hazmat Suit Helmet
+item.hazmat_paa_plate.name=PaA Battle Hazmat Suit Chestplate
+item.hazmat_paa_legs.name=PaA Battle Hazmat Suit Leggings
+item.hazmat_paa_boots.name=PaA Battle Hazmat Suit Boots
+item.asbestos_helmet.name=Fire Proximity Helmet
+item.asbestos_plate.name=Fire Proximity Chestplate
+item.asbestos_legs.name=Fire Proximity Leggings
+item.asbestos_boots.name=Fire Proximity Boots
+
+item.paa_plate.name=PaA Chest Protection Plate
+item.paa_legs.name=PaA Leg Reinforcements
+item.paa_boots.name=PaA "good ol' shoes"
+
+item.goggles.name=Protection Goggles
+item.gas_mask.name=Gas Mask
+item.oxy_mask.name=Oxygen Mask
+item.t45_helmet.name=T45 Power Armor Helmet
+item.t45_plate.name=T45 Power Armor Chestplate
+item.t45_legs.name=T45 Power Armor Leggings
+item.t45_boots.name=T45 Power Armor Boots
+
+tile.mush.name=Glowing Mushroom
+tile.waste_mycelium.name=Glowing Mycelium
+
+item.warhead_generic_small.name=Small Warhead
+item.warhead_generic_medium.name=Medium Warhead
+item.warhead_generic_large.name=Large Warhead
+item.warhead_incendiary_small.name=Small Incendiary Warhead
+item.warhead_incendiary_medium.name=Medium Incendiary Warhead
+item.warhead_incendiary_large.name=Large Incendiary Warhead
+item.warhead_cluster_small.name=Small Cluster Warhead
+item.warhead_cluster_medium.name=Medium Cluster Warhead
+item.warhead_cluster_large.name=Large Cluster Warhead
+item.warhead_buster_small.name=Small Bunker Buster Warhead
+item.warhead_buster_medium.name=Medium Bunker Buster Warhead
+item.warhead_buster_large.name=Large Bunker Buster Warhead
+item.warhead_nuclear.name=Nuclear Warhead
+item.warhead_mirvlet.name=MIRV
+item.warhead_mirv.name=Eightfold MIRV Warhead
+item.warhead_thermo_endo.name=Endothermic Warhead
+item.warhead_thermo_exo.name=Exothermic Warhead
+item.fuel_tank_small.name=Small Fuel Tank
+item.fuel_tank_medium.name=Medium Fuel Tank
+item.fuel_tank_large.name=Large Fuel Tank
+item.thruster_small.name=Small Thruster
+item.thruster_medium.name=Medium Thruster
+item.thruster_large.name=Large Thruster
+
+item.wand_k.name=Construction Wand
+item.wand_s.name=Structure Wand
+item.wand_d.name=Debug Wand
+
+item.screwdriver.name=Screwdriver
+item.overfuse.name=Singularity Screwdriver
+
+item.steel_helmet.name=Steel Helmet
+item.steel_plate.name=Steel Chestplate
+item.steel_legs.name=Steel Leggings
+item.steel_boots.name=Steel Boots
+item.titanium_helmet.name=Titanium Helmet
+item.titanium_plate.name=Titanium Chestplate
+item.titanium_legs.name=Titanium Leggings
+item.titanium_boots.name=Titanium Boots
+item.alloy_helmet.name=Advanced Alloy Helmet
+item.alloy_plate.name=Advanced Alloy Chestplate
+item.alloy_legs.name=Advanced Alloy Leggings
+item.alloy_boots.name=Advanced Alloy Boots
+item.cmb_helmet.name=CMB Steel Helmet
+item.cmb_plate.name=CMB Steel Chestplate
+item.cmb_legs.name=CMB Steel Leggings
+item.cmb_boots.name=CMB Steel Boots
+
+item.steel_sword.name=Steel Sword
+item.steel_pickaxe.name=Steel Pickaxe
+item.steel_axe.name=Steel Axe
+item.steel_shovel.name=Steel Shovel
+item.steel_hoe.name=Steel Hoe
+item.titanium_sword.name=Titanium Sword
+item.titanium_pickaxe.name=Titanium Pickaxe
+item.titanium_axe.name=Titanium Axe
+item.titanium_shovel.name=Titanium Shovel
+item.titanium_hoe.name=Titanium Hoe
+item.alloy_sword.name=Advanced Alloy Sword
+item.alloy_pickaxe.name=Advanced Alloy Pickaxe
+item.alloy_axe.name=Advanced Alloy Axe
+item.alloy_shovel.name=Advanced Alloy Shovel
+item.alloy_hoe.name=Advanced Alloy Hoe
+item.cmb_sword.name=CMB Steel Sword
+item.cmb_pickaxe.name=CMB Steel Pickaxe
+item.cmb_axe.name=CMB Steel Axe
+item.cmb_shovel.name=CMB Steel Shovel
+item.cmb_hoe.name=CMB Steel Hoe
+item.elec_sword.name=Stunstick
+item.elec_pickaxe.name=Impact Drill
+item.elec_axe.name=Electric Chainsaw
+item.elec_shovel.name=Spiral Drill
+
+tile.red_cable.name=Red Copper Cable
+tile.block_meteor.name=Meteor Block
+
+item.cape_radiation.name=Cape (Radiation)
+item.cape_gasmask.name=Cape (Gas Mask)
+item.cape_schrabidium.name=Cape (Schrabidic)
+item.cape_hbm.name=Hbm's Cape
+item.cape_dafnik.name=Dafnik's Cape
+item.cape_lpkukin.name=LPkukin's Cape
+item.cape_vertice.name=Lord Vertice's Cape
+
+tile.machine_converter_he_rf.name=HE to RF Converter
+tile.machine_converter_rf_he.name=RF to HE Converter
+
+item.schrabidium_hammer.name=Schrabidium Hammer
+item.euphemium_stopper.name=Stopper
+item.matchstick.name=Matchstick
+item.remote.name=Broken Remote
+
+item.redcoil_capacitor.name=Redcoil Capacitor
+item.detonator.name=Detonator
+item.crate_caller.name=Supply Drop Requester
+
+item.ingot_hes.name=Highly Enriched Schrabidium Fuel Ingot
+item.ingot_les.name=Low Enriched Schrabidium Fuel Ingot
+item.nugget_hes.name=Highly Enriched Schrabidium Fuel Nugget
+item.nugget_les.name=Low Enriched Schrabidium Fuel Nugget
+
+item.pellet_schrabidium.name=Pure Schrabidium Watz Pellet
+item.pellet_hes.name=HES Watz Pellet
+item.pellet_mes.name=MES Watz Pellet
+item.pellet_les.name=LES Watz Pellet
+item.pellet_beryllium.name=Beryllium Moderator Pellet
+item.pellet_neptunium.name=Neptunium Watz Pellet
+item.pellet_lead.name=Lead Reflector Pellet
+item.pellet_advanced.name=Advanced Watz Performance Improver
+
+item.titanium_filter.name=Titanium Filter
+
+tile.mud_block.name=Poisonous Mud
+fluid.mud_fluid=Poisonous Mud
+item.bucket_mud.name=Bucket of Poisonous Mud
+tile.acid_block.name=Acid
+fluid.acid_fluid=Acid
+item.bucket_acid.name=Bucket of Acid
+tile.toxic_block.name=Stereotypical Green Ooze
+fluid.toxic_fluid=Stereotypical Green Ooze
+item.bucket_toxic.name=Bucket of Stereotypical Green Ooze
+item.tank_waste_0.name=Mud Container
+item.tank_waste_1.name=Mud Container
+item.tank_waste_2.name=Mud Container
+item.tank_waste_3.name=Mud Container
+item.tank_waste_4.name=Mud Container
+item.tank_waste_5.name=Mud Container
+item.tank_waste_6.name=Mud Container
+item.tank_waste_7.name=Mud Container
+item.tank_waste_8.name=Mud Container
+
+item.can_empty.name=Empty Can
+item.can_smart.name='Smart' Energy Drink
+item.can_creature.name='Creature' Energy Drink
+item.can_redbomb.name='Red Bomb' Energy Drink
+item.can_mrsugar.name='Dr. Sugar' Soft Drink
+item.can_overcharge.name=Overcharge Delirium XT
+item.bottle_empty.name=Empty Bomb-Shaped Bottle
+item.bottle_nuka.name=Bottle of Nuka Cola
+item.bottle_cherry.name=Bottle of Nuka Cherry
+item.bottle_quantum.name=Bottle of Nuka Cola Quantum
+item.bottle2_empty.name=Empty Bottle
+item.bottle2_korl.name=Korl
+item.bottle2_fritz.name=Fritz Cola
+item.bottle2_korl_special.name=The First Korl
+item.bottle2_fritz_special.name=The First Fritz Cola
+item.chocolate_milk.name=Chocolate Milk
+item.cap_nuka.name=Nuka Cola Bottle Cap
+item.cap_quantum.name=Nuka Cola Quantum Bottle Cap
+item.cap_korl.name=Korl Bottle Cap
+item.cap_fritz.name=Fritz Cola Bottle Cap
+item.ring_pull.name=Ring Pull
+
+item.bottle_opener.name=Hbm's Own Self-Made Bottle Opener
+
+item.blades_aluminium.name=Aluminium Shredder Blades
+item.blades_gold.name=Golden Shredder Blades
+item.blades_iron.name=Iron Shredder Blades
+item.blades_steel.name=Steel Shredder Blades
+item.blades_titanium.name=Titanium Shredder Blades
+item.blades_advanced_alloy.name=Advanced Shredder Blades
+item.blades_combine_steel.name=CMB Shredder Blades
+item.blades_schrabidium.name=Schrabidium Shredder Blades
+
+item.part_lithium.name=Box of Lithium Dust
+item.part_beryllium.name=Box of Beryllium Dust
+item.part_carbon.name=Box of Carbon Dust
+item.part_copper.name=Box of Copper Dust
+item.part_plutonium.name=Box of Plutonium Dust
+
+item.crystal_energy.name=Energy Crystal
+item.pellet_coolant.name=Coolant Cluster
+
+item.linker.name=Telelinker
+item.oil_detector.name=Oil Reservoir Detector
+
+item.thermo_element.name=Thermoelectric Element
+item.limiter.name=Generator Limiter
+
+item.multitool_dig.name=Power Fist (Digging Claw)
+item.multitool_silk.name=Power Fist (Silk Touch Claw)
+item.multitool_ext.name=Power Fist (Ore Extracter)
+item.multitool_miner.name=Power Fist (Extracting Mining Laser)
+item.multitool_hit.name=Power Fist (Fist)
+item.multitool_beam.name=Power Fist (Zapper)
+item.multitool_sky.name=Power Fist (Crack the Sky)
+item.multitool_mega.name=Power Fist (Super Punch)
+item.multitool_joule.name=Power Fist (Giga Joule)
+item.multitool_decon.name=Power Fist (Decontaminator)
+
+item.australium_iii.name=Mark III Life Extender
+item.australium_iv.name=Mark IV Life Extender
+item.australium_v.name=Mark V Life Extender
+
+item.weapon_saw.name=Doctor Assisted Homicide
+item.weapon_bat.name=Richard's Default
+item.weapon_bat_nail.name=The Cliché
+item.weapon_golf_club.name=Russian Mobster's Club
+item.weapon_pipe_rusty.name=The Attitude Adjuster
+item.weapon_pipe_lead.name=The Manual Override
+item.reer_graar.name=The Reer Graar
+
+item.letter.name=Express Mail
+item.polaroid.name=The Polaroid
+item.book_secret.name=3-596-50802-9
+item.burnt_bark.name=Burnt Bark
+
+item.crystal_horn.name=Crystal Horn
+item.crystal_charred.name=Charred Crystal
+item.ingot_lanthanium.name=Semi-Stable Lanthanium Ingot
+item.ingot_actinium.name=Semi-Stable Actinium Ingot
+
+tile.dummy_block.name=Dummy Block
+tile.dummy_port.name=Dummy Block (Electricity Port)
+
+item.chopper.name=Hunter Chopper
+
+item.nothing.name=Nothing
+
+tile.crystal_virus.name=Dark Crystal
+tile.crystal_hardened.name=Hardened Dark Crystal
+tile.crystal_pulsar.name=Pulsating Crystal
+
+tile.cheater_virus.name=Gelid Euphemium
+tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

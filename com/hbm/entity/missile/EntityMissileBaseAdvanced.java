@@ -26,6 +26,10 @@ public abstract class EntityMissileBaseAdvanced extends Entity {
 	public EntityMissileBaseAdvanced(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
+		startX = (int) posX;
+		startZ = (int) posZ;
+		targetX = (int) posX;
+		targetZ = (int) posZ;
 	}
 	
     public boolean attackEntityFrom(DamageSource p_70097_1_, float f)
