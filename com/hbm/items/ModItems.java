@@ -360,7 +360,6 @@ public class ModItems {
 	public static Item inf_antimatter;
 	public static Item inf_antischrabidium;
 
-	public static Item oil_canola;
 	public static Item canister_empty;
 	public static Item canister_smear;
 	public static Item canister_canola;
@@ -1320,7 +1319,6 @@ public class ModItems {
 		thermo_element = new Item().setUnlocalizedName("thermo_element").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":thermo_element");
 		limiter = new Item().setUnlocalizedName("limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":limiter");
 
-		oil_canola = new Item().setUnlocalizedName("oil_canola").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":oil_canola");
 		canister_empty = new ItemCustomLore().setUnlocalizedName("canister_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":canister_empty");
 		canister_smear = new ItemCustomLore().setUnlocalizedName("canister_smear").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_smear");
 		canister_canola = new ItemCustomLore().setUnlocalizedName("canister_canola").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.canister_empty).setTextureName(RefStrings.MODID + ":canister_canola");
@@ -2308,9 +2306,6 @@ public class ModItems {
 		
 		//Large Tanks
 		GameRegistry.registerItem(tank_waste, tank_waste.getUnlocalizedName());
-
-		//Oils
-		GameRegistry.registerItem(oil_canola, oil_canola.getUnlocalizedName());
 		
 		//Canisters
 		GameRegistry.registerItem(canister_empty, canister_empty.getUnlocalizedName());

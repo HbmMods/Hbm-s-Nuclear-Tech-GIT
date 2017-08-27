@@ -12,11 +12,9 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineGasFlare extends Container {
 
 	private TileEntityMachineGasFlare testNuke;
-	private int gas;
 	private int power;
 	
 	public ContainerMachineGasFlare(InventoryPlayer invPlayer, TileEntityMachineGasFlare tedf) {
-		gas = 0;
 		power = 0;
 		
 		testNuke = tedf;
@@ -42,8 +40,7 @@ public class ContainerMachineGasFlare extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.testNuke.gas);
-		crafting.sendProgressBarUpdate(this, 1, this.testNuke.power);
+		crafting.sendProgressBarUpdate(this, 0, this.testNuke.power);
 	}
 	
 	@Override
@@ -94,27 +91,18 @@ public class ContainerMachineGasFlare extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 
-			if(this.gas != this.testNuke.gas)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.testNuke.gas);
-			}
 			if(this.power != this.testNuke.power)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.testNuke.power);
+				par1.sendProgressBarUpdate(this, 0, this.testNuke.power);
 			}
 		}
 
-		this.gas = this.testNuke.gas;
 		this.power = this.testNuke.power;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
-		{
-			testNuke.gas = j;
-		}
-		if(i == 1)
 		{
 			testNuke.power = j;
 		}

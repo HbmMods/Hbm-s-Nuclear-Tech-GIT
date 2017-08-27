@@ -6,9 +6,13 @@ import java.util.Random;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionThermo;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IGasAcceptor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -23,16 +27,16 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, ISource, IGasAcceptor {
+public class TileEntityMachineGasFlare extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
-	public int gas;
 	public int power;
 	public static final int maxPower = 100000;
 	public static final int maxGas = 64 * 50;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
+	public FluidTank tank;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -43,6 +47,7 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	
 	public TileEntityMachineGasFlare() {
 		slots = new ItemStack[3];
+		tank = new FluidTank(FluidType.GAS, 64000, 0);
 	}
 
 	@Override
@@ -151,7 +156,7 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 		NBTTagList list = nbt.getTagList("items", 10);
 		
 		this.power = nbt.getInteger("powerTime");
-		this.gas = nbt.getInteger("gas");
+		tank.readFromNBT(nbt, "gas");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -169,7 +174,7 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
-		nbt.setInteger("gas", gas);
+		tank.writeToNBT(nbt, "gas");
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -201,10 +206,6 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 		return false;
 	}
 	
-	public int getGasScaled(int i) {
-		return (gas * i) / maxGas;
-	}
-	
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
@@ -220,25 +221,15 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 		
 		if(!worldObj.isRemote) {
 			
-			if(slots[1] != null && slots[1].getItem() == ModItems.gas_full && gas + 50 <= maxGas) {
-				if(slots[2] == null) {
-					gas += 50;
-					slots[1].stackSize--;
-					if(slots[1].stackSize <= 0)
-					slots[1] = null;
-					slots[2] = new ItemStack(ModItems.gas_empty);
-				}else if(slots[2] != null && slots[2].getItem() == ModItems.gas_empty && slots[2].stackSize < slots[2].getMaxStackSize()) {
-					gas += 50;
-					slots[1].stackSize--;
-					if(slots[1].stackSize <= 0)
-						slots[1] = null;
-					slots[2].stackSize++;
-				}
-			}
+			tank.loadTank(1, 2, slots);
+			tank.updateTank(xCoord, yCoord, zCoord);
 			
-			if(gas >= 0) {
-				gas--;
-				power += 5;
+			if(tank.getFill() >= 10) {
+				tank.setFill(tank.getFill() - 10);
+				power += 50;
+				
+				if(power > maxPower)
+					power = maxPower;
 
 	    		worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, this.xCoord + 0.5F, this.yCoord + 11F, this.zCoord + 0.5F, 0.0, 0.0, 0.0));
 				ExplosionThermo.setEntitiesOnFire(worldObj, this.xCoord, this.yCoord + 11, zCoord, 5);
@@ -308,17 +299,28 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setGasFill(int i) {
-		this.gas = i;
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
 	}
 
 	@Override
-	public int getGasFill() {
-		return this.gas;
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
 	}
 
 	@Override
-	public int getMaxGasFill() {
-		return TileEntityMachineGasFlare.maxGas;
+	public int getMaxAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tank.getTankType().name()))
+			tank.setFill(i);
 	}
 }

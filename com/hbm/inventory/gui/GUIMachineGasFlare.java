@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineGasFlare;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityMachineGasFlare;
@@ -11,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineGasFlare extends GuiContainer {
+public class GUIMachineGasFlare extends GuiFluidContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_gasFlare.png");
 	private TileEntityMachineGasFlare flare;
@@ -22,6 +23,13 @@ public class GUIMachineGasFlare extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		flare.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 34, 52);
 	}
 
 	@Override
@@ -38,9 +46,13 @@ public class GUIMachineGasFlare extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int i = flare.getGasScaled(52);
-		drawTexturedModalRect(guiLeft + 80, guiTop + 69 - i, 192, 52 - i, 34, i);
 		int j = flare.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - j, 176, 52 - j, 16, j);
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
+
+		flare.tank.renderTank(this, guiLeft + 80, guiTop + 69, flare.tank.getTankType().textureX() * FluidTank.x, flare.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		flare.tank.renderTank(this, guiLeft + 80 + 16, guiTop + 69, flare.tank.getTankType().textureX() * FluidTank.x, flare.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		flare.tank.renderTank(this, guiLeft + 80 + 32, guiTop + 69, flare.tank.getTankType().textureX() * FluidTank.x, flare.tank.getTankType().textureY() * FluidTank.y, 2, 52);
 	}
 }

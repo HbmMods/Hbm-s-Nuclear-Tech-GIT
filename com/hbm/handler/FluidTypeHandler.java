@@ -15,7 +15,7 @@ public class FluidTypeHandler {
 		TRITIUM		(0x000099, 153, 		5,	1, "hbmfluid.tritium"),
 
 		OIL			(0x020202, 131586, 		6,	1, "hbmfluid.oil"),
-		HOTOIL		(0x020202, 131586, 		8,	1, "hbmfluid.hotoil"),
+		HOTOIL		(0x300900, 3148032, 	8,	1, "hbmfluid.hotoil"),
 		
 		HEAVYOIL	(0x141312, 1315602,		2,	2, "hbmfluid.heavyoil"),
 		BITUMEN		(0x1f2426, 2040870,		3,	2, "hbmfluid.bitumen"),
@@ -42,8 +42,8 @@ public class FluidTypeHandler {
 		AMAT		(0x010101, 65793, 		0,	2, "hbmfluid.amat"),
 		ASCHRAB		(0xb50000, 11862016, 	1,	2, "hbmfluid.aschrab"),
 
-		ACID		(0x020202, 11862016, 	10,	2, "hbmfluid.acid"),
-		WATZ		(0x020202, 11862016, 	11,	2, "hbmfluid.watz");
+		ACID		(0xfff7aa, 16775082, 	10,	2, "hbmfluid.acid"),
+		WATZ		(0x86653E, 8807742, 	11,	2, "hbmfluid.watz");
 		
 
 		private int color;

@@ -68,7 +68,7 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
 		this.bindTexture(gadgetTexture);
-		float t = (float) Math.sin((i / (180 / Math.PI)))/2 * 25;
+		float t = (float) Math.sin((i / (180 / Math.PI))) * 15;
 		GL11.glRotatef(t, 1F, 0F, 0F);
         ResourceManager.pumpjack_head.renderAll();
 
@@ -85,10 +85,13 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
+		float j = (float) Math.sin((i / (180 / Math.PI))) * 15;
 		float t = (float) Math.sin((i / (180 / Math.PI)));
 		float u = (float) Math.sin(((i + 90) / (180 / Math.PI)));
-		drawConnection(0.55, 0.5 + t, -5.5 - u, 0.55, 2.5, -6);
-		drawConnection(-0.55, 0.5 + t, -5.5 - u, -0.55, 2.5, -6);
+		float v = (float) Math.sin((j / (180 / Math.PI))) * 3;
+		float w = (float) Math.sin(((j + 90) / (180 / Math.PI))) * 3;
+		drawConnection(0.55, 0.5 + t, -5.5 - u, 0.55, 2.5 + v, -2.5 - w);
+		drawConnection(-0.55, 0.5 + t, -5.5 - u, -0.55, 2.5 + v, -2.5 - w);
 
         GL11.glPopMatrix();
     }
@@ -99,14 +102,14 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawing(5);
-        tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
+        tessellator.setColorRGBA_F(0.6F, 0.6F, 0.6F, 1.0F);
         tessellator.addVertex(x + 0.05F, y, z);
         tessellator.addVertex(x - 0.05F, y, z);
         tessellator.addVertex(a + 0.05F, b, c);
         tessellator.addVertex(a - 0.05F, b, c);
         tessellator.draw();
         tessellator.startDrawing(5);
-        tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
+        tessellator.setColorRGBA_F(0.6F, 0.6F, 0.6F, 1.0F);
         tessellator.addVertex(x, y, z + 0.05F);
         tessellator.addVertex(x, y, z - 0.05F);
         tessellator.addVertex(a, b, c + 0.05F);
