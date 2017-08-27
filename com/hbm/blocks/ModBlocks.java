@@ -366,6 +366,9 @@ public class ModBlocks {
 	public static Block machine_pumpjack;
 	public static final int guiID_machine_pumpjack = 51;
 
+	public static Block machine_turbofan;
+	public static final int guiID_machine_turbofan = 52;
+
 	public static Block turret_light;
 	public static Block turret_heavy;
 	public static Block turret_rocket;
