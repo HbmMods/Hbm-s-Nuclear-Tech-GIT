@@ -1,149 +1,10 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.container.ContainerBombMulti;
-import com.hbm.inventory.container.ContainerCentrifuge;
-import com.hbm.inventory.container.ContainerConverterHeRf;
-import com.hbm.inventory.container.ContainerConverterRfHe;
-import com.hbm.inventory.container.ContainerCoreAdvanced;
-import com.hbm.inventory.container.ContainerCoreTitanium;
-import com.hbm.inventory.container.ContainerDiFurnace;
-import com.hbm.inventory.container.ContainerElectricFurnace;
-import com.hbm.inventory.container.ContainerFWatzCore;
-import com.hbm.inventory.container.ContainerFusionMultiblock;
-import com.hbm.inventory.container.ContainerGenerator;
-import com.hbm.inventory.container.ContainerIGenerator;
-import com.hbm.inventory.container.ContainerLaunchPadTier1;
-import com.hbm.inventory.container.ContainerMachineAssembler;
-import com.hbm.inventory.container.ContainerMachineBattery;
-import com.hbm.inventory.container.ContainerMachineCMBFactory;
-import com.hbm.inventory.container.ContainerMachineChemplant;
-import com.hbm.inventory.container.ContainerMachineCoal;
-import com.hbm.inventory.container.ContainerMachineCyclotron;
-import com.hbm.inventory.container.ContainerMachineDeuterium;
-import com.hbm.inventory.container.ContainerMachineDiesel;
-import com.hbm.inventory.container.ContainerMachineFluidTank;
-import com.hbm.inventory.container.ContainerMachineGasFlare;
-import com.hbm.inventory.container.ContainerMachineMiningDrill;
-import com.hbm.inventory.container.ContainerMachineOilWell;
-import com.hbm.inventory.container.ContainerMachineRTG;
-import com.hbm.inventory.container.ContainerMachineRefinery;
-import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
-import com.hbm.inventory.container.ContainerMachineShredder;
-import com.hbm.inventory.container.ContainerMachineTeleporter;
-import com.hbm.inventory.container.ContainerNukeBoy;
-import com.hbm.inventory.container.ContainerNukeCustom;
-import com.hbm.inventory.container.ContainerNukeFleija;
-import com.hbm.inventory.container.ContainerNukeFurnace;
-import com.hbm.inventory.container.ContainerNukeGadget;
-import com.hbm.inventory.container.ContainerNukeMan;
-import com.hbm.inventory.container.ContainerNukeMike;
-import com.hbm.inventory.container.ContainerNukePrototype;
-import com.hbm.inventory.container.ContainerNukeTsar;
-import com.hbm.inventory.container.ContainerPuF6Tank;
-import com.hbm.inventory.container.ContainerReactor;
-import com.hbm.inventory.container.ContainerReactorMultiblock;
-import com.hbm.inventory.container.ContainerReiXMainframe;
-import com.hbm.inventory.container.ContainerRtgFurnace;
-import com.hbm.inventory.container.ContainerTestNuke;
-import com.hbm.inventory.container.ContainerUF6Tank;
-import com.hbm.inventory.container.ContainerWatzCore;
-import com.hbm.inventory.gui.GUIBombMulti;
-import com.hbm.inventory.gui.GUIConverterHeRf;
-import com.hbm.inventory.gui.GUIConverterRfHe;
-import com.hbm.inventory.gui.GUICoreAdvanced;
-import com.hbm.inventory.gui.GUICoreTitanium;
-import com.hbm.inventory.gui.GUIFWatzCore;
-import com.hbm.inventory.gui.GUIFusionMultiblock;
-import com.hbm.inventory.gui.GUIIGenerator;
-import com.hbm.inventory.gui.GUILaunchPadTier1;
-import com.hbm.inventory.gui.GUIMachineAssembler;
-import com.hbm.inventory.gui.GUIMachineBattery;
-import com.hbm.inventory.gui.GUIMachineCMBFactory;
-import com.hbm.inventory.gui.GUIMachineCentrifuge;
-import com.hbm.inventory.gui.GUIMachineChemplant;
-import com.hbm.inventory.gui.GUIMachineCoal;
-import com.hbm.inventory.gui.GUIMachineCyclotron;
-import com.hbm.inventory.gui.GUIMachineDeuterium;
-import com.hbm.inventory.gui.GUIMachineDiesel;
-import com.hbm.inventory.gui.GUIMachineElectricFurnace;
-import com.hbm.inventory.gui.GUIMachineFluidTank;
-import com.hbm.inventory.gui.GUIMachineGasFlare;
-import com.hbm.inventory.gui.GUIMachineGenerator;
-import com.hbm.inventory.gui.GUIMachineMiningDrill;
-import com.hbm.inventory.gui.GUIMachineOilWell;
-import com.hbm.inventory.gui.GUIMachinePuF6Tank;
-import com.hbm.inventory.gui.GUIMachineRTG;
-import com.hbm.inventory.gui.GUIMachineReactor;
-import com.hbm.inventory.gui.GUIMachineRefinery;
-import com.hbm.inventory.gui.GUIMachineSchrabidiumTransmutator;
-import com.hbm.inventory.gui.GUIMachineShredder;
-import com.hbm.inventory.gui.GUIMachineTeleporter;
-import com.hbm.inventory.gui.GUIMachineUF6Tank;
-import com.hbm.inventory.gui.GUINukeBoy;
-import com.hbm.inventory.gui.GUINukeCustom;
-import com.hbm.inventory.gui.GUINukeFleija;
-import com.hbm.inventory.gui.GUINukeFurnace;
-import com.hbm.inventory.gui.GUINukeGadget;
-import com.hbm.inventory.gui.GUINukeMan;
-import com.hbm.inventory.gui.GUINukeMike;
-import com.hbm.inventory.gui.GUINukePrototype;
-import com.hbm.inventory.gui.GUINukeTsar;
-import com.hbm.inventory.gui.GUIReactorMultiblock;
-import com.hbm.inventory.gui.GUIReiXMainframe;
-import com.hbm.inventory.gui.GUIRtgFurnace;
-import com.hbm.inventory.gui.GUIScreenTemplateFolder;
-import com.hbm.inventory.gui.GUITestDiFurnace;
-import com.hbm.inventory.gui.GUITestNuke;
-import com.hbm.inventory.gui.GUIWatzCore;
+import com.hbm.inventory.container.*;
+import com.hbm.inventory.gui.*;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.TileEntityBombMulti;
-import com.hbm.tileentity.TileEntityConverterHeRf;
-import com.hbm.tileentity.TileEntityConverterRfHe;
-import com.hbm.tileentity.TileEntityCoreAdvanced;
-import com.hbm.tileentity.TileEntityCoreTitanium;
-import com.hbm.tileentity.TileEntityDiFurnace;
-import com.hbm.tileentity.TileEntityFWatzCore;
-import com.hbm.tileentity.TileEntityFusionMultiblock;
-import com.hbm.tileentity.TileEntityMachineIGenerator;
-import com.hbm.tileentity.TileEntityMachineMiningDrill;
-import com.hbm.tileentity.TileEntityMachineOilWell;
-import com.hbm.tileentity.TileEntityLaunchPad;
-import com.hbm.tileentity.TileEntityMachineAssembler;
-import com.hbm.tileentity.TileEntityMachineBattery;
-import com.hbm.tileentity.TileEntityMachineCMBFactory;
-import com.hbm.tileentity.TileEntityMachineCentrifuge;
-import com.hbm.tileentity.TileEntityMachineChemplant;
-import com.hbm.tileentity.TileEntityMachineCoal;
-import com.hbm.tileentity.TileEntityMachineCyclotron;
-import com.hbm.tileentity.TileEntityMachineDeuterium;
-import com.hbm.tileentity.TileEntityMachineDiesel;
-import com.hbm.tileentity.TileEntityMachineElectricFurnace;
-import com.hbm.tileentity.TileEntityMachineFluidTank;
-import com.hbm.tileentity.TileEntityMachineGasFlare;
-import com.hbm.tileentity.TileEntityMachineGenerator;
-import com.hbm.tileentity.TileEntityMachinePuF6Tank;
-import com.hbm.tileentity.TileEntityMachineRTG;
-import com.hbm.tileentity.TileEntityMachineReactor;
-import com.hbm.tileentity.TileEntityMachineRefinery;
-import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
-import com.hbm.tileentity.TileEntityMachineShredder;
-import com.hbm.tileentity.TileEntityMachineTeleporter;
-import com.hbm.tileentity.TileEntityMachineUF6Tank;
-import com.hbm.tileentity.TileEntityNukeBoy;
-import com.hbm.tileentity.TileEntityNukeCustom;
-import com.hbm.tileentity.TileEntityNukeFleija;
-import com.hbm.tileentity.TileEntityNukeFurnace;
-import com.hbm.tileentity.TileEntityNukeGadget;
-import com.hbm.tileentity.TileEntityNukeMan;
-import com.hbm.tileentity.TileEntityNukeMike;
-import com.hbm.tileentity.TileEntityNukePrototype;
-import com.hbm.tileentity.TileEntityNukeTsar;
-import com.hbm.tileentity.TileEntityReactorMultiblock;
-import com.hbm.tileentity.TileEntityReiXMainframe;
-import com.hbm.tileentity.TileEntityRtgFurnace;
-import com.hbm.tileentity.TileEntityTestNuke;
-import com.hbm.tileentity.TileEntityWatzCore;
+import com.hbm.tileentity.*;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -534,6 +395,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_pumpjack:
+			{
+				if(entity instanceof TileEntityMachinePumpjack)
+				{
+					return new ContainerMachinePumpjack(player.inventory, (TileEntityMachinePumpjack) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -920,6 +789,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineFluidTank)
 					{
 						return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_pumpjack:
+				{
+					if(entity instanceof TileEntityMachinePumpjack)
+					{
+						return new GUIMachinePumpjack(player.inventory, (TileEntityMachinePumpjack) entity);
 					}
 				}
 			}

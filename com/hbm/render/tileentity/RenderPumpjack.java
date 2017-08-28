@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.TileEntityMachinePumpjack;
 import com.hbm.tileentity.TileEntityTurretBase;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -17,17 +18,28 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
 	
     private ResourceLocation gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
     
-    int i = 0;
+    int i;
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
-    	i += 2;
-    	if(i >= 360)
-    		i-= 360;
-    	
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+        GL11.glTranslated(x + 0.5, y, z + 0.5);
+		switch(tileEntity.getBlockMetadata())
+		{
+		case 2:
+			GL11.glRotatef(0, 0F, 1F, 0F); break;
+		case 4:
+			GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 3:
+			GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 5:
+			GL11.glRotatef(270, 0F, 1F, 0F); break;
+		}
+		
+    	if(tileEntity instanceof TileEntityMachinePumpjack)
+    		i= ((TileEntityMachinePumpjack)tileEntity).rotation;
+        GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
@@ -37,13 +49,12 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
 
         GL11.glPopMatrix();
         
-        renderTileEntityAt2(tileEntity, x, y, z, f);
+        renderTileEntityAt2();
     }
     
-	public void renderTileEntityAt2(TileEntity tileEntity, double x, double y, double z, float f)
+	public void renderTileEntityAt2()
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glTranslated(0, 1.5, 5.5);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -51,17 +62,18 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
 
 		this.bindTexture(gadgetTexture);
 		GL11.glRotated(i - 90, 1F, 0F, 0F);
+		
         ResourceManager.pumpjack_rotor.renderAll();
 
         GL11.glPopMatrix();
         
-        renderTileEntityAt3(tileEntity, x, y, z, f);
+        renderTileEntityAt3();
     }
     
-	public void renderTileEntityAt3(TileEntity tileEntity, double x, double y, double z, float f)
+	public void renderTileEntityAt3()
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y + 1, z + 0.5D);
+        GL11.glTranslated(0, 1, 0);
         GL11.glTranslated(0, 2.5, 2.5);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
@@ -74,13 +86,13 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
 
         GL11.glPopMatrix();
 
-        renderTileEntityAt4(tileEntity, x, y, z, f);
+        renderTileEntityAt4();
     }
     
-	public void renderTileEntityAt4(TileEntity tileEntity, double x, double y, double z, float f)
+	public void renderTileEntityAt4()
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y + 1, z + 0.5D);
+        GL11.glTranslated(0, 1, 0);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
@@ -93,6 +105,7 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
 		drawConnection(0.55, 0.5 + t, -5.5 - u, 0.55, 2.5 + v, -2.5 - w);
 		drawConnection(-0.55, 0.5 + t, -5.5 - u, -0.55, 2.5 + v, -2.5 - w);
 
+        GL11.glPopMatrix();
         GL11.glPopMatrix();
     }
 	
