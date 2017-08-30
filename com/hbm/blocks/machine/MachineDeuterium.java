@@ -54,11 +54,11 @@ public class MachineDeuterium extends BlockContainer {
 		return new TileEntityMachineDeuterium();
 	}
 	
-	@Override
+	/*@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.machine_deuterium);
-    }
+    }*/
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

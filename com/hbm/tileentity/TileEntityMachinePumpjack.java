@@ -96,7 +96,7 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.oilWell";
+		return this.hasCustomInventoryName() ? this.customName : "container.pumpjack";
 	}
 
 	@Override
@@ -170,6 +170,7 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 		
 		this.power = nbt.getInteger("powerTime");
 		this.age = nbt.getInteger("age");
+		this.rotation = nbt.getInteger("rotation");
 
 		this.tanks[0].readFromNBT(nbt, "oil");
 		this.tanks[1].readFromNBT(nbt, "gas");
@@ -192,6 +193,7 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 		super.writeToNBT(nbt);
 		nbt.setInteger("powerTime", power);
 		nbt.setInteger("age", age);
+		nbt.setInteger("rotation", rotation);
 
 		this.tanks[0].writeToNBT(nbt, "oil");
 		this.tanks[1].writeToNBT(nbt, "gas");

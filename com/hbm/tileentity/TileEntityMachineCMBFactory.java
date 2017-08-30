@@ -1,6 +1,10 @@
 package com.hbm.tileentity;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -13,17 +17,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInventory, IConsumer {
+public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 	
 	public int power = 0;
-	public int waste = 0;
 	public int process = 0;
 	public int soundCycle = 0;
-	public static final int maxFill = 1000;
 	public static final int maxPower = 100000;
 	public static final int processSpeed = 200;
+	public FluidTank tank;
 
 	private static final int[] slots_top = new int[] {1, 3};
 	private static final int[] slots_bottom = new int[] {0, 2, 4};
@@ -32,7 +35,8 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	private String customName;
 	
 	public TileEntityMachineCMBFactory() {
-		slots = new ItemStack[5];
+		slots = new ItemStack[6];
+		tank = new FluidTank(FluidType.WATZ, 16000, 0);
 	}
 
 	@Override
@@ -153,7 +157,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		NBTTagList list = nbt.getTagList("items", 10);
 		
 		power = nbt.getInteger("power");
-		waste = nbt.getInteger("waste");
+		tank.readFromNBT(nbt, "watz");
 		process = nbt.getShort("process");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -172,7 +176,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("power", power);
-		nbt.setInteger("waste", waste);
+		tank.writeToNBT(nbt, "watz");
 		nbt.setShort("process", (short) process);
 		NBTTagList list = new NBTTagList();
 		
@@ -218,10 +222,6 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		return (power * i) / maxPower;
 	}
 	
-	public int getWasteScaled(int i) {
-		return (waste * i) / maxFill;
-	}
-	
 	public int getProgressScaled(int i) {
 		return (process * i) / processSpeed;
 	}
@@ -230,7 +230,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		
 		boolean b = false;
 		
-		if(waste > 0 && power > 0 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
+		if(tank.getFill() > 0 && power > 0 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
 		{
 			boolean flag0 = slots[1].getItem() == ModItems.ingot_magnetized_tungsten || slots[1].getItem() == ModItems.powder_magnetized_tungsten;
 			boolean flag1 = slots[3].getItem() == ModItems.ingot_advanced_alloy || slots[3].getItem() == ModItems.powder_advanced_alloy;
@@ -246,7 +246,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	}
 	
 	public void process() {
-		waste -= 1;
+		tank.setFill(tank.getFill() - 1);
 		power -= 15;
 		
 		process++;
@@ -282,15 +282,8 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			if(waste + 500 <= maxFill && slots[2] != null && slots[2].getItem() == ModItems.bucket_mud) {
-				waste += 500;
-				slots[2] = new ItemStack(slots[2].getItem().getContainerItem());
-			}
-			
-			if(waste + 500 <= maxFill && slots[2] != null && slots[2].getItem() == ModItems.tank_waste && slots[2].getItemDamage() > 0) {
-				waste += 500;
-				slots[2].setItemDamage(slots[2].getItemDamage() - 1);
-			}
+			tank.loadTank(2, 5, slots);
+			tank.updateTank(xCoord, yCoord, zCoord);
 
 			if (canProcess()) {
 				process();
@@ -321,5 +314,31 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	@Override
 	public int getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tank.getTankType().name()))
+			tank.setFill(i);
 	}
 }

@@ -234,7 +234,7 @@ public class ModBlocks {
 	public static Block machine_electric_furnace_on;
 	public static final int guiID_electric_furnace = 16;
 
-	public static Block machine_deuterium;
+	//public static Block machine_deuterium;
 	public static final int guiID_machine_deuterium = 20;
 
 	public static Block machine_battery;
@@ -592,7 +592,7 @@ public class ModBlocks {
 		machine_electric_furnace_off = new MachineElectricFurnace(false).setBlockName("machine_electric_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		machine_electric_furnace_on = new MachineElectricFurnace(true).setBlockName("machine_electric_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 
-		machine_deuterium = new MachineDeuterium(Material.iron).setBlockName("machine_deuterium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
+		//machine_deuterium = new MachineDeuterium(Material.iron).setBlockName("machine_deuterium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 
 		machine_battery = new MachineBattery(Material.iron).setBlockName("machine_battery").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		
@@ -958,7 +958,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_chemplant, machine_chemplant.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_fluidtank, machine_fluidtank.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
+		//GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_well, machine_well.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_pumpjack, machine_pumpjack.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_flare, machine_flare.getUnlocalizedName());

@@ -14,19 +14,18 @@ public class ContainerMachineCMBFactory extends Container {
 	private TileEntityMachineCMBFactory diFurnace;
 	private int power;
 	private int progress;
-	private int waste;
 	
 	public ContainerMachineCMBFactory(InventoryPlayer invPlayer, TileEntityMachineCMBFactory tedf) {
 		power = 0;
-		waste = 0;
 		
 		diFurnace = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 62, 17));
-		this.addSlotToContainer(new Slot(tedf, 1, 80, 17));
-		this.addSlotToContainer(new Slot(tedf, 2, 62, 53));
-		this.addSlotToContainer(new Slot(tedf, 3, 80, 53));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 134, 35));
+		this.addSlotToContainer(new Slot(tedf, 0, 62 + 9, 17));
+		this.addSlotToContainer(new Slot(tedf, 1, 80 + 9, 17));
+		this.addSlotToContainer(new Slot(tedf, 2, 62 + 9, 53));
+		this.addSlotToContainer(new Slot(tedf, 3, 80 + 9, 53));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 134 + 9, 35));
+		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 62 - 9, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -47,7 +46,6 @@ public class ContainerMachineCMBFactory extends Container {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.process);
-		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.waste);
 	}
 	
 	@Override
@@ -61,8 +59,8 @@ public class ContainerMachineCMBFactory extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 4) {
-				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true))
+            if (par2 <= 5) {
+				if (!this.mergeItemStack(var5, 6, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
@@ -108,16 +106,10 @@ public class ContainerMachineCMBFactory extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.process);
 			}
-			
-			if(this.progress != this.diFurnace.waste)
-			{
-				par1.sendProgressBarUpdate(this, 2, this.diFurnace.waste);
-			}
 		}
 
 		this.power = this.diFurnace.power;
 		this.progress = this.diFurnace.process;
-		this.waste = this.diFurnace.waste;
 	}
 	
 	@Override
@@ -129,10 +121,6 @@ public class ContainerMachineCMBFactory extends Container {
 		if(i == 1)
 		{
 			diFurnace.process = j;
-		}
-		if(i == 2)
-		{
-			diFurnace.waste = j;
 		}
 	}
 }

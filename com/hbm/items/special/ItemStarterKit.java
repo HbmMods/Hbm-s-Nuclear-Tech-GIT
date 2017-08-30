@@ -33,6 +33,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_centrifuge), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_reactor), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_assembler), 1));
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 6));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_red_copper, 16));
@@ -51,7 +52,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_copper, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tank_steel, 4));
 
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_uf6, 8));
@@ -65,7 +68,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_reactor), 3));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 2));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_puf6_tank), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_deuterium), 1));
+			//player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_deuterium), 1));
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_u235, 16));
@@ -134,25 +137,19 @@ public class ItemStarterKit extends Item {
 
 		if(this == ModItems.nuke_electric_kit)
 		{
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_coal_off), 4));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_coal_off), 2));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_diesel), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.red_cable), 64));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.red_cable), 64));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.red_wire_coated), 64));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_battery), 6));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off), 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_generic, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_generic, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_generic, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_generic, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_generic, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_generic, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_chemplant), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_red_cell_24, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_advanced_cell_4, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.energy_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.energy_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_aluminium, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_titanium, 32));
@@ -293,18 +290,8 @@ public class ItemStarterKit extends Item {
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.launch_pad), 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.designator, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.designator_range, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_schrabidium_cell_4, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_generic, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_strong, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_burst, 1));
@@ -321,6 +308,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear_cluster, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_doomsday, 1));
 		}
 		
 		if(this == ModItems.t45_kit)

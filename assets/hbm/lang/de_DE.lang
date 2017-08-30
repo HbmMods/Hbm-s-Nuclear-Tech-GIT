@@ -215,8 +215,10 @@ container.iGenerator=Industrieller Generator
 tile.machine_cyclotron.name=Zyklotron
 container.cyclotron=Zyklotron
 tile.machine_well.name=Ölbohrturm
+tile.machine_pumpjack.name=Pferdekopfpumpe
 tile.oil_pipe.name=Rohölrohr
 container.oilWell=Ölbohrturm
+container.pumpjack=Pferdekopfpumpe
 tile.machine_refinery.name=Ölraffinerie
 container.machineRefinery=Ölraffinerie
 tile.oil_duct.name=Ölrohr
@@ -303,6 +305,7 @@ tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator (WIP)
 tile.machine_rtg_blue.name=Konvektionsgenerator
 tile.machine_rtg_purple.name=Paarvernichtungsgenerator
 
+item.template_folder.name=Produktionsvorlagen-Zeichenmappe
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
 item.assembly_template.name=Fertigungsvorlage:
 item.chemistry_template.name=Chemievorlage:
@@ -578,6 +581,7 @@ item.upgrade_fortune_3.name=Lila Maschinenupgrade Mk.III
 
 item.fusion_core.name=Fusionskern
 item.energy_core.name=Selbstgebauter Energiekern
+item.fusion_core_infinite.name=Unendlicher Fusionskern
 
 item.plate_iron.name=Eisenplatte
 item.plate_lead.name=Bleiplatte

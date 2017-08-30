@@ -2083,13 +2083,13 @@ public class MachineRecipes {
 			list.add(new ItemStack(Blocks.iron_bars, 2));
 			list.add(new ItemStack(ModBlocks.red_wire_coated, 1));
 			break;
-		case DEUTERIUM_EXTRACTOR:
+		/*case DEUTERIUM_EXTRACTOR:
 			list.add(new ItemStack(ModItems.ingot_titanium, 4));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
 			list.add(new ItemStack(ModItems.wire_red_copper, 4));
 			list.add(new ItemStack(ModItems.tank_steel, 2));
 			list.add(new ItemStack(ModItems.coil_tungsten, 4));
-			break;
+			break;*/
 		case DERRICK:
 			list.add(new ItemStack(ModBlocks.steel_scaffold, 20));
 			list.add(new ItemStack(ModBlocks.steel_beam, 8));
@@ -2451,9 +2451,9 @@ public class MachineRecipes {
 		case SHREDDER:
 			output = new ItemStack(ModBlocks.machine_shredder, 1);
 			break;
-		case DEUTERIUM_EXTRACTOR:
-			output = new ItemStack(ModBlocks.machine_deuterium, 1);
-			break;
+		//case DEUTERIUM_EXTRACTOR:
+		//	output = new ItemStack(ModBlocks.machine_deuterium, 1);
+		//	break;
 		case DERRICK:
 			output = new ItemStack(ModBlocks.machine_well, 1);
 			break;

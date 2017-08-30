@@ -215,8 +215,10 @@ container.iGenerator=Industrial Generator
 tile.machine_cyclotron.name=Cyclotron
 container.cyclotron=Cyclotron
 tile.machine_well.name=Oil Derrick
+tile.machine_pumpjack.name=Pumpjack
 tile.oil_pipe.name=Crude Oil Extraction Pipe
 container.oilWell=Oil Derrick
+container.pumpjack=Pumpjack
 tile.machine_refinery.name=Oil Refinery
 container.machineRefinery=Oil Refinery
 tile.oil_duct.name=Oil Pipe
@@ -303,6 +305,7 @@ tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 
+item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier
 item.assembly_template.name=Assembly Template:
 item.chemistry_template.name=Chemistry Template:
@@ -578,6 +581,7 @@ item.upgrade_fortune_3.name=Purple Machine Upgrade Mk.III
 
 item.fusion_core.name=Fusion Core
 item.energy_core.name=Makeshift Energy Core
+item.fusion_core_infinite.name=Infinite Fusion Core
 
 item.plate_iron.name=Iron Plate
 item.plate_lead.name=Lead Plate
