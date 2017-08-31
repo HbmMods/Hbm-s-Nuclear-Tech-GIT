@@ -467,7 +467,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 					this.tanks[1].setFill(tanks[1].getFill() - 2);
 				}
 				
-				if(this.heat < 10 && this.tanks[1].getFill() != 0)
+				if(this.heat < 10 && heat != 0 && this.tanks[1].getFill() != 0)
 				{
 					this.heat--;
 					this.tanks[1].setFill(tanks[1].getFill() - 1);
@@ -500,7 +500,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public void attemptHeat(int i) {
 		Random rand = new Random();
 		
-		int j = rand.nextInt(i);
+		int j = rand.nextInt(i + 1);
 		
 		if(this.tanks[1].getFill() - j >= 0)
 		{
