@@ -130,8 +130,8 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[0]) || 
-					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[1]) || 
+			if (compareFluidStacks(result, (ItemStack)recipe.getValue()[0]) || 
+					compareFluidStacks(result, (ItemStack)recipe.getValue()[1]) || 
 					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[2]) || 
 					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[3]) || 
 					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[4]) || 
@@ -166,8 +166,8 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object[], Object[]> recipes = MachineRecipes.instance().getChemistryRecipes();
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[0]) || 
-					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[1]) || 
+			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[0]) || 
+					compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[1]) || 
 					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[2]) || 
 					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[3]) || 
 					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[4]) || 
@@ -188,6 +188,10 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 						(ItemStack)recipe.getValue()[5],
 						(ItemStack)recipe.getKey()[6]));			
 		}
+	}
+	
+	private boolean compareFluidStacks(ItemStack sta1, ItemStack sta2) {
+		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage();
 	}
 
     @Override

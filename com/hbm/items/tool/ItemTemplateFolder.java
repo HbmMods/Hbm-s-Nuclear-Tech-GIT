@@ -1,5 +1,7 @@
 package com.hbm.items.tool;
 
+import java.util.List;
+
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -19,6 +21,13 @@ public class ItemTemplateFolder extends Item {
 			player.openGui(MainRegistry.instance, ModItems.guiID_item_folder, world, 0, 0, 0);
 		
 		return stack;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add("Machine Templates: Paper + Dye");
+		list.add("Fluid IDs: Iron Plate + Dye");
 	}
 
 }

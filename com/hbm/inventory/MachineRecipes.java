@@ -18,6 +18,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class MachineRecipes {
@@ -2463,7 +2464,7 @@ public class MachineRecipes {
 		case REFINERY:
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
-		case CHEMPLANT:
+		/*case CHEMPLANT:
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
 		case TANK:
@@ -2612,7 +2613,7 @@ public class MachineRecipes {
 			break;
 		case MISSILE_BUSTER_2:
 			output = new ItemStack(ModItems.missile_buster_strong, 1);
-			break;
+			break;*/
 		default:
 			output = new ItemStack(Items.stick, 1);
 			break;
@@ -2692,12 +2693,32 @@ public class MachineRecipes {
 	public Map<Object, Object[]> getRefineryRecipe() {
 
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+
+		ItemStack oil = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.OIL));
+		oil.stackTagCompound = new NBTTagCompound();
+		oil.stackTagCompound.setInteger("fill", 1000);
 		
-        recipes.put(new ItemStack(ModItems.canister_oil, 1) , new ItemStack[] { 
-        		new ItemStack(ModItems.canister_heavyoil, 1), 
-        		new ItemStack(ModItems.canister_naphtha, 1), 
-        		new ItemStack(ModItems.canister_lightoil, 1), 
-        		new ItemStack(ModItems.gas_petroleum, 1), 
+		ItemStack heavy = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.HEAVYOIL));
+		heavy.stackTagCompound = new NBTTagCompound();
+		heavy.stackTagCompound.setInteger("fill", 500);
+		
+		ItemStack naphtha = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.NAPHTHA));
+		naphtha.stackTagCompound = new NBTTagCompound();
+		naphtha.stackTagCompound.setInteger("fill", 250);
+		
+		ItemStack light = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.LIGHTOIL));
+		light.stackTagCompound = new NBTTagCompound();
+		light.stackTagCompound.setInteger("fill", 150);
+		
+		ItemStack petroleum = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.PETROLEUM));
+		petroleum.stackTagCompound = new NBTTagCompound();
+		petroleum.stackTagCompound.setInteger("fill", 100);
+		
+        recipes.put(oil , new ItemStack[] { 
+        		heavy, 
+        		naphtha, 
+        		light, 
+        		petroleum, 
         		new ItemStack(ModItems.sulfur, 1) });
 		
 		return recipes;

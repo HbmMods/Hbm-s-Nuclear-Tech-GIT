@@ -71,6 +71,17 @@ public class BlockOre extends Block {
 		{
 			return rand.nextInt(10) == 0 ? ModItems.plate_dalekanium : Item.getItemFromBlock(ModBlocks.block_meteor);
 		}
+		if(this == ModBlocks.ore_rare)
+		{
+			switch(rand.nextInt(6)) {
+			case 0: return ModItems.fragment_actinium;
+			case 1: return ModItems.fragment_cerium;
+			case 2: return ModItems.fragment_cobalt;
+			case 3: return ModItems.fragment_lanthanium;
+			case 4: return ModItems.fragment_neodymium;
+			case 5: return ModItems.fragment_niobium;
+			}
+		}
 		
 		return Item.getItemFromBlock(this);
     }
@@ -93,6 +104,10 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_nether_fire)
 		{
 			return 2 + p_149745_1_.nextInt(3);
+		}
+		if(this == ModBlocks.ore_rare)
+		{
+			return 2 + p_149745_1_.nextInt(4);
 		}
     	
     	return 1;

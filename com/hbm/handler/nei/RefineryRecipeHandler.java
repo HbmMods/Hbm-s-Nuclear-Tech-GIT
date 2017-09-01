@@ -90,7 +90,10 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
 		if ((outputId.equals("refinery")) && getClass() == RefineryRecipeHandler.class) {
 			Map<Object, Object[]> recipes = MachineRecipes.instance().getRefineryRecipe();
 			for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3], (ItemStack)recipe.getValue()[4]));
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 
+						(ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], 
+						(ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3], 
+						(ItemStack)recipe.getValue()[4]));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -101,8 +104,15 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
 	public void loadCraftingRecipes(ItemStack result) {
 		Map<Object, Object[]> recipes = MachineRecipes.instance().getRefineryRecipe();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[0], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[1], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[2], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[3], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[4], result))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3], (ItemStack)recipe.getValue()[4]));
+			if (compareFluidStacks((ItemStack)recipe.getValue()[0], result) || 
+					compareFluidStacks((ItemStack)recipe.getValue()[1], result) || 
+					compareFluidStacks((ItemStack)recipe.getValue()[2], result) || 
+					compareFluidStacks((ItemStack)recipe.getValue()[3], result) || 
+					compareFluidStacks((ItemStack)recipe.getValue()[4], result))
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 
+						(ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], 
+						(ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3], 
+						(ItemStack)recipe.getValue()[4]));
 		}
 	}
 
@@ -119,9 +129,16 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler {
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object[]> recipes = MachineRecipes.instance().getRefineryRecipe();
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3], (ItemStack)recipe.getValue()[4]));				
+			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()))
+				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), 
+						(ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], 
+						(ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3], 
+						(ItemStack)recipe.getValue()[4]));				
 		}
+	}
+	
+	private boolean compareFluidStacks(ItemStack sta1, ItemStack sta2) {
+		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage();
 	}
 
     @Override

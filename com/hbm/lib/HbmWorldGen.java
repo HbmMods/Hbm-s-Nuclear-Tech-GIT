@@ -180,6 +180,14 @@ public class HbmWorldGen implements IWorldGenerator {
 				(new WorldGenMinable(ModBlocks.ore_verticium, 16)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
+		for (int k = 0; k < MainRegistry.niterSpawn; k++) {
+			int randPosX = i + rand.nextInt(16);
+			int randPosY = rand.nextInt(25);
+			int randPosZ = j + rand.nextInt(16);
+
+			(new WorldGenMinable(ModBlocks.ore_rare, 5)).generate(world, rand, randPosX, randPosY, randPosZ);
+		}
+
 		if (MainRegistry.enableBarrels && rand.nextInt(5) == 0) {
 			for (int k = 0; k < 1; k++) {
 				int randPosX = i + rand.nextInt(16);

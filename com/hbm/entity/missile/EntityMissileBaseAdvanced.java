@@ -78,7 +78,12 @@ public abstract class EntityMissileBaseAdvanced extends Entity {
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
+		motionX = nbt.getDouble("moX");
+		motionY = nbt.getDouble("moY");
+		motionZ = nbt.getDouble("moZ");
+		posX = nbt.getDouble("poX");
+		posY = nbt.getDouble("poY");
+		posZ = nbt.getDouble("poZ");
 		decelY = nbt.getDouble("decel");
 		accelXZ = nbt.getDouble("accel");
 		targetX = nbt.getInteger("tX");
@@ -89,7 +94,12 @@ public abstract class EntityMissileBaseAdvanced extends Entity {
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+		nbt.setDouble("moX", motionX);
+		nbt.setDouble("moY", motionY);
+		nbt.setDouble("moZ", motionZ);
+		nbt.setDouble("poX", posX);
+		nbt.setDouble("poY", posY);
+		nbt.setDouble("poZ", posZ);
 		nbt.setDouble("decel", decelY);
 		nbt.setDouble("accel", accelXZ);
 		nbt.setInteger("tX", targetX);
