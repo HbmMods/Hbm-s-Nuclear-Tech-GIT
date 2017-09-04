@@ -237,6 +237,8 @@ container.chemplant=Chemiefabrik
 tile.fluid_duct.name=Universelles Flüssigkeitsrohr
 tile.machine_fluidtank.name=Tank
 container.fluidtank=Tank
+tile.machine_turbofan.name=Turbofan
+container.turbofan=Turbofan
 
 tile.crate_iron.name=Eisenkiste
 tile.crate_steel.name=Stahlkiste
@@ -451,6 +453,7 @@ tile.ore_reiium.name=Reiit
 tile.ore_unobtainium.name=Glimmerblende
 tile.ore_daffergon.name=Dellit
 tile.ore_verticium.name=Dollargrünes Mineral
+tile.ore_rare.name=Seltenerden-Erz
 
 tile.ore_oil.name=Ölvorkommen
 tile.ore_oil_empty.name=Leeres Ölvorkommen
@@ -1135,6 +1138,11 @@ item.elec_sword.name=Elektroimpulswaffe
 item.elec_pickaxe.name=Schlagbohrmaschine
 item.elec_axe.name=Elektrische Kettensäge
 item.elec_shovel.name=Spiralbohrer
+item.desh_sword.name=Arbeitslegierungsschwert
+item.desh_pickaxe.name=Arbeitslegierungsspitzhacke
+item.desh_axe.name=Arbeitslegierungsaxt
+item.desh_shovel.name=Arbeitslegierungsschaufel
+item.desh_hoe.name=Arbeitslegierungsfeldhacke
 
 tile.red_cable.name=Rotes Kupferkabel
 tile.block_meteor.name=Meteoritenblock
@@ -1151,9 +1159,13 @@ tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter
 
 item.schrabidium_hammer.name=Schrabidiumhammer
+item.shimmer_sledge.name=Shimmer Sledge
 item.euphemium_stopper.name=Stopper
 item.matchstick.name=Streichholz
 item.remote.name=Kaputte Fernbedienung
+
+item.shimmer_head.name=Schwerer Hammerkopf
+item.shimmer_handle.name=Verstärketer Polymergriff
 
 item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder

@@ -215,6 +215,7 @@ import com.hbm.render.tileentity.RenderTestBombAdvanced;
 import com.hbm.render.tileentity.RenderTestContainer;
 import com.hbm.render.tileentity.RenderTestMissile;
 import com.hbm.render.tileentity.RenderTestRender;
+import com.hbm.render.tileentity.RenderTurbofan;
 import com.hbm.render.tileentity.RenderUF6Tank;
 import com.hbm.render.tileentity.RenderYellowBarrel;
 import com.hbm.render.tileentity.RendererObjTester;
@@ -245,6 +246,7 @@ import com.hbm.tileentity.TileEntityMachineGasFlare;
 import com.hbm.tileentity.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.TileEntityMachinePumpjack;
 import com.hbm.tileentity.TileEntityMachineRefinery;
+import com.hbm.tileentity.TileEntityMachineTurbofan;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.TileEntityNukeBoy;
 import com.hbm.tileentity.TileEntityNukeCustom;
@@ -317,6 +319,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretFlamer.class, new RenderFlamerTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTau.class, new RenderTauTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePumpjack.class, new RenderPumpjack());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineTurbofan.class, new RenderTurbofan());
 
 		//RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRocket.class, new RenderSnowball(ModItems.man_core));

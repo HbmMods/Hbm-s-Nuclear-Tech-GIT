@@ -2118,6 +2118,334 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.wire_red_copper, 8));
 			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
 			break;
+		case CHEMPLANT:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.plate_copper, 6));
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.tank_steel, 4));
+			list.add(new ItemStack(ModItems.hull_big_steel, 1));
+			list.add(new ItemStack(ModItems.wire_red_copper, 16));
+			list.add(new ItemStack(ModItems.wire_tungsten, 3));
+			list.add(new ItemStack(ModItems.circuit_copper, 4));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 2));
+			break;
+		case TANK:
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(ModItems.hull_big_steel, 4));
+			break;
+		case MINER:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.wire_red_copper, 4));
+			list.add(new ItemStack(ModItems.circuit_copper, 2));
+			list.add(new ItemStack(ModItems.motor, 1));
+			list.add(new ItemStack(ModItems.ingot_dura_steel, 6));
+			list.add(new ItemStack(ModItems.bolt_dura_steel, 2));
+			list.add(new ItemStack(ModItems.drill_titanium, 1));
+			break;
+		case SCHRABTRANS:
+			list.add(new ItemStack(ModItems.ingot_titanium, 6));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 12));
+			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
+			list.add(new ItemStack(ModItems.telepad, 1));
+			list.add(new ItemStack(ModItems.entanglement_kit, 1));
+			list.add(new ItemStack(ModBlocks.machine_battery, 5));
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 4));
+			break;
+		case CMB_FURNACE:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.plate_titanium, 4));
+			list.add(new ItemStack(ModItems.plate_copper, 6));
+			list.add(new ItemStack(ModItems.circuit_gold, 6));
+			list.add(new ItemStack(ModItems.coil_advanced_alloy, 8));
+			list.add(new ItemStack(ModItems.coil_tungsten, 4));
+			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 12));
+			break;
+		case FA_HULL:
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 6));
+			break;
+		case FA_HATCH:
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 8));
+			list.add(new ItemStack(ModItems.coil_advanced_alloy, 2));
+			break;
+		case FA_CORE:
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 6));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 6));
+			list.add(new ItemStack(ModItems.plate_steel, 8));
+			list.add(new ItemStack(ModItems.coil_advanced_alloy, 2));
+			list.add(new ItemStack(ModItems.motor, 16));
+			list.add(new ItemStack(Blocks.piston, 6));
+			break;
+		case FA_PORT:
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 8));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 6));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.fuse, 6));
+			break;
+		case LR_ELEMENT:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.neutron_reflector, 2));
+			list.add(new ItemStack(ModItems.plate_lead, 2));
+			list.add(new ItemStack(ModItems.rod_empty, 3));
+			break;
+		case LR_HATCH:
+			list.add(new ItemStack(ModBlocks.brick_concrete, 1));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			break;
+		case LR_PORT:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 4));
+			list.add(new ItemStack(ModItems.fuse, 6));
+			break;
+		case LR_CORE:
+			list.add(new ItemStack(ModBlocks.reactor_conductor, 2));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 12));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			break;
+		case LF_MAGNET:
+			list.add(new ItemStack(ModItems.plate_steel, 10));
+			list.add(new ItemStack(ModItems.coil_advanced_alloy, 5));
+			break;
+		case LF_CENTER:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 24));
+			break;
+		case LF_MOTOR:
+			list.add(new ItemStack(ModItems.ingot_titanium, 4));
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.motor, 4));
+			break;
+		case LF_HEATER:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 4));
+			list.add(new ItemStack(ModItems.neutron_reflector, 6));
+			list.add(new ItemStack(ModItems.magnetron, 4));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 4));
+			break;
+		case LF_HATCH:
+			list.add(new ItemStack(ModBlocks.fusion_heater, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case LF_CORE:
+			list.add(new ItemStack(ModBlocks.fusion_center, 3));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 48));
+			list.add(new ItemStack(ModItems.circuit_gold, 12));
+			break;
+		case LW_ELEMENT:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 4));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 6));
+			list.add(new ItemStack(ModItems.rod_empty, 4));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 2));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
+			break;
+		case LW_CONTROL:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 4));
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.ingot_lead, 2));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
+			list.add(new ItemStack(ModItems.circuit_copper, 2));
+			break;
+		case LW_COOLER:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 2));
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.niter, 6));
+			list.add(new ItemStack(ModItems.powder_quartz, 4));
+			break;
+		case LW_STRUTURE:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 2));
+			list.add(new ItemStack(ModItems.ingot_lead, 2));
+			list.add(new ItemStack(ModItems.ingot_steel, 5));
+			break;
+		case LW_HATCH:
+			list.add(new ItemStack(ModBlocks.reinforced_brick, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case LW_PORT:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 2));
+			list.add(new ItemStack(ModItems.ingot_lead, 2));
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 6));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 2));
+			list.add(new ItemStack(ModItems.fuse, 4));
+			break;
+		case LW_CORE:
+			list.add(new ItemStack(ModBlocks.block_meteor, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 8));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 2));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 12));
+			break;
+		case FW_MAGNET:
+			list.add(new ItemStack(ModItems.plate_combine_steel, 10));
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 5));
+			break;
+		case FW_COMPUTER:
+			list.add(new ItemStack(ModBlocks.block_meteor, 1));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 16));
+			list.add(new ItemStack(ModItems.powder_diamond, 6));
+			list.add(new ItemStack(ModItems.powder_magnetized_tungsten, 6));
+			list.add(new ItemStack(ModItems.powder_desh, 4));
+			break;
+		case FW_CORE:
+			list.add(new ItemStack(ModBlocks.block_meteor, 1));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 24));
+			list.add(new ItemStack(ModItems.powder_diamond, 8));
+			list.add(new ItemStack(ModItems.powder_magnetized_tungsten, 12));
+			list.add(new ItemStack(ModItems.powder_desh, 8));
+			list.add(new ItemStack(ModItems.upgrade_power_3, 1));
+			list.add(new ItemStack(ModItems.upgrade_speed_3, 1));
+			break;
+		case GADGET:
+			list.add(new ItemStack(ModItems.sphere_steel, 1));
+			list.add(new ItemStack(ModItems.fins_flat, 2));
+			list.add(new ItemStack(ModItems.pedestal_steel, 1));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
+			list.add(new ItemStack(ModItems.wire_gold, 6));
+			list.add(new ItemStack(Items.dye, 6, 8));
+			break;
+		case LITTLE_BOY:
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.fins_small_steel, 1));
+			list.add(new ItemStack(ModItems.circuit_copper, 1));
+			list.add(new ItemStack(ModItems.wire_aluminium, 6));
+			list.add(new ItemStack(Items.dye, 4, 4));
+			break;
+		case FAT_MAN:
+			list.add(new ItemStack(ModItems.sphere_steel, 1));
+			list.add(new ItemStack(ModItems.hull_big_steel, 2));
+			list.add(new ItemStack(ModItems.fins_big_steel, 1));
+			list.add(new ItemStack(ModItems.circuit_copper, 1));
+			list.add(new ItemStack(ModItems.wire_copper, 6));
+			list.add(new ItemStack(Items.dye, 6, 11));
+			break;
+		case IVY_MIKE:
+			list.add(new ItemStack(ModItems.sphere_steel, 1));
+			list.add(new ItemStack(ModItems.hull_big_aluminium, 4));
+			list.add(new ItemStack(ModItems.cap_aluminium, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.wire_gold, 18));
+			list.add(new ItemStack(Items.dye, 12, 7));
+			break;
+		case TSAR_BOMB:
+			list.add(new ItemStack(ModItems.sphere_steel, 1));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 6));
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.fins_tri_steel, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 6));
+			list.add(new ItemStack(ModItems.wire_gold, 24));
+			list.add(new ItemStack(ModItems.wire_tungsten, 12));
+			list.add(new ItemStack(Items.dye, 6, 0));
+			break;
+		case PROTOTYPE:
+			list.add(new ItemStack(ModItems.dysfunctional_reactor, 1));
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.ingot_euphemium, 3, 34));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.wire_gold, 16));
+			break;
+		case FLEIJA:
+			list.add(new ItemStack(ModItems.hull_small_aluminium, 1));
+			list.add(new ItemStack(ModItems.fins_quad_titanium, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.wire_gold, 8));
+			list.add(new ItemStack(Items.dye, 4, 15));
+			break;
+		case CUSTOM_NUKE:
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.fins_small_steel, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 1));
+			list.add(new ItemStack(ModItems.wire_gold, 12));
+			list.add(new ItemStack(Items.dye, 4, 8));
+			break;
+		case BOMB_LEV:
+			list.add(new ItemStack(ModItems.plate_titanium, 12));
+			list.add(new ItemStack(ModItems.levitation_unit, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.wire_gold, 6));
+			break;
+		case BOMB_ENDO:
+			list.add(new ItemStack(ModItems.plate_titanium, 12));
+			list.add(new ItemStack(ModItems.thermo_unit_endo, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.wire_gold, 6));
+			break;
+		case BOMB_EXO:
+			list.add(new ItemStack(ModItems.plate_titanium, 12));
+			list.add(new ItemStack(ModItems.thermo_unit_exo, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.wire_gold, 6));
+			break;
+		case LAUNCH_PAD:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModBlocks.machine_battery, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			break;
+		case HUNTER_CHOPPER:
+			list.add(new ItemStack(ModItems.chopper_blades, 5));
+			list.add(new ItemStack(ModItems.chopper_gun, 1));
+			list.add(new ItemStack(ModItems.chopper_head, 1));
+			list.add(new ItemStack(ModItems.chopper_tail, 1));
+			list.add(new ItemStack(ModItems.chopper_torso, 1));
+			list.add(new ItemStack(ModItems.chopper_wing, 2));
+			break;
+		case MISSILE_HE_1:
+			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
+			list.add(new ItemStack(ModItems.thruster_small, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case MISSILE_FIRE_1:
+			list.add(new ItemStack(ModItems.warhead_incendiary_small, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
+			list.add(new ItemStack(ModItems.thruster_small, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case MISSILE_CLUSTER_1:
+			list.add(new ItemStack(ModItems.warhead_cluster_small, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
+			list.add(new ItemStack(ModItems.thruster_small, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case MISSILE_BUSTER_1:
+			list.add(new ItemStack(ModItems.warhead_buster_small, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
+			list.add(new ItemStack(ModItems.thruster_small, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			break;
+		case MISSILE_HE_2:
+			list.add(new ItemStack(ModItems.warhead_generic_medium, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_medium, 1));
+			list.add(new ItemStack(ModItems.thruster_medium, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 10));
+			list.add(new ItemStack(ModItems.plate_steel, 14));
+			break;
+		case MISSILE_FIRE_2:
+			list.add(new ItemStack(ModItems.warhead_incendiary_medium, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_medium, 1));
+			list.add(new ItemStack(ModItems.thruster_medium, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 10));
+			list.add(new ItemStack(ModItems.plate_steel, 14));
+			break;
+		case MISSILE_CLUSTER_2:
+			list.add(new ItemStack(ModItems.warhead_cluster_medium, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_medium, 1));
+			list.add(new ItemStack(ModItems.thruster_medium, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 10));
+			list.add(new ItemStack(ModItems.plate_steel, 14));
+			break;
+		case MISSILE_BUSTER_2:
+			list.add(new ItemStack(ModItems.warhead_buster_medium, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_medium, 1));
+			list.add(new ItemStack(ModItems.thruster_medium, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 10));
+			list.add(new ItemStack(ModItems.plate_steel, 14));
+			break;
 		default:
 			list.add(new ItemStack(Items.stick));
 			break;
@@ -2464,7 +2792,7 @@ public class MachineRecipes {
 		case REFINERY:
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
-		/*case CHEMPLANT:
+		case CHEMPLANT:
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
 		case TANK:
@@ -2613,7 +2941,7 @@ public class MachineRecipes {
 			break;
 		case MISSILE_BUSTER_2:
 			output = new ItemStack(ModItems.missile_buster_strong, 1);
-			break;*/
+			break;
 		default:
 			output = new ItemStack(Items.stick, 1);
 			break;

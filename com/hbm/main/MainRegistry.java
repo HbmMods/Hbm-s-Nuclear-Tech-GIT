@@ -172,6 +172,7 @@ import com.hbm.tileentity.TileEntityMachineRefinery;
 import com.hbm.tileentity.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.TileEntityMachineShredder;
 import com.hbm.tileentity.TileEntityMachineTeleporter;
+import com.hbm.tileentity.TileEntityMachineTurbofan;
 import com.hbm.tileentity.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.TileEntityNukeBoy;
 import com.hbm.tileentity.TileEntityNukeCustom;
@@ -237,6 +238,7 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
 	public static ToolMaterial enumToolMaterialCmb = EnumHelper.addToolMaterial("CMB", 3, 8500, 40.0F, 55F, 100);
 	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 4700, 30.0F, 12.0F, 2);
+	public static ToolMaterial enumToolMaterialDesh = EnumHelper.addToolMaterial("DESH", 2, 0, 7.5F, 2.0F, 10);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
@@ -246,6 +248,7 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialPipeLead = EnumHelper.addToolMaterial("PIPELEAD", 1, 250, 1.5F, 5.5F, 25);
 
 	public static ToolMaterial enumToolMaterialBottleOpener = EnumHelper.addToolMaterial("OPENER", 1, 250, 1.5F, 0.5F, 200);
+	public static ToolMaterial enumToolMaterialSledge = EnumHelper.addToolMaterial("SHIMMERSLEDGE", 1, 0, 25.0F, 26F, 200);
 
 	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F, 25);
 	
@@ -407,6 +410,7 @@ public class MainRegistry
 		enumToolMaterialAlloy.setRepairItem(new ItemStack(ModItems.ingot_advanced_alloy));
 		enumToolMaterialCmb.setRepairItem(new ItemStack(ModItems.ingot_combine_steel));
 		enumToolMaterialBottleOpener.setRepairItem(new ItemStack(ModItems.plate_steel));
+		enumToolMaterialDesh.setRepairItem(new ItemStack(ModItems.ingot_desh));
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GUIHandler());
 		GameRegistry.registerTileEntity(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -485,6 +489,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTurretFlamer.class, "tileentity_turret_flamer");
 		GameRegistry.registerTileEntity(TileEntityTurretTau.class, "tileentity_turret_tau");
 		GameRegistry.registerTileEntity(TileEntityMachinePumpjack.class, "tileentity_machine_pumpjack");
+		GameRegistry.registerTileEntity(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -630,6 +635,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotPolymer", ModItems.ingot_polymer);
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
+		OreDictionary.registerOre("ingotDesh", ModItems.ingot_desh);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -696,6 +702,20 @@ public class MainRegistry
 		OreDictionary.registerOre("dustPolymer", ModItems.powder_polymer);
 		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
 		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
+		OreDictionary.registerOre("dustDesh", ModItems.powder_desh);
+
+		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
+		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
+		OreDictionary.registerOre("dustThorium", ModItems.powder_thorium);
+		OreDictionary.registerOre("dustAstatine", ModItems.powder_astatine);
+		OreDictionary.registerOre("dustNeodymium", ModItems.powder_neodymium);
+		OreDictionary.registerOre("dustCaesium", ModItems.powder_caesium);
+		OreDictionary.registerOre("dustStrontium", ModItems.powder_strontium);
+		OreDictionary.registerOre("dustCobalt", ModItems.fragment_cobalt);
+		OreDictionary.registerOre("dustBromine", ModItems.powder_bromine);
+		OreDictionary.registerOre("dustNiobium", ModItems.fragment_niobium);
+		OreDictionary.registerOre("dustTennessine", ModItems.powder_tennessine);
+		OreDictionary.registerOre("dustCerium", ModItems.powder_cerium);
 
 		OreDictionary.registerOre("gemCoal", Items.coal);
 
@@ -748,6 +768,7 @@ public class MainRegistry
 		OreDictionary.registerOre("blockUnobtainium", ModBlocks.block_unobtainium);
 		OreDictionary.registerOre("blockDaffergon", ModBlocks.block_daffergon);
 		OreDictionary.registerOre("blockVerticium", ModBlocks.block_verticium);
+		OreDictionary.registerOre("blockDesh", ModBlocks.block_desh);
 	}
 	
 	@EventHandler

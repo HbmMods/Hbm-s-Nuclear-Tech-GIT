@@ -51,8 +51,6 @@ public class ItemFolderPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(ItemFolderPacket m, MessageContext ctx) {
-
-			List<EntityPlayer> list = Minecraft.getMinecraft().theWorld.playerEntities;
 			
 			//if(!Minecraft.getMinecraft().theWorld.isRemote)
 					EntityPlayer p = ctx.getServerHandler().playerEntity;

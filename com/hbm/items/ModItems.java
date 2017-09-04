@@ -300,6 +300,9 @@ public class ModItems {
 	public static Item chopper_blades;
 	public static Item combine_scrap;
 
+	public static Item shimmer_head;
+	public static Item shimmer_handle;
+
 	public static Item telepad;
 	public static Item entanglement_kit;
 
@@ -808,12 +811,18 @@ public class ModItems {
 	public static Item elec_pickaxe;
 	public static Item elec_axe;
 	public static Item elec_shovel;
+	public static Item desh_sword;
+	public static Item desh_pickaxe;
+	public static Item desh_axe;
+	public static Item desh_shovel;
+	public static Item desh_hoe;
 
 	public static Item matchstick;
 	
 	public static Item mask_of_infamy;
 
 	public static Item schrabidium_hammer;
+	public static Item shimmer_sledge;
 	public static Item bottle_opener;
 
 	public static Item crowbar;
@@ -1259,6 +1268,9 @@ public class ModItems {
 		chopper_wing = new Item().setUnlocalizedName("chopper_wing").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":chopper_wing");
 		chopper_blades = new Item().setUnlocalizedName("chopper_blades").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":chopper_blades");
 		combine_scrap = new Item().setUnlocalizedName("combine_scrap").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":combine_scrap");
+
+		shimmer_head = new Item().setUnlocalizedName("shimmer_head").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_head");
+		shimmer_handle = new Item().setUnlocalizedName("shimmer_handle").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_handle");
 
 		telepad = new Item().setUnlocalizedName("telepad").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":telepad");
 		entanglement_kit = new Item().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":entanglement_kit");
@@ -1808,6 +1820,11 @@ public class ModItems {
 		elec_pickaxe = new ModPickaxe(MainRegistry.enumToolMaterialElec).setUnlocalizedName("elec_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":elec_drill_anim");
 		elec_axe = new ModAxe(MainRegistry.enumToolMaterialElec).setUnlocalizedName("elec_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":elec_chainsaw_anim");
 		elec_shovel = new ModSpade(MainRegistry.enumToolMaterialElec).setUnlocalizedName("elec_shovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":elec_shovel_anim");
+		desh_sword = new ModSword(MainRegistry.enumToolMaterialDesh).setUnlocalizedName("desh_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":desh_sword");
+		desh_pickaxe = new ModPickaxe(MainRegistry.enumToolMaterialDesh).setUnlocalizedName("desh_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":desh_pickaxe");
+		desh_axe = new ModAxe(MainRegistry.enumToolMaterialDesh).setUnlocalizedName("desh_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":desh_axe");
+		desh_shovel = new ModSpade(MainRegistry.enumToolMaterialDesh).setUnlocalizedName("desh_shovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":desh_shovel");
+		desh_hoe = new ModHoe(MainRegistry.enumToolMaterialDesh).setUnlocalizedName("desh_hoe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":desh_hoe");
 		
 		mask_of_infamy = new MaskOfInfamy(ArmorMaterial.IRON, 8, 0).setUnlocalizedName("mask_of_infamy").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_of_infamy");
 
@@ -1834,6 +1851,7 @@ public class ModItems {
 		cape_vertice = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_vertice").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
 		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
+		shimmer_sledge = new WeaponSpecial(MainRegistry.enumToolMaterialSledge).setUnlocalizedName("shimmer_sledge").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":shimmer_sledge");
 		bottle_opener = new WeaponSpecial(MainRegistry.enumToolMaterialBottleOpener).setUnlocalizedName("bottle_opener").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":bottle_opener");
 		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
 		matchstick = new ItemMatch().setUnlocalizedName("matchstick").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":matchstick");
@@ -2239,6 +2257,10 @@ public class ModItems {
 		GameRegistry.registerItem(chopper_wing, chopper_wing.getUnlocalizedName());
 		GameRegistry.registerItem(chopper_blades, chopper_blades.getUnlocalizedName());
 		GameRegistry.registerItem(combine_scrap, combine_scrap.getUnlocalizedName());
+		
+		//Hammer Parts
+		GameRegistry.registerItem(shimmer_head, shimmer_head.getUnlocalizedName());
+		GameRegistry.registerItem(shimmer_handle, shimmer_handle.getUnlocalizedName());
 		
 		//Circuits
 		GameRegistry.registerItem(circuit_aluminium, circuit_aluminium.getUnlocalizedName());
@@ -2671,6 +2693,7 @@ public class ModItems {
 		//Tools
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_hammer, schrabidium_hammer.getUnlocalizedName());
+		GameRegistry.registerItem(shimmer_sledge, shimmer_sledge.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_pickaxe, schrabidium_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_axe, schrabidium_axe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_shovel, schrabidium_shovel.getUnlocalizedName());
@@ -2695,6 +2718,11 @@ public class ModItems {
 		GameRegistry.registerItem(cmb_axe, cmb_axe.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_shovel, cmb_shovel.getUnlocalizedName());
 		GameRegistry.registerItem(cmb_hoe, cmb_hoe.getUnlocalizedName());
+		GameRegistry.registerItem(desh_sword, desh_sword.getUnlocalizedName());
+		GameRegistry.registerItem(desh_pickaxe, desh_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(desh_axe, desh_axe.getUnlocalizedName());
+		GameRegistry.registerItem(desh_shovel, desh_shovel.getUnlocalizedName());
+		GameRegistry.registerItem(desh_hoe, desh_hoe.getUnlocalizedName());
 		GameRegistry.registerItem(elec_sword, elec_sword.getUnlocalizedName());
 		GameRegistry.registerItem(elec_pickaxe, elec_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(elec_axe, elec_axe.getUnlocalizedName());

@@ -237,6 +237,8 @@ container.chemplant=Chemical Plant
 tile.fluid_duct.name=Universal Fluid Duct
 tile.machine_fluidtank.name=Tank
 container.fluidtank=Tank
+tile.machine_turbofan.name=Turbofan
+container.turbofan=Turbofan
 
 tile.crate_iron.name=Iron Crate
 tile.crate_steel.name=Steel Crate
@@ -451,6 +453,7 @@ tile.ore_reiium.name=Reiite
 tile.ore_unobtainium.name=Brightblende Ore
 tile.ore_daffergon.name=Dellite
 tile.ore_verticium.name=Dollar Green Mineral
+tile.ore_rare.name=Rare Earth Ore
 
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
@@ -1135,6 +1138,11 @@ item.elec_sword.name=Stunstick
 item.elec_pickaxe.name=Impact Drill
 item.elec_axe.name=Electric Chainsaw
 item.elec_shovel.name=Spiral Drill
+item.desh_sword.name=Worker's Alloy Sword
+item.desh_pickaxe.name=Worker's Alloy Pickaxe
+item.desh_axe.name=Worker's Alloy Axe
+item.desh_shovel.name=Worker's Alloy Shovel
+item.desh_hoe.name=Worker's Alloy Hoe
 
 tile.red_cable.name=Red Copper Cable
 tile.block_meteor.name=Meteor Block
@@ -1151,9 +1159,13 @@ tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter
 
 item.schrabidium_hammer.name=Schrabidium Hammer
+item.shimmer_sledge.name=Shimmer Sledge
 item.euphemium_stopper.name=Stopper
 item.matchstick.name=Matchstick
 item.remote.name=Broken Remote
+
+item.shimmer_head.name=Heavy Hammer Head
+item.shimmer_handle.name=Reinforced Polymer Handle
 
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator

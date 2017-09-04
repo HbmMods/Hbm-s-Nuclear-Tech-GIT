@@ -43,9 +43,10 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 			this.connected = TileEntityPylonRedWire.convertArrayToList(this.scheduleBuffer, worldObj);
 		}
 		
-		if(!worldObj.isRemote) {}
+		if(!worldObj.isRemote)
 			if(!connected.isEmpty()) {
 				PacketDispatcher.wrapper.sendToAll(new TEPylonDestructorPacket(xCoord, yCoord, zCoord));
+				
 				for(TileEntityPylonRedWire wire : connected)
 					PacketDispatcher.wrapper.sendToAll(new TEPylonSenderPacket(xCoord, yCoord, zCoord,
 						wire.xCoord, wire.yCoord, wire.zCoord));

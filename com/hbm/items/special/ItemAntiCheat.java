@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class ItemAntiCheat extends ItemCustomLore {
 	
     @Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
+	public void onUpdate(ItemStack stack, World world, Entity entity, int j, boolean b) {
 
     	if(stack.getItemDamage() != 34) {
         	
@@ -23,7 +23,8 @@ public class ItemAntiCheat extends ItemCustomLore {
         	}
 
         	//entity.attackEntityFrom(ModDamageSource.cheater, Float.POSITIVE_INFINITY);
-        	entity.attackEntityFrom(ModDamageSource.cheater, 10000);
+        	for(int i = 0; i < 100; i++)
+        		entity.attackEntityFrom(ModDamageSource.cheater, 10000);
         	
         	//if(!world.isRemote)
         	//	ExplosionChaos.antiCheat(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ, 20);

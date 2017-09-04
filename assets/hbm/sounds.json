@@ -42,6 +42,7 @@
 	"weapon.defabSpinup": {"category": "player", "sounds": [{"name": "weapon/defabSpinup", "stream": false}]},
 	"weapon.defabShoot": {"category": "player", "sounds": [{"name": "weapon/defabShoot", "stream": false}]},
 	"weapon.sparkShoot": {"category": "player", "sounds": ["weapon/sparkShoot1", "weapon/sparkShoot2", "weapon/sparkShoot3"]},
+    "weapon.bang": {"category": "player", "sounds": [{"name": "weapon/bang", "stream": false}]},
 
 	"entity.chopperFlyingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperFlyingLoop", "stream": true}]},
 	"entity.chopperDrop": {"category": "hostile", "sounds": [{"name": "entity/chopperDrop", "stream": false}]},
