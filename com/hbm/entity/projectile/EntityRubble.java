@@ -39,7 +39,7 @@ public class EntityRubble extends EntityThrowable {
             p_70184_1_.entityHit.attackEntityFrom(ModDamageSource.rubble, b0);
         }
 
-        if(this.ticksExisted > 5) {
+        if(this.ticksExisted > 2) {
         	this.setDead();
         	if(!this.worldObj.isRemote)
         		worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 0.1F, true);

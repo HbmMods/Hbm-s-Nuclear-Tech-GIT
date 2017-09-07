@@ -286,31 +286,9 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_drill ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_assembler ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery)
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean checkOilConnectables(World world, int x, int y, int z)
-	{
-		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if((tileentity != null && tileentity instanceof IOilDuct) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
-				world.getBlock(x, y, z) == ModBlocks.machine_refinery)
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean checkGasConnectables(World world, int x, int y, int z)
-	{
-		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if((tileentity != null && tileentity instanceof IGasDuct) || 
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan)
 		{
 			return true;
 		}
@@ -322,13 +300,23 @@ public class Library {
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 		if(tileentity != null && tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).type == type)
 			return true;
+		if(tileentity != null && tileentity instanceof TileEntityOilDuct && ((TileEntityOilDuct)tileentity).type == type)
+			return true;
+		if(tileentity != null && tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type == type)
+			return true;
+		if(tileentity != null && tileentity instanceof TileEntityOilDuctSolid && ((TileEntityOilDuctSolid)tileentity).type == type)
+			return true;
+		if(tileentity != null && tileentity instanceof TileEntityGasDuctSolid && ((TileEntityGasDuctSolid)tileentity).type == type)
+			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_well ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_flare ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan)
 		{
 			return true;
 		}
@@ -338,32 +326,6 @@ public class Library {
 	public static boolean checkUnionList(List<UnionOfTileEntitiesAndBooleans> list, ISource that) {
 		
 		for(UnionOfTileEntitiesAndBooleans union : list)
-		{
-			if(union.source == that)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkOilUnionListForOil(List<UnionOfTileEntitiesAndBooleansForOil> list, IOilSource that) {
-		
-		for(UnionOfTileEntitiesAndBooleansForOil union : list)
-		{
-			if(union.source == that)
-			{
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkGasUnionListForGas(List<UnionOfTileEntitiesAndBooleansForGas> list, IGasSource that) {
-		
-		for(UnionOfTileEntitiesAndBooleansForGas union : list)
 		{
 			if(union.source == that)
 			{
@@ -869,6 +831,11 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
+		//Pumpjack
+		if(block == ModBlocks.dummy_port_pumpjack)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
 		
 		if(tileentity instanceof IConductor)
 		{
@@ -983,195 +950,6 @@ public class Library {
 		}
 	}
 	
-	public static void transmitOil(int x, int y, int z, boolean newTact, IOilSource that, World worldObj) {
-		Block block = worldObj.getBlock(x, y, z);
-		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
-		
-		if(tileentity instanceof IOilDuct)
-		{
-			if(tileentity instanceof TileEntityOilDuct)
-			{
-				if(Library.checkOilUnionListForOil(((TileEntityOilDuct)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityOilDuct)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityOilDuct)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityOilDuct)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityOilDuct)tileentity).uoteab.get(i).ticked = newTact;
-								that.fill(x, y + 1, z, that.getTact());
-								that.fill(x, y - 1, z, that.getTact());
-								that.fill(x - 1, y, z, that.getTact());
-								that.fill(x + 1, y, z, that.getTact());
-								that.fill(x, y, z - 1, that.getTact());
-								that.fill(x, y, z + 1, that.getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityOilDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForOil(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityOilDuctSolid)
-			{
-				if(Library.checkOilUnionListForOil(((TileEntityOilDuctSolid)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityOilDuctSolid)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
-								that.fill(x, y + 1, z, that.getTact());
-								that.fill(x, y - 1, z, that.getTact());
-								that.fill(x - 1, y, z, that.getTact());
-								that.fill(x + 1, y, z, that.getTact());
-								that.fill(x, y, z - 1, that.getTact());
-								that.fill(x, y, z + 1, that.getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityOilDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForOil(that, newTact));
-				}
-			}
-		}
-		
-		if(tileentity instanceof IOilAcceptor && newTact)
-		{
-			that.getList().add((IOilAcceptor)tileentity);
-		}
-		
-		if(!newTact)
-		{
-			int size = that.getList().size();
-			if(size > 0)
-			{
-				int part = that.getSFill() / size;
-				for(IOilAcceptor consume : that.getList())
-				{
-					if(consume.getFill() < consume.getMaxFill())
-					{
-						if(consume.getMaxFill() - consume.getFill() >= part)
-						{
-							that.setSFill(that.getSFill()-part);
-							consume.setFill(consume.getFill() + part);
-						} else {
-							that.setSFill(that.getSFill() - (consume.getMaxFill() - consume.getFill()));
-							consume.setFill(consume.getMaxFill());
-						}
-					}
-				}
-			}
-			that.clearList();
-		}
-	}
-	
-	public static void transmitGas(int x, int y, int z, boolean newTact, IGasSource that, World worldObj) {
-		Block block = worldObj.getBlock(x, y, z);
-		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
-		
-		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x + 1, y, z) == ModBlocks.machine_flare)
-		{
-			tileentity = worldObj.getTileEntity(x + 1, y, z);
-		}
-		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x - 1, y, z) == ModBlocks.machine_flare)
-		{
-			tileentity = worldObj.getTileEntity(x - 1, y, z);
-		}
-		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x, y, z + 1) == ModBlocks.machine_flare)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z + 1);
-		}
-		if(block == ModBlocks.dummy_port_flare && worldObj.getBlock(x, y, z - 1) == ModBlocks.machine_flare)
-		{
-			tileentity = worldObj.getTileEntity(x, y, z - 1);
-		}
-		
-		if(tileentity instanceof IGasDuct)
-		{
-			if(tileentity instanceof TileEntityGasDuct)
-			{
-				if(Library.checkGasUnionListForGas(((TileEntityGasDuct)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityGasDuct)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityGasDuct)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityGasDuct)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityGasDuct)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillGas(x, y + 1, z, that.getTact());
-								that.fillGas(x, y - 1, z, that.getTact());
-								that.fillGas(x - 1, y, z, that.getTact());
-								that.fillGas(x + 1, y, z, that.getTact());
-								that.fillGas(x, y, z - 1, that.getTact());
-								that.fillGas(x, y, z + 1, that.getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityGasDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForGas(that, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityGasDuctSolid)
-			{
-				if(Library.checkGasUnionListForGas(((TileEntityGasDuctSolid)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityGasDuctSolid)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
-								that.fillGas(x, y + 1, z, that.getTact());
-								that.fillGas(x, y - 1, z, that.getTact());
-								that.fillGas(x - 1, y, z, that.getTact());
-								that.fillGas(x + 1, y, z, that.getTact());
-								that.fillGas(x, y, z - 1, that.getTact());
-								that.fillGas(x, y, z + 1, that.getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityGasDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForGas(that, newTact));
-				}
-			}
-		}
-		
-		if(tileentity instanceof IGasAcceptor && newTact)
-		{
-			that.getGasList().add((IGasAcceptor)tileentity);
-		}
-		
-		if(!newTact)
-		{
-			int size = that.getGasList().size();
-			if(size > 0)
-			{
-				int part = that.getGasFill() / size;
-				for(IGasAcceptor consume : that.getGasList())
-				{
-					if(consume.getGasFill() < consume.getMaxGasFill())
-					{
-						if(consume.getMaxGasFill() - consume.getGasFill() >= part)
-						{
-							that.setGasFill(that.getGasFill()-part);
-							consume.setGasFill(consume.getGasFill() + part);
-						} else {
-							that.setGasFill(that.getGasFill() - (consume.getMaxGasFill() - consume.getGasFill()));
-							consume.setGasFill(consume.getMaxGasFill());
-						}
-					}
-				}
-			}
-			that.clearGasList();
-		}
-	}
-	
 	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidType type) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
@@ -1224,6 +1002,102 @@ public class Library {
 					}
 				} else {
 					((TileEntityFluidDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type.name().equals(type.name()))
+			{
+				if(Library.checkUnionListForFluids(((TileEntityGasDuct)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityGasDuct)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityGasDuct)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityGasDuct)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityGasDuct)tileentity).uoteab.get(i).ticked = newTact;
+								that.fillFluid(x, y + 1, z, that.getTact(), type);
+								that.fillFluid(x, y - 1, z, that.getTact(), type);
+								that.fillFluid(x - 1, y, z, that.getTact(), type);
+								that.fillFluid(x + 1, y, z, that.getTact(), type);
+								that.fillFluid(x, y, z - 1, that.getTact(), type);
+								that.fillFluid(x, y, z + 1, that.getTact(), type);
+							}
+						}
+					}
+				} else {
+					((TileEntityGasDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityOilDuct && ((TileEntityOilDuct)tileentity).type.name().equals(type.name()))
+			{
+				if(Library.checkUnionListForFluids(((TileEntityOilDuct)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityOilDuct)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityOilDuct)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityOilDuct)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityOilDuct)tileentity).uoteab.get(i).ticked = newTact;
+								that.fillFluid(x, y + 1, z, that.getTact(), type);
+								that.fillFluid(x, y - 1, z, that.getTact(), type);
+								that.fillFluid(x - 1, y, z, that.getTact(), type);
+								that.fillFluid(x + 1, y, z, that.getTact(), type);
+								that.fillFluid(x, y, z - 1, that.getTact(), type);
+								that.fillFluid(x, y, z + 1, that.getTact(), type);
+							}
+						}
+					}
+				} else {
+					((TileEntityOilDuct)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityGasDuctSolid && ((TileEntityGasDuctSolid)tileentity).type.name().equals(type.name()))
+			{
+				if(Library.checkUnionListForFluids(((TileEntityGasDuctSolid)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityGasDuctSolid)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityGasDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
+								that.fillFluid(x, y + 1, z, that.getTact(), type);
+								that.fillFluid(x, y - 1, z, that.getTact(), type);
+								that.fillFluid(x - 1, y, z, that.getTact(), type);
+								that.fillFluid(x + 1, y, z, that.getTact(), type);
+								that.fillFluid(x, y, z - 1, that.getTact(), type);
+								that.fillFluid(x, y, z + 1, that.getTact(), type);
+							}
+						}
+					}
+				} else {
+					((TileEntityGasDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityOilDuctSolid && ((TileEntityOilDuctSolid)tileentity).type.name().equals(type.name()))
+			{
+				if(Library.checkUnionListForFluids(((TileEntityOilDuctSolid)tileentity).uoteab, that))
+				{
+					for(int i = 0; i < ((TileEntityOilDuctSolid)tileentity).uoteab.size(); i++)
+					{
+						if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).source == that)
+						{
+							if(((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked != newTact)
+							{
+								((TileEntityOilDuctSolid)tileentity).uoteab.get(i).ticked = newTact;
+								that.fillFluid(x, y + 1, z, that.getTact(), type);
+								that.fillFluid(x, y - 1, z, that.getTact(), type);
+								that.fillFluid(x - 1, y, z, that.getTact(), type);
+								that.fillFluid(x + 1, y, z, that.getTact(), type);
+								that.fillFluid(x, y, z - 1, that.getTact(), type);
+								that.fillFluid(x, y, z + 1, that.getTact(), type);
+							}
+						}
+					}
+				} else {
+					((TileEntityOilDuctSolid)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
 				}
 			}
 		}

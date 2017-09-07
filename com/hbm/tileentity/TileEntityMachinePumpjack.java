@@ -466,10 +466,33 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 2, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, getTact(), type);
+		
+		int i = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+
+		if(i == 5) {
+			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord - 2, getTact(), type);
+			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord - 2, getTact(), type);
+		}
+		if(i == 3) {
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 2, getTact(), type);
+			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord - 2, getTact(), type);
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 2, getTact(), type);
+			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord - 2, getTact(), type);
+		}
+		if(i == 4) {
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 2, getTact(), type);
+			fillFluid(this.xCoord + 3, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord + 3, this.yCoord, this.zCoord - 2, getTact(), type);
+		}
+		if(i == 2) {
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord + 2, this.yCoord, this.zCoord + 2, getTact(), type);
+			fillFluid(this.xCoord - 2, this.yCoord, this.zCoord + 2, getTact(), type);
+		}
 	}
 
 	@Override

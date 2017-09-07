@@ -70,7 +70,7 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 				}
 				world.setBlock(x - 3, y, z, ModBlocks.dummy_port_igenerator);
 				TileEntity te2 = world.getTileEntity(x - 3, y, z);
-				if(te instanceof TileEntityDummy) {
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
@@ -99,7 +99,7 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 				}
 				world.setBlock(x, y, z - 3, ModBlocks.dummy_port_igenerator);
 				TileEntity te2 = world.getTileEntity(x, y, z - 3);
-				if(te instanceof TileEntityDummy) {
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
@@ -128,7 +128,7 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 				}
 				world.setBlock(x - 2, y, z, ModBlocks.dummy_port_igenerator);
 				TileEntity te2 = world.getTileEntity(x - 2, y, z);
-				if(te instanceof TileEntityDummy) {
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
@@ -157,7 +157,7 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 				}
 				world.setBlock(x, y, z - 2, ModBlocks.dummy_port_igenerator);
 				TileEntity te2 = world.getTileEntity(x, y, z - 2);
-				if(te instanceof TileEntityDummy) {
+				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
 					dummy.targetY = y;
