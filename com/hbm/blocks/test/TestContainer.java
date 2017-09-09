@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityTestContainer;
+import com.hbm.tileentity.deco.TileEntityTestContainer;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

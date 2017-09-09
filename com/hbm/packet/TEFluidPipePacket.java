@@ -1,7 +1,8 @@
 package com.hbm.packet;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.tileentity.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

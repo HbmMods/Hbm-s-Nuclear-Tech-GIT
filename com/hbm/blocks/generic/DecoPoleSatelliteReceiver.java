@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.tileentity.TileEntityDecoPoleSatelliteReceiver;
+import com.hbm.tileentity.deco.TileEntityDecoPoleSatelliteReceiver;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

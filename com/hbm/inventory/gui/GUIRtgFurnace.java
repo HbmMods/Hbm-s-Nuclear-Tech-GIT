@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerRtgFurnace;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityRtgFurnace;
+import com.hbm.tileentity.machine.TileEntityRtgFurnace;
 
 public class GUIRtgFurnace extends GuiContainer {
 	

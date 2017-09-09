@@ -5,9 +5,9 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityMachineCyclotron;
-import com.hbm.tileentity.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.TileEntityDummy;
+import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
+import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

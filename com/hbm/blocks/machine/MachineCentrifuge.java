@@ -7,7 +7,7 @@ import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityMachineCentrifuge;
+import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

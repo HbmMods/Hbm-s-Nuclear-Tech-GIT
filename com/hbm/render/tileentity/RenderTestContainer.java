@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.test.TestContainer;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityTestContainer;
+import com.hbm.tileentity.deco.TileEntityTestContainer;
 
 @SideOnly(Side.CLIENT)
 public class RenderTestContainer extends TileEntitySpecialRenderer

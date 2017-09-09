@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.TileEntityReiXMainframe;
+import com.hbm.tileentity.machine.TileEntityReiXMainframe;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

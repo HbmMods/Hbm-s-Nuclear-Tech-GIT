@@ -5,7 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityYellowBarrel;
+import com.hbm.tileentity.deco.TileEntityYellowBarrel;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

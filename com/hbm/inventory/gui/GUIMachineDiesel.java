@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineDiesel;
+import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerNukeTsar;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityNukeTsar;
+import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 
 public class GUINukeTsar extends GuiContainer {
 	

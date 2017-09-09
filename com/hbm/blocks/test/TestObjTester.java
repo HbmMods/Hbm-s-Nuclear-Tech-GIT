@@ -1,7 +1,7 @@
 package com.hbm.blocks.test;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityObjTester;
+import com.hbm.tileentity.deco.TileEntityObjTester;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

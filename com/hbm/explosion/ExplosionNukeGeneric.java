@@ -33,7 +33,7 @@ import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.tileentity.TileEntityDummy;
+import com.hbm.tileentity.machine.TileEntityDummy;
 
 public class ExplosionNukeGeneric {
 

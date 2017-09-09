@@ -1,7 +1,8 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.TileEntityMachineOilWell;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

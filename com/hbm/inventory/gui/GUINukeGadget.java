@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerNukeGadget;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityNukeGadget;
+import com.hbm.tileentity.bomb.TileEntityNukeGadget;
 
 public class GUINukeGadget extends GuiContainer {
 	

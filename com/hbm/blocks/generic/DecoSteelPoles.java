@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.tileentity.TileEntityDecoSteelPoles;
+import com.hbm.tileentity.deco.TileEntityDecoSteelPoles;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

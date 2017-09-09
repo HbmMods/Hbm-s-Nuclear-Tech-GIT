@@ -24,7 +24,7 @@ import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityLaunchPad;
+import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 
 public class GUIMachineElectricFurnace extends GuiContainer {
 	

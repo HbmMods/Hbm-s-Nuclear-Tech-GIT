@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityRtgFurnace;
+import com.hbm.tileentity.machine.TileEntityRtgFurnace;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

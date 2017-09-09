@@ -3,9 +3,10 @@ package com.hbm.packet;
 import com.hbm.sound.SoundLoopAssembler;
 import com.hbm.sound.SoundLoopChemplant;
 import com.hbm.sound.SoundLoopMiner;
-import com.hbm.tileentity.TileEntityMachineAssembler;
-import com.hbm.tileentity.TileEntityMachineChemplant;
-import com.hbm.tileentity.TileEntityMachineMiningDrill;
+import com.hbm.tileentity.machine.TileEntityMachineAssembler;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
+import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

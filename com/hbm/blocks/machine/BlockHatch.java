@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.TileEntityHatch;
+import com.hbm.tileentity.machine.TileEntityHatch;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

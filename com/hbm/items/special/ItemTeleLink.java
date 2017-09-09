@@ -3,7 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.tileentity.TileEntityMachineTeleporter;
+import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

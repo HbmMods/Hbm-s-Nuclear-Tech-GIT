@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL14;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityStructureMarker;
+import com.hbm.tileentity.machine.TileEntityStructureMarker;
 import com.hbm.world.FWatz;
 import com.hbm.world.FactoryTitanium;
 import com.hbm.world.FusionReactor;

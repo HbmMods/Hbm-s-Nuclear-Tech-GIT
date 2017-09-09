@@ -9,7 +9,7 @@ import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityNukeFleija;
+import com.hbm.tileentity.bomb.TileEntityNukeFleija;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

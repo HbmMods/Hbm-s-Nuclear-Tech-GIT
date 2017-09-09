@@ -5,9 +5,9 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
-import com.hbm.tileentity.TileEntityDummy;
-import com.hbm.tileentity.TileEntityMachineIGenerator;
-import com.hbm.tileentity.TileEntityMachineTurbofan;
+import com.hbm.tileentity.machine.TileEntityDummy;
+import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

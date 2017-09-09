@@ -6,8 +6,8 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.container.ContainerMachineChemplant;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineAssembler;
-import com.hbm.tileentity.TileEntityMachineChemplant;
+import com.hbm.tileentity.machine.TileEntityMachineAssembler;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

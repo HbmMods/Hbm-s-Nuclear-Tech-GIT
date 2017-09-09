@@ -6,8 +6,8 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineElectricFurnace;
-import com.hbm.tileentity.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
+import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

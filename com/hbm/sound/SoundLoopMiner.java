@@ -3,7 +3,7 @@ package com.hbm.sound;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.tileentity.TileEntityMachineMiningDrill;
+import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

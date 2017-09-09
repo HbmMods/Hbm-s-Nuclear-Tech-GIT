@@ -10,7 +10,7 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityNukeGadget;
+import com.hbm.tileentity.bomb.TileEntityNukeGadget;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;

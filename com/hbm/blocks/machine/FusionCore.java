@@ -1,7 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityFusionMultiblock;
+import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

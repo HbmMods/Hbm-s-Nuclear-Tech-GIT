@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerNukeBoy;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityNukeBoy;
+import com.hbm.tileentity.bomb.TileEntityNukeBoy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

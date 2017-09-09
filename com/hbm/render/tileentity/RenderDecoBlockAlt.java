@@ -6,9 +6,9 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelGun;
 import com.hbm.render.model.ModelStatue;
-import com.hbm.tileentity.TileEntityDecoBlockAltF;
-import com.hbm.tileentity.TileEntityDecoBlockAltG;
-import com.hbm.tileentity.TileEntityDecoBlockAltW;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltG;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;

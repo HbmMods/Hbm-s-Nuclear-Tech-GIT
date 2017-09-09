@@ -1,7 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.tileentity.TileEntityDecoBlock;
+import com.hbm.tileentity.deco.TileEntityDecoBlock;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

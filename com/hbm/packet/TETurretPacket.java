@@ -1,7 +1,7 @@
 package com.hbm.packet;
 
-import com.hbm.tileentity.TileEntityStructureMarker;
-import com.hbm.tileentity.TileEntityTurretBase;
+import com.hbm.tileentity.bomb.TileEntityTurretBase;
+import com.hbm.tileentity.machine.TileEntityStructureMarker;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

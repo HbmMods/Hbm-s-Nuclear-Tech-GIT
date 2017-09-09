@@ -1,7 +1,7 @@
 package com.hbm.packet;
 
-import com.hbm.tileentity.TileEntityMachineAssembler;
-import com.hbm.tileentity.TileEntityMachineChemplant;
+import com.hbm.tileentity.machine.TileEntityMachineAssembler;
+import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

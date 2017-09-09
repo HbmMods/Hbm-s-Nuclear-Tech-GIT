@@ -2,7 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
-import com.hbm.tileentity.TileEntityReactorMultiblock;
+import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

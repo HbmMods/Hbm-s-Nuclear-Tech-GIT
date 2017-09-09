@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.TileEntityWireCoated;
+import com.hbm.tileentity.conductor.TileEntityWireCoated;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

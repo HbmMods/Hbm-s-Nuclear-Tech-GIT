@@ -5,10 +5,10 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityDecoBlockAlt;
-import com.hbm.tileentity.TileEntityDecoBlockAltF;
-import com.hbm.tileentity.TileEntityDecoBlockAltG;
-import com.hbm.tileentity.TileEntityDecoBlockAltW;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAlt;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltG;
+import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

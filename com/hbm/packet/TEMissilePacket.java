@@ -1,7 +1,8 @@
 package com.hbm.packet;
 
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.TileEntityLaunchPad;
+import com.hbm.tileentity.bomb.TileEntityLaunchPad;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

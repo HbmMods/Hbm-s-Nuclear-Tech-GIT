@@ -3,7 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.tool.ItemChemistryTemplate.EnumChemistryTemplate;
-import com.hbm.tileentity.TileEntityFluidDuct;
+import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.interfaces.IDummy;
-import com.hbm.tileentity.TileEntityDummy;
+import com.hbm.tileentity.machine.TileEntityDummy;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

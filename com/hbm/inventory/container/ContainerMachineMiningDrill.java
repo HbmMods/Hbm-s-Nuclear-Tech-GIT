@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.TileEntityMachineMiningDrill;
+import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,9 +14,7 @@ public class ContainerMachineMiningDrill extends Container {
 private TileEntityMachineMiningDrill nukeBoy;
 
 	private int power;
-	private int water;
-	private int sulfur;
-	private int progress;
+	private int warning;
 	
 	public ContainerMachineMiningDrill(InventoryPlayer invPlayer, TileEntityMachineMiningDrill tedf) {
 		
@@ -105,9 +103,14 @@ private TileEntityMachineMiningDrill nukeBoy;
 			{
 				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.power);
 			}
+			if(this.warning != this.nukeBoy.warning)
+			{
+				par1.sendProgressBarUpdate(this, 1, this.nukeBoy.warning);
+			}
 		}
-		
+
 		this.power = this.nukeBoy.power;
+		this.warning = this.nukeBoy.warning;
 	}
 	
 	@Override
@@ -115,6 +118,10 @@ private TileEntityMachineMiningDrill nukeBoy;
 		if(i == 0)
 		{
 			nukeBoy.power = j;
+		}
+		if(i == 1)
+		{
+			nukeBoy.warning = j;
 		}
 	}
 }

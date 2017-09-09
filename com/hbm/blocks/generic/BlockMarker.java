@@ -2,7 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.tileentity.TileEntityStructureMarker;
+import com.hbm.tileentity.machine.TileEntityStructureMarker;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

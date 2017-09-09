@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.TileEntityGasDuctSolid;
+import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

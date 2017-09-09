@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.TileEntityMachineBattery;
 
 public class GUIMachineBattery extends GuiContainer {
 	

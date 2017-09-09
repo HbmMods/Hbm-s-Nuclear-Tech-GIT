@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 import com.hbm.inventory.container.ContainerTestNuke;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityTestNuke;
+import com.hbm.tileentity.bomb.TileEntityTestNuke;
 
 public class GUITestNuke extends GuiContainer {
 

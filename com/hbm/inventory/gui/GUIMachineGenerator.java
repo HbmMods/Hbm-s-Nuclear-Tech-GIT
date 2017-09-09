@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerGenerator;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 
 public class GUIMachineGenerator extends GuiFluidContainer {
 	

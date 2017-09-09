@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.TileEntityMachineBattery;
-import com.hbm.tileentity.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

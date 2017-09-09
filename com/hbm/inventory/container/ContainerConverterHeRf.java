@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.TileEntityConverterHeRf;
+import com.hbm.tileentity.machine.TileEntityConverterHeRf;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

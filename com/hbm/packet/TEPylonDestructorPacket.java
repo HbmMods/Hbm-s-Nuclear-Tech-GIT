@@ -1,6 +1,6 @@
 package com.hbm.packet;
 
-import com.hbm.tileentity.TileEntityPylonRedWire;
+import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

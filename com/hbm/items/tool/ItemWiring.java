@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.tileentity.TileEntityPylonRedWire;
+import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

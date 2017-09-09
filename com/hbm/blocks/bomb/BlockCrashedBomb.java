@@ -7,7 +7,7 @@ import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityCrashedBomb;
+import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

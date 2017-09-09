@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.TileEntityFWatzCore;
+import com.hbm.tileentity.machine.TileEntityFWatzCore;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

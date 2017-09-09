@@ -7,8 +7,8 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityMachinePuF6Tank;
-import com.hbm.tileentity.TileEntityMachineUF6Tank;
+import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

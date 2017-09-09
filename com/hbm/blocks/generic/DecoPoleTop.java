@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.tileentity.TileEntityDecoPoleTop;
+import com.hbm.tileentity.deco.TileEntityDecoPoleTop;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

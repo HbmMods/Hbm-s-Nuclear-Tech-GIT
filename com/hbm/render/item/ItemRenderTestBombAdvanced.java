@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelTestBombAdvanced;
-import com.hbm.tileentity.TileEntityTestBombAdvanced;
+import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;

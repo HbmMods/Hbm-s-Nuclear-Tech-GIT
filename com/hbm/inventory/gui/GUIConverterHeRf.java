@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerConverterHeRf;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityConverterHeRf;
+import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

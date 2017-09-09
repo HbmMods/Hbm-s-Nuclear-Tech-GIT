@@ -953,7 +953,7 @@ entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket
 entity.hbm.entity_schrabnel.name=Schrabnel
 entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
-entity.entity_mob_hunter_chopper.name=Hunter ChopperCreeper
+entity.entity_mob_hunter_chopper.name=Hunter Chopper
 entity.entity_cyber_crab.name=Cyber Crab
 
 item.cap_aluminium.name=Aluminium Cap

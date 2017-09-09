@@ -7,7 +7,7 @@ import com.hbm.blocks.bomb.TurretBase;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.tileentity.TileEntityTurretBase;
+import com.hbm.tileentity.bomb.TileEntityTurretBase;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

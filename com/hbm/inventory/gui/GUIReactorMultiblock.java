@@ -4,7 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerReactorMultiblock;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityReactorMultiblock;
+import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;

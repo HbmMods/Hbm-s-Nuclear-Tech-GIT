@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineTeleporter;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineTeleporter;
+import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

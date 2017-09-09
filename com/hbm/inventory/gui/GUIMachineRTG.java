@@ -4,7 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineRTG;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineRTG;
+import com.hbm.tileentity.machine.TileEntityMachineRTG;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;

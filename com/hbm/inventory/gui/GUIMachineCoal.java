@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineCoal;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineCoal;
+import com.hbm.tileentity.machine.TileEntityMachineCoal;
 
 public class GUIMachineCoal extends GuiFluidContainer {
 	

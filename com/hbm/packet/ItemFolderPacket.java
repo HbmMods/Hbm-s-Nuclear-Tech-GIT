@@ -6,7 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
-import com.hbm.tileentity.TileEntityMachineAssembler;
+import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;

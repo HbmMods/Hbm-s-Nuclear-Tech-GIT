@@ -1,7 +1,7 @@
 package com.hbm.blocks.test;
 
 import com.hbm.entity.missile.EntityTestMissile;
-import com.hbm.tileentity.TileEntityTestNuke;
+import com.hbm.tileentity.bomb.TileEntityTestNuke;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

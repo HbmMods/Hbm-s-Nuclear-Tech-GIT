@@ -1,7 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityRedBarrel;
+import com.hbm.tileentity.bomb.TileEntityRedBarrel;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

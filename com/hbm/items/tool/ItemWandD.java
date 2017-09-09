@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.TileEntityPylonRedWire;
+import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

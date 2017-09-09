@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerNukeFurnace;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 
 public class GUINukeFurnace extends GuiContainer {
 	

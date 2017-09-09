@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.TileEntityFusionMultiblock;
+import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

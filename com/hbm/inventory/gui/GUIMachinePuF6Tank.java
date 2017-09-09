@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerPuF6Tank;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachinePuF6Tank;
+import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

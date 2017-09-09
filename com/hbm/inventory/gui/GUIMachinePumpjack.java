@@ -6,8 +6,8 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.inventory.container.ContainerMachinePumpjack;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityMachineOilWell;
-import com.hbm.tileentity.TileEntityMachinePumpjack;
+import com.hbm.tileentity.machine.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

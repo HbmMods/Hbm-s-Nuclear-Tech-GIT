@@ -11,7 +11,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerNukeFleija;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.TileEntityNukeFleija;
+import com.hbm.tileentity.bomb.TileEntityNukeFleija;
 
 public class GUINukeFleija extends GuiContainer {
 	
