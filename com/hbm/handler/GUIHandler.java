@@ -457,7 +457,7 @@ public class GUIHandler implements IGuiHandler {
 			{
 				if(entity instanceof TileEntityMachineTurbofan)
 				{
-					//return new ContainerMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
+					return new ContainerMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
 				}
 			}
 		}
@@ -861,7 +861,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					if(entity instanceof TileEntityMachineTurbofan)
 					{
-						//return new GUIMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
+						return new GUIMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
 					}
 				}
 			}

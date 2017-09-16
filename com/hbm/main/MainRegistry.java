@@ -96,6 +96,7 @@ import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.entity.projectile.EntityBaleflare;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -572,6 +573,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 78, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBombletTheta.class, "entity_theta", 79, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBombletSelena.class, "entity_selena", 80, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 81, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -711,11 +713,18 @@ public class MainRegistry
 		OreDictionary.registerOre("dustNeodymium", ModItems.powder_neodymium);
 		OreDictionary.registerOre("dustCaesium", ModItems.powder_caesium);
 		OreDictionary.registerOre("dustStrontium", ModItems.powder_strontium);
-		OreDictionary.registerOre("dustCobalt", ModItems.fragment_cobalt);
+		OreDictionary.registerOre("dustCobalt", ModItems.powder_cobalt);
 		OreDictionary.registerOre("dustBromine", ModItems.powder_bromine);
-		OreDictionary.registerOre("dustNiobium", ModItems.fragment_niobium);
+		OreDictionary.registerOre("dustNiobium", ModItems.powder_niobium);
 		OreDictionary.registerOre("dustTennessine", ModItems.powder_tennessine);
 		OreDictionary.registerOre("dustCerium", ModItems.powder_cerium);
+
+		OreDictionary.registerOre("nuggetNeodymium", ModItems.fragment_neodymium);
+		OreDictionary.registerOre("nuggetCobalt", ModItems.fragment_cobalt);
+		OreDictionary.registerOre("nuggetNiobium", ModItems.fragment_niobium);
+		OreDictionary.registerOre("nuggetCerium", ModItems.fragment_cerium);
+		OreDictionary.registerOre("nuggetLanthanium", ModItems.fragment_lanthanium);
+		OreDictionary.registerOre("nuggetActinium", ModItems.fragment_actinium);
 
 		OreDictionary.registerOre("gemCoal", Items.coal);
 

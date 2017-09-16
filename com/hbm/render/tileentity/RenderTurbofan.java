@@ -23,7 +23,7 @@ public class RenderTurbofan extends TileEntitySpecialRenderer {
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
-    	i++;
+    	i -= 3;
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);

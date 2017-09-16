@@ -48,6 +48,6 @@ public class GUIMachineMiningDrill extends GuiContainer {
 		if(k == 2)
 			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 192, 0, 16, 16);
 		if(k == 1)
-			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 208, 52, 16, 16);
+			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 208, 0, 16, 16);
 	}
 }

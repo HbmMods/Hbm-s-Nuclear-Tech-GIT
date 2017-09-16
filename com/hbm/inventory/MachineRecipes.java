@@ -3500,4 +3500,19 @@ public class MachineRecipes {
 		
 		return map;
 	}
+	
+	public Map<Object, Object> getFluidContainers() {
+		Map<Object, Object> map = new HashMap<Object, Object>();
+		
+		for(FluidContainer con : FluidContainerRegistry.instance.allContainers) {
+			if(con != null) {
+				ItemStack fluid = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(con.type));
+				fluid.stackTagCompound = new NBTTagCompound();
+				fluid.stackTagCompound.setInteger("fill", con.content);
+				map.put(fluid, con.fullContainer);
+			}
+		}
+		
+		return map;
+	}
 }

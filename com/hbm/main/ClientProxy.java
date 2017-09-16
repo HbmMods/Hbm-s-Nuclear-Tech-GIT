@@ -67,6 +67,7 @@ import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.entity.projectile.EntityBaleflare;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -134,6 +135,7 @@ import com.hbm.render.entity.RenderShrapnel;
 import com.hbm.render.entity.RenderSmallNukeAlt;
 import com.hbm.render.entity.SSmokeRenderer;
 import com.hbm.render.entity.SpillRenderer;
+import com.hbm.render.entity.TSmokeRenderer;
 import com.hbm.render.item.ItemRenderBFLauncher;
 import com.hbm.render.item.ItemRenderBaleflare;
 import com.hbm.render.item.ItemRenderBigSword;
@@ -508,6 +510,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCombineBall.class, new RenderSnowball(ModItems.energy_ball));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDischarge.class, new ElectricityRenderer(ModItems.discharge));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityEMPBlast.class, new RenderEMPBlast());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityTSmokeFX.class, new TSmokeRenderer(ModItems.nuclear_waste));
 	    
 		RenderingRegistry.addNewArmourRendererPrefix("5");
 		RenderingRegistry.addNewArmourRendererPrefix("6");

@@ -727,6 +727,9 @@ public class ModItems {
 	public static Item upgrade_fortune_1;
 	public static Item upgrade_fortune_2;
 	public static Item upgrade_fortune_3;
+	public static Item upgrade_afterburn_1;
+	public static Item upgrade_afterburn_2;
+	public static Item upgrade_afterburn_3;
 
 	public static Item ingot_euphemium;
 	public static Item nugget_euphemium;
@@ -1269,7 +1272,7 @@ public class ModItems {
 		chopper_blades = new Item().setUnlocalizedName("chopper_blades").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":chopper_blades");
 		combine_scrap = new Item().setUnlocalizedName("combine_scrap").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":combine_scrap");
 
-		shimmer_head = new Item().setUnlocalizedName("shimmer_head").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_head");
+		shimmer_head = new Item().setUnlocalizedName("shimmer_head").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_head_original");
 		shimmer_handle = new Item().setUnlocalizedName("shimmer_handle").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_handle");
 
 		telepad = new Item().setUnlocalizedName("telepad").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":telepad");
@@ -1678,6 +1681,9 @@ public class ModItems {
 		upgrade_fortune_1 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_fortune_1");
 		upgrade_fortune_2 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_fortune_2");
 		upgrade_fortune_3 = new ItemCustomLore().setUnlocalizedName("upgrade_fortune_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_fortune_3");
+		upgrade_afterburn_1 = new ItemCustomLore().setUnlocalizedName("upgrade_afterburn_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_afterburn_1");
+		upgrade_afterburn_2 = new ItemCustomLore().setUnlocalizedName("upgrade_afterburn_2").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_afterburn_2");
+		upgrade_afterburn_3 = new ItemCustomLore().setUnlocalizedName("upgrade_afterburn_3").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_afterburn_3");
 
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
@@ -1851,7 +1857,7 @@ public class ModItems {
 		cape_vertice = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_vertice").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
 		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
-		shimmer_sledge = new WeaponSpecial(MainRegistry.enumToolMaterialSledge).setUnlocalizedName("shimmer_sledge").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":shimmer_sledge");
+		shimmer_sledge = new WeaponSpecial(MainRegistry.enumToolMaterialSledge).setUnlocalizedName("shimmer_sledge").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":shimmer_sledge_original");
 		bottle_opener = new WeaponSpecial(MainRegistry.enumToolMaterialBottleOpener).setUnlocalizedName("bottle_opener").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":bottle_opener");
 		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
 		matchstick = new ItemMatch().setUnlocalizedName("matchstick").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":matchstick");
@@ -2396,6 +2402,9 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_fortune_1, upgrade_fortune_1.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_fortune_2, upgrade_fortune_2.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_fortune_3, upgrade_fortune_3.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_afterburn_1, upgrade_afterburn_1.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_afterburn_2, upgrade_afterburn_2.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_afterburn_3, upgrade_afterburn_3.getUnlocalizedName());
 		
 		//Machine Templates
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());

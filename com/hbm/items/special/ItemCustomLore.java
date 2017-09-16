@@ -35,8 +35,7 @@ public class ItemCustomLore extends ItemRadioactive {
 		if(this == ModItems.ingot_neptunium)
 		{
 			if(MainRegistry.polaroidID == 11) {
-				list.add("Pretty weird...you know what I mean, right?");
-				list.add("All of it. The lore, the polaroid, the...");
+				list.add("Woo, scary!");
 			} else
 				list.add("That one's my favourite!");
 		}
@@ -269,11 +268,6 @@ public class ItemCustomLore extends ItemRadioactive {
 		
 		if(this == ModItems.igniter)
 		{
-			/*list.add("Don't get me wrong, but you use it");
-			list.add("by directly right-clicking the");
-			list.add("prototype. And yes, you also die. Why?");
-			list.add("Because you stand two meters next to");
-			list.add("the bomb, you fool.");*/
 			list.add("(Used by right-clicking the Prototype)");
 			list.add("It's a green metal handle with a");
 			list.add("bright red button and a small lid.");
@@ -366,7 +360,7 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("form of life in the known universe'.\"");
 			list.add("\"So?\"");
 			list.add("\"'So?' C'mon man, they're ALIENS!\"");*/
-			list.add("*insert Freeman's Mind reference here*");
+			list.add("*insert Civil Protection reference here*");
 		}
 		
 		if(this == ModItems.gun_super_shotgun)
@@ -419,134 +413,143 @@ public class ItemCustomLore extends ItemRadioactive {
 		
 		if(this == ModItems.upgrade_speed_1)
 		{
-			list.add("Mining drill speed upgrade");
-			list.add("Effect: Delay -15 (from 50)");
-			list.add("Drawback: Power consumption +300 (from 100)");
+			list.add("Speed Upgrade");
+			list.add("Mining Drill:");
+			list.add("Delay -15 / Consumption +300");
 			list.add("");
-			list.add("Assembly machine speed upgrade");
-			list.add("Effect: Delay -25 (from 100)");
-			list.add("Drawback: Power consumption +300 (from 100)");
+			list.add("Assembly Machine:");
+			list.add("Delay -25 / Consumption +300");
 			list.add("");
-			list.add("Chemical plant speed upgrade");
-			list.add("Effect: Delay -25 (from 100)");
-			list.add("Drawback: Power consumption +300 (from 100)");
+			list.add("Chemical Plant:");
+			list.add("Delay -25 / Consumption +300");
 		}
 		
 		if(this == ModItems.upgrade_speed_2)
 		{
-			list.add("Mining drill speed upgrade");
-			list.add("Effect: Delay -30 (from 50)");
-			list.add("Drawback: Power consumption +600 (from 100)");
+			list.add("Speed Upgrade");
+			list.add("Mining Drill:");
+			list.add("Delay -30 / Consumption +600");
 			list.add("");
-			list.add("Assembly machine speed upgrade");
-			list.add("Effect: Delay -50 (from 100)");
-			list.add("Drawback: Power consumption +600 (from 100)");
+			list.add("Assembly Machine:");
+			list.add("Delay -50 / Consumption +600");
 			list.add("");
-			list.add("Chemical plant speed upgrade");
-			list.add("Effect: Delay -50 (from 100)");
-			list.add("Drawback: Power consumption +600 (from 100)");
+			list.add("Chemical Plant:");
+			list.add("Delay -50 / Consumption +600");
 		}
 		
 		if(this == ModItems.upgrade_speed_3)
 		{
-			list.add("Mining drill speed upgrade");
-			list.add("Effect: Delay -45 (from 50)");
-			list.add("Drawback: Power consumption +900 (from 100)");
+			list.add("Speed Upgrade");
+			list.add("Mining Drill:");
+			list.add("Delay -45 / Consumption +900");
 			list.add("");
-			list.add("Assembly machine speed upgrade");
-			list.add("Effect: Delay -75 (from 100)");
-			list.add("Drawback: Power consumption +900 (from 100)");
+			list.add("Assembly Machine:");
+			list.add("Delay -75 / Consumption +900");
 			list.add("");
-			list.add("Chemical plant speed upgrade");
-			list.add("Effect: Delay -75 (from 100)");
-			list.add("Drawback: Power consumption +900 (from 100)");
+			list.add("Chemical Plant:");
+			list.add("Delay -75 / Consumption +900");
 		}
 		
 		if(this == ModItems.upgrade_effect_1)
 		{
-			list.add("Mining drill effectiveness upgrade");
-			list.add("Effect: Radius +1 (from 1)");
-			list.add("Drawback: Power consumption +80 (from 100)");
+			list.add("Effectiveness Upgrade");
+			list.add("Mining Drill:");
+			list.add("Radius +1 / Consumption +80");
 		}
 		
 		if(this == ModItems.upgrade_effect_2)
 		{
-			list.add("Mining drill effectiveness upgrade");
-			list.add("Effect: Radius +2 (from 1)");
-			list.add("Drawback: Power consumption +160 (from 100)");
+			list.add("Effectiveness Upgrade");
+			list.add("Mining Drill:");
+			list.add("Radius +2 / Consumption +160");
 		}
 		
 		if(this == ModItems.upgrade_effect_3)
 		{
-			list.add("Mining drill effectiveness upgrade");
-			list.add("Effect: Radius +3 (from 1)");
-			list.add("Drawback: Power consumption +240 (from 100)");
+			list.add("Effectiveness Upgrade");
+			list.add("Mining Drill:");
+			list.add("Radius +3 / Consumption +240");
 		}
 		
 		if(this == ModItems.upgrade_power_1)
 		{
-			list.add("Mining drill power saving upgrade");
-			list.add("Effect: Power consumption -30 (from 100)");
-			list.add("Drawback: Delay +5 (from 50)");
+			list.add("Power Saving Upgrade");
+			list.add("Mining Drill:");
+			list.add("Consumption -30 / Delay +5");
 			list.add("");
-			list.add("Assembly machine power saving upgrade");
-			list.add("Effect: Power consumption -30 (from 100)");
-			list.add("Drawback: Delay +5 (from 50)");
+			list.add("Assembly Machine:");
+			list.add("Consumption -30 / Delay +5");
 			list.add("");
-			list.add("Chemical plant power saving upgrade");
-			list.add("Effect: Power consumption -30 (from 100)");
-			list.add("Drawback: Delay +5 (from 50)");
+			list.add("Chemical Plant:");
+			list.add("Consumption -30 / Delay +5");
 		}
 		
 		if(this == ModItems.upgrade_power_2)
 		{
-			list.add("Mining drill power saving upgrade");
-			list.add("Effect: Power consumption -60 (from 100)");
-			list.add("Drawback: Delay +10 (from 50)");
+			list.add("Power Saving Upgrade");
+			list.add("Mining Drill:");
+			list.add("Consumption -60 / Delay +10");
 			list.add("");
-			list.add("Assembly machine power saving upgrade");
-			list.add("Effect: Power consumption -60 (from 100)");
-			list.add("Drawback: Delay +10 (from 50)");
+			list.add("Assembly Machine:");
+			list.add("Consumption -60 / Delay +10");
 			list.add("");
-			list.add("Chemical plant power saving upgrade");
-			list.add("Effect: Power consumption -60 (from 100)");
-			list.add("Drawback: Delay +10 (from 50)");
+			list.add("Chemical Plant:");
+			list.add("Consumption -60 / Delay +10");
 		}
 		
 		if(this == ModItems.upgrade_power_3)
 		{
-			list.add("Mining drill power saving upgrade");
-			list.add("Effect: Power consumption -90 (from 100)");
-			list.add("Drawback: Delay +15 (from 50)");
+			list.add("Power Saving Upgrade");
+			list.add("Mining Drill:");
+			list.add("Consumption -90 / Delay +15");
 			list.add("");
-			list.add("Assembly machine power saving upgrade");
-			list.add("Effect: Power consumption -90 (from 100)");
-			list.add("Drawback: Delay +15 (from 50)");
+			list.add("Assembly Machine:");
+			list.add("Consumption -90 / Delay +15");
 			list.add("");
-			list.add("Chemical plant power saving upgrade");
-			list.add("Effect: Power consumption -90 (from 100)");
-			list.add("Drawback: Delay +15 (from 50)");
+			list.add("Chemical Plant:");
+			list.add("Consumption -90 / Delay +15");
 		}
 		
 		if(this == ModItems.upgrade_fortune_1)
 		{
-			list.add("Mining drill fortune upgrade");
-			list.add("Effect: Fortune +1 (from 0");
-			list.add("Drawback: Delay +15 (from 50)");
+			list.add("Fortune Upgrade");
+			list.add("Mining Drill:");
+			list.add("Fortune +1 / Delay +15");
 		}
 		
 		if(this == ModItems.upgrade_fortune_2)
 		{
-			list.add("Mining drill fortune upgrade");
-			list.add("Effect: Fortune +2 (from 0");
-			list.add("Drawback: Delay +30 (from 50)");
+			list.add("Fortune Upgrade");
+			list.add("Mining Drill:");
+			list.add("Fortune +2 / Delay +30");
 		}
 		
 		if(this == ModItems.upgrade_fortune_3)
 		{
-			list.add("Mining drill fortune upgrade");
-			list.add("Effect: Fortune +3 (from 0");
-			list.add("Drawback: Delay +45 (from 50)");
+			list.add("Fortune Upgrade");
+			list.add("Mining Drill:");
+			list.add("Fortune +3 / Delay +45");
+		}
+		
+		if(this == ModItems.upgrade_afterburn_1)
+		{
+			list.add("Afterburner Upgrade");
+			list.add("Turbofan:");
+			list.add("XXXXXXX");
+		}
+		
+		if(this == ModItems.upgrade_afterburn_2)
+		{
+			list.add("Afterburner Upgrade");
+			list.add("Turbofan:");
+			list.add("XXXXXXX");
+		}
+		
+		if(this == ModItems.upgrade_afterburn_3)
+		{
+			list.add("Afterburner Upgrade");
+			list.add("Turbofan:");
+			list.add("XXXXXXX");
 		}
 	}
 
