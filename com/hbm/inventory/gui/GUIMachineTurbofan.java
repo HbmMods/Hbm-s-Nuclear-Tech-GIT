@@ -52,6 +52,11 @@ public class GUIMachineTurbofan extends GuiFluidContainer {
 			int i = diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152 - 9, guiTop + 69 - i, 176 + 16, 52 - i, 16, i);
 		}
+		
+		if(diFurnace.afterburner > 0) {
+			int i = diFurnace.afterburner;
+			drawTexturedModalRect(guiLeft + 107, guiTop + 53, 176, (i - 1) * 16, 16, 16);
+		}
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
 

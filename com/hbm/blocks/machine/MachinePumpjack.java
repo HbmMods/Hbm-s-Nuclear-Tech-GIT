@@ -121,7 +121,7 @@ public class MachinePumpjack extends BlockContainer implements IMultiblock {
 				//
 				DummyBlockPumpjack.safeBreak = true;
 				world.setBlock(x - 2, y, z + 1, ModBlocks.dummy_port_pumpjack);
-				TileEntity te = world.getTileEntity(x + 2, y, z + 1);
+				TileEntity te = world.getTileEntity(x - 2, y, z + 1);
 				if(te instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te;
 					dummy.targetX = x;
@@ -129,7 +129,7 @@ public class MachinePumpjack extends BlockContainer implements IMultiblock {
 					dummy.targetZ = z;
 				}
 				world.setBlock(x - 2, y, z - 1, ModBlocks.dummy_port_pumpjack);
-				TileEntity te2 = world.getTileEntity(x + 2, y, z - 1);
+				TileEntity te2 = world.getTileEntity(x - 2, y, z - 1);
 				if(te2 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te2;
 					dummy.targetX = x;
@@ -137,7 +137,7 @@ public class MachinePumpjack extends BlockContainer implements IMultiblock {
 					dummy.targetZ = z;
 				}
 				world.setBlock(x - 3, y, z + 1, ModBlocks.dummy_port_pumpjack);
-				TileEntity te3 = world.getTileEntity(x + 3, y, z + 1);
+				TileEntity te3 = world.getTileEntity(x - 3, y, z + 1);
 				if(te3 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te3;
 					dummy.targetX = x;
@@ -145,7 +145,7 @@ public class MachinePumpjack extends BlockContainer implements IMultiblock {
 					dummy.targetZ = z;
 				}
 				world.setBlock(x - 3, y, z - 1, ModBlocks.dummy_port_pumpjack);
-				TileEntity te4 = world.getTileEntity(x + 3, y, z - 1);
+				TileEntity te4 = world.getTileEntity(x - 3, y, z - 1);
 				if(te4 instanceof TileEntityDummy) {
 					TileEntityDummy dummy = (TileEntityDummy)te4;
 					dummy.targetX = x;

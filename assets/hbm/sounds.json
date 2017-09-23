@@ -11,6 +11,7 @@
     "block.chemplantOperate": {"category": "block", "sounds": [{"name": "block/chemplantOperate", "stream": false}]},
     "block.dieselOperate": {"category": "block", "sounds": [{"name": "block/dieselOperate", "stream": false}]},
     "block.igeneratorOperate": {"category": "block", "sounds": [{"name": "block/igeneratorOperate", "stream": false}]},
+    "block.turbofanOperate": {"category": "block", "sounds": [{"name": "block/turbofanOperate", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
 	"item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

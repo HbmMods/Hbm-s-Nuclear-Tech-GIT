@@ -20,6 +20,8 @@ import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
 import com.hbm.tileentity.machine.TileEntityCoreAdvanced;
 import com.hbm.tileentity.machine.TileEntityCoreTitanium;
+import com.hbm.tileentity.machine.TileEntityCrateIron;
+import com.hbm.tileentity.machine.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
@@ -460,6 +462,22 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
 				}
 			}
+
+			case ModBlocks.guiID_crate_iron:
+			{
+				if(entity instanceof TileEntityCrateIron)
+				{
+					return new ContainerCrateIron(player.inventory, (TileEntityCrateIron) entity);
+				}
+			}
+
+			case ModBlocks.guiID_crate_steel:
+			{
+				if(entity instanceof TileEntityCrateSteel)
+				{
+					return new ContainerCrateSteel(player.inventory, (TileEntityCrateSteel) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -862,6 +880,22 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineTurbofan)
 					{
 						return new GUIMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_crate_iron:
+				{
+					if(entity instanceof TileEntityCrateIron)
+					{
+						return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_crate_steel:
+				{
+					if(entity instanceof TileEntityCrateSteel)
+					{
+						return new GUICrateSteel(player.inventory, (TileEntityCrateSteel) entity);
 					}
 				}
 			}

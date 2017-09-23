@@ -8,6 +8,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEIGeneratorPacket;
 import cpw.mods.fml.relauncher.Side;
@@ -300,8 +301,10 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 			doBatteryTask();
 		}
 		
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new TEIGeneratorPacket(xCoord, yCoord, zCoord, rotation));
+		if(!worldObj.isRemote) {
+			PacketDispatcher.wrapper.sendToAll(new TEIGeneratorPacket(xCoord, yCoord, zCoord, rotation, torque));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
+		}
 	}
 	
 	public void doFuelTask() {

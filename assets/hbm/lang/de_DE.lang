@@ -54,7 +54,7 @@ chem.COOLANT=Kühlflüssigkeit mischen
 chem.DESH=Deshherstellung
 chem.PEROXIDE=Wasserstoffperoxidherstellung
 chem.CIRCUIT_4=Überstaktete Schaltkreisherstellung
-chem.CIRCUIT_4=Leistungsstarke Schaltkreisherstellung
+chem.CIRCUIT_5=Leistungsstarke Schaltkreisherstellung
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -239,9 +239,10 @@ tile.machine_fluidtank.name=Tank
 container.fluidtank=Tank
 tile.machine_turbofan.name=Turbofan
 container.turbofan=Turbofan
-
 tile.crate_iron.name=Eisenkiste
+container.crateIron=Eisenkiste
 tile.crate_steel.name=Stahlkiste
+container.crateSteel=Stahlkiste
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel
@@ -841,6 +842,7 @@ item.cotton_candy.name=Radioaktive Zuckerwatte
 item.tem_flakes.name=Tem Flakes
 item.glowing_stew.name=Leuchtende Pilzsuppe
 item.lemon.name="Zitrone"
+item.definitelyfood.name=GarantiertKeinDreck-Marken Feldration
 
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_dirt.name=Gefrorene Erde

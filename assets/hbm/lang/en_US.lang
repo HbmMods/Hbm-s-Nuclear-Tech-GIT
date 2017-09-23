@@ -239,9 +239,10 @@ tile.machine_fluidtank.name=Tank
 container.fluidtank=Tank
 tile.machine_turbofan.name=Turbofan
 container.turbofan=Turbofan
-
 tile.crate_iron.name=Iron Crate
+container.crateIron=Iron Crate
 tile.crate_steel.name=Steel Crate
+container.crateSteel=Steel Crate
 
 tile.red_pylon.name=Electricity Pole
 item.wiring_red_copper.name=Cable Drum
@@ -427,7 +428,7 @@ tile.block_reiium.name=Block of Reiium
 tile.block_unobtainium.name=Block of Unobtainium
 tile.block_daffergon.name=Block of Daffergon
 tile.block_verticium.name=Block of Verticium
-tile.block_desh.name=Reinfoced Block of Desh
+tile.block_desh.name=Reinforced Block of Desh
 
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_copper.name=Copper Ore
@@ -841,6 +842,7 @@ item.cotton_candy.name=Radioactive Cotton Candy
 item.tem_flakes.name=Tem Flakes
 item.glowing_stew.name=Glowing Mushroom Stew
 item.lemon.name="Lemon"
+item.definitelyfood.name=TotallyNotDirt-Brand MRE
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt

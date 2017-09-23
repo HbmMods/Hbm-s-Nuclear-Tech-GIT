@@ -15,8 +15,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderPumpjack extends TileEntitySpecialRenderer {
 	
 	public RenderPumpjack() { }
-	
-    private ResourceLocation gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
     
     int i;
 
@@ -44,7 +42,7 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
         
-		this.bindTexture(gadgetTexture);
+		this.bindTexture(ResourceManager.pumpjack_base_tex);
         ResourceManager.pumpjack_base.renderAll();
 
         GL11.glPopMatrix();
@@ -60,7 +58,7 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-		this.bindTexture(gadgetTexture);
+		this.bindTexture(ResourceManager.pumpjack_rotor_tex);
 		GL11.glRotated(i - 90, 1F, 0F, 0F);
 		
         ResourceManager.pumpjack_rotor.renderAll();
@@ -79,7 +77,7 @@ public class RenderPumpjack extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-		this.bindTexture(gadgetTexture);
+		this.bindTexture(ResourceManager.pumpjack_head_tex);
 		float t = (float) Math.sin((i / (180 / Math.PI))) * 15;
 		GL11.glRotatef(t, 1F, 0F, 0F);
         ResourceManager.pumpjack_head.renderAll();

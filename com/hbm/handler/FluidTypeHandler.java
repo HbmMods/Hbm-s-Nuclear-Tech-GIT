@@ -6,7 +6,7 @@ public class FluidTypeHandler {
 		NONE		(0x888888, 8947848, 	0,	1, "hbmfluid.none"),
 
 		WATER		(0x3333FF, 3355647, 	1,	1, "hbmfluid.water"),
-		STEAM		(0x020202, 3355647, 	9,	1, "hbmfluid.steam"),
+		STEAM		(0xe5e5e5, 15066597, 	9,	1, "hbmfluid.steam"),
 		COOLANT		(0xd8fcff, 14220543, 	2,	1, "hbmfluid.coolant"),
 		
 		LAVA		(0xFF3300, 16724736, 	3,	1, "hbmfluid.lava"),

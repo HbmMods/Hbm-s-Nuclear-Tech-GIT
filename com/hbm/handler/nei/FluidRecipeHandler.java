@@ -27,7 +27,7 @@ public class FluidRecipeHandler extends TemplateRecipeHandler {
         public SmeltingSet(ItemStack input, ItemStack result) {
         	input.stackSize = 1;
             this.input = new PositionedStack(input, 83 - 27 - 18 + 1, 5 + 18 + 1);
-            this.result = new PositionedStack(result, 83 + 27 + 18 + 1, 5 + 18 + 1);
+            this.result = new PositionedStack(result, 83 + 27 + 18 + 1 - 18, 5 + 18 + 1);
         }
 
         @Override
@@ -103,7 +103,7 @@ public class FluidRecipeHandler extends TemplateRecipeHandler {
     @Override
     public void loadTransferRects() {
         
-        transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6, 23, 24, 18), "fluidcons"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6 - 18, 23, 42, 18), "fluidcons"));
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
     }
 }

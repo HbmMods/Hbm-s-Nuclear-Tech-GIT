@@ -48,7 +48,7 @@ public class EntityGasFlameFX extends EntityModFX
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        
+
         if(maxAge < 30)
         {
         	maxAge = rand.nextInt(13) + 30;
@@ -60,9 +60,8 @@ public class EntityGasFlameFX extends EntityModFX
         {
             this.setDead();
         }
-
+        
         this.motionX *= 0.7599999785423279D;
-        //this.motionY *= 0.7599999785423279D;
         this.motionY += 0.0075D;
         this.motionZ *= 0.7599999785423279D;
 

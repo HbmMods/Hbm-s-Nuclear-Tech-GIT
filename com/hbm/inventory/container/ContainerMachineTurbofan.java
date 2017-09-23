@@ -15,9 +15,11 @@ public class ContainerMachineTurbofan extends Container {
 	
 	private TileEntityMachineTurbofan diFurnace;
 	private int power;
+	private int afterburner;
 	
 	public ContainerMachineTurbofan(InventoryPlayer invPlayer, TileEntityMachineTurbofan tedf) {
 		power = 0;
+		afterburner = 0;
 		
 		diFurnace = tedf;
 		
@@ -43,6 +45,7 @@ public class ContainerMachineTurbofan extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.afterburner);
 	}
 	
 	@Override
@@ -98,6 +101,10 @@ public class ContainerMachineTurbofan extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
+			if(this.afterburner != this.diFurnace.afterburner)
+			{
+				par1.sendProgressBarUpdate(this, 1, this.diFurnace.afterburner);
+			}
 		}
 		
 		this.power = this.diFurnace.power;
@@ -108,6 +115,10 @@ public class ContainerMachineTurbofan extends Container {
 		if(i == 0)
 		{
 			diFurnace.power = j;
+		}
+		if(i == 1)
+		{
+			diFurnace.afterburner = j;
 		}
 	}
 

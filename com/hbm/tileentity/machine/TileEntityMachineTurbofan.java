@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
@@ -17,6 +18,10 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.LoopedSoundPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TEIGeneratorPacket;
+import com.hbm.packet.TETurbofanPacket;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,6 +44,9 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
 	Random rand = new Random();
+	public int afterburner;
+	public boolean isRunning;
+	public int spin;
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 0, 0 };
@@ -198,6 +206,29 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 	@Override
 	public void updateEntity() {
+		
+		int nrg = 1250;
+		int cnsp = 1;
+		
+		afterburner = 0;
+		if(slots[2] != null) {
+			if(slots[2].getItem() == ModItems.upgrade_afterburn_1) {
+				nrg *= 2;
+				cnsp *= 2.5;
+				afterburner = 1;
+			}
+			if(slots[2].getItem() == ModItems.upgrade_afterburn_2) {
+				nrg *= 3;
+				cnsp *= 5;
+				afterburner = 2;
+			}
+			if(slots[2].getItem() == ModItems.upgrade_afterburn_3) {
+				nrg *= 4;
+				cnsp *= 7.5;
+				afterburner = 3;
+			}
+		}
+		
 		if (!worldObj.isRemote) {
 			age++;
 			if (age >= 20) {
@@ -206,32 +237,21 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 			if (age == 9 || age == 19)
 				ffgeuaInit();
-			
-			int nrg = 1250;
-			int cnsp = 1;
-			
-			if(slots[2] != null) {
-				if(slots[2].getItem() == ModItems.upgrade_afterburn_1) {
-					nrg *= 2;
-					cnsp *= 2.5;
-				}
-				if(slots[2].getItem() == ModItems.upgrade_afterburn_2) {
-					nrg *= 3;
-					cnsp *= 5;
-				}
-				if(slots[2].getItem() == ModItems.upgrade_afterburn_3) {
-					nrg *= 4;
-					cnsp *= 7.5;
-				}
-			}
 
 			//Tank Management
 			tank.loadTank(0, 1, slots);
 			tank.updateTank(xCoord, yCoord, zCoord);
 			
+			isRunning = false;
+				
 			if(tank.getFill() >= cnsp) {
 				tank.setFill(tank.getFill() - cnsp);
 				power += nrg;
+
+				isRunning = true;
+				
+				spin += 3;
+				spin = spin % 360;
 				
 				if(power > maxPower)
 					power = maxPower;
@@ -243,7 +263,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 				double posZ = zCoord + 0.5;
 
 				if(meta == 2) {
-					if(rand.nextInt(3) == 0) {
+					if(afterburner == 0 && rand.nextInt(3) == 0) {
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
 						smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
@@ -255,12 +275,28 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 							worldObj.spawnEntityInWorld(smoke);
 					}
 					
+					for(int i = 0; i < afterburner * 5; i++)
+						if(afterburner > 0 && rand.nextInt(2) == 0) {
+							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
+							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
+							smoke.posZ = zCoord + 4.25;
+							//smoke.motionX = rand.nextGaussian() * 0.3;
+							//smoke.motionY = rand.nextGaussian() * 0.3;
+							smoke.motionZ = 2.5 + (rand.nextFloat() * 3.5);
+							//smoke.isBurn = true;
+							if(!worldObj.isRemote)
+								worldObj.spawnEntityInWorld(smoke);
+						}
+					
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
 							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ + 4.5, posX + 1.5, posY + 3, posZ + 12));
 					
 					for(Entity e : list) {
 						e.motionZ += 0.5;
+						if(afterburner > 0)
+							e.setFire(3 * afterburner);
 					}
 					
 					//Intake pull
@@ -280,7 +316,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					}
 				}
 				if(meta == 3) {
-					if(rand.nextInt(3) == 0) {
+					if(afterburner == 0 && rand.nextInt(3) == 0) {
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
 						smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
@@ -292,12 +328,28 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 							worldObj.spawnEntityInWorld(smoke);
 					}
 
+					for(int i = 0; i < afterburner * 5; i++)
+						if(afterburner > 0 && rand.nextInt(2) == 0) {
+							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
+							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
+							smoke.posZ = zCoord - 4.25;
+							//smoke.motionX = rand.nextGaussian() * 0.3;
+							//smoke.motionY = rand.nextGaussian() * 0.3;
+							smoke.motionZ = -2.5 - (rand.nextFloat() * 3.5);
+							//smoke.isBurn = true;
+							if(!worldObj.isRemote)
+								worldObj.spawnEntityInWorld(smoke);
+						}
+
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
 							AxisAlignedBB.getBoundingBox(posX - 1.5, posY, posZ - 12, posX + 1.5, posY + 3, posZ - 4.5));
 					
 					for(Entity e : list) {
 						e.motionZ -= 0.5;
+						if(afterburner > 0)
+							e.setFire(3 * afterburner);
 					}
 
 					//Intake pull
@@ -317,17 +369,31 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					}
 				}
 				if(meta == 4) {
-					if(rand.nextInt(3) == 0) {
+					if(afterburner == 0 && rand.nextInt(3) == 0) {
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
 						smoke.posX = xCoord + 4.25;
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 						smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
-						smoke.motionY = rand.nextGaussian() * 0.3;
-						smoke.motionZ = rand.nextGaussian() * 0.3;
+						//smoke.motionY = rand.nextGaussian() * 0.3;
+						//smoke.motionZ = rand.nextGaussian() * 0.3;
 						if(!worldObj.isRemote)
 							worldObj.spawnEntityInWorld(smoke);
 					}
+
+					for(int i = 0; i < afterburner * 5; i++)
+						if(afterburner > 0 && rand.nextInt(2) == 0) {
+							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							smoke.posX = xCoord + 4.25;
+							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
+							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
+							smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
+							//smoke.motionY = rand.nextGaussian() * 0.3;
+							//smoke.motionZ = rand.nextGaussian() * 0.3;
+							//smoke.isBurn = true;
+							if(!worldObj.isRemote)
+								worldObj.spawnEntityInWorld(smoke);
+						}
 					
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
@@ -335,6 +401,8 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					
 					for(Entity e : list) {
 						e.motionX += 0.5;
+						if(afterburner > 0)
+							e.setFire(3 * afterburner);
 					}
 					
 					//Intake pull
@@ -354,7 +422,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					}
 				}
 				if(meta == 5) {
-					if(rand.nextInt(3) == 0) {
+					if(afterburner == 0 && rand.nextInt(3) == 0) {
 						EntityTSmokeFX smoke = new EntityTSmokeFX(worldObj);
 						smoke.posX = xCoord - 4.25;
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
@@ -365,6 +433,20 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 						if(!worldObj.isRemote)
 							worldObj.spawnEntityInWorld(smoke);
 					}
+
+					for(int i = 0; i < afterburner * 5; i++)
+						if(afterburner > 0 && rand.nextInt(2) == 0) {
+							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							smoke.posX = xCoord - 4.25;
+							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
+							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
+							smoke.motionX = -2.5 - (rand.nextFloat() * 3.5);
+							//smoke.motionY = rand.nextGaussian() * 0.3;
+							//smoke.motionZ = rand.nextGaussian() * 0.3;
+							//smoke.isBurn = true;
+							if(!worldObj.isRemote)
+								worldObj.spawnEntityInWorld(smoke);
+						}
 					
 					//Exhaust push
 					List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
@@ -372,6 +454,8 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					
 					for(Entity e : list) {
 						e.motionX -= 0.5;
+						if(afterburner > 0)
+							e.setFire(3 * afterburner);
 					}
 					
 					//Intake pull
@@ -391,6 +475,11 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					}
 				}
 			}
+		}
+		
+		if(!worldObj.isRemote) {
+			PacketDispatcher.wrapper.sendToAll(new TETurbofanPacket(xCoord, yCoord, zCoord, spin, isRunning));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
 	}
 

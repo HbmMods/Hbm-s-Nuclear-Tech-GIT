@@ -45,6 +45,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ItemFolderPacket.Handler.class, ItemFolderPacket.class, i++, Side.SERVER);
 		//Pumpjack rotation for animation rendering
 		wrapper.registerMessage(TEPumpjackPacket.Handler.class, TEPumpjackPacket.class, i++, Side.CLIENT);
+		//Turbofan spin for rendering
+		wrapper.registerMessage(TETurbofanPacket.Handler.class, TETurbofanPacket.class, i++, Side.CLIENT);
 	}
 	
 }

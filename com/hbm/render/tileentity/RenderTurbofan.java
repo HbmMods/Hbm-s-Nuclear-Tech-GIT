@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -13,17 +14,12 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderTurbofan extends TileEntitySpecialRenderer {
-
-    private ResourceLocation gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
 	
 	public RenderTurbofan() { }
-	
-    int i;
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
-    	i -= 3;
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -42,7 +38,7 @@ public class RenderTurbofan extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(gadgetTexture);
+        bindTexture(ResourceManager.turbofan_body_tex);
         
         ResourceManager.turbofan_body.renderAll();
 
@@ -70,9 +66,11 @@ public class RenderTurbofan extends TileEntitySpecialRenderer {
 		case 5:
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
-		GL11.glRotatef(i, 0F, 0F, 1F);
+		
+		if(tileEntity instanceof TileEntityMachineTurbofan)
+			GL11.glRotatef(((TileEntityMachineTurbofan)tileEntity).spin, 0F, 0F, -1F);
 
-        bindTexture(gadgetTexture);
+        bindTexture(ResourceManager.turbofan_blades_tex);
         ResourceManager.turbofan_blades.renderAll();
 
         GL11.glPopMatrix();

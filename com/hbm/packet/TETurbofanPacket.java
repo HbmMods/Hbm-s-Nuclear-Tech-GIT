@@ -1,6 +1,7 @@
 package com.hbm.packet;
 
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -9,26 +10,26 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-public class TEIGeneratorPacket implements IMessage {
+public class TETurbofanPacket implements IMessage {
 
 	int x;
 	int y;
 	int z;
-	float spin;
-	int torque;
+	int spin;
+	boolean isRunning;
 
-	public TEIGeneratorPacket()
+	public TETurbofanPacket()
 	{
 		
 	}
 
-	public TEIGeneratorPacket(int x, int y, int z, float spin, int torque)
+	public TETurbofanPacket(int x, int y, int z, int spin, boolean isRunning)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.spin = spin;
-		this.torque = torque;
+		this.isRunning = isRunning;
 	}
 
 	@Override
@@ -36,8 +37,8 @@ public class TEIGeneratorPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		spin = buf.readFloat();
-		torque = buf.readInt();
+		spin = buf.readInt();
+		isRunning = buf.readBoolean();
 	}
 
 	@Override
@@ -45,21 +46,21 @@ public class TEIGeneratorPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeFloat(spin);
-		buf.writeInt(torque);
+		buf.writeInt(spin);
+		buf.writeBoolean(isRunning);
 	}
 
-	public static class Handler implements IMessageHandler<TEIGeneratorPacket, IMessage> {
+	public static class Handler implements IMessageHandler<TETurbofanPacket, IMessage> {
 		
 		@Override
-		public IMessage onMessage(TEIGeneratorPacket m, MessageContext ctx) {
+		public IMessage onMessage(TETurbofanPacket m, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
-			if (te != null && te instanceof TileEntityMachineIGenerator) {
+			if (te != null && te instanceof TileEntityMachineTurbofan) {
 					
-				TileEntityMachineIGenerator gen = (TileEntityMachineIGenerator) te;
-				gen.rotation = m.spin;
-				gen.torque = m.torque;
+				TileEntityMachineTurbofan gen = (TileEntityMachineTurbofan) te;
+				gen.spin = m.spin;
+				gen.isRunning = m.isRunning;
 			}
 			return null;
 		}

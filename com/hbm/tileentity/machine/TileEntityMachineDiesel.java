@@ -260,8 +260,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 				}
 				soundCycle++;
 
-				//if (soundCycle >= 3 && this.superTimer <= 0)
-				//	soundCycle = 0;
+				if (soundCycle >= 3)
+					soundCycle = 0;
 				//if (this.superTimer > 0)
 				//	soundCycle = 0;
 

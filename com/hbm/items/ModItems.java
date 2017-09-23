@@ -649,6 +649,7 @@ public class ModItems {
 	public static Item tem_flakes;
 	public static Item glowing_stew;
 	public static Item lemon;
+	public static Item definitelyfood;
 
 	public static Item flame_pony;
 	public static Item flame_conspiracy;
@@ -1605,6 +1606,7 @@ public class ModItems {
 		tem_flakes = new ItemTemFlakes(0, 0, false).setUnlocalizedName("tem_flakes").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":tem_flakes");
 		glowing_stew = new ItemSoup(6).setUnlocalizedName("glowing_stew").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":glowing_stew");
 		lemon = new ItemLemon(3, 5, false).setUnlocalizedName("lemon").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":lemon");
+		definitelyfood = new ItemLemon(2, 5, false).setUnlocalizedName("definitelyfood").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":definitelyfood");
 		
 		flame_pony = new ItemCustomLore().setUnlocalizedName("flame_pony").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_pony");
 		flame_conspiracy = new ItemCustomLore().setUnlocalizedName("flame_conspiracy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_conspiracy");
@@ -2779,6 +2781,7 @@ public class ModItems {
 		GameRegistry.registerItem(tem_flakes, tem_flakes.getUnlocalizedName());
 		GameRegistry.registerItem(glowing_stew, glowing_stew.getUnlocalizedName());
 		GameRegistry.registerItem(lemon, lemon.getUnlocalizedName());
+		GameRegistry.registerItem(definitelyfood, definitelyfood.getUnlocalizedName());
 		
 		//Energy Drinks
 		GameRegistry.registerItem(can_empty, can_empty.getUnlocalizedName());
@@ -2916,7 +2919,7 @@ public class ModItems {
 		GameRegistry.registerItem(wand, wand.getUnlocalizedName());
 		GameRegistry.registerItem(wand_s, wand_s.getUnlocalizedName());
 		GameRegistry.registerItem(wand_d, wand_d.getUnlocalizedName());
-		GameRegistry.registerItem(remote, remote.getUnlocalizedName());
+		//GameRegistry.registerItem(remote, remote.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_stopper, euphemium_stopper.getUnlocalizedName());
 		GameRegistry.registerItem(polaroid, polaroid.getUnlocalizedName());
 		GameRegistry.registerItem(book_secret, book_secret.getUnlocalizedName());
