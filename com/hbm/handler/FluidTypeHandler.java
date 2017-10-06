@@ -36,6 +36,9 @@ public class FluidTypeHandler {
 		GAS			(0xfffeed, 16776941, 	13,	1, "hbmfluid.gas"),
 		PETROLEUM	(0x7cb7c9, 8173513,		7,	2, "hbmfluid.petroleum"),
 		
+		BIOGAS		(0xbfd37c, 12571516, 	12,	2, "hbmfluid.biogas"),
+		BIOFUEL		(0xeef274, 15659636,	13,	2, "hbmfluid.biofuel"),
+		
 		UF6			(0xD1CEBE, 13749950, 	14,	1, "hbmfluid.uf6"),
 		PUF6		(0x4C4C4C, 5000268, 	15,	1, "hbmfluid.puf6"),
 		

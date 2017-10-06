@@ -22,11 +22,51 @@ public class ItemChemistryTemplate extends Item {
 		//FR - Fuel Reprocessing
 		//FC - Fuel Cracking
 		//CC - Coal Cracking
+		//SF - Solid Fuel Production
+		//BP - Biofuel Production
 		
-		TEST, FP_HEAVYOIL, FP_SMEAR, FP_NAPHTHA, FP_LIGHTOIL, FR_REOIL, FR_PETROIL,
-		FC_I_NAPHTHA, FC_GAS_PETROLEUM, FC_DIESEL_KEROSENE, FC_KEROSENE_PETROLEUM, CC_OIL,
-		CC_I, CC_HEATING, CC_HEAVY, CC_NAPHTHA, ASPHALT, COOLANT, DESH, PEROXIDE, CIRCUIT_4,
-		CIRCUIT_5;
+		TEST,
+		FP_HEAVYOIL,
+		FP_SMEAR,
+		FP_NAPHTHA,
+		FP_LIGHTOIL,
+		FR_REOIL,
+		FR_PETROIL,
+		FC_I_NAPHTHA,
+		FC_GAS_PETROLEUM,
+		FC_DIESEL_KEROSENE,
+		FC_KEROSENE_PETROLEUM,
+		CC_OIL,
+		CC_I,
+		CC_HEATING,
+		CC_HEAVY,
+		CC_NAPHTHA,
+		SF_OIL,
+		SF_HEAVYOIL,
+		SF_SMEAR,
+		SF_HEATINGOIL,
+		SF_RECLAIMED,
+		SF_PETROIL,
+		SF_LUBRICANT,
+		SF_NAPHTHA,
+		SF_DIESEL,
+		SF_LIGHTOIL,
+		SF_KEROSENE,
+		SF_GAS,
+		SF_PETROLEUM,
+		BP_BIOGAS,
+		BP_BIOFUEL,
+		ASPHALT,
+		COOLANT,
+		DESH,
+		PEROXIDE,
+		CIRCUIT_4,
+		CIRCUIT_5,
+		POLYMER,
+		DEUTERIUM,
+		STEAM,
+		UF6,
+		PUF6;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -122,6 +162,42 @@ public class ItemChemistryTemplate extends Item {
         	return 200;
         case CIRCUIT_5:
         	return 250;
+        case SF_OIL:
+        	return 20;
+        case SF_HEAVYOIL:
+        	return 20;
+        case SF_SMEAR:
+        	return 20;
+        case SF_HEATINGOIL:
+        	return 20;
+        case SF_RECLAIMED:
+        	return 20;
+        case SF_PETROIL:
+        	return 20;
+    	case SF_LUBRICANT:
+        	return 20;
+    	case SF_NAPHTHA:
+        	return 20;
+    	case SF_DIESEL:
+        	return 20;
+    	case SF_LIGHTOIL:
+        	return 20;
+    	case SF_KEROSENE:
+        	return 20;
+    	case SF_GAS:
+        	return 20;
+    	case SF_PETROLEUM:
+        	return 20;
+        case POLYMER:
+        	return 100;
+        case DEUTERIUM:
+        	return 200;
+        case STEAM:
+        	return 20;
+        case BP_BIOGAS:
+        	return 200;
+        case BP_BIOFUEL:
+        	return 300;
         default:
         	return 100;
         }

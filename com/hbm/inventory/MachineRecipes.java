@@ -2052,7 +2052,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_gold, 3));
 			break;
 		case RT_GENERATOR:
-			list.add(new ItemStack(ModItems.rtg_unit, 6));
+			list.add(new ItemStack(ModItems.rtg_unit, 5));
 			list.add(new ItemStack(ModItems.plate_steel, 8));
 			list.add(new ItemStack(ModItems.wire_red_copper, 4));
 			break;
@@ -2446,6 +2446,207 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 10));
 			list.add(new ItemStack(ModItems.plate_steel, 14));
 			break;
+		case MISSILE_HE_3:
+			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 14));
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			break;
+		case MISSILE_FIRE_3:
+			list.add(new ItemStack(ModItems.warhead_incendiary_large, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 14));
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			break;
+		case MISSILE_CLUSTER_3:
+			list.add(new ItemStack(ModItems.warhead_cluster_large, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 14));
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			break;
+		case MISSILE_BUSTER_3:
+			list.add(new ItemStack(ModItems.warhead_buster_large, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 14));
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			break;
+		case MISSILE_NUCLEAR:
+			list.add(new ItemStack(ModItems.warhead_nuclear, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 20));
+			list.add(new ItemStack(ModItems.plate_steel, 24));
+			list.add(new ItemStack(ModItems.plate_aluminium, 16));
+			break;
+		case MISSILE_MIRV:
+			list.add(new ItemStack(ModItems.warhead_mirv, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 20));
+			list.add(new ItemStack(ModItems.plate_steel, 24));
+			list.add(new ItemStack(ModItems.plate_aluminium, 16));
+			break;
+		case MISSILE_ENDO:
+			list.add(new ItemStack(ModItems.warhead_thermo_endo, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 14));
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			break;
+		case MISSILE_EXO:
+			list.add(new ItemStack(ModItems.warhead_thermo_exo, 1));
+			list.add(new ItemStack(ModItems.fuel_tank_large, 1));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_titanium, 14));
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			break;
+		case DEFAB:
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.plate_iron, 5));
+			list.add(new ItemStack(Items.diamond, 1));
+			list.add(new ItemStack(ModItems.plate_dalekanium, 3));
+			break;
+		case LASER_BUCKSHOT:
+			list.add(new ItemStack(ModItems.powder_power, 1));
+			list.add(new ItemStack(ModItems.powder_lead, 1));
+			break;
+		case ROCKET:
+			list.add(new ItemStack(ModItems.plate_steel, 1));
+			list.add(new ItemStack(ModItems.plate_iron, 5));
+			list.add(new ItemStack(Blocks.tnt, 1));
+			break;
+		case MINI_NUKE:
+			list.add(new ItemStack(ModItems.plate_steel, 3));
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			list.add(new ItemStack(ModItems.nugget_pu239, 3));
+			break;
+		case MINI_MIRV:
+			list.add(new ItemStack(ModItems.plate_steel, 20));
+			list.add(new ItemStack(ModItems.plate_iron, 10));
+			list.add(new ItemStack(ModItems.nugget_pu239, 3));
+			break;
+		case DARK_PLUG:
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(Items.redstone, 1));
+			list.add(new ItemStack(Items.glowstone_dust, 1));
+			break;
+		case COMBINE_BALL:
+			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
+			list.add(new ItemStack(Items.redstone, 7));
+			list.add(new ItemStack(ModItems.powder_power, 3));
+			break;
+		case GREANADE_ENHANCED:
+			list.add(new ItemStack(ModItems.plate_iron, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 2));
+			list.add(new ItemStack(Blocks.tnt, 1));
+			break;
+		case GRENADE_FLAME:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_SHRAPNEL:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENAGE_CLUSTER:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GREANADE_FLARE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_LIGHTNING:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_IMPULSE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_PLASMA:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_TAU:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_SCHRABIDIUM:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_MK2:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_ASCHRAB:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_NUKE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_ZOMG:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GRENADE_BLACK_HOLE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case POWER_FIST:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GADGET_PROPELLANT:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GADGET_WIRING:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case GADGET_CORE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case BOY_SHIELDING:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case BOY_TARGET:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case BOY_BULLET:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case BOY_PRPELLANT:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case BOY_IGNITER:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case MAN_PROPELLANT:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case MAN_IGNITER:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case MAN_CORE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case MIKE_TANK:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case MIKE_DEUT:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case MIKE_COOLER:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case FLEIIJA_IGNITER:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case FLEIJA_CORE:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
+		case FLEIJA_PROPELLANT:
+			list.add(new ItemStack(ModItems.plate_iron, 1));
+			break;
 		default:
 			list.add(new ItemStack(Items.stick));
 			break;
@@ -2793,10 +2994,10 @@ public class MachineRecipes {
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
 		case CHEMPLANT:
-			output = new ItemStack(ModBlocks.machine_refinery, 1);
+			output = new ItemStack(ModBlocks.machine_chemplant, 1);
 			break;
 		case TANK:
-			output = new ItemStack(ModBlocks.machine_refinery, 1);
+			output = new ItemStack(ModBlocks.machine_fluidtank, 1);
 			break;
 		case MINER:
 			output = new ItemStack(ModBlocks.machine_drill, 1);
@@ -2941,6 +3142,150 @@ public class MachineRecipes {
 			break;
 		case MISSILE_BUSTER_2:
 			output = new ItemStack(ModItems.missile_buster_strong, 1);
+			break;
+		case MISSILE_HE_3:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_FIRE_3:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_CLUSTER_3:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_BUSTER_3:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_NUCLEAR:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_MIRV:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_ENDO:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MISSILE_EXO:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case DEFAB:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case LASER_BUCKSHOT:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case ROCKET:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MINI_NUKE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MINI_MIRV:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case DARK_PLUG:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case COMBINE_BALL:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GREANADE_ENHANCED:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_FLAME:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_SHRAPNEL:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENAGE_CLUSTER:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GREANADE_FLARE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_LIGHTNING:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_IMPULSE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_PLASMA:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_TAU:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_SCHRABIDIUM:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_MK2:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_ASCHRAB:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_NUKE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_ZOMG:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GRENADE_BLACK_HOLE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case POWER_FIST:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GADGET_PROPELLANT:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GADGET_WIRING:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case GADGET_CORE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case BOY_SHIELDING:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case BOY_TARGET:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case BOY_BULLET:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case BOY_PRPELLANT:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case BOY_IGNITER:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MAN_PROPELLANT:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MAN_IGNITER:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MAN_CORE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MIKE_TANK:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MIKE_DEUT:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case MIKE_COOLER:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case FLEIIJA_IGNITER:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case FLEIJA_CORE:
+			output = new ItemStack(Items.stick, 1);
+			break;
+		case FLEIJA_PROPELLANT:
+			output = new ItemStack(Items.stick, 1);
 			break;
 		default:
 			output = new ItemStack(Items.stick, 1);
@@ -3102,6 +3447,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.powder_diamond, 4));
 			list.add(new ItemStack(ModItems.powder_power, 1));
 			break;
+        case POLYMER:
+			list.add(new ItemStack(Items.coal, 2));
+			list.add(new ItemStack(ModItems.fluorite, 1));
+			break;
+        case DEUTERIUM:
+			list.add(new ItemStack(ModItems.sulfur, 1));
+			break;
+        case BP_BIOGAS:
+			list.add(new ItemStack(ModItems.biomass, 16));
+			break;
 		default:
 			break;
 		}
@@ -3199,6 +3554,57 @@ public class MachineRecipes {
 			input[0] = new FluidStack(800, FluidType.ACID);
 			input[1] = new FluidStack(400, FluidType.PETROLEUM);
         	break;
+        case SF_OIL:
+			input[0] = new FluidStack(350, FluidType.OIL);
+        	break;
+        case SF_HEAVYOIL:
+			input[0] = new FluidStack(250, FluidType.HEAVYOIL);
+        	break;
+        case SF_SMEAR:
+			input[0] = new FluidStack(200, FluidType.SMEAR);
+        	break;
+        case SF_HEATINGOIL:
+			input[0] = new FluidStack(100, FluidType.HEATINGOIL);
+        	break;
+        case SF_RECLAIMED:
+			input[0] = new FluidStack(200, FluidType.RECLAIMED);
+        	break;
+        case SF_PETROIL:
+			input[0] = new FluidStack(250, FluidType.PETROIL);
+        	break;
+    	case SF_LUBRICANT:
+			input[0] = new FluidStack(250, FluidType.LUBRICANT);
+        	break;
+    	case SF_NAPHTHA:
+			input[0] = new FluidStack(300, FluidType.NAPHTHA);
+        	break;
+    	case SF_DIESEL:
+			input[0] = new FluidStack(400, FluidType.DIESEL);
+        	break;
+    	case SF_LIGHTOIL:
+			input[0] = new FluidStack(450, FluidType.LIGHTOIL);
+        	break;
+    	case SF_KEROSENE:
+			input[0] = new FluidStack(550, FluidType.KEROSENE);
+        	break;
+    	case SF_GAS:
+			input[0] = new FluidStack(750, FluidType.GAS);
+        	break;
+    	case SF_PETROLEUM:
+			input[0] = new FluidStack(600, FluidType.PETROLEUM);
+        	break;
+        case POLYMER:
+			input[0] = new FluidStack(600, FluidType.PETROLEUM);
+        	break;
+        case DEUTERIUM:
+			input[0] = new FluidStack(4000, FluidType.WATER);
+        	break;
+        case STEAM:
+			input[0] = new FluidStack(1000, FluidType.WATER);
+        	break;
+        case BP_BIOFUEL:
+			input[0] = new FluidStack(1000, FluidType.BIOGAS);
+        	break;
 		default:
 			break;
 		}
@@ -3233,6 +3639,61 @@ public class MachineRecipes {
 		case CIRCUIT_5:
 			output[0] = new ItemStack(ModItems.circuit_schrabidium, 1);
 			break;
+        case SF_OIL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+        case SF_HEAVYOIL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+        case SF_SMEAR:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+        case SF_HEATINGOIL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+        case SF_RECLAIMED:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+        case SF_PETROIL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_LUBRICANT:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_NAPHTHA:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_DIESEL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_LIGHTOIL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_KEROSENE:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_GAS:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_PETROLEUM:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+        case POLYMER:
+			output[0] = new ItemStack(ModItems.ingot_polymer, 1);
+        	break;
 		default:
 			break;
 		}
@@ -3306,6 +3767,18 @@ public class MachineRecipes {
         case PEROXIDE:
 			input[0] = new FluidStack(800, FluidType.ACID);
 			break;
+        case DEUTERIUM:
+			input[0] = new FluidStack(500, FluidType.DEUTERIUM);
+        	break;
+        case STEAM:
+			input[0] = new FluidStack(1000, FluidType.DEUTERIUM);
+        	break;
+        case BP_BIOGAS:
+			input[0] = new FluidStack(1000, FluidType.BIOGAS);
+        	break;
+        case BP_BIOFUEL:
+			input[0] = new FluidStack(500, FluidType.BIOFUEL);
+        	break;
 		default:
 			break;
 		}

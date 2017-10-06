@@ -5,6 +5,7 @@ import com.hbm.entity.particle.EntitySmokeFX;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -21,7 +22,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity {
 	double decelY;
 	double accelXZ;
 	boolean isCluster = false;
-	float health = 50;
+	float health = 10;
 
 	public EntityMissileBaseAdvanced(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -34,22 +35,25 @@ public abstract class EntityMissileBaseAdvanced extends Entity {
 	
     public boolean attackEntityFrom(DamageSource p_70097_1_, float f)
     {
-        if (this.isEntityInvulnerable())
+        if (!this.worldObj.isRemote && !this.isDead)
         {
-            return false;
+            if (this.isEntityInvulnerable())
+            {
+                return false;
+            }
+            else
+            {
+                this.setBeenAttacked();
+                health -= f;
+
+                if(health <= 0) {
+                }
+
+                return true;
+            }
         }
         else
         {
-            this.setBeenAttacked();
-            health -= f;
-            
-            if(health <= 0) {
-            	if(!worldObj.isRemote)
-            		worldObj.createExplosion(this, posX, posY, posZ, 15, true);
-            	
-            	this.setDead();
-            }
-            
             return true;
         }
     }

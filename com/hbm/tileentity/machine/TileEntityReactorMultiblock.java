@@ -10,9 +10,12 @@ import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.explosion.ExplosionParticle;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
@@ -35,12 +38,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityReactorMultiblock extends TileEntity implements ISidedInventory, IReactor, ISource {
+public class TileEntityReactorMultiblock extends TileEntity implements ISidedInventory, ISource, IFluidContainer {
 
-	public int water;
-	public final static int waterMax = 10000000;
-	public int cool;
-	public final static int coolMax = 10000000;
 	public int heat;
 	public final static int heatMax = 1000000;
 	public int power;
@@ -48,13 +47,17 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	private ItemStack slots[];
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
+	public FluidTank[] tanks;
 	
 	public boolean isLoaded = false;
 	
 	private String customName;
 
 	public TileEntityReactorMultiblock() {
-		slots = new ItemStack[34];
+		slots = new ItemStack[36];
+		tanks = new FluidTank[2];
+		tanks[0] = new FluidTank(FluidType.WATER, 128000, 0);
+		tanks[1] = new FluidTank(FluidType.COOLANT, 64000, 1);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -169,8 +172,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		water = nbt.getInteger("water");
-		cool = nbt.getInteger("cool");
+		tanks[0].readFromNBT(nbt, "water");
+		tanks[1].readFromNBT(nbt, "coolant");
 		power = nbt.getInteger("power");
 		heat = nbt.getInteger("heat");
 		
@@ -190,8 +193,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("water", water);
-		nbt.setInteger("cool", cool);
+		tanks[0].writeToNBT(nbt, "water");
+		tanks[1].writeToNBT(nbt, "coolant");
 		nbt.setInteger("power", power);
 		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
@@ -222,83 +225,13 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 			if(age == 9 || age == 19)
 				ffgeuaInit();
 			
-			//if(!worldObj.isRemote)
+			if(!worldObj.isRemote)
 			{
-				if(slots[30] != null && slots[30].getItem() == Items.water_bucket && this.water + 250000 <= waterMax)
-				{
-					this.slots[30].stackSize--;
-					this.water += 250000;
-					if(this.slots[30].stackSize == 0)
-					{
-						this.slots[30] = this.slots[30].getItem().getContainerItem(this.slots[30]);
-					}
-				}
-				if(slots[30] != null && slots[30].getItem() == ModItems.rod_water && this.water + 250000 <= waterMax)
-				{
-					this.slots[30].stackSize--;
-					this.water += 250000;
-					if(this.slots[30].stackSize == 0)
-					{
-						this.slots[30] = this.slots[30].getItem().getContainerItem(this.slots[30]);
-					}
-				}
-				if(slots[30] != null && slots[30].getItem() == ModItems.rod_dual_water && this.water + 500000 <= waterMax)
-				{
-					this.slots[30].stackSize--;
-					this.water += 500000;
-					if(this.slots[30].stackSize == 0)
-					{
-						this.slots[30] = this.slots[30].getItem().getContainerItem(this.slots[30]);
-					}
-				}
-				if(slots[30] != null && slots[30].getItem() == ModItems.rod_quad_water && this.water + 1000000 <= waterMax)
-				{
-					this.slots[30].stackSize--;
-					this.water += 1000000;
-					if(this.slots[30].stackSize == 0)
-					{
-						this.slots[30] = this.slots[30].getItem().getContainerItem(this.slots[30]);
-					}
-				}
-				if(slots[30] != null && slots[30].getItem() == ModItems.inf_water)
-				{
-					this.water = waterMax;
-				}
+				tanks[0].loadTank(30, 31, slots);
+				tanks[1].loadTank(32, 33, slots);
 				
-				if(slots[31] != null && slots[31].getItem() == ModItems.rod_coolant && this.cool + 250000 <= coolMax)
-				{
-					this.slots[31].stackSize--;
-					this.cool += 250000;
-					if(this.slots[31].stackSize == 0)
-					{
-						this.slots[31] = this.slots[31].getItem().getContainerItem(this.slots[31]);
-					}
-				}
-				
-				if(slots[31] != null && slots[31].getItem() == ModItems.rod_dual_coolant && this.cool + 500000 <= coolMax)
-				{
-					this.slots[31].stackSize--;
-					this.cool += 500000;
-					if(this.slots[31].stackSize == 0)
-					{
-						this.slots[31] = this.slots[31].getItem().getContainerItem(this.slots[31]);
-					}
-				}
-				
-				if(slots[31] != null && slots[31].getItem() == ModItems.rod_quad_coolant && this.cool + 1000000 <= coolMax)
-				{
-					this.slots[31].stackSize--;
-					this.cool += 1000000;
-					if(this.slots[31].stackSize == 0)
-					{
-						this.slots[31] = this.slots[31].getItem().getContainerItem(this.slots[31]);
-					}
-				}
-				
-				if(slots[31] != null && slots[31].getItem() == ModItems.inf_coolant)
-				{
-					this.cool = coolMax;
-				}
+				for(int i = 0; i < 2; i++)
+					tanks[i].updateTank(xCoord, yCoord, zCoord);
 				
 				
 				if(hasFuse())
@@ -493,19 +426,19 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						((slots[28] != null && !(slots[28].getItem() instanceof ItemFuelRod)) || slots[28] == null) && 
 						((slots[29] != null && !(slots[29].getItem() instanceof ItemFuelRod)) || slots[29] == null))
 				{
-					if(this.heat - 10 >= 0 && this.cool - 10 >= 0)
+					if(this.heat - 10 >= 0 && tanks[1].getFill() - 2 >= 0)
 					{
 						this.heat -= 10;
-						this.cool -= 2;
+						this.tanks[1].setFill(tanks[1].getFill() - 2);
 					}
 					
-					if(this.heat < 10 && this.cool != 0)
+					if(this.heat < 10 && heat != 0 && this.tanks[1].getFill() != 0)
 					{
 						this.heat--;
-						this.cool--;
+						this.tanks[1].setFill(tanks[1].getFill() - 1);
 					}
 					
-					if(this.heat != 0 && this.cool == 0)
+					if(this.heat != 0 && this.tanks[1].getFill() == 0)
 					{
 						this.heat--;
 					}
@@ -589,7 +522,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		
 	}
 
-	@Override
 	public boolean isStructureValid(World world) {
 		if(world.getBlock(this.xCoord, this.yCoord, this.zCoord) == ModBlocks.reactor_computer &&
 				world.getBlock(this.xCoord, this.yCoord + 1, this.zCoord) == ModBlocks.reactor_conductor &&
@@ -628,7 +560,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		return false;
 	}
 	
-	@Override
 	public boolean isCoatingValid(World world) {
 		if(world.getBlock(this.xCoord - 1, this.yCoord + 2, this.zCoord - 1)== ModBlocks.brick_concrete &&
 				world.getBlock(this.xCoord + 1, this.yCoord + 2, this.zCoord + 1)== ModBlocks.brick_concrete &&
@@ -689,47 +620,34 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		return false;
 	}
 	
-	@Override
-	public int getWaterScaled(int i) {
-		return (water * i) / waterMax;
-	}
-	
-	@Override
-	public int getCoolantScaled(int i) {
-		return (cool * i) / coolMax;
-	}
-	
-	@Override
 	public int getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
 	
-	@Override
 	public int getHeatScaled(int i) {
 		return (heat * i) / heatMax;
 	}
 	
-	@Override
 	public boolean hasFuse() {
 		return slots[33] != null && (slots[33].getItem() == ModItems.fuse || slots[33].getItem() == ModItems.screwdriver);
 	}
-	
+
 	public void attemptPower(int i) {
-		if(this.water - i >= 0)
+		if(this.tanks[0].getFill() - i >= 0)
 		{
 			this.power += i;
-			this.water -= i;
+			this.tanks[0].setFill(tanks[0].getFill() - i);
 		}
 	}
-	
+
 	public void attemptHeat(int i) {
 		Random rand = new Random();
 		
-		int j = rand.nextInt(i);
+		int j = rand.nextInt(i + 1);
 		
-		if(this.cool - j >= 0)
+		if(this.tanks[1].getFill() - j >= 0)
 		{
-			this.cool -= j;
+			this.tanks[1].setFill(tanks[1].getFill() - j);
 		} else {
 			this.heat += i;
 		}
@@ -792,5 +710,17 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setTankType(type);
 	}
 }

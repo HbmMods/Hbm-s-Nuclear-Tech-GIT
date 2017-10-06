@@ -149,8 +149,9 @@ public class BlockOre extends Block {
         		if(!p_149724_1_.isRemote)
         		p_149724_1_.spawnEntityInWorld(creep);
         	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 60 * 20, 2));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 30 * 20, 0));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 30 * 20, 2));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 0));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 15 * 20, 0));
     		entity.attackEntityFrom(ModDamageSource.radiation, 0.5F);
         	}
     	}
@@ -186,9 +187,10 @@ public class BlockOre extends Block {
         		if(!p_149724_1_.isRemote)
         		p_149724_1_.spawnEntityInWorld(creep);
         	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 10 * 60 * 20, 4));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 4 * 60 * 20, 2));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 60 * 20, 2));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 60 * 20, 2));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 30 * 20, 1));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 10 * 20, 0));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 20 * 20, 0));
     		entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
         	}
     	}
@@ -216,7 +218,7 @@ public class BlockOre extends Block {
         		if(!p_149724_1_.isRemote)
         		p_149724_1_.spawnEntityInWorld(creep);
         	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 30 * 20, 1));
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 1));
         	}
     	}
     }

@@ -370,6 +370,9 @@ public class ModBlocks {
 	public static Block machine_turbofan;
 	public static final int guiID_machine_turbofan = 52;
 
+	public static Block machine_inserter;
+	public static final int guiID_machine_inserter = 53;
+
 	public static Block turret_light;
 	public static Block turret_heavy;
 	public static Block turret_rocket;
@@ -706,6 +709,7 @@ public class ModBlocks {
 		machine_chemplant = new MachineChemplant(Material.iron).setBlockName("machine_chemplant").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_chemplant");
 		machine_fluidtank = new MachineFluidTank(Material.iron).setBlockName("machine_fluidtank").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_fluidtank");
 		machine_turbofan = new MachineTurbofan(Material.iron).setBlockName("machine_turbofan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_turbofan");
+		machine_inserter = new MachineInserter(Material.iron).setBlockName("machine_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":inserter_side");
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 
@@ -992,6 +996,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(factory_advanced_furnace, factory_advanced_furnace.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_conductor, factory_advanced_conductor.getUnlocalizedName());
 		GameRegistry.registerBlock(factory_advanced_core, factory_advanced_core.getUnlocalizedName());
+		
+		//The Fluid Inserter
+		GameRegistry.registerBlock(machine_inserter, machine_inserter.getUnlocalizedName());
 		
 		//Multiblock Generators
 		GameRegistry.registerBlock(reactor_element, reactor_element.getUnlocalizedName());

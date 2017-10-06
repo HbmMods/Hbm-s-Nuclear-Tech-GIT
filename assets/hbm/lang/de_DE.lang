@@ -32,6 +32,8 @@ hbmfluid.lightoil=Leichtöl
 hbmfluid.petroleum=Petroleumgas
 hbmfluid.acid=Wasserstoffperoxid
 hbmfluid.watz=Giftiger Schlamm
+hbmfluid.biogas=Biogas
+hbmfluid.biofuel=Biodiesel
 
 chem.TEST=Test
 chem.FP_HEAVYOIL=Schwerölverarbeitung
@@ -55,6 +57,24 @@ chem.DESH=Deshherstellung
 chem.PEROXIDE=Wasserstoffperoxidherstellung
 chem.CIRCUIT_4=Überstaktete Schaltkreisherstellung
 chem.CIRCUIT_5=Leistungsstarke Schaltkreisherstellung
+chem.SF_OIL=Rohölverfestigung
+chem.SF_HEAVYOIL=Schwerölverfestigung
+chem.SF_SMEAR=Industrieölverfestigung
+chem.SF_HEATINGOIL=Heizölverfestigung
+chem.SF_RECLAIMED=Verfestigung von wiederaufbereitetem Industrieöl
+chem.SF_PETROIL=Gemischverfestigung
+chem.SF_LUBRICANT=Schmiermittelverfestigung
+chem.SF_NAPHTHA=Mitteldestillatsverfestigung
+chem.SF_DIESEL=Dieselverfestigung
+chem.SF_LIGHTOIL=Leichtölverfestigung
+chem.SF_KEROSENE=Kerosinverfestigung
+chem.SF_GAS=Erdgasverfestigung
+chem.SF_PETROLEUM=Petroleumgasverfestigung
+chem.POLYMER=Polymersynthese
+chem.DEUTERIUM=Deuteriumextrahierung
+chem.STEAM=WWasser kochen
+chem.UF6=Uranhexafluoritproduktion
+chem.PUF6=Plutoniumhexafluoritproduktion
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -582,6 +602,9 @@ item.upgrade_power_3.name=Blaues Maschinenupgrade Mk.III
 item.upgrade_fortune_1.name=Lila Maschinenupgrade Mk.I
 item.upgrade_fortune_2.name=Lila Maschinenupgrade Mk.II
 item.upgrade_fortune_3.name=Lila Maschinenupgrade Mk.III
+item.upgrade_afterburn_1.name=Pinkes Maschinenupgrade Mk.I
+item.upgrade_afterburn_2.name=Pinkes Maschinenupgrade Mk.II
+item.upgrade_afterburn_3.name=Pinkes Maschinenupgrade Mk.III
 
 item.fusion_core.name=Fusionskern
 item.energy_core.name=Selbstgebauter Energiekern
@@ -613,6 +636,7 @@ item.magnet_dee.name=Duantenmagnete
 item.magnet_circular.name=Flachmagnet
 item.cyclotron_tower.name=Zyklotronenturm
 item.plate_dalekanium.name=Wütendes Metall
+item.biomass.name=Biomasse
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -1252,6 +1276,7 @@ item.pellet_coolant.name=Kühlcluster
 
 item.linker.name=Telelinker
 item.oil_detector.name=Ölvorkommen-Detektor
+item.geiger_counter.name=Geigerzähler
 
 item.thermo_element.name=Thermoelektrisches Element
 item.limiter.name=Generator-Limiter

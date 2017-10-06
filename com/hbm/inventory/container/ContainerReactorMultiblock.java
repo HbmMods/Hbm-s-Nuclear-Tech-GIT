@@ -13,8 +13,6 @@ public class ContainerReactorMultiblock extends Container {
 	
 	private TileEntityReactorMultiblock diFurnace;
 	
-	private int water;
-	private int cool;
 	private int power;
 	private int heat;
 	
@@ -52,14 +50,18 @@ public class ContainerReactorMultiblock extends Container {
 		this.addSlotToContainer(new Slot(tedf, 27, 116, 90));
 		this.addSlotToContainer(new Slot(tedf, 28, 134, 90));
 		this.addSlotToContainer(new Slot(tedf, 29, 152, 90));
-		//Water
-		this.addSlotToContainer(new Slot(tedf, 30, 8, 90));
-		//Coolant
-		this.addSlotToContainer(new Slot(tedf, 31, 26, 90));
+		//Water In
+		this.addSlotToContainer(new Slot(tedf, 30, 8, 90 - 18));
+		//Water Out
+		this.addSlotToContainer(new Slot(tedf, 31, 8, 90));
+		//Coolant In
+		this.addSlotToContainer(new Slot(tedf, 32, 26, 90 - 18));
+		//Coolant Out
+		this.addSlotToContainer(new Slot(tedf, 33, 26, 90));
 		//Batteries
-		this.addSlotToContainer(new Slot(tedf, 32, 44, 90));
+		this.addSlotToContainer(new Slot(tedf, 34, 44, 90));
 		//Fuse
-		this.addSlotToContainer(new Slot(tedf, 33, 8, 108));
+		this.addSlotToContainer(new Slot(tedf, 35, 8, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -78,10 +80,8 @@ public class ContainerReactorMultiblock extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.cool);
-		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.power);
-		crafting.sendProgressBarUpdate(this, 3, this.diFurnace.heat);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.heat);
 	}
 	
 	@Override
@@ -130,29 +130,18 @@ public class ContainerReactorMultiblock extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.water != this.diFurnace.water)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-			}
-			
-			if(this.cool != this.diFurnace.cool)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.cool);
-			}
 			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 2, this.diFurnace.power);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
 			
 			if(this.heat != this.diFurnace.heat)
 			{
-				par1.sendProgressBarUpdate(this, 3, this.diFurnace.heat);
+				par1.sendProgressBarUpdate(this, 1, this.diFurnace.heat);
 			}
 		}
 		
-		this.water = this.diFurnace.water;
-		this.cool = this.diFurnace.cool;
 		this.power = this.diFurnace.power;
 		this.heat = this.diFurnace.heat;
 	}
@@ -161,17 +150,9 @@ public class ContainerReactorMultiblock extends Container {
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{
-			diFurnace.water = j;
-		}
-		if(i == 1)
-		{
-			diFurnace.cool = j;
-		}
-		if(i == 2)
-		{
 			diFurnace.power = j;
 		}
-		if(i == 3)
+		if(i == 1)
 		{
 			diFurnace.heat = j;
 		}

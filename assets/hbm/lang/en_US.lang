@@ -32,6 +32,8 @@ hbmfluid.lightoil=Light Oil
 hbmfluid.petroleum=Petroleum Gas
 hbmfluid.acid=Hydrogen Peroxide
 hbmfluid.watz=Poisonous Mud
+hbmfluid.biogas=Biogas
+hbmfluid.biofuel=Biofuel
 
 chem.TEST=Test
 chem.FP_HEAVYOIL=Heavy Oil Processing
@@ -55,6 +57,24 @@ chem.DESH=Desh Production
 chem.PEROXIDE=Hydrogen Peroxide Production
 chem.CIRCUIT_4=Overclocked Circuit Production
 chem.CIRCUIT_5=High Performance Circuit Production
+chem.SF_OIL=Crude Oil Solidification
+chem.SF_HEAVYOIL=Heavy Oil Solidification
+chem.SF_SMEAR=Industrial Oil Solidification
+chem.SF_HEATINGOIL=Heating Oil Solidification
+chem.SF_RECLAIMED=Reclaimed Oil Solidification
+chem.SF_PETROIL=Petroil Solidification
+chem.SF_LUBRICANT=Lubricant Solidification
+chem.SF_NAPHTHA=Naphtha Solidification
+chem.SF_DIESEL=Diesel Solidification
+chem.SF_LIGHTOIL=Light Oil Solidification
+chem.SF_KEROSENE=Kerosene Solidification
+chem.SF_GAS=Natural Gas Solidification
+chem.SF_PETROLEUM=Petroleum Gas Solidification
+chem.POLYMER=Polymer Synthesis
+chem.DEUTERIUM=Deuterium Extraction
+chem.STEAM=Water Boiling
+chem.UF6=Uranium Hexafluoride Production
+chem.PUF6=Plutonium Hexafluoride Production
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -582,6 +602,9 @@ item.upgrade_power_3.name=Blue Machine Upgrade Mk.III
 item.upgrade_fortune_1.name=Purple Machine Upgrade Mk.I
 item.upgrade_fortune_2.name=Purple Machine Upgrade Mk.II
 item.upgrade_fortune_3.name=Purple Machine Upgrade Mk.III
+item.upgrade_afterburn_1.name=Pink Machine Upgrade Mk.I
+item.upgrade_afterburn_2.name=Pink Machine Upgrade Mk.II
+item.upgrade_afterburn_3.name=Pink Machine Upgrade Mk.III
 
 item.fusion_core.name=Fusion Core
 item.energy_core.name=Makeshift Energy Core
@@ -613,6 +636,7 @@ item.magnet_dee.name=Dee Magnets
 item.magnet_circular.name=Flat Magnet
 item.cyclotron_tower.name=Cyclotron Tower
 item.plate_dalekanium.name=Angry Metal
+item.biomass.name=Biomass
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
@@ -1252,6 +1276,7 @@ item.pellet_coolant.name=Coolant Cluster
 
 item.linker.name=Telelinker
 item.oil_detector.name=Oil Reservoir Detector
+item.geiger_counter.name=Geiger Counter
 
 item.thermo_element.name=Thermoelectric Element
 item.limiter.name=Generator Limiter

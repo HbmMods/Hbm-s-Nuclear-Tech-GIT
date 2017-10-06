@@ -535,21 +535,21 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("Afterburner Upgrade");
 			list.add("Turbofan:");
-			list.add("XXXXXXX");
+			list.add("Production x2 / Consumption x2.5");
 		}
 		
 		if(this == ModItems.upgrade_afterburn_2)
 		{
 			list.add("Afterburner Upgrade");
 			list.add("Turbofan:");
-			list.add("XXXXXXX");
+			list.add("Production x3 / Consumption x5");
 		}
 		
 		if(this == ModItems.upgrade_afterburn_3)
 		{
 			list.add("Afterburner Upgrade");
 			list.add("Turbofan:");
-			list.add("XXXXXXX");
+			list.add("Production x4 / Consumption x7.5");
 		}
 	}
 

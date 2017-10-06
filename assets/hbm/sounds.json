@@ -14,7 +14,13 @@
     "block.turbofanOperate": {"category": "block", "sounds": [{"name": "block/turbofanOperate", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
-	"item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
+    "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
+    "item.geiger1": {"category": "player", "sounds": [{"name": "tool/geiger1", "stream": false}]},
+    "item.geiger2": {"category": "player", "sounds": [{"name": "tool/geiger2", "stream": false}]},
+    "item.geiger3": {"category": "player", "sounds": [{"name": "tool/geiger3", "stream": false}]},
+    "item.geiger4": {"category": "player", "sounds": [{"name": "tool/geiger4", "stream": false}]},
+    "item.geiger5": {"category": "player", "sounds": [{"name": "tool/geiger5", "stream": false}]},
+    "item.geiger6": {"category": "player", "sounds": [{"name": "tool/geiger6", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},

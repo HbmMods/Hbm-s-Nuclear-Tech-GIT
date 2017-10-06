@@ -207,6 +207,8 @@ public class ModItems {
 	public static Item fragment_lanthanium;
 	public static Item fragment_actinium;
 	
+	public static Item biomass;
+	
 	public static Item coil_copper;
 	public static Item coil_copper_torus;
 	public static Item coil_tungsten;
@@ -536,6 +538,7 @@ public class ModItems {
 	public static Item designator_range;
 	public static Item linker;
 	public static Item oil_detector;
+	public static Item geiger_counter;
 
 	public static Item template_folder;
 	public static Item assembly_template;
@@ -1190,6 +1193,8 @@ public class ModItems {
 		fragment_cerium = new Item().setUnlocalizedName("fragment_cerium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_cerium");
 		fragment_lanthanium = new Item().setUnlocalizedName("fragment_lanthanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_lanthanium");
 		fragment_actinium = new Item().setUnlocalizedName("fragment_actinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_actinium");
+		
+		biomass = new Item().setUnlocalizedName("biomass").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":biomass");
 
 		coil_copper = new Item().setUnlocalizedName("coil_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":coil_copper");
 		coil_copper_torus = new Item().setUnlocalizedName("coil_copper_torus").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":coil_copper_torus");
@@ -1743,6 +1748,7 @@ public class ModItems {
 		linker = new ItemTeleLink().setUnlocalizedName("linker").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":linker");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":oil_detector");
 		turret_control = new ItemTurretControl().setUnlocalizedName("turret_control").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_control");
+		geiger_counter = new ItemGeigerCounter().setUnlocalizedName("geiger_counter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":geiger_counter");
 		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":template_folder");
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
@@ -2118,6 +2124,9 @@ public class ModItems {
 		GameRegistry.registerItem(fragment_cerium, fragment_cerium.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_lanthanium, fragment_lanthanium.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_actinium, fragment_actinium.getUnlocalizedName());
+		
+		//Things that look like rotten flesh but aren't
+		GameRegistry.registerItem(biomass, biomass.getUnlocalizedName());
 
 		//Nuggets
 		GameRegistry.registerItem(nugget_uranium, nugget_uranium.getUnlocalizedName());
@@ -2566,6 +2575,7 @@ public class ModItems {
 		GameRegistry.registerItem(turret_control, turret_control.getUnlocalizedName());
 		GameRegistry.registerItem(linker, linker.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
+		GameRegistry.registerItem(geiger_counter, geiger_counter.getUnlocalizedName());
 		
 		//Missiles
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());

@@ -1,5 +1,6 @@
 package com.hbm.explosion;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class ExplosionNukeAdvanced
@@ -19,6 +20,40 @@ public class ExplosionNukeAdvanced
 	private int element;
 	public float explosionCoefficient = 1.0F;
 	public int type = 0;
+	
+	public void saveToNbt(NBTTagCompound nbt, String name) {
+		nbt.setInteger(name + "posX", posX);
+		nbt.setInteger(name + "posY", posY);
+		nbt.setInteger(name + "posZ", posZ);
+		nbt.setInteger(name + "lastposX", lastposX);
+		nbt.setInteger(name + "lastposZ", lastposZ);
+		nbt.setInteger(name + "radius", radius);
+		nbt.setInteger(name + "radius2", radius2);
+		nbt.setInteger(name + "n", n);
+		nbt.setInteger(name + "nlimit", nlimit);
+		nbt.setInteger(name + "shell", shell);
+		nbt.setInteger(name + "leg", leg);
+		nbt.setInteger(name + "element", element);
+		nbt.setFloat(name + "explosionCoefficient", explosionCoefficient);
+		nbt.setInteger(name + "type", type);
+	}
+	
+	public void readFromNbt(NBTTagCompound nbt, String name) {
+		posX = nbt.getInteger(name + "posX");
+		posY = nbt.getInteger(name + "posY");
+		posZ = nbt.getInteger(name + "posZ");
+		lastposX = nbt.getInteger(name + "lastposX");
+		lastposZ = nbt.getInteger(name + "lastposZ");
+		radius = nbt.getInteger(name + "radius");
+		radius2 = nbt.getInteger(name + "radius2");
+		n = nbt.getInteger(name + "n");
+		nlimit = nbt.getInteger(name + "nlimit");
+		shell = nbt.getInteger(name + "shell");
+		leg = nbt.getInteger(name + "leg");
+		element = nbt.getInteger(name + "element");
+		explosionCoefficient = nbt.getFloat(name + "explosionCoefficient");
+		type = nbt.getInteger(name + "type");
+	}
 	
 	public ExplosionNukeAdvanced(int x, int y, int z, World world, int rad, float coefficient, int typ)
 	{

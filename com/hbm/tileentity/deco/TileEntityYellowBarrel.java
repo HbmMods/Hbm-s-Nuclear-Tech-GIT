@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -85,9 +86,11 @@ public class TileEntityYellowBarrel extends TileEntity {
                 		this.worldObj.spawnEntityInWorld(creep);
                 	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
                     {
-                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
-                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 20, 4));
-                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 1 * 60 * 20, 1));
+                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 60 * 20, 1));
+                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 20, 0));
+                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 30 * 20, 1));
+                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 30 * 20, 0));
+                		entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
                     }
                 }
             }

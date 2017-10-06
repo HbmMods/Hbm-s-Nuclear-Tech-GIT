@@ -232,12 +232,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	}
 	
 	public boolean hasAcceptableFuel() {
-		FluidType type = tank.getTankType();
-		if(type.name().equals(FluidType.DIESEL.name()))
-			return true;
-		if(type.name().equals(FluidType.PETROIL.name()))
-			return true;
-		return false;
+		return getHEFromFuel() > 0;
 	}
 	
 	public int getHEFromFuel() {
@@ -246,6 +241,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			return 250;
 		if(type.name().equals(FluidType.PETROIL.name()))
 			return 150;
+		if(type.name().equals(FluidType.BIOFUEL.name()))
+			return 200;
 		return 0;
 	}
 
