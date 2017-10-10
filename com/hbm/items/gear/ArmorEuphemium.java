@@ -85,7 +85,9 @@ public class ArmorEuphemium extends ItemArmor implements ISpecialArmor {
 			if(player.motionY < -0.25D)
 			{
 				player.motionY = -0.25D;
+				player.fallDistance = 0;
 			}
+			
 		}
 	}
 

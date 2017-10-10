@@ -59,7 +59,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.magnet_circular, 2), new Object[] { "PSP", "MMM", "PSP", 'S', "ingotSteel", 'M', ModBlocks.fusion_conductor, 'P', "plateAdvanced" }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.cyclotron_tower, 1), new Object[] { "CDC", "CDC", "CDC", 'C', ModItems.magnet_circular, 'D', ModItems.magnet_dee });
 		
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.marker_structure, 1), new Object[] { "L", "G", "R", 'L', ModItems.powder_lapis, 'G', Items.glowstone_dust, 'R', Blocks.redstone_torch });
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.marker_structure, 1), new Object[] { "L", "G", "R", 'L', "dustLapis", 'G', Items.glowstone_dust, 'R', Blocks.redstone_torch }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_aluminium, 1), new Object[] { "RAR", "ASA", "RAR", 'S', "plateSteel", 'R', "dustRedstone", 'A', ModItems.wire_aluminium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_copper, 1), new Object[] { "RAR", "ASA", "RAR", 'S', ModItems.circuit_aluminium, 'R', "dustNetherQuartz", 'A', ModItems.wire_copper }));
@@ -301,6 +301,7 @@ public class CraftingManager {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_unobtainium, 6), new Object[] { ModItems.rod_unobtainium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_daffergon, 6), new Object[] { ModItems.rod_daffergon });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_verticium, 6), new Object[] { ModItems.rod_verticium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_euphemium, 6), new Object[] { ModItems.rod_euphemium });
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_uranium, 12), new Object[] { ModItems.rod_dual_uranium });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_u235, 12), new Object[] { ModItems.rod_dual_u235 });
@@ -369,8 +370,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.part_copper), new Object[] { "P", "D", "P", 'P', "plateSteel", 'D', "dustCopper" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.part_plutonium), new Object[] { "P", "D", "P", 'P', "plateSteel", 'D', "dustPlutonium" }));
 		
-		if(false)
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_euphemium, 1, 34), new Object[] { ModItems.rod_quad_euphemium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.nugget_euphemium, 1, 34), new Object[] { ModItems.rod_quad_euphemium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_euphemium, 1, 34), new Object[] { "###", "###", "###", '#', new ItemStack(ModItems.nugget_euphemium, 1, 34) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.nugget_euphemium, 9, 34), new Object[] { "#", '#', new ItemStack(ModItems.ingot_euphemium, 1, 34) });
 
@@ -933,12 +933,13 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cape_lpkukin, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 13), 'D', new ItemStack(Items.dye, 1, 8), 'I', "plateSteel" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.igniter, 1), new Object[] { " W", "SC", "CE", 'S', "plateSteel", 'W', ModItems.wire_schrabidium, 'C', ModItems.circuit_schrabidium, 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34) }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_plate, 1), new Object[] { "EWE", "EEE", "EEE", 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34), 'W', ModItems.watch });
-		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34) });
-		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_boots, 1), new Object[] { "E E", "E E", 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34) });
+		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_helmet, 1), new Object[] { "EEE", "E E", 'E', ModItems.plate_euphemium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_plate, 1), new Object[] { "EWE", "EEE", "EEE", 'E', ModItems.plate_euphemium, 'W', ModItems.watch });
+		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.plate_euphemium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.euphemium_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.plate_euphemium });
 		GameRegistry.addRecipe(new ItemStack(ModItems.watch, 1), new Object[] { "LEL", "EWE", "LEL", 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34), 'L', new ItemStack(Items.dye, 1, 4), 'W', Items.clock });
 		GameRegistry.addRecipe(new ItemStack(ModItems.apple_euphemium, 1), new Object[] { "EEE", "EAE", "EEE", 'E', new ItemStack(ModItems.nugget_euphemium, 1, 34), 'A', Items.apple });
+		GameRegistry.addRecipe(new ItemStack(ModItems.plate_euphemium, 1), new Object[] { "AEA", "ENE", "AEA", 'E', new ItemStack(ModItems.ingot_euphemium, 1, 34), 'N', Items.nether_star, 'A', ModItems.powder_astatine });
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.mask_of_infamy, 1), new Object[] { "III", "III", " I ", 'I', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.designator, 1), new Object[] { "  A", "#B#", "#B#", '#', "plateIron", 'A', "plateSteel", 'B', ModItems.circuit_red_copper }));

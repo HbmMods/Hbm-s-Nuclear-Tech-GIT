@@ -43,16 +43,16 @@ public class ItemAppleSchrabidium extends ItemFood {
         {
             if (!p_77849_2_.isRemote)
             {
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 6000, 4));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 60000, 4));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 60000, 0));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 6000, 4));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 6000, 2));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60000, 2));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 6000, 4));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 60000, 9));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 60000, 4));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 60000, 9));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 1200, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 1200, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 1200, 0));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 1200, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 1200, 2));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 1200, 2));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 1200, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 1200, 9));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 1200, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 1200, 9));
             }
         }
 
@@ -60,13 +60,13 @@ public class ItemAppleSchrabidium extends ItemFood {
         {
             if (!p_77849_2_.isRemote)
             {
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 2147483647, 99));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 2147483647, 99));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 2147483647, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 2147483647, 1));
                 p_77849_3_.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 2147483647, 0));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2147483647, 99));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2147483647, 99));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 2147483647, 6));
-                p_77849_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 2147483647, 9));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2147483647, 9));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 2147483647, 4));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 2147483647, 3));
+                p_77849_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 2147483647, 4));
                 p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 2147483647, 24));
                 p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 2147483647, 14));
                 p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 2147483647, 99));

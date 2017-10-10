@@ -191,6 +191,7 @@ import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
 import com.hbm.tileentity.machine.TileEntityMachineGasFlare;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineInserter;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineOilWell;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
@@ -495,6 +496,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 		GameRegistry.registerTileEntity(TileEntityCrateIron.class, "tileentity_crate_iron");
 		GameRegistry.registerTileEntity(TileEntityCrateSteel.class, "tileentity_crate_steel");
+		GameRegistry.registerTileEntity(TileEntityMachineInserter.class, "tileentity_inserter");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -886,6 +888,8 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_puf6), new ItemStack(ModItems.cell_empty), FluidType.PUF6, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_empty), FluidType.AMAT, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_anti_schrabidium), new ItemStack(ModItems.cell_empty), FluidType.ASCHRAB, 1000));
+
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 500));
 		
 		for(int i = 1; i < FluidType.values().length; i++) {
 			FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), FluidType.getEnum(i), 1000));

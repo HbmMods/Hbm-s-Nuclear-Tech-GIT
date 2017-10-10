@@ -93,6 +93,9 @@ public class ItemAssemblyTemplate extends Item {
 		UPGRADE_PURPLE_I,
 		UPGRADE_PURPLE_II,
 		UPGRADE_PURPLE_III,
+		UPGRADE_PINK_I,
+		UPGRADE_PINK_II,
+		UPGRADE_PINK_III,
 		FUSE,
 		REDCOIL_CAPACITOR,
 		TITANIUM_FILTER,
@@ -182,8 +185,6 @@ public class ItemAssemblyTemplate extends Item {
 		MISSILE_ENDO,
 		MISSILE_EXO,
 		DEFAB,
-		LASER_BUCKSHOT,
-		ROCKET,
 		MINI_NUKE,
 		MINI_MIRV,
 		DARK_PLUG,
@@ -198,8 +199,6 @@ public class ItemAssemblyTemplate extends Item {
 		GRENADE_PLASMA,
 		GRENADE_TAU,
 		GRENADE_SCHRABIDIUM,
-		GRENADE_MK2,
-		GRENADE_ASCHRAB,
 		GRENADE_NUKE,
 		GRENADE_ZOMG,
 		GRENADE_BLACK_HOLE,
@@ -435,6 +434,12 @@ public class ItemAssemblyTemplate extends Item {
 			return 300;
 		case UPGRADE_PURPLE_III:
 			return 500;
+		case UPGRADE_PINK_I:
+			return 200;
+		case UPGRADE_PINK_II:
+			return 300;
+		case UPGRADE_PINK_III:
+			return 500;
 		case FUSE:
 			return 100;
 		case REDCOIL_CAPACITOR:
@@ -613,10 +618,6 @@ public class ItemAssemblyTemplate extends Item {
 			return 350;
 		case DEFAB:
 			return 200;
-		case LASER_BUCKSHOT:
-			return 50;
-		case ROCKET:
-			return 30;
 		case MINI_NUKE:
 			return 40;
 		case MINI_MIRV:
@@ -644,10 +645,6 @@ public class ItemAssemblyTemplate extends Item {
 		case GRENADE_TAU:
 			return 300;
 		case GRENADE_SCHRABIDIUM:
-			return 300;
-		case GRENADE_MK2:
-			return 150;
-		case GRENADE_ASCHRAB:
 			return 300;
 		case GRENADE_NUKE:
 			return 200;

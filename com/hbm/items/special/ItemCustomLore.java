@@ -556,7 +556,7 @@ public class ItemCustomLore extends ItemRadioactive {
     @Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-    	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || this == ModItems.rod_quad_euphemium || this == ModItems.watch || this == ModItems.powder_iodine || this == ModItems.powder_thorium || this == ModItems.powder_neodymium || this == ModItems.powder_neptunium || this == ModItems.powder_astatine || this == ModItems.powder_caesium || this == ModItems.powder_strontium || this == ModItems.powder_cobalt || this == ModItems.powder_bromine || this == ModItems.powder_niobium || this == ModItems.powder_tennessine || this == ModItems.powder_cerium)
+    	if(this == ModItems.nugget_euphemium || this == ModItems.ingot_euphemium || this == ModItems.rod_quad_euphemium || this == ModItems.plate_euphemium || this == ModItems.watch || this == ModItems.powder_iodine || this == ModItems.powder_thorium || this == ModItems.powder_neodymium || this == ModItems.powder_neptunium || this == ModItems.powder_astatine || this == ModItems.powder_caesium || this == ModItems.powder_strontium || this == ModItems.powder_cobalt || this == ModItems.powder_bromine || this == ModItems.powder_niobium || this == ModItems.powder_tennessine || this == ModItems.powder_cerium)
     	{
     		return EnumRarity.epic;
     	}

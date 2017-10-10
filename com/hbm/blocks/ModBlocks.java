@@ -998,7 +998,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(factory_advanced_core, factory_advanced_core.getUnlocalizedName());
 		
 		//The Fluid Inserter
-		GameRegistry.registerBlock(machine_inserter, machine_inserter.getUnlocalizedName());
+		//GameRegistry.registerBlock(machine_inserter, machine_inserter.getUnlocalizedName());
 		
 		//Multiblock Generators
 		GameRegistry.registerBlock(reactor_element, reactor_element.getUnlocalizedName());

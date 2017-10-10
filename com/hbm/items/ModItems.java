@@ -127,6 +127,7 @@ public class ModItems {
 	public static Item pipes_steel;
 	public static Item drill_titanium;
 	public static Item plate_dalekanium;
+	public static Item plate_euphemium;
 	
 	public static Item ingot_dura_steel;
 	public static Item ingot_polymer;
@@ -1082,6 +1083,7 @@ public class ModItems {
 		pipes_steel = new Item().setUnlocalizedName("pipes_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pipes_steel");
 		drill_titanium = new Item().setUnlocalizedName("drill_titanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":drill_titanium");
 		plate_dalekanium = new Item().setUnlocalizedName("plate_dalekanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_dalekanium");
+		plate_euphemium = new ItemCustomLore().setUnlocalizedName("plate_euphemium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":plate_euphemium");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -2169,6 +2171,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_mixed, plate_mixed.getUnlocalizedName());
 		GameRegistry.registerItem(plate_paa, plate_paa.getUnlocalizedName());
 		GameRegistry.registerItem(plate_dalekanium, plate_dalekanium.getUnlocalizedName());
+		GameRegistry.registerItem(plate_euphemium, plate_euphemium.getUnlocalizedName());
 		
 		//Boards
 		GameRegistry.registerItem(board_copper, board_copper.getUnlocalizedName());

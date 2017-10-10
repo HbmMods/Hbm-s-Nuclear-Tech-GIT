@@ -247,7 +247,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 				}
 			}
 
-			heat += (7 * this.canLocateRTG());
+			heat += (5 * this.canLocateRTG());
 			
 			heat += (3 * this.canLocateWeakRTG());
 			

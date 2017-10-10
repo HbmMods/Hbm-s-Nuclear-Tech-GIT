@@ -1,11 +1,16 @@
 package com.hbm.items.gear;
 
+import com.google.common.collect.Multimap;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ModArmor extends ItemArmor {
 

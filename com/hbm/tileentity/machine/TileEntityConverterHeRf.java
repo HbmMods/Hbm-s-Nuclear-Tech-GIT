@@ -21,31 +21,37 @@ public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IE
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
 
+			for(int i = 0; i < 9; i++)
 			if(power >= 100000 && storage.getEnergyStored() + 400000 <= storage.getMaxEnergyStored())
 			{
 				power -= 100000;
 				storage.setEnergyStored(storage.getEnergyStored() + 400000);
 			}
+			for(int i = 0; i < 9; i++)
 			if(power >= 10000 && storage.getEnergyStored() + 40000 <= storage.getMaxEnergyStored())
 			{
 				power -= 10000;
 				storage.setEnergyStored(storage.getEnergyStored() + 40000);
 			}
+			for(int i = 0; i < 9; i++)
 			if(power >= 1000 && storage.getEnergyStored() + 4000 <= storage.getMaxEnergyStored())
 			{
 				power -= 1000;
 				storage.setEnergyStored(storage.getEnergyStored() + 4000);
 			}
+			for(int i = 0; i < 9; i++)
 			if(power >= 100 && storage.getEnergyStored() + 400 <= storage.getMaxEnergyStored())
 			{
 				power -= 100;
 				storage.setEnergyStored(storage.getEnergyStored() + 400);
 			}
+			for(int i = 0; i < 9; i++)
 			if(power >= 10 && storage.getEnergyStored() + 40 <= storage.getMaxEnergyStored())
 			{
 				power -= 10;
 				storage.setEnergyStored(storage.getEnergyStored() + 4);
 			}
+			for(int i = 0; i < 10; i++)
 			if(power >= 1 && storage.getEnergyStored() + 4 <= storage.getMaxEnergyStored())
 			{
 				power -= 1;

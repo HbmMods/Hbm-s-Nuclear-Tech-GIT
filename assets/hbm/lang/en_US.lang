@@ -1283,7 +1283,7 @@ item.limiter.name=Generator Limiter
 
 item.multitool_dig.name=Power Fist (Digging Claw)
 item.multitool_silk.name=Power Fist (Silk Touch Claw)
-item.multitool_ext.name=Power Fist (Ore Extracter)
+item.multitool_ext.name=Power Fist (Ore Extractor)
 item.multitool_miner.name=Power Fist (Extracting Mining Laser)
 item.multitool_hit.name=Power Fist (Fist)
 item.multitool_beam.name=Power Fist (Zapper)

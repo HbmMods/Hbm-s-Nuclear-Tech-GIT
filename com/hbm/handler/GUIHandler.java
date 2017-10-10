@@ -39,6 +39,7 @@ import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
 import com.hbm.tileentity.machine.TileEntityMachineGasFlare;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineInserter;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineOilWell;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
@@ -478,6 +479,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerCrateSteel(player.inventory, (TileEntityCrateSteel) entity);
 				}
 			}
+
+			case ModBlocks.guiID_machine_inserter:
+			{
+				if(entity instanceof TileEntityMachineInserter)
+				{
+					return new ContainerMachineInserter(player.inventory, (TileEntityMachineInserter) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -896,6 +905,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityCrateSteel)
 					{
 						return new GUICrateSteel(player.inventory, (TileEntityCrateSteel) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_machine_inserter:
+				{
+					if(entity instanceof TileEntityMachineInserter)
+					{
+						return new GUIMachineInserter(player.inventory, (TileEntityMachineInserter) entity);
 					}
 				}
 			}
