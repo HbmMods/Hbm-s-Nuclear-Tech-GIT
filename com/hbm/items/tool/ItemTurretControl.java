@@ -42,12 +42,14 @@ public class ItemTurretControl extends Item {
 					if(te != null && te instanceof TileEntityTurretBase) {
 						TileEntityTurretBase turret = (TileEntityTurretBase)te;
 
-						turret.rotationYaw = player.rotationYaw;
-						turret.rotationPitch = player.rotationPitch;
-						if(turret.rotationPitch < -60)
-							turret.rotationPitch = -60;
-						if(turret.rotationPitch > 30)
-							turret.rotationPitch = 30;
+						if(!turret.isAI) {
+							turret.rotationYaw = player.rotationYaw;
+							turret.rotationPitch = player.rotationPitch;
+							if(turret.rotationPitch < -60)
+								turret.rotationPitch = -60;
+							if(turret.rotationPitch > 30)
+								turret.rotationPitch = 30;
+						}
 					}
 				}
 			}

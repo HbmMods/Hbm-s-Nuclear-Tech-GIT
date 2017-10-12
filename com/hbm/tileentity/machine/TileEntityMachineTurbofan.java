@@ -23,6 +23,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEIGeneratorPacket;
 import com.hbm.packet.TETurbofanPacket;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -554,5 +556,17 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 	public void setAFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

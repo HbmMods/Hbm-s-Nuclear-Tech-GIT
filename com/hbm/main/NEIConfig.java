@@ -40,8 +40,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new AssemblerRecipeHandler());
 		API.registerRecipeHandler(new RefineryRecipeHandler());
 		API.registerUsageHandler(new RefineryRecipeHandler());
-		API.registerRecipeHandler(new ModInfoHandler());
-		API.registerUsageHandler(new ModInfoHandler());
+		//API.registerRecipeHandler(new ModInfoHandler());
+		//API.registerUsageHandler(new ModInfoHandler());
 		API.registerRecipeHandler(new ChemplantRecipeHandler());
 		API.registerUsageHandler(new ChemplantRecipeHandler());
 		API.registerRecipeHandler(new FluidRecipeHandler());
@@ -60,21 +60,45 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_f)));
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.cheater_virus)));
 		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.cheater_virus_seed)));
-		API.hideItem(new ItemStack(ModItems.euphemium_helmet));
-		API.hideItem(new ItemStack(ModItems.euphemium_plate));
-		API.hideItem(new ItemStack(ModItems.euphemium_legs));
-		API.hideItem(new ItemStack(ModItems.euphemium_boots));
-		API.hideItem(new ItemStack(ModItems.apple_euphemium));
-		API.hideItem(new ItemStack(ModItems.ingot_euphemium));
-		API.hideItem(new ItemStack(ModItems.nugget_euphemium));
+		//API.hideItem(new ItemStack(ModItems.euphemium_helmet));
+		//API.hideItem(new ItemStack(ModItems.euphemium_plate));
+		//API.hideItem(new ItemStack(ModItems.euphemium_legs));
+		//API.hideItem(new ItemStack(ModItems.euphemium_boots));
+		//API.hideItem(new ItemStack(ModItems.apple_euphemium));
+		//API.hideItem(new ItemStack(ModItems.ingot_euphemium));
+		//API.hideItem(new ItemStack(ModItems.nugget_euphemium));
 		API.hideItem(new ItemStack(ModItems.euphemium_kit));
-		API.hideItem(new ItemStack(ModItems.euphemium_stopper));
-		API.hideItem(new ItemStack(ModItems.watch));
-		API.hideItem(new ItemStack(ModItems.rod_quad_euphemium));
-		API.hideItem(new ItemStack(ModItems.rod_euphemium));
-		API.hideItem(new ItemStack(ModItems.book_secret));
-		if(MainRegistry.polaroidID != 11)
+		//API.hideItem(new ItemStack(ModItems.euphemium_stopper));
+		//API.hideItem(new ItemStack(ModItems.watch));
+		//API.hideItem(new ItemStack(ModItems.rod_quad_euphemium));
+		//API.hideItem(new ItemStack(ModItems.rod_euphemium));
+		if(MainRegistry.polaroidID != 11) {
+			API.hideItem(new ItemStack(ModItems.book_secret));
 			API.hideItem(new ItemStack(ModItems.burnt_bark));
+		}
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_assembler));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_centrifuge));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_chemplant));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_cyclotron));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_drill));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_flare));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_fluidtank));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_igenerator));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_pumpjack));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_refinery));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_turbofan));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_well));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_chemplant));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_cyclotron));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_drill));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_flare));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_fluidtank));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_igenerator));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_pumpjack));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_refinery));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_turbofan));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_well));
 	}
 
 	@Override

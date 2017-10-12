@@ -129,6 +129,7 @@ public class ItemAssemblyTemplate extends Item {
 		CHEMPLANT,
 		TANK,
 		MINER,
+		TELEPORTER,
 		SCHRABTRANS,
 		CMB_FURNACE,
 		FA_HULL,
@@ -152,6 +153,7 @@ public class ItemAssemblyTemplate extends Item {
 		LW_HATCH,
 		LW_PORT,
 		LW_CORE,
+		FW_PORT,
 		FW_MAGNET,
 		FW_COMPUTER,
 		FW_CORE,
@@ -506,8 +508,10 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case MINER:
 			return 200;
-		case SCHRABTRANS:
+		case TELEPORTER:
 			return 300;
+		case SCHRABTRANS:
+			return 500;
 		case CMB_FURNACE:
 			return 150;
 		case FA_HULL:
@@ -552,6 +556,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 250;
 		case LW_CORE:
 			return 350;
+		case FW_PORT:
+			return 250;
 		case FW_MAGNET:
 			return 250;
 		case FW_COMPUTER:

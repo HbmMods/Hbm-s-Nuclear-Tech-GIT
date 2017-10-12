@@ -625,9 +625,6 @@ public class MachineRecipes {
 			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)),
 					getCentrifugeOutput(Item.getItemFromBlock(ModBlocks.test_render)));
 		}
-		// [REDACTED]
-		// recipes.put(new ItemStack(ModItems.rod_quad_euphemium),
-		// getCentrifugeOutput(ModItems.rod_quad_euphemium));
 		recipes.put(new ItemStack(ModItems.cell_sas3), getCentrifugeOutput(ModItems.cell_sas3));
 		recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
 				getCentrifugeOutput(ModItems.rod_uranium_fuel_depleted));
@@ -694,9 +691,7 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_neptunium), getReactorOutput(ModItems.rod_neptunium));
 		recipes.put(new ItemStack(ModItems.rod_dual_neptunium), getReactorOutput(ModItems.rod_dual_neptunium));
 		recipes.put(new ItemStack(ModItems.rod_quad_neptunium), getReactorOutput(ModItems.rod_quad_neptunium));
-		// [REDACTED]
-		// recipes.put(new ItemStack(ModItems.rod_quad_schrabidium),
-		// getReactorOutput(ModItems.rod_quad_schrabidium));
+		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium), getReactorOutput(ModItems.rod_quad_schrabidium));
 		recipes.put(new ItemStack(ModItems.rod_lithium), getReactorOutput(ModItems.rod_lithium));
 		recipes.put(new ItemStack(ModItems.rod_dual_lithium), getReactorOutput(ModItems.rod_dual_lithium));
 		recipes.put(new ItemStack(ModItems.rod_quad_lithium), getReactorOutput(ModItems.rod_quad_lithium));
@@ -2146,14 +2141,21 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.bolt_dura_steel, 2));
 			list.add(new ItemStack(ModItems.drill_titanium, 1));
 			break;
-		case SCHRABTRANS:
+		case TELEPORTER:
 			list.add(new ItemStack(ModItems.ingot_titanium, 6));
 			list.add(new ItemStack(ModItems.plate_advanced_alloy, 12));
 			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
 			list.add(new ItemStack(ModItems.telepad, 1));
 			list.add(new ItemStack(ModItems.entanglement_kit, 1));
-			list.add(new ItemStack(ModBlocks.machine_battery, 5));
+			list.add(new ItemStack(ModBlocks.machine_battery, 2));
 			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 4));
+			break;
+		case SCHRABTRANS:
+			list.add(new ItemStack(ModItems.ingot_titanium, 24));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 18));
+			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModBlocks.machine_battery, 5));
+			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
 			break;
 		case CMB_FURNACE:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));
@@ -2282,6 +2284,10 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_gold, 8));
 			list.add(new ItemStack(ModItems.circuit_schrabidium, 2));
 			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 12));
+			break;
+		case FW_PORT:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 6));
+			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
 			break;
 		case FW_MAGNET:
 			list.add(new ItemStack(ModItems.plate_combine_steel, 10));
@@ -3070,6 +3076,9 @@ public class MachineRecipes {
 		case MINER:
 			output = new ItemStack(ModBlocks.machine_drill, 1);
 			break;
+		case TELEPORTER:
+			output = new ItemStack(ModBlocks.machine_teleporter, 1);
+			break;
 		case SCHRABTRANS:
 			output = new ItemStack(ModBlocks.machine_schrabidium_transmutator, 1);
 			break;
@@ -3138,6 +3147,9 @@ public class MachineRecipes {
 			break;
 		case LW_CORE:
 			output = new ItemStack(ModBlocks.watz_core, 1);
+			break;
+		case FW_PORT:
+			output = new ItemStack(ModBlocks.fwatz_hatch, 1);
 			break;
 		case FW_MAGNET:
 			output = new ItemStack(ModBlocks.fwatz_conductor, 1);
@@ -3649,6 +3661,12 @@ public class MachineRecipes {
     	case SF_PETROLEUM:
 			input[0] = new FluidStack(600, FluidType.PETROLEUM);
         	break;
+    	case SF_BIOGAS:
+			input[0] = new FluidStack(400, FluidType.BIOGAS);
+        	break;
+    	case SF_BIOFUEL:
+			input[0] = new FluidStack(300, FluidType.BIOFUEL);
+        	break;
         case POLYMER:
 			input[0] = new FluidStack(600, FluidType.PETROLEUM);
         	break;
@@ -3659,7 +3677,7 @@ public class MachineRecipes {
 			input[0] = new FluidStack(1000, FluidType.WATER);
         	break;
         case BP_BIOFUEL:
-			input[0] = new FluidStack(1000, FluidType.BIOGAS);
+			input[0] = new FluidStack(2000, FluidType.BIOGAS);
         	break;
 		default:
 			break;
@@ -3747,6 +3765,14 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.solid_fuel, 1);
 			output[1] = new ItemStack(ModItems.solid_fuel, 1);
 			break;
+    	case SF_BIOGAS:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
+    	case SF_BIOFUEL:
+			output[0] = new ItemStack(ModItems.solid_fuel, 1);
+			output[1] = new ItemStack(ModItems.solid_fuel, 1);
+			break;
         case POLYMER:
 			output[0] = new ItemStack(ModItems.ingot_polymer, 1);
         	break;
@@ -3827,13 +3853,13 @@ public class MachineRecipes {
 			input[0] = new FluidStack(500, FluidType.DEUTERIUM);
         	break;
         case STEAM:
-			input[0] = new FluidStack(1000, FluidType.DEUTERIUM);
+			input[0] = new FluidStack(1000, FluidType.STEAM);
         	break;
         case BP_BIOGAS:
-			input[0] = new FluidStack(1000, FluidType.BIOGAS);
+			input[0] = new FluidStack(4000, FluidType.BIOGAS);
         	break;
         case BP_BIOFUEL:
-			input[0] = new FluidStack(500, FluidType.BIOFUEL);
+			input[0] = new FluidStack(1000, FluidType.BIOFUEL);
         	break;
 		default:
 			break;

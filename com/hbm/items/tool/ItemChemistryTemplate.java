@@ -54,6 +54,8 @@ public class ItemChemistryTemplate extends Item {
 		SF_KEROSENE,
 		SF_GAS,
 		SF_PETROLEUM,
+		SF_BIOGAS,
+		SF_BIOFUEL,
 		BP_BIOGAS,
 		BP_BIOFUEL,
 		ASPHALT,
@@ -188,6 +190,10 @@ public class ItemChemistryTemplate extends Item {
         	return 20;
     	case SF_PETROLEUM:
         	return 20;
+    	case SF_BIOGAS:
+        	return 20;
+    	case SF_BIOFUEL:
+        	return 20;
         case POLYMER:
         	return 100;
         case DEUTERIUM:
@@ -197,7 +203,7 @@ public class ItemChemistryTemplate extends Item {
         case BP_BIOGAS:
         	return 200;
         case BP_BIOFUEL:
-        	return 300;
+        	return 100;
         default:
         	return 100;
         }

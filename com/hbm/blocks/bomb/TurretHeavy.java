@@ -41,9 +41,9 @@ public class TurretHeavy extends TurretBase {
 			
 			if(!world.isRemote) {
 				EntityBullet bullet = new EntityBullet(world);
-				bullet.posX = x + vector.xCoord * 2 + 0.5;
-				bullet.posY = y + vector.yCoord * 2 + 1;
-				bullet.posZ = z + vector.zCoord * 2 + 0.5;
+				bullet.posX = x + vector.xCoord * 1 + 0.5;
+				bullet.posY = y + vector.yCoord * 1 + 1;
+				bullet.posZ = z + vector.zCoord * 1 + 0.5;
 				
 				bullet.motionX = vector.xCoord * 3;
 				bullet.motionY = vector.yCoord * 3;
@@ -54,9 +54,9 @@ public class TurretHeavy extends TurretBase {
 				world.spawnEntityInWorld(bullet);
 				
 				EntityGasFlameFX fx = new EntityGasFlameFX(world);
-				fx.posX = x + vector.xCoord * 2 + 0.5;
-				fx.posY = y + vector.yCoord * 2 + 1;
-				fx.posZ = z + vector.zCoord * 2 + 0.5;
+				fx.posX = x + vector.xCoord * 2.2 + 0.5;
+				fx.posY = y + vector.yCoord * 2.2 + 1;
+				fx.posZ = z + vector.zCoord * 2.2 + 0.5;
 				world.spawnEntityInWorld(fx);
 			}
 

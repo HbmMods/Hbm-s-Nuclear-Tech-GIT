@@ -280,11 +280,6 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("A quad fuel rod which contains a");
 			list.add("very small ammount of a strange new element.");
-			list.add("");
-			list.add("If you tell anybody about this, I will");
-			list.add("tear your living guts out and use them to");
-			list.add("grease the treads of my tank.");
-			list.add("Got that? Good.");
 		}
 		
 		if(this == ModItems.ingot_euphemium)

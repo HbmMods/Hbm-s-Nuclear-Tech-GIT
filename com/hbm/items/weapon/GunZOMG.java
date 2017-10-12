@@ -85,7 +85,8 @@ public class GunZOMG extends Item {
 						player.addChatMessage(new ChatComponentText("[ZOMG] Gun has been validated!"));
 					}
 
-					if (Library.superuser.contains(player.getUniqueID().toString())) {
+					//if(Library.superuser.contains(player.getUniqueID().toString())) {
+					if(player.inventory.hasItem(ModItems.polaroid)) {
 						if (world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, superuser!"));
 						}

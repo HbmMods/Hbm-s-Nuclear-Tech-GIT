@@ -54,6 +54,7 @@ public class TEPumpjackPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(TEPumpjackPacket m, MessageContext ctx) {
+			try {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
 			if (te != null && te instanceof TileEntityMachinePumpjack) {
@@ -62,6 +63,7 @@ public class TEPumpjackPacket implements IMessage {
 				gen.rotation = m.spin;
 				gen.isProgressing = m.progress;
 			}
+			} catch(Exception x) { }
 			return null;
 		}
 	}

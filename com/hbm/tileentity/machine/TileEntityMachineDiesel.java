@@ -238,11 +238,11 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
 		if(type.name().equals(FluidType.DIESEL.name()))
-			return 250;
+			return 500;
 		if(type.name().equals(FluidType.PETROIL.name()))
-			return 150;
+			return 300;
 		if(type.name().equals(FluidType.BIOFUEL.name()))
-			return 200;
+			return 400;
 		return 0;
 	}
 

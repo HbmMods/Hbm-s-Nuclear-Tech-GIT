@@ -58,6 +58,7 @@ public class TEFluidPacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(TEFluidPacket m, MessageContext ctx) {
+			try{
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
 			if (te != null && te instanceof IFluidContainer) {
@@ -66,6 +67,7 @@ public class TEFluidPacket implements IMessage {
 				gen.setFillstate(m.fill, m.index);
 				gen.setType(FluidType.getEnum(m.type), m.index);
 			}
+			} catch(Exception x) { }
 			return null;
 		}
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
@@ -174,8 +175,18 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		}
 		
 		public void drawIcon(boolean b) {
-			if(stack != null)
-				itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), stack, xPos + 1, yPos + 1);
+			try {
+		        GL11.glDisable(GL11.GL_LIGHTING);
+				if(stack != null) {
+					if(stack.getItem() == ModItems.assembly_template)
+						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), MachineRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
+					else if(stack.getItem() == ModItems.chemistry_template)
+						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage()), xPos + 1, yPos + 1);
+					else
+						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), stack, xPos + 1, yPos + 1);
+				}
+		        GL11.glEnable(GL11.GL_LIGHTING);
+			} catch(Exception x) { }
 		}
 		
 		public void drawString(int x, int y) {
