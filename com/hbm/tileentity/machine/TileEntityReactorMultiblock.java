@@ -7,7 +7,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineGenerator;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -659,7 +659,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 			this.slots[i] = null;
 		}
         
-        EntityNukeExplosionAdvanced explosion = new EntityNukeExplosionAdvanced(this.worldObj);
+		EntityNukeExplosionMK3 explosion = new EntityNukeExplosionMK3(this.worldObj);
         explosion.speed = 25;
         explosion.coefficient = 5.0F;
         explosion.destructionRange = 35;

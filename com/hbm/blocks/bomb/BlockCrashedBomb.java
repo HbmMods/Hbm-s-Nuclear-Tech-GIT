@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
@@ -76,7 +77,7 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 	public void explode(World world, int x, int y, int z) {
         if (!world.isRemote)
         {
-        	EntityNukeExplosionAdvanced entity0 = new EntityNukeExplosionAdvanced(world);
+        	EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(world);
 	    	entity0.posX = x;
 	    	entity0.posY = y;
 	    	entity0.posZ = z;

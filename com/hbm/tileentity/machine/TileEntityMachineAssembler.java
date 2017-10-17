@@ -315,6 +315,18 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 				tryFillContainer(hopper, 5);
 			}
 			
+			if(te != null && te instanceof TileEntityCrateIron) {
+				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+
+				tryFillContainer(hopper, 5);
+			}
+			
+			if(te != null && te instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+
+				tryFillContainer(hopper, 5);
+			}
+			
 			te = null;
 			if(meta == 2) {
 				te = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
@@ -339,6 +351,22 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			
 			if(te != null && te instanceof TileEntityHopper) {
 				TileEntityHopper hopper = (TileEntityHopper)te;
+
+				for(int i = 0; i < hopper.getSizeInventory(); i++)
+					if(tryFillAssembler(hopper, i))
+						break;
+			}
+			
+			if(te != null && te instanceof TileEntityCrateIron) {
+				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+
+				for(int i = 0; i < hopper.getSizeInventory(); i++)
+					if(tryFillAssembler(hopper, i))
+						break;
+			}
+			
+			if(te != null && te instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
 
 				for(int i = 0; i < hopper.getSizeInventory(); i++)
 					if(tryFillAssembler(hopper, i))

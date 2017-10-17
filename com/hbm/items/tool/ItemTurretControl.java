@@ -119,8 +119,16 @@ public class ItemTurretControl extends Item {
 			int z = stack.getTagCompound().getInteger("zCoord");
 			
 			if(world.getBlock(x, y, z) instanceof TurretBase) {
+
+				TileEntity te = world.getTileEntity(x, y, z);
 				
-				((TurretBase)world.getBlock(x, y, z)).executeReleaseAction(world, j, player.rotationYaw, player.rotationPitch, x, y, z);
+				if(te != null && te instanceof TileEntityTurretBase) {
+					TileEntityTurretBase turret = (TileEntityTurretBase)te;
+
+					if(!turret.isAI) {
+						((TurretBase)world.getBlock(x, y, z)).executeReleaseAction(world, j, player.rotationYaw, player.rotationPitch, x, y, z);
+					}
+				}
 			}
 		}
 	}
@@ -152,8 +160,17 @@ public class ItemTurretControl extends Item {
 			int z = stack.getTagCompound().getInteger("zCoord");
 			
 			if(world.getBlock(x, y, z) instanceof TurretBase) {
+
+				TileEntity te = world.getTileEntity(x, y, z);
 				
-				((TurretBase)world.getBlock(x, y, z)).executeHoldAction(world, stack.getMaxItemUseDuration() - count, player.rotationYaw, player.rotationPitch, x, y, z);
+				if(te != null && te instanceof TileEntityTurretBase) {
+					TileEntityTurretBase turret = (TileEntityTurretBase)te;
+
+					if(!turret.isAI) {
+						((TurretBase)world.getBlock(x, y, z)).executeHoldAction(world, stack.getMaxItemUseDuration() - count, player.rotationYaw, player.rotationPitch, x, y, z);
+			
+					}
+				}
 			}
 		}
 	}

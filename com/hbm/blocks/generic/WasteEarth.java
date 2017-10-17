@@ -204,6 +204,24 @@ public class WasteEarth extends Block {
     				}
     			}
     		}
+    		
+    		if(rand.nextInt(10) == 0) {
+        		Block b0;
+        		int count = 0;
+        		for(int i = -5; i < 5; i++) {
+        			for(int j = -5; j < 6; j++) {
+        				for(int k = -5; k < 5; k++) {
+        					b0 = world.getBlock(x + i, y + j, z + k);
+        					if(b0 == ModBlocks.mush)
+        					{
+        						count++;
+        					}
+        				}
+        			}
+        		}
+        		if(count < 5)
+        			world.setBlock(x, y + 1, z, ModBlocks.mush);
+    		}
     	}
     	
     	if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium)
@@ -216,6 +234,10 @@ public class WasteEarth extends Block {
                 }
             }
     	}
+    	
+    	if(MainRegistry.enableAutoCleanup && (this == ModBlocks.waste_earth | this == ModBlocks.waste_mycelium))
+    		if(!world.isRemote)
+    			world.setBlock(x, y, z, Blocks.dirt);
     }
 
 }

@@ -372,6 +372,20 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 					tryFillContainer(hopper, i);
 			}
 			
+			if(te != null && te instanceof TileEntityCrateIron) {
+				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+
+				for(int i = 5; i < 9; i++)
+					tryFillContainer(hopper, i);
+			}
+			
+			if(te != null && te instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+
+				for(int i = 5; i < 9; i++)
+					tryFillContainer(hopper, i);
+			}
+			
 			te = null;
 			if(meta == 2) {
 				te = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
@@ -396,6 +410,22 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			
 			if(te != null && te instanceof TileEntityHopper) {
 				TileEntityHopper hopper = (TileEntityHopper)te;
+
+				for(int i = 0; i < hopper.getSizeInventory(); i++)
+					if(tryFillAssembler(hopper, i))
+						break;
+			}
+			
+			if(te != null && te instanceof TileEntityCrateIron) {
+				TileEntityCrateIron chest = (TileEntityCrateIron)te;
+				
+				for(int i = 0; i < chest.getSizeInventory(); i++)
+					if(tryFillAssembler(chest, i))
+						break;
+			}
+			
+			if(te != null && te instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
 
 				for(int i = 0; i < hopper.getSizeInventory(); i++)
 					if(tryFillAssembler(hopper, i))

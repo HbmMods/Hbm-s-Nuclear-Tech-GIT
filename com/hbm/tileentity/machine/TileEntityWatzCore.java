@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
@@ -662,7 +662,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 3.0F, 0.5F);
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "random.explode", 3.0F, 0.75F);
 				} else {
-					EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(worldObj);
+					EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(worldObj);
 					entity.posX = this.xCoord;
 					entity.posY = this.yCoord;
 					entity.posZ = this.zCoord;

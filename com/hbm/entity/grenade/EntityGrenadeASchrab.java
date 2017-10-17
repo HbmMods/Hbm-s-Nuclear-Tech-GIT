@@ -2,6 +2,7 @@ package com.hbm.entity.grenade;
 
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +32,7 @@ public class EntityGrenadeASchrab extends EntityGrenadeBase
 				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ,
 						"random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-				EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(this.worldObj);
+				EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
 				entity.posX = this.posX;
 				entity.posY = this.posY;
 				entity.posZ = this.posZ;

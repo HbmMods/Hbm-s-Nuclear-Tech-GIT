@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
@@ -452,7 +452,7 @@ public class EntityNuclearCreeper extends EntityMob {
             	this.explosionRadius *= 3;
             }
             
-            EntityNukeExplosionAdvanced explosion = new EntityNukeExplosionAdvanced(this.worldObj);
+            EntityNukeExplosionMK3 explosion = new EntityNukeExplosionMK3(this.worldObj);
             explosion.speed = 25;
             explosion.coefficient = 5.0F;
             explosion.destructionRange = this.explosionRadius;

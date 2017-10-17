@@ -49,7 +49,7 @@ public class TurretHeavy extends TurretBase {
 				bullet.motionY = vector.yCoord * 3;
 				bullet.motionZ = vector.zCoord * 3;
 				
-				bullet.damage = rand.nextInt(21) + 60;
+				bullet.damage = rand.nextInt(26) + 15;
 				
 				world.spawnEntityInWorld(bullet);
 				

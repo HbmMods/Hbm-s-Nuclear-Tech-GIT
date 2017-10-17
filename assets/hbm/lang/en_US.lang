@@ -181,6 +181,7 @@ tile.turret_rocket.name=Rocket Turret
 tile.turret_flamer.name=Flamethrower Turret
 tile.turret_tau.name=Tauon Turret
 item.turret_control.name=Turret Controller
+item.turret_chip.name=Turret AI-Chip
 
 tile.crate.name=Supply Crate
 tile.marker_structure.name=Multiblock Structure Marker

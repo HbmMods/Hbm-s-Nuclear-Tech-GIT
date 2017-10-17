@@ -63,6 +63,7 @@ import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionPlus;
 import com.hbm.entity.missile.EntityBombletSelena;
 import com.hbm.entity.missile.EntityBombletTheta;
@@ -326,6 +327,7 @@ public class MainRegistry
 	public static boolean enableBarrels = false;
 	public static boolean enableNITAN = true;
 	public static boolean enableNukeClouds = true;
+	public static boolean enableAutoCleanup = false;
 	public static int uraniumSpawn = 7;
 	public static int titaniumSpawn = 8;
 	public static int sulfurSpawn = 5;
@@ -580,6 +582,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBombletTheta.class, "entity_theta", 79, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBombletSelena.class, "entity_selena", 80, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 81, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 82, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -916,6 +919,7 @@ public class MainRegistry
         enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.5_enableNuclearBarrelSpawn", false).getBoolean(false);
         enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.6_enableNITANChestSpawn", true).getBoolean(true);
         enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.7_enableMushroomClouds", true).getBoolean(true);
+        enableAutoCleanup = config.get(Configuration.CATEGORY_GENERAL, "1.8_enableAutomaticRadCleanup", false).getBoolean(false);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.0_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";

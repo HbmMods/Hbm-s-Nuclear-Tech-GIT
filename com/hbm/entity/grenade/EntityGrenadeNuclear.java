@@ -1,6 +1,7 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.main.MainRegistry;
@@ -28,7 +29,7 @@ public class EntityGrenadeNuclear extends EntityGrenadeBase
         if (!this.worldObj.isRemote)
         {
             this.setDead();
-    		EntityNukeExplosionAdvanced entity0 = new EntityNukeExplosionAdvanced(this.worldObj);
+            EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(this.worldObj);
     	    entity0.posX = this.posX;
     	    entity0.posY = this.posY;
     	    entity0.posZ = this.posZ;

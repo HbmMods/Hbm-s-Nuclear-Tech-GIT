@@ -25,7 +25,6 @@ public class ItemChemistryTemplate extends Item {
 		//SF - Solid Fuel Production
 		//BP - Biofuel Production
 		
-		TEST,
 		FP_HEAVYOIL,
 		FP_SMEAR,
 		FP_NAPHTHA,
@@ -120,8 +119,6 @@ public class ItemChemistryTemplate extends Item {
         EnumChemistryTemplate enum1 = EnumChemistryTemplate.getEnum(i);
         
         switch (enum1) {
-        case TEST:
-        	return 200;
         case FP_HEAVYOIL:
         	return 50;
         case FP_SMEAR:

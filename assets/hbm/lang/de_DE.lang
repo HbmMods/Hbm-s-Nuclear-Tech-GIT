@@ -172,6 +172,7 @@ tile.turret_rocket.name=Raketengeschütz
 tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_tau.name=Tauonengeschütz
 item.turret_control.name=Geschützsteuerung
+item.turret_chip.name=Geschütz-KI-Chip
 
 tile.bomb_multi.name=Mehrzweckbombe
 

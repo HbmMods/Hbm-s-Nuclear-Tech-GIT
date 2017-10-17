@@ -1459,10 +1459,10 @@ public class MachineRecipes {
 		List<ItemStack> list = new ArrayList<ItemStack>();
 		
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
-		case TEST:
-			list.add(new ItemStack(Items.iron_ingot, 4));
-			list.add(new ItemStack(Items.gold_ingot, 2));
-			list.add(new ItemStack(Items.coal, 8));
+		case SCHRABIDIUM_HAMMER:
+			list.add(new ItemStack(ModBlocks.block_schrabidium, 15));
+			list.add(new ItemStack(ModItems.ingot_polymer, 128));
+			list.add(new ItemStack(Items.nether_star, 2));
 			break;
 		case MIXED_PLATE:
 			list.add(new ItemStack(ModItems.plate_advanced_alloy, 2));
@@ -2731,8 +2731,8 @@ public class MachineRecipes {
 		ItemStack output = null;
 		
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
-		case TEST:
-			output = new ItemStack(ModItems.rotor_steel, 2);
+		case SCHRABIDIUM_HAMMER:
+			output = new ItemStack(ModItems.schrabidium_hammer, 1);
 			break;
 		case MIXED_PLATE:
 			output = new ItemStack(ModItems.plate_mixed, 6);
@@ -3473,11 +3473,6 @@ public class MachineRecipes {
 		List<ItemStack> list = new ArrayList<ItemStack>();
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
-		case TEST:
-			list.add(new ItemStack(Items.iron_ingot, 4));
-			list.add(new ItemStack(Items.gold_ingot, 2));
-			list.add(new ItemStack(Items.coal, 8));
-			break;
         case CC_OIL:
 			list.add(new ItemStack(Items.coal, 10));
 			break;
@@ -3543,10 +3538,6 @@ public class MachineRecipes {
 		FluidStack[] input = new FluidStack[2];
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
-		case TEST:
-			input[0] = new FluidStack(400, FluidType.LAVA);
-			input[1] = new FluidStack(200, FluidType.KEROSENE);
-			break;
         case FP_HEAVYOIL:
 			input[0] = new FluidStack(1000, FluidType.HEAVYOIL);
 			break;
@@ -3694,10 +3685,6 @@ public class MachineRecipes {
 		ItemStack[] output = new ItemStack[4];
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
-		case TEST:
-			output[0] = new ItemStack(ModItems.ingot_steel);
-			output[1] = new ItemStack(ModItems.ingot_desh, 2);
-			break;
 		case ASPHALT:
 			output[0] = new ItemStack(ModBlocks.asphalt, 4);
 			output[1] = new ItemStack(ModBlocks.asphalt, 4);
@@ -3791,9 +3778,6 @@ public class MachineRecipes {
 		FluidStack[] input = new FluidStack[2];
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
-		case TEST:
-			input[0] = new FluidStack(200, FluidType.WATER);
-			break;
         case FP_HEAVYOIL:
 			input[0] = new FluidStack(300, FluidType.BITUMEN);
 			input[1] = new FluidStack(700, FluidType.SMEAR);

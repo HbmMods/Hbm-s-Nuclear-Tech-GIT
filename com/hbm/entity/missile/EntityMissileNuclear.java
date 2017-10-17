@@ -2,6 +2,7 @@ package com.hbm.entity.missile;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.main.MainRegistry;
 
@@ -20,7 +21,7 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(this.worldObj);
+		EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
     	entity.posX = this.posX;
     	entity.posY = this.posY;
     	entity.posZ = this.posZ;

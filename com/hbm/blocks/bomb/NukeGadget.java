@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeGadget;
@@ -158,7 +159,7 @@ public class NukeGadget extends BlockContainer implements IBomb {
 			 * world.spawnEntityInWorld(entity);
 			 */
 
-			EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(world);
+			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
 			entity.posX = x;
 			entity.posY = y;
 			entity.posZ = z;

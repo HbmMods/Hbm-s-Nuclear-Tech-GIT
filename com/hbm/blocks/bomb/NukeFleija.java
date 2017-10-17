@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeFleija;
@@ -142,7 +143,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
 			//world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 		
-			EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(world);
+			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
     		entity.posX = x;
     		entity.posY = y;
     		entity.posZ = z;

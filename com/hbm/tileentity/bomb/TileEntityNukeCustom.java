@@ -424,17 +424,17 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			}
 			//
 			if(item == ModItems.nuclear_waste) {
-				this.amatStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
 			}
 			if(item == Item.getItemFromBlock(ModBlocks.yellow_barrel)) {
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
-				this.amatStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
+				this.dirtyStrength *= 1.05F;
 			}
 		}
 	}

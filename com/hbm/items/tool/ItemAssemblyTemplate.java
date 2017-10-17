@@ -16,7 +16,6 @@ public class ItemAssemblyTemplate extends Item {
 	
 	public enum EnumAssemblyTemplate {
 		
-		TEST,
 		MIXED_PLATE,
 		HAZMAT_CLOTH,
 		ASBESTOS_CLOTH,
@@ -221,7 +220,8 @@ public class ItemAssemblyTemplate extends Item {
 		MIKE_COOLER,
 		FLEIIJA_IGNITER,
 		FLEIJA_CORE,
-		FLEIJA_PROPELLANT;
+		FLEIJA_PROPELLANT,
+		SCHRABIDIUM_HAMMER;
 		
 		//private final int value;
 		//private EnumAssemblyTemplate(int value) {
@@ -280,8 +280,6 @@ public class ItemAssemblyTemplate extends Item {
         EnumAssemblyTemplate enum1 = EnumAssemblyTemplate.getEnum(i);
         
         switch (enum1) {
-        case TEST:
-        	return 200;
 		case MIXED_PLATE:
 			return 50;
 		case HAZMAT_CLOTH:
@@ -694,6 +692,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 500;
 		case FLEIJA_PROPELLANT:
 			return 400;
+		case SCHRABIDIUM_HAMMER:
+			return 1000;
         default:
         	return 100;
         }
