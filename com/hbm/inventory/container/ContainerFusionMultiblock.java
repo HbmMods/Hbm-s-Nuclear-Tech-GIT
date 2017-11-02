@@ -23,15 +23,26 @@ public class ContainerFusionMultiblock extends Container {
 		
 		diFurnace = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 108));
-		this.addSlotToContainer(new Slot(tedf, 1, 26, 108));
-		this.addSlotToContainer(new Slot(tedf, 2, 134, 108));
-		this.addSlotToContainer(new Slot(tedf, 3, 152, 108));
+		//Water Input
+		this.addSlotToContainer(new Slot(tedf, 0, 8, 108 - 18));
+		//Battery
+		this.addSlotToContainer(new Slot(tedf, 1, 26, 108 - 18));
+		//Deut Input
+		this.addSlotToContainer(new Slot(tedf, 2, 134, 108 - 18));
+		//Trit Input
+		this.addSlotToContainer(new Slot(tedf, 3, 152, 108 - 18));
+		//Startup
 		this.addSlotToContainer(new Slot(tedf, 4, 53, 45));
 		this.addSlotToContainer(new Slot(tedf, 5, 107, 45));
 		this.addSlotToContainer(new Slot(tedf, 6, 53, 81));
 		this.addSlotToContainer(new Slot(tedf, 7, 107, 81));
 		this.addSlotToContainer(new Slot(tedf, 8, 80, 63));
+		//Water Output
+		this.addSlotToContainer(new Slot(tedf, 9, 8, 108));
+		//Deut Output
+		this.addSlotToContainer(new Slot(tedf, 10, 134, 108));
+		//Trit Output
+		this.addSlotToContainer(new Slot(tedf, 11, 152, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -50,11 +61,8 @@ public class ContainerFusionMultiblock extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.deut);
-		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.power);
-		crafting.sendProgressBarUpdate(this, 3, this.diFurnace.trit);
-		crafting.sendProgressBarUpdate(this, 4, isRunning ? 1 : 0);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, isRunning ? 1 : 0);
 	}
 	
 	@Override
@@ -68,8 +76,8 @@ public class ContainerFusionMultiblock extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 8) {
-				if (!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true))
+            if (par2 <= 11) {
+				if (!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
@@ -103,36 +111,18 @@ public class ContainerFusionMultiblock extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.water != this.diFurnace.water)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.water);
-			}
-			
-			if(this.deut != this.diFurnace.deut)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.deut);
-			}
-			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 2, this.diFurnace.power);
-			}
-			
-			if(this.trit != this.diFurnace.trit)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.diFurnace.trit);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
 			
 			if(this.isRunning != this.diFurnace.isRunning())
 			{
-				par1.sendProgressBarUpdate(this, 4, this.diFurnace.isRunning() ? 1 : 0);
+				par1.sendProgressBarUpdate(this, 1, this.diFurnace.isRunning() ? 1 : 0);
 			}
 		}
 		
-		this.water = this.diFurnace.water;
-		this.deut = this.diFurnace.deut;
 		this.power = this.diFurnace.power;
-		this.trit = this.diFurnace.trit;
 		this.isRunning = this.diFurnace.isRunning();
 	}
 	
@@ -140,21 +130,9 @@ public class ContainerFusionMultiblock extends Container {
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{
-			diFurnace.water = j;
-		}
-		if(i == 1)
-		{
-			diFurnace.deut = j;
-		}
-		if(i == 2)
-		{
 			diFurnace.power = j;
 		}
-		if(i == 3)
-		{
-			diFurnace.trit = j;
-		}
-		if(i == 4)
+		if(i == 1)
 		{
 			if(j == 0)
 			{

@@ -209,6 +209,7 @@ public class ModItems {
 	public static Item fragment_cerium;
 	public static Item fragment_lanthanium;
 	public static Item fragment_actinium;
+	public static Item fragment_meteorite;
 	
 	public static Item biomass;
 	
@@ -1216,6 +1217,7 @@ public class ModItems {
 		fragment_cerium = new Item().setUnlocalizedName("fragment_cerium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_cerium");
 		fragment_lanthanium = new Item().setUnlocalizedName("fragment_lanthanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_lanthanium");
 		fragment_actinium = new Item().setUnlocalizedName("fragment_actinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_actinium");
+		fragment_meteorite = new Item().setUnlocalizedName("fragment_meteorite").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_meteorite");
 		
 		biomass = new Item().setUnlocalizedName("biomass").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":biomass");
 
@@ -2164,6 +2166,7 @@ public class ModItems {
 		GameRegistry.registerItem(fragment_cerium, fragment_cerium.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_lanthanium, fragment_lanthanium.getUnlocalizedName());
 		GameRegistry.registerItem(fragment_actinium, fragment_actinium.getUnlocalizedName());
+		GameRegistry.registerItem(fragment_meteorite, fragment_meteorite.getUnlocalizedName());
 		
 		//Things that look like rotten flesh but aren't
 		GameRegistry.registerItem(biomass, biomass.getUnlocalizedName());

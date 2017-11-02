@@ -13,9 +13,7 @@ public class ContainerWatzCore extends Container {
 	
 	private TileEntityWatzCore diFurnace;
 	
-	private int water;
 	private int power;
-	private int trit;
 	
 	public ContainerWatzCore(InventoryPlayer invPlayer, TileEntityWatzCore tedf) {
 		
@@ -57,9 +55,14 @@ public class ContainerWatzCore extends Container {
 		this.addSlotToContainer(new Slot(tedf, 33, 62, 108));
 		this.addSlotToContainer(new Slot(tedf, 34, 80, 108));
 		this.addSlotToContainer(new Slot(tedf, 35, 98, 108));
-		this.addSlotToContainer(new Slot(tedf, 36, 134, 108));
+		//Mud Input
+		this.addSlotToContainer(new Slot(tedf, 36, 134, 108 - 18));
+		//Battery
 		this.addSlotToContainer(new Slot(tedf, 37, 152, 108));
+		//Filter
 		this.addSlotToContainer(new Slot(tedf, 38, 116, 63));
+		//Mud Output
+		this.addSlotToContainer(new Slot(tedf, 39, 134, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -78,8 +81,7 @@ public class ContainerWatzCore extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.waste);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 	}
 	
 	@Override
@@ -93,8 +95,8 @@ public class ContainerWatzCore extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 38) {
-				if (!this.mergeItemStack(var5, 39, this.inventorySlots.size(), true))
+            if (par2 <= 39) {
+				if (!this.mergeItemStack(var5, 40, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
@@ -128,28 +130,18 @@ public class ContainerWatzCore extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.water != this.diFurnace.waste)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.waste);
-			}
-			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 			}
 		}
 		
-		this.water = this.diFurnace.waste;
 		this.power = this.diFurnace.power;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
-		{
-			diFurnace.waste = j;
-		}
-		if(i == 1)
 		{
 			diFurnace.power = j;
 		}

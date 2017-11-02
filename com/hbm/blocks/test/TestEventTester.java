@@ -1,19 +1,23 @@
 package com.hbm.blocks.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.main.MainRegistry;
+import com.hbm.world.Meteorite;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -78,7 +82,12 @@ public class TestEventTester extends Block {
         	bl.posY = y + 0.5F;
         	bl.posZ = z + 0.5F;
         	worldObj.spawnEntityInWorld(bl);*/
-                if(!worldObj.isRemote)
+        	
+        	
+        	
+        	
+        	
+                /*if(!worldObj.isRemote)
                 {
                     try {
                         Chunk oldChunk = worldObj.getChunkFromBlockCoords(x1, z1);
@@ -119,7 +128,25 @@ public class TestEventTester extends Block {
                         System.out.println("Rejuvenation Failed!");
                         e.printStackTrace();
                     }
-                }
+                }*/
+        	
+        	
+        	if(!worldObj.isRemote) {
+        		switch(itemRand.nextInt(3)) {
+        		case 0:
+        			(new Meteorite()).generateLarge(worldObj, itemRand, x1, y1, z1);
+        			break;
+        		case 1:
+        			(new Meteorite()).generateMedium(worldObj, itemRand, x1, y1, z1);
+        			break;
+        		case 2:
+        			(new Meteorite()).generateSmall(worldObj, itemRand, x1, y1, z1);
+        			break;
+        		}
+        	}
+        	
+        	
+        	
         }
     }
     

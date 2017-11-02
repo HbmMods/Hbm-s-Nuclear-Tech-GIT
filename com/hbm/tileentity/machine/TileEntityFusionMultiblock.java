@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
@@ -20,24 +24,23 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor, ISource {
+public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
 
-	public int water;
-	public final static int waterMax = 10000000;
-	public int deut;
-	public final static int deutMax = 10000000;
-	public int trit;
-	public final static int tritMax = 10000000;
 	public int power;
 	public final static int maxPower = 100000000;
 	private ItemStack slots[];
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
+	public FluidTank tanks[];
 	
 	private String customName;
 
 	public TileEntityFusionMultiblock() {
-		slots = new ItemStack[9];
+		slots = new ItemStack[12];
+		tanks = new FluidTank[3];
+		tanks[0] = new FluidTank(FluidType.WATER, 128000, 0);
+		tanks[1] = new FluidTank(FluidType.DEUTERIUM, 64000, 1);
+		tanks[2] = new FluidTank(FluidType.TRITIUM, 64000, 2);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -152,10 +155,10 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		water = nbt.getInteger("water");
-		deut = nbt.getInteger("deut");
 		power = nbt.getInteger("power");
-		trit = nbt.getInteger("trit");
+		tanks[0].readFromNBT(nbt, "water");
+		tanks[1].readFromNBT(nbt, "deut");
+		tanks[2].readFromNBT(nbt, "trit");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -173,10 +176,12 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("water", water);
-		nbt.setInteger("deut", deut);
+		
 		nbt.setInteger("power", power);
-		nbt.setInteger("trit", trit);
+		tanks[0].writeToNBT(nbt, "water");
+		tanks[1].writeToNBT(nbt, "deut");
+		tanks[2].writeToNBT(nbt, "trit");
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -947,17 +952,17 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	
 	@Override
 	public int getWaterScaled(int i) {
-		return (water * i) / waterMax;
+		return 0;
 	}
 	
 	@Override
 	public int getCoolantScaled(int i) {
-		return (deut * i) / deutMax;
+		return 0;
 	}
 	
 	@Override
 	public int getHeatScaled(int i) {
-		return (trit * i) / tritMax;
+		return 0;
 	}
 	
 	@Override
@@ -976,97 +981,49 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 		if(age == 9 || age == 19)
 			ffgeuaInit();
 		
-		//if(!worldObj.isRemote)
+		if(!worldObj.isRemote)
 		{
-			if(slots[0] != null && slots[0].getItem() == Items.water_bucket && this.water + 250000 <= waterMax)
+			tanks[0].loadTank(0, 9, slots);
+			tanks[1].loadTank(2, 10, slots);
+			tanks[2].loadTank(3, 11, slots);
+			
+			for(int i = 0; i < 3; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord);
+			
+			if(slots[2] != null && slots[2].getItem() == ModItems.tritium_deuterium_cake)
 			{
-				this.slots[0].stackSize--;
-				this.water += 250000;
-				if(this.slots[0].stackSize == 0)
+				this.slots[2].stackSize--;
+				if(this.slots[2].stackSize == 0)
 				{
-					this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
+					this.slots[2] = null;
 				}
-			}
-			if(slots[0] != null && slots[0].getItem() == ModItems.rod_water && this.water + 250000 <= waterMax)
-			{
-				this.slots[0].stackSize--;
-				this.water += 250000;
-				if(this.slots[0].stackSize == 0)
-				{
-					this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-				}
-			}
-			if(slots[0] != null && slots[0].getItem() == ModItems.rod_dual_water && this.water + 500000 <= waterMax)
-			{
-				this.slots[0].stackSize--;
-				this.water += 500000;
-				if(this.slots[0].stackSize == 0)
-				{
-					this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-				}
-			}
-			if(slots[0] != null && slots[0].getItem() == ModItems.rod_quad_water && this.water + 1000000 <= waterMax)
-			{
-				this.slots[0].stackSize--;
-				this.water += 1000000;
-				if(this.slots[0].stackSize == 0)
-				{
-					this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-				}
-			}
 
-			if(slots[2] != null && slots[2].getItem() == ModItems.cell_deuterium && this.deut + 1000000 <= deutMax)
-			{
-				this.slots[2].stackSize--;
-				this.deut += 1000000;
-				if(this.slots[2].stackSize == 0)
-				{
-					this.slots[2] = null;
-				}
+				tanks[1].setFill(tanks[1].getFill() + 10000);
+				tanks[2].setFill(tanks[2].getFill() + 10000);
+				
+				if(tanks[1].getFill() > tanks[1].getMaxFill())
+					tanks[1].setFill(tanks[1].getMaxFill());
+				
+				if(tanks[2].getFill() > tanks[2].getMaxFill())
+					tanks[2].setFill(tanks[2].getMaxFill());
 			}
-			if(slots[3] != null && slots[3].getItem() == ModItems.cell_tritium && this.trit + 1000000 <= tritMax)
+			
+			if(slots[3] != null && slots[3].getItem() == ModItems.tritium_deuterium_cake)
 			{
 				this.slots[3].stackSize--;
-				this.trit += 1000000;
 				if(this.slots[3].stackSize == 0)
 				{
 					this.slots[3] = null;
 				}
-			}
-			
-			if(slots[2] != null && slots[2].getItem() == ModItems.tritium_deuterium_cake && trit + 7500000 <= tritMax && deut + 7500000 <= deutMax)
-			{
-				this.slots[2].stackSize--;
-				this.deut += 7500000;
-				this.trit += 7500000;
-				if(this.slots[2].stackSize == 0)
-				{
-					this.slots[2] = null;
-				}
-			}
-			
-			if(slots[3] != null && slots[3].getItem() == ModItems.tritium_deuterium_cake && trit + 7500000 <= tritMax && deut + 7500000 <= deutMax)
-			{
-				this.slots[3].stackSize--;
-				this.deut += 7500000;
-				this.trit += 7500000;
-				if(this.slots[3].stackSize == 0)
-				{
-					this.slots[3] = null;
-				}
-			}
-			
-			if(slots[0] != null && slots[0].getItem() == ModItems.inf_water)
-			{
-				this.water = waterMax;
-			}
-			if(slots[2] != null && slots[2].getItem() == ModItems.inf_deuterium)
-			{
-				this.deut = deutMax;
-			}
-			if(slots[3] != null && slots[3].getItem() == ModItems.inf_tritium)
-			{
-				this.trit = tritMax;
+
+				tanks[1].setFill(tanks[1].getFill() + 10000);
+				tanks[2].setFill(tanks[2].getFill() + 10000);
+				
+				if(tanks[1].getFill() > tanks[1].getMaxFill())
+					tanks[1].setFill(tanks[1].getMaxFill());
+				
+				if(tanks[2].getFill() > tanks[2].getMaxFill())
+					tanks[2].setFill(tanks[2].getMaxFill());
 			}
 			
 			if(!isRunning() &&
@@ -1075,7 +1032,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 					slots[6] != null && (slots[6].getItem() == ModItems.fusion_core || slots[6].getItem() == ModItems.energy_core) && slots[6].getItemDamage() == 0 &&
 					slots[7] != null && (slots[7].getItem() == ModItems.fusion_core || slots[7].getItem() == ModItems.energy_core) && slots[7].getItemDamage() == 0 &&
 					hasFuse() &&
-					deut > 0 && trit > 0)
+					tanks[1].getFill() > 0 && tanks[2].getFill() > 0)
 			{
 				slots[4] = null;
 				slots[5] = null;
@@ -1085,12 +1042,12 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 			} else {
 				if(isStructureValid(worldObj) && isRunning())
 				{
-					deut -= 100;
-					trit -= 100;
+					tanks[1].setFill(tanks[1].getFill() - 1);
+					tanks[2].setFill(tanks[2].getFill() - 1);
 					
-					if(water - 100 >= 0)
+					if(tanks[0].getFill() >= 20)
 					{
-						water -= 100;
+						tanks[0].setFill(tanks[0].getFill() - 20);
 						power += 100000;
 						
 						if(isCoatingValid(worldObj))
@@ -1115,7 +1072,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 				emptyPlasma();
 			}
 			
-			if(deut <= 0 || trit <= 0)
+			if(tanks[1].getFill() <= 0 || tanks[2].getFill() <= 0)
 			{
 				emptyPlasma();
 			}
@@ -1284,6 +1241,52 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		if(index < 3 && tanks[index] != null)
+			tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		if(index < 3 && tanks[index] != null)
+			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			tanks[2].setFill(i);
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getFill();
+		else
+			return 0;
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getMaxFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getMaxFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getMaxFill();
+		else
+			return 0;
 	}
 
 }

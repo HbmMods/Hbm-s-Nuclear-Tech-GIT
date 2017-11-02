@@ -317,7 +317,10 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_fluidtank ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
+				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
+				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
+				world.getBlock(x, y, z) == ModBlocks.watz_hatch)
 		{
 			return true;
 		}
@@ -979,6 +982,40 @@ public class Library {
 		if(block == ModBlocks.dummy_port_turbofan)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
+		//Large Nuclear Reactor
+		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x, y, z + 2) == ModBlocks.reactor_computer)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z + 2);
+		}
+		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x, y, z - 2) == ModBlocks.reactor_computer)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z - 2);
+		}
+		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x + 2, y, z) == ModBlocks.reactor_computer)
+		{
+			tileentity = worldObj.getTileEntity(x + 2, y, z);
+		}
+		if(block == ModBlocks.reactor_hatch && worldObj.getBlock(x - 2, y, z) == ModBlocks.reactor_computer)
+		{
+			tileentity = worldObj.getTileEntity(x - 2, y, z);
+		}
+		//Large Fusion Reactor
+		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z + 8) == ModBlocks.fusion_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z + 8);
+		}
+		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x, y, z - 8) == ModBlocks.fusion_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y, z - 8);
+		}
+		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x + 8, y, z) == ModBlocks.fusion_core)
+		{
+			tileentity = worldObj.getTileEntity(x + 8, y, z);
+		}
+		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x - 8, y, z) == ModBlocks.fusion_core)
+		{
+			tileentity = worldObj.getTileEntity(x - 8, y, z);
 		}
 		
 		if(tileentity == that)

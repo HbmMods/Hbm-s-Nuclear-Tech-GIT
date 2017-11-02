@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerWatzCore;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
@@ -12,7 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIWatzCore extends GuiContainer {
+public class GUIWatzCore extends GuiFluidContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_watz_multiblock.png");
 	private TileEntityWatzCore diFurnace;
@@ -27,6 +28,13 @@ public class GUIWatzCore extends GuiContainer {
 	}
 	
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 106 - 18 - 70, 16, 70);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
 		
@@ -34,7 +42,7 @@ public class GUIWatzCore extends GuiContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory")/* + String.valueOf(diFurnace.powerList)*/, 8, this.ySize - 96 + 2 - 34, 4210752);
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.powerList + " HE/tick"), 8, this.ySize - 50 + 2 + 13, 4210752);
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.heatList + " heat"), 8, this.ySize - 50 + 2 + 22, 4210752);
-		this.fontRendererObj.drawString(String.valueOf((diFurnace.decayMultiplier * diFurnace.heat)/100 + " waste/tick"), 8, this.ySize - 50 + 2 + 31, 4210752);
+		this.fontRendererObj.drawString(String.valueOf((diFurnace.decayMultiplier * diFurnace.heat)/100 /100 + " waste/tick"), 8, this.ySize - 50 + 2 + 31, 4210752);
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.powerMultiplier + "% power"), 100, this.ySize - 50 + 2 + 13, 4210752);
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.heatMultiplier + "% heat"), 100, this.ySize - 50 + 2 + 22, 4210752);
 		this.fontRendererObj.drawString(String.valueOf(diFurnace.decayMultiplier + "% decay"), 100, this.ySize - 50 + 2 + 31, 4210752);
@@ -46,10 +54,11 @@ public class GUIWatzCore extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int j = diFurnace.getWaterScaled(88);
-		drawTexturedModalRect(guiLeft + 134, guiTop + 106 - j, 176, 88 - j, 16, j);
+		int l = diFurnace.getPowerScaled(70);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 106 - 18 - l, 192, 70 - l, 16, l);
 
-		int l = diFurnace.getPowerScaled(88);
-		drawTexturedModalRect(guiLeft + 152, guiTop + 106 - l, 192, 88 - l, 16, l);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
+
+		diFurnace.tank.renderTank(this, guiLeft + 134, guiTop + 106 - 18, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 70);
 	}
 }

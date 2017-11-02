@@ -488,12 +488,17 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 			}
 		}
 	}
-	
+
 	public void attemptPower(int i) {
-		if(this.tanks[0].getFill() - i >= 0)
+		
+		int j = (int) Math.ceil(i / 100);
+		
+		if(this.tanks[0].getFill() - j >= 0)
 		{
 			this.power += i;
-			this.tanks[0].setFill(tanks[0].getFill() - i);
+			if(j > tanks[0].getMaxFill() / 25)
+				j = tanks[0].getMaxFill() / 25;
+			this.tanks[0].setFill(tanks[0].getFill() - j);
 		}
 	}
 	

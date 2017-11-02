@@ -20,16 +20,20 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class BlockOre extends Block {
 
 	public BlockOre(Material p_i45394_1_) {
 		super(p_i45394_1_);
+		//if(this == ModBlocks.block_meteor_molten)
+	    this.setTickRandomly(true);
 	}
 
 	@Override
@@ -71,6 +75,54 @@ public class BlockOre extends Block {
 		{
 			return rand.nextInt(10) == 0 ? ModItems.plate_dalekanium : Item.getItemFromBlock(ModBlocks.block_meteor);
 		}
+		if(this == ModBlocks.block_meteor_cobble)
+		{
+			return ModItems.fragment_meteorite;
+		}
+		if(this == ModBlocks.block_meteor_broken)
+		{
+			return ModItems.fragment_meteorite;
+		}
+		if(this == ModBlocks.block_meteor_treasure)
+		{
+			switch(rand.nextInt(35)) {
+			case 0: return ModItems.coil_advanced_alloy;
+			case 1: return ModItems.plate_advanced_alloy;
+			case 2: return ModItems.powder_desh_mix;
+			case 3: return ModItems.ingot_desh;
+			case 4: return ModItems.fusion_core;
+			case 5: return ModItems.battery_lithium_cell;
+			case 6: return ModItems.battery_schrabidium;
+			case 7: return ModItems.nugget_schrabidium;
+			case 8: return ModItems.ingot_pu238;
+			case 9: return ModItems.ingot_pu239;
+			case 10: return ModItems.ingot_u235;
+			case 11: return ModItems.turbine_tungsten;
+			case 12: return ModItems.ingot_dura_steel;
+			case 13: return ModItems.ingot_polymer;
+			case 14: return ModItems.ingot_tungsten;
+			case 15: return ModItems.ingot_combine_steel;
+			case 16: return ModItems.ingot_lanthanium;
+			case 17: return ModItems.ingot_actinium;
+			case 18: return Item.getItemFromBlock(ModBlocks.block_meteor);
+			case 19: return Item.getItemFromBlock(ModBlocks.fusion_heater);
+			case 20: return Item.getItemFromBlock(ModBlocks.fusion_core);
+			case 21: return Item.getItemFromBlock(ModBlocks.watz_element);
+			case 22: return Item.getItemFromBlock(ModBlocks.ore_rare);
+			case 23: return Item.getItemFromBlock(ModBlocks.fusion_conductor);
+			case 24: return Item.getItemFromBlock(ModBlocks.reactor_computer);
+			case 25: return Item.getItemFromBlock(ModBlocks.machine_diesel);
+			case 26: return Item.getItemFromBlock(ModBlocks.machine_rtg_grey);
+			case 27: return ModItems.pellet_rtg;
+			case 28: return ModItems.pellet_rtg_weak;
+			case 29: return ModItems.rtg_unit;
+			case 30: return ModItems.gun_spark_ammo;
+			case 31: return ModItems.gun_fatman_ammo;
+			case 32: return ModItems.gun_mirv_ammo;
+			case 33: return ModItems.gun_defabricator_ammo;
+			case 34: return ModItems.gun_osipr_ammo2;
+			}
+		}
 		if(this == ModBlocks.ore_rare)
 		{
 			switch(rand.nextInt(6)) {
@@ -108,6 +160,14 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_rare)
 		{
 			return 2 + p_149745_1_.nextInt(4);
+		}
+		if(this == ModBlocks.block_meteor_broken)
+		{
+			return 1 + p_149745_1_.nextInt(3);
+		}
+		if(this == ModBlocks.block_meteor_treasure)
+		{
+			return 1 + p_149745_1_.nextInt(3);
 		}
     	
     	return 1;
@@ -221,6 +281,9 @@ public class BlockOre extends Block {
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 1));
         	}
     	}
+    	
+        if(this == ModBlocks.block_meteor_molten)
+        	entity.setFire(5);
     }
     
     @Override
@@ -244,5 +307,23 @@ public class BlockOre extends Block {
         	world.setBlock(x, y - 1, z, ModBlocks.ore_oil);
         }
     }
+	
+    @Override
+	public void updateTick(World world, int x, int y, int z, Random rand)
+    {
+        if(this == ModBlocks.block_meteor_molten && rand.nextInt(3) == 0) {
+        	if(!world.isRemote)
+        		world.setBlock(x, y, z, ModBlocks.block_meteor_cobble);
+        	world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+        }
+    }
 
+	@Override
+	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int i) {
+
+        if(this == ModBlocks.block_meteor_molten) {
+        	if(!world.isRemote)
+        		world.setBlock(x, y, z, Blocks.lava);
+        }
+	}
 }

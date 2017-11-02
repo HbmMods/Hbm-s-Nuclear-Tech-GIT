@@ -12,6 +12,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
@@ -38,7 +39,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityReactorMultiblock extends TileEntity implements ISidedInventory, ISource, IFluidContainer {
+public class TileEntityReactorMultiblock extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
 	public int heat;
 	public final static int heatMax = 1000000;
@@ -633,10 +634,15 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	}
 
 	public void attemptPower(int i) {
-		if(this.tanks[0].getFill() - i >= 0)
+		
+		int j = (int) Math.ceil(i / 100);
+		
+		if(this.tanks[0].getFill() - j >= 0)
 		{
 			this.power += i;
-			this.tanks[0].setFill(tanks[0].getFill() - i);
+			if(j > tanks[0].getMaxFill() / 25)
+				j = tanks[0].getMaxFill() / 25;
+			this.tanks[0].setFill(tanks[0].getFill() - j);
 		}
 	}
 
@@ -722,5 +728,33 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	public void setType(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		else
+			return 0;
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getMaxFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getMaxFill();
+		else
+			return 0;
 	}
 }

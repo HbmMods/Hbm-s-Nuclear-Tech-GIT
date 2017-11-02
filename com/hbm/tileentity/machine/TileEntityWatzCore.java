@@ -6,9 +6,14 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.WatzFuel;
 import com.hbm.lib.Library;
@@ -24,10 +29,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource {
+public class TileEntityWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidSource {
 
-	public int waste;
-	public final static int wasteMax = 10000000;
 	public int power;
 	public final static int maxPower = 100000000;
 	public int heat;
@@ -45,11 +48,14 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	private ItemStack slots[];
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
+	public List<IFluidAcceptor> list1 = new ArrayList();
+	public FluidTank tank;
 	
 	private String customName;
 
 	public TileEntityWatzCore() {
-		slots = new ItemStack[39];
+		slots = new ItemStack[40];
+		tank = new FluidTank(FluidType.WATZ, 64000, 0);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -164,8 +170,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		waste = nbt.getInteger("deut");
 		power = nbt.getInteger("power");
+		tank.readFromNBT(nbt, "watz");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -183,8 +189,10 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("deut", waste);
+		
 		nbt.setInteger("power", power);
+		tank.writeToNBT(nbt, "watz");
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -486,7 +494,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	
 	@Override
 	public int getWaterScaled(int i) {
-		return (waste * i) / wasteMax;
+		return 0;
 	}
 	
 	@Override
@@ -513,8 +521,10 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 				age = 0;
 			}
 
-			if (age == 9 || age == 19)
+			if (age == 9 || age == 19) {
 				ffgeuaInit();
+				fillFluidInit(tank.getTankType());
+			}
 
 			powerMultiplier = 100;
 			heatMultiplier = 100;
@@ -552,39 +562,30 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 			powerList /= 100;
 			power += powerList;
 
-			waste += ((decayMultiplier * heat) / 100);
+			tank.setFill(tank.getFill() + ((decayMultiplier * heat) / 100) / 100);
 			
 			if(power > maxPower)
 				power = maxPower;
 			
 			//Gets rid of 1/4 of the total waste, if at least one access hatch is not occupied
-			if(waste > wasteMax)
+			if(tank.getFill() > tank.getMaxFill())
 				emptyWaste();
 			
 			power = Library.chargeItemsFromTE(slots, 37, power, maxPower);
 			
-			if(waste - 2500000 >= 0 && slots[36] != null && slots[36].getItem() == ModItems.tank_waste && slots[36].getItemDamage() < 8)
-			{
-				waste -= 2500000;
-				slots[36].setItemDamage(slots[36].getItemDamage() + 1);
-			}
-			
-			if(waste - 2500000 >= 0 && slots[36] != null && slots[36].getItem() == Items.bucket)
-			{
-				waste -= 2500000;
-				slots[36] = new ItemStack(ModItems.bucket_mud).copy();
-			}
+			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.unloadTank(36, 39, slots);
 			
 			if(slots[36] != null && slots[36].getItem() == ModItems.titanium_filter && slots[36].getItemDamage() + 100 <= slots[36].getMaxDamage())
 			{
-				if(waste - 10000 >= 0)
+				if(tank.getFill() - 10 >= 0)
 				{
-					waste -= 10000;
+					tank.setFill(tank.getFill() - 10);
 					slots[36].setItemDamage(slots[36].getItemDamage() + 100);
 				} else {
-					if(waste > 0)
+					if(tank.getFill() > 0)
 					{
-						waste = 0;
+						tank.setFill(0);
 						slots[36].setItemDamage(slots[36].getItemDamage() + 100);
 					}
 				}
@@ -627,8 +628,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 	
 	public void emptyWaste() {
-		this.waste /= 4;
-		this.waste *= 3;
+		tank.setFill(tank.getFill() / 4);
+		tank.setFill(tank.getFill() * 3);
 		if (!worldObj.isRemote) {
 			if (this.worldObj.getBlock(this.xCoord + 4, this.yCoord, this.zCoord) == Blocks.air)
 			{
@@ -717,5 +718,43 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
+	}
+	@Override
+	public void fillFluidInit(FluidType type) {
+		fillFluid(this.xCoord + 4, this.yCoord, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord - 4, this.yCoord, this.zCoord, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord + 4, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord - 4, getTact(), type);
+		
+	}
+	@Override
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
+	}
+	@Override
+	public int getSFluidFill(FluidType type) {
+		return tank.getFill();
+	}
+	@Override
+	public void setSFluidFill(int i, FluidType type) {
+		tank.setFill(i);
+	}
+	@Override
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		return list1;
+	}
+	@Override
+	public void clearFluidList(FluidType type) {
+		list1.clear();
 	}
 }

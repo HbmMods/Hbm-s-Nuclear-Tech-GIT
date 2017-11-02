@@ -579,6 +579,7 @@ item.fragment_niobium.name=Niobium Ffragment
 item.fragment_cerium.name=Cerium Ffragment
 item.fragment_lanthanium.name=Lanthanfragment
 item.fragment_actinium.name=Actiniumfragment
+item.fragment_meteorite.name=Meteoritenfragment
 
 item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
@@ -1192,7 +1193,12 @@ item.desh_shovel.name=Arbeitslegierungsschaufel
 item.desh_hoe.name=Arbeitslegierungsfeldhacke
 
 tile.red_cable.name=Rotes Kupferkabel
+
 tile.block_meteor.name=Meteoritenblock
+tile.block_meteor_broken.name=Gebrochener Meteoritenblock
+tile.block_meteor_cobble.name=Meteoritenpflasterstein
+tile.block_meteor_molten.name=Heißer Meteoritenpflasterstein
+tile.block_meteor_treasure.name=Meteoritenschatz
 
 item.cape_radiation.name=Cape (Radioaktiv)
 item.cape_gasmask.name=Cape (Gasmaske)
