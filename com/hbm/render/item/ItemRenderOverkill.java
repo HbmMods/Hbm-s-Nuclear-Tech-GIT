@@ -4,11 +4,15 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.model.ModelDash;
 import com.hbm.render.model.ModelDefabricator;
 import com.hbm.render.model.ModelEuthanasia;
+import com.hbm.render.model.ModelGun;
 import com.hbm.render.model.ModelHP;
 import com.hbm.render.model.ModelJack;
 import com.hbm.render.model.ModelSpark;
+import com.hbm.render.model.ModelTwiGun;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -22,6 +26,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 	protected ModelHP hppLaserjet;
 	protected ModelEuthanasia euthanasia;
 	protected ModelDefabricator defab;
+	protected ModelDash dasher;
+	protected ModelTwiGun rgottp;
 	
 	public ItemRenderOverkill() {
 		powerJack = new ModelJack();
@@ -29,6 +35,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 		hppLaserjet = new ModelHP();
 		euthanasia = new ModelEuthanasia();
 		defab = new ModelDefabricator();
+		dasher = new ModelDash();
+		rgottp = new ModelTwiGun();
 	}
 
 	@Override
@@ -64,6 +72,10 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
 				if(item.getItem() == ModItems.gun_defabricator)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
+				if(item.getItem() == ModItems.gun_dash)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
+				if(item.getItem() == ModItems.gun_twigun)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
 				
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
@@ -84,6 +96,10 @@ public class ItemRenderOverkill implements IItemRenderer {
 					euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_defabricator)
 					defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_dash)
+					dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_twigun)
+					rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
@@ -100,6 +116,10 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
 				if(item.getItem() == ModItems.gun_defabricator)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
+				if(item.getItem() == ModItems.gun_dash)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
+				if(item.getItem() == ModItems.gun_twigun)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
 				
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
@@ -128,6 +148,10 @@ public class ItemRenderOverkill implements IItemRenderer {
 					euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_defabricator)
 					defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_dash)
+					dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_twigun)
+					rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 		default: break;
 		}

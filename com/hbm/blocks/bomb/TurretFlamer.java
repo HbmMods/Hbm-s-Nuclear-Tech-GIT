@@ -23,7 +23,9 @@ public class TurretFlamer extends TurretBase {
 	}
 
 	@Override
-	public void executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+	public boolean executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+		
+		boolean flag = false;
 		
 		if(pitch < -60)
 			pitch = -60;
@@ -57,7 +59,11 @@ public class TurretFlamer extends TurretBase {
 				world.playSoundEffect(x, y, z, "hbm:weapon.flamethrowerIgnite", 1.0F, 1.0F);
 			else
 				world.playSoundEffect(x, y, z, "hbm:weapon.flamethrowerShoot", 1.0F, 1.0F);
+			
+			flag = true;
 		}
+		
+		return flag;
 	}
 
 	@Override

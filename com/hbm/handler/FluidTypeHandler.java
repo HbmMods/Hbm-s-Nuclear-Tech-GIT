@@ -38,9 +38,12 @@ public class FluidTypeHandler {
 		
 		BIOGAS		(0xbfd37c, 12571516, 	12,	2, "hbmfluid.biogas"),
 		BIOFUEL		(0xeef274, 15659636,	13,	2, "hbmfluid.biofuel"),
+
+		NITAN		(0x8018ad, 8394925, 	15,	2, "hbmfluid.nitan"),
 		
 		UF6			(0xD1CEBE, 13749950, 	14,	1, "hbmfluid.uf6"),
 		PUF6		(0x4C4C4C, 5000268, 	15,	1, "hbmfluid.puf6"),
+		SAS3		(0x4ffffc, 5242876, 	14,	2, "hbmfluid.sas3"),
 		
 		AMAT		(0x010101, 65793, 		0,	2, "hbmfluid.amat"),
 		ASCHRAB		(0xb50000, 11862016, 	1,	2, "hbmfluid.aschrab"),

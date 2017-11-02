@@ -516,7 +516,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				
 				//Batteries
 				
-				power = Library.chargeItemsFromTE(slots, 32, power, maxPower);
+				power = Library.chargeItemsFromTE(slots, 34, power, maxPower);
 			}
 		}
 		
@@ -629,7 +629,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	}
 	
 	public boolean hasFuse() {
-		return slots[33] != null && (slots[33].getItem() == ModItems.fuse || slots[33].getItem() == ModItems.screwdriver);
+		return slots[35] != null && (slots[35].getItem() == ModItems.fuse || slots[35].getItem() == ModItems.screwdriver);
 	}
 
 	public void attemptPower(int i) {

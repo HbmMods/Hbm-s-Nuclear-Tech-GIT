@@ -13,6 +13,7 @@ import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.effect.EntityNukeCloudBig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
@@ -134,6 +135,7 @@ import com.hbm.render.entity.RenderRocket;
 import com.hbm.render.entity.RenderRubble;
 import com.hbm.render.entity.RenderShrapnel;
 import com.hbm.render.entity.RenderSmallNukeAlt;
+import com.hbm.render.entity.RenderVortex;
 import com.hbm.render.entity.SSmokeRenderer;
 import com.hbm.render.entity.SpillRenderer;
 import com.hbm.render.entity.TSmokeRenderer;
@@ -372,6 +374,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudNoShroom.class, new RenderNoCloud());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFalloutRain.class, new RenderFallout());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBlackHole.class, new RenderBlackHole());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityVortex.class, new RenderVortex());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());
@@ -409,6 +412,8 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hp, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_euthanasia, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_defabricator, new ItemRenderOverkill());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_dash, new ItemRenderOverkill());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_twigun, new ItemRenderOverkill());
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_dig, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_silk, new ItemRenderMultitool());

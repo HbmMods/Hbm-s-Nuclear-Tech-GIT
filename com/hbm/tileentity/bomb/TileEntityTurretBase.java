@@ -1,6 +1,7 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.TurretBase;
+import com.hbm.lib.Library;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TETurretPacket;
@@ -23,8 +24,9 @@ public abstract class TileEntityTurretBase extends TileEntity {
 	public double rotationYaw;
 	public double rotationPitch;
 	public boolean isAI = false;
-	public String uuid;
+	public String uuid = "none";
 	public int use;
+	public int ammo = 0;
 	
 	@Override
 	public void updateEntity() {
@@ -32,7 +34,9 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(isAI) {
 			
 			Object[] iter = worldObj.loadedEntityList.toArray();
-			double radius = 500;
+			double radius = 1000;
+			if(this instanceof TileEntityTurretFlamer)
+				radius /= 2;
 			Entity target = null;
 			for (int i = 0; i < iter.length; i++)
 			{
@@ -60,8 +64,9 @@ public abstract class TileEntityTurretBase extends TileEntity {
 				
 				use++;
 
-				if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof TurretBase) {
-					((TurretBase)worldObj.getBlock(xCoord, yCoord, zCoord)).executeHoldAction(worldObj, use, rotationYaw, rotationPitch, xCoord, yCoord, zCoord);
+				if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof TurretBase && ammo > 0) {
+					if(((TurretBase)worldObj.getBlock(xCoord, yCoord, zCoord)).executeHoldAction(worldObj, use, rotationYaw, rotationPitch, xCoord, yCoord, zCoord))
+						ammo--;
 				}
 				
 			} else {
@@ -85,14 +90,14 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		Vec3 side = Vec3.createVectorHelper(entity.xCoord - turret.xCoord, entity.yCoord - turret.yCoord, entity.zCoord - turret.zCoord);
 		side = side.normalize();
 		
-		turret.xCoord += side.xCoord * 1.5;
-		turret.yCoord += side.yCoord * 1.5;
-		turret.zCoord += side.zCoord * 1.5;
+		turret.xCoord += side.xCoord;
+		turret.yCoord += side.yCoord;
+		turret.zCoord += side.zCoord;
 		
-		MovingObjectPosition pos = worldObj.rayTraceBlocks(entity, turret);
+		if(this instanceof TileEntityTurretTau)
+			return true;
 		
-		return true;
-		//return pos != null;
+		return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
 	}
 	
 	@Override
@@ -114,6 +119,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		rotationPitch = nbt.getDouble("pitch");
 		isAI = nbt.getBoolean("AI");
 		uuid = nbt.getString("player");
+		ammo = nbt.getInteger("ammo");
 	}
 	
 	@Override
@@ -123,6 +129,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		nbt.setDouble("pitch", rotationPitch);
 		nbt.setBoolean("AI", isAI);
 		nbt.setString("player", uuid);
+		nbt.setInteger("ammo", ammo);
 	}
 
 }

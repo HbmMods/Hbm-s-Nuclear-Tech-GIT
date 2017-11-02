@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderLightTurret extends TileEntitySpecialRenderer {
 	
 	public RenderLightTurret() { }
-    private ResourceLocation gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -32,7 +31,7 @@ public class RenderLightTurret extends TileEntitySpecialRenderer {
 			pitch = ((TileEntityTurretBase)tileEntity).rotationPitch;
 		}
         
-		this.bindTexture(gadgetTexture);
+		this.bindTexture(ResourceManager.turret_heavy_base_tex);
         ResourceManager.turret_heavy_base.renderAll();
 
         GL11.glPopMatrix();
@@ -50,7 +49,7 @@ public class RenderLightTurret extends TileEntitySpecialRenderer {
 
 		GL11.glRotated(yaw + 180, 0F, -1F, 0F);
 
-		this.bindTexture(gadgetTexture);
+		this.bindTexture(ResourceManager.turret_light_rotor_tex);
         ResourceManager.turret_heavy_rotor.renderAll();
 
         GL11.glPopMatrix();
@@ -69,7 +68,7 @@ public class RenderLightTurret extends TileEntitySpecialRenderer {
 		GL11.glRotated(yaw + 180, 0F, -1F, 0F);
 		GL11.glRotated(pitch, 1F, 0F, 0F);
 
-		this.bindTexture(gadgetTexture);
+		this.bindTexture(ResourceManager.turret_light_gun_tex);
         ResourceManager.turret_light_gun.renderAll();
 
         GL11.glPopMatrix();

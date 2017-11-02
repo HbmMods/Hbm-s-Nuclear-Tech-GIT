@@ -14,6 +14,7 @@ import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIcon;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -2097,6 +2098,18 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.drill_titanium, 1));
 			list.add(new ItemStack(ModItems.wire_red_copper, 6));
 			break;
+		case PUMPJACK:
+			list.add(new ItemStack(ModBlocks.steel_scaffold, 8));
+			list.add(new ItemStack(ModBlocks.block_steel, 8));
+			list.add(new ItemStack(ModItems.pipes_steel, 4));
+			list.add(new ItemStack(ModItems.tank_steel, 4));
+			list.add(new ItemStack(ModItems.ingot_steel, 24));
+			list.add(new ItemStack(ModItems.plate_steel, 16));
+			list.add(new ItemStack(ModItems.plate_aluminium, 6));
+			list.add(new ItemStack(ModItems.drill_titanium, 1));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 8));
+			break;
 		case FLARE_STACK:
 			list.add(new ItemStack(ModBlocks.steel_scaffold, 28));
 			list.add(new ItemStack(ModItems.tank_steel, 2));
@@ -2132,6 +2145,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_big_steel, 4));
 			break;
 		case MINER:
+			list.add(new ItemStack(ModBlocks.steel_scaffold, 12));
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
 			list.add(new ItemStack(ModItems.wire_red_copper, 4));
@@ -2140,6 +2154,15 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.ingot_dura_steel, 6));
 			list.add(new ItemStack(ModItems.bolt_dura_steel, 2));
 			list.add(new ItemStack(ModItems.drill_titanium, 1));
+			break;
+		case TURBOFAN:
+			list.add(new ItemStack(ModItems.hull_big_steel, 1));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 3));
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.turbine_tungsten, 1));
+			list.add(new ItemStack(ModItems.turbine_titanium, 7));
+			list.add(new ItemStack(ModItems.bolt_compound, 8));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 24));
 			break;
 		case TELEPORTER:
 			list.add(new ItemStack(ModItems.ingot_titanium, 6));
@@ -2197,6 +2220,11 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.neutron_reflector, 2));
 			list.add(new ItemStack(ModItems.plate_lead, 2));
 			list.add(new ItemStack(ModItems.rod_empty, 3));
+			break;
+		case LR_CONTROL:
+			list.add(new ItemStack(ModItems.ingot_steel, 6));
+			list.add(new ItemStack(ModItems.ingot_lead, 4));
+			list.add(new ItemStack(ModItems.motor, 1));
 			break;
 		case LR_HATCH:
 			list.add(new ItemStack(ModBlocks.brick_concrete, 1));
@@ -2396,6 +2424,48 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModBlocks.machine_battery, 1));
 			list.add(new ItemStack(ModItems.circuit_gold, 2));
 			break;
+		case TURRET_LIGHT:
+			list.add(new ItemStack(ModItems.ingot_steel, 6));
+			list.add(new ItemStack(ModItems.pipes_steel, 2));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 2));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 2));
+			break;
+		case TURRET_HEAVY:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.ingot_aluminium, 4));
+			list.add(new ItemStack(ModItems.pipes_steel, 2));
+			list.add(new ItemStack(ModItems.hull_small_steel, 1));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 4));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 3));
+			break;
+		case TURRET_ROCKET:
+			list.add(new ItemStack(ModItems.ingot_steel, 12));
+			list.add(new ItemStack(ModItems.ingot_titanium, 4));
+			list.add(new ItemStack(ModItems.hull_small_steel, 8));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 6));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			break;
+		case TURRET_FLAMER:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.ingot_tungsten, 2));
+			list.add(new ItemStack(ModItems.pipes_steel, 1));
+			list.add(new ItemStack(ModItems.tank_steel, 2));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 4));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 2));
+			break;
+		case TURRET_TAU:
+			list.add(new ItemStack(ModItems.ingot_steel, 16));
+			list.add(new ItemStack(ModItems.ingot_titanium, 8));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.redcoil_capacitor, 3));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 12));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			break;
 		case HUNTER_CHOPPER:
 			list.add(new ItemStack(ModItems.chopper_blades, 5));
 			list.add(new ItemStack(ModItems.chopper_gun, 1));
@@ -2546,12 +2616,6 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_combine_steel, 4));
 			list.add(new ItemStack(Items.redstone, 7));
 			list.add(new ItemStack(ModItems.powder_power, 3));
-			break;
-		case GREANADE_ENHANCED:
-			list.add(new ItemStack(ModItems.plate_iron, 4));
-			list.add(new ItemStack(ModItems.plate_steel, 2));
-			list.add(new ItemStack(ModItems.wire_red_copper, 2));
-			list.add(new ItemStack(Blocks.tnt, 1));
 			break;
 		case GRENADE_FLAME:
 			list.add(new ItemStack(ModItems.grenade_frag, 1));
@@ -3061,6 +3125,9 @@ public class MachineRecipes {
 		case DERRICK:
 			output = new ItemStack(ModBlocks.machine_well, 1);
 			break;
+		case PUMPJACK:
+			output = new ItemStack(ModBlocks.machine_pumpjack, 1);
+			break;
 		case FLARE_STACK:
 			output = new ItemStack(ModBlocks.machine_flare, 1);
 			break;
@@ -3075,6 +3142,9 @@ public class MachineRecipes {
 			break;
 		case MINER:
 			output = new ItemStack(ModBlocks.machine_drill, 1);
+			break;
+		case TURBOFAN:
+			output = new ItemStack(ModBlocks.machine_turbofan, 1);
 			break;
 		case TELEPORTER:
 			output = new ItemStack(ModBlocks.machine_teleporter, 1);
@@ -3099,6 +3169,9 @@ public class MachineRecipes {
 			break;
 		case LR_ELEMENT:
 			output = new ItemStack(ModBlocks.reactor_element, 1);
+			break;
+		case LR_CONTROL:
+			output = new ItemStack(ModBlocks.reactor_control, 1);
 			break;
 		case LR_HATCH:
 			output = new ItemStack(ModBlocks.reactor_hatch, 1);
@@ -3196,6 +3269,21 @@ public class MachineRecipes {
 		case LAUNCH_PAD:
 			output = new ItemStack(ModBlocks.launch_pad, 1);
 			break;
+		case TURRET_LIGHT:
+			output = new ItemStack(ModBlocks.turret_light, 1);
+			break;
+		case TURRET_HEAVY:
+			output = new ItemStack(ModBlocks.turret_heavy, 1);
+			break;
+		case TURRET_ROCKET:
+			output = new ItemStack(ModBlocks.turret_rocket, 1);
+			break;
+		case TURRET_FLAMER:
+			output = new ItemStack(ModBlocks.turret_flamer, 1);
+			break;
+		case TURRET_TAU:
+			output = new ItemStack(ModBlocks.turret_tau, 1);
+			break;
 		case HUNTER_CHOPPER:
 			output = new ItemStack(ModItems.chopper, 1);
 			break;
@@ -3262,9 +3350,6 @@ public class MachineRecipes {
 		case COMBINE_BALL:
 			output = new ItemStack(ModItems.gun_osipr_ammo2, 1);
 			break;
-		case GREANADE_ENHANCED:
-			output = new ItemStack(ModItems.grenade_strong, 1);
-			break;
 		case GRENADE_FLAME:
 			output = new ItemStack(ModItems.grenade_fire, 1);
 			break;
@@ -3293,7 +3378,7 @@ public class MachineRecipes {
 			output = new ItemStack(ModItems.grenade_schrabidium, 1);
 			break;
 		case GRENADE_NUKE:
-			output = new ItemStack(ModItems.grenade_nuke, 1);
+			output = new ItemStack(ModItems.grenade_nuclear, 1);
 			break;
 		case GRENADE_ZOMG:
 			output = new ItemStack(ModItems.grenade_zomg, 1);
@@ -3302,7 +3387,10 @@ public class MachineRecipes {
 			output = new ItemStack(ModItems.grenade_black_hole, 1);
 			break;
 		case POWER_FIST:
-			output = new ItemStack(ModItems.multitool_dig, 1);
+			ItemStack multitool = new ItemStack(ModItems.multitool_dig, 1);
+			multitool.addEnchantment(Enchantment.looting, 3);
+			multitool.addEnchantment(Enchantment.fortune, 3);
+			output = multitool.copy();
 			break;
 		case GADGET_PROPELLANT:
 			output = new ItemStack(ModItems.gadget_explosive, 1);
@@ -3520,6 +3608,18 @@ public class MachineRecipes {
         case BP_BIOGAS:
 			list.add(new ItemStack(ModItems.biomass, 16));
 			break;
+        case UF6:
+			list.add(new ItemStack(ModItems.powder_uranium, 1));
+			list.add(new ItemStack(ModItems.fluorite, 3));
+			break;
+        case PUF6:
+			list.add(new ItemStack(ModItems.powder_plutonium, 1));
+			list.add(new ItemStack(ModItems.fluorite, 3));
+			break;
+        case SAS3:
+			list.add(new ItemStack(ModItems.powder_schrabidium, 1));
+			list.add(new ItemStack(ModItems.sulfur, 2));
+			break;
 		default:
 			break;
 		}
@@ -3669,6 +3769,15 @@ public class MachineRecipes {
         	break;
         case BP_BIOFUEL:
 			input[0] = new FluidStack(2000, FluidType.BIOGAS);
+        	break;
+        case UF6:
+			input[0] = new FluidStack(1000, FluidType.WATER);
+        	break;
+        case PUF6:
+			input[0] = new FluidStack(1000, FluidType.WATER);
+        	break;
+        case SAS3:
+			input[0] = new FluidStack(2000, FluidType.ACID);
         	break;
 		default:
 			break;
@@ -3844,6 +3953,15 @@ public class MachineRecipes {
         	break;
         case BP_BIOFUEL:
 			input[0] = new FluidStack(1000, FluidType.BIOFUEL);
+        	break;
+        case UF6:
+			input[0] = new FluidStack(1000, FluidType.UF6);
+        	break;
+        case PUF6:
+			input[0] = new FluidStack(1000, FluidType.PUF6);
+        	break;
+        case SAS3:
+			input[0] = new FluidStack(1000, FluidType.SAS3);
         	break;
 		default:
 			break;

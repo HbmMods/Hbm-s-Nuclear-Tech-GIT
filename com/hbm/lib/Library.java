@@ -1167,9 +1167,9 @@ public class Library {
 		double length = vector.lengthVector();
 		Vec3 nVec = vector.normalize();
 		
-		for(int i = 0; i < length; i++)
-			if(world.getBlock((int) (x + (nVec.xCoord * i)), (int) (y + (nVec.yCoord * i)), (int) (z + (nVec.zCoord * i))) != Blocks.air && 
-					!world.getBlock((int) (x + (nVec.xCoord * i)), (int) (y + (nVec.yCoord * i)), (int) (z + (nVec.zCoord * i))).isNormalCube())
+		for(float i = 0; i < length; i += 0.25F)
+			if(world.getBlock((int) Math.round(x + (nVec.xCoord * i)), (int) Math.round(y + (nVec.yCoord * i)), (int) Math.round(z + (nVec.zCoord * i))) != Blocks.air && 
+					world.getBlock((int) Math.round(x + (nVec.xCoord * i)), (int) Math.round(y + (nVec.yCoord * i)), (int) Math.round(z + (nVec.zCoord * i))).isNormalCube())
 				return true;
 		
 		return false;

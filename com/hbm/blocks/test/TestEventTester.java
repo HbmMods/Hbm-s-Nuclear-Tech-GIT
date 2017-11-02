@@ -14,10 +14,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkProviderServer;
 
 public class TestEventTester extends Block {
 	
@@ -31,10 +36,10 @@ public class TestEventTester extends Block {
 	}
 	
     @Override
-	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
+	public void onNeighborBlockChange(World p_149695_1_, int x1, int y1, int z1, Block p_149695_5_)
     {
     	this.worldObj = p_149695_1_;
-        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
+        if (p_149695_1_.isBlockIndirectlyGettingPowered(x1, y1, z1))
         {
         	//The laser thread is too dangerous to use right now
         	//ThreadLaser laser = new ThreadLaser(p_149695_1_, x, y, z, "north");
@@ -68,11 +73,53 @@ public class TestEventTester extends Block {
         	//worldObj.setBlock(x, y, z, Blocks.air);
         	//ExplosionLarge.explode(worldObj, x + 0.5, y + 0.5, z + 0.5, MainRegistry.x, true, true, true);
         	
-        	EntityBlackHole bl = new EntityBlackHole(worldObj, MainRegistry.x * 0.1F);
+        	/*EntityBlackHole bl = new EntityBlackHole(worldObj, MainRegistry.x * 0.1F);
         	bl.posX = x + 0.5F;
         	bl.posY = y + 0.5F;
         	bl.posZ = z + 0.5F;
-        	worldObj.spawnEntityInWorld(bl);
+        	worldObj.spawnEntityInWorld(bl);*/
+                if(!worldObj.isRemote)
+                {
+                    try {
+                        Chunk oldChunk = worldObj.getChunkFromBlockCoords(x1, z1);
+
+                        if(worldObj instanceof WorldServer)
+                        {
+                            WorldServer worldServer = (WorldServer) worldObj;
+                            ChunkProviderServer chunkProviderServer = worldServer.theChunkProviderServer;
+                            IChunkProvider chunkProviderGenerate = chunkProviderServer.currentChunkProvider;
+
+                            Chunk newChunk = chunkProviderGenerate.provideChunk(oldChunk.xPosition, oldChunk.zPosition);
+
+                            for (int x = 0; x < 16; x++)
+                            {
+                                for (int z = 0; z < 16; z++)
+                                {
+                                    for (int y = 0; y < worldObj.getHeight(); y++)
+                                    {
+                                        Block block = newChunk.getBlock(x, y, z);
+                                        int metadata = newChunk.getBlockMetadata(x, y, z);
+
+                                        worldServer.setBlock(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, block, metadata, 2);
+
+                                        TileEntity tileEntity = newChunk.getTileEntityUnsafe(x, y, z);
+
+                                        if(tileEntity != null)
+                                        {
+                                            worldServer.setTileEntity(x + oldChunk.xPosition * 16, y, z + oldChunk.zPosition * 16, tileEntity);
+                                        }
+                                    }
+                                }
+                            }
+
+                            oldChunk.isTerrainPopulated = false;
+                            chunkProviderGenerate.populate(chunkProviderGenerate, oldChunk.xPosition, oldChunk.zPosition);
+                        }
+                    } catch(Exception e) {
+                        System.out.println("Rejuvenation Failed!");
+                        e.printStackTrace();
+                    }
+                }
         }
     }
     

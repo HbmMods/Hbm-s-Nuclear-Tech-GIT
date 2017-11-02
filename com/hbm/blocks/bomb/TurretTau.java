@@ -22,7 +22,9 @@ public class TurretTau extends TurretBase {
 	}
 
 	@Override
-	public void executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+	public boolean executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+		
+		boolean flag = false;
 		
 		if(pitch < -60)
 			pitch = -60;
@@ -54,7 +56,11 @@ public class TurretTau extends TurretBase {
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:weapon.tauShoot", 1.0F, 0.5F);
+			
+			flag = true;
 		}
+		
+		return flag;
 	}
 
 	@Override

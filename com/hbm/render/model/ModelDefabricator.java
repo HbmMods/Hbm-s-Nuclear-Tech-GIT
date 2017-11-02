@@ -199,7 +199,7 @@ public class ModelDefabricator extends ModelBase
 
 		modeldefabricatorModel[39].addBox(0F, 0F, 0F, 13, 0, 1); // Box 41
 		modeldefabricatorModel[39].setRotationPoint(5F, -5F, -0.5F);
-		modeldefabricatorModel[39].rotateAngleZ = -0.17453293F;
+		modeldefabricatorModel[39].rotateAngleZ = 0.17453293F;
 		
 		for(int i = 0; i < 40; i++)
 		{

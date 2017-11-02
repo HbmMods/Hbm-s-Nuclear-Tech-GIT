@@ -8,6 +8,7 @@ import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -132,5 +133,13 @@ public class ItemGeigerCounter extends Item {
 		
 		return i * level;
 	}
+	
+    /*@Override
+	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer player, World world, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    {
+    	if(!world.isRemote)
+    		player.travelToDimension(1);
+    	return true;
+    }*/
 
 }

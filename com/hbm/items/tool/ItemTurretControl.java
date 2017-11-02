@@ -166,9 +166,9 @@ public class ItemTurretControl extends Item {
 				if(te != null && te instanceof TileEntityTurretBase) {
 					TileEntityTurretBase turret = (TileEntityTurretBase)te;
 
-					if(!turret.isAI) {
-						((TurretBase)world.getBlock(x, y, z)).executeHoldAction(world, stack.getMaxItemUseDuration() - count, player.rotationYaw, player.rotationPitch, x, y, z);
-			
+					if(!turret.isAI && turret.ammo > 0) {
+						if(((TurretBase)world.getBlock(x, y, z)).executeHoldAction(world, stack.getMaxItemUseDuration() - count, player.rotationYaw, player.rotationPitch, x, y, z))
+							turret.ammo--;
 					}
 				}
 			}

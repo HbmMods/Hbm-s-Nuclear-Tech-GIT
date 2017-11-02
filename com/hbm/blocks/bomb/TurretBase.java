@@ -2,8 +2,12 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
+import com.hbm.tileentity.bomb.TileEntityTurretBase;
+
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public abstract class TurretBase extends BlockContainer {
@@ -29,7 +33,7 @@ public abstract class TurretBase extends BlockContainer {
 		return false;
 	}
 	
-	public abstract void executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z);
+	public abstract boolean executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z);
 	public abstract void executeReleaseAction(World world, int i, double yaw, double pitch, int x, int y, int z);
 
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
@@ -41,7 +43,7 @@ public class ItemDrop extends Item {
 						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
 								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
+						EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(entityItem.worldObj);
 						entity.posX = entityItem.posX;
 						entity.posY = entityItem.posY;
 						entity.posZ = entityItem.posZ;
@@ -61,56 +63,32 @@ public class ItemDrop extends Item {
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity) {
 					if (!entityItem.worldObj.isRemote) {
-						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
-						entity.posX = entityItem.posX;
-						entity.posY = entityItem.posY;
-						entity.posZ = entityItem.posZ;
-						entity.destructionRange = MainRegistry.aSchrabRadius;
-						entity.speed = 25;
-						entity.coefficient = 0.01F;
-						entity.coefficient2 = 0.01F;
-						entity.waste = false;
-
-						entityItem.worldObj.spawnEntityInWorld(entity);
+			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 1.5F);
+			        	bl.posX = entityItem.posX ;
+			        	bl.posY = entityItem.posY ;
+			        	bl.posZ = entityItem.posZ ;
+			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_counter_resonant) {
 					if (!entityItem.worldObj.isRemote) {
-						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
-						entity.posX = entityItem.posX;
-						entity.posY = entityItem.posY;
-						entity.posZ = entityItem.posZ;
-						entity.destructionRange = MainRegistry.aSchrabRadius * 2;
-						entity.speed = 25;
-						entity.coefficient = 0.01F;
-						entity.coefficient2 = 0.01F;
-						entity.waste = false;
-
-						entityItem.worldObj.spawnEntityInWorld(entity);
+			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
+			        	bl.posX = entityItem.posX ;
+			        	bl.posY = entityItem.posY ;
+			        	bl.posZ = entityItem.posZ ;
+			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_super_heated) {
 					if (!entityItem.worldObj.isRemote) {
-						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
-								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
 
-						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(entityItem.worldObj);
-						entity.posX = entityItem.posX;
-						entity.posY = entityItem.posY;
-						entity.posZ = entityItem.posZ;
-						entity.destructionRange = MainRegistry.aSchrabRadius * 2;
-						entity.speed = 25;
-						entity.coefficient = 0.01F;
-						entity.coefficient2 = 0.01F;
-						entity.waste = false;
-
-						entityItem.worldObj.spawnEntityInWorld(entity);
+			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
+			        	bl.posX = entityItem.posX ;
+			        	bl.posY = entityItem.posY ;
+			        	bl.posZ = entityItem.posZ ;
+			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.black_hole) {
@@ -130,7 +108,7 @@ public class ItemDrop extends Item {
 
 						entityItem.worldObj.spawnEntityInWorld(entity);*/
 
-			        	EntityBlackHole bl = new EntityBlackHole(entityItem.worldObj, 0.5F);
+			        	EntityBlackHole bl = new EntityBlackHole(entityItem.worldObj, 1.5F);
 			        	bl.posX = entityItem.posX ;
 			        	bl.posY = entityItem.posY ;
 			        	bl.posZ = entityItem.posZ ;

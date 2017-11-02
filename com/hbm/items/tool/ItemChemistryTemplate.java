@@ -67,7 +67,8 @@ public class ItemChemistryTemplate extends Item {
 		DEUTERIUM,
 		STEAM,
 		UF6,
-		PUF6;
+		PUF6,
+		SAS3;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -201,6 +202,12 @@ public class ItemChemistryTemplate extends Item {
         	return 200;
         case BP_BIOFUEL:
         	return 100;
+        case UF6:
+        	return 100;
+        case PUF6:
+        	return 150;
+        case SAS3:
+        	return 200;
         default:
         	return 100;
         }

@@ -123,11 +123,13 @@ public class ItemAssemblyTemplate extends Item {
 		RF_TO_HE,
 		SHREDDER,
 		DERRICK,
+		PUMPJACK,
 		FLARE_STACK,
 		REFINERY,
 		CHEMPLANT,
 		TANK,
 		MINER,
+		TURBOFAN,
 		TELEPORTER,
 		SCHRABTRANS,
 		CMB_FURNACE,
@@ -136,6 +138,7 @@ public class ItemAssemblyTemplate extends Item {
 		FA_CORE,
 		FA_PORT,
 		LR_ELEMENT,
+		LR_CONTROL,
 		LR_HATCH,
 		LR_PORT,
 		LR_CORE,
@@ -169,6 +172,11 @@ public class ItemAssemblyTemplate extends Item {
 		BOMB_EXO,
 		LAUNCH_PAD,
 		HUNTER_CHOPPER,
+		TURRET_LIGHT,
+		TURRET_HEAVY,
+		TURRET_ROCKET,
+		TURRET_FLAMER,
+		TURRET_TAU,
 		MISSILE_HE_1,
 		MISSILE_FIRE_1,
 		MISSILE_CLUSTER_1,
@@ -190,7 +198,6 @@ public class ItemAssemblyTemplate extends Item {
 		MINI_MIRV,
 		DARK_PLUG,
 		COMBINE_BALL,
-		GREANADE_ENHANCED,
 		GRENADE_FLAME,
 		GRENADE_SHRAPNEL,
 		GRENAGE_CLUSTER,
@@ -496,6 +503,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 200;
 		case DERRICK:
 			return 250;
+		case PUMPJACK:
+			return 400;
 		case FLARE_STACK:
 			return 200;
 		case REFINERY:
@@ -506,6 +515,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case MINER:
 			return 200;
+		case TURBOFAN:
+			return 500;
 		case TELEPORTER:
 			return 300;
 		case SCHRABTRANS:
@@ -522,6 +533,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 50;
 		case LR_ELEMENT:
 			return 150;
+		case LR_CONTROL:
+			return 100;
 		case LR_HATCH:
 			return 150;
 		case LR_PORT:
@@ -586,6 +599,16 @@ public class ItemAssemblyTemplate extends Item {
 			return 250;
 		case LAUNCH_PAD:
 			return 250;
+		case TURRET_LIGHT:
+			return 200;
+		case TURRET_HEAVY:
+			return 250;
+		case TURRET_ROCKET:
+			return 300;
+		case TURRET_FLAMER:
+			return 250;
+		case TURRET_TAU:
+			return 350;
 		case HUNTER_CHOPPER:
 			return 300;
 		case MISSILE_HE_1:
@@ -630,8 +653,6 @@ public class ItemAssemblyTemplate extends Item {
 			return 50;
 		case COMBINE_BALL:
 			return 200;
-		case GREANADE_ENHANCED:
-			return 150;
 		case GRENADE_FLAME:
 			return 150;
 		case GRENADE_SHRAPNEL:

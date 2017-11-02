@@ -22,7 +22,9 @@ public class TurretLight extends TurretBase {
 	}
 
 	@Override
-	public void executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+	public boolean executeHoldAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+		
+		boolean flag = false;
 		
 		if(pitch < -60)
 			pitch = -60;
@@ -53,7 +55,11 @@ public class TurretLight extends TurretBase {
 			}
 
 			world.playSoundEffect(x, y, z, "hbm:weapon.rifleShoot", 1.0F, 0.5F + rand.nextFloat() * 0.25F);
+			
+			flag = true;
 		}
+		
+		return flag;
 	}
 
 	@Override
