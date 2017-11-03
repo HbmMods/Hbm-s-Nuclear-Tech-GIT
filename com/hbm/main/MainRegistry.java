@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -8,6 +9,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -26,6 +28,8 @@ import cpw.mods.fml.common.ModMetadata;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import org.apache.logging.log4j.Logger;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.creativetabs.BlockTab;
@@ -107,6 +111,7 @@ import com.hbm.entity.projectile.EntityDischarge;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.entity.projectile.EntityMinerBeam;
 import com.hbm.entity.projectile.EntityMiniMIRV;
 import com.hbm.entity.projectile.EntityMiniNuke;
@@ -235,6 +240,8 @@ public class MainRegistry
 	@Metadata
 	public static ModMetadata meta;
 	
+	public static Logger logger;
+	
 	//Tool Materials
 	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
 	public static ToolMaterial enumToolMaterialHammer = EnumHelper.addToolMaterial("SCHRABIDIUMHAMMER", 3, 0, 50.0F, 999999996F, 200);
@@ -329,6 +336,9 @@ public class MainRegistry
 	public static boolean enableNITAN = true;
 	public static boolean enableNukeClouds = true;
 	public static boolean enableAutoCleanup = false;
+	public static boolean enableMeteorStrikes = true;
+	public static boolean enableMeteorShowers = true;
+	public static boolean enableMeteorTails = true;
 	public static int uraniumSpawn = 7;
 	public static int titaniumSpawn = 8;
 	public static int sulfurSpawn = 5;
@@ -363,6 +373,9 @@ public class MainRegistry
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
+	public static int meteorStrikeChance = 50000;
+	public static int meteorShowerChance = 500;
+	public static int meteorShowerDuration = 6000;
 	
 	public static int polaroidID = 1;
 
@@ -375,6 +388,8 @@ public class MainRegistry
 	@EventHandler
 	public void PreLoad(FMLPreInitializationEvent PreEvent)
 	{
+		logger = PreEvent.getModLog();
+		
 		//Reroll Polaroid
 		polaroidID = rand.nextInt(16) + 1;
 		while(polaroidID == 4 || polaroidID == 9)
@@ -585,6 +600,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 81, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 82, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityVortex.class, "entity_vortex", 83, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityMeteor.class, "entity_meteor", 84, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -757,6 +773,7 @@ public class MainRegistry
 		OreDictionary.registerOre("oreUnobtainium", ModBlocks.ore_unobtainium);
 		OreDictionary.registerOre("oreDaffergon", ModBlocks.ore_daffergon);
 		OreDictionary.registerOre("oreVerticium", ModBlocks.ore_verticium);
+		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_rare);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium);
 		OreDictionary.registerOre("orePlutonium", ModBlocks.ore_nether_plutonium);
@@ -926,120 +943,133 @@ public class MainRegistry
 
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
-        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "1.0_enableDebugMode", false).getBoolean(false);
-        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "1.1_enableMyceliumSpread", false).getBoolean(false);
-        enablePlutoniumOre = config.get(Configuration.CATEGORY_GENERAL, "1.2_enablePlutoniumNetherOre", false).getBoolean(false);
-        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.3_enableDungeonSpawn", true).getBoolean(true);
-        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.4_enableOresInModdedDimensions", true).getBoolean(true);
-        enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.5_enableNuclearBarrelSpawn", false).getBoolean(false);
-        enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.6_enableNITANChestSpawn", true).getBoolean(true);
-        enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.7_enableMushroomClouds", true).getBoolean(true);
-        enableAutoCleanup = config.get(Configuration.CATEGORY_GENERAL, "1.8_enableAutomaticRadCleanup", false).getBoolean(false);
+        enableDebugMode = config.get(Configuration.CATEGORY_GENERAL, "1.00_enableDebugMode", false).getBoolean(false);
+        enableMycelium = config.get(Configuration.CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false).getBoolean(false);
+        enablePlutoniumOre = config.get(Configuration.CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false).getBoolean(false);
+        enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.03_enableDungeonSpawn", true).getBoolean(true);
+        enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.04_enableOresInModdedDimensions", true).getBoolean(true);
+        enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.05_enableNuclearBarrelSpawn", false).getBoolean(false);
+        enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.06_enableNITANChestSpawn", true).getBoolean(true);
+        enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.07_enableMushroomClouds", true).getBoolean(true);
+        enableAutoCleanup = config.get(Configuration.CATEGORY_GENERAL, "1.08_enableAutomaticRadCleanup", false).getBoolean(false);
+        enableMeteorStrikes = config.get(Configuration.CATEGORY_GENERAL, "1.09_enableMeteorStrikes", true).getBoolean(true);
+        enableMeteorShowers = config.get(Configuration.CATEGORY_GENERAL, "1.10_enableMeteorShowers", true).getBoolean(true);
+        enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.11_enableMeteorTails", true).getBoolean(true);
 
-        Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.0_uraniumSpawnrate", 7);
+        Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";
         uraniumSpawn = PuraniumSpawn.getInt();
-        Property PtitaniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.1_titaniumSpawnrate", 8);
+        Property PtitaniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.01_titaniumSpawnrate", 8);
         PtitaniumSpawn.comment = "Ammount of titanium ore veins per chunk";
         titaniumSpawn = PtitaniumSpawn.getInt();
-        Property PsulfurSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.2_sulfurSpawnrate", 5);
+        Property PsulfurSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.02_sulfurSpawnrate", 5);
         PsulfurSpawn.comment = "Ammount of sulfur ore veins per chunk";
         sulfurSpawn = PsulfurSpawn.getInt();
-        Property PaluminiumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.3_aluminiumSpawnrate", 7);
+        Property PaluminiumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.03_aluminiumSpawnrate", 7);
         PaluminiumSpawn.comment = "Ammount of aluminium ore veins per chunk";
         aluminiumSpawn = PaluminiumSpawn.getInt();
-        Property PcopperSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.4_copperSpawnrate", 12);
+        Property PcopperSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.04_copperSpawnrate", 12);
         PcopperSpawn.comment = "Ammount of copper ore veins per chunk";
         copperSpawn = PcopperSpawn.getInt();
-        Property PFluoriteSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.5_fluoriteSpawnrate", 6);
+        Property PFluoriteSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.05_fluoriteSpawnrate", 6);
         PFluoriteSpawn.comment = "Ammount of fluorite ore veins per chunk";
         fluoriteSpawn = PFluoriteSpawn.getInt();
-        Property PNiterSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.6_niterSpawnrate", 6);
+        Property PNiterSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.06_niterSpawnrate", 6);
         PNiterSpawn.comment = "Ammount of niter ore veins per chunk";
         niterSpawn = PNiterSpawn.getInt();
-        Property PtungstenSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.7_tungstenSpawnrate", 10);
+        Property PtungstenSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.07_tungstenSpawnrate", 10);
         PtungstenSpawn.comment = "Ammount of tungsten ore veins per chunk";
         tungstenSpawn = PtungstenSpawn.getInt();
-        Property PleadSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.8_leadSpawnrate", 6);
+        Property PleadSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.08_leadSpawnrate", 6);
         PleadSpawn.comment = "Ammount of lead ore veins per chunk";
         leadSpawn = PleadSpawn.getInt();
-        Property PberylliumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.9_berylliumSpawnrate", 6);
+        Property PberylliumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.09_berylliumSpawnrate", 6);
         PberylliumSpawn.comment = "Ammount of beryllium ore veins per chunk";
         berylliumSpawn = PberylliumSpawn.getInt();
         
-        Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "3.0_gadgetRadius", 150);
+        Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "3.00_gadgetRadius", 150);
         propGadget.comment = "Radius of the Gadget";
         gadgetRadius = propGadget.getInt();
-        Property propBoy = config.get(Configuration.CATEGORY_GENERAL, "3.1_boyRadius", 120);
+        Property propBoy = config.get(Configuration.CATEGORY_GENERAL, "3.01_boyRadius", 120);
         propBoy.comment = "Radius of Little Boy";
         boyRadius = propBoy.getInt();
-        Property propMan = config.get(Configuration.CATEGORY_GENERAL, "3.2_manRadius", 175);
+        Property propMan = config.get(Configuration.CATEGORY_GENERAL, "3.02_manRadius", 175);
         propMan.comment = "Radius of Fat Man";
         manRadius = propMan.getInt();
-        Property propMike = config.get(Configuration.CATEGORY_GENERAL, "3.3_mikeRadius", 250);
+        Property propMike = config.get(Configuration.CATEGORY_GENERAL, "3.03_mikeRadius", 250);
         propMike.comment = "Radius of Ivy Mike";
         mikeRadius = propMike.getInt();
-        Property propTsar = config.get(Configuration.CATEGORY_GENERAL, "3.4_tsarRadius", 500);
+        Property propTsar = config.get(Configuration.CATEGORY_GENERAL, "3.04_tsarRadius", 500);
         propTsar.comment = "Radius of the Tsar Bomba";
         tsarRadius = propTsar.getInt();
-        Property propPrototype = config.get(Configuration.CATEGORY_GENERAL, "3.5_prototypeRadius", 150);
+        Property propPrototype = config.get(Configuration.CATEGORY_GENERAL, "3.05_prototypeRadius", 150);
         propPrototype.comment = "Radius of the Prototype";
         prototypeRadius = propPrototype.getInt();
-        Property propFleija = config.get(Configuration.CATEGORY_GENERAL, "3.6_fleijaRadius", 50);
+        Property propFleija = config.get(Configuration.CATEGORY_GENERAL, "3.06_fleijaRadius", 50);
         propFleija.comment = "Radius of F.L.E.I.J.A.";
         fleijaRadius = propFleija.getInt();
-        Property propMissile = config.get(Configuration.CATEGORY_GENERAL, "3.7_missileRadius", 100);
+        Property propMissile = config.get(Configuration.CATEGORY_GENERAL, "3.07_missileRadius", 100);
         propMissile.comment = "Radius of the nuclear missile";
         missileRadius = propMissile.getInt();
-        Property propMirv = config.get(Configuration.CATEGORY_GENERAL, "3.8_mirvRadius", 100);
+        Property propMirv = config.get(Configuration.CATEGORY_GENERAL, "3.08_mirvRadius", 100);
         propMirv.comment = "Radius of a MIRV";
         mirvRadius = propMirv.getInt();
-        Property propFatman = config.get(Configuration.CATEGORY_GENERAL, "3.9_fatmanRadius", 35);
+        Property propFatman = config.get(Configuration.CATEGORY_GENERAL, "3.09_fatmanRadius", 35);
         propFatman.comment = "Radius of the Fatman Launcher";
         fatmanRadius = propFatman.getInt();
-        Property propNuka = config.get(Configuration.CATEGORY_GENERAL, "3.91_nukaRadius", 25);
+        Property propNuka = config.get(Configuration.CATEGORY_GENERAL, "3.10_nukaRadius", 25);
         propNuka.comment = "Radius of the nuka grenade";
         nukaRadius = propNuka.getInt();
-        Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.92_aSchrabRadius", 20);
+        Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.11_aSchrabRadius", 20);
         propASchrab.comment = "Radius of dropped anti schrabidium";
         aSchrabRadius = propASchrab.getInt();
 
-        Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.0_radioSpawn", 500);
+        Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.00_radioSpawn", 500);
         propRadio.comment = "Spawn radio station on every nTH chunk";
         radioStructure = propRadio.getInt();
-        Property propAntenna = config.get(Configuration.CATEGORY_GENERAL, "4.1_antennaSpawn", 250);
+        Property propAntenna = config.get(Configuration.CATEGORY_GENERAL, "4.01_antennaSpawn", 250);
         propAntenna.comment = "Spawn antenna on every nTH chunk";
         antennaStructure = propAntenna.getInt();
-        Property propAtom = config.get(Configuration.CATEGORY_GENERAL, "4.2_atomSpawn", 500);
+        Property propAtom = config.get(Configuration.CATEGORY_GENERAL, "4.02_atomSpawn", 500);
         propAtom.comment = "Spawn power plant on every nTH chunk";
         atomStructure = propAtom.getInt();
-        Property propVertibird = config.get(Configuration.CATEGORY_GENERAL, "4.3_vertibirdSpawn", 500);
+        Property propVertibird = config.get(Configuration.CATEGORY_GENERAL, "4.03_vertibirdSpawn", 500);
         propVertibird.comment = "Spawn vertibird on every nTH chunk";
         vertibirdStructure = propVertibird.getInt();
-        Property propDungeon = config.get(Configuration.CATEGORY_GENERAL, "4.4_dungeonSpawn", 64);
+        Property propDungeon = config.get(Configuration.CATEGORY_GENERAL, "4.04_dungeonSpawn", 64);
         propDungeon.comment = "Spawn library dungeon on every nTH chunk";
         dungeonStructure = propDungeon.getInt();
-        Property propRelay = config.get(Configuration.CATEGORY_GENERAL, "4.5_relaySpawn", 500);
+        Property propRelay = config.get(Configuration.CATEGORY_GENERAL, "4.05_relaySpawn", 500);
         propRelay.comment = "Spawn relay on every nTH chunk";
         relayStructure = propRelay.getInt();
-        Property propSatellite = config.get(Configuration.CATEGORY_GENERAL, "4.6_satelliteSpawn", 500);
+        Property propSatellite = config.get(Configuration.CATEGORY_GENERAL, "4.06_satelliteSpawn", 500);
         propSatellite.comment = "Spawn satellite dish on every nTH chunk";
         satelliteStructure = propSatellite.getInt();
-        Property propBunker = config.get(Configuration.CATEGORY_GENERAL, "4.7_bunkerSpawn", 1000);
+        Property propBunker = config.get(Configuration.CATEGORY_GENERAL, "4.07_bunkerSpawn", 1000);
         propBunker.comment = "Spawn bunker on every nTH chunk";
         bunkerStructure = propBunker.getInt();
-        Property propSilo = config.get(Configuration.CATEGORY_GENERAL, "4.8_siloSpawn", 1000);
+        Property propSilo = config.get(Configuration.CATEGORY_GENERAL, "4.08_siloSpawn", 1000);
         propSilo.comment = "Spawn missile silo on every nTH chunk";
         siloStructure = propSilo.getInt();
-        Property propFactory = config.get(Configuration.CATEGORY_GENERAL, "4.9_factorySpawn", 1000);
+        Property propFactory = config.get(Configuration.CATEGORY_GENERAL, "4.09_factorySpawn", 1000);
         propFactory.comment = "Spawn factory on every nTH chunk";
         factoryStructure = propFactory.getInt();
-        Property propDud = config.get(Configuration.CATEGORY_GENERAL, "4.91_dudSpawn", 500);
+        Property propDud = config.get(Configuration.CATEGORY_GENERAL, "4.10_dudSpawn", 500);
         propDud.comment = "Spawn dud on every nTH chunk";
         dudStructure = propDud.getInt();
-        Property propSpaceship = config.get(Configuration.CATEGORY_GENERAL, "4.92_spaceshipSpawn", 1000);
+        Property propSpaceship = config.get(Configuration.CATEGORY_GENERAL, "4.11_spaceshipSpawn", 1000);
         propSpaceship.comment = "Spawn spaceship on every nTH chunk";
         spaceshipStructure = propSpaceship.getInt();
+
+        Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 50000);
+        propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";
+        meteorStrikeChance = propMeteorStrikeChance.getInt();
+        Property propMeteorShowerChance = config.get(Configuration.CATEGORY_GENERAL, "5.01_meteorShowerChance", 500);
+        propMeteorShowerChance.comment = "The probability of a meteor spawning during meteor shower (an average of once every nTH ticks)";
+        meteorShowerChance = propMeteorShowerChance.getInt();
+        Property propMeteorShowerDuration = config.get(Configuration.CATEGORY_GENERAL, "5.02_meteorShowerDuration", 6000);
+        propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
+        meteorShowerDuration = propMeteorShowerDuration.getInt();
         
         config.save();
 	}

@@ -60,5 +60,6 @@
 	"entity.chopperCharge": {"category": "hostile", "sounds": [{"name": "entity/chopperCharge", "stream": false}]},
 	"entity.chopperDamage": {"category": "hostile", "sounds": [{"name": "entity/chopperDamage", "stream": true}]},
 	"entity.chopperMineLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperMineLoop", "stream": false}]},
-	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]}
+	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
+	"entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]}
 }

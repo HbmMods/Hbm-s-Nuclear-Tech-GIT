@@ -78,6 +78,7 @@ import com.hbm.entity.projectile.EntityDischarge;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.entity.projectile.EntityMinerBeam;
 import com.hbm.entity.projectile.EntityMiniMIRV;
 import com.hbm.entity.projectile.EntityMiniNuke;
@@ -116,6 +117,7 @@ import com.hbm.render.entity.RenderFireball;
 import com.hbm.render.entity.RenderFlare;
 import com.hbm.render.entity.RenderHunterChopper;
 import com.hbm.render.entity.RenderLN2;
+import com.hbm.render.entity.RenderMeteor;
 import com.hbm.render.entity.RenderMinecartTest;
 import com.hbm.render.entity.RenderMiniMIRV;
 import com.hbm.render.entity.RenderMiniNuke;
@@ -483,6 +485,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsday.class, new RenderMissileDoomsday());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBombletTheta.class, new RenderBombletTheta());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBombletSelena.class, new RenderBombletSelena());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityMeteor.class, new RenderMeteor());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileEndo.class, new RenderMissileThermo());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileExo.class, new RenderMissileThermo());

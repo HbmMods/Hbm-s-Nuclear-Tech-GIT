@@ -9,7 +9,9 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandler;
 import com.hbm.world.Meteorite;
 
 import net.minecraft.block.Block;
@@ -131,7 +133,7 @@ public class TestEventTester extends Block {
                 }*/
         	
         	
-        	if(!worldObj.isRemote) {
+        	/*if(!worldObj.isRemote) {
         		switch(itemRand.nextInt(3)) {
         		case 0:
         			(new Meteorite()).generateLarge(worldObj, itemRand, x1, y1, z1);
@@ -143,6 +145,11 @@ public class TestEventTester extends Block {
         			(new Meteorite()).generateSmall(worldObj, itemRand, x1, y1, z1);
         			break;
         		}
+        	}*/
+        	
+        	
+        	if(!worldObj.isRemote) {
+        		ModEventHandler.meteorShower = 6000;
         	}
         	
         	

@@ -1,14 +1,18 @@
 package com.hbm.main;
 
+import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
 public class ModEventHandler
 {	
 	public static boolean showMessage = true;
+	public static int meteorShower = 0;
 	
 	@SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -18,6 +22,38 @@ public class ModEventHandler
         }
         
         showMessage = !showMessage;
+	}
+	
+	@SubscribeEvent
+	public void worldTick(WorldTickEvent event) {
+		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
+			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {
+				if(!event.world.playerEntities.isEmpty()) {
+					EntityPlayer p = (EntityPlayer)event.world.playerEntities.get(event.world.rand.nextInt(event.world.playerEntities.size()));
+					EntityMeteor meteor = new EntityMeteor(event.world);
+					meteor.posX = p.posX + event.world.rand.nextInt(201) - 100;
+					meteor.posY = 384;
+					meteor.posZ = p.posZ + event.world.rand.nextInt(201) - 100;
+					meteor.motionX = event.world.rand.nextDouble() - 0.5;
+					meteor.motionY = -2.5;
+					meteor.motionZ = event.world.rand.nextDouble() - 0.5;
+					event.world.spawnEntityInWorld(meteor);
+				}
+			}
+			
+			if(meteorShower > 0) {
+				meteorShower--;
+				if(meteorShower == 0)
+					MainRegistry.logger.info("Ended meteor shower.");
+			}
+			
+			if(event.world.rand.nextInt(MainRegistry.meteorStrikeChance * 100) == 0 && MainRegistry.enableMeteorShowers) {
+				meteorShower = 
+						(int)(MainRegistry.meteorShowerDuration * 0.75 + 
+								MainRegistry.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
+				MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
+			}
+		}
 	}
 	
 	/*@SubscribeEvent

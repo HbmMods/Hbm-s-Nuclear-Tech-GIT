@@ -600,7 +600,7 @@ public class MachineRecipes {
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
 					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_cobalt).copy());
 		} catch (Exception x) {
-			System.out.println("Unable to register alloy recipes for NEI!");
+			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}
 		return recipes;
 	}
@@ -1140,7 +1140,7 @@ public class MachineRecipes {
 				theWholeThing.add(new DictCouple(stacks.get(i), oreNames));
 			}
 			
-			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");
+			MainRegistry.logger.info("Added " + theWholeThing.size() + " elements from the Ore Dict!");
 		}
 		
 		public boolean doesExist(ItemStack stack) {
@@ -1214,8 +1214,8 @@ public class MachineRecipes {
 					setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 			}
 
-			System.out.println("Added " + recipesShredder.size() + " in total.");
-			System.out.println("Added " + dustCount + " ore dust recipes.");
+			MainRegistry.logger.info("Added " + recipesShredder.size() + " in total.");
+			MainRegistry.logger.info("Added " + dustCount + " ore dust recipes.");
 		}
 		
 		public ItemStack canFindDustByName(String s) {
@@ -1320,7 +1320,7 @@ public class MachineRecipes {
 					System.out.println(recipes.get(j));
 			}*/
 
-			System.out.println("TWT: " + theWholeThing.size() + ", REC: " + recipesShredder.size());
+			MainRegistry.logger.debug("TWT: " + theWholeThing.size() + ", REC: " + recipesShredder.size());
 		}
 	}
 

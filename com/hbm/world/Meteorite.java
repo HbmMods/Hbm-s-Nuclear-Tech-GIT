@@ -54,7 +54,9 @@ public class Meteorite {
 		//0 - Meteor
 		//1 - Treasure
 		//2 - Ore
-		int core = rand.nextInt(3);
+		int core = rand.nextInt(2);
+		if(innerPadding > 0)
+			core = 2;
 		
 		List<ItemStack> hullL = new ArrayList<ItemStack>();
 		switch(hull) {
@@ -65,7 +67,9 @@ public class Meteorite {
 			hullL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		case 2:
-			hullL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				hullL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			hullL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 3:
 			hullL.add(new ItemStack(ModBlocks.block_meteor_molten));
@@ -79,7 +83,9 @@ public class Meteorite {
 			opL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		case 1:
-			opL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				opL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			opL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 2:
 			opL.add(new ItemStack(ModBlocks.block_meteor_cobble));
@@ -90,7 +96,9 @@ public class Meteorite {
 		List<ItemStack> ipL = new ArrayList<ItemStack>();
 		switch(innerPadding) {
 		case 0:
-			ipL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				ipL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			ipL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 1:
 			ipL.add(new ItemStack(Blocks.stone));
@@ -157,7 +165,9 @@ public class Meteorite {
 		//0 - Meteor
 		//1 - Treasure
 		//2 - Ore
-		int core = rand.nextInt(3);
+		int core = rand.nextInt(2);
+		if(innerPadding > 0)
+			core = 2;
 		
 		List<ItemStack> hullL = new ArrayList<ItemStack>();
 		switch(hull) {
@@ -168,7 +178,9 @@ public class Meteorite {
 			hullL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		case 2:
-			hullL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				hullL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			hullL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 3:
 			hullL.add(new ItemStack(ModBlocks.block_meteor_molten));
@@ -182,7 +194,9 @@ public class Meteorite {
 			opL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		case 1:
-			opL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				opL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			opL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 2:
 			opL.add(new ItemStack(ModBlocks.block_meteor_cobble));
@@ -193,7 +207,9 @@ public class Meteorite {
 		List<ItemStack> ipL = new ArrayList<ItemStack>();
 		switch(innerPadding) {
 		case 0:
-			ipL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				ipL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			ipL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 1:
 			ipL.add(new ItemStack(Blocks.stone));
@@ -273,7 +289,9 @@ public class Meteorite {
 			hullL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		case 2:
-			hullL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			for(int i = 0; i < 99; i++)
+				hullL.add(new ItemStack(ModBlocks.block_meteor_broken));
+			hullL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 3:
 			hullL.add(new ItemStack(ModBlocks.block_meteor_molten));
@@ -510,6 +528,12 @@ public class Meteorite {
 						ores.add(stack.copy());
 				}
 			}
+		}
+		
+		if(rand.nextInt(5) == 3) {
+			List<ItemStack> list = new ArrayList<ItemStack>();
+			list.add(new ItemStack(ModBlocks.ore_rare, 1).copy());
+			return list;
 		}
 		
 		if(ores.isEmpty()) {
