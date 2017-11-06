@@ -1462,8 +1462,9 @@ public class MachineRecipes {
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
 		case SCHRABIDIUM_HAMMER:
 			list.add(new ItemStack(ModBlocks.block_schrabidium, 15));
-			list.add(new ItemStack(ModItems.ingot_polymer, 128));
-			list.add(new ItemStack(Items.nether_star, 2));
+			list.add(new ItemStack(ModItems.ingot_polymer, 64*2));
+			list.add(new ItemStack(Items.nether_star, 3));
+			list.add(new ItemStack(ModItems.fragment_meteorite, 64*8));
 			break;
 		case MIXED_PLATE:
 			list.add(new ItemStack(ModItems.plate_advanced_alloy, 2));
@@ -1963,6 +1964,9 @@ public class MachineRecipes {
 			break;
 		case ANGRY_METAL:
 			list.add(new ItemStack(ModBlocks.block_meteor, 1));
+			break;
+		case METEOR_BLOCK:
+			list.add(new ItemStack(ModItems.fragment_meteorite, 100));
 			break;
 		case CMB_TILE:
 			list.add(new ItemStack(ModItems.ingot_combine_steel, 1));
@@ -3070,6 +3074,9 @@ public class MachineRecipes {
 			break;
 		case ANGRY_METAL:
 			output = new ItemStack(ModItems.plate_dalekanium, 1);
+			break;
+		case METEOR_BLOCK:
+			output = new ItemStack(ModBlocks.block_meteor, 1);
 			break;
 		case CMB_TILE:
 			output = new ItemStack(ModBlocks.cmb_brick, 8);

@@ -148,6 +148,16 @@ public class TestEventTester extends Block {
         	}*/
         	
         	
+        	/*if(!worldObj.isRemote) {
+        		EntityMeteor met = new EntityMeteor(worldObj);
+        		met.posX = x1;
+        		met.posY = 300;
+        		met.posZ = z1;
+        		worldObj.spawnEntityInWorld(met);
+        		worldObj.setBlockToAir(x1, y1, z1);
+        	}*/
+        	
+        	
         	if(!worldObj.isRemote) {
         		ModEventHandler.meteorShower = 6000;
         	}

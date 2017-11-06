@@ -1,4 +1,4 @@
-package com.hbm.main;
+ package com.hbm.main;
 
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
@@ -77,6 +77,7 @@ import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityDischarge;
 import com.hbm.entity.projectile.EntityFire;
 import com.hbm.entity.projectile.EntityLN2;
+import com.hbm.entity.projectile.EntityLaser;
 import com.hbm.entity.projectile.EntityLaserBeam;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.entity.projectile.EntityMinerBeam;
@@ -117,6 +118,7 @@ import com.hbm.render.entity.RenderFireball;
 import com.hbm.render.entity.RenderFlare;
 import com.hbm.render.entity.RenderHunterChopper;
 import com.hbm.render.entity.RenderLN2;
+import com.hbm.render.entity.RenderLaser;
 import com.hbm.render.entity.RenderMeteor;
 import com.hbm.render.entity.RenderMinecartTest;
 import com.hbm.render.entity.RenderMiniMIRV;
@@ -169,6 +171,7 @@ import com.hbm.render.item.ItemRenderRevolverNightmare;
 import com.hbm.render.item.ItemRenderRevolverSchrabidium;
 import com.hbm.render.item.ItemRenderRpg;
 import com.hbm.render.item.ItemRenderSatelliteReceiver;
+import com.hbm.render.item.ItemRenderShim;
 import com.hbm.render.item.ItemRenderSteelPoles;
 import com.hbm.render.item.ItemRenderTapeRecorder;
 import com.hbm.render.item.ItemRenderTestBombAdvanced;
@@ -428,6 +431,8 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_joule, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_decon, new ItemRenderMultitool());
 
+		MinecraftForgeClient.registerItemRenderer(ModItems.shimmer_sledge, new ItemRenderShim());
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniMIRV.class, new RenderMiniMIRV());
@@ -443,6 +448,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinerBeam.class, new RenderBeam3());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySparkBeam.class, new RenderBeam4());
 		RenderingRegistry.registerEntityRenderingHandler(EntityLN2.class, new RenderLN2(ModItems.energy_ball));
+		RenderingRegistry.registerEntityRenderingHandler(EntityLaser.class, new RenderLaser());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeExplosionAdvanced.class, new RenderSnowball(ModItems.energy_ball));
 

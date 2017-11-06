@@ -160,6 +160,7 @@ public class ModBlocks {
 	public static Block red_barrel;
 	public static Block yellow_barrel;
 	public static Block crashed_balefire;
+	public static Block rejuvinator;
 
 	public static Block crate;
 
@@ -582,6 +583,7 @@ public class ModBlocks {
 		red_barrel = new RedBarrel(Material.iron).setBlockName("red_barrel").setCreativeTab(MainRegistry.tabNuke).setHardness(0.5F).setResistance(2.5F);
 		yellow_barrel = new YellowBarrel(Material.iron).setBlockName("yellow_barrel").setCreativeTab(MainRegistry.tabNuke).setHardness(0.5F).setResistance(2.5F);
 		crashed_balefire = new BlockCrashedBomb(Material.iron).setBlockName("crashed_bomb").setCreativeTab(MainRegistry.tabNuke).setBlockUnbreakable().setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":crashed_balefire");
+		rejuvinator = new BombRejuvinator(Material.iron).setBlockName("rejuvinator").setCreativeTab(MainRegistry.tabNuke).setBlockUnbreakable().setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":inserter_side");
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -717,7 +719,7 @@ public class ModBlocks {
 		machine_chemplant = new MachineChemplant(Material.iron).setBlockName("machine_chemplant").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_chemplant");
 		machine_fluidtank = new MachineFluidTank(Material.iron).setBlockName("machine_fluidtank").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_fluidtank");
 		machine_turbofan = new MachineTurbofan(Material.iron).setBlockName("machine_turbofan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_turbofan");
-		machine_inserter = new MachineInserter(Material.iron).setBlockName("machine_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":inserter_side");
+		machine_inserter = new BombRejuvinator(Material.iron).setBlockName("machine_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":inserter_side");
 
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 
@@ -926,6 +928,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(float_bomb, float_bomb.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_endo, therm_endo.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_exo, therm_exo.getUnlocalizedName());
+		GameRegistry.registerBlock(rejuvinator, rejuvinator.getUnlocalizedName());
 		GameRegistry.registerBlock(det_cord, det_cord.getUnlocalizedName());
 		GameRegistry.registerBlock(det_charge, det_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(red_barrel, red_barrel.getUnlocalizedName());

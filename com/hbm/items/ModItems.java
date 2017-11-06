@@ -934,6 +934,7 @@ public class ModItems {
 	public static Item igniter;
 	public static Item detonator;
 	public static Item crate_caller;
+	public static Item meteor_remote;
 	public static Item remote;
 	public static Item turret_control;
 	public static Item turret_chip;
@@ -954,6 +955,7 @@ public class ModItems {
 	public static Item record_vc;
 
 	public static Item polaroid;
+	public static Item glitch;
 	public static Item letter;
 	public static Item book_secret;
 	public static Item burnt_bark;
@@ -1030,6 +1032,7 @@ public class ModItems {
 	public static Item ln2_9;
 	public static Item ln2_10;
 	public static Item nothing;
+	public static Item void_anim;
 	
 	public static final int guiID_item_folder = 99;
 
@@ -1606,7 +1609,7 @@ public class ModItems {
 		gun_euthanasia_ammo = new Item().setUnlocalizedName("gun_euthanasia_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_euthanasia_ammo");
 		gun_euthanasia = new GunEuthanasia().setUnlocalizedName("gun_euthanasia").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_euthanasia");
 		gun_dash_ammo = new Item().setUnlocalizedName("gun_dash_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_dash_ammo");
-		gun_dash = new GunEuthanasia().setUnlocalizedName("gun_dash").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_dash");
+		gun_dash = new GunDash().setUnlocalizedName("gun_dash").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_dash");
 		gun_twigun_ammo = new Item().setUnlocalizedName("gun_twigun_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_twigun_ammo");
 		gun_twigun = new GunEuthanasia().setUnlocalizedName("gun_twigun").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_twigun");
 		gun_defabricator_ammo = new Item().setUnlocalizedName("gun_defabricator_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_defabricator_ammo");
@@ -1776,6 +1779,7 @@ public class ModItems {
 		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":trigger");
 		detonator = new ItemDetonator().setUnlocalizedName("detonator").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":detonator");
 		crate_caller = new ItemCrateCaller().setUnlocalizedName("crate_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":crate_caller");
+		meteor_remote = new ItemMeteorRemote().setUnlocalizedName("meteor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":meteor_remote");
 		remote = new ItemRamManipulator().setUnlocalizedName("remote").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":remote");
 		chopper = new ItemChopper().setUnlocalizedName("chopper").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":chopper");
 		linker = new ItemTeleLink().setUnlocalizedName("linker").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":linker");
@@ -1944,6 +1948,7 @@ public class ModItems {
 		record_vc = new ItemModRecord("vc").setUnlocalizedName("record_vc").setCreativeTab(CreativeTabs.tabMisc).setTextureName(RefStrings.MODID + ":record_vc");
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
+		glitch = new ItemPolaroid().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
 		letter = new ItemStarterKit().setUnlocalizedName("letter").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":letter");
 		book_secret = new ItemCustomLore().setUnlocalizedName("book_secret").setCreativeTab(MainRegistry.polaroidID == 11 ? MainRegistry.tabNuke : null).setTextureName(RefStrings.MODID + ":book_secret");
 		burnt_bark = new ItemCustomLore().setUnlocalizedName("burnt_bark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":burnt_bark");
@@ -2020,6 +2025,7 @@ public class ModItems {
 		ln2_9 = new Item().setUnlocalizedName("ln2_9").setTextureName(RefStrings.MODID + ":ln2_9");
 		ln2_10 = new Item().setUnlocalizedName("ln2_10").setTextureName(RefStrings.MODID + ":ln2_10");
 		nothing = new Item().setUnlocalizedName("nothing").setTextureName(RefStrings.MODID + ":nothing");
+		void_anim = new Item().setUnlocalizedName("void_anim").setTextureName(RefStrings.MODID + ":void_anim");
 
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid));
@@ -2946,6 +2952,7 @@ public class ModItems {
 		GameRegistry.registerItem(igniter, igniter.getUnlocalizedName());
 		GameRegistry.registerItem(detonator, detonator.getUnlocalizedName());
 		GameRegistry.registerItem(crate_caller, crate_caller.getUnlocalizedName());
+		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_helmet, hazmat_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_plate, hazmat_plate.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_legs, hazmat_legs.getUnlocalizedName());
@@ -2994,6 +3001,7 @@ public class ModItems {
 		//GameRegistry.registerItem(remote, remote.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_stopper, euphemium_stopper.getUnlocalizedName());
 		GameRegistry.registerItem(polaroid, polaroid.getUnlocalizedName());
+		GameRegistry.registerItem(glitch, glitch.getUnlocalizedName());
 		GameRegistry.registerItem(book_secret, book_secret.getUnlocalizedName());
 		GameRegistry.registerItem(burnt_bark, burnt_bark.getUnlocalizedName());
 		
@@ -3099,5 +3107,6 @@ public class ModItems {
 		GameRegistry.registerItem(ln2_9, ln2_9.getUnlocalizedName());
 		GameRegistry.registerItem(ln2_10, ln2_10.getUnlocalizedName());
 		GameRegistry.registerItem(nothing, nothing.getUnlocalizedName());
+		GameRegistry.registerItem(void_anim, void_anim.getUnlocalizedName());
 	}
 }

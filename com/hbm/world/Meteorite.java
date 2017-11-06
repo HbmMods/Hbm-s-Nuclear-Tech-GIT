@@ -16,6 +16,64 @@ public class Meteorite {
 	
 	public void generate(World world, Random rand, int x, int y, int z) {
 		
+		switch(rand.nextInt(500)) {
+		case 0:
+			//Meteor-only tiny meteorite
+			List<ItemStack> list0 = new ArrayList<ItemStack>();
+			list0.add(new ItemStack(ModBlocks.block_meteor));
+			generateBox(world, rand, x, y, z, list0);
+			return;
+		case 1:
+			//Large ore-only meteorite
+			List<ItemStack> list1 = new ArrayList<ItemStack>();
+			list1.addAll(this.getRandomOre(rand));
+			int i = list1.size();
+			for(int j = 0; j < i; j++)
+				list1.add(new ItemStack(Blocks.stone));
+			generateSphere7x7(world, rand, x, y, z, list1);
+			return;
+		case 2:
+			//Medium ore-only meteorite
+			List<ItemStack> list2 = new ArrayList<ItemStack>();
+			list2.addAll(this.getRandomOre(rand));
+			int k = list2.size() / 2;
+			for(int j = 0; j < k; j++)
+				list2.add(new ItemStack(Blocks.stone));
+			generateSphere5x5(world, rand, x, y, z, list2);
+			return;
+		case 3:
+			//Small pure ore meteorite
+			List<ItemStack> list3 = new ArrayList<ItemStack>();
+			list3.addAll(this.getRandomOre(rand));
+			generateBox(world, rand, x, y, z, list3);
+			return;
+		case 4:
+			//Bamboozle
+			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 15F, true);
+			return;
+		case 5:
+			//Large treasure-only meteorite
+			List<ItemStack> list4 = new ArrayList<ItemStack>();
+			list4.add(new ItemStack(ModBlocks.block_meteor_treasure));
+			list4.add(new ItemStack(ModBlocks.block_meteor_broken));
+			generateSphere7x7(world, rand, x, y, z, list4);
+			return;
+		case 6:
+			//Medium treasure-only meteorite
+			List<ItemStack> list5 = new ArrayList<ItemStack>();
+			list5.add(new ItemStack(ModBlocks.block_meteor_treasure));
+			list5.add(new ItemStack(ModBlocks.block_meteor_treasure));
+			list5.add(new ItemStack(ModBlocks.block_meteor_broken));
+			generateSphere5x5(world, rand, x, y, z, list5);
+			return;
+		case 7:
+			//Small pure treasure meteorite
+			List<ItemStack> list6 = new ArrayList<ItemStack>();
+			list6.add(new ItemStack(ModBlocks.block_meteor_treasure));
+			generateBox(world, rand, x, y, z, list6);
+			return;
+		}
+		
 		switch(rand.nextInt(3)) {
 		case 0:
 			generateLarge(world, rand, x, y, z);
@@ -530,10 +588,33 @@ public class Meteorite {
 			}
 		}
 		
-		if(rand.nextInt(5) == 3) {
-			List<ItemStack> list = new ArrayList<ItemStack>();
-			list.add(new ItemStack(ModBlocks.ore_rare, 1).copy());
-			return list;
+		switch(rand.nextInt(15)) {
+		case 0:
+			List<ItemStack> list1 = new ArrayList<ItemStack>();
+			list1.add(new ItemStack(ModBlocks.ore_rare, 1).copy());
+			return list1;
+		case 1:
+			List<ItemStack> list2 = new ArrayList<ItemStack>();
+			list2.add(new ItemStack(ModBlocks.ore_uranium, 1).copy());
+			return list2;
+		case 2:
+			List<ItemStack> list3 = new ArrayList<ItemStack>();
+			list3.add(new ItemStack(ModBlocks.ore_reiium, 1).copy());
+			list3.add(new ItemStack(ModBlocks.ore_weidanium, 1).copy());
+			list3.add(new ItemStack(ModBlocks.ore_australium, 1).copy());
+			list3.add(new ItemStack(ModBlocks.ore_unobtainium, 1).copy());
+			list3.add(new ItemStack(ModBlocks.ore_daffergon, 1).copy());
+			list3.add(new ItemStack(ModBlocks.ore_verticium, 1).copy());
+			return list3;
+		case 3:
+			List<ItemStack> list4 = new ArrayList<ItemStack>();
+			list4.add(new ItemStack(ModBlocks.ore_nether_fire, 1).copy());
+			list4.add(new ItemStack(ModBlocks.ore_nether_plutonium, 1).copy());
+			list4.add(new ItemStack(ModBlocks.ore_nether_schrabidium, 1).copy());
+			list4.add(new ItemStack(ModBlocks.ore_nether_sulfur, 1).copy());
+			list4.add(new ItemStack(ModBlocks.ore_nether_tungsten, 1).copy());
+			list4.add(new ItemStack(ModBlocks.ore_nether_uranium, 1).copy());
+			return list4;
 		}
 		
 		if(ores.isEmpty()) {

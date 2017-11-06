@@ -23,7 +23,7 @@ public class FuelHandler implements IFuelHandler {
 		if(fuel.getItem().equals(ModItems.powder_fire))
 			return 6400;
 		if(fuel.getItem().equals(Item.getItemFromBlock(ModBlocks.block_scrap)))
-			return 8000;
+			return 4000;
 		
 		return 0;
 	}

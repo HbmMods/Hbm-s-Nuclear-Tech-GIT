@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 
 public class BombFlameWar extends Block implements IBomb {
 	
-    public World worldObj;
-	
     public BombFlameWar(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
@@ -18,7 +16,6 @@ public class BombFlameWar extends Block implements IBomb {
 	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
-    	this.worldObj = p_149695_1_;
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
         {
         	ExplosionChaos.explode(p_149695_1_, x, y, z, 15);

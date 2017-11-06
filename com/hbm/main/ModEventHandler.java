@@ -30,14 +30,17 @@ public class ModEventHandler
 			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {
 				if(!event.world.playerEntities.isEmpty()) {
 					EntityPlayer p = (EntityPlayer)event.world.playerEntities.get(event.world.rand.nextInt(event.world.playerEntities.size()));
-					EntityMeteor meteor = new EntityMeteor(event.world);
-					meteor.posX = p.posX + event.world.rand.nextInt(201) - 100;
-					meteor.posY = 384;
-					meteor.posZ = p.posZ + event.world.rand.nextInt(201) - 100;
-					meteor.motionX = event.world.rand.nextDouble() - 0.5;
-					meteor.motionY = -2.5;
-					meteor.motionZ = event.world.rand.nextDouble() - 0.5;
-					event.world.spawnEntityInWorld(meteor);
+					
+					if(p.dimension == 0) {
+						EntityMeteor meteor = new EntityMeteor(event.world);
+						meteor.posX = p.posX + event.world.rand.nextInt(201) - 100;
+						meteor.posY = 384;
+						meteor.posZ = p.posZ + event.world.rand.nextInt(201) - 100;
+						meteor.motionX = event.world.rand.nextDouble() - 0.5;
+						meteor.motionY = -2.5;
+						meteor.motionZ = event.world.rand.nextDouble() - 0.5;
+						event.world.spawnEntityInWorld(meteor);
+					}
 				}
 			}
 			

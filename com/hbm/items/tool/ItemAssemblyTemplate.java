@@ -106,6 +106,7 @@ public class ItemAssemblyTemplate extends Item {
 		THERMO_ELEMENT,
 		LIMITER,
 		ANGRY_METAL,
+		METEOR_BLOCK,
 		CMB_TILE,
 		CMB_BRICKS,
 		HATCH_FRAME,
@@ -469,6 +470,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case ANGRY_METAL:
 			return 50;
+		case METEOR_BLOCK:
+			return 500;
 		case CMB_TILE:
 			return 100;
 		case CMB_BRICKS:
