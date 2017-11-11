@@ -202,6 +202,7 @@ import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineInserter;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineOilWell;
+import com.hbm.tileentity.machine.TileEntityMachinePress;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
@@ -515,7 +516,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 		GameRegistry.registerTileEntity(TileEntityCrateIron.class, "tileentity_crate_iron");
 		GameRegistry.registerTileEntity(TileEntityCrateSteel.class, "tileentity_crate_steel");
-		GameRegistry.registerTileEntity(TileEntityMachineInserter.class, "tileentity_inserter");
+		GameRegistry.registerTileEntity(TileEntityMachinePress.class, "tileentity_press");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

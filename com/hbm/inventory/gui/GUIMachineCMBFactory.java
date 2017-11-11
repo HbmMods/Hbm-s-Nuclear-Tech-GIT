@@ -53,7 +53,7 @@ public class GUIMachineCMBFactory extends GuiFluidContainer {
 		}
 		
 		int j1 = diFurnace.getProgressScaled(24);
-		drawTexturedModalRect(guiLeft + 101, guiTop + 34, 208, 0, j1 + 1, 16);
+		drawTexturedModalRect(guiLeft + 101 + 9, guiTop + 34, 208, 0, j1 + 1, 16);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
 

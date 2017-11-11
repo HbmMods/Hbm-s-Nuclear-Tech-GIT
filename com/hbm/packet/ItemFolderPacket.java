@@ -85,6 +85,60 @@ public class ItemFolderPacket implements IMessage {
 									p.dropPlayerItemWithRandomChoice(stack, true);
 						}
 					}
+					if(stack.getItem() == ModItems.stamp_stone_plate || 
+							stack.getItem() == ModItems.stamp_stone_wire || 
+							stack.getItem() == ModItems.stamp_stone_circuit) {
+						if(p.inventory.hasItem(ModItems.stamp_stone_flat)) {
+							p.inventory.consumeInventoryItem(ModItems.stamp_stone_flat);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
+					if(stack.getItem() == ModItems.stamp_iron_plate || 
+							stack.getItem() == ModItems.stamp_iron_wire || 
+							stack.getItem() == ModItems.stamp_iron_circuit) {
+						if(p.inventory.hasItem(ModItems.stamp_iron_flat)) {
+							p.inventory.consumeInventoryItem(ModItems.stamp_iron_flat);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
+					if(stack.getItem() == ModItems.stamp_steel_plate || 
+							stack.getItem() == ModItems.stamp_steel_wire || 
+							stack.getItem() == ModItems.stamp_steel_circuit) {
+						if(p.inventory.hasItem(ModItems.stamp_steel_flat)) {
+							p.inventory.consumeInventoryItem(ModItems.stamp_steel_flat);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
+					if(stack.getItem() == ModItems.stamp_titanium_plate || 
+							stack.getItem() == ModItems.stamp_titanium_wire || 
+							stack.getItem() == ModItems.stamp_titanium_circuit) {
+						if(p.inventory.hasItem(ModItems.stamp_titanium_flat)) {
+							p.inventory.consumeInventoryItem(ModItems.stamp_titanium_flat);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
+					if(stack.getItem() == ModItems.stamp_obsidian_plate || 
+							stack.getItem() == ModItems.stamp_obsidian_wire || 
+							stack.getItem() == ModItems.stamp_obsidian_circuit) {
+						if(p.inventory.hasItem(ModItems.stamp_obsidian_flat)) {
+							p.inventory.consumeInventoryItem(ModItems.stamp_obsidian_flat);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
+					if(stack.getItem() == ModItems.stamp_schrabidium_plate || 
+							stack.getItem() == ModItems.stamp_schrabidium_wire || 
+							stack.getItem() == ModItems.stamp_schrabidium_circuit) {
+						if(p.inventory.hasItem(ModItems.stamp_schrabidium_flat)) {
+							p.inventory.consumeInventoryItem(ModItems.stamp_schrabidium_flat);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
 			//}
 			
 			return null;

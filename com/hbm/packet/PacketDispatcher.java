@@ -47,6 +47,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEPumpjackPacket.Handler.class, TEPumpjackPacket.class, i++, Side.CLIENT);
 		//Turbofan spin for rendering
 		wrapper.registerMessage(TETurbofanPacket.Handler.class, TETurbofanPacket.class, i++, Side.CLIENT);
+		//Press item for rendering
+		wrapper.registerMessage(TEPressPacket.Handler.class, TEPressPacket.class, i++, Side.CLIENT);
 	}
 	
 }

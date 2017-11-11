@@ -227,7 +227,176 @@ public class MachineRecipes {
 
 		return null;
 	}
+	
+	public static List<Item> stamps_flat = new ArrayList<Item>() {{
+		add(ModItems.stamp_stone_flat);
+		add(ModItems.stamp_iron_flat);
+		add(ModItems.stamp_steel_flat);
+		add(ModItems.stamp_titanium_flat);
+		add(ModItems.stamp_obsidian_flat);
+		add(ModItems.stamp_schrabidium_flat);
+	}};
+	
+	public static List<Item> stamps_plate = new ArrayList<Item>() {{
+		add(ModItems.stamp_stone_plate);
+		add(ModItems.stamp_iron_plate);
+		add(ModItems.stamp_steel_plate);
+		add(ModItems.stamp_titanium_plate);
+		add(ModItems.stamp_obsidian_plate);
+		add(ModItems.stamp_schrabidium_plate);
+	}};
+	
+	public static List<Item> stamps_wire = new ArrayList<Item>() {{
+		add(ModItems.stamp_stone_wire);
+		add(ModItems.stamp_iron_wire);
+		add(ModItems.stamp_steel_wire);
+		add(ModItems.stamp_titanium_wire);
+		add(ModItems.stamp_obsidian_wire);
+		add(ModItems.stamp_schrabidium_wire);
+	}};
+	
+	public static List<Item> stamps_circuit = new ArrayList<Item>() {{
+		add(ModItems.stamp_stone_circuit);
+		add(ModItems.stamp_iron_circuit);
+		add(ModItems.stamp_steel_circuit);
+		add(ModItems.stamp_titanium_circuit);
+		add(ModItems.stamp_obsidian_circuit);
+		add(ModItems.stamp_schrabidium_circuit);
+	}};
+	
 
+	public static ItemStack getPressResultNN(Item stamp, Item input) {
+		return getPressResult(input, stamp) == null ? new ItemStack(ModItems.nothing) : getPressResult(input, stamp);
+	}
+	
+	public static ItemStack getPressResult(Item input, Item stamp) {
+		
+		if(stamps_flat.contains(stamp)) {
+
+			if(mODE(input, "dustCoal"))
+				return new ItemStack(Items.coal);
+			if(mODE(input, "dustQuartz"))
+				return new ItemStack(Items.quartz);
+			if(mODE(input, "dustNetherQuartz"))
+				return new ItemStack(Items.quartz);
+			if(mODE(input, "dustLapis"))
+				return new ItemStack(Items.dye, 1, 4);
+			if(mODE(input, "dustDiamond"))
+				return new ItemStack(Items.diamond);
+			if(mODE(input, "dustEmerald"))
+				return new ItemStack(Items.emerald);
+			if(input == ModItems.pellet_coal)
+				return new ItemStack(Items.diamond);
+		}
+		
+		if(stamps_plate.contains(stamp)) {
+
+			if(mODE(input, "ingotIron"))
+				return new ItemStack(ModItems.plate_iron);
+			if(mODE(input, "ingotGold"))
+				return new ItemStack(ModItems.plate_gold);
+			if(mODE(input, "ingotTitanium"))
+				return new ItemStack(ModItems.plate_titanium);
+			if(mODE(input, "ingotAluminum"))
+				return new ItemStack(ModItems.plate_aluminium);
+			if(mODE(input, "ingotSteel"))
+				return new ItemStack(ModItems.plate_steel);
+			if(mODE(input, "ingotLead"))
+				return new ItemStack(ModItems.plate_lead);
+			if(mODE(input, "ingotCopper"))
+				return new ItemStack(ModItems.plate_copper);
+			if(mODE(input, "ingotAdvanced"))
+				return new ItemStack(ModItems.plate_advanced_alloy);
+			if(mODE(input, "ingotAdvancedAlloy"))
+				return new ItemStack(ModItems.plate_advanced_alloy);
+			if(mODE(input, "ingotSchrabidium"))
+				return new ItemStack(ModItems.plate_schrabidium);
+			if(mODE(input, "ingotCMBSteel"))
+				return new ItemStack(ModItems.plate_combine_steel);
+			
+		}
+		
+		if(stamps_wire.contains(stamp)) {
+
+			if(mODE(input, "ingotAluminum"))
+				return new ItemStack(ModItems.wire_aluminium, 3);
+			if(mODE(input, "ingotCopper"))
+				return new ItemStack(ModItems.wire_copper, 3);
+			if(mODE(input, "ingotTungsten"))
+				return new ItemStack(ModItems.wire_tungsten, 3);
+			if(mODE(input, "ingotRedAlloy"))
+				return new ItemStack(ModItems.wire_red_copper, 3);
+			if(mODE(input, "ingotRedstoneAlloy"))
+				return new ItemStack(ModItems.wire_red_copper, 3);
+			if(mODE(input, "ingotGold"))
+				return new ItemStack(ModItems.wire_gold, 3);
+			if(mODE(input, "ingotSchrabidium"))
+				return new ItemStack(ModItems.wire_schrabidium, 3);
+			if(mODE(input, "ingotAdvanced"))
+				return new ItemStack(ModItems.wire_advanced_alloy, 3);
+			if(mODE(input, "ingotAdvancedAlloy"))
+				return new ItemStack(ModItems.wire_advanced_alloy, 3);
+			if(mODE(input, "ingotMagnetizedTungsten"))
+				return new ItemStack(ModItems.wire_magnetized_tungsten, 3);
+		}
+		
+		if(stamps_circuit.contains(stamp)) {
+
+			if(input == ModItems.circuit_raw)
+				return new ItemStack(ModItems.circuit_aluminium);
+		}
+		
+		return null;
+	}
+
+	public static Map<Object[], Object> getPressRecipes() {
+		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
+
+		List<ItemStack> i_stamps_flat = new ArrayList<ItemStack>();
+		for(Item i : stamps_flat)
+			i_stamps_flat.add(new ItemStack(i));
+		List<ItemStack> i_stamps_plate = new ArrayList<ItemStack>();
+		for(Item i : stamps_plate)
+			i_stamps_plate.add(new ItemStack(i));
+		List<ItemStack> i_stamps_wire = new ArrayList<ItemStack>();
+		for(Item i : stamps_wire)
+			i_stamps_wire.add(new ItemStack(i));
+		List<ItemStack> i_stamps_circuit = new ArrayList<ItemStack>();
+		for(Item i : stamps_circuit)
+			i_stamps_circuit.add(new ItemStack(i));
+
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_coal));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_quartz) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_quartz));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_lapis) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_lapis));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_diamond) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_diamond));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_emerald) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_emerald));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.pellet_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.pellet_coal));
+
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.iron_ingot) }, getPressResultNN(stamps_plate.get(0), Items.iron_ingot));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.gold_ingot) }, getPressResultNN(stamps_plate.get(0), Items.gold_ingot));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_titanium) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_titanium));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_aluminium) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_aluminium));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_steel) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_steel));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_lead) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_lead));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_copper) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_copper));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_advanced_alloy) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_advanced_alloy));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_schrabidium) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_schrabidium));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_combine_steel) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_combine_steel));
+
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_aluminium) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_aluminium));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_copper) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_copper));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_tungsten) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_tungsten));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_red_copper) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_red_copper));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(Items.gold_ingot) }, getPressResultNN(stamps_wire.get(0), Items.gold_ingot));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_schrabidium) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_schrabidium));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_advanced_alloy) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_advanced_alloy));
+		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_magnetized_tungsten) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_magnetized_tungsten));
+
+		recipes.put(new Object[] { i_stamps_circuit, new ItemStack(ModItems.circuit_raw) }, getPressResultNN(stamps_circuit.get(0), ModItems.circuit_raw));
+		
+		return recipes;
+	}
+	
 	public static ItemStack getReactorProcessingResult(Item item) {
 		return getReactorOutput(item);
 	}

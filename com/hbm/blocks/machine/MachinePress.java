@@ -3,64 +3,63 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityMachineInserter;
-import com.hbm.tileentity.machine.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.TileEntityMachinePress;
+import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class MachineInserter extends BlockContainer {
-
+public class MachinePress extends BlockContainer {
+	
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private static boolean keepInventory;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
 
-	public MachineInserter(Material p_i45394_1_) {
-		super(p_i45394_1_);
+	public MachinePress(Material p_i45386_1_) {
+		super(p_i45386_1_);
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":inserter_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":inserter_side");
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
-	}
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+        return Item.getItemFromBlock(ModBlocks.machine_press);
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineInserter();
+		return new TileEntityMachinePress();
+	}
+
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 	
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
-    {
+    {		
         if (!keepInventory)
         {
-        	TileEntityMachineInserter tileentityfurnace = (TileEntityMachineInserter)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	TileEntityMachinePress tileentityfurnace = (TileEntityMachinePress)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (tileentityfurnace != null)
             {
@@ -114,10 +113,10 @@ public class MachineInserter extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			TileEntityMachineInserter entity = (TileEntityMachineInserter) world.getTileEntity(x, y, z);
+			TileEntityMachinePress entity = (TileEntityMachinePress) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_inserter, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_press, world, x, y, z);
 			}
 			return true;
 		} else {

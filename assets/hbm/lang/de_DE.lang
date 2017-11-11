@@ -271,6 +271,8 @@ tile.crate_iron.name=Eisenkiste
 container.crateIron=Eisenkiste
 tile.crate_steel.name=Stahlkiste
 container.crateSteel=Stahlkiste
+tile.machine_press.name=Dampfpresse
+container.press=Dampfpresse
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel
@@ -428,6 +430,7 @@ item.wire_copper.name=Kupferdraht
 item.wire_gold.name=Golddraht
 item.wire_schrabidium.name=Schrabidiumdraht
 
+item.circuit_raw.name=Schaltkreisrohling
 item.circuit_aluminium.name=Einfacher Schaltkreis
 item.circuit_copper.name=Erweiterter Schaltkreis
 item.circuit_red_copper.name=Forgeschrittener Schaltkreis
@@ -1223,6 +1226,7 @@ item.shimmer_handle.name=Verstärketer Polymergriff
 item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder
 item.crate_caller.name=Nachschub-Requester
+item.meteor_remote.name=Meteoritenkontroller
 
 item.ingot_hes.name=Stark angereicherter Schrabidiumkernbrennstoffbarren
 item.ingot_les.name=Schwach angereicherter Schrabidiumkernbrennstoffbarren
@@ -1291,6 +1295,31 @@ item.blades_titanium.name=Titansägeblatt
 item.blades_advanced_alloy.name=Fortgeschrittenes Sägeblatt
 item.blades_combine_steel.name=CMB-Sägeblatt
 item.blades_schrabidium.name=Schrabidiumsägeblatt
+
+item.stamp_stone_flat.name=Flacher Stempel (Stein)
+item.stamp_stone_plate.name=Plattenstempel (Stein)
+item.stamp_stone_wire.name=Kabelstempel (Stein)
+item.stamp_stone_circuit.name=Schaltkreisstempel (Stein)
+item.stamp_iron_flat.name=Flacher Stempel (Eisen)
+item.stamp_iron_plate.name=Plattenstempel (Eisen)
+item.stamp_iron_wire.name=Kabelstempel (Eisen)
+item.stamp_iron_circuit.name=Schaltkreisstempel (Eisen)
+item.stamp_steel_flat.name=Flacher Stempel (Stahl)
+item.stamp_steel_plate.name=Plattenstempel (Stahl)
+item.stamp_steel_wire.name=Kabelstempel (Stahl)
+item.stamp_steel_circuit.name=Schaltkreisstempel (Stahl)
+item.stamp_titanium_flat.name=Flacher Stempel (Titan)
+item.stamp_titanium_plate.name=Plattenstempel (Titan)
+item.stamp_titanium_wire.name=Kabelstempel (Titan)
+item.stamp_titanium_circuit.name=Schaltkreisstempel (Titan)
+item.stamp_obsidian_flat.name=Flacher Stempel (Obsidian)
+item.stamp_obsidian_plate.name=Plattenstempel (Obsidian)
+item.stamp_obsidian_wire.name=Kabelstempel (Obsidian)
+item.stamp_obsidian_circuit.name=Schaltkreisstempel (Obsidian)
+item.stamp_schrabidium_flat.name=Flacher Stempel (Schrabidium)
+item.stamp_schrabidium_plate.name=Plattenstempel (Schrabidium)
+item.stamp_schrabidium_wire.name=Kabelstempel (Schrabidium)
+item.stamp_schrabidium_circuit.name=Schaltkreisstempel (Schrabidium)
 
 item.part_lithium.name=Lithiumstaubkiste
 item.part_beryllium.name=Berylliumstaubkiste

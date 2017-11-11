@@ -29,12 +29,15 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.nuke_starter_kit)
 		{
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_centrifuge), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_reactor), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_assembler), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_difurnace_off, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_centrifuge, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_uf6_tank, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
 
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.template_folder, 1));
+			
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 6));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_red_copper, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_tungsten, 4));
@@ -68,7 +71,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_reactor), 3));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 2));
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_puf6_tank), 2));
-			//player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_deuterium), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
 
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_uranium, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_u235, 16));
@@ -79,14 +84,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_pu240, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_neptunium, 16));
 
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_copper, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_red_copper, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_steel, 64));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_tungsten, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_lead, 32));
-
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wire_red_copper, 32));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wire_tungsten, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_copper, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_tungsten, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_copper_torus, 8));
@@ -103,7 +101,11 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 64));
 
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg, 1));
 		}
 		
 		if(this == ModItems.nuke_commercially_kit)
@@ -352,10 +354,5 @@ public class ItemStarterKit extends Item {
 		return stack;
 		
 	}
-	
-    @Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int i) {
-    	
-    }
 
 }

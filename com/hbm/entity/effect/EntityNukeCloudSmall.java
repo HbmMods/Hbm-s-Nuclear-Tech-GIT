@@ -77,21 +77,39 @@ public class EntityNukeCloudSmall extends Entity {
         } else {
         	scale = 0;
         }
+
+        this.dataWatcher.updateObject(16, (short)maxAge);
+        this.dataWatcher.updateObject(17, (short)age);
+        this.dataWatcher.updateObject(18, (short)scale); 
+        this.dataWatcher.updateObject(19, (short)ring);
+        this.dataWatcher.updateObject(20, (short)height);
     }
 
 	@Override
 	protected void entityInit() {
-		
+		this.dataWatcher.addObject(16, (short)maxAge);
+		this.dataWatcher.addObject(17, (short)age);
+		this.dataWatcher.addObject(18, (short)scale);
+		this.dataWatcher.addObject(19, (short)ring);
+		this.dataWatcher.addObject(20, (short)height);
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+		maxAge = p_70037_1_.getShort("maxAge");
 		age = p_70037_1_.getShort("age");
+		scale = p_70037_1_.getShort("scale");
+		ring = p_70037_1_.getShort("ring");
+		height = p_70037_1_.getShort("height");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+		p_70014_1_.setShort("maxAge", (short)maxAge);
 		p_70014_1_.setShort("age", (short)age);
+		p_70014_1_.setShort("scale", (short)scale);
+		p_70014_1_.setShort("ring", (short)ring);
+		p_70014_1_.setShort("height", (short)height);
 		
 	}
 

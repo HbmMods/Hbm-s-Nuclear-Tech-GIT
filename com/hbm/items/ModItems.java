@@ -241,6 +241,7 @@ public class ModItems {
 	public static Item magnet_circular;
 	public static Item cyclotron_tower;
 
+	public static Item circuit_raw;
 	public static Item circuit_aluminium;
 	public static Item circuit_copper;
 	public static Item circuit_red_copper;
@@ -270,6 +271,7 @@ public class ModItems {
 	public static Item generator_front;
 	public static Item blade_tungsten;
 	public static Item turbine_tungsten;
+	public static Item pellet_coal;
 
 	public static Item toothpicks;
 	public static Item ducttape;
@@ -313,6 +315,31 @@ public class ModItems {
 
 	public static Item telepad;
 	public static Item entanglement_kit;
+
+	public static Item stamp_stone_flat;
+	public static Item stamp_stone_plate;
+	public static Item stamp_stone_wire;
+	public static Item stamp_stone_circuit;
+	public static Item stamp_iron_flat;
+	public static Item stamp_iron_plate;
+	public static Item stamp_iron_wire;
+	public static Item stamp_iron_circuit;
+	public static Item stamp_steel_flat;
+	public static Item stamp_steel_plate;
+	public static Item stamp_steel_wire;
+	public static Item stamp_steel_circuit;
+	public static Item stamp_titanium_flat;
+	public static Item stamp_titanium_plate;
+	public static Item stamp_titanium_wire;
+	public static Item stamp_titanium_circuit;
+	public static Item stamp_obsidian_flat;
+	public static Item stamp_obsidian_plate;
+	public static Item stamp_obsidian_wire;
+	public static Item stamp_obsidian_circuit;
+	public static Item stamp_schrabidium_flat;
+	public static Item stamp_schrabidium_plate;
+	public static Item stamp_schrabidium_wire;
+	public static Item stamp_schrabidium_circuit;
 
 	public static Item blades_gold;
 	public static Item blades_aluminium;
@@ -1248,6 +1275,7 @@ public class ModItems {
 		magnet_dee = new Item().setUnlocalizedName("magnet_dee").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":magnet_dee");
 		magnet_circular = new Item().setUnlocalizedName("magnet_circular").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":magnet_circular");
 		cyclotron_tower = new Item().setUnlocalizedName("cyclotron_tower").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cyclotron_tower");
+		pellet_coal = new Item().setUnlocalizedName("pellet_coal").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":pellet_coal");
 		
 		cap_aluminium = new Item().setUnlocalizedName("cap_aluminium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cap_aluminium");      
 		hull_small_steel = new Item().setUnlocalizedName("hull_small_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":hull_small_steel");
@@ -1314,6 +1342,7 @@ public class ModItems {
 		telepad = new Item().setUnlocalizedName("telepad").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":telepad");
 		entanglement_kit = new Item().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":entanglement_kit");
 		
+		circuit_raw = new Item().setUnlocalizedName("circuit_raw").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_raw");
 		circuit_aluminium = new Item().setUnlocalizedName("circuit_aluminium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_aluminium");
 		circuit_copper = new Item().setUnlocalizedName("circuit_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_copper");
 		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_red_copper");
@@ -1351,6 +1380,31 @@ public class ModItems {
 		inf_diesel = new Item().setUnlocalizedName("inf_diesel").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_diesel");
 		inf_antimatter = new Item().setUnlocalizedName("inf_antimatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_antimatter");
 		inf_antischrabidium = new Item().setUnlocalizedName("inf_antischrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_antischrabidium");
+
+		stamp_stone_flat = new ItemBlades(5).setUnlocalizedName("stamp_stone_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_stone_flat");
+		stamp_stone_plate = new ItemBlades(5).setUnlocalizedName("stamp_stone_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_stone_plate");
+		stamp_stone_wire = new ItemBlades(5).setUnlocalizedName("stamp_stone_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_stone_wire");
+		stamp_stone_circuit = new ItemBlades(5).setUnlocalizedName("stamp_stone_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_stone_circuit");
+		stamp_iron_flat = new ItemBlades(25).setUnlocalizedName("stamp_iron_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_iron_flat");
+		stamp_iron_plate = new ItemBlades(25).setUnlocalizedName("stamp_iron_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_iron_plate");
+		stamp_iron_wire = new ItemBlades(25).setUnlocalizedName("stamp_iron_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_iron_wire");
+		stamp_iron_circuit = new ItemBlades(25).setUnlocalizedName("stamp_iron_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_iron_circuit");
+		stamp_steel_flat = new ItemBlades(50).setUnlocalizedName("stamp_steel_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_steel_flat");
+		stamp_steel_plate = new ItemBlades(50).setUnlocalizedName("stamp_steel_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_steel_plate");
+		stamp_steel_wire = new ItemBlades(50).setUnlocalizedName("stamp_steel_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_steel_wire");
+		stamp_steel_circuit = new ItemBlades(50).setUnlocalizedName("stamp_steel_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_steel_circuit");
+		stamp_titanium_flat = new ItemBlades(65).setUnlocalizedName("stamp_titanium_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_titanium_flat");
+		stamp_titanium_plate = new ItemBlades(65).setUnlocalizedName("stamp_titanium_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_titanium_plate");
+		stamp_titanium_wire = new ItemBlades(65).setUnlocalizedName("stamp_titanium_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_titanium_wire");
+		stamp_titanium_circuit = new ItemBlades(65).setUnlocalizedName("stamp_titanium_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_titanium_circuit");
+		stamp_obsidian_flat = new ItemBlades(100).setUnlocalizedName("stamp_obsidian_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_obsidian_flat");
+		stamp_obsidian_plate = new ItemBlades(100).setUnlocalizedName("stamp_obsidian_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_obsidian_plate");
+		stamp_obsidian_wire = new ItemBlades(100).setUnlocalizedName("stamp_obsidian_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_obsidian_wire");
+		stamp_obsidian_circuit = new ItemBlades(100).setUnlocalizedName("stamp_obsidian_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_obsidian_circuit");
+		stamp_schrabidium_flat = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_schrabidium_flat");
+		stamp_schrabidium_plate = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_schrabidium_plate");
+		stamp_schrabidium_wire = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_schrabidium_wire");
+		stamp_schrabidium_circuit = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_schrabidium_circuit");
 
 		blades_aluminium = new ItemBlades(1 * 1200).setUnlocalizedName("blades_aluminium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":blades_aluminium");
 		blades_gold = new ItemBlades(5 * 1200).setUnlocalizedName("blades_gold").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":blades_gold");
@@ -2334,6 +2388,7 @@ public class ModItems {
 		GameRegistry.registerItem(shimmer_handle, shimmer_handle.getUnlocalizedName());
 		
 		//Circuits
+		GameRegistry.registerItem(circuit_raw, circuit_raw.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_aluminium, circuit_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_copper, circuit_copper.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_red_copper, circuit_red_copper.getUnlocalizedName());
@@ -2358,6 +2413,8 @@ public class ModItems {
 		GameRegistry.registerItem(pellet_gas, pellet_gas.getUnlocalizedName());
 
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());
+
+		GameRegistry.registerItem(pellet_coal, pellet_coal.getUnlocalizedName());
 		
 		//Watz Pellets
 		GameRegistry.registerItem(pellet_schrabidium, pellet_schrabidium.getUnlocalizedName());
@@ -2455,6 +2512,35 @@ public class ModItems {
 		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
 		
+		//Template Folder
+		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
+		
+		//Hydraulic Press Stamps
+		GameRegistry.registerItem(stamp_stone_flat, stamp_stone_flat.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_stone_plate, stamp_stone_plate.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_stone_wire, stamp_stone_wire.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_stone_circuit, stamp_stone_circuit.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_iron_flat, stamp_iron_flat.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_iron_plate, stamp_iron_plate.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_iron_wire, stamp_iron_wire.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_iron_circuit, stamp_iron_circuit.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_steel_flat, stamp_steel_flat.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_steel_plate, stamp_steel_plate.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_steel_wire, stamp_steel_wire.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_steel_circuit, stamp_steel_circuit.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_titanium_flat, stamp_titanium_flat.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_titanium_plate, stamp_titanium_plate.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_titanium_wire, stamp_titanium_wire.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_titanium_circuit, stamp_titanium_circuit.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_obsidian_flat, stamp_obsidian_flat.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_obsidian_plate, stamp_obsidian_plate.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_obsidian_wire, stamp_obsidian_wire.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_obsidian_circuit, stamp_obsidian_circuit.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_schrabidium_flat, stamp_schrabidium_flat.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_schrabidium_plate, stamp_schrabidium_plate.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_schrabidium_wire, stamp_schrabidium_wire.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_schrabidium_circuit, stamp_schrabidium_circuit.getUnlocalizedName());
+		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_speed_1, upgrade_speed_1.getUnlocalizedName());
@@ -2474,7 +2560,6 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_afterburn_3, upgrade_afterburn_3.getUnlocalizedName());
 		
 		//Machine Templates
-		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_identifier, fluid_identifier.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_icon, fluid_icon.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());

@@ -24,6 +24,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -42,7 +43,14 @@ public class GUIScreenTemplateFolder extends GuiScreen {
     public GUIScreenTemplateFolder(EntityPlayer player) {
     	
     	this.player = player;
-    	
+
+    	//Stamps
+		for(Item i : MachineRecipes.stamps_plate)
+			stacks.add(new ItemStack(i));
+		for(Item i : MachineRecipes.stamps_wire)
+			stacks.add(new ItemStack(i));
+		for(Item i : MachineRecipes.stamps_circuit)
+			stacks.add(new ItemStack(i));
     	//Fluid IDs
     	for(int i = 1; i < FluidType.values().length; i++)
     		stacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
