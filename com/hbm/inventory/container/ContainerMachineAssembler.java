@@ -14,7 +14,6 @@ public class ContainerMachineAssembler extends Container {
 
 private TileEntityMachineAssembler nukeBoy;
 
-	private int power;
 	private int progress;
 	private int maxProgress;
 	
@@ -107,11 +106,6 @@ private TileEntityMachineAssembler nukeBoy;
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.nukeBoy.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.power);
-			}
-			
 			if(this.progress != this.nukeBoy.progress)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.nukeBoy.progress);
@@ -123,17 +117,12 @@ private TileEntityMachineAssembler nukeBoy;
 			}
 		}
 
-		this.power = this.nukeBoy.power;
 		this.progress= this.nukeBoy.progress;
 		this.maxProgress= this.nukeBoy.maxProgress;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			nukeBoy.power = j;
-		}
 		if(i == 1)
 		{
 			nukeBoy.progress = j;

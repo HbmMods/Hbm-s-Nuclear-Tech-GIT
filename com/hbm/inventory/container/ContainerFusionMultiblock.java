@@ -13,10 +13,6 @@ public class ContainerFusionMultiblock extends Container {
 	
 	private TileEntityFusionMultiblock diFurnace;
 	
-	private int water;
-	private int deut;
-	private int power;
-	private int trit;
 	private boolean isRunning;
 	
 	public ContainerFusionMultiblock(InventoryPlayer invPlayer, TileEntityFusionMultiblock tedf) {
@@ -61,7 +57,6 @@ public class ContainerFusionMultiblock extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, isRunning ? 1 : 0);
 	}
 	
@@ -111,27 +106,17 @@ public class ContainerFusionMultiblock extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
-			
 			if(this.isRunning != this.diFurnace.isRunning())
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.isRunning() ? 1 : 0);
 			}
 		}
 		
-		this.power = this.diFurnace.power;
 		this.isRunning = this.diFurnace.isRunning();
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
 		if(i == 1)
 		{
 			if(j == 0)

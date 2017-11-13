@@ -15,7 +15,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachinePumpjack extends GuiFluidContainer {
+public class GUIMachinePumpjack extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_well_large.png");
 	private TileEntityMachinePumpjack derrick;
@@ -34,6 +34,7 @@ public class GUIMachinePumpjack extends GuiFluidContainer {
 
 		derrick.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 70 - 52, 34, 52);
 		derrick.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 124 - 52, 34, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52, derrick.power, derrick.maxPower);
 	}
 
 	@Override

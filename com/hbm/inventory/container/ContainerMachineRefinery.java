@@ -13,10 +13,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineRefinery extends Container {
 
 	private TileEntityMachineRefinery testNuke;
-	private int power;
 	
 	public ContainerMachineRefinery(InventoryPlayer invPlayer, TileEntityMachineRefinery tedf) {
-		power = 0;
 		
 		testNuke = tedf;
 		
@@ -107,30 +105,5 @@ public class ContainerMachineRefinery extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return testNuke.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-
-			if(this.power != this.testNuke.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.testNuke.power);
-			}
-		}
-
-		this.power = this.testNuke.power;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			testNuke.power = j;
-		}
 	}
 }

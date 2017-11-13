@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineShredder extends GuiContainer {
+public class GUIMachineShredder extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_shredder.png");
 	private TileEntityMachineShredder diFurnace;
@@ -23,6 +23,13 @@ public class GUIMachineShredder extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override

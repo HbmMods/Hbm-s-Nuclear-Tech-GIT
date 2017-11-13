@@ -16,6 +16,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -486,6 +488,8 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				if(this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) instanceof MachineGenerator)
 				this.isLoaded = true;
 			}
+			
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
 

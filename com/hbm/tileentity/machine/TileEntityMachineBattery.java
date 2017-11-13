@@ -7,6 +7,8 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -224,44 +226,12 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 				ffgeuaInit();
 		}
 		
-		power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+		if(!worldObj.isRemote) {
+			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
 		
-		power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
-		
-		/*if(slots[0] != null && slots[0].getItem() == ModItems.battery_creative)
-		{
-			power = maxPower;
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_generic && slots[0].getItemDamage() < 50)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_advanced && slots[0].getItemDamage() < 200)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.battery_schrabidium && slots[0].getItemDamage() < 10000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.fusion_core && slots[0].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}
-		
-		if(power + 100 <= maxPower && slots[0] != null && slots[0].getItem() == ModItems.energy_core && slots[0].getItemDamage() < 5000)
-		{
-			power += 100;
-			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
-		}*/
 	}
 
 	@Override

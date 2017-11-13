@@ -7,6 +7,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDrillPacket;
@@ -430,6 +431,22 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 						break;
 			}
 			
+			if(te != null && te instanceof TileEntityCrateIron) {
+				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+				
+				for(int i = 1; i < 10; i++)
+					if(tryFillContainer(hopper, i))
+						break;
+			}
+			
+			if(te != null && te instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+				
+				for(int i = 1; i < 10; i++)
+					if(tryFillContainer(hopper, i))
+						break;
+			}
+			
 			if(warning == 0) {
 				torque += 0.1;
 				if(torque > (100/timer))
@@ -448,8 +465,8 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 				rotation -= 360;
 
 			PacketDispatcher.wrapper.sendToAll(new TEDrillPacket(xCoord, yCoord, zCoord, rotation));
-			PacketDispatcher.wrapper.sendToAll(new TEDrillSoundPacket(xCoord, yCoord, zCoord, torque));
 			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
 	

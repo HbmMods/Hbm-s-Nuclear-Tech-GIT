@@ -13,11 +13,9 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineCMBFactory extends Container {
 	
 	private TileEntityMachineCMBFactory diFurnace;
-	private int power;
 	private int progress;
 	
 	public ContainerMachineCMBFactory(InventoryPlayer invPlayer, TileEntityMachineCMBFactory tedf) {
-		power = 0;
 		
 		diFurnace = tedf;
 		
@@ -45,7 +43,6 @@ public class ContainerMachineCMBFactory extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.process);
 	}
 	
@@ -98,27 +95,17 @@ public class ContainerMachineCMBFactory extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
-			
 			if(this.progress != this.diFurnace.process)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.process);
 			}
 		}
 
-		this.power = this.diFurnace.power;
 		this.progress = this.diFurnace.process;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
 		if(i == 1)
 		{
 			diFurnace.process = j;

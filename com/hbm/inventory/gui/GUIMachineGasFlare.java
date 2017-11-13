@@ -13,7 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineGasFlare extends GuiFluidContainer {
+public class GUIMachineGasFlare extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_gasFlare.png");
 	private TileEntityMachineGasFlare flare;
@@ -31,6 +31,7 @@ public class GUIMachineGasFlare extends GuiFluidContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		flare.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 34, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52, flare.power, flare.maxPower);
 	}
 
 	@Override

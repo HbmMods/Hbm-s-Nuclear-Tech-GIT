@@ -13,7 +13,7 @@ import com.hbm.inventory.container.ContainerGenerator;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 
-public class GUIMachineGenerator extends GuiFluidContainer {
+public class GUIMachineGenerator extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_generator.png");
 	private TileEntityMachineGenerator diFurnace;
@@ -32,6 +32,7 @@ public class GUIMachineGenerator extends GuiFluidContainer {
 
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 88 - 52, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 88 - 52, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 88 - 52, 16, 52, diFurnace.power, diFurnace.powerMax);
 	}
 	
 	@Override

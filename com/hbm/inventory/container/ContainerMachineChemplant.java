@@ -15,7 +15,6 @@ public class ContainerMachineChemplant extends Container {
 
 private TileEntityMachineChemplant nukeBoy;
 
-	private int power;
 	private int progress;
 	private int maxProgress;
 	
@@ -115,11 +114,6 @@ private TileEntityMachineChemplant nukeBoy;
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.nukeBoy.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.power);
-			}
-			
 			if(this.progress != this.nukeBoy.progress)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.nukeBoy.progress);
@@ -131,17 +125,12 @@ private TileEntityMachineChemplant nukeBoy;
 			}
 		}
 
-		this.power = this.nukeBoy.power;
 		this.progress= this.nukeBoy.progress;
 		this.maxProgress= this.nukeBoy.maxProgress;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			nukeBoy.power = j;
-		}
 		if(i == 1)
 		{
 			nukeBoy.progress = j;

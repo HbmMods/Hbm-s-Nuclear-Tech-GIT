@@ -13,7 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachinePuF6Tank extends GuiFluidContainer {
+public class GUIMachinePuF6Tank extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/puf6Tank.png");
 	private TileEntityMachinePuF6Tank tank;

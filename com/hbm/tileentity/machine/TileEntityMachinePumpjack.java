@@ -16,6 +16,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEPumpjackPacket;
@@ -345,6 +346,7 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 			rotation = rotation % 360;
 
 			PacketDispatcher.wrapper.sendToAll(new TEPumpjackPacket(xCoord, yCoord, zCoord, rotation, isProgressing));
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 		
 	}

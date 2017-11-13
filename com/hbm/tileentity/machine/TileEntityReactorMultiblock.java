@@ -20,6 +20,8 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -516,8 +518,9 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				}
 				
 				//Batteries
-				
 				power = Library.chargeItemsFromTE(slots, 34, power, maxPower);
+
+				PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			}
 		}
 		

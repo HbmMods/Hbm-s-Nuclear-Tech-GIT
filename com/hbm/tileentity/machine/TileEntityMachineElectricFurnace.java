@@ -4,6 +4,8 @@ import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -301,9 +303,12 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
                 flag1 = true;
                 MachineElectricFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
+			
+			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 		
-		power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 		
 		if(flag1)
 		{

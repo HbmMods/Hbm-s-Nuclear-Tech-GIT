@@ -13,11 +13,9 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineCoal extends Container {
 	
 	private TileEntityMachineCoal diFurnace;
-	private int power;
 	private int burnTime;
 	
 	public ContainerMachineCoal(InventoryPlayer invPlayer, TileEntityMachineCoal tedf) {
-		power = 0;
 		burnTime = 0;
 		
 		diFurnace = tedf;
@@ -44,8 +42,7 @@ public class ContainerMachineCoal extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.burnTime);
+		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.burnTime);
 	}
 	
 	@Override
@@ -98,28 +95,18 @@ public class ContainerMachineCoal extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.diFurnace.power)
+			if(this.burnTime != this.diFurnace.burnTime)
 			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
-			
-			if(this.power != this.diFurnace.burnTime)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.burnTime);
+				par1.sendProgressBarUpdate(this, 0, this.diFurnace.burnTime);
 			}
 		}
 		
-		this.power = this.diFurnace.power;
 		this.burnTime = this.diFurnace.burnTime;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
-		if(i == 1)
 		{
 			diFurnace.burnTime = j;
 		}

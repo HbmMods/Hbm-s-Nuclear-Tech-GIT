@@ -13,7 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineCMBFactory extends GuiFluidContainer {
+public class GUIMachineCMBFactory extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_cmb_manufactory.png");
 	private TileEntityMachineCMBFactory diFurnace;
@@ -31,6 +31,7 @@ public class GUIMachineCMBFactory extends GuiFluidContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 69 - 52, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override

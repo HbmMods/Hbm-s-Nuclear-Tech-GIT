@@ -13,12 +13,10 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineOilWell extends Container {
 
 	private TileEntityMachineOilWell testNuke;
-	private int power;
 	private int warning;
 	private int warning2;
 	
 	public ContainerMachineOilWell(InventoryPlayer invPlayer, TileEntityMachineOilWell tedf) {
-		power = 0;
 		warning = 0;
 		warning2 = 0;
 		
@@ -54,7 +52,6 @@ public class ContainerMachineOilWell extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.testNuke.power);
 		crafting.sendProgressBarUpdate(this, 1, this.testNuke.warning);
 		crafting.sendProgressBarUpdate(this, 2, this.testNuke.warning2);
 	}
@@ -108,10 +105,6 @@ public class ContainerMachineOilWell extends Container {
 		for(int i = 0; i < this.crafters.size(); i++)
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			if(this.power != this.testNuke.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.testNuke.power);
-			}
 			if(this.warning != this.testNuke.warning)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.testNuke.warning);
@@ -122,17 +115,12 @@ public class ContainerMachineOilWell extends Container {
 			}
 		}
 
-		this.power = this.testNuke.power;
 		this.warning = this.testNuke.warning;
 		this.warning2 = this.testNuke.warning2;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			testNuke.power = j;
-		}
 		if(i == 1)
 		{
 			testNuke.warning = j;

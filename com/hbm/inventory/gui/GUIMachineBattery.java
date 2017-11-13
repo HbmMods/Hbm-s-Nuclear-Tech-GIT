@@ -12,7 +12,7 @@ import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 
-public class GUIMachineBattery extends GuiContainer {
+public class GUIMachineBattery extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_battery.png");
 	private TileEntityMachineBattery diFurnace;
@@ -23,6 +23,13 @@ public class GUIMachineBattery extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 52, 52, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override

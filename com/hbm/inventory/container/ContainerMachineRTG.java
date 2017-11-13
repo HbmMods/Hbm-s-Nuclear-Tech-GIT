@@ -13,11 +13,9 @@ public class ContainerMachineRTG extends Container {
 
 	private TileEntityMachineRTG testNuke;
 	private int heat;
-	private int power;
 	
 	public ContainerMachineRTG(InventoryPlayer invPlayer, TileEntityMachineRTG tedf) {
 		heat = 0;
-		power = 0;
 		
 		testNuke = tedf;
 		
@@ -55,7 +53,6 @@ public class ContainerMachineRTG extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.testNuke.heat);
-		crafting.sendProgressBarUpdate(this, 1, this.testNuke.power);
 	}
 	
 	@Override
@@ -110,14 +107,9 @@ public class ContainerMachineRTG extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.testNuke.heat);
 			}
-			if(this.power != this.testNuke.power)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.testNuke.power);
-			}
 		}
 
 		this.heat = this.testNuke.heat;
-		this.power = this.testNuke.power;
 	}
 	
 	@Override
@@ -125,10 +117,6 @@ public class ContainerMachineRTG extends Container {
 		if(i == 0)
 		{
 			testNuke.heat = j;
-		}
-		if(i == 1)
-		{
-			testNuke.power = j;
 		}
 	}
 }

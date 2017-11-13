@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.world.FWatz;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,17 +26,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource {
+public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
 
-	public int cool;
-	public final static int maxCool = 100000000;
 	public int power;
 	public final static int maxPower = 100000000;
-	public int amat;
-	public final static int maxAmat = 100000000;
-	public int aSchrab;
-	public final static int maxASchrab = 100000000;
 	public boolean cooldown = false;
+
+	public FluidTank tanks[];
 	
 	Random rand = new Random();
 	
@@ -41,7 +43,11 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	private String customName;
 
 	public TileEntityFWatzCore() {
-		slots = new ItemStack[5];
+		slots = new ItemStack[7];
+		tanks = new FluidTank[3];
+		tanks[0] = new FluidTank(FluidType.COOLANT, 128000, 0);
+		tanks[1] = new FluidTank(FluidType.AMAT, 64000, 1);
+		tanks[2] = new FluidTank(FluidType.ASCHRAB, 64000, 2);
 	}
 	@Override
 	public int getSizeInventory() {
@@ -156,10 +162,10 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		cool = nbt.getInteger("cool");
 		power = nbt.getInteger("power");
-		amat = nbt.getInteger("amat");
-		aSchrab = nbt.getInteger("aSchrab");
+		tanks[0].readFromNBT(nbt, "cool");
+		tanks[1].readFromNBT(nbt, "amat");
+		tanks[2].readFromNBT(nbt, "aschrab");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -177,10 +183,12 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("cool", cool);
+
 		nbt.setInteger("power", power);
-		nbt.setInteger("amat", amat);
-		nbt.setInteger("aSchrab", aSchrab);
+		tanks[0].writeToNBT(nbt, "cool");
+		tanks[1].writeToNBT(nbt, "amat");
+		tanks[2].writeToNBT(nbt, "aschrab");
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -215,7 +223,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	
 	@Override
 	public int getCoolantScaled(int i) {
-		return (cool/100 * i) / (maxCool/100);
+		return 0;
 	}
 	
 	@Override
@@ -225,12 +233,12 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	
 	@Override
 	public int getWaterScaled(int i) {
-		return (amat/100 * i) / (maxAmat/100);
+		return 0;
 	}
 	
 	@Override
 	public int getHeatScaled(int i) {
-		return (aSchrab/100 * i) / (maxASchrab/100);
+		return 0;
 	}
 	
 	public int getSingularityType() {
@@ -255,7 +263,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 
 	@Override
 	public void updateEntity() {
-		if (this.isStructureValid(this.worldObj)) {
+		if (this.isStructureValid(this.worldObj) && !worldObj.isRemote) {
 
 			age++;
 			if (age >= 20) {
@@ -265,25 +273,25 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 			if (age == 9 || age == 19)
 				ffgeuaInit();
 
-			if (hasFuse() && getSingularityType() > 0 && isStructureValid(worldObj)) {
+			if (hasFuse() && getSingularityType() > 0) {
 				if(cooldown) {
 					
 					int i = getSingularityType();
 
 					if(i == 1)
-						cool += 1500;
+						tanks[0].setFill(tanks[0].getFill() + 1500);
 					if(i == 2)
-						cool += 3000;
+						tanks[0].setFill(tanks[0].getFill() + 3000);
 					if(i == 3)
-						cool += 750;
+						tanks[0].setFill(tanks[0].getFill() + 750);
 					if(i == 4)
-						cool += 7500;
+						tanks[0].setFill(tanks[0].getFill() + 7500);
 					if(i == 5)
-						cool += 150000;
+						tanks[0].setFill(tanks[0].getFill() + 15000);
 					
-					if(cool >= maxCool) {
+					if(tanks[0].getFill() >= tanks[0].getMaxFill()) {
 						cooldown = false;
-						cool = maxCool;
+						tanks[0].setFill(tanks[0].getMaxFill());
 					}
 					
 				} else {
@@ -291,38 +299,38 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 					
 					boolean isWorking = false;
 
-					if(i == 1 && amat - 750 >= 0 && aSchrab - 750 >= 0) {
-						cool -= 150;
-						amat -= 750;
-						aSchrab -= 750;
+					if(i == 1 && tanks[1].getFill() - 750 >= 0 && tanks[2].getFill() - 750 >= 0) {
+						tanks[0].setFill(tanks[0].getFill() - 150);
+						tanks[1].setFill(tanks[1].getFill() - 750);
+						tanks[2].setFill(tanks[2].getFill() - 750);
 						power += 500000;
 						isWorking = true;
 					}
-					if(i == 2 && amat - 750 >= 0 && aSchrab - 350 >= 0) {
-						cool -= 75;
-						amat -= 350;
-						aSchrab -= 300;
+					if(i == 2 && tanks[1].getFill() - 750 >= 0 && tanks[2].getFill() - 350 >= 0) {
+						tanks[0].setFill(tanks[0].getFill() - 75);
+						tanks[1].setFill(tanks[1].getFill() - 350);
+						tanks[2].setFill(tanks[2].getFill() - 300);
 						power += 250000;
 						isWorking = true;
 					}
-					if(i == 3 && amat - 750 >= 0 && aSchrab - 1400 >= 0) {
-						cool -= 300;
-						amat -= 750;
-						aSchrab -= 1400;
+					if(i == 3 && tanks[1].getFill() - 750 >= 0 && tanks[2].getFill() - 1400 >= 0) {
+						tanks[0].setFill(tanks[0].getFill() - 300);
+						tanks[1].setFill(tanks[1].getFill() - 750);
+						tanks[2].setFill(tanks[2].getFill() - 1400);
 						power += 1000000;
 						isWorking = true;
 					}
-					if(i == 4 && amat - 1000 >= 0 && aSchrab - 1000 >= 0) {
-						cool -= 100;
-						amat -= 1000;
-						aSchrab -= 1000;
+					if(i == 4 && tanks[1].getFill() - 1000 >= 0 && tanks[2].getFill() - 1000 >= 0) {
+						tanks[0].setFill(tanks[0].getFill() - 100);
+						tanks[1].setFill(tanks[1].getFill() - 1000);
+						tanks[2].setFill(tanks[2].getFill() - 1000);
 						power += 1000000;
 						isWorking = true;
 					}
-					if(i == 5 && amat - 150 >= 0 && aSchrab - 150 >= 0) {
-						cool -= 150;
-						amat -= 150;
-						aSchrab -= 150;
+					if(i == 5 && tanks[1].getFill() - 150 >= 0 && tanks[2].getFill() - 150 >= 0) {
+						tanks[0].setFill(tanks[0].getFill() - 150);
+						tanks[1].setFill(tanks[1].getFill() - 150);
+						tanks[2].setFill(tanks[2].getFill() - 150);
 						power += 10000000;
 						isWorking = true;
 					}
@@ -330,9 +338,9 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 					if(power > maxPower)
 						power = maxPower;
 					
-					if(cool <= 0) {
+					if(tanks[0].getFill() <= 0) {
 						cooldown = true;
-						cool = 0;
+						tanks[0].setFill(0);
 					}
 				}
 			}
@@ -342,41 +350,20 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 			
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			
+			tanks[1].loadTank(3, 5, slots);
+			tanks[2].loadTank(4, 6, slots);
 			
-			if(amat + 1000000 <= maxAmat && slots[3] != null && slots[3].getItem() == ModItems.cell_antimatter)
-			{
-				this.slots[3].stackSize--;
-				this.amat += 1000000;
-				if(this.slots[3].stackSize == 0)
-				{
-					this.slots[3] = null;
-				}
-			}
-			if(aSchrab + 1000000 <= maxASchrab && slots[4] != null && slots[4].getItem() == ModItems.cell_anti_schrabidium)
-			{
-				this.slots[4].stackSize--;
-				this.aSchrab += 1000000;
-				if(this.slots[4].stackSize == 0)
-				{
-					this.slots[4] = null;
-				}
-			}
-
-			if(slots[3] != null && slots[3].getItem() == ModItems.inf_antimatter)
-			{
-				this.amat = maxAmat;
-			}
-			if(slots[4] != null && slots[4].getItem() == ModItems.inf_antischrabidium)
-			{
-				this.aSchrab = maxASchrab;
-			}
+			for(int i = 0; i < 3; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord);
 		}
 		
-		if(this.isRunning() && (amat <= 0 || aSchrab <= 0 || !hasFuse() || getSingularityType() == 0) || cooldown || !this.isStructureValid(worldObj))
+		if(this.isRunning() && (tanks[1].getFill() <= 0 || tanks[2].getFill() <= 0 || !hasFuse() || getSingularityType() == 0) || cooldown || !this.isStructureValid(worldObj))
 			this.emptyPlasma();
 		
-		if(!this.isRunning() && amat >= 1000 && aSchrab >= 1000 && hasFuse() && getSingularityType() > 0 && !cooldown && this.isStructureValid(worldObj))
+		if(!this.isRunning() && tanks[1].getFill() >= 1000 && tanks[2].getFill() >= 1000 && hasFuse() && getSingularityType() > 0 && !cooldown && this.isStructureValid(worldObj))
 			this.fillPlasma();
+
+		PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 	}
 	
 	public void fillPlasma() {
@@ -435,5 +422,45 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		if(index < 3 && tanks[index] != null)
+			tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		if(index < 3 && tanks[index] != null)
+			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public void setAFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			tanks[2].setFill(i);
+	}
+
+	@Override
+	public int getAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getFill();
+		else
+			return 0;
+	}
+
+	@Override
+	public int getMaxAFluidFill(FluidType type) {
+		if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getMaxFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
+			return tanks[2].getMaxFill();
+		else
+			return 0;
 	}
 }

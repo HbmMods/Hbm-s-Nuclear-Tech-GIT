@@ -14,7 +14,6 @@ public class ContainerMachineSchrabidiumTransmutator extends Container {
 
 private TileEntityMachineSchrabidiumTransmutator nukeBoy;
 
-	private int power;
 	private int water;
 	private int sulfur;
 	private int progress;
@@ -92,27 +91,17 @@ private TileEntityMachineSchrabidiumTransmutator nukeBoy;
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.nukeBoy.process)
+			if(this.progress != this.nukeBoy.process)
 			{
 				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.process);
 			}
-			
-			if(this.power != this.nukeBoy.power)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.nukeBoy.power);
-			}
 		}
 		
-		this.power = this.nukeBoy.power;
 		this.progress = this.nukeBoy.process;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			nukeBoy.process = j;
-		}
 		if(i == 1)
 		{
 			nukeBoy.power = j;

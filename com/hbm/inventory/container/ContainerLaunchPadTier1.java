@@ -12,10 +12,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerLaunchPadTier1 extends Container {
 	
 	private TileEntityLaunchPad diFurnace;
-	private int power;
 	
 	public ContainerLaunchPadTier1(InventoryPlayer invPlayer, TileEntityLaunchPad tedf) {
-		power = 0;
 		
 		diFurnace = tedf;
 		
@@ -40,7 +38,6 @@ public class ContainerLaunchPadTier1 extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 	}
 	
 	@Override
@@ -79,30 +76,5 @@ public class ContainerLaunchPadTier1 extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return diFurnace.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-		
-			if(this.power != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
-		}
-		
-		this.power = this.diFurnace.power;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
 	}
 }

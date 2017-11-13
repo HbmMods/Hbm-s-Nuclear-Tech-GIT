@@ -2768,8 +2768,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_spark, gun_spark.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hp, gun_hp.getUnlocalizedName());
 		GameRegistry.registerItem(gun_euthanasia, gun_euthanasia.getUnlocalizedName());
-		GameRegistry.registerItem(gun_dash, gun_dash.getUnlocalizedName());
-		GameRegistry.registerItem(gun_twigun, gun_twigun.getUnlocalizedName());
+		//GameRegistry.registerItem(gun_dash, gun_dash.getUnlocalizedName());
+		//GameRegistry.registerItem(gun_twigun, gun_twigun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_defabricator, gun_defabricator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_super_shotgun, gun_super_shotgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_moist_nugget, gun_moist_nugget.getUnlocalizedName());
@@ -3086,7 +3086,7 @@ public class ModItems {
 		//GameRegistry.registerItem(remote, remote.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_stopper, euphemium_stopper.getUnlocalizedName());
 		GameRegistry.registerItem(polaroid, polaroid.getUnlocalizedName());
-		GameRegistry.registerItem(glitch, glitch.getUnlocalizedName());
+		//GameRegistry.registerItem(glitch, glitch.getUnlocalizedName());
 		GameRegistry.registerItem(book_secret, book_secret.getUnlocalizedName());
 		GameRegistry.registerItem(burnt_bark, burnt_bark.getUnlocalizedName());
 		

@@ -6,6 +6,8 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -277,6 +279,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			} else {
 				process = 0;
 			}
+
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
 

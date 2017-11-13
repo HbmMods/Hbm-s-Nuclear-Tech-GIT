@@ -3,7 +3,7 @@ package com.hbm.inventory;
 import java.util.Arrays;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.gui.GuiFluidContainer;
+import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
@@ -154,11 +154,11 @@ public class FluidTank {
 	}
 
 	public void renderTankInfo(GuiContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if(gui instanceof GuiFluidContainer)
-			renderTankInfo((GuiFluidContainer)gui, mouseX, mouseY, x, y, width, height);
+		if(gui instanceof GuiInfoContainer)
+			renderTankInfo((GuiInfoContainer)gui, mouseX, mouseY, x, y, width, height);
 	}
 	
-	public void renderTankInfo(GuiFluidContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
+	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
 	}

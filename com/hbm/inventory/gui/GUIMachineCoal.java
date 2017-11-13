@@ -13,7 +13,7 @@ import com.hbm.inventory.container.ContainerMachineCoal;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineCoal;
 
-public class GUIMachineCoal extends GuiFluidContainer {
+public class GUIMachineCoal extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUICoal.png");
 	private TileEntityMachineCoal diFurnace;
@@ -31,6 +31,7 @@ public class GUIMachineCoal extends GuiFluidContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override

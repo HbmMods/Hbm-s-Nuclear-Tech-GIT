@@ -320,7 +320,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.watz_hatch)
+				world.getBlock(x, y, z) == ModBlocks.watz_hatch ||
+				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch)
 		{
 			return true;
 		}
@@ -1016,6 +1017,23 @@ public class Library {
 		if(block == ModBlocks.fusion_hatch && worldObj.getBlock(x - 8, y, z) == ModBlocks.fusion_core)
 		{
 			tileentity = worldObj.getTileEntity(x - 8, y, z);
+		}
+		//FWatz Reactor
+		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z + 9) == ModBlocks.fwatz_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y + 11, z + 9);
+		}
+		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z - 9) == ModBlocks.fwatz_core)
+		{
+			tileentity = worldObj.getTileEntity(x, y + 11, z - 9);
+		}
+		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x + 9, y + 11, z) == ModBlocks.fwatz_core)
+		{
+			tileentity = worldObj.getTileEntity(x + 9, y + 11, z);
+		}
+		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x - 9, y + 11, z) == ModBlocks.fwatz_core)
+		{
+			tileentity = worldObj.getTileEntity(x - 9, y + 11, z);
 		}
 		
 		if(tileentity == that)

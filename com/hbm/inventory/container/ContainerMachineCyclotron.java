@@ -14,11 +14,9 @@ public class ContainerMachineCyclotron extends Container {
 
 	private TileEntityMachineCyclotron testNuke;
 	private int progress;
-	private int power;
 	
 	public ContainerMachineCyclotron(InventoryPlayer invPlayer, TileEntityMachineCyclotron tedf) {
 		progress = 0;
-		power = 0;
 		
 		testNuke = tedf;
 		
@@ -63,7 +61,6 @@ public class ContainerMachineCyclotron extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.testNuke.progress);
-		crafting.sendProgressBarUpdate(this, 1, this.testNuke.power);
 	}
 	
 	@Override
@@ -118,14 +115,9 @@ public class ContainerMachineCyclotron extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.testNuke.progress);
 			}
-			if(this.power != this.testNuke.power)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.testNuke.power);
-			}
 		}
 
 		this.progress = this.testNuke.progress;
-		this.power = this.testNuke.power;
 	}
 	
 	@Override
@@ -133,10 +125,6 @@ public class ContainerMachineCyclotron extends Container {
 		if(i == 0)
 		{
 			testNuke.progress = j;
-		}
-		if(i == 1)
-		{
-			testNuke.power = j;
 		}
 	}
 }

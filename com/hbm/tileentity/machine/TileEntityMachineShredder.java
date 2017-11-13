@@ -5,6 +5,8 @@ import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.special.ItemBlades;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -250,6 +252,8 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		}
 		
 		power = Library.chargeTEFromItems(slots, 29, power, maxPower);
+		
+		PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		
 		if(flag1)
 		{

@@ -23,6 +23,8 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
@@ -253,6 +255,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
                 flag1 = true;
                 MachineCoal.updateBlockState(this.burnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 		
 		generate();

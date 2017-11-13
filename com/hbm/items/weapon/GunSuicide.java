@@ -119,7 +119,7 @@ public class GunSuicide extends Item {
 
             if (!p_77615_2_.isRemote)
             {
-            	p_77615_3_.attackEntityFrom(ModDamageSource.suicide, Float.POSITIVE_INFINITY);
+            	p_77615_3_.attackEntityFrom(ModDamageSource.suicide, 100000);
             }
         }
     }

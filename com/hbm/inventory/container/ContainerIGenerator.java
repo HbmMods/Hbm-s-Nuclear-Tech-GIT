@@ -14,7 +14,6 @@ public class ContainerIGenerator extends Container {
 	
 	private TileEntityMachineIGenerator diFurnace;
 
-	private int power;
 	private int torque;
 	private int heat;
 	private int water;
@@ -65,7 +64,6 @@ public class ContainerIGenerator extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.torque);
 		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.heat);
 		crafting.sendProgressBarUpdate(this, 3, this.diFurnace.water);
@@ -120,10 +118,6 @@ public class ContainerIGenerator extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 
-			if(this.power != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
 			if(this.torque != this.diFurnace.torque)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.torque);
@@ -150,7 +144,6 @@ public class ContainerIGenerator extends Container {
 			}
 		}
 
-		this.power = this.diFurnace.power;
 		this.torque = this.diFurnace.torque;
 		this.heat = this.diFurnace.heat;
 		this.water = this.diFurnace.water;
@@ -161,10 +154,6 @@ public class ContainerIGenerator extends Container {
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
 		if(i == 1)
 		{
 			diFurnace.torque = j;

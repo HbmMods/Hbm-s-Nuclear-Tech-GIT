@@ -14,12 +14,10 @@ public class ContainerElectricFurnace extends Container {
 	
 	private TileEntityMachineElectricFurnace diFurnace;
 	private int dualCookTime;
-	private int dualPower;
 	private int lastItemBurnTime;
 	
 	public ContainerElectricFurnace(InventoryPlayer invPlayer, TileEntityMachineElectricFurnace tedf) {
 		dualCookTime = 0;
-		dualPower = 0;
 		lastItemBurnTime = 0;
 		
 		diFurnace = tedf;
@@ -46,7 +44,6 @@ public class ContainerElectricFurnace extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.power);
 	}
 	
 	@Override
@@ -102,15 +99,9 @@ public class ContainerElectricFurnace extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
 			}
-			
-			if(this.dualPower != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.power);
-			}
 		}
 		
 		this.dualCookTime = this.diFurnace.dualCookTime;
-		this.dualPower = this.diFurnace.power;
 	}
 	
 	@Override
@@ -118,10 +109,6 @@ public class ContainerElectricFurnace extends Container {
 		if(i == 0)
 		{
 			diFurnace.dualCookTime = j;
-		}
-		if(i == 1)
-		{
-			diFurnace.power = j;
 		}
 	}
 }

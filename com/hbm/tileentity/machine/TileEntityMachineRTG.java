@@ -6,6 +6,8 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -231,6 +233,8 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 			power += heat;
 			if(power > powerMax)
 				power = powerMax;
+			
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
 

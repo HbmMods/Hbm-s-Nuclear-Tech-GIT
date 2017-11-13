@@ -13,7 +13,6 @@ public class ContainerMachineMiningDrill extends Container {
 
 private TileEntityMachineMiningDrill nukeBoy;
 
-	private int power;
 	private int warning;
 	
 	public ContainerMachineMiningDrill(InventoryPlayer invPlayer, TileEntityMachineMiningDrill tedf) {
@@ -99,26 +98,17 @@ private TileEntityMachineMiningDrill nukeBoy;
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.nukeBoy.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.power);
-			}
 			if(this.warning != this.nukeBoy.warning)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.nukeBoy.warning);
 			}
 		}
 
-		this.power = this.nukeBoy.power;
 		this.warning = this.nukeBoy.warning;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			nukeBoy.power = j;
-		}
 		if(i == 1)
 		{
 			nukeBoy.warning = j;

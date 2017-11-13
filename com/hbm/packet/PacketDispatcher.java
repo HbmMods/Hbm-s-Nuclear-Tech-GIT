@@ -49,6 +49,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TETurbofanPacket.Handler.class, TETurbofanPacket.class, i++, Side.CLIENT);
 		//Press item for rendering
 		wrapper.registerMessage(TEPressPacket.Handler.class, TEPressPacket.class, i++, Side.CLIENT);
+		//Electricity gauge for GUI rendering
+		wrapper.registerMessage(AuxElectricityPacket.Handler.class, AuxElectricityPacket.class, i++, Side.CLIENT);
 	}
 	
 }

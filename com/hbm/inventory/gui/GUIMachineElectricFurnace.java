@@ -12,7 +12,7 @@ import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 
-public class GUIMachineElectricFurnace extends GuiContainer {
+public class GUIMachineElectricFurnace extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/GUIElectricFurnace.png");
 	private TileEntityMachineElectricFurnace diFurnace;
@@ -23,6 +23,13 @@ public class GUIMachineElectricFurnace extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 20, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override

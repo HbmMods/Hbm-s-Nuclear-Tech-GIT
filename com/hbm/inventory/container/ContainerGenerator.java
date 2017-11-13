@@ -14,7 +14,6 @@ public class ContainerGenerator extends Container {
 	
 	private TileEntityMachineGenerator diFurnace;
 	
-	private int power;
 	private int heat;
 	
 	public ContainerGenerator(InventoryPlayer invPlayer, TileEntityMachineGenerator tedf) {
@@ -53,7 +52,6 @@ public class ContainerGenerator extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.heat);
 	}
 	
@@ -105,27 +103,17 @@ public class ContainerGenerator extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.power != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
-			
 			if(this.heat != this.diFurnace.heat)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.heat);
 			}
 		}
 		
-		this.power = this.diFurnace.power;
 		this.heat = this.diFurnace.heat;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
 		if(i == 1)
 		{
 			diFurnace.heat = j;

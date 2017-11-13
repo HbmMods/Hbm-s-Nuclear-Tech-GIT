@@ -12,7 +12,6 @@ public class ContainerMachineTeleporter extends Container {
 	
 	private TileEntityMachineTeleporter diFurnace;
 	
-	private int power;
 	private int x;
 	private int y;
 	private int z;
@@ -25,7 +24,6 @@ public class ContainerMachineTeleporter extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.targetX);
 		crafting.sendProgressBarUpdate(this, 2, this.diFurnace.targetY);
 		crafting.sendProgressBarUpdate(this, 3, this.diFurnace.targetZ);
@@ -50,10 +48,6 @@ public class ContainerMachineTeleporter extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 
-			if(this.power != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
 			if(this.x != this.diFurnace.targetX)
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.targetX);
@@ -68,7 +62,6 @@ public class ContainerMachineTeleporter extends Container {
 			}
 		}
 
-		this.power = this.diFurnace.power;
 		this.x = this.diFurnace.targetX;
 		this.y = this.diFurnace.targetY;
 		this.z = this.diFurnace.targetZ;
@@ -76,10 +69,6 @@ public class ContainerMachineTeleporter extends Container {
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.power = j;
-		}
 		if(i == 1)
 		{
 			diFurnace.targetX = j;

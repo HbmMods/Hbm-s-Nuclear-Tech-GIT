@@ -3,6 +3,7 @@ package com.hbm.tileentity.bomb;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissilePacket;
 
@@ -191,8 +192,10 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 		
 		power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 		
-		if(!worldObj.isRemote)
+		if(!worldObj.isRemote) {
 			PacketDispatcher.wrapper.sendToAll(new TEMissilePacket(xCoord, yCoord, zCoord, slots[0]));
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+		}
 	}
 	
 	@Override

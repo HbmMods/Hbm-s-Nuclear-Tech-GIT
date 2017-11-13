@@ -18,6 +18,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.WatzFuel;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -514,7 +516,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 
 	@Override
 	public void updateEntity() {
-		if (this.isStructureValid(this.worldObj)) {
+		if (this.isStructureValid(this.worldObj) && !worldObj.isRemote) {
 
 			age++;
 			if (age >= 20) {
@@ -590,6 +592,8 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					}
 				}
 			}
+
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
 	

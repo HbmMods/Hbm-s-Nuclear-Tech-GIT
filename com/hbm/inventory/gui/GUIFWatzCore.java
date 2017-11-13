@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerFWatzCore;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
@@ -12,7 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIFWatzCore extends GuiContainer {
+public class GUIFWatzCore extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_fwatz_multiblock.png");
 	private TileEntityFWatzCore diFurnace;
@@ -23,6 +24,15 @@ public class GUIFWatzCore extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 88 - 70, 16, 70);
+		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 88 - 70, 16, 70);
+		diFurnace.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 88 - 70, 16, 70);
 	}
 	
 	@Override
@@ -39,22 +49,19 @@ public class GUIFWatzCore extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int i = diFurnace.getWaterScaled(88);
-		drawTexturedModalRect(guiLeft + 134, guiTop + 106 - i, 208, 88 - i, 16, i);
-
-		int j = diFurnace.getCoolantScaled(88);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 106 - j, 176, 88 - j, 16, j);
-
 		int k = diFurnace.getPowerScaled(88);
 		drawTexturedModalRect(guiLeft + 26, guiTop + 106 - k, 192, 88 - k, 16, k);
-
-		int l = diFurnace.getHeatScaled(88);
-		drawTexturedModalRect(guiLeft + 152, guiTop + 106 - l, 224, 88 - l, 16, l);
 		
 		if(diFurnace.isRunning())
 			drawTexturedModalRect(guiLeft + 64, guiTop + 29, 176, 88, 48, 48);
 		
 		int m = diFurnace.getSingularityType();
 		drawTexturedModalRect(guiLeft + 98, guiTop + 109, 240, 4 * m, 16, 4);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
+
+		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 70);
+		diFurnace.tanks[1].renderTank(this, guiLeft + 134, guiTop + 88, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 70);
+		diFurnace.tanks[2].renderTank(this, guiLeft + 152, guiTop + 88, diFurnace.tanks[2].getTankType().textureX() * FluidTank.x, diFurnace.tanks[2].getTankType().textureY() * FluidTank.y, 16, 70);
 	}
 }
