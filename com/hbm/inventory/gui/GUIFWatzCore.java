@@ -33,6 +33,7 @@ public class GUIFWatzCore extends GuiInfoContainer {
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 88 - 70, 16, 70);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 88 - 70, 16, 70);
 		diFurnace.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 88 - 70, 16, 70);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class GUIFWatzCore extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int k = diFurnace.getPowerScaled(88);
+		int k = (int)diFurnace.getPowerScaled(88);
 		drawTexturedModalRect(guiLeft + 26, guiTop + 106 - k, 192, 88 - k, 16, k);
 		
 		if(diFurnace.isRunning())

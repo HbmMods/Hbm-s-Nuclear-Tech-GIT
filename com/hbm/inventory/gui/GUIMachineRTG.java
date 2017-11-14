@@ -53,7 +53,7 @@ public class GUIMachineRTG extends GuiInfoContainer {
 		}
 		if(rtg.hasPower())
 		{
-			int i = rtg.getPowerScaled(52);
+			int i = (int)rtg.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 192, 52 - i, 16, i);
 		}
 	}

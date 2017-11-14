@@ -29,7 +29,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int torque;
 	public int heat;
 	public int water;
@@ -38,7 +38,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 	public int burn;
 	public int soundCycle = 0;
 	public float rotation;
-	public static final int maxPower = 100000;
+	public static final long maxPower = 100000;
 	public static final int maxTorque = 2500;
 	public static final int maxHeat = 7500;
 	public static final int maxWater = 10000;
@@ -152,7 +152,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.power = nbt.getInteger("power");
+		this.power = nbt.getLong("power");
 		this.torque = nbt.getInteger("torque");
 		this.heat = nbt.getInteger("heat");
 		this.water = nbt.getInteger("water");
@@ -173,7 +173,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setInteger("torque", torque);
 		nbt.setInteger("heat", heat);
 		nbt.setInteger("water", water);
@@ -577,7 +577,7 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 		return (torque * i) / maxTorque;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
@@ -630,12 +630,12 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

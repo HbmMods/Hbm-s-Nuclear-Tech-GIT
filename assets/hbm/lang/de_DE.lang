@@ -82,6 +82,7 @@ chem.PUF6=Plutoniumhexafluoritproduktion
 chem.BP_BIOGAS=Biogasherstellung
 chem.BP_BIOFUEL=Biodieselumesterung
 chem.SAS3=Schrabidiumtrisulfatherstellung
+chem.NITAN=NITAN-Supertreibstoff mischen
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -110,11 +111,13 @@ death.attack.flamethrower=%1$s wurde von %2$s gegrillt.
 death.attack.plasma=%1$s wurde von %2$s eingeäschert.
 death.attack.ice=%1$s wurde von %2$s in ein Eis am Stiel verwandelt.
 death.attack.cheater=%1$s's Innereien wurden zu Hafer. (???)
-death.attack.laser=%1$s wurde von %2$s in Asche verwandet.
+death.attack.laser=%1$s wurde von %2$s zerbröselt.
 death.attack.rubble=%1$s wurde von Schutt zerquetscht.
 death.attack.shrapnel=%1$s wurde von einem Schrapnell zerfetzt.
 death.attack.teleporter=%1$s wurde ins Nichts teleportiert.
 death.attack.blackhole=%1$s wurde spaghettifiziert.
+death.attack.blender=%1$s wurde in kleine, mundgerechte Stücke geschnitten.
+death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -182,6 +185,7 @@ item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
 
 tile.bomb_multi.name=Mehrzweckbombe
+tile.rejuvinator.name=Regenerationsmaschine
 
 tile.flame_war.name=Flamewar aus der Box
 tile.float_bomb.name=Schwebebombe
@@ -411,6 +415,7 @@ item.ingot_desh.name=Deshbarren
 item.nugget_desh.name=Deshnugget
 item.powder_desh.name=Deshstaub
 item.powder_desh_mix.name=Deshmischung
+item.powder_nitan_mix.name=Nitaniummischung
 
 item.solid_fuel.name=Festbrennstoff
 
@@ -677,6 +682,8 @@ item.inf_antimatter.name=Unendlicher Antimaterietank
 item.inf_antischrabidium.name=Unendlicher Antischrabidiumtank
 
 item.oil_canola.name=Rohes Canola-Öl
+
+item.pellet_coal.name=Dichter Kohlecluster
 
 item.canister_empty.name=Leerer Kanister
 item.canister_smear.name=Industrieölkanister

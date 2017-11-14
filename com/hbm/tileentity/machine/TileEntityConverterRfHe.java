@@ -14,8 +14,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityConverterRfHe extends TileEntity implements ISource, IEnergyReceiver {
 	
-	public int power;
-	public final int maxPower = 1000000;
+	public long power;
+	public final long maxPower = 1000000;
 	public List<IConsumer> list = new ArrayList();
 	public int age = 0;
 	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
@@ -118,7 +118,7 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -127,12 +127,12 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

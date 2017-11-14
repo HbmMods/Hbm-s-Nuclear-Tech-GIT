@@ -14,7 +14,7 @@ public interface IReactor {
 	
 	int getCoolantScaled(int i);
 	
-	int getPowerScaled(int i);
+	long getPowerScaled(long i);
 
 	int getHeatScaled(int i);
 

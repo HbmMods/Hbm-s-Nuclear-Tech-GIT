@@ -28,8 +28,8 @@ import net.minecraft.world.World;
 
 public class TileEntityFusionMultiblock extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
 
-	public int power;
-	public final static int maxPower = 100000000;
+	public long power;
+	public final static long maxPower = 100000000;
 	private ItemStack slots[];
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
@@ -157,7 +157,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "deut");
 		tanks[2].readFromNBT(nbt, "trit");
@@ -179,7 +179,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "deut");
 		tanks[2].writeToNBT(nbt, "trit");
@@ -968,7 +968,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	}
 	
 	@Override
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
@@ -1228,12 +1228,12 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

@@ -20,10 +20,10 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 
 	private ItemStack slots[];
 
-	public int power = 0;
+	public long power = 0;
 	public int process = 0;
 	public int soundCycle = 0;
-	public static final int maxPower = 5000000;
+	public static final long maxPower = 5000000;
 	public static final int processSpeed = 60;
 	Random rand = new Random();
 
@@ -145,7 +145,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		process = nbt.getShort("process");
 		slots = new ItemStack[getSizeInventory()];
 
@@ -161,7 +161,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setShort("process", (short) process);
 		NBTTagList list = new NBTTagList();
 
@@ -205,7 +205,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 		return false;
 	}
 
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
@@ -285,19 +285,19 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 }

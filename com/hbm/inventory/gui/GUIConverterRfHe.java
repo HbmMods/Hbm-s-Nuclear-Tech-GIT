@@ -35,7 +35,7 @@ public class GUIConverterRfHe extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 136, guiTop + 69 - i, 188, 52 - i, 12, i);
 		}
 		

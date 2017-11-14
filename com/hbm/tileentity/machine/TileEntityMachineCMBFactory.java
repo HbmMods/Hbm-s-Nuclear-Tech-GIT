@@ -23,10 +23,10 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 
 	private ItemStack slots[];
 	
-	public int power = 0;
+	public long power = 0;
 	public int process = 0;
 	public int soundCycle = 0;
-	public static final int maxPower = 100000;
+	public static final long maxPower = 100000;
 	public static final int processSpeed = 200;
 	public FluidTank tank;
 
@@ -158,7 +158,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		tank.readFromNBT(nbt, "watz");
 		process = nbt.getShort("process");
 		slots = new ItemStack[getSizeInventory()];
@@ -177,7 +177,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		tank.writeToNBT(nbt, "watz");
 		nbt.setShort("process", (short) process);
 		NBTTagList list = new NBTTagList();
@@ -220,7 +220,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -304,19 +304,19 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 

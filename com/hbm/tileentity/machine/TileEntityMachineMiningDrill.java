@@ -34,9 +34,9 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int warning;
-	public static final int maxPower = 100000;
+	public static final long maxPower = 100000;
 	int age = 0;
 	int timer = 50;
 	int radius = 100;
@@ -163,7 +163,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getInteger("powerTime");
+		this.power = nbt.getLong("powerTime");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -180,7 +180,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", power);
+		nbt.setLong("powerTime", power);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -212,7 +212,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -859,19 +859,19 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 	

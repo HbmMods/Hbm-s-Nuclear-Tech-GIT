@@ -2,9 +2,9 @@ package com.hbm.interfaces;
 
 public interface IConsumer {
 	
-	void setPower(int i);
+	void setPower(long i);
 	
-	int getPower();
+	long getPower();
 	
-	int getMaxPower();
+	long getMaxPower();
 }

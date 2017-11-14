@@ -49,7 +49,7 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 176, 52 - i, 16, i);
 		}
 		

@@ -12,7 +12,7 @@ import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
-public class GUILaunchPadTier1 extends GuiContainer {
+public class GUILaunchPadTier1 extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_launch_pad.png");
 	private TileEntityLaunchPad diFurnace;
@@ -23,6 +23,13 @@ public class GUILaunchPadTier1 extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 53, 160, 16, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -39,7 +46,7 @@ public class GUILaunchPadTier1 extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int j1 = diFurnace.getPowerScaled(160);
+		int j1 = (int)diFurnace.getPowerScaled(160);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 53, 8, 166, j1, 16);
 	}
 }

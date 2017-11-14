@@ -106,14 +106,8 @@ private TileEntityMachineDeuterium nukeBoy;
 			{
 				par1.sendProgressBarUpdate(this, 2, this.nukeBoy.sulfur);
 			}
-			
-			if(this.power != this.nukeBoy.power)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.nukeBoy.power);
-			}
 		}
 		
-		this.power = this.nukeBoy.power;
 		this.progress = this.nukeBoy.process;
 		this.water = this.nukeBoy.water;
 		this.sulfur = this.nukeBoy.sulfur;

@@ -29,9 +29,9 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int soundCycle = 0;
-	public static final int maxPower = 15000;
+	public static final long maxPower = 50000;
 	public int powerCap = 15000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
@@ -151,7 +151,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.power = nbt.getInteger("powerTime");
+		this.power = nbt.getLong("powerTime");
 		this.powerCap = nbt.getInteger("powerCap");
 		tank.readFromNBT(nbt, "fuel");
 		slots = new ItemStack[getSizeInventory()];
@@ -168,7 +168,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", power);
+		nbt.setLong("powerTime", power);
 		nbt.setInteger("powerCap", powerCap);
 		tank.writeToNBT(nbt, "fuel");
 		NBTTagList list = new NBTTagList();
@@ -206,7 +206,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		return false;
 	}
 
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / powerCap;
 	}
 
@@ -247,6 +247,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			return 300;
 		if(type.name().equals(FluidType.BIOFUEL.name()))
 			return 400;
+		if(type.name().equals(FluidType.NITAN.name()))
+			return 2500;
 		return 0;
 	}
 
@@ -305,12 +307,12 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

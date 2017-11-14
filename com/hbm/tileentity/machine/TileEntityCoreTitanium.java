@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class TileEntityCoreTitanium extends TileEntity implements ISidedInventory, IFactory, IConsumer {
 	
 	public int progress = 0;
-	public int power = 0;
+	public long power = 0;
 	public int soundCycle = 0;
 	public final static int processTime = 200;
 	public final static int maxPower = (int)((ItemBattery)ModItems.factory_core_titanium).getMaxCharge();
@@ -211,7 +211,7 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 	}
 
 	@Override
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
@@ -446,18 +446,18 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 		}
 	}
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_titanium)
 		{
-			((ItemBattery)slots[22].getItem()).setCharge(slots[22], i);
+			((ItemBattery)slots[22].getItem()).setCharge(slots[22], (int)i);
 		}
 	}
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 	}
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 

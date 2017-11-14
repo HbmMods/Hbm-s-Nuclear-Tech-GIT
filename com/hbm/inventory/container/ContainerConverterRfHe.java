@@ -23,7 +23,6 @@ public class ContainerConverterRfHe extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.power);
 		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.storage.getEnergyStored());
 	}
 	
@@ -46,18 +45,12 @@ public class ContainerConverterRfHe extends Container {
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.water != this.diFurnace.power)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.power);
-			}
-			
 			if(this.flux != this.diFurnace.storage.getEnergyStored())
 			{
 				par1.sendProgressBarUpdate(this, 1, this.diFurnace.storage.getEnergyStored());
 			}
 		}
 		
-		this.water = this.diFurnace.power;
 		this.flux = this.diFurnace.storage.getEnergyStored();
 	}
 	

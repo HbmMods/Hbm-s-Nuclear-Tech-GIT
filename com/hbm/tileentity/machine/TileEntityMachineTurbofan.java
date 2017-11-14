@@ -40,9 +40,9 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int soundCycle = 0;
-	public static final int maxPower = 150000;
+	public static final long maxPower = 150000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
@@ -157,7 +157,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.power = nbt.getInteger("powerTime");
+		this.power = nbt.getLong("powerTime");
 		tank.readFromNBT(nbt, "fuel");
 		slots = new ItemStack[getSizeInventory()];
 
@@ -173,7 +173,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", power);
+		nbt.setLong("powerTime", power);
 		tank.writeToNBT(nbt, "fuel");
 		NBTTagList list = new NBTTagList();
 
@@ -203,7 +203,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 		return false;
 	}
 
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
@@ -515,12 +515,12 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

@@ -40,7 +40,7 @@ public class GUICoreTitanium extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 62, guiTop + 72, 0, 240, i, 16);
 		}
 		

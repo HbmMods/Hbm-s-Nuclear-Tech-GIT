@@ -96,7 +96,7 @@ public class EntityNukeExplosionMK3 extends Entity {
         	this.did = true;
         }
         
-        speed = 20;
+        speed = 100;
         
         boolean flag = false;
         boolean flag2 = false;

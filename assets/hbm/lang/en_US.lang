@@ -82,6 +82,7 @@ chem.PUF6=Plutonium Hexafluoride Production
 chem.BP_BIOGAS=Biogas Production
 chem.BP_BIOFUEL=Biofuel Transesterification
 chem.SAS3=Schrabidium Trisulfide Production
+chem.NITAN=NITAN Super Fuel Mixing
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -115,6 +116,8 @@ death.attack.rubble=%1$s was squashed by debris.
 death.attack.shrapnel=%1$s was ragged by a shrapnel.
 death.attack.teleporter=%1$s was teleported into nothingness.
 death.attack.blackhole=%1$s was spaghettified.
+death.attack.blender=%1$s was chopped in small, bite-sized pieces.
+death.attack.meteorite=%1$s was hit by a falling rock from outer space.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -174,6 +177,7 @@ tile.nuke_prototype.name=The Prototype
 tile.nuke_custom.name=Custom Nuke
 
 tile.bomb_multi.name=Multi Purpose Bomb
+tile.rejuvinator.name=Rejuvination Device
 
 tile.flame_war.name=Flame War in a Box
 tile.float_bomb.name=Levitation Bomb
@@ -411,6 +415,7 @@ item.ingot_desh.name=Desh Ingot
 item.nugget_desh.name=Desh Nugget
 item.powder_desh.name=Desh Powder
 item.powder_desh_mix.name=Desh Mixture
+item.powder_nitan_mix.name=Nitanium Mixture
 
 item.solid_fuel.name=Solid Fuel
 
@@ -677,6 +682,8 @@ item.inf_antimatter.name=Infinite Antimatter Tank
 item.inf_antischrabidium.name=Infinite Antischrabidium Tank
 
 item.oil_canola.name=Raw Canola Oil
+
+item.pellet_coal.name=Dense Coal Cluster
 
 item.canister_empty.name=Empty Canister
 item.canister_smear.name=Industrial Oil Canister

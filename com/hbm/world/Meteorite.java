@@ -5,16 +5,27 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Meteorite {
 	
 	public void generate(World world, Random rand, int x, int y, int z) {
+		
+		List<Entity> list = (List<Entity>)world.getEntitiesWithinAABBExcludingEntity(null, 
+				AxisAlignedBB.getBoundingBox(x - 7.5, y - 7.5, z - 7.5, x + 7.5, y + 7.5, z + 7.5));
+		
+		for(Entity e : list) {
+			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
+		}
 		
 		switch(rand.nextInt(500)) {
 		case 0:
@@ -50,6 +61,7 @@ public class Meteorite {
 		case 4:
 			//Bamboozle
 			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 15F, true);
+			ExplosionLarge.spawnRubble(world, x, y, z, 25);
 			return;
 		case 5:
 			//Large treasure-only meteorite
@@ -71,6 +83,15 @@ public class Meteorite {
 			List<ItemStack> list6 = new ArrayList<ItemStack>();
 			list6.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			generateBox(world, rand, x, y, z, list6);
+			return;
+		case 8:
+			//Large nuclear meteorite
+			List<ItemStack> list7 = new ArrayList<ItemStack>();
+			list7.add(new ItemStack(ModBlocks.block_meteor_treasure));
+			List<ItemStack> list8 = new ArrayList<ItemStack>();
+			list8.add(new ItemStack(ModBlocks.toxic_block));
+			generateSphere7x7(world, rand, x, y, z, list7);
+			generateSphere5x5(world, rand, x, y, z, list8);
 			return;
 		}
 		

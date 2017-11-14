@@ -21,8 +21,8 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 
 	private ItemStack slots[];
 	
-	public int power = 0;
-	public final int maxPower = 1000000;
+	public long power = 0;
+	public final long maxPower = 1000000;
 	
 	public boolean conducts = false;
 	
@@ -147,7 +147,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.power = nbt.getInteger("power");
+		this.power = nbt.getLong("power");
 		this.conducts = nbt.getBoolean("conducts");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -165,7 +165,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setBoolean("conducts", conducts);
 		NBTTagList list = new NBTTagList();
 		
@@ -208,7 +208,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 		return false;
 	}
 
-	public int getPowerRemainingScaled(int i) {
+	public long getPowerRemainingScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -235,13 +235,13 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
@@ -374,17 +374,17 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

@@ -7,7 +7,7 @@ public interface IFactory {
 	
 	boolean isStructureValid(World world);
 	
-	public int getPowerScaled(int i);
+	public long getPowerScaled(long i);
 	
 	public int getProgressScaled(int i);
 	

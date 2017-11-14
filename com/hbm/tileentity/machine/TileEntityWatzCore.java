@@ -33,8 +33,8 @@ import net.minecraft.world.World;
 
 public class TileEntityWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidSource {
 
-	public int power;
-	public final static int maxPower = 100000000;
+	public long power;
+	public final static long maxPower = 100000000;
 	public int heat;
 	
 	public int heatMultiplier;
@@ -172,7 +172,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		tank.readFromNBT(nbt, "watz");
 		
 		slots = new ItemStack[getSizeInventory()];
@@ -192,7 +192,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		tank.writeToNBT(nbt, "watz");
 		
 		NBTTagList list = new NBTTagList();
@@ -500,7 +500,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 	
 	@Override
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power/100 * i) / (maxPower/100);
 	}
 	
@@ -705,12 +705,12 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

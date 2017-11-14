@@ -50,7 +50,7 @@ public class GUIMachineDeuterium extends GuiContainer {
 		}
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 88 - i, 176, 52 - i, 16, i);
 		}
 		

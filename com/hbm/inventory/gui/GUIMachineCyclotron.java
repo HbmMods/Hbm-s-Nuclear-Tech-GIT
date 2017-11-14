@@ -46,7 +46,7 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int k = diFurnace.getPowerScaled(88);
+		int k = (int)diFurnace.getPowerScaled(88);
 		drawTexturedModalRect(guiLeft + 152, guiTop + 106 - k, 212, 88 - k, 16, k);
 
 		int l = diFurnace.getProgressScaled(36);

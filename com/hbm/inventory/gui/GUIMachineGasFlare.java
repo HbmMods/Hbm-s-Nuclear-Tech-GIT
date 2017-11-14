@@ -48,7 +48,7 @@ public class GUIMachineGasFlare extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int j = flare.getPowerScaled(52);
+		int j = (int)flare.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - j, 176, 52 - j, 16, j);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);

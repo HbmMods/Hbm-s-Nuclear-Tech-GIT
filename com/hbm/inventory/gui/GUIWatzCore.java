@@ -32,6 +32,7 @@ public class GUIWatzCore extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 106 - 18 - 70, 16, 70);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 106 - 70, 16, 70, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -54,7 +55,7 @@ public class GUIWatzCore extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int l = diFurnace.getPowerScaled(70);
+		int l = (int)diFurnace.getPowerScaled(70);
 		drawTexturedModalRect(guiLeft + 152, guiTop + 106 - 18 - l, 192, 70 - l, 16, l);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);

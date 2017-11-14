@@ -73,7 +73,7 @@ public class GUIIGenerator extends GuiInfoContainer {
 		}
 		if(diFurnace.power > 0)
 		{
-			int j = diFurnace.getPowerScaled(88);
+			int j = (int)diFurnace.getPowerScaled(88);
 			drawTexturedModalRect(guiLeft + 152, guiTop + 106 - j, 196, 88 - j, 16, j);
 		}
 		if(diFurnace.burn > 0)

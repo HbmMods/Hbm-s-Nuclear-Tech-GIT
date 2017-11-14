@@ -202,6 +202,7 @@ public class ModItems {
 	public static Item powder_actinium;
 	public static Item powder_desh;
 	public static Item powder_desh_mix;
+	public static Item powder_nitan_mix;
 
 	public static Item fragment_neodymium;
 	public static Item fragment_cobalt;
@@ -1232,6 +1233,7 @@ public class ModItems {
 		powder_lanthanium = new ItemCustomLore().setUnlocalizedName("powder_lanthanium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_lanthanium");
 		powder_actinium = new ItemCustomLore().setUnlocalizedName("powder_actinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_actinium");
 		powder_desh_mix = new Item().setUnlocalizedName("powder_desh_mix").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_desh_mix");
+		powder_nitan_mix = new Item().setUnlocalizedName("powder_nitan_mix").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_nitan_mix");
 		powder_desh = new Item().setUnlocalizedName("powder_desh").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_desh");
 		powder_lithium_tiny = new Item().setUnlocalizedName("powder_lithium_tiny").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_lithium_tiny");
 		powder_neodymium_tiny = new Item().setUnlocalizedName("powder_neodymium_tiny").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":powder_neodymium_tiny");
@@ -2203,6 +2205,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_actinium, powder_actinium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh_mix, powder_desh_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh, powder_desh.getUnlocalizedName());
+		GameRegistry.registerItem(powder_nitan_mix, powder_nitan_mix.getUnlocalizedName());
 		GameRegistry.registerItem(dust, dust.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lithium_tiny, powder_lithium_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_neodymium_tiny, powder_neodymium_tiny.getUnlocalizedName());

@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineSchrabidiumTransmutator extends GuiContainer {
+public class GUIMachineSchrabidiumTransmutator extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_transmutator.png");
 	private TileEntityMachineSchrabidiumTransmutator diFurnace;
@@ -23,6 +23,13 @@ public class GUIMachineSchrabidiumTransmutator extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -41,7 +48,7 @@ public class GUIMachineSchrabidiumTransmutator extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.getPower() > 0) {
-			int i = diFurnace.getPowerScaled(88);
+			int i = (int)diFurnace.getPowerScaled(88);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 88 - i, 16, i);
 		}
 

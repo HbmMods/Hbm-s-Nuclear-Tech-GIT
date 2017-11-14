@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -356,4 +357,15 @@ public class ItemSurveyScanner extends Item {
 		return stack;
 		
 	}
+	
+    @Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
+    {
+    	if(world.getBlock(x, y, z) == ModBlocks.block_beryllium && player.inventory.hasItem(ModItems.polaroid)) {
+    		player.travelToDimension(1);
+    		return true;
+    	}
+    	
+    	return false;
+    }
 }

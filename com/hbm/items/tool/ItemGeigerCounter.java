@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -134,12 +135,16 @@ public class ItemGeigerCounter extends Item {
 		return i * level;
 	}
 	
-    /*@Override
-	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer player, World world, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    @Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
     {
-    	if(!world.isRemote)
-    		player.travelToDimension(1);
-    	return true;
-    }*/
+    	if(world.getBlock(x, y, z) == ModBlocks.block_red_copper) {
+    		player.inventory.consumeInventoryItem(ModItems.geiger_counter);
+    		player.inventory.addItemStackToInventory(new ItemStack(ModItems.survey_scanner));
+    		return true;
+    	}
+    	
+    	return false;
+    }
 
 }

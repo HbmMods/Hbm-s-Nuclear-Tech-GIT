@@ -53,7 +53,7 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = chemplant.getPowerScaled(52);
+		int i = (int)chemplant.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 70 - i, 176, 52 - i, 16, i);
 
 		int j = chemplant.getProgressScaled(90);

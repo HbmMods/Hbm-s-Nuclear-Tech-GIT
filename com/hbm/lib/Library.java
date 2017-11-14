@@ -496,7 +496,7 @@ public class Library {
 		return list;
 	}
 	
-	public static int chargeItemsFromTE(ItemStack[] slots, int index, int power, int maxPower) {
+	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 		{
@@ -639,7 +639,7 @@ public class Library {
 		return power;
 	}
 	
-	public static int chargeTEFromItems(ItemStack[] slots, int index, int power, int maxPower) {
+	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
 		
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)
 		{
@@ -935,7 +935,7 @@ public class Library {
 			int size = that.getList().size();
 			if(size > 0)
 			{
-				int part = that.getSPower() / size;
+				long part = that.getSPower() / size;
 				for(IConsumer consume : that.getList())
 				{
 					if(consume.getPower() < consume.getMaxPower())

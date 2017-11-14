@@ -34,8 +34,8 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	
 	public int heat;
 	public final int heatMax = 100000;
-	public int power;
-	public final int powerMax = 100000;
+	public long power;
+	public final long powerMax = 100000;
 	public boolean isLoaded = false;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
@@ -172,7 +172,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		heat = nbt.getInteger("heat");
 		slots = new ItemStack[getSizeInventory()];
 		tanks[0].readFromNBT(nbt, "water");
@@ -192,7 +192,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
@@ -256,7 +256,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / powerMax;
 	}
 	
@@ -557,12 +557,12 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

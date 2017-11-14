@@ -36,10 +36,10 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int progress;
 	public int soundCycle = 0;
-	public static final int maxPower = 1000000000;
+	public static final long maxPower = 1000000000;
 	public static final int processTime = 690;
 	public boolean isOn = false;
 	public int age = 0;
@@ -151,7 +151,7 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		this.power = nbt.getInteger("power");
+		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.isOn = nbt.getBoolean("isOn");
 		slots = new ItemStack[getSizeInventory()];
@@ -168,7 +168,7 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setInteger("progress", progress);
 		nbt.setBoolean("isOn", isOn);
 		NBTTagList list = new NBTTagList();
@@ -543,8 +543,8 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 		return 0;
 	}
 	
-	public int getPowerScaled(int i) {
-		return ((power / 1000) * i) / (maxPower / 1000);
+	public long getPowerScaled(long i) {
+		return (power * i) / maxPower;
 	}
 	
 	public int getProgressScaled(int i) {
@@ -587,12 +587,12 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

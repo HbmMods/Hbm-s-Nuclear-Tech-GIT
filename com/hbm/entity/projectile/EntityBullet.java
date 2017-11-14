@@ -65,6 +65,7 @@ public class EntityBullet extends Entity implements IProjectile {
 	private boolean isTau = false;
 	private boolean instakill = false;
 	private boolean rad = false;
+	public boolean antidote = false;
 
 	public EntityBullet(World p_i1753_1_) {
 		super(p_i1753_1_);
@@ -514,6 +515,9 @@ public class EntityBullet extends Entity implements IProjectile {
 										entitylivingbase.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 1 * 60 * 20, 1));
 									}
 								}
+								
+								if(antidote)
+									entitylivingbase.clearActivePotions();
 								
 								if (this.knockbackStrength > 0) {
 									f4 = MathHelper

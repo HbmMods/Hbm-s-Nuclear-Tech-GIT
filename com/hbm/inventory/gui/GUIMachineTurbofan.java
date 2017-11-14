@@ -32,6 +32,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 69 - 52, 34, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152 - 9, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152 - 9, guiTop + 69 - i, 176 + 16, 52 - i, 16, i);
 		}
 		

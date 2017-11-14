@@ -49,7 +49,7 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = derrick.getPowerScaled(52);
+		int i = (int)derrick.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 70 - i, 176, 52 - i, 16, i);
 		
 		int k = derrick.warning;

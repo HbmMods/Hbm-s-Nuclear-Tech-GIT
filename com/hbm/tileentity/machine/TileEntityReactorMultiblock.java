@@ -45,8 +45,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 
 	public int heat;
 	public final static int heatMax = 1000000;
-	public int power;
-	public final static int maxPower = 1000000;
+	public long power;
+	public final static long maxPower = 1000000;
 	private ItemStack slots[];
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
@@ -177,7 +177,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "coolant");
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		heat = nbt.getInteger("heat");
 		
 		slots = new ItemStack[getSizeInventory()];
@@ -198,7 +198,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		super.writeToNBT(nbt);
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
 		
@@ -624,7 +624,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -702,12 +702,12 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

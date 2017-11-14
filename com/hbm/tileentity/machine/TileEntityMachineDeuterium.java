@@ -17,12 +17,12 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 
 	private ItemStack slots[];
 	
-	public int power = 0;
+	public long power = 0;
 	public int water = 0;
 	public int sulfur = 0;
 	public int process = 0;
 	public static final int maxFill = 1000;
-	public static final int maxPower = 100000;
+	public static final long maxPower = 100000;
 	public static final int processSpeed = 200;
 
 	private static final int[] slots_top = new int[] {3};
@@ -152,7 +152,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		water = nbt.getInteger("water");
 		sulfur = nbt.getInteger("sulfur");
 		process = nbt.getInteger("process");
@@ -172,7 +172,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setInteger("water", water);
 		nbt.setInteger("sulfur", sulfur);
 		nbt.setInteger("process", process);
@@ -216,7 +216,7 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -334,19 +334,19 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 }

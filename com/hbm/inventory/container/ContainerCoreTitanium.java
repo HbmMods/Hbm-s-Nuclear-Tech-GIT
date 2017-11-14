@@ -67,7 +67,7 @@ public class ContainerCoreTitanium extends Container {
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
 		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.progress);
-		crafting.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+		crafting.sendProgressBarUpdate(this, 1, (int)this.diFurnace.power);
 	}
 	
 	@Override
@@ -127,12 +127,12 @@ public class ContainerCoreTitanium extends Container {
 			
 			if(this.power != this.diFurnace.power)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.power);
+				par1.sendProgressBarUpdate(this, 1, (int)this.diFurnace.power);
 			}
 		}
 		
 		this.progress = this.diFurnace.progress;
-		this.power = this.diFurnace.power;
+		this.power = (int)this.diFurnace.power;
 	}
 	
 	@Override

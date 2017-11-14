@@ -32,6 +32,7 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 70 - 52, 16, 52);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 88 - 70, 16, 70, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int k = diFurnace.getPowerScaled(70);
+		int k = (int)diFurnace.getPowerScaled(70);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 88 - k, 208, 70 - k, 16, k);
 
 		int l = diFurnace.getHeatScaled(142);

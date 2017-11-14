@@ -107,7 +107,7 @@ public class CMBFurnaceRecipeHandler extends TemplateRecipeHandler {
         transferRectsGui = new LinkedList<RecipeTransferRect>();
         guiGui = new LinkedList<Class<? extends GuiContainer>>();
         
-        transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23 + 9, 24, 18), "cmbsmelting"));
+        transferRects.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23, 24, 18), "cmbsmelting"));
         transferRectsGui.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23, 24, 18), "cmbsmelting"));
         guiGui.add(GUIMachineCMBFactory.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);

@@ -19,10 +19,10 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int progress;
 	public int soundCycle = 0;
-	public static final int maxPower = 10000;
+	public static final long maxPower = 10000;
 	public static final int processingSpeed = 60;
 	
 	private static final int[] slots_top = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
@@ -139,7 +139,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getInteger("powerTime");
+		this.power = nbt.getLong("powerTime");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -156,7 +156,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", power);
+		nbt.setLong("powerTime", power);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -384,22 +384,22 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		this.power = i;
 		
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return this.power;
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return TileEntityMachineShredder.maxPower;
 	}
 	

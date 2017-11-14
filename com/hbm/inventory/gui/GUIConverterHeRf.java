@@ -35,12 +35,12 @@ public class GUIConverterHeRf extends GuiContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(52);
+			int i = (int)diFurnace.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 28, guiTop + 69 - i, 176, 52 - i, 12, i);
 		}
 		
 		if(diFurnace.storage.getEnergyStored() > 0) {
-			int i = diFurnace.getFluxScaled(52);
+			int i = (int)diFurnace.getFluxScaled(52);
 			drawTexturedModalRect(guiLeft + 136, guiTop + 69 - i, 188, 52 - i, 12, i);
 		}
 	}

@@ -16,12 +16,12 @@ public class TileEntityReiXMainframe extends TileEntity implements ISidedInvento
 
 	private ItemStack slots[];
 	
-	public int power = 0;
+	public long power = 0;
 	public int waste = 0;
 	public int process = 0;
 	public int soundCycle = 0;
 	public static final int maxFill = 1000;
-	public static final int maxPower = 10000;
+	public static final long maxPower = 10000;
 	public static final int processSpeed = 200;
 
 	private static final int[] slots_top = new int[] { 0, 2 };
@@ -218,19 +218,19 @@ public class TileEntityReiXMainframe extends TileEntity implements ISidedInvento
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 }

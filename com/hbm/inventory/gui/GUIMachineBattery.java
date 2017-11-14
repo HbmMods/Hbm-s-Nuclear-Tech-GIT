@@ -48,7 +48,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerRemainingScaled(52);
+			int i = (int)diFurnace.getPowerRemainingScaled(52);
 			drawTexturedModalRect(guiLeft + 62, guiTop + 69 - i, 176, 52 - i, 52, i);
 		}
 	}

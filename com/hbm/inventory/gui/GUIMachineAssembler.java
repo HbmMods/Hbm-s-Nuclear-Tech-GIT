@@ -46,7 +46,7 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = assembler.getPowerScaled(52);
+		int i = (int)assembler.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 116, guiTop + 70 - i, 176, 52 - i, 16, i);
 
 		int j = assembler.getProgressScaled(83);

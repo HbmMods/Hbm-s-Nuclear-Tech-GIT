@@ -47,7 +47,7 @@ public class GUIMachineShredder extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		if(diFurnace.power > 0) {
-			int i = diFurnace.getPowerScaled(88);
+			int i = (int)diFurnace.getPowerScaled(88);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 160 - i, 16, i);
 		}
 		

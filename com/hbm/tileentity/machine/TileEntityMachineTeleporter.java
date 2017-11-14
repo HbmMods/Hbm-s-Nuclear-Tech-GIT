@@ -13,7 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineTeleporter extends TileEntity implements IConsumer {
 
-	public int power = 0;
+	public long power = 0;
 	public int targetX = 0;
 	public int targetY = 0;
 	public int targetZ = 0;
@@ -26,7 +26,7 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		targetX = nbt.getInteger("x1");
 		targetY = nbt.getInteger("y1");
 		targetZ = nbt.getInteger("z1");
@@ -38,7 +38,7 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		nbt.setInteger("x1", targetX);
 		nbt.setInteger("y1", targetY);
 		nbt.setInteger("z1", targetZ);
@@ -91,17 +91,17 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 }

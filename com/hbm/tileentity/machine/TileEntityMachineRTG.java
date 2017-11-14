@@ -22,8 +22,8 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	
 	public int heat;
 	public final int heatMax = 75;
-	public int power;
-	public final int powerMax = 90000;
+	public long power;
+	public final long powerMax = 90000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	
@@ -189,7 +189,7 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / powerMax;
 	}
 	
@@ -265,12 +265,12 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

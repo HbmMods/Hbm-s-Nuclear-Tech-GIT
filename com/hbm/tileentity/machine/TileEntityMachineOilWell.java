@@ -40,10 +40,10 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 
 	private ItemStack slots[];
 
-	public int power;
+	public long power;
 	public int warning;
 	public int warning2;
-	public static final int maxPower = 100000;
+	public static final long maxPower = 100000;
 	public int age = 0;
 	public int age2 = 0;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -169,7 +169,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getInteger("powerTime");
+		this.power = nbt.getLong("powerTime");
 		this.age = nbt.getInteger("age");
 
 		this.tanks[0].readFromNBT(nbt, "oil");
@@ -191,7 +191,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", power);
+		nbt.setLong("powerTime", power);
 		nbt.setInteger("age", age);
 
 		this.tanks[0].writeToNBT(nbt, "oil");
@@ -228,7 +228,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -426,19 +426,19 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 	

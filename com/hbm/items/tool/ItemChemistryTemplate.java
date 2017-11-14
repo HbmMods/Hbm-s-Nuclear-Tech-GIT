@@ -60,6 +60,7 @@ public class ItemChemistryTemplate extends Item {
 		ASPHALT,
 		COOLANT,
 		DESH,
+		NITAN,
 		PEROXIDE,
 		CIRCUIT_4,
 		CIRCUIT_5,
@@ -156,6 +157,8 @@ public class ItemChemistryTemplate extends Item {
         	return 50;
         case DESH:
         	return 300;
+        case NITAN:
+        	return 50;
         case PEROXIDE:
         	return 50;
         case CIRCUIT_4:

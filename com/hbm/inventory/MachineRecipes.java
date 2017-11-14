@@ -3796,6 +3796,9 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.powder_schrabidium, 1));
 			list.add(new ItemStack(ModItems.sulfur, 2));
 			break;
+        case NITAN:
+			list.add(new ItemStack(ModItems.powder_nitan_mix, 2));
+			break;
 		default:
 			break;
 		}
@@ -3954,6 +3957,9 @@ public class MachineRecipes {
         	break;
         case SAS3:
 			input[0] = new FluidStack(2000, FluidType.ACID);
+        	break;
+        case NITAN:
+			input[0] = new FluidStack(600, FluidType.KEROSENE);
         	break;
 		default:
 			break;
@@ -4138,6 +4144,9 @@ public class MachineRecipes {
         	break;
         case SAS3:
 			input[0] = new FluidStack(1000, FluidType.SAS3);
+        	break;
+        case NITAN:
+			input[0] = new FluidStack(1000, FluidType.NITAN);
         	break;
 		default:
 			break;

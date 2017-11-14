@@ -11,8 +11,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IEnergyProvider {
 	
-	public int power;
-	public final int maxPower = 1000000;
+	public long power;
+	public final long maxPower = 1000000;
 	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
 	
 	//Thanks to the great people of Fusion Warfare for helping me with this part.
@@ -98,25 +98,25 @@ public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IE
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
-	public int getFluxScaled(int i) {
+	public long getFluxScaled(long i) {
 		return (storage.getEnergyStored() * i) / storage.getMaxEnergyStored();
 	}
 

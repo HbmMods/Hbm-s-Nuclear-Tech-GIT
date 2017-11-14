@@ -22,8 +22,8 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 
 	public ItemStack slots[];
 	
-	public int power;
-	public final int maxPower = 100000;
+	public long power;
+	public final long maxPower = 100000;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {2};
@@ -133,7 +133,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -151,7 +151,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -182,7 +182,7 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 		return false;
 	}
 
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
@@ -204,19 +204,19 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 	

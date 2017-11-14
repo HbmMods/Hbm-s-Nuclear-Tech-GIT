@@ -19,6 +19,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -65,8 +66,8 @@ public class BombRejuvinator extends Block implements IBomb {
 
 	@Override
 	public void explode(World worldObj, int x1, int y1, int z1) {
+		worldObj.setBlock(x1, y1, z1, Blocks.air);
 		if (!worldObj.isRemote) {
-			worldObj.setBlockToAir(x1, y1, z1);
 			try {
 				Chunk oldChunk = worldObj.getChunkFromBlockCoords(x1, z1);
 

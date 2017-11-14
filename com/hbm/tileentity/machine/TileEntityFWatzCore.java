@@ -28,8 +28,8 @@ import net.minecraft.world.World;
 
 public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
 
-	public int power;
-	public final static int maxPower = 100000000;
+	public long power;
+	public final static long maxPower = 100000000;
 	public boolean cooldown = false;
 
 	public FluidTank tanks[];
@@ -162,7 +162,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "cool");
 		tanks[1].readFromNBT(nbt, "amat");
 		tanks[2].readFromNBT(nbt, "aschrab");
@@ -184,7 +184,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "cool");
 		tanks[1].writeToNBT(nbt, "amat");
 		tanks[2].writeToNBT(nbt, "aschrab");
@@ -227,7 +227,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 	
 	@Override
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power/100 * i) / (maxPower/100);
 	}
 	
@@ -405,12 +405,12 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 	}
 
 	@Override
-	public int getSPower() {
+	public long getSPower() {
 		return power;
 	}
 
 	@Override
-	public void setSPower(int i) {
+	public void setSPower(long i) {
 		this.power = i;
 	}
 

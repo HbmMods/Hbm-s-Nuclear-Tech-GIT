@@ -30,10 +30,10 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 
 	private ItemStack slots[];
 
-	public int power = 0;
+	public long power = 0;
 	public int sulfur = 0;
 	public static final int maxSulfur = 1000;
-	public static final int maxPower = 100000;
+	public static final long maxPower = 100000;
 	public int age = 0;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -170,7 +170,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		power = nbt.getInteger("power");
+		power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "input");
 		tanks[1].readFromNBT(nbt, "heavy");
 		tanks[2].readFromNBT(nbt, "naphtha");
@@ -193,7 +193,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("power", power);
+		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "input");
 		tanks[1].writeToNBT(nbt, "heavy");
 		tanks[2].writeToNBT(nbt, "naphtha");
@@ -311,24 +311,24 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		}
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 

@@ -31,8 +31,8 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 
 	private ItemStack slots[];
 
-	public int power;
-	public static final int maxPower = 100000;
+	public long power;
+	public static final long maxPower = 100000;
 	public int progress;
 	public int maxProgress = 100;
 	public float rotation = 0;
@@ -154,7 +154,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		this.power = nbt.getInteger("powerTime");
+		this.power = nbt.getLong("powerTime");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -171,7 +171,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", power);
+		nbt.setLong("powerTime", power);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -203,7 +203,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		return false;
 	}
 	
-	public int getPowerScaled(int i) {
+	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
@@ -589,19 +589,19 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void setPower(int i) {
+	public void setPower(long i) {
 		power = i;
 		
 	}
 
 	@Override
-	public int getPower() {
+	public long getPower() {
 		return power;
 		
 	}
 
 	@Override
-	public int getMaxPower() {
+	public long getMaxPower() {
 		return maxPower;
 	}
 	

@@ -60,7 +60,6 @@ public class ContainerMachineRefinery extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.testNuke.power);
 	}
 	
 	@Override

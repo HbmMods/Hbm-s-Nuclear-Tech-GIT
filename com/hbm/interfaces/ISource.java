@@ -9,8 +9,8 @@ public interface ISource {
 	void ffgeua(int x, int y, int z, boolean newTact);
 
 	boolean getTact();
-	int getSPower();
-	void setSPower(int i);
+	long getSPower();
+	void setSPower(long i);
 	List<IConsumer> getList();
 	void clearList();
 }

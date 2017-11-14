@@ -20,14 +20,14 @@ public class AuxElectricityPacket implements IMessage {
 	int x;
 	int y;
 	int z;
-	int charge;
+	long charge;
 
 	public AuxElectricityPacket()
 	{
 		
 	}
 
-	public AuxElectricityPacket(int x, int y, int z, int charge)
+	public AuxElectricityPacket(int x, int y, int z, long charge)
 	{
 		this.x = x;
 		this.y = y;
@@ -40,7 +40,7 @@ public class AuxElectricityPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		charge = buf.readInt();
+		charge = buf.readLong();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class AuxElectricityPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeInt(charge);
+		buf.writeLong(charge);
 	}
 
 	public static class Handler implements IMessageHandler<AuxElectricityPacket, IMessage> {
