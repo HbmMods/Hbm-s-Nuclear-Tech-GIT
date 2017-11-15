@@ -361,7 +361,7 @@ public class ItemSurveyScanner extends Item {
     @Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
     {
-    	if(world.getBlock(x, y, z) == ModBlocks.block_beryllium && player.inventory.hasItem(ModItems.polaroid)) {
+    	if(world.getBlock(x, y, z) == ModBlocks.block_beryllium && player.inventory.hasItem(ModItems.entanglement_kit)) {
     		player.travelToDimension(1);
     		return true;
     	}

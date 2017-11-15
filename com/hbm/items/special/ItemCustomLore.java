@@ -546,6 +546,13 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Turbofan:");
 			list.add("Production x4 / Consumption x7.5");
 		}
+		
+		if(this == ModItems.entanglement_kit)
+		{
+			list.add("Teleporter crafting item.");
+			list.add("Enables dimension-shifting via");
+			list.add("beryllium-enhanced resource scanner.");
+		}
 	}
 
     @Override

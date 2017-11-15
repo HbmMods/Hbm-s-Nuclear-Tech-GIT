@@ -309,6 +309,10 @@ public class ModBlocks {
 	public static Block fwatz_plasma;
 	public static final int guiID_fwatz_multiblock = 33;
 
+	public static Block ams_base;
+	public static Block ams_emitter;
+	public static Block ams_limiter;
+
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
 
@@ -682,6 +686,10 @@ public class ModBlocks {
 		fwatz_core = new FWatzCore(Material.iron).setBlockName("fwatz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_core");
 		fwatz_plasma = new BlockPlasma(Material.iron).setBlockName("fwatz_plasma").setHardness(5.0F).setResistance(6000.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":fwatz_plasma");
 
+		ams_base = new BlockAMSBase(Material.iron).setBlockName("ams_base").setHardness(5.0F).setResistance(100.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":ams_base");
+		ams_emitter = new BlockAMSEmitter(Material.iron).setBlockName("ams_emitter").setHardness(5.0F).setResistance(100.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":ams_emitter");
+		ams_limiter = new BlockAMSLimiter(Material.iron).setBlockName("ams_limiter").setHardness(5.0F).setResistance(100.0F).setLightLevel(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":ams_limiter");
+
 		machine_converter_he_rf = new BlockConverterHeRf(Material.iron).setBlockName("machine_converter_he_rf").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_converter_he_rf");
 		machine_converter_rf_he = new BlockConverterRfHe(Material.iron).setBlockName("machine_converter_rf_he").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_converter_rf_he");
 
@@ -1047,6 +1055,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fwatz_cooler, fwatz_cooler.getUnlocalizedName());
 		GameRegistry.registerBlock(fwatz_tank, fwatz_tank.getUnlocalizedName());
 		GameRegistry.registerBlock(fwatz_plasma, fwatz_plasma.getUnlocalizedName());
+		
+		//AMS
+		GameRegistry.registerBlock(ams_base, ams_base.getUnlocalizedName());
+		GameRegistry.registerBlock(ams_emitter, ams_emitter.getUnlocalizedName());
+		GameRegistry.registerBlock(ams_limiter, ams_limiter.getUnlocalizedName());
 		
 		//Launch Pads
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

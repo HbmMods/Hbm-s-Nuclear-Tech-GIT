@@ -1342,7 +1342,7 @@ public class ModItems {
 		shimmer_handle = new Item().setUnlocalizedName("shimmer_handle").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_handle");
 
 		telepad = new Item().setUnlocalizedName("telepad").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":telepad");
-		entanglement_kit = new Item().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":entanglement_kit");
+		entanglement_kit = new ItemCustomLore().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":entanglement_kit");
 		
 		circuit_raw = new Item().setUnlocalizedName("circuit_raw").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_raw");
 		circuit_aluminium = new Item().setUnlocalizedName("circuit_aluminium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_aluminium");
