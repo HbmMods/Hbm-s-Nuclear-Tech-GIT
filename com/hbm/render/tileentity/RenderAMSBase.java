@@ -20,7 +20,7 @@ public class RenderAMSBase extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.turbofan_blades_tex);
+        bindTexture(ResourceManager.ams_base_tex);
         
         ResourceManager.ams_base.renderAll();
 

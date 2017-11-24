@@ -22,7 +22,6 @@ public class FluidTank {
 	int fluid;
 	int maxFluid;
 	public int index;
-	public static ResourceLocation fluidTextures = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids2.png");
 	public static int x = 16;
 	public static int y = 100;
 	
@@ -72,6 +71,11 @@ public class FluidTank {
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
 			
 			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
+				this.fluid = this.maxFluid;
+				return;
+			}
+			
+			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
 				this.fluid = this.maxFluid;
 				return;
 			}
@@ -162,17 +166,24 @@ public class FluidTank {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
 	}
+	
+	public ResourceLocation getSheet() {
+		return new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids" + this.type.getSheetID() + ".png");
+	}
 
 	//Called by TE to save fillstate
 	public void writeToNBT(NBTTagCompound nbt, String s) {
 		nbt.setInteger(s, fluid);
-		nbt.setInteger(s + "_type", Arrays.asList(FluidType.values()).indexOf(type));
+		//nbt.setInteger(s + "_type", Arrays.asList(FluidType.values()).indexOf(type));
+		nbt.setString(s + "_type", type.getName());
 	}
 	
 	//Called by TE to load fillstate
 	public void readFromNBT(NBTTagCompound nbt, String s) {
 		fluid = nbt.getInteger(s);
 		type = FluidType.getEnum(nbt.getInteger(s + "_type"));
+		if(type.name().equals(FluidType.NONE.name()))
+			type = FluidType.getEnumFromName(nbt.getString(s + "_type"));
 	}
 
 }

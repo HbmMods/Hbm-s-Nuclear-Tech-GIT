@@ -391,13 +391,6 @@ public class ModItems {
 	public static Item black_hole;
 	public static Item crystal_xen;
 	public static Item inf_water;
-	public static Item inf_coolant;
-	public static Item inf_deuterium;
-	public static Item inf_tritium;
-	public static Item inf_sulfur;
-	public static Item inf_diesel;
-	public static Item inf_antimatter;
-	public static Item inf_antischrabidium;
 
 	public static Item canister_empty;
 	public static Item canister_smear;
@@ -1375,13 +1368,6 @@ public class ModItems {
 		pellet_antimatter = new ItemDrop().setUnlocalizedName("pellet_antimatter").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":pellet_antimatter");
 		crystal_xen = new ItemDrop().setUnlocalizedName("crystal_xen").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":crystal_xen");
 		inf_water = new Item().setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_water");
-		inf_coolant = new Item().setUnlocalizedName("inf_coolant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_coolant");
-		inf_deuterium = new Item().setUnlocalizedName("inf_deuterium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_deuterium");
-		inf_tritium = new Item().setUnlocalizedName("inf_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_tritium");
-		inf_sulfur = new Item().setUnlocalizedName("inf_sulfur").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_sulfur");
-		inf_diesel = new Item().setUnlocalizedName("inf_diesel").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_diesel");
-		inf_antimatter = new Item().setUnlocalizedName("inf_antimatter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_antimatter");
-		inf_antischrabidium = new Item().setUnlocalizedName("inf_antischrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":inf_antischrabidium");
 
 		stamp_stone_flat = new ItemBlades(5).setUnlocalizedName("stamp_stone_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_stone_flat");
 		stamp_stone_plate = new ItemBlades(5).setUnlocalizedName("stamp_stone_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":stamp_stone_plate");
@@ -2449,13 +2435,6 @@ public class ModItems {
 		
 		//Infinite Tanks
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
-		GameRegistry.registerItem(inf_coolant, inf_coolant.getUnlocalizedName());
-		GameRegistry.registerItem(inf_deuterium, inf_deuterium.getUnlocalizedName());
-		GameRegistry.registerItem(inf_tritium, inf_tritium.getUnlocalizedName());
-		GameRegistry.registerItem(inf_sulfur, inf_sulfur.getUnlocalizedName());
-		GameRegistry.registerItem(inf_diesel, inf_diesel.getUnlocalizedName());
-		GameRegistry.registerItem(inf_antimatter, inf_antimatter.getUnlocalizedName());
-		GameRegistry.registerItem(inf_antischrabidium, inf_antischrabidium.getUnlocalizedName());
 		
 		//Large Tanks
 		GameRegistry.registerItem(tank_waste, tank_waste.getUnlocalizedName());

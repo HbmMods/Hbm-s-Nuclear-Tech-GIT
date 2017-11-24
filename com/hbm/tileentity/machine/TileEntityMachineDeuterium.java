@@ -283,9 +283,6 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 					slots[2] = null;
 				}
 			}
-			if (slots[2] != null && slots[2].getItem() == ModItems.inf_sulfur) {
-				sulfur = maxFill;
-			}
 
 			if (slots[1] != null && slots[1].getItem() == Items.water_bucket && water + 250 <= maxFill) {
 				water += 250;

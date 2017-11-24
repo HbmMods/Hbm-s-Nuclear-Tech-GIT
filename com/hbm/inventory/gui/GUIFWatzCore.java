@@ -59,10 +59,13 @@ public class GUIFWatzCore extends GuiInfoContainer {
 		int m = diFurnace.getSingularityType();
 		drawTexturedModalRect(guiLeft + 98, guiTop + 109, 240, 4 * m, 16, 4);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
-
+		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
 		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 70);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[1].getSheet());
 		diFurnace.tanks[1].renderTank(this, guiLeft + 134, guiTop + 88, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 70);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[2].getSheet());
 		diFurnace.tanks[2].renderTank(this, guiLeft + 152, guiTop + 88, diFurnace.tanks[2].getTankType().textureX() * FluidTank.x, diFurnace.tanks[2].getTankType().textureY() * FluidTank.y, 16, 70);
 	}
 }

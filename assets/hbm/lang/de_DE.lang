@@ -36,6 +36,7 @@ hbmfluid.biogas=Biogas
 hbmfluid.biofuel=Biodiesel
 hbmfluid.sas3=Schrabidiumtrisulfat
 hbmfluid.nitan=NITAN© 100 Oktan Supertreibstoff
+hbmfluid.cryogel=Kryogel
 
 chem.TEST=Test
 chem.FP_HEAVYOIL=Schwerölverarbeitung

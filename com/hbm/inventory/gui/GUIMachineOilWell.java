@@ -64,11 +64,12 @@ public class GUIMachineOilWell extends GuiInfoContainer {
 		if(l == 2)
 			drawTexturedModalRect(guiLeft + 44, guiTop + 90, 224, 52, 16, 16);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
-
+		Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[0].getSheet());
 		derrick.tanks[0].renderTank(this, guiLeft + 80, guiTop + 70, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
 		derrick.tanks[0].renderTank(this, guiLeft + 96, guiTop + 70, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
 		derrick.tanks[0].renderTank(this, guiLeft + 112, guiTop + 70, derrick.tanks[0].getTankType().textureX() * FluidTank.x, derrick.tanks[0].getTankType().textureY() * FluidTank.y, 2, 52);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(derrick.tanks[1].getSheet());
 		derrick.tanks[1].renderTank(this, guiLeft + 80, guiTop + 124, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
 		derrick.tanks[1].renderTank(this, guiLeft + 96, guiTop + 124, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
 		derrick.tanks[1].renderTank(this, guiLeft + 112, guiTop + 124, derrick.tanks[1].getTankType().textureX() * FluidTank.x, derrick.tanks[1].getTankType().textureY() * FluidTank.y, 2, 52);

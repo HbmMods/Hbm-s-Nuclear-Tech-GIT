@@ -174,6 +174,9 @@ import com.hbm.tileentity.deco.TileEntityRotationTester;
 import com.hbm.tileentity.deco.TileEntityTestContainer;
 import com.hbm.tileentity.deco.TileEntityTestRender;
 import com.hbm.tileentity.deco.TileEntityYellowBarrel;
+import com.hbm.tileentity.machine.TileEntityAMSBase;
+import com.hbm.tileentity.machine.TileEntityAMSEmitter;
+import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
 import com.hbm.tileentity.machine.TileEntityCoreAdvanced;
@@ -517,6 +520,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCrateIron.class, "tileentity_crate_iron");
 		GameRegistry.registerTileEntity(TileEntityCrateSteel.class, "tileentity_crate_steel");
 		GameRegistry.registerTileEntity(TileEntityMachinePress.class, "tileentity_press");
+		GameRegistry.registerTileEntity(TileEntityAMSBase.class, "tileentity_ams_base");
+		GameRegistry.registerTileEntity(TileEntityAMSEmitter.class, "tileentity_ams_emitter");
+		GameRegistry.registerTileEntity(TileEntityAMSLimiter.class, "tileentity_ams_limiter");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

@@ -32,7 +32,7 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.turbofan_blades_tex);
+        bindTexture(ResourceManager.ams_limiter_tex);
         
         ResourceManager.ams_limiter.renderAll();
 

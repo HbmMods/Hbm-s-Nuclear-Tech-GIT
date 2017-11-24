@@ -74,6 +74,8 @@ public class ModBlocks {
 	public static Block ore_oil;
 	public static Block ore_oil_empty;
 
+	public static Block ore_tikite;
+
 	public static Block block_uranium;
 	public static Block block_titanium;
 	public static Block block_sulfur;
@@ -310,8 +312,11 @@ public class ModBlocks {
 	public static final int guiID_fwatz_multiblock = 33;
 
 	public static Block ams_base;
+	public static final int guiID_ams_base = 54;
 	public static Block ams_emitter;
+	public static final int guiID_ams_emitter = 55;
 	public static Block ams_limiter;
+	public static final int guiID_ams_limiter = 56;
 
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
@@ -487,6 +492,8 @@ public class ModBlocks {
 
 		ore_oil = new BlockOre(Material.rock).setBlockName("ore_oil").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil");
 		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
+		
+		ore_tikite = new BlockGeneric(Material.rock).setBlockName("ore_tikite").setCreativeTab(MainRegistry.tabBlock).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tikite");
 		
 		block_uranium = new BlockGeneric(Material.iron).setBlockName("block_uranium").setCreativeTab(MainRegistry.tabBlock).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_uranium");
 		block_titanium = new BlockGeneric(Material.iron).setBlockName("block_titanium").setCreativeTab(MainRegistry.tabBlock).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_titanium");
@@ -827,6 +834,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_nether_sulfur, ore_nether_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_nether_fire, ore_nether_fire.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_nether_schrabidium, ItemSchrabidiumBlock.class, ore_nether_schrabidium.getUnlocalizedName());
+		
+		//End Ores
+		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());
 		
 		//Blocks
 		GameRegistry.registerBlock(block_uranium, block_uranium.getUnlocalizedName());

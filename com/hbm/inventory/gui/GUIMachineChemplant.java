@@ -58,12 +58,17 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 
 		int j = chemplant.getProgressScaled(90);
 		drawTexturedModalRect(guiLeft + 43, guiTop + 89, 0, 222, j, 18);
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
-
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(chemplant.tanks[0].getSheet());
 		chemplant.tanks[0].renderTank(this, guiLeft + 8, guiTop + 52, chemplant.tanks[0].getTankType().textureX() * FluidTank.x, chemplant.tanks[0].getTankType().textureY() * FluidTank.y, 16, 34);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(chemplant.tanks[1].getSheet());
 		chemplant.tanks[1].renderTank(this, guiLeft + 26, guiTop + 52, chemplant.tanks[1].getTankType().textureX() * FluidTank.x, chemplant.tanks[1].getTankType().textureY() * FluidTank.y, 16, 34);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(chemplant.tanks[2].getSheet());
 		chemplant.tanks[2].renderTank(this, guiLeft + 134, guiTop + 52, chemplant.tanks[2].getTankType().textureX() * FluidTank.x, chemplant.tanks[2].getTankType().textureY() * FluidTank.y, 16, 34);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(chemplant.tanks[3].getSheet());
 		chemplant.tanks[3].renderTank(this, guiLeft + 152, guiTop + 52, chemplant.tanks[3].getTankType().textureX() * FluidTank.x, chemplant.tanks[3].getTankType().textureY() * FluidTank.y, 16, 34);
 	}
 }

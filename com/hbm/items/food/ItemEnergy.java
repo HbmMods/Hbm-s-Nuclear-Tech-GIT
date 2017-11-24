@@ -2,6 +2,7 @@ package com.hbm.items.food;
 
 import java.util.List;
 
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -59,7 +60,7 @@ public class ItemEnergy extends Item {
         	}
         	if(this == ModItems.chocolate_milk)
         	{
-        		p_77654_2_.createExplosion(null, p_77654_3_.posX, p_77654_3_.posY, p_77654_3_.posZ, 50, true);
+        		ExplosionLarge.explode(p_77654_2_, p_77654_3_.posX, p_77654_3_.posY, p_77654_3_.posZ, 50, true, false, false);
         	}
         	if(this == ModItems.bottle_nuka)
         	{
@@ -181,11 +182,12 @@ public class ItemEnergy extends Item {
     @Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
-    	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart))
+    	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk))
     		if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
     			return p_77659_1_;
     	
     	p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
+    	
     	return p_77659_1_;
     }
     

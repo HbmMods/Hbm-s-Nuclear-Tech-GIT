@@ -38,6 +38,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			generateNether(world, rand, chunkX * 16, chunkZ * 16);
 		case 0:
 			generateSurface(world, rand, chunkX * 16, chunkZ * 16);
+		case 1:
+			generateEnd(world, rand, chunkX * 16, chunkZ * 16);
 		}
 
 	}
@@ -458,6 +460,18 @@ public class HbmWorldGen implements IWorldGenerator {
 			int randPosZ = j + rand.nextInt(16);
 			
 			(new WorldGenMinable(ModBlocks.ore_nether_fire, 3, Blocks.netherrack)).generate(world, rand, randPosX, randPosY, randPosZ);
+		}
+	}
+
+	private void generateEnd(World world, Random rand, int i, int j) {
+
+		for (int k = 0; k < 8; k++)
+		{
+			int randPosX = i + rand.nextInt(16);
+			int randPosY = rand.nextInt(127);
+			int randPosZ = j + rand.nextInt(16);
+			
+			(new WorldGenMinable(ModBlocks.ore_tikite, 6, Blocks.end_stone)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 	}
 

@@ -57,9 +57,8 @@ public class GUIMachineCoal extends GuiInfoContainer {
 		{
 			drawTexturedModalRect(guiLeft + 79, guiTop + 34, 208, 0, 18, 18);
 		}
-
-		Minecraft.getMinecraft().getTextureManager().bindTexture(FluidTank.fluidTextures);
-
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
 		diFurnace.tank.renderTank(this, guiLeft + 8, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }

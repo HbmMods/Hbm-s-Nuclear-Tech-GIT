@@ -42,7 +42,7 @@ public class RenderSmallNukeAlt extends Render {
 
 	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
-		if(((EntityNukeCloudSmall)p_76986_1_).getDataWatcher().getWatchableObjectShort(17) > 100)
+		if(((EntityNukeCloudSmall)p_76986_1_).age > 100)
 		{
 			this.renderMush((EntityNukeCloudSmall)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
 			this.renderCloud((EntityNukeCloudSmall)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
@@ -58,7 +58,7 @@ public class RenderSmallNukeAlt extends Render {
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
-        if(p_76986_1_.getDataWatcher().getWatchableObjectShort(17) < 150)
+        if(p_76986_1_.age < 150)
         {
         	//GL11.glTranslatef(0.0F, -60F + ((p_76986_1_.age - 100) * 60 / 50), 0.0F);
         	GL11.glTranslatef(0.0F, p_76986_1_.height, 0.0F);
@@ -81,7 +81,7 @@ public class RenderSmallNukeAlt extends Render {
         {
         	scale += 0.02;
         }*/
-        GL11.glScalef(p_76986_1_.getDataWatcher().getWatchableObjectShort(18), 1.0F, p_76986_1_.getDataWatcher().getWatchableObjectShort(18));
+        GL11.glScalef(p_76986_1_.scale, 1.0F, p_76986_1_.scale);
         GL11.glScalef(50F, 25.0F, 50F);
         
         bindTexture(ringBigTexture);
@@ -97,7 +97,7 @@ public class RenderSmallNukeAlt extends Render {
         GL11.glDisable(GL11.GL_CULL_FACE);
     	GL11.glTranslatef(0.0F, 18F, 0.0F);
     	//ring += 0.1F;
-        GL11.glScalef(p_76986_1_.getDataWatcher().getWatchableObjectShort(19) * 10, 30F, p_76986_1_.getDataWatcher().getWatchableObjectShort(19) * 10);
+        GL11.glScalef(p_76986_1_.ring * 10, 30F, p_76986_1_.ring * 10);
         
         bindTexture(ringTexture);
         ringModel.renderAll();
@@ -108,13 +108,13 @@ public class RenderSmallNukeAlt extends Render {
 
         Tessellator tessellator = Tessellator.instance;
 		RenderHelper.disableStandardItemLighting();
-        float f1 = (p_76986_1_.getDataWatcher().getWatchableObjectShort(17) + 2.0F) / 200.0F;
+        float f1 = (p_76986_1_.age + 2.0F) / 200.0F;
         float f2 = 0.0F;
         int count = 250;
         
-        if(p_76986_1_.getDataWatcher().getWatchableObjectShort(17) < 250)
+        if(p_76986_1_.age < 250)
         {
-        	count = p_76986_1_.getDataWatcher().getWatchableObjectShort(17) * 3;
+        	count = p_76986_1_.age * 3;
         }
 
         if (f1 > 0.8F)

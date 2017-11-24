@@ -16,6 +16,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeMike;
 import com.hbm.tileentity.bomb.TileEntityNukePrototype;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
+import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
 import com.hbm.tileentity.machine.TileEntityCoreAdvanced;
@@ -488,6 +489,14 @@ public class GUIHandler implements IGuiHandler {
 					return new ContainerMachinePress(player.inventory, (TileEntityMachinePress) entity);
 				}
 			}
+
+			case ModBlocks.guiID_ams_limiter:
+			{
+				if(entity instanceof TileEntityAMSLimiter)
+				{
+					return new ContainerAMSLimiter(player.inventory, (TileEntityAMSLimiter) entity);
+				}
+			}
 		}
 		return null;
 	}
@@ -914,6 +923,14 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachinePress)
 					{
 						return new GUIMachinePress(player.inventory, (TileEntityMachinePress) entity);
+					}
+				}
+				
+				case ModBlocks.guiID_ams_limiter:
+				{
+					if(entity instanceof TileEntityAMSLimiter)
+					{
+						return new GUIAMSLimiter(player.inventory, (TileEntityAMSLimiter) entity);
 					}
 				}
 			}

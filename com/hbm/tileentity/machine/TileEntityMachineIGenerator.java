@@ -387,8 +387,11 @@ public class TileEntityMachineIGenerator extends TileEntity implements ISidedInv
 			}
 		}
 		
-		if (slots[13] != null && slots[13].getItem() == ModItems.inf_diesel)
+		if (slots[13] != null && slots[13].getItem() == ModItems.fluid_barrel_infinite) {
 			this.fuel = TileEntityMachineIGenerator.maxFuel;
+			this.lubricant = TileEntityMachineIGenerator.maxLubricant;
+			this.water = TileEntityMachineIGenerator.maxWater;
+		}
 	}
 	
 	public void doLubeTask() {

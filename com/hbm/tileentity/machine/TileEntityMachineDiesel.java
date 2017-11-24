@@ -32,7 +32,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public long power;
 	public int soundCycle = 0;
 	public static final long maxPower = 50000;
-	public int powerCap = 15000;
+	public long powerCap = 50000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
@@ -152,7 +152,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getLong("powerTime");
-		this.powerCap = nbt.getInteger("powerCap");
+		this.powerCap = nbt.getLong("powerCap");
 		tank.readFromNBT(nbt, "fuel");
 		slots = new ItemStack[getSizeInventory()];
 
@@ -169,7 +169,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("powerTime", power);
-		nbt.setInteger("powerCap", powerCap);
+		nbt.setLong("powerCap", powerCap);
 		tank.writeToNBT(nbt, "fuel");
 		NBTTagList list = new NBTTagList();
 
@@ -225,9 +225,15 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			tank.setType(3, 4, slots);
 			tank.loadTank(0, 1, slots);
 			tank.updateTank(xCoord, yCoord, zCoord);
+
+			FluidType type = tank.getTankType();
+			if(type.name().equals(FluidType.NITAN.name()))
+				powerCap = maxPower * 10;
+			else
+				powerCap = maxPower;
 			
 			// Battery Item
-			power = Library.chargeItemsFromTE(slots, 2, power, maxPower);
+			power = Library.chargeItemsFromTE(slots, 2, power, powerCap);
 
 			generate();
 
@@ -248,7 +254,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 		if(type.name().equals(FluidType.BIOFUEL.name()))
 			return 400;
 		if(type.name().equals(FluidType.NITAN.name()))
-			return 2500;
+			return 5000;
 		return 0;
 	}
 
