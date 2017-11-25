@@ -20,5 +20,10 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
 			gui.drawFluidInfo(new String[] { power + "/" + maxPower + "HE" }, mouseX, mouseY);
 	}
+	
+	public void drawCustomInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, String[] text) {
+		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
+			this.func_146283_a(Arrays.asList(text), mouseX, mouseY);
+	}
 
 }

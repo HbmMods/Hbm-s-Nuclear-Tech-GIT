@@ -34,6 +34,8 @@ public class GUIAMSLimiter extends GuiInfoContainer {
 
 		limiter.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 69 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 69 - 52, 16, 52, limiter.power, limiter.maxPower);
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, new String[] { "Efficiency:", limiter.efficiency + "%" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52, new String[] { "Heat:", limiter.heat + "/" + limiter.maxHeat });
 	}
 
 	@Override
@@ -52,6 +54,12 @@ public class GUIAMSLimiter extends GuiInfoContainer {
 		
 		int i = (int) limiter.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 134, guiTop + 69 - i, 192, 52 - i, 16, i);
+		
+		int j = limiter.getEfficiencyScaled(52);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 69 - j, 208, 52 - j, 16, j);
+		
+		int k = limiter.getHeatScaled(52);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - k, 176, 52 - k, 16, k);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(limiter.tank.getSheet());
 

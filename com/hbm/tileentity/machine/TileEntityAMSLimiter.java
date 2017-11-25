@@ -32,9 +32,9 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	public long power = 0;
 	public static final long maxPower = 1000000;
 	public int efficiency = 0;
-	public static final long maxEfficiency = 100;
+	public static final int maxEfficiency = 100;
 	public int heat = 0;
-	public static final long maxHeat = 2500;
+	public static final int maxHeat = 2500;
 	public int age = 0;
 	public int warning = 0;
 	public int mode = 0;
@@ -211,6 +211,32 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 			
 			tank.setType(0, 1, slots);
 			tank.updateTank(xCoord, yCoord, zCoord);
+			
+			heat = 0;
+
+			if(slots[0] != null)
+				heat += maxHeat/2;
+			if(slots[1] != null)
+				heat += maxHeat/2;
+			
+			if(power > 0) {
+				//" - (maxHeat / 2)" offsets center to 50% instead of 0%
+				efficiency = Math.round(calcEffect(power, heat - (maxHeat / 2)) * 100);
+				power -= Math.ceil(power * 0.025);
+				heat += efficiency;
+			} else {
+				efficiency = 0;
+			}
+			
+			//TODO
+			/*if(tank.getTankType().name().equals(FluidType.CRYOGEL.name())) {
+				
+				int i = (int) (1/Math.sqrt(heat + 1));
+				
+				if() {
+					
+				}
+			}*/
 
 			power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 			
@@ -218,8 +244,28 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 		}
 	}
 	
+	private float gauss(float a, float x) {
+		
+		//Greater values -> less difference of temperate impact
+		double amplifier = 0.10;
+		
+		return (float) ( (1/Math.sqrt(a * Math.PI)) * Math.pow(Math.E, -1 * Math.pow(x, 2)/amplifier) );
+	}
+	
+	private float calcEffect(float a, float x) {
+		return (float) (gauss( 1 / a, x / maxHeat) * Math.sqrt(Math.PI * 2) / (Math.sqrt(2) * Math.sqrt(maxPower)));
+	}
+	
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
+	}
+	
+	public int getEfficiencyScaled(int i) {
+		return (efficiency * i) / maxEfficiency;
+	}
+	
+	public int getHeatScaled(int i) {
+		return (heat * i) / maxHeat;
 	}
 
 	@Override
