@@ -1,8 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
-import com.hbm.tileentity.machine.TileEntityMachinePress;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,18 +10,17 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerAMSLimiter extends Container {
+public class ContainerAMSEmitter extends Container {
 
-private TileEntityAMSLimiter amsLmiter;
+private TileEntityAMSEmitter amsEmitter;
 
 	private int heat;
 	private int efficiency;
 	private int warning;
-	private int mode;
 	
-	public ContainerAMSLimiter(InventoryPlayer invPlayer, TileEntityAMSLimiter tedf) {
+	public ContainerAMSEmitter(InventoryPlayer invPlayer, TileEntityAMSEmitter tedf) {
 		efficiency = 0;
-		amsLmiter = tedf;
+		amsEmitter = tedf;
 
 		//Fluid In
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 17));
@@ -82,7 +80,7 @@ private TileEntityAMSLimiter amsLmiter;
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return amsLmiter.isUseableByPlayer(player);
+		return amsEmitter.isUseableByPlayer(player);
 	}
 	
 	@Override
@@ -93,50 +91,40 @@ private TileEntityAMSLimiter amsLmiter;
 		{
 			ICrafting par1 = (ICrafting)this.crafters.get(i);
 			
-			if(this.heat != this.amsLmiter.heat)
+			if(this.heat != this.amsEmitter.heat)
 			{
-				par1.sendProgressBarUpdate(this, 0, this.amsLmiter.heat);
+				par1.sendProgressBarUpdate(this, 0, this.amsEmitter.heat);
 			}
 			
-			if(this.efficiency != this.amsLmiter.efficiency)
+			if(this.efficiency != this.amsEmitter.efficiency)
 			{
-				par1.sendProgressBarUpdate(this, 1, this.amsLmiter.efficiency);
+				par1.sendProgressBarUpdate(this, 1, this.amsEmitter.efficiency);
 			}
 			
-			if(this.warning != this.amsLmiter.warning)
+			if(this.warning != this.amsEmitter.warning)
 			{
-				par1.sendProgressBarUpdate(this, 2, this.amsLmiter.warning);
-			}
-			
-			if(this.mode != this.amsLmiter.mode)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.amsLmiter.mode);
+				par1.sendProgressBarUpdate(this, 2, this.amsEmitter.warning);
 			}
 		}
 
-		this.heat = this.amsLmiter.heat;
-		this.efficiency = this.amsLmiter.efficiency;
-		this.warning = this.amsLmiter.warning;
-		this.mode = this.amsLmiter.mode;
+		this.heat = this.amsEmitter.heat;
+		this.efficiency = this.amsEmitter.efficiency;
+		this.warning = this.amsEmitter.warning;
 	}
 	
 	@Override
 	public void updateProgressBar(int i, int j) {
 		if(i == 0)
 		{
-			amsLmiter.heat = j;
+			amsEmitter.heat = j;
 		}
 		if(i == 1)
 		{
-			amsLmiter.efficiency = j;
+			amsEmitter.efficiency = j;
 		}
 		if(i == 2)
 		{
-			amsLmiter.warning = j;
-		}
-		if(i == 3)
-		{
-			amsLmiter.mode = j;
+			amsEmitter.warning = j;
 		}
 	}
 }

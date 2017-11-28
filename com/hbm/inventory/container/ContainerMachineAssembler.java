@@ -18,7 +18,7 @@ private TileEntityMachineAssembler nukeBoy;
 	private int maxProgress;
 	
 	public ContainerMachineAssembler(InventoryPlayer invPlayer, TileEntityMachineAssembler tedf) {
-		
+		progress = 0;
 		nukeBoy = tedf;
 
 		//Battery

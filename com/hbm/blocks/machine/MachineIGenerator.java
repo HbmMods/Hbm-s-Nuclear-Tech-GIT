@@ -171,33 +171,4 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 				world.func_147480_a(x, y, z, true);
 		}
 	}
-	
-	@Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z)
-    {
-		return true;
-    }
-
-    @Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int i)
-    {
-    	/*MultiblockHandler.EnumDirection dir = MultiblockHandler.IntToEnum(world.getBlockMetadata(x, y, z));
-    	
-    	switch(dir) {
-    	case North:
-            MultiblockHandler.removeAll(world, x, y, z, MultiblockHandler.iGenDimensionNorth);
-    		break;
-    	case East:
-            MultiblockHandler.removeAll(world, x, y, z, MultiblockHandler.iGenDimensionEast);
-    		break;
-    	case West:
-            MultiblockHandler.removeAll(world, x, y, z, MultiblockHandler.iGenDimensionWest);
-    		break;
-    	case South:
-            MultiblockHandler.removeAll(world, x, y, z, MultiblockHandler.iGenDimensionSouth);
-    		break;
-    	default: break;
-    	}*/
-    	world.removeTileEntity(x, y, z);
-    }
 }

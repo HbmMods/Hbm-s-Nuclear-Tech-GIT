@@ -2,6 +2,9 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.tileentity.machine.TileEntityAMSBase;
+import com.hbm.tileentity.machine.TileEntityAMSEmitter;
+import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -60,8 +63,21 @@ public class AuxGaugePacket implements IMessage {
 			try {
 				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
-				if (true) {
+				if (te instanceof TileEntityAMSLimiter) {
+					TileEntityAMSLimiter limiter = (TileEntityAMSLimiter)te;
+					limiter.locked = m.value == 1;
+				}
+				if (te instanceof TileEntityAMSEmitter) {
+					TileEntityAMSEmitter emitter = (TileEntityAMSEmitter)te;
+					emitter.locked = m.value == 1;
+				}
+				if (te instanceof TileEntityAMSBase) {
+					TileEntityAMSBase base = (TileEntityAMSBase)te;
 					
+					if(m.id == 0)
+						base.locked = m.value == 1;
+					else if(m.id == 1)
+						base.color = m.value;
 				}
 				
 			} catch (Exception x) { }

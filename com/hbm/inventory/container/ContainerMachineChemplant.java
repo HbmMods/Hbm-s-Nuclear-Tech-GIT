@@ -19,7 +19,7 @@ private TileEntityMachineChemplant nukeBoy;
 	private int maxProgress;
 	
 	public ContainerMachineChemplant(InventoryPlayer invPlayer, TileEntityMachineChemplant tedf) {
-		
+		progress = 0;
 		nukeBoy = tedf;
 
 		//Battery

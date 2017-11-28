@@ -61,6 +61,14 @@ public class GUIAMSLimiter extends GuiInfoContainer {
 		int k = limiter.getHeatScaled(52);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 69 - k, 176, 52 - k, 16, k);
 		
+		int l = limiter.mode;
+		if(l > 0)
+			drawTexturedModalRect(guiLeft + 98, guiTop + 17, 176, 84 + 16 * l, 16, 16);
+		
+		int m = limiter.warning;
+		if(m > 0)
+			drawTexturedModalRect(guiLeft + 80, guiTop + 17, 176, 36 + 16 * m, 16, 16);
+		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(limiter.tank.getSheet());
 
 		limiter.tank.renderTank(this, guiLeft + 26, guiTop + 69, limiter.tank.getTankType().textureX() * FluidTank.x, limiter.tank.getTankType().textureY() * FluidTank.y, 16, 52);

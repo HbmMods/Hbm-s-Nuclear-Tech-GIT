@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.particle.EntityGasFlameFX;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -13,6 +15,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
@@ -24,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import scala.util.Random;
 
 public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
 
@@ -38,7 +42,10 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	public int age = 0;
 	public int warning = 0;
 	public int mode = 0;
+	public boolean locked = false;
 	public FluidTank tank;
+	
+	Random rand = new Random();
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 0 };
@@ -48,7 +55,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	
 	public TileEntityAMSLimiter() {
 		slots = new ItemStack[4];
-		tank = new FluidTank(FluidType.COOLANT, 64000, 0);
+		tank = new FluidTank(FluidType.COOLANT, 8000, 0);
 	}
 
 	@Override
@@ -153,6 +160,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 		tank.readFromNBT(nbt, "coolant");
 		efficiency = nbt.getInteger("efficiency");
 		heat = nbt.getInteger("heat");
+		locked = nbt.getBoolean("locked");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -171,8 +179,9 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
 		tank.writeToNBT(nbt, "coolant");
-		nbt.setInteger("power", efficiency);
-		nbt.setInteger("power", heat);
+		nbt.setInteger("efficiency", efficiency);
+		nbt.setInteger("heat", heat);
+		nbt.setBoolean("locked", locked);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -209,38 +218,127 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 
 		if (!worldObj.isRemote) {
 			
-			tank.setType(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
-			
-			heat = 0;
-
-			if(slots[0] != null)
-				heat += maxHeat/2;
-			if(slots[1] != null)
-				heat += maxHeat/2;
-			
-			if(power > 0) {
-				//" - (maxHeat / 2)" offsets center to 50% instead of 0%
-				efficiency = Math.round(calcEffect(power, heat - (maxHeat / 2)) * 100);
-				power -= Math.ceil(power * 0.025);
-				heat += efficiency;
-			} else {
-				efficiency = 0;
-			}
-			
-			//TODO
-			/*if(tank.getTankType().name().equals(FluidType.CRYOGEL.name())) {
+			if(!locked) {
 				
-				int i = (int) (1/Math.sqrt(heat + 1));
+				tank.setType(0, 1, slots);
+				tank.updateTank(xCoord, yCoord, zCoord);
 				
-				if() {
-					
+				if(power > 0) {
+					//" - (maxHeat / 2)" offsets center to 50% instead of 0%
+					efficiency = Math.round(calcEffect(power, heat - (maxHeat / 2)) * 100);
+					power -= Math.ceil(power * 0.025);
+					warning = 0;
+				} else {
+					efficiency = 0;
+					warning = 1;
 				}
-			}*/
+				
+				if(tank.getTankType().name().equals(FluidType.CRYOGEL.name())) {
+					
+					if(tank.getFill() >= 5) {
+						if(heat > 0)
+							tank.setFill(tank.getFill() - 5);
 
-			power = Library.chargeTEFromItems(slots, 3, power, maxPower);
-			
+						if(heat <= maxHeat / 2)
+							if(efficiency > 0)
+								heat += efficiency;
+							else
+								for(int i = 0; i < 10; i++)
+									if(heat > 0)
+										heat--;
+						
+						for(int i = 0; i < 10; i++)
+							if(heat > maxHeat / 2)
+								heat--;
+					} else {
+						heat += efficiency;
+					}
+				} else if(tank.getTankType().name().equals(FluidType.COOLANT.name())) {
+					
+					if(tank.getFill() >= 5) {
+						if(heat > 0)
+							tank.setFill(tank.getFill() - 5);
+
+						if(heat <= maxHeat / 4)
+							if(efficiency > 0)
+								heat += efficiency;
+							else
+								for(int i = 0; i < 5; i++)
+									if(heat > 0)
+										heat--;
+						
+						for(int i = 0; i < 5; i++)
+							if(heat > maxHeat / 4)
+								heat--;
+					} else {
+						heat += efficiency;
+					}
+				} else if(tank.getTankType().name().equals(FluidType.WATER.name())) {
+					
+					if(tank.getFill() >= 15) {
+						if(heat > 0)
+							tank.setFill(tank.getFill() - 15);
+
+						if(heat <= maxHeat * 0.85)
+							if(efficiency > 0)
+								heat += efficiency;
+							else
+								for(int i = 0; i < 2; i++)
+									if(heat > 0)
+										heat--;
+						
+						for(int i = 0; i < 2; i++)
+							if(heat > maxHeat * 0.85)
+								heat--;
+					} else {
+						heat += efficiency;
+					}
+				} else {
+					heat += efficiency;
+					warning = 2;
+				}
+				
+				mode = 0;
+				if(slots[2] != null) {
+					if(slots[2].getItem() == ModItems.ams_focus_limiter)
+						mode = 1;
+					if(slots[2].getItem() == ModItems.ams_focus_booster)
+						mode = 2;
+				}
+				
+				if(tank.getFill() <= 5 || heat > maxHeat * 0.9)
+					warning = 2;
+				
+				if(heat > maxHeat) {
+					heat = maxHeat;
+					locked = true;
+					ExplosionLarge.spawnShock(worldObj, xCoord, yCoord, zCoord, 24, 3);
+					ExplosionLarge.spawnBurst(worldObj, xCoord, yCoord, zCoord, 24, 3);
+				}
+	
+				power = Library.chargeTEFromItems(slots, 3, power, maxPower);
+				
+			} else {
+				//fire particles n stuff
+				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+				double pos = rand.nextDouble() * 2.5;
+				double off = 0.25;
+				if(meta == 2)
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 + off, yCoord + 5.5, zCoord + 0.5 - pos, 0.0, 0.0, 0.0));
+				if(meta == 3)
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 - off, yCoord + 5.5, zCoord + 0.5 + pos, 0.0, 0.0, 0.0));
+				if(meta == 4)
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 - pos, yCoord + 5.5, zCoord + 0.5 - off, 0.0, 0.0, 0.0));
+				if(meta == 5)
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.5 + pos, yCoord + 5.5, zCoord + 0.5 + off, 0.0, 0.0, 0.0));
+				
+				efficiency = 0;
+				power = 0;
+				warning = 3;
+			}
+
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));
 		}
 	}
 	

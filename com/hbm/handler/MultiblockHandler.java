@@ -67,6 +67,11 @@ public class MultiblockHandler {
 	public static final int[] turbofanDimensionEast  = new int[] { 4, 4, 2, 0, 1, 1 };
 	public static final int[] turbofanDimensionSouth = new int[] { 1, 1, 2, 0, 4, 4 };
 	public static final int[] turbofanDimensionWest  = new int[] { 4, 4, 2, 0, 1, 1 };
+	public static final int[] AMSLimiterDimensionNorth = new int[] { 0, 0, 5, 0, 2, 2 };
+	public static final int[] AMSLimiterDimensionEast  = new int[] { 2, 2, 5, 0, 0, 0 };
+	public static final int[] AMSLimiterDimensionSouth = new int[] { 0, 0, 5, 0, 2, 2 };
+	public static final int[] AMSLimiterDimensionWest  = new int[] { 2, 2, 5, 0, 0, 0 };
+	public static final int[] AMSEmitterDimension  = new int[] { 2, 2, 5, 0, 2, 2, };
 	
 	//Approved!
 	public static boolean checkSpace(World world, int x, int y, int z, int[] i) {

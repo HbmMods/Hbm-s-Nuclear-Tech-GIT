@@ -17,6 +17,8 @@ public class ContainerCentrifuge extends Container {
 	private int dualPower;
 	
 	public ContainerCentrifuge(InventoryPlayer invPlayer, TileEntityMachineCentrifuge tedf) {
+		dualCookTime = 0;
+		dualPower = 0;
 		
 		diFurnace = tedf;
 		

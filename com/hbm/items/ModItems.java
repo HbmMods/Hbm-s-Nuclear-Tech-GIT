@@ -375,6 +375,21 @@ public class ModItems {
 
 	public static Item crystal_energy;
 	public static Item pellet_coolant;
+
+	public static Item ams_catalyst_blank;
+	public static Item ams_catalyst_aluminium;
+	public static Item ams_catalyst_beryllium;
+	public static Item ams_catalyst_caesium;
+	public static Item ams_catalyst_cerium;
+	public static Item ams_catalyst_cobalt;
+	public static Item ams_catalyst_copper;
+	public static Item ams_catalyst_euphemium;
+	public static Item ams_catalyst_iron;
+	public static Item ams_catalyst_lithium;
+	public static Item ams_catalyst_niobium;
+	public static Item ams_catalyst_strontium;
+	public static Item ams_catalyst_thorium;
+	public static Item ams_catalyst_tungsten;
 	
 	public static Item cell_empty;
 	public static Item cell_uf6;
@@ -752,6 +767,10 @@ public class ModItems {
 
 	public static Item factory_core_titanium;
 	public static Item factory_core_advanced;
+
+	public static Item ams_focus_blank;
+	public static Item ams_focus_limiter;
+	public static Item ams_focus_booster;
 
 	public static Item upgrade_template;
 	public static Item upgrade_speed_1;
@@ -1353,6 +1372,21 @@ public class ModItems {
 		crystal_energy = new ItemCustomLore().setUnlocalizedName("crystal_energy").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":crystal_energy");
 		pellet_coolant = new ItemCustomLore().setUnlocalizedName("pellet_coolant").setMaxDamage(41400).setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_coolant");
 
+		ams_catalyst_blank = new Item().setUnlocalizedName("ams_catalyst_blank").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_blank");
+		ams_catalyst_aluminium = new ItemCatalyst(0xCCCCCC).setUnlocalizedName("ams_catalyst_aluminium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_aluminium");
+		ams_catalyst_beryllium = new ItemCatalyst(0x97978B).setUnlocalizedName("ams_catalyst_beryllium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_beryllium");
+		ams_catalyst_caesium = new ItemCatalyst(0x6400FF).setUnlocalizedName("ams_catalyst_caesium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_caesium");
+		ams_catalyst_cerium = new ItemCatalyst(0x1D3FFF).setUnlocalizedName("ams_catalyst_cerium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_cerium");
+		ams_catalyst_cobalt = new ItemCatalyst(0x789BBE).setUnlocalizedName("ams_catalyst_cobalt").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_cobalt");
+		ams_catalyst_copper = new ItemCatalyst(0xAADE29).setUnlocalizedName("ams_catalyst_copper").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_copper");
+		ams_catalyst_euphemium = new ItemCatalyst(0xFF9CD2).setUnlocalizedName("ams_catalyst_euphemium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_euphemium");
+		ams_catalyst_iron = new ItemCatalyst(0xFF7E22).setUnlocalizedName("ams_catalyst_iron").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_iron");
+		ams_catalyst_lithium = new ItemCatalyst(0xFF2727).setUnlocalizedName("ams_catalyst_lithium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_lithium");
+		ams_catalyst_niobium = new ItemCatalyst(0x3BF1B6).setUnlocalizedName("ams_catalyst_niobium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_niobium");
+		ams_catalyst_strontium = new ItemCatalyst(0xDD0D35).setUnlocalizedName("ams_catalyst_strontium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_strontium");
+		ams_catalyst_thorium = new ItemCatalyst(0x653B22).setUnlocalizedName("ams_catalyst_thorium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_thorium");
+		ams_catalyst_tungsten = new ItemCatalyst(0xF5FF48).setUnlocalizedName("ams_catalyst_tungsten").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_tungsten");
+		
 		cell_empty = new ItemCell().setUnlocalizedName("cell_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":cell_empty");
 		cell_uf6 = new Item().setUnlocalizedName("cell_uf6").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_uf6");
 		cell_puf6 = new Item().setUnlocalizedName("cell_puf6").setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_puf6");
@@ -1752,6 +1786,10 @@ public class ModItems {
 
 		factory_core_titanium = new ItemBattery(70400).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_titanium");
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
+
+		ams_focus_blank = new ItemCustomLore().setUnlocalizedName("ams_focus_blank").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ams_focus_blank");
+		ams_focus_limiter = new ItemCustomLore().setUnlocalizedName("ams_focus_limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ams_focus_limiter");
+		ams_focus_booster = new ItemCustomLore().setUnlocalizedName("ams_focus_booster").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ams_focus_booster");
 
 		upgrade_template = new ItemCustomLore().setUnlocalizedName("upgrade_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":upgrade_template");
 		upgrade_speed_1 = new ItemCustomLore().setUnlocalizedName("upgrade_speed_1").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":upgrade_speed_1");
@@ -2566,6 +2604,22 @@ public class ModItems {
 		GameRegistry.registerItem(part_copper, part_copper.getUnlocalizedName());
 		GameRegistry.registerItem(part_plutonium, part_plutonium.getUnlocalizedName());
 		
+		//AMS Catalysts
+		GameRegistry.registerItem(ams_catalyst_blank, ams_catalyst_blank.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_aluminium, ams_catalyst_aluminium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_beryllium, ams_catalyst_beryllium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_caesium, ams_catalyst_caesium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_cerium, ams_catalyst_cerium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_cobalt, ams_catalyst_cobalt.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_copper, ams_catalyst_copper.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_euphemium, ams_catalyst_euphemium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_iron, ams_catalyst_iron.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_lithium, ams_catalyst_lithium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_niobium, ams_catalyst_niobium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_strontium, ams_catalyst_strontium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_thorium, ams_catalyst_thorium.getUnlocalizedName());
+		GameRegistry.registerItem(ams_catalyst_tungsten, ams_catalyst_tungsten.getUnlocalizedName());
+		
 		//Shredder Blades
 		GameRegistry.registerItem(blades_aluminium, blades_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(blades_gold, blades_gold.getUnlocalizedName());
@@ -2579,6 +2633,11 @@ public class ModItems {
 		//Generator Stuff
 		GameRegistry.registerItem(thermo_element, thermo_element.getUnlocalizedName());
 		GameRegistry.registerItem(limiter, limiter.getUnlocalizedName());
+		
+		//AMS Components
+		GameRegistry.registerItem(ams_focus_blank, ams_focus_blank.getUnlocalizedName());
+		GameRegistry.registerItem(ams_focus_limiter, ams_focus_limiter.getUnlocalizedName());
+		GameRegistry.registerItem(ams_focus_booster, ams_focus_booster.getUnlocalizedName());
 		
 		//Fuel Rods
 		GameRegistry.registerItem(rod_empty, rod_empty.getUnlocalizedName());

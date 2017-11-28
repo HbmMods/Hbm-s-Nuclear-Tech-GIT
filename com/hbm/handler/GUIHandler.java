@@ -16,6 +16,8 @@ import com.hbm.tileentity.bomb.TileEntityNukeMike;
 import com.hbm.tileentity.bomb.TileEntityNukePrototype;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
+import com.hbm.tileentity.machine.TileEntityAMSBase;
+import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
@@ -96,6 +98,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeGadget(player.inventory, (TileEntityNukeGadget) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_boy:
@@ -104,6 +107,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeBoy(player.inventory, (TileEntityNukeBoy) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_centrifuge:
@@ -112,6 +116,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerCentrifuge(player.inventory, (TileEntityMachineCentrifuge) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_man:
@@ -120,6 +125,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeMan(player.inventory, (TileEntityNukeMan) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_uf6_tank:
@@ -128,6 +134,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerUF6Tank(player.inventory, (TileEntityMachineUF6Tank) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_puf6_tank:
@@ -136,6 +143,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerPuF6Tank(player.inventory, (TileEntityMachinePuF6Tank) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_reactor:
@@ -144,6 +152,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerReactor(player.inventory, (TileEntityMachineReactor) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_bomb_multi:
@@ -152,6 +161,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerBombMulti(player.inventory, (TileEntityBombMulti) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_mike:
@@ -160,6 +170,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeMike(player.inventory, (TileEntityNukeMike) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_tsar:
@@ -168,6 +179,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeTsar(player.inventory, (TileEntityNukeTsar) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_furnace:
@@ -176,6 +188,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeFurnace(player.inventory, (TileEntityNukeFurnace) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_rtg_furnace:
@@ -184,6 +197,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_machine_generator:
@@ -192,6 +206,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_electric_furnace:
@@ -200,6 +215,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerElectricFurnace(player.inventory, (TileEntityMachineElectricFurnace) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_fleija:
@@ -208,6 +224,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeFleija(player.inventory, (TileEntityNukeFleija) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_machine_deuterium:
@@ -216,6 +233,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineDeuterium(player.inventory, (TileEntityMachineDeuterium) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_machine_battery:
@@ -224,6 +242,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineBattery(player.inventory, (TileEntityMachineBattery) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_machine_coal:
@@ -232,6 +251,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineCoal(player.inventory, (TileEntityMachineCoal) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_nuke_prototype:
@@ -240,6 +260,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukePrototype(player.inventory, (TileEntityNukePrototype) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_launch_pad:
@@ -248,6 +269,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerLaunchPadTier1(player.inventory, (TileEntityLaunchPad) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_factory_titanium:
@@ -256,6 +278,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerCoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_factory_advanced:
@@ -264,6 +287,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerCoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_reactor_multiblock:
@@ -272,6 +296,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_fusion_multiblock:
@@ -280,6 +305,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_converter_he_rf:
@@ -288,6 +314,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
 				}
+				return null;
 			}
 			
 			case ModBlocks.guiID_converter_rf_he:
@@ -296,6 +323,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerConverterRfHe(player.inventory, (TileEntityConverterRfHe) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_schrabidium_transmutator:
@@ -304,6 +332,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineSchrabidiumTransmutator(player.inventory, (TileEntityMachineSchrabidiumTransmutator) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_diesel:
@@ -312,6 +341,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineDiesel(player.inventory, (TileEntityMachineDiesel) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_watz_multiblock:
@@ -320,6 +350,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerWatzCore(player.inventory, (TileEntityWatzCore) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_shredder:
@@ -328,6 +359,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineShredder(player.inventory, (TileEntityMachineShredder) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_combine_factory:
@@ -336,6 +368,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineCMBFactory(player.inventory, (TileEntityMachineCMBFactory) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_fwatz_multiblock:
@@ -344,6 +377,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerFWatzCore(player.inventory, (TileEntityFWatzCore) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_teleporter:
@@ -352,6 +386,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_nuke_custom:
@@ -360,6 +395,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerNukeCustom(player.inventory, (TileEntityNukeCustom) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_reix_mainframe:
@@ -368,6 +404,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerReiXMainframe(player.inventory, (TileEntityReiXMainframe) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_industrial_generator:
@@ -376,6 +413,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerIGenerator(player.inventory, (TileEntityMachineIGenerator) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_rtg:
@@ -384,6 +422,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineRTG(player.inventory, (TileEntityMachineRTG) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_cyclotron:
@@ -392,6 +431,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineCyclotron(player.inventory, (TileEntityMachineCyclotron) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_well:
@@ -400,6 +440,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineOilWell(player.inventory, (TileEntityMachineOilWell) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_refinery:
@@ -408,6 +449,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineRefinery(player.inventory, (TileEntityMachineRefinery) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_flare:
@@ -416,6 +458,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineGasFlare(player.inventory, (TileEntityMachineGasFlare) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_drill:
@@ -424,6 +467,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineMiningDrill(player.inventory, (TileEntityMachineMiningDrill) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_assembler:
@@ -432,6 +476,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineAssembler(player.inventory, (TileEntityMachineAssembler) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_chemplant:
@@ -440,6 +485,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_fluidtank:
@@ -448,6 +494,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_pumpjack:
@@ -456,6 +503,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachinePumpjack(player.inventory, (TileEntityMachinePumpjack) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_turbofan:
@@ -464,6 +512,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_crate_iron:
@@ -472,6 +521,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerCrateIron(player.inventory, (TileEntityCrateIron) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_crate_steel:
@@ -480,6 +530,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerCrateSteel(player.inventory, (TileEntityCrateSteel) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_machine_press:
@@ -488,6 +539,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerMachinePress(player.inventory, (TileEntityMachinePress) entity);
 				}
+				return null;
 			}
 
 			case ModBlocks.guiID_ams_limiter:
@@ -496,6 +548,25 @@ public class GUIHandler implements IGuiHandler {
 				{
 					return new ContainerAMSLimiter(player.inventory, (TileEntityAMSLimiter) entity);
 				}
+				return null;
+			}
+
+			case ModBlocks.guiID_ams_emitter:
+			{
+				if(entity instanceof TileEntityAMSEmitter)
+				{
+					return new ContainerAMSEmitter(player.inventory, (TileEntityAMSEmitter) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_ams_base:
+			{
+				if(entity instanceof TileEntityAMSBase)
+				{
+					return new ContainerAMSBase(player.inventory, (TileEntityAMSBase) entity);
+				}
+				return null;
 			}
 		}
 		return null;
@@ -532,6 +603,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeGadget(player.inventory, (TileEntityNukeGadget) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_boy:
@@ -540,6 +612,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeBoy(player.inventory, (TileEntityNukeBoy) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_centrifuge:
@@ -548,6 +621,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineCentrifuge(player.inventory, (TileEntityMachineCentrifuge) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_man:
@@ -556,6 +630,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeMan(player.inventory, (TileEntityNukeMan) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_uf6_tank:
@@ -564,6 +639,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineUF6Tank(player.inventory, (TileEntityMachineUF6Tank) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_puf6_tank:
@@ -572,6 +648,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachinePuF6Tank(player.inventory, (TileEntityMachinePuF6Tank) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_reactor:
@@ -580,6 +657,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineReactor(player.inventory, (TileEntityMachineReactor) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_bomb_multi:
@@ -588,6 +666,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIBombMulti(player.inventory, (TileEntityBombMulti) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_mike:
@@ -596,6 +675,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeMike(player.inventory, (TileEntityNukeMike) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_tsar:
@@ -604,6 +684,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeTsar(player.inventory, (TileEntityNukeTsar) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_furnace:
@@ -612,6 +693,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeFurnace(player.inventory, (TileEntityNukeFurnace) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_rtg_furnace:
@@ -620,6 +702,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIRtgFurnace(player.inventory, (TileEntityRtgFurnace) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_generator:
@@ -628,6 +711,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineGenerator(player.inventory, (TileEntityMachineGenerator) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_electric_furnace:
@@ -636,6 +720,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineElectricFurnace(player.inventory, (TileEntityMachineElectricFurnace) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_fleija:
@@ -644,6 +729,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeFleija(player.inventory, (TileEntityNukeFleija) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_deuterium:
@@ -652,6 +738,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineDeuterium(player.inventory, (TileEntityMachineDeuterium) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_battery:
@@ -660,6 +747,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineBattery(player.inventory, (TileEntityMachineBattery) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_coal:
@@ -668,6 +756,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineCoal(player.inventory, (TileEntityMachineCoal) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_prototype:
@@ -676,6 +765,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukePrototype(player.inventory, (TileEntityNukePrototype) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_launch_pad:
@@ -684,6 +774,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUILaunchPadTier1(player.inventory, (TileEntityLaunchPad) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_factory_titanium:
@@ -692,6 +783,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUICoreTitanium(player.inventory, (TileEntityCoreTitanium) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_factory_advanced:
@@ -700,6 +792,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUICoreAdvanced(player.inventory, (TileEntityCoreAdvanced) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_reactor_multiblock:
@@ -708,6 +801,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_fusion_multiblock:
@@ -716,6 +810,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIFusionMultiblock(player.inventory, (TileEntityFusionMultiblock) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_converter_he_rf:
@@ -724,6 +819,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIConverterHeRf(player.inventory, (TileEntityConverterHeRf) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_converter_rf_he:
@@ -732,6 +828,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIConverterRfHe(player.inventory, (TileEntityConverterRfHe) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_schrabidium_transmutator:
@@ -740,6 +837,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineSchrabidiumTransmutator(player.inventory, (TileEntityMachineSchrabidiumTransmutator) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_diesel:
@@ -748,6 +846,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineDiesel(player.inventory, (TileEntityMachineDiesel) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_watz_multiblock:
@@ -756,6 +855,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIWatzCore(player.inventory, (TileEntityWatzCore) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_shredder:
@@ -764,6 +864,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineShredder(player.inventory, (TileEntityMachineShredder) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_combine_factory:
@@ -772,6 +873,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineCMBFactory(player.inventory, (TileEntityMachineCMBFactory) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_fwatz_multiblock:
@@ -780,6 +882,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIFWatzCore(player.inventory, (TileEntityFWatzCore) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_teleporter:
@@ -788,6 +891,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineTeleporter(player.inventory, (TileEntityMachineTeleporter) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_nuke_custom:
@@ -796,6 +900,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUINukeCustom(player.inventory, (TileEntityNukeCustom) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_reix_mainframe:
@@ -804,6 +909,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIReiXMainframe(player.inventory, (TileEntityReiXMainframe) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_industrial_generator:
@@ -812,6 +918,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIIGenerator(player.inventory, (TileEntityMachineIGenerator) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_rtg:
@@ -820,6 +927,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineRTG(player.inventory, (TileEntityMachineRTG) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_cyclotron:
@@ -828,6 +936,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineCyclotron(player.inventory, (TileEntityMachineCyclotron) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_well:
@@ -836,6 +945,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineOilWell(player.inventory, (TileEntityMachineOilWell) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_refinery:
@@ -844,6 +954,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineRefinery(player.inventory, (TileEntityMachineRefinery) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_flare:
@@ -852,6 +963,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineGasFlare(player.inventory, (TileEntityMachineGasFlare) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_drill:
@@ -860,6 +972,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineMiningDrill(player.inventory, (TileEntityMachineMiningDrill) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_assembler:
@@ -868,6 +981,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineAssembler(player.inventory, (TileEntityMachineAssembler) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_chemplant:
@@ -876,6 +990,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineChemplant(player.inventory, (TileEntityMachineChemplant) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_fluidtank:
@@ -884,6 +999,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_pumpjack:
@@ -892,6 +1008,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachinePumpjack(player.inventory, (TileEntityMachinePumpjack) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_turbofan:
@@ -900,6 +1017,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachineTurbofan(player.inventory, (TileEntityMachineTurbofan) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_crate_iron:
@@ -908,6 +1026,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUICrateIron(player.inventory, (TileEntityCrateIron) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_crate_steel:
@@ -916,6 +1035,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUICrateSteel(player.inventory, (TileEntityCrateSteel) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_machine_press:
@@ -924,6 +1044,7 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIMachinePress(player.inventory, (TileEntityMachinePress) entity);
 					}
+					return null;
 				}
 				
 				case ModBlocks.guiID_ams_limiter:
@@ -932,6 +1053,25 @@ public class GUIHandler implements IGuiHandler {
 					{
 						return new GUIAMSLimiter(player.inventory, (TileEntityAMSLimiter) entity);
 					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_ams_emitter:
+				{
+					if(entity instanceof TileEntityAMSEmitter)
+					{
+						return new GUIAMSEmitter(player.inventory, (TileEntityAMSEmitter) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_ams_base:
+				{
+					if(entity instanceof TileEntityAMSBase)
+					{
+						return new GUIAMSBase(player.inventory, (TileEntityAMSBase) entity);
+					}
+					return null;
 				}
 			}
 		} else {

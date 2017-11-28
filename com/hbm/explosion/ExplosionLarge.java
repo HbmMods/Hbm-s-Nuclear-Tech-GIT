@@ -3,11 +3,13 @@ package com.hbm.explosion;
 import java.util.Random;
 
 import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ExplosionLarge {
@@ -25,6 +27,36 @@ public class ExplosionLarge {
 			fx.motionX = rand.nextGaussian() * (1 + (count / 150));
 			fx.motionZ = rand.nextGaussian() * (1 + (count / 150));
 			world.spawnEntityInWorld(fx);
+		}
+	}
+
+	public static void spawnShock(World world, double x, double y, double z, int count, double strength) {
+		
+		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+		
+		for(int i = 0; i < count; i++) {
+			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
+			fx.motionY = 0;
+			fx.motionX = vec.xCoord;
+			fx.motionZ = vec.zCoord;
+			world.spawnEntityInWorld(fx);
+			
+			vec.rotateAroundY(360 / count);
+		}
+	}
+
+	public static void spawnBurst(World world, double x, double y, double z, int count, double strength) {
+		
+		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+		
+		for(int i = 0; i < count; i++) {
+			EntityGasFlameFX fx = new EntityGasFlameFX(world, x, y, z, 0.0, 0.0, 0.0);
+			fx.motionY = 0;
+			fx.motionX = vec.xCoord;
+			fx.motionZ = vec.zCoord;
+			world.spawnEntityInWorld(fx);
+			
+			vec.rotateAroundY(360 / count);
 		}
 	}
 	

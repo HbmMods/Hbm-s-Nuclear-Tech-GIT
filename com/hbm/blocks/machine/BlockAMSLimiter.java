@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
@@ -17,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockAMSLimiter extends BlockContainer {
+public class BlockAMSLimiter extends BlockContainer implements IMultiblock {
 
 	public BlockAMSLimiter(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -67,15 +68,119 @@ public class BlockAMSLimiter extends BlockContainer {
 
 		if (i == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.AMSLimiterDimensionEast)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.AMSLimiterDimensionEast, ModBlocks.dummy_block_ams_limiter);
+				
+				//
+				DummyBlockAMSLimiter.safeBreak = true;
+				world.setBlock(x + 2, y, z, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te = world.getTileEntity(x + 2, y, z);
+				if(te instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x - 2, y, z, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te2 = world.getTileEntity(x - 2, y, z);
+				if(te2 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te2;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAMSLimiter.safeBreak = false;
+				//
+				
+			} else
+				world.func_147480_a(x, y, z, true);
 		}
 		if (i == 1) {
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.AMSLimiterDimensionSouth)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.AMSLimiterDimensionSouth, ModBlocks.dummy_block_ams_limiter);
+				
+				//
+				DummyBlockAMSLimiter.safeBreak = true;
+				world.setBlock(x, y, z + 2, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te = world.getTileEntity(x, y, z + 2);
+				if(te instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x, y, z - 2, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te2 = world.getTileEntity(x, y, z - 2);
+				if(te2 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te2;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAMSLimiter.safeBreak = false;
+				//
+				
+			} else
+				world.func_147480_a(x, y, z, true);
 		}
 		if (i == 2) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.AMSLimiterDimensionWest)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.AMSLimiterDimensionWest, ModBlocks.dummy_block_ams_limiter);
+				
+				//
+				DummyBlockAMSLimiter.safeBreak = true;
+				world.setBlock(x + 2, y, z, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te = world.getTileEntity(x + 2, y, z);
+				if(te instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x - 2, y, z, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te2 = world.getTileEntity(x - 2, y, z);
+				if(te2 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te2;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAMSLimiter.safeBreak = false;
+				//
+				
+			} else
+				world.func_147480_a(x, y, z, true);
 		}
 		if (i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+			if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.AMSLimiterDimensionNorth)) {
+				MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.AMSLimiterDimensionNorth, ModBlocks.dummy_block_ams_limiter);
+				
+				//
+				DummyBlockAMSLimiter.safeBreak = true;
+				world.setBlock(x, y, z + 2, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te = world.getTileEntity(x, y, z + 2);
+				if(te instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				world.setBlock(x, y, z - 2, ModBlocks.dummy_port_ams_limiter);
+				TileEntity te2 = world.getTileEntity(x, y, z - 2);
+				if(te2 instanceof TileEntityDummy) {
+					TileEntityDummy dummy = (TileEntityDummy)te2;
+					dummy.targetX = x;
+					dummy.targetY = y;
+					dummy.targetZ = z;
+				}
+				DummyBlockAMSLimiter.safeBreak = false;
+				//
+				
+			} else
+				world.func_147480_a(x, y, z, true);
 		}
 	}
 

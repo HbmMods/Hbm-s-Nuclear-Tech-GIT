@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -32,9 +33,12 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.ams_limiter_tex);
+        bindTexture(ResourceManager.universal);
         
-        ResourceManager.ams_limiter.renderAll();
+        if(((TileEntityAMSLimiter)tileEntity).locked)
+            ResourceManager.ams_limiter_destroyed.renderAll();
+        else
+        	ResourceManager.ams_limiter.renderAll();
 
         GL11.glPopMatrix();
     }
