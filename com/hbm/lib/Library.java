@@ -289,7 +289,9 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_chemplant ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_refinery ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter)
 		{
 			return true;
 		}
@@ -321,7 +323,9 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.watz_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch)
+				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter)
 		{
 			return true;
 		}

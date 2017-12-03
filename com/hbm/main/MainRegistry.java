@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -239,9 +240,6 @@ public class MainRegistry
 	@SidedProxy(clientSide = RefStrings.CLIENTSIDE, serverSide = RefStrings.SERVERSIDE)
 	public static ServerProxy proxy;
 	
-	//We'll get to that eventually
-	//public static PacketHandler packetHandler;
-	
 	@Metadata
 	public static ModMetadata meta;
 	
@@ -292,45 +290,51 @@ public class MainRegistry
 	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
 	
 	//Achievements
-	/*public static Achievement achievementGetTitanium;
-	public static Achievement achievementGetCopper;
-	public static Achievement achievementCraftAlloyFurnace;
-	public static Achievement achievementCraftElectricFurnace;
-	public static Achievement achievementCraftDerrick;
-	public static Achievement achievementCraftRefinery;
-	public static Achievement achievementCraftFactoryTitanium;
-	public static Achievement achievementCraftFactoryAdvanced;
-	public static Achievement achievementCraftGeneratorCoal;
-	public static Achievement achievementCraftGeneratorDiesel;
-	public static Achievement achievementCraftGeneratorIndustrial;
-	public static Achievement achievementGetLead;
-	public static Achievement achievementCraftBreedingReactor;
-	public static Achievement achievementCraftAtomicFurnace;
-	public static Achievement achievementCraftCentrifuge;
-	public static Achievement achievementCraftMissile;
-	public static Achievement achievementCraftMIRV;
-	public static Achievement achievementCraftNuclearReactor;
-	public static Achievement achievementCraftRTGFurnace;
-	public static Achievement achievementCraftRTG;
-	public static Achievement achievementCraftReactor;
-	public static Achievement achievementCraftTransmutator;
-	public static Achievement achievementCraftWatz;
-	public static Achievement achievementCraftCMB;
-	public static Achievement achievementCraftTeleporter;
-	public static Achievement achievementCraftFWatz;
-	public static Achievement achievementCraftDeuterium;
-	public static Achievement achievementCraftFusion;
-	public static Achievement achievementCraftCyclotron;
-	public static Achievement achievementCraftNuke;
-	public static Achievement achievementCraftFLEIJA;
-	public static Achievement achievementCraftHammer;
-	public static Achievement achievementCraftOutlaw;
-	public static Achievement achievementGetReiium;
-	public static Achievement achievementGetWeidanium;
-	public static Achievement achievementGetAustalium;
-	public static Achievement achievementGetVerticium;
-	public static Achievement achievementGetUnobtainium;
-	public static Achievement achievementGetDaffergon;*/
+	public static Achievement achCircuit0;
+	public static Achievement achCircuit1;
+	public static Achievement achCircuit2;
+	public static Achievement achCircuit3;
+	public static Achievement achCircuit4;
+	public static Achievement achCircuit5;
+	public static Achievement achJack;
+	public static Achievement achDalekanium;
+	public static Achievement achRefinery;
+	public static Achievement achBattery;
+	public static Achievement achOil;
+	public static Achievement achCatapult1;
+	public static Achievement achCatapult2;
+	public static Achievement achCatapult3;
+	public static Achievement achU235;
+	public static Achievement achPu238;
+	public static Achievement achPu239;
+	public static Achievement achNeptunium;
+	public static Achievement achDesh;
+	public static Achievement achMeteor;
+	public static Achievement achGeiger;
+	public static Achievement achDesignator;
+	public static Achievement achRemote;
+	public static Achievement achOverpowered;
+	public static Achievement achShimSham;
+	public static Achievement achMatchstick;
+	public static Achievement achRails;
+	public static Achievement achFolder;
+	public static Achievement achPress;
+	public static Achievement achFWatz;
+	public static Achievement achTurbofan;
+	public static Achievement achGadget;
+	public static Achievement achBoy;
+	public static Achievement achMan;
+	public static Achievement achMike;
+	public static Achievement achTsar;
+	public static Achievement achFLEIJA;
+	public static Achievement achPrototype;
+	public static Achievement achCustom;
+	public static Achievement achTurret;
+	public static Achievement achMeteorDeath;
+	public static Achievement achXenium;
+	public static Achievement achRadiation;
+	public static Achievement achSchrabidium;
+	public static Achievement achEuphemium;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;

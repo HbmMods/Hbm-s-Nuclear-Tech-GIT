@@ -298,14 +298,20 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 				if(heat > maxHeat) {
 					heat = maxHeat;
 					locked = true;
-					ExplosionLarge.spawnShock(worldObj, xCoord, yCoord, zCoord, 24, 3);
-					ExplosionLarge.spawnBurst(worldObj, xCoord, yCoord, zCoord, 24, 3);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 36, 3);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 36, 2.5);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 36, 2);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 36, 1.5);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 36, 1);
+		            this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.oldExplosion", 10.0F, 1);
+			        this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.shutdown", 10.0F, 1.0F);
 				}
 	
 				power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 				
 			} else {
 				//fire particles n stuff
+				ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord - 0.5, zCoord + 0.5, rand.nextInt(10), 1);
 				
 				efficiency = 0;
 				power = 0;

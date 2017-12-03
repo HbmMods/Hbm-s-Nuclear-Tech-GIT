@@ -33,6 +33,7 @@ public class ExplosionLarge {
 	public static void spawnShock(World world, double x, double y, double z, int count, double strength) {
 		
 		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+		vec.rotateAroundY(rand.nextInt(360));
 		
 		for(int i = 0; i < count; i++) {
 			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
@@ -48,6 +49,7 @@ public class ExplosionLarge {
 	public static void spawnBurst(World world, double x, double y, double z, int count, double strength) {
 		
 		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+		vec.rotateAroundY(rand.nextInt(360));
 		
 		for(int i = 0; i < count; i++) {
 			EntityGasFlameFX fx = new EntityGasFlameFX(world, x, y, z, 0.0, 0.0, 0.0);

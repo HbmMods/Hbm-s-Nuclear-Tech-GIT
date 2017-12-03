@@ -376,6 +376,13 @@ public class ModItems {
 	public static Item crystal_energy;
 	public static Item pellet_coolant;
 
+	public static Item rune_blank;
+	public static Item rune_isa;
+	public static Item rune_dagaz;
+	public static Item rune_hagalaz;
+	public static Item rune_jera;
+	public static Item rune_thurisaz;
+	
 	public static Item ams_catalyst_blank;
 	public static Item ams_catalyst_aluminium;
 	public static Item ams_catalyst_beryllium;
@@ -1371,6 +1378,13 @@ public class ModItems {
 
 		crystal_energy = new ItemCustomLore().setUnlocalizedName("crystal_energy").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":crystal_energy");
 		pellet_coolant = new ItemCustomLore().setUnlocalizedName("pellet_coolant").setMaxDamage(41400).setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pellet_coolant");
+
+		rune_blank = new ItemCustomLore().setUnlocalizedName("rune_blank").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":rune_blank");
+		rune_isa = new ItemCustomLore().setUnlocalizedName("rune_isa").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":rune_isa");
+		rune_dagaz = new ItemCustomLore().setUnlocalizedName("rune_dagaz").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":rune_dagaz");
+		rune_hagalaz = new ItemCustomLore().setUnlocalizedName("rune_hagalaz").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":rune_hagalaz");
+		rune_jera = new ItemCustomLore().setUnlocalizedName("rune_jera").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":rune_jera");
+		rune_thurisaz = new ItemCustomLore().setUnlocalizedName("rune_thurisaz").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":rune_thurisaz");
 
 		ams_catalyst_blank = new Item().setUnlocalizedName("ams_catalyst_blank").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_blank");
 		ams_catalyst_aluminium = new ItemCatalyst(0xCCCCCC).setUnlocalizedName("ams_catalyst_aluminium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ams_catalyst_aluminium");
@@ -2603,6 +2617,14 @@ public class ModItems {
 		GameRegistry.registerItem(part_carbon, part_carbon.getUnlocalizedName());
 		GameRegistry.registerItem(part_copper, part_copper.getUnlocalizedName());
 		GameRegistry.registerItem(part_plutonium, part_plutonium.getUnlocalizedName());
+		
+		//Catalyst Rune Sigils
+		GameRegistry.registerItem(rune_blank, rune_blank.getUnlocalizedName());
+		GameRegistry.registerItem(rune_isa, rune_isa.getUnlocalizedName());
+		GameRegistry.registerItem(rune_dagaz, rune_dagaz.getUnlocalizedName());
+		GameRegistry.registerItem(rune_hagalaz, rune_hagalaz.getUnlocalizedName());
+		GameRegistry.registerItem(rune_jera, rune_jera.getUnlocalizedName());
+		GameRegistry.registerItem(rune_thurisaz, rune_thurisaz.getUnlocalizedName());
 		
 		//AMS Catalysts
 		GameRegistry.registerItem(ams_catalyst_blank, ams_catalyst_blank.getUnlocalizedName());

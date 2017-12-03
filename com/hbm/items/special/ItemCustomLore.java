@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -574,6 +576,22 @@ public class ItemCustomLore extends ItemRadioactive {
     	}
     	
 		return EnumRarity.common;
+    }
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack p_77636_1_)
+    {
+    	if(this == ModItems.rune_isa ||
+    			this == ModItems.rune_dagaz ||
+    			this == ModItems.rune_hagalaz ||
+    			this == ModItems.rune_jera ||
+    			this == ModItems.rune_thurisaz)
+    	{
+    		return true;
+    	}
+    	
+    	return false;
     }
 
 }

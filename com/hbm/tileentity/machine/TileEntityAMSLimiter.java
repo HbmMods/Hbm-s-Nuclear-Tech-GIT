@@ -312,8 +312,10 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				if(heat > maxHeat) {
 					heat = maxHeat;
 					locked = true;
-					ExplosionLarge.spawnShock(worldObj, xCoord, yCoord, zCoord, 24, 3);
-					ExplosionLarge.spawnBurst(worldObj, xCoord, yCoord, zCoord, 24, 3);
+					ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 24, 3);
+					ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 24, 3);
+		            this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.oldExplosion", 10.0F, 1);
+			        this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.shutdown", 10.0F, 1.0F);
 				}
 	
 				power = Library.chargeTEFromItems(slots, 3, power, maxPower);

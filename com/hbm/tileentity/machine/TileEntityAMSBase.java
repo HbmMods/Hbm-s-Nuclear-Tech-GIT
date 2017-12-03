@@ -319,7 +319,8 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 	
 	private float calcField(int a, int b, int c, int d) {
-		return (float)Math.sqrt((Math.pow(a, 2) + Math.pow(b, 2) + Math.pow(c, 2) + Math.pow(d, 2)) / 4);
+		//return (float)Math.sqrt((Math.pow(a, 2) + Math.pow(b, 2) + Math.pow(c, 2) + Math.pow(d, 2)) / 4);
+		return (float)(a + b + c + d) / 4;
 	}
 	
 	private int calcAvgHex(int h1, int h2) {
