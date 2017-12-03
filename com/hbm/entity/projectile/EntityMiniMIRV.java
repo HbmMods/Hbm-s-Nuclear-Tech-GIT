@@ -255,7 +255,7 @@ public class EntityMiniMIRV extends Entity implements IProjectile
         	    entity0.posY = this.posY;
         	    entity0.posZ = this.posZ;
         	    entity0.destructionRange = MainRegistry.fatmanRadius;
-        	    entity0.speed = 25;
+        	    entity0.speed = MainRegistry.blastSpeed;
         	    entity0.coefficient = 10.0F;
         	    	
         	    this.worldObj.spawnEntityInWorld(entity0);
