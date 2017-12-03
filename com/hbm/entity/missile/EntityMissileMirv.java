@@ -28,7 +28,7 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
     	entity.posY = this.posY;
     	entity.posZ = this.posZ;
     	entity.destructionRange = MainRegistry.missileRadius;
-    	entity.speed = 25;
+    	entity.speed = MainRegistry.blastSpeed;
     	entity.coefficient = 10.0F;
     	
     	this.worldObj.spawnEntityInWorld(entity);

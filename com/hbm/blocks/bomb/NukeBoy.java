@@ -115,7 +115,7 @@ public class NukeBoy extends BlockContainer implements IBomb {
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_) {
 		TileEntityNukeBoy entity = (TileEntityNukeBoy) p_149695_1_.getTileEntity(x, y, z);
 		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)) {
-			if (entity.isReady()) {
+			if (entity.isReady() && p_149695_1_.isRemote) {
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
 				entity.clearSlots();
 				p_149695_1_.setBlockToAir(x, y, z);
@@ -151,7 +151,7 @@ public class NukeBoy extends BlockContainer implements IBomb {
 			entity.posY = y;
 			entity.posZ = z;
 			entity.destructionRange = MainRegistry.boyRadius;
-			entity.speed = 25;
+			entity.speed = MainRegistry.blastSpeed;
 			entity.coefficient = 10.0F;
 			world.spawnEntityInWorld(entity);
 
@@ -164,7 +164,7 @@ public class NukeBoy extends BlockContainer implements IBomb {
 				entity2.posZ = z;
 				world.spawnEntityInWorld(entity2);
 			} else {
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 3000);
 				entity2.posX = x;
 				entity2.posY = y - 11;
 				entity2.posZ = z;

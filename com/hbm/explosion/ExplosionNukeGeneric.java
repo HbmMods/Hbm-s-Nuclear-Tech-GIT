@@ -4,6 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -316,73 +321,70 @@ public class ExplosionNukeGeneric {
 		}
 	}
 
-	public static void destruction(World world, int x, int y, int z) {
+	public static int destruction(World world, int x, int y, int z) {
 		int rand;
 		if (!world.isRemote) {
-			if (world.getBlock(x, y, z) != Blocks.bedrock && world.getBlock(x, y, z) != ModBlocks.reinforced_brick
-					&& world.getBlock(x, y, z) != ModBlocks.reinforced_glass
-					&& world.getBlock(x, y, z) != ModBlocks.reinforced_light
-					&& world.getBlock(x, y, z) != ModBlocks.reinforced_sand
-					&& world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_off
-					&& world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_on
-					&& world.getBlock(x, y, z) != ModBlocks.cmb_brick
-					&& world.getBlock(x, y, z) != ModBlocks.crystal_virus
-					&& world.getBlock(x, y, z) != ModBlocks.crystal_hardened
-					&& world.getBlock(x, y, z) != ModBlocks.crystal_pulsar
-					&& world.getBlock(x, y, z) != ModBlocks.cmb_brick_reinforced
-					&& !(world.getBlock(x, y, z) instanceof DecoBlockAlt)) {
-				if (world.getBlock(x, y, z) == ModBlocks.brick_concrete) {
+			Block b = world.getBlock(x,y,z);
+			if (b.getExplosionResistance(null)>=200f) {	//500 is the resistance of liquids
+				//blocks to be spared
+				int protection = (int)(b.getExplosionResistance(null)/300f);
+				if (b == ModBlocks.brick_concrete) {
 					rand = field_149933_a.nextInt(8);
 					if (rand == 0) {
 						world.setBlock(x, y, z, Blocks.gravel, 0, 3);
+						return 0;
 					}
-				} else if (world.getBlock(x, y, z) == ModBlocks.brick_light) {
-					rand = field_149933_a.nextInt(2);
+				} else if (b == ModBlocks.brick_light) {
+					rand = field_149933_a.nextInt(3);
 					if (rand == 0) {
 						world.setBlock(x, y, z, ModBlocks.waste_planks, 0, 3);
+						return 0;
+					}else if (rand == 1){
+						world.setBlock(x,y,z,ModBlocks.block_scrap,0,3);
+						return 0;
 					}
-				} else if (world.getBlock(x, y, z) == ModBlocks.brick_obsidian) {
+				} else if (b == ModBlocks.brick_obsidian) {
 					rand = field_149933_a.nextInt(20);
 					if (rand == 0) {
 						world.setBlock(x, y, z, Blocks.obsidian, 0, 3);
 					}
-				} else if (world.getBlock(x, y, z) == Blocks.obsidian) {
+				} else if (b == Blocks.obsidian) {
 					world.setBlock(x, y, z, ModBlocks.gravel_obsidian, 0, 3);
-				} else {
-					world.setBlock(x, y, z, Blocks.air, 0, 3);
+					return 0;
+				} else if(field_149933_a.nextInt(protection+3)==0){
+					world.setBlock(x, y, z, ModBlocks.block_scrap,0,3);
 				}
+				return protection;
+			}else{//otherwise, kill the block!
+				world.setBlock(x, y, z, Blocks.air,0, 2);
 			}
 		}
+		return 0;
 	}
 
-	public static void vaporDest(World world, int x, int y, int z) {
+	public static int vaporDest(World world, int x, int y, int z) {
 		if (!world.isRemote) {
-			if (world.getBlock(x, y, z) == Blocks.water || world.getBlock(x, y, z) == Blocks.flowing_water
-					|| world.getBlock(x, y, z) == Blocks.tallgrass || world.getBlock(x, y, z) == Blocks.leaves
-					|| world.getBlock(x, y, z) == Blocks.leaves2 || world.getBlock(x, y, z) == Blocks.double_plant
-					|| world.getBlock(x, y, z) == Blocks.cactus || world.getBlock(x, y, z) == Blocks.snow_layer
-					|| world.getBlock(x, y, z) == Blocks.reeds || world.getBlock(x, y, z) == Blocks.glass_pane
-					|| world.getBlock(x, y, z) == Blocks.stained_glass_pane || world.getBlock(x, y, z) == Blocks.carrots
-					|| world.getBlock(x, y, z) == Blocks.potatoes || world.getBlock(x, y, z) == Blocks.wheat
-					|| world.getBlock(x, y, z) == Blocks.ladder || world.getBlock(x, y, z) == Blocks.torch
-					|| world.getBlock(x, y, z) == Blocks.redstone_torch
-					|| world.getBlock(x, y, z) == Blocks.unlit_redstone_torch
-					|| world.getBlock(x, y, z) == Blocks.redstone_wire
-					|| world.getBlock(x, y, z) == Blocks.unpowered_repeater
-					|| world.getBlock(x, y, z) == Blocks.powered_repeater
-					|| world.getBlock(x, y, z) == Blocks.wooden_pressure_plate
-					|| world.getBlock(x, y, z) == Blocks.stone_pressure_plate
-					|| world.getBlock(x, y, z) == Blocks.wooden_button || world.getBlock(x, y, z) == Blocks.stone_button
-					|| world.getBlock(x, y, z) == Blocks.lever || world.getBlock(x, y, z) == Blocks.deadbush
-					|| world.getBlock(x, y, z) == ModBlocks.red_cable) {
-				world.setBlock(x, y, z, Blocks.air);
+			Block b = world.getBlock(x,y,z);
+			if (b.getExplosionResistance(null)<0.5f //most light things
+					|| b == Blocks.web || b == ModBlocks.red_cable
+					|| b instanceof BlockLiquid) {
+				world.setBlock(x, y, z, Blocks.air,0, 2);
+				return 0;
+			} else if (b.getExplosionResistance(null)<=3.0f && !b.isOpaqueCube()){
+				if(b != Blocks.chest && b != Blocks.farmland){
+					//destroy all medium resistance blocks that aren't chests or farmland
+					world.setBlock(x, y, z, Blocks.air,0,2);
+					return 0;
+				}
 			}
-
-			if (world.getBlock(x, y, z).isFlammable(world, x, y, z, ForgeDirection.UP)
+			
+			if (b.isFlammable(world, x, y, z, ForgeDirection.UP)
 					&& world.getBlock(x, y + 1, z) == Blocks.air) {
-				world.setBlock(x, y + 1, z, Blocks.fire);
+				world.setBlock(x, y + 1, z, Blocks.fire,0,2);
 			}
+			return (int)( b.getExplosionResistance(null)/300f);
 		}
+		return 0;
 	}
 
 	public static void waste(World world, int x, int y, int z, int radius) {
@@ -410,21 +412,20 @@ public class ExplosionNukeGeneric {
 	public static void wasteDest(World world, int x, int y, int z) {
 		if (!world.isRemote) {
 			int rand;
-
-			if (world.getBlock(x, y, z) == Blocks.glass || world.getBlock(x, y, z) == Blocks.stained_glass
-					|| world.getBlock(x, y, z) == Blocks.wooden_door || world.getBlock(x, y, z) == Blocks.iron_door) {
-				world.setBlock(x, y, z, Blocks.air);
+			Block b = world.getBlock(x,y,z);
+			if (b == Blocks.wooden_door || b == Blocks.iron_door) {
+				world.setBlock(x, y, z, Blocks.air,0,2);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.grass) {
+			else if (b == Blocks.grass) {
 				world.setBlock(x, y, z, ModBlocks.waste_earth);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.mycelium) {
+			else if (b == Blocks.mycelium) {
 				world.setBlock(x, y, z, ModBlocks.waste_mycelium);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.sand) {
+			else if (b == Blocks.sand) {
 				rand = field_149933_a.nextInt(20);
 				if (rand == 1 && world.getBlockMetadata(x, y, z) == 0) {
 					world.setBlock(x, y, z, ModBlocks.waste_trinitite);
@@ -434,15 +435,15 @@ public class ExplosionNukeGeneric {
 				}
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.clay) {
+			else if (b == Blocks.clay) {
 				world.setBlock(x, y, z, Blocks.hardened_clay);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.mossy_cobblestone) {
+			else if (b == Blocks.mossy_cobblestone) {
 				world.setBlock(x, y, z, Blocks.coal_ore);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.coal_ore) {
+			else if (b == Blocks.coal_ore) {
 				rand = field_149933_a.nextInt(10);
 				if (rand == 1 || rand == 2 || rand == 3) {
 					world.setBlock(x, y, z, Blocks.diamond_ore);
@@ -452,43 +453,44 @@ public class ExplosionNukeGeneric {
 				}
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.log || world.getBlock(x, y, z) == Blocks.log2) {
+			else if (b == Blocks.log || b == Blocks.log2) {
 				world.setBlock(x, y, z, ModBlocks.waste_log);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.planks) {
+			else if (b == Blocks.brown_mushroom_block) {
+				if (world.getBlockMetadata(x, y, z) == 10) {
+					world.setBlock(x, y, z, ModBlocks.waste_log);
+				} else {
+					world.setBlock(x, y, z, Blocks.air,0,2);
+				}
+			}
+
+			else if (b == Blocks.red_mushroom_block) {
+				if (world.getBlockMetadata(x, y, z) == 10) {
+					world.setBlock(x, y, z, ModBlocks.waste_log);
+				} else {
+					world.setBlock(x, y, z, Blocks.air,0,2);
+				}
+			}
+			
+			else if (b.getMaterial() == Material.wood && b.isOpaqueCube() && b != ModBlocks.waste_log) {
 				world.setBlock(x, y, z, ModBlocks.waste_planks);
 			}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.ore_uranium) {
+			else if (b == ModBlocks.ore_uranium) {
 				rand = field_149933_a.nextInt(30);
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_schrabidium);
 				}
 			}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.ore_nether_uranium) {
+			else if (b == ModBlocks.ore_nether_uranium) {
 				rand = field_149933_a.nextInt(30);
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_nether_schrabidium);
 				}
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.brown_mushroom_block) {
-				if (world.getBlockMetadata(x, y, z) == 10) {
-					world.setBlock(x, y, z, ModBlocks.waste_log);
-				} else {
-					world.setBlock(x, y, z, Blocks.air);
-				}
-			}
-
-			else if (world.getBlock(x, y, z) == Blocks.red_mushroom_block) {
-				if (world.getBlockMetadata(x, y, z) == 10) {
-					world.setBlock(x, y, z, ModBlocks.waste_log);
-				} else {
-					world.setBlock(x, y, z, Blocks.air);
-				}
-			}
 		}
 	}
 
@@ -572,7 +574,7 @@ public class ExplosionNukeGeneric {
 				if (world.getBlockMetadata(x, y, z) == 10) {
 					world.setBlock(x, y, z, ModBlocks.waste_log);
 				} else {
-					world.setBlock(x, y, z, Blocks.air);
+					world.setBlock(x, y, z, Blocks.air,0,2);
 				}
 			}
 
@@ -580,7 +582,7 @@ public class ExplosionNukeGeneric {
 				if (world.getBlockMetadata(x, y, z) == 10) {
 					world.setBlock(x, y, z, ModBlocks.waste_log);
 				} else {
-					world.setBlock(x, y, z, Blocks.air);
+					world.setBlock(x, y, z, Blocks.air,0,2);
 				}
 			}
 		}
@@ -588,53 +590,54 @@ public class ExplosionNukeGeneric {
 
 	public static void emp(World world, int x, int y, int z) {
 		if (!world.isRemote) {
-
+			
+			Block b = world.getBlock(x,y,z);
 			if (world.getTileEntity(x, y, z) != null && (world.getTileEntity(x, y, z) instanceof ISource
 					|| world.getTileEntity(x, y, z) instanceof IConsumer
 					|| world.getTileEntity(x, y, z) instanceof TileEntityDummy)) {
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
+				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap,0,2);
 			}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.red_wire_coated || 
-					world.getBlock(x, y, z) == ModBlocks.factory_titanium_furnace || 
-					world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor || 
-					world.getBlock(x, y, z) == ModBlocks.factory_advanced_furnace || 
-					world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor || 
-					world.getBlock(x, y, z) == ModBlocks.reactor_conductor || 
-					world.getBlock(x, y, z) == ModBlocks.fusion_conductor || 
-					world.getBlock(x, y, z) == ModBlocks.fusion_center || 
-					world.getBlock(x, y, z) == ModBlocks.fusion_motor || 
-					world.getBlock(x, y, z) == ModBlocks.watz_conductor || 
-					world.getBlock(x, y, z) == ModBlocks.fwatz_conductor || 
-					world.getBlock(x, y, z) == ModBlocks.fwatz_hatch || 
-					world.getBlock(x, y, z) == ModBlocks.fwatz_computer) {
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
+			else if (b == ModBlocks.red_wire_coated || 
+					b == ModBlocks.factory_titanium_furnace || 
+					b == ModBlocks.factory_titanium_conductor || 
+					b == ModBlocks.factory_advanced_furnace || 
+					b == ModBlocks.factory_advanced_conductor || 
+					b == ModBlocks.reactor_conductor || 
+					b == ModBlocks.fusion_conductor || 
+					b == ModBlocks.fusion_center || 
+					b == ModBlocks.fusion_motor || 
+					b == ModBlocks.watz_conductor || 
+					b == ModBlocks.fwatz_conductor || 
+					b == ModBlocks.fwatz_hatch || 
+					b == ModBlocks.fwatz_computer) {
+				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap,0,2);
 			}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.red_cable || 
-					world.getBlock(x, y, z) == Blocks.redstone_wire || 
-					world.getBlock(x, y, z) == Blocks.powered_repeater || 
-					world.getBlock(x, y, z) == Blocks.unpowered_repeater || 
-					world.getBlock(x, y, z) == Blocks.activator_rail || 
-					world.getBlock(x, y, z) == Blocks.detector_rail || 
-					world.getBlock(x, y, z) == Blocks.golden_rail || 
-					world.getBlock(x, y, z) == Blocks.redstone_block || 
-					world.getBlock(x, y, z) == Blocks.redstone_lamp || 
-					world.getBlock(x, y, z) == Blocks.redstone_ore || 
-					world.getBlock(x, y, z) == Blocks.redstone_torch || 
-					world.getBlock(x, y, z) == Blocks.unlit_redstone_torch || 
-					world.getBlock(x, y, z) == Blocks.powered_comparator || 
-					world.getBlock(x, y, z) == Blocks.unpowered_comparator) {
-				world.setBlock(x, y, z, Blocks.air);
+			else if (b == ModBlocks.red_cable || 
+					b == Blocks.redstone_wire || 
+					b == Blocks.powered_repeater || 
+					b == Blocks.unpowered_repeater || 
+					b == Blocks.activator_rail || 
+					b == Blocks.detector_rail || 
+					b == Blocks.golden_rail || 
+					b == Blocks.redstone_block || 
+					b == Blocks.redstone_lamp || 
+					b == Blocks.redstone_ore || 
+					b == Blocks.redstone_torch || 
+					b == Blocks.unlit_redstone_torch || 
+					b == Blocks.powered_comparator || 
+					b == Blocks.unpowered_comparator) {
+				world.setBlock(x, y, z, Blocks.air,0,2);
 			}
 
-			else if (world.getBlock(x, y, z) == Blocks.dispenser || 
-					world.getBlock(x, y, z) == Blocks.dropper || 
-					world.getBlock(x, y, z) == Blocks.piston || 
-					world.getBlock(x, y, z) == Blocks.piston_extension || 
-					world.getBlock(x, y, z) == Blocks.piston_head || 
-					world.getBlock(x, y, z) == Blocks.sticky_piston) {
-				world.setBlock(x, y, z, Blocks.gravel);
+			else if (b == Blocks.dispenser || 
+					b == Blocks.dropper || 
+					b == Blocks.piston || 
+					b == Blocks.piston_extension || 
+					b == Blocks.piston_head || 
+					b == Blocks.sticky_piston) {
+				world.setBlock(x, y, z, Blocks.gravel,0,2);
 			}
 		}
 		//world.setBlock(x, y, z, Blocks.air);

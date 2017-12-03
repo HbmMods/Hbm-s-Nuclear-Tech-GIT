@@ -4,6 +4,7 @@ import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionFleija;
 import com.hbm.explosion.ExplosionNukeAdvanced;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -96,7 +97,7 @@ public class EntityNukeExplosionMK3 extends Entity {
         	this.did = true;
         }
         
-        speed = 100;
+        speed += 1;	//increase speed to keep up with expansion
         
         boolean flag = false;
         boolean flag2 = false;
@@ -132,6 +133,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 				fallout.setScale((int)(this.destructionRange * 1.8));
 
 				this.worldObj.spawnEntityInWorld(fallout);
+				//this.worldObj.getWorldInfo().setRaining(true);
 				
 				did2 = true;
         	}

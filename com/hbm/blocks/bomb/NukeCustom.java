@@ -121,7 +121,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_) {
 		TileEntityNukeCustom entity = (TileEntityNukeCustom) p_149695_1_.getTileEntity(x, y, z);
-		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)) {
+		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z) && p_149695_1_.isRemote) {
 			if (entity.isReady()) {
 				float[] f = entity.returnAllValues();
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
@@ -167,7 +167,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 				entity.posY = y + 0.5;
 				entity.posZ = z + 0.5;
 				entity.destructionRange = (int)schrab;
-				entity.speed = 25;
+				entity.speed = MainRegistry.blastSpeed;
 				entity.coefficient = 1.0F;
 				entity.waste = false;
 

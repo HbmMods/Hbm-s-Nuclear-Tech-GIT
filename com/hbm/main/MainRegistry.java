@@ -370,6 +370,7 @@ public class MainRegistry
 	public static int fatmanRadius = 35;
 	public static int nukaRadius = 25;
 	public static int aSchrabRadius = 20;
+	public static int blastSpeed = 1024;
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
 	public static int atomStructure = 500;
@@ -1036,6 +1037,10 @@ public class MainRegistry
         Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.11_aSchrabRadius", 20);
         propASchrab.comment = "Radius of dropped anti schrabidium";
         aSchrabRadius = propASchrab.getInt();
+        //add blast speed as config
+        Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "Blast Speed", 1024);
+        propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
+        blastSpeed = propBlastSpeed.getInt();
 
         Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.00_radioSpawn", 500);
         propRadio.comment = "Spawn radio station on every nTH chunk";

@@ -65,8 +65,8 @@ public class ExplosionNukeAdvanced
 		
 		this.radius = rad;
 		this.radius2 = this.radius * this.radius;
-		
-		this.explosionCoefficient = coefficient;
+
+		this.explosionCoefficient = Math.min(Math.max((rad + coefficient * (y - 60))/(coefficient*rad), 1/coefficient),1.0f);	//scale the coefficient depending on detonation height
 		this.type = typ;
 		
 		this.nlimit = this.radius2 * 4; //How many total columns should be broken (radius ^ 2 is one quadrant, there are 4 quadrants)
@@ -99,11 +99,13 @@ public class ExplosionNukeAdvanced
 		if (dist > 0) //check if any blocks have to be broken here
 		{
 			dist = (int) Math.sqrt(dist); //calculate sphere height at this (x,z) coordinate
-			for (int y = dist; y > -dist / this.explosionCoefficient; y--) //go from top to bottom to favor light updates
+			for (int y = dist; y > -dist * this.explosionCoefficient; y--) //go from top to bottom to favor light updates
 			{
-				//this.worldObj.setBlock(this.posX+x, this.posY+y, this.posZ+z, Blocks.air); //set block to air relative to epicenter
-				
-				ExplosionNukeGeneric.destruction(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				if(y<8){//only spare blocks that are mostly below epicenter
+					y-= ExplosionNukeGeneric.destruction(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);//spare blocks below
+				}else{//don't spare blocks above epicenter
+					ExplosionNukeGeneric.destruction(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				}
 			}
 		}
 	}
@@ -114,10 +116,18 @@ public class ExplosionNukeAdvanced
 		if (dist > 0)
 		{
 			dist = (int) Math.sqrt(dist);
-			for (int y = dist; y > -dist; y--)
+			//int dist0 = (int)Math.sqrt(this.radius2*0.15f - (x * x + z * z));
+			for (int y = dist; y > -dist * this.explosionCoefficient; y--)
 			{
-				
-				ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				y-=ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				/*
+				if(dist0>0){//skip blocks already in the destruction zone: we will 
+					if(y>=dist0 || y<=-dist0*this.explosionCoefficient){
+						y-=ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+					}
+				}else{
+					y-=ExplosionNukeGeneric.vaporDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
+				}*/
 			}
 		}
 	}
@@ -128,7 +138,7 @@ public class ExplosionNukeAdvanced
 		if (dist > 0)
 		{
 			dist = (int) Math.sqrt(dist);
-			for (int y = dist; y > -dist; y--)
+			for (int y = dist; y > -dist * this.explosionCoefficient; y--)
 			{
 				if(radius >= 95)
 					ExplosionNukeGeneric.wasteDest(this.worldObj, this.posX + x, this.posY + y, this.posZ + z);
