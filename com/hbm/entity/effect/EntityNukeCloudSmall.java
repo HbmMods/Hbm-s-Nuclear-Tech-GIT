@@ -57,14 +57,14 @@ public class EntityNukeCloudSmall extends Entity {
     		this.age = 0;
         	this.setDead();
         }
-    	ring += 0.1F;
+    	ring += 0.03F;
     	
         if(age < 150)
         {
         	height = -60F + ((age - 100) * 60 / 50);
         	if(scale < 1.5)
         	{
-        		scale += 0.02;
+        		scale += 0.006f;
         	}
         }
         
