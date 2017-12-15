@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -27,7 +28,7 @@ public class ItemBattery extends Item {
 		
 		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core)
 		{
-			list.add("Energy stored: " + (charge * 100) + "/" + (maxCharge * 100) + " HE");
+			list.add("Energy stored: " + Library.getShortNumber(charge * 100) + "/" + Library.getShortNumber(maxCharge * 100) + "HE");
 		} else {
 			long charge1 = (charge  * 100) / this.maxCharge;
 			list.add("Charge: " + charge1 + "%");

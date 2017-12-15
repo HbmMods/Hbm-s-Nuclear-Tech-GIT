@@ -166,6 +166,7 @@ public class ModBlocks {
 	public static Block rejuvinator;
 
 	public static Block crate;
+	public static Block boxcar;
 
 	public static Block seal_frame;
 	public static Block seal_controller;
@@ -449,6 +450,8 @@ public class ModBlocks {
 	public static Block dummy_port_ams_limiter;
 	public static Block dummy_block_ams_emitter;
 	public static Block dummy_port_ams_emitter;
+	public static Block dummy_block_ams_base;
+	public static Block dummy_port_ams_base;
 	
 
 	private static void initializeBlock() {
@@ -726,6 +729,8 @@ public class ModBlocks {
 		crate = new BlockCrate(Material.iron).setBlockName("crate").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":crate");
 		crate_iron = new BlockStorageCrate(Material.iron).setBlockName("crate_iron").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabBlock);
+		
+		boxcar = new DecoBlock(Material.iron).setBlockName("boxcar").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":boxcar");
 
 		machine_well = new MachineOilWell(Material.iron).setBlockName("machine_well").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_well");
 		machine_pumpjack = new MachinePumpjack(Material.iron).setBlockName("machine_pumpjack").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":machine_pumpjack");
@@ -794,6 +799,8 @@ public class ModBlocks {
 		dummy_port_ams_limiter = new DummyBlockAMSLimiter(Material.iron).setBlockName("dummy_port_ams_limiter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_block_ams_emitter = new DummyBlockAMSEmitter(Material.iron).setBlockName("dummy_block_ams_emitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_ams_emitter = new DummyBlockAMSEmitter(Material.iron).setBlockName("dummy_port_ams_emitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_block_ams_base = new DummyBlockAMSBase(Material.iron).setBlockName("dummy_block_ams_base").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_port_ams_base = new DummyBlockAMSBase(Material.iron).setBlockName("dummy_port_ams_base").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -969,6 +976,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crate_iron, crate_iron.getUnlocalizedName());
 		GameRegistry.registerBlock(crate_steel, crate_steel.getUnlocalizedName());
 		
+		//Junk
+		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());
+		
 		//Machines
 		GameRegistry.registerBlock(machine_press, machine_press.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_difurnace_off, machine_difurnace_off.getUnlocalizedName());
@@ -1131,6 +1141,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_port_ams_limiter, dummy_port_ams_limiter.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_block_ams_emitter, dummy_block_ams_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_ams_emitter, dummy_port_ams_emitter.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_block_ams_base, dummy_block_ams_base.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_port_ams_base, dummy_port_ams_base.getUnlocalizedName());
 		
 		//Other Technical Blocks
 		GameRegistry.registerBlock(oil_pipe, oil_pipe.getUnlocalizedName());

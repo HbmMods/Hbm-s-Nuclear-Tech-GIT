@@ -157,7 +157,7 @@ public class MachineRecipes {
 				new ItemStack(ModItems.rod_dual_waste, 1) };
 		ItemStack[] schrabidium3 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 4),
 				new ItemStack(ModItems.nugget_lead, 19), new ItemStack(ModItems.nugget_neptunium, 1),
-				new ItemStack(ModItems.rod_quad_euphemium, 1, 34) };
+				new ItemStack(ModItems.rod_quad_euphemium, 1) };
 
 		if (item == ModItems.cell_uf6) {
 			return uranium;
@@ -2554,7 +2554,7 @@ public class MachineRecipes {
 		case PROTOTYPE:
 			list.add(new ItemStack(ModItems.dysfunctional_reactor, 1));
 			list.add(new ItemStack(ModItems.hull_small_steel, 2));
-			list.add(new ItemStack(ModItems.ingot_euphemium, 3, 34));
+			list.add(new ItemStack(ModItems.ingot_euphemium, 3));
 			list.add(new ItemStack(ModItems.circuit_gold, 2));
 			list.add(new ItemStack(ModItems.wire_gold, 16));
 			break;

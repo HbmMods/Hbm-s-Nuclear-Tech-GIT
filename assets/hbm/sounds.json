@@ -29,7 +29,8 @@
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},
 	"weapon.tauChargeLoop2": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop2", "stream": true}]},
-	"weapon.revolverShoot": {"category": "player", "sounds": [{"name": "weapon/revolverShoot", "stream": false}]},
+    "weapon.revolverShoot": {"category": "player", "sounds": [{"name": "weapon/revolverShoot", "stream": false}]},
+    "weapon.revolverShootAlt": {"category": "player", "sounds": [{"name": "weapon/revolverShootAlt", "stream": false}]},
 	"weapon.heavyShoot": {"category": "player", "sounds": [{"name": "weapon/heavyShoot", "stream": false}]},
 	"weapon.shotgunShoot": {"category": "player", "sounds": [{"name": "weapon/shotgunShoot", "stream": false}]},
 	"weapon.schrabidiumShoot": {"category": "player", "sounds": [{"name": "weapon/schrabidiumShoot", "stream": false}]},
@@ -62,5 +63,8 @@
 	"entity.chopperDamage": {"category": "hostile", "sounds": [{"name": "entity/chopperDamage", "stream": true}]},
 	"entity.chopperMineLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperMineLoop", "stream": false}]},
 	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
-	"entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]}
+    "entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]},
+    
+    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]},
+    "alarm.razortrainHorn": {"category": "record", "sounds": [{"name": "alarm/razortrainHorn", "stream": false}]}
 }

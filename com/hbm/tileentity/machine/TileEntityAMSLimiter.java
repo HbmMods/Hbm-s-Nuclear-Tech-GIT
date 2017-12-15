@@ -302,9 +302,12 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				if(slots[2] != null) {
 					if(slots[2].getItem() == ModItems.ams_focus_limiter)
 						mode = 1;
-					if(slots[2].getItem() == ModItems.ams_focus_booster)
+					else if(slots[2].getItem() == ModItems.ams_focus_booster)
 						mode = 2;
-				}
+					else
+						this.efficiency = 0;
+				} else
+					this.efficiency = 0;
 				
 				if(tank.getFill() <= 5 || heat > maxHeat * 0.9)
 					warning = 2;

@@ -119,6 +119,7 @@ death.attack.teleporter=%1$s wurde ins Nichts teleportiert.
 death.attack.blackhole=%1$s wurde spaghettifiziert.
 death.attack.blender=%1$s wurde in kleine, mundgerechte Stücke geschnitten.
 death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
+death.attack.boxcar=%1$s wurde von einem fallenden Güterwagon zermatscht. Autsch!
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -194,6 +195,7 @@ tile.therm_endo.name=Endothermische Bombe
 tile.therm_exo.name=Exothermische Bombe
 
 tile.crashed_bomb.name=Blindgänger
+tile.boxcar.name=Güterwagon
 
 tile.crate.name=Vorratskiste
 tile.marker_structure.name=Multiblock-Strukturvorlage
@@ -398,6 +400,7 @@ item.pipes_steel.name=Stahlrohre
 item.drill_titanium.name=Titanbohrer
 item.bolt_tungsten.name=Wolframbolzen
 item.bolt_compound.name=Verstärkte Turbinenwelle
+item.plate_polymer.name=Isolator
 
 item.ingot_australium.name=Australiumbarren
 item.ingot_weidanium.name=Weidaniumbarren
@@ -417,6 +420,10 @@ item.nugget_desh.name=Deshnugget
 item.powder_desh.name=Deshstaub
 item.powder_desh_mix.name=Deshmischung
 item.powder_nitan_mix.name=Nitaniummischung
+item.powder_spark_mix.name=Sparkmischung
+item.ingot_dineutronium.name=Dineutroniumbarren
+item.powder_dineutronium.name=Dineutroniumstaub
+item.nugget_dineutronium.name=Dineutroniumnugget
 
 item.solid_fuel.name=Festbrennstoff
 
@@ -594,7 +601,11 @@ item.battery_generic.name=Batterie
 item.battery_advanced.name=Fortgeschrittene Batterie
 item.battery_lithium.name=Lithium-Ionen-Batterie
 item.battery_schrabidium.name=Schrabidiumbatterie
+item.battery_spark.name=Spark-Batterie
 item.battery_creative.name=Unendliche Batterie
+
+item.battery_su.name=Einwegbatterie
+item.battery_su_l.name=Große Einwegbatterie
 
 item.battery_red_cell.name=Redstone-Energiezelle
 item.battery_advanced_cell.name=Fortgeschrittene Energiezelle
@@ -608,6 +619,8 @@ item.battery_red_cell_24.name=24-fache Redstone-Energiezelle
 item.battery_advanced_cell_12.name=Zwölffache fortgeschrittene Energiezelle
 item.battery_lithium_cell_6.name=Sechsfache Lithium-Ionen-Energiezelle
 item.battery_schrabidium_cell_4.name=Vierfache Schrabidium-Energiezelle
+item.battery_spark_cell_6.name=Spark-Energiezelle
+item.battery_spark_cell_25.name=Spark-Arkane Autobatterie
 
 item.upgrade_template.name=Maschinenupgrade-Vorlage
 item.upgrade_speed_1.name=Rotes Maschinenupgrade Mk.I
@@ -723,7 +736,7 @@ item.rod_pu240.name=Pu240-Brennstab
 item.rod_neptunium.name=Neptuniumbrennstab
 item.rod_lead.name=Bleistab
 item.rod_schrabidium.name=Schrabidiumbrennstab
-item.rod_astatine.name=Euphemiumbrennstab
+item.rod_euphemium.name=Euphemiumbrennstab
 item.rod_australium.name=Australiumbrennstab
 item.rod_weidanium.name=Weidaniumbrennstab
 item.rod_reiium.name=Reiiumbrennstab
@@ -915,6 +928,7 @@ item.gun_revolver_schrabidium.name=Schrabidiumrevolver
 item.gun_revolver_cursed.name=Verfluchte Pistole
 item.gun_revolver_nightmare.name=Nightmare-Revolver (Original)
 item.gun_revolver_nightmare2.name=Nightmare-Revolver (Dunkel)
+item.gun_revolver_pip.name=Lil' Pipsqueak
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
 item.gun_bf.name=M42_2 Nukleares Katapult "Antimaterienwerfer"
@@ -944,6 +958,7 @@ item.gun_revolver_schrabidium_ammo.name=Schrabidiumpatrone
 item.gun_revolver_cursed_ammo.name=Stahlpatrone
 item.gun_revolver_nightmare_ammo.name=Nightmare-Kugel
 item.gun_revolver_nightmare2_ammo.name=Laserschrot
+item.gun_revolver_pip_ammo.name=Verdorbene Patrone
 item.gun_fatman_ammo.name=Miniatombombe
 item.gun_mirv_ammo.name=Achtfaches MIRV
 item.gun_bf_ammo.name=Mk.V kompaktes AMAT-Artilleriegeschoss - Typ B.F.
@@ -1045,16 +1060,16 @@ item.chopper_blades.name=Jagdschrauber Rotorblätter
 
 item.igniter.name=Zünder
 item.watch.name=Zerbrochene Taschenuhr
-item.apple_astatine.name=Euphemiumapfel
-item.ingot_astatine.name=Euphemiumbarren
-item.nugget_astatine.name=Euphemiumnugget
-item.rod_quad_astatine.name=Ausgebrannter Schrabidiumvierfachbrennstab
+item.apple_euphemium.name=Euphemiumapfel
+item.ingot_euphemium.name=Euphemiumbarren
+item.nugget_euphemium.name=Euphemiumnugget
+item.rod_quad_euphemium.name=Ausgebrannter Schrabidiumvierfachbrennstab
 item.plate_euphemium.name=Euphemium-Verbundplatte
 
-item.astatine_helmet.name=Euphemiumstiefel
-item.astatine_plate.name=Euphemiumbrustplatte
-item.astatine_legs.name=Euphemiumbeinschutz
-item.astatine_boots.name=Euphemiumstiefel
+item.euphemium_helmet.name=Euphemiumstiefel
+item.euphemium_plate.name=Euphemiumbrustplatte
+item.euphemium_legs.name=Euphemiumbeinschutz
+item.euphemium_boots.name=Euphemiumstiefel
 
 item.schrabidium_helmet.name=Schrabidiumhelm
 item.schrabidium_plate.name=Schrabidiumbrustplatte
@@ -1281,6 +1296,7 @@ item.bottle_empty.name=Leere bombenförmige Glasflasche
 item.bottle_nuka.name=Nuka-Cola Flasche
 item.bottle_cherry.name=Nuka-Cherry Flasche
 item.bottle_quantum.name=Nuka Cola Quantum
+item.bottle_sparkle.name=S~Cola
 item.bottle2_empty.name=Leere Glasflasche
 item.bottle2_korl.name=Korl
 item.bottle2_fritz.name=Fritz-Kola
@@ -1289,6 +1305,7 @@ item.bottle2_fritz_special.name=Die erste Fritz-Kola
 item.chocolate_milk.name=Schokomilch
 item.cap_nuka.name=Nuka-Cola Kronkorken
 item.cap_quantum.name=Nuka Cola Quantum Kronkorken
+item.cap_sparkle.name=S~Cola Kronkorken
 item.cap_korl.name=Korl Kronkorken
 item.cap_fritz.name=Fritz-Kola Kronkorken
 item.ring_pull.name=Dosenring
@@ -1334,6 +1351,32 @@ item.part_beryllium.name=Berylliumstaubkiste
 item.part_carbon.name=Kohlenstoffstaubkiste
 item.part_copper.name=Kupferstaubkiste
 item.part_plutonium.name=Plutoniumstaubkiste
+
+item.rune_blank.name=Blank Catalyst Matrix
+item.rune_isa.name=Cool Catalyst Matrix
+item.rune_dagaz.name=Balanced Catalyst Matrix
+item.rune_hagalaz.name=Rough Catalyst Matrix
+item.rune_jera.name=Multiplicative Catalyst Matrix
+item.rune_thurisaz.name=Additive Catalyst Matrix
+
+item.ams_catalyst_blank.name=Blanker Reaktionskatalysator
+item.ams_catalyst_aluminium.name=Aluminium-Reaktionskatalysator
+item.ams_catalyst_beryllium.name=Beryllium-Reaktionskatalysator
+item.ams_catalyst_caesium.name=Caeseium-Reaktionskatalysator
+item.ams_catalyst_cerium.name=Cer-Reaktionskatalysator
+item.ams_catalyst_cobalt.name=Cobalt-Reaktionskatalysator
+item.ams_catalyst_copper.name=Kupfer-Reaktionskatalysator
+item.ams_catalyst_euphemium.name=Euphemium-Reaktionskatalysator
+item.ams_catalyst_iron.name=Eisen-Reaktionskatalysator
+item.ams_catalyst_lithium.name=Lithium-Reaktionskatalysator
+item.ams_catalyst_niobium.name=Niob-Reaktionskatalysator
+item.ams_catalyst_strontium.name=Strontium-Reaktionskatalysator
+item.ams_catalyst_thorium.name=Thorium-Reaktionskatalysator
+item.ams_catalyst_tungsten.name=Wolfram-Reaktionskatalysator
+
+item.ams_focus_blank.name=Blanker Stabilisierungsfokus
+item.ams_focus_limiter.name=Beschränkender Stabilisierungsfokus
+item.ams_focus_booster.name=Verstärkender Stabilisierungsfokus
 
 item.crystal_energy.name=Energiekristall
 item.pellet_coolant.name=Kühlcluster

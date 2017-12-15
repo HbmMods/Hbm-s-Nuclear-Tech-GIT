@@ -12,7 +12,7 @@ public class ItemAntiCheat extends ItemCustomLore {
     @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int j, boolean b) {
 
-    	if(stack.getItemDamage() != 34) {
+    	/*if(stack.getItemDamage() != 34) {
         	
         	if(entity instanceof EntityPlayer) {
         		EntityPlayer player = (EntityPlayer)entity;
@@ -28,7 +28,7 @@ public class ItemAntiCheat extends ItemCustomLore {
         	
         	//if(!world.isRemote)
         	//	ExplosionChaos.antiCheat(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ, 20);
-    	}
+    	}*/
     }
 
 }

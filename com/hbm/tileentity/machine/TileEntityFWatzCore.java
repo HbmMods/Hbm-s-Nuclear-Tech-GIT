@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, IReactor, ISource, IFluidContainer, IFluidAcceptor {
 
 	public long power;
-	public final static long maxPower = 100000000;
+	public final static long maxPower = 10000000000L;
 	public boolean cooldown = false;
 
 	public FluidTank tanks[];
@@ -303,35 +303,35 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 						tanks[0].setFill(tanks[0].getFill() - 150);
 						tanks[1].setFill(tanks[1].getFill() - 75);
 						tanks[2].setFill(tanks[2].getFill() - 75);
-						power += 500000;
+						power += 5000000;
 						isWorking = true;
 					}
 					if(i == 2 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 35 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 75);
 						tanks[1].setFill(tanks[1].getFill() - 35);
 						tanks[2].setFill(tanks[2].getFill() - 30);
-						power += 250000;
+						power += 2500000;
 						isWorking = true;
 					}
 					if(i == 3 && tanks[1].getFill() - 75 >= 0 && tanks[2].getFill() - 140 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 300);
 						tanks[1].setFill(tanks[1].getFill() - 75);
 						tanks[2].setFill(tanks[2].getFill() - 140);
-						power += 1000000;
+						power += 10000000;
 						isWorking = true;
 					}
 					if(i == 4 && tanks[1].getFill() - 100 >= 0 && tanks[2].getFill() - 100 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 100);
 						tanks[1].setFill(tanks[1].getFill() - 100);
 						tanks[2].setFill(tanks[2].getFill() - 100);
-						power += 1000000;
+						power += 10000000;
 						isWorking = true;
 					}
 					if(i == 5 && tanks[1].getFill() - 15 >= 0 && tanks[2].getFill() - 15 >= 0) {
 						tanks[0].setFill(tanks[0].getFill() - 150);
 						tanks[1].setFill(tanks[1].getFill() - 15);
 						tanks[2].setFill(tanks[2].getFill() - 15);
-						power += 10000000;
+						power += 100000000;
 						isWorking = true;
 					}
 					

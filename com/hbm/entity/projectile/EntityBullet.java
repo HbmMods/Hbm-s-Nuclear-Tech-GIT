@@ -33,6 +33,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -66,6 +67,7 @@ public class EntityBullet extends Entity implements IProjectile {
 	private boolean instakill = false;
 	private boolean rad = false;
 	public boolean antidote = false;
+	public boolean pip = false;
 
 	public EntityBullet(World p_i1753_1_) {
 		super(p_i1753_1_);
@@ -431,7 +433,7 @@ public class EntityBullet extends Entity implements IProjectile {
 
 			if (movingobjectposition != null) {
 				if (movingobjectposition.entityHit != null) {
-					//TODO: Remove test feature in retail version
+					//TODO: Remove test feature in release version
 					if (!(movingobjectposition.entityHit instanceof EntityItemFrame)
 							|| movingobjectposition.entityHit instanceof EntityItemFrame
 									&& (((EntityItemFrame) movingobjectposition.entityHit).getDisplayedItem() == null
@@ -455,9 +457,9 @@ public class EntityBullet extends Entity implements IProjectile {
 						//O: Direct
 						
 						//   X X   Bullet
-						//   \ |
+						//    \|
 						//   O-X   Tau
-						//   | /
+						//   |/ 
 						//   X-O   Displacer
 						
 						if (!this.getIsCritical() && !this.getIsChopper()) {
@@ -541,6 +543,26 @@ public class EntityBullet extends Entity implements IProjectile {
 										&& this.shootingEntity instanceof EntityPlayerMP) {
 									((EntityPlayerMP) this.shootingEntity).playerNetServerHandler
 											.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
+								}
+								
+								if(this.pip) {
+									if(!worldObj.isRemote) {
+										EntityBoxcar pippo = new EntityBoxcar(worldObj);
+										pippo.posX = movingobjectposition.entityHit.posX;
+										pippo.posY = movingobjectposition.entityHit.posY + 50;
+										pippo.posZ = movingobjectposition.entityHit.posZ;
+									
+										for(int j = 0; j < 50; j++) {
+											EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
+											worldObj.spawnEntityInWorld(fx);
+										}
+									
+										worldObj.spawnEntityInWorld(pippo);
+									}
+									
+									worldObj.playSoundEffect(movingobjectposition.entityHit.posX, 
+											movingobjectposition.entityHit.posY + 50, 
+											movingobjectposition.entityHit.posZ, "hbm:alarm.trainHorn", 100F, 1F);
 								}
 							}
 

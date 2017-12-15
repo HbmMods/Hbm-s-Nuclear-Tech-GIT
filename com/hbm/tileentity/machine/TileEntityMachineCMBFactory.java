@@ -26,7 +26,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	public long power = 0;
 	public int process = 0;
 	public int soundCycle = 0;
-	public static final long maxPower = 100000;
+	public static final long maxPower = 100000000;
 	public static final int processSpeed = 200;
 	public FluidTank tank;
 
@@ -38,7 +38,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	
 	public TileEntityMachineCMBFactory() {
 		slots = new ItemStack[6];
-		tank = new FluidTank(FluidType.WATZ, 16000, 0);
+		tank = new FluidTank(FluidType.WATZ, 8000, 0);
 	}
 
 	@Override
@@ -232,7 +232,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		
 		boolean b = false;
 		
-		if(tank.getFill() > 0 && power > 0 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
+		if(tank.getFill() >= 10 && power >= 100000 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
 		{
 			boolean flag0 = slots[1].getItem() == ModItems.ingot_magnetized_tungsten || slots[1].getItem() == ModItems.powder_magnetized_tungsten;
 			boolean flag1 = slots[3].getItem() == ModItems.ingot_advanced_alloy || slots[3].getItem() == ModItems.powder_advanced_alloy;
@@ -248,8 +248,8 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	}
 	
 	public void process() {
-		tank.setFill(tank.getFill() - 1);
-		power -= 15;
+		tank.setFill(tank.getFill() - 10);
+		power -= 100000;
 		
 		process++;
 		

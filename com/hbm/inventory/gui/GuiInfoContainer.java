@@ -2,6 +2,8 @@ package com.hbm.inventory.gui;
 
 import java.util.Arrays;
 
+import com.hbm.lib.Library;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
@@ -18,7 +20,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	public void drawElectricityInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
 		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
-			gui.drawFluidInfo(new String[] { power + "/" + maxPower + "HE" }, mouseX, mouseY);
+			gui.drawFluidInfo(new String[] { Library.getShortNumber(power) + "/" + Library.getShortNumber(maxPower) + "HE" }, mouseX, mouseY);
 	}
 	
 	public void drawCustomInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height, String[] text) {

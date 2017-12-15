@@ -89,4 +89,13 @@ public class ResourceManager {
 	//Shimmer Sledge
 	public static final ResourceLocation shimmer_sledge_tex = new ResourceLocation(RefStrings.MODID, "textures/models/shimmer_sledge.png");
 	
+	////Obj Entities
+	
+	//Boxcar
+	public static final IModelCustom boxcar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/boxcar.obj"));
+	
+	////Texture Entities
+	
+	//Boxcar
+	public static final ResourceLocation boxcar_tex = new ResourceLocation(RefStrings.MODID, "textures/models/boxcar.png");
 }

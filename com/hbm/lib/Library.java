@@ -291,7 +291,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base)
 		{
 			return true;
 		}
@@ -325,7 +326,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.watz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base)
 		{
 			return true;
 		}
@@ -500,6 +502,42 @@ public class Library {
 		return list;
 	}
 	
+	public static String getShortNumber(long l) {
+
+		if(l >= Math.pow(10, 18)) {
+			double res = l / Math.pow(10, 18);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "E";
+		}
+		if(l >= Math.pow(10, 15)) {
+			double res = l / Math.pow(10, 15);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "P";
+		}
+		if(l >= Math.pow(10, 12)) {
+			double res = l / Math.pow(10, 12);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "T";
+		}
+		if(l >= Math.pow(10, 9)) {
+			double res = l / Math.pow(10, 9);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "G";
+		}
+		if(l >= Math.pow(10, 6)) {
+			double res = l / Math.pow(10, 6);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "M";
+		}
+		if(l >= Math.pow(10, 3)) {
+			double res = l / Math.pow(10, 3);
+			res = Math.round(res * 100.0) / 100.0;
+			return res + "k";
+		}
+		
+		return Long.toString(l);
+	}
+	
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
@@ -597,6 +635,25 @@ public class Library {
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
+
+		for(int i = 0; i < 200; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 200; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_6 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 200; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_25 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
 		
 		for(int i = 0; i < 10; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.factory_core_titanium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
@@ -653,6 +710,17 @@ public class Library {
 		if(slots[index] != null && slots[index].getItem() == ModItems.fusion_core_infinite)
 		{
 			return maxPower;
+		}
+
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_su && ItemBattery.getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_su_l && ItemBattery.getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 		}
 
 		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) > 0)
@@ -746,6 +814,25 @@ public class Library {
 			} else break;
 		for(int i = 0; i < 15; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ItemBattery.getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 200; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark && ItemBattery.getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 200; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_6 && ItemBattery.getCharge(slots[index]) > 0)
+			{
+				power += 100;
+				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 200; i++)
+			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_25 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
@@ -1056,6 +1143,11 @@ public class Library {
 		}
 		//AMS Limiter
 		if(block == ModBlocks.dummy_port_ams_emitter)
+		{
+			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
+		}
+		//AMS Base
+		if(block == ModBlocks.dummy_port_ams_base)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

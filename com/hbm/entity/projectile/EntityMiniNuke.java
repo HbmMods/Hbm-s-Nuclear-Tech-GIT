@@ -246,12 +246,21 @@ public class EntityMiniNuke extends Entity implements IProjectile
         	    entity0.coefficient = 10.0F;
         	    	
         	    this.worldObj.spawnEntityInWorld(entity0);
-            	if(rand.nextInt(100) >= 0)	//edited
-            	{
-            		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-            	} else {
-            		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-            	}
+        	    //Perma-baleflare mode if the polaroid's glitched
+        	    if(MainRegistry.polaroidID == 11)
+        	    	if(rand.nextInt(100) >= 0)	//edited
+        	    	{
+        	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+        	    	} else {
+        	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+        	    	}
+        	    else
+        	    	if(rand.nextInt(100) == 0)	//original
+        	    	{
+        	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+        	    	} else {
+        	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+        	    	}
             }
         	this.setDead();
         }

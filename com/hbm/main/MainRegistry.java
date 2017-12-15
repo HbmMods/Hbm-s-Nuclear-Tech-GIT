@@ -105,6 +105,7 @@ import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.entity.projectile.EntityBaleflare;
+import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.projectile.EntityCombineBall;
@@ -615,6 +616,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityVortex.class, "entity_vortex", 83, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityMeteor.class, "entity_meteor", 84, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityLaser.class, "entity_laser", 85, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBoxcar.class, "entity_boxcar", 86, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

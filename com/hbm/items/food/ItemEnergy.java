@@ -109,6 +109,14 @@ public class ItemEnergy extends Item {
                 p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
                 p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 120 * 20, 2));
         	}
+        	if(this == ModItems.bottle_sparkle)
+        	{
+        		p_77654_3_.heal(10F);
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
+        	}
         }
 
         if (!p_77654_3_.capabilities.isCreativeMode && this != ModItems.chocolate_milk)
@@ -161,6 +169,16 @@ public class ItemEnergy extends Item {
             	}
 
             	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+        	}
+        	
+        	if(this == ModItems.bottle_sparkle || this == ModItems.bottle_sparkle) {
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
+        		if (p_77654_1_.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.bottle_empty);
+            	}
+
+            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
         	}
         }
 
@@ -253,6 +271,13 @@ public class ItemEnergy extends Item {
     			list.add("ygrogr fgrof bf");
     		else
     			list.add("moremore caffeine");
+    	}
+    	if(this == ModItems.bottle_sparkle)
+    	{
+    		if(MainRegistry.polaroidID == 11)
+    			list.add("Contains trace amounts of taint.");
+    		else
+    			list.add("The most delicious beverage in the wasteland!");
     	}
     }
 }

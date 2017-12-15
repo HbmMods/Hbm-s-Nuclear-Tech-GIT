@@ -27,10 +27,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class GunRevolver extends Item {
-	public static final String[] bowPullIconNameArray = new String[] { "pulling_0", "pulling_1", "pulling_2" };
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
-	private static final String __OBFID = "CL_00001777";
+
 	private Item ammo;
 	private int dmgMin;
 	private int dmgMax;
@@ -58,6 +55,9 @@ public class GunRevolver extends Item {
 		if (this == ModItems.gun_revolver_cursed) {
 			this.setMaxDamage(5000);
 		}
+		if (this == ModItems.gun_revolver_pip) {
+			this.setMaxDamage(1000);
+		}
 
 		this.ammo = ammo;
 		this.dmgMin = dmgMin;
@@ -74,6 +74,10 @@ public class GunRevolver extends Item {
 		}
 
 		if (this == ModItems.gun_revolver_cursed) {
+			return EnumRarity.uncommon;
+		}
+
+		if (this == ModItems.gun_revolver_pip) {
 			return EnumRarity.uncommon;
 		}
 
@@ -109,23 +113,24 @@ public class GunRevolver extends Item {
 
 			EntityBullet entityarrow = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, instakill, rad);
 			entityarrow.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
+			if(this == ModItems.gun_revolver_pip && p_77615_3_.isSneaking()) {
+				entityarrow.pip = true;
+				entityarrow.setDamage(1);
+			}
 
 			p_77615_1_.damageItem(1, p_77615_3_);
 			if (this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron
 					|| this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead) {
-				// p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode",
-				// 1.0F, 3.0F);
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
 			}
 			if (this == ModItems.gun_revolver_cursed) {
-				// p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode",
-				// 3.0F, 1.5F);
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.heavyShoot", 3.0F, 1.0F);
 			}
 			if (this == ModItems.gun_revolver_schrabidium) {
-				// p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode",
-				// 1.0F, 3.0F);
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
+			}
+			if (this == ModItems.gun_revolver_pip) {
+				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 1.0F);
 			}
 
 			if (flag) {
@@ -232,6 +237,16 @@ public class GunRevolver extends Item {
 			list.add("Ammo: Steel Bullets");
 			list.add("Damage: 25 - 40");
 			list.add("33% chance of user being withered.");
+		}
+		if (this == ModItems.gun_revolver_pip) {
+			list.add("In loving memory of the eldritch");
+			list.add("creature which got smushed by a");
+			list.add("falling freight wagon.");
+			list.add("");
+			list.add("Ammo: Tainted Bullets");
+			list.add("Damage: 25 - 35");
+			list.add("Secondary Damage: 1");
+			list.add("Enemy is hit by boxcar.");
 		}
 	}
 

@@ -35,7 +35,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	private ItemStack slots[];
 
 	public long power = 0;
-	public static final long maxPower = 1000000;
+	public static final long maxPower = 1000000000000000L;
 	public int field = 0;
 	public static final int maxField = 100;
 	public int efficiency = 0;
@@ -61,10 +61,10 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public TileEntityAMSBase() {
 		slots = new ItemStack[13];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidType.WATER, 64000, 0);
-		tanks[1] = new FluidTank(FluidType.COOLANT, 64000, 1);
-		tanks[2] = new FluidTank(FluidType.DEUTERIUM, 64000, 2);
-		tanks[3] = new FluidTank(FluidType.TRITIUM, 64000, 3);
+		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
+		tanks[1] = new FluidTank(FluidType.COOLANT, 8000, 1);
+		tanks[2] = new FluidTank(FluidType.DEUTERIUM, 8000, 2);
+		tanks[3] = new FluidTank(FluidType.TRITIUM, 8000, 3);
 	}
 
 	@Override
@@ -246,29 +246,48 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 					tanks[i].updateTank(xCoord, yCoord, zCoord);
 				
 				int f1 = 0, f2 = 0, f3 = 0, f4 = 0;
+				int booster = 0;
 
 				if(worldObj.getTileEntity(xCoord + 6, yCoord, zCoord) instanceof TileEntityAMSLimiter) {
 					TileEntityAMSLimiter te = (TileEntityAMSLimiter)worldObj.getTileEntity(xCoord + 6, yCoord, zCoord);
-					if(!te.locked && worldObj.getBlockMetadata(xCoord + 6, yCoord, zCoord) == 4)
+					if(!te.locked && worldObj.getBlockMetadata(xCoord + 6, yCoord, zCoord) == 4) {
 						f1 = te.efficiency;
+						if(te.mode == 2)
+							booster++;
+					}
 				}
 				if(worldObj.getTileEntity(xCoord - 6, yCoord, zCoord) instanceof TileEntityAMSLimiter) {
 					TileEntityAMSLimiter te = (TileEntityAMSLimiter)worldObj.getTileEntity(xCoord - 6, yCoord, zCoord);
-					if(!te.locked && worldObj.getBlockMetadata(xCoord - 6, yCoord, zCoord) == 5)
+					if(!te.locked && worldObj.getBlockMetadata(xCoord - 6, yCoord, zCoord) == 5) {
 						f2 = te.efficiency;
+						if(te.mode == 2)
+							booster++;
+					}
 				}
 				if(worldObj.getTileEntity(xCoord, yCoord, zCoord + 6) instanceof TileEntityAMSLimiter) {
 					TileEntityAMSLimiter te = (TileEntityAMSLimiter)worldObj.getTileEntity(xCoord, yCoord, zCoord + 6);
-					if(!te.locked && worldObj.getBlockMetadata(xCoord, yCoord, zCoord + 6) == 2)
+					if(!te.locked && worldObj.getBlockMetadata(xCoord, yCoord, zCoord + 6) == 2) {
 						f3 = te.efficiency;
+						if(te.mode == 2)
+							booster++;
+					}
 				}
 				if(worldObj.getTileEntity(xCoord, yCoord, zCoord - 6) instanceof TileEntityAMSLimiter) {
 					TileEntityAMSLimiter te = (TileEntityAMSLimiter)worldObj.getTileEntity(xCoord, yCoord, zCoord - 6);
-					if(!te.locked && worldObj.getBlockMetadata(xCoord, yCoord, zCoord - 6) == 3)
+					if(!te.locked && worldObj.getBlockMetadata(xCoord, yCoord, zCoord - 6) == 3) {
 						f4 = te.efficiency;
+						if(te.mode == 2)
+							booster++;
+					}
 				}
 				
 				this.field = Math.round(calcField(f1, f2, f3, f4));
+				
+				mode = 0;
+				if(field > 0)
+					mode = 1;
+				if(booster > 0)
+					mode = 2;
 				
 				if(worldObj.getTileEntity(xCoord, yCoord + 9, zCoord) instanceof TileEntityAMSEmitter) {
 					TileEntityAMSEmitter te = (TileEntityAMSEmitter)worldObj.getTileEntity(xCoord, yCoord + 9, zCoord);

@@ -119,6 +119,7 @@ death.attack.teleporter=%1$s was teleported into nothingness.
 death.attack.blackhole=%1$s was spaghettified.
 death.attack.blender=%1$s was chopped in small, bite-sized pieces.
 death.attack.meteorite=%1$s was hit by a falling rock from outer space.
+death.attack.boxcar=%1$s was smushed by a falling boxcar. Oh well.
 
 item.redstone_sword.name=Redstone Sword
 item.big_sword.name=Great Sword
@@ -186,6 +187,7 @@ tile.therm_endo.name=Endothermic Bomb
 tile.therm_exo.name=Exothermic Bomb
 
 tile.crashed_bomb.name=Dud
+tile.boxcar.name=Boxcar
 
 tile.turret_light.name=Light Machine Gun Turret
 tile.turret_heavy.name=Heavy Machine Gun Turret
@@ -398,6 +400,7 @@ item.pipes_steel.name=Steel Pipes
 item.drill_titanium.name=Titanium Drill
 item.bolt_tungsten.name=Tunsten Bolt
 item.bolt_compound.name=Reinforced Turbine Shaft
+item.plate_polymer.name=Insulator
 
 item.ingot_australium.name=Australium Ingot
 item.ingot_weidanium.name=Weidanium Ingot
@@ -415,8 +418,12 @@ item.nugget_verticium.name=Verticium Nugget
 item.ingot_desh.name=Desh Ingot
 item.nugget_desh.name=Desh Nugget
 item.powder_desh.name=Desh Powder
-item.powder_desh_mix.name=Desh Mixture
-item.powder_nitan_mix.name=Nitanium Mixture
+item.powder_desh_mix.name=Desh Blend
+item.powder_nitan_mix.name=Nitanium Blend
+item.powder_spark_mix.name=Spark Blend
+item.ingot_dineutronium.name=Dineutronium Ingot
+item.powder_dineutronium.name=Dineutronium Powder
+item.nugget_dineutronium.name=Dineutronium Nugget
 
 item.solid_fuel.name=Solid Fuel
 
@@ -581,6 +588,9 @@ item.powder_niobium_tiny.name=Tiny Pile of Niobium Powder
 item.powder_cerium_tiny.name=Tiny Pile of Cerium Powder
 item.powder_lanthanium_tiny.name=Tiny Pile of Lanthanium Powder
 item.powder_actinium_tiny.name=Tiny Pile of Actinium Powder
+item.powder_euphemium.name=Euphemium Powder
+item.powder_meteorite.name=Meteorite Powder
+item.powder_meteorite_tiny.name=Tiny Pile of Ḿeteorite Powder
 
 item.fragment_neodymium.name=Neodymium Fragment
 item.fragment_cobalt.name=Cobalt Fragment
@@ -594,7 +604,11 @@ item.battery_generic.name=Battery
 item.battery_advanced.name=Advanced Battery
 item.battery_lithium.name=Lithium-Ion Battery
 item.battery_schrabidium.name=Schrabidium Battery
+item.battery_spark.name=Spark Battery
 item.battery_creative.name=Infinite Battery
+
+item.battery_su.name=SU-Battery
+item.battery_su_l.name=Large SU-Battery
 
 item.battery_red_cell.name=Redstone Power Cell
 item.battery_advanced_cell.name=Advanced Power Cell
@@ -608,6 +622,8 @@ item.battery_red_cell_24.name=24-Fold Redstone Power Cell
 item.battery_advanced_cell_12.name=Twelvefold Advanced Power Cell
 item.battery_lithium_cell_6.name=Sixfold Lithium-Ion Power Cell
 item.battery_schrabidium_cell_4.name=Quadruple Schrabidium Power Cell
+item.battery_spark_cell_6.name=Spark Power Cell
+item.battery_spark_cell_25.name=Spark Arcane Car Battery
 
 item.upgrade_template.name=Machine Upgrade Piece Template
 item.upgrade_speed_1.name=Red Machine Upgrade Mk.I
@@ -712,7 +728,7 @@ item.fluid_barrel_empty.name=Empty Fluid Barrel
 item.fluid_barrel_full.name=Fluid Barrel:
 item.fluid_barrel_infinite.name=Infinite Fluid Barrel
 
-item.rod_empty.name=Emty Rod
+item.rod_empty.name=Empty Rod
 item.rod_uranium.name=Uranium Rod
 item.rod_u235.name=U235 Rod
 item.rod_u238.name=U238 Rod
@@ -723,7 +739,7 @@ item.rod_pu240.name=Pu240 Rod
 item.rod_neptunium.name=Neptunium Rod
 item.rod_lead.name=Lead Rod
 item.rod_schrabidium.name=Schrabidium Rod
-item.rod_astatine.name=Euphemium Rod
+item.rod_euphemium.name=Euphemium Rod
 item.rod_australium.name=Australium Rod
 item.rod_weidanium.name=Weidanium Rod
 item.rod_reiium.name=Reiium Rod
@@ -731,8 +747,8 @@ item.rod_unobtainium.name=Unobtainium Rod
 item.rod_daffergon.name=Daffergon Rod
 item.rod_verticium.name=Verticium Rod
 
-item.rod_dual_empty.name=Emty Dual Rod
-item.rod_dual_uranium.name=Uranium Dual Fl Rod
+item.rod_dual_empty.name=Empty Dual Rod
+item.rod_dual_uranium.name=Uranium Dual Fuel Rod
 item.rod_dual_u235.name=U235 Dual Rod
 item.rod_dual_u238.name=U238 Dual Rod
 item.rod_dual_plutonium.name=Plutonium Dual Rod
@@ -743,7 +759,7 @@ item.rod_dual_neptunium.name=Neptunium Dual Rod
 item.rod_dual_lead.name=Lead Dual Rod
 item.rod_dual_schrabidium.name=Schrabidium Dual Rod
 
-item.rod_quad_empty.name=Emty Quad Rod
+item.rod_quad_empty.name=Empty Quad Rod
 item.rod_quad_uranium.name=Uranium Quad Rod
 item.rod_quad_u235.name=U235 Quad Rod
 item.rod_quad_u238.name=U238 Quad Rod
@@ -915,6 +931,7 @@ item.gun_revolver_schrabidium.name=Schrabidium Revolver
 item.gun_revolver_cursed.name=Cursed Revolver
 item.gun_revolver_nightmare.name=Nightmare Revolver (Original)
 item.gun_revolver_nightmare2.name=Nightmare Revolver (Dark)
+item.gun_revolver_pip.name=Lil' Pipsqueak
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_mirv.name=M42 Nuclear Catapult "Experimental MIRV"
 item.gun_bf.name=M42_2 Nuclear Catapult "Antimatter Launcher"
@@ -944,6 +961,7 @@ item.gun_revolver_schrabidium_ammo.name=Schrabidium Bullet
 item.gun_revolver_cursed_ammo.name=Steel Bullet
 item.gun_revolver_nightmare_ammo.name=Nightmare Bullet
 item.gun_revolver_nightmare2_ammo.name=Laser Buckshot
+item.gun_revolver_pip_ammo.name=Tainted Bullet
 item.gun_fatman_ammo.name=Mini Nuke
 item.gun_mirv_ammo.name=Eightfold MIRV
 item.gun_bf_ammo.name=Mk.V Compact AMAT-Artillery Shell - Type B.F.
@@ -1045,16 +1063,16 @@ item.chopper_blades.name=Hunter Chopper Rotor Blades
 
 item.igniter.name=Igniter
 item.watch.name=Broken Pocket Watch
-item.apple_astatine.name=Euphemium Apple
-item.ingot_astatine.name=Euphemium Ingot
-item.nugget_astatine.name=Euphemium Nugget
-item.rod_quad_astatine.name=Burned Out Quad Schrabidium Fuel Rod
+item.apple_euphemium.name=Euphemium Apple
+item.ingot_euphemium.name=Euphemium Ingot
+item.nugget_euphemium.name=Euphemium Nugget
+item.rod_quad_euphemium.name=Burned Out Quad Schrabidium Fuel Rod
 item.plate_euphemium.name=Euphemium Compound Plate
 
-item.astatine_helmet.name=Euphemium Helemt
-item.astatine_plate.name=Euphemium Chestplate
-item.astatine_legs.name=Euphemium Leggings
-item.astatine_boots.name=Euphemiums Boots
+item.euphemium_helmet.name=Euphemium Helemt
+item.euphemium_plate.name=Euphemium Chestplate
+item.euphemium_legs.name=Euphemium Leggings
+item.euphemium_boots.name=Euphemiums Boots
 
 item.schrabidium_helmet.name=Schrabidium Helmet
 item.schrabidium_plate.name=Schrabidium Chestpate
@@ -1281,6 +1299,7 @@ item.bottle_empty.name=Empty Bomb-Shaped Bottle
 item.bottle_nuka.name=Bottle of Nuka Cola
 item.bottle_cherry.name=Bottle of Nuka Cherry
 item.bottle_quantum.name=Bottle of Nuka Cola Quantum
+item.bottle_sparkle.name=Bottle of S~Cola
 item.bottle2_empty.name=Empty Bottle
 item.bottle2_korl.name=Korl
 item.bottle2_fritz.name=Fritz Cola
@@ -1289,6 +1308,7 @@ item.bottle2_fritz_special.name=The First Fritz Cola
 item.chocolate_milk.name=Chocolate Milk
 item.cap_nuka.name=Nuka Cola Bottle Cap
 item.cap_quantum.name=Nuka Cola Quantum Bottle Cap
+item.cap_sparkle.name=S~Cola Bottle Cap
 item.cap_korl.name=Korl Bottle Cap
 item.cap_fritz.name=Fritz Cola Bottle Cap
 item.ring_pull.name=Ring Pull
@@ -1334,6 +1354,32 @@ item.part_beryllium.name=Box of Beryllium Dust
 item.part_carbon.name=Box of Carbon Dust
 item.part_copper.name=Box of Copper Dust
 item.part_plutonium.name=Box of Plutonium Dust
+
+item.rune_blank.name=Blank Catalyst Matrix
+item.rune_isa.name=Cool Catalyst Matrix
+item.rune_dagaz.name=Balanced Catalyst Matrix
+item.rune_hagalaz.name=Rough Catalyst Matrix
+item.rune_jera.name=Multiplicative Catalyst Matrix
+item.rune_thurisaz.name=Additive Catalyst Matrix
+
+item.ams_catalyst_blank.name=Blank Reaction Catalyst
+item.ams_catalyst_aluminium.name=Aluminium Reaction Catalyst
+item.ams_catalyst_beryllium.name=Beryllium Reaction Catalyst
+item.ams_catalyst_caesium.name=Caeseium Reaction Catalyst
+item.ams_catalyst_cerium.name=Cerium Reaction Catalyst
+item.ams_catalyst_cobalt.name=Cobalt Reaction Catalyst
+item.ams_catalyst_copper.name=Copper Reaction Catalyst
+item.ams_catalyst_euphemium.name=Euphemium Reaction Catalyst
+item.ams_catalyst_iron.name=Iron Reaction Catalyst
+item.ams_catalyst_lithium.name=Lithium Reaction Catalyst
+item.ams_catalyst_niobium.name=Niobium Reaction Catalyst
+item.ams_catalyst_strontium.name=Strontium Reaction Catalyst
+item.ams_catalyst_thorium.name=Thorium Reaction Catalyst
+item.ams_catalyst_tungsten.name=Tungsten Reaction Catalyst
+
+item.ams_focus_blank.name=Blank Stabilizer Focus
+item.ams_focus_limiter.name=Limiting Stabilizer Focus
+item.ams_focus_booster.name=Boosting Stabilizer Focus
 
 item.crystal_energy.name=Energy Crystal
 item.pellet_coolant.name=Coolant Cluster

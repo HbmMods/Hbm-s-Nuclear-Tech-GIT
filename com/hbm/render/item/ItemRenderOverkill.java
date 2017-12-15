@@ -4,12 +4,14 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelDash;
 import com.hbm.render.model.ModelDefabricator;
 import com.hbm.render.model.ModelEuthanasia;
 import com.hbm.render.model.ModelGun;
 import com.hbm.render.model.ModelHP;
 import com.hbm.render.model.ModelJack;
+import com.hbm.render.model.ModelPip;
 import com.hbm.render.model.ModelSpark;
 import com.hbm.render.model.ModelTwiGun;
 
@@ -28,6 +30,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 	protected ModelDefabricator defab;
 	protected ModelDash dasher;
 	protected ModelTwiGun rgottp;
+	protected ModelPip pip;
 	
 	public ItemRenderOverkill() {
 		powerJack = new ModelJack();
@@ -37,6 +40,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 		defab = new ModelDefabricator();
 		dasher = new ModelDash();
 		rgottp = new ModelTwiGun();
+		pip = new ModelPip();
 	}
 
 	@Override
@@ -76,6 +80,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
 				if(item.getItem() == ModItems.gun_twigun)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
+				if(item.getItem() == ModItems.gun_revolver_pip)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPip.png"));
 				
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
@@ -83,8 +89,14 @@ public class ItemRenderOverkill implements IItemRenderer {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				//GL11.glTranslatef(-0.4F, -0.1F, 0.1F);
 				GL11.glTranslatef(-0.2F, -0.1F, -0.1F);
+				
 				if(item.getItem() == ModItems.gun_defabricator)
 					GL11.glTranslatef(0, 0.5F, 0.4F);
+				
+				if(item.getItem() == ModItems.gun_revolver_pip) {
+					GL11.glScalef(0.60F, 0.60F, 0.60F);
+					GL11.glTranslatef(0.0F, 0.3F, 0.2F);
+				}
 				
 				if(item.getItem() == ModItems.gun_jack)
 					powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
@@ -100,6 +112,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 					dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_twigun)
 					rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_revolver_pip)
+					pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
@@ -120,6 +134,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
 				if(item.getItem() == ModItems.gun_twigun)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
+				if(item.getItem() == ModItems.gun_revolver_pip)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPip.png"));
 				
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
@@ -138,6 +154,11 @@ public class ItemRenderOverkill implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_defabricator)
 					GL11.glTranslatef(0.5F, 0.6F, -0.2F);
 				
+				if(item.getItem() == ModItems.gun_revolver_pip) {
+					GL11.glScalef(0.60F, 0.60F, 0.60F);
+					GL11.glTranslatef(0.7F, 0.3F, 0.0F);
+				}
+				
 				if(item.getItem() == ModItems.gun_jack)
 					powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_spark)
@@ -152,6 +173,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 					dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_twigun)
 					rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				if(item.getItem() == ModItems.gun_revolver_pip)
+					pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 		default: break;
 		}

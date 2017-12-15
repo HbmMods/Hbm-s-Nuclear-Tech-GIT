@@ -55,16 +55,16 @@ public class GUIAMSBase extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int)base.getPowerScaled(104);
+		int i = (int)base.getPowerScaled(106);
 		drawTexturedModalRect(guiLeft + 116, guiTop + 124 - i, 206, 106 - i, 7, i);
 		
-		int j = base.getFieldScaled(104);
+		int j = base.getFieldScaled(106);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 124 - j, 192, 106 - j, 7, j);
 		
-		int k = base.getEfficiencyScaled(104);
+		int k = base.getEfficiencyScaled(106);
 		drawTexturedModalRect(guiLeft + 53, guiTop + 124 - k, 199, 106 - k, 7, k);
 		
-		int l = base.getHeatScaled(104);
+		int l = base.getHeatScaled(106);
 		drawTexturedModalRect(guiLeft + 125, guiTop + 124 - l, 213, 106 - l, 7, l);
 		
 		int m = base.mode;

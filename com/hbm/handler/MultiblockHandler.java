@@ -72,6 +72,7 @@ public class MultiblockHandler {
 	public static final int[] AMSLimiterDimensionSouth = new int[] { 0, 0, 5, 0, 2, 2 };
 	public static final int[] AMSLimiterDimensionWest  = new int[] { 2, 2, 5, 0, 0, 0 };
 	public static final int[] AMSEmitterDimension  = new int[] { 2, 2, 5, 0, 2, 2, };
+	public static final int[] AMSBaseDimension  = new int[] { 1, 1, 1, 0, 1, 1, };
 	
 	//Approved!
 	public static boolean checkSpace(World world, int x, int y, int z, int[] i) {
