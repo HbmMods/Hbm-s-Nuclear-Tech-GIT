@@ -65,6 +65,15 @@
 	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
     "entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]},
     
-    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]},
-    "alarm.razortrainHorn": {"category": "record", "sounds": [{"name": "alarm/razortrainHorn", "stream": false}]}
+    "alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
+    "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},
+    "alarm.apcPass": {"category": "record", "sounds": [{"name": "alarm/apcPass", "stream": false}]},
+    "alarm.bankAlarm": {"category": "record", "sounds": [{"name": "alarm/bankAlarm", "stream": false}]},
+    "alarm.beepSiren": {"category": "record", "sounds": [{"name": "alarm/beepSiren", "stream": false}]},
+    "alarm.autopilot": {"category": "record", "sounds": [{"name": "alarm/boeing707AutopilotDisconnected", "stream": false}]},
+    "alarm.containerAlarm": {"category": "record", "sounds": [{"name": "alarm/containerAlarm", "stream": false}]},
+    "alarm.hatch": {"category": "record", "sounds": [{"name": "alarm/lpfhaiwg", "stream": false}]},
+    "alarm.razortrainHorn": {"category": "record", "sounds": [{"name": "alarm/razortrainHorn", "stream": false}]},
+    "alarm.sweepSiren": {"category": "record", "sounds": [{"name": "alarm/sweepSiren", "stream": false}]},
+    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]}
 }

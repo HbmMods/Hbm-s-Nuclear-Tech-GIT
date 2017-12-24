@@ -280,6 +280,8 @@ tile.crate_steel.name=Steel Crate
 container.crateSteel=Steel Crate
 tile.machine_press.name=Steam Press
 container.press=Steam Press
+tile.machine_siren.name=Siren
+container.siren=Siren
 
 tile.red_pylon.name=Electricity Pole
 item.wiring_red_copper.name=Cable Drum
@@ -349,6 +351,7 @@ item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier
 item.assembly_template.name=Assembly Template:
 item.chemistry_template.name=Chemistry Template:
+item.siren_track.name=Siren Track
 
 item.fuse.name=Fuse
 
@@ -952,6 +955,7 @@ item.gun_spark.name=Spark Plug
 item.gun_hp.name=HPP Lazerjet
 item.gun_euthanasia.name=Euthanasia
 item.gun_defabricator.name=Defabricator
+item.gun_dampfmaschine.name=Totally Not a Joke Weapon
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet

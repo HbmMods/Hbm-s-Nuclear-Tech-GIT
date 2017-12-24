@@ -607,6 +607,7 @@ public class ModItems {
 	public static Item chemistry_icon;
 	public static Item fluid_identifier;
 	public static Item fluid_icon;
+	public static Item siren_track;
 	
 	public static Item missile_generic;
 	public static Item missile_anti_ballistic;
@@ -688,6 +689,7 @@ public class ModItems {
 	public static Item gun_twigun_ammo;
 	public static Item gun_defabricator;
 	public static Item gun_defabricator_ammo;
+	public static Item gun_dampfmaschine;
 	public static Item gun_waluigi;
 
 	public static Item grenade_generic;
@@ -1733,6 +1735,7 @@ public class ModItems {
 		gun_defabricator = new GunDefabricator().setUnlocalizedName("gun_defabricator").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_defabricator");
 		gun_super_shotgun = new ItemCustomLore().setUnlocalizedName("gun_super_shotgun").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_super_shotgun");
 		gun_moist_nugget = new ItemNugget(3, false).setUnlocalizedName("gun_moist_nugget").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_moist_nugget");
+		gun_dampfmaschine = new GunDampfmaschine().setUnlocalizedName("gun_dampfmaschine").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_dampfmaschine");
 		
 		grenade_generic = new ItemGrenade().setUnlocalizedName("grenade_generic").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_generic");
 		grenade_strong = new ItemGrenade().setUnlocalizedName("grenade_strong").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_strong");
@@ -1932,6 +1935,7 @@ public class ModItems {
 		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_empty = new Item().setUnlocalizedName("fluid_barrel_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_infinite = new Item().setUnlocalizedName("fluid_barrel_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel_infinite");
+		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":cassette");
 
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("astatine_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
 		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("astatine_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
@@ -2638,6 +2642,7 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_afterburn_3, upgrade_afterburn_3.getUnlocalizedName());
 		
 		//Machine Templates
+		GameRegistry.registerItem(siren_track, siren_track.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_identifier, fluid_identifier.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_icon, fluid_icon.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_template, assembly_template.getUnlocalizedName());
@@ -2881,6 +2886,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_defabricator, gun_defabricator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_super_shotgun, gun_super_shotgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_moist_nugget, gun_moist_nugget.getUnlocalizedName());
+		GameRegistry.registerItem(gun_dampfmaschine, gun_dampfmaschine.getUnlocalizedName());
 		
 		//Ammo
 		GameRegistry.registerItem(gun_revolver_iron_ammo, gun_revolver_iron_ammo.getUnlocalizedName());

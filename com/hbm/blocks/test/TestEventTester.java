@@ -12,6 +12,7 @@ import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
+import com.hbm.potion.PotionEffectTaint;
 import com.hbm.world.Meteorite;
 
 import net.minecraft.block.Block;
@@ -20,6 +21,7 @@ import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -212,8 +214,12 @@ public class TestEventTester extends Block {
     	//ExplosionChaos.anvil(par1World, par2, par3 + 2, par4, 1);
     	
     	//return true;
-    	System.out.println(par5EntityPlayer.getCommandSenderName());
-    	System.out.println(par5EntityPlayer.getUniqueID());
+    	//System.out.println(par5EntityPlayer.getCommandSenderName());
+    	//System.out.println(par5EntityPlayer.getUniqueID());
+    	List<ItemStack> list = new ArrayList<ItemStack>();
+    	PotionEffect effect = new PotionEffect(PotionEffectTaint.instance.id, 300, 0);
+    	effect.setCurativeItems(list);
+    	par5EntityPlayer.addPotionEffect(effect);
     	return true;
     }
     

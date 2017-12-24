@@ -29,6 +29,7 @@ public class ItemTemplateFolder extends Item {
 		list.add("Machine Templates: Paper + Dye");
 		list.add("Fluid IDs: Iron Plate + Dye");
 		list.add("Press Stamps: Flat Stamp");
+		list.add("Siren Tracks: Insulator + Steel Plate");
 	}
 
 }

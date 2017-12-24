@@ -53,6 +53,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
+import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
@@ -568,6 +569,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_siren:
+			{
+				if(entity instanceof TileEntityMachineSiren)
+				{
+					return new ContainerMachineSiren(player.inventory, (TileEntityMachineSiren) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1070,6 +1080,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityAMSBase)
 					{
 						return new GUIAMSBase(player.inventory, (TileEntityAMSBase) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_siren:
+				{
+					if(entity instanceof TileEntityMachineSiren)
+					{
+						return new GUIMachineSiren(player.inventory, (TileEntityMachineSiren) entity);
 					}
 					return null;
 				}

@@ -9,6 +9,7 @@ import com.hbm.items.bomb.ItemPrototypeBlock;
 import com.hbm.items.special.ItemOreBlock;
 import com.hbm.items.special.ItemPlasmaBlock;
 import com.hbm.items.special.ItemSchrabidiumBlock;
+import com.hbm.items.special.ItemTaintBlock;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -389,6 +390,9 @@ public class ModBlocks {
 	public static Block machine_press;
 	public static final int guiID_machine_press = 53;
 
+	public static Block machine_siren;
+	public static final int guiID_siren = 57;
+
 	public static Block turret_light;
 	public static Block turret_heavy;
 	public static Block turret_rocket;
@@ -410,6 +414,7 @@ public class ModBlocks {
 	public static Block crystal_virus;
 	public static Block crystal_hardened;
 	public static Block crystal_pulsar;
+	public static Block taint;
 
 	public static Block mud_block;
 	public static Fluid mud_fluid;
@@ -748,12 +753,15 @@ public class ModBlocks {
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 
 		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
+		
+		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":machine_siren");
 
 		cheater_virus = new CheaterVirus(Material.iron).setBlockName("cheater_virus").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus");
 		cheater_virus_seed = new CheaterVirusSeed(Material.iron).setBlockName("cheater_virus_seed").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus_seed");
 		crystal_virus = new CrystalVirus(Material.iron).setBlockName("crystal_virus").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_virus");
 		crystal_hardened = new BlockGeneric(Material.iron).setBlockName("crystal_hardened").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_hardened");
 		crystal_pulsar = new CrystalPulsar(Material.iron).setBlockName("crystal_pulsar").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_pulsar");
+		taint = new BlockTaint(Material.iron).setBlockName("taint").setHardness(15.0F).setResistance(10.0F).setCreativeTab(null);
 
 		statue_elb = new DecoBlockAlt(Material.iron).setBlockName("#null").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
 		statue_elb_g = new DecoBlockAlt(Material.iron).setBlockName("#void").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
@@ -967,6 +975,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(red_barrel, red_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(yellow_barrel, yellow_barrel.getUnlocalizedName());
 		
+		//Siren
+		GameRegistry.registerBlock(machine_siren, machine_siren.getUnlocalizedName());
+		
 		//Silo Hatch
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
 		GameRegistry.registerBlock(seal_controller, seal_controller.getUnlocalizedName());
@@ -1152,6 +1163,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_hardened, crystal_hardened.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_pulsar, crystal_pulsar.getUnlocalizedName());
+		GameRegistry.registerBlock(taint, ItemTaintBlock.class, taint.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus, cheater_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus_seed, cheater_virus_seed.getUnlocalizedName());
 	}

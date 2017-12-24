@@ -1345,4 +1345,12 @@ public class Library {
 		
 		return false;
 	}
+	
+	public static int getFirstNullIndex(int start, Object[] array) {
+		for(int i = start; i < array.length; i++) {
+			if(array[i] == null)
+				return i;
+		}
+		return -1;
+	}
 }

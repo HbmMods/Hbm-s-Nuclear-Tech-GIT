@@ -58,7 +58,7 @@ public class WasteEarth extends Block {
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_earth)
+		if(this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium)
 		{
 			return Item.getItemFromBlock(Blocks.dirt);
 		}
@@ -68,7 +68,7 @@ public class WasteEarth extends Block {
 			return Items.snowball;
 		}
 		
-		return null;
+		return Item.getItemFromBlock(this);
     }
     
     @Override

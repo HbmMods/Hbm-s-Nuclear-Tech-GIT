@@ -10,6 +10,8 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
+import com.hbm.items.tool.ItemCassette;
+import com.hbm.items.tool.ItemCassette.TrackType;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
@@ -51,6 +53,9 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			stacks.add(new ItemStack(i));
 		for(Item i : MachineRecipes.stamps_circuit)
 			stacks.add(new ItemStack(i));
+		//Tracks
+    	for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
+    		stacks.add(new ItemStack(ModItems.siren_track, 1, i));
     	//Fluid IDs
     	for(int i = 1; i < FluidType.values().length; i++)
     		stacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
@@ -202,9 +207,12 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				return;
 			
 			String s = info;
-			if(stack != null)
+			if(stack != null) {
 				if(stack.getItem() instanceof ItemFluidIdentifier)
 					s += (": " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
+				else if(stack.getItem() instanceof ItemCassette)
+					s = TrackType.getEnum(stack.getItemDamage()).getTrackTitle();
+			}
 
 			func_146283_a(Arrays.asList(new String[] { s }), x, y);
 		}

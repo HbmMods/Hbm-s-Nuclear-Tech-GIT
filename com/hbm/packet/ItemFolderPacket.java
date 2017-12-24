@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate;
+import com.hbm.items.tool.ItemCassette;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
@@ -81,6 +82,14 @@ public class ItemFolderPacket implements IMessage {
 						if(p.inventory.hasItem(Items.paper) && p.inventory.hasItem(Items.dye)) {
 							p.inventory.consumeInventoryItem(Items.paper);
 							p.inventory.consumeInventoryItem(Items.dye);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+									p.dropPlayerItemWithRandomChoice(stack, true);
+						}
+					}
+					if(stack.getItem() instanceof ItemCassette) {
+						if(p.inventory.hasItem(ModItems.plate_polymer) && p.inventory.hasItem(ModItems.plate_steel)) {
+							p.inventory.consumeInventoryItem(ModItems.plate_polymer);
+							p.inventory.consumeInventoryItem(ModItems.plate_steel);
 							if(!p.inventory.addItemStackToInventory(stack.copy()))
 									p.dropPlayerItemWithRandomChoice(stack, true);
 						}

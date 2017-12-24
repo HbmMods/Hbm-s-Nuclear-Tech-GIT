@@ -280,6 +280,8 @@ tile.crate_steel.name=Stahlkiste
 container.crateSteel=Stahlkiste
 tile.machine_press.name=Dampfpresse
 container.press=Dampfpresse
+tile.machine_siren.name=Sirene
+container.siren=Sirene
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel
@@ -349,6 +351,7 @@ item.template_folder.name=Produktionsvorlagen-Zeichenmappe
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
 item.assembly_template.name=Fertigungsvorlage:
 item.chemistry_template.name=Chemievorlage:
+item.siren_track.name=Sirenentrack
 
 item.fuse.name=Sicherung
 
@@ -949,6 +952,7 @@ item.gun_spark.name=Die Zündkerze
 item.gun_hp.name=HPP Lazerjet
 item.gun_euthanasia.name=Euthanasia
 item.gun_defabricator.name=Defabrikator
+item.gun_dampfmaschine.name=Garantiert keine Scherzwaffe
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
