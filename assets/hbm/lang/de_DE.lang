@@ -1069,6 +1069,7 @@ item.ingot_euphemium.name=Euphemiumbarren
 item.nugget_euphemium.name=Euphemiumnugget
 item.rod_quad_euphemium.name=Ausgebrannter Schrabidiumvierfachbrennstab
 item.plate_euphemium.name=Euphemium-Verbundplatte
+item.plate_dineutronium.name=Dineutronium-Verbundplatte
 
 item.euphemium_helmet.name=Euphemiumstiefel
 item.euphemium_plate.name=Euphemiumbrustplatte
@@ -1237,6 +1238,7 @@ item.cape_hbm.name=Hbms Cape
 item.cape_dafnik.name=Dafniks Cape
 item.cape_lpkukin.name=LPkukins Cape
 item.cape_vertice.name=Lord Vertices Cape
+item.cape_codered_.name=codered_s Cape
 
 tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter

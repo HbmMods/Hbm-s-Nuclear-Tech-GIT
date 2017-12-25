@@ -80,7 +80,7 @@ public class GunDampfmaschine extends Item {
 					bomb.motionY = player.getLookVec().yCoord * 5;
 					bomb.motionZ = player.getLookVec().zCoord * 5;
 					if(count == this.getMaxItemUseDuration(stack))
-						world.playSoundAtEntity(player, "hbm:alarm.razortrainHorn", 10.0F, 1.0F);
+						world.playSoundAtEntity(player, "hbm:entity.chopperDrop", 10.0F, 1.0F);
 					
 					if (!world.isRemote) {
 						world.spawnEntityInWorld(bomb);

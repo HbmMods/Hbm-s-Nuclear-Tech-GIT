@@ -64,6 +64,9 @@ public class ArmorModel extends ItemArmor {
 		if (this == ModItems.cape_vertice) {
 			return armorType == 1;
 		}
+		if (this == ModItems.cape_codered_) {
+			return armorType == 1;
+		}
 		return armorType == 0;
 	}
 
@@ -102,7 +105,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelCloak;
 			}
 		}
-		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice) {
+		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice || this == ModItems.cape_codered_) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
@@ -148,6 +151,9 @@ public class ArmorModel extends ItemArmor {
 		if (stack.getItem() == ModItems.cape_vertice && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.LordVertice)) {
 			return "hbm:textures/models/CapeVertice_2.png";
 		}
+		if (stack.getItem() == ModItems.cape_codered_ && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.CodeRed_)) {
+			return "hbm:textures/models/CapeRed.png";
+		}
 		return "hbm:textures/models/CapeUnknown.png";
 	}
 
@@ -174,6 +180,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (itemstack.getItem() == ModItems.cape_vertice) {
 			list.add("Only works for LordVertice");
+		}
+		if (itemstack.getItem() == ModItems.cape_codered_) {
+			list.add("Only works for codered_");
 		}
 	}
 }

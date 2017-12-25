@@ -38,7 +38,7 @@ public class PotionEffectTaint extends Potion {
 
     public void performEffect(EntityLivingBase entity, int level)
     {
-    	entity.attackEntityFrom(ModDamageSource.taint, (level + 1) * 2.5F);
+    	entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
     	
     	if(!entity.worldObj.isRemote) {
     		
@@ -54,7 +54,7 @@ public class PotionEffectTaint extends Potion {
     
     public boolean isReady(int par1, int par2)
     {
-		int k = 40 >> par2;
+		int k = 80 >> par2;
         return k > 0 ? par1 % k == 0 : true;
     }
 

@@ -391,6 +391,7 @@ public class MainRegistry
 	public static int meteorStrikeChance = 50000;
 	public static int meteorShowerChance = 500;
 	public static int meteorShowerDuration = 6000;
+	public static int limitExplosionLifespan = 0;
 	
 	public static int polaroidID = 1;
 
@@ -687,6 +688,8 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
 		OreDictionary.registerOre("ingotDesh", ModItems.ingot_desh);
+		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
+		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -702,6 +705,7 @@ public class MainRegistry
 		OreDictionary.registerOre("nuggetUnobtainium", ModItems.nugget_unobtainium);
 		OreDictionary.registerOre("nuggetDaffergon", ModItems.nugget_daffergon);
 		OreDictionary.registerOre("nuggetVerticium", ModItems.nugget_verticium);
+		OreDictionary.registerOre("nuggetEuphemium", ModItems.nugget_euphemium);
 		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
 		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
 		OreDictionary.registerOre("tinyPu238", ModItems.nugget_pu238);
@@ -721,6 +725,8 @@ public class MainRegistry
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
+		OreDictionary.registerOre("plateEuphemium", ModItems.plate_euphemium);
+		OreDictionary.registerOre("plateDineutronium", ModItems.plate_dineutronium);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
 		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
@@ -754,6 +760,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustLanthanium", ModItems.powder_lanthanium);
 		OreDictionary.registerOre("dustActinium", ModItems.powder_actinium);
 		OreDictionary.registerOre("dustDesh", ModItems.powder_desh);
+		OreDictionary.registerOre("dustEuphemium", ModItems.powder_euphemium);
 
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
@@ -893,6 +900,7 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
 		
 		recipes.PrintRecipes();
 
@@ -1096,6 +1104,10 @@ public class MainRegistry
         Property propMeteorShowerDuration = config.get(Configuration.CATEGORY_GENERAL, "5.02_meteorShowerDuration", 6000);
         propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
         meteorShowerDuration = propMeteorShowerDuration.getInt();
+        
+        Property propLimitExplosionLifespan = config.get(Configuration.CATEGORY_GENERAL, "6.00_limitExplosionLifespan", 0);
+        propLimitExplosionLifespan.comment = "How long an explosion can be unloaded until it dies in seconds. Based of system time. 0 disables the effect";
+        limitExplosionLifespan = propLimitExplosionLifespan.getInt();
         
         config.save();
 	}

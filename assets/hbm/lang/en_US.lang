@@ -1072,6 +1072,7 @@ item.ingot_euphemium.name=Euphemium Ingot
 item.nugget_euphemium.name=Euphemium Nugget
 item.rod_quad_euphemium.name=Burned Out Quad Schrabidium Fuel Rod
 item.plate_euphemium.name=Euphemium Compound Plate
+item.plate_dineutronium.name=Dineutronium Compound Plate
 
 item.euphemium_helmet.name=Euphemium Helemt
 item.euphemium_plate.name=Euphemium Chestplate
@@ -1240,6 +1241,7 @@ item.cape_hbm.name=Hbm's Cape
 item.cape_dafnik.name=Dafnik's Cape
 item.cape_lpkukin.name=LPkukin's Cape
 item.cape_vertice.name=Lord Vertice's Cape
+item.cape_codered_.name=codered_'s Cape
 
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter

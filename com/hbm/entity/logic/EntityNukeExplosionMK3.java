@@ -36,6 +36,11 @@ public class EntityNukeExplosionMK3 extends Entity {
 		did2 = nbt.getBoolean("did2");
 		waste = nbt.getBoolean("waste");
 		
+		long time = nbt.getLong("milliTime");
+		
+		if(MainRegistry.limitExplosionLifespan > 0 && System.currentTimeMillis() - time > MainRegistry.limitExplosionLifespan * 1000)
+			this.setDead();
+		
     	if(this.waste)
     	{
         	exp = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, 0);
@@ -63,6 +68,8 @@ public class EntityNukeExplosionMK3 extends Entity {
 		nbt.setBoolean("did", did);
 		nbt.setBoolean("did2", did2);
 		nbt.setBoolean("waste", waste);
+		
+		nbt.setLong("milliTime", System.currentTimeMillis());
     	
 		if(exp != null)
 			exp.saveToNbt(nbt, "exp_");

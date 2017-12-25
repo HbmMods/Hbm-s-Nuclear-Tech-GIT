@@ -165,8 +165,12 @@ public class BlockTaint extends BlockContainer {
 
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		
+		int meta = world.getBlockMetadata(x, y, z);
+		int level = 15 - meta;
+		
     	List<ItemStack> list = new ArrayList<ItemStack>();
-    	PotionEffect effect = new PotionEffect(PotionEffectTaint.instance.id, 15 * 20, 0);
+    	PotionEffect effect = new PotionEffect(PotionEffectTaint.instance.id, 15 * 20, level);
     	effect.setCurativeItems(list);
     	if(entity instanceof EntityLivingBase)
     	((EntityLivingBase)entity).addPotionEffect(effect);

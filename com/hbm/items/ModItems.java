@@ -133,6 +133,7 @@ public class ModItems {
 	public static Item bolt_tungsten;
 	public static Item bolt_compound;
 	public static Item plate_polymer;
+	public static Item plate_dineutronium;
 	
 	public static Item ingot_dura_steel;
 	public static Item ingot_polymer;
@@ -957,6 +958,7 @@ public class ModItems {
 	public static Item cape_dafnik;
 	public static Item cape_lpkukin;
 	public static Item cape_vertice;
+	public static Item cape_codered_;
 
 	public static Item nuke_starter_kit;
 	public static Item nuke_advanced_kit;
@@ -1175,6 +1177,7 @@ public class ModItems {
 		bolt_tungsten = new Item().setUnlocalizedName("bolt_tungsten").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":bolt_tungsten");
 		bolt_compound = new Item().setUnlocalizedName("bolt_compound").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":bolt_compound");
 		plate_polymer = new Item().setUnlocalizedName("plate_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_polymer");
+		plate_dineutronium = new Item().setUnlocalizedName("plate_dineutronium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_dineutronium");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -1555,7 +1558,7 @@ public class ModItems {
 		rod_neptunium = new ItemCustomLore().setUnlocalizedName("rod_neptunium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_neptunium");
 		rod_lead = new Item().setUnlocalizedName("rod_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_lead");
 		rod_schrabidium = new ItemCustomLore().setUnlocalizedName("rod_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_schrabidium");
-		rod_euphemium = new ItemCustomLore().setUnlocalizedName("rod_astatine").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_euphemium");
+		rod_euphemium = new ItemCustomLore().setUnlocalizedName("rod_euphemium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_euphemium");
 		rod_australium = new ItemCustomLore().setUnlocalizedName("rod_australium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_australium");
 		rod_weidanium = new ItemCustomLore().setUnlocalizedName("rod_weidanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_weidanium");
 		rod_reiium = new ItemCustomLore().setUnlocalizedName("rod_reiium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_reiium");
@@ -1901,9 +1904,9 @@ public class ModItems {
 		
 		ingot_euphemium = new ItemAntiCheat().setUnlocalizedName("ingot_euphemium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_euphemium");
 		nugget_euphemium = new ItemAntiCheat().setUnlocalizedName("nugget_euphemium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_euphemium");
-		rod_quad_euphemium = new ItemCustomLore().setUnlocalizedName("rod_quad_astatine").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_euphemium");
+		rod_quad_euphemium = new ItemCustomLore().setUnlocalizedName("rod_quad_euphemium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_euphemium");
 		watch = new ItemCustomLore().setUnlocalizedName("watch").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":watch");
-		apple_euphemium = new ItemAppleEuphemium(20, 100, false).setUnlocalizedName("apple_astatine").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":apple_euphemium");
+		apple_euphemium = new ItemAppleEuphemium(20, 100, false).setUnlocalizedName("apple_euphemium").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":apple_euphemium");
 
 		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":trigger");
 		detonator = new ItemDetonator().setUnlocalizedName("detonator").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":detonator");
@@ -2039,6 +2042,7 @@ public class ModItems {
 		cape_dafnik = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_dafnik").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 		cape_lpkukin = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_lpkukin").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 		cape_vertice = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_vertice").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
+		cape_codered_ = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_codered_").setCreativeTab(MainRegistry.tabNuke).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_unknown");
 
 		schrabidium_hammer = new WeaponSpecial(MainRegistry.enumToolMaterialHammer).setUnlocalizedName("schrabidium_hammer").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_hammer");
 		shimmer_sledge = new WeaponSpecial(MainRegistry.enumToolMaterialSledge).setUnlocalizedName("shimmer_sledge").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":shimmer_sledge_original");
@@ -2226,6 +2230,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_lanthanium, ingot_lanthanium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_actinium, ingot_actinium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_desh, ingot_desh.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_euphemium, ingot_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_dineutronium, ingot_dineutronium.getUnlocalizedName());
 
 		//Dusts & Other
@@ -2338,6 +2343,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_daffergon, nugget_daffergon.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_verticium, nugget_verticium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_desh, nugget_desh.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_euphemium, nugget_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_dineutronium, nugget_dineutronium.getUnlocalizedName());
 
 		//Plates
@@ -2357,6 +2363,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_polymer, plate_polymer.getUnlocalizedName());
 		GameRegistry.registerItem(plate_dalekanium, plate_dalekanium.getUnlocalizedName());
 		GameRegistry.registerItem(plate_euphemium, plate_euphemium.getUnlocalizedName());
+		GameRegistry.registerItem(plate_dineutronium, plate_dineutronium.getUnlocalizedName());
 		
 		//Boards
 		GameRegistry.registerItem(board_copper, board_copper.getUnlocalizedName());
@@ -2978,6 +2985,7 @@ public class ModItems {
 		GameRegistry.registerItem(cape_dafnik, cape_dafnik.getUnlocalizedName());
 		GameRegistry.registerItem(cape_lpkukin, cape_lpkukin.getUnlocalizedName());
 		GameRegistry.registerItem(cape_vertice, cape_vertice.getUnlocalizedName());
+		GameRegistry.registerItem(cape_codered_, cape_codered_.getUnlocalizedName());
 		
 		//Tools
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());
@@ -3183,8 +3191,6 @@ public class ModItems {
 		GameRegistry.registerItem(euphemium_plate, euphemium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_legs, euphemium_legs.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_boots, euphemium_boots.getUnlocalizedName());
-		GameRegistry.registerItem(ingot_euphemium, ingot_euphemium.getUnlocalizedName());
-		GameRegistry.registerItem(nugget_euphemium, nugget_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(apple_euphemium, apple_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(watch, watch.getUnlocalizedName());
 		GameRegistry.registerItem(mask_of_infamy, mask_of_infamy.getUnlocalizedName());
