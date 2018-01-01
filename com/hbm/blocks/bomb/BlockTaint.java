@@ -125,13 +125,13 @@ public class BlockTaint extends BlockContainer {
 	            	world.setBlock(a, b, c, ModBlocks.taint, meta + 1, 2);
 	    	}
 	            
-		    	for(int i = 0; i < 85; i++) {
-		    		int a = rand.nextInt(7) + x - 3;
-		    		int b = rand.nextInt(7) + y - 3;
-		    		int c = rand.nextInt(7) + z - 3;
-		            if(world.getBlock(a, b, c).isReplaceable(world, a, b, c) && hasPosNeightbour(world, a, b, c))
-		            	world.setBlock(a, b, c, ModBlocks.taint, meta + 1, 2);
-		    	}
+		    for(int i = 0; i < 85; i++) {
+		    	int a = rand.nextInt(7) + x - 3;
+		    	int b = rand.nextInt(7) + y - 3;
+		    	int c = rand.nextInt(7) + z - 3;
+		           if(world.getBlock(a, b, c).isReplaceable(world, a, b, c) && hasPosNeightbour(world, a, b, c))
+		           	world.setBlock(a, b, c, ModBlocks.taint, meta + 1, 2);
+		    }
     	}
     }
     

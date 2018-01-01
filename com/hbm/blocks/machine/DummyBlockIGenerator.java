@@ -94,7 +94,7 @@ public class DummyBlockIGenerator extends BlockContainer implements IDummy {
     			TileEntityMachineIGenerator entity = (TileEntityMachineIGenerator) world.getTileEntity(a, b, c);
     			if(entity != null)
     			{
-    				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_electric_furnace, world, a, b, c);
+    				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_industrial_generator, world, a, b, c);
     			}
     		}
 			return true;

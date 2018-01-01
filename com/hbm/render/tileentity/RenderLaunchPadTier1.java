@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -14,68 +15,13 @@ import net.minecraftforge.client.model.IModelCustom;
 public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 	
 	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/LaunchPad.obj");
-	private static final ResourceLocation missileGenericModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileV2.obj");
-	private static final ResourceLocation missileStrongModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileGeneric.obj");
-	private static final ResourceLocation missileHugeModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileHuge.obj");
-	private static final ResourceLocation missileNuclearModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileNuke.obj");
-	private static final ResourceLocation missileMirvModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileMirv.obj");
-	private static final ResourceLocation missileThermoModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileThermal.obj");
-	private static final ResourceLocation missileDoomModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/missileDoomsday.obj");
 	private IModelCustom padModel;
-	private IModelCustom missileGeneric;
-	private IModelCustom missileStrong;
-	private IModelCustom missileHuge;
-	private IModelCustom missileNuclear;
-	private IModelCustom missileMirv;
-	private IModelCustom missileThermo;
-	private IModelCustom missileDoom;
     private ResourceLocation padTexture;
-    private ResourceLocation missileGenericTexture;
-    private ResourceLocation missileIncendiaryTexture;
-    private ResourceLocation missileClusterTexture;
-    private ResourceLocation missileBusterTexture;
-    private ResourceLocation missileStrongTexture;
-    private ResourceLocation missileStrongIncendiaryTexture;
-    private ResourceLocation missileStrongClusterTexture;
-    private ResourceLocation missileStrongBusterTexture;
-    private ResourceLocation missileHugeTexture;
-    private ResourceLocation missileHugeIncendiaryTexture;
-    private ResourceLocation missileHugeClusterTexture;
-    private ResourceLocation missileHugeBusterTexture;
-    private ResourceLocation missileNuclearTexture;
-    private ResourceLocation missileMirvTexture;
-    private ResourceLocation missileThermoEndoTexture;
-    private ResourceLocation missileThermoExoTexture;
-    private ResourceLocation missileDoomTexture;
 	
 	public RenderLaunchPadTier1()
     {
 		padModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		missileGeneric = AdvancedModelLoader.loadModel(missileGenericModel);
-		missileStrong = AdvancedModelLoader.loadModel(missileStrongModel);
-		missileHuge = AdvancedModelLoader.loadModel(missileHugeModel);
-		missileNuclear = AdvancedModelLoader.loadModel(missileNuclearModel);
-		missileMirv = AdvancedModelLoader.loadModel(missileMirvModel);
-		missileThermo = AdvancedModelLoader.loadModel(missileThermoModel);
-		missileDoom = AdvancedModelLoader.loadModel(missileDoomModel);
 		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
-		missileGenericTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileV2.png");
-		missileIncendiaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileIncendiary.png");
-		missileClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileCluster.png");
-		missileBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileBuster.png");
-		missileStrongTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGeneric.png");
-		missileStrongIncendiaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericIncendiary.png");
-		missileStrongClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericCluster.png");
-		missileStrongBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileGenericBuster.png");
-		missileHugeTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHuge.png");
-		missileHugeIncendiaryTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHugeIncendiary.png");
-		missileHugeClusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHugeCluster.png");
-		missileHugeBusterTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileHugeBuster.png");
-		missileNuclearTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileNuke.png");
-		missileMirvTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileMirv.png");
-		missileThermoEndoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalEndo.png");
-		missileThermoExoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalExo.png");
-		missileDoomTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileDoomsday.png");
     }
 
     @Override
@@ -112,104 +58,110 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			if(state == 1)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
-				bindTexture(missileGenericTexture);
-				missileGeneric.renderAll();
+				bindTexture(ResourceManager.missileV2_HE_tex);
+				ResourceManager.missileV2.renderAll();
 			}
 			if(state == 2)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongTexture);
-				missileStrong.renderAll();
+				bindTexture(ResourceManager.missileStrong_HE_tex);
+				ResourceManager.missileStrong.renderAll();
 			}
 			if(state == 3)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
-				bindTexture(missileClusterTexture);
-				missileGeneric.renderAll();
+				bindTexture(ResourceManager.missileV2_CL_tex);
+				ResourceManager.missileV2.renderAll();
 			}
 			if(state == 4)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileNuclearTexture);
-				missileNuclear.renderAll();
+				bindTexture(ResourceManager.missileNuclear_tex);
+				ResourceManager.missileNuclear.renderAll();
 			}
 			if(state == 5)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
-				bindTexture(missileIncendiaryTexture);
-				missileGeneric.renderAll();
+				bindTexture(ResourceManager.missileV2_IN_tex);
+				ResourceManager.missileV2.renderAll();
 			}
 			if(state == 6)
 			{
 				GL11.glScalef(1.0F, 1.0F, 1.0F);
-				bindTexture(missileBusterTexture);
-				missileGeneric.renderAll();
+				bindTexture(ResourceManager.missileV2_BU_tex);
+				ResourceManager.missileV2.renderAll();
 			}
 			if(state == 7)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongIncendiaryTexture);
-				missileStrong.renderAll();
+				bindTexture(ResourceManager.missileStrong_IN_tex);
+				ResourceManager.missileStrong.renderAll();
 			}
 			if(state == 8)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongClusterTexture);
-				missileStrong.renderAll();
+				bindTexture(ResourceManager.missileStrong_CL_tex);
+				ResourceManager.missileStrong.renderAll();
 			}
 			if(state == 9)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileStrongBusterTexture);
-				missileStrong.renderAll();
+				bindTexture(ResourceManager.missileStrong_BU_tex);
+				ResourceManager.missileStrong.renderAll();
 			}
 			if(state == 10)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
-				bindTexture(missileHugeTexture);
-				missileHuge.renderAll();
+				bindTexture(ResourceManager.missileHuge_HE_tex);
+				ResourceManager.missileHuge.renderAll();
 			}
 			if(state == 11)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
-				bindTexture(missileHugeIncendiaryTexture);
-				missileHuge.renderAll();
+				bindTexture(ResourceManager.missileHuge_IN_tex);
+				ResourceManager.missileHuge.renderAll();
 			}
 			if(state == 12)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
-				bindTexture(missileHugeClusterTexture);
-				missileHuge.renderAll();
+				bindTexture(ResourceManager.missileHuge_CL_tex);
+				ResourceManager.missileHuge.renderAll();
 			}
 			if(state == 13)
 			{
 				GL11.glScalef(2.0F, 2.0F, 2.0F);
-				bindTexture(missileHugeBusterTexture);
-				missileHuge.renderAll();
+				bindTexture(ResourceManager.missileHuge_BU_tex);
+				ResourceManager.missileHuge.renderAll();
 			}
 			if(state == 14)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileThermoEndoTexture);
-				missileThermo.renderAll();
+				bindTexture(ResourceManager.missileEndo_tex);
+				ResourceManager.missileThermo.renderAll();
 			}
 			if(state == 15)
 			{
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				bindTexture(missileThermoExoTexture);
-				missileThermo.renderAll();
+				bindTexture(ResourceManager.missileExo_tex);
+				ResourceManager.missileThermo.renderAll();
 			}
 			if(state == 16)
 			{
 		        GL11.glScalef(2F, 2F, 2F);
-				bindTexture(missileMirvTexture);
-				missileMirv.renderAll();
+				bindTexture(ResourceManager.missileMIRV_tex);
+				ResourceManager.missileMIRV.renderAll();
 			}
 			if(state == 17)
 			{
 		        GL11.glScalef(2F, 2F, 2F);
-				bindTexture(missileDoomTexture);
-				missileDoom.renderAll();
+				bindTexture(ResourceManager.missileDoomsday_tex);
+				ResourceManager.missileDoomsday.renderAll();
+			}
+			if(state == 18)
+			{
+		        GL11.glScalef(2F, 2F, 2F);
+				bindTexture(ResourceManager.missileTaint_tex);
+				ResourceManager.missileTaint.renderAll();
 			}
 			
 	        GL11.glEnable(GL11.GL_CULL_FACE);

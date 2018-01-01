@@ -115,7 +115,7 @@ public class NukeBoy extends BlockContainer implements IBomb {
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_) {
 		TileEntityNukeBoy entity = (TileEntityNukeBoy) p_149695_1_.getTileEntity(x, y, z);
 		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)) {
-			if (entity.isReady() && p_149695_1_.isRemote) {
+			if (entity.isReady() && !p_149695_1_.isRemote) {
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
 				entity.clearSlots();
 				p_149695_1_.setBlockToAir(x, y, z);

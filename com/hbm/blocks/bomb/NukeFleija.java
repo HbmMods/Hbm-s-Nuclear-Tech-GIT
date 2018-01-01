@@ -123,7 +123,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
     	TileEntityNukeFleija entity = (TileEntityNukeFleija) p_149695_1_.getTileEntity(x, y, z);
-        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)&& p_149695_1_.isRemote)
+        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z) && !p_149695_1_.isRemote)
         {
         	if(entity.isReady())
         	{

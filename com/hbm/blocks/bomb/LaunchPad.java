@@ -21,6 +21,7 @@ import com.hbm.entity.missile.EntityMissileMirv;
 import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
 import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -384,6 +385,15 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_doomsday && entity.power >= 75000)
         		{
             		EntityMissileDoomsday missile = new EntityMissileDoomsday(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_taint && entity.power >= 75000)
+        		{
+            		EntityMissileTaint missile = new EntityMissileTaint(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		

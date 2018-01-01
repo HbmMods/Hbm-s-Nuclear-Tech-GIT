@@ -72,6 +72,7 @@ import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionPlus;
+import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.missile.EntityBombletSelena;
 import com.hbm.entity.missile.EntityBombletTheta;
 import com.hbm.entity.missile.EntityMIRV;
@@ -93,6 +94,7 @@ import com.hbm.entity.missile.EntityMissileMirv;
 import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
 import com.hbm.entity.missile.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.entity.missile.EntityTestMissile;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -392,7 +394,8 @@ public class MainRegistry
 	public static int meteorShowerChance = 500;
 	public static int meteorShowerDuration = 6000;
 	public static int limitExplosionLifespan = 0;
-	
+
+	public static int generalOverride = 0;
 	public static int polaroidID = 1;
 
 	public static int x;
@@ -407,9 +410,14 @@ public class MainRegistry
 		logger = PreEvent.getModLog();
 		
 		//Reroll Polaroid
-		polaroidID = rand.nextInt(16) + 1;
-		while(polaroidID == 4 || polaroidID == 9)
-			polaroidID = rand.nextInt(16) + 1;
+		
+		if(generalOverride > 0 && generalOverride < 19) {
+			polaroidID = generalOverride;
+		} else {
+			polaroidID = rand.nextInt(18) + 1;
+			while(polaroidID == 4 || polaroidID == 9)
+				polaroidID = rand.nextInt(18) + 1;
+		}
 		
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -624,10 +632,24 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMeteor.class, "entity_meteor", 84, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityLaser.class, "entity_laser", 85, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBoxcar.class, "entity_boxcar", 86, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileTaint.class, "entity_missile_taint", 87, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
+	
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
+			
+	        @Override
+	        public void ticketsLoaded(List<Ticket> tickets, World world) {
+	            for(Ticket ticket : tickets) {
+	            	
+	                if(ticket.getEntity() instanceof IChunkLoader) {
+	                    ((IChunkLoader)ticket.getEntity()).init(ticket);
+	                }
+	            }
+	        }
+	    });
 	}
 
 	@EventHandler
@@ -1053,10 +1075,6 @@ public class MainRegistry
         Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.11_aSchrabRadius", 20);
         propASchrab.comment = "Radius of dropped anti schrabidium";
         aSchrabRadius = propASchrab.getInt();
-        //add blast speed as config
-        Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "Blast Speed", 1024);
-        propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
-        blastSpeed = propBlastSpeed.getInt();
 
         Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.00_radioSpawn", 500);
         propRadio.comment = "Spawn radio station on every nTH chunk";
@@ -1104,10 +1122,13 @@ public class MainRegistry
         Property propMeteorShowerDuration = config.get(Configuration.CATEGORY_GENERAL, "5.02_meteorShowerDuration", 6000);
         propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
         meteorShowerDuration = propMeteorShowerDuration.getInt();
-        
+
         Property propLimitExplosionLifespan = config.get(Configuration.CATEGORY_GENERAL, "6.00_limitExplosionLifespan", 0);
         propLimitExplosionLifespan.comment = "How long an explosion can be unloaded until it dies in seconds. Based of system time. 0 disables the effect";
         limitExplosionLifespan = propLimitExplosionLifespan.getInt();
+        Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 1024);
+        propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
+        blastSpeed = propBlastSpeed.getInt();
         
         config.save();
 	}

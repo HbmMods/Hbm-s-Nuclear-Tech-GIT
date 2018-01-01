@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.lib.RefStrings;
 
@@ -8,6 +9,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 
 public class ModEventHandler
 {	
@@ -58,6 +60,15 @@ public class ModEventHandler
 			}
 		}
 	}
+	
+	@SubscribeEvent
+    public void enteringChunk(EnteringChunk evt)
+    {
+        if(evt.entity instanceof EntityMissileBaseAdvanced)
+        {
+            ((EntityMissileBaseAdvanced)evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+        }
+    }
 	
 	/*@SubscribeEvent
 	public void itemSmelted(PlayerEvent.ItemSmeltedEvent e) {

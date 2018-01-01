@@ -79,6 +79,15 @@ public class ItemPolaroid extends Item {
 		case 16: 
 			list.add("Q2");
 			break;
+		case 17: 
+			list.add("Two friends before christmas.");
+			break;
+		case 18: 
+			list.add("Duchess of the boxcars.");
+			list.add("");
+			list.add("\"P.S.: Thirty-one.\"");
+			list.add("\"Huh, what does thirty-one mean?\"");
+			break;
 		}
 	}
 

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.missile.EntityMissileEndo;
 import com.hbm.entity.missile.EntityMissileExo;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -14,16 +15,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderMissileThermo extends Render {
 	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileThermal.obj");
-	private IModelCustom boyModel;
-    private ResourceLocation missileThermoEndoTexture;
-    private ResourceLocation missileThermoExoTexture;
-	
-	public RenderMissileThermo() {
-		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		missileThermoEndoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalEndo.png");
-		missileThermoExoTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileThermalExo.png");
-	}
+	public RenderMissileThermo() { }
 
 	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
@@ -35,16 +27,16 @@ public class RenderMissileThermo extends Render {
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
         
 		if(p_76986_1_ instanceof EntityMissileEndo)
-			bindTexture(missileThermoEndoTexture);
+			bindTexture(ResourceManager.missileEndo_tex);
 		if(p_76986_1_ instanceof EntityMissileExo)
-			bindTexture(missileThermoExoTexture);
-        boyModel.renderAll();
+			bindTexture(ResourceManager.missileExo_tex);
+        ResourceManager.missileThermo.renderAll();
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID +":textures/models/MissileThermal.png");
+		return ResourceManager.missileEndo_tex;
 	}
 
 }

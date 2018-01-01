@@ -3,6 +3,7 @@ package com.hbm.render.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -12,14 +13,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderMissileMirv extends Render {
 	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/MissileMirv.obj");
-	private IModelCustom boyModel;
-    private ResourceLocation boyTexture;
-	
-	public RenderMissileMirv() {
-		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileMirv.png");
-	}
+	public RenderMissileMirv() { }
 
 	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
@@ -30,13 +24,13 @@ public class RenderMissileMirv extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
         GL11.glScalef(2F, 2F, 2F);
         
-        bindTexture(boyTexture);
-        boyModel.renderAll();
+        bindTexture(ResourceManager.missileMIRV_tex);
+        ResourceManager.missileMIRV.renderAll();
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID +":textures/models/MissileMirv.png");
+		return ResourceManager.missileMIRV_tex;
 	}
 }

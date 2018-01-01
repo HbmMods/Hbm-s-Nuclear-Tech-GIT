@@ -118,7 +118,7 @@ public class NukeMike extends BlockContainer implements IBomb {
 	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_) {
 		TileEntityNukeMike entity = (TileEntityNukeMike) p_149695_1_.getTileEntity(x, y, z);
-		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z)&& p_149695_1_.isRemote) {
+		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z) && !p_149695_1_.isRemote) {
 			if (entity.isReady() && !entity.isFilled()) {
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
 				entity.clearSlots();

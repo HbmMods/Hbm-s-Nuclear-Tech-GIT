@@ -3,6 +3,7 @@ package com.hbm.render.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -12,14 +13,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderMissileDoomsday extends Render {
 	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/missileDoomsday.obj");
-	private IModelCustom boyModel;
-    private ResourceLocation boyTexture;
-	
-	public RenderMissileDoomsday() {
-		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/MissileDoomsday.png");
-	}
+	public RenderMissileDoomsday() { }
 
 	@Override
 	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
@@ -31,14 +25,14 @@ public class RenderMissileDoomsday extends Render {
         GL11.glScalef(2F, 2F, 2F);
 
         GL11.glDisable(GL11.GL_CULL_FACE);
-        bindTexture(boyTexture);
-        boyModel.renderAll();
+        bindTexture(ResourceManager.missileDoomsday_tex);
+        ResourceManager.missileDoomsday.renderAll();
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return new ResourceLocation(RefStrings.MODID +":textures/models/MissileDoomsday.png");
+		return ResourceManager.missileDoomsday_tex;
 	}
 }
