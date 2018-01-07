@@ -709,6 +709,7 @@ public class ModItems {
 	public static Item grenade_tau;
 	public static Item grenade_schrabidium;
 	public static Item grenade_lemon;
+	public static Item grenade_gascan;
 	public static Item grenade_mk2;
 	public static Item grenade_aschrab;
 	public static Item grenade_nuke;
@@ -789,6 +790,15 @@ public class ModItems {
 	public static Item titanium_filter;
 	public static Item screwdriver;
 	public static Item overfuse;
+	public static Item dynosphere_base;
+	public static Item dynosphere_desh;
+	public static Item dynosphere_desh_charged;
+	public static Item dynosphere_schrabidium;
+	public static Item dynosphere_schrabidium_charged;
+	public static Item dynosphere_euphemium;
+	public static Item dynosphere_euphemium_charged;
+	public static Item dynosphere_dineutronium;
+	public static Item dynosphere_dineutronium_charged;
 	
 	public static Item tank_waste;
 
@@ -1757,6 +1767,7 @@ public class ModItems {
 		grenade_tau = new ItemGrenade().setUnlocalizedName("grenade_tau").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_tau_alt");
 		grenade_schrabidium = new ItemGrenade().setUnlocalizedName("grenade_schrabidium").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_schrabidium_alt");
 		grenade_lemon = new ItemGrenade().setUnlocalizedName("grenade_lemon").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_lemon");
+		grenade_gascan = new ItemGrenade().setUnlocalizedName("grenade_gascan").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_gascan");
 		grenade_mk2 = new ItemGrenade().setUnlocalizedName("grenade_mk2").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_mk2_alt");
 		grenade_aschrab = new ItemGrenade().setUnlocalizedName("grenade_aschrab").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_aschrab");
 		grenade_nuke = new ItemGrenade().setUnlocalizedName("grenade_nuke").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_nuke_alt");
@@ -1829,14 +1840,24 @@ public class ModItems {
 
 		battery_su = new ItemBattery(15).setUnlocalizedName("battery_su").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_su");
 		battery_su_l = new ItemBattery(35).setUnlocalizedName("battery_su_l").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_su_l");
-		fusion_core = new ItemBattery(5000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core");
+		fusion_core = new ItemBattery(200000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core");
 		fusion_core_infinite = new Item().setUnlocalizedName("fusion_core_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core_infinite");
-		energy_core = new ItemBattery(5000).setUnlocalizedName("energy_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":energy_core");
+		energy_core = new ItemBattery(100000).setUnlocalizedName("energy_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":energy_core");
 		fuse = new ItemCustomLore().setUnlocalizedName("fuse").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fuse");
 		redcoil_capacitor = new ItemCapacitor(10).setUnlocalizedName("redcoil_capacitor").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":redcoil_capacitor");
 		titanium_filter = new ItemCapacitor(72000).setUnlocalizedName("titanium_filter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":titanium_filter");
 		screwdriver = new ItemCustomLore().setUnlocalizedName("screwdriver").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":screwdriver");
 		overfuse = new ItemCustomLore().setUnlocalizedName("overfuse").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":overfuse");
+
+		dynosphere_base = new Item().setUnlocalizedName("dynosphere_base").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_base");
+		dynosphere_desh = new ItemBattery(10000L).setUnlocalizedName("dynosphere_desh").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_desh");
+		dynosphere_desh_charged = new Item().setUnlocalizedName("dynosphere_desh_charged").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_desh_charged");
+		dynosphere_schrabidium = new ItemBattery(1000000L).setUnlocalizedName("dynosphere_schrabidium").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium");
+		dynosphere_schrabidium_charged = new Item().setUnlocalizedName("dynosphere_schrabidium_charged").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium_charged");
+		dynosphere_euphemium = new ItemBattery(100000000L).setUnlocalizedName("dynosphere_euphemium").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_euphemium");
+		dynosphere_euphemium_charged = new Item().setUnlocalizedName("dynosphere_euphemium_charged").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_euphemium_charged");
+		dynosphere_dineutronium = new ItemBattery(10000000000L).setUnlocalizedName("dynosphere_dineutronium").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium");
+		dynosphere_dineutronium_charged = new Item().setUnlocalizedName("dynosphere_dineutronium_charged").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium_charged");
 
 		factory_core_titanium = new ItemBattery(70400).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_titanium");
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
@@ -2603,6 +2624,17 @@ public class ModItems {
 		GameRegistry.registerItem(factory_core_titanium, factory_core_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(factory_core_advanced, factory_core_advanced.getUnlocalizedName());
 		
+		//Dynospheres
+		GameRegistry.registerItem(dynosphere_base, dynosphere_base.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_desh, dynosphere_desh.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_desh_charged, dynosphere_desh_charged.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_schrabidium, dynosphere_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_schrabidium_charged, dynosphere_schrabidium_charged.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_euphemium, dynosphere_euphemium.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_euphemium_charged, dynosphere_euphemium_charged.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_dineutronium, dynosphere_dineutronium.getUnlocalizedName());
+		GameRegistry.registerItem(dynosphere_dineutronium_charged, dynosphere_dineutronium_charged.getUnlocalizedName());
+		
 		//Template Folder
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
 		
@@ -2973,6 +3005,7 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_schrabidium, grenade_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuke, grenade_nuke.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_lemon, grenade_lemon.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_gascan, grenade_gascan.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_mk2, grenade_mk2.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_aschrab, grenade_aschrab.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_nuclear, grenade_nuclear.getUnlocalizedName());

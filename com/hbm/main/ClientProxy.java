@@ -15,6 +15,7 @@ import com.hbm.entity.mob.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.items.ModItems;
+import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
 import com.hbm.render.item.*;
 import com.hbm.render.tileentity.*;
@@ -32,6 +33,8 @@ public class ClientProxy extends ServerProxy
 	public void registerRenderInfo()
 	{
 		MinecraftForge.EVENT_BUS.register(new ModEventHandlerClient());
+		
+		RenderingRegistry.registerBlockHandler(new RenderTaintBlock());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestRender.class, new RenderTestRender());
 		
@@ -106,6 +109,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadePulse.class, new RenderSnowball(ModItems.grenade_pulse));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeShrapnel.class, new RenderSnowball(ModItems.grenade_shrapnel));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeBlackHole.class, new RenderSnowball(ModItems.grenade_black_hole));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeGascan.class, new RenderSnowball(ModItems.grenade_gascan));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 

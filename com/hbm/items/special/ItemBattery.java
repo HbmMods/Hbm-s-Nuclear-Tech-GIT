@@ -15,7 +15,7 @@ public class ItemBattery extends Item {
 	
 	private long maxCharge;
 
-	public ItemBattery(int dura) {
+	public ItemBattery(long dura) {
 		this.maxCharge = dura;
 	}
 	
@@ -26,12 +26,20 @@ public class ItemBattery extends Item {
 		if(itemstack.hasTagCompound())
 			charge = ItemBattery.getCharge(itemstack);
 		
-		if(itemstack.getItem() != ModItems.fusion_core && itemstack.getItem() != ModItems.factory_core_titanium && itemstack.getItem() != ModItems.factory_core_advanced && itemstack.getItem() != ModItems.energy_core)
+		if(itemstack.getItem() != ModItems.fusion_core && 
+				itemstack.getItem() != ModItems.factory_core_titanium && 
+				itemstack.getItem() != ModItems.factory_core_advanced && 
+				itemstack.getItem() != ModItems.energy_core && 
+				itemstack.getItem() != ModItems.dynosphere_desh && 
+				itemstack.getItem() != ModItems.dynosphere_schrabidium && 
+				itemstack.getItem() != ModItems.dynosphere_euphemium && 
+				itemstack.getItem() != ModItems.dynosphere_dineutronium)
 		{
 			list.add("Energy stored: " + Library.getShortNumber(charge * 100) + "/" + Library.getShortNumber(maxCharge * 100) + "HE");
 		} else {
-			long charge1 = (charge  * 100) / this.maxCharge;
+			String charge1 = Library.getShortNumber((charge  * 100) / this.maxCharge);
 			list.add("Charge: " + charge1 + "%");
+			list.add("(" + Library.getShortNumber(charge * 100) + "/" + Library.getShortNumber(maxCharge * 100) + "HE)");
 		}
 	}
 
@@ -43,7 +51,14 @@ public class ItemBattery extends Item {
         	return EnumRarity.rare;
     	}
 
-    	if(this == ModItems.fusion_core || this == ModItems.factory_core_titanium || this == ModItems.factory_core_advanced || this == ModItems.energy_core)
+    	if(this == ModItems.fusion_core || 
+    			this == ModItems.factory_core_titanium || 
+    			this == ModItems.factory_core_advanced || 
+    			this == ModItems.energy_core || 
+    			this == ModItems.dynosphere_desh || 
+    			this == ModItems.dynosphere_schrabidium || 
+    			this == ModItems.dynosphere_euphemium || 
+    			this == ModItems.dynosphere_dineutronium)
     	{
         	return EnumRarity.uncommon;
     	}

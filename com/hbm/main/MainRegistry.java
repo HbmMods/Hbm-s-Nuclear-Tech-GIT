@@ -54,6 +54,7 @@ import com.hbm.entity.grenade.EntityGrenadeFire;
 import com.hbm.entity.grenade.EntityGrenadeFlare;
 import com.hbm.entity.grenade.EntityGrenadeFrag;
 import com.hbm.entity.grenade.EntityGrenadeGas;
+import com.hbm.entity.grenade.EntityGrenadeGascan;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
@@ -218,6 +219,7 @@ import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
+import com.hbm.tileentity.machine.TileEntityMachineSPP;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
@@ -544,6 +546,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityAMSLimiter.class, "tileentity_ams_limiter");
 		GameRegistry.registerTileEntity(TileEntityMachineSiren.class, "tileentity_siren");
 		GameRegistry.registerTileEntity(TileEntityTaint.class, "tileentity_taint");
+		GameRegistry.registerTileEntity(TileEntityMachineSPP.class, "tileentity_spp");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -633,6 +636,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityLaser.class, "entity_laser", 85, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBoxcar.class, "entity_boxcar", 86, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileTaint.class, "entity_missile_taint", 87, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeGascan.class, "entity_grenade_gascan", 88, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -923,6 +927,7 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
 		
 		recipes.PrintRecipes();
 

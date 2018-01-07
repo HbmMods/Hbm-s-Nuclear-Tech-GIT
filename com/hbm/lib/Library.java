@@ -612,45 +612,70 @@ public class Library {
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
 
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_2 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
 
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 20000; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 20000; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_6 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 20000; i++)
 			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_25 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+
+		for(int i = 0; i < 100; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 1000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 10000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+			{
+				power -= 100;
+				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+			} else break;
+		for(int i = 0; i < 100000; i++)
+			if(power - 100 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 			{
 				power -= 100;
 				((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
@@ -697,6 +722,15 @@ public class Library {
 				power -= 1;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
+
+		/*if(slots[index] != null && slots[index].equals(ItemBattery.getFullBattery(ModItems.dynosphere_desh)))
+			slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
+		if(slots[index] != null && slots[index].equals(ItemBattery.getFullBattery(ModItems.dynosphere_schrabidium)))
+			slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
+		if(slots[index] != null && slots[index].equals(ItemBattery.getFullBattery(ModItems.dynosphere_euphemium)))
+			slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
+		if(slots[index] != null && slots[index].equals(ItemBattery.getFullBattery(ModItems.dynosphere_dineutronium)))
+			slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);*/
 		
 		return power;
 	}

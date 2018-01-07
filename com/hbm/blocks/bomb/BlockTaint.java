@@ -30,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockTaint extends BlockContainer {
+public class BlockTaint extends Block/*Container*/ {
 	
     @SideOnly(Side.CLIENT)
     private IIcon[] icons;
@@ -40,10 +40,10 @@ public class BlockTaint extends BlockContainer {
         this.setTickRandomly(true);
 	}
 
-	@Override
+	/*@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityTaint();
-	}
+	}*/
 	
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int p_149691_1_, int meta)
@@ -93,8 +93,14 @@ public class BlockTaint extends BlockContainer {
 	
 	@Override
 	public int getRenderType(){
-		return -1;
+		return 334077;
 	}
+
+    @Override
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+    {
+        return null;
+    }
 	
 	@Override
 	public boolean isOpaqueCube() {
@@ -173,7 +179,8 @@ public class BlockTaint extends BlockContainer {
     	PotionEffect effect = new PotionEffect(PotionEffectTaint.instance.id, 15 * 20, level);
     	effect.setCurativeItems(list);
     	if(entity instanceof EntityLivingBase)
-    	((EntityLivingBase)entity).addPotionEffect(effect);
+    		if(world.rand.nextInt(50) == 0)
+    			((EntityLivingBase)entity).addPotionEffect(effect);
 	}
 
 }

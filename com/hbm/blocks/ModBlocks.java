@@ -393,6 +393,9 @@ public class ModBlocks {
 	public static Block machine_siren;
 	public static final int guiID_siren = 57;
 
+	public static Block machine_spp_bottom;
+	public static Block machine_spp_top;
+
 	public static Block turret_light;
 	public static Block turret_heavy;
 	public static Block turret_rocket;
@@ -755,6 +758,9 @@ public class ModBlocks {
 		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.tabBlock);
 		
 		machine_siren = new MachineSiren(Material.iron).setBlockName("machine_siren").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":machine_siren");
+		
+		machine_spp_bottom = new SPPBottom(Material.iron).setBlockName("machine_spp_bottom").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
+		machine_spp_top = new SPPTop(Material.iron).setBlockName("machine_spp_top").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
 
 		cheater_virus = new CheaterVirus(Material.iron).setBlockName("cheater_virus").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus");
 		cheater_virus_seed = new CheaterVirusSeed(Material.iron).setBlockName("cheater_virus_seed").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus_seed");
@@ -1009,6 +1015,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_industrial_generator, machine_industrial_generator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rtg_grey, machine_rtg_grey.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_red, machine_rtg_red.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_orange, machine_rtg_orange.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_yellow, machine_rtg_yellow.getUnlocalizedName());

@@ -8,6 +8,7 @@ import com.hbm.entity.grenade.EntityGrenadeFire;
 import com.hbm.entity.grenade.EntityGrenadeFlare;
 import com.hbm.entity.grenade.EntityGrenadeFrag;
 import com.hbm.entity.grenade.EntityGrenadeGas;
+import com.hbm.entity.grenade.EntityGrenadeGascan;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
@@ -111,6 +112,9 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_black_hole) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeBlackHole(p_77659_2_, p_77659_3_));
 			}
+			if (this == ModItems.grenade_gascan) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeGascan(p_77659_2_, p_77659_3_));
+			}
 		}
 
 		return p_77659_1_;
@@ -127,7 +131,7 @@ public class ItemGrenade extends Item {
 			return EnumRarity.epic;
 		}
 
-		if (this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear || this == ModItems.grenade_tau || this == ModItems.grenade_lemon || this == ModItems.grenade_mk2 || this == ModItems.grenade_pulse) {
+		if (this == ModItems.grenade_nuke || this == ModItems.grenade_nuclear || this == ModItems.grenade_tau || this == ModItems.grenade_lemon || this == ModItems.grenade_mk2 || this == ModItems.grenade_pulse || this == ModItems.grenade_gascan) {
 			return EnumRarity.uncommon;
 		}
 
