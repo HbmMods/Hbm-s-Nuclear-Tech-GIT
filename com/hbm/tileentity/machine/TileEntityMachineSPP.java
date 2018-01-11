@@ -26,8 +26,6 @@ public class TileEntityMachineSPP extends TileEntity implements ISource {
 	
 	@Override
 	public void updateEntity() {
-
-		MainRegistry.logger.debug("0");
 		
 		age++;
 		if(age >= 20)
@@ -69,7 +67,7 @@ public class TileEntityMachineSPP extends TileEntity implements ISource {
 		//   BBB
 		//   BAB
 		//   BBB
-		System.out.println(y);
+		
 		return (worldObj.getBlock(xCoord + 1, y, zCoord) != Blocks.air &&
 				worldObj.getBlock(xCoord + 1, y, zCoord + 1) != Blocks.air &&
 				worldObj.getBlock(xCoord + 1, y, zCoord - 1) != Blocks.air &&
