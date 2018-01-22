@@ -43,15 +43,12 @@ public class ItemDesingatorRange extends Item {
 		
 		if(!(world.getBlock(x, y, z) instanceof LaunchPad))
 		{
-			if(stack.stackTagCompound != null)
-			{
-				stack.stackTagCompound.setInteger("xCoord", x);
-				stack.stackTagCompound.setInteger("zCoord", z);
-			} else {
+			if(stack.stackTagCompound == null)
 				stack.stackTagCompound = new NBTTagCompound();
-				stack.stackTagCompound.setInteger("xCoord", x);
-				stack.stackTagCompound.setInteger("zCoord", y);
-			}
+			
+			stack.stackTagCompound.setInteger("xCoord", x);
+			stack.stackTagCompound.setInteger("zCoord", z);
+			
 	        if(world.isRemote)
 			{
 	        	player.addChatMessage(new ChatComponentText("Position set to X:" + x + ", Z:" + z));

@@ -4,6 +4,11 @@ itemGroup.tabBlocks=NTM Blöcke und Maschinen
 itemGroup.tabNuke=NTM Bomben und Ausrüstung
 itemGroup.tabMachine=NTM Vorlagen
 
+achievement.sacrifice=Sororizid
+achievement.sacrifice.desc=Überlebe den Flammentod.
+achievement.impossible=Vollkommen unmöglich
+achievement.impossible.desc=Du kannst diese Errungenschaft nicht bekommen.
+
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
 hbmfluid.steam=Dampf
@@ -183,6 +188,8 @@ tile.turret_heavy.name=Schweres MG-Geschütz
 tile.turret_rocket.name=Raketengeschütz
 tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_tau.name=Tauonengeschütz
+tile.turret_spitfire.name=Geschütz für das ich noch keinen Namen habe [WIP]
+
 item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
 
@@ -282,6 +289,8 @@ tile.machine_press.name=Dampfpresse
 container.press=Dampfpresse
 tile.machine_siren.name=Sirene
 container.siren=Sirene
+tile.machine_radgen.name=Strahlenbetriebener Generator [WIP]
+container.radGen=Strahlenbetriebener Generator [WIP]
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel
@@ -346,6 +355,16 @@ tile.machine_rtg_green.name=Verticium-Reichtumsgenerator
 tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator (WIP)
 tile.machine_rtg_blue.name=Konvektionsgenerator
 tile.machine_rtg_purple.name=Paarvernichtungsgenerator
+
+tile.machine_spp_bottom.name=NPE-Potentialgenerator (Unterteil)
+tile.machine_spp_top.name=NPE-Potentialgenerator (Oberteil)
+
+tile.ams_limiter.name=AMS-Stabilisator [WIP]
+container.amsLimiter=AMS-Stabilisator [WIP]
+tile.ams_emitter.name=AMS-Emitter [WIP]
+container.amsEmitter=AMS-Emitter [WIP]
+tile.ams_base.name=AMS-Basis [WIP]
+container.amsBase=AMS-Basis [WIP]
 
 item.template_folder.name=Produktionsvorlagen-Zeichenmappe
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
@@ -496,6 +515,8 @@ tile.ore_nether_tungsten.name=Nether-Wolframerz
 tile.ore_nether_sulfur.name=Nether-Schwefelerz
 tile.ore_nether_fire.name=Feuererz
 tile.ore_nether_schrabidium.name=Nether-Schrabidiumerz
+
+tile.ore_tikite.name=Trixit
 
 tile.ore_australium.name=Australisches Erz
 tile.ore_weidanium.name=Weidit
@@ -857,6 +878,7 @@ item.grenade_plasma.name=Plasmagranate
 item.grenade_tau.name=Taugranate
 item.grenade_schrabidium.name=Schrabidiumgranate
 item.grenade_lemon.name=Zitronengranate
+item.grenade_gascan.name=Werfbarer Spritkanister
 item.grenade_mk2.name=Mk 2 Granate "Botschafter Ananas"
 item.grenade_aschrab.name=Werfbare Antischrabidiumzelle
 item.grenade_nuke.name=Mark VI Bohrgranate
@@ -937,6 +959,10 @@ item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
 item.gun_bf.name=M42_2 Nukleares Katapult "Antimaterienwerfer"
 item.gun_mp40.name=Maschinenpistole
 item.gun_uboinik.name=Ubojnik
+item.gun_lever_action.name=Mare's Leg (Original)
+item.gun_bolt_action.name=Dream-Repetiergewehr (Original)
+item.gun_lever_action_dark.name=Mare's Leg (Dunkel)
+item.gun_bolt_action_green.name=Dream-Repetiergewehr (Grün)
 item.gun_xvl1456.name=XVL1456 Tau-Kanone Prototyp
 item.gun_osipr.name=Standartausrüstung für Sicherheitskräfte
 item.gun_immolator.name=Der Immolator
@@ -968,6 +994,8 @@ item.gun_mirv_ammo.name=Achtfaches MIRV
 item.gun_bf_ammo.name=Mk.V kompaktes AMAT-Artilleriegeschoss - Typ B.F.
 item.gun_mp40_ammo.name=SMG-Patrone
 item.gun_uboinik_ammo.name=12x70 Schrotmunition
+item.gun_lever_action_ammo.name=12x74 Schrotmunition
+item.gun_bolt_action_ammo.name=12x74 Brenneke
 item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
 item.gun_osipr_ammo.name=Dunkler Energiepuls-Plug
 item.gun_osipr_ammo2.name=Combine Ball
@@ -986,6 +1014,7 @@ item.turret_heavy_ammo.name=Schwere MG Munition
 item.turret_rocket_ammo.name=Raketengeschütz 2x4 Munition
 item.turret_flamer_ammo.name=Flammenwerfergeschütz-Tanks
 item.turret_tau_ammo.name=Tauonengeschütz-Uranmunition
+item.turret_spitfire_ammo.name=AA-Geschoss
 
 item.clip_revolver_iron.name=Box voll Eisenkugeln
 item.clip_revolver.name=.357 Magnum Patronen
@@ -1003,10 +1032,14 @@ item.clip_mirv.name=Kauf-drei-zahl-eins Packung Mini MIRVs
 item.clip_bf.name=BF-Geschosse im Doppelpack
 item.clip_mp.name=Magazin des Standardsturmgewehrs des Britannischen Militärs
 item.clip_mp40.name=9mm SMG-Magazin
-item.clip_uboinik.name=Schrotpatronenbox
+item.clip_uboinik.name=12x70 Schrotpatronenbox
+item.clip_lever_action.name=12x74 Schrotpatronenbox
+item.clip_bolt_action.name=12x74 Brenneke-Patronenbox
 item.clip_emp.name=Magnetsteifen mit Energiezellen
 item.clip_revolver_nightmare.name=Sack voll Kugeln
 item.clip_revolver_nightmare2.name=Munitionsgürtel mit Laserschrot
+
+item.ammo_container.name=Munitionsbehälter
 
 tile.block_schrabidium.name=Schrabidiumblock
 item.plate_gold.name=Goldplatte
@@ -1116,6 +1149,7 @@ item.missile_nuclear_cluster.name=Atomare MIRV-Rakete
 item.missile_endo.name=Endothermische Rakete
 item.missile_exo.name=Exothermische Rakete
 item.missile_doomsday.name=Doomsday Rakete
+item.missile_taint.name=Verseuchte Rakete
 
 item.hazmat_helmet.name=Strahlenschutzhelm
 item.hazmat_plate.name=Strahlenschutzbrustplatte
@@ -1420,6 +1454,7 @@ item.reer_graar.name=The Reer Graar
 
 item.letter.name=Eilbrief
 item.polaroid.name=Das Polaroid
+item.glitch.name=Glitch [WIP]
 item.book_secret.name=3-596-50802-9
 item.burnt_bark.name=Verbrannte Rinde
 
@@ -1438,6 +1473,8 @@ item.nothing.name=Leer
 tile.crystal_virus.name=Dunkler Kristall
 tile.crystal_hardened.name=Gehärteter Dunkler Kristall
 tile.crystal_pulsar.name=Pulsating Crystal
+
+tile.taint.name=Korrupter Schmutz
 
 tile.cheater_virus.name=Geliertes Euphemium
 tile.cheater_virus_seed.name=Instabiler Euphemiumschrabid-Block

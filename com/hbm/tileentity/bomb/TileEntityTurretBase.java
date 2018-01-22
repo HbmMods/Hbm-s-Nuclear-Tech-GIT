@@ -1,6 +1,7 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.TurretBase;
+import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.lib.Library;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -37,6 +38,8 @@ public abstract class TileEntityTurretBase extends TileEntity {
 			double radius = 1000;
 			if(this instanceof TileEntityTurretFlamer)
 				radius /= 2;
+			if(this instanceof TileEntityTurretSpitfire)
+				radius *= 3;
 			Entity target = null;
 			for (int i = 0; i < iter.length; i++)
 			{
@@ -79,7 +82,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 	}
 	
 	private boolean isInSight(Entity e) {
-		if(!(e instanceof EntityLivingBase))
+		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).getUniqueID().toString().equals(uuid))

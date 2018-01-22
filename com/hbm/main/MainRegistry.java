@@ -12,6 +12,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -69,6 +70,7 @@ import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -162,6 +164,7 @@ import com.hbm.tileentity.bomb.TileEntityTurretFlamer;
 import com.hbm.tileentity.bomb.TileEntityTurretHeavy;
 import com.hbm.tileentity.bomb.TileEntityTurretLight;
 import com.hbm.tileentity.bomb.TileEntityTurretRocket;
+import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
 import com.hbm.tileentity.bomb.TileEntityTurretTau;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
@@ -217,6 +220,7 @@ import com.hbm.tileentity.machine.TileEntityMachinePress;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
+import com.hbm.tileentity.machine.TileEntityMachineRadGen;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSPP;
@@ -344,6 +348,8 @@ public class MainRegistry
 	public static Achievement achRadiation;
 	public static Achievement achSchrabidium;
 	public static Achievement achEuphemium;
+	public static Achievement achSacrifice;
+	public static Achievement achImpossible;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -392,8 +398,8 @@ public class MainRegistry
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
-	public static int meteorStrikeChance = 50000;
-	public static int meteorShowerChance = 500;
+	public static int meteorStrikeChance = 20 * 60 * 90;
+	public static int meteorShowerChance = 20 * 60 * 3;
 	public static int meteorShowerDuration = 6000;
 	public static int limitExplosionLifespan = 0;
 
@@ -547,6 +553,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineSiren.class, "tileentity_siren");
 		GameRegistry.registerTileEntity(TileEntityTaint.class, "tileentity_taint");
 		GameRegistry.registerTileEntity(TileEntityMachineSPP.class, "tileentity_spp");
+		GameRegistry.registerTileEntity(TileEntityTurretSpitfire.class, "tileentity_turret_spitfire");
+		GameRegistry.registerTileEntity(TileEntityMachineRadGen.class, "tileentity_radgen");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -669,6 +677,13 @@ public class MainRegistry
 				achievementCraftBreedingReactor,
 				achievementCraftCentrifuge
 		}));*/
+		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, 0, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
+		achImpossible = new Achievement("achievement.impossible", "impossible", 1, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
+		
+		AchievementPage.registerAchievementPage(new AchievementPage("NTM Achievements", new Achievement[]{ 
+				achSacrifice,
+				achImpossible
+		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);

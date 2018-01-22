@@ -52,6 +52,7 @@
 	"weapon.defabShoot": {"category": "player", "sounds": [{"name": "weapon/defabShoot", "stream": false}]},
 	"weapon.sparkShoot": {"category": "player", "sounds": ["weapon/sparkShoot1", "weapon/sparkShoot2", "weapon/sparkShoot3"]},
     "weapon.bang": {"category": "player", "sounds": [{"name": "weapon/bang", "stream": false}]},
+    "weapon.leverActionReload": {"category": "player", "sounds": [{"name": "weapon/leverActionReload", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

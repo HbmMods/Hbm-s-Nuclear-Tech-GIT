@@ -98,9 +98,9 @@ public class GunDampfmaschine extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Sometimes, to do the right thing,");
-		list.add("you need to be the villain of");
-		list.add("the pl-I mean me too, thanks.");
+		list.add("Sometimes, to do what’s right,");
+		list.add("you have to become the villain of");
+		list.add("the pi-I mean me too, thanks.");
 		list.add("");
 		list.add("oh sorry how did this get here i'm not good with computer can somebody tell me how i can get out of here oh fiddlesticks this is not good oh no please can anybody hear me i am afraid please for the love of god somebody get me out of here");
 		list.add("");

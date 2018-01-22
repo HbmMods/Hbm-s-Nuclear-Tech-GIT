@@ -81,10 +81,11 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 	    	entity0.posX = x;
 	    	entity0.posY = y;
 	    	entity0.posZ = z;
-	    	entity0.destructionRange = MainRegistry.fatmanRadius;
+	    	entity0.destructionRange = (int)(MainRegistry.fatmanRadius * 1.25);
 	    	entity0.speed = 25;
 	    	entity0.coefficient = 10.0F;
-	    	
+
+        	world.setBlockToAir(x, y, z);
 	    	world.spawnEntityInWorld(entity0);
     		ExplosionParticleB.spawnMush(world, x, y - 3, z);
         }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -12,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -28,11 +30,12 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	int startZ;
 	int targetX;
 	int targetZ;
+	int velocity;
 	double decelY;
 	double accelXZ;
 	boolean isCluster = false;
-	float health = 10;
     private Ticket loaderTicket;
+    public int health = 10;
 
 	public EntityMissileBaseAdvanced(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -43,51 +46,66 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		targetZ = (int) posZ;
 	}
 	
-    public boolean attackEntityFrom(DamageSource p_70097_1_, float f)
+    public boolean canBeCollidedWith()
     {
-        if (!this.worldObj.isRemote && !this.isDead)
+        return true;
+    }
+    
+    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
+    {
+        if (this.isEntityInvulnerable())
         {
-            if (this.isEntityInvulnerable())
-            {
-                return false;
-            }
-            else
-            {
-                this.setBeenAttacked();
-                health -= f;
-
-                if(health <= 0) {
-                }
-
-                return true;
-            }
+            return false;
         }
         else
         {
+            if (!this.isDead && !this.worldObj.isRemote)
+            {
+            	health -= p_70097_2_;
+            	
+                if (this.health <= 0)
+                {
+                    this.killMissile();
+                }
+            }
+
             return true;
         }
+    }
+    
+    private void killMissile() {
+        ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+        ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+        ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
+        this.setDead();
     }
 
 	public EntityMissileBaseAdvanced(World world, float x, float y, float z, int a, int b) {
 		super(world);
 		this.ignoreFrustumCheck = true;
-		this.posX = x;
+		/*this.posX = x;
 		this.posY = y;
-		this.posZ = z;
+		this.posZ = z;*/
+		this.setLocationAndAngles(x, y, z, 0, 0);
 		startX = (int) x;
 		startZ = (int) z;
 		targetX = a;
 		targetZ = b;
-		this.motionY = 1.5;
+		this.motionY = 2;
 		
         Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
 		accelXZ = decelY = 1/vector.lengthVector();
-		decelY *= 1.5;
+		decelY *= 2;
+		
+		velocity = 1;
+
+        this.setSize(1.5F, 1.5F);
 	}
 
 	@Override
 	protected void entityInit() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
+        this.dataWatcher.addObject(8, Integer.valueOf(this.health));
 	}
 
 	@Override
@@ -104,6 +122,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		targetZ = nbt.getInteger("tZ");
 		startX = nbt.getInteger("sX");
 		startZ = nbt.getInteger("sZ");
+		velocity = nbt.getInteger("veloc");
 	}
 
 	@Override
@@ -120,6 +139,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		nbt.setInteger("tZ", targetZ);
 		nbt.setInteger("sX", startX);
 		nbt.setInteger("sZ", startZ);
+		nbt.setInteger("veloc", velocity);
 	}
 	
 	protected void rotation() {
@@ -150,48 +170,67 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	@Override
     public void onUpdate()
     {
-		super.onUpdate();
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
+		//super.onUpdate();
+		
+		if(velocity < 1)
+			velocity = 1;
+		if(this.ticksExisted > 40)
+			velocity = 3;
+		else if(this.ticksExisted > 20)
+			velocity = 2;
+		
+        this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
         
-        this.rotation();
-        
-        this.motionY -= decelY;
-        
-        Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-        vector = vector.normalize();
-        vector.xCoord *= accelXZ;
-        vector.zCoord *= accelXZ;
-        
-        if(motionY > 0) {
-        	motionX += vector.xCoord;
-        	motionZ += vector.zCoord;
-        }
-        
-        if(motionY < 0) {
-        	motionX -= vector.xCoord;
-        	motionZ -= vector.zCoord;
-        }
-
-		if(!this.worldObj.isRemote)
-			this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
-        
-        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && 
-        		this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
-        		this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water) {
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
+		
+		for(int i = 0; i < velocity; i++) {
+	        //this.posX += this.motionX;
+	        //this.posY += this.motionY;
+	        //this.posZ += this.motionZ;
+			this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
+	        
+	        this.rotation();
+	        
+	        this.motionY -= decelY;
+	        
+	        Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+	        vector = vector.normalize();
+	        vector.xCoord *= accelXZ;
+	        vector.zCoord *= accelXZ;
+	        
+	        if(motionY > 0) {
+	        	motionX += vector.xCoord;
+	        	motionZ += vector.zCoord;
+	        }
+	        
+	        if(motionY < 0) {
+	        	motionX -= vector.xCoord;
+	        	motionZ -= vector.zCoord;
+	        }
+	
+			if(!this.worldObj.isRemote)
+				this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+	        
+	        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && 
+        			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
+        			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water) {
         	
-    		if(!this.worldObj.isRemote)
-    		{
-    			onImpact();
-    		}
-    		this.setDead();
-        }
+    			if(!this.worldObj.isRemote)
+    			{
+    				onImpact();
+    			}
+    			this.setDead();
+    			return;
+        	}
         
-        if(motionY < -1 && this.isCluster && !worldObj.isRemote) {
-        	cluster();
-    		this.setDead();
-        }
+        	if(motionY < -1 && this.isCluster && !worldObj.isRemote) {
+        		cluster();
+    			this.setDead();
+    			return;
+        	}
+		}
     }
 	
     @Override
@@ -202,6 +241,10 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
     }
 
 	public abstract void onImpact();
+
+	public abstract List<ItemStack> getDebris();
+	
+	public abstract ItemStack getDebrisRareDrop();
 	
 	public void cluster() { }
 	

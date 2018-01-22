@@ -213,6 +213,8 @@ public class GunRevolver extends Item {
 		}
 		if (this == ModItems.gun_revolver_gold) {
 			list.add("GoldenEye would be proud!");
+			list.add("(GoldenEye isn't a person but");
+			list.add("rather a satellite, taht's teh joek.");
 			list.add("");
 			list.add("Ammo: Golden Bullets");
 			list.add("Damage: 20 - 30");

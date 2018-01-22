@@ -30,7 +30,7 @@ public class GunShotgun extends Item {
 		
 		this.maxStackSize = 1;
 		
-		if (this == ModItems.gun_revolver) {
+		if (this == ModItems.gun_uboinik) {
 			this.setMaxDamage(500);
 		}
 	}
@@ -174,7 +174,7 @@ public class GunShotgun extends Item {
 		//list.add("POW! Haha!");
 		list.add("Abracadabra Tomanakara!");
 		list.add("");
-		list.add("Ammo: Shotgun Shells");
+		list.add("Ammo: 12x70 Buckshot");
 		list.add("Damage: 3 - 7");
 		list.add("Projectiles: 6 - 12");
 	}

@@ -5,7 +5,9 @@ import java.util.List;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionThermo;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,6 +22,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -303,11 +307,14 @@ public class EntityPlasmaBeam extends Entity implements IProjectile
             if (movingobjectposition != null && movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityPlayer)
             {
                 EntityPlayer entityplayer = (EntityPlayer)movingobjectposition.entityHit;
-
+                
                 if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer && !((EntityPlayer)this.shootingEntity).canAttackPlayer(entityplayer))
                 {
                     movingobjectposition = null;
                 }
+
+                if(this.ticksExisted > 5 && surviveImmolation(entityplayer))
+                    movingobjectposition = null;
             }
 
             float f2;
@@ -539,5 +546,15 @@ public class EntityPlasmaBeam extends Entity implements IProjectile
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
         return (b0 & 1) != 0;
+    }
+    
+    private boolean surviveImmolation(EntityPlayer player) {
+    	if(player.inventory.hasItem(ModItems.gun_revolver_pip) && player.inventory.hasItem(ModItems.bottle_sparkle) && player.inventory.hasItem(ModItems.geiger_counter)) {
+    		player.triggerAchievement(MainRegistry.achSacrifice);
+    		player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 3 * 20, 6));
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
 }

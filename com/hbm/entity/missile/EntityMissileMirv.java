@@ -1,13 +1,18 @@
 package com.hbm.entity.missile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityMissileMirv extends EntityMissileBaseAdvanced {
@@ -44,5 +49,23 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 	public void cluster() {
 		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15.0F, true);
 		ExplosionChaos.mirv(this.worldObj,this.posX, this.posY, this.posZ);
+	}
+
+	@Override
+	public List<ItemStack> getDebris() {
+		List<ItemStack> list = new ArrayList<ItemStack>();
+
+		list.add(new ItemStack(ModItems.plate_titanium, 16));
+		list.add(new ItemStack(ModItems.plate_steel, 20));
+		list.add(new ItemStack(ModItems.plate_aluminium, 12));
+		list.add(new ItemStack(ModItems.thruster_large, 1));
+		list.add(new ItemStack(ModItems.warhead_mirvlet, 8));
+		
+		return list;
+	}
+
+	@Override
+	public ItemStack getDebrisRareDrop() {
+		return new ItemStack(ModItems.warhead_generic_large);
 	}
 }

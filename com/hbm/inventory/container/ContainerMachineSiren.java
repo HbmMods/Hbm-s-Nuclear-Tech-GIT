@@ -14,10 +14,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineSiren extends Container {
 	
 	private TileEntityMachineSiren diFurnace;
-	private int afterburner;
 	
 	public ContainerMachineSiren(InventoryPlayer invPlayer, TileEntityMachineSiren tedf) {
-		afterburner = 0;
 		
 		diFurnace = tedf;
 		

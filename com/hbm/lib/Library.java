@@ -293,7 +293,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_radgen)
 		{
 			return true;
 		}
@@ -829,44 +830,44 @@ public class Library {
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_2 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 15; i++)
+		for(int i = 0; i < 50; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_schrabidium_cell_4 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
 
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 20000; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 20000; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_6 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;
 				((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 			} else break;
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 20000; i++)
 			if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_spark_cell_25 && ItemBattery.getCharge(slots[index]) > 0)
 			{
 				power += 100;

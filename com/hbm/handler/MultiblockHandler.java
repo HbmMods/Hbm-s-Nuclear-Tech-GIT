@@ -73,6 +73,10 @@ public class MultiblockHandler {
 	public static final int[] AMSLimiterDimensionWest  = new int[] { 2, 2, 5, 0, 0, 0 };
 	public static final int[] AMSEmitterDimension  = new int[] { 2, 2, 5, 0, 2, 2, };
 	public static final int[] AMSBaseDimension  = new int[] { 1, 1, 1, 0, 1, 1, };
+	public static final int[] radGenDimensionNorth = new int[] { 4, 1, 2, 0, 1, 1 };
+	public static final int[] radGenDimensionEast  = new int[] { 1, 1, 2, 0, 4, 1 };
+	public static final int[] radGenDimensionSouth = new int[] { 1, 4, 2, 0, 1, 1 };
+	public static final int[] radGenDimensionWest  = new int[] { 1, 1, 2, 0, 1, 4 };
 	
 	//Approved!
 	public static boolean checkSpace(World world, int x, int y, int z, int[] i) {

@@ -1,9 +1,14 @@
 package com.hbm.entity.missile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
@@ -91,6 +96,16 @@ public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
 				ExplosionLarge.spawnTracers(worldObj, posX, posY, posZ, 10);
 			}
 		}
+	}
+
+	@Override
+	public List<ItemStack> getDebris() {
+		return null;
+	}
+
+	@Override
+	public ItemStack getDebrisRareDrop() {
+		return null;
 	}
 
 }

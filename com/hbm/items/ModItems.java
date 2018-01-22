@@ -660,6 +660,12 @@ public class ModItems {
 	public static Item gun_mp40_ammo;
 	public static Item gun_uboinik;
 	public static Item gun_uboinik_ammo;
+	public static Item gun_lever_action;
+	public static Item gun_lever_action_dark;
+	public static Item gun_lever_action_ammo;
+	public static Item gun_bolt_action;
+	public static Item gun_bolt_action_green;
+	public static Item gun_bolt_action_ammo;
 	public static Item gun_xvl1456;
 	public static Item gun_xvl1456_ammo;
 	public static Item gun_osipr;
@@ -1002,12 +1008,16 @@ public class ModItems {
 	public static Item clip_bf;
 	public static Item clip_mp40;
 	public static Item clip_uboinik;
+	public static Item clip_lever_action;
+	public static Item clip_bolt_action;
 	public static Item clip_osipr;
 	public static Item clip_immolator;
 	public static Item clip_cryolator;
 	public static Item clip_mp;
 	public static Item clip_xvl1456;
 	public static Item clip_emp;
+
+	public static Item ammo_container;
 
 	public static Item igniter;
 	public static Item detonator;
@@ -1023,6 +1033,7 @@ public class ModItems {
 	public static Item turret_rocket_ammo;
 	public static Item turret_flamer_ammo;
 	public static Item turret_tau_ammo;
+	public static Item turret_spitfire_ammo;
 
 	public static Item bucket_mud;
 	public static Item bucket_acid;
@@ -1719,6 +1730,12 @@ public class ModItems {
 		gun_mp40 = new GunSMG().setUnlocalizedName("gun_mp40").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_mp40");
 		gun_uboinik_ammo = new Item().setUnlocalizedName("gun_uboinik_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_uboinik_ammo");
 		gun_uboinik = new GunShotgun().setUnlocalizedName("gun_uboinik").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_uboinik");
+		gun_lever_action_ammo = new Item().setUnlocalizedName("gun_lever_action_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action_ammo");
+		gun_lever_action = new GunLeverAction().setUnlocalizedName("gun_lever_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action");
+		gun_lever_action_dark = new GunLeverAction().setUnlocalizedName("gun_lever_action_dark").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action_dark");
+		gun_bolt_action_ammo = new Item().setUnlocalizedName("gun_bolt_action_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_ammo");
+		gun_bolt_action = new GunBoltAction().setUnlocalizedName("gun_bolt_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action");
+		gun_bolt_action_green = new GunBoltAction().setUnlocalizedName("gun_bolt_action_green").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_green");
 		gun_xvl1456_ammo = new Item().setUnlocalizedName("gun_xvl1456_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456_ammo");
 		gun_xvl1456 = new GunXVL1456().setUnlocalizedName("gun_xvl1456").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456");
 		gun_osipr_ammo = new Item().setUnlocalizedName("gun_osipr_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_osipr_ammo");
@@ -1918,6 +1935,8 @@ public class ModItems {
 		clip_bf = new ItemClip().setUnlocalizedName("clip_bf").setCreativeTab(null).setTextureName(RefStrings.MODID + ":clip_bf");
 		clip_mp40 = new ItemClip().setUnlocalizedName("clip_mp40").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_mp40");
 		clip_uboinik = new ItemClip().setUnlocalizedName("clip_uboinik").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_uboinik");
+		clip_lever_action = new ItemClip().setUnlocalizedName("clip_lever_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_lever_action");
+		clip_bolt_action = new ItemClip().setUnlocalizedName("clip_bolt_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_bolt_action");
 		clip_osipr = new ItemClip().setUnlocalizedName("clip_osipr").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_osipr");
 		clip_immolator = new ItemClip().setUnlocalizedName("clip_immolator").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_immolator");
 		clip_cryolator = new ItemClip().setUnlocalizedName("clip_cryolator").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_cryolator");
@@ -1925,8 +1944,10 @@ public class ModItems {
 		clip_xvl1456 = new ItemClip().setUnlocalizedName("clip_xvl1456").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_xvl1456");
 		clip_emp = new ItemClip().setUnlocalizedName("clip_emp").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_emp");
 		
-		ingot_euphemium = new ItemAntiCheat().setUnlocalizedName("ingot_euphemium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_euphemium");
-		nugget_euphemium = new ItemAntiCheat().setUnlocalizedName("nugget_euphemium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_euphemium");
+		ammo_container = new ItemClip().setUnlocalizedName("ammo_container").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":ammo_container");
+		
+		ingot_euphemium = new ItemCustomLore().setUnlocalizedName("ingot_euphemium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_euphemium");
+		nugget_euphemium = new ItemCustomLore().setUnlocalizedName("nugget_euphemium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_euphemium");
 		rod_quad_euphemium = new ItemCustomLore().setUnlocalizedName("rod_quad_euphemium").setCreativeTab(MainRegistry.tabParts).setMaxStackSize(1).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_euphemium");
 		watch = new ItemCustomLore().setUnlocalizedName("watch").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":watch");
 		apple_euphemium = new ItemAppleEuphemium(20, 100, false).setUnlocalizedName("apple_euphemium").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":apple_euphemium");
@@ -1949,6 +1970,7 @@ public class ModItems {
 		turret_rocket_ammo = new ItemTurretAmmo(ModBlocks.turret_rocket, 8).setUnlocalizedName("turret_rocket_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_rocket_ammo");
 		turret_flamer_ammo = new ItemTurretAmmo(ModBlocks.turret_flamer, 200).setUnlocalizedName("turret_flamer_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_flamer_ammo");
 		turret_tau_ammo = new ItemTurretAmmo(ModBlocks.turret_tau, 100).setUnlocalizedName("turret_tau_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_tau_ammo");
+		turret_spitfire_ammo = new ItemTurretAmmo(ModBlocks.turret_spitfire, 2).setUnlocalizedName("turret_spitfire_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_spitfire_ammo");
 		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":template_folder");
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
@@ -1963,10 +1985,10 @@ public class ModItems {
 		fluid_barrel_infinite = new Item().setUnlocalizedName("fluid_barrel_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel_infinite");
 		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":cassette");
 
-		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("astatine_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
-		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("astatine_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
-		euphemium_legs = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 2).setUnlocalizedName("astatine_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_legs");
-		euphemium_boots = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 3).setUnlocalizedName("astatine_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_boots");
+		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("euphemium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
+		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("euphemium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
+		euphemium_legs = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 2).setUnlocalizedName("euphemium_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_legs");
+		euphemium_boots = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 3).setUnlocalizedName("euphemium_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_boots");
 		
 		goggles = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("goggles").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":goggles");
 		gas_mask = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask");
@@ -2852,6 +2874,8 @@ public class ModItems {
 		GameRegistry.registerItem(rod_schrabidium_fuel_depleted, rod_schrabidium_fuel_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_schrabidium_fuel_depleted, rod_dual_schrabidium_fuel_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_schrabidium_fuel_depleted, rod_quad_schrabidium_fuel_depleted.getUnlocalizedName());
+
+		GameRegistry.registerItem(rod_quad_euphemium, rod_quad_euphemium.getUnlocalizedName());
 		
 		GameRegistry.registerItem(rod_waste, rod_waste.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_waste, rod_dual_waste.getUnlocalizedName());
@@ -2911,6 +2935,10 @@ public class ModItems {
 		GameRegistry.registerItem(gun_bf, gun_bf.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40, gun_mp40.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uboinik, gun_uboinik.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lever_action, gun_lever_action.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lever_action_dark, gun_lever_action_dark.getUnlocalizedName());
+		GameRegistry.registerItem(gun_bolt_action, gun_bolt_action.getUnlocalizedName());
+		GameRegistry.registerItem(gun_bolt_action_green, gun_bolt_action_green.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr, gun_osipr.getUnlocalizedName());
 		GameRegistry.registerItem(gun_immolator, gun_immolator.getUnlocalizedName());
@@ -2946,6 +2974,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_bf_ammo, gun_bf_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40_ammo, gun_mp40_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uboinik_ammo, gun_uboinik_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lever_action_ammo, gun_lever_action_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_bolt_action_ammo, gun_bolt_action_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456_ammo, gun_xvl1456_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr_ammo, gun_osipr_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr_ammo2, gun_osipr_ammo2.getUnlocalizedName());
@@ -2965,6 +2995,7 @@ public class ModItems {
 		GameRegistry.registerItem(turret_rocket_ammo, turret_rocket_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_flamer_ammo, turret_flamer_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_tau_ammo, turret_tau_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(turret_spitfire_ammo, turret_spitfire_ammo.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
 		GameRegistry.registerItem(clip_revolver_iron, clip_revolver_iron.getUnlocalizedName());
@@ -2981,12 +3012,16 @@ public class ModItems {
 		GameRegistry.registerItem(clip_bf, clip_bf.getUnlocalizedName());
 		GameRegistry.registerItem(clip_mp40, clip_mp40.getUnlocalizedName());
 		GameRegistry.registerItem(clip_uboinik, clip_uboinik.getUnlocalizedName());
+		GameRegistry.registerItem(clip_lever_action, clip_lever_action.getUnlocalizedName());
+		GameRegistry.registerItem(clip_bolt_action, clip_bolt_action.getUnlocalizedName());
 		GameRegistry.registerItem(clip_xvl1456, clip_xvl1456.getUnlocalizedName());
 		GameRegistry.registerItem(clip_osipr, clip_osipr.getUnlocalizedName());
 		GameRegistry.registerItem(clip_immolator, clip_immolator.getUnlocalizedName());
 		GameRegistry.registerItem(clip_cryolator, clip_cryolator.getUnlocalizedName());
 		GameRegistry.registerItem(clip_mp, clip_mp.getUnlocalizedName());
 		GameRegistry.registerItem(clip_emp, clip_emp.getUnlocalizedName());
+		
+		GameRegistry.registerItem(ammo_container, ammo_container.getUnlocalizedName());
 		
 		//Grenades
 		GameRegistry.registerItem(grenade_generic, grenade_generic.getUnlocalizedName());
@@ -3222,7 +3257,6 @@ public class ModItems {
 		GameRegistry.registerItem(schrabidium_plate, schrabidium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_legs, schrabidium_legs.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_boots, schrabidium_boots.getUnlocalizedName());
-		GameRegistry.registerItem(rod_quad_euphemium, rod_quad_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_helmet, euphemium_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_plate, euphemium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(euphemium_legs, euphemium_legs.getUnlocalizedName());

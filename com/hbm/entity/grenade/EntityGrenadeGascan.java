@@ -25,7 +25,7 @@ public class EntityGrenadeGascan extends EntityGrenadeBase
         if (!this.worldObj.isRemote)
         {
             this.setDead();
-			this.worldObj.newExplosion((Entity)null, (float)this.posX, (float)this.posY, (float)this.posZ, 10.0F, true, false);
+			this.worldObj.newExplosion((Entity)null, (float)this.posX, (float)this.posY, (float)this.posZ, 5.0F, true, false);
         }
     }
 }

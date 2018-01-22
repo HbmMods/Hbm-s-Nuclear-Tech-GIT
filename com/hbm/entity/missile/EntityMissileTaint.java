@@ -1,9 +1,12 @@
 package com.hbm.entity.missile;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.explosion.ExplosionThermo;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class EntityMissileTaint extends EntityMissileBaseAdvanced {
@@ -27,5 +30,15 @@ public class EntityMissileTaint extends EntityMissileBaseAdvanced {
 	           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c))
 	        	   worldObj.setBlock(a, b, c, ModBlocks.taint);
 	    }
+	}
+
+	@Override
+	public List<ItemStack> getDebris() {
+		return null;
+	}
+
+	@Override
+	public ItemStack getDebrisRareDrop() {
+		return null;
 	}
 }

@@ -58,6 +58,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.bolt_compound, 1), new Object[] { "PDP", "PTP", "PDP", 'D', ModItems.bolt_dura_steel, 'T', ModItems.bolt_tungsten, 'P', "plateTitanium" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pellet_coal, 1), new Object[] { "PFP", "FOF", "PFP", 'P', "dustCoal", 'F', Items.flint, 'O', ModBlocks.gravel_obsidian }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.plate_polymer, 8), new Object[] { "DD", 'D', ModItems.ingot_polymer});
+		GameRegistry.addRecipe(new ItemStack(ModItems.plate_polymer, 4), new Object[] { "SWS", 'S', Items.string, 'W', Blocks.wool });
+		GameRegistry.addRecipe(new ItemStack(ModItems.plate_polymer, 4), new Object[] { "BB", 'B', Items.brick });
 
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.magnet_dee, 1), new Object[] { "SMM", "M M", "MMT", 'S', "ingotSteel", 'M', ModBlocks.fusion_conductor, 'T', ModItems.coil_advanced_torus }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.magnet_circular, 2), new Object[] { "PSP", "MMM", "PSP", 'S', "ingotSteel", 'M', ModBlocks.fusion_conductor, 'P', "plateAdvanced" }));
@@ -492,7 +494,7 @@ public class CraftingManager {
 		//GameRegistry.addRecipe(new ItemStack(ModItems.missile_endo, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_thermo_endo, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
 		//GameRegistry.addRecipe(new ItemStack(ModItems.missile_exo, 1), new Object[] { "W", "T", "M", 'W', ModItems.warhead_thermo_exo, 'T', ModItems.fuel_tank_large, 'M', ModItems.thruster_large });
 
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 1), new Object[] { "AHA", "TCT", "TPT", 'T', "plateTitanium", 'A', "plateAluminum", 'S', "plateSteel", 'C', "ingotCopper", 'P', Item.getItemFromBlock(Blocks.piston), 'H', Item.getItemFromBlock(Blocks.hopper) }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 1), new Object[] { "AHA", "TCT", "TPT", 'T', "plateIron", 'A', "plateAluminum", 'S', "plateSteel", 'C', "ingotCopper", 'P', Item.getItemFromBlock(Blocks.piston), 'H', Item.getItemFromBlock(Blocks.hopper) }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_centrifuge), 1), new Object[] { " T ", "RDR", "RSR", 'S', "plateSteel", 'T', ModItems.centrifuge_tower, 'W', ModItems.coil_tungsten, 'R', ModItems.coil_copper, 'D', Item.getItemFromBlock(ModBlocks.machine_difurnace_off) }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), 1), new Object[] { "WTW", "WTW", "SRS", 'S', "plateTitanium", 'W', ModItems.coil_tungsten, 'T', ModItems.tank_steel, 'W', ModItems.coil_tungsten,'R', "ingotRedstoneAlloy" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_puf6_tank), 1), new Object[] { "WTW", "WTW", "SRS", 'S', "plateSteel", 'W', ModItems.coil_tungsten, 'T', ModItems.tank_steel, 'W', ModItems.coil_tungsten,'R', "ingotRedstoneAlloy" }));
@@ -502,8 +504,8 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off), 1), new Object[] { "BBB", "WFW", "RRR", 'B', ModItems.ingot_beryllium, 'R', ModItems.coil_tungsten, 'W', ModItems.wire_red_copper, 'F', Item.getItemFromBlock(Blocks.furnace) });
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_generator), 1), new Object[] { "SLS", "LCL", "SLS", 'C', ModItems.circuit_red_copper, 'L', ModItems.rod_quad_lead, 'S', "ingotSteel" }));
 		//GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_industrial_generator), 1), new Object[] { "PPP", "FGG", "WSS", 'P', ModItems.board_copper, 'F', ModItems.generator_front, 'G', ModItems.generator_steel, 'W', ModBlocks.red_wire_coated, 'S', ModItems.pedestal_steel });
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.red_wire_coated), 16), new Object[] { "WRW", "RIR", "WRW", 'W', "ingotPolymer", 'I', "ingotRedstoneAlloy", 'R', ModItems.wire_red_copper }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.red_cable), 16), new Object[] { "WRW", "RIR", "WRW", 'W', ModItems.plate_polymer, 'I', "ingotRedstoneAlloy", 'R', ModItems.wire_red_copper }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.red_wire_coated), 16), new Object[] { "WRW", "RIR", "WRW", 'W', ModItems.plate_polymer, 'I', "ingotRedstoneAlloy", 'R', ModItems.wire_red_copper }));
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.red_cable), 16), new Object[] { " W ", "RRR", " W ", 'W', ModItems.plate_polymer, 'R', ModItems.wire_red_copper });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.red_pylon), 4), new Object[] { "CWC", "PWP", " T ", 'C', ModItems.coil_copper_torus, 'W', "plankWood", 'P', ModItems.plate_polymer, 'T', ModBlocks.red_wire_coated }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.oil_duct_solid), 16), new Object[] { "SPS", "P P", "SPS", 'S', "ingotSteel", 'P', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.oil_duct), 16), new Object[] { "SIS", "   ", "SIS", 'S', "plateSteel", 'I', "plateIron" }));
@@ -636,24 +638,24 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_rpg, 1), new Object[] { "SSW", " SW", 'S', "plateSteel", 'W', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_rpg_ammo, 8), new Object[] { "SI ", "ITI", " I ", 'S', "plateSteel", 'T', Item.getItemFromBlock(Blocks.tnt), 'I', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver, 1), new Object[] { "SSS", " RW", 'S', "plateSteel", 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_ammo, 16), new Object[] { "L", "S", 'L', "plateLead", 'S', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_ammo, 16), new Object[] { "L", "S", "G", 'L', "plateLead", 'S', "plateSteel", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_iron, 1), new Object[] { "SSS", " RW", 'S', "plateIron", 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_iron_ammo, 16), new Object[] { "L", "S", 'L', "plateIron", 'S', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_iron_ammo, 16), new Object[] { "L", "S", "G", 'L', "plateIron", 'S', "plateCopper", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_gold, 1), new Object[] { "SSS", " RW", 'S', "plateGold", 'W', "ingotGold", 'R', ModItems.wire_gold }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_gold_ammo, 16), new Object[] { "L", "S", 'L', ModItems.plate_gold, 'S', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_gold_ammo, 16), new Object[] { "L", "L", "S", 'L', ModItems.plate_gold, 'S', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead, 1), new Object[] { "SSS", " RW", 'S', "plateLead", 'W', "ingotTungsten", 'R', ModItems.wire_tungsten }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", 'L', "paneGlass", 'S', ModItems.ingot_u235 }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", 'L', "paneGlass", 'S', ModItems.ingot_pu239 }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", 'L', "paneGlass", 'S', ModItems.nuclear_waste }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", 'L', "paneGlass", 'S', ModItems.trinitite }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", "G", 'L', "paneGlass", 'S', ModItems.ingot_u235, 'G', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", "G", 'L', "paneGlass", 'S', ModItems.ingot_pu239, 'G', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", "G", 'L', "paneGlass", 'S', ModItems.nuclear_waste, 'G', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_lead_ammo, 16), new Object[] { "L", "S", "G", 'L', "paneGlass", 'S', ModItems.trinitite, 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_schrabidium, 1), new Object[] { "SSS", " RW", 'S', ModBlocks.block_schrabidium, 'W', "ingotTungsten", 'R', ModItems.wire_schrabidium }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_schrabidium_ammo, 16), new Object[] { "L", "N", "S", 'L', ModItems.plate_schrabidium, 'S', Items.gunpowder, 'N', Items.nether_star });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_cursed, 1), new Object[] { "TTM", "SRI", 'S', "plateSteel", 'I', "ingotSteel", 'R', ModItems.wire_red_copper, 'T', "plateTitanium", 'M', ModItems.motor }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_cursed_ammo, 32), new Object[] { "L", "L", 'L', "plateSteel", 'S', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_nightmare, 1), new Object[] { "SSE", " RW", 'S', "plateSteel", 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium, 'E', ModItems.powder_power }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_nightmare_ammo, 16), new Object[] { "L", "S", 'L', "plateDenseLead", 'S', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_nightmare_ammo, 16), new Object[] { "L", "S", "G", 'L', "plateDenseLead", 'S', "plateSteel", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_nightmare2, 1), new Object[] { "SSS", "RRW", 'S', "plateDenseLead", 'W', "ingotTungsten", 'R', ModItems.wire_gold }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_nightmare2_ammo, 6), new Object[] { "L", "S", 'L', ModItems.powder_power, 'S', Items.gunpowder });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_revolver_nightmare2_ammo, 6), new Object[] { "L", "S", "G", 'L', ModItems.powder_power, 'S', ModItems.plate_polymer, 'G', Items.gunpowder });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_fatman, 1), new Object[] { "SSI", "III", "WPH", 'S', "plateSteel", 'I', "ingotSteel", 'W', ModItems.wire_aluminium, 'H', ModItems.hull_small_steel, 'P', Item.getItemFromBlock(Blocks.piston) }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_fatman_ammo, 2), new Object[] { " S ", "SPS", "ITI", 'S', "plateSteel", 'P', ModItems.ingot_pu239, 'T', Item.getItemFromBlock(Blocks.tnt), 'I', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_mirv, 1), new Object[] { "LLL", "WFW", "SSS", 'S', "plateSteel", 'L', "plateLead", 'W', ModItems.wire_gold, 'F', ModItems.gun_fatman }));
@@ -661,9 +663,9 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bf, 1), new Object[] { "LLL", "WFW", "SSS", 'S', ModItems.plate_paa, 'L', "plateDenseLead", 'W', ModItems.wire_advanced_alloy, 'F', ModItems.gun_mirv }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.gun_bf_ammo, 1), new Object[] { "AEA", "SHS", "AEA", 'H', ModItems.hull_small_steel, 'A', ModItems.cell_antimatter, 'S', ModItems.cell_anti_schrabidium, 'E', ModItems.powder_power });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_mp40, 1), new Object[] { "III", " SW", " S ", 'S', "plateSteel", 'I', "ingotSteel", 'W', "plankWood" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_mp40_ammo, 16), new Object[] { "P", "G", 'P', "plateCopper", 'G', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_mp40_ammo, 16), new Object[] { "L", "P", "G", 'P', "plateCopper", 'L', "plateLead", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_uboinik, 1), new Object[] { "II ", "SPW", 'P', "plateSteel", 'I', "ingotSteel", 'W', "plankWood", 'S', Items.stick }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.gun_uboinik_ammo, 6), new Object[] { "P", "G", 'P', ModItems.pellet_buckshot, 'G', Items.gunpowder });
+		GameRegistry.addRecipe(new ItemStack(ModItems.gun_uboinik_ammo, 6), new Object[] { "P", "S", "G", 'P', ModItems.pellet_buckshot, 'S', ModItems.plate_polymer, 'G', Items.gunpowder });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_xvl1456, 1), new Object[] { "PBB", "ACC", "PRY", 'P', "plateSteel", 'R', ModItems.redcoil_capacitor, 'A', ModItems.coil_advanced_alloy, 'B', ModItems.battery_generic, 'C', ModItems.coil_advanced_torus, 'Y', ModItems.circuit_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_xvl1456_ammo, 64), new Object[] { "SSS", "SRS", "SSS", 'S', "plateSteel", 'R', ModItems.rod_quad_uranium_fuel_depleted }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_xvl1456_ammo, 32), new Object[] { " S ", "SRS", " S ", 'S', "plateSteel", 'R', ModItems.rod_dual_uranium_fuel_depleted }));
@@ -688,7 +690,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_emp, 1), new Object[] { "CPG", "CMF", "CPI", 'C', ModItems.coil_copper, 'P', "plateLead", 'G', ModItems.circuit_gold, 'M', ModItems.magnetron, 'I', "ingotTungsten", 'F', ModItems.fuse }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_emp_ammo, 8), new Object[] { "IGI", "IPI", "IPI", 'G', "plateGold", 'I', "plateIron", 'P', ModItems.powder_power }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_jack, 1), new Object[] { "WW ", "TSD", " TT", 'W', "ingotWeidanium", 'T', ModItems.toothpicks, 'S', ModItems.gun_uboinik, 'D', ModItems.ducttape }));
-		GameRegistry.addShapedRecipe(new ItemStack(ModItems.gun_jack_ammo, 3), new Object[] { "PP", "GG", 'G', Items.gunpowder, 'P', ModItems.pellet_buckshot });
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.gun_jack_ammo, 3), new Object[] { "PP", "II", "GG", 'G', Items.gunpowder, 'P', ModItems.pellet_buckshot, 'I', ModItems.plate_polymer });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.gun_jack_ammo, 1), new Object[] { ModItems.gun_uboinik_ammo, ModItems.gun_uboinik_ammo, ModItems.gun_uboinik_ammo, ModItems.gun_uboinik_ammo });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_euthanasia, 1), new Object[] { "TDT", "AAS", " T ", 'A', "ingotAustralium", 'T', ModItems.toothpicks, 'S', ModItems.gun_mp40, 'D', ModItems.ducttape }));
 		GameRegistry.addShapedRecipe(new ItemStack(ModItems.gun_euthanasia_ammo, 12), new Object[] { "P", "S", "N", 'P', ModItems.powder_poison, 'N', ModItems.niter, 'S', ModItems.syringe_metal_empty });
@@ -698,6 +700,12 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_hp_ammo, 8), new Object[] { " R ", "BSK", " Y ", 'S', "plateSteel", 'K', new ItemStack(Items.dye, 1, 0), 'R', new ItemStack(Items.dye, 1, 1), 'B', new ItemStack(Items.dye, 1, 4), 'Y', new ItemStack(Items.dye, 1, 11) }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_defabricator, 1), new Object[] { " SS", "DDD", "TCB", 'S', "plateSteel", 'D', ModItems.plate_dalekanium, 'T', "plateTitanium", 'C', ModItems.circuit_gold, 'B', ModItems.battery_lithium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_defabricator_ammo, 16), new Object[] { "PCP", "DDD", "PCP", 'P', "plateSteel", 'C', ModItems.coil_copper, 'D', "dustLithium" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_lever_action, 1), new Object[] { "PPI", "SWD", 'P', "plateIron", 'I', "ingotIron", 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_aluminium }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_lever_action_dark, 1), new Object[] { "PPI", "SWD", 'P', "plateSteel", 'I', "ingotSteel", 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_aluminium }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_lever_action_ammo, 6), new Object[] { "P", "S", "G", 'P', ModItems.pellet_buckshot, 'S', "plateCopper", 'G', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action, 1), new Object[] { "PPI", "SWD", 'P', "plateSteel", 'I', "ingotSteel", 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_copper }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action_green, 1), new Object[] { "PPI", "SWD", 'P', "plateIron", 'I', "ingotIron", 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_copper }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action_ammo, 2), new Object[] { "P", "S", "G", 'P', "nuggetLead", 'S', ModItems.plate_polymer, 'G', Items.gunpowder }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.turret_light_ammo, 1), new Object[] { " L ", "IGI", "ICI", 'L', "plateLead", 'I', "plateIron", 'C', "plateCopper", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.turret_heavy_ammo, 1), new Object[] { "LGC", "LGC", "LGC", 'L', "plateLead", 'C', "plateCopper", 'G', Items.gunpowder }));
@@ -1026,7 +1034,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_dura_steel, 2), new Object[] { "dustSteel", ModItems.powder_cobalt }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_dura_steel, 4), new Object[] { "dustIron", "dustCoal", "dustTungsten", "dustTungsten" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_dura_steel, 4), new Object[] { "dustIron", "dustCoal", ModItems.powder_cobalt, ModItems.powder_cobalt }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_polymer, 2), new Object[] { "dustCoal", "dustSalpeter" }));
+		//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_polymer, 2), new Object[] { "dustCoal", "dustSalpeter" }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.saw, 1), new Object[] { "IIL", "PP ", 'P', "plateSteel", 'I', "ingotSteel", 'L', Items.leather }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.bat, 1), new Object[] { "P", "P", "S", 'S', "plateSteel", 'P', "plankWood" }));

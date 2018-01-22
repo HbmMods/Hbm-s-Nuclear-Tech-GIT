@@ -4,6 +4,11 @@ itemGroup.tabBlocks=NTM Blocks and Machines
 itemGroup.tabNuke=NTM Bombs and Gear
 itemGroup.tabMachine=NTM Templates
 
+achievement.sacrifice=Sororicide
+achievement.sacrifice.desc=Face the fire and live.
+achievement.impossible=Literally impossible
+achievement.impossible.desc=You can't get this achievement.
+
 hbmfluid.none=None
 hbmfluid.water=Water
 hbmfluid.steam=Steam
@@ -194,6 +199,8 @@ tile.turret_heavy.name=Heavy Machine Gun Turret
 tile.turret_rocket.name=Rocket Turret
 tile.turret_flamer.name=Flamethrower Turret
 tile.turret_tau.name=Tauon Turret
+tile.turret_spitfire.name=Turret I have no name for right now [WIP]
+
 item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
 
@@ -282,6 +289,8 @@ tile.machine_press.name=Steam Press
 container.press=Steam Press
 tile.machine_siren.name=Siren
 container.siren=Siren
+tile.machine_radgen.name=Radiation-Powered Engine [WIP]
+container.radGen=Radiation-Powered Engine [WIP]
 
 tile.red_pylon.name=Electricity Pole
 item.wiring_red_copper.name=Cable Drum
@@ -346,6 +355,16 @@ tile.machine_rtg_green.name=Verticium Wealth Generator
 tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_purple.name=Antimatter Annihilation Generator
+
+tile.machine_spp_bottom.name=SPE Potential Generator (Bottom)
+tile.machine_spp_top.name=SPE Potential Generator (Top)
+
+tile.ams_limiter.name=AMS Stabilizer [WIP]
+container.amsLimiter=AMS Stabilizer [WIP]
+tile.ams_emitter.name=AMS Emitter [WIP]
+container.amsEmitter=AMS Emitter [WIP]
+tile.ams_base.name=AMS Base [WIP]
+container.amsBase=AMS Base [WIP]
 
 item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier
@@ -496,6 +515,8 @@ tile.ore_nether_tungsten.name=Nether Tungsten Ore
 tile.ore_nether_sulfur.name=Nether Sulfur Ore
 tile.ore_nether_fire.name=Fire Ore
 tile.ore_nether_schrabidium.name=Nether Schrabidium Ore
+
+tile.ore_tikite.name=Trixite
 
 tile.ore_australium.name=Australian Ore
 tile.ore_weidanium.name=Weidite
@@ -860,6 +881,7 @@ item.grenade_plasma.name=Plasma Grenade
 item.grenade_tau.name=Tau Grenade
 item.grenade_schrabidium.name=Schrabidium Grenade
 item.grenade_lemon.name=Combustible Lemon
+item.grenade_gascan.name=Tossable Gas Can
 item.grenade_mk2.name=Mk 2 Grenade "Ambassador Pineapple"
 item.grenade_aschrab.name=Tossable Antischrabidium Cell
 item.grenade_nuke.name=Mark VI Drill Grenade
@@ -940,6 +962,10 @@ item.gun_mirv.name=M42 Nuclear Catapult "Experimental MIRV"
 item.gun_bf.name=M42_2 Nuclear Catapult "Antimatter Launcher"
 item.gun_mp40.name=Submachine Gun
 item.gun_uboinik.name=Uboinik
+item.gun_lever_action.name=Mare's Leg (Original)
+item.gun_bolt_action.name=Dream Bolt-Action Rifle (Original)
+item.gun_lever_action_dark.name=Mare's Leg (Dark)
+item.gun_bolt_action_green.name=Dream Bolt-Action Rifle (Green)
 item.gun_xvl1456.name=XVL1456 Tau Cannon Prototype
 item.gun_osipr.name=Overwatch Standard Issue Pulse Rifle
 item.gun_immolator.name=The Immolator
@@ -971,6 +997,8 @@ item.gun_mirv_ammo.name=Eightfold MIRV
 item.gun_bf_ammo.name=Mk.V Compact AMAT-Artillery Shell - Type B.F.
 item.gun_mp40_ammo.name=Submachine Gun Round
 item.gun_uboinik_ammo.name=12x70 Buckshot
+item.gun_lever_action_ammo.name=12x74 Buckshot
+item.gun_bolt_action_ammo.name=12x74 Slug
 item.gun_xvl1456_ammo.name=Depleted Uranium-235 Box
 item.gun_osipr_ammo.name=Dark Energy Pulse Plug
 item.gun_osipr_ammo2.name=Combine Ball
@@ -989,6 +1017,7 @@ item.turret_heavy_ammo.name=Heavy MG Turret Ammunition
 item.turret_rocket_ammo.name=Rocket Turret 2x4 Ammunition
 item.turret_flamer_ammo.name=Flamer Turret Fuel Tanks
 item.turret_tau_ammo.name=Tau Turret Uranium Ammo
+item.turret_spitfire_ammo.name=AA-Shell
 
 item.clip_revolver_iron.name=Box of Iron Rounds
 item.clip_revolver.name=Box of .357 Rounds
@@ -1006,10 +1035,14 @@ item.clip_mirv.name=Three-In-One Pack of Mini MIRVs
 item.clip_bf.name=BF-Shell Double Pack
 item.clip_mp.name=Britannia Military Standard Issue Assult Rifle Magazine
 item.clip_mp40.name=9mm SMG Magazine
-item.clip_uboinik.name=Box of Buckshot Rounds
+item.clip_uboinik.name=Box of 12x70 Buckshot Rounds
+item.clip_lever_action.name=Box of 12x74 Buckshot Rounds
+item.clip_bolt_action.name=Box of 12x74 Slugs
 item.clip_emp.name=Small Pack of Energy Cells
 item.clip_revolver_nightmare.name=Bag of Bullets
 item.clip_revolver_nightmare2.name=Belt with Laser Buckshot
+
+item.ammo_container.name=Ammo Container
 
 tile.block_schrabidium.name=Block of Schrabidium
 item.plate_gold.name=Gold Plate
@@ -1119,6 +1152,7 @@ item.missile_nuclear_cluster.name=Nuclear MIRV Missile
 item.missile_endo.name=Endothermic Missile
 item.missile_exo.name=Exothermic Missile
 item.missile_doomsday.name=Doomsday Missile
+item.missile_taint.name=Taint-Tipped Missile
 
 item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmat Chestplate
@@ -1423,6 +1457,7 @@ item.reer_graar.name=The Reer Graar
 
 item.letter.name=Express Mail
 item.polaroid.name=The Polaroid
+item.glitch.name=Glitch [WIP]
 item.book_secret.name=3-596-50802-9
 item.burnt_bark.name=Burnt Bark
 
@@ -1441,6 +1476,8 @@ item.nothing.name=Nothing
 tile.crystal_virus.name=Dark Crystal
 tile.crystal_hardened.name=Hardened Dark Crystal
 tile.crystal_pulsar.name=Pulsating Crystal
+
+tile.taint.name=Taint
 
 tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

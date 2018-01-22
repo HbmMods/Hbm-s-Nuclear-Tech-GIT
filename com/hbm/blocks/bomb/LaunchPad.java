@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
 import com.hbm.entity.missile.EntityMissileBurst;
@@ -34,6 +35,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -139,7 +141,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
     @Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
-        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
+        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z) && !p_149695_1_.isRemote)
         {
         	this.explode(p_149695_1_, x, y, z);
         }
@@ -207,7 +209,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
 	public void explode(World p_149695_1_, int x, int y, int z)
     {
 		TileEntityLaunchPad entity = (TileEntityLaunchPad) p_149695_1_.getTileEntity(x, y, z);
-        //if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
+        //
         {
         	if(entity.slots[1] != null && (entity.slots[1].getItem() == ModItems.designator || entity.slots[1].getItem() == ModItems.designator_range) && entity.slots[1].stackTagCompound != null)
         	{
@@ -223,7 +225,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		{
             		//EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
             		EntityMissileGeneric missile = new EntityMissileGeneric(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             	
             		entity.slots[0] = null;
@@ -232,7 +235,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000)
         		{
             		EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             	
             		entity.slots[0] = null;
@@ -241,7 +245,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_incendiary && entity.power >= 75000)
         		{
             		EntityMissileIncendiary missile = new EntityMissileIncendiary(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             	
             		entity.slots[0] = null;
@@ -250,7 +255,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_cluster && entity.power >= 75000)
         		{
             		EntityMissileCluster missile = new EntityMissileCluster(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -259,7 +265,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_buster && entity.power >= 75000)
         		{
             		EntityMissileBunkerBuster missile = new EntityMissileBunkerBuster(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -268,7 +275,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_strong && entity.power >= 75000)
         		{
             		EntityMissileStrong missile = new EntityMissileStrong(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -277,7 +285,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_incendiary_strong && entity.power >= 75000)
         		{
             		EntityMissileIncendiaryStrong missile = new EntityMissileIncendiaryStrong(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -286,7 +295,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_cluster_strong && entity.power >= 75000)
         		{
             		EntityMissileClusterStrong missile = new EntityMissileClusterStrong(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -295,7 +305,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_buster_strong && entity.power >= 75000)
         		{
             		EntityMissileBusterStrong missile = new EntityMissileBusterStrong(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -304,7 +315,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_burst && entity.power >= 75000)
         		{
             		EntityMissileBurst missile = new EntityMissileBurst(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -313,7 +325,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_inferno && entity.power >= 75000)
         		{
             		EntityMissileInferno missile = new EntityMissileInferno(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -322,7 +335,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_rain && entity.power >= 75000)
         		{
             		EntityMissileRain missile = new EntityMissileRain(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -331,7 +345,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_drill && entity.power >= 75000)
         		{
             		EntityMissileDrill missile = new EntityMissileDrill(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -340,7 +355,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_nuclear && entity.power >= 75000)
         		{
             		EntityMissileNuclear missile = new EntityMissileNuclear(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -349,7 +365,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_endo && entity.power >= 75000)
         		{
             		EntityMissileEndo missile = new EntityMissileEndo(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -358,7 +375,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_exo && entity.power >= 75000)
         		{
             		EntityMissileExo missile = new EntityMissileExo(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -367,7 +385,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_nuclear_cluster && entity.power >= 75000)
         		{
             		EntityMissileMirv missile = new EntityMissileMirv(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -376,7 +395,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000)
         		{
             		EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(p_149695_1_, xCoord, zCoord, x + 0.5F, y + 2F, z + 0.5F);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -385,7 +405,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_doomsday && entity.power >= 75000)
         		{
             		EntityMissileDoomsday missile = new EntityMissileDoomsday(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;
@@ -394,7 +415,8 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_taint && entity.power >= 75000)
         		{
             		EntityMissileTaint missile = new EntityMissileTaint(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
-            		p_149695_1_.spawnEntityInWorld(missile);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;
             		
             		entity.slots[0] = null;

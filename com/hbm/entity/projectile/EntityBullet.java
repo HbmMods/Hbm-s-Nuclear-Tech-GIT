@@ -373,6 +373,7 @@ public class EntityBullet extends Entity implements IProjectile {
 
 		if (this.inGround && !this.getIsCritical()) {
 			this.setDead();
+			
 		} else {
 			++this.ticksInAir;
 			Vec3 vec31 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
@@ -589,6 +590,8 @@ public class EntityBullet extends Entity implements IProjectile {
 							this.ticksInAir = 0;*/
 							//this.setDead();
 						}
+					} else {
+						this.setDead();
 					}
 				} else if (!this.getIsCritical()) {
 					this.field_145791_d = movingobjectposition.blockX;

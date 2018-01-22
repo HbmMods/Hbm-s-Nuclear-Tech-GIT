@@ -5,13 +5,16 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -169,6 +172,24 @@ public class MachineIGenerator extends BlockContainer implements IMultiblock {
 				
 			} else
 				world.func_147480_a(x, y, z, true);
+		}
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote)
+		{
+			return true;
+		} else if(!player.isSneaking())
+		{
+			TileEntityMachineIGenerator entity = (TileEntityMachineIGenerator) world.getTileEntity(x, y, z);
+    		if(entity != null)
+    		{
+    			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_industrial_generator, world, x, y, z);
+    		}
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

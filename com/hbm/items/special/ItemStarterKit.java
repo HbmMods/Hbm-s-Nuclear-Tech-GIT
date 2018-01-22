@@ -247,6 +247,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_tau, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_schrabidium, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_lemon, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gascan, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_mk2, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_aschrab, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_nuke, 16));
@@ -311,6 +312,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_doomsday, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_taint, 1));
 		}
 		
 		if(this == ModItems.t45_kit)
@@ -319,11 +321,13 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_plate, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_legs, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.t45_boots, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fusion_core, 1));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
+			player.inventory.addItemStackToInventory(ItemBattery.getFullBattery(ModItems.fusion_core));
 		}
 		
 		if(this == ModItems.stealth_boy)
