@@ -26,8 +26,8 @@ public class TileEntityLaunchPad extends TileEntity implements ISidedInventory, 
 	public final long maxPower = 100000;
 	
 	private static final int[] slots_top = new int[] {0};
-	private static final int[] slots_bottom = new int[] {2};
-	private static final int[] slots_side = new int[] {1};
+	private static final int[] slots_bottom = new int[] { 0, 1, 2};
+	private static final int[] slots_side = new int[] {0};
 	public int state = 0;
 	
 	private String customName;

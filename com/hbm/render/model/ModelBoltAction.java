@@ -92,7 +92,7 @@ public class ModelBoltAction extends ModelBase {
 		setRotation(LeverMid, 0F, 0F, 0F);
 		Trigger = new ModelRenderer(this, 88, 30);
 		Trigger.addBox(-1F, 0F, 0F, 1, 3, 1);
-		Trigger.setRotationPoint(12.5F, 9F, -2.5F);
+		Trigger.setRotationPoint(12.5F, 9F, -0.5F);
 		Trigger.setTextureSize(64, 32);
 		Trigger.mirror = true;
 		setRotation(Trigger, 0F, 0F, 0.3490659F);

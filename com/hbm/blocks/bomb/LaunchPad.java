@@ -211,7 +211,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
 		TileEntityLaunchPad entity = (TileEntityLaunchPad) p_149695_1_.getTileEntity(x, y, z);
         //
         {
-        	if(entity.slots[1] != null && (entity.slots[1].getItem() == ModItems.designator || entity.slots[1].getItem() == ModItems.designator_range) && entity.slots[1].stackTagCompound != null)
+        	if(entity.slots[1] != null && (entity.slots[1].getItem() == ModItems.designator || entity.slots[1].getItem() == ModItems.designator_range || entity.slots[1].getItem() == ModItems.designator_manual) && entity.slots[1].stackTagCompound != null)
         	{
         		int xCoord = entity.slots[1].stackTagCompound.getInteger("xCoord");
         		int zCoord = entity.slots[1].stackTagCompound.getInteger("zCoord");

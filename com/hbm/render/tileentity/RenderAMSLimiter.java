@@ -36,7 +36,7 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.ams_limiter_tex);
         
         if(((TileEntityAMSLimiter)tileEntity).locked)
             ResourceManager.ams_limiter_destroyed.renderAll();
@@ -68,7 +68,7 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.universal);
+       // bindTexture(ResourceManager.universal);
         
         TileEntityAMSLimiter limiter = (TileEntityAMSLimiter)tileEntity;
 

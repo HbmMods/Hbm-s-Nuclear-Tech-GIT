@@ -88,7 +88,12 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).getUniqueID().toString().equals(uuid))
 			return false;
 		
-		Vec3 turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+		Vec3 turret;
+		if(this instanceof TileEntityTurretSpitfire)
+			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
+		else
+			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
+		
 		Vec3 entity = Vec3.createVectorHelper(e.posX, e.posY + e.getEyeHeight(), e.posZ);
 		Vec3 side = Vec3.createVectorHelper(entity.xCoord - turret.xCoord, entity.yCoord - turret.yCoord, entity.zCoord - turret.zCoord);
 		side = side.normalize();

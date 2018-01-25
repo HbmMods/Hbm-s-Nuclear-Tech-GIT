@@ -597,6 +597,7 @@ public class ModItems {
 
 	public static Item designator;
 	public static Item designator_range;
+	public static Item designator_manual;
 	public static Item linker;
 	public static Item oil_detector;
 	public static Item geiger_counter;
@@ -1122,8 +1123,9 @@ public class ModItems {
 	public static Item ln2_10;
 	public static Item nothing;
 	public static Item void_anim;
-	
+
 	public static final int guiID_item_folder = 99;
+	public static final int guiID_item_designator = 100;
 
 	public static void initializeItem()
 	{			
@@ -1680,6 +1682,7 @@ public class ModItems {
 
 		designator = new ItemDesingator().setUnlocalizedName("designator").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator");
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator_range_alt");
+		designator_manual = new ItemDesingatorManual().setUnlocalizedName("designator_manual").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":designator_manual");
 		missile_generic = new Item().setUnlocalizedName("missile_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_generic");
 		missile_anti_ballistic = new Item().setUnlocalizedName("missile_anti_ballistic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_anti_ballistic");
 		missile_incendiary = new Item().setUnlocalizedName("missile_incendiary").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_incendiary");
@@ -2891,6 +2894,7 @@ public class ModItems {
 		//Computer Tools
 		GameRegistry.registerItem(designator, designator.getUnlocalizedName());
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
+		GameRegistry.registerItem(designator_manual, designator_manual.getUnlocalizedName());
 		GameRegistry.registerItem(turret_control, turret_control.getUnlocalizedName());
 		GameRegistry.registerItem(turret_chip, turret_chip.getUnlocalizedName());
 		GameRegistry.registerItem(linker, linker.getUnlocalizedName());
