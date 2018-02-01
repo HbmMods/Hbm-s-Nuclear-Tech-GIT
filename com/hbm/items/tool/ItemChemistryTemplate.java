@@ -31,6 +31,7 @@ public class ItemChemistryTemplate extends Item {
 		FP_LIGHTOIL,
 		FR_REOIL,
 		FR_PETROIL,
+		FC_BITUMEN,
 		FC_I_NAPHTHA,
 		FC_GAS_PETROLEUM,
 		FC_DIESEL_KEROSENE,
@@ -57,6 +58,7 @@ public class ItemChemistryTemplate extends Item {
 		SF_BIOFUEL,
 		BP_BIOGAS,
 		BP_BIOFUEL,
+		OIL_SAND,
 		ASPHALT,
 		COOLANT,
 		DESH,
@@ -67,6 +69,7 @@ public class ItemChemistryTemplate extends Item {
 		POLYMER,
 		DEUTERIUM,
 		STEAM,
+		YELLOWCAKE,
 		UF6,
 		PUF6,
 		SAS3;
@@ -133,6 +136,10 @@ public class ItemChemistryTemplate extends Item {
         	return 30;
         case FR_PETROIL:
         	return 30;
+        case OIL_SAND:
+        	return 200;
+        case FC_BITUMEN:
+        	return 100;
         case FC_I_NAPHTHA:
         	return 150;
         case FC_GAS_PETROLEUM:
@@ -205,6 +212,8 @@ public class ItemChemistryTemplate extends Item {
         	return 200;
         case BP_BIOFUEL:
         	return 100;
+        case YELLOWCAKE:
+        	return 250;
         case UF6:
         	return 100;
         case PUF6:

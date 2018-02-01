@@ -9,6 +9,8 @@ achievement.sacrifice.desc=Face the fire and live.
 achievement.impossible=Literally impossible
 achievement.impossible.desc=You can't get this achievement.
 
+potion.hbm_taint=Tainted
+
 hbmfluid.none=None
 hbmfluid.water=Water
 hbmfluid.steam=Steam
@@ -50,6 +52,8 @@ chem.FP_NAPHTHA=Naphtha Processing
 chem.FP_LIGHTOIL=Light Oil Processing
 chem.FR_REOIL=Oil Reprocessing
 chem.FR_PETROIL=Petroil Mixing
+chem.OIL_SAND=Tar Sand Extraction
+chem.FC_BITUMEN=Bitumen Cracking
 chem.FC_I_NAPHTHA=Industrial Oil Cracking
 chem.FC_GAS_PETROLEUM=Gas Cracking
 chem.FC_DIESEL_KEROSENE=Diesel Cracking
@@ -83,6 +87,7 @@ chem.SF_BIOFUEL=Biofuel Solidification
 chem.POLYMER=Polymer Synthesis
 chem.DEUTERIUM=Deuterium Extraction
 chem.STEAM=Water Boiling
+chem.YELLOWCAKE=Yellowcake Production
 chem.UF6=Uranium Hexafluoride Production
 chem.PUF6=Plutonium Hexafluoride Production
 chem.BP_BIOGAS=Biogas Production
@@ -497,6 +502,7 @@ tile.block_unobtainium.name=Block of Unobtainium
 tile.block_daffergon.name=Block of Daffergon
 tile.block_verticium.name=Block of Verticium
 tile.block_desh.name=Reinforced Block of Desh
+tile.block_yellowcake.name=Block of Yellowcake
 
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_copper.name=Copper Ore
@@ -528,6 +534,7 @@ tile.ore_rare.name=Rare Earth Ore
 
 tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
+tile.ore_oil_sand.name=Tar Sand
 
 tile.reinforced_brick.name=Reinforced Stone
 tile.reinforced_glass.name=Reinforced Glass
@@ -614,7 +621,9 @@ item.powder_lanthanium_tiny.name=Tiny Pile of Lanthanium Powder
 item.powder_actinium_tiny.name=Tiny Pile of Actinium Powder
 item.powder_euphemium.name=Euphemium Powder
 item.powder_meteorite.name=Meteorite Powder
-item.powder_meteorite_tiny.name=Tiny Pile of Ḿeteorite Powder
+item.powder_meteorite_tiny.name=Tiny Pile of Meteorite Powder
+item.powder_yellowcake.name=Yellowcake
+item.powder_magic.name=Pulverized Enchantment
 
 item.fragment_neodymium.name=Neodymium Fragment
 item.fragment_cobalt.name=Cobalt Fragment
@@ -697,6 +706,8 @@ item.magnet_circular.name=Flat Magnet
 item.cyclotron_tower.name=Cyclotron Tower
 item.plate_dalekanium.name=Angry Metal
 item.biomass.name=Biomass
+item.component_limiter.name=Stabilizer Component
+item.component_emitter.name=Emitter Component
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
@@ -1134,6 +1145,7 @@ tile.yellow_barrel.name=Radioactive Barrel
 
 item.designator.name=Short Range Target Designator
 item.designator_range.name=Long Range Target Designator
+item.designator_manual.name=Manual Target Designator
 item.missile_generic.name=High Explosive Missile
 item.missile_anti_ballistic.name=Anti Ballistic Missile (WIP)
 item.missile_incendiary.name=Incendiary Missile
@@ -1279,6 +1291,7 @@ item.cape_codered_.name=codered_'s Cape
 
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter
+tile.machine_transformer.name=Transformer
 
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.shimmer_sledge.name=Shimmer Sledge
@@ -1335,6 +1348,7 @@ item.can_creature.name='Creature' Energy Drink
 item.can_redbomb.name='Red Bomb' Energy Drink
 item.can_mrsugar.name='Dr. Sugar' Soft Drink
 item.can_overcharge.name=Overcharge Delirium XT
+item.can_luna.name=Black Mesa Luna - Dark Cola
 item.bottle_empty.name=Empty Bomb-Shaped Bottle
 item.bottle_nuka.name=Bottle of Nuka Cola
 item.bottle_cherry.name=Bottle of Nuka Cherry
@@ -1416,10 +1430,19 @@ item.ams_catalyst_niobium.name=Niobium Reaction Catalyst
 item.ams_catalyst_strontium.name=Strontium Reaction Catalyst
 item.ams_catalyst_thorium.name=Thorium Reaction Catalyst
 item.ams_catalyst_tungsten.name=Tungsten Reaction Catalyst
+item.ams_catalyst_schrabidium.name=Schrabidium Reaction Catalyst
+item.ams_catalyst_dineutronium.name=Dineutronium Reaction Catalyst
 
 item.ams_focus_blank.name=Blank Stabilizer Focus
 item.ams_focus_limiter.name=Limiting Stabilizer Focus
 item.ams_focus_booster.name=Boosting Stabilizer Focus
+
+item.ams_muzzle.name=Ray-Emission Muzzle
+
+item.ams_core_sing.name=Vibrant Singularity (AMS Core)
+item.ams_core_wormhole.name=Tiny Wormhole (AMS Core)
+item.ams_core_eyeofharmony.name=Eye of Harmony (AMS Core)
+item.ams_core_thingy.name=Thingy (AMS Core)
 
 item.crystal_energy.name=Energy Crystal
 item.pellet_coolant.name=Coolant Cluster
@@ -1457,7 +1480,7 @@ item.reer_graar.name=The Reer Graar
 
 item.letter.name=Express Mail
 item.polaroid.name=The Polaroid
-item.glitch.name=Glitch [WIP]
+item.glitch.name=Glitch
 item.book_secret.name=3-596-50802-9
 item.burnt_bark.name=Burnt Bark
 

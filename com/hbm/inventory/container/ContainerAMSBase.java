@@ -15,14 +15,10 @@ public class ContainerAMSBase extends Container {
 private TileEntityAMSBase amsBase;
 
 	private int heat;
-	private int field;
-	private int efficiency;
 	private int warning;
 	private int mode;
 	
 	public ContainerAMSBase(InventoryPlayer invPlayer, TileEntityAMSBase tedf) {
-		field = 0;
-		efficiency = 0;
 		amsBase = tedf;
 
 		//Cool 1 In
@@ -114,19 +110,9 @@ private TileEntityAMSBase amsBase;
 				par1.sendProgressBarUpdate(this, 0, this.amsBase.heat);
 			}
 			
-			if(this.efficiency != this.amsBase.efficiency)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.amsBase.efficiency);
-			}
-			
 			if(this.warning != this.amsBase.warning)
 			{
 				par1.sendProgressBarUpdate(this, 2, this.amsBase.warning);
-			}
-			
-			if(this.field != this.amsBase.field)
-			{
-				par1.sendProgressBarUpdate(this, 3, this.amsBase.field);
 			}
 			
 			if(this.mode != this.amsBase.mode)
@@ -136,8 +122,6 @@ private TileEntityAMSBase amsBase;
 		}
 
 		this.heat = this.amsBase.heat;
-		this.field = this.amsBase.field;
-		this.efficiency = this.amsBase.efficiency;
 		this.warning = this.amsBase.warning;
 		this.mode = this.amsBase.mode;
 	}

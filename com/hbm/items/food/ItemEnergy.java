@@ -58,6 +58,13 @@ public class ItemEnergy extends Item {
                 p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
                 p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
         	}
+        	if(this == ModItems.can_luna)
+        	{
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+                p_77654_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
+        	}
         	if(this == ModItems.chocolate_milk)
         	{
         		ExplosionLarge.explode(p_77654_2_, p_77654_3_.posX, p_77654_3_.posY, p_77654_3_.posZ, 50, true, false, false);
@@ -121,7 +128,9 @@ public class ItemEnergy extends Item {
 
         if (!p_77654_3_.capabilities.isCreativeMode && this != ModItems.chocolate_milk)
         {
-        	if(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart) {
+        	if(this == ModItems.can_creature || this == ModItems.can_mrsugar || 
+        			this == ModItems.can_overcharge || this == ModItems.can_redbomb || 
+        			this == ModItems.can_smart || this == ModItems.can_luna) {
             	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
         		if (p_77654_1_.stackSize <= 0)
             	{
@@ -200,7 +209,10 @@ public class ItemEnergy extends Item {
     @Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_)
     {
-    	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || this == ModItems.can_overcharge || this == ModItems.can_redbomb || this == ModItems.can_smart || this == ModItems.chocolate_milk))
+    	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || 
+    			this == ModItems.can_overcharge || this == ModItems.can_redbomb || 
+    			this == ModItems.can_smart || this == ModItems.chocolate_milk || 
+    			this == ModItems.can_luna))
     		if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
     			return p_77659_1_;
     	
@@ -232,6 +244,10 @@ public class ItemEnergy extends Item {
     	if(this == ModItems.can_overcharge)
     	{
             list.add("Possible side effects include heart attacks, seizures or zombification");
+    	}
+    	if(this == ModItems.can_luna)
+    	{
+            list.add("Contains actual selenium and star metal. Tastes like night.");
     	}
     	if(this == ModItems.chocolate_milk)
     	{

@@ -3789,8 +3789,12 @@ public class MachineRecipes {
         case BP_BIOGAS:
 			list.add(new ItemStack(ModItems.biomass, 16));
 			break;
-        case UF6:
+        case YELLOWCAKE:
 			list.add(new ItemStack(ModItems.powder_uranium, 1));
+			list.add(new ItemStack(ModItems.sulfur, 2));
+			break;
+        case UF6:
+			list.add(new ItemStack(ModItems.powder_yellowcake, 1));
 			list.add(new ItemStack(ModItems.fluorite, 3));
 			break;
         case PUF6:
@@ -3803,6 +3807,9 @@ public class MachineRecipes {
 			break;
         case NITAN:
 			list.add(new ItemStack(ModItems.powder_nitan_mix, 2));
+			break;
+        case OIL_SAND:
+			list.add(new ItemStack(ModBlocks.ore_oil_sand, 16));
 			break;
 		default:
 			break;
@@ -3840,6 +3847,10 @@ public class MachineRecipes {
         case FR_PETROIL:
 			input[0] = new FluidStack(800, FluidType.RECLAIMED);
 			input[1] = new FluidStack(200, FluidType.LUBRICANT);
+			break;
+        case FC_BITUMEN:
+			input[0] = new FluidStack(1200, FluidType.BITUMEN);
+			input[1] = new FluidStack(2400, FluidType.STEAM);
 			break;
         case FC_I_NAPHTHA:
 			input[0] = new FluidStack(1400, FluidType.SMEAR);
@@ -3954,6 +3965,9 @@ public class MachineRecipes {
         case BP_BIOFUEL:
 			input[0] = new FluidStack(2000, FluidType.BIOGAS);
         	break;
+        case YELLOWCAKE:
+			input[0] = new FluidStack(500, FluidType.ACID);
+        	break;
         case UF6:
 			input[0] = new FluidStack(1000, FluidType.WATER);
         	break;
@@ -3965,6 +3979,9 @@ public class MachineRecipes {
         	break;
         case NITAN:
 			input[0] = new FluidStack(600, FluidType.KEROSENE);
+        	break;
+        case OIL_SAND:
+			input[0] = new FluidStack(400, FluidType.BITUMEN);
         	break;
 		default:
 			break;
@@ -4059,6 +4076,9 @@ public class MachineRecipes {
         case POLYMER:
 			output[0] = new ItemStack(ModItems.ingot_polymer, 1);
         	break;
+        case YELLOWCAKE:
+			output[0] = new ItemStack(ModItems.powder_yellowcake, 1);
+        	break;
 		default:
 			break;
 		}
@@ -4095,6 +4115,10 @@ public class MachineRecipes {
 			break;
         case FR_PETROIL:
 			input[0] = new FluidStack(1000, FluidType.PETROIL);
+			break;
+        case FC_BITUMEN:
+			input[0] = new FluidStack(1000, FluidType.OIL);
+			input[1] = new FluidStack(200, FluidType.PETROLEUM);
 			break;
         case FC_I_NAPHTHA:
 			input[0] = new FluidStack(800, FluidType.NAPHTHA);
@@ -4152,6 +4176,9 @@ public class MachineRecipes {
         	break;
         case NITAN:
 			input[0] = new FluidStack(1000, FluidType.NITAN);
+        	break;
+        case OIL_SAND:
+			input[0] = new FluidStack(1000, FluidType.BITUMEN);
         	break;
 		default:
 			break;

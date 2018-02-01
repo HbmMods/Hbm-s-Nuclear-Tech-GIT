@@ -102,16 +102,16 @@ public class ItemGeigerCounter extends Item {
 		int i = 0;
 
 		if(b == ModBlocks.waste_trinitite) {
-			i = 3;
-		}
-		if(b == ModBlocks.waste_trinitite_red) {
-			i = 3;
-		}
-		if(b == ModBlocks.ore_uranium) {
 			i = 2;
 		}
+		if(b == ModBlocks.waste_trinitite_red) {
+			i = 2;
+		}
+		if(b == ModBlocks.ore_uranium) {
+			i = 1;
+		}
 		if(b == ModBlocks.ore_nether_plutonium) {
-			i = 15;
+			i = 10;
 		}
 		if(b == ModBlocks.block_trinitite) {
 			i = 20;
@@ -130,6 +130,9 @@ public class ItemGeigerCounter extends Item {
 		}
 		if(b == ModBlocks.yellow_barrel) {
 			i = 30;
+		}
+		if(b == ModBlocks.block_yellowcake) {
+			i = 2;
 		}
 		
 		return i * level;

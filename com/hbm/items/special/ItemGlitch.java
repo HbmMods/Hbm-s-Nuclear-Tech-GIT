@@ -93,7 +93,7 @@ public class ItemGlitch extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter));
-				player.addChatMessage(new ChatComponentText("Congratz, you're the wasteland hero now, now throw yourself into some fire or something for this weird achievement. Get going already, I'm not even being paid to tell you this."));
+				player.addChatMessage(new ChatComponentText("Congratz, you're the hero now, now throw yourself into some fire or something for this weird achievement. Get going already, I'm not even being paid to tell you this."));
 				break;
 			case 14:
 				player.inventory.dropAllItems();

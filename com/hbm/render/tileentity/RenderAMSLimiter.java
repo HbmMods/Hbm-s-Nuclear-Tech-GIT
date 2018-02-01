@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
+import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 
 import net.minecraft.client.renderer.RenderHelper;
@@ -36,7 +37,10 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.ams_limiter_tex);
+		if(((TileEntityAMSLimiter)tileEntity).locked)
+        	bindTexture(ResourceManager.ams_destroyed_tex);
+        else
+        	bindTexture(ResourceManager.ams_limiter_tex);
         
         if(((TileEntityAMSLimiter)tileEntity).locked)
             ResourceManager.ams_limiter_destroyed.renderAll();
@@ -119,39 +123,39 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
             GL11.glDepthMask(false);
         	Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 			tessellator.addVertex(posX + length, posY - radius, posZ - radius);
 			tessellator.addVertex(posX + length, posY - radius, posZ + radius);
-			tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 			tessellator.addVertex(posX, posY - radius, posZ + radius);
 			tessellator.addVertex(posX, posY - radius, posZ - radius);
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 			tessellator.addVertex(posX + length, posY + radius, posZ + radius);
 			tessellator.addVertex(posX + length, posY + radius, posZ - radius);
-			tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 			tessellator.addVertex(posX, posY + radius, posZ - radius);
 			tessellator.addVertex(posX, posY + radius, posZ + radius);
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 			tessellator.addVertex(posX + length, posY - radius, posZ - radius);
 			tessellator.addVertex(posX + length, posY + radius, posZ - radius);
-			tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 			tessellator.addVertex(posX, posY + radius, posZ - radius);
 			tessellator.addVertex(posX, posY - radius, posZ - radius);
 			tessellator.draw();
 			tessellator.startDrawingQuads();
-			tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 			tessellator.addVertex(posX + length, posY - radius, posZ + radius);
 			tessellator.addVertex(posX + length, posY + radius, posZ + radius);
-			tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+			tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 			tessellator.addVertex(posX, posY + radius, posZ + radius);
 			tessellator.addVertex(posX, posY - radius, posZ + radius);
 			tessellator.draw();
 	        
-	        if(limiter.power > 0) {
+	        if(limiter.efficiency > 0) {
 
 	        	radius *= 2;
 	    		RenderHelper.disableStandardItemLighting();
@@ -163,34 +167,37 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
 		        GL11.glDisable(GL11.GL_CULL_FACE);
 	            GL11.glDepthMask(false);
 				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+				//tessellator.setColorRGBA_F(0.494F, 0.8F, 0.796F, 0f);
+				//tessellator.setColorRGBA_F(0, 0.627F, 0.627F, 0f);
+				//tessellator.setColorRGBA_F(0, 0.765F, 0.765F, 0f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 				tessellator.addVertex(posX + length, posY - radius, posZ - radius);
 				tessellator.addVertex(posX + length, posY - radius, posZ + radius);
-				tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 				tessellator.addVertex(posX, posY - radius, posZ + radius);
 				tessellator.addVertex(posX, posY - radius, posZ - radius);
 				tessellator.draw();
 				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 				tessellator.addVertex(posX + length, posY + radius, posZ + radius);
 				tessellator.addVertex(posX + length, posY + radius, posZ - radius);
-				tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 				tessellator.addVertex(posX, posY + radius, posZ - radius);
 				tessellator.addVertex(posX, posY + radius, posZ + radius);
 				tessellator.draw();
 				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 				tessellator.addVertex(posX + length, posY - radius, posZ - radius);
 				tessellator.addVertex(posX + length, posY + radius, posZ - radius);
-				tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 				tessellator.addVertex(posX, posY + radius, posZ - radius);
 				tessellator.addVertex(posX, posY - radius, posZ - radius);
 				tessellator.draw();
 				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA_F(0, 0, 1F, 0f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 0f);
 				tessellator.addVertex(posX + length, posY - radius, posZ + radius);
 				tessellator.addVertex(posX + length, posY + radius, posZ + radius);
-				tessellator.setColorRGBA_F(0, 0, 1F, 1f);
+				tessellator.setColorRGBA_F(0.408F - 0.175F, 0.686F - 0.175F, 0.686F - 0.175F, 1);
 				tessellator.addVertex(posX, posY + radius, posZ + radius);
 				tessellator.addVertex(posX, posY - radius, posZ + radius);
 				tessellator.draw();

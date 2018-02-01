@@ -41,7 +41,8 @@ public class RenderAMSBase extends TileEntitySpecialRenderer {
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y + 5.5, z + 0.5D);
-        GL11.glEnable(GL11.GL_LIGHTING);
+        //GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		
@@ -55,14 +56,18 @@ public class RenderAMSBase extends TileEntitySpecialRenderer {
 		scale += ((((double)base.tanks[2].getFill()) / ((double)base.tanks[2].getMaxFill())) + (((double)base.tanks[3].getFill()) / ((double)base.tanks[3].getMaxFill()))) * ((maxSize - minSize) / 2);
 		GL11.glScaled(scale, scale, scale);
 
-		bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/EMPBlast.png"));
+		//bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/EMPBlast.png"));
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glRotatef(rot, 0F, 1F, 0F);
 		GL11.glScalef(1.1F, 1.1F, 1.1F);
+		GL11.glColor3ub((byte)(0x20), (byte)(0x20), (byte)(0x40));
 		ResourceManager.sphere_iuv.renderAll();
 		GL11.glScalef(1/1.1F, 1/1.1F, 1/1.1F);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();
         
@@ -73,7 +78,8 @@ public class RenderAMSBase extends TileEntitySpecialRenderer {
     {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y + 5.5, z + 0.5D);
-        GL11.glEnable(GL11.GL_LIGHTING);
+        //GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		
@@ -123,6 +129,7 @@ public class RenderAMSBase extends TileEntitySpecialRenderer {
 			ResourceManager.sphere_ruv.renderAll();
         
 		GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

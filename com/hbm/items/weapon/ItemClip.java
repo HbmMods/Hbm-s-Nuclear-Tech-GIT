@@ -1,5 +1,7 @@
 package com.hbm.items.weapon;
 
+import java.util.List;
+
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -272,5 +274,14 @@ public class ItemClip extends Item {
 		
 		return stack;
 		
+	}
+	
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		if(this == ModItems.ammo_container)
+		{
+			list.add("Gives ammo for all held weapons.");
+		}
 	}
 }

@@ -159,7 +159,8 @@ public class ItemRadioactive extends Item {
 					this == ModItems.cell_tritium || 
 					this == ModItems.rod_tritium || 
 					this == ModItems.rod_dual_tritium || 
-					this == ModItems.rod_quad_tritium) {
+					this == ModItems.rod_quad_tritium || 
+					this == ModItems.powder_yellowcake) {
 				living.addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 0));
 			}
 			

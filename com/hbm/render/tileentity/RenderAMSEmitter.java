@@ -31,7 +31,11 @@ public class RenderAMSEmitter extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.universal);
+
+        if(((TileEntityAMSEmitter)tileEntity).locked)
+        	bindTexture(ResourceManager.ams_destroyed_tex);
+        else
+        	bindTexture(ResourceManager.ams_emitter_tex);
 
         if(((TileEntityAMSEmitter)tileEntity).locked)
             ResourceManager.ams_emitter_destroyed.renderAll();
@@ -60,7 +64,7 @@ public class RenderAMSEmitter extends TileEntitySpecialRenderer {
 		
 		if(emitter.getWorldObj().getTileEntity(emitter.xCoord, emitter.yCoord - 9, emitter.zCoord) instanceof TileEntityAMSBase && !emitter.locked) {
 		
-			if(emitter.power > 0) {
+			if(emitter.efficiency > 0) {
 				
 				double lastPosX = 0;
 				double lastPosZ = 0;

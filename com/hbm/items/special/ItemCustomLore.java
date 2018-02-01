@@ -561,6 +561,23 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Enables dimension-shifting via");
 			list.add("beryllium-enhanced resource scanner.");
 		}
+		
+		if(this == ModItems.ams_focus_limiter)
+		{
+			list.add("Maximum performance for restriction field:");
+			list.add("Standard cooling, no energy bonus.");
+		}
+		
+		if(this == ModItems.ams_focus_booster)
+		{
+			list.add("Weaker restriction field and core energy injection:");
+			list.add("More heat generation, extra energy.");
+		}
+		
+		if(this == ModItems.ams_muzzle)
+		{
+			list.add("...it emits an energy-beam thingy.");
+		}
 	}
 
     @Override

@@ -12,6 +12,7 @@ import com.hbm.world.Dud;
 import com.hbm.world.Factory;
 import com.hbm.world.LibraryDungeon;
 import com.hbm.world.OilBubble;
+import com.hbm.world.OilSandBubble;
 import com.hbm.world.Radio01;
 import com.hbm.world.Relay;
 import com.hbm.world.Satellite;
@@ -285,6 +286,17 @@ public class HbmWorldGen implements IWorldGenerator {
 						int y = world.getHeightValue(x, z);
 
 						new Satellite().generate(world, rand, x, y, z);
+					}
+				}
+			}
+			if (biome == BiomeGenBase.desert) {
+				if (rand.nextInt(200) == 0) {
+					for (int a = 0; a < 1; a++) {
+						int x = i + rand.nextInt(16);
+						int z = j + rand.nextInt(16);
+						int y = world.getHeightValue(x, z);
+
+						OilSandBubble.spawnOil(world, x, y, z, 15 + rand.nextInt(31));
 					}
 				}
 			}

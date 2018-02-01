@@ -13,6 +13,7 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemAMSCore;
 import com.hbm.items.special.ItemCatalyst;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -296,9 +297,10 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				
 				this.color = -1;
 				
-				if(slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null &&
+				if(slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null && slots[12] != null &&
 						slots[8].getItem() instanceof ItemCatalyst && slots[9].getItem() instanceof ItemCatalyst &&
-						slots[10].getItem() instanceof ItemCatalyst && slots[11].getItem() instanceof ItemCatalyst) {
+						slots[10].getItem() instanceof ItemCatalyst && slots[11].getItem() instanceof ItemCatalyst &&
+						slots[12].getItem() instanceof ItemAMSCore) {
 					int a = ((ItemCatalyst)slots[8].getItem()).getColor();
 					int b = ((ItemCatalyst)slots[9].getItem()).getColor();
 					int c = ((ItemCatalyst)slots[10].getItem()).getColor();
@@ -312,6 +314,21 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 					this.color = g;
 				}
 				
+				if(heat > 0 && tanks[0].getFill() > 0 && tanks[1].getFill() > 0) {
+					heat -= (this.getCoolingStrength(tanks[0].getTankType()) * this.getCoolingStrength(tanks[1].getTankType()));
+
+					tanks[0].setFill(tanks[0].getFill() - 10);
+					tanks[1].setFill(tanks[1].getFill() - 10);
+
+					if(tanks[0].getFill() < 0)
+						tanks[0].setFill(0);
+					if(tanks[1].getFill() < 0)
+						tanks[1].setFill(0);
+					
+					if(heat < 0)
+						heat = 0;
+				}
+				
 			} else {
 				field = 0;
 				efficiency = 0;
@@ -322,6 +339,34 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, color, 1));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 2));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, field, 3));
+		}
+	}
+	
+	private int getCoolingStrength(FluidType type) {
+		switch(type) {
+		case WATER:
+			return 50;
+		case OIL:
+			return 150;
+		case COOLANT:
+			return this.heat / 50;
+		case CRYOGEL:
+			return this.heat > heat/2 ? 200 : 50;
+		default:
+			return 0;
+		}
+	}
+	
+	private int getFuelPower(FluidType type) {
+		switch(type) {
+		case DEUTERIUM:
+			return 50000;
+		case TRITIUM:
+			return 75000;
+		default:
+			return 0;
 		}
 	}
 	
@@ -338,8 +383,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 	
 	private float calcField(int a, int b, int c, int d) {
-		//return (float)Math.sqrt((Math.pow(a, 2) + Math.pow(b, 2) + Math.pow(c, 2) + Math.pow(d, 2)) / 4);
-		return (float)(a + b + c + d) / 4;
+		return (float)(a + b + c + d) * (a * 25 + b * 25 + c * 25 + d  * 25) / 40000;
 	}
 	
 	private int calcAvgHex(int h1, int h2) {

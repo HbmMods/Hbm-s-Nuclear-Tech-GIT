@@ -15,11 +15,9 @@ public class ContainerAMSEmitter extends Container {
 private TileEntityAMSEmitter amsEmitter;
 
 	private int heat;
-	private int efficiency;
 	private int warning;
 	
 	public ContainerAMSEmitter(InventoryPlayer invPlayer, TileEntityAMSEmitter tedf) {
-		efficiency = 0;
 		amsEmitter = tedf;
 
 		//Fluid In
@@ -96,11 +94,6 @@ private TileEntityAMSEmitter amsEmitter;
 				par1.sendProgressBarUpdate(this, 0, this.amsEmitter.heat);
 			}
 			
-			if(this.efficiency != this.amsEmitter.efficiency)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.amsEmitter.efficiency);
-			}
-			
 			if(this.warning != this.amsEmitter.warning)
 			{
 				par1.sendProgressBarUpdate(this, 2, this.amsEmitter.warning);
@@ -108,7 +101,6 @@ private TileEntityAMSEmitter amsEmitter;
 		}
 
 		this.heat = this.amsEmitter.heat;
-		this.efficiency = this.amsEmitter.efficiency;
 		this.warning = this.amsEmitter.warning;
 	}
 	
@@ -117,10 +109,6 @@ private TileEntityAMSEmitter amsEmitter;
 		if(i == 0)
 		{
 			amsEmitter.heat = j;
-		}
-		if(i == 1)
-		{
-			amsEmitter.efficiency = j;
 		}
 		if(i == 2)
 		{

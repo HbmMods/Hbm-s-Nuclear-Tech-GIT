@@ -63,12 +63,14 @@ public class TEPylonSenderPacket implements IMessage {
 		@Override
 		public IMessage onMessage(TEPylonSenderPacket m, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
+			
+			try {
 			if (te != null && te instanceof TileEntityPylonRedWire) {
 					
 				TileEntityPylonRedWire pyl = (TileEntityPylonRedWire) te;
 				pyl.addTileEntityBasedOnCoords(m.conX, m.conY, m.conZ);
 			}
+			} catch(Exception x) {}
 			return null;
 		}
 	}

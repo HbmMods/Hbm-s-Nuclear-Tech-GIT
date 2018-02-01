@@ -9,6 +9,8 @@ achievement.sacrifice.desc=Überlebe den Flammentod.
 achievement.impossible=Vollkommen unmöglich
 achievement.impossible.desc=Du kannst diese Errungenschaft nicht bekommen.
 
+potion.hbm_taint=Verseucht
+
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
 hbmfluid.steam=Dampf
@@ -50,6 +52,8 @@ chem.FP_NAPHTHA=Mitteldestillatsverarbeitung
 chem.FP_LIGHTOIL=Leichtölverarbeitung
 chem.FR_REOIL=Öl-Wiederaufbereitung
 chem.FR_PETROIL=Gemischherstellung
+chem.OIL_SAND=Teersand-Extraktion
+chem.FC_BITUMEN=Bitumen-Cracking
 chem.FC_I_NAPHTHA=Industriöl-Cracking
 chem.FC_GAS_PETROLEUM=Erdgas-Cracking
 chem.FC_DIESEL_KEROSENE=Diesel-Cracking
@@ -83,6 +87,7 @@ chem.SF_BIOFUEL=Biodieselverfestigung
 chem.POLYMER=Polymersynthese
 chem.DEUTERIUM=Deuteriumextrahierung
 chem.STEAM=WWasser kochen
+chem.YELLOWCAKE=Yellowcakeproduction
 chem.UF6=Uranhexafluoritproduktion
 chem.PUF6=Plutoniumhexafluoritproduktion
 chem.BP_BIOGAS=Biogasherstellung
@@ -497,6 +502,7 @@ tile.block_unobtainium.name=Unobtainiumblock
 tile.block_daffergon.name=Daffergonblock
 tile.block_verticium.name=Verticiumblock
 tile.block_desh.name=Verstärketer Deshblock
+tile.block_yellowcake.name=Yellowcakeblock
 
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_copper.name=Kupfererz
@@ -528,6 +534,7 @@ tile.ore_rare.name=Seltenerden-Erz
 
 tile.ore_oil.name=Ölvorkommen
 tile.ore_oil_empty.name=Leeres Ölvorkommen
+tile.ore_oil_sand.name=Teersand
 
 tile.reinforced_brick.name=Verstärkter Stein
 tile.reinforced_glass.name=Verstärktes Glas
@@ -612,6 +619,8 @@ item.powder_niobium_tiny.name=Kleiner Haufen Niobstaub
 item.powder_cerium_tiny.name=Kleiner Haufen Cerstaub
 item.powder_lanthanium_tiny.name=Kleiner Haufen Lanthanstaub
 item.powder_actinium_tiny.name=Kleiner Haufen Actiniumstaub
+item.powder_yellowcake.name=Yellowcake
+item.powder_magic.name=Pulverisierte Verzauberung
 
 item.fragment_neodymium.name=Neodymfragment
 item.fragment_cobalt.name=Cobaltfragment
@@ -694,6 +703,8 @@ item.magnet_circular.name=Flachmagnet
 item.cyclotron_tower.name=Zyklotronenturm
 item.plate_dalekanium.name=Wütendes Metall
 item.biomass.name=Biomasse
+item.component_limiter.name=Stabilisatorkomponente
+item.component_emitter.name=Emitterkomponente
 
 item.cell_empty.name=Leere Zelle
 item.cell_uf6.name=Uranhexafluorit-Zelle
@@ -1131,6 +1142,7 @@ tile.yellow_barrel.name=Radioaktives Fass
 
 item.designator.name=Kurzdistanz Zielmarkierer
 item.designator_range.name=Weitstrecken-Zielmarkierer
+item.designator_manual.name=Manueller Zielmarkierer
 item.missile_generic.name=HE Rakete
 item.missile_anti_ballistic.name=Flugabwehrrakete (WIP)
 item.missile_incendiary.name=Brandrakete
@@ -1276,6 +1288,7 @@ item.cape_codered_.name=codered_s Cape
 
 tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter
+tile.machine_transformer.name=Transformator
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.shimmer_sledge.name=Shimmer Sledge
@@ -1332,6 +1345,7 @@ item.can_creature.name='Creature' Energy-Drink
 item.can_redbomb.name='Red Bomb' Energy-Drink
 item.can_mrsugar.name='Dr. Sugar' Softdrink
 item.can_overcharge.name=Overcharge Delirium XT
+item.can_luna.name=Black Mesa Luna - Dark Cola
 item.bottle_empty.name=Leere bombenförmige Glasflasche
 item.bottle_nuka.name=Nuka-Cola Flasche
 item.bottle_cherry.name=Nuka-Cherry Flasche
@@ -1413,10 +1427,19 @@ item.ams_catalyst_niobium.name=Niob-Reaktionskatalysator
 item.ams_catalyst_strontium.name=Strontium-Reaktionskatalysator
 item.ams_catalyst_thorium.name=Thorium-Reaktionskatalysator
 item.ams_catalyst_tungsten.name=Wolfram-Reaktionskatalysator
+item.ams_catalyst_schrabidium.name=Schrabidium-Reaktionskatalysator
+item.ams_catalyst_dineutronium.name=Dineutronium-Reaktionskatalysator
 
 item.ams_focus_blank.name=Blanker Stabilisierungsfokus
 item.ams_focus_limiter.name=Beschränkender Stabilisierungsfokus
 item.ams_focus_booster.name=Verstärkender Stabilisierungsfokus
+
+item.ams_muzzle.name=Strahlenemissions-Mündung
+
+item.ams_core_sing.name=Vibrierende Singularität (AMS-Kern)
+item.ams_core_wormhole.name=Winziges Wurmloch (AMS-Kern)
+item.ams_core_eyeofharmony.name=Auge der Harmonie (AMS-Kern)
+item.ams_core_thingy.name=Dings (AMS-Kern)
 
 item.crystal_energy.name=Energiekristall
 item.pellet_coolant.name=Kühlcluster
@@ -1454,7 +1477,7 @@ item.reer_graar.name=The Reer Graar
 
 item.letter.name=Eilbrief
 item.polaroid.name=Das Polaroid
-item.glitch.name=Glitch [WIP]
+item.glitch.name=Glitch
 item.book_secret.name=3-596-50802-9
 item.burnt_bark.name=Verbrannte Rinde
 

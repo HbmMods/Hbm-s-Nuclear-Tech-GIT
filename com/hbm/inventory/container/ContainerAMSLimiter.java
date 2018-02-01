@@ -16,12 +16,10 @@ public class ContainerAMSLimiter extends Container {
 private TileEntityAMSLimiter amsLmiter;
 
 	private int heat;
-	private int efficiency;
 	private int warning;
 	private int mode;
 	
 	public ContainerAMSLimiter(InventoryPlayer invPlayer, TileEntityAMSLimiter tedf) {
-		efficiency = 0;
 		amsLmiter = tedf;
 
 		//Fluid In
@@ -98,11 +96,6 @@ private TileEntityAMSLimiter amsLmiter;
 				par1.sendProgressBarUpdate(this, 0, this.amsLmiter.heat);
 			}
 			
-			if(this.efficiency != this.amsLmiter.efficiency)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.amsLmiter.efficiency);
-			}
-			
 			if(this.warning != this.amsLmiter.warning)
 			{
 				par1.sendProgressBarUpdate(this, 2, this.amsLmiter.warning);
@@ -115,7 +108,6 @@ private TileEntityAMSLimiter amsLmiter;
 		}
 
 		this.heat = this.amsLmiter.heat;
-		this.efficiency = this.amsLmiter.efficiency;
 		this.warning = this.amsLmiter.warning;
 		this.mode = this.amsLmiter.mode;
 	}
@@ -125,10 +117,6 @@ private TileEntityAMSLimiter amsLmiter;
 		if(i == 0)
 		{
 			amsLmiter.heat = j;
-		}
-		if(i == 1)
-		{
-			amsLmiter.efficiency = j;
 		}
 		if(i == 2)
 		{

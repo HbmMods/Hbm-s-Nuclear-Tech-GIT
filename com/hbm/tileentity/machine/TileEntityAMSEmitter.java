@@ -29,7 +29,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 	private ItemStack slots[];
 
 	public long power = 0;
-	public static final long maxPower = 1000000;
+	public static final long maxPower = 100000000;
 	public int efficiency = 0;
 	public static final int maxEfficiency = 100;
 	public int heat = 0;
@@ -292,6 +292,16 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 					warning = 2;
 				}
 				
+				if(slots[2] != null) {
+					if(slots[2].getItem() != ModItems.ams_muzzle) {
+						this.efficiency = 0;
+						this.warning = 2;
+					}
+				} else {
+					this.efficiency = 0;
+					this.warning = 2;
+				}
+				
 				if(tank.getFill() <= 5 || heat > maxHeat * 0.9)
 					warning = 2;
 				
@@ -320,6 +330,7 @@ public class TileEntityAMSEmitter extends TileEntity implements ISidedInventory,
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 1));
 		}
 	}
 	
