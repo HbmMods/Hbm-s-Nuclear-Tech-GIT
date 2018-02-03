@@ -9,6 +9,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
@@ -160,9 +162,17 @@ public class TestEventTester extends Block {
         	}*/
         	
         	
-        	if(!worldObj.isRemote) {
+        	/*if(!worldObj.isRemote) {
         		ModEventHandler.meteorShower = 6000;
-        	}
+        	}*/
+        	
+        	EntityCloudFleija rainbow = new EntityCloudFleija(worldObj);
+        	rainbow.posX = x1;
+        	rainbow.posY = y1;
+        	rainbow.posZ = z1;
+        	rainbow.maxAge = 100;
+        	if(!worldObj.isRemote)
+        		worldObj.spawnEntityInWorld(rainbow);
         	
         	
         	

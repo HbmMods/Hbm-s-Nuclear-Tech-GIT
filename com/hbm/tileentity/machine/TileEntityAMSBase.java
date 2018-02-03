@@ -16,12 +16,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemAMSCore;
 import com.hbm.items.special.ItemCatalyst;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -237,6 +239,15 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		if (!worldObj.isRemote) {
 			
 			if(!locked) {
+				
+				age++;
+				if(age >= 20)
+				{
+					age = 0;
+				}
+				
+				if(age == 9 || age == 19)
+					ffgeuaInit();
 
 				tanks[0].setType(0, 1, slots);
 				tanks[1].setType(2, 3, slots);
@@ -297,6 +308,13 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				
 				this.color = -1;
 				
+				float powerMod = 1;
+				float heatMod = 1;
+				float fuelMod = 1;
+				long powerBase = 0;
+				int heatBase = 0;
+				int fuelBase = 0;
+				
 				if(slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null && slots[12] != null &&
 						slots[8].getItem() instanceof ItemCatalyst && slots[9].getItem() instanceof ItemCatalyst &&
 						slots[10].getItem() instanceof ItemCatalyst && slots[11].getItem() instanceof ItemCatalyst &&
@@ -312,7 +330,50 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 					int g = this.calcAvgHex(e, f);
 					
 					this.color = g;
+
+					
+					for(int i = 8; i < 12; i++) {
+						powerBase += ItemCatalyst.getPowerAbs(slots[i]);
+						powerMod *= ItemCatalyst.getPowerMod(slots[i]);
+						heatMod *= ItemCatalyst.getHeatMod(slots[i]);
+						fuelMod *= ItemCatalyst.getFuelMod(slots[i]);
+					}
+
+					powerBase = ItemAMSCore.getPowerBase(slots[12]);
+					heatBase = ItemAMSCore.getHeatBase(slots[12]);
+					fuelBase = ItemAMSCore.getFuelBase(slots[12]);
+					
+					powerBase *= this.efficiency;
+					powerBase *= Math.pow(1.25F, booster);
+					heatBase *= Math.pow(1.25F, booster);
+					heatBase *= (100 - field);
+					
+					if(this.getFuelPower(tanks[2].getTankType()) > 0 && this.getFuelPower(tanks[3].getTankType()) > 0) {
+
+						power += (powerBase * powerMod * gauss(1, (heat - (maxHeat / 2)) / maxHeat));
+						heat += (heatBase * heatMod) / (float)(this.field / 100F);
+						tanks[2].setFill((int)(tanks[2].getFill() - fuelBase * fuelMod));
+						tanks[3].setFill((int)(tanks[3].getFill() - fuelBase * fuelMod));
+						if(tanks[2].getFill() <= 0)
+							tanks[2].setFill(0);
+						if(tanks[3].getFill() <= 0)
+							tanks[3].setFill(0);
+						
+						radiation();
+						
+						if(heat > maxHeat) {
+							explode();
+							heat = maxHeat;
+						}
+						
+						if(field < 2)
+							explode();
+					}
 				}
+				
+				if(power > maxPower)
+					power = maxPower;
+				
 				
 				if(heat > 0 && tanks[0].getFill() > 0 && tanks[1].getFill() > 0) {
 					heat -= (this.getCoolingStrength(tanks[0].getTankType()) * this.getCoolingStrength(tanks[1].getTankType()));
@@ -344,16 +405,45 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		}
 	}
 	
+	private void radiation() {
+		
+		double maxSize = 5;
+		double minSize = 0.5;
+		double scale = minSize;
+		scale += ((((double)this.tanks[2].getFill()) / ((double)this.tanks[2].getMaxFill())) + (((double)this.tanks[3].getFill()) / ((double)this.tanks[3].getMaxFill()))) * ((maxSize - minSize) / 2);
+
+		scale *= 0.60;
+		
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
+		
+		for(Entity e : list) {
+			if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+				e.attackEntityFrom(ModDamageSource.ams, 1000);
+				e.setFire(3);
+			}
+		}
+
+		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
+		
+		for(Entity e : list2) {
+			e.attackEntityFrom(ModDamageSource.amsCore, 10000);
+		}
+	}
+	
+	private void explode() {
+		
+	}
+	
 	private int getCoolingStrength(FluidType type) {
 		switch(type) {
 		case WATER:
-			return 50;
+			return 5;
 		case OIL:
-			return 150;
+			return 15;
 		case COOLANT:
-			return this.heat / 50;
+			return this.heat / 250;
 		case CRYOGEL:
-			return this.heat > heat/2 ? 200 : 50;
+			return this.heat > heat/2 ? 25 : 5;
 		default:
 			return 0;
 		}
@@ -483,6 +573,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		ffgeua(this.xCoord + 2, this.yCoord, this.zCoord, getTact());
 		ffgeua(this.xCoord, this.yCoord, this.zCoord - 2, getTact());
 		ffgeua(this.xCoord, this.yCoord, this.zCoord + 2, getTact());
+		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
 	}
 	
 	@Override

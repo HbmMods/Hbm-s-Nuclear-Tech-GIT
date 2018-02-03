@@ -14,6 +14,16 @@ import net.minecraft.item.ItemStack;
 
 public class ItemAMSCore extends Item {
 
+	long powerBase;
+	int heatBase;
+	int fuelBase;
+	
+	public ItemAMSCore(long powerBase, int heatBase, int fuelBase) {
+		this.powerBase = powerBase;
+		this.heatBase = heatBase;
+		this.fuelBase = fuelBase;
+	}
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
@@ -88,5 +98,23 @@ public class ItemAMSCore extends Item {
     	}
     	
     	return false;
+    }
+    
+    public static long getPowerBase(ItemStack stack) {
+		if(stack == null || !(stack.getItem() instanceof ItemAMSCore))
+			return 0;
+		return ((ItemAMSCore)stack.getItem()).powerBase;
+    }
+    
+    public static int getHeatBase(ItemStack stack) {
+		if(stack == null || !(stack.getItem() instanceof ItemAMSCore))
+			return 0;
+		return ((ItemAMSCore)stack.getItem()).heatBase;
+    }
+    
+    public static int getFuelBase(ItemStack stack) {
+		if(stack == null || !(stack.getItem() instanceof ItemAMSCore))
+			return 0;
+		return ((ItemAMSCore)stack.getItem()).fuelBase;
     }
 }

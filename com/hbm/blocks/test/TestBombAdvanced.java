@@ -1,5 +1,6 @@
 package com.hbm.blocks.test;
 
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 
@@ -107,7 +108,7 @@ public class TestBombAdvanced extends BlockContainer {
 	
 	public void explode(World world, int x, int y, int z, int bombStartStrength, int bombStrengthA)
 	{
-		int r = bombStartStrength; //radius of explosion (change this to bigger numbers for more epicness)
+		/*int r = bombStartStrength; //radius of explosion (change this to bigger numbers for more epicness)
 		int r2 = r*r; //radius^2, for faster distance checks. (No sqrt needed for pythagoras)
 		int r22 = r2/2; //half of r^2, calculations outside the loop only get called once. Always pull out as many things from the loop as possible.
 		for (int xx = -r; xx < r; xx++)
@@ -129,6 +130,14 @@ public class TestBombAdvanced extends BlockContainer {
 					} //you can change the if statement to if (ZZ<r2) for a smoother explosion crater.
 				}
 			}
-		}
+		}*/
+		
+		world.setBlock(x, y, z, Blocks.air);
+		EntityNukeExplosionMK4 mk4 = new EntityNukeExplosionMK4(world);
+		mk4.strength = 40;
+		mk4.count = 100000;
+		mk4.speed = 50;
+		mk4.setPosition(x + 0.5, y + 0.5, z + 0.5);
+		world.spawnEntityInWorld(mk4);
 	}
 }

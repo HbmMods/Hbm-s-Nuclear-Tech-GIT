@@ -51,6 +51,11 @@ public class EntityBlackHole extends Entity {
 				int z0 = (int)(this.posZ + (vec.zCoord * i));
 				
 				if(!worldObj.isRemote) {
+
+					if(worldObj.getBlock(x0, y0, z0).getMaterial().isLiquid()) {
+						worldObj.setBlock(x0, y0, z0, Blocks.air);
+					}
+					
 					if(worldObj.getBlock(x0, y0, z0) != Blocks.air) {
 						EntityRubble rubble = new EntityRubble(worldObj);
 						rubble.posX = x0 + 0.5F;

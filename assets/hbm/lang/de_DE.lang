@@ -451,6 +451,7 @@ item.powder_spark_mix.name=Sparkmischung
 item.ingot_dineutronium.name=Dineutroniumbarren
 item.powder_dineutronium.name=Dineutroniumstaub
 item.nugget_dineutronium.name=Dineutroniumnugget
+item.ingot_starmetal.name=Sternenmetallbarren
 
 item.solid_fuel.name=Festbrennstoff
 
@@ -1114,6 +1115,7 @@ item.nugget_euphemium.name=Euphemiumnugget
 item.rod_quad_euphemium.name=Ausgebrannter Schrabidiumvierfachbrennstab
 item.plate_euphemium.name=Euphemium-Verbundplatte
 item.plate_dineutronium.name=Dineutronium-Verbundplatte
+item.plate_desh.name=Desh-Verbundplatte
 
 item.euphemium_helmet.name=Euphemiumstiefel
 item.euphemium_plate.name=Euphemiumbrustplatte

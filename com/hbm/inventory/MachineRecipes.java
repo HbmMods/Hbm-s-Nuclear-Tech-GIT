@@ -99,6 +99,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2 == ModItems.powder_meteorite
+				|| item == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+			return new ItemStack(ModItems.ingot_starmetal, 2);
+		}
+
 		return null;
 	}
 
@@ -768,6 +773,8 @@ public class MachineRecipes {
 					getFurnaceOutput(ModItems.ingot_steel, ModItems.ingot_tungsten).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
 					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_cobalt).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite) },
+					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_meteorite).copy());
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}
@@ -2954,6 +2961,33 @@ public class MachineRecipes {
 			list.add(new ItemStack(Blocks.tnt, 3));
 			list.add(new ItemStack(ModItems.plate_schrabidium, 8));
 			break;
+		case COMPONENT_LIMITER:
+			list.add(new ItemStack(ModItems.hull_big_steel, 2));
+			list.add(new ItemStack(ModItems.plate_steel, 32));
+			list.add(new ItemStack(ModItems.plate_titanium, 18));
+			list.add(new ItemStack(ModItems.plate_desh, 12));
+			list.add(new ItemStack(ModItems.pipes_steel, 4));
+			list.add(new ItemStack(ModItems.circuit_gold, 8));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 4));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 14));
+			list.add(new ItemStack(ModItems.plate_dalekanium, 5));
+			list.add(new ItemStack(ModItems.powder_magic, 16));
+			list.add(new ItemStack(ModBlocks.fwatz_computer, 3));
+			break;
+		case COMPONENT_EMITTER:
+			list.add(new ItemStack(ModItems.hull_big_steel, 3));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 2));
+			list.add(new ItemStack(ModItems.plate_steel, 32));
+			list.add(new ItemStack(ModItems.plate_lead, 24));
+			list.add(new ItemStack(ModItems.plate_desh, 24));
+			list.add(new ItemStack(ModItems.pipes_steel, 8));
+			list.add(new ItemStack(ModItems.circuit_gold, 12));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 8));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 26));
+			list.add(new ItemStack(ModItems.powder_magic, 48));
+			list.add(new ItemStack(ModBlocks.fwatz_computer, 2));
+			list.add(new ItemStack(ModItems.crystal_xen, 1));
+			break;
 		default:
 			list.add(new ItemStack(Items.stick));
 			break;
@@ -3623,6 +3657,12 @@ public class MachineRecipes {
 			break;
 		case FLEIJA_PROPELLANT:
 			output = new ItemStack(ModItems.fleija_propellant, 1);
+			break;
+		case COMPONENT_LIMITER:
+			output = new ItemStack(ModItems.component_limiter, 1);
+			break;
+		case COMPONENT_EMITTER:
+			output = new ItemStack(ModItems.component_emitter, 1);
 			break;
 		default:
 			output = new ItemStack(Items.stick, 1);

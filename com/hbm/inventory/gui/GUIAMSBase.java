@@ -36,9 +36,9 @@ public class GUIAMSBase extends GuiInfoContainer {
 		base.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 124 - 52, 16, 52);
 		base.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 124 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 124 - 104, 7, 104, base.power, base.maxPower);
-		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 124 - 104, 7, 104, new String[] { "Restriction Field:", base.field + "%" });
-		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 124 - 104, 7, 104, new String[] { "Efficiency:", base.efficiency + "%" });
-		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 124 - 104, 7, 104, new String[] { "Heat:", base.heat + "/" + base.maxHeat });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 124 - 106, 7, 106, new String[] { "Restriction Field:", base.field + "%" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 124 - 106, 7, 106, new String[] { "Efficiency:", base.efficiency + "%" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 124 - 106, 7, 106, new String[] { "Heat:", base.heat + "/" + base.maxHeat });
 	}
 
 	@Override
