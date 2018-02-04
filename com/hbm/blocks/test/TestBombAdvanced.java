@@ -2,6 +2,7 @@ package com.hbm.blocks.test;
 
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 
 import cpw.mods.fml.relauncher.Side;
@@ -133,11 +134,6 @@ public class TestBombAdvanced extends BlockContainer {
 		}*/
 		
 		world.setBlock(x, y, z, Blocks.air);
-		EntityNukeExplosionMK4 mk4 = new EntityNukeExplosionMK4(world);
-		mk4.strength = 40;
-		mk4.count = 100000;
-		mk4.speed = 50;
-		mk4.setPosition(x + 0.5, y + 0.5, z + 0.5);
-		world.spawnEntityInWorld(mk4);
+		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.x * 20, x, y, z));
 	}
 }

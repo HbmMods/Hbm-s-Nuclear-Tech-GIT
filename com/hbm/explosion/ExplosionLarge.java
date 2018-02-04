@@ -20,45 +20,6 @@ public class ExplosionLarge {
 	
 	static Random rand = new Random();
 
-	public static void destructionRay(World world, double posX, double posY, double posZ, int count, long strength) {
-		
-		for(int k = 0; k < count; k++) {
-			double phi = rand.nextDouble() * (Math.PI * 2);
-			double costheta = rand.nextDouble() * 2 - 1;
-			double theta = Math.acos(costheta);
-			double x = Math.sin( theta) * Math.cos( phi );
-			double y = Math.sin( theta) * Math.sin( phi );
-			double z = Math.cos( theta );
-			
-			Vec3 vec = Vec3.createVectorHelper(x, y, z);
-			int length = (int)Math.ceil(strength);
-			
-			float res = strength;
-			
-			for(int i = 0; i < length; i ++) {
-				
-				int x0 = (int)(posX + (vec.xCoord * i));
-				int y0 = (int)(posY + (vec.yCoord * i));
-				int z0 = (int)(posZ + (vec.zCoord * i));
-				
-				if(!world.isRemote) {
-
-					if(world.getBlock(x0, y0, z0).getMaterial().isLiquid()) {
-						world.setBlock(x0, y0, z0, Blocks.air);
-					}
-
-					res -= Math.pow(world.getBlock(x0, y0, z0).getExplosionResistance(null), 2);
-					
-					if(res > 0 && world.getBlock(x0, y0, z0) != Blocks.air) {
-						
-					
-						world.setBlock(x0, y0, z0, Blocks.air);
-					}
-				}
-			}
-		}
-	}
-
 	public static void spawnParticles(World world, double x, double y, double z, int count) {
 		
 		for(int i = 0; i < count; i++) {
