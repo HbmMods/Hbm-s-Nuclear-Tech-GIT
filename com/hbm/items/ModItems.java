@@ -2992,6 +2992,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_nightmare, gun_revolver_nightmare.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_nightmare2, gun_revolver_nightmare2.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_pip, gun_revolver_pip.getUnlocalizedName());
+		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mirv, gun_mirv.getUnlocalizedName());
@@ -3002,7 +3003,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_lever_action_dark, gun_lever_action_dark.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action, gun_bolt_action.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action_green, gun_bolt_action_green.getUnlocalizedName());
-		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr, gun_osipr.getUnlocalizedName());
 		GameRegistry.registerItem(gun_immolator, gun_immolator.getUnlocalizedName());

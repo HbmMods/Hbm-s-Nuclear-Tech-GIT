@@ -708,6 +708,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action, 1), new Object[] { "PPI", "SWD", 'P', "plateSteel", 'I', "ingotSteel", 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action_green, 1), new Object[] { "PPI", "SWD", 'P', "plateIron", 'I', "ingotIron", 'S', Items.stick, 'D', "plankWood", 'W', ModItems.wire_copper }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_bolt_action_ammo, 2), new Object[] { "P", "S", "G", 'P', "nuggetLead", 'S', ModItems.plate_polymer, 'G', Items.gunpowder }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_b92, 1), new Object[] { "SSS", " EP", 'P', "ingotPolymer", 'S', ModItems.ingot_starmetal, 'E', ModItems.powder_spark_mix }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.turret_light_ammo, 1), new Object[] { " L ", "IGI", "ICI", 'L', "plateLead", 'I', "plateIron", 'C', "plateCopper", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.turret_heavy_ammo, 1), new Object[] { "LGC", "LGC", "LGC", 'L', "plateLead", 'C', "plateCopper", 'G', Items.gunpowder }));

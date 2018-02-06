@@ -19,6 +19,11 @@ public class EntityGrenadeCluster extends EntityGrenadeBase
         super(p_i1774_1_, p_i1774_2_);
     }
 
+    public EntityGrenadeCluster(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
+    {
+        super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
+    }
+
     @Override
     public void explode() {
 

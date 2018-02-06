@@ -33,9 +33,9 @@ public class RenderBeam5 extends Render {
 		GL11.glRotatef(rocket.rotationYaw, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-rocket.rotationPitch, 1.0F, 0.0F, 0.0F);
 
-		boolean red = true;
+		boolean red = false;
 		boolean green = false;
-		boolean blue = false;
+		boolean blue = true;
 
 		for (float o = 0; o <= radius; o += radius / 8) {
 			float color = 1f - (o * 8.333f);

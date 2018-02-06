@@ -74,7 +74,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_bolt_action_green)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionGreen.png"));
 				if(item.getItem() == ModItems.gun_b92)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92Dark.png"));
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92SM.png"));
 				
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
@@ -120,7 +120,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_bolt_action_green)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionGreen.png"));
 				if(item.getItem() == ModItems.gun_b92)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92Dark.png"));
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92SM.png"));
 				
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);

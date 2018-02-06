@@ -9,13 +9,16 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -136,6 +139,14 @@ public class Meteorite {
     	    	} else {
     	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
     	    	}
+			return;
+		case 12:
+			//Star Blaster
+			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, true);
+			ItemStack stack = new ItemStack(ModItems.gun_b92);
+			stack.setStackDisplayName("§9Star Blaster§r");
+			EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
+			world.spawnEntityInWorld(blaster);
 			return;
 		}
 		
