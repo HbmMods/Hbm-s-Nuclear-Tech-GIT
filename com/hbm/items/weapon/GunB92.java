@@ -208,6 +208,8 @@ public class GunB92 extends Item {
 		list.add("The more energy is stored, the less accurate");
 		list.add("the beams become.");
 		list.add("Only up to ten charges may be stored.");
+		list.add("");
+		list.add("\"It's nerf or nothing!\"");
 	}
 
 	@Override

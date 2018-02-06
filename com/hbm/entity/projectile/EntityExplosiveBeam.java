@@ -246,12 +246,6 @@ public class EntityExplosiveBeam extends Entity implements IProjectile
         if (block.getMaterial() != Material.air)
         {
             block.setBlockBoundsBasedOnState(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f); 
-            AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
-        	if(!worldObj.isRemote) {
-        		ExplosionChaos.burn(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 2);
-        		ExplosionChaos.flameDeath(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
-        		ExplosionThermo.scorchLight(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 3);
-        	}
     		this.setDead();
     		explode();
         }

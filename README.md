@@ -25,5 +25,6 @@ If you want to do some changes in the code yourself, start here after 6. and con
 2) Meddle with the code, you can run the code in the IDE (eclipse has a convenient green play button)
 3) Save changes, close the IDE and continue with 7. of the previous list
 
-Now remember: You are permitted to take some chunks of code to use in your project (commercially or not, doesn't matter),
-but you can't just download the whole thing, change it up a little and republish it. It's basically a "Just don't be an asshole" rule.
+========
+DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE Version 2, December 2004 Everyone is permitted to copy and distribute verbatim or modified copies of this license document, and changing it is allowed as long as the name is changed. DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 0. You just DO WHAT THE FUCK YOU WANT TO.
+========
