@@ -680,6 +680,16 @@ item.fusion_core.name=Fusion Core
 item.energy_core.name=Makeshift Energy Core
 item.fusion_core_infinite.name=Infinite Fusion Core
 
+item.dynosphere_base.name=Blank Dynosphere
+item.dynosphere_desh.name=Desh Dynosphere
+item.dynosphere_desh_charged.name=Desh Dynosphere (Charged)
+item.dynosphere_schrabidium.name=Schrabidium Dynosphere
+item.dynosphere_schrabidium_charged.name=Schrabidium Dynosphere (Charged)
+item.dynosphere_euphemium.name=Euphemium Dynosphere
+item.dynosphere_euphemium_charged.name=Euphemium Dynosphere (Charged)
+item.dynosphere_dineutronium.name=Dineutronium Dynosphere
+item.dynosphere_dineutronium_charged.name=Dineutronium Dynosphere (Charged)
+
 item.plate_iron.name=Iron Plate
 item.plate_lead.name=Lead Plate
 item.coil_copper.name=Copper Coil

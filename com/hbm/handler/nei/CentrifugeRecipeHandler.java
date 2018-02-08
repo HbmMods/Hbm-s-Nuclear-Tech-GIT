@@ -85,7 +85,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
     public TemplateRecipeHandler newInstance() {
         if (fuels == null || fuels.isEmpty())
             fuels = new ArrayList<Fuel>();
-        for(ItemStack i : MachineRecipes.instance().getCentrifugeFuels())
+        for(ItemStack i : MachineRecipes.instance().getBatteries())
         {
         	fuels.add(new Fuel(i));
         }

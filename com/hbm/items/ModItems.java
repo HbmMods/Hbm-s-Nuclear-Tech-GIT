@@ -94,6 +94,9 @@ public class ModItems {
 	public static Item ingot_dineutronium;
 	public static Item nugget_dineutronium;
 	public static Item powder_dineutronium;
+	public static Item ingot_tetraneutronium;
+	public static Item nugget_tetraneutronium;
+	public static Item powder_tetraneutronium;
 	public static Item ingot_starmetal;
 
 	public static Item nugget_uranium;

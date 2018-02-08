@@ -1,7 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,14 +20,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory {
+public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInventory, IConsumer {
 
 	private ItemStack slots[];
 	
 	public int dualCookTime;
-	public int dualPower;
+	public long power;
 	public int soundCycle = 0;
-	public static final int maxPower = 100000;
+	public static final int maxPower = 1000000;
 	public static final int processingSpeed = 500;
 	
 	private static final int[] slots_top = new int[] {0};
@@ -109,36 +113,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			return false;
 		}
 		
-		if(i == 1 && hasItemPower(itemStack))
-		{
-			return true;
-		}
-		
 		return true;
-	}
-	
-	public boolean hasItemPower(ItemStack itemStack) {
-		return getItemPower(itemStack) > 0;
-	}
-	
-	private static int getItemPower(ItemStack itemStack) {
-		if(itemStack == null)
-		{
-			return 0;
-		}else{
-		Item item = itemStack.getItem();
-		
-		if(item == Items.coal) return 2500;
-		if(item == Item.getItemFromBlock(Blocks.coal_block)) return 25000;
-		if(item == Items.lava_bucket) return 50000;
-		if(item == Items.redstone) return  1000;
-		if(item == Item.getItemFromBlock(Blocks.redstone_block)) return 10000;
-		if(item == Item.getItemFromBlock(Blocks.netherrack)) return 1750;
-		if(item == Items.blaze_rod) return 15000;
-		if(item == Items.blaze_powder) return 5000;
-		
-		return 0;
-		}
 	}
 	
 	@Override
@@ -168,7 +143,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
-		dualPower = nbt.getInteger("powerTime");
+		power = nbt.getLong("powerTime");
 		dualCookTime = nbt.getShort("CookTime");
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -186,7 +161,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("powerTime", dualPower);
+		nbt.setLong("powerTime", power);
 		nbt.setShort("cookTime", (short) dualCookTime);
 		NBTTagList list = new NBTTagList();
 		
@@ -223,8 +198,8 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		return (dualCookTime * i) / processingSpeed;
 	}
 	
-	public int getPowerRemainingScaled(int i) {
-		return (dualPower * i) / maxPower;
+	public long getPowerRemainingScaled(int i) {
+		return (power * i) / maxPower;
 	}
 	
 	
@@ -309,7 +284,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	}
 	
 	public boolean hasPower() {
-		return dualPower > 0;
+		return power > 0;
 	}
 	
 	public boolean isProcessing() {
@@ -321,35 +296,18 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		boolean flag = this.hasPower();
 		boolean flag1 = false;
 		
-		if(hasPower() && isProcessing())
-		{
-			this.dualPower = this.dualPower - 50;
+		if(!worldObj.isRemote) {
 			
-			if(this.dualPower < 0)
+			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
+			
+			if(hasPower() && isProcessing())
 			{
-				this.dualPower = 0;
-			}
-		}
-		
-		if(!worldObj.isRemote)
-		{
-			if(this.hasItemPower(this.slots[1]) && this.dualPower <= (TileEntityMachineCentrifuge.maxPower - TileEntityMachineCentrifuge.getItemPower(this.slots[1])))
-			{
-				this.dualPower += getItemPower(this.slots[1]);
-				if(this.slots[1] != null)
+				this.power -= 2500;
+				
+				if(this.power < 0)
 				{
-					flag1 = true;
-					this.slots[1].stackSize--;
-					if(this.slots[1].stackSize == 0)
-					{
-						this.slots[1] = this.slots[1].getItem().getContainerItem(this.slots[1]);
-					}
+					this.power = 0;
 				}
-			}
-			
-			if(this.slots[1] != null && this.slots[1].getItem() == ModItems.pellet_rtg)
-			{
-				this.dualPower = maxPower;
 			}
 			
 			boolean trigger = true;
@@ -363,6 +321,8 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
             {
                 flag1 = true;
             }
+			
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 		
 		if(hasPower() && canProcess())
@@ -380,7 +340,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 				this.dualCookTime = 0;
 				this.processItem();
 			}
-		}else{
+		} else {
 			dualCookTime = 0;
 		}
 		
@@ -400,5 +360,21 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public void setPower(long i) {
+		power = i;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+		
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
 	}
 }

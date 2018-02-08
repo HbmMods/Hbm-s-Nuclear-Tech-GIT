@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineCentrifuge extends GuiContainer {
+public class GUIMachineCentrifuge extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/centrifuge.png");
 	private TileEntityMachineCentrifuge centrifuge;
@@ -23,6 +23,13 @@ public class GUIMachineCentrifuge extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 166;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52, centrifuge.power, centrifuge.maxPower);
 	}
 
 	@Override
@@ -41,7 +48,7 @@ public class GUIMachineCentrifuge extends GuiContainer {
 		
 		if(centrifuge.hasPower())
 		{
-			int i1 = centrifuge.getPowerRemainingScaled(54);
+			int i1 = (int)centrifuge.getPowerRemainingScaled(54);
 			drawTexturedModalRect(guiLeft + 8, guiTop + 69 - i1, 177, 107 - i1, 16, i1);
 		}
 

@@ -40,6 +40,8 @@ public abstract class TileEntityTurretBase extends TileEntity {
 				radius /= 2;
 			if(this instanceof TileEntityTurretSpitfire)
 				radius *= 3;
+			if(this instanceof TileEntityTurretCWIS)
+				radius *= 100;
 			Entity target = null;
 			for (int i = 0; i < iter.length; i++)
 			{
@@ -56,7 +58,14 @@ public abstract class TileEntityTurretBase extends TileEntity {
 			}
 
 			if(target != null) {
+
 				Vec3 turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1), target.posZ - (zCoord + 0.5));
+				
+				if(this instanceof TileEntityTurretCWIS) {
+					double[] est = getEstPos(Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5), target);
+					turret = Vec3.createVectorHelper(est[0] - (xCoord + 0.5), est[1] - (yCoord + 1.5), est[2] - (zCoord + 0.5));
+				}
+				
 				rotationPitch = -Math.asin(turret.yCoord/turret.lengthVector()) * 180 / Math.PI;
 				rotationYaw = -Math.atan2(turret.xCoord, turret.zCoord) * 180 / Math.PI;
 				
@@ -85,11 +94,14 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
+		if(this instanceof TileEntityTurretCWIS && !(e instanceof EntityMissileBaseAdvanced))
+			return false;
+		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).getUniqueID().toString().equals(uuid))
 			return false;
 		
 		Vec3 turret;
-		if(this instanceof TileEntityTurretSpitfire)
+		if(this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCWIS)
 			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
 		else
 			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
@@ -105,7 +117,28 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(this instanceof TileEntityTurretTau)
 			return true;
 		
-		return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
+		if(this instanceof TileEntityTurretCWIS) {
+			double[] est = getEstPos(turret, e);
+			return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, est[0], est[1], est[2]);
+		} else {
+			return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
+		}
+	}
+	
+	public double[] getEstPos(Vec3 turret, Entity e) {
+		Vec3 dist = Vec3.createVectorHelper(e.posX - turret.xCoord, e.posY - turret.yCoord, e.posZ - turret.zCoord);
+		double travelTime = dist.lengthVector() / 3;
+		double acc = 1;
+		
+		if(e instanceof EntityMissileBaseAdvanced) {
+			acc = ((EntityMissileBaseAdvanced)e).velocity;
+		}
+		
+		double estX = e.posX + e.motionX * travelTime * acc;
+		double estY = e.posY + e.motionY * travelTime * acc;
+		double estZ = e.posZ + e.motionZ * travelTime * acc;
+		
+		return new double[] {estX, estY, estZ};
 	}
 	
 	@Override

@@ -409,6 +409,7 @@ public class ModBlocks {
 	public static Block turret_flamer;
 	public static Block turret_tau;
 	public static Block turret_spitfire;
+	public static Block turret_cwis;
 
 	public static Block book_guide;
 
@@ -744,6 +745,7 @@ public class ModBlocks {
 		turret_flamer = new TurretFlamer(Material.iron).setBlockName("turret_flamer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_flamer");
 		turret_tau = new TurretTau(Material.iron).setBlockName("turret_tau").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_tau");
 		turret_spitfire = new TurretSpitfire(Material.iron).setBlockName("turret_spitfire").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_spitfire");
+		turret_cwis = new TurretCWIS(Material.iron).setBlockName("turret_cwis").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_cwis");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke);
 		
@@ -990,13 +992,14 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_flamer, turret_flamer.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_tau, turret_tau.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_spitfire, turret_spitfire.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_cwis, turret_cwis.getUnlocalizedName());
 		
 		//Block Bombs
 		GameRegistry.registerBlock(flame_war, flame_war.getUnlocalizedName());
 		GameRegistry.registerBlock(float_bomb, float_bomb.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_endo, therm_endo.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_exo, therm_exo.getUnlocalizedName());
-		GameRegistry.registerBlock(rejuvinator, rejuvinator.getUnlocalizedName());
+		//GameRegistry.registerBlock(rejuvinator, rejuvinator.getUnlocalizedName());
 		GameRegistry.registerBlock(det_cord, det_cord.getUnlocalizedName());
 		GameRegistry.registerBlock(det_charge, det_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(red_barrel, red_barrel.getUnlocalizedName());

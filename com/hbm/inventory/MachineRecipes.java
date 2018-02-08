@@ -1558,6 +1558,8 @@ public class MachineRecipes {
 
 	public ArrayList<ItemStack> getBatteries() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
+		fuels.add(new ItemStack(ModItems.battery_su));
+		fuels.add(new ItemStack(ModItems.battery_su_l));
 		fuels.add(new ItemStack(ModItems.battery_generic));
 		fuels.add(new ItemStack(ModItems.battery_red_cell));
 		fuels.add(new ItemStack(ModItems.battery_red_cell_6));
@@ -1574,6 +1576,9 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell));
 		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell_2));
 		fuels.add(new ItemStack(ModItems.battery_schrabidium_cell_4));
+		fuels.add(new ItemStack(ModItems.battery_spark));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_6));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_25));
 		fuels.add(new ItemStack(ModItems.fusion_core));
 		fuels.add(new ItemStack(ModItems.energy_core));
 		return fuels;

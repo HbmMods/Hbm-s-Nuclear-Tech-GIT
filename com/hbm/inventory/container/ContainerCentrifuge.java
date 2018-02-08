@@ -14,11 +14,9 @@ public class ContainerCentrifuge extends Container {
 	
 	private TileEntityMachineCentrifuge diFurnace;
 	private int dualCookTime;
-	private int dualPower;
 	
 	public ContainerCentrifuge(InventoryPlayer invPlayer, TileEntityMachineCentrifuge tedf) {
 		dualCookTime = 0;
-		dualPower = 0;
 		
 		diFurnace = tedf;
 		
@@ -95,15 +93,9 @@ public class ContainerCentrifuge extends Container {
 			{
 				par1.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
 			}
-			
-			if(this.dualPower != this.diFurnace.dualPower)
-			{
-				par1.sendProgressBarUpdate(this, 1, this.diFurnace.dualPower);
-			}
 		}
 		
 		this.dualCookTime = this.diFurnace.dualCookTime;
-		this.dualPower = this.diFurnace.dualPower;
 	}
 	
 	@Override
@@ -111,10 +103,6 @@ public class ContainerCentrifuge extends Container {
 		if(i == 0)
 		{
 			diFurnace.dualCookTime = j;
-		}
-		if(i == 1)
-		{
-			diFurnace.dualPower = j;
 		}
 	}
 

@@ -30,7 +30,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	int startZ;
 	int targetX;
 	int targetZ;
-	int velocity;
+	public int velocity;
 	double decelY;
 	double accelXZ;
 	boolean isCluster = false;
@@ -65,6 +65,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
             	
                 if (this.health <= 0)
                 {
+                    this.setDead();
                     this.killMissile();
                 }
             }
@@ -77,7 +78,6 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
         ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
         ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
         ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
-        this.setDead();
     }
 
 	public EntityMissileBaseAdvanced(World world, float x, float y, float z, int a, int b) {

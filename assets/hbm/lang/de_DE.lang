@@ -677,6 +677,16 @@ item.fusion_core.name=Fusionskern
 item.energy_core.name=Selbstgebauter Energiekern
 item.fusion_core_infinite.name=Unendlicher Fusionskern
 
+item.dynosphere_base.name=Blanke Dynosphere
+item.dynosphere_desh.name=Desh-Dynosphere
+item.dynosphere_desh_charged.name=Desh-Dynosphere (Geladen)
+item.dynosphere_schrabidium.name=Schrabidium-Dynosphere
+item.dynosphere_schrabidium_charged.name=Schrabidium-Dynosphere (Geladen)
+item.dynosphere_euphemium.name=Euphemium-Dynosphere
+item.dynosphere_euphemium_charged.name=Euphemium-Dynosphere (Geladen)
+item.dynosphere_dineutronium.name=Dineutronium-Dynosphere
+item.dynosphere_dineutronium_charged.name=Dineutronium-Dynosphere (Geladen)
+
 item.plate_iron.name=Eisenplatte
 item.plate_lead.name=Bleiplatte
 item.coil_copper.name=Kupferspule
