@@ -693,6 +693,7 @@ public class ModItems {
 	public static Item gun_bolt_action_green;
 	public static Item gun_bolt_action_ammo;
 	public static Item gun_b92;
+	public static Item gun_b92_ammo;
 	public static Item gun_xvl1456;
 	public static Item gun_xvl1456_ammo;
 	public static Item gun_osipr;
@@ -1774,8 +1775,9 @@ public class ModItems {
 		gun_lever_action_dark = new GunLeverAction().setUnlocalizedName("gun_lever_action_dark").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action_dark");
 		gun_bolt_action_ammo = new Item().setUnlocalizedName("gun_bolt_action_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_ammo");
 		gun_bolt_action = new GunBoltAction().setUnlocalizedName("gun_bolt_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action");
-		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92");
 		gun_bolt_action_green = new GunBoltAction().setUnlocalizedName("gun_bolt_action_green").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_green");
+		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92_ammo");
+		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92");
 		gun_xvl1456_ammo = new Item().setUnlocalizedName("gun_xvl1456_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456_ammo");
 		gun_xvl1456 = new GunXVL1456().setUnlocalizedName("gun_xvl1456").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456");
 		gun_osipr_ammo = new Item().setUnlocalizedName("gun_osipr_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_osipr_ammo");
@@ -3035,6 +3037,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_nightmare_ammo, gun_revolver_nightmare_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_nightmare2_ammo, gun_revolver_nightmare2_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_pip_ammo, gun_revolver_pip_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg_ammo, gun_rpg_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman_ammo, gun_fatman_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mirv_ammo, gun_mirv_ammo.getUnlocalizedName());

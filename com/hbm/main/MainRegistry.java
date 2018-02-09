@@ -120,6 +120,7 @@ import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
+import com.hbm.entity.projectile.EntityAAShell;
 import com.hbm.entity.projectile.EntityBaleflare;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBullet;
@@ -663,6 +664,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityNukeExplosionMK4.class, "entity_nuke_mk4", 89, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityCloudFleijaRainbow.class, "entity_cloud_rainbow", 90, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 91, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityAAShell.class, "entity_aa_shell", 92, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -1146,6 +1148,7 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_lightoil), new ItemStack(ModItems.canister_empty), FluidType.LIGHTOIL, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_kerosene), new ItemStack(ModItems.canister_empty), FluidType.KEROSENE, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_biofuel), new ItemStack(ModItems.canister_empty), FluidType.BIOFUEL, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.canister_NITAN), new ItemStack(ModItems.canister_empty), FluidType.NITAN, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_full), new ItemStack(ModItems.gas_empty), FluidType.GAS, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_petroleum), new ItemStack(ModItems.gas_empty), FluidType.PETROLEUM, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.gas_biogas), new ItemStack(ModItems.gas_empty), FluidType.BIOGAS, 1000));

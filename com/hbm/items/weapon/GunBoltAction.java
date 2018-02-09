@@ -75,7 +75,7 @@ public class GunBoltAction extends Item {
 			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 5.0F, 0.75F);
 
 			if (flag) { } else {
-				p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_lever_action_ammo);
+				p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_bolt_action_ammo);
 			}
 
 			if (!p_77615_2_.isRemote) {

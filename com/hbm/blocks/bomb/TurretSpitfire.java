@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
+import com.hbm.entity.projectile.EntityAAShell;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
 import com.hbm.tileentity.bomb.TileEntityTurretTau;
@@ -32,7 +33,7 @@ public class TurretSpitfire extends TurretBase {
 		if(pitch > 30)
 			pitch = 30;
 		
-		if(i != 0 && i % 10 == 0) {
+		if(i != 0 && i % 35 == 0) {
 			Vec3 vector = Vec3.createVectorHelper(
 					-Math.sin(yaw / 180.0F * (float) Math.PI) * Math.cos(pitch / 180.0F * (float) Math.PI),
 					-Math.sin(pitch / 180.0F * (float) Math.PI),
@@ -41,16 +42,16 @@ public class TurretSpitfire extends TurretBase {
 			vector.normalize();
 			
 			if(!world.isRemote) {
-				EntityBullet bullet = new EntityBullet(world);
+				EntityAAShell bullet = new EntityAAShell(world);
 				bullet.posX = x + vector.xCoord * 2.75 + 0.5;
 				bullet.posY = y + vector.yCoord * 2.75 + 1.5;
 				bullet.posZ = z + vector.zCoord * 2.75 + 0.5;
 				
-				bullet.motionX = vector.xCoord * 3;
-				bullet.motionY = vector.yCoord * 3;
-				bullet.motionZ = vector.zCoord * 3;
-
-				bullet.setDamage(65 + rand.nextInt(55));
+				bullet.motionX = vector.xCoord;
+				bullet.motionY = vector.yCoord;
+				bullet.motionZ = vector.zCoord;
+				
+				bullet.speedOverride = 3;
 				
 				world.spawnEntityInWorld(bullet);
 				

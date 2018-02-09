@@ -34,6 +34,17 @@ public class ExplosionLarge {
 		}
 	}
 
+	public static void spawnParticlesRadial(World world, double x, double y, double z, int count) {
+		
+		for(int i = 0; i < count; i++) {
+			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
+			fx.motionY = rand.nextGaussian() * (1 + (count / 50));
+			fx.motionX = rand.nextGaussian() * (1 + (count / 50));
+			fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
+			world.spawnEntityInWorld(fx);
+		}
+	}
+
 	public static void spawnShock(World world, double x, double y, double z, int count, double strength) {
 		
 		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
