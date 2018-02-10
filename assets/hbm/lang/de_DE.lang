@@ -1019,6 +1019,7 @@ item.gun_mp40_ammo.name=SMG-Patrone
 item.gun_uboinik_ammo.name=12x70 Schrotmunition
 item.gun_lever_action_ammo.name=12x74 Schrotmunition
 item.gun_bolt_action_ammo.name=12x74 Brenneke
+item.gun_b92_ammo.name=§9B92-Energiezelle§r
 item.gun_xvl1456_ammo.name=Kiste mit erschöpftem Uran-235
 item.gun_osipr_ammo.name=Dunkler Energiepuls-Plug
 item.gun_osipr_ammo2.name=Combine Ball
@@ -1031,6 +1032,8 @@ item.gun_spark_ammo.name=Elektromagnetische Katusche
 item.gun_hp_ammo.name=Tintenpatrone
 item.gun_euthanasia_ammo.name=Spritze
 item.gun_defabricator_ammo.name=Defabrikator-Energiezelle
+
+item.weaponized_starblaster_cell.name=§cManipulierte Sternenblaster-Energiezelle§r
 
 item.turret_light_ammo.name=Leichte MG Munitionskiste
 item.turret_heavy_ammo.name=Schwere MG Munition

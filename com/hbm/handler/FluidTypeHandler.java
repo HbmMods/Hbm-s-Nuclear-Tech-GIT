@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import java.util.Arrays;
+
 public class FluidTypeHandler {
 	
 	public enum FluidType {
@@ -108,6 +110,10 @@ public class FluidTypeHandler {
 					return FluidType.values()[i];
 			
 			return FluidType.NONE;
+		}
+		
+		public int getID() {
+			return Arrays.asList(FluidType.values()).indexOf(this);
 		}
 		
 		public String getName() {

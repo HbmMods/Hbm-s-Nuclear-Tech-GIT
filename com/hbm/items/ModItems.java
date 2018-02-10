@@ -752,6 +752,8 @@ public class ModItems {
 	public static Item grenade_black_hole;
 	public static Item ullapool_caber;
 
+	public static Item weaponized_starblaster_cell;
+
 	public static Item bomb_waffle;
 	public static Item schnitzel_vegan;
 	public static Item cotton_candy;
@@ -1776,7 +1778,7 @@ public class ModItems {
 		gun_bolt_action_ammo = new Item().setUnlocalizedName("gun_bolt_action_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_ammo");
 		gun_bolt_action = new GunBoltAction().setUnlocalizedName("gun_bolt_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action");
 		gun_bolt_action_green = new GunBoltAction().setUnlocalizedName("gun_bolt_action_green").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_green");
-		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92_ammo");
+		gun_b92_ammo = new GunB92Cell().setUnlocalizedName("gun_b92_ammo").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92_ammo_alt");
 		gun_b92 = new GunB92().setUnlocalizedName("gun_b92").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92");
 		gun_xvl1456_ammo = new Item().setUnlocalizedName("gun_xvl1456_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456_ammo");
 		gun_xvl1456 = new GunXVL1456().setUnlocalizedName("gun_xvl1456").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_xvl1456");
@@ -1834,6 +1836,8 @@ public class ModItems {
 		grenade_zomg = new ItemGrenade().setUnlocalizedName("grenade_zomg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_zomg");
 		grenade_black_hole = new ItemGrenade().setUnlocalizedName("grenade_black_hole").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":grenade_black_hole");
 		ullapool_caber = new WeaponSpecial(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("ullapool_caber").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":ullapool_caber");
+		
+		weaponized_starblaster_cell = new WeaponizedCell().setUnlocalizedName("weaponized_starblaster_cell").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_b92_ammo_weaponized");
 
 		bomb_waffle = new ItemWaffle(20, false).setUnlocalizedName("bomb_waffle").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":bomb_waffle");
 		schnitzel_vegan = new ItemSchnitzelVegan(0, true).setUnlocalizedName("schnitzel_vegan").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":schnitzel_vegan");
@@ -2025,9 +2029,9 @@ public class ModItems {
 		chemistry_icon = new ItemChemistryIcon().setUnlocalizedName("chemistry_icon").setMaxStackSize(1).setCreativeTab(null);
 		fluid_identifier = new ItemFluidIdentifier().setUnlocalizedName("fluid_identifier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":fluid_identifier");
 		fluid_icon = new ItemFluidIcon().setUnlocalizedName("fluid_icon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":fluid_icon");
-		fluid_tank_full = new ItemFluidTank().setUnlocalizedName("fluid_tank_full").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
+		fluid_tank_full = new ItemFluidTank().setUnlocalizedName("fluid_tank_full").setContainerItem(ModItems.fluid_tank_empty).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
 		fluid_tank_empty = new Item().setUnlocalizedName("fluid_tank_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_tank");
-		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel");
+		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setContainerItem(ModItems.fluid_barrel_empty).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_empty = new Item().setUnlocalizedName("fluid_barrel_empty").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_infinite = new Item().setUnlocalizedName("fluid_barrel_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fluid_barrel_infinite");
 		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":cassette");
@@ -3117,6 +3121,7 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_zomg, grenade_zomg.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_black_hole, grenade_black_hole.getUnlocalizedName());
 		GameRegistry.registerItem(ullapool_caber, ullapool_caber.getUnlocalizedName());
+		GameRegistry.registerItem(weaponized_starblaster_cell, weaponized_starblaster_cell.getUnlocalizedName());
 		
 		//Capes
 		GameRegistry.registerItem(cape_radiation, cape_radiation.getUnlocalizedName());
