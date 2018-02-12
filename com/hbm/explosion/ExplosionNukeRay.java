@@ -114,7 +114,7 @@ public class ExplosionNukeRay {
 				int y0 = (int)(posY + pY * i);
 				int z0 = (int)(posZ + pZ * i);
 				
-				if(world.getBlock(x0, y0, z0) != Blocks.air)
+				//if(world.getBlock(x0, y0, z0) != Blocks.air)
 					world.setBlock(x0, y0, z0, Blocks.air);
 			}
 		}
