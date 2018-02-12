@@ -143,9 +143,6 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			float dirty = f[4];
 			float schrab = f[5];
 			float euph = f[6];
-
-			System.out.println(tnt);
-			System.out.println(nuke);
 			
 			if(euph > 0) {
 				EntityGrenadeZOMG zomg = new EntityGrenadeZOMG(world);

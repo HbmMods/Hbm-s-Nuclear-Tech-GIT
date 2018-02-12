@@ -35,7 +35,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	double accelXZ;
 	boolean isCluster = false;
     private Ticket loaderTicket;
-    public int health = 10;
+    public int health = 50;
 
 	public EntityMissileBaseAdvanced(World p_i1582_1_) {
 		super(p_i1582_1_);

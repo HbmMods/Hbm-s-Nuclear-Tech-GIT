@@ -44,8 +44,6 @@ public class WeaponizedCell extends Item {
     	
     	int randy = (60 * 20) - item.ticksExisted;
     	
-    	System.out.println(randy);
-    	
     	if(randy < 1)
     		randy = 1;
     	
@@ -63,7 +61,7 @@ public class WeaponizedCell extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("A charged energ cell, rigged to explode");
+		list.add("A charged energy cell, rigged to explode");
 		list.add("when left on the floor for too long.");
 	}
 }

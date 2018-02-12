@@ -61,9 +61,8 @@ public abstract class TileEntityTurretBase extends TileEntity {
 
 				Vec3 turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1), target.posZ - (zCoord + 0.5));
 				
-				if(this instanceof TileEntityTurretCWIS) {
-					double[] est = getEstPos(Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5), target);
-					turret = Vec3.createVectorHelper(est[0] - (xCoord + 0.5), est[1] - (yCoord + 1.5), est[2] - (zCoord + 0.5));
+				if(this instanceof TileEntityTurretCWIS || this instanceof TileEntityTurretSpitfire) {
+					turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1.5), target.posZ - (zCoord + 0.5));
 				}
 				
 				rotationPitch = -Math.asin(turret.yCoord/turret.lengthVector()) * 180 / Math.PI;
@@ -117,28 +116,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(this instanceof TileEntityTurretTau)
 			return true;
 		
-		if(this instanceof TileEntityTurretCWIS) {
-			double[] est = getEstPos(turret, e);
-			return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, est[0], est[1], est[2]);
-		} else {
-			return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
-		}
-	}
-	
-	public double[] getEstPos(Vec3 turret, Entity e) {
-		Vec3 dist = Vec3.createVectorHelper(e.posX - turret.xCoord, e.posY - turret.yCoord, e.posZ - turret.zCoord);
-		double travelTime = dist.lengthVector() / 3;
-		double acc = 1;
-		
-		if(e instanceof EntityMissileBaseAdvanced) {
-			acc = ((EntityMissileBaseAdvanced)e).velocity;
-		}
-		
-		double estX = e.posX + e.motionX * travelTime * acc;
-		double estY = e.posY + e.motionY * travelTime * acc;
-		double estZ = e.posZ + e.motionZ * travelTime * acc;
-		
-		return new double[] {estX, estY, estZ};
+		return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
 	}
 	
 	@Override
