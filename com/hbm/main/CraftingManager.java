@@ -942,6 +942,11 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.desh_shovel, 1), new Object[] { "I", "S", "S", 'I', ModItems.ingot_desh, 'S', Items.stick });
 		GameRegistry.addRecipe(new ItemStack(ModItems.desh_hoe, 1), new Object[] { "II", " S", " S", 'I', ModItems.ingot_desh, 'S', Items.stick });
 
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.jetpack_boost, 1), new Object[] { "PTP", "SLS", "W W", 'P', "plateSteel", 'T', ModItems.tank_steel, 'S', ModItems.pipes_steel, 'L', Items.leather, 'W', ModItems.thruster_small }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.jetpack_fly, 1), new Object[] { "PTP", "SLS", "W W", 'P', "plateSteel", 'T', ModItems.cap_aluminium, 'S', ModItems.pipes_steel, 'L', ModItems.jetpack_boost, 'W', ModItems.thruster_small }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.jetpack_break, 1), new Object[] { "PTP", "SLS", "P P", 'P', "plateSteel", 'T', ModItems.cap_aluminium, 'S', ModItems.coil_tungsten, 'L', ModItems.jetpack_boost }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.jetpack_vector, 1), new Object[] { "PTP", "SLS", "W W", 'P', "plateTitanium", 'T', ModItems.circuit_copper, 'S', ModItems.motor, 'L', ModItems.jetpack_fly, 'W', ModItems.thruster_small }));
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.chainsaw, 1), new Object[] { "TTG", "SSM", 'T', "plateIron", 'S', "plateSteel", 'M', ModItems.motor, 'G', ModItems.circuit_gold }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wiring_red_copper, 1), new Object[] { "PPP", "PIP", "PPP", 'P', "plateSteel", 'I', "ingotSteel" }));

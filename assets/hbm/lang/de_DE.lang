@@ -1146,6 +1146,11 @@ item.schrabidium_axe.name=Schrabidiumaxt
 item.schrabidium_shovel.name=Schrabidiumschaufel
 item.schrabidium_hoe.name=Schrabidiumfeldhacke
 
+item.jetpack_boost.name=Boosterrucksack
+item.jetpack_fly.name=Raketenrucksack
+item.jetpack_break.name=Bremsrucksack
+item.jetpack_vector.name=Schubvektorgesteuerter Raketenrucksack
+
 item.chainsaw.name=Kettensäge
 item.crowbar.name=Mk.V Kistenöffnungsapparat "Brechstange"
 

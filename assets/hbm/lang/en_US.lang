@@ -1149,6 +1149,11 @@ item.schrabidium_axe.name=Schrabidium Axe
 item.schrabidium_shovel.name=Schrabidium Shovel
 item.schrabidium_hoe.name=Schrabidium Hoe
 
+item.jetpack_boost.name=Boostpack
+item.jetpack_fly.name=Jetpack
+item.jetpack_break.name=Breakpack
+item.jetpack_vector.name=Vectored Jetpack
+
 item.chainsaw.name=Chainsaw
 item.crowbar.name=Mk.V Crate Opening Device "Crowbar"
 
