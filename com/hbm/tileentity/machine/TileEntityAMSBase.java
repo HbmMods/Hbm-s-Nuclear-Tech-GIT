@@ -348,7 +348,8 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 					heatBase *= Math.pow(1.25F, booster);
 					heatBase *= (100 - field);
 					
-					if(this.getFuelPower(tanks[2].getTankType()) > 0 && this.getFuelPower(tanks[3].getTankType()) > 0) {
+					if(this.getFuelPower(tanks[2].getTankType()) > 0 && this.getFuelPower(tanks[3].getTankType()) > 0 &&
+							tanks[2].getFill() > 0 && tanks[3].getFill() > 0) {
 
 						power += (powerBase * powerMod * gauss(1, (heat - (maxHeat / 2)) / maxHeat));
 						heat += (heatBase * heatMod) / (float)(this.field / 100F);

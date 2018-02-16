@@ -155,7 +155,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
     	
     		world.spawnEntityInWorld(entity);
     		
-    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, r);
+    		EntityCloudFleija cloud = new EntityCloudFleija(world, r);
     		cloud.posX = x;
     		cloud.posY = y;
     		cloud.posZ = z;

@@ -32,7 +32,7 @@ public class GUIWatzCore extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 106 - 18 - 70, 16, 70);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 106 - 70, 16, 70, diFurnace.power, diFurnace.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 106 - 70, 16, 70 - 18, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override

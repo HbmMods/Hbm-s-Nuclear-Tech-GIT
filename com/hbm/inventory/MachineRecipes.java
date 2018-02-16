@@ -2364,11 +2364,14 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 4));
 			break;
 		case SCHRABTRANS:
+			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
 			list.add(new ItemStack(ModItems.ingot_titanium, 24));
 			list.add(new ItemStack(ModItems.plate_advanced_alloy, 18));
 			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModItems.plate_desh, 6));
+			list.add(new ItemStack(ModItems.plate_polymer, 8));
 			list.add(new ItemStack(ModBlocks.machine_battery, 5));
-			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
+			list.add(new ItemStack(ModItems.circuit_gold, 5));
 			break;
 		case CMB_FURNACE:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));

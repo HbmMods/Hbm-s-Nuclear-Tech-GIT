@@ -17,7 +17,7 @@ public class WeaponizedCell extends Item {
     {
     	World world = item.worldObj;
     	
-    	if(item.ticksExisted > 60 * 20 || item.isBurning()) {
+    	if(item.ticksExisted > 50 * 20 || item.isBurning()) {
 			
 	    	if(!world.isRemote) {
 	    		world.playSoundEffect(item.posX, item.posY, item.posZ,
@@ -40,14 +40,16 @@ public class WeaponizedCell extends Item {
 	    		cloud.posZ = item.posZ;
 	    		world.spawnEntityInWorld(cloud);
 	    	}
+	    		
+	    	item.setDead();
     	}
     	
-    	int randy = (60 * 20) - item.ticksExisted;
+    	int randy = (50 * 20) - item.ticksExisted;
     	
     	if(randy < 1)
     		randy = 1;
     	
-    	if(item.worldObj.rand.nextInt(60 * 20) >= randy)
+    	if(item.worldObj.rand.nextInt(50 * 20) >= randy)
     		world.spawnParticle("reddust", item.posX + item.worldObj.rand.nextGaussian() * item.width / 2, item.posY + item.worldObj.rand.nextGaussian() * item.height, item.posZ + item.worldObj.rand.nextGaussian() * item.width / 2, 0.0, 0.0, 0.0);
     	else
     		world.spawnParticle("smoke", item.posX + item.worldObj.rand.nextGaussian() * item.width / 2, item.posY + item.worldObj.rand.nextGaussian() * item.height, item.posZ + item.worldObj.rand.nextGaussian() * item.width / 2, 0.0, 0.0, 0.0);

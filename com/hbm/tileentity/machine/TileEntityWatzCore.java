@@ -620,11 +620,12 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		if(slots[i] != null && slots[i].getItem() instanceof WatzFuel)
 		{
 			WatzFuel fuel = (WatzFuel)slots[i].getItem();
-			slots[i].setItemDamage(slots[i].getItemDamage() + this.decayMultiplier);
-			if(slots[i].getItemDamage() >= slots[i].getMaxDamage())
+			WatzFuel.setLifeTime(slots[i], WatzFuel.getLifeTime(slots[i]) + this.decayMultiplier);
+			WatzFuel.updateDamage(slots[i]);
+			if(WatzFuel.getLifeTime(slots[i]) >= fuel.lifeTime)
 			{
 				if(slots[i].getItem() == ModItems.pellet_lead)
-					slots[i] = null;
+					slots[i] = new ItemStack(ModItems.powder_lead);
 				else
 					slots[i] = new ItemStack(ModItems.pellet_lead);
 			}
