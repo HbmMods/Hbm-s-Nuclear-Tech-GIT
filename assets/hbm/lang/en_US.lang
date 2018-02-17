@@ -719,6 +719,7 @@ item.plate_dalekanium.name=Angry Metal
 item.biomass.name=Biomass
 item.component_limiter.name=Stabilizer Component
 item.component_emitter.name=Emitter Component
+item.catalyst_clay.name=Clay Catalyst
 
 item.cell_empty.name=Empty Cell
 item.cell_uf6.name=Uranium Hexafluorite Cell
