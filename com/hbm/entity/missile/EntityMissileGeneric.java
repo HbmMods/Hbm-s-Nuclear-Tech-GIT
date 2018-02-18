@@ -41,6 +41,11 @@ public class EntityMissileGeneric extends EntityMissileBaseAdvanced {
 		return new ItemStack(ModItems.warhead_generic_small);
 	}
 
+	@Override
+	public int getMissileType() {
+		return 0;
+	}
+
 	/*public EntityMissileGeneric(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}

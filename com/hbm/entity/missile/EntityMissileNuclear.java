@@ -60,4 +60,9 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
 		return new ItemStack(ModItems.warhead_nuclear);
 	}
 
+	@Override
+	public int getMissileType() {
+		return 3;
+	}
+
 }

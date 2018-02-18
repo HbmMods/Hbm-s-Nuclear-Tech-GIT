@@ -48,4 +48,9 @@ public class EntityMissileClusterStrong extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.warhead_cluster_medium);
 	}
+
+	@Override
+	public int getMissileType() {
+		return 1;
+	}
 }

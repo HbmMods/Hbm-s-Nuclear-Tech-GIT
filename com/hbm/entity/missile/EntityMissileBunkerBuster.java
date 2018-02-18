@@ -49,4 +49,9 @@ public class EntityMissileBunkerBuster extends EntityMissileBaseAdvanced {
 		return new ItemStack(ModItems.warhead_buster_large);
 	}
 
+	@Override
+	public int getMissileType() {
+		return 0;
+	}
+
 }

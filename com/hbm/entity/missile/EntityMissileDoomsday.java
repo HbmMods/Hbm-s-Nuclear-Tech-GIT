@@ -108,4 +108,9 @@ public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
 		return null;
 	}
 
+	@Override
+	public int getMissileType() {
+		return 3;
+	}
+
 }

@@ -43,4 +43,9 @@ public class EntityMissileIncendiaryStrong extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.warhead_incendiary_medium);
 	}
+
+	@Override
+	public int getMissileType() {
+		return 1;
+	}
 }

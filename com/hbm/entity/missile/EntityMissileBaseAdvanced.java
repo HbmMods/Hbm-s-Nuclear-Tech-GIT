@@ -7,6 +7,7 @@ import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -172,6 +173,16 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
     {
 		//super.onUpdate();
 		
+		if(!worldObj.isRemote && !TileEntityMachineRadar.allMissiles.contains(this))
+			TileEntityMachineRadar.allMissiles.add(this);
+		
+		//if(!worldObj.loadedEntityList.contains(this))
+		//	worldObj.loadedEntityList.add(this);
+		
+		//System.out.println(this.posX + " " + this.posY + " " + this.posZ);
+		
+		
+		
 		if(velocity < 1)
 			velocity = 1;
 		if(this.ticksExisted > 40)
@@ -241,6 +252,8 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
     }
 
 	public abstract void onImpact();
+
+	public abstract int getMissileType();
 
 	public abstract List<ItemStack> getDebris();
 	

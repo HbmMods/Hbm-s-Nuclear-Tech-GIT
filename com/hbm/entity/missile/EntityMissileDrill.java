@@ -47,4 +47,9 @@ public class EntityMissileDrill extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.warhead_buster_large);
 	}
+
+	@Override
+	public int getMissileType() {
+		return 2;
+	}
 }

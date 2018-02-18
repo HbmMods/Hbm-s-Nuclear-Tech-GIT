@@ -41,4 +41,9 @@ public class EntityMissileTaint extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return null;
 	}
+
+	@Override
+	public int getMissileType() {
+		return 0;
+	}
 }

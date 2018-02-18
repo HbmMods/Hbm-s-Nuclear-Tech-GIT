@@ -43,4 +43,9 @@ public class EntityMissileIncendiary extends EntityMissileBaseAdvanced {
 		return new ItemStack(ModItems.warhead_incendiary_small);
 	}
 
+	@Override
+	public int getMissileType() {
+		return 0;
+	}
+
 }

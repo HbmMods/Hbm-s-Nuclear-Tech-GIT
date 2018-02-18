@@ -68,4 +68,9 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.warhead_generic_large);
 	}
+
+	@Override
+	public int getMissileType() {
+		return 3;
+	}
 }

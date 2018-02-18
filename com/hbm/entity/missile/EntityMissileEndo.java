@@ -44,4 +44,9 @@ public class EntityMissileEndo extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.warhead_thermo_exo);
 	}
+
+	@Override
+	public int getMissileType() {
+		return 3;
+	}
 }

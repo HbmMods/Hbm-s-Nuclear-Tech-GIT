@@ -42,4 +42,9 @@ public class EntityMissileStrong extends EntityMissileBaseAdvanced {
 		return new ItemStack(ModItems.warhead_generic_medium);
 	}
 
+	@Override
+	public int getMissileType() {
+		return 1;
+	}
+
 }

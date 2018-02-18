@@ -50,6 +50,7 @@ import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
 import com.hbm.tileentity.machine.TileEntityMachineRadGen;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
@@ -588,6 +589,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_radar:
+			{
+				if(entity instanceof TileEntityMachineRadar)
+				{
+					return new ContainerMachineRadar(player.inventory, (TileEntityMachineRadar) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1108,6 +1118,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineRadGen)
 					{
 						return new GUIMachineRadGen(player.inventory, (TileEntityMachineRadGen) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_radar:
+				{
+					if(entity instanceof TileEntityMachineRadar)
+					{
+						return new GUIMachineRadar(player.inventory, (TileEntityMachineRadar) entity);
 					}
 					return null;
 				}

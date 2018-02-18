@@ -385,6 +385,9 @@ public class ModBlocks {
 	public static Block launch_pad;
 	public static final int guiID_launch_pad = 19;
 
+	public static Block machine_radar;
+	public static final int guiID_radar = 59;
+
 	public static Block machine_pumpjack;
 	public static final int guiID_machine_pumpjack = 51;
 
@@ -738,6 +741,7 @@ public class ModBlocks {
 		marker_structure = new BlockMarker(Material.iron).setBlockName("marker_structure").setHardness(0.0F).setResistance(0.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.tabBlock).setBlockTextureName(RefStrings.MODID + ":marker_structure");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		
 		turret_light = new TurretLight(Material.iron).setBlockName("turret_light").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_light");
 		turret_heavy = new TurretHeavy(Material.iron).setBlockName("turret_heavy").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_heavy");
@@ -1134,8 +1138,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ams_emitter, ams_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(ams_limiter, ams_limiter.getUnlocalizedName());
 		
-		//Launch Pads
+		//Missile Blocks
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_radar, machine_radar.getUnlocalizedName());
 		
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());

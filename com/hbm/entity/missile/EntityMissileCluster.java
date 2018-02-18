@@ -47,4 +47,9 @@ public class EntityMissileCluster extends EntityMissileBaseAdvanced {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.warhead_cluster_small);
 	}
+
+	@Override
+	public int getMissileType() {
+		return 0;
+	}
 }
