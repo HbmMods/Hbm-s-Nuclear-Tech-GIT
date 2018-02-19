@@ -689,6 +689,7 @@ public class ModItems {
 	public static Item gun_uboinik_ammo;
 	public static Item gun_lever_action;
 	public static Item gun_lever_action_dark;
+	public static Item gun_lever_action_sonata;
 	public static Item gun_lever_action_ammo;
 	public static Item gun_bolt_action;
 	public static Item gun_bolt_action_green;
@@ -1184,7 +1185,7 @@ public class ModItems {
 		ingot_uranium = new ItemRadioactive().setUnlocalizedName("ingot_uranium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_uranium");
 		ingot_u235 = new ItemRadioactive().setUnlocalizedName("ingot_u235").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_u235");
 		ingot_u238 = new ItemRadioactive().setUnlocalizedName("ingot_u238").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_u238");
-		ingot_u238m2 = new ItemUnstable(350, 20).setUnlocalizedName("ingot_u238m2").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_u238m2");
+		ingot_u238m2 = new ItemUnstable(350, 200).setUnlocalizedName("ingot_u238m2").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_u238m2");
 		ingot_plutonium = new ItemRadioactive().setUnlocalizedName("ingot_plutonium").setCreativeTab(MainRegistry.tabParts).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_plutonium");
 		ingot_pu238 = new ItemRadioactive().setUnlocalizedName("ingot_pu238").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_pu238");
 		ingot_pu239 = new ItemRadioactive().setUnlocalizedName("ingot_pu239").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_pu239");
@@ -1783,6 +1784,7 @@ public class ModItems {
 		gun_lever_action_ammo = new Item().setUnlocalizedName("gun_lever_action_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action_ammo");
 		gun_lever_action = new GunLeverAction().setUnlocalizedName("gun_lever_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action");
 		gun_lever_action_dark = new GunLeverAction().setUnlocalizedName("gun_lever_action_dark").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action_dark");
+		gun_lever_action_sonata = new GunLeverActionS().setUnlocalizedName("gun_lever_action_sonata").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_lever_action_sonata");
 		gun_bolt_action_ammo = new Item().setUnlocalizedName("gun_bolt_action_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_ammo");
 		gun_bolt_action = new GunBoltAction().setUnlocalizedName("gun_bolt_action").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action");
 		gun_bolt_action_green = new GunBoltAction().setUnlocalizedName("gun_bolt_action_green").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_bolt_action_green");
@@ -3024,6 +3026,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_uboinik, gun_uboinik.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lever_action, gun_lever_action.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lever_action_dark, gun_lever_action_dark.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lever_action_sonata, gun_lever_action_sonata.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action, gun_bolt_action.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action_green, gun_bolt_action_green.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());

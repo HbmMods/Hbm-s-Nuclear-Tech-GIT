@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunB92;
 import com.hbm.items.weapon.GunBoltAction;
 import com.hbm.items.weapon.GunLeverAction;
+import com.hbm.items.weapon.GunLeverActionS;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelB92;
 import com.hbm.render.model.ModelBoltAction;
@@ -65,7 +66,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 			
 				GL11.glEnable(GL11.GL_CULL_FACE);
 
-				if(item.getItem() == ModItems.gun_lever_action)
+				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_sonata)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLeverAction.png"));
 				if(item.getItem() == ModItems.gun_bolt_action)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionDark.png"));
@@ -81,10 +82,22 @@ public class ItemRenderGunAnim implements IItemRenderer {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glTranslatef(-0.2F, -0.1F, -0.1F);
+
+				if(item.getItem() == ModItems.gun_lever_action_sonata) {
+					GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(15F, 0.0F, 0.0F, 1.0F);
+					GL11.glTranslatef(2.3F, 0.2F, 0.8F);
+				}
 				
 				if((item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark) && GunLeverAction.getRotationFromAnim(item) > 0) {
 					GL11.glRotatef(GunLeverAction.getRotationFromAnim(item) * 25, 0.0F, 0.0F, 1.0F);
 					GL11.glTranslatef(GunLeverAction.getOffsetFromAnim(item) * -1.5F, 0.0F, 0.0F);
+				}
+				
+				if((item.getItem() == ModItems.gun_lever_action_sonata) && GunLeverActionS.getRotationFromAnim(item) > 0) {
+					GL11.glRotatef(GunLeverActionS.getRotationFromAnim(item) * -25, 0.0F, 0.0F, 1.0F);
+					GL11.glTranslatef(GunLeverActionS.getOffsetFromAnim(item) * 1.5F, 0.0F, 0.0F);
+					GL11.glTranslatef(0.0F, GunLeverActionS.getOffsetFromAnim(item) * -1.5F, 0.0F);
 				}
 				
 				if((item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green) && GunBoltAction.getRotationFromAnim(item) > 0) {
@@ -97,9 +110,11 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					GL11.glRotatef(GunB92.getRotationFromAnim(item) * -90, 0.0F, 0.0F, 1.0F);
 					GL11.glTranslatef(off * -0.5F, off * -0.5F, 0.0F);
 				}
-				
+
 				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));
+				if(item.getItem() == ModItems.gun_lever_action_sonata)
+					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverActionS.getRotationFromAnim(item));
 				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green)
 					boltaction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunBoltAction.getLevRotationFromAnim(item), GunBoltAction.getTransFromAnim(item));
 				if(item.getItem() == ModItems.gun_b92)
@@ -111,7 +126,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 		case ENTITY:
 			GL11.glPushMatrix();
 				GL11.glEnable(GL11.GL_CULL_FACE);
-				if(item.getItem() == ModItems.gun_lever_action)
+				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_sonata)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLeverAction.png"));
 				if(item.getItem() == ModItems.gun_bolt_action)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionDark.png"));
@@ -130,8 +145,16 @@ public class ItemRenderGunAnim implements IItemRenderer {
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glTranslatef(-0.3F, -0.4F, 0.15F);
 
+				if(item.getItem() == ModItems.gun_lever_action_sonata) {
+					GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(25F, 0.0F, 0.0F, 1.0F);
+					GL11.glTranslatef(2.3F, 0.2F, 0.8F);
+				}
+
 				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));
+				if(item.getItem() == ModItems.gun_lever_action_sonata)
+					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverActionS.getRotationFromAnim(item));
 				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green)
 					boltaction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunBoltAction.getLevRotationFromAnim(item), GunBoltAction.getTransFromAnim(item));
 				if(item.getItem() == ModItems.gun_b92)
