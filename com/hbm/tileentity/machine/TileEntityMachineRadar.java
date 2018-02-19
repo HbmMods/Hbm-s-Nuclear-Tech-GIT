@@ -10,6 +10,8 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TERadarPacket;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,7 +55,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 				sendMissileData();
 			}
 			
-			power -= 1000;
+			power -= 500;
 			if(power < 0)
 				power = 0;
 		}
@@ -76,6 +78,30 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 					this.nearbyMissiles.add(new int[] {(int)m.posX, (int)m.posZ, m.getMissileType()});
 			}
 		}
+	}
+	
+	public int getRedPower() {
+		
+		if(!nearbyMissiles.isEmpty()) {
+			
+			double maxRange = range * Math.sqrt(2D);
+			
+			int power = 0;
+			
+			for(int i = 0; i < nearbyMissiles.size(); i++) {
+				
+				int[] j = nearbyMissiles.get(i);
+				double dist = Math.sqrt(Math.pow(j[0] - xCoord, 2) + Math.pow(j[1] - zCoord, 2));
+				int p = 15 - (int)Math.floor(dist / maxRange * 15);
+				
+				if(p > power)
+					power = p;
+			}
+			
+			return power;
+		}
+		
+		return 0;
 	}
 	
 	private void sendMissileData() {
@@ -102,5 +128,17 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

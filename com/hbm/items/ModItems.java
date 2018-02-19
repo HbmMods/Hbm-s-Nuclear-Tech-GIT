@@ -764,6 +764,10 @@ public class ModItems {
 	public static Item lemon;
 	public static Item definitelyfood;
 
+	public static Item med_ipecac;
+	public static Item med_ptsd;
+	public static Item med_schizophrenia;
+
 	public static Item flame_pony;
 	public static Item flame_conspiracy;
 	public static Item flame_politics;
@@ -1851,6 +1855,9 @@ public class ModItems {
 		glowing_stew = new ItemSoup(6).setUnlocalizedName("glowing_stew").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":glowing_stew");
 		lemon = new ItemLemon(3, 5, false).setUnlocalizedName("lemon").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":lemon");
 		definitelyfood = new ItemLemon(2, 5, false).setUnlocalizedName("definitelyfood").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":definitelyfood");
+		med_ipecac = new ItemLemon(0, 0, false).setUnlocalizedName("med_ipecac").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":med_ipecac_new");
+		med_ptsd = new ItemLemon(0, 0, false).setUnlocalizedName("med_ptsd").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":med_ptsd_new");
+		med_schizophrenia = new ItemLemon(0, 0, false).setUnlocalizedName("med_schizophrenia").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":med_schizophrenia_new");
 		
 		flame_pony = new ItemCustomLore().setUnlocalizedName("flame_pony").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_pony");
 		flame_conspiracy = new ItemCustomLore().setUnlocalizedName("flame_conspiracy").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":flame_conspiracy");
@@ -3221,6 +3228,9 @@ public class ModItems {
 		GameRegistry.registerItem(glowing_stew, glowing_stew.getUnlocalizedName());
 		GameRegistry.registerItem(lemon, lemon.getUnlocalizedName());
 		GameRegistry.registerItem(definitelyfood, definitelyfood.getUnlocalizedName());
+		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
+		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
+		//GameRegistry.registerItem(med_schizophrenia, med_schizophrenia.getUnlocalizedName());
 		
 		//Energy Drinks
 		GameRegistry.registerItem(can_empty, can_empty.getUnlocalizedName());

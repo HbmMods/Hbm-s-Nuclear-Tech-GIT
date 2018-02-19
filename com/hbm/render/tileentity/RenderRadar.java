@@ -19,7 +19,7 @@ public class RenderRadar extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.radar_body_tex);
         
         ResourceManager.radar_body.renderAll();
 
@@ -38,7 +38,7 @@ public class RenderRadar extends TileEntitySpecialRenderer {
 		
 		GL11.glRotatef((System.currentTimeMillis() / 10) % 360, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.radar_head_tex);
         ResourceManager.radar_head.renderAll();
 
         GL11.glPopMatrix();

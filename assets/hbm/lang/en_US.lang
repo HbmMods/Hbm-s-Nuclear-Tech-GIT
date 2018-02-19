@@ -205,6 +205,9 @@ tile.turret_rocket.name=Rocket Turret
 tile.turret_flamer.name=Flamethrower Turret
 tile.turret_tau.name=Tauon Turret
 tile.turret_spitfire.name=Turret I have no name for right now [WIP]
+tile.turret_cwis.name=Phalanx Mk-15 CWIS
+tile.machine_radar.name=Missile Radar
+container.radar=Missile Radar
 
 item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
@@ -384,6 +387,7 @@ tile.test_nuke.name=Test Nuke
 item.ingot_uranium.name=Uranium Ingot
 item.ingot_u235.name=U235 Ingot
 item.ingot_u238.name=U238 Ingot
+item.ingot_u238m2.name=Metastable U238-2 Ingot
 item.ingot_plutonium.name=Plutonium Ingot
 item.ingot_pu238.name=Pu238 Ingot
 item.ingot_pu239.name=Pu239 Ingot
@@ -1084,6 +1088,9 @@ item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
 item.pill_iodine.name=Iodine Pill
 item.plan_c.name=Plan C
+item.med_ipecac.name=Ipecac Syrup
+item.med_ptsd.name=PTSD Medication
+item.med_schiziphrenia.name=Schizophrenia Medication
 
 item.stealth_boy.name=Stealth Device
 

@@ -194,6 +194,9 @@ tile.turret_rocket.name=Raketengeschütz
 tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_tau.name=Tauonengeschütz
 tile.turret_spitfire.name=Geschütz für das ich noch keinen Namen habe [WIP]
+tile.turret_cwis.name=Phalanx Mk-15 CWIS
+tile.machine_radar.name=Raketenradar
+container.radar=Raketenradar
 
 item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
@@ -384,6 +387,7 @@ tile.test_nuke.name=Test Atombombe
 item.ingot_uranium.name=Uranbarren
 item.ingot_u235.name=U235-Barren
 item.ingot_u238.name=U238-Barren
+item.ingot_u238m2.name=Metastabiler U238/2-Barren
 item.ingot_plutonium.name=Plutoniumbarren
 item.ingot_pu238.name=Pu238-Barren
 item.ingot_pu239.name=Pu239-Barren
@@ -1081,6 +1085,9 @@ item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
 item.pill_iodine.name=Iodpille
 item.plan_c.name=Plan C
+item.med_ipecac.name=Ipecac-Sirup
+item.med_ptsd.name=PTBS-Medikament
+item.med_schiziphrenia.name=Schizophrenie-Medikament
 
 item.stealth_boy.name=Mobile Tarnkappe
 

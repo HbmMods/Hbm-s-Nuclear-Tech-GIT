@@ -67,7 +67,7 @@ public class MachineRadar extends BlockContainer {
     public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int m)
     {
 		TileEntityMachineRadar entity = (TileEntityMachineRadar) world.getTileEntity(x, y, z);
-        return (!entity.nearbyMissiles.isEmpty()) ? 15 : 0;
+        return entity.getRedPower();
     }
 
     public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int m)
