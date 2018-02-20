@@ -243,144 +243,156 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 					{
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_uranium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(250);
-					
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+						
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_uranium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_dual_uranium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(250);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_dual_uranium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_quad_uranium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(250);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_quad_uranium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_plutonium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(2);
 							attemptPower(375);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_plutonium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_dual_plutonium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(2);
 							attemptPower(375);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_quad_plutonium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(2);
 							attemptPower(375);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_mox_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(125);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_mox_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_dual_mox_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(125);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_dual_mox_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_quad_mox_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(125);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_quad_mox_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_schrabidium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(10);
 							attemptPower(62500);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_schrabidium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_dual_schrabidium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(10);
 							attemptPower(62500);
 
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted);
 							}
 						}
 						if(slots[i] != null && slots[i].getItem() == ModItems.rod_quad_schrabidium_fuel)
 						{
-							int j = slots[i].getItemDamage();
-							this.slots[i].setItemDamage(j += 1);
+							int j = ItemFuelRod.getLifeTime(slots[i]);
+							ItemFuelRod.setLifeTime(slots[i], j + 1);
+							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(10);
 							attemptPower(62500);
-						
-							if(this.slots[i].getItemDamage() == this.slots[i].getMaxDamage())
+
+							if(ItemFuelRod.getLifeTime(slots[i]) == ((ItemFuelRod)slots[i].getItem()).lifeTime)
 							{
 								this.slots[i] = new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted);
 							}

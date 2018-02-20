@@ -44,20 +44,6 @@ public class GunSuicide extends Item {
         this.ammo = ModItems.gun_revolver_ammo;
     }
 
-	@Override
-	public EnumRarity getRarity(ItemStack p_77613_1_) {
-
-		if (this == ModItems.gun_revolver_schrabidium) {
-			return EnumRarity.rare;
-		}
-
-		if (this == ModItems.gun_revolver_cursed) {
-			return EnumRarity.uncommon;
-		}
-
-		return EnumRarity.common;
-	}
-
     /**
      * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
      */
@@ -89,26 +75,7 @@ public class GunSuicide extends Item {
             }
 
             p_77615_1_.damageItem(1, p_77615_3_);
-            //if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead)
-            {
-            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
-            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
-            }
-            if(this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron || this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead)
-            {
-            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
-            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
-            }
-            if(this == ModItems.gun_revolver_cursed)
-            {
-            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 3.0F, 1.5F);
-            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.heavyShoot", 3.0F, 1.0F);
-            }
-            if(this == ModItems.gun_revolver_schrabidium)
-            {
-            	//p_77615_2_.playSoundAtEntity(p_77615_3_, "random.explode", 1.0F, 3.0F);
-            	p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
-            }
+            p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
             
             if (flag)
             { }
@@ -177,53 +144,11 @@ public class GunSuicide extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		//if(this == ModItems.gun_revolver)
-		{
-			list.add("I've seen things...");
-			list.add("...I shouldn't have seen.");
-			list.add("");
-			list.add("Ammo: Lead Bullets");
-			list.add("Damage: infinite");
-		}
-		if (this == ModItems.gun_revolver_iron) {
-			list.add("Cheap.");
-			list.add("");
-			list.add("Ammo: Iron Bullets");
-			list.add("Damage: 5 - 15");
-		}
-		if (this == ModItems.gun_revolver) {
-			list.add("I feel like a cowboy!");
-			list.add("");
-			list.add("Ammo: Lead Bullets");
-			list.add("Damage: 10 - 25");
-		}
-		if (this == ModItems.gun_revolver_gold) {
-			list.add("GoldenEye would be proud!");
-			list.add("");
-			list.add("Ammo: Golden Bullets");
-			list.add("Damage: 20 - 30");
-		}
-		if (this == ModItems.gun_revolver_lead) {
-			list.add("Made from lead for your safety!");
-			list.add("");
-			list.add("Ammo: Atomic Bullets");
-			list.add("Damage: 5 - 15");
-			list.add("Bullets are radioactive.");
-		}
-		if (this == ModItems.gun_revolver_schrabidium) {
-			list.add("Kills everyone and everything.");
-			list.add("");
-			list.add("Ammo: Schrabidium Bullets");
-			list.add("Damage: 10000 - 100000");
-			list.add("Sets enemy's health to zero.");
-		}
-		if (this == ModItems.gun_revolver_cursed) {
-			list.add("You're dead.");
-			list.add("");
-			list.add("Ammo: Steel Bullets");
-			list.add("Damage: 25 - 40");
-			list.add("33% chance of user being withered.");
-		}
+		list.add("I've seen things...");
+		list.add("...I shouldn't have seen.");
+		list.add("");
+		list.add("Ammo: Lead Bullets");
+		list.add("Damage: Infinite");
 	}
 
 	@Override

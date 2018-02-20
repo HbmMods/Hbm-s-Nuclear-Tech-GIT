@@ -39,10 +39,8 @@ public class ItemLemon extends ItemFood {
 		}
 		
 		if(this == ModItems.med_ptsd) {
-			list.add("I don't get why I have to take PTSD mediaction");
-			list.add("and Vee doesn't, I mean, he saw things wayyy worse");
-			list.add("and he got away with it. This isn't even PTSD");
-			list.add("mediaction, it's just Ipecac in a different bottle!");
+			list.add("This isn't even PTSD mediaction, it's just");
+			list.add("Ipecac in a different bottle!");
 		}
 		
 		if(this == ModItems.med_schizophrenia) {
