@@ -3859,6 +3859,22 @@ public class MachineRecipes {
         case OIL_SAND:
 			list.add(new ItemStack(ModBlocks.ore_oil_sand, 16));
 			break;
+        case DYN_SCHRAB:
+			list.add(new ItemStack(ModItems.dynosphere_desh_charged, 3));
+			list.add(new ItemStack(ModItems.ingot_uranium, 1));
+			list.add(new ItemStack(ModItems.catalyst_clay, 8));
+			break;
+        case DYN_EUPH:
+			list.add(new ItemStack(ModItems.dynosphere_schrabidium_charged, 1));
+			list.add(new ItemStack(ModItems.ingot_plutonium, 1));
+			list.add(new ItemStack(ModItems.catalyst_clay, 16));
+			break;
+        case DYN_DNT:
+			list.add(new ItemStack(ModItems.dynosphere_euphemium_charged, 2));
+			list.add(new ItemStack(ModItems.powder_spark_mix, 1));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 1));
+			list.add(new ItemStack(ModItems.catalyst_clay, 32));
+			break;
 		default:
 			break;
 		}
@@ -4127,6 +4143,15 @@ public class MachineRecipes {
         case YELLOWCAKE:
 			output[0] = new ItemStack(ModItems.powder_yellowcake, 1);
         	break;
+        case DYN_SCHRAB:
+			output[0] = new ItemStack(ModItems.ingot_schrabidium, 1);
+        	break;
+        case DYN_EUPH:
+			output[0] = new ItemStack(ModItems.ingot_euphemium, 1);
+        	break;
+        case DYN_DNT:
+			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);
+        	break;
 		default:
 			break;
 		}
@@ -4227,6 +4252,15 @@ public class MachineRecipes {
         	break;
         case OIL_SAND:
 			input[0] = new FluidStack(1000, FluidType.BITUMEN);
+        	break;
+        case DYN_SCHRAB:
+			input[0] = new FluidStack(50, FluidType.WATZ);
+        	break;
+        case DYN_EUPH:
+			input[0] = new FluidStack(100, FluidType.WATZ);
+        	break;
+        case DYN_DNT:
+			input[0] = new FluidStack(150, FluidType.WATZ);
         	break;
 		default:
 			break;

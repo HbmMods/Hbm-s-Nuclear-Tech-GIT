@@ -641,6 +641,8 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_rpg, 1), new Object[] { "SSW", " SW", 'S', "plateSteel", 'W', "plateIron" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_rpg_ammo, 8), new Object[] { "SI ", "ITI", " I ", 'S', "plateSteel", 'T', Item.getItemFromBlock(Blocks.tnt), 'I', "plateIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_stinger, 1), new Object[] { "SSW", "CSW", 'S', "plateSteel", 'W', "plateTitanium", 'C', ModItems.circuit_red_copper }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_stinger_ammo, 4), new Object[] { "SS ", "STI", " IR", 'S', "plateSteel", 'T', Item.getItemFromBlock(Blocks.tnt), 'I', "plateAluminum", 'R', "dustRedstone" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver, 1), new Object[] { "SSS", " RW", 'S', "plateSteel", 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_ammo, 16), new Object[] { "L", "S", "G", 'L', "plateLead", 'S', "plateSteel", 'G', Items.gunpowder }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_iron, 1), new Object[] { "SSS", " RW", 'S', "plateIron", 'W', Item.getItemFromBlock(Blocks.planks), 'R', ModItems.wire_aluminium }));
@@ -1096,16 +1098,18 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(ItemBattery.getEmptyBattery(ModItems.dynosphere_schrabidium), new Object[] { "RPR", "PBP", "RPR", 'R', ModItems.powder_power, 'P', "ingotSchrabidium", 'B', ModItems.dynosphere_desh_charged }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(ItemBattery.getEmptyBattery(ModItems.dynosphere_euphemium), new Object[] { "RPR", "PBP", "RPR", 'R', ModItems.powder_nitan_mix, 'P', "ingotEuphemium", 'B', ModItems.dynosphere_schrabidium_charged }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(ItemBattery.getEmptyBattery(ModItems.dynosphere_dineutronium), new Object[] { "RPR", "PBP", "RPR", 'R', ModItems.powder_spark_mix, 'P', "ingotDineutronium", 'B', ModItems.dynosphere_euphemium_charged }));
+		
 		//Temporary Crappy Recipes
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_pip, 1), new Object[] { " G ", "SSP", " TI", 'G', Blocks.glass_pane, 'S', "plateSteel", 'P', ModItems.powder_power, 'T', ModItems.wire_tungsten, 'I', "ingotPolymer" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gun_revolver_pip_ammo, 1), new Object[] { "S", "G", "C", 'S', "plateSteel", 'G', Items.gunpowder, 'C', "plateCopper" }));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ingot_dineutronium, 1), new Object[] { ModItems.powder_spark_mix, "nuggetSchrabidium" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_dineutronium, 4), new Object[] { "PIP", "IDI", "PIP", 'P', ModItems.powder_spark_mix, 'I', "ingotDineutronium", 'D', "ingotDesh" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_desh, 4), new Object[] { "PIP", "IDI", "PIP", 'P', ModItems.powder_polymer, 'I', "ingotDesh", 'D', "ingotDuraSteel" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.taint), new Object[] { "nuggetEuphemium", ModItems.nuclear_waste }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.taint), new Object[] { "nuggetEuphemium", ModItems.trinitite }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.meteor_remote), new Object[] { "nuggetSchrabidium", ModItems.fragment_meteorite, ModItems.crate_caller }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.crate_caller), new Object[] { "nuggetSchrabidium", ModItems.crowbar, ModItems.detonator }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.catalyst_clay), new Object[] { "dustIron", Items.clay_ball }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.catalyst_clay, 4), new Object[] { "dustAluminum", "dustRedstone", Items.clay_ball }));
 		
 	}
 	

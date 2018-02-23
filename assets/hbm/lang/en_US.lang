@@ -841,6 +841,8 @@ item.rod_quad_waste.name=Nuclear Waste Quad Rod
 
 item.gun_rpg.name=Rocket Launcher
 item.gun_rpg_ammo.name=Rocket
+item.gun_stinger.name=FIM-92 Stinger
+item.gun_stinger_ammo.name=Stinger Rocket
 
 item.flame_pony.name=Painting of a Cartoon Pony
 item.flame_conspiracy.name=Conspiracy Theory

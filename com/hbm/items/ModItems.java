@@ -656,9 +656,11 @@ public class ModItems {
 	public static Item missile_exo;
 	public static Item missile_doomsday;
 	public static Item missile_taint;
-	
+
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
+	public static Item gun_stinger;
+	public static Item gun_stinger_ammo;
 	public static Item gun_revolver;
 	public static Item gun_revolver_ammo;
 	public static Item gun_revolver_iron;
@@ -1753,6 +1755,8 @@ public class ModItems {
 
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_new");
+		gun_stinger = new GunStinger().setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_stinger");
+		gun_stinger_ammo = new Item().setUnlocalizedName("gun_stinger_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_stinger_ammo");
 		gun_revolver_ammo = new Item().setUnlocalizedName("gun_revolver_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_revolver_ammo");
 		gun_revolver = new GunRevolver(gun_revolver_ammo, 10, 25, false, false).setMaxDamage(500).setUnlocalizedName("gun_revolver").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_revolver");
 		gun_revolver_iron_ammo = new Item().setUnlocalizedName("gun_revolver_iron_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_revolver_iron_ammo");
@@ -1927,13 +1931,13 @@ public class ModItems {
 
 		dynosphere_base = new Item().setUnlocalizedName("dynosphere_base").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_base");
 		dynosphere_desh = new ItemBattery(10000L).setUnlocalizedName("dynosphere_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_desh");
-		dynosphere_desh_charged = new Item().setUnlocalizedName("dynosphere_desh_charged").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_desh_charged");
+		dynosphere_desh_charged = new Item().setUnlocalizedName("dynosphere_desh_charged").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_desh_charged");
 		dynosphere_schrabidium = new ItemBattery(1000000L).setUnlocalizedName("dynosphere_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium");
-		dynosphere_schrabidium_charged = new Item().setUnlocalizedName("dynosphere_schrabidium_charged").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium_charged");
+		dynosphere_schrabidium_charged = new Item().setUnlocalizedName("dynosphere_schrabidium_charged").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_schrabidium_charged");
 		dynosphere_euphemium = new ItemBattery(100000000L).setUnlocalizedName("dynosphere_euphemium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_euphemium");
-		dynosphere_euphemium_charged = new Item().setUnlocalizedName("dynosphere_euphemium_charged").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_euphemium_charged");
+		dynosphere_euphemium_charged = new Item().setUnlocalizedName("dynosphere_euphemium_charged").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_euphemium_charged");
 		dynosphere_dineutronium = new ItemBattery(10000000000L).setUnlocalizedName("dynosphere_dineutronium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium");
-		dynosphere_dineutronium_charged = new Item().setUnlocalizedName("dynosphere_dineutronium_charged").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium_charged");
+		dynosphere_dineutronium_charged = new Item().setUnlocalizedName("dynosphere_dineutronium_charged").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":dynosphere_dineutronium_charged");
 
 		factory_core_titanium = new ItemBattery(70400).setUnlocalizedName("factory_core_titanium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_titanium");
 		factory_core_advanced = new ItemBattery(41600).setUnlocalizedName("factory_core_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":factory_core_advanced");
@@ -3019,6 +3023,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_pip, gun_revolver_pip.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
+		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mirv, gun_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bf, gun_bf.getUnlocalizedName());
@@ -3060,6 +3065,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_pip_ammo, gun_revolver_pip_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg_ammo, gun_rpg_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_stinger_ammo, gun_stinger_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman_ammo, gun_fatman_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mirv_ammo, gun_mirv_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bf_ammo, gun_bf_ammo.getUnlocalizedName());

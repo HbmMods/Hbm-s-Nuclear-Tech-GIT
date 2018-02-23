@@ -141,6 +141,7 @@ import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
 import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.entity.projectile.EntityShrapnel;
@@ -667,6 +668,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityCloudFleijaRainbow.class, "entity_cloud_rainbow", 90, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 91, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityAAShell.class, "entity_aa_shell", 92, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityRocketHoming.class, "entity_stinger", 93, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

@@ -72,7 +72,10 @@ public class ItemChemistryTemplate extends Item {
 		YELLOWCAKE,
 		UF6,
 		PUF6,
-		SAS3;
+		SAS3,
+		DYN_SCHRAB,
+		DYN_EUPH,
+		DYN_DNT;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -220,6 +223,12 @@ public class ItemChemistryTemplate extends Item {
         	return 150;
         case SAS3:
         	return 200;
+        case DYN_SCHRAB:
+        	return 1*60*20;
+        case DYN_EUPH:
+        	return 3*60*20;
+        case DYN_DNT:
+        	return 5*60*20;
         default:
         	return 100;
         }
