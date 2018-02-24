@@ -91,6 +91,8 @@ public class GunEuthanasia extends Item {
 		list.add("Ammo: Syringe");
 		list.add("Damage: 1 - 4");
 		list.add("Syringes have a 20% chance to instakill the enemy.");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

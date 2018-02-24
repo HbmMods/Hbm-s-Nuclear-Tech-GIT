@@ -54,6 +54,8 @@
     "weapon.bang": {"category": "player", "sounds": [{"name": "weapon/bang", "stream": false}]},
     "weapon.leverActionReload": {"category": "player", "sounds": [{"name": "weapon/leverActionReload", "stream": false}]},
     "weapon.b92Reload": {"category": "player", "sounds": [{"name": "weapon/b92Reload", "stream": false}]},
+    "weapon.stingerLockOn": {"category": "player", "sounds": [{"name": "weapon/stingerLockOn", "stream": false}]},
+    "weapon.sawShoot": {"category": "player", "sounds": [{"name": "weapon/sawShoot", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

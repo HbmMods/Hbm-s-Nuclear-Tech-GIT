@@ -90,6 +90,8 @@ public class GunDash extends Item {
 		list.add("");
 		list.add("Ammo: SMG Round");
 		list.add("Damage: 2 - 8");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

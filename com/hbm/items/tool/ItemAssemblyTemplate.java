@@ -231,7 +231,10 @@ public class ItemAssemblyTemplate extends Item {
 		FLEIJA_PROPELLANT,
 		SCHRABIDIUM_HAMMER,
 		COMPONENT_LIMITER,
-		COMPONENT_EMITTER;
+		COMPONENT_EMITTER,
+		AMS_LIMITER,
+		AMS_EMITTER,
+		RADAR;
 		
 		//private final int value;
 		//private EnumAssemblyTemplate(int value) {
@@ -724,6 +727,12 @@ public class ItemAssemblyTemplate extends Item {
 			return 2500;
 		case COMPONENT_EMITTER:
 			return 2500;
+		case AMS_LIMITER:
+			return 6000;
+		case AMS_EMITTER:
+			return 6000;
+		case RADAR:
+			return 300;
         default:
         	return 100;
         }

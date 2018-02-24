@@ -88,6 +88,8 @@ public class GunMP extends Item {
 		list.add("");
 		list.add("Ammo: Small Propellantless Machine Gun Round");
 		list.add("Damage: 100 - 150");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

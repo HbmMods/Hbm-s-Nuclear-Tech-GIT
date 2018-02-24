@@ -275,11 +275,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
                 explosion.posZ = this.posZ;
                 this.worldObj.spawnEntityInWorld(explosion);*/
             }
-            if (!this.worldObj.isRemote)
-            {
-            	//this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.5F, true);
-            	ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
-            }
         	this.setDead();
         }
         else
@@ -509,17 +504,20 @@ public class EntityRocketHoming extends Entity implements IProjectile
             this.func_145775_I();
         }
 
-        steer();
+        if(!steer())
+        	lockonTicks = 0;
 
 		if (this.ticksExisted > 250)
 			this.setDead();
     }
 
-    int homingRadius = 35;
-    int homingMod = 15;
-    float acceptance = 120;
+    public int homingRadius = 35;
+    public int homingMod = 15;
+    public float acceptance = 120;
+    int lockonTicks = 0;
+    boolean hasBeeped = false;
     
-    private void steer() {
+    private boolean steer() {
     	List<Entity> all = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox(posX - homingRadius, posY - homingRadius, posZ - homingRadius, posX + homingRadius, posY + homingRadius, posZ + homingRadius));
     	HashMap<Entity, Double> targetable = new HashMap();
     	Vec3 path = Vec3.createVectorHelper(motionX, motionY, motionZ);
@@ -527,10 +525,14 @@ public class EntityRocketHoming extends Entity implements IProjectile
     	path.normalize();
     	
     	if(all.isEmpty())
-    		return;
+    		return false;
     	
     	//Iterate through all entities and only allocate ones that can be targeted
     	for(Entity e : all) {
+    		
+    		if(e == this.shootingEntity)
+    			continue;
+    		
     		Vec3 rel = Vec3.createVectorHelper(e.posX - posX, e.posY + e.getEyeHeight() - posY, e.posZ - posZ);
     		double vecProd = rel.xCoord * path.xCoord + rel.yCoord * path.yCoord + rel.zCoord * path.zCoord;
     		double bot = rel.lengthVector() * path.lengthVector();
@@ -543,7 +545,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
     	}
     	
     	if(targetable.isEmpty())
-    		return;
+    		return false;
     	
     	double smallest = Double.POSITIVE_INFINITY;
     	Entity nearestE = null;
@@ -557,7 +559,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
     	}
     	
     	if(nearestE == null)
-    		return;
+    		return false;
     	
     	Vec3 winVec = Vec3.createVectorHelper(nearestE.posX - posX, nearestE.posY - posY, nearestE.posZ - posZ);
     	
@@ -577,6 +579,14 @@ public class EntityRocketHoming extends Entity implements IProjectile
     	motionY = newPath.yCoord;
     	motionZ = newPath.zCoord;
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, (float)startSpeed, 0.0F);
+        
+        lockonTicks++;
+        if(lockonTicks == 5 && !hasBeeped) {
+        	worldObj.playSoundAtEntity(this, "hbm:weapon.stingerLockOn", 10F, 1F);
+        	hasBeeped = true;
+        }
+        
+        return true;
     }
 
     /**
@@ -637,7 +647,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
         {
             boolean flag = this.canBePickedUp == 1 || this.canBePickedUp == 2 && p_70100_1_.capabilities.isCreativeMode;
 
-            if (this.canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_rpg_ammo, 1)))
+            if (this.canBePickedUp == 1 && !p_70100_1_.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_stinger_ammo, 1)))
             {
                 flag = false;
             }

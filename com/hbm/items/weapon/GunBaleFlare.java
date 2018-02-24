@@ -153,5 +153,7 @@ public class GunBaleFlare extends Item {
 		list.add("Ammo: Mk.V AMAT Shell");
 		list.add("Damage: 1000");
 		list.add("Creates small nuclear explosion.");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 }

@@ -64,7 +64,7 @@ public class TurretCWIS extends TurretBase {
 				world.spawnEntityInWorld(smoke);
 			}
 
-			world.playSoundEffect(x, y, z, "hbm:entity.oldExplosion", 1.0F, 0.5F);
+			world.playSoundEffect(x, y, z, "hbm:weapon.sawShoot", 1.0F, 1.25F);
 			
 			flag = true;
 		}

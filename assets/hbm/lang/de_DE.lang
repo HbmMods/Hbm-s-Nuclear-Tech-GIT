@@ -94,6 +94,9 @@ chem.BP_BIOGAS=Biogasherstellung
 chem.BP_BIOFUEL=Biodieselumesterung
 chem.SAS3=Schrabidiumtrisulfatherstellung
 chem.NITAN=NITAN-Supertreibstoff mischen
+chem.DYN_SCHRAB=Schrabidium-Dynosynthese
+chem.DYN_EUPH=Euphemium-Dynosynthese
+chem.DYN_DNT=Dineutronium-Dynosynthese
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -839,6 +842,7 @@ item.rod_quad_waste.name=Vierfacher Atommüllstab
 item.gun_rpg.name=Raketenwerfer
 item.gun_rpg_ammo.name=Rakete
 item.gun_stinger.name=FIM-92 Stinger
+item.gun_skystinger.name=The One Sky Stinger
 item.gun_stinger_ammo.name=Stinger-Rakete
 
 item.flame_pony.name=Bild eines Cartoon Ponys
@@ -1073,6 +1077,13 @@ item.clip_bolt_action.name=12x74 Brenneke-Patronenbox
 item.clip_emp.name=Magnetsteifen mit Energiezellen
 item.clip_revolver_nightmare.name=Sack voll Kugeln
 item.clip_revolver_nightmare2.name=Munitionsgürtel mit Laserschrot
+item.clip_revolver_pip.name=Speedloader mit verdorbenen Patronen
+item.clip_stinger.name=Dreierpack Stinger-Raketen
+item.clip_jack.name=12x70 Vierfache Schrotpatronenbox
+item.clip_spark.name=Große Elektromagnetische Katusche
+item.clip_hp.name=Tintentanks
+item.clip_euthanasia.name=Letzte-Hilfe Koffer
+item.clip_defabricator.name=Gürtel mit Defabrikator-Energiezellen
 
 item.ammo_container.name=Munitionsbehälter
 

@@ -28,7 +28,10 @@ public class GunStinger extends Item {
 	public GunStinger()
     {
         this.maxStackSize = 1;
-        this.setMaxDamage(500);
+        if(this == ModItems.gun_stinger)
+        	this.setMaxDamage(500);
+        if(this == ModItems.gun_skystinger)
+        	this.setMaxDamage(1000);
     }
 	
 	@Override
@@ -57,24 +60,41 @@ public class GunStinger extends Item {
 				f = 25.0F;
 			}
 
-			EntityRocketHoming entityarrow = new EntityRocketHoming(p_77615_2_, p_77615_3_, 1.0F);
-
-			if (f == 1.0F) {
-				entityarrow.setIsCritical(true);
-			}
-
 			p_77615_1_.damageItem(1, p_77615_3_);
 			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.rpgShoot", 1.0F, 0.25F);
 
-			if (flag) {
-				entityarrow.canBePickedUp = 2;
-			} else {
-				p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_stinger_ammo);
-			}
+			p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_stinger_ammo);
 
 			if (!p_77615_2_.isRemote) {
-				entityarrow.canBePickedUp = 2;
-				p_77615_2_.spawnEntityInWorld(entityarrow);
+				if(this == ModItems.gun_stinger) {
+					EntityRocketHoming entityarrow = new EntityRocketHoming(p_77615_2_, p_77615_3_, 1.0F);
+					if(p_77615_3_.isSneaking())
+						entityarrow.homingRadius = 0;
+					p_77615_2_.spawnEntityInWorld(entityarrow);
+				}
+				
+				if(this == ModItems.gun_skystinger) {
+					
+					if(p_77615_3_.isSneaking()) {
+						EntityRocketHoming entityarrow = new EntityRocketHoming(p_77615_2_, p_77615_3_, 1.5F);
+						EntityRocketHoming entityarrow1 = new EntityRocketHoming(p_77615_2_, p_77615_3_, 1.5F);
+						entityarrow.homingMod = 12;
+						entityarrow1.homingMod = 12;
+						entityarrow.motionX += p_77615_2_.rand.nextGaussian() * 0.2;
+						entityarrow.motionY += p_77615_2_.rand.nextGaussian() * 0.2;
+						entityarrow.motionZ += p_77615_2_.rand.nextGaussian() * 0.2;
+						entityarrow1.motionX += p_77615_2_.rand.nextGaussian() * 0.2;
+						entityarrow1.motionY += p_77615_2_.rand.nextGaussian() * 0.2;
+						entityarrow1.motionZ += p_77615_2_.rand.nextGaussian() * 0.2;
+						p_77615_2_.spawnEntityInWorld(entityarrow);
+						p_77615_2_.spawnEntityInWorld(entityarrow1);
+					} else {
+						EntityRocketHoming entityarrow = new EntityRocketHoming(p_77615_2_, p_77615_3_, 2.0F);
+						entityarrow.homingMod = 8;
+						entityarrow.homingRadius *= 50;
+						p_77615_2_.spawnEntityInWorld(entityarrow);
+					}
+				}
 			}
 		}
 	}
@@ -117,10 +137,25 @@ public class GunStinger extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Kaboom!");
-		list.add("");
-		list.add("Ammo: Rockets");
-		list.add("Projectiles explode on impact.");
+        if(this == ModItems.gun_stinger) {
+        	list.add("Woosh, beep-beep-beep!");
+			list.add("");
+			list.add("Ammo: Stinger Rockets");
+			list.add("Projectiles target entities.");
+			list.add("Projectiles explode on impact.");
+			list.add("Alt-fire disables homing effect.");
+        }
+        if(this == ModItems.gun_skystinger) {
+        	list.add("Oh, I get it, because of the...nyeees!");
+        	list.add("It all makes sense now!");
+			list.add("");
+			list.add("Ammo: Stinger Rockets");
+			list.add("Projectiles target entities.");
+			list.add("Projectiles explode on impact.");
+			list.add("Alt-fire fires a second rocket for free.");
+			list.add("");
+			list.add("[LEGENDARY WEAPON]");
+        }
 	}
 
 	@Override

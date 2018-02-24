@@ -129,6 +129,8 @@ public class GunSpark extends Item {
 		list.add("");
 		list.add("Ammo: Electromagnetic Cartridge");
 		list.add("Projectiles explode on impact.");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

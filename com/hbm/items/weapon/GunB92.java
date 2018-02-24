@@ -210,6 +210,8 @@ public class GunB92 extends Item {
 		list.add("Only up to ten charges may be stored.");
 		list.add("");
 		list.add("\"It's nerf or nothing!\"");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

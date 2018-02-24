@@ -660,6 +660,7 @@ public class ModItems {
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
 	public static Item gun_stinger;
+	public static Item gun_skystinger;
 	public static Item gun_stinger_ammo;
 	public static Item gun_revolver;
 	public static Item gun_revolver_ammo;
@@ -1041,7 +1042,9 @@ public class ModItems {
 	public static Item clip_revolver_cursed;
 	public static Item clip_revolver_nightmare;
 	public static Item clip_revolver_nightmare2;
+	public static Item clip_revolver_pip;
 	public static Item clip_rpg;
+	public static Item clip_stinger;
 	public static Item clip_fatman;
 	public static Item clip_mirv;
 	public static Item clip_bf;
@@ -1055,6 +1058,11 @@ public class ModItems {
 	public static Item clip_mp;
 	public static Item clip_xvl1456;
 	public static Item clip_emp;
+	public static Item clip_jack;
+	public static Item clip_spark;
+	public static Item clip_hp;
+	public static Item clip_euthanasia;
+	public static Item clip_defabricator;
 
 	public static Item ammo_container;
 
@@ -1756,6 +1764,7 @@ public class ModItems {
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_new");
 		gun_stinger = new GunStinger().setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_stinger");
+		gun_skystinger = new GunStinger().setUnlocalizedName("gun_skystinger").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_skystinger");
 		gun_stinger_ammo = new Item().setUnlocalizedName("gun_stinger_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_stinger_ammo");
 		gun_revolver_ammo = new Item().setUnlocalizedName("gun_revolver_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_revolver_ammo");
 		gun_revolver = new GunRevolver(gun_revolver_ammo, 10, 25, false, false).setMaxDamage(500).setUnlocalizedName("gun_revolver").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_revolver");
@@ -1997,7 +2006,9 @@ public class ModItems {
 		clip_revolver_cursed = new ItemClip().setUnlocalizedName("clip_revolver_cursed").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_revolver_cursed");
 		clip_revolver_nightmare = new ItemClip().setUnlocalizedName("clip_revolver_nightmare").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_revolver_nightmare");
 		clip_revolver_nightmare2 = new ItemClip().setUnlocalizedName("clip_revolver_nightmare2").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_revolver_nightmare2");
+		clip_revolver_pip = new ItemClip().setUnlocalizedName("clip_revolver_pip").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_revolver_pip");
 		clip_rpg = new ItemClip().setUnlocalizedName("clip_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_rpg");
+		clip_stinger = new ItemClip().setUnlocalizedName("clip_stinger").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_stinger");
 		clip_fatman = new ItemClip().setUnlocalizedName("clip_fatman").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_fatman");
 		clip_mirv = new ItemClip().setUnlocalizedName("clip_mirv").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_mirv");
 		clip_bf = new ItemClip().setUnlocalizedName("clip_bf").setCreativeTab(null).setTextureName(RefStrings.MODID + ":clip_bf");
@@ -2011,6 +2022,11 @@ public class ModItems {
 		clip_mp = new ItemClip().setUnlocalizedName("clip_mp").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_mp");
 		clip_xvl1456 = new ItemClip().setUnlocalizedName("clip_xvl1456").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_xvl1456");
 		clip_emp = new ItemClip().setUnlocalizedName("clip_emp").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_emp");
+		clip_jack = new ItemClip().setUnlocalizedName("clip_jack").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_jack");
+		clip_spark = new ItemClip().setUnlocalizedName("clip_spark").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_spark");
+		clip_hp = new ItemClip().setUnlocalizedName("clip_hp").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_hp");
+		clip_euthanasia = new ItemClip().setUnlocalizedName("clip_euthanasia").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_euthanasia");
+		clip_defabricator = new ItemClip().setUnlocalizedName("clip_defabricator").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_defabricator");
 		
 		ammo_container = new ItemClip().setUnlocalizedName("ammo_container").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":ammo_container");
 		
@@ -3046,6 +3062,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_spark, gun_spark.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hp, gun_hp.getUnlocalizedName());
 		GameRegistry.registerItem(gun_euthanasia, gun_euthanasia.getUnlocalizedName());
+		GameRegistry.registerItem(gun_skystinger, gun_skystinger.getUnlocalizedName());
 		//GameRegistry.registerItem(gun_dash, gun_dash.getUnlocalizedName());
 		//GameRegistry.registerItem(gun_twigun, gun_twigun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_defabricator, gun_defabricator.getUnlocalizedName());
@@ -3103,7 +3120,9 @@ public class ModItems {
 		GameRegistry.registerItem(clip_revolver_cursed, clip_revolver_cursed.getUnlocalizedName());
 		GameRegistry.registerItem(clip_revolver_nightmare, clip_revolver_nightmare.getUnlocalizedName());
 		GameRegistry.registerItem(clip_revolver_nightmare2, clip_revolver_nightmare2.getUnlocalizedName());
+		GameRegistry.registerItem(clip_revolver_pip, clip_revolver_pip.getUnlocalizedName());
 		GameRegistry.registerItem(clip_rpg, clip_rpg.getUnlocalizedName());
+		GameRegistry.registerItem(clip_stinger, clip_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(clip_fatman, clip_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(clip_mirv, clip_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(clip_bf, clip_bf.getUnlocalizedName());
@@ -3117,6 +3136,11 @@ public class ModItems {
 		GameRegistry.registerItem(clip_cryolator, clip_cryolator.getUnlocalizedName());
 		GameRegistry.registerItem(clip_mp, clip_mp.getUnlocalizedName());
 		GameRegistry.registerItem(clip_emp, clip_emp.getUnlocalizedName());
+		GameRegistry.registerItem(clip_jack, clip_jack.getUnlocalizedName());
+		GameRegistry.registerItem(clip_spark, clip_spark.getUnlocalizedName());
+		GameRegistry.registerItem(clip_hp, clip_hp.getUnlocalizedName());
+		GameRegistry.registerItem(clip_euthanasia, clip_euthanasia.getUnlocalizedName());
+		GameRegistry.registerItem(clip_defabricator, clip_defabricator.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_container, ammo_container.getUnlocalizedName());
 		

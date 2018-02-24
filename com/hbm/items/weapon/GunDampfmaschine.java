@@ -106,6 +106,8 @@ public class GunDampfmaschine extends Item {
 		list.add("");
 		list.add("Ammo: orang");
 		list.add("Damage: aaaaaaaaa");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

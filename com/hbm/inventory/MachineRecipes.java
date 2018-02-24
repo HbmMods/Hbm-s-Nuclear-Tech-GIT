@@ -2996,6 +2996,38 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModBlocks.fwatz_computer, 2));
 			list.add(new ItemStack(ModItems.crystal_xen, 1));
 			break;
+		case AMS_LIMITER:
+			list.add(new ItemStack(ModItems.component_limiter, 5));
+			list.add(new ItemStack(ModItems.plate_steel, 64));
+			list.add(new ItemStack(ModItems.plate_titanium, 128));
+			list.add(new ItemStack(ModItems.plate_dineutronium, 16));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 6));
+			list.add(new ItemStack(ModItems.pipes_steel, 16));
+			list.add(new ItemStack(ModItems.motor, 12));
+			list.add(new ItemStack(ModItems.coil_advanced_torus, 12));
+			list.add(new ItemStack(ModItems.entanglement_kit, 1));
+			break;
+		case AMS_EMITTER:
+			list.add(new ItemStack(ModItems.component_emitter, 16));
+			list.add(new ItemStack(ModItems.plate_steel, 128));
+			list.add(new ItemStack(ModItems.plate_titanium, 192));
+			list.add(new ItemStack(ModItems.plate_dineutronium, 32));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 12));
+			list.add(new ItemStack(ModItems.coil_advanced_torus, 24));
+			list.add(new ItemStack(ModItems.entanglement_kit, 3));
+			list.add(new ItemStack(ModItems.crystal_horn, 1));
+			list.add(new ItemStack(ModBlocks.fwatz_core, 1));
+			break;
+		case RADAR:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 16));
+			list.add(new ItemStack(ModItems.ingot_polymer, 4));
+			list.add(new ItemStack(ModItems.plate_polymer, 24));
+			list.add(new ItemStack(ModItems.magnetron, 10));
+			list.add(new ItemStack(ModItems.motor, 3));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.coil_copper, 12));
+			break;
 		default:
 			list.add(new ItemStack(Items.stick));
 			break;
@@ -3672,6 +3704,15 @@ public class MachineRecipes {
 		case COMPONENT_EMITTER:
 			output = new ItemStack(ModItems.component_emitter, 1);
 			break;
+		case AMS_LIMITER:
+			output = new ItemStack(ModBlocks.ams_limiter, 1);
+			break;
+		case AMS_EMITTER:
+			output = new ItemStack(ModBlocks.ams_emitter, 1);
+			break;
+		case RADAR:
+			output = new ItemStack(ModBlocks.machine_radar, 1);
+			break;
 		default:
 			output = new ItemStack(Items.stick, 1);
 			break;
@@ -4212,7 +4253,7 @@ public class MachineRecipes {
 			input[0] = new FluidStack(800, FluidType.SMEAR);
 			break;
         case CC_HEATING:
-			input[0] = new FluidStack(800, FluidType.HEATINGOIL);
+			input[0] = new FluidStack(1800, FluidType.HEATINGOIL);
 			break;
         case CC_HEAVY:
 			input[0] = new FluidStack(1800, FluidType.HEAVYOIL);

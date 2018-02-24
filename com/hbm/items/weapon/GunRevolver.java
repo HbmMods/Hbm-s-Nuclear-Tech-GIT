@@ -232,6 +232,8 @@ public class GunRevolver extends Item {
 			list.add("Ammo: Schrabidium Bullets");
 			list.add("Damage: 10000 - 100000");
 			list.add("Sets enemy's health to zero.");
+			list.add("");
+			list.add("[LEGENDARY WEAPON]");
 		}
 		if (this == ModItems.gun_revolver_cursed) {
 			list.add("You're dead.");
@@ -249,6 +251,8 @@ public class GunRevolver extends Item {
 			list.add("Damage: 25 - 35");
 			list.add("Secondary Damage: 1");
 			list.add("Enemy is hit by boxcar.");
+			list.add("");
+			list.add("[LEGENDARY WEAPON]");
 		}
 	}
 

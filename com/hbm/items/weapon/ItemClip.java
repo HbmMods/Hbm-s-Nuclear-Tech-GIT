@@ -202,6 +202,62 @@ public class ItemClip extends Item {
         	}
 		}
 		
+		if(this == ModItems.clip_revolver_pip)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip_ammo, 6)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_stinger)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_stinger_ammo, 3)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_jack)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_jack_ammo, 6)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_spark)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_spark_ammo, 4)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_hp)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_hp_ammo, 8)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_euthanasia)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_euthanasia_ammo, 16)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
+		if(this == ModItems.clip_defabricator)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_defabricator_ammo, 12)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
+        	}
+		}
+		
 		if(this == ModItems.ammo_container)
 		{
 			if(player.inventory.hasItem(ModItems.gun_revolver_iron))
@@ -224,6 +280,8 @@ public class ItemClip extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip_ammo, 12));
 			if(player.inventory.hasItem(ModItems.gun_rpg))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_rpg_ammo, 3));
+			if(player.inventory.hasItem(ModItems.gun_stinger))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_stinger_ammo, 2));
 			if(player.inventory.hasItem(ModItems.gun_fatman))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_fatman_ammo, 2));
 			if(player.inventory.hasItem(ModItems.gun_mirv))

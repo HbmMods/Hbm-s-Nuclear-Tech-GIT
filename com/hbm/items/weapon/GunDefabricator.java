@@ -85,6 +85,8 @@ public class GunDefabricator extends Item {
 		list.add("");
 		list.add("Ammo: Defabricator Energy Cell");
 		list.add("Damage: 40 - 120");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

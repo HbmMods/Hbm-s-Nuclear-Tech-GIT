@@ -94,6 +94,9 @@ chem.BP_BIOGAS=Biogas Production
 chem.BP_BIOFUEL=Biofuel Transesterification
 chem.SAS3=Schrabidium Trisulfide Production
 chem.NITAN=NITAN Super Fuel Mixing
+chem.DYN_SCHRAB=Schrabidium Dynosynthesis
+chem.DYN_EUPH=Euphemium Dynosynthesis
+chem.DYN_DNT=Dineutronium Dynosynthesis
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -842,6 +845,7 @@ item.rod_quad_waste.name=Nuclear Waste Quad Rod
 item.gun_rpg.name=Rocket Launcher
 item.gun_rpg_ammo.name=Rocket
 item.gun_stinger.name=FIM-92 Stinger
+item.gun_skystinger.name=The One Sky Stinger
 item.gun_stinger_ammo.name=Stinger Rocket
 
 item.flame_pony.name=Painting of a Cartoon Pony
@@ -1076,6 +1080,13 @@ item.clip_bolt_action.name=Box of 12x74 Slugs
 item.clip_emp.name=Small Pack of Energy Cells
 item.clip_revolver_nightmare.name=Bag of Bullets
 item.clip_revolver_nightmare2.name=Belt with Laser Buckshot
+item.clip_revolver_pip.name=Speedloader with Tainted Bullets
+item.clip_stinger.name=Pack of Stinger Rockets
+item.clip_jack.name=Box of Quadruple 12x70 Buckshot Rounds
+item.clip_spark.name=Large Electromagnetic Cartridge
+item.clip_hp.name=Ink Tanks
+item.clip_euthanasia.name=Last Aid Kit
+item.clip_defabricator.name=Belt with Defabricator Energy Cells
 
 item.ammo_container.name=Ammo Container
 

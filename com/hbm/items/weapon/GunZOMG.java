@@ -213,6 +213,8 @@ public class GunZOMG extends Item {
 		list.add("Damage: 35 - 45");
 		list.add("Energy Damage: 10000 - 100000");
 		list.add("Energy projectiles destroy blocks.");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 		//for(int i = 0; i < 25; i++)
 		//	list.add("How do I use the ZOMG? How do I use the ZOMG? How do I use the ZOMG?");
 	}

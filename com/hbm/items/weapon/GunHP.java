@@ -105,6 +105,8 @@ public class GunHP extends Item {
 		list.add("");
 		list.add("Ammo: Ink Cartridge");
 		list.add("Damage: 25 - 45");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override

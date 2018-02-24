@@ -173,6 +173,8 @@ public class GunLeverActionS extends Item {
 		list.add("");
 		list.add("Ammo: 12x74 Buckshot");
 		list.add("Damage: Infinite");
+		list.add("");
+		list.add("[LEGENDARY WEAPON]");
 	}
 
 	@Override
