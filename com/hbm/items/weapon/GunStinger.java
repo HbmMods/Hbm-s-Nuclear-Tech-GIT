@@ -61,7 +61,11 @@ public class GunStinger extends Item {
 			}
 
 			p_77615_1_.damageItem(1, p_77615_3_);
-			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.rpgShoot", 1.0F, 0.25F);
+			
+			if(this == ModItems.gun_stinger)
+				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.rpgShoot", 1.0F, 1.0F);
+			if(this == ModItems.gun_skystinger)
+				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.rpgShoot", 1.0F, 0.5F);
 
 			p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_stinger_ammo);
 
@@ -86,12 +90,15 @@ public class GunStinger extends Item {
 						entityarrow1.motionX += p_77615_2_.rand.nextGaussian() * 0.2;
 						entityarrow1.motionY += p_77615_2_.rand.nextGaussian() * 0.2;
 						entityarrow1.motionZ += p_77615_2_.rand.nextGaussian() * 0.2;
+						entityarrow.setIsCritical(true);
+						entityarrow1.setIsCritical(true);
 						p_77615_2_.spawnEntityInWorld(entityarrow);
 						p_77615_2_.spawnEntityInWorld(entityarrow1);
 					} else {
 						EntityRocketHoming entityarrow = new EntityRocketHoming(p_77615_2_, p_77615_3_, 2.0F);
 						entityarrow.homingMod = 8;
 						entityarrow.homingRadius *= 50;
+						entityarrow.setIsCritical(true);
 						p_77615_2_.spawnEntityInWorld(entityarrow);
 					}
 				}

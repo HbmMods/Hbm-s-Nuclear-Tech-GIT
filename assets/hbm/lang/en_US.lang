@@ -208,7 +208,7 @@ tile.turret_rocket.name=Rocket Turret
 tile.turret_flamer.name=Flamethrower Turret
 tile.turret_tau.name=Tauon Turret
 tile.turret_spitfire.name=Turret I have no name for right now [WIP]
-tile.turret_cwis.name=Phalanx Mk-15 CWIS
+tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.machine_radar.name=Missile Radar
 container.radar=Missile Radar
 

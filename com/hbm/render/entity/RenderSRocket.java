@@ -3,6 +3,7 @@ package com.hbm.render.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelBullet;
 import com.hbm.render.model.ModelSRocket;
@@ -19,8 +20,7 @@ public class RenderSRocket extends Render {
 		missile = new ModelSRocket();
 	}
 
-	@Override
-	public void doRender(Entity rocket, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
+	public void doRender(EntityRocketHoming rocket, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
 			float p_76986_9_) {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
@@ -30,10 +30,18 @@ public class RenderSRocket extends Render {
 				0.0F, 0.0F, 1.0F);
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
 
-			
-		bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelSRocket.png"));
+		if(rocket.getIsCritical())
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelSVTRocket.png"));
+		else
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelSRocket.png"));
 		missile.renderAll(0.0625F);
 		GL11.glPopMatrix();
+	}
+	
+	@Override
+	public void doRender(Entity rocket, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
+			float p_76986_9_) {
+		doRender((EntityRocketHoming)rocket, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
 	}
 
 	@Override

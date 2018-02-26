@@ -582,7 +582,10 @@ public class EntityRocketHoming extends Entity implements IProjectile
         
         lockonTicks++;
         if(lockonTicks == 5 && !hasBeeped) {
-        	worldObj.playSoundAtEntity(this, "hbm:weapon.stingerLockOn", 10F, 1F);
+        	if(this.getIsCritical())
+        		worldObj.playSoundAtEntity(this, "hbm:weapon.stingerLockOn", 10F, 0.75F);
+        	else
+        		worldObj.playSoundAtEntity(this, "hbm:weapon.stingerLockOn", 10F, 1F);
         	hasBeeped = true;
         }
         

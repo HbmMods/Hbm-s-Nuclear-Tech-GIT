@@ -197,7 +197,7 @@ tile.turret_rocket.name=Raketengeschütz
 tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_tau.name=Tauonengeschütz
 tile.turret_spitfire.name=Geschütz für das ich noch keinen Namen habe [WIP]
-tile.turret_cwis.name=Phalanx Mk-15 CWIS
+tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.machine_radar.name=Raketenradar
 container.radar=Raketenradar
 
