@@ -28,6 +28,7 @@ public class RenderBombMulti extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_CULL_FACE);
 		switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
