@@ -340,6 +340,18 @@ public class HbmWorldGen implements IWorldGenerator {
 
 				new Spaceship().generate(world, rand, x, y, z);
 			}
+
+			if (rand.nextInt(MainRegistry.broadcaster) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+
+				if(world.getBlock(x, y - 1, z).isBlockNormalCube())
+					world.setBlock(x, y, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
+				
+				if(MainRegistry.enableDebugMode)
+					MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + y +" " + z);
+			}
 		}
 
 		if (rand.nextInt(15) == 0) {

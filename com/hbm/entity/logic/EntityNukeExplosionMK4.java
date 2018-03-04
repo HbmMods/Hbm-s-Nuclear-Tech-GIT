@@ -73,7 +73,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 	
 	public static EntityNukeExplosionMK4 statFac(World world, int r, double x, double y, double z) {
 		EntityNukeExplosionMK4 mk4 = new EntityNukeExplosionMK4(world);
-		mk4.strength = r;
+		mk4.strength = (int)(r / 1.5);
 		mk4.count = (int)(4 * Math.PI * Math.pow(mk4.strength, 2) * 25);
 		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
 		mk4.setPosition(x, y, z);

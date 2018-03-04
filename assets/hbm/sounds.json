@@ -13,6 +13,9 @@
     "block.igeneratorOperate": {"category": "block", "sounds": [{"name": "block/igeneratorOperate", "stream": false}]},
     "block.turbofanOperate": {"category": "block", "sounds": [{"name": "block/turbofanOperate", "stream": false}]},
     "block.pressOperate": {"category": "block", "sounds": [{"name": "block/pressOperate", "stream": false}]},
+    "block.broadcast1": {"category": "block", "sounds": [{"name": "block/broadcast1", "stream": false}]},
+    "block.broadcast2": {"category": "block", "sounds": [{"name": "block/broadcast2", "stream": false}]},
+    "block.broadcast3": {"category": "block", "sounds": [{"name": "block/broadcast3", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

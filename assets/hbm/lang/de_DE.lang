@@ -133,6 +133,7 @@ death.attack.blackhole=%1$s wurde spaghettifiziert.
 death.attack.blender=%1$s wurde in kleine, mundgerechte Stücke geschnitten.
 death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
 death.attack.boxcar=%1$s wurde von einem fallenden Güterwagon zermatscht. Autsch!
+death.attack.broadcast=%1$s wurde das Gehirn geschmolzen.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -302,6 +303,8 @@ tile.machine_siren.name=Sirene
 container.siren=Sirene
 tile.machine_radgen.name=Strahlenbetriebener Generator [WIP]
 container.radGen=Strahlenbetriebener Generator [WIP]
+
+tile.broadcaster_pc.name=Korrupter Sender
 
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel

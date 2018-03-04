@@ -202,6 +202,7 @@ import com.hbm.tileentity.deco.TileEntityYellowBarrel;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityBroadcaster;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
 import com.hbm.tileentity.machine.TileEntityCoreAdvanced;
@@ -414,6 +415,7 @@ public class MainRegistry
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
+	public static int broadcaster = 5000;
 	public static int meteorStrikeChance = 20 * 60 * 90;
 	public static int meteorShowerChance = 20 * 60 * 3;
 	public static int meteorShowerDuration = 6000;
@@ -574,6 +576,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTransformer.class, "tileentity_transformer");
 		GameRegistry.registerTileEntity(TileEntityTurretCWIS.class, "tileentity_turret_cwis");
 		GameRegistry.registerTileEntity(TileEntityMachineRadar.class, "tileentity_radar");
+		GameRegistry.registerTileEntity(TileEntityBroadcaster.class, "tileentity_pink_cloud_broadcaster");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1314,6 +1317,9 @@ public class MainRegistry
         Property propSpaceship = config.get(Configuration.CATEGORY_GENERAL, "4.11_spaceshipSpawn", 1000);
         propSpaceship.comment = "Spawn spaceship on every nTH chunk";
         spaceshipStructure = propSpaceship.getInt();
+        Property propBroadcaster = config.get(Configuration.CATEGORY_GENERAL, "4.12_broadcasterSpawn", 5000);
+        propBroadcaster.comment = "Spawn spaceship on every nTH chunk";
+        broadcaster = propBroadcaster.getInt();
 
         Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 50000);
         propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";

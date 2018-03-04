@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.model.ModelBroadcaster;
 import com.hbm.render.model.ModelSteelBeam;
 import com.hbm.render.model.ModelSteelCorner;
 import com.hbm.render.model.ModelSteelRoof;
@@ -22,12 +23,14 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	private static final ResourceLocation texture3 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/SteelRoof.png");
 	private static final ResourceLocation texture4 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/SteelBeam.png");
 	private static final ResourceLocation texture5 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/SteelScaffold.png");
+	private static final ResourceLocation texture6 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/ModelBroadcaster.png");
 	
 	private ModelSteelWall model1;
 	private ModelSteelCorner model2;
 	private ModelSteelRoof model3;
 	private ModelSteelBeam model4;
 	private ModelSteelScaffold model5;
+	private ModelBroadcaster model6;
 	
 	public RenderDecoBlock() {
 		this.model1 = new ModelSteelWall();
@@ -35,6 +38,7 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 		this.model3 = new ModelSteelRoof();
 		this.model4 = new ModelSteelBeam();
 		this.model5 = new ModelSteelScaffold();
+		this.model6 = new ModelBroadcaster();
 	}
 	
 	@Override
@@ -96,6 +100,21 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.broadcaster_pc)
+			{
+				this.bindTexture(texture6);
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+			}
 			
 			GL11.glPushMatrix();
 				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_wall)
@@ -108,6 +127,8 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					this.model4.renderModel(0.0625F);
 				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_scaffold)
 					this.model5.renderModel(0.0625F);
+				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.broadcaster_pc)
+					this.model6.renderModel(0.0625F);
 			GL11.glPopMatrix();
 			
 			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.boxcar) {
