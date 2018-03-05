@@ -36,9 +36,9 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
     	
     	this.worldObj.spawnEntityInWorld(entity);
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
+		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 300);
     	entity2.posX = this.posX;
-    	entity2.posY = this.posY - 9;
+    	entity2.posY = this.posY/* - 9*/;
     	entity2.posZ = this.posZ;
     	this.worldObj.spawnEntityInWorld(entity2);
 	}

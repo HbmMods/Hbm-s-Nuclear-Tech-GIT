@@ -13,26 +13,20 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-public class TERadarPacket implements IMessage {
+public class TERadarDestructorPacket implements IMessage {
 
 	int x;
 	int y;
 	int z;
-	int conX;
-	int conY;
-	int conZ;
-
-	public TERadarPacket() {
+	
+	public TERadarDestructorPacket() {
 
 	}
 
-	public TERadarPacket(int x, int y, int z, int conX, int conY, int conZ) {
+	public TERadarDestructorPacket(int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.conX = conX;
-		this.conY = conY;
-		this.conZ = conZ;
 	}
 
 	@Override
@@ -40,9 +34,6 @@ public class TERadarPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		conX = buf.readInt();
-		conY = buf.readInt();
-		conZ = buf.readInt();
 	}
 
 	@Override
@@ -50,23 +41,20 @@ public class TERadarPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeInt(conX);
-		buf.writeInt(conY);
-		buf.writeInt(conZ);
 	}
 
-	public static class Handler implements IMessageHandler<TERadarPacket, IMessage> {
+	public static class Handler implements IMessageHandler<TERadarDestructorPacket, IMessage> {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public IMessage onMessage(TERadarPacket m, MessageContext ctx) {
+		public IMessage onMessage(TERadarDestructorPacket m, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
 			try {
 				if (te != null && te instanceof TileEntityMachineRadar) {
 
 					TileEntityMachineRadar radar = (TileEntityMachineRadar) te;
-					radar.nearbyMissiles.add(new int[]{m.conX, m.conY, m.conZ});
+					radar.nearbyMissiles.clear();
 				}
 			} catch (Exception x) {
 			}

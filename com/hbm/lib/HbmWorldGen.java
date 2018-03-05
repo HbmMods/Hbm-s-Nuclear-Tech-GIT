@@ -354,7 +354,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 
-		if (rand.nextInt(15) == 0) {
+		if (rand.nextInt(25) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(25);
 			int randPosZ = j + rand.nextInt(16);

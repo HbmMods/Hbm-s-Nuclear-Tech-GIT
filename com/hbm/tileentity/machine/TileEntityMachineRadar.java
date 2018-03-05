@@ -6,8 +6,10 @@ import java.util.List;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TERadarDestructorPacket;
 import com.hbm.packet.TERadarPacket;
 
 import cpw.mods.fml.relauncher.Side;
@@ -45,13 +47,14 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 
 	@Override
 	public void updateEntity() {
-
-		nearbyMissiles.clear();
+		
+		if(!worldObj.isRemote)
+			nearbyMissiles.clear();
 		
 		if(power > 0) {
 
-			allocateMissiles();
 			if(!worldObj.isRemote) {
+				allocateMissiles();
 				sendMissileData();
 			}
 			
@@ -68,14 +71,28 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 	
 	private void allocateMissiles() {
 		
-		for(Object e : allMissiles) {
-		//for(Object e : worldObj.loadedEntityList) {
+		nearbyMissiles.clear();
+		
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - range, 0, zCoord + 0.5 - range, xCoord + 0.5 + range, 5000, zCoord + 0.5 + range));
+
+		for(Entity e : list) {
+			/*if(e instanceof EntityMissileBaseAdvanced) {
+				EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
+				nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
+			}*/
+			
+			if(!(e instanceof EntityMissileBaseAdvanced) && e.width * e.width * e.height >= 0.5D && e.posY >= yCoord + 30) {
+				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5 });
+			}
+		}
+		
+		for(Entity e : allMissiles) {
 			if(e instanceof EntityMissileBaseAdvanced) {
-				EntityMissileBaseAdvanced m = (EntityMissileBaseAdvanced)e;
-				
-				if(!m.isDead && m.posX < xCoord + range && m.posX > xCoord - range &&
-						m.posZ < zCoord + range && m.posZ > zCoord - range)
-					this.nearbyMissiles.add(new int[] {(int)m.posX, (int)m.posZ, m.getMissileType()});
+				if(e.posX < xCoord + range && e.posX > xCoord - range &&
+						e.posZ < zCoord + range && e.posZ > zCoord - range) {
+					EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
+					nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
+				}
 			}
 		}
 	}
@@ -105,6 +122,8 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 	}
 	
 	private void sendMissileData() {
+		
+		PacketDispatcher.wrapper.sendToAll(new TERadarDestructorPacket(xCoord, yCoord, zCoord));
 		
 		for(int[] e : this.nearbyMissiles) {
 			PacketDispatcher.wrapper.sendToAll(new TERadarPacket(xCoord, yCoord, zCoord, e[0], e[1], e[2]));

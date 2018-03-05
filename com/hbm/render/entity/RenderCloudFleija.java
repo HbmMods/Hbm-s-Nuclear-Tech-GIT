@@ -35,11 +35,7 @@ public class RenderCloudFleija extends Render {
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
-        //if(cloud.age < 150)
-        {
-        	//GL11.glTranslatef(0.0F, -60F + ((p_76986_1_.age - 100) * 60 / 50), 0.0F);
-        	GL11.glTranslatef(0.0F, 0.0F, 0.0F);
-        }
+        
         GL11.glScalef(cloud.age, cloud.age, cloud.age);
         
         bindTexture(blastTexture);

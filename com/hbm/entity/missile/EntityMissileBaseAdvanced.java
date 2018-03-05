@@ -173,8 +173,10 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
     {
 		//super.onUpdate();
 		
-		if(!worldObj.isRemote && !TileEntityMachineRadar.allMissiles.contains(this))
+		if(!worldObj.isRemote) {
+			TileEntityMachineRadar.allMissiles.remove(this);
 			TileEntityMachineRadar.allMissiles.add(this);
+		}
 		
 		//if(!worldObj.loadedEntityList.contains(this))
 		//	worldObj.loadedEntityList.add(this);
