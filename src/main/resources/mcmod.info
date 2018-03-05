@@ -1,0 +1,16 @@
+[
+{
+  "modid": "hbm",
+  "name": "Hbm's Nuclear Tech",
+  "description": "A mod that adds weapons, nuclear themed stuff and machines",
+  "version":"${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["HbMinecraft"],
+  "credits": "rodolphito, Tamaized, grangerave, HBM",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
