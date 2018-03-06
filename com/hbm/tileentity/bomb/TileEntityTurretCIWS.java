@@ -6,7 +6,7 @@ import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityTurretCWIS extends TileEntityTurretBase {
+public class TileEntityTurretCIWS extends TileEntityTurretBase {
 
 	public int spin;
 	public int rotation;

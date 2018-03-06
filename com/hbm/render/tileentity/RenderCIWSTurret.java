@@ -4,14 +4,14 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
-import com.hbm.tileentity.bomb.TileEntityTurretCWIS;
+import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderCWISTurret extends TileEntitySpecialRenderer {
+public class RenderCIWSTurret extends TileEntitySpecialRenderer {
 
-	public RenderCWISTurret() { }
+	public RenderCIWSTurret() { }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -85,7 +85,7 @@ public class RenderCWISTurret extends TileEntitySpecialRenderer {
         
 		GL11.glRotated(yaw + 180, 0F, -1F, 0F);
 		GL11.glRotated(pitch, 1F, 0F, 0F);
-		GL11.glRotated(((TileEntityTurretCWIS)tileEntity).rotation, 0F, 0F, 1F);
+		GL11.glRotated(((TileEntityTurretCIWS)tileEntity).rotation, 0F, 0F, 1F);
 
 		this.bindTexture(ResourceManager.universal);
         ResourceManager.turret_cwis_gun.renderAll();

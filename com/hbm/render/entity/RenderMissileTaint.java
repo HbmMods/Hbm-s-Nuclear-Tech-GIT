@@ -2,6 +2,7 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 
@@ -26,7 +27,7 @@ public class RenderMissileTaint extends Render {
         GL11.glScalef(2F, 2F, 2F);
 
         GL11.glDisable(GL11.GL_CULL_FACE);
-        bindTexture(ResourceManager.missileTaint_tex);
+        bindTexture(getEntityTexture(p_76986_1_));
         ResourceManager.missileTaint.renderAll();
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
@@ -34,6 +35,9 @@ public class RenderMissileTaint extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return ResourceManager.missileTaint_tex;
+		if(p_110775_1_ instanceof EntityMissileTaint)
+			return ResourceManager.missileTaint_tex;
+		
+		return ResourceManager.missileMicro_tex;
 	}
 }

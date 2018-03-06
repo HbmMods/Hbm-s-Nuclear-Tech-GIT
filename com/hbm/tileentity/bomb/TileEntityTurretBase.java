@@ -40,7 +40,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 				radius /= 2;
 			if(this instanceof TileEntityTurretSpitfire)
 				radius *= 3;
-			if(this instanceof TileEntityTurretCWIS)
+			if(this instanceof TileEntityTurretCIWS)
 				radius *= 100;
 			Entity target = null;
 			for (int i = 0; i < iter.length; i++)
@@ -61,7 +61,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 
 				Vec3 turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1), target.posZ - (zCoord + 0.5));
 				
-				if(this instanceof TileEntityTurretCWIS || this instanceof TileEntityTurretSpitfire) {
+				if(this instanceof TileEntityTurretCIWS || this instanceof TileEntityTurretSpitfire) {
 					turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1.5), target.posZ - (zCoord + 0.5));
 				}
 				
@@ -93,14 +93,14 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(!(e instanceof EntityLivingBase) && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
-		if(this instanceof TileEntityTurretCWIS && !(e instanceof EntityMissileBaseAdvanced))
+		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).getUniqueID().toString().equals(uuid))
 			return false;
 		
 		Vec3 turret;
-		if(this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCWIS)
+		if(this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCIWS)
 			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
 		else
 			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);

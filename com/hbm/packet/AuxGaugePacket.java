@@ -2,7 +2,7 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
-import com.hbm.tileentity.bomb.TileEntityTurretCWIS;
+import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
@@ -90,8 +90,8 @@ public class AuxGaugePacket implements IMessage {
 					else if(m.id == 3)
 						base.field = m.value;
 				}
-				if (te instanceof TileEntityTurretCWIS) {
-					TileEntityTurretCWIS cwis = (TileEntityTurretCWIS)te;
+				if (te instanceof TileEntityTurretCIWS) {
+					TileEntityTurretCIWS cwis = (TileEntityTurretCIWS)te;
 					
 					cwis.rotation = m.value;
 				}

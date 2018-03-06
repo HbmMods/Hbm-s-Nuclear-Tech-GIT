@@ -5,24 +5,25 @@ import java.util.List;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.tileentity.bomb.TileEntityTurretCWIS;
+import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TurretCWIS extends TurretBase {
+public class TurretCIWS extends TurretBase {
 
-	public TurretCWIS(Material mat) {
+	public TurretCIWS(Material mat) {
 		super(mat);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityTurretCWIS();
+		return new TileEntityTurretCIWS();
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class TurretCWIS extends TurretBase {
 		if(pitch > 30)
 			pitch = 30;
 		
-		TileEntityTurretCWIS te = (TileEntityTurretCWIS)world.getTileEntity(x, y, z);
+		TileEntityTurretCIWS te = (TileEntityTurretCIWS)world.getTileEntity(x, y, z);
 		
 		if(te.spin < 35)
 			te.spin += 5;
@@ -80,14 +81,16 @@ public class TurretCWIS extends TurretBase {
 			double pY = posY + vec.yCoord * i;
 			double pZ = posZ + vec.zCoord * i;
 			
-			for(int j = 0; j < entities.size(); j++) {
-				Entity ent = entities.get(j);
+			if(world.getBlock((int)pX, (int)pY, (int)pZ).getMaterial() != Material.air)
+				break;
+			
+			List<Entity> hit = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(pX - 0.125, pY - 0.125, pZ - 0.125, pX + 0.125, pY + 0.125, pZ + 0.125));
+			
+			for(int j = 0; j < hit.size(); j++) {
+				Entity ent = hit.get(j);
+				
 				if(rand.nextInt(100) < hitPercent) {
-					if(ent.posX + ent.width * 0.75 > pX && ent.posX - ent.width * 0.75 < pX && 
-						ent.posY + ent.height > pY && ent.posY < pY && 
-						ent.posZ + ent.width * 0.75 > pZ && ent.posZ - ent.width * 0.75 < pZ) {
-						ent.attackEntityFrom(ModDamageSource.shrapnel, (damage * 0.25F) + (rand.nextFloat() * damage * 0.75F));
-					}
+					ent.attackEntityFrom(ModDamageSource.shrapnel, 10.0F);
 				}
 			}
 		}

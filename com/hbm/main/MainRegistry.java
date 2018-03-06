@@ -103,6 +103,7 @@ import com.hbm.entity.missile.EntityMissileGeneric;
 import com.hbm.entity.missile.EntityMissileIncendiary;
 import com.hbm.entity.missile.EntityMissileIncendiaryStrong;
 import com.hbm.entity.missile.EntityMissileInferno;
+import com.hbm.entity.missile.EntityMissileMicro;
 import com.hbm.entity.missile.EntityMissileMirv;
 import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
@@ -173,7 +174,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 import com.hbm.tileentity.bomb.TileEntityRedBarrel;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
-import com.hbm.tileentity.bomb.TileEntityTurretCWIS;
+import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretFlamer;
 import com.hbm.tileentity.bomb.TileEntityTurretHeavy;
 import com.hbm.tileentity.bomb.TileEntityTurretLight;
@@ -574,7 +575,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTurretSpitfire.class, "tileentity_turret_spitfire");
 		GameRegistry.registerTileEntity(TileEntityMachineRadGen.class, "tileentity_radgen");
 		GameRegistry.registerTileEntity(TileEntityMachineTransformer.class, "tileentity_transformer");
-		GameRegistry.registerTileEntity(TileEntityTurretCWIS.class, "tileentity_turret_cwis");
+		GameRegistry.registerTileEntity(TileEntityTurretCIWS.class, "tileentity_turret_cwis");
 		GameRegistry.registerTileEntity(TileEntityMachineRadar.class, "tileentity_radar");
 		GameRegistry.registerTileEntity(TileEntityBroadcaster.class, "tileentity_pink_cloud_broadcaster");
 
@@ -672,6 +673,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 91, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityAAShell.class, "entity_aa_shell", 92, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityRocketHoming.class, "entity_stinger", 93, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileMicro.class, "entity_missile_taint", 94, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

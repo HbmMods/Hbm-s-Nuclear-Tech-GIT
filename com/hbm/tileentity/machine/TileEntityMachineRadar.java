@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -81,19 +82,31 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 				nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
 			}*/
 			
+			if(e instanceof EntityRocketHoming) {
+				EntityRocketHoming rocket = (EntityRocketHoming)e;
+				
+				if(rocket.getIsCritical())
+					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 7 });
+				else
+					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 6 });
+				
+				continue;
+			}
+			
 			if(!(e instanceof EntityMissileBaseAdvanced) && e.width * e.width * e.height >= 0.5D && e.posY >= yCoord + 30) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5 });
 			}
 		}
 		
 		for(Entity e : allMissiles) {
-			if(e instanceof EntityMissileBaseAdvanced) {
-				if(e.posX < xCoord + range && e.posX > xCoord - range &&
-						e.posZ < zCoord + range && e.posZ > zCoord - range) {
-					EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
-					nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
+			if(e != null && !e.isDead)
+				if(e instanceof EntityMissileBaseAdvanced) {
+					if(e.posX < xCoord + range && e.posX > xCoord - range &&
+							e.posZ < zCoord + range && e.posZ > zCoord - range) {
+						EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
+						nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
+					}
 				}
-			}
 		}
 	}
 	

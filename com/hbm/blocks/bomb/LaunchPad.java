@@ -18,6 +18,7 @@ import com.hbm.entity.missile.EntityMissileGeneric;
 import com.hbm.entity.missile.EntityMissileIncendiary;
 import com.hbm.entity.missile.EntityMissileIncendiaryStrong;
 import com.hbm.entity.missile.EntityMissileInferno;
+import com.hbm.entity.missile.EntityMissileMicro;
 import com.hbm.entity.missile.EntityMissileMirv;
 import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
@@ -415,6 +416,16 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_taint && entity.power >= 75000)
         		{
             		EntityMissileTaint missile = new EntityMissileTaint(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_micro && entity.power >= 75000)
+        		{
+            		EntityMissileMicro missile = new EntityMissileMicro(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;

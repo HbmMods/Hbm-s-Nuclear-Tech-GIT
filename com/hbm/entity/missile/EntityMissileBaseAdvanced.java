@@ -79,6 +79,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
         ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
         ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
         ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
+        TileEntityMachineRadar.allMissiles.remove(this);
     }
 
 	public EntityMissileBaseAdvanced(World world, float x, float y, float z, int a, int b) {

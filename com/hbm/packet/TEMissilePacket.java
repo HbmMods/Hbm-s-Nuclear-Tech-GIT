@@ -66,6 +66,8 @@ public class TEMissilePacket implements IMessage {
 				type = 17;
 			if(stack.getItem() == ModItems.missile_taint)
 				type = 18;
+			if(stack.getItem() == ModItems.missile_micro)
+				type = 19;
 			
 		}
 	}
