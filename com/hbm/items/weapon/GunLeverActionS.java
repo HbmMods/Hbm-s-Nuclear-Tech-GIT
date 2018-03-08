@@ -81,8 +81,10 @@ public class GunLeverActionS extends Item {
 			p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_lever_action_ammo);
 
 			p_77615_1_.damageItem(1, p_77615_3_);
-			
-			p_77615_3_.attackEntityFrom(ModDamageSource.suicide, 1000);
+
+        	p_77615_3_.attackEntityFrom(ModDamageSource.suicide, 10000);
+        	if(!p_77615_3_.capabilities.isCreativeMode)
+        		p_77615_3_.setHealth(0.0F);
 
 			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 5.0F, 0.75F);
 			

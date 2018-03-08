@@ -57,7 +57,6 @@ public class RenderNoCloud extends Render {
         GL11.glDisable(GL11.GL_CULL_FACE);
     	GL11.glTranslatef(0.0F, 18F, 0.0F);
     	//ring += 0.1F;
-        GL11.glScalef(p_76986_1_.ring * 10, 30F, p_76986_1_.ring * 10);
         
         bindTexture(ringTexture);
         ringModel.renderAll();

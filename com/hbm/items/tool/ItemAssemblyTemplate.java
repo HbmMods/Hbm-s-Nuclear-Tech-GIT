@@ -33,6 +33,7 @@ public class ItemAssemblyTemplate extends Item {
 		TELEPAD, TELEKIT,
 		GEASS_REACTOR,
 		GENERATOR_FRONT,
+		MISSILE_ASSEMBLY,
 		WT1_GENERIC,
 		WT2_GENERIC,
 		WT3_GENERIC,
@@ -328,6 +329,8 @@ public class ItemAssemblyTemplate extends Item {
 		case GEASS_REACTOR:
 			return 200;
 		case GENERATOR_FRONT:
+			return 200;
+		case MISSILE_ASSEMBLY:
 			return 200;
 		case WT1_GENERIC:
 			return 100;

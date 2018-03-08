@@ -3,6 +3,7 @@
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.hbm.blocks.ModBlocks;
@@ -19,6 +20,7 @@ import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
 import com.hbm.render.item.*;
 import com.hbm.render.tileentity.*;
+import com.hbm.render.util.HmfModelLoader;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -33,6 +35,8 @@ public class ClientProxy extends ServerProxy
 	public void registerRenderInfo()
 	{
 		MinecraftForge.EVENT_BUS.register(new ModEventHandlerClient());
+
+		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
 		
 		RenderingRegistry.registerBlockHandler(new RenderTaintBlock());
 		
@@ -125,7 +129,7 @@ public class ClientProxy extends ServerProxy
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrashedBomb.class, new RenderCrashedBomb());
 		
-	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeAlt());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudSmall.class, new RenderSmallNukeMK3());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityNukeCloudBig.class, new RenderBigNuke());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCloudFleija.class, new RenderCloudFleija());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCloudFleijaRainbow.class, new RenderCloudRainbow());

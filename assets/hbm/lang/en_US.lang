@@ -210,8 +210,8 @@ tile.turret_flamer.name=Flamethrower Turret
 tile.turret_tau.name=Tauon Turret
 tile.turret_spitfire.name=Turret I have no name for right now [WIP]
 tile.turret_cwis.name=Phalanx Mk-15 CIWS
-tile.machine_radar.name=Missile Radar
-container.radar=Missile Radar
+tile.machine_radar.name=Radar
+container.radar=Radar
 
 item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
@@ -1193,6 +1193,7 @@ tile.yellow_barrel.name=Radioactive Barrel
 item.designator.name=Short Range Target Designator
 item.designator_range.name=Long Range Target Designator
 item.designator_manual.name=Manual Target Designator
+item.missile_assembly.name=Small Missle Assembly
 item.missile_generic.name=High Explosive Missile
 item.missile_anti_ballistic.name=Anti Ballistic Missile (WIP)
 item.missile_incendiary.name=Incendiary Missile
@@ -1212,6 +1213,7 @@ item.missile_endo.name=Endothermic Missile
 item.missile_exo.name=Exothermic Missile
 item.missile_doomsday.name=Doomsday Missile
 item.missile_taint.name=Taint-Tipped Missile
+item.missile_micro.name=Micro-Nuclear Missile
 
 item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmat Chestplate

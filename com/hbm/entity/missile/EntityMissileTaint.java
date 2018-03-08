@@ -1,10 +1,12 @@
 package com.hbm.entity.missile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.explosion.ExplosionThermo;
+import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -34,12 +36,19 @@ public class EntityMissileTaint extends EntityMissileBaseAdvanced {
 
 	@Override
 	public List<ItemStack> getDebris() {
-		return null;
+		List<ItemStack> list = new ArrayList<ItemStack>();
+
+		list.add(new ItemStack(ModItems.wire_aluminium, 4));
+		list.add(new ItemStack(ModItems.plate_titanium, 4));
+		list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
+		list.add(new ItemStack(ModItems.powder_magic, 1));
+		
+		return list;
 	}
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return null;
+		return new ItemStack(ModItems.powder_spark_mix, 1);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ achievement.sacrifice.desc=Überlebe den Flammentod.
 achievement.impossible=Vollkommen unmöglich
 achievement.impossible.desc=Du kannst diese Errungenschaft nicht bekommen.
 
-potion.hbm_taint=Verseucht
+potion.hbm_taint=Verdorben
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
@@ -199,8 +199,8 @@ tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_tau.name=Tauonengeschütz
 tile.turret_spitfire.name=Geschütz für das ich noch keinen Namen habe [WIP]
 tile.turret_cwis.name=Phalanx Mk-15 CIWS
-tile.machine_radar.name=Raketenradar
-container.radar=Raketenradar
+tile.machine_radar.name=Radar
+container.radar=Radar
 
 item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
@@ -1190,6 +1190,7 @@ tile.yellow_barrel.name=Radioaktives Fass
 item.designator.name=Kurzdistanz Zielmarkierer
 item.designator_range.name=Weitstrecken-Zielmarkierer
 item.designator_manual.name=Manueller Zielmarkierer
+item.missile_assembly.name=Kleines Raketen-Bauset
 item.missile_generic.name=HE Rakete
 item.missile_anti_ballistic.name=Flugabwehrrakete (WIP)
 item.missile_incendiary.name=Brandrakete
@@ -1208,7 +1209,8 @@ item.missile_nuclear_cluster.name=Atomare MIRV-Rakete
 item.missile_endo.name=Endothermische Rakete
 item.missile_exo.name=Exothermische Rakete
 item.missile_doomsday.name=Doomsday Rakete
-item.missile_taint.name=Verseuchte Rakete
+item.missile_taint.name=Verdorbene Rakete
+item.missile_micro.name=Mikro-Atomrakete
 
 item.hazmat_helmet.name=Strahlenschutzhelm
 item.hazmat_plate.name=Strahlenschutzbrustplatte

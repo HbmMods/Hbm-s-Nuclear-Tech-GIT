@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionParticle;
@@ -29,15 +30,16 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 	public void onImpact() {
         if (!this.worldObj.isRemote)
         {
-    		EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(this.worldObj);
+    		/*EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(this.worldObj);
     	    entity0.posX = this.posX;
     	    entity0.posY = this.posY;
     	    entity0.posZ = this.posZ;
     	    entity0.destructionRange = MainRegistry.fatmanRadius;
     	    entity0.speed = MainRegistry.blastSpeed;
-    	    entity0.coefficient = 10.0F;
+    	    entity0.coefficient = 10.0F;*/
     	    	
-    	    this.worldObj.spawnEntityInWorld(entity0);
+    	    this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.fatmanRadius, posX, posY, posZ));
+    	    
     	    if(MainRegistry.polaroidID == 11)
     	    	if(rand.nextInt(100) >= 0)
     	    	{
@@ -59,15 +61,17 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 	public List<ItemStack> getDebris() {
 		List<ItemStack> list = new ArrayList<ItemStack>();
 
+		list.add(new ItemStack(ModItems.wire_aluminium, 4));
 		list.add(new ItemStack(ModItems.plate_titanium, 4));
-		list.add(new ItemStack(ModItems.thruster_small, 1));
+		list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
+		list.add(new ItemStack(ModItems.ducttape, 1));
 		
 		return list;
 	}
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.warhead_generic_small);
+		return new ItemStack(ModItems.gun_fatman_ammo, 1);
 	}
 
 	@Override

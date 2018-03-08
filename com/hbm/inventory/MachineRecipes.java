@@ -1784,6 +1784,14 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
 			list.add(new ItemStack(ModItems.powder_fire, 16));
 			break;
+		case MISSILE_ASSEMBLY:
+			list.add(new ItemStack(ModItems.hull_small_steel, 1));
+			list.add(new ItemStack(ModItems.hull_small_aluminium, 4));
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.wire_aluminium, 6));
+			list.add(new ItemStack(ModItems.canister_kerosene, 3));
+			break;
 		case WT1_CLUSTER:
 			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
 			list.add(new ItemStack(ModItems.pellet_cluster, 4));
@@ -3121,6 +3129,9 @@ public class MachineRecipes {
 			break;
 		case WT3_FIRE:
 			output = new ItemStack(ModItems.warhead_incendiary_large, 1);
+			break;
+		case MISSILE_ASSEMBLY:
+			output = new ItemStack(ModItems.missile_assembly, 1);
 			break;
 		case WT1_CLUSTER:
 			output = new ItemStack(ModItems.warhead_cluster_small, 1);

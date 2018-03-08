@@ -30,7 +30,7 @@ public class RenderCIWSTurret extends TileEntitySpecialRenderer {
 			pitch = ((TileEntityTurretBase)tileEntity).rotationPitch;
 		}
         
-		this.bindTexture(ResourceManager.universal);
+		this.bindTexture(ResourceManager.turret_ciws_base_tex);
         ResourceManager.turret_cwis_base.renderAll();
 
         GL11.glPopMatrix();
@@ -48,7 +48,7 @@ public class RenderCIWSTurret extends TileEntitySpecialRenderer {
 
 		GL11.glRotated(yaw + 180, 0F, -1F, 0F);
 
-		this.bindTexture(ResourceManager.universal);
+		this.bindTexture(ResourceManager.turret_ciws_rotor_tex);
         ResourceManager.turret_cwis_rotor.renderAll();
 
         GL11.glPopMatrix();
@@ -67,7 +67,7 @@ public class RenderCIWSTurret extends TileEntitySpecialRenderer {
 		GL11.glRotated(yaw + 180, 0F, -1F, 0F);
 		GL11.glRotated(pitch, 1F, 0F, 0F);
 
-		this.bindTexture(ResourceManager.universal);
+		this.bindTexture(ResourceManager.turret_ciws_head_tex);
         ResourceManager.turret_cwis_head.renderAll();
 
         GL11.glPopMatrix();
@@ -87,7 +87,7 @@ public class RenderCIWSTurret extends TileEntitySpecialRenderer {
 		GL11.glRotated(pitch, 1F, 0F, 0F);
 		GL11.glRotated(((TileEntityTurretCIWS)tileEntity).rotation, 0F, 0F, 1F);
 
-		this.bindTexture(ResourceManager.universal);
+		this.bindTexture(ResourceManager.turret_ciws_gun_tex);
         ResourceManager.turret_cwis_gun.renderAll();
 
         GL11.glPopMatrix();

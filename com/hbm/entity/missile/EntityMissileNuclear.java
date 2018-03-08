@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -26,20 +27,22 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
+		/*EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
     	entity.posX = this.posX;
     	entity.posY = this.posY;
     	entity.posZ = this.posZ;
     	entity.destructionRange = MainRegistry.missileRadius;
     	entity.speed = MainRegistry.blastSpeed;
-    	entity.coefficient = 10.0F;
+    	entity.coefficient = 10.0F;*/
     	
-    	this.worldObj.spawnEntityInWorld(entity);
+    	this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.missileRadius, posX, posY, posZ));
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 300);
+		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
     	entity2.posX = this.posX;
     	entity2.posY = this.posY/* - 9*/;
     	entity2.posZ = this.posZ;
+    	entity2.scale = 2F;
+    	entity2.getDataWatcher().updateObject(18, 2F); 
     	this.worldObj.spawnEntityInWorld(entity2);
 	}
 
