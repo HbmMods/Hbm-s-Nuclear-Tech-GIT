@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -451,21 +453,14 @@ public class EntityNuclearCreeper extends EntityMob {
                 //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.explosionRadius * 2), flag);
             	this.explosionRadius *= 3;
             }
-            
-            EntityNukeExplosionMK3 explosion = new EntityNukeExplosionMK3(this.worldObj);
-            explosion.speed = 25;
-            explosion.coefficient = 5.0F;
-            explosion.destructionRange = this.explosionRadius;
-            explosion.posX = this.posX;
-            explosion.posY = this.posY;
-            explosion.posZ = this.posZ;
-            this.worldObj.spawnEntityInWorld(explosion);
+
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, explosionRadius, posX, posY, posZ));
             
             if(this.getPowered())
             {
     			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
     	    	entity2.posX = this.posX;
-    	    	entity2.posY = this.posY - 11;
+    	    	entity2.posY = this.posY;
     	    	entity2.posZ = this.posZ;
     	    	this.worldObj.spawnEntityInWorld(entity2);
             } else {

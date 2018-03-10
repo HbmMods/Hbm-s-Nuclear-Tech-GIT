@@ -2667,6 +2667,27 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.motor, 2));
 			list.add(new ItemStack(ModItems.circuit_gold, 4));
 			break;
+		case TURRET_SPITFIRE:
+			list.add(new ItemStack(ModItems.ingot_steel, 6));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 6));
+			list.add(new ItemStack(ModItems.plate_steel, 16));
+			list.add(new ItemStack(ModItems.plate_iron, 8));
+			list.add(new ItemStack(ModItems.hull_small_steel, 4));
+			list.add(new ItemStack(ModItems.pipes_steel, 2));
+			list.add(new ItemStack(ModItems.motor, 3));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
+			break;
+		case TURRET_CIWS:
+			list.add(new ItemStack(ModItems.ingot_steel, 6));
+			list.add(new ItemStack(ModItems.ingot_red_copper, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 10));
+			list.add(new ItemStack(ModItems.plate_titanium, 4));
+			list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
+			list.add(new ItemStack(ModItems.pipes_steel, 6));
+			list.add(new ItemStack(ModItems.motor, 4));
+			list.add(new ItemStack(ModItems.circuit_gold, 5));
+			list.add(new ItemStack(ModItems.magnetron, 3));
+			break;
 		case HUNTER_CHOPPER:
 			list.add(new ItemStack(ModItems.chopper_blades, 5));
 			list.add(new ItemStack(ModItems.chopper_gun, 1));
@@ -3549,6 +3570,12 @@ public class MachineRecipes {
 			break;
 		case TURRET_TAU:
 			output = new ItemStack(ModBlocks.turret_tau, 1);
+			break;
+		case TURRET_SPITFIRE:
+			output = new ItemStack(ModBlocks.turret_spitfire, 1);
+			break;
+		case TURRET_CIWS:
+			output = new ItemStack(ModBlocks.turret_cwis, 1);
 			break;
 		case HUNTER_CHOPPER:
 			output = new ItemStack(ModItems.chopper, 1);

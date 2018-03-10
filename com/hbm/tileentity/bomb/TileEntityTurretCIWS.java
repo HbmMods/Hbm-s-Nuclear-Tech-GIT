@@ -16,10 +16,6 @@ public class TileEntityTurretCIWS extends TileEntityTurretBase {
 		
 		super.updateEntity();
 		
-		this.ammo = 100;
-		
-		
-		
 		if(!worldObj.isRemote) {
 			
 			if(spin > 0)

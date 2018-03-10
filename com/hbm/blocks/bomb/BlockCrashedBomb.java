@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
@@ -75,19 +76,11 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 	
 	@Override
 	public void explode(World world, int x, int y, int z) {
-        if (!world.isRemote)
-        {
-        	EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(world);
-	    	entity0.posX = x;
-	    	entity0.posY = y;
-	    	entity0.posZ = z;
-	    	entity0.destructionRange = (int)(MainRegistry.fatmanRadius * 1.25);
-	    	entity0.speed = 25;
-	    	entity0.coefficient = 10.0F;
-
+        if (!world.isRemote) {
+        	
         	world.setBlockToAir(x, y, z);
-	    	world.spawnEntityInWorld(entity0);
-    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
+	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(MainRegistry.fatmanRadius * 1.25), x + 0.5, y + 0.5, z + 0.5));
+    		ExplosionParticleB.spawnMush(world, x, y, z);
         }
 	}
 }

@@ -1,6 +1,8 @@
 package com.hbm.entity.logic;
 
+import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.main.MainRegistry;
 
@@ -40,6 +42,8 @@ public class EntityNukeExplosionMK4 extends Entity {
 			return;
 		}
 		
+    	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.length * 2);
+		
 		if(explosion == null)
 			explosion = new ExplosionNukeRay(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.count, this.speed, this.length);
 		
@@ -52,6 +56,15 @@ public class EntityNukeExplosionMK4 extends Entity {
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
 				explosion.processTip(speed);
 		} else {
+			
+			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 1.8) * 10);
+			fallout.posX = this.posX;
+			fallout.posY = this.posY;
+			fallout.posZ = this.posZ;
+			fallout.setScale((int)(this.length * 1.8));
+
+			this.worldObj.spawnEntityInWorld(fallout);
+			
 			this.setDead();
 		}
 	}

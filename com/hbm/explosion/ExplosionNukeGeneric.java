@@ -17,6 +17,7 @@ import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -41,9 +42,11 @@ import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
+import cofh.api.energy.IEnergyProvider;
+
 public class ExplosionNukeGeneric {
 
-	private final static Random field_149933_a = new Random();
+	private final static Random random = new Random();
 
 	public static void detonateTestBomb(World world, int x, int y, int z, int bombStartStrength) {
 		int r = bombStartStrength;
@@ -224,7 +227,7 @@ public class ExplosionNukeGeneric {
 						// entity.attackEntityFrom(DamageSource.generic,
 						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
 						// bombStartStrength + 1.0D)));
-						double d8 = 0.125 + (field_149933_a.nextDouble() * 0.25);
+						double d8 = 0.125 + (random.nextDouble() * 0.25);
 						entity.motionX -= d5 * d8;
 						entity.motionY -= d6 * d8;
 						entity.motionZ -= d7 * d8;
@@ -292,7 +295,7 @@ public class ExplosionNukeGeneric {
 					}
 					
 					if(!(entity instanceof EntityLivingBase) && !(entity instanceof EntityPlayerMP) && !(entity instanceof EntityBlackHole)) {
-						if(field_149933_a.nextInt(8) == 0)
+						if(random.nextInt(8) == 0)
 							entity.setDead();
 					}
 				}
@@ -330,13 +333,13 @@ public class ExplosionNukeGeneric {
 				//blocks to be spared
 				int protection = (int)(b.getExplosionResistance(null)/300f);
 				if (b == ModBlocks.brick_concrete) {
-					rand = field_149933_a.nextInt(8);
+					rand = random.nextInt(8);
 					if (rand == 0) {
 						world.setBlock(x, y, z, Blocks.gravel, 0, 3);
 						return 0;
 					}
 				} else if (b == ModBlocks.brick_light) {
-					rand = field_149933_a.nextInt(3);
+					rand = random.nextInt(3);
 					if (rand == 0) {
 						world.setBlock(x, y, z, ModBlocks.waste_planks, 0, 3);
 						return 0;
@@ -345,14 +348,14 @@ public class ExplosionNukeGeneric {
 						return 0;
 					}
 				} else if (b == ModBlocks.brick_obsidian) {
-					rand = field_149933_a.nextInt(20);
+					rand = random.nextInt(20);
 					if (rand == 0) {
 						world.setBlock(x, y, z, Blocks.obsidian, 0, 3);
 					}
 				} else if (b == Blocks.obsidian) {
 					world.setBlock(x, y, z, ModBlocks.gravel_obsidian, 0, 3);
 					return 0;
-				} else if(field_149933_a.nextInt(protection+3)==0){
+				} else if(random.nextInt(protection+3)==0){
 					world.setBlock(x, y, z, ModBlocks.block_scrap,0,3);
 				}
 				return protection;
@@ -427,7 +430,7 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (b == Blocks.sand) {
-				rand = field_149933_a.nextInt(20);
+				rand = random.nextInt(20);
 				if (rand == 1 && world.getBlockMetadata(x, y, z) == 0) {
 					world.setBlock(x, y, z, ModBlocks.waste_trinitite);
 				}
@@ -445,7 +448,7 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (b == Blocks.coal_ore) {
-				rand = field_149933_a.nextInt(10);
+				rand = random.nextInt(10);
 				if (rand == 1 || rand == 2 || rand == 3) {
 					world.setBlock(x, y, z, Blocks.diamond_ore);
 				}
@@ -479,14 +482,14 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (b == ModBlocks.ore_uranium) {
-				rand = field_149933_a.nextInt(30);
+				rand = random.nextInt(30);
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_schrabidium);
 				}
 			}
 
 			else if (b == ModBlocks.ore_nether_uranium) {
-				rand = field_149933_a.nextInt(30);
+				rand = random.nextInt(30);
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_nether_schrabidium);
 				}
@@ -536,7 +539,7 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (world.getBlock(x, y, z) == Blocks.sand) {
-				rand = field_149933_a.nextInt(20);
+				rand = random.nextInt(20);
 				if (rand == 1 && world.getBlockMetadata(x, y, z) == 0) {
 					world.setBlock(x, y, z, ModBlocks.waste_trinitite);
 				}
@@ -554,7 +557,7 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (world.getBlock(x, y, z) == Blocks.coal_ore) {
-				rand = field_149933_a.nextInt(30);
+				rand = random.nextInt(30);
 				if (rand == 1 || rand == 2 || rand == 3) {
 					world.setBlock(x, y, z, Blocks.diamond_ore);
 				}
@@ -593,54 +596,36 @@ public class ExplosionNukeGeneric {
 		if (!world.isRemote) {
 			
 			Block b = world.getBlock(x,y,z);
-			if (world.getTileEntity(x, y, z) != null && (world.getTileEntity(x, y, z) instanceof ISource
-					|| world.getTileEntity(x, y, z) instanceof IConsumer
-					|| world.getTileEntity(x, y, z) instanceof TileEntityDummy)) {
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap,0,2);
+			TileEntity te = world.getTileEntity(x, y, z);
+			
+			if (te != null && te instanceof ISource) {
+				
+				((ISource)te).setSPower(0);
+				
+				if(random.nextInt(5) < 1)
+					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
+			if (te != null && te instanceof IConsumer) {
+				
+				((IConsumer)te).setPower(0);
+				
+				if(random.nextInt(5) < 1)
+					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
+			}
+			if (te != null && te instanceof IEnergyProvider) {
 
-			else if (b == ModBlocks.red_wire_coated || 
-					b == ModBlocks.factory_titanium_furnace || 
-					b == ModBlocks.factory_titanium_conductor || 
-					b == ModBlocks.factory_advanced_furnace || 
-					b == ModBlocks.factory_advanced_conductor || 
-					b == ModBlocks.reactor_conductor || 
-					b == ModBlocks.fusion_conductor || 
-					b == ModBlocks.fusion_center || 
-					b == ModBlocks.fusion_motor || 
-					b == ModBlocks.watz_conductor || 
-					b == ModBlocks.fwatz_conductor || 
-					b == ModBlocks.fwatz_hatch || 
-					b == ModBlocks.fwatz_computer) {
-				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap,0,2);
+				((IEnergyProvider)te).extractEnergy(ForgeDirection.UP, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.UP), false);
+				((IEnergyProvider)te).extractEnergy(ForgeDirection.DOWN, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.DOWN), false);
+				((IEnergyProvider)te).extractEnergy(ForgeDirection.NORTH, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.NORTH), false);
+				((IEnergyProvider)te).extractEnergy(ForgeDirection.SOUTH, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.SOUTH), false);
+				((IEnergyProvider)te).extractEnergy(ForgeDirection.EAST, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.EAST), false);
+				((IEnergyProvider)te).extractEnergy(ForgeDirection.WEST, ((IEnergyProvider)te).getEnergyStored(ForgeDirection.WEST), false);
+				
+				if(random.nextInt(5) <= 1)
+					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
-
-			else if (b == ModBlocks.red_cable || 
-					b == Blocks.redstone_wire || 
-					b == Blocks.powered_repeater || 
-					b == Blocks.unpowered_repeater || 
-					b == Blocks.activator_rail || 
-					b == Blocks.detector_rail || 
-					b == Blocks.golden_rail || 
-					b == Blocks.redstone_block || 
-					b == Blocks.redstone_lamp || 
-					b == Blocks.redstone_ore || 
-					b == Blocks.redstone_torch || 
-					b == Blocks.unlit_redstone_torch || 
-					b == Blocks.powered_comparator || 
-					b == Blocks.unpowered_comparator) {
-				world.setBlock(x, y, z, Blocks.air,0,2);
-			}
-
-			else if (b == Blocks.dispenser || 
-					b == Blocks.dropper || 
-					b == Blocks.piston || 
-					b == Blocks.piston_extension || 
-					b == Blocks.piston_head || 
-					b == Blocks.sticky_piston) {
-				world.setBlock(x, y, z, Blocks.gravel,0,2);
-			}
+			if((b == ModBlocks.fusion_conductor || b == ModBlocks.fwatz_conductor || b == ModBlocks.fusion_motor || b == ModBlocks.fusion_heater || b == ModBlocks.fwatz_computer) && random.nextInt(10) == 0)
+				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 		}
-		//world.setBlock(x, y, z, Blocks.air);
 	}
 }

@@ -1083,6 +1083,7 @@ public class ModItems {
 	public static Item turret_flamer_ammo;
 	public static Item turret_tau_ammo;
 	public static Item turret_spitfire_ammo;
+	public static Item turret_cwis_ammo;
 
 	public static Item bucket_mud;
 	public static Item bucket_acid;
@@ -2059,6 +2060,7 @@ public class ModItems {
 		turret_flamer_ammo = new ItemTurretAmmo(ModBlocks.turret_flamer, 200).setUnlocalizedName("turret_flamer_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_flamer_ammo");
 		turret_tau_ammo = new ItemTurretAmmo(ModBlocks.turret_tau, 100).setUnlocalizedName("turret_tau_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_tau_ammo");
 		turret_spitfire_ammo = new ItemTurretAmmo(ModBlocks.turret_spitfire, 2).setUnlocalizedName("turret_spitfire_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_spitfire_ammo");
+		turret_cwis_ammo = new ItemTurretAmmo(ModBlocks.turret_cwis, 250).setUnlocalizedName("turret_cwis_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_cwis_ammo");
 		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":template_folder");
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
@@ -3116,6 +3118,7 @@ public class ModItems {
 		GameRegistry.registerItem(turret_flamer_ammo, turret_flamer_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_tau_ammo, turret_tau_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_spitfire_ammo, turret_spitfire_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(turret_cwis_ammo, turret_cwis_ammo.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
 		GameRegistry.registerItem(clip_revolver_iron, clip_revolver_iron.getUnlocalizedName());

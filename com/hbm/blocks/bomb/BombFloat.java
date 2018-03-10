@@ -1,6 +1,9 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 
@@ -27,8 +30,14 @@ public class BombFloat extends Block implements IBomb {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":bomb_float_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":bomb_float");
+		if(this == ModBlocks.float_bomb) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":bomb_float_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":bomb_float");
+		}
+		if(this == ModBlocks.emp_bomb) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":bomb_emp_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":bomb_emp_side");
+		}
 	}
 
 	@Override
@@ -43,17 +52,27 @@ public class BombFloat extends Block implements IBomb {
     	this.worldObj = p_149695_1_;
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
         {
-        	p_149695_1_.setBlock(x, y, z, Blocks.air);
-        	ExplosionChaos.floater(p_149695_1_, x, y, z, 15, 50);
-        	ExplosionChaos.move(p_149695_1_, x, y, z, 15, 0, 50, 0);
+        	explode(p_149695_1_, x, y, z);
         }
     }
 
 	@Override
 	public void explode(World world, int x, int y, int z) {
-		world.setBlock(x, y, z, Blocks.air);
-        	ExplosionChaos.floater(world, x, y, z, 15, 50);
-        	ExplosionChaos.move(world, x, y, z, 15, 0, 50, 0);
+		if(!world.isRemote) {
+			world.setBlock(x, y, z, Blocks.air);
+    		if(this == ModBlocks.float_bomb) {
+            	ExplosionChaos.floater(world, x, y, z, 15, 50);
+            	ExplosionChaos.move(world, x, y, z, 15, 0, 50, 0);
+    		}
+    		if(this == ModBlocks.emp_bomb) {
+    			ExplosionNukeGeneric.empBlast(world, x, y, z, 50);
+    			EntityEMPBlast wave = new EntityEMPBlast(world, 50);
+    			wave.posX = x + 0.5;
+    			wave.posY = y + 0.5;
+    			wave.posZ = z + 0.5;
+    			world.spawnEntityInWorld(wave);
+    		}
+		}
 	}
 
 }

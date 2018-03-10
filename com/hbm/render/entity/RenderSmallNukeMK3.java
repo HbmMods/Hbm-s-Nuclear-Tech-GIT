@@ -70,15 +70,15 @@ public class RenderSmallNukeMK3 extends Render {
 	//          make the fireball fade so it looks like the cloud is formed by it
 	//          use more rings. really.
 	//          more polygons, this is a cloud, not a metal pillar made by a seven-yo
-	//          duration: as long as you please
+	//          duration: as long as you want
 	
 	//
 
 	
 	//your other render classes look like shit, write code like a sensible person for once. good luck, you'll need it
-	public void render(EntityNukeCloudSmall cloud, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+	public void render(EntityNukeCloudSmall cloud, double posX, double posY, double posZ, float fa, float fb) {
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_ + 0.25F, (float)p_76986_6_);
+        GL11.glTranslatef((float)posX, (float)posY + 0.25F, (float)posZ);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
         
@@ -208,9 +208,11 @@ public class RenderSmallNukeMK3 extends Render {
 	}
 
 	//very professional, i love me some null textures /s
+	
+	//there, fixed it ~bob
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return null;
+		return blastTexture;
 	}
 
 }

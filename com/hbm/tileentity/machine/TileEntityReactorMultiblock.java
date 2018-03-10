@@ -8,6 +8,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -20,6 +21,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -679,15 +681,9 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		{
 			this.slots[i] = null;
 		}
-        
-		EntityNukeExplosionMK3 explosion = new EntityNukeExplosionMK3(this.worldObj);
-        explosion.speed = 25;
-        explosion.coefficient = 5.0F;
-        explosion.destructionRange = 35;
-        explosion.posX = this.xCoord;
-        explosion.posY = this.yCoord;
-        explosion.posZ = this.zCoord;
-        this.worldObj.spawnEntityInWorld(explosion);
+
+		worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, 50, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
+    	
         ExplosionParticle.spawnMush(this.worldObj, this.xCoord, this.yCoord - 3, this.zCoord);
 	}
 

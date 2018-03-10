@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
@@ -28,15 +29,8 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-    	entity.posX = this.posX;
-    	entity.posY = this.posY;
-    	entity.posZ = this.posZ;
-    	entity.destructionRange = MainRegistry.missileRadius;
-    	entity.speed = MainRegistry.blastSpeed;
-    	entity.coefficient = 10.0F;
-    	
-    	this.worldObj.spawnEntityInWorld(entity);
+		
+    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.missileRadius, posX, posY, posZ));
 
 		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
     	entity2.posX = this.posX;

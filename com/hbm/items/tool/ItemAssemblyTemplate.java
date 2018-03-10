@@ -179,6 +179,8 @@ public class ItemAssemblyTemplate extends Item {
 		TURRET_ROCKET,
 		TURRET_FLAMER,
 		TURRET_TAU,
+		TURRET_SPITFIRE,
+		TURRET_CIWS,
 		MISSILE_HE_1,
 		MISSILE_FIRE_1,
 		MISSILE_CLUSTER_1,
@@ -620,6 +622,10 @@ public class ItemAssemblyTemplate extends Item {
 			return 250;
 		case TURRET_TAU:
 			return 350;
+		case TURRET_SPITFIRE:
+			return 350;
+		case TURRET_CIWS:
+			return 400;
 		case HUNTER_CHOPPER:
 			return 300;
 		case MISSILE_HE_1:

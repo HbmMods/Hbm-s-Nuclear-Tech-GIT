@@ -212,6 +212,7 @@ tile.flame_war.name=Flamewar aus der Box
 tile.float_bomb.name=Schwebebombe
 tile.therm_endo.name=Endothermische Bombe
 tile.therm_exo.name=Exothermische Bombe
+tile.emp_bomb.name=EMP-Ladung
 
 tile.crashed_bomb.name=Blindgänger
 tile.boxcar.name=Güterwagon
@@ -1057,6 +1058,7 @@ item.turret_rocket_ammo.name=Raketengeschütz 2x4 Munition
 item.turret_flamer_ammo.name=Flammenwerfergeschütz-Tanks
 item.turret_tau_ammo.name=Tauonengeschütz-Uranmunition
 item.turret_spitfire_ammo.name=AA-Geschoss
+item.turret_cwis_ammo.name=CIWS 20mm Munitionstrommel
 
 item.clip_revolver_iron.name=Box voll Eisenkugeln
 item.clip_revolver.name=.357 Magnum Patronen

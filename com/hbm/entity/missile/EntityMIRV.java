@@ -3,6 +3,7 @@ package com.hbm.entity.missile;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.main.MainRegistry;
 
@@ -39,19 +40,11 @@ public class EntityMIRV extends EntityThrowable {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-    	    	entity.posX = this.posX;
-    	    	entity.posY = this.posY;
-    	    	entity.posZ = this.posZ;
-    	    	entity.destructionRange = MainRegistry.mirvRadius;
-    	    	entity.speed = 25;
-    	    	entity.coefficient = 10.0F;
-    	    	
-    	    	this.worldObj.spawnEntityInWorld(entity);
+    	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.mirvRadius, posX, posY, posZ));
 
     			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
     	    	entity2.posX = this.posX;
-    	    	entity2.posY = this.posY - 9;
+    	    	entity2.posY = this.posY;
     	    	entity2.posZ = this.posZ;
     	    	this.worldObj.spawnEntityInWorld(entity2);
     		}

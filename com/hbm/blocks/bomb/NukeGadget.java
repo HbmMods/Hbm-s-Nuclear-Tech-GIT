@@ -9,6 +9,7 @@ import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeGadget;
@@ -159,22 +160,14 @@ public class NukeGadget extends BlockContainer implements IBomb {
 			 * world.spawnEntityInWorld(entity);
 			 */
 
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
-			entity.posX = x;
-			entity.posY = y;
-			entity.posZ = z;
-			entity.destructionRange = MainRegistry.gadgetRadius;
-			entity.speed = MainRegistry.blastSpeed;
-			entity.coefficient = 10.0F;
-
-			world.spawnEntityInWorld(entity);
+	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.gadgetRadius, x + 0.5, y + 0.5, z + 0.5));
 
 			// ExplosionNukeAdvanced.mush(world, x, y, z);
 
 			if (MainRegistry.enableNukeClouds) {
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
 				entity2.posX = x;
-				entity2.posY = y - 15;
+				entity2.posY = y;
 				entity2.posZ = z;
 				world.spawnEntityInWorld(entity2);
 			} else {

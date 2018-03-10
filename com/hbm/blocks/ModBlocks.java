@@ -163,6 +163,7 @@ public class ModBlocks {
 	public static Block float_bomb;
 	public static Block therm_endo;
 	public static Block therm_exo;
+	public static Block emp_bomb;
 	public static Block det_cord;
 	public static Block det_charge;
 	public static Block red_barrel;
@@ -624,6 +625,7 @@ public class ModBlocks {
 		float_bomb = new BombFloat(Material.iron).setBlockName("float_bomb").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F);
 		therm_endo = new BombThermo(Material.iron).setBlockName("therm_endo").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F);
 		therm_exo = new BombThermo(Material.iron).setBlockName("therm_exo").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F);
+		emp_bomb = new BombFloat(Material.iron).setBlockName("emp_bomb").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F);
 		det_cord = new DetCord(Material.iron).setBlockName("det_cord").setCreativeTab(MainRegistry.tabNuke).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_cord");
 		det_charge = new DetCord(Material.iron).setBlockName("det_charge").setCreativeTab(MainRegistry.tabNuke).setHardness(0.1F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":det_charge");
 		red_barrel = new RedBarrel(Material.iron).setBlockName("red_barrel").setCreativeTab(MainRegistry.tabNuke).setHardness(0.5F).setResistance(2.5F);
@@ -1007,6 +1009,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(float_bomb, float_bomb.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_endo, therm_endo.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_exo, therm_exo.getUnlocalizedName());
+		GameRegistry.registerBlock(emp_bomb, emp_bomb.getUnlocalizedName());
 		//GameRegistry.registerBlock(rejuvinator, rejuvinator.getUnlocalizedName());
 		GameRegistry.registerBlock(det_cord, det_cord.getUnlocalizedName());
 		GameRegistry.registerBlock(det_charge, det_charge.getUnlocalizedName());

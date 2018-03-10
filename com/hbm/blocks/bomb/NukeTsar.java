@@ -5,8 +5,10 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
@@ -149,16 +151,14 @@ public class NukeTsar extends BlockContainer implements IBomb {
 			tetn.clearSlots();
 			//world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-		
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
-    		entity.posX = x;
-    		entity.posY = y;
-    		entity.posZ = z;
-    		entity.destructionRange = r;
-    		entity.speed = MainRegistry.blastSpeed;
-    		entity.coefficient = 10.0F;
-    	
-    		world.spawnEntityInWorld(entity);
+
+	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.tsarRadius, x + 0.5, y + 0.5, z + 0.5));
+    		
+			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+			entity2.posX = x;
+			entity2.posY = y;
+			entity2.posZ = z;
+			world.spawnEntityInWorld(entity2);
     		
     		//ExplosionNukeAdvanced.mush(world, x, y, z);
     	}
