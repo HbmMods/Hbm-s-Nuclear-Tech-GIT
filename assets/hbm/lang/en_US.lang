@@ -1346,6 +1346,7 @@ tile.machine_transformer.name=Transformer
 
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.shimmer_sledge.name=Shimmer Sledge
+item.shimmer_axe.name=Shimmer Axe
 item.euphemium_stopper.name=Stopper
 item.matchstick.name=Matchstick
 item.remote.name=Broken Remote

@@ -2,6 +2,7 @@ package com.hbm.render.item;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
@@ -42,12 +43,18 @@ public class ItemRenderShim implements IItemRenderer {
 		case EQUIPPED_FIRST_PERSON:
 		case ENTITY:
 			GL11.glPushMatrix();
-				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.shimmer_sledge_tex);
+				if(item.getItem() == ModItems.shimmer_sledge)
+					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.shimmer_sledge_tex);
+				if(item.getItem() == ModItems.shimmer_axe)
+					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.shimmer_axe_tex);
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				GL11.glTranslatef(0.45F, -0.3F, 0.0F);
-				ResourceManager.shimmer_sledge.renderAll();
+				if(item.getItem() == ModItems.shimmer_sledge)
+					ResourceManager.shimmer_sledge.renderAll();
+				if(item.getItem() == ModItems.shimmer_axe)
+					ResourceManager.shimmer_axe.renderAll();
 			GL11.glPopMatrix();
 		default: break;
 		}
