@@ -1352,6 +1352,7 @@ item.matchstick.name=Matchstick
 item.remote.name=Broken Remote
 
 item.shimmer_head.name=Heavy Hammer Head
+item.shimmer_axe_head.name=Heavy Axe Head
 item.shimmer_handle.name=Reinforced Polymer Handle
 
 item.redcoil_capacitor.name=Redcoil Capacitor

@@ -177,6 +177,7 @@ import com.hbm.tileentity.bomb.TileEntityRedBarrel;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
+import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.bomb.TileEntityTurretFlamer;
 import com.hbm.tileentity.bomb.TileEntityTurretHeavy;
 import com.hbm.tileentity.bomb.TileEntityTurretLight;
@@ -580,6 +581,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTurretCIWS.class, "tileentity_turret_cwis");
 		GameRegistry.registerTileEntity(TileEntityMachineRadar.class, "tileentity_radar");
 		GameRegistry.registerTileEntity(TileEntityBroadcaster.class, "tileentity_pink_cloud_broadcaster");
+		GameRegistry.registerTileEntity(TileEntityTurretCheapo.class, "tileentity_turret_cheapo");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

@@ -8,6 +8,7 @@ import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
+import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -45,10 +46,18 @@ public class ItemTurretControl extends Item {
 						if(!turret.isAI) {
 							turret.rotationYaw = player.rotationYaw;
 							turret.rotationPitch = player.rotationPitch;
+							
 							if(turret.rotationPitch < -60)
 								turret.rotationPitch = -60;
 							if(turret.rotationPitch > 30)
 								turret.rotationPitch = 30;
+							
+							if(turret instanceof TileEntityTurretCheapo) {
+								if(turret.rotationPitch < -30)
+									turret.rotationPitch = -30;
+								if(turret.rotationPitch > 15)
+									turret.rotationPitch = 15;
+							}
 						}
 					}
 				}

@@ -332,6 +332,7 @@ public class ModItems {
 	public static Item combine_scrap;
 
 	public static Item shimmer_head;
+	public static Item shimmer_axe_head;
 	public static Item shimmer_handle;
 
 	public static Item telepad;
@@ -1076,6 +1077,7 @@ public class ModItems {
 	public static Item remote;
 	public static Item turret_control;
 	public static Item turret_chip;
+	public static Item turret_biometry;
 	public static Item chopper;
 
 	public static Item turret_light_ammo;
@@ -1469,6 +1471,7 @@ public class ModItems {
 		combine_scrap = new Item().setUnlocalizedName("combine_scrap").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":combine_scrap");
 
 		shimmer_head = new Item().setUnlocalizedName("shimmer_head").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_head_original");
+		shimmer_axe_head = new Item().setUnlocalizedName("shimmer_axe_head").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_axe_head");
 		shimmer_handle = new Item().setUnlocalizedName("shimmer_handle").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":shimmer_handle");
 
 		telepad = new Item().setUnlocalizedName("telepad").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":telepad");
@@ -2051,7 +2054,8 @@ public class ModItems {
 		linker = new ItemTeleLink().setUnlocalizedName("linker").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":linker");
 		oil_detector = new ItemOilDetector().setUnlocalizedName("oil_detector").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":oil_detector");
 		turret_control = new ItemTurretControl().setUnlocalizedName("turret_control").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_control");
-		turret_chip = new ItemTurretChip().setUnlocalizedName("turret_chip").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_chip");
+		turret_chip = new ItemTurretChip().setUnlocalizedName("turret_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_chip");
+		turret_biometry = new ItemTurretBiometry().setUnlocalizedName("turret_biometry").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":rei_scanner");
 		geiger_counter = new ItemGeigerCounter().setUnlocalizedName("geiger_counter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":geiger_counter");
 		survey_scanner = new ItemSurveyScanner().setUnlocalizedName("survey_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":survey_scanner");
 
@@ -2630,6 +2634,7 @@ public class ModItems {
 		
 		//Hammer Parts
 		GameRegistry.registerItem(shimmer_head, shimmer_head.getUnlocalizedName());
+		GameRegistry.registerItem(shimmer_axe_head, shimmer_axe_head.getUnlocalizedName());
 		GameRegistry.registerItem(shimmer_handle, shimmer_handle.getUnlocalizedName());
 		
 		//Circuits
@@ -3010,6 +3015,7 @@ public class ModItems {
 		GameRegistry.registerItem(designator_manual, designator_manual.getUnlocalizedName());
 		GameRegistry.registerItem(turret_control, turret_control.getUnlocalizedName());
 		GameRegistry.registerItem(turret_chip, turret_chip.getUnlocalizedName());
+		GameRegistry.registerItem(turret_biometry, turret_biometry.getUnlocalizedName());
 		GameRegistry.registerItem(linker, linker.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(survey_scanner, survey_scanner.getUnlocalizedName());

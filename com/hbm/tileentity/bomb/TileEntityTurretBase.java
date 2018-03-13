@@ -2,6 +2,7 @@ package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.TurretBase;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.items.tool.ItemTurretBiometry;
 import com.hbm.lib.Library;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -28,6 +29,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 	public String uuid = "none";
 	public int use;
 	public int ammo = 0;
+	public int freq = 0;
 	
 	@Override
 	public void updateEntity() {
@@ -61,7 +63,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 
 				Vec3 turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1), target.posZ - (zCoord + 0.5));
 				
-				if(this instanceof TileEntityTurretCIWS || this instanceof TileEntityTurretSpitfire) {
+				if(this instanceof TileEntityTurretCIWS || this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCheapo) {
 					turret = Vec3.createVectorHelper(target.posX - (xCoord + 0.5), target.posY + target.getEyeHeight() - (yCoord + 1.5), target.posZ - (zCoord + 0.5));
 				}
 				
@@ -73,12 +75,12 @@ public abstract class TileEntityTurretBase extends TileEntity {
 				if(rotationPitch > 30)
 					rotationPitch = 30;
 				
-				use++;
-
 				if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof TurretBase && ammo > 0) {
 					if(((TurretBase)worldObj.getBlock(xCoord, yCoord, zCoord)).executeHoldAction(worldObj, use, rotationYaw, rotationPitch, xCoord, yCoord, zCoord))
 						ammo--;
 				}
+				
+				use++;
 				
 			} else {
 				use = 0;
@@ -96,11 +98,11 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
-		if(e instanceof EntityPlayer && ((EntityPlayer)e).getUniqueID().toString().equals(uuid))
+		if(e instanceof EntityPlayer && (((EntityPlayer)e).getUniqueID().toString().equals(uuid) || playerHasFreq((EntityPlayer)e)) )
 			return false;
 		
 		Vec3 turret;
-		if(this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCIWS)
+		if(this instanceof TileEntityTurretSpitfire || this instanceof TileEntityTurretCIWS || this instanceof TileEntityTurretCheapo)
 			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5);
 		else
 			turret = Vec3.createVectorHelper(xCoord + 0.5, yCoord + 1, zCoord + 0.5);
@@ -117,6 +119,20 @@ public abstract class TileEntityTurretBase extends TileEntity {
 			return true;
 		
 		return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
+	}
+	
+	private boolean playerHasFreq(EntityPlayer player) {
+		
+		for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			
+			ItemStack stack = player.inventory.getStackInSlot(i);
+			
+			if(stack != null && stack.getItem() instanceof ItemTurretBiometry)
+				if(ItemTurretBiometry.getFreq(stack) == this.freq)
+					return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -139,6 +155,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		isAI = nbt.getBoolean("AI");
 		uuid = nbt.getString("player");
 		ammo = nbt.getInteger("ammo");
+		freq = nbt.getInteger("freq");
 	}
 	
 	@Override
@@ -149,6 +166,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		nbt.setBoolean("AI", isAI);
 		nbt.setString("player", uuid);
 		nbt.setInteger("ammo", ammo);
+		nbt.setInteger("freq", freq);
 	}
 
 }

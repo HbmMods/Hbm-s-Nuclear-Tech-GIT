@@ -58,6 +58,8 @@ public class BombFloat extends Block implements IBomb {
 
 	@Override
 	public void explode(World world, int x, int y, int z) {
+		world.playSoundEffect(x, y, z, "hbm:weapon.sparkShoot", 5.0f, world.rand.nextFloat() * 0.2F + 0.9F);
+		
 		if(!world.isRemote) {
 			world.setBlock(x, y, z, Blocks.air);
     		if(this == ModBlocks.float_bomb) {

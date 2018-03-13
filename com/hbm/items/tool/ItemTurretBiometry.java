@@ -13,36 +13,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class ItemTurretChip extends Item {
+public class ItemTurretBiometry extends Item {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Channel set to " + getFreq(itemstack));
 	}
-	
-	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
-    {
-		if((world.getBlock(x, y, z) instanceof TurretBase))
-		{
-			TileEntity te = world.getTileEntity(x, y, z);
-			if(te instanceof TileEntityTurretBase) {
-				((TileEntityTurretBase)te).isAI = true;
-				((TileEntityTurretBase)te).uuid = player.getUniqueID().toString();
-				((TileEntityTurretBase)te).freq = getFreq(stack);
-			}
-	        if(world.isRemote)
-			{
-	        	player.addChatMessage(new ChatComponentText("Turret ownership set to: " + player.getDisplayName() + " on channel " + getFreq(stack)));
-			}
-			world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-        	
-	        return true;
-		}
-    	
-        return false;
-    }
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -73,7 +50,7 @@ public class ItemTurretChip extends Item {
 		return stack;
 	}
 	
-	private static int getFreq(ItemStack stack) {
+	public static int getFreq(ItemStack stack) {
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
 			return 0;
@@ -87,5 +64,4 @@ public class ItemTurretChip extends Item {
 		}
 		stack.stackTagCompound.setInteger("freq", i);
 	}
-
 }

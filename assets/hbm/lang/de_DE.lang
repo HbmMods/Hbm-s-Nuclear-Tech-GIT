@@ -1349,6 +1349,7 @@ item.matchstick.name=Streichholz
 item.remote.name=Kaputte Fernbedienung
 
 item.shimmer_head.name=Schwerer Hammerkopf
+item.shimmer_axe_head.name=Schwerer Axtkopf
 item.shimmer_handle.name=Verstärketer Polymergriff
 
 item.redcoil_capacitor.name=Rotspulenkondensator

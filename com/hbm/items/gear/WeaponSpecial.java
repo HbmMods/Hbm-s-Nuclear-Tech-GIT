@@ -38,7 +38,7 @@ public class WeaponSpecial extends ItemSword {
 		if(this == ModItems.ullapool_caber) {
 			return EnumRarity.uncommon;
 		}
-		if(this == ModItems.shimmer_sledge) {
+		if(this == ModItems.shimmer_sledge || this == ModItems.shimmer_axe) {
 			return EnumRarity.epic;
 		}
 		
@@ -94,6 +94,13 @@ public class WeaponSpecial extends ItemSword {
 			entity.motionZ += dZ;
         	world.playSoundAtEntity(entity, "hbm:weapon.bang", 3.0F, 1.F);
 		}
+    	
+		if(this == ModItems.shimmer_axe) {
+			
+			entity.setHealth(entity.getHealth() / 2);
+			
+        	world.playSoundAtEntity(entity, "hbm:weapon.slice", 3.0F, 1.F);
+		}
 		
 		return false;
     }
@@ -101,7 +108,7 @@ public class WeaponSpecial extends ItemSword {
 	@Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f1, float f2, float f3)
     {
-		
+
 		if(this == ModItems.shimmer_sledge) {
 			if(world.getBlock(x, y, z) != Blocks.air) {
 				
@@ -120,7 +127,7 @@ public class WeaponSpecial extends ItemSword {
 				rubble.motionX += dX;
 				rubble.motionY += dY;
 				rubble.motionZ += dZ;
-	        	world.playSoundAtEntity(rubble, "hbm:weapon.bang", 3.0F, 1.F);
+	        	world.playSoundAtEntity(rubble, "hbm:weapon.bang", 3.0F, 1.0F);
 				
 	        	if(!world.isRemote) {
 	        		
@@ -128,6 +135,24 @@ public class WeaponSpecial extends ItemSword {
 					world.func_147480_a(x, y, z, false);
 	        	}
 			}
+			return true;
+		}
+		
+		if(this == ModItems.shimmer_axe) {
+
+        	world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:weapon.kapeng", 3.0F, 1.0F);
+
+        	if(!world.isRemote) {
+				if(world.getBlock(x, y, z) != Blocks.air) {
+					world.func_147480_a(x, y, z, false);
+				}
+				if(world.getBlock(x, y + 1, z) != Blocks.air) {
+					world.func_147480_a(x, y + 1, z, false);
+				}
+				if(world.getBlock(x, y - 1, z) != Blocks.air) {
+					world.func_147480_a(x, y - 1, z, false);
+				}
+        	}
 			return true;
 		}
 		
@@ -141,7 +166,7 @@ public class WeaponSpecial extends ItemSword {
 		if(this == ModItems.schrabidium_hammer) {
 			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.5, 1));
 		}
-		if(this == ModItems.shimmer_sledge) {
+		if(this == ModItems.shimmer_sledge || this == ModItems.shimmer_axe) {
 			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
 		}
         return multimap;
@@ -171,6 +196,13 @@ public class WeaponSpecial extends ItemSword {
 				list.add("shimmer pls");
 			} else {
 				list.add("Breaks everything, even portals.");
+			}
+		}
+		if(this == ModItems.shimmer_axe) {
+			if(MainRegistry.polaroidID == 11) {
+				list.add("shim's toolbox does an e-x-p-a-n-d");
+			} else {
+				list.add("Timber!");
 			}
 		}
 	}
