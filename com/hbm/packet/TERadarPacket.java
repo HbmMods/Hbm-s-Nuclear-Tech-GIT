@@ -21,18 +21,20 @@ public class TERadarPacket implements IMessage {
 	int conX;
 	int conY;
 	int conZ;
+	int alt;
 
 	public TERadarPacket() {
 
 	}
 
-	public TERadarPacket(int x, int y, int z, int conX, int conY, int conZ) {
+	public TERadarPacket(int x, int y, int z, int conX, int conY, int conZ, int alt) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.conX = conX;
 		this.conY = conY;
 		this.conZ = conZ;
+		this.alt = alt;
 	}
 
 	@Override
@@ -43,6 +45,7 @@ public class TERadarPacket implements IMessage {
 		conX = buf.readInt();
 		conY = buf.readInt();
 		conZ = buf.readInt();
+		alt = buf.readInt();
 	}
 
 	@Override
@@ -53,6 +56,7 @@ public class TERadarPacket implements IMessage {
 		buf.writeInt(conX);
 		buf.writeInt(conY);
 		buf.writeInt(conZ);
+		buf.writeInt(alt);
 	}
 
 	public static class Handler implements IMessageHandler<TERadarPacket, IMessage> {
@@ -66,7 +70,7 @@ public class TERadarPacket implements IMessage {
 				if (te != null && te instanceof TileEntityMachineRadar) {
 
 					TileEntityMachineRadar radar = (TileEntityMachineRadar) te;
-					radar.nearbyMissiles.add(new int[]{m.conX, m.conY, m.conZ});
+					radar.nearbyMissiles.add(new int[]{m.conX, m.conY, m.conZ, m.alt});
 				}
 			} catch (Exception x) {
 			}

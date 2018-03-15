@@ -81,7 +81,7 @@ public class RenderSmallNukeAlt extends Render {
         {
         	scale += 0.02;
         }*/
-        GL11.glScalef(p_76986_1_.scale, 1.0F, p_76986_1_.scale);
+        //GL11.glScalef(p_76986_1_.scale, 1.0F, p_76986_1_.scale);
         GL11.glScalef(50F, 25.0F, 50F);
         
         bindTexture(ringBigTexture);

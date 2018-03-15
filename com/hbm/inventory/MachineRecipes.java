@@ -2688,6 +2688,13 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_gold, 5));
 			list.add(new ItemStack(ModItems.magnetron, 3));
 			break;
+		case TURRET_CHEAPO:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_iron, 4));
+			list.add(new ItemStack(ModItems.pipes_steel, 3));
+			list.add(new ItemStack(ModItems.motor, 3));
+			list.add(new ItemStack(ModItems.circuit_red_copper, 3));
+			break;
 		case HUNTER_CHOPPER:
 			list.add(new ItemStack(ModItems.chopper_blades, 5));
 			list.add(new ItemStack(ModItems.chopper_gun, 1));
@@ -3576,6 +3583,9 @@ public class MachineRecipes {
 			break;
 		case TURRET_CIWS:
 			output = new ItemStack(ModBlocks.turret_cwis, 1);
+			break;
+		case TURRET_CHEAPO:
+			output = new ItemStack(ModBlocks.turret_cheapo, 1);
 			break;
 		case HUNTER_CHOPPER:
 			output = new ItemStack(ModItems.chopper, 1);

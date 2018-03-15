@@ -758,6 +758,16 @@ public class Library {
 			power += 100;
 			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 		}
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_potato && ItemBattery.getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
+		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_potatos && ItemBattery.getCharge(slots[index]) > 0)
+		{
+			power += 100;
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+		}
 
 		if(power + 100 <= maxPower && slots[index] != null && slots[index].getItem() == ModItems.battery_generic && ItemBattery.getCharge(slots[index]) > 0)
 		{

@@ -165,7 +165,7 @@ public class NukeGadget extends BlockContainer implements IBomb {
 			// ExplosionNukeAdvanced.mush(world, x, y, z);
 
 			if (MainRegistry.enableNukeClouds) {
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, MainRegistry.gadgetRadius * 0.005F);
 				entity2.posX = x;
 				entity2.posY = y;
 				entity2.posZ = z;

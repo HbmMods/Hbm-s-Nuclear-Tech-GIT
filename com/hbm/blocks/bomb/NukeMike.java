@@ -146,13 +146,13 @@ public class NukeMike extends BlockContainer implements IBomb {
 
 			if (MainRegistry.enableNukeClouds) {
 				if (r < 200) {
-					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
 					entity2.posX = x;
 					entity2.posY = y;
 					entity2.posZ = z;
 					world.spawnEntityInWorld(entity2);
 				} else {
-					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
 					entity2.posX = x;
 					entity2.posY = y;
 					entity2.posZ = z;

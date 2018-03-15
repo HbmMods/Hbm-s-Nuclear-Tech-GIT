@@ -9,7 +9,7 @@ public class EntityNukeCloudNoShroom extends EntityNukeCloudSmall {
 	}
 
 	public EntityNukeCloudNoShroom(World p_i1582_1_, int maxAge) {
-		super(p_i1582_1_, maxAge);
+		super(p_i1582_1_, maxAge, 1.0F);
 	}
 
 }

@@ -81,8 +81,9 @@ public class RenderSmallNukeMK3 extends Render {
         GL11.glTranslatef((float)posX, (float)posY + 0.25F, (float)posZ);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
-        
-        GL11.glScalef(cloud.scale, cloud.scale, cloud.scale);
+
+    	float size = cloud.getDataWatcher().getWatchableObjectFloat(18);
+        GL11.glScalef(size, size, size);
 
 		int age = cloud.age;
         int shockScale = age * 4;

@@ -211,11 +211,13 @@ tile.turret_flamer.name=Flamethrower Turret
 tile.turret_tau.name=Tauon Turret
 tile.turret_spitfire.name=Turret I have no name for right now [WIP]
 tile.turret_cwis.name=Phalanx Mk-15 CIWS
+tile.turret_cheapo.name=Cheapo Gatling Sentry
 tile.machine_radar.name=Radar
 container.radar=Radar
 
 item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
+item.turret_biometry.name=Turret Telemetry Card
 
 tile.crate.name=Supply Crate
 tile.marker_structure.name=Multiblock Structure Marker
@@ -655,6 +657,9 @@ item.battery_creative.name=Infinite Battery
 item.battery_su.name=SU-Battery
 item.battery_su_l.name=Large SU-Battery
 
+item.battery_potato.name=Potato Battery
+item.battery_potatos.name=PotatOS
+
 item.battery_red_cell.name=Redstone Power Cell
 item.battery_advanced_cell.name=Advanced Power Cell
 item.battery_lithium_cell.name=Lithium-Ion Power Cell
@@ -1062,6 +1067,7 @@ item.turret_flamer_ammo.name=Flamer Turret Fuel Tanks
 item.turret_tau_ammo.name=Tau Turret Uranium Ammo
 item.turret_spitfire_ammo.name=AA-Shell
 item.turret_cwis_ammo.name=CIWS 20mm Ammo Drum
+item.turret_cheapo_ammo.name=6x24 Cheapo Turret Ammunition
 
 item.clip_revolver_iron.name=Box of Iron Rounds
 item.clip_revolver.name=Box of .357 Rounds

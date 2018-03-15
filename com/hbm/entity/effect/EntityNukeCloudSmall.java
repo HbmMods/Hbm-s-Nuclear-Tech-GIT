@@ -11,7 +11,6 @@ public class EntityNukeCloudSmall extends Entity {
 	
 	public int maxAge = 1000;
 	public int age;
-    public float scale = 1;
 
 	public EntityNukeCloudSmall(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -34,11 +33,12 @@ public class EntityNukeCloudSmall extends Entity {
         return 1.0F;
     }
 
-	public EntityNukeCloudSmall(World p_i1582_1_, int maxAge) {
+	public EntityNukeCloudSmall(World p_i1582_1_, int maxAge, float scale) {
 		super(p_i1582_1_);
 		this.setSize(20, 40);
 		this.isImmuneToFire = true;
 		this.maxAge = maxAge;
+		this.dataWatcher.updateObject(18, scale);
 	}
 
     @Override
@@ -55,28 +55,27 @@ public class EntityNukeCloudSmall extends Entity {
 
         this.dataWatcher.updateObject(16, (short)maxAge);
         this.dataWatcher.updateObject(17, (short)age);
-        this.dataWatcher.updateObject(18, (float)scale); 
     }
 
 	@Override
 	protected void entityInit() {
 		this.dataWatcher.addObject(16, (short)maxAge);
 		this.dataWatcher.addObject(17, (short)age);
-		this.dataWatcher.addObject(18, (float)scale);
+		this.dataWatcher.addObject(18, 1.0F);
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
 		maxAge = p_70037_1_.getShort("maxAge");
 		age = p_70037_1_.getShort("age");
-		scale = p_70037_1_.getShort("scale");
+		this.dataWatcher.updateObject(18, p_70037_1_.getFloat("scale"));
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
 		p_70014_1_.setShort("maxAge", (short)maxAge);
 		p_70014_1_.setShort("age", (short)age);
-		p_70014_1_.setFloat("scale", (float)scale);
+		p_70014_1_.setFloat("scale", this.dataWatcher.getWatchableObjectFloat(18));
 		
 	}
 

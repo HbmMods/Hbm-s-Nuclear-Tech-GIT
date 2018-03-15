@@ -424,6 +424,9 @@ public class MainRegistry
 	public static int meteorShowerChance = 20 * 60 * 3;
 	public static int meteorShowerDuration = 6000;
 	public static int limitExplosionLifespan = 0;
+	public static int radarRange = 1000;
+	public static int radarBuffer = 30;
+	public static int radarAltitude = 55;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -1343,6 +1346,16 @@ public class MainRegistry
         Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 1024);
         propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
         blastSpeed = propBlastSpeed.getInt();
+
+        Property propRadarRange = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarRange", 1000);
+        propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";
+        radarRange = propRadarRange.getInt();
+        Property propRadarBuffer = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarBuffer", 30);
+        propRadarBuffer.comment = "How high entities have to be above the radar to be detected";
+        radarBuffer = propRadarBuffer.getInt();
+        Property propRadarAltitude = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarAltitude", 55);
+        propRadarAltitude.comment = "Y height required for the radar to work";
+        radarAltitude = propRadarAltitude.getInt();
         
         config.save();
 	}

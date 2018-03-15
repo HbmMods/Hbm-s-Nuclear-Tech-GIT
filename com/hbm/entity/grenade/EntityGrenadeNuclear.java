@@ -43,12 +43,12 @@ public class EntityGrenadeNuclear extends EntityGrenadeBase
     	    entity0.speed = 25;
     	    entity0.coefficient = 10.0F;*/
     	    	
-    	    this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.nukaRadius * 2, posX, posY, posZ));
+    	    this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.nukaRadius, posX, posY, posZ));
         	if(rand.nextInt(100) == 0)
         	{
-        		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 2, (int)this.posZ);
+        		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
         	} else {
-        		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 2, (int)this.posZ);
+        		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ);
         	}
         }
     }

@@ -199,11 +199,13 @@ tile.turret_flamer.name=Flammenwerfergeschütz
 tile.turret_tau.name=Tauonengeschütz
 tile.turret_spitfire.name=Geschütz für das ich noch keinen Namen habe [WIP]
 tile.turret_cwis.name=Phalanx Mk-15 CIWS
+tile.turret_cheapo.name=Billigsdorfer Gatling-Geschütz
 tile.machine_radar.name=Radar
 container.radar=Radar
 
 item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
+item.turret_biometry.name=Geschütz-Telemetriekarte
 
 tile.bomb_multi.name=Mehrzweckbombe
 tile.rejuvinator.name=Regenerationsmaschine
@@ -652,6 +654,9 @@ item.battery_creative.name=Unendliche Batterie
 item.battery_su.name=Einwegbatterie
 item.battery_su_l.name=Große Einwegbatterie
 
+item.battery_potato.name=Katoffelbatterie
+item.battery_potatos.name=PotatOS
+
 item.battery_red_cell.name=Redstone-Energiezelle
 item.battery_advanced_cell.name=Fortgeschrittene Energiezelle
 item.battery_lithium_cell.name=Lithium-Ionen-Energiezelle
@@ -1059,6 +1064,7 @@ item.turret_flamer_ammo.name=Flammenwerfergeschütz-Tanks
 item.turret_tau_ammo.name=Tauonengeschütz-Uranmunition
 item.turret_spitfire_ammo.name=AA-Geschoss
 item.turret_cwis_ammo.name=CIWS 20mm Munitionstrommel
+item.turret_cheapo_ammo.name=6x24 Billigsdorfer-Munition
 
 item.clip_revolver_iron.name=Box voll Eisenkugeln
 item.clip_revolver.name=.357 Magnum Patronen

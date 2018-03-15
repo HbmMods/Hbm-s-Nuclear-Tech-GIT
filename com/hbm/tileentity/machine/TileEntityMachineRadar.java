@@ -26,8 +26,6 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 
 	public static List<EntityMissileBaseAdvanced> allMissiles = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
-	
-	public static int range = 1000;
 
 	public long power = 0;
 	public static final int maxPower = 100000;
@@ -74,7 +72,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		
 		nearbyMissiles.clear();
 		
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - range, 0, zCoord + 0.5 - range, xCoord + 0.5 + range, 5000, zCoord + 0.5 + range));
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - MainRegistry.radarRange, 0, zCoord + 0.5 - MainRegistry.radarRange, xCoord + 0.5 + MainRegistry.radarRange, 5000, zCoord + 0.5 + MainRegistry.radarRange));
 
 		for(Entity e : list) {
 			/*if(e instanceof EntityMissileBaseAdvanced) {
@@ -82,29 +80,29 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 				nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
 			}*/
 			
-			if(e instanceof EntityRocketHoming) {
+			if(e instanceof EntityRocketHoming && e.posY >= yCoord + MainRegistry.radarBuffer) {
 				EntityRocketHoming rocket = (EntityRocketHoming)e;
 				
 				if(rocket.getIsCritical())
-					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 7 });
+					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 7, (int)e.posY });
 				else
-					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 6 });
+					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 6, (int)e.posY });
 				
 				continue;
 			}
 			
-			if(!(e instanceof EntityMissileBaseAdvanced) && e.width * e.width * e.height >= 0.5D && e.posY >= yCoord + 30) {
-				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5 });
+			if(!(e instanceof EntityMissileBaseAdvanced) && e.width * e.width * e.height >= 0.5D && e.posY >= yCoord + MainRegistry.radarBuffer) {
+				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5, (int)e.posY });
 			}
 		}
 		
 		for(Entity e : allMissiles) {
-			if(e != null && !e.isDead)
+			if(e != null && !e.isDead && e.posY >= yCoord + MainRegistry.radarBuffer)
 				if(e instanceof EntityMissileBaseAdvanced) {
-					if(e.posX < xCoord + range && e.posX > xCoord - range &&
-							e.posZ < zCoord + range && e.posZ > zCoord - range) {
+					if(e.posX < xCoord + MainRegistry.radarRange && e.posX > xCoord - MainRegistry.radarRange &&
+							e.posZ < zCoord + MainRegistry.radarRange && e.posZ > zCoord - MainRegistry.radarRange) {
 						EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
-						nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
+						nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType(), (int)mis.posY });
 					}
 				}
 		}
@@ -114,7 +112,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		
 		if(!nearbyMissiles.isEmpty()) {
 			
-			double maxRange = range * Math.sqrt(2D);
+			double maxRange = MainRegistry.radarRange * Math.sqrt(2D);
 			
 			int power = 0;
 			
@@ -139,7 +137,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		PacketDispatcher.wrapper.sendToAll(new TERadarDestructorPacket(xCoord, yCoord, zCoord));
 		
 		for(int[] e : this.nearbyMissiles) {
-			PacketDispatcher.wrapper.sendToAll(new TERadarPacket(xCoord, yCoord, zCoord, e[0], e[1], e[2]));
+			PacketDispatcher.wrapper.sendToAll(new TERadarPacket(xCoord, yCoord, zCoord, e[0], e[1], e[2], e[3]));
 		}
 	}
 	

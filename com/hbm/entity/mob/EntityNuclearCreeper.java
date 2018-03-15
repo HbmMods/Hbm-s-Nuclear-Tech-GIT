@@ -458,7 +458,7 @@ public class EntityNuclearCreeper extends EntityMob {
             
             if(this.getPowered())
             {
-    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
+    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, explosionRadius * 0.005F);
     	    	entity2.posX = this.posX;
     	    	entity2.posY = this.posY;
     	    	entity2.posZ = this.posZ;

@@ -38,7 +38,7 @@ public class TurretCheapo extends TurretBase {
 		if(te.spin < 35)
 			te.spin += 5;
 		
-		if(te.spin > 25 && i % 4 == 0) {
+		if(te.spin > 25 && i % 2 == 0) {
 			Vec3 vector = Vec3.createVectorHelper(
 					-Math.sin(yaw / 180.0F * (float) Math.PI) * Math.cos(pitch / 180.0F * (float) Math.PI),
 					-Math.sin(pitch / 180.0F * (float) Math.PI),
@@ -56,7 +56,7 @@ public class TurretCheapo extends TurretBase {
 				bullet.motionY = vector.yCoord * 3;
 				bullet.motionZ = vector.zCoord * 3;
 				
-				bullet.damage = rand.nextInt(11) + 10;
+				bullet.damage = rand.nextInt(11) + 5;
 				
 				world.spawnEntityInWorld(bullet);
 			}
@@ -72,7 +72,10 @@ public class TurretCheapo extends TurretBase {
 	@Override
 	public void executeReleaseAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
 
-		world.playSoundEffect(x, y, z, "hbm:weapon.spindown", 1.0F, 1.0F);
+		TileEntityTurretCheapo te = (TileEntityTurretCheapo)world.getTileEntity(x, y, z);
+		
+		if(te.spin > 10)
+			world.playSoundEffect(x, y, z, "hbm:weapon.spindown", 1.0F, 1.0F);
 	}
 
 }

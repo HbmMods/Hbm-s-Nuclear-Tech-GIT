@@ -15,8 +15,6 @@ public class TileEntityTurretCheapo extends TileEntityTurretBase {
 		
 		super.updateEntity();
 		
-		this.ammo = 100;
-		
 		if(!worldObj.isRemote) {
 			
 			if(spin > 0)

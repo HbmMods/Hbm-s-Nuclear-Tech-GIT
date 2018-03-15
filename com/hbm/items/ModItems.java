@@ -830,6 +830,8 @@ public class ModItems {
 
 	public static Item battery_su;
 	public static Item battery_su_l;
+	public static Item battery_potato;
+	public static Item battery_potatos;
 	public static Item fusion_core;
 	public static Item fusion_core_infinite;
 	public static Item energy_core;
@@ -1087,6 +1089,7 @@ public class ModItems {
 	public static Item turret_tau_ammo;
 	public static Item turret_spitfire_ammo;
 	public static Item turret_cwis_ammo;
+	public static Item turret_cheapo_ammo;
 
 	public static Item bucket_mud;
 	public static Item bucket_acid;
@@ -1936,6 +1939,8 @@ public class ModItems {
 		battery_spark_cell_6 = new ItemBattery(1000000 * 6).setUnlocalizedName("battery_spark_cell_6").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_6");
 		battery_spark_cell_25 = new ItemBattery(1000000 * 25).setUnlocalizedName("battery_spark_cell_25").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_25");
 
+		battery_potato = new ItemBattery(1).setUnlocalizedName("battery_potato").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_potato");
+		battery_potatos = new ItemBattery(50).setUnlocalizedName("battery_potatos").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_potatos");
 		battery_su = new ItemBattery(15).setUnlocalizedName("battery_su").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_su");
 		battery_su_l = new ItemBattery(35).setUnlocalizedName("battery_su_l").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_su_l");
 		fusion_core = new ItemBattery(200000).setUnlocalizedName("fusion_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fusion_core");
@@ -2066,6 +2071,7 @@ public class ModItems {
 		turret_tau_ammo = new ItemTurretAmmo(ModBlocks.turret_tau, 100).setUnlocalizedName("turret_tau_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_tau_ammo");
 		turret_spitfire_ammo = new ItemTurretAmmo(ModBlocks.turret_spitfire, 2).setUnlocalizedName("turret_spitfire_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_spitfire_ammo");
 		turret_cwis_ammo = new ItemTurretAmmo(ModBlocks.turret_cwis, 250).setUnlocalizedName("turret_cwis_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_cwis_ammo");
+		turret_cheapo_ammo = new ItemTurretAmmo(ModBlocks.turret_cheapo, 100).setUnlocalizedName("turret_cheapo_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":turret_cheapo_ammo");
 		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":template_folder");
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.tabMachine).setTextureName(RefStrings.MODID + ":assembly_template");
@@ -2754,6 +2760,8 @@ public class ModItems {
 		GameRegistry.registerItem(battery_creative, battery_creative.getUnlocalizedName());
 		GameRegistry.registerItem(battery_su, battery_su.getUnlocalizedName());
 		GameRegistry.registerItem(battery_su_l, battery_su_l.getUnlocalizedName());
+		GameRegistry.registerItem(battery_potato, battery_potato.getUnlocalizedName());
+		GameRegistry.registerItem(battery_potatos, battery_potatos.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerItem(energy_core, energy_core.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_core_infinite, fusion_core_infinite.getUnlocalizedName());
@@ -3127,6 +3135,7 @@ public class ModItems {
 		GameRegistry.registerItem(turret_tau_ammo, turret_tau_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_spitfire_ammo, turret_spitfire_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(turret_cwis_ammo, turret_cwis_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(turret_cheapo_ammo, turret_cheapo_ammo.getUnlocalizedName());
 		
 		//-C-l-i-p-s- Magazines
 		GameRegistry.registerItem(clip_revolver_iron, clip_revolver_iron.getUnlocalizedName());

@@ -42,7 +42,7 @@ public class EntityMIRV extends EntityThrowable {
     		{
     	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.mirvRadius, posX, posY, posZ));
 
-    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000);
+    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, MainRegistry.mirvRadius * 0.005F);
     	    	entity2.posX = this.posX;
     	    	entity2.posY = this.posY;
     	    	entity2.posZ = this.posZ;

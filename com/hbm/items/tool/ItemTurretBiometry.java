@@ -33,9 +33,9 @@ public class ItemTurretBiometry extends Item {
 		}
 		
 		if(i == -1)
-			i = 255;
+			i = 511;
 		
-		if(i == 256)
+		if(i == 512)
 			i = 0;
 		
 		setFreq(stack, i);

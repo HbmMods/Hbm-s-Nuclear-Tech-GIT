@@ -199,7 +199,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	    	    	ExplosionParticleB.spawnMush(world, x, y - ((int)amat / 10), z);
 	    	    } else if(amat < 200) {
 	    	    	if(MainRegistry.enableNukeClouds) {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, amat * 0.005F);
 	    				entity2.posX = x;
 	    				entity2.posY = y - (amat/10);
 	    				entity2.posZ = z;
@@ -249,7 +249,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	    	    	ExplosionParticle.spawnMush(world, x, y - ((int)hydro / 10), z);
 	    	    } else if(hydro < 200) {
 	    	    	if(MainRegistry.enableNukeClouds) {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, hydro * 0.005F);
 	    				entity2.posX = x;
 	    				entity2.posY = y - (hydro/10);
 	    				entity2.posZ = z;
@@ -298,7 +298,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	    	    	ExplosionParticle.spawnMush(world, x, y - ((int)nuke / 10), z);
 	    	    } else if(nuke < 200) {
 	    	    	if(MainRegistry.enableNukeClouds) {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000);
+	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, nuke * 0.005F);
 	    				entity2.posX = x;
 	    				entity2.posY = y - (nuke/10);
 	    				entity2.posZ = z;
