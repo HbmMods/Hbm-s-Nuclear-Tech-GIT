@@ -47,6 +47,9 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 	@Override
 	public void updateEntity() {
 		
+		if(this.yCoord < MainRegistry.radarAltitude)
+			return;
+		
 		if(!worldObj.isRemote)
 			nearbyMissiles.clear();
 		
@@ -80,7 +83,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 				nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
 			}*/
 			
-			if(e instanceof EntityRocketHoming && e.posY >= yCoord + MainRegistry.radarBuffer) {
+			/*if(e instanceof EntityRocketHoming && e.posY >= yCoord + MainRegistry.radarBuffer) {
 				EntityRocketHoming rocket = (EntityRocketHoming)e;
 				
 				if(rocket.getIsCritical())
@@ -89,7 +92,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 6, (int)e.posY });
 				
 				continue;
-			}
+			}*/
 			
 			if(!(e instanceof EntityMissileBaseAdvanced) && e.width * e.width * e.height >= 0.5D && e.posY >= yCoord + MainRegistry.radarBuffer) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5, (int)e.posY });

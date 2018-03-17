@@ -14,6 +14,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeGadget;
 import com.hbm.tileentity.bomb.TileEntityNukeMan;
 import com.hbm.tileentity.bomb.TileEntityNukeMike;
 import com.hbm.tileentity.bomb.TileEntityNukePrototype;
+import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
@@ -598,6 +599,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_nuke_solinium:
+			{
+				if(entity instanceof TileEntityNukeSolinium)
+				{
+					//return new ContainerNukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1127,6 +1137,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineRadar)
 					{
 						return new GUIMachineRadar(player.inventory, (TileEntityMachineRadar) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_nuke_solinium:
+				{
+					if(entity instanceof TileEntityNukeSolinium)
+					{
+						//return new GUINukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
 					}
 					return null;
 				}

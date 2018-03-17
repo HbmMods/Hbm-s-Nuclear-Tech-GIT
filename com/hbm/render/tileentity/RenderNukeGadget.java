@@ -19,7 +19,7 @@ public class RenderNukeGadget extends TileEntitySpecialRenderer {
 	public RenderNukeGadget()
     {
 		gadgetModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		gadgetTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_tex.png");
     }
 
     @Override

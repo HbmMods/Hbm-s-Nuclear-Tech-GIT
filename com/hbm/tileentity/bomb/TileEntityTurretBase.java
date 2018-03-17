@@ -75,6 +75,14 @@ public abstract class TileEntityTurretBase extends TileEntity {
 				if(rotationPitch > 30)
 					rotationPitch = 30;
 				
+				if(this instanceof TileEntityTurretCheapo) {
+					
+					if(rotationPitch < -30)
+						rotationPitch = -30;
+					if(rotationPitch > 15)
+						rotationPitch = 15;
+				}
+				
 				if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof TurretBase && ammo > 0) {
 					if(((TurretBase)worldObj.getBlock(xCoord, yCoord, zCoord)).executeHoldAction(worldObj, use, rotationYaw, rotationPitch, xCoord, yCoord, zCoord))
 						ammo--;
