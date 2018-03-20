@@ -292,6 +292,8 @@ public class MachineRecipes {
 				return new ItemStack(Items.emerald);
 			if(input == ModItems.pellet_coal)
 				return new ItemStack(Items.diamond);
+			if(input == ModItems.biomass)
+				return new ItemStack(ModItems.biomass_compressed);
 		}
 		
 		if(stamps_plate.contains(stamp)) {
@@ -376,6 +378,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_diamond) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_diamond));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_emerald) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_emerald));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.pellet_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.pellet_coal));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.biomass) }, getPressResultNN(stamps_flat.get(0), ModItems.biomass));
 
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.iron_ingot) }, getPressResultNN(stamps_plate.get(0), Items.iron_ingot));
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.gold_ingot) }, getPressResultNN(stamps_plate.get(0), Items.gold_ingot));
@@ -2990,7 +2993,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.coil_tungsten, 5));
 			list.add(new ItemStack(ModItems.motor, 2));
 			break;
-		case FLEIIJA_IGNITER:
+		case FLEIJA_IGNITER:
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
 			list.add(new ItemStack(ModItems.wire_schrabidium, 2));
 			list.add(new ItemStack(ModItems.circuit_schrabidium, 1));
@@ -3004,6 +3007,23 @@ public class MachineRecipes {
 		case FLEIJA_PROPELLANT:
 			list.add(new ItemStack(Blocks.tnt, 3));
 			list.add(new ItemStack(ModItems.plate_schrabidium, 8));
+			break;
+		case SOLINIUM_IGNITER:
+			list.add(new ItemStack(ModItems.plate_titanium, 4));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 2));
+			list.add(new ItemStack(ModItems.circuit_schrabidium, 1));
+			list.add(new ItemStack(ModItems.coil_gold, 1));
+			break;
+		case SOLINIUM_CORE:
+			list.add(new ItemStack(ModItems.nugget_solinium, 9));
+			list.add(new ItemStack(ModItems.nugget_euphemium, 1));
+			break;
+		case SOLINIUM_PROPELLANT:
+			list.add(new ItemStack(Blocks.tnt, 3));
+			list.add(new ItemStack(ModItems.neutron_reflector, 2));
+			list.add(new ItemStack(ModItems.plate_polymer, 6));
+			list.add(new ItemStack(ModItems.wire_tungsten, 6));
+			list.add(new ItemStack(ModItems.biomass_compressed, 4));
 			break;
 		case COMPONENT_LIMITER:
 			list.add(new ItemStack(ModItems.hull_big_steel, 2));
@@ -3737,7 +3757,7 @@ public class MachineRecipes {
 		case MIKE_COOLER:
 			output = new ItemStack(ModItems.mike_cooling_unit, 1);
 			break;
-		case FLEIIJA_IGNITER:
+		case FLEIJA_IGNITER:
 			output = new ItemStack(ModItems.fleija_igniter, 1);
 			break;
 		case FLEIJA_CORE:
@@ -3745,6 +3765,15 @@ public class MachineRecipes {
 			break;
 		case FLEIJA_PROPELLANT:
 			output = new ItemStack(ModItems.fleija_propellant, 1);
+			break;
+		case SOLINIUM_IGNITER:
+			output = new ItemStack(ModItems.solinium_igniter, 1);
+			break;
+		case SOLINIUM_CORE:
+			output = new ItemStack(ModItems.solinium_core, 1);
+			break;
+		case SOLINIUM_PROPELLANT:
+			output = new ItemStack(ModItems.solinium_propellant, 1);
 			break;
 		case COMPONENT_LIMITER:
 			output = new ItemStack(ModItems.component_limiter, 1);

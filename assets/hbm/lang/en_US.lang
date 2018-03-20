@@ -735,6 +735,7 @@ item.magnet_circular.name=Flat Magnet
 item.cyclotron_tower.name=Cyclotron Tower
 item.plate_dalekanium.name=Angry Metal
 item.biomass.name=Biomass
+item.biomass_compressed.name=Compressed Biomass
 item.component_limiter.name=Stabilizer Component
 item.component_emitter.name=Emitter Component
 item.catalyst_clay.name=Clay Catalyst

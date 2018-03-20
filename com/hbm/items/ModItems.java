@@ -230,8 +230,9 @@ public class ModItems {
 	public static Item fragment_lanthanium;
 	public static Item fragment_actinium;
 	public static Item fragment_meteorite;
-	
+
 	public static Item biomass;
+	public static Item biomass_compressed;
 	
 	public static Item coil_copper;
 	public static Item coil_copper_torus;
@@ -1392,6 +1393,7 @@ public class ModItems {
 		fragment_meteorite = new Item().setUnlocalizedName("fragment_meteorite").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":fragment_meteorite");
 		
 		biomass = new Item().setUnlocalizedName("biomass").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":biomass");
+		biomass_compressed = new Item().setUnlocalizedName("biomass_compressed").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":biomass_compressed");
 
 		coil_copper = new Item().setUnlocalizedName("coil_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":coil_copper");
 		coil_copper_torus = new Item().setUnlocalizedName("coil_copper_torus").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":coil_copper_torus");
@@ -2487,6 +2489,7 @@ public class ModItems {
 		
 		//Things that look like rotten flesh but aren't
 		GameRegistry.registerItem(biomass, biomass.getUnlocalizedName());
+		GameRegistry.registerItem(biomass_compressed, biomass_compressed.getUnlocalizedName());
 
 		//Nuggets
 		GameRegistry.registerItem(nugget_uranium, nugget_uranium.getUnlocalizedName());

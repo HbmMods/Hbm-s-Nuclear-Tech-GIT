@@ -230,9 +230,12 @@ public class ItemAssemblyTemplate extends Item {
 		MIKE_TANK,
 		MIKE_DEUT,
 		MIKE_COOLER,
-		FLEIIJA_IGNITER,
+		FLEIJA_IGNITER,
 		FLEIJA_CORE,
 		FLEIJA_PROPELLANT,
+		SOLINIUM_IGNITER,
+		SOLINIUM_CORE,
+		SOLINIUM_PROPELLANT,
 		SCHRABIDIUM_HAMMER,
 		COMPONENT_LIMITER,
 		COMPONENT_EMITTER,
@@ -727,12 +730,18 @@ public class ItemAssemblyTemplate extends Item {
 			return 200;
 		case MIKE_COOLER:
 			return 200;
-		case FLEIIJA_IGNITER:
+		case FLEIJA_IGNITER:
 			return 300;
 		case FLEIJA_CORE:
 			return 500;
 		case FLEIJA_PROPELLANT:
 			return 400;
+		case SOLINIUM_IGNITER:
+			return 400;
+		case SOLINIUM_CORE:
+			return 400;
+		case SOLINIUM_PROPELLANT:
+			return 350;
 		case SCHRABIDIUM_HAMMER:
 			return 1000;
 		case COMPONENT_LIMITER:
