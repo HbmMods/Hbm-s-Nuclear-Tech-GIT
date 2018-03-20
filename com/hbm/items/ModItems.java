@@ -75,6 +75,8 @@ public class ModItems {
 	public static Item nugget_les;
 	public static Item ingot_magnetized_tungsten;
 	public static Item ingot_combine_steel;
+	public static Item ingot_solinium;
+	public static Item nugget_solinium;
 
 	public static Item ingot_australium;
 	public static Item ingot_weidanium;
@@ -806,6 +808,10 @@ public class ModItems {
 	public static Item fleija_propellant;
 	public static Item fleija_core;
 
+	public static Item solinium_igniter;
+	public static Item solinium_propellant;
+	public static Item solinium_core;
+
 	public static Item battery_generic;
 	public static Item battery_advanced;
 	public static Item battery_lithium;
@@ -1259,6 +1265,8 @@ public class ModItems {
 		plate_polymer = new Item().setUnlocalizedName("plate_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_polymer");
 		plate_dineutronium = new Item().setUnlocalizedName("plate_dineutronium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_dineutronium");
 		plate_desh = new Item().setUnlocalizedName("plate_desh").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_desh");
+		ingot_solinium = new Item().setUnlocalizedName("ingot_solinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_solinium");
+		nugget_solinium = new Item().setUnlocalizedName("nugget_solinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_solinium");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -1917,6 +1925,10 @@ public class ModItems {
 		fleija_propellant = new ItemFleija().setUnlocalizedName("fleija_propellant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":fleija_propellant");
 		fleija_core = new ItemFleija().setUnlocalizedName("fleija_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":fleija_core");
 
+		solinium_igniter = new ItemSolinium().setUnlocalizedName("solinium_igniter").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":solinium_igniter");
+		solinium_propellant = new ItemSolinium().setUnlocalizedName("solinium_propellant").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":solinium_propellant");
+		solinium_core = new ItemSolinium().setUnlocalizedName("solinium_core").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":solinium_core");
+
 		battery_generic = new ItemBattery(50).setUnlocalizedName("battery_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_generic");
 		battery_advanced = new ItemBattery(200).setUnlocalizedName("battery_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_advanced");
 		battery_lithium = new ItemBattery(2500).setUnlocalizedName("battery_lithium").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_lithium");
@@ -2368,6 +2380,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_schrabidium, ingot_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_magnetized_tungsten, ingot_magnetized_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_combine_steel, ingot_combine_steel.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_solinium, ingot_solinium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_uranium_fuel, ingot_uranium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_plutonium_fuel, ingot_plutonium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_mox_fuel, ingot_mox_fuel.getUnlocalizedName());
@@ -2487,6 +2500,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_lead, nugget_lead.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_beryllium, nugget_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_schrabidium, nugget_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_solinium, nugget_solinium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_uranium_fuel, nugget_uranium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_plutonium_fuel, nugget_plutonium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_mox_fuel, nugget_mox_fuel.getUnlocalizedName());
@@ -3356,6 +3370,11 @@ public class ModItems {
 		GameRegistry.registerItem(fleija_igniter, fleija_igniter.getUnlocalizedName());
 		GameRegistry.registerItem(fleija_propellant, fleija_propellant.getUnlocalizedName());
 		GameRegistry.registerItem(fleija_core, fleija_core.getUnlocalizedName());
+		
+		//Solinium
+		GameRegistry.registerItem(solinium_igniter, solinium_igniter.getUnlocalizedName());
+		GameRegistry.registerItem(solinium_propellant, solinium_propellant.getUnlocalizedName());
+		GameRegistry.registerItem(solinium_core, solinium_core.getUnlocalizedName());
 		
 		//Conventional Armor
 		GameRegistry.registerItem(goggles, goggles.getUnlocalizedName());

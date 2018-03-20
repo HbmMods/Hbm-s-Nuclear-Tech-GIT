@@ -27,7 +27,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	public int dualCookTime;
 	public long power;
 	public int soundCycle = 0;
-	public static final int maxPower = 1000000;
+	public static final int maxPower = 100000;
 	public static final int processingSpeed = 500;
 	
 	private static final int[] slots_top = new int[] {0};
@@ -302,7 +302,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			
 			if(hasPower() && isProcessing())
 			{
-				this.power -= 2500;
+				this.power -= 500;
 				
 				if(this.power < 0)
 				{

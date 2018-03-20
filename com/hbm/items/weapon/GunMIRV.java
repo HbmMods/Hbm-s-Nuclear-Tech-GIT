@@ -44,9 +44,6 @@ public class GunMIRV extends Item {
 
 		ArrowLooseEvent event = new ArrowLooseEvent(p_77615_3_, p_77615_1_, j);
 		MinecraftForge.EVENT_BUS.post(event);
-		if (event.isCanceled()) {
-			return;
-		}
 		j = event.charge;
 
 		boolean flag = p_77615_3_.capabilities.isCreativeMode

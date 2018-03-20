@@ -134,6 +134,8 @@ death.attack.blender=%1$s wurde in kleine, mundgerechte Stücke geschnitten.
 death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
 death.attack.boxcar=%1$s wurde von einem fallenden Güterwagon zermatscht. Autsch!
 death.attack.broadcast=%1$s wurde das Gehirn geschmolzen.
+death.attack.ams=%1$s wurde in tödlichen Teilchen gebadet, die von der Menschheit erst benannt werden müssen.
+death.attack.amsCore=%1$s wurde vom Feuer einer Singularität verdampft.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

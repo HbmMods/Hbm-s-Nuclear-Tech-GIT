@@ -604,7 +604,7 @@ public class GUIHandler implements IGuiHandler {
 			{
 				if(entity instanceof TileEntityNukeSolinium)
 				{
-					//return new ContainerNukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
+					return new ContainerNukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
 				}
 				return null;
 			}
@@ -1145,7 +1145,7 @@ public class GUIHandler implements IGuiHandler {
 				{
 					if(entity instanceof TileEntityNukeSolinium)
 					{
-						//return new GUINukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
+						return new GUINukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
 					}
 					return null;
 				}

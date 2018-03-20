@@ -140,7 +140,6 @@ public class NukeFleija extends BlockContainer implements IBomb {
 	{
 		if (!world.isRemote)
 		{
-			tetn.clearSlots();
 			//world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 		

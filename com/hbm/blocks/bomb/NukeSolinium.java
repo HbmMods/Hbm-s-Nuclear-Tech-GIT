@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityCloudSolinium;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
@@ -136,8 +137,6 @@ public class NukeSolinium extends BlockContainer implements IBomb {
 	{
 		if (!world.isRemote)
 		{
-	    	TileEntityNukeSolinium entityn = (TileEntityNukeSolinium) world.getTileEntity(x, y, z);
-	    	entityn.clearSlots();
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 		
 			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
@@ -148,10 +147,11 @@ public class NukeSolinium extends BlockContainer implements IBomb {
     		entity.speed = MainRegistry.blastSpeed;
     		entity.coefficient = 1.0F;
     		entity.waste = false;
+    		entity.extType = 1;
     	
     		world.spawnEntityInWorld(entity);
     		
-    		EntityCloudFleija cloud = new EntityCloudFleija(world, r);
+    		EntityCloudSolinium cloud = new EntityCloudSolinium(world, r);
     		cloud.posX = x;
     		cloud.posY = y;
     		cloud.posZ = z;

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -81,7 +82,10 @@ public class GunDefabricator extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("BAD WOLF");
+		if(MainRegistry.polaroidID == 11)
+			list.add("Did you set your alarm for volcano day?");
+		else
+			list.add("BAD WOLF");
 		list.add("");
 		list.add("Ammo: Defabricator Energy Cell");
 		list.add("Damage: 40 - 120");

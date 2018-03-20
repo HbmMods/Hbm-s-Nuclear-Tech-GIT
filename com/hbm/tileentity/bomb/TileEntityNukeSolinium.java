@@ -19,7 +19,7 @@ public class TileEntityNukeSolinium extends TileEntity implements ISidedInventor
 	private String customName;
 	
 	public TileEntityNukeSolinium() {
-		slots = new ItemStack[11];
+		slots = new ItemStack[9];
 	}
 	
 	@Override
@@ -171,18 +171,16 @@ public class TileEntityNukeSolinium extends TileEntity implements ISidedInventor
 	
 	public boolean isReady() {
 		
-		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null && slots[7] != null && slots[8] != null && slots[9] != null && slots[10] != null)
-			if(slots[0].getItem() == ModItems.fleija_igniter && 
-			slots[1].getItem() == ModItems.fleija_igniter && 
-			slots[2].getItem() == ModItems.fleija_propellant && 
-			slots[3].getItem() == ModItems.fleija_propellant && 
-			slots[4].getItem() == ModItems.fleija_propellant && 
-			slots[5].getItem() == ModItems.fleija_core && 
-			slots[6].getItem() == ModItems.fleija_core && 
-			slots[7].getItem() == ModItems.fleija_core && 
-			slots[8].getItem() == ModItems.fleija_core && 
-			slots[9].getItem() == ModItems.fleija_core && 
-			slots[10].getItem() == ModItems.fleija_core)
+		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null && slots[7] != null && slots[8] != null)
+			if(slots[0].getItem() == ModItems.solinium_igniter && 
+			slots[1].getItem() == ModItems.solinium_propellant && 
+			slots[2].getItem() == ModItems.solinium_propellant && 
+			slots[3].getItem() == ModItems.solinium_igniter && 
+			slots[4].getItem() == ModItems.solinium_core && 
+			slots[5].getItem() == ModItems.solinium_igniter && 
+			slots[6].getItem() == ModItems.solinium_propellant && 
+			slots[7].getItem() == ModItems.solinium_propellant && 
+			slots[8].getItem() == ModItems.solinium_igniter)
 			{
 				return true;
 			}

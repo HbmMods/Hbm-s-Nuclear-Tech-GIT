@@ -628,4 +628,20 @@ public class ExplosionNukeGeneric {
 				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 		}
 	}
+
+	public static void solinium(World world, int x, int y, int z) {
+		if (!world.isRemote) {
+			Block b = world.getBlock(x,y,z);
+			Material m = b.getMaterial();
+			
+			if(b == Blocks.grass || b == Blocks.mycelium || b == ModBlocks.waste_earth || b == ModBlocks.waste_mycelium) {
+				world.setBlock(x, y, z, Blocks.dirt);
+				return;
+			}
+			
+			if(m == Material.cactus || m == Material.coral || m == Material.leaves || m == Material.plants || m == Material.sponge || m == Material.vine || m == Material.gourd || m == Material.wood) {
+				world.setBlockToAir(x, y, z);
+			}
+		}
+	}
 }

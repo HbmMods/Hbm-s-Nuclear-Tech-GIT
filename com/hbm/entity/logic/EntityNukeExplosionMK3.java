@@ -4,6 +4,7 @@ import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionFleija;
 import com.hbm.explosion.ExplosionNukeAdvanced;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.ExplosionSolinium;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
@@ -18,12 +19,15 @@ public class EntityNukeExplosionMK3 extends Entity {
 	public ExplosionNukeAdvanced wst;
 	public ExplosionNukeAdvanced vap;
 	public ExplosionFleija expl;
+	public ExplosionSolinium sol;
 	public int speed = 1;
 	public float coefficient = 1;
 	public float coefficient2 = 1;
 	public boolean did = false;
 	public boolean did2 = false;
 	public boolean waste = true;
+	//Extended Type
+	public int extType = 0;
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
@@ -35,6 +39,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 		did = nbt.getBoolean("did");
 		did2 = nbt.getBoolean("did2");
 		waste = nbt.getBoolean("waste");
+		extType = nbt.getInteger("extType");
 		
 		long time = nbt.getLong("milliTime");
 		
@@ -50,8 +55,15 @@ public class EntityNukeExplosionMK3 extends Entity {
     		vap = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 2.5), this.coefficient, 1);
 			vap.readFromNbt(nbt, "vap_");
     	} else {
-        	expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
-			expl.readFromNbt(nbt, "expl_");
+
+    		if(extType == 0) {
+    			expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
+				expl.readFromNbt(nbt, "expl_");
+    		}
+    		if(extType == 1) {
+    			sol = new ExplosionSolinium((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
+    			sol.readFromNbt(nbt, "sol_");
+    		}
     	}
     	
     	this.did = true;
@@ -68,6 +80,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 		nbt.setBoolean("did", did);
 		nbt.setBoolean("did2", did2);
 		nbt.setBoolean("waste", waste);
+		nbt.setInteger("extType", extType);
 		
 		nbt.setLong("milliTime", System.currentTimeMillis());
     	
@@ -79,6 +92,8 @@ public class EntityNukeExplosionMK3 extends Entity {
 			vap.saveToNbt(nbt, "vap_");
 		if(expl != null)
 			expl.saveToNbt(nbt, "expl_");
+		if(sol != null)
+			sol.saveToNbt(nbt, "sol_");
 		
 	}
 
@@ -98,7 +113,10 @@ public class EntityNukeExplosionMK3 extends Entity {
         		wst = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 1.8), this.coefficient, 2);
         		vap = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, (int)(this.destructionRange * 2.5), this.coefficient, 1);
         	} else {
-            	expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
+        		if(extType == 0)
+        			expl = new ExplosionFleija((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
+        		if(extType == 1)
+        			sol = new ExplosionSolinium((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, this.coefficient2);
         	}
         	
         	this.did = true;
@@ -121,9 +139,12 @@ public class EntityNukeExplosionMK3 extends Entity {
         			this.setDead();
         		}
         	} else {
-        		if(expl.update()) {
-        			this.setDead();
-        		}
+        		if(extType == 0)
+        			if(expl.update())
+        				this.setDead();
+        		if(extType == 1)
+        			if(sol.update())
+        				this.setDead();
         	}
         }
         	
