@@ -272,6 +272,20 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fleija_core, 1));
 		}
 		
+		if(this == ModItems.solinium_kit)
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_solinium), 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_igniter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_igniter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_igniter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_igniter, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_propellant, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_propellant, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_propellant, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_propellant, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_core, 1));
+		}
+		
 		if(this == ModItems.prototype_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.nuke_prototype), 1));

@@ -174,6 +174,10 @@ item.fleija_igniter.name=Impulszünder
 item.fleija_propellant.name=Schrabidiumtreibladung
 item.fleija_core.name=F.L.E.I.J.A. Uran-235-Ladung
 
+item.solinium_igniter.name=SOL-Impulszünder
+item.solinium_propellant.name=SOL-Verdichtungsladung
+item.solinium_core.name=Semistabiler Soliniumkern
+
 container.nukeGadget=The Gadget
 container.nukeBoy=Little Boy
 container.nukeMan=Fat Man
@@ -182,6 +186,7 @@ container.nukeTsar=Tsar Bombe
 container.nukeFleija=F.L.E.I.J.A.
 container.nukePrototype=Der Prototyp
 container.nukeCustom=Anpassbare Bombe
+container.nukeSolinium=Die Blauspülung
 
 container.bombMulti=Mehrzweckbombe
 
@@ -193,6 +198,7 @@ tile.nuke_tsar.name=Tsar Bombe
 tile.nuke_fleija.name=F.L.E.I.J.A.
 tile.nuke_prototype.name=Der Prototyp
 tile.nuke_custom.name=Anpassbare Bombe
+tile.nuke_solinium.name=Die Blauspülung
 
 tile.turret_light.name=Leichtes MG-Geschütz
 tile.turret_heavy.name=Schweres MG-Geschütz
@@ -443,6 +449,8 @@ item.drill_titanium.name=Titanbohrer
 item.bolt_tungsten.name=Wolframbolzen
 item.bolt_compound.name=Verstärkte Turbinenwelle
 item.plate_polymer.name=Isolator
+item.ingot_solinium.name=Soliniumbarren
+item.nugget_solinium.name=Soliniumnugget
 
 item.ingot_australium.name=Australiumbarren
 item.ingot_weidanium.name=Weidaniumbarren
@@ -492,6 +500,12 @@ item.circuit_copper.name=Erweiterter Schaltkreis
 item.circuit_red_copper.name=Forgeschrittener Schaltkreis
 item.circuit_gold.name=Übertakteter Schaltkreis
 item.circuit_schrabidium.name=Leistungsstarker Schaltkreis
+item.circuit_targeting_tier1.name=Militärische Schaltplatte (Stufe 1)
+item.circuit_targeting_tier2.name=Militärische Schaltplatte (Stufe 2)
+item.circuit_targeting_tier3.name=Militärische Schaltplatte (Stufe 3)
+item.circuit_targeting_tier4.name=Militärische Schaltplatte (Stufe 4)
+item.circuit_targeting_tier5.name=Militärische Schaltplatte (Stufe 5)
+item.circuit_targeting_tier6.name=Militärische Schaltplatte (Stufe 6)
 
 tile.block_aluminium.name=Aluminiumblock
 tile.block_copper.name=Kupferblock
@@ -635,6 +649,9 @@ item.powder_niobium_tiny.name=Kleiner Haufen Niobstaub
 item.powder_cerium_tiny.name=Kleiner Haufen Cerstaub
 item.powder_lanthanium_tiny.name=Kleiner Haufen Lanthanstaub
 item.powder_actinium_tiny.name=Kleiner Haufen Actiniumstaub
+item.powder_euphemium.name=Euphemiumstaub
+item.powder_meteorite.name=Meteoritenstaub
+item.powder_meteorite_tiny.name=Kleiner Haufen Meteoritenstaub
 item.powder_yellowcake.name=Yellowcake
 item.powder_magic.name=Pulverisierte Verzauberung
 
@@ -887,6 +904,7 @@ item.prototype_kit.name=Prototyp Kit
 item.missile_kit.name=Raketen Kit
 item.t45_kit.name=T45-Powerrüstungskit
 item.euphemium_kit.name=Euphemium Kit
+item.solinium_kit.name=Solinium Kit
 
 tile.waste_earth.name=Totes Gras
 tile.waste_trinitite.name=Trinititerz

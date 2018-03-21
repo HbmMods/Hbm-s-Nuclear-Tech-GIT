@@ -75,6 +75,12 @@ public class CraftingManager {
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_red_copper, 1), new Object[] { "RAR", "ASA", "RAR", 'S', ModItems.circuit_copper, 'R', "dustGold", 'A', ModItems.wire_red_copper }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_gold, 1), new Object[] { "RAR", "ASA", "RAR", 'S', ModItems.circuit_red_copper, 'R', "dustLapis", 'A', ModItems.wire_gold }));
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_schrabidium, 1), new Object[] { "RAR", "ASA", "RAR", 'S', ModItems.circuit_gold, 'R', "dustDiamond", 'A', ModItems.wire_schrabidium }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_targeting_tier1, 1), new Object[] { "CPC", 'C', ModItems.circuit_aluminium, 'P', "dustRedstone" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_targeting_tier2, 1), new Object[] { "CPC", 'C', ModItems.circuit_copper, 'P', "dustNetherQuartz" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_targeting_tier3, 1), new Object[] { "CPC", 'C', ModItems.circuit_red_copper, 'P', "dustGold" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_targeting_tier4, 1), new Object[] { "CPC", 'C', ModItems.circuit_gold, 'P', "dustLapis" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.circuit_targeting_tier5, 1), new Object[] { "CPC", 'C', ModItems.circuit_schrabidium, 'P', "dustDiamond" }));
+		GameRegistry.addRecipe(new ItemStack(ModItems.circuit_targeting_tier6, 1), new Object[] { "P", "D", "C", 'C', ModItems.circuit_targeting_tier5, 'D', ModItems.battery_potatos, 'P', ModItems.powder_spark_mix });
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 3), new Object[] { "sulfur", "salpeter", Items.coal }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 3), new Object[] { "sulfur", "salpeter", new ItemStack(Items.coal, 1, 1) }));

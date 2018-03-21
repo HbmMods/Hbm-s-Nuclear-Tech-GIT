@@ -271,6 +271,13 @@ public class ModItems {
 	public static Item circuit_gold;
 	public static Item circuit_schrabidium;
 
+	public static Item circuit_targeting_tier1;
+	public static Item circuit_targeting_tier2;
+	public static Item circuit_targeting_tier3;
+	public static Item circuit_targeting_tier4;
+	public static Item circuit_targeting_tier5;
+	public static Item circuit_targeting_tier6;
+
 	public static Item wiring_red_copper;
 
 	public static Item cap_aluminium;
@@ -1046,6 +1053,7 @@ public class ModItems {
 	public static Item missile_kit;
 	public static Item t45_kit;
 	public static Item euphemium_kit;
+	public static Item solinium_kit;
 	
 	public static Item clip_revolver_iron;
 	public static Item clip_revolver;
@@ -1496,6 +1504,12 @@ public class ModItems {
 		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_red_copper");
 		circuit_gold = new Item().setUnlocalizedName("circuit_gold").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_gold");
 		circuit_schrabidium = new ItemCustomLore().setUnlocalizedName("circuit_schrabidium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
+		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");
+		circuit_targeting_tier2 = new Item().setUnlocalizedName("circuit_targeting_tier2").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_targeting_tier2");
+		circuit_targeting_tier3 = new Item().setUnlocalizedName("circuit_targeting_tier3").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_targeting_tier3");
+		circuit_targeting_tier4 = new Item().setUnlocalizedName("circuit_targeting_tier4").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_targeting_tier4");
+		circuit_targeting_tier5 = new Item().setUnlocalizedName("circuit_targeting_tier5").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_targeting_tier5");
+		circuit_targeting_tier6 = new Item().setUnlocalizedName("circuit_targeting_tier6").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":circuit_targeting_tier6");
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
@@ -2025,6 +2039,7 @@ public class ModItems {
 		missile_kit = new ItemStarterKit().setUnlocalizedName("missile_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_kit");
 		t45_kit = new ItemStarterKit().setUnlocalizedName("t45_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":t45_kit");
 		euphemium_kit = new ItemStarterKit().setUnlocalizedName("euphemium_kit").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":code");
+		solinium_kit = new ItemStarterKit().setUnlocalizedName("solinium_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":solinium_kit");
 
 		clip_revolver_iron = new ItemClip().setUnlocalizedName("clip_revolver_iron").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_revolver_iron");
 		clip_revolver = new ItemClip().setUnlocalizedName("clip_revolver").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":clip_revolver");
@@ -2667,6 +2682,14 @@ public class ModItems {
 		GameRegistry.registerItem(circuit_red_copper, circuit_red_copper.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_gold, circuit_gold.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_schrabidium, circuit_schrabidium.getUnlocalizedName());
+		
+		//Military Circuits
+		GameRegistry.registerItem(circuit_targeting_tier1, circuit_targeting_tier1.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_targeting_tier2, circuit_targeting_tier2.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_targeting_tier3, circuit_targeting_tier3.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_targeting_tier4, circuit_targeting_tier4.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_targeting_tier5, circuit_targeting_tier5.getUnlocalizedName());
+		GameRegistry.registerItem(circuit_targeting_tier6, circuit_targeting_tier6.getUnlocalizedName());
 		
 		//Wiring
 		GameRegistry.registerItem(wiring_red_copper, wiring_red_copper.getUnlocalizedName());
@@ -3474,6 +3497,7 @@ public class ModItems {
 		GameRegistry.registerItem(tsar_kit, tsar_kit.getUnlocalizedName());
 		GameRegistry.registerItem(prototype_kit, prototype_kit.getUnlocalizedName());
 		GameRegistry.registerItem(fleija_kit, fleija_kit.getUnlocalizedName());
+		GameRegistry.registerItem(solinium_kit, solinium_kit.getUnlocalizedName());
 		GameRegistry.registerItem(multi_kit, multi_kit.getUnlocalizedName());
 		GameRegistry.registerItem(missile_kit, missile_kit.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_kit, grenade_kit.getUnlocalizedName());

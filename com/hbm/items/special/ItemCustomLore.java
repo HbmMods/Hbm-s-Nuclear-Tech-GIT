@@ -578,6 +578,11 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("...it emits an energy-beam thingy.");
 		}
+		
+		if(this == ModItems.canister_fuel)
+		{
+			list.add("All hail the spout!");
+		}
 	}
 
     @Override
