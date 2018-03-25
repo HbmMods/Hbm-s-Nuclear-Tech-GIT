@@ -28,6 +28,7 @@ public class RenderNukeMan extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_CULL_FACE);
 		switch(tileEntity.getBlockMetadata())
 		{
 		case 3:
@@ -42,6 +43,8 @@ public class RenderNukeMan extends TileEntitySpecialRenderer {
 
         bindTexture(manTexture);
         manModel.renderAll();
+        
+        GL11.glEnable(GL11.GL_LIGHTING);
 
         GL11.glPopMatrix();
     }
