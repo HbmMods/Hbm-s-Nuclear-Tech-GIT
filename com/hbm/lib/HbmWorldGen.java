@@ -36,11 +36,14 @@ public class HbmWorldGen implements IWorldGenerator {
 			IChunkProvider chunkProvider) {
 		switch (world.provider.dimensionId) {
 		case -1:
-			generateNether(world, rand, chunkX * 16, chunkZ * 16);
+			generateNether(world, rand, chunkX * 16, chunkZ * 16); break;
 		case 0:
-			generateSurface(world, rand, chunkX * 16, chunkZ * 16);
+			generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
 		case 1:
-			generateEnd(world, rand, chunkX * 16, chunkZ * 16);
+			generateEnd(world, rand, chunkX * 16, chunkZ * 16); break;
+		default:
+			if(MainRegistry.enableMDOres)
+				generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
 		}
 
 	}
@@ -260,7 +263,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (rand.nextInt(MainRegistry.dungeonStructure) == 0 && world.provider.dimensionId == 0) {
+			if (rand.nextInt(MainRegistry.dungeonStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int y = rand.nextInt(256);
 				int z = j + rand.nextInt(16);
@@ -346,7 +349,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
-				if(world.getBlock(x, y - 1, z).isBlockNormalCube())
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z))
 					world.setBlock(x, y, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
 				
 				if(MainRegistry.enableDebugMode)

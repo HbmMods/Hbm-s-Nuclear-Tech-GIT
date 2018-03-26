@@ -6,6 +6,7 @@ import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
+import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
 
 import net.minecraft.block.material.Material;
@@ -38,6 +39,9 @@ public class TurretCIWS extends TurretBase {
 		
 		TileEntityTurretCIWS te = (TileEntityTurretCIWS)world.getTileEntity(x, y, z);
 		
+		if(i == 0 && te.spin < 10)
+			world.playSoundEffect(x, y, z, "hbm:weapon.ciwsSpinup", 1.0F, 1.0F);
+		
 		if(te.spin < 35)
 			te.spin += 5;
 		
@@ -65,7 +69,7 @@ public class TurretCIWS extends TurretBase {
 				world.spawnEntityInWorld(smoke);
 			}
 
-			world.playSoundEffect(x, y, z, "hbm:weapon.sawShoot", 1.0F, 1.25F);
+			world.playSoundEffect(x, y, z, "hbm:weapon.ciwsFiringLoop", 1.0F, 1.25F);
 			
 			flag = true;
 		}
@@ -96,5 +100,12 @@ public class TurretCIWS extends TurretBase {
 	}
 
 	@Override
-	public void executeReleaseAction(World world, int i, double yaw, double pitch, int x, int y, int z) { }
+	public void executeReleaseAction(World world, int i, double yaw, double pitch, int x, int y, int z) {
+
+		TileEntityTurretCIWS te = (TileEntityTurretCIWS)world.getTileEntity(x, y, z);
+		
+		if(te.spin > 10)
+			world.playSoundEffect(x, y, z, "hbm:weapon.ciwsSpindown", 1.0F, 1.0F);
+		
+	}
 }

@@ -63,6 +63,9 @@
     "weapon.sawShoot": {"category": "player", "sounds": [{"name": "weapon/sawShoot", "stream": false}]},
     "weapon.spinup": {"category": "player", "sounds": [{"name": "weapon/spinup", "stream": false}]},
     "weapon.spindown": {"category": "player", "sounds": [{"name": "weapon/spindown", "stream": false}]},
+    "weapon.ciwsFiringLoop": {"category": "player", "sounds": [{"name": "weapon/ciwsFiringLoop", "stream": false}]},
+    "weapon.ciwsSpinup": {"category": "player", "sounds": [{"name": "weapon/ciwsSpinup", "stream": false}]},
+    "weapon.ciwsSpindown": {"category": "player", "sounds": [{"name": "weapon/ciwsSpindown", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},
@@ -75,6 +78,8 @@
 	"entity.chopperMineLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperMineLoop", "stream": false}]},
 	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
     "entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]},
+    
+    "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     
     "alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
     "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},
