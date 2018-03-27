@@ -5,9 +5,11 @@ itemGroup.tabNuke=NTM Bomben und Ausrüstung
 itemGroup.tabMachine=NTM Vorlagen
 
 achievement.sacrifice=Sororizid
-achievement.sacrifice.desc=Überlebe den Flammentod.
+achievement.sacrifice.desc=Sterbe im Feuer, aber irgendwie auch nicht.
 achievement.impossible=Vollkommen unmöglich
 achievement.impossible.desc=Du kannst diese Errungenschaft nicht bekommen.
+achievement.tasteofblood=Der Geschmack von Blut
+achievement.tasteofblood.desc=ist nicht Teil des Testprotokolls.
 
 potion.hbm_taint=Verdorben
 

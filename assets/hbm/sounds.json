@@ -91,5 +91,9 @@
     "alarm.hatch": {"category": "record", "sounds": [{"name": "alarm/lpfhaiwg", "stream": false}]},
     "alarm.razortrainHorn": {"category": "record", "sounds": [{"name": "alarm/razortrainHorn", "stream": false}]},
     "alarm.sweepSiren": {"category": "record", "sounds": [{"name": "alarm/sweepSiren", "stream": false}]},
-    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]}
+    "alarm.trainHorn": {"category": "record", "sounds": [{"name": "alarm/trainHorn", "stream": false}]},
+    "alarm.blastDoorAlarm": {"category": "record", "sounds": [{"name": "alarm/blastDoorAlarm", "stream": false}]},
+    "alarm.klaxon": {"category": "record", "sounds": [{"name": "alarm/klaxon", "stream": false}]},
+    "alarm.striderSiren": {"category": "record", "sounds": [{"name": "alarm/striderSiren", "stream": false}]},
+    "alarm.regularSiren": {"category": "record", "sounds": [{"name": "alarm/regularSiren", "stream": false}]}
 }

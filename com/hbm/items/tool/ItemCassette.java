@@ -28,11 +28,15 @@ public class ItemCassette extends Item {
 		HATCH(				"Hatch Siren", 				new ResourceLocation("hbm:alarm.hatch"),			SoundType.LOOP,		3358839,	250),
 		ATUOPILOT(			"Autopilot Disconnected", 	new ResourceLocation("hbm:alarm.autopilot"),		SoundType.LOOP,		11908533,	50),
 		AMS_SIREN(			"AMS Siren", 				new ResourceLocation("hbm:alarm.amsSiren"),			SoundType.LOOP,		15055698,	50),
+		BLAST_DOOR(			"Blast Door Alarm", 		new ResourceLocation("hbm:alarm.blastDoorAlarm"),	SoundType.LOOP,		11665408,	50),
 		APC_LOOP(			"APC Siren", 				new ResourceLocation("hbm:alarm.apcLoop"),			SoundType.LOOP,		3565216,	50),
+		KLAXON(				"Klaxon", 					new ResourceLocation("hbm:alarm.klaxon"),			SoundType.LOOP,		8421504,	50),
+		SIREN(				"Standard Siren", 			new ResourceLocation("hbm:alarm.regularSiren"),		SoundType.LOOP,		6684672,	100),
 		BANK_ALARM(			"Bank Alarm", 				new ResourceLocation("hbm:alarm.bankAlarm"),		SoundType.LOOP,		3572962,	100),
 		BEEP_SIREN(			"Beep Siren", 				new ResourceLocation("hbm:alarm.beepSiren"),		SoundType.LOOP,		13882323,	100),
 		CONTAINER_ALARM(	"Container Alarm", 			new ResourceLocation("hbm:alarm.containerAlarm"),	SoundType.LOOP,		14727839,	100),
 		SWEEP_SIREN(		"Sweep Siren", 				new ResourceLocation("hbm:alarm.sweepSiren"),		SoundType.LOOP,		15592026,	500),
+		STRIDER_SIREN(		"Missile Silo Siren", 		new ResourceLocation("hbm:alarm.striderSiren"),		SoundType.LOOP,		11250586,	500),
 		APC_PASS(			"APC Pass", 				new ResourceLocation("hbm:alarm.apcPass"),			SoundType.PASS,		3422163,	50),
 		RAZORTRAIN(			"Razortrain Horn", 			new ResourceLocation("hbm:alarm.razortrainHorn"),	SoundType.SOUND,	7819501,	250);
 		

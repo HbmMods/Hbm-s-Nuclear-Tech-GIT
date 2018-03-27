@@ -372,8 +372,10 @@ public class MainRegistry
 	public static Achievement achRadiation;
 	public static Achievement achSchrabidium;
 	public static Achievement achEuphemium;
+	
 	public static Achievement achSacrifice;
 	public static Achievement achImpossible;
+	public static Achievement achTOB;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -876,10 +878,12 @@ public class MainRegistry
 		}));*/
 		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, 0, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
 		achImpossible = new Achievement("achievement.impossible", "impossible", 2, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
+		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 2, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("NTM Achievements", new Achievement[]{ 
 				achSacrifice,
-				achImpossible
+				achImpossible,
+				achTOB
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);

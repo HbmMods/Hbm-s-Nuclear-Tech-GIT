@@ -8,6 +8,8 @@ achievement.sacrifice=Sororicide
 achievement.sacrifice.desc=Face the fire and live.
 achievement.impossible=Literally impossible
 achievement.impossible.desc=You can't get this achievement.
+achievement.tasteofblood=The Taste of Blood
+achievement.tasteofblood.desc=is not part of any testing protocol.
 
 potion.hbm_taint=Tainted
 
@@ -176,7 +178,7 @@ item.fleija_core.name=F.L.E.I.J.A. Uranium 235 Charge
 
 item.solinium_igniter.name=SOL Pulse Igniter
 item.solinium_propellant.name=SOL Compression Charge
-item.solinium_core.name=Semistable Solinium Core
+item.solinium_core.name=Semi-Stable Solinium Core
 
 container.nukeGadget=The Gadget
 container.nukeBoy=Little Boy
