@@ -6,6 +6,7 @@ import com.hbm.inventory.gui.*;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.*;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
+import com.hbm.tileentity.bomb.TileEntityCelPrime;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
@@ -608,6 +609,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_cel_prime:
+			{
+				if(entity instanceof TileEntityCelPrime)
+				{
+					return new ContainerCelPrime(player.inventory, (TileEntityCelPrime) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1146,6 +1156,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityNukeSolinium)
 					{
 						return new GUINukeSolinium(player.inventory, (TileEntityNukeSolinium) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_cel_prime:
+				{
+					if(entity instanceof TileEntityCelPrime)
+					{
+						return new GUICelPrime(player.inventory, (TileEntityCelPrime) entity);
 					}
 					return null;
 				}

@@ -219,6 +219,13 @@ public class ModBlocks {
 	public static Block bomb_multi;
 	public static final int guiID_bomb_multi = 10;
 	
+	public static Block cel_prime;
+	public static final int guiID_cel_prime = 62;
+	public static Block cel_prime_terminal;
+	public static Block cel_prime_battery;
+	public static Block cel_prime_port;
+	public static Block cel_prime_tanks;
+	
 	public static Block machine_difurnace_off;
 	public static Block machine_difurnace_on;
 	public static final int guiID_test_difurnace = 1;
@@ -626,6 +633,12 @@ public class ModBlocks {
 		nuke_custom = new NukeCustom(Material.iron).setBlockName("nuke_custom").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":custom");
 		nuke_solinium = new NukeSolinium(Material.iron).setBlockName("nuke_solinium").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_solinium");
 		nuke_n2 = new NukeN2(Material.iron).setBlockName("nuke_n2").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_n2");
+		
+		cel_prime = new CelPrime(Material.iron).setBlockName("cel_prime").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cel_prime");
+		cel_prime_terminal = new CelPrimePart(Material.iron).setBlockName("cel_prime_terminal").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cel_prime_terminal");
+		cel_prime_battery = new CelPrimePart(Material.iron).setBlockName("cel_prime_battery").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cel_prime_battery");
+		cel_prime_port = new CelPrimePart(Material.iron).setBlockName("cel_prime_port").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cel_prime_port");
+		cel_prime_tanks = new CelPrimePart(Material.iron).setBlockName("cel_prime_tanks").setCreativeTab(MainRegistry.tabNuke).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cel_prime_tanks");
 
 		bomb_multi = new BombMulti(Material.iron).setBlockName("bomb_multi").setCreativeTab(MainRegistry.tabNuke).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":bomb_multi1");
 		//bomb_multi_large = new BombMultiLarge(Material.iron).setBlockName("bomb_multi_large").setCreativeTab(MainRegistry.tabNuke).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":bomb_multi_large");
@@ -1016,6 +1029,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_spitfire, turret_spitfire.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_cwis, turret_cwis.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_cheapo, turret_cheapo.getUnlocalizedName());
+		
+		//Wot
+		GameRegistry.registerBlock(cel_prime, cel_prime.getUnlocalizedName());
+		GameRegistry.registerBlock(cel_prime_terminal, cel_prime_terminal.getUnlocalizedName());
+		GameRegistry.registerBlock(cel_prime_battery, cel_prime_battery.getUnlocalizedName());
+		GameRegistry.registerBlock(cel_prime_port, cel_prime_port.getUnlocalizedName());
+		GameRegistry.registerBlock(cel_prime_tanks, cel_prime_tanks.getUnlocalizedName());
 		
 		//Block Bombs
 		GameRegistry.registerBlock(flame_war, flame_war.getUnlocalizedName());

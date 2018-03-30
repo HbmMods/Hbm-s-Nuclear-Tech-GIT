@@ -164,6 +164,11 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.PotionEffectTaint;
 import com.hbm.render.util.HmfModelLoader;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
+import com.hbm.tileentity.bomb.TileEntityCelPrime;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeBattery;
+import com.hbm.tileentity.bomb.TileEntityCelPrimePort;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeTanks;
+import com.hbm.tileentity.bomb.TileEntityCelPrimeTerminal;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
@@ -592,6 +597,11 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTurretCheapo.class, "tileentity_turret_cheapo");
 		GameRegistry.registerTileEntity(TileEntityNukeSolinium.class, "tileentity_nuke_solinium");
 		GameRegistry.registerTileEntity(TileEntityNukeN2.class, "tileentity_nuke_n2");
+		GameRegistry.registerTileEntity(TileEntityCelPrime.class, "tileentity_cel_prime");
+		GameRegistry.registerTileEntity(TileEntityCelPrimeTerminal.class, "tileentity_cel_prime_access");
+		GameRegistry.registerTileEntity(TileEntityCelPrimeBattery.class, "tileentity_cel_prime_energy");
+		GameRegistry.registerTileEntity(TileEntityCelPrimePort.class, "tileentity_cel_prime_connector");
+		GameRegistry.registerTileEntity(TileEntityCelPrimeTanks.class, "tileentity_cel_prime_storage");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
