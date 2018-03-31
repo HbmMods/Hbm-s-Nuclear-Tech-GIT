@@ -189,6 +189,9 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_schrabidium || 
 					this == ModItems.rod_dual_schrabidium || 
 					this == ModItems.rod_quad_schrabidium || 
+					this == ModItems.rod_solinium || 
+					this == ModItems.rod_dual_solinium || 
+					this == ModItems.rod_quad_solinium || 
 					this == ModItems.rod_schrabidium_fuel || 
 					this == ModItems.rod_dual_schrabidium_fuel || 
 					this == ModItems.rod_quad_schrabidium_fuel) {

@@ -633,6 +633,8 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			return false;
 		else {
 			List<ItemStack> list = MachineRecipes.getChemInputFromTempate(slots[4]);
+			if(list == null || list.isEmpty())
+				return false;
 			
 			for(int i = 0; i < list.size(); i++)
 				list.get(i).stackSize = 1;

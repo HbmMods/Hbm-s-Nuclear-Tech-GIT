@@ -134,6 +134,9 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 		if(item == ModItems.rod_schrabidium) return 15;
 		if(item == ModItems.rod_dual_schrabidium) return 30;
 		if(item == ModItems.rod_quad_schrabidium) return 60;
+		if(item == ModItems.rod_solinium) return 20;
+		if(item == ModItems.rod_dual_solinium) return 40;
+		if(item == ModItems.rod_quad_solinium) return 80;
 		
 		return 0;
 		}

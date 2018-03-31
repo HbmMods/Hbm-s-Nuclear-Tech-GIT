@@ -142,6 +142,13 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("Worth 15 operations in breeding reactor");
 			list.add("Worth 75 operations in nuclear powered furnace");
+			list.add("Turns into Solinium Rod");
+		}
+		
+		if(this == ModItems.rod_solinium)
+		{
+			list.add("Worth 20 operations in breeding reactor");
+			list.add("Worth 100 operations in nuclear powered furnace");
 		}
 
 		if(this == ModItems.rod_dual_uranium)
@@ -204,6 +211,13 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("Worth 30 operations in breeding reactor");
 			list.add("Worth 150 operations in nuclear powered furnace");
+			list.add("Turns into Dual Solinium Rod");
+		}
+		
+		if(this == ModItems.rod_dual_solinium)
+		{
+			list.add("Worth 40 operations in breeding reactor");
+			list.add("Worth 200 operations in nuclear powered furnace");
 		}
 
 		if(this == ModItems.rod_quad_uranium)
@@ -266,6 +280,13 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("Worth 60 operations in breeding reactor");
 			list.add("Worth 300 operations in nuclear powered furnace");
+			list.add("Turns into Quad Solinium Rod");
+		}
+		
+		if(this == ModItems.rod_quad_solinium)
+		{
+			list.add("Worth 80 operations in breeding reactor");
+			list.add("Worth 400 operations in nuclear powered furnace");
 		}
 		
 		if(this == ModItems.igniter)

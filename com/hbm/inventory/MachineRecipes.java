@@ -443,6 +443,10 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.rod_lead, 1);
 		}
 
+		if (item == ModItems.rod_schrabidium) {
+			return new ItemStack(ModItems.rod_solinium, 1);
+		}
+
 		if (item == ModItems.rod_dual_uranium) {
 			return new ItemStack(ModItems.rod_dual_plutonium, 1);
 		}
@@ -473,6 +477,10 @@ public class MachineRecipes {
 
 		if (item == ModItems.rod_dual_pu240) {
 			return new ItemStack(ModItems.rod_dual_lead, 1);
+		}
+
+		if (item == ModItems.rod_dual_schrabidium) {
+			return new ItemStack(ModItems.rod_dual_solinium, 1);
 		}
 
 		if (item == ModItems.rod_quad_uranium) {
@@ -508,7 +516,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_quad_schrabidium) {
-			return new ItemStack(ModItems.rod_quad_euphemium, 1);
+			return new ItemStack(ModItems.rod_quad_solinium, 1);
 		}
 
 		if (item == ModItems.rod_lithium) {
@@ -521,6 +529,10 @@ public class MachineRecipes {
 
 		if (item == ModItems.rod_quad_lithium) {
 			return new ItemStack(ModItems.rod_quad_tritium, 1);
+		}
+
+		if (item == ModItems.rod_quad_solinium) {
+			return new ItemStack(ModItems.rod_quad_euphemium, 1);
 		}
 
 		return null;
@@ -871,7 +883,10 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_neptunium), getReactorOutput(ModItems.rod_neptunium));
 		recipes.put(new ItemStack(ModItems.rod_dual_neptunium), getReactorOutput(ModItems.rod_dual_neptunium));
 		recipes.put(new ItemStack(ModItems.rod_quad_neptunium), getReactorOutput(ModItems.rod_quad_neptunium));
+		recipes.put(new ItemStack(ModItems.rod_schrabidium), getReactorOutput(ModItems.rod_schrabidium));
+		recipes.put(new ItemStack(ModItems.rod_dual_schrabidium), getReactorOutput(ModItems.rod_dual_schrabidium));
 		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium), getReactorOutput(ModItems.rod_quad_schrabidium));
+		recipes.put(new ItemStack(ModItems.rod_quad_solinium), getReactorOutput(ModItems.rod_quad_solinium));
 		recipes.put(new ItemStack(ModItems.rod_lithium), getReactorOutput(ModItems.rod_lithium));
 		recipes.put(new ItemStack(ModItems.rod_dual_lithium), getReactorOutput(ModItems.rod_dual_lithium));
 		recipes.put(new ItemStack(ModItems.rod_quad_lithium), getReactorOutput(ModItems.rod_quad_lithium));
@@ -1218,6 +1233,9 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.rod_schrabidium));
 		fuels.add(new ItemStack(ModItems.rod_dual_schrabidium));
 		fuels.add(new ItemStack(ModItems.rod_quad_schrabidium));
+		fuels.add(new ItemStack(ModItems.rod_solinium));
+		fuels.add(new ItemStack(ModItems.rod_dual_solinium));
+		fuels.add(new ItemStack(ModItems.rod_quad_solinium));
 		fuels.add(new ItemStack(ModItems.pellet_rtg));
 		return fuels;
 	}
