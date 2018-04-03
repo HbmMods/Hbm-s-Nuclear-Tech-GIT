@@ -174,7 +174,7 @@ public class TileEntityCelPrime extends TileEntity implements ISidedInventory {
 		case 2:
 			appendText("No external PCI devices found!");
 			appendText("");
-			appendText("Self-test in progres...");
+			appendText("Self-test in progress...");
 			break;
 		case 3:
 			appendText("Hardware self-test successful!");
@@ -202,6 +202,14 @@ public class TileEntityCelPrime extends TileEntity implements ISidedInventory {
 			break;
 		case 9:
 			appendText("All systems ready!");
+			appendText("");
+			appendText("");
+			appendText("");
+			appendText("==============================");
+			appendText("CEL PRIME is a WIP feature and not");
+			appendText("yet functional. please don't ask me how");
+			appendText("it works because it DOESN'T!");
+			appendText("==============================");
 			break;
 		}
 	}

@@ -19,7 +19,7 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory {
 	private String customName;
 	
 	public TileEntityNukeN2() {
-		slots = new ItemStack[9];
+		slots = new ItemStack[12];
 	}
 	
 	@Override
@@ -77,7 +77,7 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory {
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.nukeSolinium";
+		return this.hasCustomInventoryName() ? this.customName : "container.nukeN2";
 	}
 
 	@Override
@@ -171,16 +171,19 @@ public class TileEntityNukeN2 extends TileEntity implements ISidedInventory {
 	
 	public boolean isReady() {
 		
-		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null && slots[7] != null && slots[8] != null)
-			if(slots[0].getItem() == ModItems.solinium_igniter && 
-			slots[1].getItem() == ModItems.solinium_propellant && 
-			slots[2].getItem() == ModItems.solinium_propellant && 
-			slots[3].getItem() == ModItems.solinium_igniter && 
-			slots[4].getItem() == ModItems.solinium_core && 
-			slots[5].getItem() == ModItems.solinium_igniter && 
-			slots[6].getItem() == ModItems.solinium_propellant && 
-			slots[7].getItem() == ModItems.solinium_propellant && 
-			slots[8].getItem() == ModItems.solinium_igniter)
+		if(slots[0] != null && slots[1] != null && slots[2] != null && slots[3] != null && slots[4] != null && slots[5] != null && slots[6] != null && slots[7] != null && slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null)
+			if(slots[0].getItem() == ModItems.n2_charge && 
+			slots[1].getItem() == ModItems.n2_charge && 
+			slots[2].getItem() == ModItems.n2_charge && 
+			slots[3].getItem() == ModItems.n2_charge && 
+			slots[4].getItem() == ModItems.n2_charge && 
+			slots[5].getItem() == ModItems.n2_charge && 
+			slots[6].getItem() == ModItems.n2_charge && 
+			slots[7].getItem() == ModItems.n2_charge && 
+			slots[8].getItem() == ModItems.n2_charge && 
+			slots[9].getItem() == ModItems.n2_charge && 
+			slots[10].getItem() == ModItems.n2_charge && 
+			slots[11].getItem() == ModItems.n2_charge)
 			{
 				return true;
 			}

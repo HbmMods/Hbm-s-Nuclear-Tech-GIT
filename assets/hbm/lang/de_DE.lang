@@ -180,6 +180,8 @@ item.solinium_igniter.name=SOL-Impulszünder
 item.solinium_propellant.name=SOL-Verdichtungsladung
 item.solinium_core.name=Semistabiler Soliniumkern
 
+item.n2_charge.name=Große Sprengladung
+
 container.nukeGadget=The Gadget
 container.nukeBoy=Little Boy
 container.nukeMan=Fat Man
@@ -189,6 +191,7 @@ container.nukeFleija=F.L.E.I.J.A.
 container.nukePrototype=Der Prototyp
 container.nukeCustom=Anpassbare Bombe
 container.nukeSolinium=Die Blauspülung
+container.nukeN2=N²-Mine
 
 container.bombMulti=Mehrzweckbombe
 
@@ -201,6 +204,7 @@ tile.nuke_fleija.name=F.L.E.I.J.A.
 tile.nuke_prototype.name=Der Prototyp
 tile.nuke_custom.name=Anpassbare Bombe
 tile.nuke_solinium.name=Die Blauspülung
+tile.nuke_n2.name=N²-Mine
 
 tile.turret_light.name=Leichtes MG-Geschütz
 tile.turret_heavy.name=Schweres MG-Geschütz
@@ -316,6 +320,8 @@ tile.machine_siren.name=Sirene
 container.siren=Sirene
 tile.machine_radgen.name=Strahlenbetriebener Generator [WIP]
 container.radGen=Strahlenbetriebener Generator [WIP]
+tile.machine_selenium.name=Hochleistungs-Sternmotor
+container.machineSelenium=Hochleistungs-Sternmotor
 
 tile.broadcaster_pc.name=Korrupter Sender
 

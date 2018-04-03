@@ -128,7 +128,7 @@ public class NukeSolinium extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.fleijaRadius);
+            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.soliniumRadius);
         	}
         }
     }

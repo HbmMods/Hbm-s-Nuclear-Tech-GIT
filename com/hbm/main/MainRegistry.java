@@ -253,6 +253,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSPP;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
+import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
@@ -404,6 +405,7 @@ public class MainRegistry
 	public static int tungstenSpawn = 10;
 	public static int leadSpawn = 6;
 	public static int berylliumSpawn = 6;
+	
 	public static int gadgetRadius = 150;
 	public static int boyRadius = 120;
 	public static int manRadius = 175;
@@ -411,12 +413,16 @@ public class MainRegistry
 	public static int tsarRadius = 500;
 	public static int prototypeRadius = 150;
 	public static int fleijaRadius = 50;
+	public static int soliniumRadius = 75;
+	public static int n2Radius = 100;
 	public static int missileRadius = 100;
 	public static int mirvRadius = 100;
 	public static int fatmanRadius = 35;
 	public static int nukaRadius = 25;
 	public static int aSchrabRadius = 20;
+	
 	public static int blastSpeed = 1024;
+	
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
 	public static int atomStructure = 500;
@@ -602,6 +608,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCelPrimeBattery.class, "tileentity_cel_prime_energy");
 		GameRegistry.registerTileEntity(TileEntityCelPrimePort.class, "tileentity_cel_prime_connector");
 		GameRegistry.registerTileEntity(TileEntityCelPrimeTanks.class, "tileentity_cel_prime_storage");
+		GameRegistry.registerTileEntity(TileEntityMachineSeleniumEngine.class, "tileentity_selenium_engine");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1309,6 +1316,12 @@ public class MainRegistry
         Property propASchrab = config.get(Configuration.CATEGORY_GENERAL, "3.11_aSchrabRadius", 20);
         propASchrab.comment = "Radius of dropped anti schrabidium";
         aSchrabRadius = propASchrab.getInt();
+        Property propSolinium = config.get(Configuration.CATEGORY_GENERAL, "3.12_soliniumRadius", 75);
+        propSolinium.comment = "Radius of the blue rinse";
+        soliniumRadius = propSolinium.getInt();
+        Property propN2 = config.get(Configuration.CATEGORY_GENERAL, "3.13_n2Radius", 100);
+        propN2.comment = "Radius of the N2 mine";
+        n2Radius = propN2.getInt();
 
         Property propRadio = config.get(Configuration.CATEGORY_GENERAL, "4.00_radioSpawn", 500);
         propRadio.comment = "Spawn radio station on every nTH chunk";

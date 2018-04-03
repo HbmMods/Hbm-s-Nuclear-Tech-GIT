@@ -14,6 +14,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeFleija;
 import com.hbm.tileentity.bomb.TileEntityNukeGadget;
 import com.hbm.tileentity.bomb.TileEntityNukeMan;
 import com.hbm.tileentity.bomb.TileEntityNukeMike;
+import com.hbm.tileentity.bomb.TileEntityNukeN2;
 import com.hbm.tileentity.bomb.TileEntityNukePrototype;
 import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
@@ -56,6 +57,7 @@ import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
+import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
@@ -610,11 +612,29 @@ public class GUIHandler implements IGuiHandler {
 				return null;
 			}
 
+			case ModBlocks.guiID_nuke_n2:
+			{
+				if(entity instanceof TileEntityNukeN2)
+				{
+					return new ContainerNukeN2(player.inventory, (TileEntityNukeN2) entity);
+				}
+				return null;
+			}
+
 			case ModBlocks.guiID_cel_prime:
 			{
 				if(entity instanceof TileEntityCelPrime)
 				{
 					return new ContainerCelPrime(player.inventory, (TileEntityCelPrime) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_machine_selenium:
+			{
+				if(entity instanceof TileEntityMachineSeleniumEngine)
+				{
+					return new ContainerMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
 				}
 				return null;
 			}
@@ -1160,11 +1180,29 @@ public class GUIHandler implements IGuiHandler {
 					return null;
 				}
 				
+				case ModBlocks.guiID_nuke_n2:
+				{
+					if(entity instanceof TileEntityNukeN2)
+					{
+						return new GUINukeN2(player.inventory, (TileEntityNukeN2) entity);
+					}
+					return null;
+				}
+				
 				case ModBlocks.guiID_cel_prime:
 				{
 					if(entity instanceof TileEntityCelPrime)
 					{
 						return new GUICelPrime(player.inventory, (TileEntityCelPrime) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_machine_selenium:
+				{
+					if(entity instanceof TileEntityMachineSeleniumEngine)
+					{
+						return new GUIMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
 					}
 					return null;
 				}

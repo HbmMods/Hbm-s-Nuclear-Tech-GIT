@@ -40,17 +40,17 @@ public class BlockReactor extends Block {
 		if(this == ModBlocks.fusion_conductor)
 		{
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + /*":fusion_conductor_top_alt"*/":block_steel");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + /*":fusion_conductor_alt"*/":fusion_conductor_side");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + /*":fusion_conductor_alt"*/":fusion_conductor_side_alt3");
 		}
 		if(this == ModBlocks.fusion_center)
 		{
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_top");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_side");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_top_alt");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_side_alt");
 		}
 		if(this == ModBlocks.fusion_motor)
 		{
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_steel");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_motor_side");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_motor_top_alt");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_motor_side_alt");
 		}
 		if(this == ModBlocks.fusion_heater)
 		{

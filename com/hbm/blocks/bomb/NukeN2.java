@@ -6,7 +6,9 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudSolinium;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeN2;
@@ -127,7 +129,7 @@ public class NukeN2 extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.fleijaRadius);
+            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.n2Radius);
         	}
         }
     }
@@ -137,24 +139,14 @@ public class NukeN2 extends BlockContainer implements IBomb {
 		if (!world.isRemote)
 		{
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-		
-			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(world);
-    		entity.posX = x;
-    		entity.posY = y;
-    		entity.posZ = z;
-    		entity.destructionRange = r;
-    		entity.speed = MainRegistry.blastSpeed;
-    		entity.coefficient = 1.0F;
-    		entity.waste = false;
-    		entity.extType = 1;
-    	
-    		world.spawnEntityInWorld(entity);
+
+	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(world, r, x + 0.5, y + 0.5, z + 0.5));
     		
-    		EntityCloudSolinium cloud = new EntityCloudSolinium(world, r);
-    		cloud.posX = x;
-    		cloud.posY = y;
-    		cloud.posZ = z;
-    		world.spawnEntityInWorld(cloud);
+			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
+			entity2.posX = x;
+			entity2.posY = y;
+			entity2.posZ = z;
+			world.spawnEntityInWorld(entity2);
     	}
     	
 		return false;

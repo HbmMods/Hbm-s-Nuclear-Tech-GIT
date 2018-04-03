@@ -7,6 +7,7 @@ import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -100,6 +101,11 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityTurretCheapo cwis = (TileEntityTurretCheapo)te;
 					
 					cwis.rotation = m.value;
+				}
+				if (te instanceof TileEntityMachineSeleniumEngine) {
+					TileEntityMachineSeleniumEngine selenium = (TileEntityMachineSeleniumEngine)te;
+					
+					selenium.pistonCount = m.value;
 				}
 				
 			} catch (Exception x) { }

@@ -20,6 +20,8 @@ public class EntityNukeExplosionMK4 extends Entity {
 	public int speed;
 	public int length;
 	
+	public boolean fallout = true;
+	
 	ExplosionNukeRay explosion;
 
 	public EntityNukeExplosionMK4(World p_i1582_1_) {
@@ -55,7 +57,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
 				explosion.processTip(speed);
-		} else {
+		} else if(fallout) {
 			
 			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 1.8) * 10);
 			fallout.posX = this.posX;
@@ -94,6 +96,20 @@ public class EntityNukeExplosionMK4 extends Entity {
 		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
 		mk4.setPosition(x, y, z);
 		mk4.length = mk4.strength / 2;
+		return mk4;
+	}
+	
+	public static EntityNukeExplosionMK4 statFacNoRad(World world, int r, double x, double y, double z) {
+		
+		r *= 2;
+		
+		EntityNukeExplosionMK4 mk4 = new EntityNukeExplosionMK4(world);
+		mk4.strength = (int)(r);
+		mk4.count = (int)(4 * Math.PI * Math.pow(mk4.strength, 2) * 25);
+		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
+		mk4.setPosition(x, y, z);
+		mk4.length = mk4.strength / 2;
+		mk4.fallout = false;
 		return mk4;
 	}
 

@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.bomb.TileEntityNukeFleija;
+import com.hbm.tileentity.bomb.TileEntityNukeN2;
 import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,23 +9,26 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerNukeSolinium extends Container {
+public class ContainerNukeN2 extends Container {
 
-private TileEntityNukeSolinium nukeSol;
+private TileEntityNukeN2 nukeSol;
 	
-	public ContainerNukeSolinium(InventoryPlayer invPlayer, TileEntityNukeSolinium tedf) {
+	public ContainerNukeN2(InventoryPlayer invPlayer, TileEntityNukeN2 tedf) {
 		
 		nukeSol = tedf;
 		
-		this.addSlotToContainer(new Slot(tedf, 0, 26, 18));
-		this.addSlotToContainer(new Slot(tedf, 1, 53, 18));
-		this.addSlotToContainer(new Slot(tedf, 2, 107, 18));
-		this.addSlotToContainer(new Slot(tedf, 3, 134, 18));
-		this.addSlotToContainer(new Slot(tedf, 4, 80, 36));
-		this.addSlotToContainer(new Slot(tedf, 5, 26, 54));
-		this.addSlotToContainer(new Slot(tedf, 6, 53, 54));
-		this.addSlotToContainer(new Slot(tedf, 7, 107, 54));
-		this.addSlotToContainer(new Slot(tedf, 8, 134, 54));
+		this.addSlotToContainer(new Slot(tedf, 0, 98, 36));
+		this.addSlotToContainer(new Slot(tedf, 1, 116, 36));
+		this.addSlotToContainer(new Slot(tedf, 2, 134, 36));
+		this.addSlotToContainer(new Slot(tedf, 3, 98, 54));
+		this.addSlotToContainer(new Slot(tedf, 4, 116, 54));
+		this.addSlotToContainer(new Slot(tedf, 5, 134, 54));
+		this.addSlotToContainer(new Slot(tedf, 6, 98, 72));
+		this.addSlotToContainer(new Slot(tedf, 7, 116, 72));
+		this.addSlotToContainer(new Slot(tedf, 8, 134, 72));
+		this.addSlotToContainer(new Slot(tedf, 9, 98, 90));
+		this.addSlotToContainer(new Slot(tedf, 10, 116, 90));
+		this.addSlotToContainer(new Slot(tedf, 11, 134, 90));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -52,8 +55,8 @@ private TileEntityNukeSolinium nukeSol;
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 8) {
-				if (!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true))
+            if (par2 <= 11) {
+				if (!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true))
 				{
 					return null;
 				}

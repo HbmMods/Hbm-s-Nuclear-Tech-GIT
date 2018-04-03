@@ -24,8 +24,8 @@ public class FusionCore extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_core_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_center_top_alt");
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_core_side_alt");
 	}
 
 	@Override

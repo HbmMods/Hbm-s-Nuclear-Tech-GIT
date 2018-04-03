@@ -32,6 +32,13 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+
+		String[] text = new String[] { "Accepted Fuels:",
+				"  Diesel (500 HE/t)",
+				"  Petroil (300 HE/t)",
+				"  Biofuel (400 HE/t)",
+				"  NITAN Superfuel (5000 HE/t)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 	}
 	
 	@Override
@@ -57,6 +64,8 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		{
 			drawTexturedModalRect(guiLeft + 43 + 18 * 4, guiTop + 34, 208, 0, 18, 18);
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
 		diFurnace.tank.renderTank(this, guiLeft + 80, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);

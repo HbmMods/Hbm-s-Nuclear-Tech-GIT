@@ -145,19 +145,11 @@ public class NukeMike extends BlockContainer implements IBomb {
 	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.mikeRadius, x + 0.5, y + 0.5, z + 0.5));
 
 			if (MainRegistry.enableNukeClouds) {
-				if (r < 200) {
-					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
-					entity2.posX = x;
-					entity2.posY = y;
-					entity2.posZ = z;
-					world.spawnEntityInWorld(entity2);
-				} else {
-					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
-					entity2.posX = x;
-					entity2.posY = y;
-					entity2.posZ = z;
-					world.spawnEntityInWorld(entity2);
-				}
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
+				entity2.posX = x;
+				entity2.posY = y;
+				entity2.posZ = z;
+				world.spawnEntityInWorld(entity2);
 			} else {
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
 				entity2.posX = x;
