@@ -34,121 +34,122 @@ public class Meteorite {
 			e.attackEntityFrom(ModDamageSource.meteorite, 1000);
 		}
 		
-		switch(rand.nextInt(300)) {
-		case 0:
-			//Meteor-only tiny meteorite
-			List<ItemStack> list0 = new ArrayList<ItemStack>();
-			list0.add(new ItemStack(ModBlocks.block_meteor));
-			generateBox(world, rand, x, y, z, list0);
-			return;
-		case 1:
-			//Large ore-only meteorite
-			List<ItemStack> list1 = new ArrayList<ItemStack>();
-			list1.addAll(this.getRandomOre(rand));
-			int i = list1.size();
-			for(int j = 0; j < i; j++)
-				list1.add(new ItemStack(Blocks.stone));
-			generateSphere7x7(world, rand, x, y, z, list1);
-			return;
-		case 2:
-			//Medium ore-only meteorite
-			List<ItemStack> list2 = new ArrayList<ItemStack>();
-			list2.addAll(this.getRandomOre(rand));
-			int k = list2.size() / 2;
-			for(int j = 0; j < k; j++)
-				list2.add(new ItemStack(Blocks.stone));
-			generateSphere5x5(world, rand, x, y, z, list2);
-			return;
-		case 3:
-			//Small pure ore meteorite
-			List<ItemStack> list3 = new ArrayList<ItemStack>();
-			list3.addAll(this.getRandomOre(rand));
-			generateBox(world, rand, x, y, z, list3);
-			return;
-		case 4:
-			//Bamboozle
-			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 15F, true);
-			ExplosionLarge.spawnRubble(world, x, y, z, 25);
-			return;
-		case 5:
-			//Large treasure-only meteorite
-			List<ItemStack> list4 = new ArrayList<ItemStack>();
-			list4.add(new ItemStack(ModBlocks.block_meteor_treasure));
-			list4.add(new ItemStack(ModBlocks.block_meteor_broken));
-			generateSphere7x7(world, rand, x, y, z, list4);
-			return;
-		case 6:
-			//Medium treasure-only meteorite
-			List<ItemStack> list5 = new ArrayList<ItemStack>();
-			list5.add(new ItemStack(ModBlocks.block_meteor_treasure));
-			list5.add(new ItemStack(ModBlocks.block_meteor_treasure));
-			list5.add(new ItemStack(ModBlocks.block_meteor_broken));
-			generateSphere5x5(world, rand, x, y, z, list5);
-			return;
-		case 7:
-			//Small pure treasure meteorite
-			List<ItemStack> list6 = new ArrayList<ItemStack>();
-			list6.add(new ItemStack(ModBlocks.block_meteor_treasure));
-			generateBox(world, rand, x, y, z, list6);
-			return;
-		case 8:
-			//Large nuclear meteorite
-			List<ItemStack> list7 = new ArrayList<ItemStack>();
-			list7.add(new ItemStack(ModBlocks.block_meteor_treasure));
-			List<ItemStack> list8 = new ArrayList<ItemStack>();
-			list8.add(new ItemStack(ModBlocks.toxic_block));
-			generateSphere7x7(world, rand, x, y, z, list7);
-			generateSphere5x5(world, rand, x, y, z, list8);
-			return;
-		case 9:
-			//Giant ore meteorite
-			List<ItemStack> list9 = new ArrayList<ItemStack>();
-			list9.add(new ItemStack(ModBlocks.block_meteor_broken));
-			generateSphere9x9(world, rand, x, y, z, list9);
-			generateSphere7x7(world, rand, x, y, z, this.getRandomOre(rand));
-			return;
-		case 10:
-			//Tainted Meteorite
-			List<ItemStack> list10 = new ArrayList<ItemStack>();
-			list10.add(new ItemStack(ModBlocks.block_meteor_broken));
-			generateSphere5x5(world, rand, x, y, z, list10);
-			world.setBlock(x, y, z, ModBlocks.taint);
-			return;
-		case 11:
-			//Atomic meteorite
-    		EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(world);
-    	    entity0.posX = x + 0.5D;
-    	    entity0.posY = y + 0.5D;
-    	    entity0.posZ = z + 0.5D;
-    	    entity0.destructionRange = MainRegistry.fatmanRadius;
-    	    entity0.speed = MainRegistry.blastSpeed;
-    	    entity0.coefficient = 10.0F;
-    	    	
-    	    world.spawnEntityInWorld(entity0);
-    	    if(MainRegistry.polaroidID == 11)
-    	    	if(rand.nextInt(100) >= 0)
-    	    	{
-    	    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
-    	    	} else {
-    	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
-    	    	}
-    	    else
-    	    	if(rand.nextInt(100) == 0)
-    	    	{
-    	    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
-    	    	} else {
-    	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
-    	    	}
-			return;
-		case 12:
-			//Star Blaster
-			world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, true);
-			ItemStack stack = new ItemStack(ModItems.gun_b92);
-			stack.setStackDisplayName("§9Star Blaster§r");
-			EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
-			world.spawnEntityInWorld(blaster);
-			return;
-		}
+		if(MainRegistry.enableSpecialMeteors)
+			switch(rand.nextInt(300)) {
+			case 0:
+				//Meteor-only tiny meteorite
+				List<ItemStack> list0 = new ArrayList<ItemStack>();
+				list0.add(new ItemStack(ModBlocks.block_meteor));
+				generateBox(world, rand, x, y, z, list0);
+				return;
+			case 1:
+				//Large ore-only meteorite
+				List<ItemStack> list1 = new ArrayList<ItemStack>();
+				list1.addAll(this.getRandomOre(rand));
+				int i = list1.size();
+				for(int j = 0; j < i; j++)
+					list1.add(new ItemStack(Blocks.stone));
+				generateSphere7x7(world, rand, x, y, z, list1);
+				return;
+			case 2:
+				//Medium ore-only meteorite
+				List<ItemStack> list2 = new ArrayList<ItemStack>();
+				list2.addAll(this.getRandomOre(rand));
+				int k = list2.size() / 2;
+				for(int j = 0; j < k; j++)
+					list2.add(new ItemStack(Blocks.stone));
+				generateSphere5x5(world, rand, x, y, z, list2);
+				return;
+			case 3:
+				//Small pure ore meteorite
+				List<ItemStack> list3 = new ArrayList<ItemStack>();
+				list3.addAll(this.getRandomOre(rand));
+				generateBox(world, rand, x, y, z, list3);
+				return;
+			case 4:
+				//Bamboozle
+				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 15F, true);
+				ExplosionLarge.spawnRubble(world, x, y, z, 25);
+				return;
+			case 5:
+				//Large treasure-only meteorite
+				List<ItemStack> list4 = new ArrayList<ItemStack>();
+				list4.add(new ItemStack(ModBlocks.block_meteor_treasure));
+				list4.add(new ItemStack(ModBlocks.block_meteor_broken));
+				generateSphere7x7(world, rand, x, y, z, list4);
+				return;
+			case 6:
+				//Medium treasure-only meteorite
+				List<ItemStack> list5 = new ArrayList<ItemStack>();
+				list5.add(new ItemStack(ModBlocks.block_meteor_treasure));
+				list5.add(new ItemStack(ModBlocks.block_meteor_treasure));
+				list5.add(new ItemStack(ModBlocks.block_meteor_broken));
+				generateSphere5x5(world, rand, x, y, z, list5);
+				return;
+			case 7:
+				//Small pure treasure meteorite
+				List<ItemStack> list6 = new ArrayList<ItemStack>();
+				list6.add(new ItemStack(ModBlocks.block_meteor_treasure));
+				generateBox(world, rand, x, y, z, list6);
+				return;
+			case 8:
+				//Large nuclear meteorite
+				List<ItemStack> list7 = new ArrayList<ItemStack>();
+				list7.add(new ItemStack(ModBlocks.block_meteor_treasure));
+				List<ItemStack> list8 = new ArrayList<ItemStack>();
+				list8.add(new ItemStack(ModBlocks.toxic_block));
+				generateSphere7x7(world, rand, x, y, z, list7);
+				generateSphere5x5(world, rand, x, y, z, list8);
+				return;
+			case 9:
+				//Giant ore meteorite
+				List<ItemStack> list9 = new ArrayList<ItemStack>();
+				list9.add(new ItemStack(ModBlocks.block_meteor_broken));
+				generateSphere9x9(world, rand, x, y, z, list9);
+				generateSphere7x7(world, rand, x, y, z, this.getRandomOre(rand));
+				return;
+			case 10:
+				//Tainted Meteorite
+				List<ItemStack> list10 = new ArrayList<ItemStack>();
+				list10.add(new ItemStack(ModBlocks.block_meteor_broken));
+				generateSphere5x5(world, rand, x, y, z, list10);
+				world.setBlock(x, y, z, ModBlocks.taint);
+				return;
+			case 11:
+				//Atomic meteorite
+	    		EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(world);
+	    	    entity0.posX = x + 0.5D;
+	    	    entity0.posY = y + 0.5D;
+	    	    entity0.posZ = z + 0.5D;
+	    	    entity0.destructionRange = MainRegistry.fatmanRadius;
+	    	    entity0.speed = MainRegistry.blastSpeed;
+	    	    entity0.coefficient = 10.0F;
+	    	    	
+	    	    world.spawnEntityInWorld(entity0);
+	    	    if(MainRegistry.polaroidID == 11)
+	    	    	if(rand.nextInt(100) >= 0)
+	    	    	{
+	    	    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
+	    	    	} else {
+	    	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
+	    	    	}
+	    	    else
+	    	    	if(rand.nextInt(100) == 0)
+	    	    	{
+	    	    		ExplosionParticleB.spawnMush(world, x, y - 3, z);
+	    	    	} else {
+	    	    		ExplosionParticle.spawnMush(world, x, y - 3, z);
+	    	    	}
+				return;
+			case 12:
+				//Star Blaster
+				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 10F, true);
+				ItemStack stack = new ItemStack(ModItems.gun_b92);
+				stack.setStackDisplayName("§9Star Blaster§r");
+				EntityItem blaster = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack);
+				world.spawnEntityInWorld(blaster);
+				return;
+			}
 		
 		switch(rand.nextInt(3)) {
 		case 0:

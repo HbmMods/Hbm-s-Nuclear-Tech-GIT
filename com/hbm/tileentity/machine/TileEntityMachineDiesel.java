@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -238,6 +239,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			generate();
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, (int)powerCap, 0));
 		}
 	}
 	

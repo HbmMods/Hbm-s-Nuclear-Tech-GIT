@@ -31,7 +31,7 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 69 - 52, 16, 52);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.powerCap);
 
 		String[] text = new String[] { "Accepted Fuels:",
 				"  Diesel (500 HE/t)",

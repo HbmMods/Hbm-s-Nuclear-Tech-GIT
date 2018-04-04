@@ -31,8 +31,8 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 	public long power;
 	public int soundCycle = 0;
-	public static final long maxPower = 100000;
-	public long powerCap = 100000;
+	public static final long maxPower = 250000;
+	public long powerCap = 250000;
 	public int age = 0;
 	public List<IConsumer> list = new ArrayList();
 	public FluidTank tank;
@@ -230,10 +230,12 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			// Battery Item
 			power = Library.chargeItemsFromTE(slots, 13, power, powerCap);
 
-			generate();
+			if(this.pistonCount > 2)
+				generate();
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, pistonCount, 0));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, (int)powerCap, 1));
 		}
 	}
 	
@@ -286,18 +288,15 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 				if (soundCycle >= 3)
 					soundCycle = 0;
-				//if (this.superTimer > 0)
-				//	soundCycle = 0;
 
-				tank.setFill(tank.getFill() - 10);
+				tank.setFill(tank.getFill() - this.pistonCount * 10);
 				if (tank.getFill() < 0)
 					tank.setFill(0);
 
-				if (power + getHEFromFuel() <= powerCap) {
-					power += getHEFromFuel();
-				} else {
+				power += getHEFromFuel() * Math.pow(this.pistonCount, 1.15D);
+					
+				if(power > powerCap)
 					power = powerCap;
-				}
 			}
 		}
 	}

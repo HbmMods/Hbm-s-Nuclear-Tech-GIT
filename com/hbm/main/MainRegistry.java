@@ -395,6 +395,8 @@ public class MainRegistry
 	public static boolean enableMeteorStrikes = true;
 	public static boolean enableMeteorShowers = true;
 	public static boolean enableMeteorTails = true;
+	public static boolean enableSpecialMeteors = true;
+	
 	public static int uraniumSpawn = 7;
 	public static int titaniumSpawn = 8;
 	public static int sulfurSpawn = 5;
@@ -1248,6 +1250,7 @@ public class MainRegistry
         enableMeteorStrikes = config.get(Configuration.CATEGORY_GENERAL, "1.09_enableMeteorStrikes", true).getBoolean(true);
         enableMeteorShowers = config.get(Configuration.CATEGORY_GENERAL, "1.10_enableMeteorShowers", true).getBoolean(true);
         enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.11_enableMeteorTails", true).getBoolean(true);
+        enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableSpecialMeteors", true).getBoolean(true);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";
