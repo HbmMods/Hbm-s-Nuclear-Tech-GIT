@@ -166,6 +166,53 @@ public class ExplosionNukeRay {
 		}
 	}
 	
+	public void collectTipExperimental(int count) {
+		
+		for(int k = 0; k < count; k++) {
+			double phi = rand.nextDouble() * (Math.PI * 2);
+			double costheta = rand.nextDouble() * 2 - 1;
+			double theta = Math.acos(costheta);
+			double x = Math.sin(theta) * Math.cos(phi);
+			double y = Math.sin(theta) * Math.sin(phi);
+			double z = Math.cos(theta);
+			
+			Vec3 vec = Vec3.createVectorHelper(x, y, z);
+			int length = (int)Math.ceil(strength);
+			
+			float res = strength;
+			
+			FloatTriplet lastPos = null;
+			
+			for(int i = 0; i < length; i ++) {
+				
+				if(i > this.length)
+					break;
+				
+				float x0 = (float) (posX + (vec.xCoord * i));
+				float y0 = (float) (posY + (vec.yCoord * i));
+				float z0 = (float) (posZ + (vec.zCoord * i));
+				
+				double fac = 100 - ((double) i) / ((double) length) * 100;
+				fac *= 0.07D;
+				
+				if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
+					res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
+				else
+					res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
+
+				if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+					lastPos = new FloatTriplet(x0, y0, z0);
+				}
+				
+				if(res <= 0 || i + 1 >= this.length) {
+					if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null)
+						affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
+					break;
+				}
+			}
+		}
+	}
+	
 	public void deleteStorage() {
 		this.affectedBlocks.clear();
 	}

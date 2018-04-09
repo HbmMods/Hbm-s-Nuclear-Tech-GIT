@@ -39,6 +39,19 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 				"  Biofuel (400 HE/t)",
 				"  NITAN Superfuel (5000 HE/t)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Fuel consumption:",
+				"  10 mB/t",
+				"  200 mB/s",
+				"(Consumption rate is constant)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		
+		if(!diFurnace.hasAcceptableFuel()) {
+			
+			String[] text2 = new String[] { "Error: The currently set fuel type",
+					"is not supported by this engine!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
+		}
 	}
 	
 	@Override
@@ -64,8 +77,12 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 		{
 			drawTexturedModalRect(guiLeft + 43 + 18 * 4, guiTop + 34, 208, 0, 18, 18);
 		}
-		
+
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
+		
+		if(!diFurnace.hasAcceptableFuel())
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
 		diFurnace.tank.renderTank(this, guiLeft + 80, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);

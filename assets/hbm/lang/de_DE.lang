@@ -515,6 +515,8 @@ item.circuit_targeting_tier4.name=Militärische Schaltplatte (Stufe 4)
 item.circuit_targeting_tier5.name=Militärische Schaltplatte (Stufe 5)
 item.circuit_targeting_tier6.name=Militärische Schaltplatte (Stufe 6)
 
+item.selenium_piston.name=Sternmotorenkolben
+
 tile.block_aluminium.name=Aluminiumblock
 tile.block_copper.name=Kupferblock
 tile.block_fluorite.name=Fluoritblock
@@ -698,6 +700,12 @@ item.battery_lithium_cell_6.name=Sechsfache Lithium-Ionen-Energiezelle
 item.battery_schrabidium_cell_4.name=Vierfache Schrabidium-Energiezelle
 item.battery_spark_cell_6.name=Spark-Energiezelle
 item.battery_spark_cell_25.name=Spark-Arkane Autobatterie
+item.battery_spark_cell_100.name=Spark-Arkane Energiespeicher-Matrix
+item.battery_spark_cell_1000.name=Spark-Arkane Massen-Energie Speicherleere
+item.battery_spark_cell_2500.name=Spark-Arkanes Dirac'sches Meer
+item.battery_spark_cell_10000.name=Spark Solider Raumzeit Kristall
+item.battery_spark_cell_power.name=Spark Ludicrous Physics-Defying Energy Storage Unit
+item.battery_spark_cell_power.name=Spark Lächerliche Physik-missachtende Energiespeichereinheit
 
 item.upgrade_template.name=Maschinenupgrade-Vorlage
 item.upgrade_speed_1.name=Rotes Maschinenupgrade Mk.I

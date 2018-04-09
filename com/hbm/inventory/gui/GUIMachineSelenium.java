@@ -35,17 +35,38 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 108, 160, 16, diFurnace.power, diFurnace.powerCap);
 		
 		String[] text = new String[] { "Accepted Fuels:",
-				"  Industrial Oil (100 HE/t)",
-				"  Heating Oil (150 HE/t)",
-				"  Diesel (450 HE/t)",
-				"  Kerosene (600 HE/t)",
-				"  Reclaimed Oil (200 HE/t)",
-				"  Petroil (250 HE/t)",
-				"  Biofuel (400 HE/t)",
-				"  NITAN Superfuel (5000 HE/t)",
+				"  Industrial Oil (50 HE/t)",
+				"  Heating Oil (75 HE/t)",
+				"  Diesel (225 HE/t)",
+				"  Kerosene (300 HE/t)",
+				"  Reclaimed Oil (100 HE/t)",
+				"  Petroil (125 HE/t)",
+				"  Biofuel (200 HE/t)",
+				"  NITAN Superfuel (2500 HE/t)",
 				"(These numbers are base values,",
-				"actual HE/t can deviate)" };
+				"actual consumption is based",
+				"on piston count)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Fuel consumption:",
+				"  5 mB/t",
+				"  100 mB/s",
+				"(Consumption rate per piston)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		
+		if(diFurnace.pistonCount < 3) {
+			
+			String[] text2 = new String[] { "Error: At least three pistons are",
+					"required to operate this radial engine!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
+		}
+		
+		if(!diFurnace.hasAcceptableFuel()) {
+			
+			String[] text2 = new String[] { "Error: The currently set fuel type",
+					"is not supported by this engine!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 48, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
+		}
 	}
 	
 	@Override
@@ -64,6 +85,9 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 		
 		if(diFurnace.power > 0) {
 			int i = (int)diFurnace.getPowerScaled(160);
+			
+			i = (int) Math.min(i, 160);
+			
 			drawTexturedModalRect(guiLeft + 8, guiTop + 108, 0, 222, i, 16);
 		}
 		
@@ -78,7 +102,14 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 26, guiTop + 81, 176, 52 + 16 * k - 16, 16, 16);
 		}
 		
+		if(diFurnace.pistonCount < 3)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
+		
+		if(!diFurnace.hasAcceptableFuel())
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 48, 16, 16, 7);
+		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
 		diFurnace.tank.renderTank(this, guiLeft + 80 + 36, guiTop + 70, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);

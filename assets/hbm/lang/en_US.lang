@@ -515,6 +515,8 @@ item.circuit_targeting_tier4.name=Military Grade Circuit Board (Tier 4)
 item.circuit_targeting_tier5.name=Military Grade Circuit Board (Tier 5)
 item.circuit_targeting_tier6.name=Military Grade Circuit Board (Tier 6)
 
+item.selenium_piston.name=Radial Engine Piston
+
 tile.block_aluminium.name=Block of Aluminium
 tile.block_copper.name=Block of Copper
 tile.block_fluorite.name=Block of Fluorite
@@ -698,6 +700,11 @@ item.battery_lithium_cell_6.name=Sixfold Lithium-Ion Power Cell
 item.battery_schrabidium_cell_4.name=Quadruple Schrabidium Power Cell
 item.battery_spark_cell_6.name=Spark Power Cell
 item.battery_spark_cell_25.name=Spark Arcane Car Battery
+item.battery_spark_cell_100.name=Spark Arcane Energy Storage Array
+item.battery_spark_cell_1000.name=Spark Arcane Mass-Energy Void
+item.battery_spark_cell_2500.name=Spark Arcane Dirac Sea
+item.battery_spark_cell_10000.name=Spark Solid Space-Time Crystal
+item.battery_spark_cell_power.name=Spark Ludicrous Physics-Defying Energy Storage Unit
 
 item.upgrade_template.name=Machine Upgrade Piece Template
 item.upgrade_speed_1.name=Red Machine Upgrade Mk.I
@@ -1230,7 +1237,7 @@ tile.yellow_barrel.name=Radioactive Barrel
 item.designator.name=Short Range Target Designator
 item.designator_range.name=Long Range Target Designator
 item.designator_manual.name=Manual Target Designator
-item.missile_assembly.name=Small Missle Assembly
+item.missile_assembly.name=Small Missile Assembly
 item.missile_generic.name=High Explosive Missile
 item.missile_anti_ballistic.name=Anti Ballistic Missile (WIP)
 item.missile_incendiary.name=Incendiary Missile

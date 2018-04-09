@@ -181,11 +181,13 @@ public class ItemRadioactive extends Item {
 			//Schrabidic
 
 			if (this == ModItems.ingot_schrabidium || 
+					this == ModItems.ingot_solinium || 
 					this == ModItems.ingot_schrabidium_fuel || 
 					this == ModItems.ingot_hes || 
 					this == ModItems.ingot_les || 
 					this == ModItems.cell_sas3 || 
 					this == ModItems.fleija_propellant || 
+					this == ModItems.solinium_core || 
 					this == ModItems.rod_schrabidium || 
 					this == ModItems.rod_dual_schrabidium || 
 					this == ModItems.rod_quad_schrabidium || 
@@ -200,6 +202,7 @@ public class ItemRadioactive extends Item {
 			}
 
 			if (this == ModItems.nugget_schrabidium || 
+					this == ModItems.nugget_solinium || 
 					this == ModItems.nugget_schrabidium_fuel || 
 					this == ModItems.nugget_hes || 
 					this == ModItems.nugget_les) {

@@ -257,21 +257,21 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	public int getHEFromFuel() {
 		FluidType type = tank.getTankType();
 		if(type.name().equals(FluidType.SMEAR.name()))
-			return 100;
+			return 50;
 		if(type.name().equals(FluidType.HEATINGOIL.name()))
-			return 150;
+			return 75;
 		if(type.name().equals(FluidType.DIESEL.name()))
-			return 450;
+			return 225;
 		if(type.name().equals(FluidType.KEROSENE.name()))
-			return 600;
+			return 300;
 		if(type.name().equals(FluidType.RECLAIMED.name()))
-			return 200;
+			return 100;
 		if(type.name().equals(FluidType.PETROIL.name()))
-			return 250;
+			return 125;
 		if(type.name().equals(FluidType.BIOFUEL.name()))
-			return 400;
+			return 200;
 		if(type.name().equals(FluidType.NITAN.name()))
-			return 5000;
+			return 2500;
 		return 0;
 	}
 
@@ -289,7 +289,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 				if (soundCycle >= 3)
 					soundCycle = 0;
 
-				tank.setFill(tank.getFill() - this.pistonCount * 10);
+				tank.setFill(tank.getFill() - this.pistonCount * 5);
 				if (tank.getFill() < 0)
 					tank.setFill(0);
 
@@ -309,12 +309,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 	@Override
 	public void ffgeuaInit() {
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
 		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 	}
 
 	@Override

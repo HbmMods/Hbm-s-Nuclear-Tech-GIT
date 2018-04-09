@@ -848,6 +848,11 @@ public class ModItems {
 	public static Item battery_schrabidium_cell_4;
 	public static Item battery_spark_cell_6;
 	public static Item battery_spark_cell_25;
+	public static Item battery_spark_cell_100;
+	public static Item battery_spark_cell_1000;
+	public static Item battery_spark_cell_2500;
+	public static Item battery_spark_cell_10000;
+	public static Item battery_spark_cell_power;
 
 	public static Item battery_su;
 	public static Item battery_su_l;
@@ -1281,8 +1286,8 @@ public class ModItems {
 		plate_polymer = new Item().setUnlocalizedName("plate_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_polymer");
 		plate_dineutronium = new Item().setUnlocalizedName("plate_dineutronium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_dineutronium");
 		plate_desh = new Item().setUnlocalizedName("plate_desh").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":plate_desh");
-		ingot_solinium = new Item().setUnlocalizedName("ingot_solinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_solinium");
-		nugget_solinium = new Item().setUnlocalizedName("nugget_solinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_solinium");
+		ingot_solinium = new ItemCustomLore().setUnlocalizedName("ingot_solinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_solinium");
+		nugget_solinium = new ItemCustomLore().setUnlocalizedName("nugget_solinium").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":nugget_solinium");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -1980,6 +1985,11 @@ public class ModItems {
 		battery_schrabidium_cell_4 = new ItemBattery(30000 * 4).setUnlocalizedName("battery_schrabidium_cell_4").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_schrabidium_cell_4");
 		battery_spark_cell_6 = new ItemBattery(1000000 * 6).setUnlocalizedName("battery_spark_cell_6").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_6");
 		battery_spark_cell_25 = new ItemBattery(1000000 * 25).setUnlocalizedName("battery_spark_cell_25").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_25");
+		battery_spark_cell_100 = new ItemBattery(1000000L * 100L).setUnlocalizedName("battery_spark_cell_100").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_100");
+		battery_spark_cell_1000 = new ItemBattery(1000000L * 1000L).setUnlocalizedName("battery_spark_cell_1000").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_1000");
+		battery_spark_cell_2500 = new ItemBattery(1000000L * 2500L).setUnlocalizedName("battery_spark_cell_2500").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_2500");
+		battery_spark_cell_10000 = new ItemBattery(1000000L * 10000L).setUnlocalizedName("battery_spark_cell_10000").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_10000");
+		battery_spark_cell_power = new ItemBattery(1000000L * 1000000L).setUnlocalizedName("battery_spark_cell_power").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_spark_cell_power");
 
 		battery_potato = new ItemBattery(1).setUnlocalizedName("battery_potato").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_potato");
 		battery_potatos = new ItemPotatos(50).setUnlocalizedName("battery_potatos").setMaxStackSize(1).setCreativeTab(MainRegistry.tabParts).setTextureName(RefStrings.MODID + ":battery_potatos");
@@ -2814,6 +2824,11 @@ public class ModItems {
 		GameRegistry.registerItem(battery_spark, battery_spark.getUnlocalizedName());
 		GameRegistry.registerItem(battery_spark_cell_6, battery_spark_cell_6.getUnlocalizedName());
 		GameRegistry.registerItem(battery_spark_cell_25, battery_spark_cell_25.getUnlocalizedName());
+		GameRegistry.registerItem(battery_spark_cell_100, battery_spark_cell_100.getUnlocalizedName());
+		GameRegistry.registerItem(battery_spark_cell_1000, battery_spark_cell_1000.getUnlocalizedName());
+		GameRegistry.registerItem(battery_spark_cell_2500, battery_spark_cell_2500.getUnlocalizedName());
+		GameRegistry.registerItem(battery_spark_cell_10000, battery_spark_cell_10000.getUnlocalizedName());
+		GameRegistry.registerItem(battery_spark_cell_power, battery_spark_cell_power.getUnlocalizedName());
 		GameRegistry.registerItem(battery_creative, battery_creative.getUnlocalizedName());
 		GameRegistry.registerItem(battery_su, battery_su.getUnlocalizedName());
 		GameRegistry.registerItem(battery_su_l, battery_su_l.getUnlocalizedName());

@@ -33,6 +33,11 @@ public class GUIMachineFluidTank extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		tank.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 71, guiTop + 69 - 52, 34, 52);
+		
+		String[] text = new String[] {
+				"Inserting a fuse into the marked",
+				"slot will set the tank to output mode" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 	}
 	
 	@Override
@@ -51,6 +56,8 @@ public class GUIMachineFluidTank extends GuiInfoContainer {
 		
 		if(tank.dna())
 			drawTexturedModalRect(guiLeft + 152, guiTop + 53, 176, 0, 16, 16);
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(tank.tank.getSheet());
 		tank.tank.renderTank(this, guiLeft + 71, guiTop + 69, tank.tank.getTankType().textureX() * FluidTank.x, tank.tank.getTankType().textureY() * FluidTank.y, 16, 52);

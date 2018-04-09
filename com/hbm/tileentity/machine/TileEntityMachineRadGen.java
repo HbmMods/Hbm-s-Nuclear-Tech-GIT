@@ -283,11 +283,93 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 		
 		Item item = stack.getItem();
 
+		if(item == ModItems.nugget_uranium) return 5;
+		if(item == ModItems.ingot_uranium) return 50;
+		if(item == Item.getItemFromBlock(ModBlocks.block_uranium)) return 500;
+		if(item == ModItems.rod_uranium) return 30;
+		if(item == ModItems.rod_dual_uranium) return 60;
+		if(item == ModItems.rod_quad_uranium) return 90;
+
+		if(item == ModItems.nugget_u235) return 50;
+		if(item == ModItems.ingot_u235) return 500;
+		if(item == ModItems.rod_u235) return 300;
+		if(item == ModItems.rod_dual_u235) return 600;
+		if(item == ModItems.rod_quad_u235) return 900;
+		
+		if(item == ModItems.nugget_u238) return 10;
+		if(item == ModItems.ingot_u238) return 100;
+		if(item == ModItems.rod_u238) return 60;
+		if(item == ModItems.rod_dual_u238) return 120;
+		if(item == ModItems.rod_quad_u238) return 240;
+
+		if(item == ModItems.nugget_pu238) return 40;
+		if(item == ModItems.ingot_pu238) return 400;
+		if(item == ModItems.rod_pu238) return 240;
+		if(item == ModItems.rod_dual_pu238) return 480;
+		if(item == ModItems.rod_quad_pu238) return 960;
+		
+		if(item == ModItems.nugget_pu239) return 70;
+		if(item == ModItems.ingot_pu239) return 700;
+		if(item == ModItems.rod_pu239) return 420;
+		if(item == ModItems.rod_dual_pu239) return 840;
+		if(item == ModItems.rod_quad_pu239) return 1680;
+		
+		if(item == ModItems.nugget_pu240) return 20;
+		if(item == ModItems.ingot_pu240) return 200;
+		if(item == ModItems.rod_pu240) return 120;
+		if(item == ModItems.rod_dual_pu240) return 240;
+		if(item == ModItems.rod_quad_pu240) return 480;
+		
+		if(item == ModItems.nugget_neptunium) return 60;
+		if(item == ModItems.ingot_neptunium) return 600;
+		if(item == ModItems.rod_neptunium) return 360;
+		if(item == ModItems.rod_dual_neptunium) return 720;
+		if(item == ModItems.rod_quad_neptunium) return 1440;
+
+		if(item == ModItems.nugget_schrabidium) return 100;
+		if(item == ModItems.ingot_schrabidium) return 1000;
+		if(item == Item.getItemFromBlock(ModBlocks.block_schrabidium)) return 10000;
+		if(item == ModItems.rod_schrabidium) return 600;
+		if(item == ModItems.rod_dual_schrabidium) return 1200;
+		if(item == ModItems.rod_quad_schrabidium) return 2400;
+		
+		if(item == ModItems.nugget_solinium) return 120;
+		if(item == ModItems.ingot_solinium) return 1200;
+		if(item == ModItems.rod_schrabidium) return 720;
+		if(item == ModItems.rod_dual_schrabidium) return 1440;
+		if(item == ModItems.rod_quad_schrabidium) return 2880;
+
 		if(item == ModItems.nuclear_waste) return 100;
+		if(item == Item.getItemFromBlock(ModBlocks.block_waste)) return 1000;
 		if(item == ModItems.trinitite) return 80;
+		if(item == Item.getItemFromBlock(ModBlocks.block_trinitite)) return 800;
+
+		if(item == ModItems.rod_uranium_fuel_depleted) return 400;
+		if(item == ModItems.rod_dual_uranium_fuel_depleted) return 800;
+		if(item == ModItems.rod_quad_uranium_fuel_depleted) return 1600;
+
+		if(item == ModItems.rod_mox_fuel_depleted) return 550;
+		if(item == ModItems.rod_dual_mox_fuel_depleted) return 1100;
+		if(item == ModItems.rod_quad_mox_fuel_depleted) return 2200;
+
+		if(item == ModItems.rod_plutonium_fuel_depleted) return 600;
+		if(item == ModItems.rod_dual_plutonium_fuel_depleted) return 1200;
+		if(item == ModItems.rod_quad_plutonium_fuel_depleted) return 2400;
+
+		if(item == ModItems.rod_schrabidium_fuel_depleted) return 800;
+		if(item == ModItems.rod_dual_schrabidium_fuel_depleted) return 1600;
+		if(item == ModItems.rod_quad_schrabidium_fuel_depleted) return 3200;
+		
+		if(item == ModItems.rod_quad_euphemium) return 5000;
+		
 		if(item == ModItems.rod_waste) return 600;
 		if(item == ModItems.rod_dual_waste) return 1200;
 		if(item == ModItems.rod_quad_waste) return 4800;
+
+		if(item == Item.getItemFromBlock(ModBlocks.block_yellowcake)) return 1000;
+		if(item == Item.getItemFromBlock(ModBlocks.mush)) return 10;
+		if(item == Item.getItemFromBlock(ModBlocks.waste_earth)) return 25;
+		if(item == Item.getItemFromBlock(ModBlocks.waste_mycelium)) return 150;
 		
 		return 0;
 	}
@@ -313,10 +395,17 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 	@Override
 	public void ffgeuaInit() {
 		int i = this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
-		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
-		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
+		
+		switch(i) {
+		case 2: 
+			ffgeua(this.xCoord + 5, this.yCoord, this.zCoord, getTact()); break;
+		case 3: 
+			ffgeua(this.xCoord - 5, this.yCoord, this.zCoord, getTact()); break;
+		case 4: 
+			ffgeua(this.xCoord, this.yCoord, this.zCoord - 5, getTact()); break;
+		case 5: 
+			ffgeua(this.xCoord, this.yCoord, this.zCoord + 5, getTact()); break;
+		}
 	}
 
 	@Override

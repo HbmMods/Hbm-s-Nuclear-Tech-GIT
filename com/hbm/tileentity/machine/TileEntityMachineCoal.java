@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -262,28 +263,11 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	}
 	
 	public void generate() {
-		if(slots[1] != null && slots[1].getItem() == Items.coal && burnTime <= 0)
+		
+		if(slots[1] != null && TileEntityFurnace.getItemBurnTime(slots[1]) > 0 && burnTime <= 0)
 		{
+			burnTime = TileEntityFurnace.getItemBurnTime(slots[1]) / 2;
 			slots[1].stackSize -= 1;
-			burnTime = 200;
-			if(slots[1].stackSize == 0)
-			{
-				slots[1] = null;
-			}
-		}
-		if(slots[1] != null && slots[1].getItem() == ModItems.powder_coal && burnTime <= 0)
-		{
-			slots[1].stackSize -= 1;
-			burnTime = 200;
-			if(slots[1].stackSize == 0)
-			{
-				slots[1] = null;
-			}
-		}
-		if(slots[1] != null && slots[1].getItem() == Item.getItemFromBlock(Blocks.coal_block) && burnTime <= 0)
-		{
-			slots[1].stackSize -= 1;
-			burnTime = 2000;
 			if(slots[1].stackSize == 0)
 			{
 				slots[1] = null;
@@ -298,9 +282,9 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			{
 				tank.setFill(tank.getFill() - 1);
 				
-				if(power + 100 <= maxPower)
+				if(power + 25 <= maxPower)
 				{
-					power += 100;
+					power += 25;
 				} else {
 					power = maxPower;
 				}

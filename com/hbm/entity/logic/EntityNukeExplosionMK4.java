@@ -52,7 +52,8 @@ public class EntityNukeExplosionMK4 extends Entity {
 		if(explosion.getStoredSize() < count / length) {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getStoredSize() + " / " + count / length);
-				explosion.collectTip(speed * 10);
+			//explosion.collectTip(speed * 10);
+			explosion.collectTipExperimental(speed * 10);
 		} else if(explosion.getProgress() < count / length) {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
@@ -87,6 +88,22 @@ public class EntityNukeExplosionMK4 extends Entity {
 	}
 	
 	public static EntityNukeExplosionMK4 statFac(World world, int r, double x, double y, double z) {
+		
+		if(r == 0)
+			r = 25;
+		
+		r *= 2;
+		
+		EntityNukeExplosionMK4 mk4 = new EntityNukeExplosionMK4(world);
+		mk4.strength = (int)(r);
+		mk4.count = (int)(4 * Math.PI * Math.pow(mk4.strength, 2) * 25);
+		mk4.speed = (int)Math.ceil(100000 / mk4.strength);
+		mk4.setPosition(x, y, z);
+		mk4.length = mk4.strength / 2;
+		return mk4;
+	}
+	
+	public static EntityNukeExplosionMK4 statFacExperimental(World world, int r, double x, double y, double z) {
 		
 		r *= 2;
 		

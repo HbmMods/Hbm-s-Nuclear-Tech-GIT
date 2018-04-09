@@ -30,6 +30,11 @@ public class GUIMachineRTG extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, rtg.power, rtg.powerMax);
+		
+		String[] text = new String[] { "Accepted Pellets:",
+				"  Regular Pellet (5 HE/t)",
+				"  Weak Pellet (3 HE/t)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 	}
 
 	@Override
@@ -56,5 +61,7 @@ public class GUIMachineRTG extends GuiInfoContainer {
 			int i = (int)rtg.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 192, 52 - i, 16, i);
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 	}
 }

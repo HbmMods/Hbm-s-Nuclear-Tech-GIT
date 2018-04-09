@@ -1,6 +1,9 @@
 package com.hbm.entity.effect;
 
+import com.hbm.blocks.ModBlocks;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -30,6 +33,23 @@ public class EntityFalloutRain extends Entity {
 	public void onUpdate() {
         //super.onUpdate();
         this.age++;
+
+        
+        if(!worldObj.isRemote) {
+        	
+        	int count = (int)(Math.pow(getScale(), 2) * Math.PI / 500);
+        	
+        	for(int i = 0; i < count; i++) {
+	            int x = (int) (posX + rand.nextInt((int) ((getScale() + 1) * 2)) - getScale());
+	            int z = (int) (posZ + rand.nextInt((int) ((getScale() + 1) * 2)) - getScale());
+	            int y = worldObj.getHeightValue(x, z) - 1;
+	            
+	            double dist = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posZ - z, 2));
+	            
+	            if(dist <= getScale() && worldObj.getBlock(x, y, z) == Blocks.grass)
+	            	worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
+        	}
+        }
         
         if(this.age >= this.maxAge)
         {
