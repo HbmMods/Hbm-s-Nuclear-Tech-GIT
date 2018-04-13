@@ -32,14 +32,18 @@ public class MachineRecipes {
 		return new MachineRecipes();
 	}
 
-	public static ItemStack getFurnaceProcessingResult(Item item, Item item2) {
+	public static ItemStack getFurnaceProcessingResult(ItemStack item, ItemStack item2) {
 		return getFurnaceOutput(item, item2);
 	}
 
-	public static ItemStack getFurnaceOutput(Item item, Item item2) {
+	public static ItemStack getFurnaceOutput(ItemStack item, ItemStack item2) {
+		
+		if(item == null || item2 == null)
+			return null;
+		
 		if (MainRegistry.enableDebugMode) {
-			if (item == Items.iron_ingot && item2 == Items.quartz
-					|| item == Items.quartz && item2 == Items.iron_ingot) {
+			if (item.getItem() == Items.iron_ingot && item2.getItem() == Items.quartz
+					|| item.getItem() == Items.quartz && item2.getItem() == Items.iron_ingot) {
 				return new ItemStack(ModBlocks.test_render, 1);
 			}
 		}
@@ -64,13 +68,13 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_steel, 2);
 		}
 
-		if (mODE(item, new String[] {"ingotCopper", "dustCopper"}) && item2 == Items.redstone
-				|| item == Items.redstone && mODE(item2, new String[] {"ingotCopper", "dustCopper"})) {
+		if (mODE(item, new String[] {"ingotCopper", "dustCopper"}) && item2.getItem() == Items.redstone
+				|| item.getItem() == Items.redstone && mODE(item2, new String[] {"ingotCopper", "dustCopper"})) {
 			return new ItemStack(ModItems.ingot_red_copper, 2);
 		}
 
-		if (item == ModItems.canister_fuel && item2 == Items.slime_ball
-				|| item == Items.slime_ball && item2 == ModItems.canister_fuel) {
+		if (item.getItem() == ModItems.canister_fuel && item2.getItem() == Items.slime_ball
+				|| item.getItem() == Items.slime_ball && item2.getItem() == ModItems.canister_fuel) {
 			return new ItemStack(ModItems.canister_napalm, 1);
 		}
 
@@ -84,8 +88,8 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_magnetized_tungsten, 1);
 		}
 
-		if (item == ModItems.plate_mixed && mODE(item2, "plateGold")
-				|| mODE(item, "plateGold") && item2 == ModItems.plate_mixed) {
+		if (item.getItem() == ModItems.plate_mixed && mODE(item2, "plateGold")
+				|| mODE(item, "plateGold") && item2.getItem() == ModItems.plate_mixed) {
 			return new ItemStack(ModItems.plate_paa, 2);
 		}
 
@@ -94,13 +98,13 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2 == ModItems.powder_cobalt
-				|| item == ModItems.powder_cobalt && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2.getItem() == ModItems.powder_cobalt
+				|| item.getItem() == ModItems.powder_cobalt && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2 == ModItems.powder_meteorite
-				|| item == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2.getItem() == ModItems.powder_meteorite
+				|| item.getItem() == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
 			return new ItemStack(ModItems.ingot_starmetal, 2);
 		}
 
@@ -268,15 +272,22 @@ public class MachineRecipes {
 		add(ModItems.stamp_obsidian_circuit);
 		add(ModItems.stamp_schrabidium_circuit);
 	}};
-	
 
-	public static ItemStack getPressResultNN(Item stamp, Item input) {
+
+	public static ItemStack getPressResultNN(ItemStack stamp, ItemStack input) {
 		return getPressResult(input, stamp) == null ? new ItemStack(ModItems.nothing) : getPressResult(input, stamp);
 	}
+
+	public static ItemStack getPressResultNN(Item stamp, Item input) {
+		return getPressResult(new ItemStack(input), new ItemStack(stamp)) == null ? new ItemStack(ModItems.nothing) : getPressResult(new ItemStack(input), new ItemStack(stamp));
+	}
 	
-	public static ItemStack getPressResult(Item input, Item stamp) {
+	public static ItemStack getPressResult(ItemStack input, ItemStack stamp) {
 		
-		if(stamps_flat.contains(stamp)) {
+		if(input == null || stamp == null)
+			return null;
+		
+		if(stamps_flat.contains(stamp.getItem())) {
 
 			if(mODE(input, "dustCoal"))
 				return new ItemStack(Items.coal);
@@ -290,13 +301,13 @@ public class MachineRecipes {
 				return new ItemStack(Items.diamond);
 			if(mODE(input, "dustEmerald"))
 				return new ItemStack(Items.emerald);
-			if(input == ModItems.pellet_coal)
+			if(input.getItem() == ModItems.pellet_coal)
 				return new ItemStack(Items.diamond);
-			if(input == ModItems.biomass)
+			if(input.getItem() == ModItems.biomass)
 				return new ItemStack(ModItems.biomass_compressed);
 		}
 		
-		if(stamps_plate.contains(stamp)) {
+		if(stamps_plate.contains(stamp.getItem())) {
 
 			if(mODE(input, "ingotIron"))
 				return new ItemStack(ModItems.plate_iron);
@@ -323,7 +334,7 @@ public class MachineRecipes {
 			
 		}
 		
-		if(stamps_wire.contains(stamp)) {
+		if(stamps_wire.contains(stamp.getItem())) {
 
 			if(mODE(input, "ingotAluminum"))
 				return new ItemStack(ModItems.wire_aluminium, 3);
@@ -347,9 +358,9 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.wire_magnetized_tungsten, 3);
 		}
 		
-		if(stamps_circuit.contains(stamp)) {
+		if(stamps_circuit.contains(stamp.getItem())) {
 
-			if(input == ModItems.circuit_raw)
+			if(input.getItem() == ModItems.circuit_raw)
 				return new ItemStack(ModItems.circuit_aluminium);
 		}
 		
@@ -767,29 +778,29 @@ public class MachineRecipes {
 		}
 		try {
 			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.coal) },
-				getFurnaceOutput(Items.iron_ingot, Items.coal).copy());
+				getFurnaceOutput(new ItemStack(Items.iron_ingot), new ItemStack(Items.coal)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper) },
-					getFurnaceOutput(ModItems.ingot_lead, ModItems.ingot_copper).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_lead), new ItemStack(ModItems.ingot_copper)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper) },
-					getFurnaceOutput(ModItems.plate_lead, ModItems.plate_copper).copy());
+					getFurnaceOutput(new ItemStack(ModItems.plate_lead), new ItemStack(ModItems.plate_copper)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal) },
-					getFurnaceOutput(ModItems.ingot_tungsten, Items.coal).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(Items.coal)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone) },
-					getFurnaceOutput(ModItems.ingot_copper, Items.redstone).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_copper), new ItemStack(Items.redstone)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel) },
-					getFurnaceOutput(ModItems.ingot_red_copper, ModItems.ingot_steel).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_red_copper), new ItemStack(ModItems.ingot_steel)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball) },
-					getFurnaceOutput(ModItems.canister_fuel, Items.slime_ball).copy());
+					getFurnaceOutput(new ItemStack(ModItems.canister_fuel), new ItemStack(Items.slime_ball)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium) },
-					getFurnaceOutput(ModItems.ingot_tungsten, ModItems.nugget_schrabidium).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_tungsten), new ItemStack(ModItems.nugget_schrabidium)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold) },
-					getFurnaceOutput(ModItems.plate_mixed, ModItems.plate_gold).copy());
+					getFurnaceOutput(new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten) },
-					getFurnaceOutput(ModItems.ingot_steel, ModItems.ingot_tungsten).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
-					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_cobalt).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite) },
-					getFurnaceOutput(ModItems.ingot_steel, ModItems.powder_meteorite).copy());
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite)).copy());
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}
@@ -1812,6 +1823,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
 			list.add(new ItemStack(ModItems.wire_aluminium, 6));
 			list.add(new ItemStack(ModItems.canister_kerosene, 3));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 			break;
 		case WT1_CLUSTER:
 			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
@@ -2572,14 +2584,14 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.sphere_steel, 1));
 			list.add(new ItemStack(ModItems.fins_flat, 2));
 			list.add(new ItemStack(ModItems.pedestal_steel, 1));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 			list.add(new ItemStack(ModItems.wire_gold, 6));
 			list.add(new ItemStack(Items.dye, 6, 8));
 			break;
 		case LITTLE_BOY:
 			list.add(new ItemStack(ModItems.hull_small_steel, 2));
 			list.add(new ItemStack(ModItems.fins_small_steel, 1));
-			list.add(new ItemStack(ModItems.circuit_copper, 1));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 1));
 			list.add(new ItemStack(ModItems.wire_aluminium, 6));
 			list.add(new ItemStack(Items.dye, 4, 4));
 			break;
@@ -2587,7 +2599,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.sphere_steel, 1));
 			list.add(new ItemStack(ModItems.hull_big_steel, 2));
 			list.add(new ItemStack(ModItems.fins_big_steel, 1));
-			list.add(new ItemStack(ModItems.circuit_copper, 1));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 2));
 			list.add(new ItemStack(ModItems.wire_copper, 6));
 			list.add(new ItemStack(Items.dye, 6, 11));
 			break;
@@ -2595,7 +2607,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.sphere_steel, 1));
 			list.add(new ItemStack(ModItems.hull_big_aluminium, 4));
 			list.add(new ItemStack(ModItems.cap_aluminium, 1));
-			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 3));
 			list.add(new ItemStack(ModItems.wire_gold, 18));
 			list.add(new ItemStack(Items.dye, 12, 7));
 			break;
@@ -2604,7 +2616,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_big_titanium, 6));
 			list.add(new ItemStack(ModItems.hull_small_steel, 2));
 			list.add(new ItemStack(ModItems.fins_tri_steel, 1));
-			list.add(new ItemStack(ModItems.circuit_gold, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 5));
 			list.add(new ItemStack(ModItems.wire_gold, 24));
 			list.add(new ItemStack(ModItems.wire_tungsten, 12));
 			list.add(new ItemStack(Items.dye, 6, 0));
@@ -2613,13 +2625,13 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.dysfunctional_reactor, 1));
 			list.add(new ItemStack(ModItems.hull_small_steel, 2));
 			list.add(new ItemStack(ModItems.ingot_euphemium, 3));
-			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 1));
 			list.add(new ItemStack(ModItems.wire_gold, 16));
 			break;
 		case FLEIJA:
 			list.add(new ItemStack(ModItems.hull_small_aluminium, 1));
 			list.add(new ItemStack(ModItems.fins_quad_titanium, 1));
-			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 2));
 			list.add(new ItemStack(ModItems.wire_gold, 8));
 			list.add(new ItemStack(Items.dye, 4, 15));
 			break;
@@ -2676,7 +2688,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.pipes_steel, 2));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 2));
 			list.add(new ItemStack(ModItems.motor, 2));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 2));
 			break;
 		case TURRET_HEAVY:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));
@@ -2685,7 +2697,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_small_steel, 1));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 4));
 			list.add(new ItemStack(ModItems.motor, 2));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 3));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 3));
 			break;
 		case TURRET_ROCKET:
 			list.add(new ItemStack(ModItems.ingot_steel, 12));
@@ -2693,7 +2705,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_small_steel, 8));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 6));
 			list.add(new ItemStack(ModItems.motor, 2));
-			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 2));
 			break;
 		case TURRET_FLAMER:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));
@@ -2702,7 +2714,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.tank_steel, 2));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 4));
 			list.add(new ItemStack(ModItems.motor, 2));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 2));
 			break;
 		case TURRET_TAU:
 			list.add(new ItemStack(ModItems.ingot_steel, 16));
@@ -2711,7 +2723,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.redcoil_capacitor, 3));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 12));
 			list.add(new ItemStack(ModItems.motor, 2));
-			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 2));
 			break;
 		case TURRET_SPITFIRE:
 			list.add(new ItemStack(ModItems.ingot_steel, 6));
@@ -2721,7 +2733,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_small_steel, 4));
 			list.add(new ItemStack(ModItems.pipes_steel, 2));
 			list.add(new ItemStack(ModItems.motor, 3));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 			break;
 		case TURRET_CIWS:
 			list.add(new ItemStack(ModItems.ingot_steel, 6));
@@ -2731,7 +2743,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
 			list.add(new ItemStack(ModItems.pipes_steel, 6));
 			list.add(new ItemStack(ModItems.motor, 4));
-			list.add(new ItemStack(ModItems.circuit_gold, 5));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 2));
 			list.add(new ItemStack(ModItems.magnetron, 3));
 			break;
 		case TURRET_CHEAPO:
@@ -2739,7 +2751,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_iron, 4));
 			list.add(new ItemStack(ModItems.pipes_steel, 3));
 			list.add(new ItemStack(ModItems.motor, 3));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 3));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 4));
 			break;
 		case HUNTER_CHOPPER:
 			list.add(new ItemStack(ModItems.chopper_blades, 5));
@@ -2754,24 +2766,28 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
 			list.add(new ItemStack(ModItems.thruster_small, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 			break;
 		case MISSILE_FIRE_1:
 			list.add(new ItemStack(ModItems.warhead_incendiary_small, 1));
 			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
 			list.add(new ItemStack(ModItems.thruster_small, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 			break;
 		case MISSILE_CLUSTER_1:
 			list.add(new ItemStack(ModItems.warhead_cluster_small, 1));
 			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
 			list.add(new ItemStack(ModItems.thruster_small, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 			break;
 		case MISSILE_BUSTER_1:
 			list.add(new ItemStack(ModItems.warhead_buster_small, 1));
 			list.add(new ItemStack(ModItems.fuel_tank_small, 1));
 			list.add(new ItemStack(ModItems.thruster_small, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 			break;
 		case MISSILE_HE_2:
 			list.add(new ItemStack(ModItems.warhead_generic_medium, 1));
@@ -2779,6 +2795,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.thruster_medium, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 10));
 			list.add(new ItemStack(ModItems.plate_steel, 14));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 1));
 			break;
 		case MISSILE_FIRE_2:
 			list.add(new ItemStack(ModItems.warhead_incendiary_medium, 1));
@@ -2786,6 +2803,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.thruster_medium, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 10));
 			list.add(new ItemStack(ModItems.plate_steel, 14));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 1));
 			break;
 		case MISSILE_CLUSTER_2:
 			list.add(new ItemStack(ModItems.warhead_cluster_medium, 1));
@@ -2793,6 +2811,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.thruster_medium, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 10));
 			list.add(new ItemStack(ModItems.plate_steel, 14));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 1));
 			break;
 		case MISSILE_BUSTER_2:
 			list.add(new ItemStack(ModItems.warhead_buster_medium, 1));
@@ -2800,6 +2819,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.thruster_medium, 1));
 			list.add(new ItemStack(ModItems.plate_titanium, 10));
 			list.add(new ItemStack(ModItems.plate_steel, 14));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier2, 1));
 			break;
 		case MISSILE_HE_3:
 			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
@@ -2808,6 +2828,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 14));
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 			break;
 		case MISSILE_FIRE_3:
 			list.add(new ItemStack(ModItems.warhead_incendiary_large, 1));
@@ -2816,6 +2837,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 14));
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 			break;
 		case MISSILE_CLUSTER_3:
 			list.add(new ItemStack(ModItems.warhead_cluster_large, 1));
@@ -2824,6 +2846,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 14));
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 			break;
 		case MISSILE_BUSTER_3:
 			list.add(new ItemStack(ModItems.warhead_buster_large, 1));
@@ -2832,6 +2855,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 14));
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 			break;
 		case MISSILE_NUCLEAR:
 			list.add(new ItemStack(ModItems.warhead_nuclear, 1));
@@ -2840,6 +2864,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 20));
 			list.add(new ItemStack(ModItems.plate_steel, 24));
 			list.add(new ItemStack(ModItems.plate_aluminium, 16));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
 			break;
 		case MISSILE_MIRV:
 			list.add(new ItemStack(ModItems.warhead_mirv, 1));
@@ -2848,6 +2873,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 20));
 			list.add(new ItemStack(ModItems.plate_steel, 24));
 			list.add(new ItemStack(ModItems.plate_aluminium, 16));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 1));
 			break;
 		case MISSILE_ENDO:
 			list.add(new ItemStack(ModItems.warhead_thermo_endo, 1));
@@ -2856,6 +2882,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 14));
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
 			break;
 		case MISSILE_EXO:
 			list.add(new ItemStack(ModItems.warhead_thermo_exo, 1));
@@ -2864,6 +2891,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_titanium, 14));
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
 			break;
 		case DEFAB:
 			list.add(new ItemStack(ModItems.ingot_steel, 2));

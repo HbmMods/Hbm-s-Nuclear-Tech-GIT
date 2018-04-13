@@ -35,6 +35,7 @@ public class EntityMissileIncendiaryStrong extends EntityMissileBaseAdvanced {
 		list.add(new ItemStack(ModItems.plate_steel, 10));
 		list.add(new ItemStack(ModItems.plate_titanium, 6));
 		list.add(new ItemStack(ModItems.thruster_medium, 1));
+		list.add(new ItemStack(ModItems.circuit_targeting_tier2, 1));
 		
 		return list;
 	}

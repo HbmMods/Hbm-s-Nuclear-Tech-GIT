@@ -383,6 +383,8 @@ public class MainRegistry
 	public static Achievement achImpossible;
 	public static Achievement achTOB;
 	public static Achievement achFreytag;
+	public static Achievement achSelenium;
+	public static Achievement achPotato;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -900,12 +902,16 @@ public class MainRegistry
 		achImpossible = new Achievement("achievement.impossible", "impossible", 2, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
 		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 2, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
 		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -2, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
+		achSelenium = new Achievement("achievement.selenium", "selenium", -2, -2, ModItems.ingot_starmetal, null).initIndependentStat().setSpecial().registerStat();
+		achPotato = new Achievement("achievement.potato", "potato", -2, 0, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
 				achImpossible,
 				achTOB,
-				achFreytag
+				achFreytag,
+				achSelenium,
+				achPotato
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);

@@ -87,6 +87,12 @@ public class ModEventHandler
 		if(item == ModItems.gun_mp40) {
 			e.player.addStat(MainRegistry.achFreytag, 1);
 		}
+		if(item == ModItems.piston_selenium) {
+			e.player.addStat(MainRegistry.achSelenium, 1);
+		}
+		if(item == ModItems.battery_potatos) {
+			e.player.addStat(MainRegistry.achPotato, 1);
+		}
 	}
 	
 	/*@SubscribeEvent

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -36,7 +37,10 @@ public class RenderRadar extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		
-		GL11.glRotatef((System.currentTimeMillis() / 10) % 360, 0F, 1F, 0F);
+		TileEntityMachineRadar radar = (TileEntityMachineRadar)tileEntity;
+		
+		if(radar.power > 0)
+			GL11.glRotatef((System.currentTimeMillis() / 10) % 360, 0F, 1F, 0F);
 
         bindTexture(ResourceManager.radar_head_tex);
         ResourceManager.radar_head.renderAll();

@@ -35,6 +35,7 @@ public class EntityMissileBurst extends EntityMissileBaseAdvanced {
 		list.add(new ItemStack(ModItems.plate_steel, 16));
 		list.add(new ItemStack(ModItems.plate_titanium, 10));
 		list.add(new ItemStack(ModItems.thruster_large, 1));
+		list.add(new ItemStack(ModItems.circuit_targeting_tier3, 1));
 		
 		return list;
 	}

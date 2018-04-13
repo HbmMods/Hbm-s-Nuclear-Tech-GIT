@@ -12,6 +12,10 @@ achievement.tasteofblood=The Taste of Blood
 achievement.tasteofblood.desc=is not part of any testing protocol.
 achievement.freytag=Freytag
 achievement.freytag.desc=Herold's life guards
+achievement.selenium=XVIII The Moon
+achievement.selenium.desc=Yeah.
+achievement.potato=Rogue AI
+achievement.potato.desc=You stabbed me! What is WRONG with yo-WOOOAAH
 
 potion.hbm_taint=Tainted
 
@@ -517,7 +521,7 @@ item.circuit_targeting_tier4.name=Military Grade Circuit Board (Tier 4)
 item.circuit_targeting_tier5.name=Military Grade Circuit Board (Tier 5)
 item.circuit_targeting_tier6.name=Military Grade Circuit Board (Tier 6)
 
-item.selenium_piston.name=Radial Engine Piston
+item.piston_selenium.name=Radial Engine Piston
 
 tile.block_aluminium.name=Block of Aluminium
 tile.block_copper.name=Block of Copper

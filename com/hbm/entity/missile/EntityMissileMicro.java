@@ -65,6 +65,7 @@ public class EntityMissileMicro extends EntityMissileBaseAdvanced {
 		list.add(new ItemStack(ModItems.plate_titanium, 4));
 		list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
 		list.add(new ItemStack(ModItems.ducttape, 1));
+		list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 		
 		return list;
 	}

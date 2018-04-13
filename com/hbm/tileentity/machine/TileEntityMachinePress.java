@@ -233,7 +233,7 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 				int speed = power * 25 / maxPower;
 				
 				if(slots[1] != null && slots[2] != null) {
-					ItemStack stack = MachineRecipes.getPressResult(slots[2].getItem(), slots[1].getItem());
+					ItemStack stack = MachineRecipes.getPressResult(slots[2].copy(), slots[1].copy());
 					if(stack != null &&
 							(slots[3] == null ||
 							(slots[3].getItem() == stack.getItem() &&

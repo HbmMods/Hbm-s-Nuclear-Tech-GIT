@@ -26,6 +26,8 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 
 	public static List<EntityMissileBaseAdvanced> allMissiles = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
+	int pingTimer = 0;
+	final static int maxTimer = 40;
 
 	public long power = 0;
 	public static final int maxPower = 100000;
@@ -69,6 +71,13 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		
 		if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+		
+		pingTimer++;
+		
+		if(power > 0 && pingTimer >= maxTimer) {
+			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 5.0F, 1.0F);
+			pingTimer = 0;
+		}
 	}
 	
 	private void allocateMissiles() {

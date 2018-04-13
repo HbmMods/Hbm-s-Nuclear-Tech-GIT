@@ -39,6 +39,7 @@ public class EntityMissileCluster extends EntityMissileBaseAdvanced {
 
 		list.add(new ItemStack(ModItems.plate_titanium, 4));
 		list.add(new ItemStack(ModItems.thruster_small, 1));
+		list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 		
 		return list;
 	}

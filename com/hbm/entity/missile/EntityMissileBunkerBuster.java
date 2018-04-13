@@ -37,16 +37,16 @@ public class EntityMissileBunkerBuster extends EntityMissileBaseAdvanced {
 	public List<ItemStack> getDebris() {
 		List<ItemStack> list = new ArrayList<ItemStack>();
 
-		list.add(new ItemStack(ModItems.plate_steel, 16));
-		list.add(new ItemStack(ModItems.plate_titanium, 10));
-		list.add(new ItemStack(ModItems.thruster_large, 1));
+		list.add(new ItemStack(ModItems.plate_titanium, 4));
+		list.add(new ItemStack(ModItems.thruster_small, 1));
+		list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 		
 		return list;
 	}
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.warhead_buster_large);
+		return new ItemStack(ModItems.warhead_buster_small);
 	}
 
 	@Override

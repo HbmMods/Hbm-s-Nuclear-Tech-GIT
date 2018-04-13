@@ -224,7 +224,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		{
 			return false;
 		}
-		ItemStack itemStack = MachineRecipes.getFurnaceProcessingResult(slots[0].getItem(), slots[1].getItem());
+		ItemStack itemStack = MachineRecipes.getFurnaceProcessingResult(slots[0], slots[1]);
 		if(itemStack == null)
 		{
 			return false;
@@ -248,7 +248,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	
 	private void processItem() {
 		if(canProcess()) {
-			ItemStack itemStack = MachineRecipes.getFurnaceProcessingResult(slots[0].getItem(), slots[1].getItem());
+			ItemStack itemStack = MachineRecipes.getFurnaceProcessingResult(slots[0], slots[1]);
 			
 			if(slots[3] == null)
 			{

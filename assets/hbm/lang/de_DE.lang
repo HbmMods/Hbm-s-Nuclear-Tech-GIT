@@ -12,6 +12,10 @@ achievement.tasteofblood=Der Geschmack von Blut
 achievement.tasteofblood.desc=ist nicht Teil des Testprotokolls.
 achievement.freytag=Freytag
 achievement.freytag.desc=Leibgarde Herold
+achievement.selenium=Und täglich grüßt der Mond
+achievement.selenium.desc=Lange nicht gesehen!
+achievement.potato=Machtgeile KI
+achievement.potato.desc=Du stichst mich! Was soll denn das?
 
 potion.hbm_taint=Verdorben
 
@@ -517,7 +521,7 @@ item.circuit_targeting_tier4.name=Militärische Schaltplatte (Stufe 4)
 item.circuit_targeting_tier5.name=Militärische Schaltplatte (Stufe 5)
 item.circuit_targeting_tier6.name=Militärische Schaltplatte (Stufe 6)
 
-item.selenium_piston.name=Sternmotorenkolben
+item.piston_selenium.name=Sternmotorenkolben
 
 tile.block_aluminium.name=Aluminiumblock
 tile.block_copper.name=Kupferblock
