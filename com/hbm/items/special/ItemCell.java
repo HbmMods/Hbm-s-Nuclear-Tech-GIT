@@ -26,16 +26,7 @@ public class ItemCell extends Item {
 			{
 	            if (!world.isRemote)
 	            {
-	            	EntityNukeExplosionMK3 entity0 = new EntityNukeExplosionMK3(world);
-        	    	entity0.posX = p_77648_4_;
-        	    	entity0.posY = p_77648_5_;
-        	    	entity0.posZ = p_77648_6_;
-        	    	entity0.destructionRange = 35;
-        	    	entity0.speed = 25;
-        	    	entity0.coefficient = 10.0F;
-        	    	
-        	    	world.spawnEntityInWorld(entity0);
-            		ExplosionParticleB.spawnMush(world, p_77648_4_, p_77648_5_ - 3, p_77648_6_);
+	            	((BlockCrashedBomb)world.getBlock(p_77648_4_, p_77648_5_, p_77648_6_)).explode(world, p_77648_4_, p_77648_5_, p_77648_6_);
 	            }
 			} else if(i < 90)
 			{

@@ -116,6 +116,7 @@ public class ItemAssemblyTemplate extends Item {
 		BREEDING_REACTOR,
 		RTG_FURNACE,
 		DIESEL_GENERATOR,
+		SELENIUM_GENERATOR,
 		NUCLEAR_GENERATOR,
 		INDUSTRIAL_GENERATOR,
 		CYCLOTRON,
@@ -168,6 +169,8 @@ public class ItemAssemblyTemplate extends Item {
 		TSAR_BOMB,
 		PROTOTYPE,
 		FLEIJA,
+		SOLINIUM,
+		N2,
 		CUSTOM_NUKE,
 		BOMB_LEV,
 		BOMB_ENDO,
@@ -502,6 +505,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case DIESEL_GENERATOR:
 			return 200;
+		case SELENIUM_GENERATOR:
+			return 250;
 		case NUCLEAR_GENERATOR:
 			return 300;
 		case INDUSTRIAL_GENERATOR:
@@ -601,11 +606,15 @@ public class ItemAssemblyTemplate extends Item {
 		case IVY_MIKE:
 			return 300;
 		case TSAR_BOMB:
-			return 300;
+			return 600;
 		case PROTOTYPE:
 			return 500;
 		case FLEIJA:
 			return 400;
+		case SOLINIUM:
+			return 400;
+		case N2:
+			return 300;
 		case CUSTOM_NUKE:
 			return 300;
 		case BOMB_LEV:

@@ -10,6 +10,8 @@ achievement.impossible=Literally impossible
 achievement.impossible.desc=You can't get this achievement.
 achievement.tasteofblood=The Taste of Blood
 achievement.tasteofblood.desc=is not part of any testing protocol.
+achievement.freytag=Freytag
+achievement.freytag.desc=Herold's life guards
 
 potion.hbm_taint=Tainted
 
@@ -389,8 +391,8 @@ tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 
-tile.machine_spp_bottom.name=SPE Potential Generator (Bottom)
-tile.machine_spp_top.name=SPE Potential Generator (Top)
+tile.machine_spp_bottom.name=ZPE Potential Generator (Bottom)
+tile.machine_spp_top.name=ZPE Potential Generator (Top)
 
 tile.ams_limiter.name=AMS Stabilizer [WIP]
 container.amsLimiter=AMS Stabilizer [WIP]

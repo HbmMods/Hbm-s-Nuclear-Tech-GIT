@@ -2232,6 +2232,15 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_copper, 4));
 			list.add(new ItemStack(ModItems.wire_red_copper, 6));
 			break;
+		case SELENIUM_GENERATOR:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_titanium, 6));
+			list.add(new ItemStack(ModItems.plate_copper, 8));
+			list.add(new ItemStack(ModItems.hull_big_steel, 1));
+			list.add(new ItemStack(ModItems.hull_small_steel, 9));
+			list.add(new ItemStack(ModItems.pedestal_steel, 1));
+			list.add(new ItemStack(ModItems.coil_copper, 4));
+			break;
 		case NUCLEAR_GENERATOR:
 			list.add(new ItemStack(ModItems.ingot_steel, 6));
 			list.add(new ItemStack(ModItems.ingot_polymer, 4));
@@ -2613,6 +2622,22 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_gold, 2));
 			list.add(new ItemStack(ModItems.wire_gold, 8));
 			list.add(new ItemStack(Items.dye, 4, 15));
+			break;
+		case SOLINIUM:
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.fins_quad_titanium, 1));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 3));
+			list.add(new ItemStack(ModItems.wire_gold, 10));
+			list.add(new ItemStack(ModItems.pipes_steel, 4));
+			list.add(new ItemStack(Items.dye, 4, 8));
+			break;
+		case N2:
+			list.add(new ItemStack(ModItems.hull_big_steel, 3));
+			list.add(new ItemStack(ModItems.hull_small_steel, 2));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 12));
+			list.add(new ItemStack(ModItems.pipes_steel, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 3));
+			list.add(new ItemStack(Items.dye, 12, 0));
 			break;
 		case CUSTOM_NUKE:
 			list.add(new ItemStack(ModItems.hull_small_steel, 2));
@@ -3427,6 +3452,9 @@ public class MachineRecipes {
 		case DIESEL_GENERATOR:
 			output = new ItemStack(ModBlocks.machine_diesel, 1);
 			break;
+		case SELENIUM_GENERATOR:
+			output = new ItemStack(ModBlocks.machine_selenium, 1);
+			break;
 		case NUCLEAR_GENERATOR:
 			output = new ItemStack(ModBlocks.machine_generator, 1);
 			break;
@@ -3585,6 +3613,12 @@ public class MachineRecipes {
 			break;
 		case FLEIJA:
 			output = new ItemStack(ModBlocks.nuke_fleija, 1);
+			break;
+		case SOLINIUM:
+			output = new ItemStack(ModBlocks.nuke_solinium, 1);
+			break;
+		case N2:
+			output = new ItemStack(ModBlocks.nuke_n2, 1);
 			break;
 		case CUSTOM_NUKE:
 			output = new ItemStack(ModBlocks.nuke_custom, 1);
@@ -3949,7 +3983,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.niter, 1));
 			break;
         case DESH:
-			list.add(new ItemStack(ModItems.powder_desh_mix, 2));
+			list.add(new ItemStack(ModItems.powder_desh_mix, 1));
 			break;
         case CIRCUIT_4:
 			list.add(new ItemStack(ModItems.circuit_red_copper, 1));

@@ -382,6 +382,7 @@ public class MainRegistry
 	public static Achievement achSacrifice;
 	public static Achievement achImpossible;
 	public static Achievement achTOB;
+	public static Achievement achFreytag;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -898,11 +899,13 @@ public class MainRegistry
 		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, 0, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
 		achImpossible = new Achievement("achievement.impossible", "impossible", 2, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
 		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 2, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
+		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -2, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
 		
-		AchievementPage.registerAchievementPage(new AchievementPage("NTM Achievements", new Achievement[]{ 
+		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
 				achImpossible,
-				achTOB
+				achTOB,
+				achFreytag
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
@@ -1322,7 +1325,7 @@ public class MainRegistry
         Property propSolinium = config.get(Configuration.CATEGORY_GENERAL, "3.12_soliniumRadius", 75);
         propSolinium.comment = "Radius of the blue rinse";
         soliniumRadius = propSolinium.getInt();
-        Property propN2 = config.get(Configuration.CATEGORY_GENERAL, "3.13_n2Radius", 100);
+        Property propN2 = config.get(Configuration.CATEGORY_GENERAL, "3.13_n2Radius", 130);
         propN2.comment = "Radius of the N2 mine";
         n2Radius = propN2.getInt();
 

@@ -160,7 +160,7 @@ public class BlockOre extends Block {
 		}
 		if(this == ModBlocks.ore_rare)
 		{
-			return 2 + p_149745_1_.nextInt(4);
+			return 4 + p_149745_1_.nextInt(8);
 		}
 		if(this == ModBlocks.block_meteor_broken)
 		{
