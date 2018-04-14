@@ -40,7 +40,7 @@ public class GUIMachineDiesel extends GuiInfoContainer {
 				"  NITAN Superfuel (5000 HE/t)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
-		String[] text1 = new String[] { "Fuel consumption:",
+		String[] text1 = new String[] { "Fuel consumption rate:",
 				"  10 mB/t",
 				"  200 mB/s",
 				"(Consumption rate is constant)" };

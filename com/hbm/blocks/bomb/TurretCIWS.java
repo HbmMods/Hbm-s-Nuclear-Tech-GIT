@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
@@ -55,7 +56,7 @@ public class TurretCIWS extends TurretBase {
 			
 			if(!world.isRemote) {
 				
-				rayShot(world, vector, x + vector.xCoord * 2.5 + 0.5, y + vector.yCoord * 2.5 + 0.5, z + vector.zCoord * 2.5 + 0.5, 100, 10.0F, 50);
+				rayShot(world, vector, x + vector.xCoord * 2.5 + 0.5, y + vector.yCoord * 2.5 + 0.5, z + vector.zCoord * 2.5 + 0.5, 100, 10.0F, MainRegistry.ciwsHitrate);
 				
 				EntityGasFlameFX smoke = new EntityGasFlameFX(world);
 				smoke.posX = x + vector.xCoord * 2.5 + 0.5;

@@ -48,7 +48,7 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 				"on piston count)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
-		String[] text1 = new String[] { "Fuel consumption:",
+		String[] text1 = new String[] { "Fuel consumption rate:",
 				"  5 mB/t",
 				"  100 mB/s",
 				"(Consumption rate per piston)" };

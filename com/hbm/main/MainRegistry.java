@@ -448,6 +448,7 @@ public class MainRegistry
 	public static int radarRange = 1000;
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
+	public static int ciwsHitrate = 50;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -1395,12 +1396,15 @@ public class MainRegistry
         Property propRadarRange = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarRange", 1000);
         propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";
         radarRange = propRadarRange.getInt();
-        Property propRadarBuffer = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarBuffer", 30);
+        Property propRadarBuffer = config.get(Configuration.CATEGORY_GENERAL, "7.01_radarBuffer", 30);
         propRadarBuffer.comment = "How high entities have to be above the radar to be detected";
         radarBuffer = propRadarBuffer.getInt();
-        Property propRadarAltitude = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarAltitude", 55);
+        Property propRadarAltitude = config.get(Configuration.CATEGORY_GENERAL, "7.02_radarAltitude", 55);
         propRadarAltitude.comment = "Y height required for the radar to work";
         radarAltitude = propRadarAltitude.getInt();
+        Property propCiwsHitrate = config.get(Configuration.CATEGORY_GENERAL, "7.03_ciwsAccuracy", 50);
+        propCiwsHitrate.comment = "Additional modifier for CIWS accuracy";
+        ciwsHitrate = propRadarAltitude.getInt();
         
         config.save();
 	}

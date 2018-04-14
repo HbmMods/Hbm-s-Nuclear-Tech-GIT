@@ -9,6 +9,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
@@ -118,8 +119,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		if (i == 0)
-			if (stack.getItem() == ModItems.canister_fuel || stack.getItem() == ModItems.canister_petroil || stack.getItem() == ModItems.canister_NITAN
-					|| stack.getItem() == Item.getItemFromBlock(ModBlocks.red_barrel))
+			if (FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0)
 				return true;
 		if (i == 2)
 			if (stack.getItem() instanceof ItemBattery)

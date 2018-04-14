@@ -1673,6 +1673,63 @@ public class MachineRecipes {
 		List<ItemStack> list = new ArrayList<ItemStack>();
 		
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
+        case IRON_PLATE:
+			list.add(new ItemStack(Items.iron_ingot, 1));
+			break;
+		case GOLD_PLATE:
+			list.add(new ItemStack(Items.gold_ingot, 1));
+			break;
+		case TITANIUM_PLATE:
+			list.add(new ItemStack(ModItems.ingot_titanium, 1));
+			break;
+		case ALUMINIUM_PLATE:
+			list.add(new ItemStack(ModItems.ingot_aluminium, 1));
+			break;
+		case STEEL_PLATE:
+			list.add(new ItemStack(ModItems.ingot_steel, 1));
+			break;
+		case LEAD_PLATE:
+			list.add(new ItemStack(ModItems.ingot_lead, 1));
+			break;
+		case COPPER_PLATE:
+			list.add(new ItemStack(ModItems.ingot_copper, 1));
+			break;
+		case ADVANCED_PLATE:
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 1));
+			break;
+		case SCHRABIDIUM_PLATE:
+			list.add(new ItemStack(ModItems.ingot_schrabidium, 1));
+			break;
+		case CMB_PLATE:
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 1));
+			break;
+		case ALUMINIUM_WIRE:
+			list.add(new ItemStack(ModItems.ingot_aluminium, 1));
+			break;
+		case COPPER_WIRE:
+			list.add(new ItemStack(ModItems.ingot_copper, 1));
+			break;
+		case TUNGSTEN_WIRE:
+			list.add(new ItemStack(ModItems.ingot_tungsten, 1));
+			break;
+		case REDCOPPER_WIRE:
+			list.add(new ItemStack(ModItems.ingot_red_copper, 1));
+			break;
+		case ADVANCED_WIRE:
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 1));
+			break;
+		case GOLD_WIRE:
+			list.add(new ItemStack(Items.gold_ingot, 1));
+			break;
+		case SCHRABIDIUM_WIRE:
+			list.add(new ItemStack(ModItems.ingot_schrabidium, 1));
+			break;
+		case MAGNETIZED_WIRE:
+			list.add(new ItemStack(ModItems.ingot_magnetized_tungsten, 1));
+			break;
+		case CIRCUIT_1:
+			list.add(new ItemStack(ModItems.circuit_raw, 1));
+			break;
 		case SCHRABIDIUM_HAMMER:
 			list.add(new ItemStack(ModBlocks.block_schrabidium, 15));
 			list.add(new ItemStack(ModItems.ingot_polymer, 64*2));
@@ -2235,6 +2292,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_lead, 6));
 			list.add(new ItemStack(ModItems.neutron_reflector, 4));
 			list.add(new ItemStack(ModItems.plate_copper, 2));
+			break;
+		case RAD_GEN:
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 32));
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 6));
+			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 24));
+			list.add(new ItemStack(ModItems.circuit_gold, 4));
+			list.add(new ItemStack(ModItems.reactor_core, 3));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 1));
+			list.add(new ItemStack(Items.dye, 1, 1));
 			break;
 		case DIESEL_GENERATOR:
 			list.add(new ItemStack(ModItems.hull_small_steel, 4));
@@ -3174,6 +3241,63 @@ public class MachineRecipes {
 		ItemStack output = null;
 		
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
+        case IRON_PLATE:
+			output = new ItemStack(ModItems.plate_iron, 2);
+			break;
+		case GOLD_PLATE:
+			output = new ItemStack(ModItems.plate_gold, 2);
+			break;
+		case TITANIUM_PLATE:
+			output = new ItemStack(ModItems.plate_titanium, 2);
+			break;
+		case ALUMINIUM_PLATE:
+			output = new ItemStack(ModItems.plate_aluminium, 2);
+			break;
+		case STEEL_PLATE:
+			output = new ItemStack(ModItems.plate_steel, 2);
+			break;
+		case LEAD_PLATE:
+			output = new ItemStack(ModItems.plate_lead, 2);
+			break;
+		case COPPER_PLATE:
+			output = new ItemStack(ModItems.plate_copper, 2);
+			break;
+		case ADVANCED_PLATE:
+			output = new ItemStack(ModItems.plate_advanced_alloy, 2);
+			break;
+		case SCHRABIDIUM_PLATE:
+			output = new ItemStack(ModItems.plate_schrabidium, 2);
+			break;
+		case CMB_PLATE:
+			output = new ItemStack(ModItems.plate_combine_steel, 2);
+			break;
+		case ALUMINIUM_WIRE:
+			output = new ItemStack(ModItems.wire_aluminium, 6);
+			break;
+		case COPPER_WIRE:
+			output = new ItemStack(ModItems.wire_copper, 6);
+			break;
+		case TUNGSTEN_WIRE:
+			output = new ItemStack(ModItems.wire_tungsten, 6);
+			break;
+		case REDCOPPER_WIRE:
+			output = new ItemStack(ModItems.wire_red_copper, 6);
+			break;
+		case ADVANCED_WIRE:
+			output = new ItemStack(ModItems.wire_advanced_alloy, 6);
+			break;
+		case GOLD_WIRE:
+			output = new ItemStack(ModItems.wire_gold, 6);
+			break;
+		case SCHRABIDIUM_WIRE:
+			output = new ItemStack(ModItems.wire_schrabidium, 6);
+			break;
+		case MAGNETIZED_WIRE:
+			output = new ItemStack(ModItems.wire_magnetized_tungsten, 6);
+			break;
+		case CIRCUIT_1:
+			output = new ItemStack(ModItems.circuit_aluminium, 1);
+			break;
 		case SCHRABIDIUM_HAMMER:
 			output = new ItemStack(ModItems.schrabidium_hammer, 1);
 			break;
@@ -3476,6 +3600,9 @@ public class MachineRecipes {
 			break;
 		case RTG_FURNACE:
 			output = new ItemStack(ModBlocks.machine_rtg_furnace_off, 1);
+			break;
+		case RAD_GEN:
+			output = new ItemStack(ModBlocks.machine_radgen, 1);
 			break;
 		case DIESEL_GENERATOR:
 			output = new ItemStack(ModBlocks.machine_diesel, 1);

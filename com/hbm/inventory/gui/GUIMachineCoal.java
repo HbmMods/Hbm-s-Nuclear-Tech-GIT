@@ -32,6 +32,27 @@ public class GUIMachineCoal extends GuiInfoContainer {
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+		
+		String[] text = new String[] { "Power generation rate:",
+				" 25 HE/t",
+				" 500 HE/s",
+				"Accepts all furnace fuels.",
+				"(All fuels burn half as long in this generator",
+				"as in a regular furnace)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Water consumption rate:",
+				"  1 mB/t",
+				"  20 mB/s",
+				"(Consumption rate is constant)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		
+		if(diFurnace.tank.getFill() <= 0) {
+			
+			String[] text2 = new String[] { "Error: Water is required for",
+					"the generator to function properly!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
+		}
 	}
 	
 	@Override
@@ -57,6 +78,12 @@ public class GUIMachineCoal extends GuiInfoContainer {
 		{
 			drawTexturedModalRect(guiLeft + 79, guiTop + 34, 208, 0, 18, 18);
 		}
+
+		if(diFurnace.tank.getFill() <= 0)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
 		diFurnace.tank.renderTank(this, guiLeft + 8, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);

@@ -37,7 +37,7 @@ public class RenderRadGen extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.radgen_body_tex);
         
         ResourceManager.radgen_body.renderAll();
 
@@ -65,9 +65,9 @@ public class RenderRadGen extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 		
-		GL11.glRotatef(((TileEntityMachineRadGen)tileEntity).rotation, 1F, 0F, 0F);
+		GL11.glRotatef((System.currentTimeMillis() / 10) % 360, 0F, 0F, 1F);
 
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.turbofan_blades_tex);
         ResourceManager.radgen_rotor.renderAll();
 
         GL11.glPopMatrix();

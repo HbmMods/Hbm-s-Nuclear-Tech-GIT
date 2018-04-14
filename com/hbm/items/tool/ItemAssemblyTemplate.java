@@ -15,8 +15,26 @@ import net.minecraft.util.StatCollector;
 public class ItemAssemblyTemplate extends Item {
 	
 	public enum EnumAssemblyTemplate {
-		
+
+		IRON_PLATE,
+		GOLD_PLATE,
+		TITANIUM_PLATE,
+		ALUMINIUM_PLATE,
+		STEEL_PLATE,
+		LEAD_PLATE,
+		COPPER_PLATE,
+		ADVANCED_PLATE,
+		SCHRABIDIUM_PLATE,
+		CMB_PLATE,
 		MIXED_PLATE,
+		ALUMINIUM_WIRE,
+		COPPER_WIRE,
+		TUNGSTEN_WIRE,
+		REDCOPPER_WIRE,
+		ADVANCED_WIRE,
+		GOLD_WIRE,
+		SCHRABIDIUM_WIRE,
+		MAGNETIZED_WIRE,
 		HAZMAT_CLOTH,
 		ASBESTOS_CLOTH,
 		COAL_FILTER,
@@ -63,6 +81,7 @@ public class ItemAssemblyTemplate extends Item {
 		CHOPPER_TAIL,
 		CHOPPER_WING,
 		CHOPPER_BLADES,
+		CIRCUIT_1,
 		CIRCUIT_2,
 		CIRCUIT_3,
 		RTG_PELLET,
@@ -115,6 +134,7 @@ public class ItemAssemblyTemplate extends Item {
 		CENTRIFUGE,
 		BREEDING_REACTOR,
 		RTG_FURNACE,
+		RAD_GEN,
 		DIESEL_GENERATOR,
 		SELENIUM_GENERATOR,
 		NUCLEAR_GENERATOR,
@@ -303,8 +323,44 @@ public class ItemAssemblyTemplate extends Item {
         EnumAssemblyTemplate enum1 = EnumAssemblyTemplate.getEnum(i);
         
         switch (enum1) {
+        case IRON_PLATE:
+			return 30;
+		case GOLD_PLATE:
+			return 30;
+		case TITANIUM_PLATE:
+			return 30;
+		case ALUMINIUM_PLATE:
+			return 30;
+		case STEEL_PLATE:
+			return 30;
+		case LEAD_PLATE:
+			return 30;
+		case COPPER_PLATE:
+			return 30;
+		case ADVANCED_PLATE:
+			return 30;
+		case SCHRABIDIUM_PLATE:
+			return 30;
+		case CMB_PLATE:
+			return 30;
 		case MIXED_PLATE:
 			return 50;
+		case ALUMINIUM_WIRE:
+			return 20;
+		case COPPER_WIRE:
+			return 20;
+		case TUNGSTEN_WIRE:
+			return 20;
+		case REDCOPPER_WIRE:
+			return 20;
+		case ADVANCED_WIRE:
+			return 20;
+		case GOLD_WIRE:
+			return 20;
+		case SCHRABIDIUM_WIRE:
+			return 20;
+		case MAGNETIZED_WIRE:
+			return 20;
 		case HAZMAT_CLOTH:
 			return 50;
 		case ASBESTOS_CLOTH:
@@ -399,6 +455,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case CHOPPER_BLADES:
 			return 200;
+		case CIRCUIT_1:
+			return 50;
 		case CIRCUIT_2:
 			return 100;
 		case CIRCUIT_3:
@@ -503,6 +561,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case RTG_FURNACE:
 			return 150;
+		case RAD_GEN:
+			return 400;
 		case DIESEL_GENERATOR:
 			return 200;
 		case SELENIUM_GENERATOR:

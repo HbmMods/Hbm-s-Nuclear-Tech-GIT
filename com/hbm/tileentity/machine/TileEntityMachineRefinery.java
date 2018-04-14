@@ -32,7 +32,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 
 	public long power = 0;
 	public int sulfur = 0;
-	public static final int maxSulfur = 1000;
+	public static final int maxSulfur = 100;
 	public static final long maxPower = 100000;
 	public int age = 0;
 	public FluidTank[] tanks;

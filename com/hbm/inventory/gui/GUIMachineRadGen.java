@@ -34,6 +34,17 @@ public class GUIMachineRadGen extends GuiInfoContainer {
 
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 69 - 52, 16, 52, new String[] { "Fuel: " + radgen.getFuelScaled(100) + "%" });
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 69 - 52, 16, 52, radgen.power, radgen.maxPower);
+		
+		String[] text = new String[] { "Accepted Fuels:",
+				"  About anything radioactive other than reactor fuel,",
+				"  even waste like dead grass!" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Power generation rate:",
+				"  1 kHE/t",
+				"  20 kHE/s",
+				"(Generation rate at maximum performance)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 	}
 	
 	@Override
@@ -73,5 +84,8 @@ public class GUIMachineRadGen extends GuiInfoContainer {
 			sy = (l - 7) * 36;
 		}
 		drawTexturedModalRect(guiLeft + 70, guiTop + 25, sx, sy, 36, 36);
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 	}
 }

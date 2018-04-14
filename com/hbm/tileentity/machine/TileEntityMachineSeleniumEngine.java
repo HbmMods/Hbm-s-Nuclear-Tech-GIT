@@ -9,6 +9,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
@@ -117,6 +118,13 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		if (i == 9)
+			if (FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0)
+				return true;
+		if (i == 13)
+			if (stack.getItem() instanceof ItemBattery)
+				return true;
+
 		return false;
 	}
 

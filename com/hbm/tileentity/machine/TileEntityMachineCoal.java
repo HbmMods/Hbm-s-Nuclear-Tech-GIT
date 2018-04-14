@@ -20,6 +20,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
@@ -118,13 +119,13 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		if(i == 0)
-			if(stack.getItem() == ModItems.rod_water || stack.getItem() == ModItems.rod_dual_water || stack.getItem() == ModItems.rod_quad_water || stack.getItem() == Items.water_bucket)
+			if(FluidContainerRegistry.getFluidContent(stack, FluidType.WATER) > 0)
 				return true;
 		if(i == 2)
 			if(stack.getItem() instanceof ItemBattery)
 				return true;
 		if(i == 1)
-			if(stack.getItem() == Items.coal || stack.getItem() == ModItems.powder_coal || stack.getItem() == Item.getItemFromBlock(Blocks.coal_block))
+			if(TileEntityFurnace.getItemBurnTime(stack) > 0)
 				return true;
 		
 		return false;
@@ -257,9 +258,9 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
                 MachineCoal.updateBlockState(this.burnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			
+			generate();
 		}
-		
-		generate();
 	}
 	
 	public void generate() {
@@ -294,15 +295,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	
 	public boolean isItemValid() {
 
-		if(slots[1] != null && slots[1].getItem() == Items.coal)
-		{
-			return true;
-		}
-		if(slots[1] != null && slots[1].getItem() == ModItems.powder_coal)
-		{
-			return true;
-		}
-		if(slots[1] != null && slots[1].getItem() == Item.getItemFromBlock(Blocks.coal_block))
+		if(slots[1] != null && TileEntityFurnace.getItemBurnTime(slots[1]) > 0)
 		{
 			return true;
 		}
