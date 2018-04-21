@@ -206,6 +206,10 @@ public class ExplosionNukeGeneric {
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
+			
+			if(entity instanceof EntityBlackHole)
+				continue;
+			
 			double d4 = entity.getDistance(x, y, z) / radius;
 
 			if (d4 <= 1.0D) {

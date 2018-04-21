@@ -57,6 +57,7 @@ import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.effect.EntityNukeCloudBig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
@@ -385,6 +386,8 @@ public class MainRegistry
 	public static Achievement achFreytag;
 	public static Achievement achSelenium;
 	public static Achievement achPotato;
+	public static Achievement achC44;
+	public static Achievement achC20_5;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -712,6 +715,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityRocketHoming.class, "entity_stinger", 93, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileMicro.class, "entity_missile_taint", 94, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 95, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityRagingVortex.class, "entity_raging_vortex", 96, this, 250, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -905,6 +909,8 @@ public class MainRegistry
 		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -2, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
 		achSelenium = new Achievement("achievement.selenium", "selenium", -2, -2, ModItems.ingot_starmetal, null).initIndependentStat().setSpecial().registerStat();
 		achPotato = new Achievement("achievement.potato", "potato", -2, 0, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
+		achC44 = new Achievement("achievement.c44", "c44", 2, -2, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
+		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -2, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -912,7 +918,9 @@ public class MainRegistry
 				achTOB,
 				achFreytag,
 				achSelenium,
-				achPotato
+				achPotato,
+				achC44,
+				achC20_5
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);

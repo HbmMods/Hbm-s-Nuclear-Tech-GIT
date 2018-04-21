@@ -54,7 +54,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 			//MainRegistry.logger.info(explosion.getStoredSize() + " / " + count / length);
 			//explosion.collectTip(speed * 10);
 			explosion.collectTipExperimental(speed * 10);
-		} else if(explosion.getProgress() < count / length) {
+		} else if(explosion.getProgress() < (count / length) * 0.99) {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
 				explosion.processTip(speed);

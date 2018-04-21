@@ -16,8 +16,14 @@ achievement.selenium=Und täglich grüßt der Mond
 achievement.selenium.desc=Lange nicht gesehen!
 achievement.potato=Machtgeile KI
 achievement.potato.desc=Du stichst mich! Was soll denn das?
+achievement.c44=Kapitel 44
+achievement.c44.desc=Galvanisch verzinkt! ...das macht in der Übersetzung sowas von keinen Sinn.
+achievement.c20_5=Kapitel [ZWANZIG KOMMA FÜNF]
+achievement.c20_5.desc=???
 
 potion.hbm_taint=Verdorben
+potion.hbm_taint_boost=Verdorbenes Herz
+potion.hbm_radiation=Strahlenkrankheit
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
@@ -840,7 +846,8 @@ item.rod_pu239.name=Pu239-Brennstab
 item.rod_pu240.name=Pu240-Brennstab
 item.rod_neptunium.name=Neptuniumbrennstab
 item.rod_lead.name=Bleistab
-item.rod_schrabidium.name=Schrabidiumbrennstab
+item.rod_schrabidium.name=Sa326-Brennstab
+item.rod_solinium.name=Sa327-Brennstab
 item.rod_euphemium.name=Euphemiumbrennstab
 item.rod_australium.name=Australiumbrennstab
 item.rod_weidanium.name=Weidaniumbrennstab
@@ -859,7 +866,8 @@ item.rod_dual_pu239.name=Pu239-Doppelbrennstab
 item.rod_dual_pu240.name=Pu240-Doppelbrennstab
 item.rod_dual_neptunium.name=Neptuniumdoppelbrennstab
 item.rod_dual_lead.name=Bleidoppelstab
-item.rod_dual_schrabidium.name=Schrabidiumdoppelbrennstab
+item.rod_dual_schrabidium.name=Sa326-Doppelbrennstab
+item.rod_dual_solinium.name=Sa327-Doppelbrennstab
 
 item.rod_quad_empty.name=Leerer Vierfachbrennstab
 item.rod_quad_uranium.name=Uranvierfachbrennstab
@@ -871,7 +879,8 @@ item.rod_quad_pu239.name=Pu239-Vierfachbrennstab
 item.rod_quad_pu240.name=Pu240-Vierfachbrennstab
 item.rod_quad_neptunium.name=Neptuniumvierfachbrennstab
 item.rod_quad_lead.name=Bleivierfachstab
-item.rod_quad_schrabidium.name=Schrabidiumvierfachbrennstab
+item.rod_quad_schrabidium.name=Sa326-Vierfachbrennstab
+item.rod_quad_solinium.name=Sa327-Vierfachbrennstab
 
 item.rod_uranium_fuel_depleted.name=Erschöpfte Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel_depleted.name=Erschöpfte Urandoppelkernbrennstoffzelle

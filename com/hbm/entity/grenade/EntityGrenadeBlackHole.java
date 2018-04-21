@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityRagingVortex;
 
 public class EntityGrenadeBlackHole extends EntityGrenadeBase
 {

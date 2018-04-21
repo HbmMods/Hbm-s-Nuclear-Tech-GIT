@@ -16,8 +16,14 @@ achievement.selenium=XVIII The Moon
 achievement.selenium.desc=Yeah.
 achievement.potato=Rogue AI
 achievement.potato.desc=You stabbed me! What is WRONG with yo-WOOOAAH
+achievement.c44=Chapter 44
+achievement.c44.desc=Galvanized! I mean, zinc!
+achievement.c20_5=Chapter [TWENTY POINT FIVE]
+achievement.c20_5.desc=???
 
 potion.hbm_taint=Tainted
+potion.hbm_taint_boost=Tainted Heart
+potion.hbm_radiation=Radiation Sickness
 
 hbmfluid.none=None
 hbmfluid.water=Water
@@ -1210,7 +1216,7 @@ item.plate_euphemium.name=Euphemium Compound Plate
 item.plate_dineutronium.name=Dineutronium Compound Plate
 item.plate_desh.name=Desh Compound Plate
 
-item.euphemium_helmet.name=Euphemium Helemt
+item.euphemium_helmet.name=Euphemium Helmet
 item.euphemium_plate.name=Euphemium Chestplate
 item.euphemium_legs.name=Euphemium Leggings
 item.euphemium_boots.name=Euphemiums Boots

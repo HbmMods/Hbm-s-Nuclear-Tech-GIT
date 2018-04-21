@@ -5,6 +5,8 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityRagingVortex;
+import com.hbm.entity.effect.EntityVortex;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.RenderHelper;
@@ -91,11 +93,9 @@ public class RenderBlackHole extends Render {
                 tessellator.startDrawing(6);
                 float f3 = random.nextFloat() * 20.0F + 5.0F + f2 * 10.0F;
                 float f4 = random.nextFloat() * 2.0F + 1.0F + f2 * 2.0F;
-                //tessellator.setColorRGBA_I(16777215, (int)(255.0F * (1.0F - f2)));
-                tessellator.setColorRGBA_I(59345715, (int)(255.0F * (1.0F/* - f2*/)));
+                setColorFull(entity, tessellator);
                 tessellator.addVertex(0.0D, 0.0D, 0.0D);
-                //tessellator.setColorRGBA_I(16711935, 0);
-                tessellator.setColorRGBA_I(59345735, 0);
+                setColorNone(entity, tessellator);
                 tessellator.addVertex(-0.866D * f4, f3, -0.5F * f4);
                 tessellator.addVertex(0.866D * f4, f3, -0.5F * f4);
                 tessellator.addVertex(0.0D, f3, 1.0F * f4);
@@ -117,7 +117,31 @@ public class RenderBlackHole extends Render {
             
 		}
 	}
-
+	
+	private void setColorFull(Entity e, Tessellator tessellator) {
+		
+		if(e instanceof EntityVortex)
+			tessellator.setColorRGBA_I(0x3898b3, (int)(255.0F * (1.0F)));
+		
+		else if(e instanceof EntityRagingVortex)
+			tessellator.setColorRGBA_I(0xe8390d, (int)(255.0F * (1.0F)));
+		
+		else 
+            tessellator.setColorRGBA_I(59345715, (int)(255.0F * (1.0F)));
+	}
+	
+	private void setColorNone(Entity e, Tessellator tessellator) {
+		
+		if(e instanceof EntityVortex)
+			tessellator.setColorRGBA_I(0x3898b3, 0);
+		
+		else if(e instanceof EntityRagingVortex)
+			tessellator.setColorRGBA_I(0xe8390d, 0);
+		
+		else 
+            tessellator.setColorRGBA_I(59345715, 0);
+	}
+	
 	@Override
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return null;
