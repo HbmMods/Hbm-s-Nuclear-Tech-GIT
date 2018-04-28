@@ -1082,21 +1082,40 @@ public class Library {
 			int size = that.getList().size();
 			if(size > 0)
 			{
-				long part = that.getSPower() / size;
-				for(IConsumer consume : that.getList())
-				{
+				
+				///EXPERIMENTAL START///
+
+				List<IConsumer> requestList = new ArrayList();
+
+				for(IConsumer consume : that.getList()) {
 					if(consume.getPower() < consume.getMaxPower())
+						requestList.add(consume);
+				}
+				
+				if(requestList.size() > 0) {
+				
+				///EXPERIMENTAL END///
+				
+				
+					long part = that.getSPower() / size;
+					for(IConsumer consume : requestList)
 					{
-						if(consume.getMaxPower() - consume.getPower() >= part)
+						if(consume.getPower() < consume.getMaxPower())
 						{
-							that.setSPower(that.getSPower()-part);
-							consume.setPower(consume.getPower() + part);
-						} else {
-							that.setSPower(that.getSPower() - (consume.getMaxPower() - consume.getPower()));
-							consume.setPower(consume.getMaxPower());
+							if(consume.getMaxPower() - consume.getPower() >= part)
+							{
+								that.setSPower(that.getSPower()-part);
+								consume.setPower(consume.getPower() + part);
+							} else {
+								that.setSPower(that.getSPower() - (consume.getMaxPower() - consume.getPower()));
+								consume.setPower(consume.getMaxPower());
+							}
 						}
 					}
+				
+				//
 				}
+				//
 			}
 			that.clearList();
 		}

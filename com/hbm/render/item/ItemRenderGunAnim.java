@@ -9,6 +9,7 @@ import com.hbm.items.weapon.GunLeverAction;
 import com.hbm.items.weapon.GunLeverActionS;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelB92;
+import com.hbm.render.model.ModelB93;
 import com.hbm.render.model.ModelBoltAction;
 import com.hbm.render.model.ModelDash;
 import com.hbm.render.model.ModelDefabricator;
@@ -35,11 +36,13 @@ public class ItemRenderGunAnim implements IItemRenderer {
 	protected ModelLeverAction leveraction;
 	protected ModelBoltAction boltaction;
 	protected ModelB92 b92;
+	protected ModelB93 b93;
 	
 	public ItemRenderGunAnim() {
 		leveraction = new ModelLeverAction();
 		boltaction = new ModelBoltAction();
 		b92 = new ModelB92();
+		b93 = new ModelB93();
 	}
 
 	@Override
@@ -76,6 +79,8 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionGreen.png"));
 				if(item.getItem() == ModItems.gun_b92)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92SM.png"));
+				if(item.getItem() == ModItems.gun_b93)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB93.png"));
 				
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
@@ -110,6 +115,12 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					GL11.glRotatef(GunB92.getRotationFromAnim(item) * -90, 0.0F, 0.0F, 1.0F);
 					GL11.glTranslatef(off * -0.5F, off * -0.5F, 0.0F);
 				}
+				
+				if(item.getItem() == ModItems.gun_b93 && GunB92.getRotationFromAnim(item) > 0) {
+					float off = GunB92.getRotationFromAnim(item) * 2;
+					GL11.glRotatef(GunB92.getRotationFromAnim(item) * -90, 0.0F, 0.0F, 1.0F);
+					GL11.glTranslatef(off * -0.5F, off * -0.5F, 0.0F);
+				}
 
 				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));
@@ -119,6 +130,8 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					boltaction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunBoltAction.getLevRotationFromAnim(item), GunBoltAction.getTransFromAnim(item));
 				if(item.getItem() == ModItems.gun_b92)
 					b92.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunB92.getTransFromAnim(item));
+				if(item.getItem() == ModItems.gun_b93)
+					b93.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunB92.getTransFromAnim(item));
 				
 			GL11.glPopMatrix();
 			break;
@@ -136,6 +149,8 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionGreen.png"));
 				if(item.getItem() == ModItems.gun_b92)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92SM.png"));
+				if(item.getItem() == ModItems.gun_b93)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB93.png"));
 				
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
@@ -159,6 +174,8 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					boltaction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunBoltAction.getLevRotationFromAnim(item), GunBoltAction.getTransFromAnim(item));
 				if(item.getItem() == ModItems.gun_b92)
 					b92.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunB92.getTransFromAnim(item));
+				if(item.getItem() == ModItems.gun_b93)
+					b93.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunB92.getTransFromAnim(item));
 			GL11.glPopMatrix();
 		default: break;
 		}

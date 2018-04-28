@@ -30,6 +30,11 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 52, 52, diFurnace.power, diFurnace.maxPower);
+
+		String[] text = new String[] { "Only stores power by default.",
+				"Apply redstone signal to set it to",
+				"output mode." };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 	}
 	
 	@Override
@@ -51,5 +56,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 			int i = (int)diFurnace.getPowerRemainingScaled(52);
 			drawTexturedModalRect(guiLeft + 62, guiTop + 69 - i, 176, 52 - i, 52, i);
 		}
+
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 	}
 }

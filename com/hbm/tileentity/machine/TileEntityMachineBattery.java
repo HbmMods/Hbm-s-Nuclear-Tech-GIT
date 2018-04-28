@@ -22,7 +22,7 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	private ItemStack slots[];
 	
 	public long power = 0;
-	public final long maxPower = 1000000;
+	public long maxPower = 1000000;
 	
 	public boolean conducts = false;
 	
@@ -36,6 +36,11 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	
 	public TileEntityMachineBattery() {
 		slots = new ItemStack[2];
+	}
+	
+	public TileEntityMachineBattery(long maxPower) {
+		slots = new ItemStack[2];
+		this.maxPower = maxPower;
 	}
 
 	@Override

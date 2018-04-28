@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -62,6 +64,8 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 						b0 = true;
 					}
 				}
+
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 		
 		if(b0)

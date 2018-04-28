@@ -31,19 +31,35 @@ public class MachineBattery extends BlockContainer {
     private final Random field_149933_a = new Random();
 	private Random rand;
 	private static boolean keepInventory;
+	private long maxPower;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
 
-	public MachineBattery(Material p_i45386_1_) {
+	public MachineBattery(Material p_i45386_1_, long maxPower) {
 		super(p_i45386_1_);
+		this.maxPower = maxPower;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_front_alt");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_side_alt");
+		if(this == ModBlocks.machine_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_front_alt");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_side_alt");
+		}
+		if(this == ModBlocks.machine_lithium_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_front");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_side");
+		}
+		if(this == ModBlocks.machine_schrabidium_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_front");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_side");
+		}
+		if(this == ModBlocks.machine_dineutronium_battery) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_front");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_side");
+		}
 	}
 	
 	@Override
@@ -55,7 +71,7 @@ public class MachineBattery extends BlockContainer {
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-        return Item.getItemFromBlock(ModBlocks.machine_battery);
+        return Item.getItemFromBlock(this);
     }
 	
 	@Override
@@ -124,7 +140,7 @@ public class MachineBattery extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineBattery();
+		return new TileEntityMachineBattery(maxPower);
 	}
 	
     @Override

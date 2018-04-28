@@ -33,12 +33,12 @@ public class GUIMachineTeleporter extends GuiContainer {
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6,
 				4210752);
 		this.fontRendererObj.drawString("Power: " + diFurnace.power + "HE/" + TileEntityMachineTeleporter.maxPower + "HE", 10, 20,
-				4210752);
-		this.fontRendererObj.drawString("Mode: " + (diFurnace.mode ? "Send" : "Receive"), 10, 29, 4210752);
+				13882323);
+		this.fontRendererObj.drawString("Mode: " + (diFurnace.mode ? "Send" : "Receive"), 10, 29, 13882323);
 		if (diFurnace.mode) {
-			this.fontRendererObj.drawString("Destination X: " + diFurnace.targetX, 10, 38, 4210752);
-			this.fontRendererObj.drawString("Destination Y: " + diFurnace.targetY, 10, 47, 4210752);
-			this.fontRendererObj.drawString("Destination Z: " + diFurnace.targetZ, 10, 56, 4210752);
+			this.fontRendererObj.drawString("Destination X: " + diFurnace.targetX, 10, 38, 13882323);
+			this.fontRendererObj.drawString("Destination Y: " + diFurnace.targetY, 10, 47, 13882323);
+			this.fontRendererObj.drawString("Destination Z: " + diFurnace.targetZ, 10, 56, 13882323);
 		}
 	}
 

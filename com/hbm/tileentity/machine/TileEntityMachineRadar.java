@@ -16,6 +16,7 @@ import com.hbm.packet.TERadarPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -103,7 +104,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 				continue;
 			}*/
 			
-			if(!(e instanceof EntityMissileBaseAdvanced) && e.width * e.width * e.height >= 0.5D && e.posY >= yCoord + MainRegistry.radarBuffer) {
+			if(e instanceof EntityPlayer && e.posY >= yCoord + MainRegistry.radarBuffer) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5, (int)e.posY });
 			}
 		}

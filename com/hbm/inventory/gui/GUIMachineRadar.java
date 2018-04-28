@@ -49,21 +49,21 @@ public class GUIMachineRadar extends GuiInfoContainer {
 
 					if(m[2] == 0)
 						text = new String[] { "Tier 1 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 1)
+					else if(m[2] == 1)
 						text = new String[] { "Tier 2 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 2)
+					else if(m[2] == 2)
 						text = new String[] { "Tier 3 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 3)
+					else if(m[2] == 3)
 						text = new String[] { "Tier 4 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 4)
+					else if(m[2] == 4)
 						text = new String[] { "Anti Ballistic Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 5)
-						text = new String[] { "Airborne Entity", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 6)
+					else if(m[2] == 5)
+						text = new String[] { "Player", m[0] + " / " + m[1], "Alt.: " + m[3] };
+					/*else if(m[2] == 6)
 						text = new String[] { "Stinger Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 7)
-						text = new String[] { "Sky Stinger Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					if(m[2] == 8)
+					else if(m[2] == 7)
+						text = new String[] { "Sky Stinger Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };*/
+					else
 						text = new String[] { "Unknown Force", m[0] + " / " + m[1], "Alt.: " + m[3] };
 					
 					this.func_146283_a(Arrays.asList(text), x, z);
