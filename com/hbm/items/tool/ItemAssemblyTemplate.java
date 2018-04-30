@@ -142,6 +142,9 @@ public class ItemAssemblyTemplate extends Item {
 		CYCLOTRON,
 		RT_GENERATOR,
 		BATTERY,
+		BATTERY_L,
+		BATTERY_S,
+		BATTERY_D,
 		HE_TO_RF,
 		RF_TO_HE,
 		SHREDDER,
@@ -577,6 +580,12 @@ public class ItemAssemblyTemplate extends Item {
 			return 200;
 		case BATTERY:
 			return 200;
+		case BATTERY_L:
+			return 400;
+		case BATTERY_S:
+			return 800;
+		case BATTERY_D:
+			return 1600;
 		case HE_TO_RF:
 			return 150;
 		case RF_TO_HE:

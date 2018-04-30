@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.special.ItemBattery;
@@ -36,11 +37,6 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	
 	public TileEntityMachineBattery() {
 		slots = new ItemStack[2];
-	}
-	
-	public TileEntityMachineBattery(long maxPower) {
-		slots = new ItemStack[2];
-		this.maxPower = maxPower;
 	}
 
 	@Override
@@ -219,23 +215,28 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	
 	@Override
 	public void updateEntity() {
-		if(this.conducts)
-		{
-			age++;
-			if(age >= 20)
+		
+		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery) {
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
+		
+			if(this.conducts)
 			{
-				age = 0;
+				age++;
+				if(age >= 20)
+				{
+					age = 0;
+				}
+				
+				if(age == 9 || age == 19)
+					ffgeuaInit();
 			}
 			
-			if(age == 9 || age == 19)
-				ffgeuaInit();
-		}
-		
-		if(!worldObj.isRemote) {
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
-		
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			if(!worldObj.isRemote) {
+				power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+				power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
+			
+				PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			}
 		}
 	}
 

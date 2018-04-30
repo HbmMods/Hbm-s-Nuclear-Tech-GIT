@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -109,6 +110,15 @@ public class ItemDrop extends Item {
 						entityItem.worldObj.spawnEntityInWorld(entity);*/
 
 			        	EntityBlackHole bl = new EntityBlackHole(entityItem.worldObj, 1.5F);
+			        	bl.posX = entityItem.posX ;
+			        	bl.posY = entityItem.posY ;
+			        	bl.posZ = entityItem.posZ ;
+			        	entityItem.worldObj.spawnEntityInWorld(bl);
+					}
+				}
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_spark) {
+					if (!entityItem.worldObj.isRemote) {
+			        	EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 3.5F);
 			        	bl.posX = entityItem.posX ;
 			        	bl.posY = entityItem.posY ;
 			        	bl.posZ = entityItem.posZ ;

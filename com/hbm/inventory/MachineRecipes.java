@@ -1386,13 +1386,13 @@ public class MachineRecipes {
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
-					} else if (s.length() > 3 && s.substring(0, 3).equals("rod")) {
+					/*} else if (s.length() > 3 && s.substring(0, 3).equals("rod")) {
 						ItemStack stack = canFindDustByName(s.substring(3));
 						if (stack != null) {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2, stack.getItemDamage()));
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}
+						}*/
 					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
 						ItemStack stack = canFindDustByName(s.substring(5));
 						if (stack != null) {
@@ -1590,6 +1590,8 @@ public class MachineRecipes {
 
 	public ArrayList<ItemStack> getBatteries() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
+		fuels.add(new ItemStack(ModItems.battery_potato));
+		fuels.add(new ItemStack(ModItems.battery_potatos));
 		fuels.add(new ItemStack(ModItems.battery_su));
 		fuels.add(new ItemStack(ModItems.battery_su_l));
 		fuels.add(new ItemStack(ModItems.battery_generic));
@@ -1611,6 +1613,10 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.battery_spark));
 		fuels.add(new ItemStack(ModItems.battery_spark_cell_6));
 		fuels.add(new ItemStack(ModItems.battery_spark_cell_25));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_100));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_1000));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_10000));
+		fuels.add(new ItemStack(ModItems.battery_spark_cell_power));
 		fuels.add(new ItemStack(ModItems.fusion_core));
 		fuels.add(new ItemStack(ModItems.energy_core));
 		return fuels;
@@ -2364,6 +2370,27 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.powder_lead, 12));
 			list.add(new ItemStack(ModItems.ingot_red_copper, 2));
 			list.add(new ItemStack(ModItems.wire_red_copper, 4));
+			break;
+		case BATTERY_L:
+			list.add(new ItemStack(ModItems.ingot_polymer, 4));
+			list.add(new ItemStack(ModItems.powder_cobalt, 12));
+			list.add(new ItemStack(ModItems.powder_lithium, 12));
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 2));
+			list.add(new ItemStack(ModItems.wire_red_copper, 4));
+			break;
+		case BATTERY_S:
+			list.add(new ItemStack(ModItems.ingot_desh, 4));
+			list.add(new ItemStack(ModItems.powder_neptunium, 12));
+			list.add(new ItemStack(ModItems.powder_schrabidium, 12));
+			list.add(new ItemStack(ModItems.ingot_schrabidium, 2));
+			list.add(new ItemStack(ModItems.wire_schrabidium, 4));
+			break;
+		case BATTERY_D:
+			list.add(new ItemStack(ModItems.ingot_dineutronium, 24));
+			list.add(new ItemStack(ModItems.powder_spark_mix, 12));
+			list.add(new ItemStack(ModItems.battery_spark_cell_1000, 1));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 32));
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 8));
 			break;
 		case HE_TO_RF:
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
@@ -3624,6 +3651,15 @@ public class MachineRecipes {
 			break;
 		case BATTERY:
 			output = new ItemStack(ModBlocks.machine_battery, 1);
+			break;
+		case BATTERY_L:
+			output = new ItemStack(ModBlocks.machine_lithium_battery, 1);
+			break;
+		case BATTERY_S:
+			output = new ItemStack(ModBlocks.machine_schrabidium_battery, 1);
+			break;
+		case BATTERY_D:
+			output = new ItemStack(ModBlocks.machine_dineutronium_battery, 1);
 			break;
 		case HE_TO_RF:
 			output = new ItemStack(ModBlocks.machine_converter_he_rf, 1);

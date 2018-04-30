@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 
 public class ItemPotatos extends ItemBattery {
 
-	public ItemPotatos(long dura) {
-		super(dura);
+	public ItemPotatos(long dura, long chargeRate, long dischargeRate) {
+		super(dura, chargeRate, dischargeRate);
 	}
 
     @Override

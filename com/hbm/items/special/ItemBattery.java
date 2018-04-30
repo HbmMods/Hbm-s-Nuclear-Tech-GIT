@@ -12,11 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemBattery extends Item {
-	
-	private long maxCharge;
 
-	public ItemBattery(long dura) {
+	private long maxCharge;
+	private long chargeRate;
+	private long dischargeRate;
+
+	public ItemBattery(long dura, long chargeRate, long dischargeRate) {
 		this.maxCharge = dura;
+		this.chargeRate = chargeRate;
+		this.dischargeRate = dischargeRate;
 	}
 	
 	@Override
@@ -115,6 +119,14 @@ public class ItemBattery extends Item {
     
     public long getMaxCharge() {
     	return maxCharge;
+    }
+    
+    public long getChargeRate() {
+    	return chargeRate;
+    }
+    
+    public long getDischargeRate() {
+    	return dischargeRate;
     }
     
     public static long getMaxChargeStatic(ItemStack stack) {

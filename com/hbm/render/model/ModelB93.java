@@ -6,6 +6,8 @@
 
 package com.hbm.render.model;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -440,15 +442,19 @@ public class ModelB93 extends ModelBase {
 		EmitterClamp8.render(f5);
 		PowBox.render(f5);
 		PowPanel.render(f5);
-		Nix1.render(f5);
-		Nix2.render(f5);
-		Nix3.render(f5);
 		Nix11.render(f5);
 		Nix21.render(f5);
 		Nix31.render(f5);
 		Nix12.render(f5);
 		Nix22.render(f5);
 		Nix32.render(f5);
+        GL11.glEnable(GL11.GL_BLEND);
+        //GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+		Nix1.render(f5);
+		Nix2.render(f5);
+		Nix3.render(f5);
+		GL11.glDisable(GL11.GL_BLEND);
 		Pylon.render(f5);
 		Wire1.render(f5);
 		Wire2.render(f5);
