@@ -1276,6 +1276,8 @@ item.missile_doomsday.name=Doomsday Rakete
 item.missile_taint.name=Verdorbene Rakete
 item.missile_micro.name=Mikro-Atomrakete
 
+item.missile_carrier.name=HTR-01 Trägerrakete
+
 item.hazmat_helmet.name=Strahlenschutzhelm
 item.hazmat_plate.name=Strahlenschutzbrustplatte
 item.hazmat_legs.name=Strahlenschutzhose

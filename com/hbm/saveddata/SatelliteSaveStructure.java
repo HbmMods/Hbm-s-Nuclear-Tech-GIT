@@ -1,0 +1,39 @@
+package com.hbm.saveddata;
+
+import java.util.Arrays;
+
+import com.hbm.handler.FluidTypeHandler.FluidType;
+
+import net.minecraft.nbt.NBTTagCompound;
+
+public class SatelliteSaveStructure {
+	
+	public int satelliteID;
+	public SatelliteType satelliteType;
+	
+	enum SatelliteType {
+		MAPPER, RADAR, SCANNER, RELAY, LASER;
+		
+		public static SatelliteType getEnum(int i) {
+			if(i < SatelliteType.values().length)
+				return SatelliteType.values()[i];
+			else
+				return SatelliteType.RELAY;
+		}
+		
+		public int getID() {
+			return Arrays.asList(SatelliteType.values()).indexOf(this);
+		}
+	}
+
+	public void readFromNBT(NBTTagCompound nbt, int index) {
+		satelliteID = nbt.getInteger("sat_" + index + "_id");
+		satelliteType = SatelliteType.getEnum(nbt.getInteger("sat_" + index + "_type"));
+	}
+
+	public void writeToNBT(NBTTagCompound nbt, int index) {
+		nbt.setInteger("sat_" + index + "_id", satelliteID);
+		nbt.setInteger("sat_" + index + "_type", satelliteType.getID());
+	}
+
+}

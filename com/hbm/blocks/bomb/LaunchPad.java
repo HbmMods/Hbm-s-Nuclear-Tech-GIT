@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityMissileTest;
+import com.hbm.entity.missile.EntityCarrier;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
 import com.hbm.entity.missile.EntityMissileBurst;
@@ -434,6 +435,20 @@ public class LaunchPad extends BlockContainer implements IBomb {
             		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
         		}
         	}
+
+    		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_carrier && entity.power >= 75000)
+    		{
+    			EntityCarrier missile = new EntityCarrier(p_149695_1_);
+    			missile.posX = x + 0.5F;
+    			missile.posY = y + 0.5F;
+    			missile.posZ = z + 0.5F;
+        		if (!p_149695_1_.isRemote)
+        			p_149695_1_.spawnEntityInWorld(missile);
+        		entity.power -= 75000;
+        		
+        		entity.slots[0] = null;
+        		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+    		}
         }
     }
 

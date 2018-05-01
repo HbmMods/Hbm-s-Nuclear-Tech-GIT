@@ -91,6 +91,8 @@ import com.hbm.entity.logic.EntityNukeExplosionPlus;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.missile.EntityBombletSelena;
 import com.hbm.entity.missile.EntityBombletTheta;
+import com.hbm.entity.missile.EntityBooster;
+import com.hbm.entity.missile.EntityCarrier;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
@@ -716,6 +718,8 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileMicro.class, "entity_missile_taint", 94, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 95, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityRagingVortex.class, "entity_raging_vortex", 96, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityCarrier.class, "entity_missile_carrier", 97, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBooster.class, "entity_missile_booster", 98, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

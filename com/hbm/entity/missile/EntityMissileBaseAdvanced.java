@@ -251,7 +251,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-        return distance < 25000;
+        return distance < 500000;
     }
 
 	public abstract void onImpact();

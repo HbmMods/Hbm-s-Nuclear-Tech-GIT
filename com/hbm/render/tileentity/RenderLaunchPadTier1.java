@@ -30,7 +30,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
-		switch(tileEntity.getBlockMetadata())
+		/*switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
 			GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -40,7 +40,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			GL11.glRotatef(270, 0F, 1F, 0F); break;
 		case 3:
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
-		}
+		}*/
 
 		GL11.glScalef(1.5F, 1.0F, 1.5F);
         bindTexture(padTexture);
@@ -168,6 +168,24 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 		        GL11.glScalef(2F, 2F, 2F);
 				bindTexture(ResourceManager.missileMicro_tex);
 				ResourceManager.missileTaint.renderAll();
+			}
+			if(state == 20)
+			{
+		        GL11.glScalef(2F, 2F, 2F);
+				bindTexture(ResourceManager.missileCarrier_tex);
+				ResourceManager.missileCarrier.renderAll();
+		        GL11.glTranslated(0.0D, 0.5D, 0.0D);
+		        GL11.glTranslated(1.25D, 0.0D, 0.0D);
+				bindTexture(ResourceManager.missileBooster_tex);
+				ResourceManager.missileBooster.renderAll();
+		        GL11.glTranslated(-2.5D, 0.0D, 0.0D);
+				ResourceManager.missileBooster.renderAll();
+		        GL11.glTranslated(1.25D, 0.0D, 0.0D);
+		        GL11.glTranslated(0.0D, 0.0D, 1.25D);
+				ResourceManager.missileBooster.renderAll();
+		        GL11.glTranslated(0.0D, 0.0D, -2.5D);
+				ResourceManager.missileBooster.renderAll();
+		        GL11.glTranslated(0.0D, 0.0D, 1.25D);
 			}
 			
 	        GL11.glEnable(GL11.GL_CULL_FACE);

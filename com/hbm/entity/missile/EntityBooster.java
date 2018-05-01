@@ -4,7 +4,10 @@ import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.particle.EntityTSmokeFX;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -15,9 +18,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityMIRV extends EntityThrowable {
+public class EntityBooster extends EntityThrowable {
 
-	public EntityMIRV(World p_i1582_1_) {
+	public EntityBooster(World p_i1582_1_) {
 		super(p_i1582_1_);
 		this.ignoreFrustumCheck = true;
 	}
@@ -32,7 +35,10 @@ public class EntityMIRV extends EntityThrowable {
 		this.posY += this.motionY;
 		this.posZ += this.motionZ;
 		
-		this.motionY -= 0.03;
+		this.motionY -= 0.015;
+		
+		if(motionY < -1.5F)
+			motionY = -1.5F;
         
         this.rotation();
         
@@ -40,18 +46,25 @@ public class EntityMIRV extends EntityThrowable {
         {
     		if(!this.worldObj.isRemote)
     		{
-    	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.mirvRadius, posX, posY, posZ));
-
-    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, MainRegistry.mirvRadius * 0.005F);
-    	    	entity2.posX = this.posX;
-    	    	entity2.posY = this.posY;
-    	    	entity2.posZ = this.posZ;
-    	    	this.worldObj.spawnEntityInWorld(entity2);
+    	    	ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, 10F, true, false, true);
     		}
     		this.setDead();
         }
         
-        this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+        if(!worldObj.isRemote) {
+			for(int i = 0; i < 2; i++) {
+				EntityTSmokeFX fx1 = new EntityTSmokeFX(worldObj);
+				fx1.posY = posY - 0.25D;
+				fx1.posX = posX + rand.nextGaussian() * 0.25D;
+				fx1.posZ = posZ + rand.nextGaussian() * 0.25D;
+				fx1.motionY = -0.2D;
+				
+				worldObj.spawnEntityInWorld(fx1);
+			}
+        }
+
+        this.motionX *= 0.995;
+        this.motionZ *= 0.995;
 	}
 	
 	protected void rotation() {

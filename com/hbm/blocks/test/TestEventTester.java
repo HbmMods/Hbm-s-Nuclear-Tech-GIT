@@ -15,6 +15,7 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
 import com.hbm.potion.PotionEffectTaint;
+import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.world.Meteorite;
 
 import net.minecraft.block.Block;
@@ -26,8 +27,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.village.VillageCollection;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
@@ -166,13 +169,13 @@ public class TestEventTester extends Block {
         		ModEventHandler.meteorShower = 6000;
         	}*/
         	
-        	EntityCloudFleija rainbow = new EntityCloudFleija(worldObj);
+        	/*EntityCloudFleija rainbow = new EntityCloudFleija(worldObj);
         	rainbow.posX = x1;
         	rainbow.posY = y1;
         	rainbow.posZ = z1;
         	rainbow.maxAge = 100;
         	if(!worldObj.isRemote)
-        		worldObj.spawnEntityInWorld(rainbow);
+        		worldObj.spawnEntityInWorld(rainbow);*/
         	
         	
         	
@@ -198,6 +201,8 @@ public class TestEventTester extends Block {
     @Override
 	public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
     {
+    	this.worldObj = par1World;
+    	
     		 /*double d = (float)par2 + 0.5F;
     		 double d1 = (float)par3 + 0.7F;
     		 double d2 = (float)par4 + 0.5F;
@@ -226,11 +231,27 @@ public class TestEventTester extends Block {
     	//return true;
     	//System.out.println(par5EntityPlayer.getCommandSenderName());
     	//System.out.println(par5EntityPlayer.getUniqueID());
-    	List<ItemStack> list = new ArrayList<ItemStack>();
+    	/*List<ItemStack> list = new ArrayList<ItemStack>();
     	PotionEffect effect = new PotionEffect(PotionEffectTaint.instance.id, 300, 0);
     	effect.setCurativeItems(list);
     	par5EntityPlayer.addPotionEffect(effect);
-    	return true;
+    	return true;*/
+    	
+    	
+
+    	if(!worldObj.isRemote) {
+		    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+		    if(data == null) {
+		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+		        return true;
+		    }
+		    par5EntityPlayer.addChatComponentMessage(new ChatComponentText(String.valueOf(data.globalAccessThingy)));
+		    data.globalAccessThingy = itemRand.nextInt(10000);
+		    par5EntityPlayer.addChatComponentMessage(new ChatComponentText(String.valueOf(data.globalAccessThingy)));
+		    data.markDirty();
+    	}
+        
+        return true;
     }
     
     /*public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c)

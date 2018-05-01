@@ -675,6 +675,8 @@ public class ModItems {
 	public static Item missile_doomsday;
 	public static Item missile_taint;
 	public static Item missile_micro;
+	
+	public static Item missile_carrier;
 
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -1816,6 +1818,7 @@ public class ModItems {
 		missile_doomsday = new Item().setUnlocalizedName("missile_doomsday").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_doomsday");
 		missile_taint = new Item().setUnlocalizedName("missile_taint").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_taint");
 		missile_micro = new Item().setUnlocalizedName("missile_micro").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_micro");
+		missile_carrier = new Item().setUnlocalizedName("missile_carrier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_carrier");
 
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_new");
@@ -3131,6 +3134,7 @@ public class ModItems {
 		GameRegistry.registerItem(missile_doomsday, missile_doomsday.getUnlocalizedName());
 		GameRegistry.registerItem(missile_taint, missile_taint.getUnlocalizedName());
 		GameRegistry.registerItem(missile_micro, missile_micro.getUnlocalizedName());
+		GameRegistry.registerItem(missile_carrier, missile_carrier.getUnlocalizedName());
 		
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());

@@ -1275,6 +1275,8 @@ item.missile_doomsday.name=Doomsday Missile
 item.missile_taint.name=Taint-Tipped Missile
 item.missile_micro.name=Micro-Nuclear Missile
 
+item.missile_carrier.name=HTR-01 Carrier Rocket
+
 item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmat Chestplate
 item.hazmat_legs.name=Hazmat Leggings
