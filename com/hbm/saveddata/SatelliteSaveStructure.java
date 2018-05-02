@@ -12,7 +12,19 @@ public class SatelliteSaveStructure {
 	public SatelliteType satelliteType;
 	
 	enum SatelliteType {
-		MAPPER, RADAR, SCANNER, RELAY, LASER;
+		
+		//Prints map remotely
+		MAPPER,
+		//Displays entities
+		RADAR,
+		//Prints map, ores only
+		SCANNER,
+		//Does nothing
+		RELAY,
+		//Death ray
+		LASER,
+		//Allows use of AMS
+		RESONATOR;
 		
 		public static SatelliteType getEnum(int i) {
 			if(i < SatelliteType.values().length)

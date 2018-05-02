@@ -675,8 +675,13 @@ public class ModItems {
 	public static Item missile_doomsday;
 	public static Item missile_taint;
 	public static Item missile_micro;
-	
+
 	public static Item missile_carrier;
+	public static Item sat_mapper;
+	public static Item sat_scanner;
+	public static Item sat_radar;
+	public static Item sat_laser;
+	public static Item sat_foeq;
 
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -1819,6 +1824,11 @@ public class ModItems {
 		missile_taint = new Item().setUnlocalizedName("missile_taint").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_taint");
 		missile_micro = new Item().setUnlocalizedName("missile_micro").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_micro");
 		missile_carrier = new Item().setUnlocalizedName("missile_carrier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_carrier");
+		sat_mapper = new Item().setUnlocalizedName("sat_mapper").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_mapper");
+		sat_scanner = new Item().setUnlocalizedName("sat_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_scanner");
+		sat_radar = new Item().setUnlocalizedName("sat_radar").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_radar");
+		sat_laser = new Item().setUnlocalizedName("sat_laser").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_laser");
+		sat_foeq = new Item().setUnlocalizedName("sat_foeq").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_foeq");
 
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_new");
@@ -3135,6 +3145,13 @@ public class ModItems {
 		GameRegistry.registerItem(missile_taint, missile_taint.getUnlocalizedName());
 		GameRegistry.registerItem(missile_micro, missile_micro.getUnlocalizedName());
 		GameRegistry.registerItem(missile_carrier, missile_carrier.getUnlocalizedName());
+		
+		//Satellites
+		GameRegistry.registerItem(sat_mapper, sat_mapper.getUnlocalizedName());
+		GameRegistry.registerItem(sat_scanner, sat_scanner.getUnlocalizedName());
+		GameRegistry.registerItem(sat_radar, sat_radar.getUnlocalizedName());
+		GameRegistry.registerItem(sat_laser, sat_laser.getUnlocalizedName());
+		GameRegistry.registerItem(sat_foeq, sat_foeq.getUnlocalizedName());
 		
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());
