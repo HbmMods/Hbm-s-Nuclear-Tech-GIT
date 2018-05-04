@@ -67,6 +67,7 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityReiXMainframe;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
+import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -638,6 +639,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_satlinker:
+			{
+				if(entity instanceof TileEntityMachineSatLinker)
+				{
+					return new ContainerMachineSatLinker(player.inventory, (TileEntityMachineSatLinker) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1203,6 +1213,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineSeleniumEngine)
 					{
 						return new GUIMachineSelenium(player.inventory, (TileEntityMachineSeleniumEngine) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_satlinker:
+				{
+					if(entity instanceof TileEntityMachineSatLinker)
+					{
+						return new GUIMachineSatLinker(player.inventory, (TileEntityMachineSatLinker) entity);
 					}
 					return null;
 				}

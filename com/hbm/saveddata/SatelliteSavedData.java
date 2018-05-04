@@ -1,12 +1,18 @@
 package com.hbm.saveddata;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
 public class SatelliteSavedData extends WorldSavedData {
 	
-	public int globalAccessThingy;
+	public int satCount;
+	
+	public List<SatelliteSaveStructure> satellites = new ArrayList();
+	
     private World worldObj;
 
 	public SatelliteSavedData(String p_i2141_1_) {
@@ -19,15 +25,35 @@ public class SatelliteSavedData extends WorldSavedData {
         this.worldObj = p_i1678_1_;
         this.markDirty();
     }
+    
+    public boolean isFreqTaken(int freq) {
+    	
+    	for(SatelliteSaveStructure sat : satellites)
+    		if(sat.satelliteID == freq)
+    			return true;
+    	
+    	return false;
+    }
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		globalAccessThingy = nbt.getInteger("gat");
+		satCount = nbt.getInteger("satCount");
+		
+		for(int i = 0; i < satCount; i++) {
+			SatelliteSaveStructure struct = new SatelliteSaveStructure();
+			struct.readFromNBT(nbt, i);
+			
+			satellites.add(struct);
+		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setInteger("gat", globalAccessThingy);
+		nbt.setInteger("satCount", satellites.size());
+		
+		for(int i = 0; i < satellites.size(); i++) {
+			satellites.get(i).writeToNBT(nbt, i);
+		}
 	}
 
 }

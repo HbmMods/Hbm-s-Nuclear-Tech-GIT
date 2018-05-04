@@ -20,6 +20,8 @@ achievement.c44=Kapitel 44
 achievement.c44.desc=Galvanisch verzinkt! ...das macht in der Übersetzung sowas von keinen Sinn.
 achievement.c20_5=Kapitel [ZWANZIG KOMMA FÜNF]
 achievement.c20_5.desc=???
+achievement.space=Die finale Grenz-ach vergiss es
+achievement.space.desc=Scheitere in jeder möglichen Weise und verschwende 90 Millionen Dollar an Forschungsgeldern.
 
 potion.hbm_taint=Verdorben
 potion.hbm_taint_boost=Verdorbenes Herz
@@ -228,6 +230,8 @@ tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.turret_cheapo.name=Billigsdorfer Gatling-Geschütz
 tile.machine_radar.name=Radar
 container.radar=Radar
+tile.machine_satlinker.name=Satelliten-ID-Manager
+container.satLinker=SatLink-Gerät
 
 item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
@@ -796,6 +800,7 @@ item.cell_anti_schrabidium.name=Antischrabidiumzelle
 item.singularity.name=Singularität
 item.singularity_counter_resonant.name=Eingefasste nicht-resonante Singularität
 item.singularity_super_heated.name=Supererhitzte resonante Singularität
+item.singularity_spark.name=Spark'sche Singularität
 item.black_hole.name=Miniatur Schwarzes Loch
 item.crystal_xen.name=Künstlicher Xen-Kristall
 item.pellet_antimatter.name=Antimateriencluster
@@ -1277,6 +1282,13 @@ item.missile_taint.name=Verdorbene Rakete
 item.missile_micro.name=Mikro-Atomrakete
 
 item.missile_carrier.name=HTR-01 Trägerrakete
+item.sat_mapper.name=Oberflächen-Abtastungssatellit
+item.sat_scanner.name=Satellit mit Tiefenscanning-Modul
+item.sat_radar.name=Radar-Überwachungssatellit
+item.sat_laser.name=Orbitaler Todesstrahl
+item.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse
+item.sat_resonator.name=Xeniumresonator-Satellit
+item.sat_chip.name=Satelliten-ID-Chip
 
 item.hazmat_helmet.name=Strahlenschutzhelm
 item.hazmat_plate.name=Strahlenschutzbrustplatte

@@ -20,6 +20,8 @@ achievement.c44=Chapter 44
 achievement.c44.desc=Galvanized! I mean, zinc!
 achievement.c20_5=Chapter [TWENTY POINT FIVE]
 achievement.c20_5.desc=???
+achievement.space=The Final Front-ah forget it
+achievement.space.desc=Fail in every way possible and waste funds worth 90 million dollars.
 
 potion.hbm_taint=Tainted
 potion.hbm_taint_boost=Tainted Heart
@@ -240,6 +242,8 @@ tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.turret_cheapo.name=Cheapo Gatling Sentry
 tile.machine_radar.name=Radar
 container.radar=Radar
+tile.machine_satlinker.name=Satellite ID Manager
+container.satLinker=SatLink Device
 
 item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
@@ -795,6 +799,7 @@ item.cell_anti_schrabidium.name=Antischrabidium Cell
 item.singularity.name=Singularity
 item.singularity_counter_resonant.name=Contained Counter-Resonant Singularity
 item.singularity_super_heated.name=Superheated Resonating Singularity
+item.singularity_spark.name=Spark Singularity
 item.black_hole.name=Miniature Black Hole
 item.crystal_xen.name=Artificial Xen Crystal
 item.pellet_antimatter.name=Antimatter Cluster
@@ -1276,6 +1281,13 @@ item.missile_taint.name=Taint-Tipped Missile
 item.missile_micro.name=Micro-Nuclear Missile
 
 item.missile_carrier.name=HTR-01 Carrier Rocket
+item.sat_mapper.name=Surface Mapping Satellite
+item.sat_scanner.name=Satellite with Depth-Resource Scanning Module
+item.sat_radar.name=Radar Survey Satellite
+item.sat_laser.name=Orbital Death Ray
+item.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion
+item.sat_resonator.name=Xenium Resonator Satellite
+item.sat_chip.name=Satellite ID-Chip
 
 item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmat Chestplate

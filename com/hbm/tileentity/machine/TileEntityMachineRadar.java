@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.interfaces.IConsumer;
@@ -103,9 +104,13 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 				
 				continue;
 			}*/
-			
+
 			if(e instanceof EntityPlayer && e.posY >= yCoord + MainRegistry.radarBuffer) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5, (int)e.posY });
+			}
+			
+			if(e instanceof EntityMissileAntiBallistic && e.posY >= yCoord + MainRegistry.radarBuffer) {
+				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 4, (int)e.posY });
 			}
 		}
 		

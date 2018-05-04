@@ -11,7 +11,14 @@ public class SatelliteSaveStructure {
 	public int satelliteID;
 	public SatelliteType satelliteType;
 	
-	enum SatelliteType {
+	public SatelliteSaveStructure() { }
+	
+	public SatelliteSaveStructure(int id, SatelliteType type) {
+		satelliteID = id;
+		satelliteType = type;
+	}
+	
+	public enum SatelliteType {
 		
 		//Prints map remotely
 		MAPPER,

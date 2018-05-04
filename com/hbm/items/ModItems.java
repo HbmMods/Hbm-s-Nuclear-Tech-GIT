@@ -682,6 +682,8 @@ public class ModItems {
 	public static Item sat_radar;
 	public static Item sat_laser;
 	public static Item sat_foeq;
+	public static Item sat_resonator;
+	public static Item sat_chip;
 
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -1824,11 +1826,13 @@ public class ModItems {
 		missile_taint = new Item().setUnlocalizedName("missile_taint").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_taint");
 		missile_micro = new Item().setUnlocalizedName("missile_micro").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_micro");
 		missile_carrier = new Item().setUnlocalizedName("missile_carrier").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":missile_carrier");
-		sat_mapper = new Item().setUnlocalizedName("sat_mapper").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_mapper");
-		sat_scanner = new Item().setUnlocalizedName("sat_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_scanner");
-		sat_radar = new Item().setUnlocalizedName("sat_radar").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_radar");
-		sat_laser = new Item().setUnlocalizedName("sat_laser").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_laser");
-		sat_foeq = new Item().setUnlocalizedName("sat_foeq").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_foeq");
+		sat_mapper = new ItemSatChip().setUnlocalizedName("sat_mapper").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_mapper");
+		sat_scanner = new ItemSatChip().setUnlocalizedName("sat_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_scanner");
+		sat_radar = new ItemSatChip().setUnlocalizedName("sat_radar").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_radar");
+		sat_laser = new ItemSatChip().setUnlocalizedName("sat_laser").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_laser");
+		sat_foeq = new ItemSatChip().setUnlocalizedName("sat_foeq").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_foeq");
+		sat_resonator = new ItemSatChip().setUnlocalizedName("sat_resonator").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_resonator");
+		sat_chip = new ItemSatChip().setUnlocalizedName("sat_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_chip");
 
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_new");
@@ -3125,7 +3129,7 @@ public class ModItems {
 		
 		//Missiles
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());
-		//GameRegistry.registerItem(missile_anti_ballistic, missile_anti_ballistic.getUnlocalizedName());
+		GameRegistry.registerItem(missile_anti_ballistic, missile_anti_ballistic.getUnlocalizedName());
 		GameRegistry.registerItem(missile_incendiary, missile_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(missile_cluster, missile_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(missile_buster, missile_buster.getUnlocalizedName());
@@ -3152,6 +3156,8 @@ public class ModItems {
 		GameRegistry.registerItem(sat_radar, sat_radar.getUnlocalizedName());
 		GameRegistry.registerItem(sat_laser, sat_laser.getUnlocalizedName());
 		GameRegistry.registerItem(sat_foeq, sat_foeq.getUnlocalizedName());
+		GameRegistry.registerItem(sat_resonator, sat_resonator.getUnlocalizedName());
+		GameRegistry.registerItem(sat_chip, sat_chip.getUnlocalizedName());
 		
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());

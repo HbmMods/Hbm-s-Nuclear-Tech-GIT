@@ -266,6 +266,7 @@ import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
+import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityStructureMarker;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
 
@@ -390,6 +391,7 @@ public class MainRegistry
 	public static Achievement achPotato;
 	public static Achievement achC44;
 	public static Achievement achC20_5;
+	public static Achievement achSpace;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -620,6 +622,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCelPrimePort.class, "tileentity_cel_prime_connector");
 		GameRegistry.registerTileEntity(TileEntityCelPrimeTanks.class, "tileentity_cel_prime_storage");
 		GameRegistry.registerTileEntity(TileEntityMachineSeleniumEngine.class, "tileentity_selenium_engine");
+		GameRegistry.registerTileEntity(TileEntityMachineSatLinker.class, "tileentity_satlinker");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -915,6 +918,7 @@ public class MainRegistry
 		achPotato = new Achievement("achievement.potato", "potato", -2, 0, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
 		achC44 = new Achievement("achievement.c44", "c44", 2, -2, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
 		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -2, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
+		achSpace = new Achievement("achievement.space", "space", 4, 0, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -924,7 +928,8 @@ public class MainRegistry
 				achSelenium,
 				achPotato,
 				achC44,
-				achC20_5
+				achC20_5,
+				achSpace
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);

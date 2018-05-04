@@ -5,12 +5,20 @@ import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemSatChip;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.SatelliteSaveStructure;
+import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
+import com.hbm.saveddata.SatelliteSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -21,6 +29,8 @@ import net.minecraftforge.common.ForgeChunkManager.Type;
 public class EntityCarrier extends EntityThrowable {
 
 	double acceleration = 0.00D;
+	
+	private ItemStack payload;
 
 	public EntityCarrier(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -97,13 +107,57 @@ public class EntityCarrier extends EntityThrowable {
 			//this.setDead();
 		
 		if(this.posY > 600) {
-			this.setDead();
+			deployPayload();
 		}
+	}
+	
+	private void deployPayload() {
+
+		if(payload != null) {
+			
+			if(payload.getItem() == ModItems.flame_pony) {
+				ExplosionLarge.spawnTracers(worldObj, posX, posY, posZ, 25);
+				for(Object p : worldObj.playerEntities)
+					((EntityPlayer)p).triggerAchievement(MainRegistry.achSpace);
+			}
+			
+			if(payload.getItem() instanceof ItemSatChip) {
+			    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+			    if(data == null) {
+			        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+			    }
+
+			    int freq = ItemSatChip.getFreq(payload);
+			    
+			    if(!data.isFreqTaken(freq)) {
+				    if(payload.getItem() == ModItems.sat_mapper)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.MAPPER));
+				    if(payload.getItem() == ModItems.sat_scanner)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.SCANNER));
+				    if(payload.getItem() == ModItems.sat_radar)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RADAR));
+				    if(payload.getItem() == ModItems.sat_laser)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.LASER));
+				    if(payload.getItem() == ModItems.sat_foeq)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RELAY));
+				    if(payload.getItem() == ModItems.sat_resonator)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RESONATOR));
+
+				    data.markDirty();
+			    }
+			}
+		}
+		
+		this.setDead();
 	}
 
 	@Override
 	protected void entityInit() {
         this.dataWatcher.addObject(8, 1);
+	}
+	
+	public void setPayload(ItemStack stack) {
+		this.payload = stack.copy();
 	}
 	
 	private void disengageBoosters() {

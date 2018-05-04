@@ -1,191 +1,163 @@
 package com.hbm.entity.missile;
 
+import java.util.List;
+
 import com.hbm.calc.EasyLocation;
 import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityMissileAntiBallistic extends EntityMissileBase {
+public class EntityMissileAntiBallistic extends Entity {
 	
-	EasyLocation missile;
-	Entity missile0;
+	int activationTimer;
 
 	public EntityMissileAntiBallistic(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
-
-	public EntityMissileAntiBallistic(World p_i1582_1_, int x, int z, double a, double b, double c) {
-		super(p_i1582_1_, x, z, a, b, c);
-	}
 	
 	@Override
-    public void onUpdate()
-    {
-		System.out.println(phase);
+    public void onUpdate() {
 		
-		this.baseHeight = 35;
+		if(activationTimer < 40) {
+			activationTimer++;
+			
+			motionY = 1.5D;
 
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
-        
-        if(missile0 == null)
+			this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
+	        this.rotation();
+	
+			if(!this.worldObj.isRemote)
+				this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+			
+		} else {
+			
+			if(activationTimer == 40) {
+				ExplosionLarge.spawnParticlesRadial(worldObj, posX, posY, posZ, 15);
+				activationTimer = 100;
+			}
+
+			for(int i = 0; i < 5; i++) {
+
+				targetMissile();
+
+				this.setLocationAndAngles(posX + this.motionX, posY + this.motionY, posZ + this.motionZ, 0, 0);
+		        this.rotation();
+		    	
+				if(!this.worldObj.isRemote)
+					this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+
+				List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 5, posY - 5, posZ - 5, posX + 5, posY + 5, posZ + 5));
+
+				for(Entity e : list) {
+					if(e instanceof EntityMissileBaseAdvanced) {
+						ExplosionLarge.explode(worldObj, posX, posY, posZ, 15F, true, false, true);
+						this.setDead();
+						return;
+					}
+				}
+			}
+		}
+
+        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && 
+    			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
+    			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water) {
+    	
+			if(!this.worldObj.isRemote)
+			{
+				ExplosionLarge.explode(worldObj, posX, posY, posZ, 10F, true, true, true);
+			}
+			this.setDead();
+			return;
+    	}
+
+    }
+	
+	protected void rotation() {
+        float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+
+        for (this.rotationPitch = (float)(Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
         {
-        	missile0 = ExplosionChaos.getHomingTarget(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25, this);
+            ;
         }
-        if(missile0 != null)
+
+        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
         {
-        	missile = new EasyLocation(missile0.posX, missile0.posY, missile0.posZ);
-        	this.phase = -1;
+            this.prevRotationPitch += 360.0F;
         }
-        
-        this.rotation();
-        
-        switch(phase)
+
+        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
         {
-        case -1:
-        	if(missile0 != null)
-        	{
-        		freePizzaGoddammit(missile);
-        		this.missileSpeed = 3;
-        		if(missile0.posX + 2 > this.posX && missile0.posX - 2 < this.posX &&
-        				missile0.posY + 2 > this.posY && missile0.posY - 2 < this.posY &&
-        				missile0.posZ + 2 > this.posZ && missile0.posZ - 2 < this.posZ)
-            		{
-            			if(!this.worldObj.isRemote)
-            			{
-            				this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 10.0F, true);
-            			}
-            			this.setDead();
-            			missile0.setDead();
-            			//ExplosionChaos.delMissiles(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5, (Entity)this);
-            		}
-        	}
-            break;
-        
-        case 0:
-        	if(loc0 != null)
-        	{
-        		freePizzaGoddammit(loc0);
-        		if(loc0.posX + 2 > this.posX && loc0.posX - 2 < this.posX &&
-        			loc0.posY + 2 > this.posY && loc0.posY - 2 < this.posY &&
-        			loc0.posZ + 2 > this.posZ && loc0.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 1;
-        		}
-        	}
-        	break;
-        case 1:
-        	if(loc1 != null)
-        	{
-        		freePizzaGoddammit(loc1);
-        		if(loc1.posX + 2 > this.posX && loc1.posX - 2 < this.posX &&
-        				loc1.posY + 2 > this.posY && loc1.posY - 2 < this.posY &&
-        				loc1.posZ + 2 > this.posZ && loc1.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 2;
-        		}
-        	}
-        	break;
-        case 2:
-        	if(loc2 != null)
-        	{
-        		freePizzaGoddammit(loc2);
-        		if(loc2.posX + 2 > this.posX && loc2.posX - 2 < this.posX &&
-        				loc2.posY + 2 > this.posY && loc2.posY - 2 < this.posY &&
-        				loc2.posZ + 2 > this.posZ && loc2.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 3;
-        		}
-        	}
-        	break;
-        case 3:
-        	if(loc3 != null)
-        	{
-        		freePizzaGoddammit(loc3);
-        		if(loc3.posX + 2 > this.posX && loc3.posX - 2 < this.posX &&
-        				loc3.posY + 2 > this.posY && loc3.posY - 2 < this.posY &&
-        				loc3.posZ + 2 > this.posZ && loc3.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 4;
-        		}
-        	}
-        	break;
-        case 4:
-        	if(loc4 != null)
-        	{
-        		freePizzaGoddammit(loc4);
-        		if(loc4.posX + 2 > this.posX && loc4.posX - 2 < this.posX &&
-        				loc4.posY + 2 > this.posY && loc4.posY - 2 < this.posY &&
-        				loc4.posZ + 2 > this.posZ && loc4.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 5;
-        		}
-        	}
-        	break;
-        case 5:
-        	if(loc5 != null)
-        	{
-        		freePizzaGoddammit(loc5);
-        		if(loc5.posX + 2 > this.posX && loc5.posX - 2 < this.posX &&
-        				loc5.posY + 2 > this.posY && loc5.posY - 2 < this.posY &&
-        				loc5.posZ + 2 > this.posZ && loc5.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 6;
-        		}
-        	}
-        	break;
-        case 6:
-        	if(loc6 != null)
-        	{
-        		freePizzaGoddammit(loc6);
-        		if(loc6.posX + 2 > this.posX && loc6.posX - 2 < this.posX &&
-        				loc6.posY + 2 > this.posY && loc6.posY - 2 < this.posY &&
-        				loc6.posZ + 2 > this.posZ && loc6.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 7;
-        		}
-        	}
-        	break;
-        case 7:
-        	if(loc7 != null)
-        	{
-        		freePizzaGoddammit(loc7);
-        		if(loc7.posX + 2 > this.posX && loc7.posX - 2 < this.posX &&
-        				loc7.posY + 2 > this.posY && loc7.posY - 2 < this.posY &&
-        				loc7.posZ + 2 > this.posZ && loc7.posZ - 2 < this.posZ)
-        		{
-        			this.phase = 8;
-        		}
-        	}
-        	break;
-        case 8:
-        	if(target != null)
-        	{
-        		freePizzaGoddammit(target);
-        		if(target.posX + 2 > this.posX && target.posX - 2 < this.posX &&
-        				target.posY + 2 > this.posY && target.posY - 2 < this.posY &&
-        				target.posZ + 2 > this.posZ && target.posZ - 2 < this.posZ)
-        		{
-        			this.phase = -1;
-        		}
-        	}
-        	break;
+            this.prevRotationYaw -= 360.0F;
         }
-        
-        this.worldObj.spawnEntityInWorld(new EntityDSmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
-        
-        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water)
+
+        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
         {
-    		if(!this.worldObj.isRemote)
-    		{
-    			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 10.0F, true);
-    		}
-		this.setDead();
+            this.prevRotationYaw += 360.0F;
         }
+	}
+	
+	private void targetMissile() {
+		
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 500, 0, posZ - 500, posX + 500, 5000, posZ + 500));
+		
+		Entity target = null;
+		double closest = 1000D;
+		
+		for(Entity e : list) {
+			if(e instanceof EntityMissileBaseAdvanced) {
+				double dis = Math.sqrt(Math.pow(e.posX - posX, 2) + Math.pow(e.posY - posY, 2) + Math.pow(e.posZ - posZ, 2));
+				
+				if(dis < closest) {
+					closest = dis;
+					target = e;
+				}
+			}
+		}
+		
+		if(target != null) {
+			
+			Vec3 vec = Vec3.createVectorHelper(target.posX - posX, target.posY - posY, target.posZ - posZ);
+
+			vec.normalize();
+			
+			this.motionX = vec.xCoord * 0.065D;
+			this.motionY = vec.yCoord * 0.065D;
+			this.motionZ = vec.zCoord * 0.065D;
+		}
+	}
+
+	@Override
+	protected void entityInit() {
+		
+	}
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+		
+	}
+
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
+		
+	}
+	
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance)
+    {
+        return distance < 500000;
     }
 
 }

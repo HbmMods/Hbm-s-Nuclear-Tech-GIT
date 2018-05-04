@@ -187,6 +187,12 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 				ResourceManager.missileBooster.renderAll();
 		        GL11.glTranslated(0.0D, 0.0D, 1.25D);
 			}
+			if(state == 21)
+			{
+				GL11.glScalef(1.0F, 1.0F, 1.0F);
+				bindTexture(ResourceManager.missileAA_tex);
+				ResourceManager.missileV2.renderAll();
+			}
 			
 	        GL11.glEnable(GL11.GL_CULL_FACE);
 

@@ -36,8 +36,8 @@ public class RenderMissileGeneric extends Render {
         	bindTexture(ResourceManager.missileV2_CL_tex);
         if(p_76986_1_ instanceof EntityMissileBunkerBuster)
         	bindTexture(ResourceManager.missileV2_BU_tex);
-        /*if(p_76986_1_ instanceof EntityMissileAntiBallistic)
-        	bindTexture(missileAATexture);*/
+        if(p_76986_1_ instanceof EntityMissileAntiBallistic)
+        	bindTexture(ResourceManager.missileAA_tex);
         ResourceManager.missileV2.renderAll();
 		GL11.glPopMatrix();
 	}

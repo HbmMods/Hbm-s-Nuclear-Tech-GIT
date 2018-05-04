@@ -15,6 +15,7 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
 import com.hbm.potion.PotionEffectTaint;
+import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.world.Meteorite;
 
@@ -245,9 +246,10 @@ public class TestEventTester extends Block {
 		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
 		        return true;
 		    }
-		    par5EntityPlayer.addChatComponentMessage(new ChatComponentText(String.valueOf(data.globalAccessThingy)));
-		    data.globalAccessThingy = itemRand.nextInt(10000);
-		    par5EntityPlayer.addChatComponentMessage(new ChatComponentText(String.valueOf(data.globalAccessThingy)));
+		    
+		    for(SatelliteSaveStructure sat : data.satellites) {
+		    	par5EntityPlayer.addChatComponentMessage(new ChatComponentText(sat.satelliteID + ": " + sat.satelliteType.name()));
+		    }
 		    data.markDirty();
     	}
         
