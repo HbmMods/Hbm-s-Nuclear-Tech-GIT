@@ -28,11 +28,16 @@ public class SatelliteSavedData extends WorldSavedData {
     
     public boolean isFreqTaken(int freq) {
     	
+    	return getSatFromFreq(freq) != null;
+    }
+    
+    public SatelliteSaveStructure getSatFromFreq(int freq) {
+    	
     	for(SatelliteSaveStructure sat : satellites)
     		if(sat.satelliteID == freq)
-    			return true;
+    			return sat;
     	
-    	return false;
+    	return null;
     }
 
 	@Override

@@ -1235,6 +1235,8 @@ public class GUIHandler implements IGuiHandler {
 				return new GUIScreenTemplateFolder(player);
 			case ModItems.guiID_item_designator:
 				return new GUIScreenDesignator(player);
+			case ModItems.guiID_item_sat_interface:
+				return new GUIScreenSatInterface(player);
 			}
 		}
 		return null;

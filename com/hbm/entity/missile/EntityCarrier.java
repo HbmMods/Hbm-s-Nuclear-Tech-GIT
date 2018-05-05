@@ -125,6 +125,8 @@ public class EntityCarrier extends EntityThrowable {
 			    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 			    if(data == null) {
 			        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+			        
+			        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 			    }
 
 			    int freq = ItemSatChip.getFreq(payload);

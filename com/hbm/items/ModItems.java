@@ -684,6 +684,7 @@ public class ModItems {
 	public static Item sat_foeq;
 	public static Item sat_resonator;
 	public static Item sat_chip;
+	public static Item sat_interface;
 
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -1219,6 +1220,7 @@ public class ModItems {
 
 	public static final int guiID_item_folder = 99;
 	public static final int guiID_item_designator = 100;
+	public static final int guiID_item_sat_interface = 101;
 
 	public static void initializeItem()
 	{			
@@ -1833,6 +1835,7 @@ public class ModItems {
 		sat_foeq = new ItemSatChip().setUnlocalizedName("sat_foeq").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_foeq");
 		sat_resonator = new ItemSatChip().setUnlocalizedName("sat_resonator").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_resonator");
 		sat_chip = new ItemSatChip().setUnlocalizedName("sat_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_chip");
+		sat_interface = new ItemSatInterface().setUnlocalizedName("sat_interface").setMaxStackSize(1).setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":sat_interface");
 
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.tabNuke).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_new");
@@ -3158,6 +3161,7 @@ public class ModItems {
 		GameRegistry.registerItem(sat_foeq, sat_foeq.getUnlocalizedName());
 		GameRegistry.registerItem(sat_resonator, sat_resonator.getUnlocalizedName());
 		GameRegistry.registerItem(sat_chip, sat_chip.getUnlocalizedName());
+		GameRegistry.registerItem(sat_interface, sat_interface.getUnlocalizedName());
 		
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());
