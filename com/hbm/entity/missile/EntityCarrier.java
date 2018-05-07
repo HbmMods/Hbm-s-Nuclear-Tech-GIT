@@ -133,17 +133,17 @@ public class EntityCarrier extends EntityThrowable {
 			    
 			    if(!data.isFreqTaken(freq)) {
 				    if(payload.getItem() == ModItems.sat_mapper)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.MAPPER));
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.MAPPER, this.dimension));
 				    if(payload.getItem() == ModItems.sat_scanner)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.SCANNER));
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.SCANNER, this.dimension));
 				    if(payload.getItem() == ModItems.sat_radar)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RADAR));
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RADAR, this.dimension));
 				    if(payload.getItem() == ModItems.sat_laser)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.LASER));
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.LASER, this.dimension));
 				    if(payload.getItem() == ModItems.sat_foeq)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RELAY));
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RELAY, this.dimension));
 				    if(payload.getItem() == ModItems.sat_resonator)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RESONATOR));
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RESONATOR, this.dimension));
 
 				    data.markDirty();
 			    }

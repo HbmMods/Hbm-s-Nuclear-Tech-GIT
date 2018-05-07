@@ -47,6 +47,8 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 			GL11.glRotatef(180, 0F, 0F, 1F);
 			
+			GL11.glEnable(GL11.GL_LIGHTING);
+			
 			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_wall)
 			{
 				this.bindTexture(texture1);
@@ -139,6 +141,81 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	bindTexture(ResourceManager.boxcar_tex);
 	        	ResourceManager.boxcar.renderAll();
 	            GL11.glEnable(GL11.GL_CULL_FACE);
+			}
+			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_radar) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+
+	        	GL11.glRotated(90, 0, 1, 0);
+	        	
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.sat_base_tex);
+	        	ResourceManager.sat_base.renderAll();
+	        	bindTexture(ResourceManager.sat_radar_tex);
+	        	ResourceManager.sat_radar.renderAll();
+			}
+			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_resonator) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+
+	        	GL11.glRotated(90, 0, 1, 0);
+	        	
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.sat_base_tex);
+	        	ResourceManager.sat_base.renderAll();
+	        	bindTexture(ResourceManager.sat_resonator_tex);
+	        	ResourceManager.sat_resonator.renderAll();
+			}
+			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_scanner) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+
+	        	GL11.glRotated(90, 0, 1, 0);
+	        	
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.sat_base_tex);
+	        	ResourceManager.sat_base.renderAll();
+	        	bindTexture(ResourceManager.sat_scanner_tex);
+	        	ResourceManager.sat_scanner.renderAll();
 			}
 			
 		GL11.glPopMatrix();

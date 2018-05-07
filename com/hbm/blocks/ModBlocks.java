@@ -16,6 +16,7 @@ import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -179,6 +180,10 @@ public class ModBlocks {
 	public static Block seal_hatch;
 
 	public static Block marker_structure;
+
+	public static Block sat_radar;
+	public static Block sat_resonator;
+	public static Block sat_scanner;
 	
 	public static Block crate_iron;
 	public static final int guiID_crate_iron = 46;
@@ -500,6 +505,8 @@ public class ModBlocks {
 	public static Block dummy_port_ams_base;
 	public static Block dummy_block_radgen;
 	public static Block dummy_port_radgen;
+
+	public static Block ntm_dirt;
 	
 
 	private static void initializeBlock() {
@@ -785,6 +792,10 @@ public class ModBlocks {
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		
+		sat_radar = new DecoBlock(Material.iron).setBlockName("sat_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_radar");
+		sat_resonator = new DecoBlock(Material.iron).setBlockName("sat_resonator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_resonator");
+		sat_scanner = new DecoBlock(Material.iron).setBlockName("sat_scanner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_scanner");
+		
 		turret_light = new TurretLight(Material.iron).setBlockName("turret_light").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_light");
 		turret_heavy = new TurretHeavy(Material.iron).setBlockName("turret_heavy").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_heavy");
 		turret_rocket = new TurretRocket(Material.iron).setBlockName("turret_rocket").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_rocket");
@@ -883,6 +894,8 @@ public class ModBlocks {
 		dummy_port_ams_base = new DummyBlockAMSBase(Material.iron).setBlockName("dummy_port_ams_base").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		dummy_block_radgen = new DummyBlockRadGen(Material.iron).setBlockName("dummy_block_radgen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_radgen = new DummyBlockRadGen(Material.iron).setBlockName("dummy_port_radgen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		
+		ntm_dirt = new BlockNTMDirt().setBlockName("ntm_dirt").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName("dirt");
 	}
 
 	private static void registerBlock() {
@@ -1208,6 +1221,11 @@ public class ModBlocks {
 		//Guide
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());
 		
+		//Sat Blocks
+		GameRegistry.registerBlock(sat_scanner, sat_scanner.getUnlocalizedName());
+		GameRegistry.registerBlock(sat_radar, sat_radar.getUnlocalizedName());
+		GameRegistry.registerBlock(sat_resonator, sat_resonator.getUnlocalizedName());
+		
 		//Rails
 		GameRegistry.registerBlock(rail_highspeed, rail_highspeed.getUnlocalizedName());
 		GameRegistry.registerBlock(rail_booster, rail_booster.getUnlocalizedName());
@@ -1270,5 +1288,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(taint, ItemTaintBlock.class, taint.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus, cheater_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus_seed, cheater_virus_seed.getUnlocalizedName());
+		GameRegistry.registerBlock(ntm_dirt, ntm_dirt.getUnlocalizedName());
 	}
 }

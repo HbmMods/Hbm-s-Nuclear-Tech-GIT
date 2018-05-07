@@ -30,6 +30,16 @@ public class GUILaunchPadTier1 extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 53, 160, 16, diFurnace.power, diFurnace.maxPower);
+
+		String[] text = new String[] { "First Slot:",
+				"  -Missile",
+				"  -Carrier Rocket" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Second Slot:",
+				"  -Target designator for missiles",
+				"  -Satellite payload for the carrier rocket" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 	}
 	
 	@Override
@@ -48,5 +58,8 @@ public class GUILaunchPadTier1 extends GuiInfoContainer {
 		
 		int j1 = (int)diFurnace.getPowerScaled(160);
 		drawTexturedModalRect(guiLeft + 8, guiTop + 53, 8, 166, j1, 16);
+
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 	}
 }

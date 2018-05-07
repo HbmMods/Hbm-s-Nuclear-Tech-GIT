@@ -1222,6 +1222,9 @@ public class ModItems {
 	public static final int guiID_item_designator = 100;
 	public static final int guiID_item_sat_interface = 101;
 
+	public static Item mysteryshovel;
+	public static Item memory;
+
 	public static void initializeItem()
 	{			
 		redstone_sword = new RedstoneSword(ToolMaterial.STONE).setUnlocalizedName("redstone_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":redstone_sword");
@@ -2389,6 +2392,9 @@ public class ModItems {
 		ln2_10 = new Item().setUnlocalizedName("ln2_10").setTextureName(RefStrings.MODID + ":ln2_10");
 		nothing = new Item().setUnlocalizedName("nothing").setTextureName(RefStrings.MODID + ":nothing");
 		void_anim = new Item().setUnlocalizedName("void_anim").setTextureName(RefStrings.MODID + ":void_anim");
+		
+		mysteryshovel = new Item().setUnlocalizedName("mysteryshovel").setTextureName(RefStrings.MODID + ":cursed_shovel");
+		memory = new Item().setUnlocalizedName("memory").setTextureName(RefStrings.MODID + ":mo8_anim");
 
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid));
@@ -3665,5 +3671,7 @@ public class ModItems {
 		GameRegistry.registerItem(ln2_10, ln2_10.getUnlocalizedName());
 		GameRegistry.registerItem(nothing, nothing.getUnlocalizedName());
 		GameRegistry.registerItem(void_anim, void_anim.getUnlocalizedName());
+		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
+		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 	}
 }

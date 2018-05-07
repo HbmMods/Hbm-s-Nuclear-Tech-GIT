@@ -89,6 +89,8 @@ public class GUIScreenSatInterface extends GuiScreen {
 		
 		if(connectedSat == null) {
 			drawNotConnected();
+		} else if(connectedSat.satDim != player.dimension) {
+			drawNoService();
 		} else {
 			switch(connectedSat.satelliteType) {
 			
@@ -135,7 +137,7 @@ public class GUIScreenSatInterface extends GuiScreen {
 			int x = (int)player.posX + i;
 			int z = (int)player.posZ + scanPos - 100;
 			int y = world.getHeightValue(x, z) - 1;
-			map[i + 100][scanPos] = world.getBlock(x, y, z).getMaterial().getMaterialMapColor().func_151643_b(2);
+			map[i + 100][scanPos] = world.getBlock(x, y, z).getMaterial().getMaterialMapColor().colorValue;
 		}
 		prontMap();
 		progresScan();
@@ -148,8 +150,6 @@ public class GUIScreenSatInterface extends GuiScreen {
 		for(int i = -100; i < 100; i++) {
 			int x = (int)player.posX + i;
 			int z = (int)player.posZ + scanPos - 100;
-			//int y = world.getHeightValue(x, z) - 1;
-			//map[i + 100][scanPos] = 0x081F0D + world.getBlock(x, y, z).getMaterial().getMaterialMapColor().func_151643_b(3);
 			
 			for(int j = 255; j >= 0; j--) {
 				int c = getColorFromBlock(new ItemStack(world.getBlock(x, j, z), 1, world.getBlockMetadata(x, j, z)));
@@ -195,18 +195,22 @@ public class GUIScreenSatInterface extends GuiScreen {
 			return 0xdbdbdb;
 		if(MachineRecipes.mODE(stack, "oreTungsten"))
 			return 0x333333;
+		if(MachineRecipes.mODE(stack, "oreTitanium"))
+			return 0xDDDDDD;
 		if(MachineRecipes.mODE(stack, "oreUranium"))
 			return 0x3e4f3c;
 		if(MachineRecipes.mODE(stack, "oreBeryllium"))
 			return 0x8e8d7d;
 		if(MachineRecipes.mODE(stack, "oreSulfur"))
 			return 0x9b9309;
-		if(MachineRecipes.mODE(stack, "oreSalpeter"))
+		if(MachineRecipes.mODE(stack, "oreSalpeter") || MachineRecipes.mODE(stack, "oreNiter"))
 			return 0xa5a09d;
 		if(MachineRecipes.mODE(stack, "oreFluorite"))
 			return 0xffffff;
 		if(MachineRecipes.mODE(stack, "oreSchrabidium"))
 			return 0x1cffff;
+		if(MachineRecipes.mODE(stack, "oreRareEarth"))
+			return 0xffcc99;
 		
 		return isOre(stack) ? 0xBA00AF : 0x000000;
 	}
@@ -219,7 +223,7 @@ public class GUIScreenSatInterface extends GuiScreen {
 			
 			String s = OreDictionary.getOreName(ids[i]);
 			
-			if(s.length() > 3 && s.substring(3).equals("ore"))
+			if(s.length() > 3 && s.substring(0, 3).equals("ore"))
 				return true;
 		}
 		

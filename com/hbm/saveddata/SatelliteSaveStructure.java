@@ -7,15 +7,17 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class SatelliteSaveStructure {
-	
+
 	public int satelliteID;
+	public int satDim;
 	public SatelliteType satelliteType;
 	
 	public SatelliteSaveStructure() { }
 	
-	public SatelliteSaveStructure(int id, SatelliteType type) {
+	public SatelliteSaveStructure(int id, SatelliteType type, int dim) {
 		satelliteID = id;
 		satelliteType = type;
+		satDim = dim;
 	}
 	
 	public enum SatelliteType {
@@ -48,11 +50,13 @@ public class SatelliteSaveStructure {
 	public void readFromNBT(NBTTagCompound nbt, int index) {
 		satelliteID = nbt.getInteger("sat_" + index + "_id");
 		satelliteType = SatelliteType.getEnum(nbt.getInteger("sat_" + index + "_type"));
+		satDim = nbt.getInteger("sat_" + index + "_dim");
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, int index) {
 		nbt.setInteger("sat_" + index + "_id", satelliteID);
 		nbt.setInteger("sat_" + index + "_type", satelliteType.getID());
+		nbt.setInteger("sat_" + index + "_dim", satDim);
 	}
 
 }
