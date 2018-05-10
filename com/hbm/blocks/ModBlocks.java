@@ -181,9 +181,12 @@ public class ModBlocks {
 
 	public static Block marker_structure;
 
-	public static Block sat_radar;
-	public static Block sat_resonator;
+	public static Block sat_mapper;
 	public static Block sat_scanner;
+	public static Block sat_radar;
+	public static Block sat_laser;
+	public static Block sat_foeq;
+	public static Block sat_resonator;
 	
 	public static Block crate_iron;
 	public static final int guiID_crate_iron = 46;
@@ -792,9 +795,12 @@ public class ModBlocks {
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		
+		sat_mapper = new DecoBlock(Material.iron).setBlockName("sat_mapper").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_mapper");
 		sat_radar = new DecoBlock(Material.iron).setBlockName("sat_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_radar");
-		sat_resonator = new DecoBlock(Material.iron).setBlockName("sat_resonator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_resonator");
 		sat_scanner = new DecoBlock(Material.iron).setBlockName("sat_scanner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_scanner");
+		sat_laser = new DecoBlock(Material.iron).setBlockName("sat_laser").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_laser");
+		sat_foeq = new DecoBlock(Material.iron).setBlockName("sat_foeq").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_foeq");
+		sat_resonator = new DecoBlock(Material.iron).setBlockName("sat_resonator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":sat_resonator");
 		
 		turret_light = new TurretLight(Material.iron).setBlockName("turret_light").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_light");
 		turret_heavy = new TurretHeavy(Material.iron).setBlockName("turret_heavy").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.tabNuke).setBlockTextureName(RefStrings.MODID + ":turret_heavy");
@@ -1222,8 +1228,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(book_guide, book_guide.getUnlocalizedName());
 		
 		//Sat Blocks
+		GameRegistry.registerBlock(sat_mapper, sat_mapper.getUnlocalizedName());
 		GameRegistry.registerBlock(sat_scanner, sat_scanner.getUnlocalizedName());
 		GameRegistry.registerBlock(sat_radar, sat_radar.getUnlocalizedName());
+		GameRegistry.registerBlock(sat_laser, sat_laser.getUnlocalizedName());
+		GameRegistry.registerBlock(sat_foeq, sat_foeq.getUnlocalizedName());
 		GameRegistry.registerBlock(sat_resonator, sat_resonator.getUnlocalizedName());
 		
 		//Rails

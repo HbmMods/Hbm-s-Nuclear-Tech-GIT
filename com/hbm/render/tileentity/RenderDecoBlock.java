@@ -218,6 +218,79 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_scanner.renderAll();
 			}
 			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_mapper) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+
+	        	GL11.glRotated(90, 0, 1, 0);
+	        	
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.sat_base_tex);
+	        	ResourceManager.sat_base.renderAll();
+	        	bindTexture(ResourceManager.sat_mapper_tex);
+	        	ResourceManager.sat_mapper.renderAll();
+			}
+			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_laser) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+
+	        	GL11.glRotated(90, 0, 1, 0);
+	        	
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.sat_base_tex);
+	        	ResourceManager.sat_base.renderAll();
+	        	bindTexture(ResourceManager.sat_laser_tex);
+	        	ResourceManager.sat_laser.renderAll();
+			}
+			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_foeq) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+
+	        	GL11.glRotated(90, 0, 1, 0);
+	        	
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.sat_foeq_tex);
+	        	ResourceManager.sat_foeq.renderAll();
+			}
+			
 		GL11.glPopMatrix();
 	}
 

@@ -1288,6 +1288,12 @@ item.sat_laser.name=Orbital Death Ray
 item.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion
 item.sat_resonator.name=Xenium Resonator Satellite
 item.sat_chip.name=Satellite ID-Chip
+tile.sat_mapper.name=Surface Mapping Satellite (Deco Block)
+tile.sat_scanner.name=Satellite with Depth-Resource Scanning Module (Deco Block)
+tile.sat_radar.name=Radar Survey Satellite (Deco Block)
+tile.sat_laser.name=Orbital Death Ray (Deco Block)
+tile.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion (Deco Block)
+tile.sat_resonator.name=Xenium Resonator Satellite (Deco Block)
 
 item.hazmat_helmet.name=Hazmat Helmet
 item.hazmat_plate.name=Hazmat Chestplate

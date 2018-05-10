@@ -1287,8 +1287,14 @@ item.sat_scanner.name=Satellit mit Tiefenscanning-Modul
 item.sat_radar.name=Radar-Überwachungssatellit
 item.sat_laser.name=Orbitaler Todesstrahl
 item.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse
-item.sat_resonator.name=Xeniumresonator-Satellit
+item.sat_resonator.name=Xenium-Resonator-Satellit
 item.sat_chip.name=Satelliten-ID-Chip
+tile.sat_mapper.name=Oberflächen-Abtastungssatellit (Dekoblock)
+tile.sat_scanner.name=Satellit mit Tiefenscanning-Modul (Dekoblock)
+tile.sat_radar.name=Radar-Überwachungssatellit (Dekoblock)
+tile.sat_laser.name=Orbitaler Todesstrahl (Dekoblock)
+tile.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse (Dekoblock)
+tile.sat_resonator.name=Xenium-Resonator-Satellit (Dekoblock)
 
 item.hazmat_helmet.name=Strahlenschutzhelm
 item.hazmat_plate.name=Strahlenschutzbrustplatte
