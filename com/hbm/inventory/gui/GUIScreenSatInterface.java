@@ -6,8 +6,11 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileBase;
+import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.gui.GUIScreenTemplateFolder.FolderButton;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.items.tool.ItemCassette;
@@ -16,9 +19,12 @@ import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.items.tool.ItemSatChip;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.SatLaserPacket;
 import com.hbm.saveddata.SatelliteSaveStructure;
+import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
 import com.hbm.saveddata.SatelliteSavedData;
 
 import net.minecraft.client.Minecraft;
@@ -27,11 +33,14 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -53,6 +62,21 @@ public class GUIScreenSatInterface extends GuiScreen {
     }
     
     public void updateScreen() {
+    }
+
+    protected void mouseClicked(int i, int j, int k) {
+    	
+    	if(connectedSat != null && connectedSat.satelliteType == SatelliteType.LASER) {
+
+    		if(i >= this.guiLeft + 8 && i < this.guiLeft + 208 && j >= this.guiTop + 8 && j < this.guiTop + 208 && player != null) {
+    			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
+    			
+
+    			int x = (int)player.posX - guiLeft + i - 8 - 100;
+    			int z = (int)player.posZ - guiTop + j - 8 - 100;
+				PacketDispatcher.wrapper.sendToServer(new SatLaserPacket(x, z, connectedSat.satelliteID));
+    		}
+    	}
     }
     
     public void drawScreen(int mouseX, int mouseY, float f)
@@ -80,6 +104,16 @@ public class GUIScreenSatInterface extends GuiScreen {
 	
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 
+    	if(connectedSat != null && connectedSat.satelliteType == SatelliteType.LASER) {
+
+    		
+    		if(i >= this.guiLeft + 8 && i < this.guiLeft + 208 && j >= this.guiTop + 8 && j < this.guiTop + 208 && player != null) {
+
+    			int x = (int)player.posX - guiLeft + i - 8 - 100;
+    			int z = (int)player.posZ - guiTop + j - 8 - 100;
+    			func_146283_a(Arrays.asList(new String[] { x + " / " + z }), i, j);
+    		}
+    	}
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
@@ -95,7 +129,7 @@ public class GUIScreenSatInterface extends GuiScreen {
 			switch(connectedSat.satelliteType) {
 			
 			case LASER:
-				break;
+				drawMap(); break;
 				
 			case MAPPER:
 				drawMap(); break;
@@ -231,6 +265,34 @@ public class GUIScreenSatInterface extends GuiScreen {
 	}
 	
 	private void drawRadar() {
+		
+		List<Entity> entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, AxisAlignedBB.getBoundingBox(player.posX - 100, 0, player.posZ - 100, player.posX + 100, 5000, player.posZ + 100));
+		
+		if(!entities.isEmpty()) {
+			for(Entity e : entities) {
+				
+				if(e.width * e.width * e.height >= 0.5D) {
+					int x = (int)((e.posX - player.posX) / ((double)100 * 2 + 1) * (200D - 8D)) - 4;
+					int z = (int)((e.posZ - player.posZ) / ((double)100 * 2 + 1) * (200D - 8D)) - 4 - 9;
+					
+					int t = 5;
+					
+					if(e instanceof EntityMissileBaseAdvanced) {
+						t = ((EntityMissileBaseAdvanced)e).getMissileType();
+					}
+					
+					if(e instanceof EntityMob) {
+						t = 6;
+					}
+					
+					if(e instanceof EntityPlayer) {
+						t = 7;
+					}
+	
+					drawTexturedModalRect(guiLeft + 108 + x, guiTop + 117 + z, 216, 8 * t, 8, 8);
+				}
+			}
+		}
 		
 	}
 	

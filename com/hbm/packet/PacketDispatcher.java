@@ -55,12 +55,14 @@ public class PacketDispatcher {
 		wrapper.registerMessage(AuxGaugePacket.Handler.class, AuxGaugePacket.class, i++, Side.CLIENT);
 		//Siren packet for looped sounds
 		wrapper.registerMessage(TESirenPacket.Handler.class, TESirenPacket.class, i++, Side.CLIENT);
-		//Signals server to change ItemStack's
+		//Signals server to change ItemStacks
 		wrapper.registerMessage(ItemDesignatorPacket.Handler.class, ItemDesignatorPacket.class, i++, Side.SERVER);
 		//Siren packet for looped sounds
 		wrapper.registerMessage(TERadarPacket.Handler.class, TERadarPacket.class, i++, Side.CLIENT);
 		//Siren packet for looped sounds
 		wrapper.registerMessage(TERadarDestructorPacket.Handler.class, TERadarDestructorPacket.class, i++, Side.CLIENT);
+		//Signals server to perform orbital strike
+		wrapper.registerMessage(SatLaserPacket.Handler.class, SatLaserPacket.class, i++, Side.SERVER);
 	}
 	
 }

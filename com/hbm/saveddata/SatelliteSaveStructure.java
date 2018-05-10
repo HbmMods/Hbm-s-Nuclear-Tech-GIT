@@ -11,6 +11,7 @@ public class SatelliteSaveStructure {
 	public int satelliteID;
 	public int satDim;
 	public SatelliteType satelliteType;
+	public long lastOp;
 	
 	public SatelliteSaveStructure() { }
 	
@@ -51,12 +52,14 @@ public class SatelliteSaveStructure {
 		satelliteID = nbt.getInteger("sat_" + index + "_id");
 		satelliteType = SatelliteType.getEnum(nbt.getInteger("sat_" + index + "_type"));
 		satDim = nbt.getInteger("sat_" + index + "_dim");
+		lastOp = nbt.getLong("sat_" + index + "_op");
 	}
 
 	public void writeToNBT(NBTTagCompound nbt, int index) {
 		nbt.setInteger("sat_" + index + "_id", satelliteID);
 		nbt.setInteger("sat_" + index + "_type", satelliteType.getID());
 		nbt.setInteger("sat_" + index + "_dim", satDim);
+		nbt.setLong("sat_" + index + "_op", lastOp);
 	}
 
 }
