@@ -8,10 +8,12 @@ import java.util.Map;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIcon;
+import com.hbm.items.tool.ItemSatChip;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.enchantment.Enchantment;
@@ -1888,6 +1890,19 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.canister_kerosene, 3));
 			list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 			break;
+		case CARRIER:
+			list.add(new ItemStack(ModItems.fluid_barrel_full, 16, FluidType.KEROSENE.getID()));
+			list.add(new ItemStack(ModItems.thruster_medium, 4));
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 6));
+			list.add(new ItemStack(ModItems.hull_big_steel, 2));
+			list.add(new ItemStack(ModItems.hull_small_aluminium, 12));
+			list.add(new ItemStack(ModItems.plate_titanium, 24));
+			list.add(new ItemStack(ModItems.plate_polymer, 128));
+			list.add(new ItemStack(ModBlocks.det_cord, 8));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 12));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 3));
+			break;
 		case WT1_CLUSTER:
 			list.add(new ItemStack(ModItems.warhead_generic_small, 1));
 			list.add(new ItemStack(ModItems.pellet_cluster, 4));
@@ -1974,6 +1989,90 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_steel, 4));
 			list.add(new ItemStack(ModItems.hull_big_steel, 2));
 			list.add(new ItemStack(ModItems.wire_red_copper, 4));
+			break;
+		case NUCLEAR_THRUSTER:
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.tank_steel, 2));
+			list.add(new ItemStack(ModItems.pipes_steel, 3));
+			list.add(new ItemStack(ModItems.board_copper, 6));
+			list.add(new ItemStack(ModItems.motor, 1));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 2));
+			list.add(new ItemStack(ModBlocks.machine_generator, 1));
+			break;
+		case SAT_BASE:
+			list.add(new ItemStack(ModItems.thruster_large, 1));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(ModItems.plate_desh, 4));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 3));
+			list.add(new ItemStack(ModItems.fluid_barrel_full, 1, FluidType.KEROSENE.getID()));
+			list.add(new ItemStack(ModItems.photo_panel, 24));
+			list.add(new ItemStack(ModItems.board_copper, 12));
+			list.add(new ItemStack(ModItems.circuit_gold, 6));
+			list.add(ItemBattery.getEmptyBattery(ModItems.battery_lithium_cell_6));
+			break;
+		case SAT_MAPPER:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(ModItems.hull_small_steel, 3));
+			list.add(new ItemStack(ModItems.plate_desh, 2));
+			list.add(new ItemStack(ModItems.circuit_gold, 2));
+			list.add(new ItemStack(ModItems.plate_polymer, 12));
+			list.add(new ItemStack(Items.redstone, 6));
+			list.add(new ItemStack(Items.diamond, 1));
+			list.add(new ItemStack(Blocks.glass_pane, 6));
+			break;
+		case SAT_SCANNER:
+			list.add(new ItemStack(ModItems.ingot_steel, 6));
+			list.add(new ItemStack(ModItems.plate_titanium, 32));
+			list.add(new ItemStack(ModItems.plate_desh, 6));
+			list.add(new ItemStack(ModItems.magnetron, 6));
+			list.add(new ItemStack(ModItems.coil_advanced_torus, 2));
+			list.add(new ItemStack(ModItems.circuit_gold, 6));
+			list.add(new ItemStack(ModItems.plate_polymer, 6));
+			list.add(new ItemStack(Items.diamond, 1));
+			break;
+		case SAT_RADAR:
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_titanium, 32));
+			list.add(new ItemStack(ModItems.magnetron, 12));
+			list.add(new ItemStack(ModItems.plate_polymer, 16));
+			list.add(new ItemStack(ModItems.wire_red_copper, 16));
+			list.add(new ItemStack(ModItems.coil_gold, 3));
+			list.add(new ItemStack(ModItems.circuit_gold, 5));
+			list.add(new ItemStack(Items.diamond, 1));
+			break;
+		case SAT_LASER:
+			list.add(new ItemStack(ModItems.ingot_steel, 12));
+			list.add(new ItemStack(ModItems.ingot_tungsten, 16));
+			list.add(new ItemStack(ModItems.ingot_polymer, 6));
+			list.add(new ItemStack(ModItems.plate_polymer, 16));
+			list.add(new ItemStack(ModItems.board_copper, 24));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 2));
+			list.add(new ItemStack(Items.redstone, 16));
+			list.add(new ItemStack(Items.diamond, 5));
+			list.add(new ItemStack(Blocks.glass_pane, 16));
+			break;
+		case SAT_RESONATOR:
+			list.add(new ItemStack(ModItems.ingot_steel, 32));
+			list.add(new ItemStack(ModItems.ingot_polymer, 48));
+			list.add(new ItemStack(ModItems.plate_polymer, 8));
+			list.add(new ItemStack(ModItems.crystal_xen, 1));
+			list.add(new ItemStack(ModItems.ingot_starmetal, 7));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 6));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier6, 2));
+			break;
+		case SAT_FOEQ:
+			list.add(new ItemStack(ModItems.plate_steel, 8));
+			list.add(new ItemStack(ModItems.plate_titanium, 12));
+			list.add(new ItemStack(ModItems.plate_desh, 8));
+			list.add(new ItemStack(ModItems.hull_big_titanium, 3));
+			list.add(new ItemStack(ModItems.fluid_barrel_full, 1, FluidType.WATER.getID()));
+			list.add(new ItemStack(ModItems.photo_panel, 16));
+			list.add(new ItemStack(ModItems.thruster_nuclear, 1));
+			list.add(new ItemStack(ModItems.rod_quad_uranium_fuel, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 6));
+			list.add(new ItemStack(ModItems.magnetron, 3));
+			list.add(ItemBattery.getEmptyBattery(ModItems.battery_lithium_cell_6));
 			break;
 		case CHOPPER_HEAD:
 			list.add(new ItemStack(ModBlocks.reinforced_glass, 2));
@@ -3403,6 +3502,9 @@ public class MachineRecipes {
 		case MISSILE_ASSEMBLY:
 			output = new ItemStack(ModItems.missile_assembly, 1);
 			break;
+		case CARRIER:
+			output = new ItemStack(ModItems.missile_carrier, 1);
+			break;
 		case WT1_CLUSTER:
 			output = new ItemStack(ModItems.warhead_cluster_small, 1);
 			break;
@@ -3453,6 +3555,30 @@ public class MachineRecipes {
 			break;
 		case T3_THRUSTER:
 			output = new ItemStack(ModItems.thruster_large, 1);
+			break;
+		case NUCLEAR_THRUSTER:
+			output = new ItemStack(ModItems.thruster_nuclear, 1);
+			break;
+		case SAT_BASE:
+			output = new ItemStack(ModItems.sat_base, 1);
+			break;
+		case SAT_MAPPER:
+			output = new ItemStack(ModItems.sat_head_mapper, 1);
+			break;
+		case SAT_SCANNER:
+			output = new ItemStack(ModItems.sat_head_scanner, 1);
+			break;
+		case SAT_RADAR:
+			output = new ItemStack(ModItems.sat_head_radar, 1);
+			break;
+		case SAT_LASER:
+			output = new ItemStack(ModItems.sat_head_laser, 1);
+			break;
+		case SAT_RESONATOR:
+			output = new ItemStack(ModItems.sat_head_resonator, 1);
+			break;
+		case SAT_FOEQ:
+			output = new ItemStack(ModItems.sat_foeq, 1);
 			break;
 		case CHOPPER_HEAD:
 			output = new ItemStack(ModItems.chopper_head, 1);
@@ -4173,6 +4299,9 @@ public class MachineRecipes {
         case COOLANT:
 			list.add(new ItemStack(ModItems.niter, 1));
 			break;
+        case CRYOGEL:
+			list.add(new ItemStack(ModItems.powder_ice, 1));
+			break;
         case DESH:
 			list.add(new ItemStack(ModItems.powder_desh_mix, 1));
 			break;
@@ -4318,6 +4447,9 @@ public class MachineRecipes {
 			break;
         case COOLANT:
 			input[0] = new FluidStack(1800, FluidType.WATER);
+			break;
+        case CRYOGEL:
+			input[0] = new FluidStack(1800, FluidType.COOLANT);
 			break;
         case DESH:
 			input[0] = new FluidStack(800, FluidType.ACID);
@@ -4583,6 +4715,9 @@ public class MachineRecipes {
 			break;
         case COOLANT:
 			input[0] = new FluidStack(2000, FluidType.COOLANT);
+			break;
+        case CRYOGEL:
+			input[0] = new FluidStack(2000, FluidType.CRYOGEL);
 			break;
         case PEROXIDE:
 			input[0] = new FluidStack(800, FluidType.ACID);

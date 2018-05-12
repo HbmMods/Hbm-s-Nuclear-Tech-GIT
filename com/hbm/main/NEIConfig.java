@@ -40,18 +40,20 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new PressRecipeHandler());
 
 		//Some things are even beyond my control...or are they?
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_coal_on)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_electric_furnace_on)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_difurnace_on)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_nuke_furnace_on)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.machine_rtg_furnace_on)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.reinforced_lamp_on)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_g)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_w)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_f)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.cheater_virus)));
-		API.hideItem(new ItemStack(Item.getItemFromBlock(ModBlocks.cheater_virus_seed)));
+		API.hideItem(new ItemStack(ModItems.memory));
+		
+		API.hideItem(new ItemStack(ModBlocks.machine_coal_on));
+		API.hideItem(new ItemStack(ModBlocks.machine_electric_furnace_on));
+		API.hideItem(new ItemStack(ModBlocks.machine_difurnace_on));
+		API.hideItem(new ItemStack(ModBlocks.machine_nuke_furnace_on));
+		API.hideItem(new ItemStack(ModBlocks.machine_rtg_furnace_on));
+		API.hideItem(new ItemStack(ModBlocks.reinforced_lamp_on));
+		API.hideItem(new ItemStack(ModBlocks.statue_elb));
+		API.hideItem(new ItemStack(ModBlocks.statue_elb_g));
+		API.hideItem(new ItemStack(ModBlocks.statue_elb_w));
+		API.hideItem(new ItemStack(ModBlocks.statue_elb_f));
+		API.hideItem(new ItemStack(ModBlocks.cheater_virus));
+		API.hideItem(new ItemStack(ModBlocks.cheater_virus_seed));
 		//API.hideItem(new ItemStack(ModItems.euphemium_helmet));
 		//API.hideItem(new ItemStack(ModItems.euphemium_plate));
 		//API.hideItem(new ItemStack(ModItems.euphemium_legs));
@@ -81,6 +83,9 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_refinery));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_turbofan));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_well));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_chemplant));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_cyclotron));
@@ -92,6 +97,9 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_refinery));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_turbofan));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_well));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
 	}
 
 	@Override

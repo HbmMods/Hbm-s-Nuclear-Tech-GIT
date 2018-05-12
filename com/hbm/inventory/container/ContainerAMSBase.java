@@ -44,6 +44,10 @@ private TileEntityAMSBase amsBase;
 		this.addSlotToContainer(new Slot(tedf, 11, 80, 81));
 		//Core
 		this.addSlotToContainer(new Slot(tedf, 12, 80, 63));
+		//Sat Chips
+		this.addSlotToContainer(new Slot(tedf, 13, 62, 108));
+		this.addSlotToContainer(new Slot(tedf, 14, 62 + 18, 108));
+		this.addSlotToContainer(new Slot(tedf, 15, 62 + 36, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{

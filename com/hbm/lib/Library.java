@@ -542,8 +542,8 @@ public class Library {
 	
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
-		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery)
-			for(int i = 0; i < ((ItemBattery)slots[index].getItem()).getChargeRate(); i++)
+		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
+			for(long i = 0; i < ((ItemBattery)slots[index].getItem()).getChargeRate(); i++)
 				if(power - 100 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 				{
 					power -= 100;
@@ -586,6 +586,11 @@ public class Library {
 			slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
 		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
 			slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
+		}
+		
+		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
+			ItemBattery.updateDamage(slots[index]);
+		}
 		
 		return power;
 	}
@@ -603,12 +608,16 @@ public class Library {
 		}
 		
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery)
-			for(int i = 0; i < ((ItemBattery)slots[index].getItem()).getDischargeRate(); i++)
+			for(long i = 0; i < ((ItemBattery)slots[index].getItem()).getDischargeRate(); i++)
 				if(power + 100 <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
 				{
 					power += 100;
 					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
 				} else break;
+		
+		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
+			ItemBattery.updateDamage(slots[index]);
+		}
 		
 		return power;
 	}

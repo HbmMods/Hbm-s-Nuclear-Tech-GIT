@@ -45,9 +45,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.creativetabs.BlockTab;
+import com.hbm.creativetabs.ConsumableTab;
+import com.hbm.creativetabs.ControlTab;
 import com.hbm.creativetabs.MachineTab;
+import com.hbm.creativetabs.MissileTab;
 import com.hbm.creativetabs.NukeTab;
 import com.hbm.creativetabs.PartsTab;
+import com.hbm.creativetabs.TemplateTab;
+import com.hbm.creativetabs.WeaponTab;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
@@ -331,10 +336,24 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialAusV = EnumHelper.addArmorMaterial("AUSV", 375, new int[] {2, 6, 5, 2}, 0);
 	
 	//Creative Tabs
-	public static CreativeTabs tabParts = new PartsTab(CreativeTabs.getNextID(), "tabParts");
-	public static CreativeTabs tabBlock = new BlockTab(CreativeTabs.getNextID(), "tabBlocks");
-	public static CreativeTabs tabMachine = new MachineTab(CreativeTabs.getNextID(), "tabMachine");
-	public static CreativeTabs tabNuke = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
+	//ingots, nuggets, wires, machine parts
+	public static CreativeTabs partsTab = new PartsTab(CreativeTabs.getNextID(), "tabParts");
+	//items that belong in machines, fuels, etc
+	public static CreativeTabs controlTab = new ControlTab(CreativeTabs.getNextID(), "tabControl");
+	//templates, siren tracks
+	public static CreativeTabs templateTab = new TemplateTab(CreativeTabs.getNextID(), "tabTemplate");
+	//ore and mineral blocks
+	public static CreativeTabs blockTab = new BlockTab(CreativeTabs.getNextID(), "tabBlocks");
+	//machines, structure parts
+	public static CreativeTabs machineTab = new MachineTab(CreativeTabs.getNextID(), "tabMachine");
+	//bombs
+	public static CreativeTabs nukeTab = new NukeTab(CreativeTabs.getNextID(), "tabNuke");
+	//missiles, satellites
+	public static CreativeTabs missileTab = new MissileTab(CreativeTabs.getNextID(), "tabMissile");
+	//turrets, weapons, ammo
+	public static CreativeTabs weaponTab = new WeaponTab(CreativeTabs.getNextID(), "tabWeapon");
+	//drinks, kits, tools
+	public static CreativeTabs consumableTab = new ConsumableTab(CreativeTabs.getNextID(), "tabConsumable");
 	
 	//Achievements
 	public static Achievement achCircuit0;

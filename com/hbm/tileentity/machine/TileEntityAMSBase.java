@@ -15,11 +15,15 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemAMSCore;
 import com.hbm.items.special.ItemCatalyst;
+import com.hbm.items.tool.ItemSatChip;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.saveddata.SatelliteSaveStructure;
+import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
+import com.hbm.saveddata.SatelliteSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,6 +35,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import scala.util.Random;
 
 public class TileEntityAMSBase extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
@@ -62,7 +67,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	private String customName;
 	
 	public TileEntityAMSBase() {
-		slots = new ItemStack[13];
+		slots = new ItemStack[16];
 		tanks = new FluidTank[4];
 		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
 		tanks[1] = new FluidTank(FluidType.COOLANT, 8000, 1);
@@ -318,7 +323,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				if(slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null && slots[12] != null &&
 						slots[8].getItem() instanceof ItemCatalyst && slots[9].getItem() instanceof ItemCatalyst &&
 						slots[10].getItem() instanceof ItemCatalyst && slots[11].getItem() instanceof ItemCatalyst &&
-						slots[12].getItem() instanceof ItemAMSCore) {
+						slots[12].getItem() instanceof ItemAMSCore && hasResonators()) {
 					int a = ((ItemCatalyst)slots[8].getItem()).getColor();
 					int b = ((ItemCatalyst)slots[9].getItem()).getColor();
 					int c = ((ItemCatalyst)slots[10].getItem()).getColor();
@@ -508,6 +513,32 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	
 	public int getHeatScaled(int i) {
 		return (heat * i) / maxHeat;
+	}
+	
+	public boolean hasResonators() {
+		
+		if(slots[13] != null && slots[14] != null && slots[15] != null &&
+				slots[13].getItem() == ModItems.sat_chip && slots[14].getItem() == ModItems.sat_chip && slots[15].getItem() == ModItems.sat_chip) {
+			
+		    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+		    if(data == null) {
+		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+		        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+		    }
+		    data.markDirty();
+
+		    int i1 = ItemSatChip.getFreq(slots[13]);
+		    int i2 = ItemSatChip.getFreq(slots[14]);
+		    int i3 = ItemSatChip.getFreq(slots[15]);
+		    
+		    if(data.getSatFromFreq(i1) != null && data.getSatFromFreq(i2) != null && data.getSatFromFreq(i3) != null &&
+		    		data.getSatFromFreq(i1).satelliteType.getID() == SatelliteType.RESONATOR.getID() && data.getSatFromFreq(i2).satelliteType.getID() == SatelliteType.RESONATOR.getID() && data.getSatFromFreq(i3).satelliteType.getID() == SatelliteType.RESONATOR.getID() &&
+		    		i1 != i2 && i1 != i3 && i2 != i3)
+		    	return true;
+			
+		}
+		
+		return false;
 	}
 
 	@Override

@@ -33,6 +33,17 @@ public class GUIMachineGenerator extends GuiInfoContainer {
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 88 - 52, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 88 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 88 - 52, 16, 52, diFurnace.power, diFurnace.powerMax);
+
+		if(diFurnace.tanks[0].getFill() <= 0) {
+			String[] text = new String[] { "Error: Water is required for",
+					"the reactor to function properly!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		}
+
+		if(diFurnace.tanks[1].getFill() <= 0) {
+			String[] text1 = new String[] { "Use of coolant is advised." };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+		}
 	}
 	
 	@Override
@@ -58,6 +69,12 @@ public class GUIMachineGenerator extends GuiInfoContainer {
 			int i = diFurnace.getHeatScaled(52);
 			drawTexturedModalRect(guiLeft + 98, guiTop + 88 - i, 208, 52 - i, 16, i);
 		}
+		
+		if(diFurnace.tanks[0].getFill() <= 0)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
+		
+		if(diFurnace.tanks[1].getFill() <= 0)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 7);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
 		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);

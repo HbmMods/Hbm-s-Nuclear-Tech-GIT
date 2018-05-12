@@ -1,5 +1,6 @@
 package com.hbm.creativetabs;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,17 +17,12 @@ public class MachineTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModItems.assembly_template != null)
+		if(ModBlocks.machine_generator != null)
 		{
-			return ModItems.assembly_template;
+			return Item.getItemFromBlock(ModBlocks.machine_generator);
 		}
 		
 		return Items.iron_pickaxe;
-	}
-
-	@Override
-	public boolean hasSearchBar() {
-		return true;
 	}
 
 }

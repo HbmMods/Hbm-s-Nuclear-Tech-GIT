@@ -21,6 +21,7 @@ public class ItemBattery extends Item {
 		this.maxCharge = dura;
 		this.chargeRate = chargeRate;
 		this.dischargeRate = dischargeRate;
+		this.setMaxDamage(100);
 	}
 	
 	@Override
@@ -139,6 +140,7 @@ public class ItemBattery extends Item {
     		ItemStack stack = new ItemStack(item);
     		stack.stackTagCompound = new NBTTagCompound();
     		stack.stackTagCompound.setLong("charge", 0);
+    		stack.setItemDamage(100);
     		return stack.copy();
     	}
     	
@@ -156,5 +158,13 @@ public class ItemBattery extends Item {
     	
     	return null;
     }
+	
+	public static void updateDamage(ItemStack stack) {
+		
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+
+		stack.setItemDamage(100 - (int)((double)getCharge(stack) / (double)getMaxChargeStatic(stack) * 100D));
+	}
 	
 }

@@ -52,6 +52,7 @@ public class ItemAssemblyTemplate extends Item {
 		GEASS_REACTOR,
 		GENERATOR_FRONT,
 		MISSILE_ASSEMBLY,
+		CARRIER,
 		WT1_GENERIC,
 		WT2_GENERIC,
 		WT3_GENERIC,
@@ -75,6 +76,14 @@ public class ItemAssemblyTemplate extends Item {
 		T1_THRUSTER,
 		T2_THRUSTER,
 		T3_THRUSTER,
+		NUCLEAR_THRUSTER,
+		SAT_BASE,
+		SAT_MAPPER,
+		SAT_SCANNER,
+		SAT_RADAR,
+		SAT_LASER,
+		SAT_RESONATOR,
+		SAT_FOEQ,
 		CHOPPER_HEAD,
 		CHOPPER_GUN,
 		CHOPPER_BODY,
@@ -400,6 +409,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 200;
 		case MISSILE_ASSEMBLY:
 			return 200;
+		case CARRIER:
+			return 4800;
 		case WT1_GENERIC:
 			return 100;
 		case WT2_GENERIC:
@@ -446,6 +457,22 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case T3_THRUSTER:
 			return 200;
+		case NUCLEAR_THRUSTER:
+			return 600;
+		case SAT_BASE:
+			return 500;
+		case SAT_MAPPER:
+			return 400;
+		case SAT_SCANNER:
+			return 400;
+		case SAT_RADAR:
+			return 400;
+		case SAT_LASER:
+			return 450;
+		case SAT_RESONATOR:
+			return 1000;
+		case SAT_FOEQ:
+			return 1200;
 		case CHOPPER_HEAD:
 			return 300;
 		case CHOPPER_GUN:

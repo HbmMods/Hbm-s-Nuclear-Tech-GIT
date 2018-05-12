@@ -1,8 +1,13 @@
 itemGroup.tabTest=Nuclear Tech Mod Test Tab
 itemGroup.tabParts=NTM Resources and Parts
-itemGroup.tabBlocks=NTM Blocks and Machines
-itemGroup.tabNuke=NTM Bombs and Gear
-itemGroup.tabMachine=NTM Templates
+itemGroup.tabControl=NTM Machine Items and Fuel
+itemGroup.tabTemplate=NTM Templates
+itemGroup.tabBlocks=NTM Ores and Blocks
+itemGroup.tabMachine=NTM Machines
+itemGroup.tabNuke=NTM Bombs
+itemGroup.tabMissile=NTM Missiles and Satellites
+itemGroup.tabWeapon=NTM Weapons and Turrets
+itemGroup.tabConsumable=NTM Consumables and Gear
 
 achievement.sacrifice=Sororicide
 achievement.sacrifice.desc=Face the fire and live.
@@ -81,6 +86,7 @@ chem.CC_HEAVY=Basic Coal Liquefaction
 chem.CC_NAPHTHA=Naphtha Coal Liquefaction
 chem.ASPHALT=Asphalt Production
 chem.COOLANT=Coolant Mixing
+chem.CRYOGEL=Cryogel Mixing
 chem.DESH=Desh Production
 chem.PEROXIDE=Hydrogen Peroxide Production
 chem.CIRCUIT_4=Overclocked Circuit Production
@@ -478,6 +484,14 @@ item.bolt_compound.name=Reinforced Turbine Shaft
 item.plate_polymer.name=Insulator
 item.ingot_solinium.name=Solinium Ingot
 item.nugget_solinium.name=Solinium Nugget
+item.photo_panel.name=Photovoltaic Panel
+item.sat_base.name=Satellite Base
+item.thruster_nuclear.name=LV-N Nuclear Rocket Engine
+item.sat_head_mapper.name=High-Gain Optical Camera
+item.sat_head_scanner.name=M700 Survey Scanner
+item.sat_head_radar.name=Radar Dish
+item.sat_head_laser.name=Death Ray
+item.sat_head_resonator.name=Xenium Resonator
 
 item.ingot_australium.name=Australium Ingot
 item.ingot_weidanium.name=Weidanium Ingot
@@ -701,6 +715,8 @@ item.battery_creative.name=Infinite Battery
 
 item.battery_su.name=SU-Battery
 item.battery_su_l.name=Large SU-Battery
+item.battery_steam.name=Steam Powered Energy Storage Tank
+item.battery_steam_large.name=Large Steam Powered Energy Storage Tank
 
 item.battery_potato.name=Potato Battery
 item.battery_potatos.name=PotatOS
@@ -1288,6 +1304,7 @@ item.sat_laser.name=Orbital Death Ray
 item.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion
 item.sat_resonator.name=Xenium Resonator Satellite
 item.sat_chip.name=Satellite ID-Chip
+item.sat_interface.name=Satellite Control Interface
 tile.sat_mapper.name=Surface Mapping Satellite (Deco Block)
 tile.sat_scanner.name=Satellite with Depth-Resource Scanning Module (Deco Block)
 tile.sat_radar.name=Radar Survey Satellite (Deco Block)
@@ -1635,3 +1652,6 @@ tile.taint.name=Taint
 
 tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block
+
+item.mysteryshovel.name=Brittle Spade
+item.memory.name=item.null.name

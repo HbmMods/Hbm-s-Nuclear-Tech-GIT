@@ -61,6 +61,7 @@ public class ItemChemistryTemplate extends Item {
 		OIL_SAND,
 		ASPHALT,
 		COOLANT,
+		CRYOGEL,
 		DESH,
 		NITAN,
 		PEROXIDE,
@@ -164,6 +165,8 @@ public class ItemChemistryTemplate extends Item {
         case ASPHALT:
         	return 100;
         case COOLANT:
+        	return 50;
+        case CRYOGEL:
         	return 50;
         case DESH:
         	return 300;
