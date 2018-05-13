@@ -121,6 +121,11 @@ public class EntityCarrier extends EntityThrowable {
 					((EntityPlayer)p).triggerAchievement(MainRegistry.achSpace);
 			}
 			
+			if(payload.getItem() == ModItems.sat_foeq) {
+				for(Object p : worldObj.playerEntities)
+					((EntityPlayer)p).triggerAchievement(MainRegistry.achFOEQ);
+			}
+			
 			if(payload.getItem() instanceof ItemSatChip) {
 			    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 			    if(data == null) {

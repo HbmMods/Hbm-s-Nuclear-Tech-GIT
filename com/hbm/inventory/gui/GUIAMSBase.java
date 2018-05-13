@@ -36,6 +36,13 @@ public class GUIAMSBase extends GuiInfoContainer {
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 124 - 106, 7, 106, new String[] { "Restriction Field:", base.field + "%" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 124 - 106, 7, 106, new String[] { "Efficiency:", base.efficiency + "%" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 124 - 106, 7, 106, new String[] { "Heat:", base.heat + "/" + TileEntityAMSBase.maxHeat });
+
+		if(!base.hasResonators()) {
+			String[] text = new String[] { "Error: Three satellite ID-chips linked",
+				"to xenium resonators are required",
+				"for this machine to work!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		}
 	}
 
 	@Override
@@ -78,6 +85,9 @@ public class GUIAMSBase extends GuiInfoContainer {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			drawTexturedModalRect(guiLeft + 61, guiTop + 44, 176, 106, 54, 54);
 		}
+
+		if(!base.hasResonators())
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(base.tanks[0].getSheet());
 		base.tanks[0].renderTank(this, guiLeft + 26, guiTop + 70, base.tanks[0].getTankType().textureX() * FluidTank.x, base.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);

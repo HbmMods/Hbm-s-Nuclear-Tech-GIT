@@ -27,6 +27,8 @@ achievement.c20_5=Kapitel [ZWANZIG KOMMA FÜNF]
 achievement.c20_5.desc=???
 achievement.space=Die finale Grenz-ach vergiss es
 achievement.space.desc=Scheitere in jeder möglichen Weise und verschwende 90 Millionen Dollar an Forschungsgeldern.
+achievement.FOEQ=Pegasi und Raketensilos
+achievement.FOEQ.desc=Sende ein Relais in den Mars-...ich meine Duna-Orbit.
 
 potion.hbm_taint=Verdorben
 potion.hbm_taint_boost=Verdorbenes Herz

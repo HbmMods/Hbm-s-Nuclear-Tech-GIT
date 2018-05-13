@@ -411,6 +411,7 @@ public class MainRegistry
 	public static Achievement achC44;
 	public static Achievement achC20_5;
 	public static Achievement achSpace;
+	public static Achievement achFOEQ;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -938,6 +939,7 @@ public class MainRegistry
 		achC44 = new Achievement("achievement.c44", "c44", 2, -2, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
 		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -2, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
 		achSpace = new Achievement("achievement.space", "space", 4, 0, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
+		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 2, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -948,7 +950,8 @@ public class MainRegistry
 				achPotato,
 				achC44,
 				achC20_5,
-				achSpace
+				achSpace,
+				achFOEQ
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);

@@ -79,6 +79,7 @@
 	"entity.chopperMineLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperMineLoop", "stream": false}]},
 	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
     "entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]},
+    "entity.rocketTakeoff": {"category": "player", "sounds": [{"name": "entity/rocketTakeoff", "stream": false}]},
     
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     

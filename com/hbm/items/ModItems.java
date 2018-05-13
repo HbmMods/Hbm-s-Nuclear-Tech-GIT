@@ -2417,7 +2417,7 @@ public class ModItems {
 		void_anim = new Item().setUnlocalizedName("void_anim").setTextureName(RefStrings.MODID + ":void_anim");
 		
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
-		memory = new ItemBattery(Long.MAX_VALUE / 100L, 10000000, 10000000).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
+		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000, 100000).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
 
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid));

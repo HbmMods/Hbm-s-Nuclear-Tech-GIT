@@ -433,7 +433,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		entity.power -= 75000;
         		
         		entity.slots[0] = null;
-        		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		p_149695_1_.playSoundEffect(x, y, z, "hbm:entity.rocketTakeoff", 100.0F, 1.0F);
     		}
 
     		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000)
