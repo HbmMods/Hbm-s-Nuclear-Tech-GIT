@@ -25,6 +25,9 @@ public class ExplosionNukeRay {
 	int speed;
 	int processed;
 	int length;
+	double startY;
+	int startCir;
+	public boolean isAusf3Complete = false;
 	
 	public ExplosionNukeRay(World world, int x, int y, int z, int strength, int count, int speed, int length) {
 		this.world = world;
@@ -35,6 +38,8 @@ public class ExplosionNukeRay {
 		this.count = count;
 		this.speed = speed;
 		this.length = length;
+		this.startY = strength;
+		this.startCir = 0;
 	}
 	
 	/*public void processBunch(int count) {
@@ -93,14 +98,17 @@ public class ExplosionNukeRay {
 	}*/
 	
 	public void processTip(int count) {
-		for(int l = processed; l < processed + count; l++) {
+		for(int l = 0; l < count; l++) {
 
             if(l > affectedBlocks.size() - 1)
             	break;
             
-			float x = affectedBlocks.get(l).xCoord;
-			float y = affectedBlocks.get(l).yCoord;
-			float z = affectedBlocks.get(l).zCoord;
+            if(affectedBlocks.isEmpty())
+            	return;
+            
+			float x = affectedBlocks.get(0).xCoord;
+			float y = affectedBlocks.get(0).yCoord;
+			float z = affectedBlocks.get(0).zCoord;
 			
 			world.setBlock((int)x, (int)y, (int)z, Blocks.air);
 			
@@ -117,6 +125,8 @@ public class ExplosionNukeRay {
 				//if(world.getBlock(x0, y0, z0) != Blocks.air)
 					world.setBlock(x0, y0, z0, Blocks.air);
 			}
+			
+			affectedBlocks.remove(0);
 		}
 		
 		processed += count;
@@ -212,6 +222,147 @@ public class ExplosionNukeRay {
 			}
 		}
 	}
+	
+	public void collectTipAusf3(int count) {
+		
+		int amountProcessed = 0;
+		
+		//Axial
+		//StartY starts at this.length
+		for(double y = startY; y >= -strength; y -= (0.35D + (   Math.pow((strength - Math.abs(y)) / strength, 1.5D)   * 0.3D))) {
+			
+			double sectionRad = Math.sqrt(Math.pow(strength, 2) - Math.pow(y, 2));
+			double circumference = (1.5 * Math.PI * sectionRad + rand.nextDouble()) * (sectionRad / strength + 0.1D);
+			
+			//circumference = Math.ceil(circumference);
+			
+			//Radial
+			//StartCir starts at circumference
+			for(int r = startCir; r < circumference; r ++) {
+				
+				Vec3 vec = Vec3.createVectorHelper(sectionRad, y, 0);
+				vec = vec.normalize();
+				if(y > 0)
+					vec.rotateAroundZ((float) (y / sectionRad) * 0.15F);
+				if(y < 0)
+					vec.rotateAroundZ((float) (y / sectionRad) * -0.15F);
+				vec.rotateAroundY((float) (360 / circumference * r));
+				
+				int length = (int)Math.ceil(strength);
+				
+				float res = strength;
+				
+				FloatTriplet lastPos = null;
+				
+				for(int i = 0; i < length; i ++) {
+					
+					if(i > this.length)
+						break;
+					
+					float x0 = (float) (posX + (vec.xCoord * i));
+					float y0 = (float) (posY + (vec.yCoord * i));
+					float z0 = (float) (posZ + (vec.zCoord * i));
+					
+					double fac = 100 - ((double) i) / ((double) length) * 100;
+					fac *= 0.07D;
+					
+					if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
+						res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
+					else
+						res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
+	
+					if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+						lastPos = new FloatTriplet(x0, y0, z0);
+					}
+					
+					if(res <= 0 || i + 1 >= this.length) {
+						if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null) {
+							affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
+						}
+						break;
+					}
+				}
+				
+				amountProcessed++;
+				
+				if(amountProcessed >= count) {
+					startY = y + 1;
+					startCir = startCir + 1;
+					return;
+				}
+			}
+		}
+		
+		isAusf3Complete = true;
+	}
+
+	//Dysfunctional, punches hole into ground
+	/*public void collectTipAusf3(int count) {
+		
+		int amountProcessed = 0;
+		
+		//Axial
+		//StartY starts at this.length
+		for(int y = startY; y >= -length; y--) {
+			
+			double circumference = 2 * Math.PI * Math.sqrt(Math.pow(y, 2) + Math.pow(length, 2));
+			
+			circumference = Math.ceil(circumference);
+			
+			//Radial
+			//StartCir starts at circumference
+			for(int r = startCir; r < circumference; r ++) {
+				
+				Vec3 vec = Vec3.createVectorHelper(1, y, 0);
+				vec.normalize();
+				vec.rotateAroundY((float) (360 / circumference * r));
+				
+				int length = (int)Math.ceil(strength);
+				
+				float res = strength;
+				
+				FloatTriplet lastPos = null;
+				
+				for(int i = 0; i < length; i ++) {
+					
+					if(i > this.length)
+						break;
+					
+					float x0 = (float) (posX + (vec.xCoord * i));
+					float y0 = (float) (posY + (vec.yCoord * i));
+					float z0 = (float) (posZ + (vec.zCoord * i));
+					
+					double fac = 100 - ((double) i) / ((double) length) * 100;
+					fac *= 0.07D;
+					
+					if(!world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid())
+						res -= Math.pow(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null), 7.5D - fac);
+					else
+						res -= Math.pow(Blocks.air.getExplosionResistance(null), 7.5D - fac);
+	
+					if(res > 0 && world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+						lastPos = new FloatTriplet(x0, y0, z0);
+					}
+					
+					if(res <= 0 || i + 1 >= this.length) {
+						if(affectedBlocks.size() < Integer.MAX_VALUE - 100 && lastPos != null)
+							affectedBlocks.add(new FloatTriplet(lastPos.xCoord, lastPos.yCoord, lastPos.zCoord));
+						break;
+					}
+				}
+				
+				amountProcessed++;
+				
+				if(amountProcessed >= count) {
+					startY = y + 1;
+					startCir = startCir + 1;
+					return;
+				}
+			}
+		}
+		
+		isAusf3Complete = true;
+	}*/
 	
 	public void deleteStorage() {
 		this.affectedBlocks.clear();

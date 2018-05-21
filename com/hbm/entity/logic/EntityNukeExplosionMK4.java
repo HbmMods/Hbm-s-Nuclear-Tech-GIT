@@ -7,6 +7,7 @@ import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -46,15 +47,23 @@ public class EntityNukeExplosionMK4 extends Entity {
 		
     	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.length * 2);
 		
-		if(explosion == null)
+		if(explosion == null) {
 			explosion = new ExplosionNukeRay(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.count, this.speed, this.length);
+
+			if(!worldObj.isRemote)
+				for(int x = (int) (posX - 1); x <= (int) (posX + 1); x++)
+					for(int y = (int) (posY - 1); y <= (int) (posY + 1); y++)
+						for(int z = (int) (posZ - 1); z <= (int) (posZ + 1); z++)
+							worldObj.setBlock(x, y, z, Blocks.air);
+		}
 		
-		if(explosion.getStoredSize() < count / length) {
+		//if(explosion.getStoredSize() < count / length) {
+		if(!explosion.isAusf3Complete) {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getStoredSize() + " / " + count / length);
 			//explosion.collectTip(speed * 10);
-			explosion.collectTipExperimental(speed * 10);
-		} else if(explosion.getProgress() < (count / length) * 0.99) {
+			explosion.collectTipAusf3(speed * 10);
+		} else if(explosion.getStoredSize() > 0) {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
 				explosion.processTip(speed);

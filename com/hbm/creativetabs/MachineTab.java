@@ -11,7 +11,6 @@ public class MachineTab extends CreativeTabs {
 
 	public MachineTab(int p_i1853_1_, String p_i1853_2_) {
 		super(p_i1853_1_, p_i1853_2_);
-		setBackgroundImageName("item_search.png");
 	}
 
 	@Override

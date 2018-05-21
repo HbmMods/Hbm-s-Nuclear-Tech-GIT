@@ -12,6 +12,8 @@ import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.explosion.ExplosionNukeRay;
+import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
 import com.hbm.potion.PotionEffectTaint;
@@ -24,6 +26,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -240,7 +243,7 @@ public class TestEventTester extends Block {
     	
     	
 
-    	if(!worldObj.isRemote) {
+    	/*if(!worldObj.isRemote) {
 		    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 		    if(data == null) {
 		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
@@ -251,7 +254,10 @@ public class TestEventTester extends Block {
 		    	par5EntityPlayer.addChatComponentMessage(new ChatComponentText(sat.satelliteID + ": " + sat.satelliteType.name()));
 		    }
 		    data.markDirty();
-    	}
+    	}*/
+    	
+    	if(!worldObj.isRemote)
+    		buildEvent(worldObj, par2, par3, par4, 30);
         
         return true;
     }
@@ -272,6 +278,33 @@ public class TestEventTester extends Block {
     	
     	return true;
     }*/
+    
+    public void buildEvent(World world, int x, int y, int z, int r) {
+    	
+    	Random rand = new Random();
+    	
+    	for(double h = r; h >= -r; h -= (0.2D + ((r - Math.abs(h)) / r * 0.6D))) {
+
+			double sectionRad = Math.sqrt(Math.pow(r, 2) - Math.pow(h, 2));
+			double circumference = 4 * Math.PI * sectionRad + rand.nextGaussian() * 0.5 + 0.25D;
+			
+			System.out.println(h + " " + circumference);
+			
+			for(int c = 0; c < circumference; c++) {
+				
+				Vec3 vec = Vec3.createVectorHelper(sectionRad, h, 0);
+				vec = vec.normalize();
+				//vec.rotateAroundZ((float) (h / sectionRad) * -2);
+				vec.rotateAroundY((float) (360 / circumference * c));
+
+				int dX = (int) Math.round(vec.xCoord * r + x);
+				int dY = (int) Math.round(vec.yCoord * r + y);
+				int dZ = (int) Math.round(vec.zCoord * r + z);
+				
+				world.setBlock(dX, dY, dZ, Blocks.gold_block);
+			}
+    	}
+    }
 	
 	public void killEvent(World world, int x, int y, int z) {
 		
