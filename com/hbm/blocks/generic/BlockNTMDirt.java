@@ -22,10 +22,10 @@ public class BlockNTMDirt extends BlockDirt {
     {
         p_149666_3_.add(new ItemStack(this, 1, 0));
     }
-
-    public String getItemStackDisplayName(ItemStack stack)
+    
+    public String getLocalizedName()
     {
-		return ("" + StatCollector.translateToLocal(Blocks.dirt.getUnlocalizedName())).trim();
+		return ("" + StatCollector.translateToLocal(Blocks.dirt.getUnlocalizedName()) + ".name").trim();
     }
 
     @Override
