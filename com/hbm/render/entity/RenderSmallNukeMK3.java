@@ -176,13 +176,13 @@ public class RenderSmallNukeMK3 extends Render {
 			GL11.glColor4f(0.4F, 0.4F, 0.4F, 1F);
 			float f = (float)Math.min((age - 50) * 0.5, 20);
 	        GL11.glScalef(f, 15, f);
-			ringBigModel.renderAll();
+			//ringBigModel.renderAll();
 	        GL11.glScalef(1.5F, 1, 1.5F);
 	        GL11.glTranslatef(0, -0.15F, 0);
-			ringBigModel.renderAll();
+			//ringBigModel.renderAll();
 	        GL11.glScalef(1.5F, 1, 1.5F);
 	        GL11.glTranslatef(0, -0.15F, 0);
-			ringBigModel.renderAll();
+			//ringBigModel.renderAll();
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glPopMatrix();
 			

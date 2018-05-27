@@ -101,7 +101,13 @@ public class ExplosionNukeRay {
 	}*/
 	
 	public void processTip(int count) {
-		for(int l = 0; l < count; l++) {
+		
+		int processedBlocks = 0;
+		
+		for(int l = 0; l < Integer.MAX_VALUE; l++) {
+			
+			if(processedBlocks >= count)
+				return;
 
             if(l > affectedBlocks.size() - 1)
             	break;
@@ -109,9 +115,11 @@ public class ExplosionNukeRay {
             if(affectedBlocks.isEmpty())
             	return;
             
-			float x = affectedBlocks.get(0).xCoord;
-			float y = affectedBlocks.get(0).yCoord;
-			float z = affectedBlocks.get(0).zCoord;
+            int in = affectedBlocks.size() - 1;
+            
+			float x = affectedBlocks.get(in).xCoord;
+			float y = affectedBlocks.get(in).yCoord;
+			float z = affectedBlocks.get(in).zCoord;
 			
 			world.setBlock((int)x, (int)y, (int)z, Blocks.air);
 			
@@ -125,11 +133,13 @@ public class ExplosionNukeRay {
 				int y0 = (int)(posY + pY * i);
 				int z0 = (int)(posZ + pZ * i);
 				
-				//if(world.getBlock(x0, y0, z0) != Blocks.air)
+				if(!world.isAirBlock(x0, y0, z0)) {
 					world.setBlock(x0, y0, z0, Blocks.air);
+					processedBlocks++;
+				}
 			}
 			
-			affectedBlocks.remove(0);
+			affectedBlocks.remove(in);
 		}
 		
 		processed += count;
@@ -310,15 +320,19 @@ public class ExplosionNukeRay {
 		//StartY starts at this.length
 		for(int v = startY; v <= bowCount; v++) {
 			
-			Vec3 heightVec = Vec3.createVectorHelper(0, strength, 0);
-			heightVec.rotateAroundZ((float)(Math.PI/bow * -(float)v));
+			float part = (float) (Math.PI/bow);
+			float rot = part * -v;
+			
+			Vec3 heightVec = Vec3.createVectorHelper(0, -strength, 0);
+			heightVec.rotateAroundZ(rot);
 			
 			double y = heightVec.yCoord;
 			
-			System.out.println(v + " " + y);
-			
 			double sectionRad = Math.sqrt(Math.pow(strength, 2) - Math.pow(y, 2));
 			double circumference = 2 * Math.PI * sectionRad;
+			
+			//if(y < 2 && y > -2)
+			//	circumference *= 1.25D;
 			
 			//circumference = Math.ceil(circumference);
 			
@@ -330,8 +344,8 @@ public class ExplosionNukeRay {
 				vec = vec.normalize();
 				/*if(y > 0)
 					vec.rotateAroundZ((float) (y / sectionRad) * 0.15F);*/
-				if(y < 0)
-					vec.rotateAroundZ((float) (y / sectionRad) * 0.15F);
+				/*if(y < 0)
+					vec.rotateAroundZ((float) (y / sectionRad) * 0.15F);*/
 				vec.rotateAroundY((float) (360 / circumference * r));
 				
 				int length = (int)Math.ceil(strength);

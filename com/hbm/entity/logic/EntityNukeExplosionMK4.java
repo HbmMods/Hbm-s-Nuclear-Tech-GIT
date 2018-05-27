@@ -66,7 +66,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 		} else if(explosion.getStoredSize() > 0) {
 			//if(!worldObj.isRemote)
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
-				explosion.processTip(speed);
+				explosion.processTip(1024);
 		} else if(fallout) {
 			
 			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 1.8) * 10);

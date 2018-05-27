@@ -2,6 +2,7 @@ package com.hbm.items.special;
 
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemUnstable extends Item {
@@ -83,6 +85,16 @@ public class ItemUnstable extends Item {
 	    	case 2: return this.iconArsenic;
 	    	case 3: return this.iconVault;
 	    	default: return this.itemIcon;
+    	}
+    }
+
+    public String getItemStackDisplayName(ItemStack stack)
+    {
+    	switch(stack.getItemDamage()) {
+	    	case 1: return "ELEMENTS";
+	    	case 2: return "ARSENIC";
+	    	case 3: return "VAULT";
+	    	default: return ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
     	}
     }
 

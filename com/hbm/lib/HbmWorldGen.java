@@ -349,8 +349,8 @@ public class HbmWorldGen implements IWorldGenerator {
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
-				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z))
-					world.setBlock(x, y, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
+				if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y - 1, z))
+					world.setBlock(x, y + 1, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
 				
 				if(MainRegistry.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + y +" " + z);
