@@ -33,6 +33,7 @@ achievement.FOEQ.desc=Sende ein Relais in den Mars-...ich meine Duna-Orbit.
 potion.hbm_taint=Verdorben
 potion.hbm_taint_boost=Verdorbenes Herz
 potion.hbm_radiation=Strahlenkrankheit
+potion.hbm_bang=! ! !
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
@@ -160,6 +161,7 @@ death.attack.boxcar=%1$s wurde von einem fallenden Güterwagon zermatscht. Autsc
 death.attack.broadcast=%1$s wurde das Gehirn geschmolzen.
 death.attack.ams=%1$s wurde in tödlichen Teilchen gebadet, die von der Menschheit erst benannt werden müssen.
 death.attack.amsCore=%1$s wurde vom Feuer einer Singularität verdampft.
+death.attack.bang=%1$s wurde in mundgerechte Stücke zerfetzt.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

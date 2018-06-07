@@ -103,10 +103,14 @@ public class ExplosionNukeRay {
 	public void processTip(int count) {
 		
 		int processedBlocks = 0;
+		int braker = 0;
 		
 		for(int l = 0; l < Integer.MAX_VALUE; l++) {
-			
+
 			if(processedBlocks >= count)
+				return;
+			
+			if(braker >= count * 50)
 				return;
 
             if(l > affectedBlocks.size() - 1)
@@ -137,6 +141,8 @@ public class ExplosionNukeRay {
 					world.setBlock(x0, y0, z0, Blocks.air);
 					processedBlocks++;
 				}
+				
+				braker++;
 			}
 			
 			affectedBlocks.remove(in);

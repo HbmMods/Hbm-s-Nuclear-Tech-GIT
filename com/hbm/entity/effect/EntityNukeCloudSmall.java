@@ -78,5 +78,15 @@ public class EntityNukeCloudSmall extends Entity {
 		p_70014_1_.setFloat("scale", this.dataWatcher.getWatchableObjectFloat(18));
 		
 	}
+	
+	public static EntityNukeCloudSmall statFac(World world, double x, double y, double z, float radius) {
+		
+		EntityNukeCloudSmall cloud = new EntityNukeCloudSmall(world, (int)radius * 5, radius * 0.005F);
+		cloud.posX = x;
+		cloud.posY = y;
+		cloud.posZ = z;
+		
+		return cloud;
+	}
 
 }

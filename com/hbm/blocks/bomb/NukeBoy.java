@@ -152,11 +152,7 @@ public class NukeBoy extends BlockContainer implements IBomb {
 			// ExplosionNukeAdvanced.mush(world, x, y, z);
 
 			if (MainRegistry.enableNukeClouds) {
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, MainRegistry.boyRadius * 0.005F);
-				entity2.posX = x;
-				entity2.posY = y;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
+				world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z, MainRegistry.boyRadius));
 			} else {
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 3000);
 				entity2.posX = x;

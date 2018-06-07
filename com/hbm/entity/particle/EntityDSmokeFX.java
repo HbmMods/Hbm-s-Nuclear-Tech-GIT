@@ -4,9 +4,6 @@ import net.minecraft.world.World;
 
 public class EntityDSmokeFX extends EntityModFX
 {
-    float smokeParticleScale;
-    public int particleAge;
-    public int maxAge;
     private static final String __OBFID = "CL_00000924";
 
     public EntityDSmokeFX(World world) {

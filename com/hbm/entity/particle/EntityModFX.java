@@ -15,7 +15,6 @@ public class EntityModFX extends Entity
     public int particleTextureIndexY;
     public float particleTextureJitterX;
     public float particleTextureJitterY;
-    public int particleAge;
     public int particleMaxAge;
     public float particleScale;
     public float particleGravity;
@@ -33,6 +32,9 @@ public class EntityModFX extends Entity
     public static double interpPosY;
     public static double interpPosZ;
     public static final String __OBFID = "CL_00000914";
+    float smokeParticleScale;
+    public int particleAge;
+    public int maxAge;
 
     public EntityModFX(World world) {
     	super(world);

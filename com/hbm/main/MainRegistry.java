@@ -147,6 +147,7 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.entity.projectile.EntityMinerBeam;
 import com.hbm.entity.projectile.EntityMiniMIRV;
 import com.hbm.entity.projectile.EntityMiniNuke;
+import com.hbm.entity.projectile.EntityModBeam;
 import com.hbm.entity.projectile.EntityNightmareBlast;
 import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityPlasmaBeam;
@@ -743,6 +744,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityRagingVortex.class, "entity_raging_vortex", 96, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityCarrier.class, "entity_missile_carrier", 97, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBooster.class, "entity_missile_booster", 98, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityModBeam.class, "entity_beam_bang", 99, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -1299,7 +1301,7 @@ public class MainRegistry
         enableMeteorStrikes = config.get(Configuration.CATEGORY_GENERAL, "1.09_enableMeteorStrikes", true).getBoolean(true);
         enableMeteorShowers = config.get(Configuration.CATEGORY_GENERAL, "1.10_enableMeteorShowers", true).getBoolean(true);
         enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.11_enableMeteorTails", true).getBoolean(true);
-        enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableSpecialMeteors", true).getBoolean(true);
+        enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableSpecialMeteors", false).getBoolean(false);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";

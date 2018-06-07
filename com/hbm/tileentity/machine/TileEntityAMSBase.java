@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -69,8 +71,8 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public TileEntityAMSBase() {
 		slots = new ItemStack[16];
 		tanks = new FluidTank[4];
-		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
-		tanks[1] = new FluidTank(FluidType.COOLANT, 8000, 1);
+		tanks[0] = new FluidTank(FluidType.COOLANT, 8000, 0);
+		tanks[1] = new FluidTank(FluidType.CRYOGEL, 8000, 1);
 		tanks[2] = new FluidTank(FluidType.DEUTERIUM, 8000, 2);
 		tanks[3] = new FluidTank(FluidType.TRITIUM, 8000, 3);
 	}
@@ -243,6 +245,9 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 
 		if (!worldObj.isRemote) {
 			
+			for(int i = 0; i < tanks.length; i++)
+				tanks[i].setFill(tanks[i].getMaxFill());
+			
 			if(!locked) {
 				
 				age++;
@@ -323,7 +328,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				if(slots[8] != null && slots[9] != null && slots[10] != null && slots[11] != null && slots[12] != null &&
 						slots[8].getItem() instanceof ItemCatalyst && slots[9].getItem() instanceof ItemCatalyst &&
 						slots[10].getItem() instanceof ItemCatalyst && slots[11].getItem() instanceof ItemCatalyst &&
-						slots[12].getItem() instanceof ItemAMSCore && hasResonators()) {
+						slots[12].getItem() instanceof ItemAMSCore && hasResonators() && efficiency > 0) {
 					int a = ((ItemCatalyst)slots[8].getItem()).getColor();
 					int b = ((ItemCatalyst)slots[9].getItem()).getColor();
 					int c = ((ItemCatalyst)slots[10].getItem()).getColor();
@@ -356,7 +361,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 					if(this.getFuelPower(tanks[2].getTankType()) > 0 && this.getFuelPower(tanks[3].getTankType()) > 0 &&
 							tanks[2].getFill() > 0 && tanks[3].getFill() > 0) {
 
-						power += (powerBase * powerMod * gauss(1, (heat - (maxHeat / 2)) / maxHeat));
+						power += (powerBase * powerMod * gauss(1, (heat - (maxHeat / 2)) / maxHeat)) / 1000 * getFuelPower(tanks[2].getTankType()) * getFuelPower(tanks[3].getTankType());
 						heat += (heatBase * heatMod) / (float)(this.field / 100F);
 						tanks[2].setFill((int)(tanks[2].getFill() - fuelBase * fuelMod));
 						tanks[3].setFill((int)(tanks[3].getFill() - fuelBase * fuelMod));
@@ -372,7 +377,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 							heat = maxHeat;
 						}
 						
-						if(field < 2)
+						if(field <= 0)
 							explode();
 					}
 				}
@@ -437,7 +442,21 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 	
 	private void explode() {
-		
+		if(!worldObj.isRemote) {
+			
+			for(int i = 0; i < 10; i++) {
+
+	    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, 100);
+	    		cloud.posX = xCoord + rand.nextInt(201) - 100;
+	    		cloud.posY = yCoord + rand.nextInt(201) - 100;
+	    		cloud.posZ = zCoord + rand.nextInt(201) - 100;
+	    		this.worldObj.spawnEntityInWorld(cloud);
+			}
+			
+			int radius = (int)(100 + (double)(tanks[2].getFill() + tanks[3].getFill()) / 16000D * 150);
+			
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacExperimental(worldObj, 10, xCoord, yCoord, zCoord));
+		}
 	}
 	
 	private int getCoolingStrength(FluidType type) {
@@ -458,9 +477,9 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	private int getFuelPower(FluidType type) {
 		switch(type) {
 		case DEUTERIUM:
-			return 50000;
+			return 50;
 		case TRITIUM:
-			return 75000;
+			return 75;
 		default:
 			return 0;
 		}
@@ -538,7 +557,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 			
 		}
 		
-		return false;
+		return true;
 	}
 
 	@Override

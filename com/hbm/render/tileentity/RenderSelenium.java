@@ -33,7 +33,7 @@ public class RenderSelenium extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.selenium_body_tex);
         ResourceManager.selenium_body.renderAll();
         
         GL11.glTranslated(0.0D, 1.0D, 0.0D);
@@ -41,14 +41,17 @@ public class RenderSelenium extends TileEntitySpecialRenderer {
         int count = ((TileEntityMachineSeleniumEngine)tileEntity).pistonCount;
         
         float rot = 360F / count;
-        
+
+        bindTexture(ResourceManager.selenium_piston_tex);
         for(int i = 0; i < count; i++) {
             ResourceManager.selenium_piston.renderAll();
     		GL11.glRotatef(rot, 0, 0, 1);
         }
 		
-		GL11.glRotatef((System.currentTimeMillis() / 10) % 360, 0F, 0F, -1F);
-        
+        if(count > 2 && ((TileEntityMachineSeleniumEngine)tileEntity).hasAcceptableFuel() && ((TileEntityMachineSeleniumEngine)tileEntity).tank.getFill() > 0)
+        	GL11.glRotatef((System.currentTimeMillis() / 2) % 360, 0F, 0F, -1F);
+
+        bindTexture(ResourceManager.selenium_rotor_tex);
         ResourceManager.selenium_rotor.renderAll();
 
         GL11.glPopMatrix();

@@ -1,6 +1,7 @@
 package com.hbm.entity.effect;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.explosion.NukeEnvironmentalEffect;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -46,8 +47,15 @@ public class EntityFalloutRain extends Entity {
 	            
 	            double dist = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posZ - z, 2));
 	            
-	            if(dist <= getScale() && worldObj.getBlock(x, y, z) == Blocks.grass)
-	            	worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
+	            if(dist <= getScale()) {
+	            	
+	            	if(rand.nextInt(50) == 0) {
+	            		NukeEnvironmentalEffect.applyStandardAOE(worldObj, x, y, z, 5, 3);
+	            		
+	            	} else if(worldObj.getBlock(x, y, z) == Blocks.grass) {
+	            		worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
+	            	}
+	            }
         	}
         }
         

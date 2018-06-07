@@ -345,6 +345,9 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 				power = 0;
 				warning = 3;
 			}
+			
+			tank.setTankType(FluidType.CRYOGEL);
+			tank.setFill(tank.getMaxFill());
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));

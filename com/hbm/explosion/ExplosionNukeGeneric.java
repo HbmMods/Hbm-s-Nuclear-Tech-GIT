@@ -170,9 +170,9 @@ public class ExplosionNukeGeneric {
 						entity.attackEntityFrom(ModDamageSource.nuclearBlast, 10F);
 						entity.setFire(5);
 						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-						entity.motionX += d5 * d8;
-						entity.motionY += d6 * d8;
-						entity.motionZ += d7 * d8;
+						entity.motionX += d5 * d8 * 0.2D;
+						entity.motionY += d6 * d8 * 0.2D;
+						entity.motionZ += d7 * d8 * 0.2D;
 					}
 				}
 			}

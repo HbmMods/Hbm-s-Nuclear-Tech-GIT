@@ -50,11 +50,11 @@ public class EntityNukeExplosionMK4 extends Entity {
 		if(explosion == null) {
 			explosion = new ExplosionNukeRay(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.count, this.speed, this.length);
 
-			if(!worldObj.isRemote)
+			/*if(!worldObj.isRemote)
 				for(int x = (int) (posX - 1); x <= (int) (posX + 1); x++)
 					for(int y = (int) (posY - 1); y <= (int) (posY + 1); y++)
 						for(int z = (int) (posZ - 1); z <= (int) (posZ + 1); z++)
-							worldObj.setBlock(x, y, z, Blocks.air);
+							worldObj.setBlock(x, y, z, Blocks.air);*/
 		}
 		
 		//if(explosion.getStoredSize() < count / length) {

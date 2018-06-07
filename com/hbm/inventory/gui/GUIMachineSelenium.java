@@ -44,7 +44,7 @@ public class GUIMachineSelenium extends GuiInfoContainer {
 				"  Biofuel (200 HE/t)",
 				"  NITAN Superfuel (2500 HE/t)",
 				"(These numbers are base values,",
-				"actual consumption is based",
+				"actual output is based",
 				"on piston count)" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
