@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemSatInterface extends ItemSatChip {
+	
+    public static SatelliteSavedData satData;
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -27,7 +29,7 @@ public class ItemSatInterface extends ItemSatChip {
 
 		if(!world.isRemote) {
 		    SatelliteSavedData data = (SatelliteSavedData)entity.worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			GUIScreenSatInterface.satData = data;
+			satData = data;
 		}
     }
 

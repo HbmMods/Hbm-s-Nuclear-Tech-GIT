@@ -18,6 +18,7 @@ import com.hbm.items.tool.ItemCassette.TrackType;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.items.tool.ItemSatChip;
+import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
@@ -54,7 +55,8 @@ public class GUIScreenSatInterface extends GuiScreen {
     protected int guiTop;
     private final EntityPlayer player;
     protected SatelliteSaveStructure connectedSat;
-    public static SatelliteSavedData satData;
+    int x;
+    int z;
     
     public GUIScreenSatInterface(EntityPlayer player) {
     	
@@ -93,12 +95,15 @@ public class GUIScreenSatInterface extends GuiScreen {
         super.initGui();
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
+        
+        x = (int) player.posX;
+        z = (int) player.posZ;
 	    
-	    if(satData != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.sat_interface) {
+	    if(ItemSatInterface.satData != null && player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.sat_interface) {
 
 			int freq = ItemSatChip.getFreq(player.getHeldItem());
 			
-			connectedSat = satData.getSatFromFreq(freq);
+			connectedSat = ItemSatInterface.satData.getSatFromFreq(freq);
 	    }
     }
 	
@@ -109,8 +114,8 @@ public class GUIScreenSatInterface extends GuiScreen {
     		
     		if(i >= this.guiLeft + 8 && i < this.guiLeft + 208 && j >= this.guiTop + 8 && j < this.guiTop + 208 && player != null) {
 
-    			int x = (int)player.posX - guiLeft + i - 8 - 100;
-    			int z = (int)player.posZ - guiTop + j - 8 - 100;
+    			int x = this.x - guiLeft + i - 8 - 100;
+    			int z = this.z - guiTop + j - 8 - 100;
     			func_146283_a(Arrays.asList(new String[] { x + " / " + z }), i, j);
     		}
     	}
@@ -168,8 +173,8 @@ public class GUIScreenSatInterface extends GuiScreen {
 		World world = player.worldObj;
 		
 		for(int i = -100; i < 100; i++) {
-			int x = (int)player.posX + i;
-			int z = (int)player.posZ + scanPos - 100;
+			int x = this.x + i;
+			int z = this.z + scanPos - 100;
 			int y = world.getHeightValue(x, z) - 1;
 			map[i + 100][scanPos] = world.getBlock(x, y, z).getMaterial().getMaterialMapColor().colorValue;
 		}
@@ -182,8 +187,8 @@ public class GUIScreenSatInterface extends GuiScreen {
 		World world = player.worldObj;
 		
 		for(int i = -100; i < 100; i++) {
-			int x = (int)player.posX + i;
-			int z = (int)player.posZ + scanPos - 100;
+			int x = this.x + i;
+			int z = this.z + scanPos - 100;
 			
 			for(int j = 255; j >= 0; j--) {
 				int c = getColorFromBlock(new ItemStack(world.getBlock(x, j, z), 1, world.getBlockMetadata(x, j, z)));
@@ -272,8 +277,8 @@ public class GUIScreenSatInterface extends GuiScreen {
 			for(Entity e : entities) {
 				
 				if(e.width * e.width * e.height >= 0.5D) {
-					int x = (int)((e.posX - player.posX) / ((double)100 * 2 + 1) * (200D - 8D)) - 4;
-					int z = (int)((e.posZ - player.posZ) / ((double)100 * 2 + 1) * (200D - 8D)) - 4 - 9;
+					int x = (int)((e.posX - this.x) / ((double)100 * 2 + 1) * (200D - 8D)) - 4;
+					int z = (int)((e.posZ - this.z) / ((double)100 * 2 + 1) * (200D - 8D)) - 4 - 9;
 					
 					int t = 5;
 					
@@ -322,6 +327,30 @@ public class GUIScreenSatInterface extends GuiScreen {
         if (p_73869_2_ == 1 || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode())
         {
             this.mc.thePlayer.closeScreen();
+        }
+        
+        if (p_73869_2_ == this.mc.gameSettings.keyBindForward.getKeyCode())
+        {
+            this.z -= 50;
+            map = new int[200][200];
+        }
+        
+        if (p_73869_2_ == this.mc.gameSettings.keyBindBack.getKeyCode())
+        {
+            this.z += 50;
+            map = new int[200][200];
+        }
+        
+        if (p_73869_2_ == this.mc.gameSettings.keyBindLeft.getKeyCode())
+        {
+            this.x -= 50;
+            map = new int[200][200];
+        }
+        
+        if (p_73869_2_ == this.mc.gameSettings.keyBindRight.getKeyCode())
+        {
+            this.x += 50;
+            map = new int[200][200];
         }
         
     }
