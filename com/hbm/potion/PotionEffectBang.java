@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -41,7 +42,9 @@ public class PotionEffectBang extends Potion {
     {
     	entity.attackEntityFrom(ModDamageSource.bang, 1000);
     	entity.setHealth(0.0F);
-    	entity.setDead();
+    	
+    	if(!(entity instanceof EntityPlayer))
+    		entity.setDead();
     	
     	entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.laserBang", 100.0F, 1.0F);
     	//entity.worldObj.spawnParticle("hugeexplosion", entity.posX, entity.posY, entity.posZ, 0, 0, 0);

@@ -40,7 +40,7 @@ public class PotionEffectTaint extends Potion {
     {
     	entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
     	
-    	if(!entity.worldObj.isRemote) {
+    	/*if(!entity.worldObj.isRemote) {
     		
 	    	for(int i = 0; i < 15; i++) {
 	    		int a = rand.nextInt(5) + (int)entity.posX - 2;
@@ -49,7 +49,7 @@ public class PotionEffectTaint extends Potion {
 	            if(entity.worldObj.getBlock(a, b, c).isReplaceable(entity.worldObj, a, b, c) && BlockTaint.hasPosNeightbour(entity.worldObj, a, b, c))
 	            	entity.worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3), 2);
 	    	}
-    	}
+    	}*/
     }
     
     public boolean isReady(int par1, int par2)

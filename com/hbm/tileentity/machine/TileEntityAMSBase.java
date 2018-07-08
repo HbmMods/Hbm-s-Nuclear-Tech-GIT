@@ -428,16 +428,18 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
 		
 		for(Entity e : list) {
-			if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
-				e.attackEntityFrom(ModDamageSource.ams, 1000);
-				e.setFire(3);
-			}
+			if(!(e instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)e)))
+				if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+					e.attackEntityFrom(ModDamageSource.ams, 1000);
+					e.setFire(3);
+				}
 		}
 
 		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
 		
 		for(Entity e : list2) {
-			e.attackEntityFrom(ModDamageSource.amsCore, 10000);
+			if(!(e instanceof EntityPlayer && Library.checkForHaz2((EntityPlayer)e)))
+					e.attackEntityFrom(ModDamageSource.amsCore, 10000);
 		}
 	}
 	
@@ -453,9 +455,9 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	    		this.worldObj.spawnEntityInWorld(cloud);
 			}
 			
-			int radius = (int)(100 + (double)(tanks[2].getFill() + tanks[3].getFill()) / 16000D * 150);
+			int radius = (int)(50 + (double)(tanks[2].getFill() + tanks[3].getFill()) / 16000D * 150);
 			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacExperimental(worldObj, 10, xCoord, yCoord, zCoord));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacExperimental(worldObj, radius, xCoord, yCoord, zCoord));
 		}
 	}
 	

@@ -229,6 +229,16 @@ public class Library {
 		return false;
 	}
 	
+	public static boolean checkForHaz2(EntityPlayer player) {
+		
+		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean checkForAsbestos(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
@@ -543,12 +553,51 @@ public class Library {
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
-			for(long i = 0; i < ((ItemBattery)slots[index].getItem()).getChargeRate(); i++)
+			
+			long dR = ((ItemBattery)slots[index].getItem()).getDischargeRate();
+			
+			while(dR >= 1000000000) {
+				if(power - 100000000000L >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+				{
+					power -= 100000000000L;
+					dR -= 1000000000;
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+				} else break;
+			}
+			while(dR >= 1000000) {
+				if(power - 100000000 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+				{
+					power -= 100000000;
+					dR -= 1000000;
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+				} else break;
+			}
+			while(dR >= 1000) {
+				if(power - 100000 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
+				{
+					power -= 100000;
+					dR -= 1000;
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+				} else break;
+			}
+			while(dR >= 1) {
 				if(power - 100 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 				{
 					power -= 100;
+					dR -= 1;
 					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
 				} else break;
+			}
+
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
+		}
 		
 		for(int i = 0; i < 50; i++)
 			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_sword && slots[index].getItemDamage() > 0)
@@ -556,37 +605,27 @@ public class Library {
 				power -= 1;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
-		
+	
 		for(int i = 0; i < 50; i++)
 			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_pickaxe && slots[index].getItemDamage() > 0)
 			{
 				power -= 1;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
-		
+	
 		for(int i = 0; i < 50; i++)
 			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_axe && slots[index].getItemDamage() > 0)
 			{
 				power -= 1;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
-		
+	
 		for(int i = 0; i < 50; i++)
 			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_shovel && slots[index].getItemDamage() > 0)
 			{
 				power -= 1;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
-
-		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
-			slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
-			slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
-			slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-		if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
-			slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
-		}
 		
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
 			ItemBattery.updateDamage(slots[index]);
@@ -607,16 +646,46 @@ public class Library {
 			return maxPower;
 		}
 		
-		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery)
-			for(long i = 0; i < ((ItemBattery)slots[index].getItem()).getDischargeRate(); i++)
-				if(power + 100 <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
-				{
-					power += 100;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
-				} else break;
-		
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
 			ItemBattery.updateDamage(slots[index]);
+		}
+		
+		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
+			
+			long dR = ((ItemBattery)slots[index].getItem()).getDischargeRate();
+			
+			while(dR >= 1000000000) {
+				if(power + 100000000000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
+				{
+					power += 100000000000L;
+					dR -= 1000000000L;
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+				} else break;
+			}
+			while(dR >= 1000000) {
+				if(power + 100000000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
+				{
+					power += 100000000L;
+					dR -= 1000000;
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+				} else break;
+			}
+			while(dR >= 1000) {
+				if(power + 100000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
+				{
+					power += 100000L;
+					dR -= 1000;
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+				} else break;
+			}
+			while(dR >= 1) {
+				if(power + 100L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
+				{
+					power += 100L;
+					dR -= 1;
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+				} else break;
+			}
 		}
 		
 		return power;

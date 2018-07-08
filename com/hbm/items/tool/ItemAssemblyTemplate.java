@@ -874,6 +874,9 @@ public class ItemAssemblyTemplate extends Item {
     	List<ItemStack> stacks = MachineRecipes.getRecipeFromTempate(stack);
     	ItemStack out = MachineRecipes.getOutputFromTempate(stack);
 
+		list.add("[CREATED USING TEMPLATE FOLDER]");
+		list.add("");
+		
     	try {
     		list.add("Output:");
     		list.add(out.stackSize + "x " + out.getDisplayName());

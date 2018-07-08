@@ -134,7 +134,7 @@ public class LoopedSoundPacket implements IMessage {
 				int j = te.xCoord + te.zCoord + te.yCoord;
 				
 				if(flag && te.getWorldObj().isRemote)
-					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopBroadcaster(new ResourceLocation("hbm:block.broadcast" + (j % 3 + 1)), te));
+					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopBroadcaster(new ResourceLocation("hbm:block.broadcast" + (Math.abs(j) % 3 + 1)), te));
 			}
 			return null;
 		}

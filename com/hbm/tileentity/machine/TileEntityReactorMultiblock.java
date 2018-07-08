@@ -24,6 +24,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.PotionEffectRadiation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -511,19 +512,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				                		Library.damageSuit(((EntityPlayer)entity), 2);
 				                		Library.damageSuit(((EntityPlayer)entity), 3);*/
 				                		
-				                	} else if(entity instanceof EntityCreeper) {
-				                		EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
-				                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-				                		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
-				                		if(!entity.isDead)
-				                			if(!worldObj.isRemote)
-				                				worldObj.spawnEntityInWorld(creep);
-				                		entity.setDead();
-				                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom))
-				                    {
-				                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
-				                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.getId(), 20, 4));
-				                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 1 * 60 * 20, 1));
+				                	} else {
+				                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 80 * 20, 25));
 				                    }
 				                }
 				            }

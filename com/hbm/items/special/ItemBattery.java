@@ -161,8 +161,9 @@ public class ItemBattery extends Item {
 	
 	public static void updateDamage(ItemStack stack) {
 		
-		if(!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
+		if(!stack.hasTagCompound()) {
+			stack = getFullBattery(stack.getItem()).copy();
+		}
 
 		stack.setItemDamage(100 - (int)((double)getCharge(stack) / (double)getMaxChargeStatic(stack) * 100D));
 	}

@@ -113,7 +113,7 @@ public class Meteorite {
 				List<ItemStack> list10 = new ArrayList<ItemStack>();
 				list10.add(new ItemStack(ModBlocks.block_meteor_broken));
 				generateSphere5x5(world, rand, x, y, z, list10);
-				world.setBlock(x, y, z, ModBlocks.taint);
+				world.setBlock(x, y, z, ModBlocks.taint, 9, 2);
 				return;
 			case 11:
 				//Atomic meteorite

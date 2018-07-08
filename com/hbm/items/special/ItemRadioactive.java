@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.PotionEffectRadiation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,9 +44,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.pellet_mes || 
 					this == ModItems.pellet_neptunium || 
 					this == ModItems.pellet_schrabidium) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 120 * 20, 4));
-				living.addPotionEffect(new PotionEffect(Potion.wither.id, 30 * 20, 2));
-				living.attackEntityFrom(ModDamageSource.radiation, 15);
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 80 * 20, 25));
 			}
 
 			//Strong
@@ -79,9 +78,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.gadget_core || 
 					this == ModItems.man_core || 
 					this == ModItems.nuclear_waste) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 45 * 20, 4));
-				living.addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 2));
-				living.attackEntityFrom(ModDamageSource.radiation, 3);
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 60 * 20, 20));
 			}
 			
 			//Strong Nuggets
@@ -101,9 +98,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_uranium_fuel_depleted || 
 					this == ModItems.rod_plutonium_fuel_depleted || 
 					this == ModItems.rod_mox_fuel_depleted) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 35 * 20, 4));
-				living.addPotionEffect(new PotionEffect(Potion.wither.id, 1 * 20, 2));
-				living.attackEntityFrom(ModDamageSource.radiation, 1);
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 45 * 20, 20));
 			}
 			
 			//Medium
@@ -121,8 +116,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.mike_core || 
 					this == ModItems.tsar_core || 
 					this == ModItems.trinitite) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 25 * 20, 4));
-				living.attackEntityFrom(ModDamageSource.radiation, 1);
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 30 * 20, 15));
 			}
 			
 			//Medium Nuggets
@@ -134,7 +128,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_pu238 || 
 					this == ModItems.rod_plutonium || 
 					this == ModItems.pellet_rtg_weak) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 15 * 20, 2));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 20 * 20, 15));
 			}
 			
 			//Weak
@@ -147,7 +141,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_dual_u238 || 
 					this == ModItems.rod_quad_pu238 || 
 					this == ModItems.rod_dual_pu238) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 15 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 20 * 20, 5));
 			}
 			
 			//Weak Nuggets
@@ -161,20 +155,19 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_dual_tritium || 
 					this == ModItems.rod_quad_tritium || 
 					this == ModItems.powder_yellowcake) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 10 * 20, 5));
 			}
 			
 			//Powder
 
 			if (this == ModItems.powder_neptunium || 
 					this == ModItems.powder_plutonium) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 25 * 20, 4));
-				living.attackEntityFrom(ModDamageSource.radiation, 1);
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 60 * 20, 20));
 				living.setFire(5);
 			}
 
 			if (this == ModItems.powder_uranium) {
-				living.addPotionEffect(new PotionEffect(Potion.poison.id, 15 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 20 * 20, 5));
 				living.setFire(5);
 			}
 			
@@ -197,8 +190,8 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_schrabidium_fuel || 
 					this == ModItems.rod_dual_schrabidium_fuel || 
 					this == ModItems.rod_quad_schrabidium_fuel) {
-				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 2 * 60 * 20, 0));
-				living.attackEntityFrom(ModDamageSource.radiation, 30);
+				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 100 * 20, 30));
 			}
 
 			if (this == ModItems.nugget_schrabidium || 
@@ -206,19 +199,19 @@ public class ItemRadioactive extends Item {
 					this == ModItems.nugget_schrabidium_fuel || 
 					this == ModItems.nugget_hes || 
 					this == ModItems.nugget_les) {
-				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 2 * 60 * 20, 0));
-				living.attackEntityFrom(ModDamageSource.radiation, 10);
+				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 75 * 20, 30));
 			}
 
 			if (this == ModItems.plate_schrabidium || 
 					this == ModItems.wire_schrabidium) {
-				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 2 * 60 * 20, 0));
-				living.attackEntityFrom(ModDamageSource.radiation, 15);
+				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 80 * 20, 30));
 			}
 
 			if (this == ModItems.powder_schrabidium) {
-				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 2 * 60 * 20, 0));
-				living.attackEntityFrom(ModDamageSource.radiation, 30);
+				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+        		living.addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 100 * 20, 30));
 				living.setFire(5);
 			}
 		}

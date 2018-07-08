@@ -1037,6 +1037,7 @@ public class MainRegistry
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
+		OreDictionary.registerOre("plateDesh", ModItems.plate_desh);
 		OreDictionary.registerOre("plateEuphemium", ModItems.plate_euphemium);
 		OreDictionary.registerOre("plateDineutronium", ModItems.plate_dineutronium);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);

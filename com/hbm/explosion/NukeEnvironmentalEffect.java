@@ -102,6 +102,9 @@ public class NukeEnvironmentalEffect {
 			
 		} else if(in == Blocks.clay) {
 			b = Blocks.hardened_clay;
+		} else if(in.getMaterial().getCanBurn()) {
+			b = Blocks.fire;
+			chance = 100;
 		}
 		
 		if(b != null && rand.nextInt(1000) < chance)

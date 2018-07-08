@@ -49,7 +49,9 @@ public class ItemFluidIdentifier extends Item {
     	
     	if(!(stack.getItem() instanceof ItemFluidIdentifier))
     		return;
-    	
+
+		list.add("[CREATED USING TEMPLATE FOLDER]");
+		list.add("");
     	list.add("Universal fluid identifier for:");
     	list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
 	}

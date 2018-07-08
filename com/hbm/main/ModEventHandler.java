@@ -1,15 +1,28 @@
 package com.hbm.main;
 
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
+import com.hbm.potion.PotionEffectRadiation;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 
@@ -59,6 +72,81 @@ public class ModEventHandler
 						(int)(MainRegistry.meteorShowerDuration * 0.75 + 
 								MainRegistry.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
 				MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
+			}
+		}
+		
+		if(event.world != null && !event.world.isRemote) {
+			if(!event.world.loadedEntityList.isEmpty()) {
+				for(Object e : event.world.loadedEntityList) {
+					if(e instanceof EntityLivingBase) {
+						EntityLivingBase entity = (EntityLivingBase) e;
+						PotionEffect effect = entity.getActivePotionEffect(PotionEffectRadiation.instance);
+						
+						if(effect != null) {
+							
+							if(entity instanceof EntityCreeper) {
+			        		EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
+			        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			        		
+			        		if(!entity.isDead)
+			        			if(!event.world.isRemote)
+			        				event.world.spawnEntityInWorld(creep);
+			        		entity.setDead();
+			        		
+				        	} else if(entity instanceof EntityCow) {
+				        		EntityMooshroom creep = new EntityMooshroom(event.world);
+				        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+
+				        		if(!entity.isDead)
+				        			if(!event.world.isRemote)
+				        				event.world.spawnEntityInWorld(creep);
+				        		entity.setDead();
+				        		
+				        	} else if(entity instanceof EntityVillager) {
+				        		EntityZombie creep = new EntityZombie(event.world);
+				        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+				        		
+				        		if(!entity.isDead)
+					        		if(!event.world.isRemote)
+					        			event.world.spawnEntityInWorld(creep);
+				        		entity.setDead();
+				        		
+				        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
+							
+								int level = effect.getAmplifier();
+						        
+						        if(level > 15) {
+						        	if(event.world.rand.nextInt(100) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+						        	if(event.world.rand.nextInt(300) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 3));
+						        	if(event.world.rand.nextInt(300) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 3));
+						        	if(event.world.rand.nextInt(300) == 0)
+						        		entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 2));
+						        	if(event.world.rand.nextInt(500) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 4));
+						        } else if(level > 10) {
+						        	if(event.world.rand.nextInt(150) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+						        	if(event.world.rand.nextInt(400) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 3));
+						        	if(event.world.rand.nextInt(400) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 3));
+						        	if(event.world.rand.nextInt(400) == 0)
+						           		entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 2));
+						        } else if(level > 4) {
+						        	if(event.world.rand.nextInt(300) == 0)
+						            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+						        	if(event.world.rand.nextInt(500) == 0)
+						            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 1));
+						        	if(event.world.rand.nextInt(500) == 0)
+						            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
+								}
+				        	}
+						}
+					}
+				}
 			}
 		}
 	}

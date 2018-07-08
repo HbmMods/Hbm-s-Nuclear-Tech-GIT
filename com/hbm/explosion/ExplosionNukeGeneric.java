@@ -295,7 +295,7 @@ public class ExplosionNukeGeneric {
 						
 					if (!(entity instanceof EntityPlayerMP
 							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() == GameType.CREATIVE)) {
-						entity.attackEntityFrom(ModDamageSource.blackhole, 10000F);
+						entity.attackEntityFrom(ModDamageSource.blackhole, 1000F);
 					}
 					
 					if(!(entity instanceof EntityLivingBase) && !(entity instanceof EntityPlayerMP) && !(entity instanceof EntityBlackHole)) {

@@ -34,7 +34,7 @@ public class BlockCrate extends BlockFalling {
     	{
     		dropItems(world, x, y, z);
     		world.setBlockToAir(x, y, z);
-    		world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 1.0F, 1.0F);
+    		world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 0.5F, 1.0F);
     		return true;
     	} else {
 			if(world.isRemote)

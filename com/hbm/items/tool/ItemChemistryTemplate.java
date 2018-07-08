@@ -249,7 +249,10 @@ public class ItemChemistryTemplate extends Item {
     	ItemStack[] out = MachineRecipes.getChemOutputFromTempate(stack);
     	FluidStack[] outF = MachineRecipes.getFluidOutputFromTempate(stack);
 
-    	//try {
+		list.add("[CREATED USING TEMPLATE FOLDER]");
+		list.add("");
+
+    	try {
     		list.add("Outputs:");
     		for(int i = 0; i < 4; i++)
     			if(out[i] != null)
@@ -271,10 +274,10 @@ public class ItemChemistryTemplate extends Item {
     		
     		list.add("Production time:");
         	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
-    	//} catch(Exception e) {
-    	//	list.add("###INVALID###");
-    	//	list.add("0x334077-0x6A298F-0xDF3795-0x334077");
-    	//}
+    	} catch(Exception e) {
+    		list.add("###INVALID###");
+    		list.add("0x334077-0x6A298F-0xDF3795-0x334077");
+    	}
 	}
 
 }

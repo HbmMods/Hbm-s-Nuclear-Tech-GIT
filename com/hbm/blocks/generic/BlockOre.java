@@ -7,6 +7,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.PotionEffectRadiation;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -190,96 +191,22 @@ public class BlockOre extends Block {
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite)
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{
-        		/*Library.damageSuit(((EntityPlayer)entity), 0);
-        		Library.damageSuit(((EntityPlayer)entity), 1);
-        		Library.damageSuit(((EntityPlayer)entity), 2);
-        		Library.damageSuit(((EntityPlayer)entity), 3);*/
-        		
-        	} else if(entity instanceof EntityCreeper) {
-        		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
-        		entity.setDead();
-        		if(!p_149724_1_.isRemote)
-        		p_149724_1_.spawnEntityInWorld(creep);
-        	} else if(entity instanceof EntityVillager) {
-        		EntityZombie creep = new EntityZombie(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		entity.setDead();
-        		if(!p_149724_1_.isRemote)
-        		p_149724_1_.spawnEntityInWorld(creep);
-        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 30 * 20, 2));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 5 * 20, 0));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 15 * 20, 0));
-    		entity.attackEntityFrom(ModDamageSource.radiation, 0.5F);
+        	{ } else {
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 45 * 20, 20));
         	}
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_waste)
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{
-        		/*Library.damageSuit(((EntityPlayer)entity), 0);
-        		Library.damageSuit(((EntityPlayer)entity), 1);
-        		Library.damageSuit(((EntityPlayer)entity), 2);
-        		Library.damageSuit(((EntityPlayer)entity), 3);*/
-        		
-        	} else if(entity instanceof EntityCreeper) {
-        		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
-        		if(!entity.isDead)
-        			if(!p_149724_1_.isRemote)
-        					p_149724_1_.spawnEntityInWorld(creep);
-        		entity.setDead();
-        	} else if(entity instanceof EntityCow) {
-        		EntityMooshroom creep = new EntityMooshroom(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		//creep.setRotationYawHead(((EntityCow)entity).rotationYawHead);
-        		if(!entity.isDead)
-        			if(!p_149724_1_.isRemote)
-        					p_149724_1_.spawnEntityInWorld(creep);
-        		entity.setDead();
-        	} else if(entity instanceof EntityVillager) {
-        		EntityZombie creep = new EntityZombie(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		entity.setDead();
-        		if(!p_149724_1_.isRemote)
-        		p_149724_1_.spawnEntityInWorld(creep);
-        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 60 * 20, 2));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 30 * 20, 1));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.wither.id, 10 * 20, 0));
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 20 * 20, 0));
-    		entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
+        	{ } else {
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 60 * 20, 20));
         	}
     	}
     	if (entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red))
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{
-        		/*Library.damageSuit(((EntityPlayer)entity), 0);
-        		Library.damageSuit(((EntityPlayer)entity), 1);
-        		Library.damageSuit(((EntityPlayer)entity), 2);
-        		Library.damageSuit(((EntityPlayer)entity), 3);*/
-        		
-        	} else if(entity instanceof EntityCreeper) {
-        		EntityNuclearCreeper creep = new EntityNuclearCreeper(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
-        		if(!entity.isDead)
-        			if(!p_149724_1_.isRemote)
-        					p_149724_1_.spawnEntityInWorld(creep);
-        		entity.setDead();
-        	} else if(entity instanceof EntityVillager) {
-        		EntityZombie creep = new EntityZombie(p_149724_1_);
-        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-        		entity.setDead();
-        		if(!p_149724_1_.isRemote)
-        		p_149724_1_.spawnEntityInWorld(creep);
-        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 5 * 20, 1));
+        	{ } else {
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 30 * 20, 10));
         	}
     	}
     	

@@ -40,6 +40,12 @@ public class EntityFalloutRain extends Entity {
         	
         	int count = (int)(Math.pow(getScale(), 2) * Math.PI / 500);
         	
+        	if(count > 50)
+        		count = 50;
+        	
+        	int maxEff = 15;
+        	int currEff = 0;
+        	
         	for(int i = 0; i < count; i++) {
 	            int x = (int) (posX + rand.nextInt((int) ((getScale() + 1) * 2)) - getScale());
 	            int z = (int) (posZ + rand.nextInt((int) ((getScale() + 1) * 2)) - getScale());
@@ -49,8 +55,9 @@ public class EntityFalloutRain extends Entity {
 	            
 	            if(dist <= getScale()) {
 	            	
-	            	if(rand.nextInt(50) == 0) {
+	            	if(currEff < maxEff && rand.nextInt(30) == 0) {
 	            		NukeEnvironmentalEffect.applyStandardAOE(worldObj, x, y, z, 5, 3);
+	            		currEff++;
 	            		
 	            	} else if(worldObj.getBlock(x, y, z) == Blocks.grass) {
 	            		worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
