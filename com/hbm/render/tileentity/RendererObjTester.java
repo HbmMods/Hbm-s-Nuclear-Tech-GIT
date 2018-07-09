@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -28,8 +29,8 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y + 3, z + 0.5D);
-        GL11.glRotatef(180, 0F, 0F, 1F);
+        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+        //GL11.glRotatef(180, 0F, 0F, 1F);
 		switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
@@ -42,8 +43,14 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(objTesterTexture);
-        objTesterModel.renderAll();
+        /*bindTexture(objTesterTexture);
+        objTesterModel.renderAll();*/
+
+		bindTexture(ResourceManager.reactor_small_base_tex);
+		ResourceManager.reactor_small_base.renderAll();
+        GL11.glTranslated(0, Math.sin(System.currentTimeMillis() % (Math.PI * 1200) / 600) * 0.5 + 0.5, 0);
+		bindTexture(ResourceManager.reactor_small_rods_tex);
+		ResourceManager.reactor_small_rods.renderAll();
 
         GL11.glPopMatrix();
     }
