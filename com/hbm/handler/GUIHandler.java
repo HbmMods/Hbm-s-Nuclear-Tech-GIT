@@ -55,6 +55,7 @@ import com.hbm.tileentity.machine.TileEntityMachineRTG;
 import com.hbm.tileentity.machine.TileEntityMachineRadGen;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
+import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
@@ -648,6 +649,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_reactor_small:
+			{
+				if(entity instanceof TileEntityMachineReactorSmall)
+				{
+					return new ContainerMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1222,6 +1232,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineSatLinker)
 					{
 						return new GUIMachineSatLinker(player.inventory, (TileEntityMachineSatLinker) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_reactor_small:
+				{
+					if(entity instanceof TileEntityMachineReactorSmall)
+					{
+						return new GUIMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
 					}
 					return null;
 				}

@@ -17,6 +17,8 @@
     "block.broadcast2": {"category": "block", "sounds": [{"name": "block/broadcast2", "stream": false}]},
     "block.broadcast3": {"category": "block", "sounds": [{"name": "block/broadcast3", "stream": false}]},
     "block.sonarPing": {"category": "block", "sounds": [{"name": "block/sonarPing", "stream": false}]},
+    "block.reactorStart": {"category": "block", "sounds": [{"name": "block/reactorStart", "stream": false}]},
+    "block.reactorStop": {"category": "block", "sounds": [{"name": "block/reactorStop", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

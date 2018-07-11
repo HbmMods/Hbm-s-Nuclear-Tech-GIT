@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
+import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -115,6 +116,16 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityMachineDiesel selenium = (TileEntityMachineDiesel)te;
 					
 					selenium.powerCap = m.value;
+				}
+				if (te instanceof TileEntityMachineReactorSmall) {
+					TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)te;
+					
+					if(m.id == 0)
+						reactor.rods = m.value;
+					if(m.id == 1)
+						reactor.retracting = m.value == 1;
+					if(m.id == 2)
+						reactor.heat = m.value;
 				}
 				
 			} catch (Exception x) { }
