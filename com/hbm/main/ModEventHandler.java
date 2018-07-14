@@ -6,7 +6,7 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
-import com.hbm.potion.PotionEffectRadiation;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -80,7 +80,7 @@ public class ModEventHandler
 				for(Object e : event.world.loadedEntityList) {
 					if(e instanceof EntityLivingBase) {
 						EntityLivingBase entity = (EntityLivingBase) e;
-						PotionEffect effect = entity.getActivePotionEffect(PotionEffectRadiation.instance);
+						PotionEffect effect = entity.getActivePotionEffect(HbmPotion.radiation);
 						
 						if(effect != null) {
 							

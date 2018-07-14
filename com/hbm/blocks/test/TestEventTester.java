@@ -16,8 +16,7 @@ import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
-import com.hbm.potion.PotionEffectBang;
-import com.hbm.potion.PotionEffectTaint;
+import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.world.Meteorite;
@@ -262,7 +261,7 @@ public class TestEventTester extends Block {
     	/*if(!worldObj.isRemote)
     		buildEvent(worldObj, par2, par3, par4, 30);*/
     	
-    	((EntityLivingBase)par5EntityPlayer).addPotionEffect(new PotionEffect(PotionEffectBang.instance.id, 100, 0));
+    	((EntityLivingBase)par5EntityPlayer).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 100, 0));
         
         return true;
     }

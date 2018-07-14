@@ -7,7 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.potion.PotionEffectTaint;
+import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.deco.TileEntityTaint;
 
 import cpw.mods.fml.relauncher.Side;
@@ -176,7 +176,7 @@ public class BlockTaint extends Block/*Container*/ {
 		int level = 15 - meta;
 		
     	List<ItemStack> list = new ArrayList<ItemStack>();
-    	PotionEffect effect = new PotionEffect(PotionEffectTaint.instance.id, 15 * 20, level);
+    	PotionEffect effect = new PotionEffect(HbmPotion.taint.id, 15 * 20, level);
     	effect.setCurativeItems(list);
     	if(entity instanceof EntityLivingBase)
     		if(world.rand.nextInt(50) == 0)

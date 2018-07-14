@@ -17,7 +17,7 @@ import com.hbm.explosion.ExplosionThermo;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.potion.PotionEffectBang;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -336,7 +336,7 @@ public class EntityModBeam extends Entity implements IProjectile
                     }
                     
                     if(movingobjectposition.entityHit instanceof EntityLivingBase) {
-                    	((EntityLivingBase)movingobjectposition.entityHit).addPotionEffect(new PotionEffect(PotionEffectBang.instance.id, 60, 0));
+                    	((EntityLivingBase)movingobjectposition.entityHit).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 60, 0));
                     } else {
                     	explode();
                     }

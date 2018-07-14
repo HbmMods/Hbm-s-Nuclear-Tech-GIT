@@ -33,11 +33,13 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityMachineReactorSmall extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
-	
-	public int heat;
-	public final int heatMax = 10000;
+
+	public int hullHeat;
+	public final int maxHullHeat = 100000;
+	public int coreHeat;
+	public final int maxCoreHeat = 50000;
 	public long power;
-	public final long powerMax = 100000;
+	public final long powerMax = 250000;
 	public int rods;
 	public final int rodsMax = 100;
 	public boolean retracting = true;
@@ -177,7 +179,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		power = nbt.getLong("power");
-		heat = nbt.getInteger("heat");
+		coreHeat = nbt.getInteger("heat");
 		slots = new ItemStack[getSizeInventory()];
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "coolant");
@@ -197,7 +199,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
-		nbt.setInteger("heat", heat);
+		nbt.setInteger("heat", coreHeat);
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
@@ -264,16 +266,24 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		return (power * i) / powerMax;
 	}
 	
-	public int getHeatScaled(int i) {
-		return (heat * i) / heatMax;
+	public int getCoreHeatScaled(int i) {
+		return (coreHeat * i) / maxCoreHeat;
+	}
+	
+	public int getHullHeatScaled(int i) {
+		return (hullHeat * i) / maxHullHeat;
 	}
 	
 	public boolean hasPower() {
 		return power > 0;
 	}
 	
-	public boolean hasHeat() {
-		return heat > 0;
+	public boolean hasCoreHeat() {
+		return coreHeat > 0;
+	}
+	
+	public boolean hasHullHeat() {
+		return hullHeat > 0;
 	}
 	
 	private int[] getNeighbouringSlots(int id) {
@@ -347,12 +357,37 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 						decay(i);
 				}
 			
+			if(this.coreHeat > 0 && this.tanks[1].getFill() > 0 && this.hullHeat < this.maxHullHeat) {
+				this.hullHeat += this.coreHeat * 0.175;
+				this.coreHeat -= this.coreHeat * 0.1;
+				
+				this.tanks[1].setFill(this.tanks[1].getFill() - 10);
+				
+				if(this.tanks[1].getFill() < 0)
+					this.tanks[1].setFill(0);
+			}
+
+			if(this.hullHeat > maxHullHeat)
+			{
+				this.hullHeat = maxHullHeat;
+			}
+			
+			if(this.hullHeat > 0 && this.tanks[0].getFill() > 0) {
+				this.power += this.hullHeat * 0.1;
+				this.hullHeat -= this.hullHeat * 0.085;
+				
+				this.tanks[0].setFill(this.tanks[0].getFill() - 100);
+				
+				if(this.tanks[0].getFill() < 0)
+					this.tanks[0].setFill(0);
+			}
+
 			if(this.power > powerMax)
 			{
 				this.power = powerMax;
 			}
 			
-			if(this.heat > heatMax)
+			if(this.coreHeat > maxCoreHeat)
 			{
 				this.explode();
 			}
@@ -360,7 +395,8 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, retracting ? 1 : 0, 1));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, heat, 2));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, coreHeat, 2));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, hullHeat, 3));
 		}
 	}
 	
@@ -400,7 +436,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 		
 		for(int i = 0; i < decay; i++) {
 			ItemFuelRod rod = ((ItemFuelRod)slots[id].getItem());
-			this.heat += rod.heat;
+			this.coreHeat += rod.heat;
 			ItemFuelRod.setLifeTime(slots[id], ItemFuelRod.getLifeTime(slots[id]) + 1);
 			ItemFuelRod.updateDamage(slots[id]);
 			
@@ -473,15 +509,15 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 	@Override
 	public void ffgeuaInit() {
-		ffgeua(this.xCoord - 1, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord + 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord + 1, getTact());
+		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 		
-		ffgeua(this.xCoord - 1, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord + 1, this.yCoord - 1, this.zCoord, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord - 1, getTact());
-		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord + 1, getTact());
+		ffgeua(this.xCoord - 1, this.yCoord + 2, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord + 2, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord + 2, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord + 2, this.zCoord + 1, getTact());
 	}
 	
 	@Override

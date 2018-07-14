@@ -24,7 +24,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.PotionEffectRadiation;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -513,7 +513,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				                		Library.damageSuit(((EntityPlayer)entity), 3);*/
 				                		
 				                	} else {
-				                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 80 * 20, 25));
+				                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 80 * 20, 25));
 				                    }
 				                }
 				            }

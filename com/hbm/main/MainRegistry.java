@@ -170,7 +170,7 @@ import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.PotionEffectTaint;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.HmfModelLoader;
 import com.hbm.tileentity.bomb.TileEntityBombMulti;
 import com.hbm.tileentity.bomb.TileEntityCelPrime;
@@ -482,6 +482,10 @@ public class MainRegistry
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
 
+	public static int taintID = 62;
+	public static int radiationID = 63;
+	public static int bangID = 64;
+
 	public static int x;
 	public static int y;
 	public static int z;
@@ -509,6 +513,7 @@ public class MainRegistry
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
 		GameRegistry.registerFuelHandler(new FuelHandler());
+		HbmPotion.init();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -1449,6 +1454,16 @@ public class MainRegistry
         Property propCiwsHitrate = config.get(Configuration.CATEGORY_GENERAL, "7.03_ciwsAccuracy", 50);
         propCiwsHitrate.comment = "Additional modifier for CIWS accuracy";
         ciwsHitrate = propRadarAltitude.getInt();
+
+        Property propTaintID = config.get(Configuration.CATEGORY_GENERAL, "8.00_taintPotionID", 62);
+        propTaintID.comment = "What potion ID the taint effect will have";
+        taintID = propTaintID.getInt();
+        Property propRadiationID = config.get(Configuration.CATEGORY_GENERAL, "8.01_radiationPotionID", 63);
+        propRadiationID.comment = "What potion ID the radiation effect will have";
+        radiationID = propRadiationID.getInt();
+        Property propBangID = config.get(Configuration.CATEGORY_GENERAL, "8.02_bangPotionID", 64);
+        propBangID.comment = "What potion ID the B93 timebomb effect will have";
+        bangID = propBangID.getInt();
         
         config.save();
 	}

@@ -7,7 +7,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.potion.PotionEffectRadiation;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -192,21 +192,21 @@ public class BlockOre extends Block {
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
         	{ } else {
-        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 45 * 20, 20));
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 45 * 20, 20));
         	}
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_waste)
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
         	{ } else {
-        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 60 * 20, 20));
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 60 * 20, 20));
         	}
     	}
     	if (entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red))
     	{
     		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
         	{ } else {
-        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 30 * 20, 10));
+        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 10));
         	}
     	}
     	

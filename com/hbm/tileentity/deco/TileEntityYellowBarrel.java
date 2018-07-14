@@ -6,7 +6,7 @@ import java.util.List;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.potion.PotionEffectRadiation;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -71,23 +71,9 @@ public class TileEntityYellowBarrel extends TileEntity {
                 		Library.damageSuit(((EntityPlayer)entity), 2);
                 		Library.damageSuit(((EntityPlayer)entity), 3);*/
                 		
-                	} else if(entity instanceof EntityCreeper) {
-                		EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
-                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
-                		if(!entity.isDead)
-                			if(!worldObj.isRemote)
-                				worldObj.spawnEntityInWorld(creep);
-                		entity.setDead();
-                	} else if(entity instanceof EntityVillager) {
-                		EntityZombie creep = new EntityZombie(this.worldObj);
-                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                		entity.setDead();
-                		if(!this.worldObj.isRemote)
-                		this.worldObj.spawnEntityInWorld(creep);
                 	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
                     {
-                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(PotionEffectRadiation.instance.id, 30 * 20, 14));
+                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 14));
                     }
                 }
             }

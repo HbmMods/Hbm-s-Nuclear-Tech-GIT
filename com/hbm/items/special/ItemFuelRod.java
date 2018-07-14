@@ -26,84 +26,72 @@ public class ItemFuelRod extends ItemRadioactive {
 		
 		if(this == ModItems.rod_uranium_fuel)
 		{
-			list.add("Generates 100 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_dual_uranium_fuel)
 		{
-			list.add("Generates 100 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_quad_uranium_fuel)
 		{
-			list.add("Generates 100 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_plutonium_fuel)
 		{
-			list.add("Generates 150 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_dual_plutonium_fuel)
 		{
-			list.add("Generates 150 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_quad_plutonium_fuel)
 		{
-			list.add("Generates 150 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_mox_fuel)
 		{
-			list.add("Generates 50 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_dual_mox_fuel)
 		{
-			list.add("Generates 50 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_quad_mox_fuel)
 		{
-			list.add("Generates 50 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_schrabidium_fuel)
 		{
-			list.add("Generates 25000 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_dual_schrabidium_fuel)
 		{
-			list.add("Generates 25000 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
 		
 		if(this == ModItems.rod_quad_schrabidium_fuel)
 		{
-			list.add("Generates 25000 power per tick");
 			list.add("Generates " + heat + " heat per tick");
 			list.add("Lasts " + lifeTime + " ticks");
 		}
