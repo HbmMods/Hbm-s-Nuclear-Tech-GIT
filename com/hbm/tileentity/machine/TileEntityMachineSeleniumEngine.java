@@ -213,7 +213,9 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 
 	@Override
 	public void updateEntity() {
+		
 		if (!worldObj.isRemote) {
+			
 			age++;
 			if (age >= 20) {
 				age = 0;

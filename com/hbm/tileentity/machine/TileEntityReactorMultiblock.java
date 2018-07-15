@@ -461,14 +461,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						this.heat--;
 					}
 					
-					if(this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) instanceof MachineGenerator)
-					isLoaded = false;
-					
 				} else {
 
-					if(this.worldObj.getBlock(this.xCoord, this.yCoord, this.zCoord) instanceof MachineGenerator)
-					isLoaded = true;
-					
 					if(!this.isCoatingValid(worldObj))
 					{
 						int strength = 20;
@@ -513,7 +507,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				                		Library.damageSuit(((EntityPlayer)entity), 3);*/
 				                		
 				                	} else {
-				                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 80 * 20, 25));
+					                	if(entity instanceof EntityLivingBase)
+					                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 80 * 20, 25));
 				                    }
 				                }
 				            }

@@ -16,10 +16,16 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -28,7 +34,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineReactorSmall extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
@@ -93,7 +101,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.generator";
+		return this.hasCustomInventoryName() ? this.customName : "container.reactorSmall";
 	}
 
 	@Override
@@ -308,18 +316,37 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 
 	@Override
 	public void updateEntity() {
-
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
-		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
 		
 		if(!worldObj.isRemote)
 		{
+
+			age++;
+			if(age >= 20)
+			{
+				age = 0;
+			}
+			
+			if(age == 9 || age == 19)
+				ffgeuaInit();
+			
+			if(tanks[0].getFill() < tanks[0].getMaxFill()) {
+				
+				if(worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord) == Blocks.water || worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord) == Blocks.flowing_water)
+					tanks[0].setFill(tanks[0].getFill() + 25);
+				
+				if(worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord) == Blocks.water || worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord) == Blocks.flowing_water)
+					tanks[0].setFill(tanks[0].getFill() + 25);
+				
+				if(worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) == Blocks.water || worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) == Blocks.flowing_water)
+					tanks[0].setFill(tanks[0].getFill() + 25);
+				
+				if(worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) == Blocks.water || worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) == Blocks.flowing_water)
+					tanks[0].setFill(tanks[0].getFill() + 25);
+				
+				if(tanks[0].getFill() > tanks[0].getMaxFill())
+					tanks[0].setFill(tanks[0].getMaxFill());
+			}
+			
 			tanks[0].loadTank(12, 13, slots);
 			tanks[1].loadTank(14, 15, slots);
 			
@@ -391,6 +418,30 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			{
 				this.explode();
 			}
+			
+			if(rods > 0 && coreHeat > 0 && 
+					!(worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).isNormalCube() && 
+					worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).isNormalCube() && 
+					worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).isNormalCube() && 
+					worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1).isNormalCube() && 
+					worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord) != Blocks.air && 
+					worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord) != Blocks.air && 
+					worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) != Blocks.air && 
+					worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) != Blocks.air)) {
+				
+				List<Entity> list = (List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(null, 
+						AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 5, yCoord + 1.5 - 5, zCoord + 0.5 - 5, xCoord + 0.5 + 5, yCoord + 1.5 + 5, zCoord + 0.5 + 5));
+				
+				for(Entity e : list) {
+                	if(e instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)e))
+                	{
+                		
+                	} else {
+	                	if(e instanceof EntityLivingBase)
+	                		((EntityLivingBase) e).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 80 * 20, 25));
+                    }
+				}
+			}
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
@@ -440,7 +491,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			ItemFuelRod.setLifeTime(slots[id], ItemFuelRod.getLifeTime(slots[id]) + 1);
 			ItemFuelRod.updateDamage(slots[id]);
 			
-			if(ItemFuelRod.getLifeTime(slots[id]) <= 0) {
+			if(ItemFuelRod.getLifeTime(slots[id]) > ((ItemFuelRod)slots[id].getItem()).lifeTime) {
 				onRunOut(id);
 				return;
 			}
@@ -449,6 +500,8 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	
 	//itemstack in slots[id] has to contain ItemFuelRod item
 	private void onRunOut(int id) {
+		
+		System.out.println("aaa");
 		
 		Item item = slots[id].getItem();
 
@@ -588,5 +641,17 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	public void setType(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

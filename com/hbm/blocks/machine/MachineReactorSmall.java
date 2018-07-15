@@ -3,7 +3,10 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandler;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 
@@ -11,6 +14,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -20,7 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachineReactorSmall extends BlockContainer {
+public class MachineReactorSmall extends BlockContainer implements IMultiblock {
 	
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory;
@@ -106,6 +110,36 @@ public class MachineReactorSmall extends BlockContainer {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		
+		if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.reactorSmallDimension)) {
+
+			//
+			DummyBlockMachine.safeBreak = true;
+			world.setBlock(x, y + 1, z, ModBlocks.dummy_block_reactor_small);
+			TileEntity te = world.getTileEntity(x, y + 1, z);
+			if(te instanceof TileEntityDummy) {
+				TileEntityDummy dummy = (TileEntityDummy)te;
+				dummy.targetX = x;
+				dummy.targetY = y;
+				dummy.targetZ = z;
+			}
+			world.setBlock(x, y + 2, z, ModBlocks.dummy_port_reactor_small);
+			TileEntity te2 = world.getTileEntity(x, y + 2, z);
+			if(te2 instanceof TileEntityDummy) {
+				TileEntityDummy dummy = (TileEntityDummy)te2;
+				dummy.targetX = x;
+				dummy.targetY = y;
+				dummy.targetZ = z;
+			}
+			DummyBlockMachine.safeBreak = false;
+			//
+			
+		} else
+			world.func_147480_a(x, y, z, true);
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

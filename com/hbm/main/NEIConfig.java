@@ -86,6 +86,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_reactor_small));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_chemplant));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_cyclotron));
@@ -100,6 +101,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_reactor_small));
 	}
 
 	@Override

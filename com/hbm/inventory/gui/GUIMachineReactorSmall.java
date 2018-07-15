@@ -39,8 +39,37 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 36, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 36, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 108, 88, 4, diFurnace.power, diFurnace.powerMax);
-		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 114, 88, 4, new String[] { "Hull Temperature:", "   " + Math.round((diFurnace.hullHeat) * 0.00001 * 2480 + 20) + "°C" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 114, 88, 4, new String[] { "Hull Temperature:", "   " + Math.round((diFurnace.hullHeat) * 0.00001 * 980 + 20) + "°C" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 120, 88, 4, new String[] { "Core Temperature:", "   " + Math.round((diFurnace.coreHeat) * 0.00002 * 980 + 20) + "°C" });
+		
+		String[] text = new String[] { "Coolant will move heat from the core to",
+				"the hull. Water will use that heat and",
+				"generate power.",
+				"Water consumption rate:",
+				" 100 mB/t",
+				" 2000 mB/s",
+				"Coolant consumption rate:",
+				" 10 mB/t",
+				" 200 mB/s",
+				"Water next to the reactor's open",
+				"sides will pour into the tank." };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Raise/lower the control rods",
+				"using the button next to the",
+				"fluid gauges." };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
+
+		if(diFurnace.tanks[0].getFill() <= 0) {
+			String[] text2 = new String[] { "Error: Water is required for",
+					"the reactor to function properly!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, text2);
+		}
+
+		if(diFurnace.tanks[1].getFill() <= 0) {
+			String[] text3 = new String[] { "Use of coolant is advised." };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, text3);
+		}
 	}
 	
 	@Override
@@ -114,6 +143,15 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 				
 			}
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
+		
+		if(diFurnace.tanks[0].getFill() <= 0)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
+		
+		if(diFurnace.tanks[1].getFill() <= 0)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, 7);
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
 		diFurnace.tanks[0].renderTank(this, guiLeft + 8, guiTop + 88, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);

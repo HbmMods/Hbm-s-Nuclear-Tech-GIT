@@ -282,7 +282,7 @@ container.rtgFurnace=RTG-Ofen
 tile.machine_electric_furnace_off.name=Elektrischer Ofen
 tile.machine_electric_furnace_on.name=Elektrischer Ofen
 container.electricFurnace=Elektrischer Ofen
-tile.machine_generator.name=Atomreaktor
+tile.machine_generator.name=Atomreaktor (Alt)
 container.generator=Atomreaktor
 tile.red_wire_coated.name=Geschirmtes rotes Kupferkabel
 tile.machine_deuterium.name=Deuteriumextraktor
@@ -351,6 +351,8 @@ tile.machine_radgen.name=Strahlenbetriebener Generator
 container.radGen=Strahlenbetriebener Generator
 tile.machine_selenium.name=Hochleistungs-Sternmotor
 container.machineSelenium=Hochleistungs-Sternmotor
+tile.machine_reactor_small.name=Atomreaktor
+container.reactorSmall=Atomreaktor
 
 tile.broadcaster_pc.name=Korrupter Sender
 

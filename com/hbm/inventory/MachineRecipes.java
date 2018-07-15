@@ -1997,7 +1997,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.board_copper, 6));
 			list.add(new ItemStack(ModItems.motor, 1));
 			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 2));
-			list.add(new ItemStack(ModBlocks.machine_generator, 1));
+			list.add(new ItemStack(ModBlocks.machine_reactor_small, 1));
 			break;
 		case SAT_BASE:
 			list.add(new ItemStack(ModItems.thruster_large, 1));
@@ -3764,7 +3764,7 @@ public class MachineRecipes {
 			output = new ItemStack(ModBlocks.machine_selenium, 1);
 			break;
 		case NUCLEAR_GENERATOR:
-			output = new ItemStack(ModBlocks.machine_generator, 1);
+			output = new ItemStack(ModBlocks.machine_reactor_small, 1);
 			break;
 		case INDUSTRIAL_GENERATOR:
 			output = new ItemStack(ModBlocks.machine_industrial_generator, 1);
