@@ -260,6 +260,10 @@ tile.crashed_bomb.name=Blindgänger
 tile.boxcar.name=Güterwagon
 
 tile.crate.name=Vorratskiste
+tile.crate_weapon.name=Waffenkiste
+tile.crate_lead.name=Gefahrenstoffkiste
+tile.crate_metal.name=Maschinenkiste
+tile.crate_red.name=Rote Kiste
 tile.marker_structure.name=Multiblock-Strukturvorlage
 
 tile.machine_difurnace_off.name=Legierungshochofen

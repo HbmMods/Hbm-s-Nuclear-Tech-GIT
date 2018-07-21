@@ -260,6 +260,10 @@ item.turret_chip.name=Turret AI-Chip
 item.turret_biometry.name=Turret Telemetry Card
 
 tile.crate.name=Supply Crate
+tile.crate_weapon.name=Weapon Crate
+tile.crate_lead.name=Hazmat Crate
+tile.crate_metal.name=Machine Crate
+tile.crate_red.name=Red Crate
 tile.marker_structure.name=Multiblock Structure Marker
 
 tile.machine_difurnace_off.name=Alloy Furnace
@@ -1660,4 +1664,5 @@ tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block
 
 item.mysteryshovel.name=Brittle Spade
+tile.ntm_dirt.name=Dirt
 item.memory.name=item.null.name

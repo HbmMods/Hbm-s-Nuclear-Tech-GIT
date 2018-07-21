@@ -173,6 +173,10 @@ public class ModBlocks {
 	public static Block rejuvinator;
 
 	public static Block crate;
+	public static Block crate_weapon;
+	public static Block crate_lead;
+	public static Block crate_metal;
+	public static Block crate_red;
 	public static Block boxcar;
 
 	public static Block seal_frame;
@@ -822,6 +826,10 @@ public class ModBlocks {
 		rail_booster = new RailBooster().setBlockName("rail_booster").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":rail_booster");
 
 		crate = new BlockCrate(Material.iron).setBlockName("crate").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate");
+		crate_weapon = new BlockCrate(Material.iron).setBlockName("crate_weapon").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate_weapon");
+		crate_lead = new BlockCrate(Material.iron).setBlockName("crate_lead").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate_lead");
+		crate_metal = new BlockCrate(Material.iron).setBlockName("crate_metal").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate_metal");
+		crate_red = new BlockCrate(Material.iron).setBlockName("crate_red").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crate_red");
 		crate_iron = new BlockStorageCrate(Material.iron).setBlockName("crate_iron").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
@@ -1250,6 +1258,10 @@ public class ModBlocks {
 		
 		//Crate
 		GameRegistry.registerBlock(crate, crate.getUnlocalizedName());
+		GameRegistry.registerBlock(crate_weapon, crate_weapon.getUnlocalizedName());
+		GameRegistry.registerBlock(crate_lead, crate_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(crate_metal, crate_metal.getUnlocalizedName());
+		GameRegistry.registerBlock(crate_red, crate_red.getUnlocalizedName());
 		
 		//ElB
 		GameRegistry.registerBlock(statue_elb, statue_elb.getUnlocalizedName());

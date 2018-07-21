@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -33,11 +35,24 @@ public class ItemCrateCaller extends Item {
 
 		int x = rand.nextInt(31) - 15;
 		int z = rand.nextInt(31) - 15;
+		
+		Block crate = ModBlocks.crate;
+		
+		int i = rand.nextInt(1000);
+		
+		if(i < 350)
+			crate = ModBlocks.crate_weapon;
+		if(i < 100)
+			crate = ModBlocks.crate_metal;
+		if(i < 50)
+			crate = ModBlocks.crate_lead;
+		if(i == 0)
+			crate = ModBlocks.crate_red;
 
 		if(!world.isRemote)
 		{
 			if(world.getBlock((int)player.posX + x, 255, (int)player.posZ + z) == Blocks.air)
-				world.setBlock((int)player.posX + x, 255, (int)player.posZ + z, ModBlocks.crate);
+				world.setBlock((int)player.posX + x, 255, (int)player.posZ + z, crate);
 		}
 		if(world.isRemote)
 		{
