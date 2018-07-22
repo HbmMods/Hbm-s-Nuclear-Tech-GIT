@@ -77,6 +77,7 @@ public class BlockCrate extends BlockFalling {
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_mirv, 2);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_bf, 1);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_mp40, 7);
+    	BlockCrate.addToListWithWeight(crateList, ModItems.clip_uzi, 7);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_uboinik, 7);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_lever_action, 5);
     	BlockCrate.addToListWithWeight(crateList, ModItems.clip_bolt_action, 5);
@@ -115,6 +116,8 @@ public class BlockCrate extends BlockFalling {
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_mirv, 3);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_bf, 1);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_mp40, 9);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_uzi, 6);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_uzi_silencer, 5);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_uboinik, 8);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_lever_action, 7);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_lever_action_dark, 6);

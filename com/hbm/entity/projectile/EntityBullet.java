@@ -581,14 +581,11 @@ public class EntityBullet extends Entity implements IProjectile {
 									//this.setDead();
 									;
 							}
-						} else if (!this.getIsCritical()) {
-							/*this.motionX *= -0.10000000149011612D;
-							this.motionY *= -0.10000000149011612D;
-							this.motionZ *= -0.10000000149011612D;
-							this.rotationYaw += 180.0F;
-							this.prevRotationYaw += 180.0F;
-							this.ticksInAir = 0;*/
-							//this.setDead();
+						} else {
+							if (movingobjectposition.entityHit instanceof EntityLivingBase) {
+								EntityLivingBase target = (EntityLivingBase) movingobjectposition.entityHit;
+								target.setHealth((float) (target.getHealth() - damage));
+							}
 						}
 					} else {
 						this.setDead();

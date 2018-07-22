@@ -122,6 +122,14 @@ public class ItemClip extends Item {
         	}
 		}
 		
+		if(this == ModItems.clip_uzi)
+		{
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32)))
+        	{
+        		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_uzi_ammo, 32), false);
+        	}
+		}
+		
 		if(this == ModItems.clip_uboinik)
 		{
 			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uboinik_ammo, 24)))

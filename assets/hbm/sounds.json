@@ -70,6 +70,8 @@
     "weapon.ciwsSpinup": {"category": "player", "sounds": [{"name": "weapon/ciwsSpinup", "stream": false}]},
     "weapon.ciwsSpindown": {"category": "player", "sounds": [{"name": "weapon/ciwsSpindown", "stream": false}]},
     "weapon.laserBang": {"category": "player", "sounds": ["weapon/laserBang1", "weapon/laserBang2", "weapon/laserBang3"]},
+    "weapon.uziShoot": {"category": "player", "sounds": [{"name": "weapon/uziShoot", "stream": false}]},
+    "weapon.silencerShoot": {"category": "player", "sounds": [{"name": "weapon/silencerShoot", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

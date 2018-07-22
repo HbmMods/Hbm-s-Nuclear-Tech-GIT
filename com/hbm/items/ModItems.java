@@ -726,6 +726,9 @@ public class ModItems {
 	public static Item gun_bf_ammo;
 	public static Item gun_mp40;
 	public static Item gun_mp40_ammo;
+	public static Item gun_uzi;
+	public static Item gun_uzi_silencer;
+	public static Item gun_uzi_ammo;
 	public static Item gun_uboinik;
 	public static Item gun_uboinik_ammo;
 	public static Item gun_lever_action;
@@ -1106,6 +1109,7 @@ public class ModItems {
 	public static Item clip_mirv;
 	public static Item clip_bf;
 	public static Item clip_mp40;
+	public static Item clip_uzi;
 	public static Item clip_uboinik;
 	public static Item clip_lever_action;
 	public static Item clip_bolt_action;
@@ -1892,6 +1896,9 @@ public class ModItems {
 		gun_bf = new GunBaleFlare().setMaxDamage(2500).setUnlocalizedName("gun_bf").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_bf");
 		gun_mp40_ammo = new Item().setUnlocalizedName("gun_mp40_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mp40_ammo");
 		gun_mp40 = new GunSMG().setUnlocalizedName("gun_mp40").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mp40");
+		gun_uzi_ammo = new Item().setUnlocalizedName("gun_uzi_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi_ammo");
+		gun_uzi = new GunUZI().setUnlocalizedName("gun_uzi").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi");
+		gun_uzi_silencer = new GunUZI().setUnlocalizedName("gun_uzi_silencer").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi_silencer");
 		gun_uboinik_ammo = new Item().setUnlocalizedName("gun_uboinik_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uboinik_ammo");
 		gun_uboinik = new GunShotgun().setUnlocalizedName("gun_uboinik").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uboinik");
 		gun_lever_action_ammo = new Item().setUnlocalizedName("gun_lever_action_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_lever_action_ammo");
@@ -2130,6 +2137,7 @@ public class ModItems {
 		clip_mirv = new ItemClip().setUnlocalizedName("clip_mirv").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_mirv");
 		clip_bf = new ItemClip().setUnlocalizedName("clip_bf").setCreativeTab(null).setTextureName(RefStrings.MODID + ":clip_bf");
 		clip_mp40 = new ItemClip().setUnlocalizedName("clip_mp40").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_mp40");
+		clip_uzi = new ItemClip().setUnlocalizedName("clip_uzi").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_uzi");
 		clip_uboinik = new ItemClip().setUnlocalizedName("clip_uboinik").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_uboinik");
 		clip_lever_action = new ItemClip().setUnlocalizedName("clip_lever_action").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_lever_action");
 		clip_bolt_action = new ItemClip().setUnlocalizedName("clip_bolt_action").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_bolt_action");
@@ -3220,6 +3228,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_mirv, gun_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bf, gun_bf.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40, gun_mp40.getUnlocalizedName());
+		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
+		GameRegistry.registerItem(gun_uzi_silencer,gun_uzi_silencer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uboinik, gun_uboinik.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lever_action, gun_lever_action.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lever_action_dark, gun_lever_action_dark.getUnlocalizedName());
@@ -3263,6 +3273,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_mirv_ammo, gun_mirv_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bf_ammo, gun_bf_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40_ammo, gun_mp40_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_uzi_ammo, gun_uzi_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uboinik_ammo, gun_uboinik_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lever_action_ammo, gun_lever_action_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action_ammo, gun_bolt_action_ammo.getUnlocalizedName());
@@ -3305,6 +3316,7 @@ public class ModItems {
 		GameRegistry.registerItem(clip_mirv, clip_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(clip_bf, clip_bf.getUnlocalizedName());
 		GameRegistry.registerItem(clip_mp40, clip_mp40.getUnlocalizedName());
+		GameRegistry.registerItem(clip_uzi, clip_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(clip_uboinik, clip_uboinik.getUnlocalizedName());
 		GameRegistry.registerItem(clip_lever_action, clip_lever_action.getUnlocalizedName());
 		GameRegistry.registerItem(clip_bolt_action, clip_bolt_action.getUnlocalizedName());
