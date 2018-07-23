@@ -43,6 +43,11 @@ public class ModEventHandler
 	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
+		
+		/////
+		try {
+		/////
+		
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
 			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {
 				if(!event.world.playerEntities.isEmpty()) {
@@ -85,13 +90,18 @@ public class ModEventHandler
 						if(effect != null) {
 							
 							if(entity instanceof EntityCreeper) {
-			        		EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
-			        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			        		
-			        		if(!entity.isDead)
-			        			if(!event.world.isRemote)
-			        				event.world.spawnEntityInWorld(creep);
-			        		entity.setDead();
+								
+								if(event.world.rand.nextInt(5) == 0) {
+									EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
+									creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+					        		
+					        		if(!entity.isDead)
+					        			if(!event.world.isRemote)
+					        				event.world.spawnEntityInWorld(creep);
+					        		entity.setDead();
+								} else {
+									entity.attackEntityFrom(ModDamageSource.radiation, 100F);
+								}
 			        		
 				        	} else if(entity instanceof EntityCow) {
 				        		EntityMooshroom creep = new EntityMooshroom(event.world);
@@ -149,6 +159,12 @@ public class ModEventHandler
 				}
 			}
 		}
+		
+		//////////////////////
+		} catch(Exception x) {
+			MainRegistry.logger.error("Ouchie, something has happened in the NTM world tick event.");
+		}
+		//////////////////////
 	}
 	
 	@SubscribeEvent

@@ -557,6 +557,13 @@ item.circuit_targeting_tier3.name=Military Grade Circuit Board (Tier 3)
 item.circuit_targeting_tier4.name=Military Grade Circuit Board (Tier 4)
 item.circuit_targeting_tier5.name=Military Grade Circuit Board (Tier 5)
 item.circuit_targeting_tier6.name=Military Grade Circuit Board (Tier 6)
+item.mechanism_revolver_1.name=Revolver Mechanism
+item.mechanism_revolver_2.name=Advanced Revolver Mechanism
+item.mechanism_rifle_1.name=Rifle Mechanism
+item.mechanism_rifle_2.name=Advanced Rifle Mechanism
+item.mechanism_launcher_1.name=Launcher Mechanism
+item.mechanism_launcher_2.name=Advanced Launcher Mechanism
+item.mechanism_special.name=High-Tech Weapon Mechanism
 
 item.piston_selenium.name=Radial Engine Piston
 

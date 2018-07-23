@@ -557,6 +557,13 @@ item.circuit_targeting_tier3.name=Militärische Schaltplatte (Stufe 3)
 item.circuit_targeting_tier4.name=Militärische Schaltplatte (Stufe 4)
 item.circuit_targeting_tier5.name=Militärische Schaltplatte (Stufe 5)
 item.circuit_targeting_tier6.name=Militärische Schaltplatte (Stufe 6)
+item.mechanism_revolver_1.name=Revolvermechanismus
+item.mechanism_revolver_2.name=Fortgeschrittener Revolvermechanismus
+item.mechanism_rifle_1.name=Gewehmechanismus
+item.mechanism_rifle_2.name=Fortgeschrittener Gewehmechanismus
+item.mechanism_launcher_1.name=Werfermechanismus
+item.mechanism_launcher_2.name=Fortgeschrittener Werfermechanismus
+item.mechanism_special.name=High-Tech Waffenmechanismus
 
 item.piston_selenium.name=Sternmotorenkolben
 

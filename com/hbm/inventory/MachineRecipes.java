@@ -3090,6 +3090,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.ingot_steel, 2));
 			list.add(new ItemStack(ModItems.ingot_polymer, 8));
 			list.add(new ItemStack(ModItems.plate_iron, 5));
+			list.add(new ItemStack(ModItems.mechanism_special, 3));
 			list.add(new ItemStack(Items.diamond, 1));
 			list.add(new ItemStack(ModItems.plate_dalekanium, 3));
 			break;
