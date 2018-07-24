@@ -536,12 +536,14 @@ public class ModItems {
 	public static Item bottle2_fritz;
 	public static Item bottle2_korl_special;
 	public static Item bottle2_fritz_special;
+	public static Item bottle2_sunset;
 	public static Item chocolate_milk;
 	public static Item cap_nuka;
 	public static Item cap_quantum;
 	public static Item cap_sparkle;
 	public static Item cap_korl;
 	public static Item cap_fritz;
+	public static Item cap_sunset;
 	public static Item ring_pull;
 
 	public static Item rod_empty;
@@ -1726,12 +1728,14 @@ public class ModItems {
 		bottle2_fritz = new ItemEnergy().setUnlocalizedName("bottle2_fritz").setContainerItem(ModItems.bottle2_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle2_fritz");
 		bottle2_korl_special = new ItemEnergy().setUnlocalizedName("bottle2_korl_special").setContainerItem(ModItems.bottle2_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle2_korl");
 		bottle2_fritz_special = new ItemEnergy().setUnlocalizedName("bottle2_fritz_special").setContainerItem(ModItems.bottle2_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle2_fritz");
+		bottle2_sunset = new ItemEnergy().setUnlocalizedName("bottle2_sunset").setContainerItem(ModItems.bottle2_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle2_sunset");
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chocolate_milk");
 		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_nuka");
 		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_quantum");
 		cap_sparkle = new Item().setUnlocalizedName("cap_sparkle").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sparkle");
 		cap_korl = new Item().setUnlocalizedName("cap_korl").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_korl");
 		cap_fritz = new Item().setUnlocalizedName("cap_fritz").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_fritz");
+		cap_sunset = new Item().setUnlocalizedName("cap_sunset").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sunset");
 		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ring_pull");
 
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_empty");
@@ -3500,6 +3504,7 @@ public class ModItems {
 		GameRegistry.registerItem(bottle2_fritz, bottle2_fritz.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_korl_special, bottle2_korl_special.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_fritz_special, bottle2_fritz_special.getUnlocalizedName());
+		GameRegistry.registerItem(bottle2_sunset, bottle2_sunset.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_opener, bottle_opener.getUnlocalizedName());
 		
 		//Money
@@ -3508,6 +3513,7 @@ public class ModItems {
 		GameRegistry.registerItem(cap_sparkle, cap_sparkle.getUnlocalizedName());
 		GameRegistry.registerItem(cap_korl, cap_korl.getUnlocalizedName());
 		GameRegistry.registerItem(cap_fritz, cap_fritz.getUnlocalizedName());
+		GameRegistry.registerItem(cap_sunset, cap_sunset.getUnlocalizedName());
 		GameRegistry.registerItem(ring_pull, ring_pull.getUnlocalizedName());
 		
 		//Chaos

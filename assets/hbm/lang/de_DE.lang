@@ -1528,12 +1528,14 @@ item.bottle2_korl.name=Korl
 item.bottle2_fritz.name=Fritz-Kola
 item.bottle2_korl_special.name=Das erste Korl
 item.bottle2_fritz_special.name=Die erste Fritz-Kola
+item.bottle2_sunset.name=Sunset Saraparilla
 item.chocolate_milk.name=Schokomilch
 item.cap_nuka.name=Nuka-Cola Kronkorken
 item.cap_quantum.name=Nuka Cola Quantum Kronkorken
 item.cap_sparkle.name=S~Cola Kronkorken
 item.cap_korl.name=Korl Kronkorken
 item.cap_fritz.name=Fritz-Kola Kronkorken
+item.cap_sunset.name=Sunset Saraparilla Kronkorken
 item.ring_pull.name=Dosenring
 
 item.bottle_opener.name=Hbms eigener selbstgebauter Flaschenöffner

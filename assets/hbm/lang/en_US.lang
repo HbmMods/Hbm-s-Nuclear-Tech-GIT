@@ -1528,12 +1528,14 @@ item.bottle2_korl.name=Korl
 item.bottle2_fritz.name=Fritz Cola
 item.bottle2_korl_special.name=The First Korl
 item.bottle2_fritz_special.name=The First Fritz Cola
+item.bottle2_sunset.name=Sunset Saraparilla
 item.chocolate_milk.name=Chocolate Milk
 item.cap_nuka.name=Nuka Cola Bottle Cap
 item.cap_quantum.name=Nuka Cola Quantum Bottle Cap
 item.cap_sparkle.name=S~Cola Bottle Cap
 item.cap_korl.name=Korl Bottle Cap
 item.cap_fritz.name=Fritz Cola Bottle Cap
+item.cap_sunset.name=Sunset Saraparilla Bottle Cap
 item.ring_pull.name=Ring Pull
 
 item.bottle_opener.name=Hbm's Own Self-Made Bottle Opener
