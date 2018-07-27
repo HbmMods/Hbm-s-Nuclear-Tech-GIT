@@ -72,6 +72,12 @@ public class TEMissilePacket implements IMessage {
 				type = 20;
 			if(stack.getItem() == ModItems.missile_anti_ballistic)
 				type = 21;
+			if(stack.getItem() == ModItems.missile_bhole)
+				type = 22;
+			if(stack.getItem() == ModItems.missile_schrabidium)
+				type = 23;
+			if(stack.getItem() == ModItems.missile_emp)
+				type = 24;
 			
 		}
 	}

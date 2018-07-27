@@ -182,6 +182,8 @@ public class ModBlocks {
 	public static Block seal_frame;
 	public static Block seal_controller;
 	public static Block seal_hatch;
+	
+	public static Block vault_door;
 
 	public static Block marker_structure;
 
@@ -799,6 +801,8 @@ public class ModBlocks {
 		seal_controller = new BlockSeal(Material.iron).setBlockName("seal_controller").setHardness(10.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 		seal_hatch = new BlockHatch(Material.iron).setBlockName("seal_hatch").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":seal_hatch_3");
 		
+		vault_door = new VaultDoor(Material.iron).setBlockName("vault_door").setHardness(10.0F).setResistance(100.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":vault_door");
+		
 		marker_structure = new BlockMarker(Material.iron).setBlockName("marker_structure").setHardness(0.0F).setResistance(0.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":marker_structure");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
@@ -1109,6 +1113,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
 		GameRegistry.registerBlock(seal_controller, seal_controller.getUnlocalizedName());
 		GameRegistry.registerBlock(seal_hatch, seal_hatch.getUnlocalizedName());
+		
+		//Vault Door
+		GameRegistry.registerBlock(vault_door, vault_door.getUnlocalizedName());
 		
 		//Crates
 		GameRegistry.registerBlock(crate_iron, crate_iron.getUnlocalizedName());

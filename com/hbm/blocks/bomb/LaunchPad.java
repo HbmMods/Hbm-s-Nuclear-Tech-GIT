@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.missile.EntityCarrier;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
+import com.hbm.entity.missile.EntityMissileBHole;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
 import com.hbm.entity.missile.EntityMissileBurst;
 import com.hbm.entity.missile.EntityMissileBusterStrong;
@@ -13,6 +14,7 @@ import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileClusterStrong;
 import com.hbm.entity.missile.EntityMissileDoomsday;
 import com.hbm.entity.missile.EntityMissileDrill;
+import com.hbm.entity.missile.EntityMissileEMP;
 import com.hbm.entity.missile.EntityMissileEndo;
 import com.hbm.entity.missile.EntityMissileExo;
 import com.hbm.entity.missile.EntityMissileGeneric;
@@ -23,6 +25,7 @@ import com.hbm.entity.missile.EntityMissileMicro;
 import com.hbm.entity.missile.EntityMissileMirv;
 import com.hbm.entity.missile.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileRain;
+import com.hbm.entity.missile.EntityMissileSchrabidium;
 import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.interfaces.IBomb;
@@ -407,6 +410,36 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_micro && entity.power >= 75000)
         		{
             		EntityMissileMicro missile = new EntityMissileMicro(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_bhole && entity.power >= 75000)
+        		{
+            		EntityMissileBHole missile = new EntityMissileBHole(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_schrabidium && entity.power >= 75000)
+        		{
+            		EntityMissileSchrabidium missile = new EntityMissileSchrabidium(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_emp && entity.power >= 75000)
+        		{
+            		EntityMissileEMP missile = new EntityMissileEMP(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;

@@ -42,6 +42,8 @@ public class ItemWandD extends Item {
 			}
 		}
 		
+		MainRegistry.time = System.currentTimeMillis();
+		
 		return true;
     }
 
