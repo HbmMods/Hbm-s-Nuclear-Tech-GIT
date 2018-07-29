@@ -458,6 +458,8 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 			int radius = (int)(50 + (double)(tanks[2].getFill() + tanks[3].getFill()) / 16000D * 150);
 			
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacExperimental(worldObj, radius, xCoord, yCoord, zCoord));
+			
+			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 		}
 	}
 	
