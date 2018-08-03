@@ -1142,6 +1142,7 @@ public class ModItems {
 
 	public static Item igniter;
 	public static Item detonator;
+	public static Item detonator_multi;
 	public static Item crate_caller;
 	public static Item meteor_remote;
 	public static Item remote;
@@ -2188,6 +2189,7 @@ public class ModItems {
 
 		igniter = new ItemCustomLore().setUnlocalizedName("igniter").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":trigger");
 		detonator = new ItemDetonator().setUnlocalizedName("detonator").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator");
+		detonator_multi = new ItemMultiDetonator().setUnlocalizedName("detonator_multi").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_multi");
 		crate_caller = new ItemCrateCaller().setUnlocalizedName("crate_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":crate_caller");
 		meteor_remote = new ItemMeteorRemote().setUnlocalizedName("meteor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":meteor_remote");
 		remote = new ItemRamManipulator().setUnlocalizedName("remote").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":remote");
@@ -3596,6 +3598,7 @@ public class ModItems {
 		GameRegistry.registerItem(chainsaw, chainsaw.getUnlocalizedName());
 		GameRegistry.registerItem(igniter, igniter.getUnlocalizedName());
 		GameRegistry.registerItem(detonator, detonator.getUnlocalizedName());
+		GameRegistry.registerItem(detonator_multi, detonator_multi.getUnlocalizedName());
 		GameRegistry.registerItem(crate_caller, crate_caller.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_helmet, hazmat_helmet.getUnlocalizedName());

@@ -65,6 +65,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SatLaserPacket.Handler.class, SatLaserPacket.class, i++, Side.SERVER);
 		//Universal package for sending small info packs back to server
 		wrapper.registerMessage(AuxButtonPacket.Handler.class, AuxButtonPacket.class, i++, Side.SERVER);
+		//Siren packet for looped sounds
+		wrapper.registerMessage(TEVaultPacket.Handler.class, TEVaultPacket.class, i++, Side.CLIENT);
 	}
 	
 }

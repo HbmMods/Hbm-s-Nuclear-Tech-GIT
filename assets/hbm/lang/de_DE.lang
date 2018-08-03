@@ -647,6 +647,8 @@ tile.seal_frame.name=Siloluke (Rahmen)
 tile.seal_controller.name=Silolukenöffner
 tile.seal_hatch.name=Siloluke (Deckel)
 
+tile.vault_door.name=Vault-Tec Sprengtür
+
 item.nugget_uranium.name=Urannugget
 item.nugget_plutonium.name=Plutoniumnugget
 item.nugget_neptunium.name=Neptuniumnugget
@@ -1473,6 +1475,7 @@ item.shimmer_handle.name=Verstärketer Polymergriff
 
 item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder
+item.detonator_multi.name=Mehrfach-Fernzünder
 item.crate_caller.name=Nachschub-Requester
 item.meteor_remote.name=Meteoritenkontroller
 

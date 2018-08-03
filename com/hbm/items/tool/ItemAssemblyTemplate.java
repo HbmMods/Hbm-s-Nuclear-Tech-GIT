@@ -140,6 +140,7 @@ public class ItemAssemblyTemplate extends Item {
 		CMB_BRICKS,
 		HATCH_FRAME,
 		HATCH_CONTROLLER,
+		BLAST_DOOR,
 		CENTRIFUGE,
 		BREEDING_REACTOR,
 		RTG_FURNACE,
@@ -585,6 +586,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 50;
 		case HATCH_CONTROLLER:
 			return 100;
+		case BLAST_DOOR:
+			return 300;
 		case CENTRIFUGE:
 			return 250;
 		case BREEDING_REACTOR:

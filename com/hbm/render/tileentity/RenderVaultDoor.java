@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
+import com.hbm.tileentity.machine.TileEntityVaultDoor;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -14,11 +15,28 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
+    	renderDoor((TileEntityVaultDoor)tileEntity, x, y, z, f);
+    }
+
+	public void renderDoor(TileEntityVaultDoor tileEntity, double x, double y, double z, float f)
+    {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
+		
+		switch(tileEntity.getBlockMetadata())
+		{
+		case 2:
+			GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 4:
+			GL11.glRotatef(0, 0F, 1F, 0F); break;
+		case 3:
+			GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 5:
+			GL11.glRotatef(180, 0F, 1F, 0F); break;
+		}
 
         bindTexture(ResourceManager.vault_frame_tex);
         ResourceManager.vault_frame.renderAll();
@@ -30,17 +48,43 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
 
         GL11.glTranslated(0.0D, -2.5D, 0.0D);
 
-        double[] timer = getAnimationFromSysTime(System.currentTimeMillis() - MainRegistry.time);
-        //double[] timer = getAnimationFromSysTime(MainRegistry.time + 12500 - System.currentTimeMillis());
+        double[] timer;
+        
+        if(tileEntity.state == 0)
+        	timer = new double[] { 0, 0, 0, 0, 0 };
+        else if(tileEntity.state == 2)
+        	timer = getAnimationFromSysTime(12500);
+        else if(tileEntity.isOpening)
+        	timer = getAnimationFromSysTime(System.currentTimeMillis() - tileEntity.sysTime);
+        else
+        	timer = getAnimationFromSysTime(tileEntity.sysTime + 12500 - System.currentTimeMillis());
 
         GL11.glTranslated(-timer[0], 0, timer[1]);
         
         GL11.glTranslated(0.0D, 5D, 0.0D);
         GL11.glRotated(timer[2], 1, 0, 0);
         GL11.glTranslated(0.0D, -2.5D, 0.0D);
+
         
-        bindTexture(ResourceManager.vault_cog_tex);
+        switch(tileEntity.type) {
+        case 1:
+        case 2: bindTexture(ResourceManager.vault_cog_tex); break;
+        case 3: bindTexture(ResourceManager.stable_cog_tex); break;
+        case 4:
+        case 5: bindTexture(ResourceManager.vault4_cog_tex); break;
+        default: bindTexture(ResourceManager.vault_cog_tex); break;
+        }
         ResourceManager.vault_cog.renderAll();
+        
+        switch(tileEntity.type) {
+        case 1: bindTexture(ResourceManager.vault_label_87_tex); break;
+        case 2: bindTexture(ResourceManager.vault_label_106_tex); break;
+        case 3: bindTexture(ResourceManager.stable_label_tex); break;
+        case 4: bindTexture(ResourceManager.vault4_label_111_tex); break;
+        case 5: bindTexture(ResourceManager.vault4_label_81_tex); break;
+        default: bindTexture(ResourceManager.vault_label_101_tex); break;
+        }
+        ResourceManager.vault_label.renderAll();
 
         GL11.glPopMatrix();
     }

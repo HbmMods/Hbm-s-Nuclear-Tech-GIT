@@ -2377,6 +2377,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.redstone, 4));
 			list.add(new ItemStack(ModBlocks.steel_roof, 5));
 			break;
+		case BLAST_DOOR:
+			list.add(new ItemStack(ModItems.ingot_steel, 128));
+			list.add(new ItemStack(ModItems.ingot_tungsten, 32));
+			list.add(new ItemStack(ModItems.plate_lead, 48));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 8));
+			list.add(new ItemStack(ModItems.plate_polymer, 16));
+			list.add(new ItemStack(ModItems.bolt_tungsten, 18));
+			list.add(new ItemStack(ModItems.bolt_dura_steel, 27));
+			list.add(new ItemStack(ModItems.motor, 5));
+			break;
 		case CENTRIFUGE:
 			list.add(new ItemStack(ModItems.centrifuge_tower, 1));
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
@@ -3745,6 +3755,9 @@ public class MachineRecipes {
 			break;
 		case HATCH_CONTROLLER:
 			output = new ItemStack(ModBlocks.seal_controller, 1);
+			break;
+		case BLAST_DOOR:
+			output = new ItemStack(ModBlocks.vault_door, 1);
 			break;
 		case CENTRIFUGE:
 			output = new ItemStack(ModBlocks.machine_centrifuge, 1);

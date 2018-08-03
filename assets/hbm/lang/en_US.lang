@@ -647,6 +647,8 @@ tile.seal_frame.name=Silo Hatch Frame
 tile.seal_controller.name=Silo Hatch Opener
 tile.seal_hatch.name=Silo Hatch
 
+tile.vault_door.name=Vault-Tec Blast Door
+
 item.nugget_uranium.name=Uranium Nugget
 item.nugget_plutonium.name=Plutonium Nugget
 item.nugget_neptunium.name=Neptunium Nugget
@@ -1473,6 +1475,7 @@ item.shimmer_handle.name=Reinforced Polymer Handle
 
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator
+item.detonator_multi.name=Multi-Detonator
 item.crate_caller.name=Supply Drop Requester
 item.meteor_remote.name=Meteorite Remote
 
