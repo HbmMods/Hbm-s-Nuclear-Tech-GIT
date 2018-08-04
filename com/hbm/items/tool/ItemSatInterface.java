@@ -3,6 +3,8 @@ package com.hbm.items.tool;
 import com.hbm.inventory.gui.GUIScreenSatInterface;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.SatPanelPacket;
 import com.hbm.saveddata.SatelliteSavedData;
 
 import net.minecraft.entity.Entity;
@@ -29,7 +31,10 @@ public class ItemSatInterface extends ItemSatChip {
 
 		if(!world.isRemote) {
 		    SatelliteSavedData data = (SatelliteSavedData)entity.worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			satData = data;
+			
+		    for(int j = 0; j < data.satellites.size(); j++) {
+		    	PacketDispatcher.wrapper.sendToAll(new SatPanelPacket(data.satellites.get(j)));
+		    }
 		}
     }
 

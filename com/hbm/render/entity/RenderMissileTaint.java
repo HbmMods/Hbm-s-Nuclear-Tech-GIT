@@ -2,6 +2,9 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileBHole;
+import com.hbm.entity.missile.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileSchrabidium;
 import com.hbm.entity.missile.EntityMissileTaint;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
@@ -37,6 +40,12 @@ public class RenderMissileTaint extends Render {
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		if(p_110775_1_ instanceof EntityMissileTaint)
 			return ResourceManager.missileTaint_tex;
+		if(p_110775_1_ instanceof EntityMissileBHole)
+			return ResourceManager.missileMicroBHole_tex;
+		if(p_110775_1_ instanceof EntityMissileSchrabidium)
+			return ResourceManager.missileMicroSchrab_tex;
+		if(p_110775_1_ instanceof EntityMissileEMP)
+			return ResourceManager.missileMicroEMP_tex;
 		
 		return ResourceManager.missileMicro_tex;
 	}

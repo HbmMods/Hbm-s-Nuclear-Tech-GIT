@@ -300,12 +300,18 @@ public class ItemClip extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bf_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_mp40))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mp40_ammo, 32));
+			if(player.inventory.hasItem(ModItems.gun_uzi))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+			if(player.inventory.hasItem(ModItems.gun_uzi_silencer))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
 			if(player.inventory.hasItem(ModItems.gun_uboinik))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uboinik_ammo, 12));
 			if(player.inventory.hasItem(ModItems.gun_lever_action))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 12));
 			if(player.inventory.hasItem(ModItems.gun_lever_action_dark))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 12));
+			if(player.inventory.hasItem(ModItems.gun_lever_action_sonata))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_bolt_action))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bolt_action_ammo, 12));
 			if(player.inventory.hasItem(ModItems.gun_bolt_action_green))
@@ -326,6 +332,8 @@ public class ItemClip extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.nugget_euphemium, 1));
 			if(player.inventory.hasItem(ModItems.gun_emp))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_emp_ammo, 8));
+			if(player.inventory.hasItem(ModItems.gun_revolver_inverted))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_revolver_inverted))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_jack))

@@ -46,6 +46,8 @@ public class EntityGrenadeASchrab extends EntityGrenadeBase {
 			cloud.posY = this.posY;
 			cloud.posZ = this.posZ;
 			this.worldObj.spawnEntityInWorld(cloud);
+			
+			this.setDead();
 		}
 	}
 }

@@ -1318,6 +1318,9 @@ item.missile_exo.name=Exothermische Rakete
 item.missile_doomsday.name=Doomsday Rakete
 item.missile_taint.name=Verdorbene Rakete
 item.missile_micro.name=Mikro-Atomrakete
+item.missile_bhole.name=Schwarzes-Loch-Rakete
+item.missile_schrabidium.name=Schrabidiumrakete
+item.missile_emp.name=EMP-Rakete
 
 item.missile_carrier.name=HTR-01 Trägerrakete
 item.sat_mapper.name=Oberflächen-Abtastungssatellit
@@ -1531,14 +1534,14 @@ item.bottle2_korl.name=Korl
 item.bottle2_fritz.name=Fritz-Kola
 item.bottle2_korl_special.name=Das erste Korl
 item.bottle2_fritz_special.name=Die erste Fritz-Kola
-item.bottle2_sunset.name=Sunset Saraparilla
+item.bottle2_sunset.name=Sunset Sarsaparilla
 item.chocolate_milk.name=Schokomilch
 item.cap_nuka.name=Nuka-Cola Kronkorken
 item.cap_quantum.name=Nuka Cola Quantum Kronkorken
 item.cap_sparkle.name=S~Cola Kronkorken
 item.cap_korl.name=Korl Kronkorken
 item.cap_fritz.name=Fritz-Kola Kronkorken
-item.cap_sunset.name=Sunset Saraparilla Kronkorken
+item.cap_sunset.name=Sunset Sarsaparilla Kronkorken
 item.ring_pull.name=Dosenring
 
 item.bottle_opener.name=Hbms eigener selbstgebauter Flaschenöffner

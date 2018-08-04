@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
+import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.items.ModItems;
@@ -582,7 +583,7 @@ public class EntityBullet extends Entity implements IProjectile {
 									;
 							}
 						} else {
-							if (movingobjectposition.entityHit instanceof EntityLivingBase) {
+							if (movingobjectposition.entityHit instanceof EntityLivingBase && !(movingobjectposition.entityHit instanceof EntityHunterChopper)) {
 								EntityLivingBase target = (EntityLivingBase) movingobjectposition.entityHit;
 								target.setHealth((float) (target.getHealth() - damage));
 							}

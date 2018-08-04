@@ -65,7 +65,7 @@ public class EntityMissileSchrabidium extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.grenade_aschrab, 1);
+		return new ItemStack(ModItems.powder_schrabidium, 1);
 	}
 
 	@Override
