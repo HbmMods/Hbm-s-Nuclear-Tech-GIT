@@ -1091,6 +1091,7 @@ item.gun_revolver_nightmare.name=Nightmare-Revolver (Original)
 item.gun_revolver_nightmare2.name=Nightmare-Revolver (Dunkel)
 item.gun_revolver_pip.name=Lil' Pipsqueak
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
+item.gun_proto.name=M42 Nukleares Katapult "Proto MIRV"
 item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
 item.gun_bf.name=M42_2 Nukleares Katapult "Antimaterienwerfer"
 item.gun_mp40.name=Maschinenpistole
@@ -1357,6 +1358,7 @@ item.paa_boots.name=PaA-"olle Latschen"
 
 item.goggles.name=Schutzbrille
 item.gas_mask.name=Gasmaske
+item.gas_mask_m65.name=M65-Z Gasmaske
 item.oxy_mask.name=Sauerstoffmaske
 item.t45_helmet.name=T45-Powerrüstungshelm
 item.t45_plate.name=T45-Powerrüstungsbrustpanzer

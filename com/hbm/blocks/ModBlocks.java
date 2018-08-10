@@ -110,6 +110,14 @@ public class ModBlocks {
 	public static Block block_daffergon;
 	public static Block block_verticium;
 
+	public static Block deco_titanium;
+	public static Block deco_red_copper;
+	public static Block deco_tungsten;
+	public static Block deco_aluminium;
+	public static Block deco_steel;
+	public static Block deco_lead;
+	public static Block deco_beryllium;
+
 	public static Block gravel_obsidian;
 	public static Block asphalt;
 	
@@ -604,6 +612,14 @@ public class ModBlocks {
 		block_unobtainium = new BlockGeneric(Material.iron).setBlockName("block_unobtainium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_unobtainium");
 		block_daffergon = new BlockGeneric(Material.iron).setBlockName("block_daffergon").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_daffergon");
 		block_verticium = new BlockGeneric(Material.iron).setBlockName("block_verticium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_verticium");
+
+		deco_titanium = new BlockOre(Material.iron).setBlockName("deco_titanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_titanium");
+		deco_red_copper = new BlockOre(Material.iron).setBlockName("deco_red_copper").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_red_copper");
+		deco_tungsten = new BlockOre(Material.iron).setBlockName("deco_tungsten").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_tungsten");
+		deco_aluminium = new BlockOre(Material.iron).setBlockName("deco_aluminium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_aluminium");
+		deco_steel = new BlockOre(Material.iron).setBlockName("deco_steel").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel");
+		deco_lead = new BlockOre(Material.iron).setBlockName("deco_lead").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_lead");
+		deco_beryllium = new BlockOre(Material.iron).setBlockName("deco_beryllium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_beryllium");
 		
 		gravel_obsidian = new BlockFalling(Material.iron).setBlockName("gravel_obsidian").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGravel).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":gravel_obsidian");
 		asphalt = new BlockGeneric(Material.rock).setBlockName("asphalt").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":asphalt");
@@ -1006,6 +1022,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_unobtainium, ItemOreBlock.class, block_unobtainium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_daffergon, ItemOreBlock.class, block_daffergon.getUnlocalizedName());
 		GameRegistry.registerBlock(block_verticium, ItemOreBlock.class, block_verticium.getUnlocalizedName());
+		
+		//Deco Blocks
+		GameRegistry.registerBlock(deco_titanium, deco_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_red_copper, deco_red_copper.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_tungsten, deco_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_aluminium, deco_aluminium.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_steel, deco_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_lead, deco_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_beryllium, deco_beryllium.getUnlocalizedName());
 		
 		//Gravel
 		GameRegistry.registerBlock(gravel_obsidian, gravel_obsidian.getUnlocalizedName());

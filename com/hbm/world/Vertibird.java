@@ -18,10 +18,10 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class Vertibird extends WorldGenerator
 {
-	Block Block2 = ModBlocks.block_steel;
-	Block Block1 = ModBlocks.block_tungsten;
+	Block Block2 = ModBlocks.deco_steel;
+	Block Block1 = ModBlocks.deco_tungsten;
 	Block Block4 = ModBlocks.reinforced_glass;
-	Block Block3 = ModBlocks.block_titanium;
+	Block Block3 = ModBlocks.deco_titanium;
 	
 	protected Block[] GetValidSpawnBlocks()
 	{

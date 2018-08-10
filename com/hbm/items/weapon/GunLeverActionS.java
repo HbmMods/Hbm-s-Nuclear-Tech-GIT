@@ -140,10 +140,8 @@ public class GunLeverActionS extends Item {
 		ArrowNockEvent event = new ArrowNockEvent(p_77659_3_, p_77659_1_);
 		MinecraftForge.EVENT_BUS.post(event);
 
-		if (p_77659_3_.capabilities.isCreativeMode || p_77659_3_.inventory.hasItem(ModItems.gun_lever_action_ammo)) {
-			if(this.getAnim(p_77659_1_) == 0)
-				p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
-		}
+		if(this.getAnim(p_77659_1_) == 0)
+			p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 
 		return p_77659_1_;
 	}

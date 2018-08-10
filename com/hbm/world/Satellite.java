@@ -19,12 +19,12 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class Satellite extends WorldGenerator
 {
 	Block Block1 = ModBlocks.brick_concrete;
-	Block Block2 = ModBlocks.block_steel;
+	Block Block2 = ModBlocks.deco_steel;
 	Block Block3 = ModBlocks.steel_scaffold;
-	Block Block4 = ModBlocks.block_beryllium;
-	Block Block5 = ModBlocks.block_titanium;
+	Block Block4 = ModBlocks.deco_beryllium;
+	Block Block5 = ModBlocks.deco_titanium;
 	Block Block6 = ModBlocks.tape_recorder;
-	Block Block7 = ModBlocks.block_tungsten;
+	Block Block7 = ModBlocks.deco_tungsten;
 	
 	protected Block[] GetValidSpawnBlocks()
 	{

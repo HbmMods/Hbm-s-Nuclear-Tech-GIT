@@ -112,13 +112,8 @@ public class GunRpg extends Item {
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
 		ArrowNockEvent event = new ArrowNockEvent(p_77659_3_, p_77659_1_);
 		MinecraftForge.EVENT_BUS.post(event);
-		if (event.isCanceled()) {
-			return event.result;
-		}
-
-		if (p_77659_3_.capabilities.isCreativeMode || p_77659_3_.inventory.hasItem(ModItems.gun_rpg_ammo)) {
-			p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
-		}
+		
+		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 
 		return p_77659_1_;
 	}

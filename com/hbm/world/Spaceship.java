@@ -17,9 +17,9 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class Spaceship extends WorldGenerator
 {
-	Block Block1 = ModBlocks.block_tungsten;
+	Block Block1 = ModBlocks.deco_tungsten;
 	Block Block2 = ModBlocks.fusion_conductor;
-	Block Block3 = ModBlocks.block_steel;
+	Block Block3 = ModBlocks.deco_steel;
 	Block Block4 = ModBlocks.fusion_heater;
 	Block Block5 = ModBlocks.block_meteor;
 	Block Block6 = ModBlocks.reactor_element;

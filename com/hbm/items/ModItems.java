@@ -732,6 +732,7 @@ public class ModItems {
 	public static Item gun_revolver_pip;
 	public static Item gun_revolver_pip_ammo;
 	public static Item gun_fatman;
+	public static Item gun_proto;
 	public static Item gun_fatman_ammo;
 	public static Item gun_mirv;
 	public static Item gun_mirv_ammo;
@@ -951,6 +952,7 @@ public class ModItems {
 
 	public static Item goggles;
 	public static Item gas_mask;
+	public static Item gas_mask_m65;
 	public static Item oxy_mask;
 	
 	public static Item t45_helmet;
@@ -1916,6 +1918,7 @@ public class ModItems {
 		gun_revolver_pip = new GunRevolver(gun_revolver_pip_ammo, 25, 35, false, false).setMaxDamage(1000).setUnlocalizedName("gun_revolver_pip").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver_pip");
 		gun_fatman_ammo = new Item().setUnlocalizedName("gun_fatman_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman_ammo");
 		gun_fatman = new GunFatman().setMaxDamage(2500).setUnlocalizedName("gun_fatman").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
+		gun_proto = new GunProtoMirv().setMaxDamage(2500).setUnlocalizedName("gun_proto").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		gun_mirv_ammo = new Item().setUnlocalizedName("gun_mirv_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mirv_ammo");
 		gun_mirv = new GunMIRV().setMaxDamage(2500).setUnlocalizedName("gun_mirv").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mirv");
 		gun_bf_ammo = new Item().setUnlocalizedName("gun_bf_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_bf_ammo");
@@ -2231,6 +2234,7 @@ public class ModItems {
 		
 		goggles = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("goggles").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":goggles");
 		gas_mask = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask");
+		gas_mask_m65 = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask_m65").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask_m65");
 		//oxy_mask = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("oxy_mask").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":oxy_mask");
 		
 		t45_helmet = new ArmorT45(MainRegistry.enumArmorMaterialT45, 2, 0).setUnlocalizedName("t45_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_helmet");
@@ -3264,6 +3268,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
+		GameRegistry.registerItem(gun_proto, gun_proto.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mirv, gun_mirv.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bf, gun_bf.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40, gun_mp40.getUnlocalizedName());
@@ -3573,6 +3578,7 @@ public class ModItems {
 		//Conventional Armor
 		GameRegistry.registerItem(goggles, goggles.getUnlocalizedName());
 		GameRegistry.registerItem(gas_mask, gas_mask.getUnlocalizedName());
+		GameRegistry.registerItem(gas_mask_m65, gas_mask_m65.getUnlocalizedName());
 		//GameRegistry.registerItem(oxy_mask, oxy_mask.getUnlocalizedName());
 		
 		GameRegistry.registerItem(steel_helmet, steel_helmet.getUnlocalizedName());

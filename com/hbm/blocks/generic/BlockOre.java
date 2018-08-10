@@ -136,6 +136,34 @@ public class BlockOre extends Block {
 			case 5: return ModItems.fragment_niobium;
 			}
 		}
+		if(this == ModBlocks.deco_aluminium)
+		{
+			return ModItems.ingot_aluminium;
+		}
+		if(this == ModBlocks.deco_beryllium)
+		{
+			return ModItems.ingot_beryllium;
+		}
+		if(this == ModBlocks.deco_lead)
+		{
+			return ModItems.ingot_lead;
+		}
+		if(this == ModBlocks.deco_red_copper)
+		{
+			return ModItems.ingot_red_copper;
+		}
+		if(this == ModBlocks.deco_steel)
+		{
+			return ModItems.ingot_steel;
+		}
+		if(this == ModBlocks.deco_titanium)
+		{
+			return ModItems.ingot_titanium;
+		}
+		if(this == ModBlocks.deco_tungsten)
+		{
+			return ModItems.ingot_tungsten;
+		}
 		
 		return Item.getItemFromBlock(this);
     }

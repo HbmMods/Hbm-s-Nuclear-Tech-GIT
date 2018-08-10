@@ -38,9 +38,10 @@ public class EntityGrenadeGas extends EntityGrenadeBase
             ExplosionChaos.poison(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
             //for(int i = 0; 0 < 15; i++) {
 
-        	ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 15);
-        	ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 15);
-        	ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 15);
+        	ExplosionLarge.spawnParticlesRadial(worldObj, posX, posY, posZ, 50);
+        	ExplosionLarge.spawnParticlesRadial(worldObj, posX, posY, posZ, 50);
+        	ExplosionLarge.spawnParticlesRadial(worldObj, posX, posY, posZ, 50);
+        	ExplosionLarge.spawnParticlesRadial(worldObj, posX, posY, posZ, 50);
         
             //}
         }

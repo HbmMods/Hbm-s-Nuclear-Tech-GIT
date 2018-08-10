@@ -20,13 +20,13 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class Relay extends WorldGenerator
 {
 	Block Block1 = ModBlocks.reinforced_brick;
-	Block Block2 = ModBlocks.block_steel;
+	Block Block2 = ModBlocks.deco_steel;
 	Block Block3 = ModBlocks.brick_concrete;
 	Block Block4 = ModBlocks.steel_scaffold;
 	Block Block5 = ModBlocks.reinforced_glass;
-	Block Block6 = ModBlocks.block_beryllium;
-	Block Block7 = ModBlocks.block_red_copper;
-	Block Block8 = ModBlocks.block_tungsten;
+	Block Block6 = ModBlocks.deco_beryllium;
+	Block Block7 = ModBlocks.deco_red_copper;
+	Block Block8 = ModBlocks.deco_tungsten;
 	Block Block9 = ModBlocks.pole_top;
 	
 	protected Block[] GetValidSpawnBlocks()

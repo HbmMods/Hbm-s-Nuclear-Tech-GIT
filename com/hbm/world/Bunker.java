@@ -22,8 +22,8 @@ public class Bunker extends WorldGenerator
 	Block Block1 = ModBlocks.reinforced_brick;
 	Block Block2 = ModBlocks.brick_concrete;
 	Block Block3 = ModBlocks.reinforced_light;
-	Block Block4 = ModBlocks.block_steel;
-	Block Block5 = ModBlocks.block_tungsten;
+	Block Block4 = ModBlocks.deco_steel;
+	Block Block5 = ModBlocks.deco_tungsten;
 	
 	protected Block[] GetValidSpawnBlocks()
 	{

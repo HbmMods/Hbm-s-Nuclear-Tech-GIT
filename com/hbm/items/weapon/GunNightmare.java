@@ -166,10 +166,8 @@ public class GunNightmare extends Item {
 		MinecraftForge.EVENT_BUS.post(event);
 
 		if (!p_77659_3_.isSneaking()) {
-			boolean flag = p_77659_3_.capabilities.isCreativeMode
-					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77659_1_) > 0;
 
-			if (flag || p_77659_1_.getItemDamage() < 6) {
+			if (p_77659_1_.getItemDamage() < 6) {
 				p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 
 			} else {

@@ -23,7 +23,7 @@ public class Silo extends WorldGenerator
 	Block Block3 = ModBlocks.reinforced_light;
 	Block Block4 = ModBlocks.tape_recorder;
 	Block Block5 = ModBlocks.reinforced_glass;
-	Block Block6 = ModBlocks.block_steel;
+	Block Block6 = ModBlocks.deco_steel;
 	
 	protected Block[] GetValidSpawnBlocks()
 	{

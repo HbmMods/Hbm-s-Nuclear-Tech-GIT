@@ -21,9 +21,9 @@ public class DesertAtom001 extends WorldGenerator
 	Block Block2 = ModBlocks.yellow_barrel;
 	Block Block3 = ModBlocks.reinforced_sand;
 	Block Block4 = ModBlocks.nuke_man;
-	Block Block5 = ModBlocks.block_steel;
+	Block Block5 = ModBlocks.deco_steel;
 	Block Block6 = ModBlocks.brick_light;
-	Block Block7 = ModBlocks.block_tungsten;
+	Block Block7 = ModBlocks.deco_tungsten;
 	Block Block8 = ModBlocks.steel_poles;
 	Block Block9 = ModBlocks.tape_recorder;
 	Block Block10 = ModBlocks.machine_nuke_furnace_off;
@@ -31,7 +31,7 @@ public class DesertAtom001 extends WorldGenerator
 	Block Block12 = ModBlocks.reinforced_lamp_off;
 	Block Block13 = ModBlocks.pole_satellite_receiver;
 	Block Block14 = ModBlocks.machine_generator;
-	Block Block15 = ModBlocks.block_titanium;
+	Block Block15 = ModBlocks.deco_titanium;
 	Block Block16 = ModBlocks.machine_reactor;
 	Block Block17 = ModBlocks.ore_schrabidium;
 	Block Block18 = ModBlocks.waste_planks;
@@ -40,7 +40,7 @@ public class DesertAtom001 extends WorldGenerator
 	Block Block21 = ModBlocks.machine_puf6_tank;
 	Block Block22 = ModBlocks.reinforced_brick;
 	Block Block23 = ModBlocks.waste_earth;
-	Block Block24 = ModBlocks.block_lead;
+	Block Block24 = ModBlocks.deco_lead;
 	Block Block25 = ModBlocks.red_wire_coated;
 	Block Block26 = ModBlocks.block_uranium;
 	Block Block27 = ModBlocks.pole_top;

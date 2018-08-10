@@ -32,8 +32,10 @@ public class ItemSatInterface extends ItemSatChip {
 		if(!world.isRemote) {
 		    SatelliteSavedData data = (SatelliteSavedData)entity.worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 			
-		    for(int j = 0; j < data.satellites.size(); j++) {
-		    	PacketDispatcher.wrapper.sendToAll(new SatPanelPacket(data.satellites.get(j)));
+		    if(data != null) {
+			    for(int j = 0; j < data.satellites.size(); j++) {
+			    	PacketDispatcher.wrapper.sendToAll(new SatPanelPacket(data.satellites.get(j)));
+			    }
 		    }
 		}
     }
