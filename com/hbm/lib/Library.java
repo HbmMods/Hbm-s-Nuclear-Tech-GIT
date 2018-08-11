@@ -25,6 +25,7 @@ import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
@@ -44,6 +45,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -215,13 +217,38 @@ public class Library {
 		}
 	}
 	
+	//radDura: Radiation duration in seconds
+	//radLevel: Radiation level (0 = I)
+	//maskDura: Radiation duration when wearing gasmask
+	//maskLevel: Radiation level when wearing gasmask
+	public static void applyRadiation(Entity e, int radDura, int radLevel, int maskDura, int maskLevel) {
+		
+		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)entity;
+			
+			if(checkForHazmat(player))
+				return;
+			
+			if(checkForGasMask(player)) {
+				entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, maskDura * 60, maskLevel));
+				return;
+			}
+		}
+		
+		entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, radDura * 60, radLevel));
+	}
+	
 	public static boolean checkForHazmat(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || 
 				checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) || 
-				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots) || 
 				checkArmor(player, ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots) || 
-				checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots))
+				checkForHaz2(player))
 		{
 			return true;
 		}
@@ -231,7 +258,8 @@ public class Library {
 	
 	public static boolean checkForHaz2(EntityPlayer player) {
 		
-		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots))
+		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots) || 
+				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
 		{
 			return true;
 		}
@@ -260,6 +288,10 @@ public class Library {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.gas_mask, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.gas_mask_m65, 3))
 		{
 			return true;
 		}

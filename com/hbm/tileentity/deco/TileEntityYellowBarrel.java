@@ -64,17 +64,8 @@ public class TileEntityYellowBarrel extends TileEntity {
                 double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
                 if (d9 < wat)
                 {
-                	if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-                	{
-                		/*Library.damageSuit(((EntityPlayer)entity), 0);
-                		Library.damageSuit(((EntityPlayer)entity), 1);
-                		Library.damageSuit(((EntityPlayer)entity), 2);
-                		Library.damageSuit(((EntityPlayer)entity), 3);*/
-                		
-                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
-                    {
-                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 14));
-                    }
+                	if(entity instanceof EntityLivingBase)
+                		Library.applyRadiation((EntityLivingBase)entity, 80, 24, 60, 19);
                 }
             }
         }

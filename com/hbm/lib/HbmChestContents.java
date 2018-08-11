@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.WeightedRandomChestContent;
 
@@ -13,60 +14,83 @@ public class HbmChestContents {
 	static Random rand = new Random();
 
 	private static WeightedRandomChestContent[] modGeneric = new WeightedRandomChestContent[] {
-			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 10, 15, 5),
-			new WeightedRandomChestContent(ModItems.ingot_red_copper, 0, 5, 10, 3),
-			new WeightedRandomChestContent(ModItems.ingot_tungsten, 0, 5, 15, 3),
-			new WeightedRandomChestContent(ModItems.ingot_beryllium, 0, 1, 5, 2),
-			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 7, 10, 4),
-			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 2, 6, 2),
+			new WeightedRandomChestContent(Items.bread, 0, 1, 5, 8),
+			new WeightedRandomChestContent(Items.iron_ingot, 0, 2, 6, 10),
+			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 2, 5, 7),
+			new WeightedRandomChestContent(ModItems.ingot_beryllium, 0, 1, 2, 4),
+			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.circuit_aluminium, 0, 1, 2, 7),
+			new WeightedRandomChestContent(ModItems.circuit_targeting_tier1, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 2, 6, 4),
+			new WeightedRandomChestContent(ModItems.gun_lever_action, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_lever_action_ammo, 0, 2, 6, 3),
 			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 1),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 0, 3, 1) };
+			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.scrap, 0, 1, 3, 10),
+			new WeightedRandomChestContent(ModItems.dust, 0, 2, 4, 9),
+			new WeightedRandomChestContent(ModItems.bottle_opener, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.bottle_cherry, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
+			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2)  };
 
 	private static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[] {
-			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 3, 7, 5),
-			new WeightedRandomChestContent(ModItems.ingot_red_copper, 0, 3, 10, 3),
-			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 3, 5, 4),
-			new WeightedRandomChestContent(ModItems.wire_red_copper, 0, 3, 7, 4),
-			new WeightedRandomChestContent(ModItems.circuit_aluminium, 0, 1, 5, 3),
-			new WeightedRandomChestContent(ModItems.circuit_copper, 0, 1, 3, 2),
-			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 2, 1),
-			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 1, 2, 7),
+			new WeightedRandomChestContent(ModItems.ingot_red_copper, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 1, 3, 5),
+			new WeightedRandomChestContent(ModItems.wire_red_copper, 0, 2, 3, 7),
+			new WeightedRandomChestContent(ModItems.circuit_aluminium, 0, 1, 3, 6),
+			new WeightedRandomChestContent(ModItems.circuit_targeting_tier1, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.circuit_copper, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.battery_generic, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.powder_iodine, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_bromine, 0, 1, 1, 1),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_titanium), 0, 1, 2, 2),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_poles), 0, 4, 9, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_scaffold), 0, 4, 6, 3),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_top), 0, 2, 4, 4),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 3, 5, 3) };
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_poles), 0, 1, 4, 8),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.steel_scaffold), 0, 1, 3, 8),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_top), 0, 1, 1, 4),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 1, 1, 7),
+			new WeightedRandomChestContent(ModItems.scrap, 0, 1, 3, 10),
+			new WeightedRandomChestContent(ModItems.dust, 0, 2, 4, 9),
+			new WeightedRandomChestContent(ModItems.bottle_opener, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 4),
+			new WeightedRandomChestContent(ModItems.bottle_cherry, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7) };
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.circuit_targeting_tier3, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
-			new WeightedRandomChestContent(ModItems.circuit_schrabidium, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.nuke_commercially_kit, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.nuke_electric_kit, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.circuit_targeting_tier4, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.gun_lever_action, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.gun_lever_action_ammo, 0, 2, 6, 6),
 			new WeightedRandomChestContent(ModItems.gun_revolver_gold, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.gun_revolver_gold_ammo, 0, 1, 6, 5),
 			new WeightedRandomChestContent(ModItems.gun_revolver_lead, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.gun_revolver_lead_ammo, 0, 1, 6, 5),
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 4),
-			new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 32, 5),
+			new WeightedRandomChestContent(ModItems.gun_rpg_ammo, 0, 1, 4, 5),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 8, 2),
-			new WeightedRandomChestContent(ModItems.gun_xvl1456, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.gun_xvl1456_ammo, 0, 16, 64, 2),
+			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.battery_advanced_cell, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.battery_schrabidium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.syringe_awesome, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 4),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 3, 1) };
+			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 6),
+			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 3),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 1, 6),
+			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5) };
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
@@ -79,6 +103,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.rod_dual_pu240, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad_u238, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.rod_quad_pu240, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2) };
 
 	private static WeightedRandomChestContent[] nuclear = new WeightedRandomChestContent[] {
@@ -105,6 +131,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.powder_neptunium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_strontium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_cobalt, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3) };
 
 	private static WeightedRandomChestContent[] vertibird = new WeightedRandomChestContent[] {
@@ -112,9 +140,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.t45_plate, 0, 1, 1, 15),
 			new WeightedRandomChestContent(ModItems.t45_legs, 0, 1, 1, 15),
 			new WeightedRandomChestContent(ModItems.t45_boots, 0, 1, 1, 15),
+			new WeightedRandomChestContent(ModItems.t45_kit, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.fusion_core, 0, 1, 1, 10),
-			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 1, 3, 3),
-			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.gun_revolver, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.gun_revolver_ammo, 0, 1, 24, 4),
 			new WeightedRandomChestContent(ModItems.gun_rpg, 0, 1, 1, 3),
@@ -122,9 +149,13 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.rod_uranium_fuel, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.rod_dual_uranium_fuel, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.rod_quad_uranium_fuel, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 6),
+			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 7),
+			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 3),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 2) };
 
 	private static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[] {
@@ -134,17 +165,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.missile_buster, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.missile_strong, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.missile_incendiary_strong, 0, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.missile_cluster_strong, 0, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.missile_buster_strong, 0, 1, 1, 3),
-			new WeightedRandomChestContent(ModItems.missile_burst, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.missile_inferno, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.missile_rain, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.missile_drill, 0, 1, 1, 2),
-			new WeightedRandomChestContent(ModItems.missile_nuclear, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.missile_nuclear_cluster, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.missile_endo, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.missile_exo, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.launch_pad), 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.designator, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 1),
@@ -153,7 +175,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.thruster_large, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.fuel_tank_medium, 0, 1, 1, 5),
-			new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5) };
+			new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.warhead_mirvlet, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1) };
 
 	private static WeightedRandomChestContent[] spaceship = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),

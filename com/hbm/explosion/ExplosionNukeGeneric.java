@@ -223,14 +223,8 @@ public class ExplosionNukeGeneric {
 					d5 /= d9;
 					d6 /= d9;
 					d7 /= d9;
-					// double d10 = (double)world.getBlockDensity(vec3,
-					// entity.boundingBox);
-					// if(d10 > 0) isOccupied = true;
-					double d11 = (1.0D - d4);// * d10;
-					if (!(entity instanceof EntityPlayerMP && ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() == GameType.CREATIVE)) {
-						// entity.attackEntityFrom(DamageSource.generic,
-						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
-						// bombStartStrength + 1.0D)));
+					
+					if (!(entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode)) {
 						double d8 = 0.125 + (random.nextDouble() * 0.25);
 						entity.motionX -= d5 * d8;
 						entity.motionY -= d6 * d8;

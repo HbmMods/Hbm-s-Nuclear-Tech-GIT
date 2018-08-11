@@ -19,6 +19,8 @@
     "block.sonarPing": {"category": "block", "sounds": [{"name": "block/sonarPing", "stream": false}]},
     "block.reactorStart": {"category": "block", "sounds": [{"name": "block/reactorStart", "stream": false}]},
     "block.reactorStop": {"category": "block", "sounds": [{"name": "block/reactorStop", "stream": false}]},
+    "block.vaultScrape": {"category": "block", "sounds": [{"name": "block/vaultScrape", "stream": false}]},
+    "block.vaultThud": {"category": "block", "sounds": [{"name": "block/vaultThud", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

@@ -39,6 +39,50 @@ public class TileEntityVaultDoor extends TileEntity {
     public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+	    	if(isOpening && state == 1) {
+	    		if(timer == 0)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrape", 1.0F, 1.0F);
+	    		if(timer == 110)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 130)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 150)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 170)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 190)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 210)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 230)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 249)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    	}
+	    	if(!isOpening && state == 1) {
+
+	    		if(timer == 0)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 20)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 40)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 60)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 80)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 100)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 120)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		if(timer == 140)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+	    		
+	    		if(timer == 150)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrape", 1.0F, 1.0F);
+	    	}	
+	    			
 	    	if(state != 1) {
 	    		timer = 0;
 	    	} else {

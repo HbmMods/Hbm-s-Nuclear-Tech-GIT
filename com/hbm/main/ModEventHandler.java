@@ -1,5 +1,7 @@
 package com.hbm.main;
 
+import java.util.Random;
+
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityMeteor;
@@ -15,21 +17,26 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
 public class ModEventHandler
 {	
 	public static boolean showMessage = true;
 	public static int meteorShower = 0;
+	static Random rand = new Random();
 	
 	@SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -39,6 +46,44 @@ public class ModEventHandler
         }
         
         showMessage = !showMessage;
+	}
+	
+	@SubscribeEvent
+	public void spawnMob(LivingSpawnEvent event) {
+		EntityLivingBase entity = event.entityLiving;
+		World world = event.world;
+
+		if(entity instanceof EntityZombie) {
+			if(rand.nextInt(64) == 0)
+				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(128) == 0)
+				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(256) == 0)
+				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.mask_of_infamy, 1, world.rand.nextInt(100)));
+			
+			if(rand.nextInt(128) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_lead, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(128) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.reer_graar, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(128) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_rusty, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(128) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.crowbar, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(128) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.big_sword, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(256) == 0)
+				
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
+		}
+		if(entity instanceof EntitySkeleton) {
+			if(rand.nextInt(16) == 0) {
+				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65, 1, world.rand.nextInt(100)));
+				
+				if(rand.nextInt(32) == 0) {
+					entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.syringe_poison));
+				}
+			}
+		}
 	}
 	
 	@SubscribeEvent
@@ -125,7 +170,7 @@ public class ModEventHandler
 							
 								int level = effect.getAmplifier();
 						        
-						        if(level > 15) {
+						        if(level > 14) {
 						        	if(event.world.rand.nextInt(100) == 0)
 						           		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
 						        	if(event.world.rand.nextInt(300) == 0)
@@ -136,7 +181,7 @@ public class ModEventHandler
 						        		entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 2));
 						        	if(event.world.rand.nextInt(500) == 0)
 						           		entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 4));
-						        } else if(level > 10) {
+						        } else if(level > 9) {
 						        	if(event.world.rand.nextInt(150) == 0)
 						           		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
 						        	if(event.world.rand.nextInt(400) == 0)

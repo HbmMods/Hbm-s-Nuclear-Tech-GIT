@@ -11,6 +11,9 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -243,6 +246,11 @@ public class ModelT45Chest extends ModelBiped {
 		this.rightarm.rotateAngleX = this.bipedRightArm.rotateAngleX;
 		this.rightarm.rotateAngleY = this.bipedRightArm.rotateAngleY;
 		this.rightarm.rotateAngleZ = this.bipedRightArm.rotateAngleZ;
+		
+		if(entity instanceof EntityZombie || entity instanceof EntityPigZombie || entity instanceof EntitySkeleton) {
+			this.leftarm.rotateAngleX -= (90 * Math.PI / 180D);
+			this.rightarm.rotateAngleX -= (90 * Math.PI / 180D);
+		}
 	}
 
 	@Override

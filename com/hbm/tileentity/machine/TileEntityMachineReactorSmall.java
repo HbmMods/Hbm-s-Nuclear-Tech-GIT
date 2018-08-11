@@ -435,13 +435,8 @@ public class TileEntityMachineReactorSmall extends TileEntity
 								xCoord + 0.5 + 5, yCoord + 1.5 + 5, zCoord + 0.5 + 5));
 
 				for (Entity e : list) {
-					if (e instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) e)) {
-
-					} else {
-						if (e instanceof EntityLivingBase)
-							((EntityLivingBase) e)
-									.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 80 * 20, 25));
-					}
+					if (e instanceof EntityLivingBase)
+                		Library.applyRadiation((EntityLivingBase)e, 80, 24, 60, 19);
 				}
 			}
 

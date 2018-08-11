@@ -218,24 +218,15 @@ public class BlockOre extends Block {
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite)
     	{
-    		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{ } else {
-        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 45 * 20, 20));
-        	}
+    		Library.applyRadiation((EntityLivingBase)entity, 45, 19, 30, 14);
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_waste)
     	{
-    		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{ } else {
-        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 60 * 20, 20));
-        	}
+    		Library.applyRadiation((EntityLivingBase)entity, 60, 19, 40, 14);
     	}
     	if (entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red))
     	{
-    		if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-        	{ } else {
-        		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 10));
-        	}
+    		Library.applyRadiation((EntityLivingBase)entity, 30, 9, 15, 4);
     	}
     	
         if(this == ModBlocks.block_meteor_molten)

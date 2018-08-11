@@ -7,7 +7,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineGenerator;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.explosion.ExplosionParticle;
@@ -499,17 +498,8 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 				                if (d9 < wat)
 				                {
-				                	if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-				                	{
-				                		/*Library.damageSuit(((EntityPlayer)entity), 0);
-				                		Library.damageSuit(((EntityPlayer)entity), 1);
-				                		Library.damageSuit(((EntityPlayer)entity), 2);
-				                		Library.damageSuit(((EntityPlayer)entity), 3);*/
-				                		
-				                	} else {
-					                	if(entity instanceof EntityLivingBase)
-					                		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 80 * 20, 25));
-				                    }
+				    				if (entity instanceof EntityLivingBase)
+				                    	Library.applyRadiation((EntityLivingBase)entity, 80, 24, 60, 19);
 				                }
 				            }
 				        }
