@@ -626,6 +626,14 @@ tile.ore_oil.name=Ölvorkommen
 tile.ore_oil_empty.name=Leeres Ölvorkommen
 tile.ore_oil_sand.name=Teersand
 
+tile.deco_titanium.name=Titan-Dekoblock
+tile.deco_red_copper.name=Roter Kupfer-Dekoblock
+tile.deco_tungsten.name=Wolfram-Dekoblock
+tile.deco_aluminium.name=Aluminium-Dekoblock
+tile.deco_steel.name=Stahl-Dekoblock
+tile.deco_lead.name=Blei-Dekoblock
+tile.deco_beryllium.name=Beryllium-Dekoblock
+
 tile.reinforced_brick.name=Verstärkter Stein
 tile.reinforced_glass.name=Verstärktes Glas
 tile.reinforced_sand.name=Verstärkter Sandstein

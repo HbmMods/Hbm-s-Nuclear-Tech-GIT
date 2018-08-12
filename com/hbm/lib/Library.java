@@ -235,12 +235,12 @@ public class Library {
 				return;
 			
 			if(checkForGasMask(player)) {
-				entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, maskDura * 60, maskLevel));
+				entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, maskDura * 20, maskLevel));
 				return;
 			}
 		}
 		
-		entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, radDura * 60, radLevel));
+		entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, radDura * 20, radLevel));
 	}
 	
 	public static boolean checkForHazmat(EntityPlayer player) {

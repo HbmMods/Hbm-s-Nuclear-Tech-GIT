@@ -626,6 +626,14 @@ tile.ore_oil.name=Oil Deposit
 tile.ore_oil_empty.name=Empty Oil Deposit
 tile.ore_oil_sand.name=Tar Sand
 
+tile.deco_titanium.name=Titanium Deco Block
+tile.deco_red_copper.name=Red Copper Deco Block
+tile.deco_tungsten.name=Tungsten Deco Block
+tile.deco_aluminium.name=Aluminium Deco Block
+tile.deco_steel.name=Steel Deco Block
+tile.deco_lead.name=Lead Deco Block
+tile.deco_beryllium.name=Beryllium Deco Block
+
 tile.reinforced_brick.name=Reinforced Stone
 tile.reinforced_glass.name=Reinforced Glass
 tile.reinforced_sand.name=Reinforced Sandstone
