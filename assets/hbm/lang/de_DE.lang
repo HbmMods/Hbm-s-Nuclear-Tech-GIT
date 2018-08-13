@@ -1300,6 +1300,7 @@ item.mask_of_infamy.name=Maske der Schande
 
 tile.det_cord.name=Det Cord
 tile.det_charge.name=Sprengladung
+tile.det_nuke.name=Atomare Sprengladung
 tile.red_barrel.name=Explosives Fass
 tile.yellow_barrel.name=Radioaktives Fass
 

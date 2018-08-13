@@ -1300,6 +1300,7 @@ item.mask_of_infamy.name=Mask of Infamy
 
 tile.det_cord.name=Det Cord
 tile.det_charge.name=Explosive Charge
+tile.det_nuke.name=Nuclear Charge
 tile.red_barrel.name=Explosive Barrel
 tile.yellow_barrel.name=Radioactive Barrel
 

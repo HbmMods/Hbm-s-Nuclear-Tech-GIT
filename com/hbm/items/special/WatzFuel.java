@@ -33,6 +33,7 @@ public class WatzFuel extends ItemRadioactive {
 		this.heatMultiplier = heatMultiplier;
 		this.decayMultiplier = decayMultiplier;
 		this.setMaxDamage(100);
+		this.canRepair = false;
 	}
 	
 	@Override

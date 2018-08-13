@@ -256,31 +256,9 @@ public class EntityNuclearCreeper extends EntityMob {
                 double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
                 if (d9 < wat)
                 {
-                	if(entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)entity))
-                	{
-                		/*Library.damageSuit(((EntityPlayer)entity), 0);
-                		Library.damageSuit(((EntityPlayer)entity), 1);
-                		Library.damageSuit(((EntityPlayer)entity), 2);
-                		Library.damageSuit(((EntityPlayer)entity), 3);*/
-                		
-                	} else if(entity instanceof EntityCreeper) {
-                		EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
-                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                		//creep.setRotationYawHead(((EntityCreeper)entity).rotationYawHead);
-                		if(!entity.isDead)
-                			if(!worldObj.isRemote)
-                				worldObj.spawnEntityInWorld(creep);
-                		entity.setDead();
-                	} else if(entity instanceof EntityVillager) {
-                		EntityZombie creep = new EntityZombie(this.worldObj);
-                		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-                		entity.setDead();
-                		if(!this.worldObj.isRemote)
-                		this.worldObj.spawnEntityInWorld(creep);
-                	} else if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie))
+                	if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper))
                     {
-                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.getId(), 5 * 20, 1));
-                    	((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 15 * 20, 0));
+                    	Library.applyRadiation(entity, 20, 9, 5, 2);
                     }
                 }
             }

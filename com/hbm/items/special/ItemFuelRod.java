@@ -17,6 +17,7 @@ public class ItemFuelRod extends ItemRadioactive {
 		this.lifeTime = life;
 		this.heat = heat;
 		this.setMaxDamage(100);
+		this.canRepair = false;
 	}
 	
 	@Override

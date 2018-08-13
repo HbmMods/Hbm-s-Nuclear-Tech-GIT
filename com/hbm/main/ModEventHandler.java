@@ -1,5 +1,7 @@
 package com.hbm.main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
@@ -90,7 +92,7 @@ public class ModEventHandler
 	public void worldTick(WorldTickEvent event) {
 		
 		/////
-		try {
+		//try {
 		/////
 		
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
@@ -98,7 +100,7 @@ public class ModEventHandler
 				if(!event.world.playerEntities.isEmpty()) {
 					EntityPlayer p = (EntityPlayer)event.world.playerEntities.get(event.world.rand.nextInt(event.world.playerEntities.size()));
 					
-					if(p.dimension == 0) {
+					if(p != null && p.dimension == 0) {
 						EntityMeteor meteor = new EntityMeteor(event.world);
 						meteor.posX = p.posX + event.world.rand.nextInt(201) - 100;
 						meteor.posY = 384;
@@ -127,16 +129,20 @@ public class ModEventHandler
 		
 		if(event.world != null && !event.world.isRemote) {
 			if(!event.world.loadedEntityList.isEmpty()) {
-				for(Object e : event.world.loadedEntityList) {
+				
+				List<Object> oList = new ArrayList<Object>();
+				oList.addAll(event.world.loadedEntityList);
+				
+				for(Object e : oList) {
 					if(e instanceof EntityLivingBase) {
 						EntityLivingBase entity = (EntityLivingBase) e;
 						PotionEffect effect = entity.getActivePotionEffect(HbmPotion.radiation);
 						
-						if(effect != null) {
+						if(effect != null && !entity.isDead && entity.getHealth() > 0) {
 							
 							if(entity instanceof EntityCreeper) {
 								
-								if(event.world.rand.nextInt(5) == 0) {
+								if(event.world.rand.nextInt(5) == 0 ) {
 									EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
 									creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 					        		
@@ -206,9 +212,10 @@ public class ModEventHandler
 		}
 		
 		//////////////////////
-		} catch(Exception x) {
+		/*} catch(Exception x) {
+			
 			MainRegistry.logger.error("Ouchie, something has happened in the NTM world tick event.");
-		}
+		}*/
 		//////////////////////
 	}
 	

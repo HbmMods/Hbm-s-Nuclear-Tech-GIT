@@ -78,6 +78,8 @@ public class EntityNukeExplosionMK4 extends Entity {
 			this.worldObj.spawnEntityInWorld(fallout);
 			
 			this.setDead();
+		} else {
+			this.setDead();
 		}
 	}
 

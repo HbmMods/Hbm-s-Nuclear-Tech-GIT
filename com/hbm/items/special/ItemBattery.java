@@ -22,6 +22,7 @@ public class ItemBattery extends Item {
 		this.chargeRate = chargeRate;
 		this.dischargeRate = dischargeRate;
 		this.setMaxDamage(100);
+		this.canRepair = false;
 	}
 	
 	@Override
