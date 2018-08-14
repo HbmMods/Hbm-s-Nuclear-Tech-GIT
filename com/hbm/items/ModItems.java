@@ -998,6 +998,9 @@ public class ModItems {
 	public static Item jetpack_break;
 	public static Item jetpack_fly;
 	public static Item jetpack_vector;
+	
+	public static Item jackt;
+	public static Item jackt2;
 
 	public static Item schrabidium_sword;
 	public static Item schrabidium_pickaxe;
@@ -2272,6 +2275,9 @@ public class ModItems {
 		asbestos_legs = new ArmorAsbestos(MainRegistry.enumArmorMaterialSteel, 7, 2).setUnlocalizedName("asbestos_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":asbestos_legs");
 		asbestos_boots = new ArmorAsbestos(MainRegistry.enumArmorMaterialSteel, 7, 3).setUnlocalizedName("asbestos_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":asbestos_boots");
 
+		jackt = new ModArmor(MainRegistry.enumArmorMaterialSteel, 7, 1).setUnlocalizedName("jackt").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jackt");
+		jackt2 = new ModArmor(MainRegistry.enumArmorMaterialSteel, 7, 1).setUnlocalizedName("jackt2").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jackt2");
+		
 		schrabidium_sword = new SwordSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_sword").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_sword");
 		schrabidium_pickaxe = new PickaxeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_pickaxe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
 		schrabidium_axe = new AxeSchrabidium(MainRegistry.enumToolMaterialSchrabidium).setUnlocalizedName("schrabidium_axe").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":schrabidium_axe");
@@ -3638,6 +3644,8 @@ public class ModItems {
 		GameRegistry.registerItem(watch, watch.getUnlocalizedName());
 		GameRegistry.registerItem(mask_of_infamy, mask_of_infamy.getUnlocalizedName());
 		GameRegistry.registerItem(australium_iii, australium_iii.getUnlocalizedName());
+		GameRegistry.registerItem(jackt, jackt.getUnlocalizedName());
+		GameRegistry.registerItem(jackt2, jackt2.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_boost, jetpack_boost.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_break, jetpack_break.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_fly, jetpack_fly.getUnlocalizedName());

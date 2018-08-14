@@ -1365,6 +1365,9 @@ item.paa_plate.name=PaA Chest Protection Plate
 item.paa_legs.name=PaA Leg Reinforcements
 item.paa_boots.name=PaA "good ol' shoes"
 
+item.jackt.name=Damn Stylish Ballistic Jacket
+item.jackt2.name=Damn Stylish Ballistic Jacket 2: Tokyo Drift
+
 item.goggles.name=Protection Goggles
 item.gas_mask.name=Gas Mask
 item.gas_mask_m65.name=M65-Z Gas Mask

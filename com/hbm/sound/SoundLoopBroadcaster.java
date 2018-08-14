@@ -34,6 +34,11 @@ public class SoundLoopBroadcaster extends SoundLoopMachine {
 		if(player != null) {
 			f = (float)Math.sqrt(Math.pow(xPosF - player.posX, 2) + Math.pow(yPosF - player.posY, 2) + Math.pow(zPosF - player.posZ, 2));
 			volume = func(f, intendedVolume);
+			
+			if(!(player.worldObj.getTileEntity((int)xPosF, (int)yPosF, (int)zPosF) instanceof TileEntityBroadcaster)) {
+				this.donePlaying = true;
+				volume = 0;
+			}
 		} else {
 			volume = intendedVolume;
 		}

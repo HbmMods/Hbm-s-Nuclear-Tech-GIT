@@ -72,9 +72,8 @@ public class ModEventHandler
 			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.crowbar, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(128) == 0)
-				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.big_sword, 1, world.rand.nextInt(100)));
-			if(rand.nextInt(256) == 0)
-				
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.geiger_counter, 1));
+			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
 		}
 		if(entity instanceof EntitySkeleton) {

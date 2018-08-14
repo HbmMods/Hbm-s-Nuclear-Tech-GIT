@@ -45,7 +45,7 @@ public class EntityNukeCloudSmall extends Entity {
 	public void onUpdate() {
         //super.onUpdate();
         this.age++;
-        this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY + 200, this.posZ));
+        this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY + 400, this.posZ));
         
         if(this.age >= this.maxAge)
         {

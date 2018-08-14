@@ -1365,6 +1365,9 @@ item.paa_plate.name=PaA-Brustschutzplatte
 item.paa_legs.name=PaA-Beinverstärkungsschienen
 item.paa_boots.name=PaA-"olle Latschen"
 
+item.jackt.name=Verdammt stylische Kugeljacke
+item.jackt2.name=Verdammt stylische Kugeljacke 2: Tokyo Drift
+
 item.goggles.name=Schutzbrille
 item.gas_mask.name=Gasmaske
 item.gas_mask_m65.name=M65-Z Gasmaske
