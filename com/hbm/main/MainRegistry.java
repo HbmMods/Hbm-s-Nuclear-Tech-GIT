@@ -274,6 +274,8 @@ import com.hbm.tileentity.machine.TileEntityMachineTransformer;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.TileEntityRadioRec;
+import com.hbm.tileentity.machine.TileEntityRadiobox;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
@@ -657,6 +659,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineSatLinker.class, "tileentity_satlinker");
 		GameRegistry.registerTileEntity(TileEntityMachineReactorSmall.class, "tileentity_small_reactor");
 		GameRegistry.registerTileEntity(TileEntityVaultDoor.class, "tileentity_vault_door");
+		GameRegistry.registerTileEntity(TileEntityRadiobox.class, "tileentity_radio_broadcaster");
+		GameRegistry.registerTileEntity(TileEntityRadioRec.class, "tileentity_radio_receiver");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

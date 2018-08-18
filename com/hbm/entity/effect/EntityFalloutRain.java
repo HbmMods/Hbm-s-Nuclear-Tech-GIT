@@ -1,18 +1,22 @@
 package com.hbm.entity.effect;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.NukeEnvironmentalEffect;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class EntityFalloutRain extends Entity {
 	
 	public int maxAge = 1000;
 	public int age;
-    public float scale = 0;
 
 	public EntityFalloutRain(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -20,7 +24,6 @@ public class EntityFalloutRain extends Entity {
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;
 		this.age = 0;
-    	scale = 0;
 	}
 
 	public EntityFalloutRain(World p_i1582_1_, int maxAge) {
@@ -63,6 +66,18 @@ public class EntityFalloutRain extends Entity {
 	            		worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
 	            	}
 	            }
+        	}
+    		
+        	List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox(posX - getScale(), 0, posZ - getScale(), posX + getScale(), 256, posZ + getScale()));
+    		
+        	for(Object o : list) {
+        		if(o instanceof EntityLivingBase) {
+        			EntityLivingBase entity = (EntityLivingBase) o;
+        			
+        			if(Math.sqrt(Math.pow(entity.posX - posX, 2) + Math.pow(entity.posZ - posZ, 2)) <= getScale()) {
+        				Library.applyRadiation(entity, 30, 9, 0, 0);
+        			}
+        		}
         	}
         }
         

@@ -360,6 +360,9 @@ container.reactorSmall=Nuclear Reactor
 
 tile.broadcaster_pc.name=Corrupted Broadcaster
 
+tile.radiobox.name=RTG-Powered High-Gain FM Transmitter
+tile.radiorec.name=FM Radio
+
 tile.red_pylon.name=Electricity Pole
 item.wiring_red_copper.name=Cable Drum
 
@@ -1082,7 +1085,7 @@ tile.frozen_planks.name=Frozen Planks
 tile.tape_recorder.name=Tape Recorder
 tile.steel_poles.name=Steel Pole
 tile.pole_top.name=Antenna Top
-tile.pole_satellite_receiver.name=Satellite Receiver
+tile.pole_satellite_receiver.name=Satellite Dish
 tile.steel_wall.name=Steel Wall
 tile.steel_corner.name=Steel Wall Corner
 tile.steel_roof.name=Flat Steel Roof
@@ -1217,6 +1220,9 @@ item.syringe_metal_empty.name=Metal Syringe
 item.syringe_metal_stimpak.name=Stimpak
 item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
+item.syringe_metal_super.name=Super Stimpak
+item.med_bag.name=Doctor's Bag
+item.radaway.name=Radaway
 item.pill_iodine.name=Iodine Pill
 item.plan_c.name=Plan C
 item.med_ipecac.name=Ipecac Syrup

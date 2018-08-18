@@ -1,9 +1,11 @@
 package com.hbm.items.special;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -153,6 +155,57 @@ public class ItemSyringe extends Item {
             	{
             		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
             	}
+            }
+		}
+		
+		if(this == ModItems.syringe_metal_super)
+		{
+            if (!world.isRemote)
+            {
+            	player.heal(25);
+            	player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 0));
+            
+            	stack.stackSize--;
+
+            	if (stack.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.syringe_metal_empty);
+            	}
+
+            	if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
+            	{
+            		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
+            	}
+            }
+		}
+		
+		if(this == ModItems.med_bag)
+		{
+            if (!world.isRemote)
+            {
+            	player.setHealth(player.getMaxHealth());
+            	
+        		player.removePotionEffect(Potion.blindness.id);
+        		player.removePotionEffect(Potion.confusion.id);
+        		player.removePotionEffect(Potion.digSlowdown.id);
+        		player.removePotionEffect(Potion.hunger.id);
+        		player.removePotionEffect(Potion.moveSlowdown.id);
+        		player.removePotionEffect(Potion.poison.id);
+        		player.removePotionEffect(Potion.weakness.id);
+        		player.removePotionEffect(Potion.wither.id);
+        		player.removePotionEffect(HbmPotion.radiation.id);
+            
+            	stack.stackSize--;
+            }
+		}
+		
+		if(this == ModItems.radaway)
+		{
+            if (!world.isRemote)
+            {
+        		player.removePotionEffect(HbmPotion.radiation.id);
+            
+            	stack.stackSize--;
             }
 		}
 		
@@ -315,6 +368,26 @@ public class ItemSyringe extends Item {
             }
 		}
 		
+		if(this == ModItems.syringe_metal_super)
+		{
+            if (!world.isRemote)
+            {
+            	entity.heal(25);
+            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 0));
+            
+            	stack.stackSize--;
+
+            	if(entityPlayer instanceof EntityPlayer)
+            	{
+            		EntityPlayer player = (EntityPlayer)entityPlayer;
+            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
+            		{
+            			player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
+            		}
+            	}
+            }
+		}
+		
 		if(this == ModItems.euphemium_stopper)
 		{
             if (!world.isRemote)
@@ -327,4 +400,39 @@ public class ItemSyringe extends Item {
 		
         return false;
     }
+    
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		if(this == ModItems.syringe_antidote) {
+			list.add("Removes all potion effects");
+		}
+		if(this == ModItems.syringe_awesome) {
+			list.add("Every good effect for 50 seconds");
+		}
+		if(this == ModItems.syringe_metal_medx) {
+			list.add("Resistance III for 4 minutes");
+		}
+		if(this == ModItems.syringe_metal_psycho) {
+			list.add("Resistance I for 2 minutes");
+			list.add("Strength I for 2 minutes");
+		}
+		if(this == ModItems.syringe_metal_stimpak) {
+			list.add("Heals 2.5 hearts");
+		}
+		if(this == ModItems.syringe_metal_super) {
+			list.add("Heals 25 hearts");
+			list.add("Slowness I for 10 seconds");
+		}
+		if(this == ModItems.syringe_poison) {
+			list.add("Deadly");
+		}
+		if(this == ModItems.med_bag) {
+			list.add("Full heal, regardless of max health");
+			list.add("Removes negative effects");
+		}
+		if(this == ModItems.radaway) {
+			list.add("Removes radiation effect");
+		}
+	}
 }

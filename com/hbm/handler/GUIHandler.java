@@ -65,6 +65,7 @@ import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.TileEntityRadiobox;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityReiXMainframe;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
@@ -658,6 +659,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_radiobox:
+			{
+				if(entity instanceof TileEntityRadiobox)
+				{
+					return new ContainerRadiobox(player.inventory, (TileEntityRadiobox) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1241,6 +1251,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineReactorSmall)
 					{
 						return new GUIMachineReactorSmall(player.inventory, (TileEntityMachineReactorSmall) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_radiobox:
+				{
+					if(entity instanceof TileEntityRadiobox)
+					{
+						return new GUIRadiobox(player.inventory, (TileEntityRadiobox) entity);
 					}
 					return null;
 				}

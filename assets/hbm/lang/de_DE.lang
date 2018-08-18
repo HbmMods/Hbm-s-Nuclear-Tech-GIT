@@ -360,6 +360,9 @@ container.reactorSmall=Atomreaktor
 
 tile.broadcaster_pc.name=Korrupter Sender
 
+tile.radiobox.name=RTG-Betriebener Hochleistungs-UKW-Sender
+tile.radiorec.name=UKW Radio
+
 tile.red_pylon.name=Strommasten
 item.wiring_red_copper.name=Kabeltrommel
 
@@ -1217,6 +1220,9 @@ item.syringe_metal_empty.name=Metallspritze
 item.syringe_metal_stimpak.name=Stimpak
 item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
+item.syringe_metal_super.name=Super Stimpak
+item.med_bag.name=Ärztetasche
+item.radaway.name=Radaway
 item.pill_iodine.name=Iodpille
 item.plan_c.name=Plan C
 item.med_ipecac.name=Ipecac-Sirup

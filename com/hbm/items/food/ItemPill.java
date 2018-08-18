@@ -1,9 +1,11 @@
 package com.hbm.items.food;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -34,6 +36,7 @@ public class ItemPill extends ItemFood {
         		player.removePotionEffect(Potion.poison.id);
         		player.removePotionEffect(Potion.weakness.id);
         		player.removePotionEffect(Potion.wither.id);
+        		player.removePotionEffect(HbmPotion.radiation.id);
         	}
 
         	if(this == ModItems.plan_c) {
@@ -42,5 +45,16 @@ public class ItemPill extends ItemFood {
         	}
         }
     }
+    
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		if(this == ModItems.pill_iodine) {
+			list.add("Removes negative effects");
+		}
+		if(this == ModItems.plan_c) {
+			list.add("Deadly");
+		}
+	}
 
 }

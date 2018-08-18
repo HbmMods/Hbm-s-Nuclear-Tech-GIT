@@ -226,6 +226,9 @@ public class Library {
 		if(!(e instanceof EntityLivingBase))
 			return;
 		
+		if(radDura == 0)
+			return;
+		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		if(entity instanceof EntityPlayer) {
@@ -235,6 +238,10 @@ public class Library {
 				return;
 			
 			if(checkForGasMask(player)) {
+				
+				if(maskDura == 0)
+					return;
+				
 				entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, maskDura * 20, maskLevel));
 				return;
 			}
