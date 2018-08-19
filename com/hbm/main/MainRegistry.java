@@ -66,6 +66,7 @@ import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
+import com.hbm.entity.grenade.EntityGrenadeCloud;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
 import com.hbm.entity.grenade.EntityGrenadeFire;
@@ -78,6 +79,7 @@ import com.hbm.entity.grenade.EntityGrenadeLemon;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.grenade.EntityGrenadeNuke;
+import com.hbm.entity.grenade.EntityGrenadePC;
 import com.hbm.entity.grenade.EntityGrenadePlasma;
 import com.hbm.entity.grenade.EntityGrenadePoison;
 import com.hbm.entity.grenade.EntityGrenadePulse;
@@ -127,10 +129,13 @@ import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.entity.particle.EntityChlorineFX;
+import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOilSpillFX;
+import com.hbm.entity.particle.EntityPinkCloudFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
@@ -765,6 +770,11 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMissileBHole.class, "entity_missile_blackhole", 100, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileSchrabidium.class, "entity_missile_schrabidium", 101, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileEMP.class, "entity_missile_emp", 102, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityChlorineFX.class, "entity_d_smoke_fx", 103, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityPinkCloudFX.class, "entity_pink_cloud_fx", 104, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityCloudFX.class, "entity_cloud_fx", 105, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadePC.class, "entity_grenade_pink_cloud", 106, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeCloud.class, "entity_grenade_cloud", 107, this, 250, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
@@ -935,6 +945,20 @@ public class MainRegistry
             protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
             {
                 return new EntityGrenadeGascan(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_cloud, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeCloud(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_pink_cloud, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadePC(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
             }
         });
 	}

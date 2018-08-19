@@ -209,7 +209,7 @@ public class BombMulti extends BlockContainer implements IBomb {
         			this.poisonRadius += 15;
         			break;
         		case 6:
-        			this.gasCloud += 15;
+        			this.gasCloud += 50;
         		}
         		switch(entity.return5type())
         		{
@@ -229,7 +229,7 @@ public class BombMulti extends BlockContainer implements IBomb {
         			this.poisonRadius += 15;
         			break;
         		case 6:
-        			this.gasCloud += 15;
+        			this.gasCloud += 50;
         		}
 
         		entity.clearSlots();
@@ -255,7 +255,7 @@ public class BombMulti extends BlockContainer implements IBomb {
         		
         		if(this.gasCloud > 0)
         		{
-                	ExplosionChaos.poison(world, x, y, z, this.gasCloud);
+        			ExplosionChaos.spawnChlorine(world, x, y, z, this.gasCloud, this.gasCloud / 50, 0);
         		}
         		
         		this.clusterCount = 0;

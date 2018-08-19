@@ -162,6 +162,8 @@ death.attack.broadcast=%1$s wurde das Gehirn geschmolzen.
 death.attack.ams=%1$s wurde in tödlichen Teilchen gebadet, die von der Menschheit erst benannt werden müssen.
 death.attack.amsCore=%1$s wurde vom Feuer einer Singularität verdampft.
 death.attack.bang=%1$s wurde in mundgerechte Stücke zerfetzt.
+death.attack.pc=%1$s wurde zu einer Pfütze in der pinken Wolke.
+death.attack.cloud=%1$s schmolz wie ein Eis in der Sonne.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -1016,7 +1018,7 @@ item.grenade_frag.name=Splittergranate
 item.grenade_fire.name=Brandsplittergranate
 item.grenade_shrapnel.name=Schrapnellgranate
 item.grenade_cluster.name=Cluster-Bombe
-item.grenade_flare.name=Blendgranate
+item.grenade_flare.name=Signalfeuer
 item.grenade_electric.name=Blitzbombe
 item.grenade_poison.name=Giftgranate
 item.grenade_gas.name=Gasgranate
@@ -1032,6 +1034,8 @@ item.grenade_nuke.name=Mark VI Bohrgranate
 item.grenade_nuclear.name=Nuka-Granate
 item.grenade_zomg.name=Negativenergie-Paarvernichtungsgranate
 item.grenade_black_hole.name=Schwarzes-Loch-Granate
+item.grenade_cloud.name=Gefäß voll Wolke
+item.grenade_pink_cloud.name=Gefäß voll pinker Wolke
 item.ullapool_caber.name=Ullapool'sche Stiel
 
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
@@ -1484,6 +1488,10 @@ item.cape_codered_.name=codered_s Cape
 tile.machine_converter_he_rf.name=HE zu RF Konverter
 tile.machine_converter_rf_he.name=RF zu HE Konverter
 tile.machine_transformer.name=Transformator
+
+tile.vent_chlorine.name=Chlorgas-Auslass
+tile.vent_cloud.name=Wolken-Auslass
+tile.vent_pink_cloud.name=Pinker Wolken-Auslass
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.shimmer_sledge.name=Shimmer Sledge

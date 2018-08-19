@@ -97,13 +97,13 @@ public class TileEntityVaultDoor extends TileEntity {
 	    		}
 	    	}
 	    	
-	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, sysTime, type));
+	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 0, type));
 		}
     }
 	
 	public void open() {
 		if(state == 0) {
-			sysTime = System.currentTimeMillis();
+	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, type));
 			isOpening = true;
 			state = 1;
 			
@@ -118,7 +118,7 @@ public class TileEntityVaultDoor extends TileEntity {
 	
 	public void close() {
 		if(state == 2) {
-			sysTime = System.currentTimeMillis();
+	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, type));
 			isOpening = false;
 			state = 1;
 			

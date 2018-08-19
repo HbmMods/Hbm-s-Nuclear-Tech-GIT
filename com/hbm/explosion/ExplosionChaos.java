@@ -10,6 +10,11 @@ import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBase;
+import com.hbm.entity.particle.EntityChlorineFX;
+import com.hbm.entity.particle.EntityCloudFX;
+import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntityModFX;
+import com.hbm.entity.particle.EntityPinkCloudFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.entity.projectile.EntityRainbow;
@@ -20,6 +25,7 @@ import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -348,6 +354,27 @@ public class ExplosionChaos {
 
 	}
 
+	public static void spawnChlorine(World world, double x, double y, double z, int count, double speed, int type) {
+		
+		for(int i = 0; i < count; i++) {
+			
+			EntityModFX fx = null;
+			
+			if(type == 0) {
+				fx = new EntityChlorineFX(world, x, y, z, 0.0, 0.0, 0.0);
+			} else if(type == 1) {
+				fx = new EntityCloudFX(world, x, y, z, 0.0, 0.0, 0.0);
+			} else {
+				fx = new EntityPinkCloudFX(world, x, y, z, 0.0, 0.0, 0.0);
+			}
+			
+			fx.motionY = rand.nextGaussian() * speed;
+			fx.motionX = rand.nextGaussian() * speed;
+			fx.motionZ = rand.nextGaussian() * speed;
+			world.spawnEntityInWorld(fx);
+		}
+	}
+
 	public static void destruction(World world, int x, int y, int z) {
 
 		if (world.getBlock(x, y, z) == Blocks.bedrock || world.getBlock(x, y, z) == ModBlocks.reinforced_brick
@@ -596,19 +623,121 @@ public class ExplosionChaos {
 				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 				if (d9 < wat) {
 					if (entity instanceof EntityPlayer && Library.checkForGasMask((EntityPlayer) entity)) {
-						// Library.damageSuit(((EntityPlayer)entity), 3);
+						Library.damageSuit((EntityPlayer)entity, 3, rand.nextInt(2));
 
 					} else if (entity instanceof EntityLivingBase) {
 						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 15 * 20, 0));
+								.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));
 						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.poison.getId(), 2 * 60 * 20, 2));
+								.addPotionEffect(new PotionEffect(Potion.poison.getId(), 20 * 20, 2));
 						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.wither.getId(), 30 * 20, 5));
+								.addPotionEffect(new PotionEffect(Potion.wither.getId(), 1 * 20, 1));
 						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 2 * 60 * 20, 2));
+								.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 30 * 20, 1));
 						((EntityLivingBase) entity)
-								.addPotionEffect(new PotionEffect(Potion.digSlowdown.getId(), 2 * 60 * 20, 2));
+								.addPotionEffect(new PotionEffect(Potion.digSlowdown.getId(), 30 * 20, 2));
+					}
+				}
+			}
+		}
+
+		bombStartStrength = (int) f;
+	}
+
+	public static void pc(World world, int x, int y, int z, int bombStartStrength) {
+		float f = bombStartStrength;
+		HashSet hashset = new HashSet();
+		int i;
+		int j;
+		int k;
+		double d5;
+		double d6;
+		double d7;
+		double wat = bombStartStrength * 2;
+		boolean isOccupied = false;
+
+		bombStartStrength *= 2.0F;
+		i = MathHelper.floor_double(x - wat - 1.0D);
+		j = MathHelper.floor_double(x + wat + 1.0D);
+		k = MathHelper.floor_double(y - wat - 1.0D);
+		int i2 = MathHelper.floor_double(y + wat + 1.0D);
+		int l = MathHelper.floor_double(z - wat - 1.0D);
+		int j2 = MathHelper.floor_double(z + wat + 1.0D);
+		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
+
+		for (int i1 = 0; i1 < list.size(); ++i1) {
+			Entity entity = (Entity) list.get(i1);
+			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
+
+			if (d4 <= 1.0D) {
+				d5 = entity.posX - x;
+				d6 = entity.posY + entity.getEyeHeight() - y;
+				d7 = entity.posZ - z;
+				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+				if (d9 < wat) {
+					
+					if (entity instanceof EntityPlayer) {
+						
+						Library.damageSuit((EntityPlayer)entity, 0, 25);
+						Library.damageSuit((EntityPlayer)entity, 1, 25);
+						Library.damageSuit((EntityPlayer)entity, 2, 25);
+						Library.damageSuit((EntityPlayer)entity, 3, 25);
+						
+					}
+					
+					entity.attackEntityFrom(ModDamageSource.pc, 5);
+				}
+			}
+		}
+
+		bombStartStrength = (int) f;
+	}
+
+	public static void c(World world, int x, int y, int z, int bombStartStrength) {
+		float f = bombStartStrength;
+		HashSet hashset = new HashSet();
+		int i;
+		int j;
+		int k;
+		double d5;
+		double d6;
+		double d7;
+		double wat = bombStartStrength * 2;
+		boolean isOccupied = false;
+
+		bombStartStrength *= 2.0F;
+		i = MathHelper.floor_double(x - wat - 1.0D);
+		j = MathHelper.floor_double(x + wat + 1.0D);
+		k = MathHelper.floor_double(y - wat - 1.0D);
+		int i2 = MathHelper.floor_double(y + wat + 1.0D);
+		int l = MathHelper.floor_double(z - wat - 1.0D);
+		int j2 = MathHelper.floor_double(z + wat + 1.0D);
+		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
+
+		for (int i1 = 0; i1 < list.size(); ++i1) {
+			Entity entity = (Entity) list.get(i1);
+			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
+
+			if (d4 <= 1.0D) {
+				d5 = entity.posX - x;
+				d6 = entity.posY + entity.getEyeHeight() - y;
+				d7 = entity.posZ - z;
+				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+				if (d9 < wat) {
+					
+					if (entity instanceof EntityPlayer) {
+						
+						Library.damageSuit((EntityPlayer)entity, 0, 5);
+						Library.damageSuit((EntityPlayer)entity, 1, 5);
+						Library.damageSuit((EntityPlayer)entity, 2, 5);
+						Library.damageSuit((EntityPlayer)entity, 3, 5);
+						
+					}
+					
+					if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) { } else {
+						entity.attackEntityFrom(ModDamageSource.cloud, 3);
 					}
 				}
 			}

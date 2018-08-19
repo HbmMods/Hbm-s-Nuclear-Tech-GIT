@@ -206,12 +206,15 @@ public class Library {
 		return false;
 	}
 	
-	public static void damageSuit(EntityPlayer player, int slot) {
+	public static void damageSuit(EntityPlayer player, int slot, int amount) {
+		
+		if(player.inventory.armorInventory[slot] == null)
+			return;
 		
 		int j = player.inventory.armorInventory[slot].getItemDamage();
-		player.inventory.armorInventory[slot].setItemDamage(j += 1);
+		player.inventory.armorInventory[slot].setItemDamage(j += amount);
 
-		if(player.inventory.armorInventory[slot].getItemDamage() == player.inventory.armorInventory[slot].getMaxDamage())
+		if(player.inventory.armorInventory[slot].getItemDamage() >= player.inventory.armorInventory[slot].getMaxDamage())
 		{
 			player.inventory.armorInventory[slot] = null;
 		}

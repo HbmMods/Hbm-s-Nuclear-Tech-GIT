@@ -71,7 +71,8 @@ public class TEVaultPacket implements IMessage {
 					TileEntityVaultDoor vault = (TileEntityVaultDoor) te;
 					vault.isOpening = m.isOpening;
 					vault.state = m.state;
-					vault.sysTime = m.sysTime;
+					if(m.sysTime == 1)
+						vault.sysTime = System.currentTimeMillis();
 					vault.type = m.type;
 				}
 			} catch (Exception x) {

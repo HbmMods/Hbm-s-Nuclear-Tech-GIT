@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityModFX;
 import com.hbm.items.ModItems;
 import net.minecraft.client.renderer.Tessellator;
@@ -86,6 +87,12 @@ public class MultiCloudRenderer extends Render {
 				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glScalef(7.5F, 7.5F, 7.5F);
+				
+				////
+				Random randy = new Random(p_76986_1_.hashCode());
+				double d = randy.nextInt(10) * 0.05;
+				GL11.glColor3d(1 - d, 1 - d, 1 - d);
+				////
 				
 				Random rand = new Random(100);
 				

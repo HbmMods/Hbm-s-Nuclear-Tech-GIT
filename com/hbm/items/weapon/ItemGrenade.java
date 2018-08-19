@@ -2,6 +2,7 @@ package com.hbm.items.weapon;
 
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
+import com.hbm.entity.grenade.EntityGrenadeCloud;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
 import com.hbm.entity.grenade.EntityGrenadeFire;
@@ -14,6 +15,7 @@ import com.hbm.entity.grenade.EntityGrenadeLemon;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.grenade.EntityGrenadeNuke;
+import com.hbm.entity.grenade.EntityGrenadePC;
 import com.hbm.entity.grenade.EntityGrenadePlasma;
 import com.hbm.entity.grenade.EntityGrenadePoison;
 import com.hbm.entity.grenade.EntityGrenadePulse;
@@ -115,6 +117,12 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_gascan) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeGascan(p_77659_2_, p_77659_3_));
 			}
+			if (this == ModItems.grenade_cloud) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeCloud(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_pink_cloud) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadePC(p_77659_2_, p_77659_3_));
+			}
 		}
 
 		return p_77659_1_;
@@ -123,11 +131,11 @@ public class ItemGrenade extends Item {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if (this == ModItems.grenade_schrabidium || this == ModItems.grenade_aschrab) {
+		if (this == ModItems.grenade_schrabidium || this == ModItems.grenade_aschrab || this == ModItems.grenade_cloud) {
 			return EnumRarity.rare;
 		}
 
-		if (this == ModItems.grenade_plasma || this == ModItems.grenade_zomg || this == ModItems.grenade_black_hole) {
+		if (this == ModItems.grenade_plasma || this == ModItems.grenade_zomg || this == ModItems.grenade_black_hole || this == ModItems.grenade_pink_cloud) {
 			return EnumRarity.epic;
 		}
 
