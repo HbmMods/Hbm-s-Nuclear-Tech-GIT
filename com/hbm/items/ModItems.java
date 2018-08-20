@@ -832,6 +832,8 @@ public class ModItems {
 	public static Item med_ipecac;
 	public static Item med_ptsd;
 	public static Item med_schizophrenia;
+	
+	public static Item defuser;
 
 	public static Item flame_pony;
 	public static Item flame_conspiracy;
@@ -2047,6 +2049,8 @@ public class ModItems {
 		med_ipecac = new ItemLemon(0, 0, false).setUnlocalizedName("med_ipecac").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_ipecac_new");
 		med_ptsd = new ItemLemon(0, 0, false).setUnlocalizedName("med_ptsd").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_ptsd_new");
 		med_schizophrenia = new ItemLemon(0, 0, false).setUnlocalizedName("med_schizophrenia").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_schizophrenia_new");
+		
+		defuser = new Item().setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		
 		flame_pony = new ItemCustomLore().setUnlocalizedName("flame_pony").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":flame_pony");
 		flame_conspiracy = new ItemCustomLore().setUnlocalizedName("flame_conspiracy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":flame_conspiracy");
@@ -3676,6 +3680,7 @@ public class ModItems {
 		GameRegistry.registerItem(detonator_multi, detonator_multi.getUnlocalizedName());
 		GameRegistry.registerItem(crate_caller, crate_caller.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
+		GameRegistry.registerItem(defuser, defuser.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_helmet, hazmat_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_plate, hazmat_plate.getUnlocalizedName());
 		GameRegistry.registerItem(hazmat_legs, hazmat_legs.getUnlocalizedName());

@@ -16,7 +16,7 @@ public class TileEntityVent extends TileEntity {
 
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		if(!worldObj.isRemote && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
 			Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
 
 			if(b == ModBlocks.vent_chlorine) {

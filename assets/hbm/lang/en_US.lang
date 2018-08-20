@@ -261,6 +261,11 @@ item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
 item.turret_biometry.name=Turret Telemetry Card
 
+tile.mine_ap.name=Anti-Personell Mine
+tile.mine_he.name=Anti-Tank Mine
+tile.mine_shrap.name=Shrapnel Mine
+item.defuser.name=High-Tech Bomb Defusing Device
+
 tile.crate.name=Supply Crate
 tile.crate_weapon.name=Weapon Crate
 tile.crate_lead.name=Hazmat Crate

@@ -180,7 +180,10 @@ public class ModBlocks {
 	public static Block yellow_barrel;
 	public static Block crashed_balefire;
 	public static Block rejuvinator;
-
+	public static Block mine_ap;
+	public static Block mine_he;
+	public static Block mine_shrap;
+	
 	public static Block crate;
 	public static Block crate_weapon;
 	public static Block crate_lead;
@@ -712,7 +715,10 @@ public class ModBlocks {
 		red_barrel = new RedBarrel(Material.iron).setBlockName("red_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F);
 		yellow_barrel = new YellowBarrel(Material.iron).setBlockName("yellow_barrel").setCreativeTab(MainRegistry.nukeTab).setHardness(0.5F).setResistance(2.5F);
 		crashed_balefire = new BlockCrashedBomb(Material.iron).setBlockName("crashed_bomb").setCreativeTab(MainRegistry.nukeTab).setBlockUnbreakable().setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":crashed_balefire");
-		rejuvinator = new BombRejuvinator(Material.iron).setBlockName("rejuvinator").setCreativeTab(MainRegistry.nukeTab).setBlockUnbreakable().setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":inserter_side");
+		rejuvinator = new BombRejuvinator(Material.iron).setBlockName("rejuvinator").setCreativeTab(MainRegistry.nukeTab).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":inserter_side");
+		mine_ap = new Landmine(Material.iron).setBlockName("mine_ap").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_ap");
+		mine_he = new Landmine(Material.iron).setBlockName("mine_he").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_he");
+		mine_shrap = new Landmine(Material.iron).setBlockName("mine_shrap").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_shrap");
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -1129,6 +1135,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_spitfire, turret_spitfire.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_cwis, turret_cwis.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_cheapo, turret_cheapo.getUnlocalizedName());
+		
+		//Mines
+		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());
+		GameRegistry.registerBlock(mine_he, mine_he.getUnlocalizedName());
+		GameRegistry.registerBlock(mine_shrap, mine_shrap.getUnlocalizedName());
 		
 		//Wot
 		GameRegistry.registerBlock(cel_prime, cel_prime.getUnlocalizedName());

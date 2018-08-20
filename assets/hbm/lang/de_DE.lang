@@ -249,6 +249,11 @@ item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
 item.turret_biometry.name=Geschütz-Telemetriekarte
 
+tile.mine_ap.name=Antipersonenmine
+tile.mine_he.name=Antipanzermine
+tile.mine_shrap.name=Schrapnellmine
+item.defuser.name=High-Tech Bombenentschärfungsgerät
+
 tile.bomb_multi.name=Mehrzweckbombe
 tile.rejuvinator.name=Regenerationsmaschine
 

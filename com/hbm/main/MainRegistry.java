@@ -187,6 +187,7 @@ import com.hbm.tileentity.bomb.TileEntityCelPrimePort;
 import com.hbm.tileentity.bomb.TileEntityCelPrimeTanks;
 import com.hbm.tileentity.bomb.TileEntityCelPrimeTerminal;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
+import com.hbm.tileentity.bomb.TileEntityLandmine;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
@@ -227,6 +228,7 @@ import com.hbm.tileentity.deco.TileEntityRotationTester;
 import com.hbm.tileentity.deco.TileEntityTaint;
 import com.hbm.tileentity.deco.TileEntityTestContainer;
 import com.hbm.tileentity.deco.TileEntityTestRender;
+import com.hbm.tileentity.deco.TileEntityVent;
 import com.hbm.tileentity.deco.TileEntityYellowBarrel;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
@@ -336,7 +338,7 @@ public class MainRegistry
 	//Armor Materials
 	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
 	public static ArmorMaterial enumArmorMaterialSchrabidium = EnumHelper.addArmorMaterial("SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
-	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 2147483647, new int[] {3, 8, 6, 3}, 100);
+	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 2100000000, new int[] {3, 8, 6, 3}, 100);
 	public static ArmorMaterial enumArmorMaterialHazmat = EnumHelper.addArmorMaterial("HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
 	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
@@ -431,7 +433,7 @@ public class MainRegistry
 	public static boolean enablePlutoniumOre = false;
 	public static boolean enableDungeons = true;
 	public static boolean enableMDOres = true;
-	public static boolean enableBarrels = false;
+	public static boolean enableMines = true;
 	public static boolean enableNITAN = true;
 	public static boolean enableNukeClouds = true;
 	public static boolean enableAutoCleanup = false;
@@ -481,6 +483,7 @@ public class MainRegistry
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
 	public static int broadcaster = 5000;
+	public static int minefreq = 64;
 	public static int meteorStrikeChance = 20 * 60 * 90;
 	public static int meteorShowerChance = 20 * 60 * 3;
 	public static int meteorShowerDuration = 6000;
@@ -666,6 +669,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityVaultDoor.class, "tileentity_vault_door");
 		GameRegistry.registerTileEntity(TileEntityRadiobox.class, "tileentity_radio_broadcaster");
 		GameRegistry.registerTileEntity(TileEntityRadioRec.class, "tileentity_radio_receiver");
+		GameRegistry.registerTileEntity(TileEntityVent.class, "tileentity_vent");
+		GameRegistry.registerTileEntity(TileEntityLandmine.class, "tileentity_landmine");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1339,7 +1344,7 @@ public class MainRegistry
         enablePlutoniumOre = config.get(Configuration.CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false).getBoolean(false);
         enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.03_enableDungeonSpawn", true).getBoolean(true);
         enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.04_enableOresInModdedDimensions", true).getBoolean(true);
-        enableBarrels = config.get(Configuration.CATEGORY_GENERAL, "1.05_enableNuclearBarrelSpawn", false).getBoolean(false);
+        enableMines = config.get(Configuration.CATEGORY_GENERAL, "1.05_enableLandmineSpawn", true).getBoolean(true);
         enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.06_enableNITANChestSpawn", true).getBoolean(true);
         enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.07_enableMushroomClouds", true).getBoolean(true);
         enableAutoCleanup = config.get(Configuration.CATEGORY_GENERAL, "1.08_enableAutomaticRadCleanup", false).getBoolean(false);
@@ -1459,8 +1464,11 @@ public class MainRegistry
         propSpaceship.comment = "Spawn spaceship on every nTH chunk";
         spaceshipStructure = propSpaceship.getInt();
         Property propBroadcaster = config.get(Configuration.CATEGORY_GENERAL, "4.12_broadcasterSpawn", 5000);
-        propBroadcaster.comment = "Spawn spaceship on every nTH chunk";
+        propBroadcaster.comment = "Spawn corrupt broadcaster on every nTH chunk";
         broadcaster = propBroadcaster.getInt();
+        Property propMines = config.get(Configuration.CATEGORY_GENERAL, "4.13_landmineSpawn", 64);
+        propMines.comment = "Spawn AP landmine on every nTH chunk";
+        minefreq = propMines.getInt();
 
         Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 50000);
         propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";
