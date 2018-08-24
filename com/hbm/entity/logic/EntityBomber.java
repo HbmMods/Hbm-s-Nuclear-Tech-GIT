@@ -254,10 +254,36 @@ public class EntityBomber extends Entity {
     }
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) { }
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+		ticksExisted = nbt.getInteger("ticksExisted");
+		bombStart = nbt.getInteger("bombStart");
+		bombStop = nbt.getInteger("bombStop");
+		bombRate = nbt.getInteger("bombRate");
+		type = nbt.getInteger("type");
+    	
+    	int i = 1;
+    	
+    	int rand = this.rand.nextInt(101);
+    	
+    	if(rand < 50)
+    		i = 1;
+    	else if(rand > 50)
+    		i = 2;
+    	else
+    		i = 0;
+    	
+    	this.getDataWatcher().updateObject(16, (byte)i);
+    	this.setSize(8.0F, 4.0F);
+	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) { }
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setInteger("ticksExisted", ticksExisted);
+		nbt.setInteger("bombStart", bombStart);
+		nbt.setInteger("bombStop", bombStop);
+		nbt.setInteger("bombRate", bombRate);
+		nbt.setInteger("type", type);
+	}
 	
 	protected void rotation() {
         float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);

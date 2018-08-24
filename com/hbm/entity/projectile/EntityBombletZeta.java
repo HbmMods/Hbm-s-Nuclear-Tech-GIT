@@ -55,6 +55,7 @@ public class EntityBombletZeta extends EntityThrowable {
     				ExplosionChaos.burn(worldObj, (int)posX, (int)posY, (int)posZ, 7);
     			}
     			if(type == 2) {
+    	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
     				ExplosionChaos.spawnChlorine(worldObj, this.posX + 0.5F - motionX, this.posY + 0.5F - motionY, this.posZ + 0.5F - motionZ, 75, 2, 0);
     			}
     			if(type == 4) {

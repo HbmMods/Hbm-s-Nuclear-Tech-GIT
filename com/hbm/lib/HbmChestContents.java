@@ -60,7 +60,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bottle_nuka, 0, 1, 3, 4),
 			new WeightedRandomChestContent(ModItems.bottle_cherry, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7) };
+			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 1) };
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
@@ -90,7 +91,12 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 1, 6),
 			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
-			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5) };
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 4, 1, 2, 1) };
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
@@ -156,7 +162,11 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 7),
 			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 5),
-			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 2) };
+			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 4, 1, 2, 1) };
 
 	private static WeightedRandomChestContent[] missile = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.missile_generic, 0, 1, 1, 4),
@@ -177,7 +187,10 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.fuel_tank_medium, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.fuel_tank_small, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.warhead_mirvlet, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1) };
+			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 2, 1) };
 
 	private static WeightedRandomChestContent[] spaceship = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 5),
