@@ -33,7 +33,9 @@ public class ItemDesingatorRange extends Item {
 		} else {
 			list.add("Please select a target.");
 		}
-	}@Override
+	}
+	
+	@Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
 		MovingObjectPosition pos = Library.rayTrace(player, 300, 1);

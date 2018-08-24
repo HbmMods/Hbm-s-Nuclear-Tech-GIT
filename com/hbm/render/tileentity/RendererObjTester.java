@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -45,12 +46,12 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 
         /*bindTexture(objTesterTexture);
         objTesterModel.renderAll();*/
-
-		bindTexture(ResourceManager.reactor_small_base_tex);
-		ResourceManager.reactor_small_base.renderAll();
-        GL11.glTranslated(0, Math.sin(System.currentTimeMillis() % (Math.PI * 1200) / 600) * 0.5 + 0.5, 0);
-		bindTexture(ResourceManager.reactor_small_rods_tex);
-		ResourceManager.reactor_small_rods.renderAll();
+		
+        GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glScaled(5, 5, 5);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+		bindTexture(ResourceManager.dornier_2_tex);
+		ResourceManager.dornier.renderAll();
 
         GL11.glPopMatrix();
     }

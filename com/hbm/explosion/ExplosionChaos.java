@@ -14,6 +14,7 @@ import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityCloudFX;
 import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityModFX;
+import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityMiniNuke;
@@ -364,8 +365,10 @@ public class ExplosionChaos {
 				fx = new EntityChlorineFX(world, x, y, z, 0.0, 0.0, 0.0);
 			} else if(type == 1) {
 				fx = new EntityCloudFX(world, x, y, z, 0.0, 0.0, 0.0);
-			} else {
+			} else if(type == 2) {
 				fx = new EntityPinkCloudFX(world, x, y, z, 0.0, 0.0, 0.0);
+			} else {
+				fx = new EntityOrangeFX(world, x, y, z, 0.0, 0.0, 0.0);
 			}
 			
 			fx.motionY = rand.nextGaussian() * speed;

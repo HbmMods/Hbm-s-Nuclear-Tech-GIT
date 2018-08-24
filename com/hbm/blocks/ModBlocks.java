@@ -189,7 +189,9 @@ public class ModBlocks {
 	public static Block crate_lead;
 	public static Block crate_metal;
 	public static Block crate_red;
+
 	public static Block boxcar;
+	public static Block bomber;
 
 	public static Block seal_frame;
 	public static Block seal_controller;
@@ -873,6 +875,7 @@ public class ModBlocks {
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		boxcar = new DecoBlock(Material.iron).setBlockName("boxcar").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boxcar");
+		bomber = new DecoBlock(Material.iron).setBlockName("bomber").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":bomber");
 
 		machine_well = new MachineOilWell(Material.iron).setBlockName("machine_well").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_well");
 		machine_pumpjack = new MachinePumpjack(Material.iron).setBlockName("machine_pumpjack").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_pumpjack");
@@ -1181,6 +1184,7 @@ public class ModBlocks {
 		
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());
+		GameRegistry.registerBlock(bomber, bomber.getUnlocalizedName());
 		
 		//Machines
 		GameRegistry.registerBlock(machine_press, machine_press.getUnlocalizedName());

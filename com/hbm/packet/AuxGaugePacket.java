@@ -4,6 +4,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
+import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
@@ -128,6 +129,16 @@ public class AuxGaugePacket implements IMessage {
 						reactor.coreHeat = m.value;
 					if(m.id == 3)
 						reactor.hullHeat = m.value;
+				}
+				if (te instanceof TileEntityBomber) {
+					TileEntityBomber bomber = (TileEntityBomber)te;
+					
+					if(m.id == 0)
+						bomber.yaw = m.value;
+					if(m.id == 1)
+						bomber.pitch = m.value;
+					if(m.id == 2)
+						bomber.type = m.value;
 				}
 				
 			} catch (Exception x) { }

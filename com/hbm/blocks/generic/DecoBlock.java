@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.TileEntityNukeGadget;
+import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.deco.TileEntityDecoBlock;
 
 import net.minecraft.block.Block;
@@ -34,6 +35,10 @@ public class DecoBlock extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		
+		if(this == ModBlocks.bomber)
+			return new TileEntityBomber();
+		
 		return new TileEntityDecoBlock();
 	}
 	
@@ -55,7 +60,7 @@ public class DecoBlock extends BlockContainer {
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-		if(this == ModBlocks.boxcar)
+		if(this == ModBlocks.boxcar || this == ModBlocks.bomber)
 			return null;
         return Item.getItemFromBlock(this);
     }

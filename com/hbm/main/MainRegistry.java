@@ -89,6 +89,7 @@ import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
@@ -135,12 +136,14 @@ import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntityOilSpillFX;
+import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.entity.projectile.EntityAAShell;
 import com.hbm.entity.projectile.EntityBaleflare;
+import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -218,6 +221,7 @@ import com.hbm.tileentity.conductor.TileEntityOilDuct;
 import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 import com.hbm.tileentity.conductor.TileEntityWireCoated;
+import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.deco.TileEntityDecoBlock;
 import com.hbm.tileentity.deco.TileEntityDecoPoleSatelliteReceiver;
 import com.hbm.tileentity.deco.TileEntityDecoPoleTop;
@@ -671,6 +675,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityRadioRec.class, "tileentity_radio_receiver");
 		GameRegistry.registerTileEntity(TileEntityVent.class, "tileentity_vent");
 		GameRegistry.registerTileEntity(TileEntityLandmine.class, "tileentity_landmine");
+		GameRegistry.registerTileEntity(TileEntityBomber.class, "tileentity_bomber");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -780,6 +785,9 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityCloudFX.class, "entity_cloud_fx", 105, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadePC.class, "entity_grenade_pink_cloud", 106, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeCloud.class, "entity_grenade_cloud", 107, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityBomber.class, "entity_bomber", 108, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBombletZeta.class, "entity_zeta", 109, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityOrangeFX.class, "entity_agent_orange", 110, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

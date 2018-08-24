@@ -265,6 +265,7 @@ tile.emp_bomb.name=EMP-Ladung
 
 tile.crashed_bomb.name=Blindgänger
 tile.boxcar.name=Güterwagon
+tile.bomber.name=Abgestürtzer Bomber
 
 tile.crate.name=Vorratskiste
 tile.crate_weapon.name=Waffenkiste
@@ -1512,7 +1513,9 @@ item.shimmer_handle.name=Verstärketer Polymergriff
 item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder
 item.detonator_multi.name=Mehrfach-Fernzünder
+item.detonator_laser.name=Laserzünder
 item.crate_caller.name=Nachschub-Requester
+item.bomb_caller.name=Luftschlag Zielmarker
 item.meteor_remote.name=Meteoritenkontroller
 
 item.ingot_hes.name=Stark angereicherter Schrabidiumkernbrennstoffbarren

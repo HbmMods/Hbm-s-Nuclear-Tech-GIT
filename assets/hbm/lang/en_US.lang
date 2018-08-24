@@ -243,6 +243,7 @@ tile.emp_bomb.name=EMP Device
 
 tile.crashed_bomb.name=Dud
 tile.boxcar.name=Boxcar
+tile.bomber.name=Crashed Bomber
 
 tile.turret_light.name=Light Machine Gun Turret
 tile.turret_heavy.name=Heavy Machine Gun Turret
@@ -1511,8 +1512,10 @@ item.shimmer_handle.name=Reinforced Polymer Handle
 
 item.redcoil_capacitor.name=Redcoil Capacitor
 item.detonator.name=Detonator
-item.detonator_multi.name=Multi-Detonator
+item.detonator_multi.name=Multi Detonator
+item.detonator_laser.name=Laser Detonator
 item.crate_caller.name=Supply Drop Requester
+item.bomb_caller.name=Airstrike Designator
 item.meteor_remote.name=Meteorite Remote
 
 item.ingot_hes.name=Highly Enriched Schrabidium Fuel Ingot

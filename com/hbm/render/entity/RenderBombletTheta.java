@@ -2,6 +2,7 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -29,7 +30,13 @@ public class RenderBombletTheta extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
         
-        bindTexture(boyTexture);
+        if(p_76986_1_ instanceof EntityBombletZeta) {
+        	GL11.glScaled(0.5D, 0.5D, 0.5D);
+        	bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/bombletZetaTexture.png"));
+        } else {
+        	bindTexture(boyTexture);
+        }
+        
         boyModel.renderAll();
 		GL11.glPopMatrix();
 	}
