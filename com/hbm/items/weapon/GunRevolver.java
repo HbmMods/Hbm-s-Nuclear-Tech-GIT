@@ -43,6 +43,9 @@ public class GunRevolver extends Item {
 		if (this == ModItems.gun_revolver) {
 			this.setMaxDamage(500);
 		}
+		if (this == ModItems.gun_revolver_saturnite) {
+			this.setMaxDamage(2500);
+		}
 		if (this == ModItems.gun_revolver_gold) {
 			this.setMaxDamage(1000);
 		}
@@ -69,7 +72,7 @@ public class GunRevolver extends Item {
 	@Override
 	public EnumRarity getRarity(ItemStack p_77613_1_) {
 
-		if (this == ModItems.gun_revolver_schrabidium) {
+		if (this == ModItems.gun_revolver_schrabidium || this == ModItems.gun_revolver_saturnite) {
 			return EnumRarity.rare;
 		}
 
@@ -117,10 +120,14 @@ public class GunRevolver extends Item {
 				entityarrow.pip = true;
 				entityarrow.setDamage(1);
 			}
+			if(this == ModItems.gun_revolver_saturnite || EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, p_77615_1_) > 0) {
+				entityarrow.fire = true;
+			}
 
 			p_77615_1_.damageItem(1, p_77615_3_);
 			if (this == ModItems.gun_revolver || this == ModItems.gun_revolver_iron
-					|| this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead) {
+					|| this == ModItems.gun_revolver_gold || this == ModItems.gun_revolver_lead
+					|| this == ModItems.gun_revolver_saturnite) {
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 1.0F, 1.0F);
 			}
 			if (this == ModItems.gun_revolver_cursed) {
@@ -208,6 +215,13 @@ public class GunRevolver extends Item {
 			list.add("");
 			list.add("Ammo: Lead Bullets");
 			list.add("Damage: 10 - 25");
+		}
+		if (this == ModItems.gun_revolver_saturnite) {
+			list.add("Woooo - shiny!");
+			list.add("");
+			list.add("Ammo: Lead Bullets");
+			list.add("Damage: 20 - 35");
+			list.add("Sets enemy on fire.");
 		}
 		if (this == ModItems.gun_revolver_gold) {
 			list.add("GoldenEye would be proud!");

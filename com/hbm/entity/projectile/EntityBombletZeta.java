@@ -73,7 +73,7 @@ public class EntityBombletZeta extends EntityThrowable {
         }
 	}
 	
-	protected void rotation() {
+	public void rotation() {
         float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 

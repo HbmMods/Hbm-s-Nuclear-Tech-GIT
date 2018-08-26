@@ -1057,6 +1057,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotLanthanium", ModItems.ingot_lanthanium);
 		OreDictionary.registerOre("ingotActinium", ModItems.ingot_actinium);
 		OreDictionary.registerOre("ingotDesh", ModItems.ingot_desh);
+		OreDictionary.registerOre("ingotSaturnite", ModItems.ingot_saturnite);
 		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
 		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
@@ -1095,6 +1096,7 @@ public class MainRegistry
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
 		OreDictionary.registerOre("plateDesh", ModItems.plate_desh);
+		OreDictionary.registerOre("plateSaturnite", ModItems.plate_saturnite);
 		OreDictionary.registerOre("plateEuphemium", ModItems.plate_euphemium);
 		OreDictionary.registerOre("plateDineutronium", ModItems.plate_dineutronium);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);

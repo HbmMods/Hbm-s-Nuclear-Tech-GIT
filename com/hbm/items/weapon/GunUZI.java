@@ -13,6 +13,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -58,10 +59,15 @@ public class GunUZI extends Item {
 			
 			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 2, 4, false, false);
 			entityarrow.setDamage(2 + rand.nextInt(3));
+			
+			if(this == ModItems.gun_uzi_saturnite || this == ModItems.gun_uzi_saturnite_silencer) {
+				entityarrow.setDamage(4 + rand.nextInt(5));
+				entityarrow.fire = true;
+			}
 
-			if(this == ModItems.gun_uzi)
+			if(this == ModItems.gun_uzi || this == ModItems.gun_uzi_saturnite)
 				world.playSoundAtEntity(player, "hbm:weapon.uziShoot", 10.0F, 1.0F);
-			if(this == ModItems.gun_uzi_silencer)
+			if(this == ModItems.gun_uzi_silencer || this == ModItems.gun_uzi_saturnite_silencer)
 				world.playSoundAtEntity(player, "hbm:weapon.silencerShoot", 0.15F, 1.0F);
 
 			if (!flag) {
@@ -86,9 +92,30 @@ public class GunUZI extends Item {
 			list.add("[very intense pewpew-ing]");
 		if(this == ModItems.gun_uzi_silencer)
 			list.add("Mom, where are my mittens?");
+		if(this == ModItems.gun_uzi_saturnite)
+			list.add("The real deal.");
+		if(this == ModItems.gun_uzi_saturnite_silencer)
+			list.add("The real deal 2: Electric boogaloo");
 		list.add("");
 		list.add("Ammo: .22 LR Round");
-		list.add("Damage: 2 - 4");
+
+		if(this == ModItems.gun_uzi || this == ModItems.gun_uzi_silencer) {
+			list.add("Damage: 2 - 4");
+		}
+		if(this == ModItems.gun_uzi_saturnite || this == ModItems.gun_uzi_saturnite_silencer) {
+			list.add("Damage: 4 - 8");
+			list.add("Sets enemy on fire.");
+		}
+	}
+
+	@Override
+	public EnumRarity getRarity(ItemStack p_77613_1_) {
+
+		if (this == ModItems.gun_uzi_saturnite || this == ModItems.gun_uzi_saturnite_silencer) {
+			return EnumRarity.rare;
+		}
+
+		return EnumRarity.common;
 	}
 
 	@Override

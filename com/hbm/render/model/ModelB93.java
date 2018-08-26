@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 
 public class ModelB93 extends ModelBase {
@@ -450,7 +451,7 @@ public class ModelB93 extends ModelBase {
 		Nix32.render(f5);
         GL11.glEnable(GL11.GL_BLEND);
         //GL11.glDisable(GL11.GL_ALPHA_TEST);
-        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		Nix1.render(f5);
 		Nix2.render(f5);
 		Nix3.render(f5);

@@ -306,6 +306,10 @@ public class ItemClip extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
 			if(player.inventory.hasItem(ModItems.gun_uzi_silencer))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+			if(player.inventory.hasItem(ModItems.gun_uzi_saturnite))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+			if(player.inventory.hasItem(ModItems.gun_uzi_saturnite_silencer))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
 			if(player.inventory.hasItem(ModItems.gun_uboinik))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uboinik_ammo, 12));
 			if(player.inventory.hasItem(ModItems.gun_lever_action))

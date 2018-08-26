@@ -69,6 +69,7 @@ public class EntityBullet extends Entity implements IProjectile {
 	private boolean rad = false;
 	public boolean antidote = false;
 	public boolean pip = false;
+	public boolean fire = false;
 
 	public EntityBullet(World p_i1753_1_) {
 		super(p_i1753_1_);
@@ -484,7 +485,7 @@ public class EntityBullet extends Entity implements IProjectile {
 							}
 						}
 
-						if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman)) {
+						if (fire || this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman)) {
 							movingobjectposition.entityHit.setFire(5);
 						}
 

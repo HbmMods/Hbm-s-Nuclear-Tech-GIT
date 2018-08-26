@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 
 public class ModelHP extends ModelBase
@@ -161,10 +162,14 @@ public void render(Entity entity, float f, float f1, float f2, float f3, float f
     StockBottom.render(f5);
     StockPlate.render(f5);
     Barrel.render(f5);
+    GL11.glEnable(GL11.GL_BLEND);
+    //GL11.glDisable(GL11.GL_ALPHA_TEST);
+    OpenGlHelper.glBlendFunc(770, 771, 1, 0);
     Lens1.render(f5);
     Lens2.render(f5);
     Lens3.render(f5);
     Beam.render(f5);
+	GL11.glDisable(GL11.GL_BLEND);
     Handle.render(f5);
     Dot.render(f5);
     Back.render(f5);

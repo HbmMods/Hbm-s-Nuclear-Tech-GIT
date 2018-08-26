@@ -537,6 +537,8 @@ item.ingot_dineutronium.name=Dineutronium Ingot
 item.powder_dineutronium.name=Dineutronium Powder
 item.nugget_dineutronium.name=Dineutronium Nugget
 item.ingot_starmetal.name=Starmetal Ingot
+item.ingot_saturnite.name=Saturnite Ingot
+item.plate_saturnite.name=Saturnite Plate
 
 item.solid_fuel.name=Solid Fuel
 
@@ -1104,6 +1106,7 @@ tile.steel_scaffold.name=Steel Scaffold
 
 item.gun_revolver_iron.name=Simple Revolver
 item.gun_revolver.name=Enhanced Revolver
+item.gun_revolver_saturnite.name=Saturnite Shooter
 item.gun_revolver_gold.name=Golden Revolver
 item.gun_revolver_lead.name=Nuka Revolver
 item.gun_revolver_schrabidium.name=Schrabidium Revolver
@@ -1118,6 +1121,8 @@ item.gun_bf.name=M42_2 Nuclear Catapult "Antimatter Launcher"
 item.gun_mp40.name=Submachine Gun
 item.gun_uzi.name=IMI Uzi
 item.gun_uzi_silencer.name=IMI Uzi with Silencer
+item.gun_uzi_saturnite.name=Saturnite Uzi
+item.gun_uzi_saturnite_silencer.name=Saturnite Uzi with Silencer
 item.gun_uboinik.name=Uboinik
 item.gun_lever_action.name=Mare's Leg (Original)
 item.gun_bolt_action.name=Dream Bolt-Action Rifle (Original)

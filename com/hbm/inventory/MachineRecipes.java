@@ -110,6 +110,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_starmetal, 2);
 		}
 
+		if (mODE(item, new String[] {"dustCobalt"}) && item2.getItem() == ModItems.ingot_starmetal
+				|| item.getItem() == ModItems.ingot_starmetal && mODE(item2, new String[] {"dustCobalt"})) {
+			return new ItemStack(ModItems.ingot_saturnite, 2);
+		}
+
 		return null;
 	}
 
@@ -333,6 +338,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.plate_schrabidium);
 			if(mODE(input, "ingotCMBSteel"))
 				return new ItemStack(ModItems.plate_combine_steel);
+			if(mODE(input, "ingotSaturnite"))
+				return new ItemStack(ModItems.plate_saturnite);
 			
 		}
 		
@@ -403,6 +410,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_advanced_alloy) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_advanced_alloy));
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_schrabidium) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_schrabidium));
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_combine_steel) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_combine_steel));
+		recipes.put(new Object[] { i_stamps_plate, new ItemStack(ModItems.ingot_saturnite) }, getPressResultNN(stamps_plate.get(0), ModItems.ingot_saturnite));
 
 		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_aluminium) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_aluminium));
 		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_copper) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_copper));
@@ -803,6 +811,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_starmetal), new ItemStack(ModItems.powder_cobalt) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_starmetal), new ItemStack(ModItems.powder_cobalt)).copy());
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}

@@ -118,8 +118,10 @@ public class EntityBomber extends Entity {
 				
 			} else {
 				EntityBombletZeta zeta = new EntityBombletZeta(worldObj);
-				zeta.rotationYaw = this.rotationYaw;
-				zeta.rotationPitch = this.rotationPitch;
+				/*zeta.prevRotationYaw = zeta.rotationYaw = this.rotationYaw;
+				zeta.prevRotationPitch = zeta.rotationPitch = this.rotationPitch;*/
+				
+				zeta.rotation();
 				
 				zeta.type = type;
 				

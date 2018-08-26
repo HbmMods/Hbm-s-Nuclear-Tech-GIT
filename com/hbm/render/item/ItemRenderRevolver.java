@@ -2,6 +2,7 @@ package com.hbm.render.item;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelRevolver;
 
@@ -40,7 +41,10 @@ public class ItemRenderRevolver implements IItemRenderer {
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:
 			GL11.glPushMatrix();
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelRevolver.png"));
+				if(item.getItem() == ModItems.gun_revolver)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelRevolver.png"));
+				if(item.getItem() == ModItems.gun_revolver_saturnite)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelRevolverSaturnite.png"));
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
 				//GL11.glScalef(2.0F, 2.0F, 2.0F);
@@ -51,7 +55,10 @@ public class ItemRenderRevolver implements IItemRenderer {
 		case EQUIPPED:
 		case ENTITY:
 			GL11.glPushMatrix();
+			if(item.getItem() == ModItems.gun_revolver)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelRevolver.png"));
+			if(item.getItem() == ModItems.gun_revolver_saturnite)
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelRevolverSaturnite.png"));
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
 				GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);

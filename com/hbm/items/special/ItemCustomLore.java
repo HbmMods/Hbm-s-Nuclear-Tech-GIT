@@ -627,7 +627,8 @@ public class ItemCustomLore extends ItemRadioactive {
     			this == ModItems.nugget_schrabidium || this == ModItems.plate_schrabidium || 
     			this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || 
     			this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || 
-    			this == ModItems.gun_revolver_schrabidium_ammo)
+    			this == ModItems.gun_revolver_schrabidium_ammo || this == ModItems.ingot_saturnite || 
+    			this == ModItems.plate_saturnite)
     	{
     		return EnumRarity.rare;
     	}
