@@ -1,5 +1,7 @@
 package com.hbm.entity.particle;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockCloudResidue;
 import com.hbm.explosion.ExplosionChaos;
 
 import net.minecraft.util.MathHelper;
@@ -75,8 +77,13 @@ public class EntityCloudFX extends EntityModFX {
 			
 			if (worldObj.getBlock((int) posX, (int) posY, (int) posZ).isNormalCube()) {
 	
-				if(rand.nextInt(5) != 0)
+				if(rand.nextInt(5) != 0) {
 					this.setDead();
+					
+					if(BlockCloudResidue.hasPosNeightbour(worldObj, (int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions)) && worldObj.getBlock((int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions)).isReplaceable(worldObj, (int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions))) {
+						worldObj.setBlock((int) (posX - motionX/subdivisions), (int) (posY - motionY/subdivisions), (int) (posZ - motionZ/subdivisions), ModBlocks.residue);
+					}
+				}
 				
 				this.posX -= this.motionX/subdivisions;
 				this.posY -= this.motionY/subdivisions;

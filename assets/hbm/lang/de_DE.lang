@@ -1720,6 +1720,7 @@ tile.crystal_hardened.name=Gehärteter Dunkler Kristall
 tile.crystal_pulsar.name=Pulsating Crystal
 
 tile.taint.name=Korrupter Schmutz
+tile.residue.name=Wolkenrückstände
 
 tile.cheater_virus.name=Geliertes Euphemium
 tile.cheater_virus_seed.name=Instabiler Euphemiumschrabid-Block

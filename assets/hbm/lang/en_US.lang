@@ -1720,6 +1720,7 @@ tile.crystal_hardened.name=Hardened Dark Crystal
 tile.crystal_pulsar.name=Pulsating Crystal
 
 tile.taint.name=Taint
+tile.residue.name=Cloud Residue
 
 tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

@@ -493,6 +493,7 @@ public class ModBlocks {
 	public static Block crystal_hardened;
 	public static Block crystal_pulsar;
 	public static Block taint;
+	public static Block residue;
 
 	public static Block vent_chlorine;
 	public static Block vent_cloud;
@@ -910,6 +911,7 @@ public class ModBlocks {
 		crystal_hardened = new BlockGeneric(Material.iron).setBlockName("crystal_hardened").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_hardened");
 		crystal_pulsar = new CrystalPulsar(Material.iron).setBlockName("crystal_pulsar").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_pulsar");
 		taint = new BlockTaint(Material.iron).setBlockName("taint").setHardness(15.0F).setResistance(10.0F).setCreativeTab(null);
+		residue = new BlockCloudResidue(Material.iron).setBlockName("residue").setHardness(15.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":residue");
 
 		vent_chlorine = new BlockVent(Material.iron).setBlockName("vent_chlorine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_chlorine");
 		vent_cloud = new BlockVent(Material.iron).setBlockName("vent_cloud").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_cloud");
@@ -1393,6 +1395,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crystal_hardened, crystal_hardened.getUnlocalizedName());
 		GameRegistry.registerBlock(crystal_pulsar, crystal_pulsar.getUnlocalizedName());
 		GameRegistry.registerBlock(taint, ItemTaintBlock.class, taint.getUnlocalizedName());
+		GameRegistry.registerBlock(residue, residue.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus, cheater_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus_seed, cheater_virus_seed.getUnlocalizedName());
 		GameRegistry.registerBlock(ntm_dirt, ntm_dirt.getUnlocalizedName());
