@@ -503,6 +503,7 @@ public class MainRegistry
 	public static int taintID = 62;
 	public static int radiationID = 63;
 	public static int bangID = 64;
+	public static int mutationID = 65;
 
 	public static int x;
 	public static int y;
@@ -1519,6 +1520,9 @@ public class MainRegistry
         Property propBangID = config.get(Configuration.CATEGORY_GENERAL, "8.02_bangPotionID", 64);
         propBangID.comment = "What potion ID the B93 timebomb effect will have";
         bangID = propBangID.getInt();
+        Property propMutationID = config.get(Configuration.CATEGORY_GENERAL, "8.03_mutationPotionID", 65);
+        propMutationID.comment = "What potion ID the taint mutation effect will have";
+        mutationID = propMutationID.getInt();
         
         config.save();
 	}

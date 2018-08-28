@@ -20,6 +20,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion taint;
 	public static HbmPotion radiation;
 	public static HbmPotion bang;
+	public static HbmPotion mutation;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -29,6 +30,7 @@ public class HbmPotion extends Potion {
 		taint = registerPotion(MainRegistry.taintID, true, 8388736, "potion.hbm_taint", 0, 0);
 		radiation = registerPotion(MainRegistry.radiationID, true, 8700200, "potion.hbm_radiation", 1, 0);
 		bang = registerPotion(MainRegistry.bangID, true, 1118481, "potion.hbm_bang", 3, 0);
+		mutation = registerPotion(MainRegistry.mutationID, false, 8388736, "potion.hbm_mutation", 2, 0);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {

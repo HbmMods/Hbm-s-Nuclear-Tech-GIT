@@ -31,7 +31,7 @@ achievement.FOEQ=Pegasi and Missile Silos
 achievement.FOEQ.desc=Send a relay into martian...I mean dunaian orbit.
 
 potion.hbm_taint=Tainted
-potion.hbm_taint_boost=Tainted Heart
+potion.hbm_mutation=Tainted Heart
 potion.hbm_radiation=Radiation Sickness
 potion.hbm_bang=! ! !
 
@@ -1236,6 +1236,7 @@ item.syringe_metal_stimpak.name=Stimpak
 item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
 item.syringe_metal_super.name=Super Stimpak
+item.syringe_taint.name=Watery Taint Injection
 item.med_bag.name=Doctor's Bag
 item.radaway.name=Radaway
 item.pill_iodine.name=Iodine Pill

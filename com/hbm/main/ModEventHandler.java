@@ -153,7 +153,7 @@ public class ModEventHandler
 									entity.attackEntityFrom(ModDamageSource.radiation, 100F);
 								}
 			        		
-				        	} else if(entity instanceof EntityCow) {
+				        	} else if(entity instanceof EntityCow && !(entity instanceof EntityMooshroom)) {
 				        		EntityMooshroom creep = new EntityMooshroom(event.world);
 				        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 
@@ -204,6 +204,40 @@ public class ModEventHandler
 						            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
 								}
 				        	}
+						}
+						
+						if(entity.isPotionActive(HbmPotion.mutation) && !entity.isDead && entity.getHealth() > 0) {
+
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 10 * 20, 1));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 15 * 20, 0));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 1));
+
+				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 5F)
+				            	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 5 * 20, 2));
+				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 4F)
+				            	entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5 * 20, 1));
+				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 3F)
+				            	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 5 * 20, 4));
+				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 2F)
+				            	entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5 * 20, 3));
+				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 1F)
+				            	entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5 * 20, 0));
+
+				        	if(entity.isPotionActive(Potion.poison))
+				        		entity.removePotionEffect(Potion.poison.id);
+				        	if(entity.isPotionActive(Potion.wither))
+				        		entity.removePotionEffect(Potion.wither.id);
+				        	if(entity.isPotionActive(Potion.hunger))
+				        		entity.removePotionEffect(Potion.hunger.id);
+				        	if(entity.isPotionActive(Potion.confusion))
+				        		entity.removePotionEffect(Potion.confusion.id);
+				        	if(entity.isPotionActive(Potion.digSlowdown))
+				        		entity.removePotionEffect(Potion.digSlowdown.id);
+				        	if(entity.isPotionActive(Potion.moveSlowdown))
+				        		entity.removePotionEffect(Potion.moveSlowdown.id);
 						}
 					}
 				}

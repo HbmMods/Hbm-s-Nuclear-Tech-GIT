@@ -258,10 +258,13 @@ public class Library {
 		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || 
 				checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) || 
 				checkArmor(player, ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots) || 
-				checkForHaz2(player))
-		{
+				checkForHaz2(player)) {
+			
 			return true;
 		}
+		
+		if(player.isPotionActive(HbmPotion.mutation))
+			return true;
 		
 		return false;
 	}
@@ -317,6 +320,9 @@ public class Library {
 		{
 			return true;
 		}
+		
+		if(player.isPotionActive(HbmPotion.mutation))
+			return true;
 		
 		return false;
 	}

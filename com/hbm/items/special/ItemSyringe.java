@@ -209,6 +209,27 @@ public class ItemSyringe extends Item {
             }
 		}
 		
+		if(this == ModItems.syringe_taint)
+		{
+            if (!world.isRemote)
+            {
+                player.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 60 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+            
+            	stack.stackSize--;
+            }
+
+        	if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
+        	{
+        		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
+        	}
+
+        	if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty)))
+        	{
+        		player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.bottle2_empty, 1, 0), false);
+        	}
+		}
+		
 		return stack;
 	}
 
@@ -388,6 +409,30 @@ public class ItemSyringe extends Item {
             }
 		}
 		
+		if(this == ModItems.syringe_taint)
+		{
+            if (!world.isRemote)
+            {
+            	entity.addPotionEffect(new PotionEffect(HbmPotion.taint.id, 60 * 20, 0));
+            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+            
+            	stack.stackSize--;
+
+            	if(entityPlayer instanceof EntityPlayer)
+            	{
+            		EntityPlayer player = (EntityPlayer)entityPlayer;
+            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
+            		{
+            			player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
+            		}
+            		if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty)))
+            		{
+            			player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.bottle2_empty, 1, 0), false);
+            		}
+            	}
+            }
+		}
+		
 		if(this == ModItems.euphemium_stopper)
 		{
             if (!world.isRemote)
@@ -433,6 +478,11 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.radaway) {
 			list.add("Removes radiation effect");
+		}
+		if(this == ModItems.syringe_taint) {
+			list.add("Tainted I for 60 seconds");
+			list.add("Nausea I for 5 seconds");
+			list.add("Cloud damage + taint = tainted heart effect");
 		}
 	}
 }

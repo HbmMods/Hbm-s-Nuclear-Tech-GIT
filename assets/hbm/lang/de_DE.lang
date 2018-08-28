@@ -31,7 +31,7 @@ achievement.FOEQ=Pegasi und Raketensilos
 achievement.FOEQ.desc=Sende ein Relais in den Mars-...ich meine Duna-Orbit.
 
 potion.hbm_taint=Verdorben
-potion.hbm_taint_boost=Verdorbenes Herz
+potion.hbm_mutation=Verdorbenes Herz
 potion.hbm_radiation=Strahlenkrankheit
 potion.hbm_bang=! ! !
 
@@ -1236,6 +1236,7 @@ item.syringe_metal_stimpak.name=Stimpak
 item.syringe_metal_medx.name=Med-X
 item.syringe_metal_psycho.name=Psycho
 item.syringe_metal_super.name=Super Stimpak
+item.syringe_taint.name=Wässrige Schmutzinjektion
 item.med_bag.name=Ärztetasche
 item.radaway.name=Radaway
 item.pill_iodine.name=Iodpille

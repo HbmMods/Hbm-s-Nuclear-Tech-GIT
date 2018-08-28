@@ -27,6 +27,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -740,7 +741,13 @@ public class ExplosionChaos {
 					}
 					
 					if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) { } else {
-						entity.attackEntityFrom(ModDamageSource.cloud, 3);
+						
+						if(entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPotionActive(HbmPotion.taint.id)) {
+							((EntityLivingBase)entity).removePotionEffect(HbmPotion.taint.id);
+							((EntityLivingBase)entity).addPotionEffect(new PotionEffect(HbmPotion.mutation.id, 1 * 60 * 60 * 20, 0));
+						} else {
+							entity.attackEntityFrom(ModDamageSource.cloud, 3);
+						}
 					}
 				}
 			}
