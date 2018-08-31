@@ -157,14 +157,26 @@ public class EntityBomber extends Entity {
     	
     	int i = 1;
     	
-    	int rand = world.rand.nextInt(101);
+    	int rand = world.rand.nextInt(5);
     	
-    	if(rand < 50)
-    		i = 1;
-    	else if(rand > 50)
-    		i = 2;
-    	else
-    		i = 0;
+    	switch(rand) {
+    	case 0: i = 1; break;
+    	case 1: i = 2; break;
+    	case 2: i = 5; break;
+    	case 3: i = 6; break;
+    	case 4: i = 7; break;
+    	}
+    	
+    	if(world.rand.nextInt(100) == 0) {
+        	rand = world.rand.nextInt(4);
+
+        	switch(rand) {
+        	case 0: i = 0; break;
+        	case 1: i = 3; break;
+        	case 2: i = 4; break;
+        	case 3: i = 8; break;
+        	}
+    	}
     	
     	this.getDataWatcher().updateObject(16, (byte)i);
     	this.setSize(8.0F, 4.0F);
@@ -239,9 +251,9 @@ public class EntityBomber extends Entity {
     	EntityBomber bomber = new EntityBomber(world);
     	
     	bomber.timer = 200;
-    	bomber.bombStart = 70;
-    	bomber.bombStop = 80;
-    	bomber.bombRate = 75;
+    	bomber.bombStart = 60;
+    	bomber.bombStop = 70;
+    	bomber.bombRate = 65;
 
     	bomber.fac(world, x, y, z);
     	
@@ -263,18 +275,7 @@ public class EntityBomber extends Entity {
 		bombRate = nbt.getInteger("bombRate");
 		type = nbt.getInteger("type");
     	
-    	int i = 1;
-    	
-    	int rand = this.rand.nextInt(101);
-    	
-    	if(rand < 50)
-    		i = 1;
-    	else if(rand > 50)
-    		i = 2;
-    	else
-    		i = 0;
-    	
-    	this.getDataWatcher().updateObject(16, (byte)i);
+    	this.getDataWatcher().updateObject(16, nbt.getByte("style"));
     	this.setSize(8.0F, 4.0F);
 	}
 
@@ -285,6 +286,7 @@ public class EntityBomber extends Entity {
 		nbt.setInteger("bombStop", bombStop);
 		nbt.setInteger("bombRate", bombRate);
 		nbt.setInteger("type", type);
+		nbt.setByte("style", this.getDataWatcher().getWatchableObjectByte(16));
 	}
 	
 	protected void rotation() {

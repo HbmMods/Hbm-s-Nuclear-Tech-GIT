@@ -23,9 +23,7 @@ public class RenderBomber extends Render {
 
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
-        GL11.glScalef(5F, 5F, 5F);
-
-        GL11.glRotatef(-90, 0F, 1F, 0F);
+        
         
         int i = p_76986_1_.getDataWatcher().getWatchableObjectByte(16);
         
@@ -33,10 +31,28 @@ public class RenderBomber extends Render {
         case 0: bindTexture(ResourceManager.dornier_0_tex); break;
         case 1: bindTexture(ResourceManager.dornier_1_tex); break;
         case 2: bindTexture(ResourceManager.dornier_2_tex); break;
+        case 3: bindTexture(ResourceManager.dornier_3_tex); break;
+        case 4: bindTexture(ResourceManager.dornier_4_tex); break;
+        case 5: bindTexture(ResourceManager.b29_0_tex); break;
+        case 6: bindTexture(ResourceManager.b29_1_tex); break;
+        case 7: bindTexture(ResourceManager.b29_2_tex); break;
+        case 8: bindTexture(ResourceManager.b29_3_tex); break;
         default: bindTexture(ResourceManager.dornier_1_tex); break;
         }
+
+        switch(i) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4: GL11.glScalef(5F, 5F, 5F); GL11.glRotatef(-90, 0F, 1F, 0F); ResourceManager.dornier.renderAll(); break;
+        case 5:
+        case 6:
+        case 7:
+        case 8: GL11.glScalef(30F/3.1F, 30F/3.1F, 30F/3.1F); GL11.glRotatef(180, 0F, 1F, 0F); ResourceManager.b29.renderAll(); break;
+        default: ResourceManager.dornier.renderAll(); break;
+        }
         
-        ResourceManager.dornier.renderAll();
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         
