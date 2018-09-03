@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -18,12 +19,13 @@ public class RenderLandmine extends TileEntitySpecialRenderer {
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
+        
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
 		Block block = tileEntity.getWorldObj().getBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 
 		if(block == ModBlocks.mine_ap) {
-			GL11.glScaled(1.5F, 1.5F, 1.5F);
+			GL11.glScaled(1.5D, 1.5D, 1.5D);
 			bindTexture(ResourceManager.mine_ap_tex);
         	ResourceManager.mine_ap.renderAll();
 		}
@@ -34,6 +36,11 @@ public class RenderLandmine extends TileEntitySpecialRenderer {
 		if(block == ModBlocks.mine_shrap) {
 			bindTexture(ResourceManager.mine_shrap_tex);
         	ResourceManager.mine_he.renderAll();
+		}
+		if(block == ModBlocks.mine_fat) {
+			GL11.glScaled(0.25D, 0.25D, 0.25D);
+			bindTexture(ResourceManager.mine_fat_tex);
+        	ResourceManager.mine_fat.renderAll();
 		}
 
         GL11.glPopMatrix();

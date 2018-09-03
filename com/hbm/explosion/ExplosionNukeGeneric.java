@@ -167,7 +167,8 @@ public class ExplosionNukeGeneric {
 						// entity.attackEntityFrom(DamageSource.generic,
 						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
 						// bombStartStrength + 1.0D)));
-						entity.attackEntityFrom(ModDamageSource.nuclearBlast, 10F);
+						double damage = entity.getDistance(x, y, z) / bombStartStrength * 250;
+						entity.attackEntityFrom(ModDamageSource.nuclearBlast, (float)damage);
 						entity.setFire(5);
 						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
 						entity.motionX += d5 * d8 * 0.2D;

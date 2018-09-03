@@ -3,10 +3,14 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
 
 import net.minecraft.block.Block;
@@ -27,6 +31,7 @@ import net.minecraft.world.World;
 public class Landmine extends BlockContainer implements IBomb {
 
 	public static boolean safeMode = false;
+	static Random rand = new Random();;
 
 	public Landmine(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -67,6 +72,8 @@ public class Landmine extends BlockContainer implements IBomb {
 			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
 		if (this == ModBlocks.mine_shrap)
 			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
+		if (this == ModBlocks.mine_fat)
+			this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
 	}
 
 	@Override
@@ -78,6 +85,8 @@ public class Landmine extends BlockContainer implements IBomb {
 			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
 		if (this == ModBlocks.mine_shrap)
 			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
+		if (this == ModBlocks.mine_fat)
+			this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY,
 				z + this.maxZ);
 	}
@@ -166,6 +175,21 @@ public class Landmine extends BlockContainer implements IBomb {
 				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 1, true, false, false);
 				ExplosionLarge.spawnShrapnelShower(world, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
+			}
+			if (this == ModBlocks.mine_fat) {
+
+    	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.fatmanRadius, x + 0.5, y + 0.5, z + 0.5));
+    	    	
+        	    if(MainRegistry.polaroidID == 11) {
+        	    	ExplosionParticleB.spawnMush(world, x + 0.5, y - 3, z + 0.5);
+        	    } else {
+        	    	if(rand.nextInt(100) == 0)
+        	    	{
+        	    		ExplosionParticleB.spawnMush(world, x + 0.5, y - 3, z + 0.5);
+        	    	} else {
+        	    		ExplosionParticle.spawnMush(world, x + 0.5, y - 3, z + 0.5);
+        	    	}
+        	    }
 			}
 		}
 	}

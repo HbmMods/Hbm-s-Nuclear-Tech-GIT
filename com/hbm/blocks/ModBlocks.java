@@ -183,6 +183,7 @@ public class ModBlocks {
 	public static Block mine_ap;
 	public static Block mine_he;
 	public static Block mine_shrap;
+	public static Block mine_fat;
 	
 	public static Block crate;
 	public static Block crate_weapon;
@@ -722,6 +723,7 @@ public class ModBlocks {
 		mine_ap = new Landmine(Material.iron).setBlockName("mine_ap").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_ap");
 		mine_he = new Landmine(Material.iron).setBlockName("mine_he").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_he");
 		mine_shrap = new Landmine(Material.iron).setBlockName("mine_shrap").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_shrap");
+		mine_fat = new Landmine(Material.iron).setBlockName("mine_fat").setCreativeTab(MainRegistry.nukeTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":mine_fat");
 		
 		machine_difurnace_off = new MachineDiFurnace(false).setBlockName("machine_difurnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_difurnace_on = new MachineDiFurnace(true).setBlockName("machine_difurnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -1145,6 +1147,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());
 		GameRegistry.registerBlock(mine_he, mine_he.getUnlocalizedName());
 		GameRegistry.registerBlock(mine_shrap, mine_shrap.getUnlocalizedName());
+		GameRegistry.registerBlock(mine_fat, mine_fat.getUnlocalizedName());
 		
 		//Wot
 		GameRegistry.registerBlock(cel_prime, cel_prime.getUnlocalizedName());

@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public class ExplosionParticleB {
 	
-	public static void spawnMush(World world, int x, int y, int z)
+	public static void spawnMush(World world, double x, double y, double z)
 	{
 		x -= 6;
 		z -= 6;

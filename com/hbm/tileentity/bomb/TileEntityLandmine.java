@@ -34,6 +34,9 @@ public class TileEntityLandmine extends TileEntity {
 			if (block == ModBlocks.mine_shrap) {
 				range = 1.5D;
 			}
+			if (block == ModBlocks.mine_fat) {
+				range = 2.5D;
+			}
 	
 			List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null,
 					AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - 1, zCoord - range, xCoord + range, yCoord + 1, zCoord + range));

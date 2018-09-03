@@ -252,6 +252,7 @@ item.turret_biometry.name=Geschütz-Telemetriekarte
 tile.mine_ap.name=Antipersonenmine
 tile.mine_he.name=Antipanzermine
 tile.mine_shrap.name=Schrapnellmine
+tile.mine_fat.name=Fat Mine
 item.defuser.name=High-Tech Bombenentschärfungsgerät
 
 tile.bomb_multi.name=Mehrzweckbombe
@@ -1128,7 +1129,8 @@ item.gun_lever_action.name=Mare's Leg (Original)
 item.gun_bolt_action.name=Dream-Repetiergewehr (Original)
 item.gun_lever_action_dark.name=Mare's Leg (Dunkel)
 item.gun_bolt_action_green.name=Dream-Repetiergewehr (Grün)
-item.gun_lever_action_sonata.name=Flipped Mare's Leg
+item.gun_bolt_action_saturnite.name=Saturnitbüchse
+item.gun_lever_action_sonata.name=Verkehrter Mare's Leg
 item.gun_lever_action_sonata_2.name=§cSonatas Mikrophon§r
 item.gun_b92.name=§9B92 Energiepistole§r
 item.gun_b93.name=§cB93 Energiemod§r

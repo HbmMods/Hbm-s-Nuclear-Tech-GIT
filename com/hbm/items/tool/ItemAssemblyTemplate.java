@@ -26,6 +26,7 @@ public class ItemAssemblyTemplate extends Item {
 		ADVANCED_PLATE,
 		SCHRABIDIUM_PLATE,
 		CMB_PLATE,
+		SATURN_PLATE,
 		MIXED_PLATE,
 		ALUMINIUM_WIRE,
 		COPPER_WIRE,
@@ -355,6 +356,8 @@ public class ItemAssemblyTemplate extends Item {
 		case SCHRABIDIUM_PLATE:
 			return 30;
 		case CMB_PLATE:
+			return 30;
+		case SATURN_PLATE:
 			return 30;
 		case MIXED_PLATE:
 			return 50;

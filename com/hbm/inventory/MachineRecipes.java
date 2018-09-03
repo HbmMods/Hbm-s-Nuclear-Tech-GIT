@@ -1721,6 +1721,9 @@ public class MachineRecipes {
 		case CMB_PLATE:
 			list.add(new ItemStack(ModItems.ingot_combine_steel, 1));
 			break;
+		case SATURN_PLATE:
+			list.add(new ItemStack(ModItems.ingot_saturnite, 1));
+			break;
 		case ALUMINIUM_WIRE:
 			list.add(new ItemStack(ModItems.ingot_aluminium, 1));
 			break;
@@ -3417,6 +3420,9 @@ public class MachineRecipes {
 			break;
 		case CMB_PLATE:
 			output = new ItemStack(ModItems.plate_combine_steel, 2);
+			break;
+		case SATURN_PLATE:
+			output = new ItemStack(ModItems.plate_saturnite, 2);
 			break;
 		case ALUMINIUM_WIRE:
 			output = new ItemStack(ModItems.wire_aluminium, 6);

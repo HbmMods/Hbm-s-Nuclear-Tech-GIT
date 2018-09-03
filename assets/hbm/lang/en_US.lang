@@ -265,6 +265,7 @@ item.turret_biometry.name=Turret Telemetry Card
 tile.mine_ap.name=Anti-Personell Mine
 tile.mine_he.name=Anti-Tank Mine
 tile.mine_shrap.name=Shrapnel Mine
+tile.mine_fat.name=Fat Mine
 item.defuser.name=High-Tech Bomb Defusing Device
 
 tile.crate.name=Supply Crate
@@ -1128,6 +1129,7 @@ item.gun_lever_action.name=Mare's Leg (Original)
 item.gun_bolt_action.name=Dream Bolt-Action Rifle (Original)
 item.gun_lever_action_dark.name=Mare's Leg (Dark)
 item.gun_bolt_action_green.name=Dream Bolt-Action Rifle (Green)
+item.gun_bolt_action_saturnite.name=Saturnite Rifle
 item.gun_lever_action_sonata.name=Flipped Mare's Leg
 item.gun_lever_action_sonata_2.name=§cSonata's Microphone§r
 item.gun_b92.name=§9B92 Energy Pistol§r

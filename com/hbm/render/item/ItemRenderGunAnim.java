@@ -77,6 +77,8 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLeverActionDark.png"));
 				if(item.getItem() == ModItems.gun_bolt_action_green)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionGreen.png"));
+				if(item.getItem() == ModItems.gun_bolt_action_saturnite)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionSaturnite.png"));
 				if(item.getItem() == ModItems.gun_b92)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92SM.png"));
 				if(item.getItem() == ModItems.gun_b93)
@@ -105,7 +107,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					GL11.glTranslatef(0.0F, GunLeverActionS.getOffsetFromAnim(item) * -1.5F, 0.0F);
 				}
 				
-				if((item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green) && GunBoltAction.getRotationFromAnim(item) > 0) {
+				if((item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green || item.getItem() == ModItems.gun_bolt_action_saturnite) && GunBoltAction.getRotationFromAnim(item) > 0) {
 					GL11.glRotatef(GunBoltAction.getRotationFromAnim(item) * 10, 2.5F, 0.0F, 1.5F);
 					GL11.glTranslatef(GunBoltAction.getOffsetFromAnim(item) * -1.75F, 0.0F, 0.0F);
 				}
@@ -126,7 +128,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));
 				if(item.getItem() == ModItems.gun_lever_action_sonata)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverActionS.getRotationFromAnim(item));
-				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green)
+				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green || item.getItem() == ModItems.gun_bolt_action_saturnite)
 					boltaction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunBoltAction.getLevRotationFromAnim(item), GunBoltAction.getTransFromAnim(item));
 				if(item.getItem() == ModItems.gun_b92)
 					b92.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunB92.getTransFromAnim(item));
@@ -147,6 +149,8 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLeverActionDark.png"));
 				if(item.getItem() == ModItems.gun_bolt_action_green)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionGreen.png"));
+				if(item.getItem() == ModItems.gun_bolt_action_saturnite)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelBoltActionSaturnite.png"));
 				if(item.getItem() == ModItems.gun_b92)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelB92SM.png"));
 				if(item.getItem() == ModItems.gun_b93)
@@ -170,7 +174,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));
 				if(item.getItem() == ModItems.gun_lever_action_sonata)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverActionS.getRotationFromAnim(item));
-				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green)
+				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green || item.getItem() == ModItems.gun_bolt_action_saturnite)
 					boltaction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunBoltAction.getLevRotationFromAnim(item), GunBoltAction.getTransFromAnim(item));
 				if(item.getItem() == ModItems.gun_b92)
 					b92.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunB92.getTransFromAnim(item));
