@@ -280,6 +280,7 @@ import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
+import com.hbm.tileentity.machine.TileEntityMachineTeleLinker;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
@@ -677,6 +678,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityVent.class, "tileentity_vent");
 		GameRegistry.registerTileEntity(TileEntityLandmine.class, "tileentity_landmine");
 		GameRegistry.registerTileEntity(TileEntityBomber.class, "tileentity_bomber");
+		GameRegistry.registerTileEntity(TileEntityMachineTeleLinker.class, "tileentity_telemetry_linker");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

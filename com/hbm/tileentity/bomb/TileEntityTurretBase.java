@@ -1,5 +1,8 @@
 package com.hbm.tileentity.bomb;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.bomb.TurretBase;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.items.tool.ItemTurretBiometry;
@@ -26,10 +29,9 @@ public abstract class TileEntityTurretBase extends TileEntity {
 	public double rotationYaw;
 	public double rotationPitch;
 	public boolean isAI = false;
-	public String uuid = "none";
+	public List<String> players = new ArrayList();
 	public int use;
 	public int ammo = 0;
-	public int freq = 0;
 	
 	@Override
 	public void updateEntity() {
@@ -43,7 +45,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 			if(this instanceof TileEntityTurretSpitfire)
 				radius *= 3;
 			if(this instanceof TileEntityTurretCIWS)
-				radius *= 100;
+				radius *= 250;
 			Entity target = null;
 			for (int i = 0; i < iter.length; i++)
 			{
@@ -106,7 +108,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced))
 			return false;
 		
-		if(e instanceof EntityPlayer && (((EntityPlayer)e).getUniqueID().toString().equals(uuid) || playerHasFreq((EntityPlayer)e)) )
+		if(e instanceof EntityPlayer && players.contains((((EntityPlayer)e).getUniqueID().toString())))
 			return false;
 		
 		Vec3 turret;
@@ -129,20 +131,6 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		return !Library.isObstructed(worldObj, turret.xCoord, turret.yCoord, turret.zCoord, entity.xCoord, entity.yCoord, entity.zCoord);
 	}
 	
-	private boolean playerHasFreq(EntityPlayer player) {
-		
-		for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			
-			ItemStack stack = player.inventory.getStackInSlot(i);
-			
-			if(stack != null && stack.getItem() instanceof ItemTurretBiometry)
-				if(ItemTurretBiometry.getFreq(stack) == this.freq)
-					return true;
-		}
-		
-		return false;
-	}
-	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
@@ -161,9 +149,13 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		rotationYaw = nbt.getDouble("yaw");
 		rotationPitch = nbt.getDouble("pitch");
 		isAI = nbt.getBoolean("AI");
-		uuid = nbt.getString("player");
 		ammo = nbt.getInteger("ammo");
-		freq = nbt.getInteger("freq");
+		
+		int playercount = nbt.getInteger("playercount");
+		
+		for(int i = 0; i < playercount; i++) {
+			players.add(nbt.getString("player_") + i);
+		}
 	}
 	
 	@Override
@@ -172,9 +164,13 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		nbt.setDouble("yaw", rotationYaw);
 		nbt.setDouble("pitch", rotationPitch);
 		nbt.setBoolean("AI", isAI);
-		nbt.setString("player", uuid);
 		nbt.setInteger("ammo", ammo);
-		nbt.setInteger("freq", freq);
+		
+		nbt.setInteger("playercount", players.size());
+		
+		for(int i = 0; i < players.size(); i++) {
+			nbt.setString("player_" + i, players.get(i));
+		}
 	}
 
 }

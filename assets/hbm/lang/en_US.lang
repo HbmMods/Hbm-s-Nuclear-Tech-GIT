@@ -257,6 +257,8 @@ tile.machine_radar.name=Radar
 container.radar=Radar
 tile.machine_satlinker.name=Satellite ID Manager
 container.satLinker=SatLink Device
+tile.machine_telelinker.name=Turret Telemetry Linker
+container.teleLinker=TelLink Device
 
 item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip

@@ -244,6 +244,8 @@ tile.machine_radar.name=Radar
 container.radar=Radar
 tile.machine_satlinker.name=Satelliten-ID-Manager
 container.satLinker=SatLink-Gerät
+tile.machine_telelinker.name=Geschütz-Telemetrie-Manager
+container.teleLinker=TelLink-Gerät
 
 item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
@@ -252,7 +254,7 @@ item.turret_biometry.name=Geschütz-Telemetriekarte
 tile.mine_ap.name=Antipersonenmine
 tile.mine_he.name=Antipanzermine
 tile.mine_shrap.name=Schrapnellmine
-tile.mine_fat.name=Fat Mine
+tile.mine_fat.name=Fatmine
 item.defuser.name=High-Tech Bombenentschärfungsgerät
 
 tile.bomb_multi.name=Mehrzweckbombe
