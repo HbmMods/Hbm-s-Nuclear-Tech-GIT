@@ -1,5 +1,7 @@
 package com.hbm.items.gear;
 
+import java.util.List;
+
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelGoggles;
@@ -21,9 +23,16 @@ import net.minecraft.world.World;
 public class JetpackRegular extends ItemArmor {
 
 	private ModelJetPack model;
+	public static int maxFuel = 3000;
 
 	public JetpackRegular(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_) {
 		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	}
+	
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add("Kerosene: " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
 	}
 
 
@@ -52,7 +61,7 @@ public class JetpackRegular extends ItemArmor {
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
     	
-    	if(player.isSneaking()) {
+    	if(player.isSneaking() && this.getFuel(stack) > 0) {
     		
     		Vec3 vec = Vec3.createVectorHelper(player.getLookVec().xCoord, 0, player.getLookVec().zCoord);
     		vec.normalize();
@@ -66,7 +75,28 @@ public class JetpackRegular extends ItemArmor {
     		world.spawnEntityInWorld(fx);
     		
     		player.fallDistance = 0;
+    		
+    		this.setFuel(stack, this.getFuel(stack) - 1);
     	}
     }
+	
+    public static int getFuel(ItemStack stack) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+			return 0;
+		}
+		
+		return stack.stackTagCompound.getInteger("fuel");
+		
+	}
+	
+	public static void setFuel(ItemStack stack, int i) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		
+		stack.stackTagCompound.setInteger("fuel", i);
+		
+	}
 
 }

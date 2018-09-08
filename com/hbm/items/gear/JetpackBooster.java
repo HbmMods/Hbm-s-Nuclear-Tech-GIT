@@ -1,5 +1,7 @@
 package com.hbm.items.gear;
 
+import java.util.List;
+
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelGoggles;
@@ -21,9 +23,16 @@ import net.minecraft.world.World;
 public class JetpackBooster extends ItemArmor {
 
 	private ModelJetPack model;
+	public static int maxFuel = 750;
 
 	public JetpackBooster(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_) {
 		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	}
+	
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add("Kerosene: " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
 	}
 
 
@@ -52,7 +61,7 @@ public class JetpackBooster extends ItemArmor {
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
     	
-    	if(player.isSneaking() && this.getBoost(stack) == 0 && this.getCooldown(stack) == 0) {
+    	if(player.isSneaking() && this.getBoost(stack) == 0 && this.getCooldown(stack) == 0 && this.getFuel(stack) > 0) {
     		this.setBoost(stack, 15);
     		this.setCooldown(stack, 40);
     	}
@@ -71,12 +80,17 @@ public class JetpackBooster extends ItemArmor {
     		fx.motionY = -0.1;
     		world.spawnEntityInWorld(fx);
     		
+    		this.setFuel(stack, this.getFuel(stack) - 1);
+    		
     		if(player.motionY > 0)
     			player.fallDistance = 0;
     	}
     	
     	if(this.getCooldown(stack) > 0)
     		this.setCooldown(stack, this.getCooldown(stack) - 1);
+    	
+    	if(this.getFuel(stack) == 0)
+    		this.setBoost(stack, 0);
     }
     
     public void setBoost(ItemStack stack, int i) {
@@ -106,5 +120,24 @@ public class JetpackBooster extends ItemArmor {
     	
     	return stack.stackTagCompound.getInteger("cool");
     }
+	
+    public static int getFuel(ItemStack stack) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+			return 0;
+		}
+		
+		return stack.stackTagCompound.getInteger("fuel");
+		
+	}
+	
+	public static void setFuel(ItemStack stack, int i) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		
+		stack.stackTagCompound.setInteger("fuel", i);
+		
+	}
 
 }

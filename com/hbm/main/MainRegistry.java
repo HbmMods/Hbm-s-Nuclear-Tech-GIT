@@ -90,6 +90,7 @@ import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.logic.EntityBomber;
+import com.hbm.entity.logic.EntityDeathBlast;
 import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
@@ -791,6 +792,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBomber.class, "entity_bomber", 108, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBombletZeta.class, "entity_zeta", 109, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityOrangeFX.class, "entity_agent_orange", 110, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityDeathBlast.class, "entity_laser_blast", 111, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);

@@ -5,6 +5,10 @@ import java.util.Arrays;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
+import com.hbm.items.gear.JetpackBooster;
+import com.hbm.items.gear.JetpackBreak;
+import com.hbm.items.gear.JetpackRegular;
+import com.hbm.items.gear.JetpackVectorized;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -108,6 +112,40 @@ public class FluidTank {
 
 		ItemStack full = null;
 		if(slots[in] != null) {
+
+			for(int i = 0; i < 25; i++) {
+				if(slots[in].getItem() == ModItems.jetpack_boost && this.type.name().equals(FluidType.KEROSENE.name())) {
+					if(this.fluid > 0 && JetpackBooster.getFuel(slots[in]) < JetpackBooster.maxFuel) {
+						this.fluid--;
+						JetpackBooster.setFuel(slots[in], JetpackBooster.getFuel(slots[in]) + 1);
+					} else {
+						return;
+					}
+				} else if(slots[in].getItem() == ModItems.jetpack_break && this.type.name().equals(FluidType.KEROSENE.name())) {
+					if(this.fluid > 0 && JetpackBreak.getFuel(slots[in]) < JetpackBreak.maxFuel) {
+						this.fluid--;
+						JetpackBreak.setFuel(slots[in], JetpackBreak.getFuel(slots[in]) + 1);
+					} else {
+						return;
+					}
+				} else if(slots[in].getItem() == ModItems.jetpack_fly && this.type.name().equals(FluidType.KEROSENE.name())) {
+					if(this.fluid > 0 && JetpackRegular.getFuel(slots[in]) < JetpackRegular.maxFuel) {
+						this.fluid--;
+						JetpackRegular.setFuel(slots[in], JetpackRegular.getFuel(slots[in]) + 1);
+					} else {
+						return;
+					}
+				} else if(slots[in].getItem() == ModItems.jetpack_vector && this.type.name().equals(FluidType.KEROSENE.name())) {
+					if(this.fluid > 0 && JetpackVectorized.getFuel(slots[in]) < JetpackVectorized.maxFuel) {
+						this.fluid--;
+						JetpackVectorized.setFuel(slots[in], JetpackVectorized.getFuel(slots[in]) + 1);
+					} else {
+						return;
+					}
+				} else {
+					break;
+				}
+			}
 			
 			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
 				this.fluid = 0;

@@ -104,5 +104,7 @@
     "alarm.blastDoorAlarm": {"category": "record", "sounds": [{"name": "alarm/blastDoorAlarm", "stream": false}]},
     "alarm.klaxon": {"category": "record", "sounds": [{"name": "alarm/klaxon", "stream": false}]},
     "alarm.striderSiren": {"category": "record", "sounds": [{"name": "alarm/striderSiren", "stream": false}]},
-    "alarm.regularSiren": {"category": "record", "sounds": [{"name": "alarm/regularSiren", "stream": false}]}
+    "alarm.regularSiren": {"category": "record", "sounds": [{"name": "alarm/regularSiren", "stream": false}]},
+    "alarm.foKlaxonA": {"category": "record", "sounds": [{"name": "alarm/foKlaxonA", "stream": false}]},
+    "alarm.foKlaxonB": {"category": "record", "sounds": [{"name": "alarm/foKlaxonB", "stream": false}]}
 }

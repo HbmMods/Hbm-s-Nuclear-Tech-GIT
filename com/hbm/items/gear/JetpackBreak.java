@@ -1,5 +1,7 @@
 package com.hbm.items.gear;
 
+import java.util.List;
+
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.render.model.ModelJetPack;
 
@@ -12,15 +14,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class JetpackBreak extends ItemArmor {
 
 	private ModelJetPack model;
+	public static int maxFuel = 1200;
 
 	public JetpackBreak(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_) {
 		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
+	}
+	
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	{
+		list.add("Kerosene: " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
 	}
 
 
@@ -49,7 +59,7 @@ public class JetpackBreak extends ItemArmor {
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
     	
-    	if(player.motionY < -0.25) {
+    	if(player.motionY < -0.25 && this.getFuel(stack) > 0) {
     		
     		Vec3 vec = Vec3.createVectorHelper(player.getLookVec().xCoord, 0, player.getLookVec().zCoord);
     		vec.normalize();
@@ -63,6 +73,27 @@ public class JetpackBreak extends ItemArmor {
     		world.spawnEntityInWorld(fx);
     		
     		player.fallDistance = 0;
+    		
+    		this.setFuel(stack, this.getFuel(stack) - 1);
     	}
     }
+	
+    public static int getFuel(ItemStack stack) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+			return 0;
+		}
+		
+		return stack.stackTagCompound.getInteger("fuel");
+		
+	}
+	
+	public static void setFuel(ItemStack stack, int i) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		
+		stack.stackTagCompound.setInteger("fuel", i);
+		
+	}
 }

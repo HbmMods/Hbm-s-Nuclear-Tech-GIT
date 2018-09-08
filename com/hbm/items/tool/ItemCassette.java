@@ -31,6 +31,8 @@ public class ItemCassette extends Item {
 		BLAST_DOOR(			"Blast Door Alarm", 		new ResourceLocation("hbm:alarm.blastDoorAlarm"),	SoundType.LOOP,		11665408,	50),
 		APC_LOOP(			"APC Siren", 				new ResourceLocation("hbm:alarm.apcLoop"),			SoundType.LOOP,		3565216,	50),
 		KLAXON(				"Klaxon", 					new ResourceLocation("hbm:alarm.klaxon"),			SoundType.LOOP,		8421504,	50),
+		KLAXON_A(			"Vault Door Alarm",			new ResourceLocation("hbm:alarm.foKlaxonA"),		SoundType.LOOP,		0x8c810b,	50),
+		KLAXON_B(			"Security Alert", 			new ResourceLocation("hbm:alarm.foKlaxonB"),		SoundType.LOOP,		0x76818e,	50),
 		SIREN(				"Standard Siren", 			new ResourceLocation("hbm:alarm.regularSiren"),		SoundType.LOOP,		6684672,	100),
 		BANK_ALARM(			"Bank Alarm", 				new ResourceLocation("hbm:alarm.bankAlarm"),		SoundType.LOOP,		3572962,	100),
 		BEEP_SIREN(			"Beep Siren", 				new ResourceLocation("hbm:alarm.beepSiren"),		SoundType.LOOP,		13882323,	100),

@@ -191,18 +191,18 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		}
 
 		if (Library.checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs,
-				ModItems.t45_boots)) {
+				ModItems.t45_boots) && !world.isRemote) {
 			if (player.inventory.armorInventory[2] != null
 					&& player.inventory.armorInventory[2].getItem() == ModItems.t45_plate
 					&& player.inventory.armorInventory[2].stackTagCompound != null
 					&& player.inventory.armorInventory[2].stackTagCompound.getInteger("charge") > 0) {
-				player.addPotionEffect(new PotionEffect(Potion.jump.id, 20, 0, true));
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1, true));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 20, 2, true));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 20, 0, true));
+				player.addPotionEffect(new PotionEffect(Potion.jump.id, 30, 0, true));
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30, 1, true));
+				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30, 2, true));
+				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30, 0, true));
 			} else {
-				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 1, true));
-				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 20, 0, true));
+				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 30, 1, true));
+				player.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 30, 0, true));
 			}
 		}
 	}
@@ -212,9 +212,9 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		if (itemstack.getItem() == ModItems.t45_plate) {
 			if (itemstack.stackTagCompound != null) {
 				if (itemstack.stackTagCompound.getInteger("charge") != 0)
-					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 50 + 1) + "%");
+					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 2000 + 1) + "%");
 				else
-					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 50) + "%");
+					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 2000) + "%");
 			}
 		}
 	}

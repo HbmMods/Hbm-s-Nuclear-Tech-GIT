@@ -81,4 +81,11 @@ public class EntityCloudFleija extends Entity {
 	public int getMaxAge() {
 		return this.dataWatcher.getWatchableObjectInt(16);
 	}
+	
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance)
+    {
+        return distance < 25000;
+    }
 }

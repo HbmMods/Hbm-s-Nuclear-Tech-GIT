@@ -88,5 +88,12 @@ public class EntityNukeCloudSmall extends Entity {
 		
 		return cloud;
 	}
+	
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance)
+    {
+        return distance < 25000;
+    }
 
 }

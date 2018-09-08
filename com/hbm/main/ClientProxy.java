@@ -11,6 +11,7 @@ import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.logic.EntityBomber;
+import com.hbm.entity.logic.EntityDeathBlast;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
@@ -159,6 +160,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBlackHole.class, new RenderBlackHole());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityVortex.class, new RenderBlackHole());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRagingVortex.class, new RenderBlackHole());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityDeathBlast.class, new RenderDeathBlast());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoTapeRecorder.class, new RenderTapeRecorder());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoSteelPoles.class, new RenderSteelPoles());

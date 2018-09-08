@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.entity.logic.EntityDeathBlast;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.SatelliteSaveStructure;
@@ -70,7 +71,13 @@ public class SatLaserPacket implements IMessage {
 		    		
 		    		int y = p.worldObj.getHeightValue(m.x, m.z);
 		    		
-		    		ExplosionLarge.explodeFire(p.worldObj, m.x, y, m.z, 50, true, true, true);
+		    		//ExplosionLarge.explodeFire(p.worldObj, m.x, y, m.z, 50, true, true, true);
+		    		EntityDeathBlast blast = new EntityDeathBlast(p.worldObj);
+		    		blast.posX = m.x;
+		    		blast.posY = y;
+		    		blast.posZ = m.z;
+		    		
+		    		p.worldObj.spawnEntityInWorld(blast);
 		    	}
 		    }
 			
