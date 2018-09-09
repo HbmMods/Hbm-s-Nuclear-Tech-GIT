@@ -1091,6 +1091,8 @@ item.tem_flakes.name=Tem Flakes
 item.glowing_stew.name=Glowing Mushroom Stew
 item.lemon.name="Lemon"
 item.definitelyfood.name=TotallyNotDirt-Brand MRE
+item.loops.name=Lööps
+item.loop_stew.name=IT Breakfast
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt

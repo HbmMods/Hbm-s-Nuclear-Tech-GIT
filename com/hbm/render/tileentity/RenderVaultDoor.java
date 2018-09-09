@@ -53,11 +53,11 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
         if(tileEntity.state == 0)
         	timer = new double[] { 0, 0, 0, 0, 0 };
         else if(tileEntity.state == 2)
-        	timer = getAnimationFromSysTime(12500);
+        	timer = getAnimationFromSysTime((2000 + 800 * 5));
         else if(tileEntity.isOpening)
         	timer = getAnimationFromSysTime(System.currentTimeMillis() - tileEntity.sysTime);
         else
-        	timer = getAnimationFromSysTime(tileEntity.sysTime + 12500 - System.currentTimeMillis());
+        	timer = getAnimationFromSysTime(tileEntity.sysTime + (2000 + 800 * 5) - System.currentTimeMillis());
 
         GL11.glTranslated(-timer[0], 0, timer[1]);
         
@@ -92,8 +92,10 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
     //x, z, roll
     private static double[] getAnimationFromSysTime(long time) {
     	
-    	double pullOutDuration = 5000D;
-    	double slideDuration = 1500D;
+    	double pullOutDuration = 2000D;
+    	double slideDuration = 800D;
+    	
+    	//dura total = pullout + slide * 5
     	
     	double diameter = 4.5D;
     	double circumference = diameter * Math.PI;

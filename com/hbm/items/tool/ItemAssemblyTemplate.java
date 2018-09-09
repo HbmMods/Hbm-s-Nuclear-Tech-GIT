@@ -1,15 +1,24 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.MachineRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
 public class ItemAssemblyTemplate extends Item {
@@ -899,6 +908,90 @@ public class ItemAssemblyTemplate extends Item {
     		list.add("0x334077-0x6A298F-0xDF3795-0x334077");
     	}
 	}
+
+    /*@Override
+	@SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
+    }
+    
+    public int getRenderPasses(int metadata)
+    {
+        return 8;
+    }
+    
+	IIcon[] overlays;
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister p_94581_1_)
+    {
+        super.registerIcons(p_94581_1_);
+
+        this.overlays = new IIcon[7];
+        
+        for(int i = 0; i < 7; i++)
+        	overlays[i] = p_94581_1_.registerIcon("hbm:assembly_template_" + i);
+    }
+    
+    @Override
+	@SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamageForRenderPass(int a, int b)
+    {
+        return b < 7 ? overlays[b] : super.getIconFromDamageForRenderPass(a, b);
+    }
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int layer)
+    {
+        if (layer == 7)
+        {
+            return 0xFFFFFF;
+        }
+        else if(layer < 7)
+        {
+            int j = colorFromSeed(getSeedFromMeta(stack.getItemDamage(), layer));
+
+            if (j < 0)
+            {
+                j = 0xFFFFFF;
+            }
+
+            return j;
+        }
+        
+        return 0;
+    }
+    
+    private int getSeedFromMeta(int i, int count) {
+    	Random rand = new Random(i);
+    	
+    	int cap = 11;
+    	
+    	for(int j = 0; j < count - 1; j++)
+    		rand.nextInt(cap);
+    	
+    	return rand.nextInt(cap);
+    }
+    
+    private int colorFromSeed(int i) {
+    	switch(i) {
+    	case 0: return 0x334077;
+    	case 1: return 0x6A298F;
+    	case 2: return 0xDF3795;
+    	case 3: return 0xFF0000;
+    	case 4: return 0x00FF00;
+    	case 5: return 0x0000FF;
+    	case 6: return 0xFFFF00;
+    	case 7: return 0x00FFFF;
+    	case 8: return 0x888888;
+    	case 9: return 0xFFFFFF;
+    	case 10: return 0x000000;
+    	default: return 0xFFFFFF;
+    	}
+    }*/
 	
 	/*public Motif getColorMotifFromTemplate(EnumAssemblyTemplate temp) {
 		

@@ -20,6 +20,9 @@ public class RenderBomber extends Render {
         GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(90, 0F, 0F, 1F);
         GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
+        
+        //ayy lmao
+        //GL11.glRotatef(System.currentTimeMillis() / 5 % 360, 1F, 0F, 0F);
 
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);

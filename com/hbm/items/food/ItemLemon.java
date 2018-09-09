@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -49,6 +50,21 @@ public class ItemLemon extends ItemFood {
 			list.add("...");
 			list.add("Better not take it.");
 		}
+		
+		if(this == ModItems.med_schizophrenia) {
+			list.add("Makes the voices go away. Just for a while.");
+			list.add("");
+			list.add("...");
+			list.add("Better not take it.");
+		}
+		
+		if(this == ModItems.loops) {
+			list.add("Brøther, may I have some lööps?");
+		}
+		
+		if(this == ModItems.loop_stew) {
+			list.add("A very, very healthy breakfast.");
+		}
 	}
 
 
@@ -64,6 +80,24 @@ public class ItemLemon extends ItemFood {
 			
 			int z = 5 / o;
 		}
+		
+		if(this == ModItems.loop_stew) {
+			player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 20 * 20, 1));
+			player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 2));
+			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
+			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 20 * 20, 2));
+		}
+    }
+
+    public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+    {
+        ItemStack sta = super.onEaten(p_77654_1_, p_77654_2_, p_77654_3_);
+        
+        if(this == ModItems.loop_stew)
+        	return new ItemStack(Items.bowl);
+        
+        return sta;
+        
     }
 
 }

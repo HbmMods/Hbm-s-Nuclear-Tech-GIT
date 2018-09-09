@@ -835,6 +835,8 @@ public class ModItems {
 	public static Item glowing_stew;
 	public static Item lemon;
 	public static Item definitelyfood;
+	public static Item loops;
+	public static Item loop_stew;
 
 	public static Item med_ipecac;
 	public static Item med_ptsd;
@@ -2073,6 +2075,8 @@ public class ModItems {
 		med_ipecac = new ItemLemon(0, 0, false).setUnlocalizedName("med_ipecac").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_ipecac_new");
 		med_ptsd = new ItemLemon(0, 0, false).setUnlocalizedName("med_ptsd").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_ptsd_new");
 		med_schizophrenia = new ItemLemon(0, 0, false).setUnlocalizedName("med_schizophrenia").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_schizophrenia_new");
+		loops = new ItemLemon(4, 5, false).setUnlocalizedName("loops").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":loops");
+		loop_stew = new ItemLemon(10, 10, false).setUnlocalizedName("loop_stew").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":loop_stew");
 		
 		defuser = new Item().setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		
@@ -3610,6 +3614,8 @@ public class ModItems {
 		GameRegistry.registerItem(glowing_stew, glowing_stew.getUnlocalizedName());
 		GameRegistry.registerItem(lemon, lemon.getUnlocalizedName());
 		GameRegistry.registerItem(definitelyfood, definitelyfood.getUnlocalizedName());
+		GameRegistry.registerItem(loops, loops.getUnlocalizedName());
+		GameRegistry.registerItem(loop_stew, loop_stew.getUnlocalizedName());
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		//GameRegistry.registerItem(med_schizophrenia, med_schizophrenia.getUnlocalizedName());

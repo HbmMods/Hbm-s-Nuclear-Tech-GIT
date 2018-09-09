@@ -42,45 +42,45 @@ public class TileEntityVaultDoor extends TileEntity {
 
 	    	if(isOpening && state == 1) {
 	    		if(timer == 0)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrape", 1.0F, 1.0F);
-	    		if(timer == 110)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 130)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 150)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 170)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 190)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 210)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 230)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 249)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);
+	    		if(timer == 45)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 55)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 65)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 75)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 85)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 95)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 105)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 115)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
 	    	}
 	    	if(!isOpening && state == 1) {
 
 	    		if(timer == 0)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 10)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
 	    		if(timer == 20)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 30)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
 	    		if(timer == 40)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 50)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
 	    		if(timer == 60)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 80)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 100)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 120)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
-	    		if(timer == 140)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThud", 1.0F, 1.0F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
+	    		if(timer == 70)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultThudNew", 1.0F, 1.0F);
 	    		
-	    		if(timer == 150)
-					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrape", 1.0F, 1.0F);
+	    		if(timer == 80)
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);
 	    	}	
 	    			
 	    	if(state != 1) {
@@ -88,7 +88,7 @@ public class TileEntityVaultDoor extends TileEntity {
 	    	} else {
 	    		timer++;
 	    		
-	    		if(timer >= 250) {
+	    		if(timer >= 120) {
 	    			
 	    			if(isOpening)
 	    				finishOpen();
