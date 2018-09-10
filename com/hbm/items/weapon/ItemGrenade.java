@@ -2,6 +2,8 @@ package com.hbm.items.weapon;
 
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
+import com.hbm.entity.grenade.EntityGrenadeBreach;
+import com.hbm.entity.grenade.EntityGrenadeBurst;
 import com.hbm.entity.grenade.EntityGrenadeCloud;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
@@ -12,6 +14,7 @@ import com.hbm.entity.grenade.EntityGrenadeGas;
 import com.hbm.entity.grenade.EntityGrenadeGascan;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
+import com.hbm.entity.grenade.EntityGrenadeMIRV;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.grenade.EntityGrenadeNuke;
@@ -21,6 +24,7 @@ import com.hbm.entity.grenade.EntityGrenadePoison;
 import com.hbm.entity.grenade.EntityGrenadePulse;
 import com.hbm.entity.grenade.EntityGrenadeSchrabidium;
 import com.hbm.entity.grenade.EntityGrenadeShrapnel;
+import com.hbm.entity.grenade.EntityGrenadeSmart;
 import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
@@ -122,6 +126,18 @@ public class ItemGrenade extends Item {
 			}
 			if (this == ModItems.grenade_pink_cloud) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadePC(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_smart) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeSmart(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_mirv) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeMIRV(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_breach) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeBreach(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_burst) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeBurst(p_77659_2_, p_77659_3_));
 			}
 		}
 

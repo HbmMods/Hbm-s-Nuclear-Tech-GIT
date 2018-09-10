@@ -74,8 +74,8 @@ public class GUIScreenSatInterface extends GuiScreen {
     			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
     			
 
-    			int x = (int)player.posX - guiLeft + i - 8 - 100;
-    			int z = (int)player.posZ - guiTop + j - 8 - 100;
+    			int x = this.x - guiLeft + i - 8 - 100;
+    			int z = this.z - guiTop + j - 8 - 100;
 				PacketDispatcher.wrapper.sendToServer(new SatLaserPacket(x, z, connectedSat.satelliteID));
     		}
     	}

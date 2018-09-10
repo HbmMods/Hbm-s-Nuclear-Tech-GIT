@@ -40,6 +40,7 @@ import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.tileentity.bomb.TileEntityTurretBase;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
 import cofh.api.energy.IEnergyProvider;
@@ -622,6 +623,10 @@ public class ExplosionNukeGeneric {
 				
 				if(random.nextInt(5) <= 1)
 					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
+			}
+			if (te != null && te instanceof TileEntityTurretBase) {
+
+				((TileEntityTurretBase)te).ammo = 0;
 			}
 			if((b == ModBlocks.fusion_conductor || b == ModBlocks.fwatz_conductor || b == ModBlocks.fusion_motor || b == ModBlocks.fusion_heater || b == ModBlocks.fwatz_computer) && random.nextInt(10) == 0)
 				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);

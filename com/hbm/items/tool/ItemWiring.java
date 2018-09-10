@@ -71,7 +71,7 @@ public class ItemWiring extends Item {
 			list.add("Wire start y: " + itemstack.stackTagCompound.getInteger("y"));
 			list.add("Wire start z: " + itemstack.stackTagCompound.getInteger("z"));
 		} else {
-			list.add("Richt-click poles to connect");
+			list.add("Right-click poles to connect");
 		}
 	}
 	

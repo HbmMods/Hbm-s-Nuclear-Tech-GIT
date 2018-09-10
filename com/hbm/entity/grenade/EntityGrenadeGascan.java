@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 
 public class EntityGrenadeGascan extends EntityGrenadeBase
 {
-    private static final String __OBFID = "CL_00001722";
 
     public EntityGrenadeGascan(World p_i1773_1_)
     {

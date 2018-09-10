@@ -1048,6 +1048,10 @@ item.grenade_black_hole.name=Schwarzes-Loch-Granate
 item.grenade_cloud.name=Gefäß voll Wolke
 item.grenade_pink_cloud.name=Gefäß voll pinker Wolke
 item.ullapool_caber.name=Ullapool'sche Stiel
+item.grenade_smart.name=Smart-Granate
+item.grenade_mirv.name=MIRV-Granate
+item.grenade_breach.name=Durchbruchgranate
+item.grenade_burst.name=Gräbergranate
 
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
@@ -1257,6 +1261,7 @@ entity.hbm.entity_bullet.name=Patrone
 entity.hbm.entity_rocket.name=Rakete
 entity.hbm.entity_schrabnel.name=Schrabnel
 entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper
+entity.entity_mob_tainted_creeper.name=Verseuchter Creeper
 entity.entity_mob_hunter_chopper.name=Jagdschrauber
 entity.entity_cyber_crab.name=Cyber-Krabbe
 

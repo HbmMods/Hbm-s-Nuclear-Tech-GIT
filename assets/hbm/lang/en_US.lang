@@ -1048,6 +1048,10 @@ item.grenade_black_hole.name=Black Hole Grenade
 item.grenade_cloud.name=Jar of Cloud
 item.grenade_pink_cloud.name=Jar of Pink Cloud
 item.ullapool_caber.name=Ullapool Caber
+item.grenade_smart.name=Smart Grenade
+item.grenade_mirv.name=MIRV Grenade
+item.grenade_breach.name=Breaching Grenade
+item.grenade_burst.name=Digger Grenade
 
 item.rod_uranium_fuel.name=Uranium Fuel Rod
 item.rod_dual_uranium_fuel.name=Uranium Dual Fuel Rod
@@ -1257,6 +1261,7 @@ entity.hbm.entity_bullet.name=Bullet
 entity.hbm.entity_rocket.name=Rocket
 entity.hbm.entity_schrabnel.name=Schrabnel
 entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
+entity.entity_mob_tainted_creeper.name=Tainted Creeper
 entity.entity_mob_hunter_chopper.name=Hunter Chopper
 entity.entity_cyber_crab.name=Cyber Crab
 

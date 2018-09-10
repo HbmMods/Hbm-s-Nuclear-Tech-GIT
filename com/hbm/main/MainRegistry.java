@@ -66,6 +66,8 @@ import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
+import com.hbm.entity.grenade.EntityGrenadeBreach;
+import com.hbm.entity.grenade.EntityGrenadeBurst;
 import com.hbm.entity.grenade.EntityGrenadeCloud;
 import com.hbm.entity.grenade.EntityGrenadeCluster;
 import com.hbm.entity.grenade.EntityGrenadeElectric;
@@ -76,6 +78,7 @@ import com.hbm.entity.grenade.EntityGrenadeGas;
 import com.hbm.entity.grenade.EntityGrenadeGascan;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
+import com.hbm.entity.grenade.EntityGrenadeMIRV;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.grenade.EntityGrenadeNuke;
@@ -85,6 +88,7 @@ import com.hbm.entity.grenade.EntityGrenadePoison;
 import com.hbm.entity.grenade.EntityGrenadePulse;
 import com.hbm.entity.grenade.EntityGrenadeSchrabidium;
 import com.hbm.entity.grenade.EntityGrenadeShrapnel;
+import com.hbm.entity.grenade.EntityGrenadeSmart;
 import com.hbm.entity.grenade.EntityGrenadeStrong;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
@@ -130,6 +134,7 @@ import com.hbm.entity.missile.EntityTestMissile;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityCloudFX;
@@ -793,10 +798,15 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBombletZeta.class, "entity_zeta", 109, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityOrangeFX.class, "entity_agent_orange", 110, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityDeathBlast.class, "entity_laser_blast", 111, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeSmart.class, "entity_grenade_smart", 112, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeMIRV.class, "entity_grenade_mirv", 113, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeBreach.class, "entity_grenade_breach", 114, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityGrenadeBurst.class, "entity_grenade_burst", 115, this, 250, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
+	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -977,6 +987,34 @@ public class MainRegistry
             protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
             {
                 return new EntityGrenadePC(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_smart, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeSmart(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_mirv, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeMIRV(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_breach, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeBreach(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
+            }
+        });
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_burst, new BehaviorProjectileDispense() {
+
+            protected IProjectile getProjectileEntity(World p_82499_1_, IPosition p_82499_2_)
+            {
+                return new EntityGrenadeBurst(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
             }
         });
 	}

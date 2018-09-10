@@ -825,6 +825,11 @@ public class ModItems {
 	public static Item grenade_pink_cloud;
 	public static Item ullapool_caber;
 
+	public static Item grenade_smart;
+	public static Item grenade_mirv;
+	public static Item grenade_breach;
+	public static Item grenade_burst;
+
 	public static Item weaponized_starblaster_cell;
 
 	public static Item bomb_waffle;
@@ -2061,6 +2066,11 @@ public class ModItems {
 		grenade_cloud = new ItemGrenade().setUnlocalizedName("grenade_cloud").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_cloud");
 		grenade_pink_cloud = new ItemGrenade().setUnlocalizedName("grenade_pink_cloud").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_pink_cloud");
 		ullapool_caber = new WeaponSpecial(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("ullapool_caber").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ullapool_caber");
+
+		grenade_smart = new ItemGrenade().setUnlocalizedName("grenade_smart").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_smart");
+		grenade_mirv = new ItemGrenade().setUnlocalizedName("grenade_mirv").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_mirv");
+		grenade_breach = new ItemGrenade().setUnlocalizedName("grenade_breach").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_breach");
+		grenade_burst = new ItemGrenade().setUnlocalizedName("grenade_burst").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":grenade_burst");
 		
 		weaponized_starblaster_cell = new WeaponizedCell().setUnlocalizedName("weaponized_starblaster_cell").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_b92_ammo_weaponized");
 
@@ -3503,6 +3513,10 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_gas, grenade_gas.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_cloud, grenade_cloud.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_pink_cloud, grenade_pink_cloud.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_smart, grenade_smart.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_mirv, grenade_mirv.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_breach, grenade_breach.getUnlocalizedName());
+		GameRegistry.registerItem(grenade_burst, grenade_burst.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_pulse, grenade_pulse.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_plasma, grenade_plasma.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_tau, grenade_tau.getUnlocalizedName());

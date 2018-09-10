@@ -244,6 +244,10 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_gas, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_cloud, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_pink_cloud, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_smart, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_mirv, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_breach, 16));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_burst, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_pulse, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_plasma, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_tau, 16));

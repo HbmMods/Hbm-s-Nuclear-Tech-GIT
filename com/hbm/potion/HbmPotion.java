@@ -2,6 +2,7 @@ package com.hbm.potion;
 
 import java.lang.reflect.Field;
 
+import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -74,7 +75,8 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 			
-	    	entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
+			if(!(entity instanceof EntityTaintedCreeper))
+				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 		}
 		if(this == radiation) {
 			

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
@@ -20,6 +21,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
@@ -178,9 +180,24 @@ public class BlockTaint extends Block/*Container*/ {
     	List<ItemStack> list = new ArrayList<ItemStack>();
     	PotionEffect effect = new PotionEffect(HbmPotion.taint.id, 15 * 20, level);
     	effect.setCurativeItems(list);
-    	if(entity instanceof EntityLivingBase)
-    		if(world.rand.nextInt(50) == 0)
+    	
+    	if(entity instanceof EntityLivingBase) {
+    		if(world.rand.nextInt(50) == 0) {
     			((EntityLivingBase)entity).addPotionEffect(effect);
+    		}
+    	}
+    	
+    	if(entity instanceof EntityCreeper) {
+    		EntityTaintedCreeper creep = new EntityTaintedCreeper(world);
+    		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+    		
+    		System.out.println(entity.getClass().toString());
+
+    		if(!world.isRemote) {
+    			entity.setDead();
+    			world.spawnEntityInWorld(creep);
+    		}
+    	}
 	}
 
 }
