@@ -251,6 +251,12 @@ item.turret_control.name=Geschützsteuerung
 item.turret_chip.name=Geschütz-KI-Chip
 item.turret_biometry.name=Geschütz-Telemetriekarte
 
+item.key.name=Schlüssel
+item.key_red.name=Roter Schlüssel
+item.padlock.name=Vorhängeschloss
+tile.machine_keyforge.name=Schlossertisch
+container.keyForge=Schlossertisch
+
 tile.mine_ap.name=Antipersonenmine
 tile.mine_he.name=Antipanzermine
 tile.mine_shrap.name=Schrapnellmine
@@ -1732,6 +1738,7 @@ tile.crystal_pulsar.name=Pulsating Crystal
 
 tile.taint.name=Korrupter Schmutz
 tile.residue.name=Wolkenrückstände
+item.powder_cloud.name=Wolkenrückstände
 
 tile.cheater_virus.name=Geliertes Euphemium
 tile.cheater_virus_seed.name=Instabiler Euphemiumschrabid-Block

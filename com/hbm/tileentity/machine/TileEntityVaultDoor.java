@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityVaultDoor extends TileEntity {
+public class TileEntityVaultDoor extends TileEntityLockableBase {
 	
 	public boolean isOpening = false;
 	//0: closed, 1: opening/closing, 2:open

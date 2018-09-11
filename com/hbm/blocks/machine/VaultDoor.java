@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiblock;
+import com.hbm.items.tool.ItemLock;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
 
 import net.minecraft.block.BlockContainer;
@@ -43,7 +44,8 @@ public class VaultDoor extends BlockContainer implements IBomb, IMultiblock {
 	public void explode(World world, int x, int y, int z) {
 		TileEntityVaultDoor te = (TileEntityVaultDoor) world.getTileEntity(x, y, z);
 		
-		te.tryToggle();
+		if(!te.isLocked())
+			te.tryToggle();
 	}
 	
 	@Override
@@ -220,13 +222,20 @@ public class VaultDoor extends BlockContainer implements IBomb, IMultiblock {
 		if(world.isRemote)
 		{
 			return true;
-		} else if(!player.isSneaking())
-		{
+		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLock) {
+			return false;
+			
+		} if(!player.isSneaking()) {
 			
 			TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				entity.tryToggle();
+				if(entity.isLocked()) {
+					if(entity.canAccess(player))
+						entity.tryToggle();
+				} else {
+					entity.tryToggle();
+				}
 			}
 			
 			return true;

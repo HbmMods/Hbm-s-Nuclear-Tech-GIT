@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IDummy;
+import com.hbm.items.tool.ItemLock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineRadGen;
@@ -84,9 +85,24 @@ public class DummyBlockVault extends BlockContainer implements IDummy, IBomb {
 		if(world.isRemote)
 		{
 			return true;
+		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLock) {
+			return false;
+			
 		} else if(!player.isSneaking())
 		{
-			explode(world, x, y, z);
+			TileEntity til = world.getTileEntity(x, y, z);
+			if(til != null && til instanceof TileEntityDummy) {
+				int a = ((TileEntityDummy)til).targetX;
+				int b = ((TileEntityDummy)til).targetY;
+				int c = ((TileEntityDummy)til).targetZ;
+						
+				TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(a, b, c);
+				if(entity != null)
+				{
+					if(entity.canAccess(player))
+						entity.tryToggle();
+				}
+			}
 			
 			return true;
 		} else {
@@ -119,7 +135,7 @@ public class DummyBlockVault extends BlockContainer implements IDummy, IBomb {
 			int c = ((TileEntityDummy)te).targetZ;
 			
 			TileEntityVaultDoor entity = (TileEntityVaultDoor) world.getTileEntity(a, b, c);
-			if(entity != null)
+			if(entity != null && !entity.isLocked())
 			{
 				entity.tryToggle();
 			}

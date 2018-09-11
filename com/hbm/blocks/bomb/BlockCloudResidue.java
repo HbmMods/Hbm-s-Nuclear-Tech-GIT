@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,7 +48,7 @@ public class BlockCloudResidue extends Block {
     @Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
-        return null;
+        return p_149650_2_.nextInt(25) == 0 ? ModItems.powder_cloud : null;
     }
 	
 	@Override

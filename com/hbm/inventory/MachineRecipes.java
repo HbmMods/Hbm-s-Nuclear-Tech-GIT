@@ -174,6 +174,9 @@ public class MachineRecipes {
 		ItemStack[] schrabidium3 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 4),
 				new ItemStack(ModItems.nugget_lead, 19), new ItemStack(ModItems.nugget_neptunium, 1),
 				new ItemStack(ModItems.rod_quad_euphemium, 1) };
+		ItemStack[] cloud = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
+				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.dust, 1),
+				new ItemStack(ModItems.dust, 1) };
 
 		if (item == ModItems.cell_uf6) {
 			return uranium;
@@ -239,6 +242,10 @@ public class MachineRecipes {
 
 		if (item == ModItems.rod_quad_schrabidium_fuel_depleted) {
 			return schrabidium3;
+		}
+
+		if (item == ModItems.powder_cloud) {
+			return cloud;
 		}
 
 		return null;
@@ -864,6 +871,8 @@ public class MachineRecipes {
 				getCentrifugeOutput(ModItems.rod_dual_schrabidium_fuel_depleted));
 		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
 				getCentrifugeOutput(ModItems.rod_quad_schrabidium_fuel_depleted));
+		recipes.put(new ItemStack(ModItems.powder_cloud),
+				getCentrifugeOutput(ModItems.powder_cloud));
 		return recipes;
 	}
 

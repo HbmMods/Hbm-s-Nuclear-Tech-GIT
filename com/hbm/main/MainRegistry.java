@@ -270,6 +270,7 @@ import com.hbm.tileentity.machine.TileEntityMachineGasFlare;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineInserter;
+import com.hbm.tileentity.machine.TileEntityMachineKeyForge;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineOilWell;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
@@ -685,6 +686,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityLandmine.class, "tileentity_landmine");
 		GameRegistry.registerTileEntity(TileEntityBomber.class, "tileentity_bomber");
 		GameRegistry.registerTileEntity(TileEntityMachineTeleLinker.class, "tileentity_telemetry_linker");
+		GameRegistry.registerTileEntity(TileEntityMachineKeyForge.class, "tileentity_key_forge");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

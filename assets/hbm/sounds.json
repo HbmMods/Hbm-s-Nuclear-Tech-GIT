@@ -23,6 +23,8 @@
     "block.vaultThud": {"category": "block", "sounds": [{"name": "block/vaultThud", "stream": false}]},
     "block.vaultScrapeNew": {"category": "block", "sounds": [{"name": "block/vaultScrapeNew", "stream": false}]},
     "block.vaultThudNew": {"category": "block", "sounds": [{"name": "block/vaultThudNew", "stream": false}]},
+    "block.lockOpen": {"category": "block", "sounds": [{"name": "block/lockOpen", "stream": false}]},
+    "block.lockHang": {"category": "block", "sounds": [{"name": "block/lockHang", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

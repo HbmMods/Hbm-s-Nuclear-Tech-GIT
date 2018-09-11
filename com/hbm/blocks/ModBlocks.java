@@ -460,6 +460,9 @@ public class ModBlocks {
 	public static Block machine_telelinker;
 	public static final int guiID_telelinker = 68;
 
+	public static Block machine_keyforge;
+	public static final int guiID_keyforge = 67;
+
 	public static Block machine_reactor_small;
 	public static final int guiID_reactor_small = 65;
 
@@ -793,6 +796,7 @@ public class ModBlocks {
 		
 		machine_satlinker = new MachineSatLinker(Material.iron).setBlockName("machine_satlinker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_satlinker_side");
 		machine_telelinker = new MachineTeleLinker(Material.iron).setBlockName("machine_telelinker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":machine_telelinker_side");
+		machine_keyforge = new MachineKeyForge(Material.iron).setBlockName("machine_keyforge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":machine_keyforge_side");
 
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
@@ -917,7 +921,7 @@ public class ModBlocks {
 		crystal_hardened = new BlockGeneric(Material.iron).setBlockName("crystal_hardened").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_hardened");
 		crystal_pulsar = new CrystalPulsar(Material.iron).setBlockName("crystal_pulsar").setHardness(15.0F).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crystal_pulsar");
 		taint = new BlockTaint(Material.iron).setBlockName("taint").setHardness(15.0F).setResistance(10.0F).setCreativeTab(null);
-		residue = new BlockCloudResidue(Material.iron).setBlockName("residue").setHardness(15.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":residue");
+		residue = new BlockCloudResidue(Material.iron).setBlockName("residue").setHardness(0.5F).setResistance(0.5F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":residue");
 
 		vent_chlorine = new BlockVent(Material.iron).setBlockName("vent_chlorine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_chlorine");
 		vent_cloud = new BlockVent(Material.iron).setBlockName("vent_cloud").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vent_cloud");
@@ -1259,6 +1263,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_satlinker, machine_satlinker.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_telelinker, machine_telelinker.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_keyforge, machine_keyforge.getUnlocalizedName());
 		GameRegistry.registerBlock(radiorec, radiorec.getUnlocalizedName());
 		GameRegistry.registerBlock(radiobox, radiobox.getUnlocalizedName());
 		

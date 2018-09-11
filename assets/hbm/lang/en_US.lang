@@ -264,6 +264,12 @@ item.turret_control.name=Turret Controller
 item.turret_chip.name=Turret AI-Chip
 item.turret_biometry.name=Turret Telemetry Card
 
+item.key.name=Key
+item.key_red.name=Red Key
+item.padlock.name=Padlock
+tile.machine_keyforge.name=Locksmith Table
+container.keyForge=Locksmith Table
+
 tile.mine_ap.name=Anti-Personell Mine
 tile.mine_he.name=Anti-Tank Mine
 tile.mine_shrap.name=Shrapnel Mine
@@ -1732,6 +1738,7 @@ tile.crystal_pulsar.name=Pulsating Crystal
 
 tile.taint.name=Taint
 tile.residue.name=Cloud Residue
+item.powder_cloud.name=Cloud Residue
 
 tile.cheater_virus.name=Gelid Euphemium
 tile.cheater_virus_seed.name=Unstable Euphemium Schrabide Block

@@ -46,6 +46,7 @@ import com.hbm.tileentity.machine.TileEntityMachineGasFlare;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineInserter;
+import com.hbm.tileentity.machine.TileEntityMachineKeyForge;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineOilWell;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
@@ -678,6 +679,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_keyforge:
+			{
+				if(entity instanceof TileEntityMachineKeyForge)
+				{
+					return new ContainerMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1279,6 +1289,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineTeleLinker)
 					{
 						return new GUIMachineTeleLinker(player.inventory, (TileEntityMachineTeleLinker) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_keyforge:
+				{
+					if(entity instanceof TileEntityMachineKeyForge)
+					{
+						return new GUIMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
 					}
 					return null;
 				}

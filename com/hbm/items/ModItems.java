@@ -227,6 +227,7 @@ public class ModItems {
 	public static Item powder_spark_mix;
 	public static Item powder_yellowcake;
 	public static Item powder_magic;
+	public static Item powder_cloud;
 
 	public static Item fragment_neodymium;
 	public static Item fragment_cobalt;
@@ -1179,6 +1180,10 @@ public class ModItems {
 	public static Item turret_biometry;
 	public static Item chopper;
 
+	public static Item key;
+	public static Item key_red;
+	public static Item padlock;
+
 	public static Item turret_light_ammo;
 	public static Item turret_heavy_ammo;
 	public static Item turret_rocket_ammo;
@@ -1514,6 +1519,7 @@ public class ModItems {
 		powder_meteorite_tiny = new Item().setUnlocalizedName("powder_meteorite_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_meteorite_tiny");
 		powder_yellowcake = new ItemRadioactive().setUnlocalizedName("powder_yellowcake").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_yellowcake");
 		powder_magic = new Item().setUnlocalizedName("powder_magic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_magic");
+		powder_cloud = new Item().setUnlocalizedName("powder_cloud").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cloud");
 
 		fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_neodymium");
 		fragment_cobalt = new Item().setUnlocalizedName("fragment_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_cobalt");
@@ -2286,6 +2292,10 @@ public class ModItems {
 		geiger_counter = new ItemGeigerCounter().setUnlocalizedName("geiger_counter").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":geiger_counter");
 		survey_scanner = new ItemSurveyScanner().setUnlocalizedName("survey_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":survey_scanner");
 
+		key = new ItemKey().setUnlocalizedName("key").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key");
+		key_red = new Item().setUnlocalizedName("key_red").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":key_red");
+		padlock = new ItemLock().setUnlocalizedName("padlock").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":padlock");
+
 		turret_light_ammo = new ItemTurretAmmo(ModBlocks.turret_light, 100).setUnlocalizedName("turret_light_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_light_ammo");
 		turret_heavy_ammo = new ItemTurretAmmo(ModBlocks.turret_heavy, 25).setUnlocalizedName("turret_heavy_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_heavy_ammo");
 		turret_rocket_ammo = new ItemTurretAmmo(ModBlocks.turret_rocket, 8).setUnlocalizedName("turret_rocket_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_rocket_ammo");
@@ -2702,6 +2712,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_lanthanium, powder_lanthanium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_actinium, powder_actinium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_magic, powder_magic.getUnlocalizedName());
+		GameRegistry.registerItem(powder_cloud, powder_cloud.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh_mix, powder_desh_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh, powder_desh.getUnlocalizedName());
 		GameRegistry.registerItem(powder_nitan_mix, powder_nitan_mix.getUnlocalizedName());
@@ -3334,6 +3345,11 @@ public class ModItems {
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
 		GameRegistry.registerItem(survey_scanner, survey_scanner.getUnlocalizedName());
 		GameRegistry.registerItem(geiger_counter, geiger_counter.getUnlocalizedName());
+		
+		//Keys and Locks
+		GameRegistry.registerItem(key, key.getUnlocalizedName());
+		GameRegistry.registerItem(key_red, key_red.getUnlocalizedName());
+		GameRegistry.registerItem(padlock, padlock.getUnlocalizedName());
 		
 		//Missiles
 		GameRegistry.registerItem(missile_generic, missile_generic.getUnlocalizedName());
