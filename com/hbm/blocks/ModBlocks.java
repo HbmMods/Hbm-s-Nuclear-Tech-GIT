@@ -168,6 +168,14 @@ public class ModBlocks {
 	public static Block frozen_log;
 	public static Block frozen_planks;
 
+	public static Block sellafield_slaked;
+	public static Block sellafield_0;
+	public static Block sellafield_1;
+	public static Block sellafield_2;
+	public static Block sellafield_3;
+	public static Block sellafield_4;
+	public static Block sellafield_core;
+
 	public static Block flame_war;
 	public static Block float_bomb;
 	public static Block therm_endo;
@@ -693,6 +701,14 @@ public class ModBlocks {
 		frozen_grass = new WasteEarth(Material.wood).setBlockName("frozen_grass").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_log = new WasteLog(Material.wood).setBlockName("frozen_log").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		frozen_planks = new BlockOre(Material.wood).setBlockName("frozen_planks").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":frozen_planks");
+
+		sellafield_slaked = new BlockGeneric(Material.rock).setBlockName("sellafield_slaked").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
+		sellafield_0 = new BlockOre(Material.rock).setBlockName("sellafield_0").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
+		sellafield_1 = new BlockOre(Material.rock).setBlockName("sellafield_1").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_1");
+		sellafield_2 = new BlockOre(Material.rock).setBlockName("sellafield_2").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_2");
+		sellafield_3 = new BlockOre(Material.rock).setBlockName("sellafield_3").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_3");
+		sellafield_4 = new BlockOre(Material.rock).setBlockName("sellafield_4").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_4");
+		sellafield_core = new Sellafield(Material.rock).setBlockName("sellafield_core").setStepSound(Block.soundTypeStone).setHardness(10.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_core");
 		
 		nuke_gadget = new NukeGadget(Material.iron).setBlockName("nuke_gadget").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":theGadget");
 		nuke_boy = new NukeBoy(Material.iron).setBlockName("nuke_boy").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":lilBoy");
@@ -1123,6 +1139,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(frozen_dirt, frozen_dirt.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_log, frozen_log.getUnlocalizedName());
 		GameRegistry.registerBlock(frozen_planks, frozen_planks.getUnlocalizedName());
+		
+		//RAD
+		GameRegistry.registerBlock(sellafield_slaked, sellafield_slaked.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_0, sellafield_0.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_1, sellafield_1.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_2, sellafield_2.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_3, sellafield_3.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_4, sellafield_4.getUnlocalizedName());
+		GameRegistry.registerBlock(sellafield_core, sellafield_core.getUnlocalizedName());
 
 		//Nukes
 		GameRegistry.registerBlock(nuke_gadget, nuke_gadget.getUnlocalizedName());

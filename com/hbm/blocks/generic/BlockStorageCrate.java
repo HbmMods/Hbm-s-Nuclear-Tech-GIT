@@ -3,10 +3,12 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCrateIron;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.TileEntityLockableBase;
 import com.hbm.tileentity.machine.TileEntityMachineOilWell;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -74,6 +76,12 @@ public class BlockStorageCrate extends BlockContainer {
         if (!keepInventory)
         {
         	ISidedInventory tileentityfurnace = (ISidedInventory)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	
+        	if(((TileEntityLockableBase)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_)).isLocked()) {
+        		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+        		return;
+        	}
+        		
 
             if (tileentityfurnace != null)
             {
@@ -125,14 +133,17 @@ public class BlockStorageCrate extends BlockContainer {
 		if(world.isRemote)
 		{
 			return true;
+		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLock) {
+			return false;
+			
 		} else if(!player.isSneaking())
 		{
 			TileEntity entity = world.getTileEntity(x, y, z);
-			if(entity instanceof TileEntityCrateIron)
+			if(entity instanceof TileEntityCrateIron && ((TileEntityCrateIron)entity).canAccess(player))
 			{
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_iron, world, x, y, z);
 			}
-			if(entity instanceof TileEntityCrateSteel)
+			if(entity instanceof TileEntityCrateSteel && ((TileEntityCrateSteel)entity).canAccess(player))
 			{
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crate_steel, world, x, y, z);
 			}

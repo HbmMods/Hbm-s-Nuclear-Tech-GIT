@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityCrateIron extends TileEntity implements ISidedInventory {
+public class TileEntityCrateIron extends TileEntityLockableBase implements ISidedInventory {
 
 	private ItemStack slots[];
 
