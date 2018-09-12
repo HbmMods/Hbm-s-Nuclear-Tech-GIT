@@ -134,6 +134,24 @@ public class ItemGeigerCounter extends Item {
 		if(b == ModBlocks.block_yellowcake) {
 			i = 2;
 		}
+		if(b == ModBlocks.sellafield_0) {
+			i = 10;
+		}
+		if(b == ModBlocks.sellafield_1) {
+			i = 20;
+		}
+		if(b == ModBlocks.sellafield_2) {
+			i = 30;
+		}
+		if(b == ModBlocks.sellafield_3) {
+			i = 40;
+		}
+		if(b == ModBlocks.sellafield_4) {
+			i = 50;
+		}
+		if(b == ModBlocks.sellafield_core) {
+			i = 500;
+		}
 		
 		return i * level;
 	}

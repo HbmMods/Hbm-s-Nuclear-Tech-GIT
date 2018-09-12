@@ -228,6 +228,26 @@ public class BlockOre extends Block {
     	{
     		Library.applyRadiation((EntityLivingBase)entity, 30, 9, 15, 4);
     	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_0)
+    	{
+    		Library.applyRadiation((EntityLivingBase)entity, 30, 10, 20, 5);
+    	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_1)
+    	{
+    		Library.applyRadiation((EntityLivingBase)entity, 60, 25, 40, 20);
+    	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_2)
+    	{
+    		Library.applyRadiation((EntityLivingBase)entity, 2 * 60, 40, 90, 30);
+    	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_3)
+    	{
+    		Library.applyRadiation((EntityLivingBase)entity, 3 * 60, 60, 2 * 60, 40);
+    	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_4)
+    	{
+    		Library.applyRadiation((EntityLivingBase)entity, 4 * 60, 80, 2 * 90, 60);
+    	}
     	
         if(this == ModBlocks.block_meteor_molten)
         	entity.setFire(5);
