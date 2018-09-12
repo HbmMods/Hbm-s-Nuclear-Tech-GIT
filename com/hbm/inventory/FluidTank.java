@@ -80,9 +80,7 @@ public class FluidTank {
 			}
 			
 			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
-				this.fluid += 50;
-				if(this.fluid > this.maxFluid)
-					this.fluid = this.maxFluid;
+				this.fluid = this.maxFluid;
 				return;
 			}
 			

@@ -67,7 +67,7 @@ public class Landmine extends BlockContainer implements IBomb {
 			int p_149719_4_) {
 		float f = 0.0625F;
 		if (this == ModBlocks.mine_ap)
-			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 2 * f, 10 * f);
+			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 4 * f, 10 * f);
 		if (this == ModBlocks.mine_he)
 			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
 		if (this == ModBlocks.mine_shrap)
@@ -80,7 +80,7 @@ public class Landmine extends BlockContainer implements IBomb {
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		float f = 0.0625F;
 		if (this == ModBlocks.mine_ap)
-			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 2 * f, 10 * f);
+			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 4 * f, 10 * f);
 		if (this == ModBlocks.mine_he)
 			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
 		if (this == ModBlocks.mine_shrap)

@@ -16,7 +16,6 @@ import com.hbm.world.OilSandBubble;
 import com.hbm.world.Radio01;
 import com.hbm.world.Relay;
 import com.hbm.world.Satellite;
-import com.hbm.world.Sellafield;
 import com.hbm.world.Silo;
 import com.hbm.world.Spaceship;
 import com.hbm.world.Vertibird;
@@ -367,20 +366,6 @@ public class HbmWorldGen implements IWorldGenerator {
 				
 				if(MainRegistry.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned landmine at " + x + " " + (y + 1) +" " + z);
-			}
-			if (MainRegistry.enableRad && rand.nextInt(MainRegistry.radfreq) == 0 && biome == BiomeGenBase.desert) {
-				
-				for (int a = 0; a < 1; a++) {
-					int x = i + rand.nextInt(16);
-					int z = j + rand.nextInt(16);
-					
-					double r = rand.nextInt(15) + 10;
-					
-					if(rand.nextInt(50) == 0)
-						r = 35;
-
-					new Sellafield().generate(world, x, z, r, r * 0.35D);
-				}
 			}
 		}
 

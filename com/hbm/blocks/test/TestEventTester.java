@@ -20,7 +20,6 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.world.Meteorite;
-import com.hbm.world.Sellafield;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -262,10 +261,7 @@ public class TestEventTester extends Block {
     	/*if(!worldObj.isRemote)
     		buildEvent(worldObj, par2, par3, par4, 30);*/
     	
-    	/*((EntityLivingBase)par5EntityPlayer).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 100, 0));*/
-    	
-    	worldObj.setBlockToAir(par2, par3, par4);
-    	(new Sellafield()).generate(worldObj, par2, par4, 15D, 7.5D);
+    	((EntityLivingBase)par5EntityPlayer).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 100, 0));
         
         return true;
     }

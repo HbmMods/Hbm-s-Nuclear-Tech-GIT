@@ -209,7 +209,6 @@ import com.hbm.tileentity.bomb.TileEntityNukePrototype;
 import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 import com.hbm.tileentity.bomb.TileEntityRedBarrel;
-import com.hbm.tileentity.bomb.TileEntitySellafield;
 import com.hbm.tileentity.bomb.TileEntityTestBombAdvanced;
 import com.hbm.tileentity.bomb.TileEntityTestNuke;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
@@ -447,7 +446,6 @@ public class MainRegistry
 	public static boolean enableDungeons = true;
 	public static boolean enableMDOres = true;
 	public static boolean enableMines = true;
-	public static boolean enableRad = true;
 	public static boolean enableNITAN = true;
 	public static boolean enableNukeClouds = true;
 	public static boolean enableAutoCleanup = false;
@@ -498,7 +496,6 @@ public class MainRegistry
 	public static int spaceshipStructure = 1000;
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
-	public static int radfreq = 5000;
 	public static int meteorStrikeChance = 20 * 60 * 90;
 	public static int meteorShowerChance = 20 * 60 * 3;
 	public static int meteorShowerDuration = 6000;
@@ -690,7 +687,6 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityBomber.class, "tileentity_bomber");
 		GameRegistry.registerTileEntity(TileEntityMachineTeleLinker.class, "tileentity_telemetry_linker");
 		GameRegistry.registerTileEntity(TileEntityMachineKeyForge.class, "tileentity_key_forge");
-		GameRegistry.registerTileEntity(TileEntitySellafield.class, "tileentity_sellafield_core");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -810,9 +806,9 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeBurst.class, "entity_grenade_burst", 115, this, 250, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
-	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
+	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -1404,14 +1400,13 @@ public class MainRegistry
         enableDungeons = config.get(Configuration.CATEGORY_GENERAL, "1.03_enableDungeonSpawn", true).getBoolean(true);
         enableMDOres = config.get(Configuration.CATEGORY_GENERAL, "1.04_enableOresInModdedDimensions", true).getBoolean(true);
         enableMines = config.get(Configuration.CATEGORY_GENERAL, "1.05_enableLandmineSpawn", true).getBoolean(true);
-        enableRad = config.get(Configuration.CATEGORY_GENERAL, "1.06_enableRadHotspotSpawn", true).getBoolean(true);
-        enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.07_enableNITANChestSpawn", true).getBoolean(true);
-        enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.08_enableMushroomClouds", true).getBoolean(true);
-        enableAutoCleanup = config.get(Configuration.CATEGORY_GENERAL, "1.09_enableAutomaticRadCleanup", false).getBoolean(false);
-        enableMeteorStrikes = config.get(Configuration.CATEGORY_GENERAL, "1.10_enableMeteorStrikes", true).getBoolean(true);
-        enableMeteorShowers = config.get(Configuration.CATEGORY_GENERAL, "1.11_enableMeteorShowers", true).getBoolean(true);
-        enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableMeteorTails", true).getBoolean(true);
-        enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.13_enableSpecialMeteors", false).getBoolean(false);
+        enableNITAN = config.get(Configuration.CATEGORY_GENERAL, "1.06_enableNITANChestSpawn", true).getBoolean(true);
+        enableNukeClouds = config.get(Configuration.CATEGORY_GENERAL, "1.07_enableMushroomClouds", true).getBoolean(true);
+        enableAutoCleanup = config.get(Configuration.CATEGORY_GENERAL, "1.08_enableAutomaticRadCleanup", false).getBoolean(false);
+        enableMeteorStrikes = config.get(Configuration.CATEGORY_GENERAL, "1.09_enableMeteorStrikes", true).getBoolean(true);
+        enableMeteorShowers = config.get(Configuration.CATEGORY_GENERAL, "1.10_enableMeteorShowers", true).getBoolean(true);
+        enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.11_enableMeteorTails", true).getBoolean(true);
+        enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableSpecialMeteors", false).getBoolean(false);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";
@@ -1529,9 +1524,6 @@ public class MainRegistry
         Property propMines = config.get(Configuration.CATEGORY_GENERAL, "4.13_landmineSpawn", 64);
         propMines.comment = "Spawn AP landmine on every nTH chunk";
         minefreq = propMines.getInt();
-        Property propRad = config.get(Configuration.CATEGORY_GENERAL, "4.14_radHotsoptSpawn", 5000);
-        propRad.comment = "Spawn radiation hotspot on every nTH chunk";
-        radfreq = propRad.getInt();
 
         Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 50000);
         propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";

@@ -509,7 +509,7 @@ item.ingot_polymer.name=Polymer Ingot
 item.bolt_dura_steel.name=High-Speed Steel Bolt
 item.pipes_steel.name=Steel Pipes
 item.drill_titanium.name=Titanium Drill
-item.bolt_tungsten.name=Tungsten Bolt
+item.bolt_tungsten.name=Tunsten Bolt
 item.bolt_compound.name=Reinforced Turbine Shaft
 item.plate_polymer.name=Insulator
 item.ingot_solinium.name=Solinium Ingot
@@ -1418,14 +1418,6 @@ item.t45_boots.name=T45 Power Armor Boots
 
 tile.mush.name=Glowing Mushroom
 tile.waste_mycelium.name=Glowing Mycelium
-
-tile.sellafield_slaked.name=Slaked Sellafite
-tile.sellafield_0.name=Sellafite
-tile.sellafield_1.name=Hot Sellafite
-tile.sellafield_2.name=Boiling Sellafite
-tile.sellafield_3.name=Blazing Sellafite
-tile.sellafield_4.name=Infernal Sellafite
-tile.sellafield_core.name=Sellafite-Corium
 
 item.warhead_generic_small.name=Small Warhead
 item.warhead_generic_medium.name=Medium Warhead

@@ -1419,14 +1419,6 @@ item.t45_boots.name=T45-Powerrüstungsstiefel
 tile.mush.name=Leuchtender Pilz
 tile.waste_mycelium.name=Leuchtende Myzel
 
-tile.sellafield_slaked.name=Gelöschtes Sellafit
-tile.sellafield_0.name=Sellafit
-tile.sellafield_1.name=Heißes Sellafit
-tile.sellafield_2.name=Kochendes Sellafit
-tile.sellafield_3.name=Flammendes Sellafit
-tile.sellafield_4.name=Infernales Sellafit
-tile.sellafield_core.name=Sellafit-Corium
-
 item.warhead_generic_small.name=Kleiner Sprengkopf
 item.warhead_generic_medium.name=Mittlerer Sprengkopf
 item.warhead_generic_large.name=Großer Sprengkopf
