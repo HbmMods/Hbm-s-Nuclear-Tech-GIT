@@ -29,7 +29,7 @@ public class EntityGrenadeGas extends EntityGrenadeBase {
 
 		if (!this.worldObj.isRemote) {
 			this.setDead();
-			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, true);
+			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 0.0F, true);
 			// ExplosionChaos.poison(this.worldObj, (int)this.posX,
 			// (int)this.posY, (int)this.posZ, 5);
 			// for(int i = 0; 0 < 15; i++) {

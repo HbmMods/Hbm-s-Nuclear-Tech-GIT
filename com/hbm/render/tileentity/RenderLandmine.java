@@ -25,6 +25,7 @@ public class RenderLandmine extends TileEntitySpecialRenderer {
 		Block block = tileEntity.getWorldObj().getBlock(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 
 		if(block == ModBlocks.mine_ap) {
+	        GL11.glTranslated(0, -0.075, 0);
 			GL11.glScaled(1.5D, 1.5D, 1.5D);
 			bindTexture(ResourceManager.mine_ap_tex);
         	ResourceManager.mine_ap.renderAll();
