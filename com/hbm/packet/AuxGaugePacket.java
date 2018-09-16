@@ -11,6 +11,7 @@ import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
+import com.hbm.tileentity.machine.TileEntityRadioRec;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -139,6 +140,14 @@ public class AuxGaugePacket implements IMessage {
 						bomber.pitch = m.value;
 					if(m.id == 2)
 						bomber.type = m.value;
+				}
+				if (te instanceof TileEntityRadioRec) {
+					TileEntityRadioRec radio = (TileEntityRadioRec)te;
+					
+					if(m.id == 0)
+						radio.isOn = (m.value == 1);
+					if(m.id == 1)
+						radio.freq = ((double)m.value) / 10D;
 				}
 				
 			} catch (Exception x) { }

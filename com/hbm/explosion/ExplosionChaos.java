@@ -1289,6 +1289,30 @@ public class ExplosionChaos {
 			else if (world.getBlock(x, y, z) == ModBlocks.block_waste && random.nextInt(10) == 0) {
 				world.setBlock(x, y, z, ModBlocks.block_lead);
 			}
+
+			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_core && random.nextInt(10) == 0) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_4);
+			}
+
+			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_4 && random.nextInt(5) == 0) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_3);
+			}
+
+			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_3 && random.nextInt(5) == 0) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_2);
+			}
+
+			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_2 && random.nextInt(5) == 0) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_1);
+			}
+
+			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_1 && random.nextInt(5) == 0) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_0);
+			}
+
+			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_0 && random.nextInt(5) == 0) {
+				world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
+			}
 		}
 	}
 

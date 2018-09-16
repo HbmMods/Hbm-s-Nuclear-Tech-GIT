@@ -52,7 +52,7 @@ public class Sellafield {
 			}
 		}
 
-		place(world, x, z, 1, ModBlocks.sellafield_core);
+		placeCore(world, x, z, radius * 0.3D);
 	}
 	
 	private void dig(World world, int x, int z, int depth) {
@@ -72,13 +72,19 @@ public class Sellafield {
 		
 		for(int i = 0; i < depth; i++)
 			world.setBlock(x, y - i, z, block);
+	}
+	
+	private void placeCore(World world, int x, int z, double rad) {
 		
-		/*try {
-			if(block == ModBlocks.sellafield_core) {
-				TileEntitySellafield te = (TileEntitySellafield) world.getTileEntity(x, y, z);
-				
-				te.radius = depth * 0.75D;
-			}
-		} catch(Exception ex) { }*/
+		int y = world.getHeightValue(x, z) - 1;
+		
+		world.setBlock(x, y, z, ModBlocks.sellafield_core);
+		
+		try {
+			
+			TileEntitySellafield te = (TileEntitySellafield) world.getTileEntity(x, y, z);
+			te.radius = rad;
+			
+		} catch(Exception ex) { }
 	}
 }

@@ -19,6 +19,7 @@ import com.hbm.main.ModEventHandler;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.world.Barrel;
 import com.hbm.world.Meteorite;
 import com.hbm.world.Sellafield;
 
@@ -264,8 +265,21 @@ public class TestEventTester extends Block {
     	
     	/*((EntityLivingBase)par5EntityPlayer).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 100, 0));*/
     	
+    	/*worldObj.setBlockToAir(par2, par3, par4);
+    	(new Sellafield()).generate(worldObj, par2, par4, 50D, 15D);*/
+    	
+    	/*switch(itemRand.nextInt(3)) {
+    	case 0: 
+    		worldObj.playSoundEffect(par2, par3, par4, "hbm:fm.clap", 1.0F, 1.0F); break;
+    	case 1: 
+    		worldObj.playSoundEffect(par2, par3, par4, "hbm:fm.mug", 1.0F, 1.0F); break;
+    	case 2: 
+    		worldObj.playSoundEffect(par2, par3, par4, "hbm:fm.sample", 1.0F, 1.0F); break;
+    	}*/
+    	
     	worldObj.setBlockToAir(par2, par3, par4);
-    	(new Sellafield()).generate(worldObj, par2, par4, 15D, 7.5D);
+    	
+    	new Barrel().generate(worldObj, worldObj.rand, par2, par3, par4);
         
         return true;
     }

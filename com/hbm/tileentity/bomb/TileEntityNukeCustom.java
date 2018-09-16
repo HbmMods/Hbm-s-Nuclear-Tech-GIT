@@ -252,6 +252,10 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			if(item == ModItems.clip_immolator) {
 				this.tntStrength += 3.5F;
 			}
+
+			if(item == ModItems.custom_tnt) {
+				this.tntStrength += 10F;
+			}
 			//
 			if(item == ModItems.ingot_u235) {
 				this.nukeStrength += 15F;
@@ -274,6 +278,10 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			if(item == ModItems.powder_neptunium) {
 				this.nukeStrength += 30F;
 			}
+			
+			if(item == ModItems.custom_nuke) {
+				this.nukeStrength += 30F;
+			}
 			//
 			if(item == ModItems.cell_deuterium) {
 				this.hydroStrength += 20F;
@@ -287,9 +295,17 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			if(item == ModItems.tritium_deuterium_cake) {
 				this.hydroStrength += 200F;
 			}
+			
+			if(item == ModItems.custom_hydro) {
+				this.hydroStrength += 30F;
+			}
 			//
 			if(item == ModItems.cell_antimatter) {
 				this.amatStrength += 5F;
+			}
+			
+			if(item == ModItems.custom_amat) {
+				this.amatStrength += 15F;
 			}
 			//
 			if(item == ModItems.ingot_tungsten) {
@@ -303,6 +319,10 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			}
 			if(item == Item.getItemFromBlock(ModBlocks.block_waste)) {
 				this.dirtyStrength += 25F;
+			}
+			
+			if(item == ModItems.custom_dirty) {
+				this.dirtyStrength += 10F;
 			}
 			//
 			if(item == ModItems.ingot_schrabidium) {
@@ -321,6 +341,10 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 				this.schrabStrength += 7.5F;
 			}
 			if(item == ModItems.cell_anti_schrabidium) {
+				this.schrabStrength += 15F;
+			}
+			
+			if(item == ModItems.custom_schrab) {
 				this.schrabStrength += 15F;
 			}
 			//

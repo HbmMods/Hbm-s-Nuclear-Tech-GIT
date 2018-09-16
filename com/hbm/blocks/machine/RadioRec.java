@@ -1,10 +1,14 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -108,6 +112,20 @@ public class RadioRec extends BlockContainer {
 		}
         
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote)
+		{
+			return true;
+		} else if(!player.isSneaking())
+		{
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_radiorec, world, x, y, z);
+			return true;
+		} else {
+			return true;
+		}
 	}
 
 }

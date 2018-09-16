@@ -208,6 +208,9 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 			if(slots[2] != null && slots[2].getItem() == Items.reeds) {
 				slots[2] = new ItemStack(ModItems.man_kit);
 			}
+			if(slots[2] != null && slots[2].getItem() == ModItems.battery_generic) {
+				slots[2] = new ItemStack(ModItems.memory);
+			}
 			//
 		}
 	}

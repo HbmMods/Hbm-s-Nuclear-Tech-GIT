@@ -604,6 +604,38 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("All hail the spout!");
 		}
+		
+		if(this == ModItems.custom_tnt)
+		{
+			list.add("Explosive +10");
+		}
+		
+		if(this == ModItems.custom_nuke)
+		{
+			list.add("Nuclear +30");
+			list.add("Adds fallout");
+		}
+		
+		if(this == ModItems.custom_hydro)
+		{
+			list.add("Hydrogen +30");
+		}
+		
+		if(this == ModItems.custom_amat)
+		{
+			list.add("Antimatter +15");
+		}
+		
+		if(this == ModItems.custom_dirty)
+		{
+			list.add("Fallout +10");
+		}
+		
+		if(this == ModItems.custom_schrab)
+		{
+			list.add("Schrabidium +15");
+			list.add("Removes fallout");
+		}
 	}
 
     @Override

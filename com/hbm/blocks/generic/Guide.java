@@ -147,7 +147,7 @@ public class Guide extends Block {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(!player.isSneaking())
+		/*if(!player.isSneaking())
 		{
 			
 			ItemStack book1 = new ItemStack(Items.written_book);
@@ -218,7 +218,9 @@ public class Guide extends Block {
 			return true;
 		} else {
 			return false;
-		}
+		}*/
+		
+		return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
 	}
 
 }

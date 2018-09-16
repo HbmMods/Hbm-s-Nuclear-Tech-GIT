@@ -563,6 +563,34 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.rod_quad_euphemium, 1);
 		}
 
+		if (item == Item.getItemFromBlock(Blocks.stone)) {
+			return new ItemStack(ModBlocks.sellafield_slaked, 1);
+		}
+
+		if (item == Item.getItemFromBlock(ModBlocks.sellafield_slaked)) {
+			return new ItemStack(ModBlocks.sellafield_0, 1);
+		}
+
+		if (item == Item.getItemFromBlock(ModBlocks.sellafield_0)) {
+			return new ItemStack(ModBlocks.sellafield_1, 1);
+		}
+
+		if (item == Item.getItemFromBlock(ModBlocks.sellafield_1)) {
+			return new ItemStack(ModBlocks.sellafield_2, 1);
+		}
+
+		if (item == Item.getItemFromBlock(ModBlocks.sellafield_2)) {
+			return new ItemStack(ModBlocks.sellafield_3, 1);
+		}
+
+		if (item == Item.getItemFromBlock(ModBlocks.sellafield_3)) {
+			return new ItemStack(ModBlocks.sellafield_4, 1);
+		}
+
+		if (item == Item.getItemFromBlock(ModBlocks.sellafield_4)) {
+			return new ItemStack(ModBlocks.sellafield_core, 1);
+		}
+
 		return null;
 	}
 
@@ -922,6 +950,13 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModItems.rod_lithium), getReactorOutput(ModItems.rod_lithium));
 		recipes.put(new ItemStack(ModItems.rod_dual_lithium), getReactorOutput(ModItems.rod_dual_lithium));
 		recipes.put(new ItemStack(ModItems.rod_quad_lithium), getReactorOutput(ModItems.rod_quad_lithium));
+		recipes.put(new ItemStack(Blocks.stone), getReactorOutput(Item.getItemFromBlock(Blocks.stone)));
+		recipes.put(new ItemStack(ModBlocks.sellafield_slaked), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_slaked)));
+		recipes.put(new ItemStack(ModBlocks.sellafield_0), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_0)));
+		recipes.put(new ItemStack(ModBlocks.sellafield_1), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_1)));
+		recipes.put(new ItemStack(ModBlocks.sellafield_2), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_2)));
+		recipes.put(new ItemStack(ModBlocks.sellafield_3), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_3)));
+		recipes.put(new ItemStack(ModBlocks.sellafield_4), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_4)));
 		return recipes;
 	}
 	

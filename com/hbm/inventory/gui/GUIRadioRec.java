@@ -5,61 +5,40 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.container.ContainerMachineReactorSmall;
-import com.hbm.inventory.container.ContainerRadiobox;
-import com.hbm.inventory.gui.GUIScreenTemplateFolder.FolderButton;
-import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemCassette;
-import com.hbm.items.tool.ItemFluidIdentifier;
-import com.hbm.items.tool.ItemCassette.TrackType;
+import com.hbm.inventory.container.ContainerRadioRec;
+import com.hbm.inventory.gui.GUIRadioRec.RadioButton;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
-import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
-import com.hbm.tileentity.machine.TileEntityRadiobox;
+import com.hbm.tileentity.machine.TileEntityRadioRec;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIRadiobox extends GuiInfoContainer {
+public class GUIRadioRec extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_radiobox.png");
-	private TileEntityRadiobox diFurnace;
-	
-	private int type;
-	private int music;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_radiorec.png");
+	private TileEntityRadioRec diFurnace;
 	
     private GuiTextField freqField;
-    private GuiTextField messageField;
     
     List<RadioButton> buttons = new ArrayList<RadioButton>();
 	
 
-	public GUIRadiobox(InventoryPlayer invPlayer, TileEntityRadiobox tedf) {
-		super(new ContainerRadiobox(invPlayer, tedf));
+	public GUIRadioRec(InventoryPlayer invPlayer, TileEntityRadioRec tedf) {
+		super(new ContainerRadioRec(invPlayer, tedf));
 		diFurnace = tedf;
 
 		this.xSize = 176;
-		this.ySize = 90;
-		
-		this.type = diFurnace.type;
-		this.music = diFurnace.music;
+		this.ySize = 54;
 	}
 	
 	public void initGui() {
@@ -68,11 +47,7 @@ public class GUIRadiobox extends GuiInfoContainer {
 
 		buttons.clear();
 		buttons.add(new RadioButton(guiLeft + 25, guiTop + 16, 0, "Save"));
-		buttons.add(new RadioButton(guiLeft + 61, guiTop + 16, 1, "Cycle"));
-		buttons.add(new RadioButton(guiLeft + 25, guiTop + 52, 2, "1"));
-		buttons.add(new RadioButton(guiLeft + 61, guiTop + 52, 3, "2"));
-		buttons.add(new RadioButton(guiLeft + 97, guiTop + 52, 4, "3"));
-		buttons.add(new RadioButton(guiLeft + 133, guiTop + 52, 5, "4"));
+		buttons.add(new RadioButton(guiLeft + 61, guiTop + 16, 1, "On/Off"));
 
         Keyboard.enableRepeatEvents(true);
         this.freqField = new GuiTextField(this.fontRendererObj, guiLeft + 100, guiTop + 21, 48, 12);
@@ -82,21 +57,13 @@ public class GUIRadiobox extends GuiInfoContainer {
         this.freqField.setMaxStringLength(5);
         this.freqField.setText(String.valueOf(diFurnace.freq));
         
-        this.messageField = new GuiTextField(this.fontRendererObj, guiLeft + 28, guiTop + 57, 120, 12);
-        this.messageField.setTextColor(-1);
-        this.messageField.setDisabledTextColour(-1);
-        this.messageField.setEnableBackgroundDrawing(false);
-        this.messageField.setMaxStringLength(20);
-        if(diFurnace.message != null)
-        	this.messageField.setText(diFurnace.message);
-        
         if(diFurnace.freq == 0) {
         	double d = 100 + diFurnace.getWorldObj().rand.nextInt(900);
         	d += (diFurnace.getWorldObj().rand.nextInt(10) * 0.1D);
             this.freqField.setText(String.valueOf(d));
         }
         
-        rectify();
+        save();
 	}
 
 	@Override
@@ -105,7 +72,6 @@ public class GUIRadiobox extends GuiInfoContainer {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
         this.freqField.drawTextBox();
-        this.messageField.drawTextBox();
 		
 		for(RadioButton b : buttons)
 			if(b.isMouseOnButton(i, j))
@@ -130,32 +96,16 @@ public class GUIRadiobox extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 97, guiTop + 16, 0, 184 + 18, 54, 18);
 		else
 			drawTexturedModalRect(guiLeft + 97, guiTop + 16, 0, 184, 54, 18);
-
-		if(messageField.getVisible()) {
-			if(messageField.isFocused())
-				drawTexturedModalRect(guiLeft + 25, guiTop + 52, 0, 220 + 18, 126, 18);
-			else
-				drawTexturedModalRect(guiLeft + 25, guiTop + 52, 0, 220, 126, 18);
-		}
 		
-		//if(type == 2)
-			for(RadioButton b : buttons)
-				b.drawButton();
+		for(RadioButton b : buttons)
+			b.drawButton();
 	}
 	
-    public void updateScreen() {
-
-    	if(type == 2 && messageField.getVisible())
-    		messageField.setVisible(false);
-    	
-    	if(type != 2 && !messageField.getVisible())
-    		messageField.setVisible(true);
-    }
+    public void updateScreen() { }
 	
     protected void keyTyped(char p_73869_1_, int p_73869_2_)
     {
         if (this.freqField.textboxKeyTyped(p_73869_1_, p_73869_2_)) { }
-        else if(this.messageField.textboxKeyTyped(p_73869_1_, p_73869_2_)) { }
         else {
             super.keyTyped(p_73869_1_, p_73869_2_);
         }
@@ -189,25 +139,26 @@ public class GUIRadiobox extends GuiInfoContainer {
     {
         super.mouseClicked(i, j, k);
         this.freqField.mouseClicked(i, j, k);
-        this.messageField.mouseClicked(i, j, k);
         
-        //if(type == 2)
-			for(RadioButton b : buttons)
-				if(b.isMouseOnButton(i, j))
-					b.executeAction();
+		for(RadioButton b : buttons)
+			if(b.isMouseOnButton(i, j))
+				b.executeAction();
     }
     
-    protected void cycleType() {
-    	this.type++;
-    	if(type >= 3)
-    		type -=3;
+    protected void toggle() {
+    	
+    	rectify();
+    	
+    	PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, diFurnace.isOn ? 0 : 1, 0));
     }
     
     protected void save() {
     	
     	rectify();
     	
-    	//TODO: send packet here
+    	String s = freqField.getText();
+    	double d = Double.parseDouble(s);
+    	PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, (int)(d * 10D), 1));
     }
     
     
@@ -238,22 +189,11 @@ public class GUIRadiobox extends GuiInfoContainer {
 		
 		public void drawButton() {
 			
-			if(buttonType > 1 && type != 2)
-				return;
-			
 			switch(buttonType) {
 			case 0: 
 				drawTexturedModalRect(xPos, yPos, 176 + 18 * 0, 18 * 0, 18, 18); break;
 			case 1:
-				drawTexturedModalRect(xPos, yPos, 176 + 18 * (type + 1), 18 * 0, 18, 18); break;
-			case 2:
-				drawTexturedModalRect(xPos, yPos, 176 + 18 * 0, 18 * (music == 0 ? 2 : 1), 18, 18); break;
-			case 3:
-				drawTexturedModalRect(xPos, yPos, 176 + 18 * 1, 18 * (music == 1 ? 2 : 1), 18, 18); break;
-			case 4:
-				drawTexturedModalRect(xPos, yPos, 176 + 18 * 2, 18 * (music == 2 ? 2 : 1), 18, 18); break;
-			case 5:
-				drawTexturedModalRect(xPos, yPos, 176 + 18 * 3, 18 * (music == 3 ? 2 : 1), 18, 18); break;
+				drawTexturedModalRect(xPos, yPos, 176 + 18 * 1, 18 * 0, 18, 18); break;
 			}
 		}
 		
@@ -261,17 +201,13 @@ public class GUIRadiobox extends GuiInfoContainer {
 			if(info == null || info.isEmpty())
 				return;
 			
-			if(buttonType > 1 && type != 2)
-				return;
-			
 			String s = info;
 			
 			if(buttonType == 1) {
-				switch(type) {
-				case 0: s = "Morse"; break;
-				case 1: s = "Vocals"; break;
-				case 2: s = "Recordings"; break;
-				}
+				if(diFurnace.isOn)
+					s = "Turn Off";
+				else
+					s = "Turn On";
 			}
 
 			func_146283_a(Arrays.asList(new String[] { s }), x, y);
@@ -279,18 +215,11 @@ public class GUIRadiobox extends GuiInfoContainer {
 		
 		public void executeAction() {
 			
-			if(buttonType > 1 && type != 2)
-				return;
-			
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			
 			switch(buttonType) {
-			case 0: rectify(); break;
-			case 1: cycleType(); break;
-			case 2: music = 0; break;
-			case 3: music = 1; break;
-			case 4: music = 2; break;
-			case 5: music = 3; break;
+			case 0: save(); break;
+			case 1: toggle(); break;
 			}
 		}
     }

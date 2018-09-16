@@ -208,6 +208,13 @@ item.solinium_core.name=Semistabiler Soliniumkern
 
 item.n2_charge.name=Große Sprengladung
 
+item.custom_tnt.name=AB - Sprengladung
+item.custom_nuke.name=AB - Nukleares Element
+item.custom_hydro.name=AB - Wasserstoffelement
+item.custom_amat.name=AB - Antimaterie-Element
+item.custom_dirty.name=AB - Schmutziges Element
+item.custom_schrab.name=AB - Schrabidiumelement
+
 container.nukeGadget=The Gadget
 container.nukeBoy=Little Boy
 container.nukeMan=Fat Man
@@ -318,7 +325,7 @@ tile.machine_coal_on.name=Kohlegenerator
 container.machineCoal=Kohlegenerator
 tile.launch_pad.name=Raketenabschussrampe
 container.launchPad=Raketenabschussrampe
-tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch
+tile.book_guide.name=Hbm's Nuclear Tech Mod Handbuch [LEGACY]
 tile.machine_schrabidium_transmutator.name=Schrabidium-Transmutationsgerät
 container.machine_schrabidium_transmutator=Schrabidium-Transmutationsgerät
 tile.machine_diesel.name=Dieselgenerator

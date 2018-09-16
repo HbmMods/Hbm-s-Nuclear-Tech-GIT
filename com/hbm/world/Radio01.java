@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.tileentity.machine.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -2809,9 +2810,14 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 2, y + 8, z + 11, Blocks.air, 0, 3);
 		world.setBlock(x + 3, y + 8, z + 11, Blocks.air, 0, 3);
 		world.setBlock(x + 4, y + 8, z + 11, ModBlocks.deco_steel, 0, 3);
-		world.setBlock(x + 5, y + 8, z + 11, Blocks.chest, 4, 3);
+		
+		/*world.setBlock(x + 5, y + 8, z + 11, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 5, y + 8, z + 11, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 5, y + 8, z + 11), 16);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 5, y + 8, z + 11), 16);*/
+		
+		world.setBlock(x + 5, y + 8, z + 11, ModBlocks.crate_steel, 0, 3);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)world.getTileEntity(x + 5, y + 8, z + 11), 16);
+        
 		world.setBlock(x + 6, y + 8, z + 11, ModBlocks.deco_steel, 0, 3);
 		world.setBlock(x + 7, y + 8, z + 11, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + 8, z + 11, Blocks.air, 0, 3);

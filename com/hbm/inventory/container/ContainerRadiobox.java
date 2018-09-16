@@ -10,8 +10,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerRadiobox extends Container {
-
-private TileEntityRadiobox radio;
 	
 	public ContainerRadiobox(InventoryPlayer invPlayer, TileEntityRadiobox tedf) { }
 

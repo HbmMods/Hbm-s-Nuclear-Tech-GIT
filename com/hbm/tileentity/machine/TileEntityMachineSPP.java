@@ -54,7 +54,7 @@ public class TileEntityMachineSPP extends TileEntity implements ISource {
 				break;
 			}
 		
-		for(int i = yCoord + 1; i < h - 1; i++)
+		for(int i = yCoord + 1; i < h; i++)
 			if(!checkSegment(i))
 				return 0;
 

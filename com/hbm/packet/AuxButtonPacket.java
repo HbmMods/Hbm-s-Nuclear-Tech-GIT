@@ -11,6 +11,7 @@ import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
+import com.hbm.tileentity.machine.TileEntityRadioRec;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -77,6 +78,20 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)te;
 					
 					reactor.retracting = m.value == 1;
+				}
+				
+				if (te instanceof TileEntityRadioRec) {
+					TileEntityRadioRec radio = (TileEntityRadioRec)te;
+					
+					if(m.id == 0) {
+						radio.isOn = (m.value == 1);
+						System.out.println("Radio is now " + radio.isOn);
+					}
+					
+					if(m.id == 1) {
+						radio.freq = ((double)m.value) / 10D;
+						System.out.println("Radio is now " + radio.freq);
+					}
 				}
 				
 			//} catch (Exception x) { }

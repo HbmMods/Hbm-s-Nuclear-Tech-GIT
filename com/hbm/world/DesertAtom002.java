@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.tileentity.machine.TileEntityCrateSteel;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -1739,11 +1740,23 @@ public class DesertAtom002
 		world.setBlock(x + 10, y + 1, z + 16, Block5, 0, 3);
 		world.setBlock(x + 16, y + 1, z + 16, Block1, 0, 3);
 		world.setBlock(x + 17, y + 1, z + 16, Block1, 0, 3);
-		world.setBlock(x + 18, y + 1, z + 16, Blocks.chest, 2, 3);
+		
+		
+		//world.setBlock(x + 18, y + 1, z + 16, Blocks.chest, 2, 3);
+		
+		/*
 		if(world.getBlock(x + 18, y + 1, z + 16) == Blocks.chest)
 		{
 			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 18, y + 1, z + 16), 8);
 		}
+		*/
+
+		world.setBlock(x + 18, y + 1, z + 16, ModBlocks.crate_steel, 0, 3);
+		if(world.getBlock(x + 18, y + 1, z + 16) == ModBlocks.crate_steel)
+		{
+			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)world.getTileEntity(x + 18, y + 1, z + 16), 12);
+		}
+		
 		world.setBlock(x + 19, y + 1, z + 16, Block1, 0, 3);
 		world.setBlock(x + 20, y + 1, z + 16, Blocks.vine, 2, 3);
 		world.setBlock(x + 22, y + 1, z + 16, Blocks.stone_brick_stairs, 4, 3);

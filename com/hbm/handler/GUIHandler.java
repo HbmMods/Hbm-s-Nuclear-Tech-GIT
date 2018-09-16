@@ -67,6 +67,7 @@ import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
+import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityRadiobox;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityReiXMainframe;
@@ -688,6 +689,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_radiorec:
+			{
+				if(entity instanceof TileEntityRadioRec)
+				{
+					return new ContainerRadioRec(player.inventory, (TileEntityRadioRec) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1298,6 +1308,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineKeyForge)
 					{
 						return new GUIMachineKeyForge(player.inventory, (TileEntityMachineKeyForge) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_radiorec:
+				{
+					if(entity instanceof TileEntityRadioRec)
+					{
+						return new GUIRadioRec(player.inventory, (TileEntityRadioRec) entity);
 					}
 					return null;
 				}

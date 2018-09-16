@@ -496,6 +496,7 @@ public class MainRegistry
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
+	public static int barrelStructure = 5000;
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
 	public static int radfreq = 5000;
@@ -1523,13 +1524,16 @@ public class MainRegistry
         Property propSpaceship = config.get(Configuration.CATEGORY_GENERAL, "4.11_spaceshipSpawn", 1000);
         propSpaceship.comment = "Spawn spaceship on every nTH chunk";
         spaceshipStructure = propSpaceship.getInt();
-        Property propBroadcaster = config.get(Configuration.CATEGORY_GENERAL, "4.12_broadcasterSpawn", 5000);
+        Property propBarrel = config.get(Configuration.CATEGORY_GENERAL, "4.12_barrelSpawn", 5000);
+        propBarrel.comment = "Spawn waste tank on every nTH chunk";
+        barrelStructure = propBarrel.getInt();
+        Property propBroadcaster = config.get(Configuration.CATEGORY_GENERAL, "4.13_broadcasterSpawn", 5000);
         propBroadcaster.comment = "Spawn corrupt broadcaster on every nTH chunk";
         broadcaster = propBroadcaster.getInt();
-        Property propMines = config.get(Configuration.CATEGORY_GENERAL, "4.13_landmineSpawn", 64);
+        Property propMines = config.get(Configuration.CATEGORY_GENERAL, "4.14_landmineSpawn", 64);
         propMines.comment = "Spawn AP landmine on every nTH chunk";
         minefreq = propMines.getInt();
-        Property propRad = config.get(Configuration.CATEGORY_GENERAL, "4.14_radHotsoptSpawn", 5000);
+        Property propRad = config.get(Configuration.CATEGORY_GENERAL, "4.15_radHotsoptSpawn", 5000);
         propRad.comment = "Spawn radiation hotspot on every nTH chunk";
         radfreq = propRad.getInt();
 

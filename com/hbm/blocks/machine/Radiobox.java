@@ -64,11 +64,6 @@ public class Radiobox extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
-		
-		if(itemStack.hasDisplayName())
-		{
-			((TileEntityDiFurnace)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
-		}
 	}
 	
 	@Override

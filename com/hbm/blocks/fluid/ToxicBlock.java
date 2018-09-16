@@ -82,31 +82,34 @@ public class ToxicBlock extends BlockFluidClassic {
 		// {
 		// entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
 		// }
-		if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) {
-			/*
-			 * Library.damageSuit(((EntityPlayer)entity), 0);
-			 * Library.damageSuit(((EntityPlayer)entity), 1);
-			 * Library.damageSuit(((EntityPlayer)entity), 2);
-			 * Library.damageSuit(((EntityPlayer)entity), 3);
-			 */
-
-		} else if (entity instanceof EntityCreeper) {
-			EntityNuclearCreeper creep = new EntityNuclearCreeper(world);
-			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			if (!entity.isDead)
-				if (!world.isRemote)
-					world.spawnEntityInWorld(creep);
-			entity.setDead();
-		} else if (entity instanceof EntityVillager) {
-			EntityZombie creep = new EntityZombie(world);
-			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			entity.setDead();
-			if (!world.isRemote)
-				world.spawnEntityInWorld(creep);
-		} else if (entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper)
-				&& !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-			entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
-		}
+		
+//		if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) {
+//			/*
+//			 * Library.damageSuit(((EntityPlayer)entity), 0);
+//			 * Library.damageSuit(((EntityPlayer)entity), 1);
+//			 * Library.damageSuit(((EntityPlayer)entity), 2);
+//			 * Library.damageSuit(((EntityPlayer)entity), 3);
+//			 */
+//
+//		} else if (entity instanceof EntityCreeper) {
+//			EntityNuclearCreeper creep = new EntityNuclearCreeper(world);
+//			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+//			if (!entity.isDead)
+//				if (!world.isRemote)
+//					world.spawnEntityInWorld(creep);
+//			entity.setDead();
+//		} else if (entity instanceof EntityVillager) {
+//			EntityZombie creep = new EntityZombie(world);
+//			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+//			entity.setDead();
+//			if (!world.isRemote)
+//				world.spawnEntityInWorld(creep);
+//		} else if (entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper)
+//				&& !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
+//			entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
+//		}
+		
+		Library.applyRadiation(entity, 2 * 60 * 20, 50, 60 * 20, 35);
 	}
 
 	@Override

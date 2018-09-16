@@ -47,6 +47,8 @@ public class ItemBattery extends Item {
 			list.add("Charge: " + charge1 + "%");
 			list.add("(" + Library.getShortNumber(charge * 100) + "/" + Library.getShortNumber(maxCharge * 100) + "HE)");
 		}
+		list.add("Charge rate: " + Library.getShortNumber(chargeRate * 100) + "HE/t");
+		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate * 100) + "HE/t");
 	}
 
     @Override

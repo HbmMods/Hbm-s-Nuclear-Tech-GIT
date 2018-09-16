@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.Antenna;
+import com.hbm.world.Barrel;
 import com.hbm.world.Bunker;
 import com.hbm.world.CrashedVertibird;
 import com.hbm.world.DesertAtom001;
@@ -344,6 +345,14 @@ public class HbmWorldGen implements IWorldGenerator {
 
 				new Spaceship().generate(world, rand, x, y, z);
 			}
+			
+			if (biome == BiomeGenBase.desert && rand.nextInt(MainRegistry.barrelStructure) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+
+				new Barrel().generate(world, rand, x, y, z);
+			}
 
 			if (rand.nextInt(MainRegistry.broadcaster) == 0) {
 				int x = i + rand.nextInt(16);
@@ -377,9 +386,12 @@ public class HbmWorldGen implements IWorldGenerator {
 					double r = rand.nextInt(15) + 10;
 					
 					if(rand.nextInt(50) == 0)
-						r = 35;
+						r = 50;
 
 					new Sellafield().generate(world, x, z, r, r * 0.35D);
+
+					if(MainRegistry.enableDebugMode)
+						MainRegistry.logger.info("[Debug] Successfully spawned raditation hotspot at " + x + " " + z);
 				}
 			}
 		}

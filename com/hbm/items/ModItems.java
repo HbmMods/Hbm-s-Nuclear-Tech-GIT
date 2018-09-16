@@ -843,6 +843,7 @@ public class ModItems {
 	public static Item definitelyfood;
 	public static Item loops;
 	public static Item loop_stew;
+	public static Item fooditem;
 
 	public static Item med_ipecac;
 	public static Item med_ptsd;
@@ -886,6 +887,13 @@ public class ModItems {
 	public static Item solinium_core;
 
 	public static Item n2_charge;
+
+	public static Item custom_tnt;
+	public static Item custom_nuke;
+	public static Item custom_hydro;
+	public static Item custom_amat;
+	public static Item custom_dirty;
+	public static Item custom_schrab;
 	
 
 	public static Item battery_generic;
@@ -2093,6 +2101,7 @@ public class ModItems {
 		med_schizophrenia = new ItemLemon(0, 0, false).setUnlocalizedName("med_schizophrenia").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":med_schizophrenia_new");
 		loops = new ItemLemon(4, 5, false).setUnlocalizedName("loops").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":loops");
 		loop_stew = new ItemLemon(10, 10, false).setUnlocalizedName("loop_stew").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":loop_stew");
+		fooditem = new ItemLemon(2, 5, false).setUnlocalizedName("fooditem").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":fooditem");
 		
 		defuser = new Item().setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		
@@ -2132,6 +2141,13 @@ public class ModItems {
 		solinium_core = new ItemSolinium().setUnlocalizedName("solinium_core").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":solinium_core");
 		
 		n2_charge = new ItemN2().setUnlocalizedName("n2_charge").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":n2_charge");
+
+		custom_tnt = new ItemCustomLore().setUnlocalizedName("custom_tnt").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_tnt");
+		custom_nuke = new ItemCustomLore().setUnlocalizedName("custom_nuke").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_nuke");
+		custom_hydro = new ItemCustomLore().setUnlocalizedName("custom_hydro").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_hydro");
+		custom_amat = new ItemCustomLore().setUnlocalizedName("custom_amat").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_amat");
+		custom_dirty = new ItemCustomLore().setUnlocalizedName("custom_dirty").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_dirty");
+		custom_schrab = new ItemCustomLore().setUnlocalizedName("custom_schrab").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_schrab");
 
 		battery_generic = new ItemBattery(50, 1, 1).setUnlocalizedName("battery_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_generic");
 		battery_advanced = new ItemBattery(200, 5, 5).setUnlocalizedName("battery_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_advanced");
@@ -2582,7 +2598,7 @@ public class ModItems {
 		void_anim = new Item().setUnlocalizedName("void_anim").setTextureName(RefStrings.MODID + ":void_anim");
 		
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
-		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000, 100000).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
+		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
 
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid));
@@ -3646,6 +3662,7 @@ public class ModItems {
 		GameRegistry.registerItem(definitelyfood, definitelyfood.getUnlocalizedName());
 		GameRegistry.registerItem(loops, loops.getUnlocalizedName());
 		GameRegistry.registerItem(loop_stew, loop_stew.getUnlocalizedName());
+		GameRegistry.registerItem(fooditem, fooditem.getUnlocalizedName());
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		//GameRegistry.registerItem(med_schizophrenia, med_schizophrenia.getUnlocalizedName());
@@ -3743,6 +3760,14 @@ public class ModItems {
 		GameRegistry.registerItem(alloy_plate, alloy_plate.getUnlocalizedName());
 		GameRegistry.registerItem(alloy_legs, alloy_legs.getUnlocalizedName());
 		GameRegistry.registerItem(alloy_boots, alloy_boots.getUnlocalizedName());
+		
+		//Custom Rods
+		GameRegistry.registerItem(custom_tnt, custom_tnt.getUnlocalizedName());
+		GameRegistry.registerItem(custom_nuke, custom_nuke.getUnlocalizedName());
+		GameRegistry.registerItem(custom_hydro, custom_hydro.getUnlocalizedName());
+		GameRegistry.registerItem(custom_amat, custom_amat.getUnlocalizedName());
+		GameRegistry.registerItem(custom_dirty, custom_dirty.getUnlocalizedName());
+		GameRegistry.registerItem(custom_schrab, custom_schrab.getUnlocalizedName());
 		
 		//Power Armor
 		GameRegistry.registerItem(t45_helmet, t45_helmet.getUnlocalizedName());
