@@ -113,7 +113,6 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	
 	public void finishOpen() {
 		state = 2;
-		//play sound
 	}
 	
 	public void close() {
@@ -128,7 +127,6 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	
 	public void finishClose() {
 		state = 0;
-		//play sound
 	}
 	
 	public boolean canOpen() {

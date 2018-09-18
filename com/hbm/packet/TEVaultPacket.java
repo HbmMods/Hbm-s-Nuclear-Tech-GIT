@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.tileentity.machine.TileEntityBlastDoor;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
 
@@ -74,6 +75,15 @@ public class TEVaultPacket implements IMessage {
 					if(m.sysTime == 1)
 						vault.sysTime = System.currentTimeMillis();
 					vault.type = m.type;
+				}
+				
+				if (te != null && te instanceof TileEntityBlastDoor) {
+
+					TileEntityBlastDoor vault = (TileEntityBlastDoor) te;
+					vault.isOpening = m.isOpening;
+					vault.state = m.state;
+					if(m.sysTime == 1)
+						vault.sysTime = System.currentTimeMillis();
 				}
 			} catch (Exception x) {
 			}

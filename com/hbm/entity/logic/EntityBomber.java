@@ -1,11 +1,15 @@
 package com.hbm.entity.logic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
@@ -16,9 +20,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityBomber extends Entity {
+public class EntityBomber extends Entity implements IChunkLoader {
 	
 	int timer = 200;
 	int bombStart = 75;
@@ -145,9 +153,11 @@ public class EntityBomber extends Entity {
     	vector.xCoord *= 2;
     	vector.zCoord *= 2;
 
-    	this.posX = x - vector.xCoord * 100;
-    	this.posY = y + 50;
-    	this.posZ = z - vector.zCoord * 100;
+    	/*this.posX = ;
+    	this.posY = ;
+    	this.posZ = ;*/
+    	
+    	this.setLocationAndAngles(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
     	
     	this.motionX = vector.xCoord;
     	this.motionZ = vector.zCoord;
@@ -264,6 +274,7 @@ public class EntityBomber extends Entity {
 
     @Override
 	public void entityInit() {
+		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
 
@@ -318,7 +329,57 @@ public class EntityBomber extends Entity {
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-        return distance < 25000;
+        return distance < 500000;
+    }
+	
+    private Ticket loaderTicket;
+    
+	public void init(Ticket ticket) {
+		
+		if(!worldObj.isRemote) {
+			
+            if(ticket != null) {
+            	
+                if(loaderTicket == null) {
+                	
+                	loaderTicket = ticket;
+                	loaderTicket.bindEntity(this);
+                	loaderTicket.getModData();
+                }
+                
+        		
+                ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
+            }
+        }
+	}
+
+	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
+
+    public void loadNeighboringChunks(int newChunkX, int newChunkZ)
+    {
+        if(!worldObj.isRemote && loaderTicket != null)
+        {
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+            }
+
+            loadedChunks.clear();
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+            loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+
+            for(ChunkCoordIntPair chunk : loadedChunks)
+            {
+                ForgeChunkManager.forceChunk(loaderTicket, chunk);
+            }
+        }
     }
 
 }

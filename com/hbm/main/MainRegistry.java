@@ -205,6 +205,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeGadget;
 import com.hbm.tileentity.bomb.TileEntityNukeMan;
 import com.hbm.tileentity.bomb.TileEntityNukeMike;
 import com.hbm.tileentity.bomb.TileEntityNukeN2;
+import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.bomb.TileEntityNukePrototype;
 import com.hbm.tileentity.bomb.TileEntityNukeSolinium;
 import com.hbm.tileentity.bomb.TileEntityNukeTsar;
@@ -244,6 +245,7 @@ import com.hbm.tileentity.deco.TileEntityYellowBarrel;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityBlastDoor;
 import com.hbm.tileentity.machine.TileEntityBroadcaster;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
@@ -692,6 +694,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTeleLinker.class, "tileentity_telemetry_linker");
 		GameRegistry.registerTileEntity(TileEntityMachineKeyForge.class, "tileentity_key_forge");
 		GameRegistry.registerTileEntity(TileEntitySellafield.class, "tileentity_sellafield_core");
+		GameRegistry.registerTileEntity(TileEntityNukeN45.class, "tileentity_n45");
+		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_blast_door");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

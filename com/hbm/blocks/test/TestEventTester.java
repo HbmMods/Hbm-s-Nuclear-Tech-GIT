@@ -14,11 +14,13 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
+import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.tileentity.machine.TileEntityCrateSteel;
 import com.hbm.world.Barrel;
 import com.hbm.world.Meteorite;
 import com.hbm.world.Sellafield;
@@ -37,6 +39,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.village.VillageCollection;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -277,9 +280,17 @@ public class TestEventTester extends Block {
     		worldObj.playSoundEffect(par2, par3, par4, "hbm:fm.sample", 1.0F, 1.0F); break;
     	}*/
     	
-    	worldObj.setBlockToAir(par2, par3, par4);
+    	/*worldObj.setBlockToAir(par2, par3, par4);
     	
-    	new Barrel().generate(worldObj, worldObj.rand, par2, par3, par4);
+    	new Barrel().generate(worldObj, worldObj.rand, par2, par3, par4);*/
+
+
+    	worldObj.setBlock(par2, par3, par4, ModBlocks.crate_steel, 0, 3);
+
+		if(worldObj.getBlock(par2, par3, par4) == ModBlocks.crate_steel)
+		{
+			WeightedRandomChestContent.generateChestContents(worldObj.rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)worldObj.getTileEntity(par2, par3, par4), 32);
+		}
         
         return true;
     }

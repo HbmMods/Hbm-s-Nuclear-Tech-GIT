@@ -744,7 +744,7 @@ public class ExplosionChaos {
 						
 						if(entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPotionActive(HbmPotion.taint.id)) {
 							((EntityLivingBase)entity).removePotionEffect(HbmPotion.taint.id);
-							((EntityLivingBase)entity).addPotionEffect(new PotionEffect(HbmPotion.mutation.id, 1 * 60 * 60 * 20, 0));
+							((EntityLivingBase)entity).addPotionEffect(new PotionEffect(HbmPotion.mutation.id, 1 * 60 * 60 * 20, 0, false));
 						} else {
 							entity.attackEntityFrom(ModDamageSource.cloud, 3);
 						}

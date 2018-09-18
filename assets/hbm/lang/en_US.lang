@@ -663,6 +663,8 @@ tile.deco_steel.name=Steel Deco Block
 tile.deco_lead.name=Lead Deco Block
 tile.deco_beryllium.name=Beryllium Deco Block
 
+tile.hazmat.name=Hazmat Cloth Block
+
 tile.reinforced_brick.name=Reinforced Stone
 tile.reinforced_glass.name=Reinforced Glass
 tile.reinforced_sand.name=Reinforced Sandstone
@@ -685,6 +687,7 @@ tile.seal_controller.name=Silo Hatch Opener
 tile.seal_hatch.name=Silo Hatch
 
 tile.vault_door.name=Vault-Tec Blast Door
+tile.blast_door.name=Sliding Blast Door
 
 item.nugget_uranium.name=Uranium Nugget
 item.nugget_plutonium.name=Plutonium Nugget

@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKey;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class TileEntityLockableBase extends TileEntity {
 	
-	private int lock;
+	protected int lock;
 	private boolean isLocked = false;
 
 	public boolean isLocked() {
@@ -19,6 +20,11 @@ public abstract class TileEntityLockableBase extends TileEntity {
 	}
 	
 	public void lock() {
+		
+		if(lock == 0) {
+			MainRegistry.logger.error("A block has been set to locked state before setting pins, this should not happen and may cause errors! " + this.toString());
+		}
+		
 		isLocked = true;
 	}
 	

@@ -663,6 +663,8 @@ tile.deco_steel.name=Stahl-Dekoblock
 tile.deco_lead.name=Blei-Dekoblock
 tile.deco_beryllium.name=Beryllium-Dekoblock
 
+tile.hazmat.name=Strahlenschutzstoff-Block
+
 tile.reinforced_brick.name=Verstärkter Stein
 tile.reinforced_glass.name=Verstärktes Glas
 tile.reinforced_sand.name=Verstärkter Sandstein
@@ -685,6 +687,7 @@ tile.seal_controller.name=Silolukenöffner
 tile.seal_hatch.name=Siloluke (Deckel)
 
 tile.vault_door.name=Vault-Tec Sprengtür
+tile.blast_door.name=Abschluss-Sprengtür
 
 item.nugget_uranium.name=Urannugget
 item.nugget_plutonium.name=Plutoniumnugget

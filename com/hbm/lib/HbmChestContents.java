@@ -79,6 +79,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.grenade_smart, 0, 1, 3, 3),
+			new WeightedRandomChestContent(ModItems.grenade_mirv, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.battery_advanced, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.battery_advanced_cell, 0, 1, 1, 2),
@@ -92,10 +94,10 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 3),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 2),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 2, 2),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 2, 3),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 2),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 4, 1, 2, 1) };
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {

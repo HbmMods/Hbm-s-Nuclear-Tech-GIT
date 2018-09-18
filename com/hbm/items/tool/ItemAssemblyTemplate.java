@@ -151,6 +151,7 @@ public class ItemAssemblyTemplate extends Item {
 		HATCH_FRAME,
 		HATCH_CONTROLLER,
 		BLAST_DOOR,
+		SLIDING_DOOR,
 		CENTRIFUGE,
 		BREEDING_REACTOR,
 		RTG_FURNACE,
@@ -600,6 +601,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 100;
 		case BLAST_DOOR:
 			return 300;
+		case SLIDING_DOOR:
+			return 200;
 		case CENTRIFUGE:
 			return 250;
 		case BREEDING_REACTOR:

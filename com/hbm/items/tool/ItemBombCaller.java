@@ -48,25 +48,36 @@ public class ItemBombCaller extends Item {
 		int y = pos.blockY;
 		int z = pos.blockZ;
 		
+		boolean b = false;
 		
 	    if(!world.isRemote)
 		{
-	    	player.addChatMessage(new ChatComponentText("Called in airstrike!"));
-	        world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 
 	        if(stack.getItemDamage() == 0)
-	        	world.spawnEntityInWorld(EntityBomber.statFacCarpet(world, x, y, z));
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacCarpet(world, x, y, z)))
+	        		b = true;
 	        if(stack.getItemDamage() == 1)
-	        	world.spawnEntityInWorld(EntityBomber.statFacNapalm(world, x, y, z));
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacNapalm(world, x, y, z)))
+	        		b = true;
 	        if(stack.getItemDamage() == 2)
-	        	world.spawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z));
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacChlorine(world, x, y, z)))
+	        		b = true;
 	        if(stack.getItemDamage() == 3)
-	        	world.spawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z));
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacOrange(world, x, y, z)))
+	        		b = true;
 	        if(stack.getItemDamage() == 4)
-	        	world.spawnEntityInWorld(EntityBomber.statFacABomb(world, x, y, z));
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacABomb(world, x, y, z)))
+	        		b = true;
+	        
+	        if(b) {
+		    	player.addChatMessage(new ChatComponentText("Called in airstrike!"));
+		        world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+	        } else {
+		        world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+	        }
 		}
 	    
-	    stack.stackSize--;
+	    stack.stackSize -= b ? 1 : 0;
 	    
         return stack;
     }

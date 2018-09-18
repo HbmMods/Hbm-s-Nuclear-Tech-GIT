@@ -25,8 +25,8 @@ public class ItemLock extends ItemKeyPin {
 				if(tile.isLocked())
 					return false;
 				
-				tile.lock();
 				tile.setPins(this.getPins(stack));
+				tile.lock();
 
 	        	world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
 				stack.stackSize--;
@@ -45,8 +45,8 @@ public class ItemLock extends ItemKeyPin {
 					if(tile.isLocked())
 						return false;
 					
-					tile.lock();
 					tile.setPins(this.getPins(stack));
+					tile.lock();
 
 		        	world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
 					stack.stackSize--;

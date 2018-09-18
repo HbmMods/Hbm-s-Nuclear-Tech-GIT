@@ -2444,6 +2444,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.bolt_dura_steel, 27));
 			list.add(new ItemStack(ModItems.motor, 5));
 			break;
+		case SLIDING_DOOR:
+			list.add(new ItemStack(ModItems.ingot_steel, 16));
+			list.add(new ItemStack(ModItems.ingot_tungsten, 8));
+			list.add(new ItemStack(ModItems.plate_lead, 12));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 3));
+			list.add(new ItemStack(ModItems.plate_polymer, 3));
+			list.add(new ItemStack(ModItems.bolt_tungsten, 3));
+			list.add(new ItemStack(ModItems.bolt_dura_steel, 3));
+			list.add(new ItemStack(ModItems.motor, 1));
+			break;
 		case CENTRIFUGE:
 			list.add(new ItemStack(ModItems.centrifuge_tower, 1));
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
@@ -3818,6 +3828,9 @@ public class MachineRecipes {
 			break;
 		case BLAST_DOOR:
 			output = new ItemStack(ModBlocks.vault_door, 1);
+			break;
+		case SLIDING_DOOR:
+			output = new ItemStack(ModBlocks.blast_door, 1);
 			break;
 		case CENTRIFUGE:
 			output = new ItemStack(ModBlocks.machine_centrifuge, 1);
