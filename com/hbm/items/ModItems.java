@@ -525,6 +525,7 @@ public class ModItems {
 	public static Item pill_iodine;
 	public static Item plan_c;
 	public static Item stealth_boy;
+	public static Item gas_mask_filter;
 
 	public static Item can_empty;
 	public static Item can_smart;
@@ -1190,6 +1191,7 @@ public class ModItems {
 
 	public static Item key;
 	public static Item key_red;
+	public static Item pin;
 	public static Item padlock;
 
 	public static Item turret_light_ammo;
@@ -1794,6 +1796,7 @@ public class ModItems {
 		pill_iodine = new ItemPill(0).setUnlocalizedName("pill_iodine").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pill_iodine");
 		plan_c = new ItemPill(0).setUnlocalizedName("plan_c").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":plan_c");
 		stealth_boy = new ItemStarterKit().setUnlocalizedName("stealth_boy").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":stealth_boy");
+		gas_mask_filter = new ItemSyringe().setUnlocalizedName("gas_mask_filter").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":gas_mask_filter");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -2310,6 +2313,7 @@ public class ModItems {
 
 		key = new ItemKey().setUnlocalizedName("key").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key");
 		key_red = new Item().setUnlocalizedName("key_red").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":key_red");
+		pin = new ItemCustomLore().setUnlocalizedName("pin").setMaxStackSize(8).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pin");
 		padlock = new ItemLock().setUnlocalizedName("padlock").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":padlock");
 
 		turret_light_ammo = new ItemTurretAmmo(ModBlocks.turret_light, 100).setUnlocalizedName("turret_light_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_light_ammo");
@@ -3365,6 +3369,7 @@ public class ModItems {
 		//Keys and Locks
 		GameRegistry.registerItem(key, key.getUnlocalizedName());
 		GameRegistry.registerItem(key_red, key_red.getUnlocalizedName());
+		GameRegistry.registerItem(pin, pin.getUnlocalizedName());
 		GameRegistry.registerItem(padlock, padlock.getUnlocalizedName());
 		
 		//Missiles
@@ -3650,6 +3655,7 @@ public class ModItems {
 		GameRegistry.registerItem(pill_iodine, pill_iodine.getUnlocalizedName());
 		GameRegistry.registerItem(plan_c, plan_c.getUnlocalizedName());
 		GameRegistry.registerItem(stealth_boy, stealth_boy.getUnlocalizedName());
+		GameRegistry.registerItem(gas_mask_filter, gas_mask_filter.getUnlocalizedName());
 		
 		//Food
 		GameRegistry.registerItem(bomb_waffle, bomb_waffle.getUnlocalizedName());

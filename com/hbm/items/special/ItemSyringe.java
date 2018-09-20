@@ -230,6 +230,17 @@ public class ItemSyringe extends Item {
         	}
 		}
 		
+		if(this == ModItems.gas_mask_filter && player.inventory.armorInventory[3] != null &&
+				(player.inventory.armorInventory[3].getItem() == ModItems.gas_mask || player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_m65))
+		{
+            if (!world.isRemote)
+            {
+            	player.inventory.armorInventory[3].setItemDamage(0);
+            
+            	stack.stackSize--;
+            }
+		}
+		
 		return stack;
 	}
 
@@ -483,6 +494,9 @@ public class ItemSyringe extends Item {
 			list.add("Tainted I for 60 seconds");
 			list.add("Nausea I for 5 seconds");
 			list.add("Cloud damage + taint = tainted heart effect");
+		}
+		if(this == ModItems.gas_mask_filter) {
+			list.add("Repairs worn gasmask");
 		}
 	}
 }

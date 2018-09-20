@@ -72,6 +72,7 @@ import com.hbm.tileentity.machine.TileEntityRadiobox;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityReiXMainframe;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
+import com.hbm.tileentity.machine.TileEntitySafe;
 import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
 
@@ -698,6 +699,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_safe:
+			{
+				if(entity instanceof TileEntitySafe)
+				{
+					return new ContainerSafe(player.inventory, (TileEntitySafe) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1317,6 +1327,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityRadioRec)
 					{
 						return new GUIRadioRec(player.inventory, (TileEntityRadioRec) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_safe:
+				{
+					if(entity instanceof TileEntitySafe)
+					{
+						return new GUISafe(player.inventory, (TileEntitySafe) entity);
 					}
 					return null;
 				}

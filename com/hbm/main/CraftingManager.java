@@ -1077,8 +1077,9 @@ public class CraftingManager {
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.australium_v, 1), new Object[] { "SCS", "PAP", "ESE", 'S', ModItems.syringe_metal_empty, 'C', ModItems.circuit_gold, 'P', "plateAdvanced", 'A', ModItems.nugget_australium, 'E', ModItems.powder_power }));
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.goggles, 1), new Object[] { "P P", "GPG", 'G', "paneGlass", 'P', "plateSteel" }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask, 1), new Object[] { "PPP", "GPG", "FPF", 'G', "paneGlass", 'P', "plateSteel", 'F', ModItems.filter_coal }));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_m65, 1), new Object[] { "PPP", "GPG", "FIF", 'G', "paneGlass", 'P', ModItems.plate_polymer, 'F', ModItems.filter_coal, 'I', "plateIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask, 1), new Object[] { "PPP", "GPG", " F ", 'G', "paneGlass", 'P', "plateSteel", 'F', ModItems.gas_mask_filter }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_m65, 1), new Object[] { "PPP", "GPG", " F ", 'G', "paneGlass", 'P', ModItems.plate_polymer, 'F', ModItems.gas_mask_filter }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.gas_mask_filter, 1), new Object[] { "F", "I", "F", 'F', ModItems.filter_coal, 'I', "plateIron" }));
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.cape_radiation, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 11), 'D', new ItemStack(Items.dye, 1, 11), 'I', ModItems.nuclear_waste });
 		GameRegistry.addRecipe(new ItemStack(ModItems.cape_gasmask, 1), new Object[] { "W W", "WIW", "WDW", 'W', new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 4), 'D', new ItemStack(Items.dye, 1, 0), 'I', ModItems.gas_mask });
@@ -1111,6 +1112,7 @@ public class CraftingManager {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.key, 1), new Object[] { "  B", " B ", "P  ", 'P', "plateSteel", 'B', ModItems.bolt_tungsten }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.key_red, 1), new Object[] { "  C", " M ", "K  ", 'C', ModItems.circuit_targeting_tier4, 'M', ModItems.motor, 'K', ModItems.key });
+		GameRegistry.addRecipe(new ItemStack(ModItems.pin, 1), new Object[] { "W ", " W", " W", 'W', ModItems.wire_copper });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.padlock, 1), new Object[] { " P ", "PBP", "PPP", 'P', "plateSteel", 'B', ModItems.bolt_tungsten }));
 		
 		//GameRegistry.addRecipe(new ItemStack(ModItems.schrabidium_hammer, 1), new Object[] { "BBB", "BBB", " S ", 'B', Item.getItemFromBlock(ModBlocks.block_schrabidium), 'S', Items.stick });

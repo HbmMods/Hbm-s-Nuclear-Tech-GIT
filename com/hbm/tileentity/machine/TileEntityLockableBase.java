@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKey;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,6 +65,33 @@ public abstract class TileEntityLockableBase extends TileEntity {
 			if(stack != null && stack.getItem() == ModItems.key_red) {
 	        	worldObj.playSoundAtEntity(player, "hbm:block.lockOpen", 1.0F, 1.0F);
 				return true;
+			}
+			
+			if(stack != null && stack.getItem() == ModItems.pin && player.inventory.hasItem(ModItems.screwdriver)) {
+				
+				stack.stackSize--;
+	        	
+	        	if(player.worldObj.rand.nextInt(10) == 0 || Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2)) {
+	        		worldObj.playSoundAtEntity(player, "hbm:item.pinUnlock", 1.0F, 1.0F);
+					return true;
+	        	} else {
+	        		worldObj.playSoundAtEntity(player, "hbm:item.pinBreak", 1.0F, 0.8F + player.worldObj.rand.nextFloat() * 0.2F);
+	        		return false;
+	        	}
+			}
+			
+			if(stack != null && stack.getItem() == ModItems.screwdriver && player.inventory.hasItem(ModItems.pin)) {
+				
+				player.inventory.consumeInventoryItem(ModItems.pin);
+				player.inventoryContainer.detectAndSendChanges();
+	        	
+	        	if(player.worldObj.rand.nextInt(10) == 0 || Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2)) {
+	        		worldObj.playSoundAtEntity(player, "hbm:item.pinUnlock", 1.0F, 1.0F);
+					return true;
+	        	} else {
+	        		worldObj.playSoundAtEntity(player, "hbm:item.pinBreak", 1.0F, 0.8F + player.worldObj.rand.nextFloat() * 0.2F);
+	        		return false;
+	        	}
 			}
 		}
 		

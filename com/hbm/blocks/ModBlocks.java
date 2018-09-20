@@ -226,6 +226,9 @@ public class ModBlocks {
 	public static Block crate_steel;
 	public static final int guiID_crate_steel = 47;
 	
+	public static Block safe;
+	public static final int guiID_safe = 70;
+	
 	public static Block nuke_gadget;
 	public static final int guiID_nuke_gadget = 3;
 
@@ -910,6 +913,7 @@ public class ModBlocks {
 		crate_red = new BlockCrate(Material.iron).setBlockName("crate_red").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":crate_red");
 		crate_iron = new BlockStorageCrate(Material.iron).setBlockName("crate_iron").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crate_steel = new BlockStorageCrate(Material.iron).setBlockName("crate_steel").setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		safe = new BlockStorageCrate(Material.iron).setBlockName("safe").setStepSound(Block.soundTypeMetal).setHardness(7.5F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		boxcar = new DecoBlock(Material.iron).setBlockName("boxcar").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boxcar");
 		bomber = new DecoBlock(Material.iron).setBlockName("bomber").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":bomber");
@@ -1233,6 +1237,7 @@ public class ModBlocks {
 		//Crates
 		GameRegistry.registerBlock(crate_iron, crate_iron.getUnlocalizedName());
 		GameRegistry.registerBlock(crate_steel, crate_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(safe, safe.getUnlocalizedName());
 		
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());

@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -635,6 +636,16 @@ public class ItemCustomLore extends ItemRadioactive {
 		{
 			list.add("Schrabidium +15");
 			list.add("Removes fallout");
+		}
+		
+		if(this == ModItems.pin)
+		{
+			list.add("Can be used with a screwdriver to pick locks.");
+			
+			if(Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2))
+				list.add("Success rate of lockpicking is 100%!");
+			else
+				list.add("Success rate of lockpicking is ~10%");
 		}
 	}
 

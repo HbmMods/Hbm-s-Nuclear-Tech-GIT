@@ -300,6 +300,7 @@ import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityRadiobox;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 import com.hbm.tileentity.machine.TileEntityRtgFurnace;
+import com.hbm.tileentity.machine.TileEntitySafe;
 import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityStructureMarker;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
@@ -696,6 +697,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntitySellafield.class, "tileentity_sellafield_core");
 		GameRegistry.registerTileEntity(TileEntityNukeN45.class, "tileentity_n45");
 		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_blast_door");
+		GameRegistry.registerTileEntity(TileEntitySafe.class, "tileentity_safe");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

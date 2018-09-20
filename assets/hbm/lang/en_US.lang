@@ -273,6 +273,7 @@ item.turret_biometry.name=Turret Telemetry Card
 
 item.key.name=Key
 item.key_red.name=Red Key
+item.pin.name=Bobby Pin
 item.padlock.name=Padlock
 tile.machine_keyforge.name=Locksmith Table
 container.keyForge=Locksmith Table
@@ -371,6 +372,8 @@ tile.crate_iron.name=Iron Crate
 container.crateIron=Iron Crate
 tile.crate_steel.name=Steel Crate
 container.crateSteel=Steel Crate
+tile.safe.name=Safe
+container.safe=Safe
 tile.machine_press.name=Steam Press
 container.press=Steam Press
 tile.machine_siren.name=Siren
@@ -1113,6 +1116,7 @@ item.lemon.name="Lemon"
 item.definitelyfood.name=TotallyNotDirt-Brand MRE
 item.loops.name=Lööps
 item.loop_stew.name=IT Breakfast
+item.fooditem.name=food item
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt
@@ -1270,6 +1274,7 @@ item.plan_c.name=Plan C
 item.med_ipecac.name=Ipecac Syrup
 item.med_ptsd.name=PTSD Medication
 item.med_schiziphrenia.name=Schizophrenia Medication
+item.gas_mask_filter.name=Gas Mask Filter
 
 item.stealth_boy.name=Stealth Device
 

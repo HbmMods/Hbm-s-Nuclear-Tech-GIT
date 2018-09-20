@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityCrateIron;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -646,9 +647,9 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 10, y + 0, z + 9, Blocks.iron_bars, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 10, Block3, 0, 3);
 		world.setBlock(x + 4, y + 0, z + 10, Blocks.brick_block, 0, 3);
-		world.setBlock(x + 6, y + 0, z + 10, Blocks.chest, 3, 3);
+		world.setBlock(x + 6, y + 0, z + 10, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 6, y + 0, z + 10, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityChest)world.getTileEntity(x + 6, y + 0, z + 10), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(1), (TileEntityCrateIron)world.getTileEntity(x + 6, y + 0, z + 10), 8);
 		world.setBlock(x + 7, y + 0, z + 10, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 8, y + 0, z + 10, Blocks.brick_block, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 10, Blocks.iron_bars, 0, 3);
@@ -1265,9 +1266,9 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 5, y + 14, z + 6, Block4, 2, 3);
 		world.setBlock(x + 6, y + 14, z + 6, Block2, 0, 3);
 		world.setBlock(x + 7, y + 14, z + 6, Block4, 2, 3);
-		world.setBlock(x + 8, y + 14, z + 6, Blocks.chest, 3, 3);
+		world.setBlock(x + 8, y + 14, z + 6, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 8, y + 14, z + 6, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityChest)world.getTileEntity(x + 8, y + 14, z + 6), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(2), (TileEntityCrateIron)world.getTileEntity(x + 8, y + 14, z + 6), 8);
 		world.setBlock(x + 9, y + 14, z + 6, Blocks.iron_bars, 0, 3);
 		world.setBlock(x + 10, y + 14, z + 6, Block6, 0, 3);
 		world.setBlock(x + 9, y + 14, z + 7, Blocks.iron_bars, 0, 3);
@@ -1485,9 +1486,9 @@ public class Relay extends WorldGenerator
 		world.setBlock(x + 6, y + 32, z + 1, Block7, 0, 3);
 		world.setBlock(x + 8, y + 32, z + 1, Block6, 0, 3);
 		world.setBlock(x + 5, y + 32, z + 2, Block6, 0, 3);
-		world.setBlock(x + 6, y + 32, z + 2, Blocks.chest, 2, 3);
+		world.setBlock(x + 6, y + 32, z + 2, ModBlocks.crate_iron, 0, 3);
 		world.setBlockMetadataWithNotify(x + 6, y + 32, z + 2, 2, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 6, y + 32, z + 2), 8);
+        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityCrateIron)world.getTileEntity(x + 6, y + 32, z + 2), 8);
 		world.setBlock(x + 7, y + 32, z + 2, Block6, 0, 3);
 		world.setBlock(x + 5, y + 32, z + 3, Block4, 3, 3);
 		world.setBlock(x + 6, y + 32, z + 3, Block2, 0, 3);

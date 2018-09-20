@@ -36,7 +36,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
 			new WeightedRandomChestContent(ModItems.canister_fuel, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.canister_biofuel, 0, 1, 2, 3),
-			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2)  };
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 2),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 3)  };
 
 	private static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 1, 2, 7),
@@ -61,7 +62,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bottle_cherry, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.cap_nuka, 0, 1, 15, 7),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 1) };
+			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 2) };
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
@@ -98,7 +100,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 2, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 3, 1, 2, 2),
-			new WeightedRandomChestContent(ModItems.bomb_caller, 4, 1, 2, 1) };
+			new WeightedRandomChestContent(ModItems.bomb_caller, 4, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 4) };
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),
@@ -113,6 +116,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.rod_quad_pu240, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2) };
 
 	private static WeightedRandomChestContent[] nuclear = new WeightedRandomChestContent[] {
@@ -141,6 +145,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.powder_cobalt, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3) };
 
 	private static WeightedRandomChestContent[] vertibird = new WeightedRandomChestContent[] {
@@ -164,6 +169,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.stealth_boy, 0, 1, 1, 7),
 			new WeightedRandomChestContent(ModItems.crate_caller, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 2, 3),

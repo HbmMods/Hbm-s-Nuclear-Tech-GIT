@@ -260,6 +260,7 @@ item.turret_biometry.name=Geschütz-Telemetriekarte
 
 item.key.name=Schlüssel
 item.key_red.name=Roter Schlüssel
+item.pin.name=Haarklammer
 item.padlock.name=Vorhängeschloss
 tile.machine_keyforge.name=Schlossertisch
 container.keyForge=Schlossertisch
@@ -371,6 +372,8 @@ tile.crate_iron.name=Eisenkiste
 container.crateIron=Eisenkiste
 tile.crate_steel.name=Stahlkiste
 container.crateSteel=Stahlkiste
+tile.safe.name=Panzerschrank
+container.safe=Panzerschrank
 tile.machine_press.name=Dampfpresse
 container.press=Dampfpresse
 tile.machine_siren.name=Sirene
@@ -1113,6 +1116,7 @@ item.lemon.name="Zitrone"
 item.definitelyfood.name=GarantiertKeinDreck-Marken Feldration
 item.loops.name=Lüüps
 item.loop_stew.name=Informatiker-Frühstück
+item.fooditem.name=lebensmittel
 
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_dirt.name=Gefrorene Erde
@@ -1270,6 +1274,7 @@ item.plan_c.name=Plan C
 item.med_ipecac.name=Ipecac-Sirup
 item.med_ptsd.name=PTBS-Medikament
 item.med_schiziphrenia.name=Schizophrenie-Medikament
+item.gas_mask_filter.name=Gasmaskenfilter
 
 item.stealth_boy.name=Mobile Tarnkappe
 
