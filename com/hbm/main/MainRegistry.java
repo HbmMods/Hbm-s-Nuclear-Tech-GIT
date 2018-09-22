@@ -443,6 +443,8 @@ public class MainRegistry
 	public static Achievement achC20_5;
 	public static Achievement achSpace;
 	public static Achievement achFOEQ;
+	public static Achievement achFiend;
+	public static Achievement achFiend2;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -458,6 +460,7 @@ public class MainRegistry
 	public static boolean enableMeteorShowers = true;
 	public static boolean enableMeteorTails = true;
 	public static boolean enableSpecialMeteors = true;
+	public static boolean enableBomberShortMode = false;
 	
 	public static int uraniumSpawn = 7;
 	public static int titaniumSpawn = 8;
@@ -1055,6 +1058,8 @@ public class MainRegistry
 		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -2, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
 		achSpace = new Achievement("achievement.space", "space", 4, 0, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
 		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 2, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
+		achFiend = new Achievement("achievement.fiend", "fiend", 6, 0, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
+		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 2, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -1066,7 +1071,9 @@ public class MainRegistry
 				achC44,
 				achC20_5,
 				achSpace,
-				achFOEQ
+				achFOEQ,
+				achFiend,
+				achFiend2
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
@@ -1419,6 +1426,7 @@ public class MainRegistry
         enableMeteorShowers = config.get(Configuration.CATEGORY_GENERAL, "1.11_enableMeteorShowers", true).getBoolean(true);
         enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableMeteorTails", true).getBoolean(true);
         enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.13_enableSpecialMeteors", false).getBoolean(false);
+        enableBomberShortMode = config.get(Configuration.CATEGORY_GENERAL, "1.14_enableBomberShortMode", false).getBoolean(false);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";

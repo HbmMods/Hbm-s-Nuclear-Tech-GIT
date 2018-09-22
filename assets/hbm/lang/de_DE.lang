@@ -29,6 +29,10 @@ achievement.space=Die finale Grenz-ach vergiss es
 achievement.space.desc=Scheitere in jeder möglichen Weise und verschwende 90 Millionen Dollar an Forschungsgeldern.
 achievement.FOEQ=Pegasi und Raketensilos
 achievement.FOEQ.desc=Sende ein Relais in den Mars-...ich meine Duna-Orbit.
+achievement.fiend=Unhold
+achievement.fiend.desc=Sei gemein.
+achievement.fiend2=Unhold 2: Noch unholdiger
+achievement.fiend2.desc=Sei gemeiner.
 
 potion.hbm_taint=Verdorben
 potion.hbm_mutation=Verdorbenes Herz
@@ -1014,6 +1018,7 @@ item.mike_kit.name=Ivy Mike Kit
 item.tsar_kit.name=Tsar Bomba Kit
 item.fleija_kit.name=F.L.E.I.J.A. Kit
 item.multi_kit.name=Mehrzweckbomben Kit
+item.custom_kit.name=Anpassbare Bombe-Kit
 item.grenade_kit.name=Granaten Kit
 item.nuke_electric_kit.name=Kit des Elektronikingenieurs
 item.prototype_kit.name=Prototyp Kit
@@ -1625,6 +1630,9 @@ item.cap_korl.name=Korl Kronkorken
 item.cap_fritz.name=Fritz-Kola Kronkorken
 item.cap_sunset.name=Sunset Sarsaparilla Kronkorken
 item.ring_pull.name=Dosenring
+
+item.canteen_13.name=Vault 13 Kantine
+item.canteen_vodka.name=Stylischer Flachmann
 
 item.bottle_opener.name=Hbms eigener selbstgebauter Flaschenöffner
 

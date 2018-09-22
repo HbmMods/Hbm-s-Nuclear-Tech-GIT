@@ -29,6 +29,10 @@ achievement.space=The Final Front-ah forget it
 achievement.space.desc=Fail in every way possible and waste funds worth 90 million dollars.
 achievement.FOEQ=Pegasi and Missile Silos
 achievement.FOEQ.desc=Send a relay into martian...I mean dunaian orbit.
+achievement.fiend=Delinquent
+achievement.fiend.desc=Be mean.
+achievement.fiend2=Delinquent 2: Delinquent Harder
+achievement.fiend2.desc=Be meaner.
 
 potion.hbm_taint=Tainted
 potion.hbm_mutation=Tainted Heart
@@ -1014,6 +1018,7 @@ item.mike_kit.name=Ivy Mike Kit
 item.tsar_kit.name=Tsar Bomba Kit
 item.fleija_kit.name=F.L.E.I.J.A. Kit
 item.multi_kit.name=Multi Purpose Bomb Kit
+item.custom_kit.name=Custom Nuke Kit
 item.grenade_kit.name=Grenade Kit
 item.nuke_electric_kit.name=Electronic Engineer's Kit
 item.prototype_kit.name=Prototype Kit
@@ -1625,6 +1630,9 @@ item.cap_korl.name=Korl Bottle Cap
 item.cap_fritz.name=Fritz Cola Bottle Cap
 item.cap_sunset.name=Sunset Sarsaparilla Bottle Cap
 item.ring_pull.name=Ring Pull
+
+item.canteen_13.name=Vault 13 Canteen
+item.canteen_vodka.name=Stylish Flask
 
 item.bottle_opener.name=Hbm's Own Self-Made Bottle Opener
 

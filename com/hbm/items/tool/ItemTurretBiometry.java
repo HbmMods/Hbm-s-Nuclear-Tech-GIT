@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.blocks.bomb.TurretBase;
@@ -12,7 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 public class ItemTurretBiometry extends Item {
 	

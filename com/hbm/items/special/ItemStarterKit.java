@@ -389,6 +389,29 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_gas, 2));
 		}
 		
+		if(this == ModItems.custom_kit)
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.nuke_custom));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_tnt, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_tnt, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_tnt, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_tnt, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_tnt, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_tnt, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_nuke, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_nuke, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_nuke, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_nuke, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_hydro, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_hydro, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_amat, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_amat, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_dirty, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_dirty, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_dirty, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_schrab, 1));
+		}
+		
 		if(this == ModItems.grenade_kit)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_generic, 16));

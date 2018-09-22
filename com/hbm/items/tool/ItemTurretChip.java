@@ -3,8 +3,6 @@ package com.hbm.items.tool;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import com.hbm.blocks.bomb.TurretBase;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
 

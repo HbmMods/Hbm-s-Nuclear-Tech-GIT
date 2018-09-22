@@ -114,8 +114,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
 			}
 		}
 		
-		//if(this.ticksExisted > timer)
-		//	this.setDead();
+		if(this.ticksExisted > timer)
+			this.setDead();
 		
 		if(!worldObj.isRemote && this.health > 0 && this.ticksExisted > bombStart && this.ticksExisted < bombStop && this.ticksExisted % bombRate == 0) {
 			
@@ -150,12 +150,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	
     	Vec3 vector = Vec3.createVectorHelper(world.rand.nextDouble() - 0.5, 0, world.rand.nextDouble() - 0.5);
     	vector = vector.normalize();
-    	vector.xCoord *= 2;
-    	vector.zCoord *= 2;
-
-    	/*this.posX = ;
-    	this.posY = ;
-    	this.posZ = ;*/
+    	vector.xCoord *= MainRegistry.enableBomberShortMode ? 1 : 2;
+    	vector.zCoord *= MainRegistry.enableBomberShortMode ? 1 : 2;
     	
     	this.setLocationAndAngles(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
     	

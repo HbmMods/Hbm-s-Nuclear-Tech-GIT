@@ -327,6 +327,24 @@ public class Library {
 		return false;
 	}
 	
+	public static boolean checkForHeld(EntityPlayer player, Item item) {
+		
+		if(player.getHeldItem() == null)
+			return false;
+		
+		return player.getHeldItem().getItem() == item;
+	}
+	
+	public static boolean checkForFiend(EntityPlayer player) {
+		
+		return checkArmorPiece(player, ModItems.jackt, 2) && checkForHeld(player, ModItems.shimmer_sledge);
+	}
+	
+	public static boolean checkForFiend2(EntityPlayer player) {
+		
+		return checkArmorPiece(player, ModItems.jackt2, 2) && checkForHeld(player, ModItems.shimmer_axe);
+	}
+	
 	public static boolean checkCableConnectables(World world, int x, int y, int z)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);

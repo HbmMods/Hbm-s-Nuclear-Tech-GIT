@@ -6,8 +6,10 @@ import java.util.Random;
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -170,6 +172,18 @@ public class WeaponSpecial extends ItemSword {
 			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
 		}
         return multimap;
+    }
+	
+    @Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
+
+    	if(entity instanceof EntityPlayer) {
+    		if(Library.checkForFiend((EntityPlayer) entity)) {
+    			((EntityPlayer) entity).triggerAchievement(MainRegistry.achFiend);
+    		} else  if(Library.checkForFiend2((EntityPlayer) entity)) {
+        		((EntityPlayer) entity).triggerAchievement(MainRegistry.achFiend2);
+        	}
+    	}
     }
 	
 	@Override
