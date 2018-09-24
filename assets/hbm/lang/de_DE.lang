@@ -1355,6 +1355,10 @@ item.jetpack_vector.name=Schubvektorgesteuerter Raketenrucksack
 item.chainsaw.name=Kettensäge
 item.crowbar.name=Mk.V Kistenöffnungsapparat "Brechstange"
 
+item.wrench.name=Rohrzange
+item.wrench_flipped.name=Rohrzange mit Klinge
+item.memespoon.name=§eLuftschlag
+
 item.mask_of_infamy.name=Maske der Schande
 
 tile.det_cord.name=Det Cord

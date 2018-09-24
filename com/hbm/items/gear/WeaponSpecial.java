@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -20,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -103,6 +106,43 @@ public class WeaponSpecial extends ItemSword {
 			
         	world.playSoundAtEntity(entity, "hbm:weapon.slice", 3.0F, 1.F);
 		}
+    	
+		if(this == ModItems.wrench) {
+
+			Vec3 vec = entityPlayer.getLookVec();
+			
+			double dX = vec.xCoord * 0.5;
+			double dY = vec.yCoord * 0.5;
+			double dZ = vec.zCoord * 0.5;
+
+			entity.motionX += dX;
+			entity.motionY += dY;
+			entity.motionZ += dZ;
+        	world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 0.75F);
+		}
+    	
+		if(this == ModItems.memespoon) {
+
+			if(entityPlayer.fallDistance >= 2) {
+				world.playSoundAtEntity(entity, "hbm:weapon.bang", 3.0F, 0.75F);
+				entity.setHealth(0);
+			}
+			
+			if(!(entityPlayer instanceof EntityPlayer))
+				return false;
+			
+			if(entityPlayer.fallDistance >= 20 && !((EntityPlayer)entityPlayer).capabilities.isCreativeMode) {
+				if(!world.isRemote) {
+					world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, 100, entity.posX, entity.posY, entity.posZ));
+
+					EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, 100 * 0.005F);
+					entity2.posX = entity.posX;
+					entity2.posY = entity.posY;
+					entity2.posZ = entity.posZ;
+					world.spawnEntityInWorld(entity2);
+				}
+			}
+		}
 		
 		return false;
     }
@@ -171,6 +211,9 @@ public class WeaponSpecial extends ItemSword {
 		if(this == ModItems.shimmer_sledge || this == ModItems.shimmer_axe) {
 			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
 		}
+		if(this == ModItems.wrench || this == ModItems.wrench_flipped) {
+			multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", -0.1, 1));
+		}
         return multimap;
     }
 	
@@ -218,6 +261,18 @@ public class WeaponSpecial extends ItemSword {
 			} else {
 				list.add("Timber!");
 			}
+		}
+		if(this == ModItems.wrench) {
+			list.add("Mechanic Richard");
+		}
+		if(this == ModItems.wrench_flipped) {
+			list.add("Wrench 2: The Wrenchening");
+		}
+		if(this == ModItems.memespoon) {
+			list.add(EnumChatFormatting.DARK_GRAY + "Level 10 Shovel");
+			list.add(EnumChatFormatting.AQUA + "Deals crits while the wielder is rocket jumping");
+			list.add(EnumChatFormatting.RED + "20% slower firing speed");
+			list.add(EnumChatFormatting.RED + "No random critical hits");
 		}
 	}
 

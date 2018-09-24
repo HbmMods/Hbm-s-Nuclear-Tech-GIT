@@ -1082,6 +1082,10 @@ public class ModItems {
 
 	public static Item crowbar;
 
+	public static Item wrench;
+	public static Item wrench_flipped;
+	public static Item memespoon;
+
 	public static Item multitool_hit;
 	public static Item multitool_dig;
 	public static Item multitool_silk;
@@ -2465,6 +2469,9 @@ public class ModItems {
 		euphemium_stopper = new ItemSyringe().setUnlocalizedName("euphemium_stopper").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":euphemium_stopper");
 		matchstick = new ItemMatch().setUnlocalizedName("matchstick").setCreativeTab(CreativeTabs.tabTools).setFull3D().setTextureName(RefStrings.MODID + ":matchstick");
 		crowbar = new ModSword(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("crowbar").setFull3D().setTextureName(RefStrings.MODID + ":crowbar");
+		wrench = new WeaponSpecial(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("wrench").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wrench");
+		wrench_flipped = new WeaponSpecial(MainRegistry.enumToolMaterialElec).setUnlocalizedName("wrench_flipped").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wrench_flipped");
+		memespoon = new WeaponSpecial(MainRegistry.enumToolMaterialSteel).setUnlocalizedName("memespoon").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":memespoon");
 
 		multitool_hit = new ItemMultitoolPassive().setUnlocalizedName("multitool_hit").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
 		multitool_dig = new ItemMultitoolTool(4.0F, MainRegistry.enumToolMaterialMultitool, ItemMultitoolTool.getAllBlocks()).setFull3D().setUnlocalizedName("multitool_dig").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":multitool_claw");
@@ -3626,6 +3633,9 @@ public class ModItems {
 		GameRegistry.registerItem(elec_shovel, elec_shovel.getUnlocalizedName());
 		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
 		GameRegistry.registerItem(crowbar, crowbar.getUnlocalizedName());
+		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
+		GameRegistry.registerItem(wrench_flipped, wrench_flipped.getUnlocalizedName());
+		GameRegistry.registerItem(memespoon, memespoon.getUnlocalizedName());
 		GameRegistry.registerItem(saw, saw.getUnlocalizedName());
 		GameRegistry.registerItem(bat, bat.getUnlocalizedName());
 		GameRegistry.registerItem(bat_nail, bat_nail.getUnlocalizedName());

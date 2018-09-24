@@ -1355,6 +1355,10 @@ item.jetpack_vector.name=Vectored Jetpack
 item.chainsaw.name=Chainsaw
 item.crowbar.name=Mk.V Crate Opening Device "Crowbar"
 
+item.wrench.name=Pipe Wrench
+item.wrench_flipped.name=Blade on a Wrench
+item.memespoon.name=§eMarket Gardener
+
 item.mask_of_infamy.name=Mask of Infamy
 
 tile.det_cord.name=Det Cord

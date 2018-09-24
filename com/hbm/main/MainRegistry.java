@@ -1595,5 +1595,35 @@ public class MainRegistry
         mutationID = propMutationID.getInt();
         
         config.save();
+        
+        radioStructure = setDef(radioStructure, 1000);
+        antennaStructure = setDef(antennaStructure, 1000);
+        atomStructure = setDef(atomStructure, 1000);
+        vertibirdStructure = setDef(vertibirdStructure, 1000);
+        dungeonStructure = setDef(dungeonStructure, 1000);
+        relayStructure = setDef(relayStructure, 1000);
+        satelliteStructure = setDef(satelliteStructure, 1000);
+        bunkerStructure = setDef(bunkerStructure, 1000);
+        siloStructure = setDef(siloStructure, 1000);
+        factoryStructure = setDef(factoryStructure, 1000);
+        dudStructure = setDef(dudStructure, 1000);
+        spaceshipStructure = setDef(spaceshipStructure, 1000);
+        barrelStructure = setDef(barrelStructure, 1000);
+        broadcaster = setDef(broadcaster, 1000);
+        minefreq = setDef(minefreq, 1000);
+        radfreq = setDef(radfreq, 1000);
+        meteorStrikeChance = setDef(meteorStrikeChance, 1000);
+        meteorShowerChance = setDef(meteorShowerChance, 1000);
+	}
+	
+	private static int setDef(int value, int def) {
+		
+		if(value <= 0) {
+			logger.error("Fatal error config: Randomizer value has been set to zero, despite bound having to be positive integer!");
+			logger.error(String.format("Errored value will default back to %d, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", def));
+			return def;
+		}
+		
+		return value;
 	}
 }
