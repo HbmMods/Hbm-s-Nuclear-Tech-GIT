@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelCloak;
 import com.hbm.render.model.ModelGasMask;
 import com.hbm.render.model.ModelGoggles;
@@ -176,7 +177,10 @@ public class ArmorModel extends ItemArmor {
 			return "hbm:textures/models/CapeSchrabidium.png";
 		}
 		if (stack.getItem() == ModItems.cape_hbm && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.HbMinecraft)) {
-			return "hbm:textures/models/CapeHbm.png";
+			if(MainRegistry.polaroidID == 11)
+				return "hbm:textures/models/CapeHbm.png";
+			else
+				return "hbm:textures/models/CapeHbm2.png";
 		}
 		if (stack.getItem() == ModItems.cape_dafnik && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.Dafnik)) {
 			return "hbm:textures/models/CapeDafnik.png";

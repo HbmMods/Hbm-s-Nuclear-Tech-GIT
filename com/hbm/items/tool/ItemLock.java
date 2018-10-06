@@ -1,5 +1,7 @@
 package com.hbm.items.tool;
 
+import java.util.List;
+
 import com.hbm.blocks.bomb.TurretBase;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
@@ -12,6 +14,12 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemLock extends ItemKeyPin {
+	
+	public double lockMod = 0.1D;
+	
+	public ItemLock(double mod) {
+		lockMod = mod;
+	}
 	
 	@Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
@@ -27,6 +35,7 @@ public class ItemLock extends ItemKeyPin {
 				
 				tile.setPins(this.getPins(stack));
 				tile.lock();
+				tile.setMod(lockMod);
 
 	        	world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
 				stack.stackSize--;
@@ -47,6 +56,7 @@ public class ItemLock extends ItemKeyPin {
 					
 					tile.setPins(this.getPins(stack));
 					tile.lock();
+					tile.setMod(lockMod);
 
 		        	world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
 					stack.stackSize--;

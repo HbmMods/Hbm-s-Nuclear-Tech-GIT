@@ -36,6 +36,8 @@
     "item.geiger6": {"category": "player", "sounds": [{"name": "tool/geiger6", "stream": false}]},
     "item.pinUnlock": {"category": "player", "sounds": [{"name": "tool/pinUnlock", "stream": false}]},
     "item.pinBreak": {"category": "player", "sounds": [{"name": "tool/pinBreak", "stream": false}]},
+    "item.gasmaskScrew": {"category": "player", "sounds": [{"name": "tool/gasmaskScrew", "stream": false}]},
+    "item.jetpackTank": {"category": "player", "sounds": [{"name": "tool/jetpackTank", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},
@@ -116,5 +118,6 @@
     "alarm.striderSiren": {"category": "record", "sounds": [{"name": "alarm/striderSiren", "stream": false}]},
     "alarm.regularSiren": {"category": "record", "sounds": [{"name": "alarm/regularSiren", "stream": false}]},
     "alarm.foKlaxonA": {"category": "record", "sounds": [{"name": "alarm/foKlaxonA", "stream": false}]},
-    "alarm.foKlaxonB": {"category": "record", "sounds": [{"name": "alarm/foKlaxonB", "stream": false}]}
+    "alarm.foKlaxonB": {"category": "record", "sounds": [{"name": "alarm/foKlaxonB", "stream": false}]},
+    "alarm.nostromoSiren": {"category": "record", "sounds": [{"name": "alarm/nostromoSiren", "stream": false}]}
 }

@@ -223,6 +223,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 			if(!((TileEntityBlastDoor)te0).isLocked()) {
 				((TileEntityBlastDoor)te0).setPins(this.lock);
 				((TileEntityBlastDoor)te0).lock();
+				((TileEntityBlastDoor)te0).setMod(lockMod);
 			}
 		}
 		
@@ -231,6 +232,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 			if(!((TileEntityBlastDoor)te1).isLocked()) {
 				((TileEntityBlastDoor)te1).setPins(this.lock);
 				((TileEntityBlastDoor)te1).lock();
+				((TileEntityBlastDoor)te1).setMod(lockMod);
 			}
 		}
 		
@@ -239,6 +241,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 			if(!((TileEntityBlastDoor)te2).isLocked()) {
 				((TileEntityBlastDoor)te2).setPins(this.lock);
 				((TileEntityBlastDoor)te2).lock();
+				((TileEntityBlastDoor)te2).setMod(lockMod);
 			}
 		}
 		
@@ -247,6 +250,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 			if(!((TileEntityBlastDoor)te3).isLocked()) {
 				((TileEntityBlastDoor)te3).setPins(this.lock);
 				((TileEntityBlastDoor)te3).lock();
+				((TileEntityBlastDoor)te3).setMod(lockMod);
 			}
 		}
 	}

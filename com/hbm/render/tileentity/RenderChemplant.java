@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -53,9 +54,9 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 	        GL11.glTranslated(0.5D, 0.0D, -0.5D); break;
 		}
 
-        bindTexture(bodyTexture);
+        bindTexture(ResourceManager.chemplant_new_tex);
         
-        bodyModel.renderAll();
+        ResourceManager.chemplant_new.renderAll();
 
         GL11.glPopMatrix();
         

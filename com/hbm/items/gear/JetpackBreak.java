@@ -64,13 +64,15 @@ public class JetpackBreak extends ItemArmor {
     		Vec3 vec = Vec3.createVectorHelper(player.getLookVec().xCoord, 0, player.getLookVec().zCoord);
     		vec.normalize();
     		player.motionY = -0.25;
-    		
-    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
-    		fx.posX = player.posX - vec.xCoord;
-    		fx.posY = player.posY - 1;
-    		fx.posZ = player.posZ - vec.zCoord;
-    		fx.motionY = -0.5;
-    		world.spawnEntityInWorld(fx);
+
+	    	if(!world.isRemote) {
+	    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
+	    		fx.posX = player.posX - vec.xCoord;
+	    		fx.posY = player.posY - 1;
+	    		fx.posZ = player.posZ - vec.zCoord;
+	    		fx.motionY = -0.5;
+	    		world.spawnEntityInWorld(fx);
+	    	}
     		
     		player.fallDistance = 0;
     		

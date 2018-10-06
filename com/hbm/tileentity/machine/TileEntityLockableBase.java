@@ -15,6 +15,7 @@ public abstract class TileEntityLockableBase extends TileEntity {
 	
 	protected int lock;
 	private boolean isLocked = false;
+	protected double lockMod = 0.1D;
 
 	public boolean isLocked() {
 		return isLocked;
@@ -33,12 +34,17 @@ public abstract class TileEntityLockableBase extends TileEntity {
 		lock = pins;
 	}
 	
+	public void setMod(double mod) {
+		lockMod = mod;
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
 		lock = nbt.getInteger("lock");
 		isLocked = nbt.getBoolean("isLocked");
+		lockMod = nbt.getDouble("lockMod");
 	}
 	
 	@Override
@@ -47,6 +53,7 @@ public abstract class TileEntityLockableBase extends TileEntity {
 		
 		nbt.setInteger("lock", lock);
 		nbt.setBoolean("isLocked", isLocked);
+		nbt.setDouble("lockMod", lockMod);
 	}
 
 	public boolean canAccess(EntityPlayer player) {
@@ -67,32 +74,42 @@ public abstract class TileEntityLockableBase extends TileEntity {
 				return true;
 			}
 			
-			if(stack != null && stack.getItem() == ModItems.pin && player.inventory.hasItem(ModItems.screwdriver)) {
-				
-				stack.stackSize--;
-	        	
-	        	if(player.worldObj.rand.nextInt(10) == 0 || Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2)) {
-	        		worldObj.playSoundAtEntity(player, "hbm:item.pinUnlock", 1.0F, 1.0F);
-					return true;
-	        	} else {
-	        		worldObj.playSoundAtEntity(player, "hbm:item.pinBreak", 1.0F, 0.8F + player.worldObj.rand.nextFloat() * 0.2F);
-	        		return false;
-	        	}
-			}
+			return tryPick(player);
+		}
+	}
+	
+	private boolean tryPick(EntityPlayer player) {
+
+		boolean canPick = false;
+		ItemStack stack = player.getHeldItem();
+		double chanceOfSuccess = this.lockMod * 100;
+		
+		if(stack != null && stack.getItem() == ModItems.pin && player.inventory.hasItem(ModItems.screwdriver)) {
 			
-			if(stack != null && stack.getItem() == ModItems.screwdriver && player.inventory.hasItem(ModItems.pin)) {
-				
-				player.inventory.consumeInventoryItem(ModItems.pin);
-				player.inventoryContainer.detectAndSendChanges();
-	        	
-	        	if(player.worldObj.rand.nextInt(10) == 0 || Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2)) {
-	        		worldObj.playSoundAtEntity(player, "hbm:item.pinUnlock", 1.0F, 1.0F);
-					return true;
-	        	} else {
-	        		worldObj.playSoundAtEntity(player, "hbm:item.pinBreak", 1.0F, 0.8F + player.worldObj.rand.nextFloat() * 0.2F);
-	        		return false;
-	        	}
+			stack.stackSize--;
+			canPick = true;
+		}
+		
+		if(stack != null && stack.getItem() == ModItems.screwdriver && player.inventory.hasItem(ModItems.pin)) {
+			
+			player.inventory.consumeInventoryItem(ModItems.pin);
+			player.inventoryContainer.detectAndSendChanges();
+			canPick = true;
+		}
+		
+		if(canPick) {
+			
+			if(Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2))
+				chanceOfSuccess *= 100D;
+			
+			double rand = player.worldObj.rand.nextDouble() * 100;
+			
+			if(chanceOfSuccess > rand) {
+        		worldObj.playSoundAtEntity(player, "hbm:item.pinUnlock", 1.0F, 1.0F);
+				return true;
 			}
+
+    		worldObj.playSoundAtEntity(player, "hbm:item.pinBreak", 1.0F, 0.8F + player.worldObj.rand.nextFloat() * 0.2F);
 		}
 		
 		return false;

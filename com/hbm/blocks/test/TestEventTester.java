@@ -11,6 +11,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
@@ -285,12 +286,23 @@ public class TestEventTester extends Block {
     	new Barrel().generate(worldObj, worldObj.rand, par2, par3, par4);*/
 
 
-    	worldObj.setBlock(par2, par3, par4, ModBlocks.crate_steel, 0, 3);
+    	/*worldObj.setBlock(par2, par3, par4, ModBlocks.crate_steel, 0, 3);
 
 		if(worldObj.getBlock(par2, par3, par4) == ModBlocks.crate_steel)
 		{
 			WeightedRandomChestContent.generateChestContents(worldObj.rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)worldObj.getTileEntity(par2, par3, par4), 32);
-		}
+		}*/
+    	
+    	EntityBurningFOEQ foeq = new EntityBurningFOEQ(worldObj);
+    	foeq.posX = par2;
+    	foeq.posY = 400;
+    	foeq.posZ = par4;
+    	foeq.motionX = worldObj.rand.nextGaussian() * 1D;
+    	foeq.motionZ = worldObj.rand.nextGaussian() * 1D;
+    	foeq.motionY = -4D;
+    	
+    	if(!worldObj.isRemote)
+    		worldObj.spawnEntityInWorld(foeq);
         
         return true;
     }

@@ -163,14 +163,16 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	
     	int i = 1;
     	
-    	int rand = world.rand.nextInt(5);
+    	int rand = world.rand.nextInt(7);
     	
     	switch(rand) {
-    	case 0: i = 1; break;
-    	case 1: i = 2; break;
-    	case 2: i = 5; break;
-    	case 3: i = 6; break;
-    	case 4: i = 7; break;
+    	case 0:
+    	case 1: i = 1; break;
+    	case 2:
+    	case 3: i = 2; break;
+    	case 4: i = 5; break;
+    	case 5: i = 6; break;
+    	case 6: i = 7; break;
     	}
     	
     	if(world.rand.nextInt(100) == 0) {
@@ -262,6 +264,22 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.bombRate = 65;
 
     	bomber.fac(world, x, y, z);
+    	
+    	int i = 1;
+    	
+    	int rand = world.rand.nextInt(3);
+    	
+    	switch(rand) {
+    	case 0: i = 5; break;
+    	case 1: i = 6; break;
+    	case 2: i = 7; break;
+    	}
+    	
+    	if(world.rand.nextInt(100) == 0) {
+        	i = 8;
+    	}
+    	
+    	bomber.getDataWatcher().updateObject(16, (byte)i);
     	
     	bomber.type = 4;
     	

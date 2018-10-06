@@ -67,15 +67,17 @@ public class JetpackVectorized extends ItemArmor {
     		player.motionX += vec.xCoord * 0.2;
     		player.motionY += 0.15;
     		player.motionZ += vec.zCoord * 0.2;
-    		
-    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
-    		fx.posX = player.posX - vec.xCoord;
-    		fx.posY = player.posY - 1;
-    		fx.posZ = player.posZ - vec.zCoord;
-    		fx.motionX -= vec.xCoord * 0.2;
-    		fx.motionY -= vec.yCoord * 0.2;
-    		fx.motionZ -= vec.zCoord * 0.2;
-    		world.spawnEntityInWorld(fx);
+
+	    	if(!world.isRemote) {
+	    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
+	    		fx.posX = player.posX - vec.xCoord;
+	    		fx.posY = player.posY - 1;
+	    		fx.posZ = player.posZ - vec.zCoord;
+	    		fx.motionX -= vec.xCoord * 0.2;
+	    		fx.motionY -= vec.yCoord * 0.2;
+	    		fx.motionZ -= vec.zCoord * 0.2;
+	    		world.spawnEntityInWorld(fx);
+	    	}
     		
     		player.fallDistance = 0;
     		

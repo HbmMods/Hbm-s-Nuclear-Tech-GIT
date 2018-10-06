@@ -265,7 +265,10 @@ item.turret_biometry.name=Geschütz-Telemetriekarte
 item.key.name=Schlüssel
 item.key_red.name=Roter Schlüssel
 item.pin.name=Haarklammer
+item.padlock_rusty.name=Rostiges Vorhängeschloss
 item.padlock.name=Vorhängeschloss
+item.padlock_reinforced.name=Verstärktes Vorhängeschloss
+item.padlock_unbreakable.name=Unzerstörbares Vorhängeschloss
 tile.machine_keyforge.name=Schlossertisch
 container.keyForge=Schlossertisch
 
@@ -1351,6 +1354,7 @@ item.jetpack_boost.name=Boosterrucksack
 item.jetpack_fly.name=Raketenrucksack
 item.jetpack_break.name=Bremsrucksack
 item.jetpack_vector.name=Schubvektorgesteuerter Raketenrucksack
+item.jetpack_tank.name=Raketenrucksack-Reservetank
 
 item.chainsaw.name=Kettensäge
 item.crowbar.name=Mk.V Kistenöffnungsapparat "Brechstange"

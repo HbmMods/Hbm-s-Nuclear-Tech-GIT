@@ -278,7 +278,10 @@ item.turret_biometry.name=Turret Telemetry Card
 item.key.name=Key
 item.key_red.name=Red Key
 item.pin.name=Bobby Pin
+item.padlock_rusty.name=Rusty Padlock
 item.padlock.name=Padlock
+item.padlock_reinforced.name=Reinforced Padlock
+item.padlock_unbreakable.name=Unbreakable Padlock
 tile.machine_keyforge.name=Locksmith Table
 container.keyForge=Locksmith Table
 
@@ -1351,6 +1354,7 @@ item.jetpack_boost.name=Boostpack
 item.jetpack_fly.name=Jetpack
 item.jetpack_break.name=Breakpack
 item.jetpack_vector.name=Vectored Jetpack
+item.jetpack_tank.name=Jetpack Reserve Fuel Tank
 
 item.chainsaw.name=Chainsaw
 item.crowbar.name=Mk.V Crate Opening Device "Crowbar"

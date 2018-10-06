@@ -1194,7 +1194,6 @@ public class ExplosionChaos {
 		double d1 = 0;
 		double d2 = 0;
 		double d3 = 0;
-		EntityBullet fragment;
 
 		// if (shooter != null && shooter instanceof EntityPlayer)
 		for (int i = 0; i < count; i++) {

@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,15 +13,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderCentrifuge extends TileEntitySpecialRenderer {
 	
-	private static final ResourceLocation centrifugeModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/centrifuge.obj");
-	private IModelCustom centrifugeModelC;
-    private ResourceLocation centrifugeTexture;
-	
-	public RenderCentrifuge()
-    {
-		centrifugeModelC = AdvancedModelLoader.loadModel(centrifugeModel);
-		centrifugeTexture = new ResourceLocation(RefStrings.MODID, "textures/models/centrifuge.png");
-    }
+	public RenderCentrifuge() { }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -40,8 +33,8 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(centrifugeTexture);
-        centrifugeModelC.renderAll();
+        bindTexture(ResourceManager.centrifuge_new_tex);
+        ResourceManager.centrifuge_new.renderAll();
 
         GL11.glPopMatrix();
     }

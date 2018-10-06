@@ -89,7 +89,7 @@ public class ItemCanteen extends Item {
     			//list.add("Why sipp when you can succ?");
 				list.add("Time to get hammered & sickled!");
     		else
-    			list.add("Smells like desinfectant, tastes like desinfectant.");
+    			list.add("Smells like disinfectant, tastes like disinfectant.");
     	}
     }
 

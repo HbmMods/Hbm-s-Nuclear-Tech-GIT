@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.gear.JetpackBooster;
+import com.hbm.items.gear.JetpackBreak;
+import com.hbm.items.gear.JetpackRegular;
+import com.hbm.items.gear.JetpackVectorized;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 
@@ -235,7 +239,39 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
+            	if(player.inventory.armorInventory[3].getItemDamage() == 0)
+            		return stack;
+            	
             	player.inventory.armorInventory[3].setItemDamage(0);
+
+		        world.playSoundAtEntity(player, "hbm:item.gasmaskScrew", 1.0F, 1.0F);
+            	stack.stackSize--;
+            }
+		}
+		
+		if(this == ModItems.jetpack_tank && player.inventory.armorInventory[2] != null &&
+				(player.inventory.armorInventory[2].getItem() == ModItems.jetpack_boost || player.inventory.armorInventory[2].getItem() == ModItems.jetpack_break ||
+				player.inventory.armorInventory[2].getItem() == ModItems.jetpack_fly || player.inventory.armorInventory[2].getItem() == ModItems.jetpack_vector))
+		{
+            if (!world.isRemote)
+            {
+            	ItemStack jetpack = player.inventory.armorInventory[2];
+            	int fill = JetpackRegular.getFuel(jetpack) + 1000;
+
+            	if(jetpack.getItem() == ModItems.jetpack_boost && fill > JetpackBooster.maxFuel)
+            		fill = JetpackBooster.maxFuel;
+            	if(jetpack.getItem() == ModItems.jetpack_break && fill > JetpackBreak.maxFuel)
+            		fill = JetpackBreak.maxFuel;
+            	if(jetpack.getItem() == ModItems.jetpack_fly && fill > JetpackRegular.maxFuel)
+            		fill = JetpackRegular.maxFuel;
+            	if(jetpack.getItem() == ModItems.jetpack_vector && fill > JetpackVectorized.maxFuel)
+            		fill = JetpackVectorized.maxFuel;
+            	
+            	if(JetpackRegular.getFuel(jetpack) == fill)
+            		return stack;
+            	
+            	JetpackRegular.setFuel(jetpack, fill);
+		        world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
             
             	stack.stackSize--;
             }
@@ -497,6 +533,9 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.gas_mask_filter) {
 			list.add("Repairs worn gasmask");
+		}
+		if(this == ModItems.jetpack_tank) {
+			list.add("Fills worn jetpack with up to 1000mB of kerosene");
 		}
 	}
 }

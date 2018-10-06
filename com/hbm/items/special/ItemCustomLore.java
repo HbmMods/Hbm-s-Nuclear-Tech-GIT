@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends ItemRadioactive {
 	
@@ -643,9 +644,31 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Can be used with a screwdriver to pick locks.");
 			
 			if(Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2))
-				list.add("Success rate of lockpicking is 100%!");
+				list.add("Success rate of picking standard lock is 100%!");
 			else
-				list.add("Success rate of lockpicking is ~10%");
+				list.add("Success rate of picking standard lock is ~10%");
+		}
+		
+		if(this == ModItems.key_red)
+		{
+			if(MainRegistry.polaroidID == 11) {
+				list.add("ard lock is ~10%5Success ra");
+				list.add("Antimatter +15");
+				list.add("ced resource scanner.27Production x4 / Co");
+				list.add("this == ModItems.watch || this == ModI");
+				list.add("list.add(\"Woo, scary!\");");
+				list.add(EnumChatFormatting.OBFUSCATED + "//list.add(\"Blue horse beats yellow horse, look it up!\");");
+				list.add("ion -60 / Delay +1019All hail");
+				list.add("bank angle bank angle bank angle");
+				list.add("'M");
+				list.add("");
+				list.add("bank angle bank angle bank angle");
+				list.add("bank angle bank angle bank angle");
+				list.add("");
+				list.add(EnumChatFormatting.DARK_RED + "" + EnumChatFormatting.BOLD + "e");
+			} else {
+				list.add("Explore the other side.");
+			}
 		}
 	}
 

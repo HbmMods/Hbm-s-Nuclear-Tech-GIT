@@ -73,12 +73,15 @@ public class JetpackBooster extends ItemArmor {
     		player.motionY += 0.15;
     		
     		this.setBoost(stack, this.getBoost(stack) - 1);
-    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
-    		fx.posX = player.posX - vec.xCoord;
-    		fx.posY = player.posY - 1;
-    		fx.posZ = player.posZ - vec.zCoord;
-    		fx.motionY = -0.1;
-    		world.spawnEntityInWorld(fx);
+    		
+	    	if(!world.isRemote) {
+	    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
+	    		fx.posX = player.posX - vec.xCoord;
+	    		fx.posY = player.posY - 1;
+	    		fx.posZ = player.posZ - vec.zCoord;
+	    		fx.motionY = -0.1;
+	    		world.spawnEntityInWorld(fx);
+    		}
     		
     		this.setFuel(stack, this.getFuel(stack) - 1);
     		
