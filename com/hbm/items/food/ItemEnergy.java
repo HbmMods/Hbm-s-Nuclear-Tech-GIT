@@ -19,197 +19,202 @@ import net.minecraft.world.World;
 public class ItemEnergy extends Item {
 
     @Override
-	public ItemStack onEaten(ItemStack p_77654_1_, World p_77654_2_, EntityPlayer p_77654_3_)
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
     {
-        if (!p_77654_3_.capabilities.isCreativeMode)
+        if (!player.capabilities.isCreativeMode)
         {
-            --p_77654_1_.stackSize;
+            --stack.stackSize;
         }
 
-        if (!p_77654_2_.isRemote)
+        if (!world.isRemote)
         {
         	if(this == ModItems.can_smart)
         	{
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
         	}
         	if(this == ModItems.can_creature)
         	{
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 1));
         	}
         	if(this == ModItems.can_redbomb)
         	{
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 1));
         	}
         	if(this == ModItems.can_mrsugar)
         	{
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
         	}
         	if(this == ModItems.can_overcharge)
         	{
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 0));
         	}
         	if(this == ModItems.can_luna)
         	{
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
         	}
         	if(this == ModItems.chocolate_milk)
         	{
-        		ExplosionLarge.explode(p_77654_2_, p_77654_3_.posX, p_77654_3_.posY, p_77654_3_.posZ, 50, true, false, false);
+        		ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 50, true, false, false);
         	}
         	if(this == ModItems.bottle_nuka)
         	{
-        		p_77654_3_.heal(4F);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
+        		player.heal(4F);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
         	}
         	if(this == ModItems.bottle_cherry)
         	{
-        		p_77654_3_.heal(6F);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+        		player.heal(6F);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
         	}
         	if(this == ModItems.bottle_quantum)
         	{
-        		p_77654_3_.heal(10F);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+        		player.heal(10F);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
         	}
         	if(this == ModItems.bottle2_korl)
         	{
-        		p_77654_3_.heal(6);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 2));
+        		player.heal(6);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 2));
         	}
         	if(this == ModItems.bottle2_fritz)
         	{
-        		p_77654_3_.heal(6);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+        		player.heal(6);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
         	}
         	if(this == ModItems.bottle2_korl_special)
         	{
-        		p_77654_3_.heal(16);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
+        		player.heal(16);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
         	}
         	if(this == ModItems.bottle2_fritz_special)
         	{
-        		p_77654_3_.heal(16);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.jump.id, 120 * 20, 2));
+        		player.heal(16);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.jump.id, 120 * 20, 2));
         	}
         	if(this == ModItems.bottle_sparkle)
         	{
-        		p_77654_3_.heal(10F);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
+        		player.heal(10F);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
         	}
         	if(this == ModItems.bottle2_sunset)
         	{
-        		p_77654_3_.heal(6);
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 2));
-                p_77654_3_.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 2));
+        		player.heal(6);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 2));
         	}
         }
 
-        if (!p_77654_3_.capabilities.isCreativeMode && this != ModItems.chocolate_milk)
+        if (!player.capabilities.isCreativeMode && this != ModItems.chocolate_milk)
         {
         	if(this == ModItems.can_creature || this == ModItems.can_mrsugar || 
         			this == ModItems.can_overcharge || this == ModItems.can_redbomb || 
         			this == ModItems.can_smart || this == ModItems.can_luna) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
-        		if (p_77654_1_.stackSize <= 0)
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.can_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.can_empty));
         	}
         	
         	if(this == ModItems.bottle_cherry || this == ModItems.bottle_nuka) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_nuka));
-        		if (p_77654_1_.stackSize <= 0)
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_nuka));
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
         	}
         	
         	if(this == ModItems.bottle_quantum) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_quantum));
-        		if (p_77654_1_.stackSize <= 0)
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_quantum));
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
         	}
         	
         	if(this == ModItems.bottle2_korl || this == ModItems.bottle2_korl_special) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_korl));
-        		if (p_77654_1_.stackSize <= 0)
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_korl));
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle2_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
         	}
         	
         	if(this == ModItems.bottle2_fritz || this == ModItems.bottle2_fritz_special) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_fritz));
-        		if (p_77654_1_.stackSize <= 0)
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_fritz));
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle2_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
         	}
         	
         	if(this == ModItems.bottle_sparkle) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
-        		if (p_77654_1_.stackSize <= 0)
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
         	}
         	
         	if(this == ModItems.bottle2_sunset) {
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sunset));
-        		if (p_77654_1_.stackSize <= 0)
+        		
+        		if(world.rand.nextInt(10) == 0)
+        			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_star));
+        		else
+        			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sunset));
+        		
+        		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle2_empty);
             	}
 
-            	p_77654_3_.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle2_empty));
         	}
         }
 
-        return p_77654_1_;
+        return stack;
     }
     
     @Override

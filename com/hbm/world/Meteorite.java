@@ -710,54 +710,61 @@ public class Meteorite {
 	public List<ItemStack> getRandomOre(Random rand) {
 		List<ItemStack> ores = new ArrayList<ItemStack>();
 		
-		String[] names = OreDictionary.getOreNames();
-		
-		for(int i = 0; i < names.length; i++) {
-			if(names[i].length() > 3 && names[i].substring(0, 3).equals("ore")) {
-				
-				List<ItemStack> ota = OreDictionary.getOres(names[i]);
-				for(int j = 0; j < ota.size(); j++) {
-					ItemStack stack = ota.get(j);
-					if(Block.getBlockFromItem(stack.getItem()) != null)
-						ores.add(stack.copy());
+		try {
+			String[] names = OreDictionary.getOreNames();
+			
+			for(int i = 0; i < names.length; i++) {
+				if(names[i] != null && names[i].length() > 3 && names[i].substring(0, 3).equals("ore")) {
+					
+					List<ItemStack> ota = OreDictionary.getOres(names[i]);
+					for(int j = 0; j < ota.size(); j++) {
+						ItemStack stack = ota.get(j);
+						if(Block.getBlockFromItem(stack.getItem()) != null)
+							ores.add(stack.copy());
+					}
 				}
 			}
-		}
-		
-		switch(rand.nextInt(15)) {
-		case 0:
-			List<ItemStack> list1 = new ArrayList<ItemStack>();
-			list1.add(new ItemStack(ModBlocks.ore_rare, 1).copy());
-			return list1;
-		case 1:
-			List<ItemStack> list2 = new ArrayList<ItemStack>();
-			list2.add(new ItemStack(ModBlocks.ore_uranium, 1).copy());
-			return list2;
-		case 2:
-			List<ItemStack> list3 = new ArrayList<ItemStack>();
-			list3.add(new ItemStack(ModBlocks.ore_reiium, 1).copy());
-			list3.add(new ItemStack(ModBlocks.ore_weidanium, 1).copy());
-			list3.add(new ItemStack(ModBlocks.ore_australium, 1).copy());
-			list3.add(new ItemStack(ModBlocks.ore_unobtainium, 1).copy());
-			list3.add(new ItemStack(ModBlocks.ore_daffergon, 1).copy());
-			list3.add(new ItemStack(ModBlocks.ore_verticium, 1).copy());
-			return list3;
-		case 3:
-			List<ItemStack> list4 = new ArrayList<ItemStack>();
-			list4.add(new ItemStack(ModBlocks.ore_nether_fire, 1).copy());
-			list4.add(new ItemStack(ModBlocks.ore_nether_plutonium, 1).copy());
-			list4.add(new ItemStack(ModBlocks.ore_nether_schrabidium, 1).copy());
-			list4.add(new ItemStack(ModBlocks.ore_nether_sulfur, 1).copy());
-			list4.add(new ItemStack(ModBlocks.ore_nether_tungsten, 1).copy());
-			list4.add(new ItemStack(ModBlocks.ore_nether_uranium, 1).copy());
-			return list4;
-		}
-		
-		if(ores.isEmpty()) {
-			List<ItemStack> list = new ArrayList<ItemStack>();
-			list.add(new ItemStack(Blocks.iron_ore, 1).copy());
-			return list;
-		} else {
+			
+			switch(rand.nextInt(15)) {
+			case 0:
+				List<ItemStack> list1 = new ArrayList<ItemStack>();
+				list1.add(new ItemStack(ModBlocks.ore_rare, 1).copy());
+				return list1;
+			case 1:
+				List<ItemStack> list2 = new ArrayList<ItemStack>();
+				list2.add(new ItemStack(ModBlocks.ore_uranium, 1).copy());
+				return list2;
+			case 2:
+				List<ItemStack> list3 = new ArrayList<ItemStack>();
+				list3.add(new ItemStack(ModBlocks.ore_reiium, 1).copy());
+				list3.add(new ItemStack(ModBlocks.ore_weidanium, 1).copy());
+				list3.add(new ItemStack(ModBlocks.ore_australium, 1).copy());
+				list3.add(new ItemStack(ModBlocks.ore_unobtainium, 1).copy());
+				list3.add(new ItemStack(ModBlocks.ore_daffergon, 1).copy());
+				list3.add(new ItemStack(ModBlocks.ore_verticium, 1).copy());
+				return list3;
+			case 3:
+				List<ItemStack> list4 = new ArrayList<ItemStack>();
+				list4.add(new ItemStack(ModBlocks.ore_nether_fire, 1).copy());
+				list4.add(new ItemStack(ModBlocks.ore_nether_plutonium, 1).copy());
+				list4.add(new ItemStack(ModBlocks.ore_nether_schrabidium, 1).copy());
+				list4.add(new ItemStack(ModBlocks.ore_nether_sulfur, 1).copy());
+				list4.add(new ItemStack(ModBlocks.ore_nether_tungsten, 1).copy());
+				list4.add(new ItemStack(ModBlocks.ore_nether_uranium, 1).copy());
+				return list4;
+			}
+			
+			if(ores.isEmpty()) {
+				List<ItemStack> list = new ArrayList<ItemStack>();
+				list.add(new ItemStack(Blocks.iron_ore, 1).copy());
+				return list;
+			} else {
+				return ores;
+			}
+		} catch(Exception ex) {
+			MainRegistry.logger.error("Critical error in meteor creation, falling back to iron ore...");
+			ores.clear();
+			ores.add(new ItemStack(Blocks.iron_ore, 1).copy());
 			return ores;
 		}
 	}

@@ -119,5 +119,6 @@
     "alarm.regularSiren": {"category": "record", "sounds": [{"name": "alarm/regularSiren", "stream": false}]},
     "alarm.foKlaxonA": {"category": "record", "sounds": [{"name": "alarm/foKlaxonA", "stream": false}]},
     "alarm.foKlaxonB": {"category": "record", "sounds": [{"name": "alarm/foKlaxonB", "stream": false}]},
-    "alarm.nostromoSiren": {"category": "record", "sounds": [{"name": "alarm/nostromoSiren", "stream": false}]}
+    "alarm.nostromoSiren": {"category": "record", "sounds": [{"name": "alarm/nostromoSiren", "stream": false}]},
+    "alarm.easAlarm": {"category": "record", "sounds": [{"name": "alarm/easAlarm", "stream": false}]}
 }
