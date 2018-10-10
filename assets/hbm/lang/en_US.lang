@@ -1549,6 +1549,7 @@ item.cape_dafnik.name=Dafnik's Cape
 item.cape_lpkukin.name=LPkukin's Cape
 item.cape_vertice.name=Lord Vertice's Cape
 item.cape_codered_.name=codered_'s Cape
+item.cape_ayy.name=Ayy's Cape
 
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter

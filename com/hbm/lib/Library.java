@@ -65,6 +65,7 @@ public class Library {
 	public static String a20 = "4729b498-a81c-42fd-8acd-20d6d9f759e0";
 	public static String LordVertice = "a41df45e-13d8-4677-9398-090d3882b74f";
 	public static String CodeRed_ = "912ec334-e920-4dd7-8338-4d9b2d42e0a1";
+	public static String dxmaster769 = "62c168b2-d11d-4dbf-9168-c6cea3dcb20e";
 	
 	public static List<String> superuser = new ArrayList<String>();
 	

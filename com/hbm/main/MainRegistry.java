@@ -488,8 +488,10 @@ public class MainRegistry
 	public static int fatmanRadius = 35;
 	public static int nukaRadius = 25;
 	public static int aSchrabRadius = 20;
-	
+
 	public static int blastSpeed = 1024;
+	public static int falloutRange = 100;
+	public static int falloutDura = 100;
 	
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
@@ -1569,6 +1571,12 @@ public class MainRegistry
         Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 1024);
         propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
         blastSpeed = propBlastSpeed.getInt();
+        Property propFalloutRange = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 100);
+        propFalloutRange.comment = "Radius of fallout area (base radius * value in percent)";
+        falloutRange = propFalloutRange.getInt();
+        Property propFalloutDura = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 100);
+        propFalloutDura.comment = "Duration of fallout (base duration * value in percent)";
+        falloutDura = propFalloutDura.getInt();
 
         Property propRadarRange = config.get(Configuration.CATEGORY_GENERAL, "7.00_radarRange", 1000);
         propRadarRange.comment = "Range of the radar, 50 will result in 100x100 block area covered";

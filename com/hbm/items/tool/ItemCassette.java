@@ -39,6 +39,7 @@ public class ItemCassette extends Item {
 		CONTAINER_ALARM(	"Container Alarm", 			new ResourceLocation("hbm:alarm.containerAlarm"),	SoundType.LOOP,		14727839,	100),
 		SWEEP_SIREN(		"Sweep Siren", 				new ResourceLocation("hbm:alarm.sweepSiren"),		SoundType.LOOP,		15592026,	500),
 		STRIDER_SIREN(		"Missile Silo Siren", 		new ResourceLocation("hbm:alarm.striderSiren"),		SoundType.LOOP,		11250586,	500),
+		AIR_RAID(			"Air Raid Siren", 			new ResourceLocation("hbm:alarm.airRaid"),			SoundType.LOOP,		0xDF3795,	500),
 		NOSTROMO_SIREN(		"Nostromo Self Destruct",	new ResourceLocation("hbm:alarm.nostromoSiren"),	SoundType.LOOP,		0x5dd800,	100),
 		EAS_ALARM(			"EAS Alarm Screech",		new ResourceLocation("hbm:alarm.easAlarm"),			SoundType.LOOP,		0xb3a8c1,	50),
 		APC_PASS(			"APC Pass", 				new ResourceLocation("hbm:alarm.apcPass"),			SoundType.PASS,		3422163,	50),

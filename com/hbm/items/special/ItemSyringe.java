@@ -532,7 +532,7 @@ public class ItemSyringe extends Item {
 			list.add("Cloud damage + taint = tainted heart effect");
 		}
 		if(this == ModItems.gas_mask_filter) {
-			list.add("Repairs worn gasmask");
+			list.add("Repairs worn gas mask");
 		}
 		if(this == ModItems.jetpack_tank) {
 			list.add("Fills worn jetpack with up to 1000mB of kerosene");

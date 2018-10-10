@@ -7,7 +7,9 @@ import com.hbm.entity.projectile.EntityLaser;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class RenderLaser extends Render {
 
@@ -19,10 +21,33 @@ public class RenderLaser extends Render {
 
 	public void doRender(EntityLaser laser, double x, double y, double z, float p_76986_8_,
 			float p_76986_9_) {
+		
+		EntityPlayer player = null;
+		
+		for(Object p: laser.worldObj.playerEntities) {
+			
+			if(p instanceof EntityPlayer) {
+				
+				EntityPlayer pla = (EntityPlayer)p;
+				
+				if(pla.getUniqueID().toString().equals(laser.getDataWatcher().getWatchableObjectString(20))) {
+					player = pla;
+					break;
+				}
+			}
+		}
+		
+		if(player == null)
+			return;
+		
+		Vec3 vec = Vec3.createVectorHelper(-0.2, -0.1, 0.2);
+		vec.rotateAroundX(-(float)(player.rotationPitch * Math.PI / 180D));
+		vec.rotateAroundY(-(float)(player.rotationYaw * Math.PI / 180D));
+		
 		drawPowerLine(x, y, z,
-				x + (laser.getPlayerCoord()[0] - laser.posX),
-				y + (laser.getPlayerCoord()[1] - laser.posY),
-				z + (laser.getPlayerCoord()[2] - laser.posZ));
+				x + (player.posX + vec.xCoord - laser.posX),
+				y + (player.posY + vec.yCoord - laser.posY),
+				z + (player.posZ + vec.zCoord - laser.posZ));
 	}
 
 	@Override

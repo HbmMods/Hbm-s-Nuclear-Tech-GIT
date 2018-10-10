@@ -73,11 +73,11 @@ public class EntityNukeExplosionMK4 extends Entity {
 				explosion.processTip(1024);
 		} else if(fallout) {
 			
-			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 1.8) * 25);
+			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 1.8) * 25 * MainRegistry.falloutDura / 100);
 			fallout.posX = this.posX;
 			fallout.posY = this.posY;
 			fallout.posZ = this.posZ;
-			fallout.setScale((int)(this.length * 1.8));
+			fallout.setScale((int)(this.length * 1.8) * MainRegistry.falloutRange / 100);
 
 			this.worldObj.spawnEntityInWorld(fallout);
 			

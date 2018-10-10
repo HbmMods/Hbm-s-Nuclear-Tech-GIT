@@ -93,6 +93,9 @@ public class ArmorModel extends ItemArmor {
 		if (this == ModItems.cape_codered_) {
 			return armorType == 1;
 		}
+		if (this == ModItems.cape_ayy) {
+			return armorType == 1;
+		}
 		return armorType == 0;
 	}
 
@@ -139,7 +142,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelCloak;
 			}
 		}
-		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice || this == ModItems.cape_codered_) {
+		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice || this == ModItems.cape_codered_ || this == ModItems.cape_ayy) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
@@ -193,6 +196,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (stack.getItem() == ModItems.cape_codered_ && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.CodeRed_)) {
 			return "hbm:textures/models/CapeRed.png";
+		}
+		if (stack.getItem() == ModItems.cape_ayy && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.dxmaster769)) {
+			return "hbm:textures/models/CapeAyy.png";
 		}
 		return "hbm:textures/models/CapeUnknown.png";
 	}
@@ -286,6 +292,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (itemstack.getItem() == ModItems.cape_codered_) {
 			list.add("Only works for codered_");
+		}
+		if (itemstack.getItem() == ModItems.cape_ayy) {
+			list.add("Only works for dxmaster769");
 		}
 	}
 }
