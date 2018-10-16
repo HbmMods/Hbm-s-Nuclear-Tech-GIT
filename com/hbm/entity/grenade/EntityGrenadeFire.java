@@ -5,8 +5,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
-public class EntityGrenadeFire extends EntityGrenadeBase
+public class EntityGrenadeFire extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
     public Entity shooter;
@@ -38,4 +40,14 @@ public class EntityGrenadeFire extends EntityGrenadeBase
             this.worldObj.playSoundEffect((int)this.posX, (int)this.posY, (int)this.posZ, "random.explode", 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_fire);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 }

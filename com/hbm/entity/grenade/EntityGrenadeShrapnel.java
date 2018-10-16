@@ -5,8 +5,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
-public class EntityGrenadeShrapnel extends EntityGrenadeBase
+public class EntityGrenadeShrapnel extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
     public Entity shooter;
@@ -38,4 +40,14 @@ public class EntityGrenadeShrapnel extends EntityGrenadeBase
         	}
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_shrapnel);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 }

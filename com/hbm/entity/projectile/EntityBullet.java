@@ -198,6 +198,7 @@ public class EntityBullet extends Entity implements IProjectile {
 		this.setIsCritical(isTau != "chopper");
 	}
 	
+	//why the living shit did i make isTau a string? who knows, who cares.
 	public EntityBullet(World p_i1756_1_, EntityLivingBase p_i1756_2_, float p_i1756_3_, int dmgMin, int dmgMax,
 			boolean instakill, String isTau, EntityGrenadeTau grenade) {
 		super(p_i1756_1_);

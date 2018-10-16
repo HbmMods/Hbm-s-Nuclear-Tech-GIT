@@ -1,10 +1,13 @@
 package com.hbm.entity.grenade;
 
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.world.World;
 
-public class EntityGrenadeElectric extends EntityGrenadeBase
+public class EntityGrenadeElectric extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -33,5 +36,15 @@ public class EntityGrenadeElectric extends EntityGrenadeBase
         }
             this.worldObj.spawnEntityInWorld(new EntityLightningBolt(this.worldObj, this.posX, this.posY, this.posZ));
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_electric);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 
 }

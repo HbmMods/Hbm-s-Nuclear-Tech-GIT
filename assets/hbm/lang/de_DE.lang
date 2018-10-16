@@ -1080,6 +1080,20 @@ item.grenade_mirv.name=MIRV-Granate
 item.grenade_breach.name=Durchbruchgranate
 item.grenade_burst.name=Gräbergranate
 
+item.grenade_if_generic.name=IF - Nullgranate
+item.grenade_if_he.name=IF - HE-Granate
+item.grenade_if_bouncy.name=IF - Elastissche Granate
+item.grenade_if_sticky.name=IF - Klebrige Granate
+item.grenade_if_impact.name=IF - Aufschlaggranate
+item.grenade_if_incendiary.name=IF - Brandgranate
+item.grenade_if_toxic.name=IF - Toxische Granate
+item.grenade_if_concussion.name=IF - Erschütterungsgranate
+item.grenade_if_brimstone.name=IF - Werfbare Brimstone-Mine
+item.grenade_if_mystery.name=IF - M.-Granate
+item.grenade_if_spark.name=IF - S.-Granate
+item.grenade_if_hopwire.name=IF - Schwarzes Loch Hopwire
+item.grenade_if_null.name=IF - Null-Granate
+
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
 item.rod_quad_uranium_fuel.name=Vierfache Urankernbrennstoffzelle

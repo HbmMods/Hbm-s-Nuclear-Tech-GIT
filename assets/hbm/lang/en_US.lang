@@ -1080,6 +1080,20 @@ item.grenade_mirv.name=MIRV Grenade
 item.grenade_breach.name=Breaching Grenade
 item.grenade_burst.name=Digger Grenade
 
+item.grenade_if_generic.name=IF - Grenade
+item.grenade_if_he.name=IF - HE Grenade
+item.grenade_if_bouncy.name=IF - Bouncy Grenade
+item.grenade_if_sticky.name=IF - Sticky Grenade
+item.grenade_if_impact.name=IF - Impact Grenade
+item.grenade_if_incendiary.name=IF - Incendiary Grenade
+item.grenade_if_toxic.name=IF - Toxic Grenade
+item.grenade_if_concussion.name=IF - Concussion Grenade
+item.grenade_if_brimstone.name=IF - Tossable Brimsstone Mine
+item.grenade_if_mystery.name=IF - M.-Grenade
+item.grenade_if_spark.name=IF - S.-Grenade
+item.grenade_if_hopwire.name=IF - Black Hole Hopwire
+item.grenade_if_null.name=IF - Null Grenade
+
 item.rod_uranium_fuel.name=Uranium Fuel Rod
 item.rod_dual_uranium_fuel.name=Uranium Dual Fuel Rod
 item.rod_quad_uranium_fuel.name=Uranium Quad Fuel Rod

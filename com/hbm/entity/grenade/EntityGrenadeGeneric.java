@@ -3,7 +3,7 @@ package com.hbm.entity.grenade;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeGeneric extends EntityGrenadeBase
+public class EntityGrenadeGeneric extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -31,5 +31,15 @@ public class EntityGrenadeGeneric extends EntityGrenadeBase
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 2.0F, true);
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return 100;
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 
 }

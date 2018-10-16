@@ -2,11 +2,13 @@ package com.hbm.entity.grenade;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadePulse extends EntityGrenadeBase {
+public class EntityGrenadePulse extends EntityGrenadeBouncyBase {
 	
 	private static final String __OBFID = "CL_00001722";
 
@@ -35,4 +37,14 @@ public class EntityGrenadePulse extends EntityGrenadeBase {
     		ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 24, 2);
 		}
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_pulse);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 }

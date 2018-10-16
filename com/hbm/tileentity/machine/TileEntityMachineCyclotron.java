@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -281,7 +281,7 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 					}
 					if(i == 2) {
 					
-						EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(worldObj);
+						EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(worldObj);
 						entity.posX = this.xCoord;
 						entity.posY = this.yCoord;
 						entity.posZ = this.zCoord;

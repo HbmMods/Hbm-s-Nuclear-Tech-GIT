@@ -5,8 +5,10 @@ import net.minecraft.world.World;
 
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityRagingVortex;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
-public class EntityGrenadeBlackHole extends EntityGrenadeBase
+public class EntityGrenadeBlackHole extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -40,4 +42,14 @@ public class EntityGrenadeBlackHole extends EntityGrenadeBase
         	this.worldObj.spawnEntityInWorld(bl);
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_black_hole);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 }

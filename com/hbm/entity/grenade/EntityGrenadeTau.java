@@ -1,11 +1,13 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeTau extends EntityGrenadeBase
+public class EntityGrenadeTau extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -34,4 +36,14 @@ public class EntityGrenadeTau extends EntityGrenadeBase
             ExplosionChaos.tauMeSinPi(this.worldObj, this.posX, this.posY, this.posZ, 100, this.getThrower(), this);
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_tau);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 }

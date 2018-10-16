@@ -1,5 +1,7 @@
 package com.hbm.items.weapon;
 
+import java.util.List;
+
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeBlackHole;
 import com.hbm.entity.grenade.EntityGrenadeBreach;
@@ -13,6 +15,19 @@ import com.hbm.entity.grenade.EntityGrenadeFrag;
 import com.hbm.entity.grenade.EntityGrenadeGas;
 import com.hbm.entity.grenade.EntityGrenadeGascan;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
+import com.hbm.entity.grenade.EntityGrenadeIFBouncy;
+import com.hbm.entity.grenade.EntityGrenadeIFBrimstone;
+import com.hbm.entity.grenade.EntityGrenadeIFConcussion;
+import com.hbm.entity.grenade.EntityGrenadeIFGeneric;
+import com.hbm.entity.grenade.EntityGrenadeIFHE;
+import com.hbm.entity.grenade.EntityGrenadeIFHopwire;
+import com.hbm.entity.grenade.EntityGrenadeIFImpact;
+import com.hbm.entity.grenade.EntityGrenadeIFIncendiary;
+import com.hbm.entity.grenade.EntityGrenadeIFMystery;
+import com.hbm.entity.grenade.EntityGrenadeIFNull;
+import com.hbm.entity.grenade.EntityGrenadeIFSpark;
+import com.hbm.entity.grenade.EntityGrenadeIFSticky;
+import com.hbm.entity.grenade.EntityGrenadeIFToxic;
 import com.hbm.entity.grenade.EntityGrenadeLemon;
 import com.hbm.entity.grenade.EntityGrenadeMIRV;
 import com.hbm.entity.grenade.EntityGrenadeMk2;
@@ -37,9 +52,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemGrenade extends Item {
+	
+	public int fuse = 4;
 
-	public ItemGrenade() {
+	public ItemGrenade(int fuse) {
 		this.maxStackSize = 16;
+		this.fuse = fuse;
 	}
 
 	@Override
@@ -139,6 +157,46 @@ public class ItemGrenade extends Item {
 			if (this == ModItems.grenade_burst) {
 				p_77659_2_.spawnEntityInWorld(new EntityGrenadeBurst(p_77659_2_, p_77659_3_));
 			}
+
+			if (this == ModItems.grenade_if_generic) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFGeneric(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_he) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFHE(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_bouncy) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFBouncy(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_sticky) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFSticky(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_impact) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFImpact(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_incendiary) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFIncendiary(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_toxic) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFToxic(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_concussion) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFConcussion(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_brimstone) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFBrimstone(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_mystery) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFMystery(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_spark) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFSpark(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_hopwire) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFHopwire(p_77659_2_, p_77659_3_));
+			}
+			if (this == ModItems.grenade_if_null) {
+				p_77659_2_.spawnEntityInWorld(new EntityGrenadeIFNull(p_77659_2_, p_77659_3_));
+			}
 		}
 
 		return p_77659_1_;
@@ -160,6 +218,26 @@ public class ItemGrenade extends Item {
 		}
 
 		return EnumRarity.common;
+	}
+	
+	private String translateFuse() {
+		if(fuse == -1)
+			return "Impact";
+		
+		if(fuse == 0)
+			return "Instant";
+		
+		return fuse + "s";
+	}
+
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+		list.add("Fuse: " + translateFuse());
+	}
+	
+	public static int getFuseTicks(Item grenade) {
+		return ((ItemGrenade)grenade).fuse * 20;
 	}
 
 }

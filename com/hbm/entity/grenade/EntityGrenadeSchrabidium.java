@@ -1,11 +1,13 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeSchrabidium extends EntityGrenadeBase
+public class EntityGrenadeSchrabidium extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -34,5 +36,15 @@ public class EntityGrenadeSchrabidium extends EntityGrenadeBase
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 1.5F, true);
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_schrabidium);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 
 }

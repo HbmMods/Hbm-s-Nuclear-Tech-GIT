@@ -13,6 +13,7 @@ import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
 import com.hbm.lib.HbmChestContents;
@@ -31,6 +32,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -293,7 +295,7 @@ public class TestEventTester extends Block {
 			WeightedRandomChestContent.generateChestContents(worldObj.rand, HbmChestContents.getLoot(3), (TileEntityCrateSteel)worldObj.getTileEntity(par2, par3, par4), 32);
 		}*/
     	
-    	EntityBurningFOEQ foeq = new EntityBurningFOEQ(worldObj);
+    	/*EntityBurningFOEQ foeq = new EntityBurningFOEQ(worldObj);
     	foeq.posX = par2;
     	foeq.posY = 400;
     	foeq.posZ = par4;
@@ -302,7 +304,19 @@ public class TestEventTester extends Block {
     	foeq.motionY = -4D;
     	
     	if(!worldObj.isRemote)
-    		worldObj.spawnEntityInWorld(foeq);
+    		worldObj.spawnEntityInWorld(foeq);*/
+    	
+    	if(!worldObj.isRemote) {
+    		worldObj.setBlockToAir(par2, par3, par4);
+    		ExplosionLarge.jolt(worldObj, par2 - 0.5, par3 - 0.5, par4 - 0.5, 5, 200, 0.25);
+    		ExplosionLarge.explode(worldObj, par2 + 0.5, par3 + 0.5, par4 + 0.5, 5, false, false, false);
+    	}
+
+    	/*if(!worldObj.isRemote) {
+
+            EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), this, worldObj.getBlockMetadata(par2, par3, par4));
+            worldObj.spawnEntityInWorld(entityfallingblock);
+    	}*/
         
         return true;
     }

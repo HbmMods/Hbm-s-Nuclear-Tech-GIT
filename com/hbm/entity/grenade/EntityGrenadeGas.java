@@ -7,8 +7,10 @@ import java.util.Random;
 
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
-public class EntityGrenadeGas extends EntityGrenadeBase {
+public class EntityGrenadeGas extends EntityGrenadeBouncyBase {
 	private static final String __OBFID = "CL_00001722";
 	Random rand = new Random();
 
@@ -46,6 +48,16 @@ public class EntityGrenadeGas extends EntityGrenadeBase {
 
 			// }
 		}
+	}
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_gas);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
 	}
 
 }

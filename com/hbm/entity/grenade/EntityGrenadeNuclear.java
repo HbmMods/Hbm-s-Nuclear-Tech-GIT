@@ -5,12 +5,14 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadeNuclear extends EntityGrenadeBase
+public class EntityGrenadeNuclear extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -52,4 +54,14 @@ public class EntityGrenadeNuclear extends EntityGrenadeBase
         	}
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_nuclear);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 }

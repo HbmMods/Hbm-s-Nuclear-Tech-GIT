@@ -10,6 +10,7 @@ import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -200,6 +201,57 @@ public class ExplosionLarge {
 			spawnRubble(world, x, y, z, rubbleFunction((int)strength));
 		if(shrapnel)
 			spawnShrapnels(world, x, y, z, shrapnelFunction((int)strength));
+	}
+	
+	public static void jolt(World world, double posX, double posY, double posZ, double strength, int count, double vel) {
+		
+		for(int j = 0; j < count; j++) {
+			
+			double phi = rand.nextDouble() * (Math.PI * 2);
+			double costheta = rand.nextDouble() * 2 - 1;
+			double theta = Math.acos(costheta);
+			double x = Math.sin( theta) * Math.cos( phi );
+			double y = Math.sin( theta) * Math.sin( phi );
+			double z = Math.cos( theta );
+				
+			Vec3 vec = Vec3.createVectorHelper(x, y, z);
+				
+			for(int i = 0; i < strength; i ++) {
+				double x0 = posX + (vec.xCoord * i);
+				double y0 = posY + (vec.yCoord * i);
+				double z0 = posZ + (vec.zCoord * i);
+					
+				if(!world.isRemote) {
+					if(world.getBlock((int)x0, (int)y0, (int)z0).getMaterial().isLiquid()) {
+						world.setBlock((int)x0, (int)y0, (int)z0, Blocks.air);
+					}
+					
+					if(world.getBlock((int)x0, (int)y0, (int)z0) != Blocks.air) {
+						
+						if(world.getBlock((int)x0, (int)y0, (int)z0).getExplosionResistance(null) > 70)
+							continue;
+			            
+			            EntityRubble rubble = new EntityRubble(world);
+						rubble.posX = x0 + 0.5F;
+						rubble.posY = y0 + 0.5F;
+						rubble.posZ = z0 + 0.5F;
+						rubble.setMetaBasedOnMat(world.getBlock((int)x0, (int)y0, (int)z0).getMaterial());
+						
+						Vec3 vec4 = Vec3.createVectorHelper(posX - rubble.posX, posY - rubble.posY, posZ - rubble.posZ);
+						vec4.normalize();
+
+						rubble.motionX = vec4.xCoord * vel;
+						rubble.motionY = vec4.yCoord * vel;
+						rubble.motionZ = vec4.zCoord * vel;
+						
+						world.spawnEntityInWorld(rubble);
+					
+						world.setBlock((int)x0, (int)y0, (int)z0, Blocks.air);
+						break;
+					}
+				}
+			}
+		}
 	}
 	
 	public static int cloudFunction(int i) {

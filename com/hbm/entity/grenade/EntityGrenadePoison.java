@@ -1,11 +1,13 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGrenade;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
-public class EntityGrenadePoison extends EntityGrenadeBase
+public class EntityGrenadePoison extends EntityGrenadeBouncyBase
 {
     private static final String __OBFID = "CL_00001722";
 
@@ -35,5 +37,15 @@ public class EntityGrenadePoison extends EntityGrenadeBase
             ExplosionNukeGeneric.wasteNoSchrab(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
         }
     }
+
+	@Override
+	protected int getMaxTimer() {
+		return ItemGrenade.getFuseTicks(ModItems.grenade_poison);
+	}
+
+	@Override
+	protected double getBounceMod() {
+		return 0.25D;
+	}
 
 }
