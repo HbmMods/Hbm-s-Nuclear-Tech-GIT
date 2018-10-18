@@ -24,8 +24,8 @@ public class ModelRubble extends ModelBase {
 	ModelRenderer Shape10;
 
 	public ModelRubble() {
-		textureWidth = 64;
-		textureHeight = 32;
+		textureWidth = 16;
+		textureHeight = 16;
 
 		Shape1 = new ModelRenderer(this, 0, 0);
 		Shape1.addBox(0F, 0F, 0F, 14, 6, 6);

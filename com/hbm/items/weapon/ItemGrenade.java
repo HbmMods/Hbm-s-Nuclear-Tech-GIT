@@ -49,6 +49,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemGrenade extends Item {
@@ -234,6 +235,59 @@ public class ItemGrenade extends Item {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
 		list.add("Fuse: " + translateFuse());
+
+		if (this == ModItems.grenade_if_generic) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"How do you like " + EnumChatFormatting.RESET + EnumChatFormatting.GRAY + "them" + EnumChatFormatting.ITALIC + " apples?\"");
+		}
+		if (this == ModItems.grenade_if_he) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"You better run, you better take cover!\"");
+		}
+		if (this == ModItems.grenade_if_bouncy) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"Boing!\"");
+		}
+		if (this == ModItems.grenade_if_sticky) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"This one is the booger grenade.\"");
+		}
+		if (this == ModItems.grenade_if_impact) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"Tossable boom.\"");
+		}
+		if (this == ModItems.grenade_if_incendiary) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"Flaming wheel of destruction!\"");
+		}
+		if (this == ModItems.grenade_if_toxic) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"TOXIC SHOCK\"");
+		}
+		if (this == ModItems.grenade_if_concussion) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"Oof ouch owie, my bones!\"");
+		}
+		if (this == ModItems.grenade_if_brimstone) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"Zoop!\"");
+		}
+		if (this == ModItems.grenade_if_mystery) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"It's a mystery!\"");
+		}
+		if (this == ModItems.grenade_if_spark) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"31-31-31-31-31-31-31-31-31-31-31-31-31\"");
+		}
+		if (this == ModItems.grenade_if_hopwire) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "\"All I ever wished for was a bike that didn't fall over.\"");
+		}
+		if (this == ModItems.grenade_if_null) {
+			list.add("");
+			list.add(EnumChatFormatting.ITALIC + "java.lang.NullPointerException");
+		}
 	}
 	
 	public static int getFuseTicks(Item grenade) {

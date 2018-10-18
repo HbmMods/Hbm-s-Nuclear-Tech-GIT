@@ -185,7 +185,7 @@ public class ItemMultitoolPassive extends Item {
 						rubble.posZ = z1 + 0.5F;
 						
 						rubble.motionY = 0.025F * w1 + 0.15F;
-						rubble.setMetaBasedOnMat(b.getMaterial());
+						rubble.setMetaBasedOnBlock(b, world.getBlockMetadata(x1, y1, z1));
 						
 						world.spawnEntityInWorld(rubble);
 						

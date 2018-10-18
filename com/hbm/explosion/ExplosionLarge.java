@@ -88,7 +88,7 @@ public class ExplosionLarge {
 			rubble.motionY = 0.75						* (1 + ((count + rand.nextInt(count * 5))) / 25);
 			rubble.motionX = rand.nextGaussian() * 0.75	* (1 + (count / 50));
 			rubble.motionZ = rand.nextGaussian() * 0.75	* (1 + (count / 50));
-			rubble.getDataWatcher().updateObject(16, (byte)rand.nextInt(7));
+			rubble.setMetaBasedOnBlock(Blocks.stone, 0);
 			world.spawnEntityInWorld(rubble);
 		}
 	}
@@ -235,7 +235,7 @@ public class ExplosionLarge {
 						rubble.posX = x0 + 0.5F;
 						rubble.posY = y0 + 0.5F;
 						rubble.posZ = z0 + 0.5F;
-						rubble.setMetaBasedOnMat(world.getBlock((int)x0, (int)y0, (int)z0).getMaterial());
+						rubble.setMetaBasedOnBlock(world.getBlock((int)x0, (int)y0, (int)z0), world.getBlockMetadata((int)x0, (int)y0, (int)z0));
 						
 						Vec3 vec4 = Vec3.createVectorHelper(posX - rubble.posX, posY - rubble.posY, posZ - rubble.posZ);
 						vec4.normalize();

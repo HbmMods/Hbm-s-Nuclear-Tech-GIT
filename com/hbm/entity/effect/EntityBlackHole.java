@@ -61,7 +61,7 @@ public class EntityBlackHole extends Entity {
 						rubble.posX = x0 + 0.5F;
 						rubble.posY = y0;
 						rubble.posZ = z0 + 0.5F;
-						rubble.setMetaBasedOnMat(worldObj.getBlock(x0, y0, z0).getMaterial());
+						rubble.setMetaBasedOnBlock(worldObj.getBlock(x0, y0, z0), worldObj.getBlockMetadata(x0, y0, z0));
 						
 						worldObj.spawnEntityInWorld(rubble);
 					

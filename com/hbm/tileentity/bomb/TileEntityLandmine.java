@@ -24,12 +24,14 @@ public class TileEntityLandmine extends TileEntity {
 		if(!worldObj.isRemote) {
 			Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
 			double range = 1;
+			double height = 1;
 
 			if (block == ModBlocks.mine_ap) {
 				range = 1.5D;
 			}
 			if (block == ModBlocks.mine_he) {
 				range = 2;
+				height = 5;
 			}
 			if (block == ModBlocks.mine_shrap) {
 				range = 1.5D;
@@ -39,7 +41,7 @@ public class TileEntityLandmine extends TileEntity {
 			}
 	
 			List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null,
-					AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - 1, zCoord - range, xCoord + range, yCoord + 1, zCoord + range));
+					AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - height, zCoord - range, xCoord + range, yCoord + height, zCoord + range));
 	
 			boolean flag = false;
 			for (Object o : list) {

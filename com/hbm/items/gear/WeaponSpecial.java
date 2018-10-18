@@ -159,7 +159,7 @@ public class WeaponSpecial extends ItemSword {
 				rubble.posY = y;
 				rubble.posZ = z + 0.5F;
 				
-				rubble.setMetaBasedOnMat(world.getBlock(x, y, z).getMaterial());
+				rubble.setMetaBasedOnBlock(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
 				
 				Vec3 vec = player.getLookVec();
 				double dX = vec.xCoord * 5;

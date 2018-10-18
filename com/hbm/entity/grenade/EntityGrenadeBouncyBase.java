@@ -146,6 +146,11 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         	
         	bounce = true;
 
+        	Vec3 mot = Vec3.createVectorHelper(motionX, motionY, motionZ);
+        	
+        	if(mot.lengthVector() > 0.05)
+        		worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 2.0F, 1.0F);
+
         	motionX *= getBounceMod();
         	motionY *= getBounceMod();
         	motionZ *= getBounceMod();

@@ -25,6 +25,7 @@
     "block.vaultThudNew": {"category": "block", "sounds": [{"name": "block/vaultThudNew", "stream": false}]},
     "block.lockOpen": {"category": "block", "sounds": [{"name": "block/lockOpen", "stream": false}]},
     "block.lockHang": {"category": "block", "sounds": [{"name": "block/lockHang", "stream": false}]},
+    "block.debris": {"category": "block", "sounds": ["block/debris1", "block/debris2", "block/debris3"]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
@@ -82,6 +83,7 @@
     "weapon.laserBang": {"category": "player", "sounds": ["weapon/laserBang1", "weapon/laserBang2", "weapon/laserBang3"]},
     "weapon.uziShoot": {"category": "player", "sounds": [{"name": "weapon/uziShoot", "stream": false}]},
     "weapon.silencerShoot": {"category": "player", "sounds": [{"name": "weapon/silencerShoot", "stream": false}]},
+    "weapon.gBounce": {"category": "player", "sounds": ["weapon/gBounce1", "weapon/gBounce2", "weapon/gBounce3"]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

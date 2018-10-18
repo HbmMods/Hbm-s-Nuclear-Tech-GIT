@@ -395,6 +395,10 @@ public class ExplosionChaos {
 
 	public static void pDestruction(World world, int x, int y, int z) {
 
+        EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+        world.spawnEntityInWorld(entityfallingblock);
+        
+        /*
 		if (Blocks.air.getBlockHardness(world, x, y, z) != Float.POSITIVE_INFINITY) {
 			Block b = world.getBlock(x, y, z);
 			TileEntity t = world.getTileEntity(x, y, z);
@@ -439,7 +443,7 @@ public class ExplosionChaos {
 				world.setBlock(x, y, z, ModBlocks.block_scrap);
 			else
 				world.setBlock(x, y, z, Blocks.air);
-		}
+		}*/
 	}
 
 	public static void cluster(World world, int x, int y, int z, int count, int gravity) {
@@ -1242,7 +1246,7 @@ public class ExplosionChaos {
 					rubble.posZ = j + 0.5F;
 					
 					rubble.motionY = 0.025F * 10 + 0.15F;
-					rubble.setMetaBasedOnMat(b.getMaterial());
+					rubble.setMetaBasedOnBlock(b, world.getBlockMetadata(i, y, j));
 					
 					world.spawnEntityInWorld(rubble);
 					

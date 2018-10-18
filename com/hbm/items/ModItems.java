@@ -2126,7 +2126,7 @@ public class ModItems {
 		grenade_if_concussion = new ItemGrenade(4).setUnlocalizedName("grenade_if_concussion").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_concussion");
 		grenade_if_brimstone = new ItemGrenade(5).setUnlocalizedName("grenade_if_brimstone").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_brimstone");
 		grenade_if_mystery = new ItemGrenade(5).setUnlocalizedName("grenade_if_mystery").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_mystery");
-		grenade_if_spark = new ItemGrenade(5).setUnlocalizedName("grenade_if_spark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_spark");
+		grenade_if_spark = new ItemGrenade(7).setUnlocalizedName("grenade_if_spark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_spark");
 		grenade_if_hopwire = new ItemGrenade(7).setUnlocalizedName("grenade_if_hopwire").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_hopwire");
 		grenade_if_null = new ItemGrenade(7).setUnlocalizedName("grenade_if_null").setCreativeTab(null).setTextureName(RefStrings.MODID + ":grenade_if_null");
 		

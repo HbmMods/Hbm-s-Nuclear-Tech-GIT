@@ -1,7 +1,12 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.ParticleBurstPacket;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.MovingObjectPosition;
@@ -21,7 +26,8 @@ public class EntityRubble extends EntityThrowable {
 
     @Override
 	public void entityInit() {
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(16, (int)Integer.valueOf(0));
+        this.dataWatcher.addObject(17, (int)Integer.valueOf(0));
     }
 
     public EntityRubble(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
@@ -41,25 +47,18 @@ public class EntityRubble extends EntityThrowable {
 
         if(this.ticksExisted > 2) {
         	this.setDead();
-        	if(!this.worldObj.isRemote)
-        		worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 0.1F, true);
+        	
+    		worldObj.playSoundAtEntity(this, "hbm:block.debris", 1.5F, 1.0F);
+            //worldObj.playAuxSFX(2001, (int)posX, (int)posY, (int)posZ, this.dataWatcher.getWatchableObjectInt(16) + (this.dataWatcher.getWatchableObjectInt(17) << 12));
+    		
+    		if(!worldObj.isRemote)
+    			PacketDispatcher.wrapper.sendToAll(new ParticleBurstPacket((int)posX - 1, (int)posY, (int)posZ - 1, this.dataWatcher.getWatchableObjectInt(16), this.dataWatcher.getWatchableObjectInt(17)));
         }
     }
     
-    public void setMetaBasedOnMat(Material mat) {
-    	if(mat == Material.anvil || mat == Material.iron)
-        	this.dataWatcher.updateObject(16, (byte)0);
-    	else if(mat == Material.rock || mat == Material.piston || mat == Material.redstoneLight)
-        	this.dataWatcher.updateObject(16, (byte)1);
-    	else if(mat == Material.cactus || mat == Material.coral || mat == Material.gourd || mat == Material.leaves || mat == Material.plants || mat == Material.sponge)
-        	this.dataWatcher.updateObject(16, (byte)2);
-    	else if(mat == Material.clay || mat == Material.sand)
-        	this.dataWatcher.updateObject(16, (byte)3);
-    	else if(mat == Material.ground || mat == Material.grass)
-        	this.dataWatcher.updateObject(16, (byte)4);
-    	else if(mat == Material.wood)
-        	this.dataWatcher.updateObject(16, (byte)5);
-    	else
-        	this.dataWatcher.updateObject(16, (byte)6);
+    public void setMetaBasedOnBlock(Block b, int i) {
+
+    	this.dataWatcher.updateObject(16, Block.getIdFromBlock(b));
+    	this.dataWatcher.updateObject(17, i);
     }
 }
