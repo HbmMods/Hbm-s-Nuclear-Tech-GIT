@@ -2654,13 +2654,12 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.hull_big_steel, 4));
 			break;
 		case MINER:
-			list.add(new ItemStack(ModBlocks.steel_scaffold, 12));
+			list.add(new ItemStack(ModBlocks.steel_scaffold, 6));
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
-			list.add(new ItemStack(ModItems.plate_titanium, 6));
 			list.add(new ItemStack(ModItems.wire_red_copper, 4));
-			list.add(new ItemStack(ModItems.circuit_copper, 2));
+			list.add(new ItemStack(ModItems.circuit_copper, 1));
 			list.add(new ItemStack(ModItems.motor, 1));
-			list.add(new ItemStack(ModItems.ingot_dura_steel, 6));
+			list.add(new ItemStack(ModItems.ingot_dura_steel, 2));
 			list.add(new ItemStack(ModItems.bolt_dura_steel, 2));
 			list.add(new ItemStack(ModItems.drill_titanium, 1));
 			break;

@@ -15,18 +15,20 @@ public class TEDrillPacket implements IMessage {
 	int y;
 	int z;
 	float spin;
+	float torque;
 
 	public TEDrillPacket()
 	{
 		
 	}
 
-	public TEDrillPacket(int x, int y, int z, float spin)
+	public TEDrillPacket(int x, int y, int z, float spin, float torque)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.spin = spin;
+		this.torque = torque;
 	}
 
 	@Override
@@ -35,6 +37,7 @@ public class TEDrillPacket implements IMessage {
 		y = buf.readInt();
 		z = buf.readInt();
 		spin = buf.readFloat();
+		torque = buf.readFloat();
 	}
 
 	@Override
@@ -43,6 +46,7 @@ public class TEDrillPacket implements IMessage {
 		buf.writeInt(y);
 		buf.writeInt(z);
 		buf.writeFloat(spin);
+		buf.writeFloat(torque);
 	}
 
 	public static class Handler implements IMessageHandler<TEDrillPacket, IMessage> {
@@ -55,6 +59,7 @@ public class TEDrillPacket implements IMessage {
 					
 				TileEntityMachineMiningDrill gen = (TileEntityMachineMiningDrill) te;
 				gen.rotation = m.spin;
+				gen.torque = m.torque;
 			}
 			return null;
 		}

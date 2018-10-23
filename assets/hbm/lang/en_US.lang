@@ -692,6 +692,8 @@ tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
 
 tile.gravel_obsidian.name=Crushed Obsidian
 
+tile.barbed_wire.name=Barbed Wire
+
 tile.seal_frame.name=Silo Hatch Frame
 tile.seal_controller.name=Silo Hatch Opener
 tile.seal_hatch.name=Silo Hatch
@@ -1091,7 +1093,7 @@ item.grenade_if_concussion.name=IF - Concussion Grenade
 item.grenade_if_brimstone.name=IF - Tossable Brimstone Mine
 item.grenade_if_mystery.name=IF - M.-Grenade
 item.grenade_if_spark.name=IF - S.-Grenade
-item.grenade_if_hopwire.name=IF - Black Hole Hopwire
+item.grenade_if_hopwire.name=IF - Vortex Hopwire
 item.grenade_if_null.name=IF - Null Grenade
 
 item.rod_uranium_fuel.name=Uranium Fuel Rod

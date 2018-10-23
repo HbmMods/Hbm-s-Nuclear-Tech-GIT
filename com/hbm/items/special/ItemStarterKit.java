@@ -46,7 +46,7 @@ public class ItemStarterKit extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		stack.damageItem(5, player);
+		//stack.damageItem(5, player);
 		
 		if(this == ModItems.nuke_starter_kit)
 		{
@@ -567,7 +567,9 @@ public class ItemStarterKit extends Item {
 				player.addChatMessage(new ChatComponentText("You rip the letter in half; nothing happens."));
 			}
 		}
-		
+
+		world.playSoundAtEntity(player, "hbm:item.unpack", 1.0F, 1.0F);
+		stack.stackSize--;
 		return stack;
 		
 	}

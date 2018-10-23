@@ -36,6 +36,7 @@ public class ItemSyringe extends Item {
             	player.clearActivePotions();
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if (stack.stackSize <= 0)
             	{
@@ -65,6 +66,7 @@ public class ItemSyringe extends Item {
                 player.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
                 
                 stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
                 if (stack.stackSize <= 0)
                 {
@@ -88,6 +90,7 @@ public class ItemSyringe extends Item {
             		player.attackEntityFrom(ModDamageSource.euthanizedSelf2, 30);
                 
                 stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
                 if (stack.stackSize <= 0)
                 {
@@ -108,6 +111,7 @@ public class ItemSyringe extends Item {
             	player.heal(5);
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if (stack.stackSize <= 0)
             	{
@@ -128,6 +132,7 @@ public class ItemSyringe extends Item {
             	player.addPotionEffect(new PotionEffect(Potion.resistance.id, 4 * 60 * 20, 2));
             	
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if (stack.stackSize <= 0)
             	{
@@ -149,6 +154,7 @@ public class ItemSyringe extends Item {
             	player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2 * 60 * 20, 0));
             	
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if (stack.stackSize <= 0)
             	{
@@ -170,6 +176,7 @@ public class ItemSyringe extends Item {
             	player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 0));
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if (stack.stackSize <= 0)
             	{
@@ -210,6 +217,7 @@ public class ItemSyringe extends Item {
         		player.removePotionEffect(HbmPotion.radiation.id);
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
             }
 		}
 		
@@ -221,6 +229,7 @@ public class ItemSyringe extends Item {
                 player.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
             }
 
         	if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty)))
@@ -319,6 +328,7 @@ public class ItemSyringe extends Item {
             	entity.clearActivePotions();
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -347,6 +357,7 @@ public class ItemSyringe extends Item {
             	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
                 
                 stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -366,6 +377,7 @@ public class ItemSyringe extends Item {
             	entity.attackEntityFrom(ModDamageSource.euthanized(entityPlayer, entityPlayer), 30);
                 
                 stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -385,6 +397,7 @@ public class ItemSyringe extends Item {
             	entity.heal(5);
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -404,6 +417,7 @@ public class ItemSyringe extends Item {
             	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 4 * 60 * 20, 2));
             	
             	stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -424,6 +438,7 @@ public class ItemSyringe extends Item {
             	entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2 * 60 * 20, 0));
             	
             	stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -444,6 +459,7 @@ public class ItemSyringe extends Item {
             	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 0));
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{
@@ -464,6 +480,7 @@ public class ItemSyringe extends Item {
             	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
             
             	stack.stackSize--;
+            	world.playSoundAtEntity(entity, "hbm:item.syringe", 1.0F, 1.0F);
 
             	if(entityPlayer instanceof EntityPlayer)
             	{

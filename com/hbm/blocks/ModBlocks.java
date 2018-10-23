@@ -210,6 +210,8 @@ public class ModBlocks {
 
 	public static Block vault_door;
 	public static Block blast_door;
+	
+	public static Block barbed_wire;
 
 	public static Block marker_structure;
 
@@ -880,6 +882,8 @@ public class ModBlocks {
 		vault_door = new VaultDoor(Material.iron).setBlockName("vault_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vault_door");
 		blast_door = new BlastDoor(Material.iron).setBlockName("blast_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":blast_door");
 		
+		barbed_wire = new BarbedWire(Material.iron).setBlockName("barbed_wire").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":barbed_wire");
+		
 		marker_structure = new BlockMarker(Material.iron).setBlockName("marker_structure").setHardness(0.0F).setResistance(0.0F).setLightLevel(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":marker_structure");
 		
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
@@ -1124,6 +1128,9 @@ public class ModBlocks {
 		//CMB Building Elements
 		GameRegistry.registerBlock(cmb_brick, cmb_brick.getUnlocalizedName());
 		GameRegistry.registerBlock(cmb_brick_reinforced, cmb_brick_reinforced.getUnlocalizedName());
+		
+		//Other defensive stuff
+		GameRegistry.registerBlock(barbed_wire, barbed_wire.getUnlocalizedName());
 		
 		//Decoration Blocks
 		GameRegistry.registerBlock(block_meteor, block_meteor.getUnlocalizedName());

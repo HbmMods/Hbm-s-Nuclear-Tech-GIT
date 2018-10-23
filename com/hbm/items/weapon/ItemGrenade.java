@@ -278,7 +278,8 @@ public class ItemGrenade extends Item {
 		}
 		if (this == ModItems.grenade_if_spark) {
 			list.add("");
-			list.add(EnumChatFormatting.ITALIC + "\"31-31-31-31-31-31-31-31-31-31-31-31-31\"");
+			//list.add(EnumChatFormatting.ITALIC + "\"31-31-31-31-31-31-31-31-31-31-31-31-31\"");
+			list.add(EnumChatFormatting.ITALIC + "\"We can't rewind, we've gone too far.\"");
 		}
 		if (this == ModItems.grenade_if_hopwire) {
 			list.add("");

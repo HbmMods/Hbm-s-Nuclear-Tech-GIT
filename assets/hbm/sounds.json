@@ -39,6 +39,9 @@
     "item.pinBreak": {"category": "player", "sounds": [{"name": "tool/pinBreak", "stream": false}]},
     "item.gasmaskScrew": {"category": "player", "sounds": [{"name": "tool/gasmaskScrew", "stream": false}]},
     "item.jetpackTank": {"category": "player", "sounds": [{"name": "tool/jetpackTank", "stream": false}]},
+    "item.unpack": {"category": "player", "sounds": ["tool/extract1", "tool/extract2"]},
+    "item.syringe": {"category": "player", "sounds": [{"name": "tool/stim", "stream": false}]},
+    "item.radaway": {"category": "player", "sounds": [{"name": "tool/radaway", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},

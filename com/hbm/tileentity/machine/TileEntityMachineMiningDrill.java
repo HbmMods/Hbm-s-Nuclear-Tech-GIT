@@ -464,7 +464,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 			if(rotation >= 360)
 				rotation -= 360;
 
-			PacketDispatcher.wrapper.sendToAll(new TEDrillPacket(xCoord, yCoord, zCoord, rotation));
+			PacketDispatcher.wrapper.sendToAll(new TEDrillPacket(xCoord, yCoord, zCoord, rotation, torque));
 			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
@@ -528,7 +528,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	//"ok"
 	public boolean isOreo(int x, int y, int z) {
 		
-		Block b = worldObj.getBlock(x, y, z);
+		/*Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
 		
 		if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || 
@@ -545,14 +545,17 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 			
 			if(s.length() > 3 && s.substring(0, 3).equals("ore"))
 				return true;
-		}
+		}*/
 		
-		return false;
+		Block b = worldObj.getBlock(x, y, z);
+		float hardness = b.getBlockHardness(worldObj, x, y, z);
+		
+		return hardness < 70 && hardness >= 0;
 	}
 	
 	public boolean isMinableOreo(int x, int y, int z) {
 		
-		Block b = worldObj.getBlock(x, y, z);
+		/*Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
 		
 		if(b == Blocks.grass || b == Blocks.dirt || 
@@ -571,7 +574,12 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 				return true;
 		}
 		
-		return false;
+		return false;*/
+		
+		Block b = worldObj.getBlock(x, y, z);
+		float hardness = b.getBlockHardness(worldObj, x, y, z);
+		
+		return hardness < 70 && hardness >= 0;
 	}
 	
 	/**

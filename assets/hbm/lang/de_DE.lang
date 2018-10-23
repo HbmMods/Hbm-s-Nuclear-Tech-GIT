@@ -692,6 +692,8 @@ tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
 
 tile.gravel_obsidian.name=Gebrochener Obsidian
 
+tile.barbed_wire.name=Stacheldraht
+
 tile.seal_frame.name=Siloluke (Rahmen)
 tile.seal_controller.name=Silolukenöffner
 tile.seal_hatch.name=Siloluke (Deckel)
@@ -1091,7 +1093,7 @@ item.grenade_if_concussion.name=IF - Erschütterungsgranate
 item.grenade_if_brimstone.name=IF - Werfbare Brimstone-Mine
 item.grenade_if_mystery.name=IF - M.-Granate
 item.grenade_if_spark.name=IF - S.-Granate
-item.grenade_if_hopwire.name=IF - Schwarzes Loch Hopwire
+item.grenade_if_hopwire.name=IF - Vortex Hopwire
 item.grenade_if_null.name=IF - Null-Granate
 
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
