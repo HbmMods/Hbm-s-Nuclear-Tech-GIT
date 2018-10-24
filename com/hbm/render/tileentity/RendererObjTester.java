@@ -6,6 +6,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.model.ModelCalBarrel;
+import com.hbm.render.model.ModelCalDualStock;
+import com.hbm.render.model.ModelCalStock;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -32,8 +35,8 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
-        //GL11.glRotatef(180, 0F, 0F, 1F);
+        GL11.glTranslated(x + 0.5D, y + 1, z + 0.5D);
+        GL11.glRotatef(180, 0F, 0F, 1F);
 		/*switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
@@ -48,9 +51,10 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 
         /*bindTexture(objTesterTexture);
         objTesterModel.renderAll();*/
-		
-        GL11.glEnable(GL11.GL_LIGHTING);
+        
 		//GL11.glScaled(5, 5, 5);
+		
+        /*GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
 		bindTexture(ResourceManager.sat_foeq_burning_tex);
 		ResourceManager.sat_foeq_burning.renderAll();
@@ -88,7 +92,23 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		}
 		
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);*/
+
+        ModelCalBarrel barrel = new ModelCalBarrel();
+        ModelCalStock stock = new ModelCalStock();
+        ModelCalDualStock saddle = new ModelCalDualStock();
+
+        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalDualStock.png"));
+        saddle.renderAll(1F/16F);
+        
+        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalBarrel.png"));
+        GL11.glTranslated(0, 0, -0.25);
+        barrel.renderAll(1F/16F);
+        GL11.glTranslated(0, 0, 0.5);
+        barrel.renderAll(1F/16F);
+        
+        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));
+        //stock.renderAll(1F/16F);
 
         GL11.glPopMatrix();
     }

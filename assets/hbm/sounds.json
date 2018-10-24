@@ -87,6 +87,7 @@
     "weapon.uziShoot": {"category": "player", "sounds": [{"name": "weapon/uziShoot", "stream": false}]},
     "weapon.silencerShoot": {"category": "player", "sounds": [{"name": "weapon/silencerShoot", "stream": false}]},
     "weapon.gBounce": {"category": "player", "sounds": ["weapon/gBounce1", "weapon/gBounce2", "weapon/gBounce3"]},
+    "weapon.calShoot": {"category": "player", "sounds": ["weapon/cal1", "weapon/cal2", "weapon/cal3"]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

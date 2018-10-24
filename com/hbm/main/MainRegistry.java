@@ -522,8 +522,8 @@ public class MainRegistry
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
 	public static int radfreq = 5000;
-	public static int meteorStrikeChance = 20 * 60 * 90;
-	public static int meteorShowerChance = 20 * 60 * 3;
+	public static int meteorStrikeChance = 20 * 60 * 180;
+	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
 	public static int limitExplosionLifespan = 0;
 	public static int radarRange = 1000;
@@ -1676,10 +1676,10 @@ public class MainRegistry
         propRad.comment = "Spawn radiation hotspot on every nTH chunk";
         radfreq = propRad.getInt();
 
-        Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 50000);
+        Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 20 * 60 * 180);
         propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";
         meteorStrikeChance = propMeteorStrikeChance.getInt();
-        Property propMeteorShowerChance = config.get(Configuration.CATEGORY_GENERAL, "5.01_meteorShowerChance", 500);
+        Property propMeteorShowerChance = config.get(Configuration.CATEGORY_GENERAL, "5.01_meteorShowerChance", 20 * 60 * 5);
         propMeteorShowerChance.comment = "The probability of a meteor spawning during meteor shower (an average of once every nTH ticks)";
         meteorShowerChance = propMeteorShowerChance.getInt();
         Property propMeteorShowerDuration = config.get(Configuration.CATEGORY_GENERAL, "5.02_meteorShowerDuration", 6000);

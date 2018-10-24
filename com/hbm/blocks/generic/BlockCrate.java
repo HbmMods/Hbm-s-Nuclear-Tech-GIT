@@ -110,6 +110,8 @@ public class BlockCrate extends BlockFalling {
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver_nightmare, 5);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver_nightmare2, 4);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver_pip, 3);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_calamity, 3);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_calamity_dual, 2);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_rpg, 8);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_stinger, 7);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_fatman, 5);
@@ -215,6 +217,7 @@ public class BlockCrate extends BlockFalling {
     	BlockCrate.addToListWithWeight(redList, ModItems.mysteryshovel, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.gun_revolver_pip, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.clip_revolver_pip, 1);
+    	BlockCrate.addToListWithWeight(redList, ModItems.gun_calamity_dual, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.gun_b92, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.weaponized_starblaster_cell, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.battery_spark, 1);
