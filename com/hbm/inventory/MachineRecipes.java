@@ -120,23 +120,14 @@ public class MachineRecipes {
 
 	// Arrays!
 
-	public static ItemStack[] getCentrifugeProcessingResult(Item item) {
+	public static ItemStack[] getCentrifugeProcessingResult(ItemStack item) {
 		return getCentrifugeOutput(item);
 	}
 
-	public static ItemStack[] getCentrifugeOutput(Item item) {
+	public static ItemStack[] getCentrifugeOutput(ItemStack item) {
 
-		ItemStack[] uranium = new ItemStack[] { new ItemStack(ModItems.nugget_u238, 4),
-				new ItemStack(ModItems.nugget_u238, 4), new ItemStack(ModItems.nugget_u235, 1),
-				new ItemStack(ModItems.cell_empty, 1) };
-		ItemStack[] plutonium = new ItemStack[] { new ItemStack(ModItems.nugget_pu238, 3),
-				new ItemStack(ModItems.nugget_pu239, 1), new ItemStack(ModItems.nugget_pu240, 5),
-				new ItemStack(ModItems.cell_empty, 1) };
 		ItemStack[] test = new ItemStack[] { new ItemStack(Items.apple, 3), new ItemStack(Items.leather, 1),
 				new ItemStack(Items.sugar, 3), new ItemStack(Items.blaze_powder, 2) };
-		ItemStack[] schrabidium = new ItemStack[] { new ItemStack(ModItems.ingot_schrabidium, 1),
-				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.sulfur, 1),
-				new ItemStack(ModItems.cell_empty, 1) };
 
 		ItemStack[] uran1 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 1),
 				new ItemStack(ModItems.nugget_u238, 3), new ItemStack(ModItems.nugget_pu239, 2),
@@ -177,78 +168,307 @@ public class MachineRecipes {
 		ItemStack[] cloud = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.dust, 1),
 				new ItemStack(ModItems.dust, 1) };
-
-		if (item == ModItems.cell_uf6) {
-			return uranium;
-		}
-
-		if (item == ModItems.cell_puf6) {
-			return plutonium;
-		}
+		
+		ItemStack[] coal = new ItemStack[] { new ItemStack(ModItems.powder_coal, 2),
+				new ItemStack(ModItems.powder_coal, 2), new ItemStack(ModItems.powder_coal, 2),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] iron = new ItemStack[] { new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] gold = new ItemStack[] { new ItemStack(ModItems.powder_gold, 1),
+				new ItemStack(ModItems.powder_gold, 1), new ItemStack(ModItems.powder_gold, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] diamond = new ItemStack[] { new ItemStack(ModItems.powder_diamond, 1),
+				new ItemStack(ModItems.powder_diamond, 1), new ItemStack(ModItems.powder_diamond, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] emerald = new ItemStack[] { new ItemStack(ModItems.powder_emerald, 1),
+				new ItemStack(ModItems.powder_emerald, 1), new ItemStack(ModItems.powder_emerald, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] titanium = new ItemStack[] { new ItemStack(ModItems.powder_titanium, 1),
+				new ItemStack(ModItems.powder_titanium, 1), new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] quartz = new ItemStack[] { new ItemStack(ModItems.powder_quartz, 1),
+				new ItemStack(ModItems.powder_quartz, 1), new ItemStack(ModItems.powder_lithium_tiny, 1),
+				new ItemStack(Blocks.netherrack, 1) };
+		ItemStack[] tungsten = new ItemStack[] { new ItemStack(ModItems.powder_tungsten, 1),
+				new ItemStack(ModItems.powder_tungsten, 1), new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] copper = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
+				new ItemStack(ModItems.powder_copper, 1), new ItemStack(ModItems.powder_gold, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] aluminium = new ItemStack[] { new ItemStack(ModItems.powder_aluminium, 1),
+				new ItemStack(ModItems.powder_aluminium, 1), new ItemStack(ModItems.powder_iron, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] lead = new ItemStack[] { new ItemStack(ModItems.powder_lead, 1),
+				new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.powder_gold, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] schrabidium = new ItemStack[] { new ItemStack(ModItems.powder_schrabidium, 1),
+				new ItemStack(ModItems.powder_schrabidium, 1), new ItemStack(ModItems.nugget_solinium, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] rare = new ItemStack[] { new ItemStack(ModItems.powder_desh_mix, 1),
+				new ItemStack(ModItems.powder_actinium_tiny, 1), new ItemStack(ModItems.powder_lanthanium_tiny, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] plutonium = new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 1),
+				new ItemStack(ModItems.powder_plutonium, 1), new ItemStack(ModItems.powder_uranium, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] uranium = new ItemStack[] { new ItemStack(ModItems.powder_uranium, 1),
+				new ItemStack(ModItems.powder_uranium, 1), new ItemStack(ModItems.powder_lead, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] beryllium = new ItemStack[] { new ItemStack(ModItems.powder_beryllium, 1),
+				new ItemStack(ModItems.powder_beryllium, 1), new ItemStack(ModItems.powder_emerald, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] redstone = new ItemStack[] { new ItemStack(Items.redstone, 3),
+				new ItemStack(Items.redstone, 3), new ItemStack(ModItems.powder_lithium_tiny, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] tikite = new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 2),
+				new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_nitan_mix, 1),
+				new ItemStack(Blocks.end_stone, 1) };
+		ItemStack[] lapis = new ItemStack[] { new ItemStack(ModItems.powder_lapis, 3),
+				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt, 1),
+				new ItemStack(Blocks.gravel, 1) };
 
 		if (MainRegistry.enableDebugMode) {
-			if (item == Item.getItemFromBlock(ModBlocks.test_render)) {
+			if (item.getItem() == Item.getItemFromBlock(ModBlocks.test_render)) {
 				return test;
 			}
 		}
 
-		if (item == ModItems.cell_sas3) {
-			return schrabidium;
-		}
-
-		if (item == ModItems.rod_uranium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_uranium_fuel_depleted) {
 			return uran1;
 		}
 
-		if (item == ModItems.rod_dual_uranium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_dual_uranium_fuel_depleted) {
 			return uran2;
 		}
 
-		if (item == ModItems.rod_quad_uranium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_quad_uranium_fuel_depleted) {
 			return uran3;
 		}
 
-		if (item == ModItems.rod_plutonium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_plutonium_fuel_depleted) {
 			return plutonium1;
 		}
 
-		if (item == ModItems.rod_dual_plutonium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_dual_plutonium_fuel_depleted) {
 			return plutonium2;
 		}
 
-		if (item == ModItems.rod_quad_plutonium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_quad_plutonium_fuel_depleted) {
 			return plutonium3;
 		}
 
-		if (item == ModItems.rod_mox_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_mox_fuel_depleted) {
 			return mox1;
 		}
 
-		if (item == ModItems.rod_dual_mox_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_dual_mox_fuel_depleted) {
 			return mox2;
 		}
 
-		if (item == ModItems.rod_quad_mox_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_quad_mox_fuel_depleted) {
 			return mox3;
 		}
 
-		if (item == ModItems.rod_schrabidium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_schrabidium_fuel_depleted) {
 			return schrabidium1;
 		}
 
-		if (item == ModItems.rod_dual_schrabidium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted) {
 			return schrabidium2;
 		}
 
-		if (item == ModItems.rod_quad_schrabidium_fuel_depleted) {
+		if (item.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted) {
 			return schrabidium3;
 		}
 
-		if (item == ModItems.powder_cloud) {
+		if (item.getItem() == ModItems.powder_cloud) {
 			return cloud;
 		}
 
+		if (mODE(item, "oreCoal")) {
+			return coal;
+		}
+
+		if (mODE(item, "oreIron")) {
+			return iron;
+		}
+
+		if (mODE(item, "oreGold")) {
+			return gold;
+		}
+
+		if (mODE(item, "oreDiamond")) {
+			return diamond;
+		}
+
+		if (mODE(item, "oreEmerald")) {
+			return emerald;
+		}
+
+		if (mODE(item, "oreUranium")) {
+			return uranium;
+		}
+
+		if (mODE(item, "orePlutonium")) {
+			return plutonium;
+		}
+
+		if (mODE(item, "oreTitanium")) {
+			return titanium;
+		}
+
+		if (mODE(item, "oreTungsten")) {
+			return tungsten;
+		}
+
+		if (mODE(item, "oreLead")) {
+			return lead;
+		}
+
+		if (mODE(item, "oreBeryllium")) {
+			return beryllium;
+		}
+
+		if (mODE(item, "oreAluminum")) {
+			return aluminium;
+		}
+
+		if (mODE(item, "oreSchrabidium")) {
+			return schrabidium;
+		}
+
+		if (mODE(item, "oreQuartz") || mODE(item, "oreNetherQuartz")) {
+			return quartz;
+		}
+
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_rare)) {
+			return rare;
+		}
+
+		if (mODE(item, "oreCopper")) {
+			return copper;
+		}
+
+		if (mODE(item, "oreRedstone")) {
+			return redstone;
+		}
+
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_tikite)) {
+			return tikite;
+		}
+
+		if (mODE(item, "oreLapis")) {
+			return lapis;
+		}
+
 		return null;
+	}
+
+	//bro, i don't care
+	@SuppressWarnings("incomplete-switch")
+	public static List<GasCentOutput> getGasCentOutput(FluidType fluid) {
+		
+		List<GasCentOutput> list = new ArrayList();
+		
+		switch(fluid) {
+		case LAVA:
+			list.add(new GasCentOutput(1, new ItemStack(ModBlocks.gravel_obsidian), 1));
+			list.add(new GasCentOutput(2, new ItemStack(Blocks.gravel), 2));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_lithium), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_iron, 2), 4));
+			return list;
+		case UF6:
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 1));
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 2));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_u235), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
+			return list;
+		case PUF6:
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_pu238), 1));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu239), 2));
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_pu240), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
+			return list;
+		case WATZ:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_schrabidium), 1));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_uranium), 2));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.powder_iron), 3));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.powder_copper), 4));
+			return list;
+		case SAS3:
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_schrabidium), 1));
+			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_schrabidium), 2));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.sulfur), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.sulfur), 4));
+			return list;
+		case COOLANT:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 2));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 4));
+			return list;
+		case CRYOGEL:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_ice), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_ice), 2));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.niter), 4));
+			return list;
+		case NITAN:
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 2));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_nitan_mix), 4));
+			return list;
+		}
+		
+		return null;
+	}
+	
+	public static class GasCentOutput {
+		public int weight;
+		public ItemStack output;
+		public int slot;
+		
+		public GasCentOutput(int w, ItemStack s, int i) {
+			weight = w;
+			output = s;
+			slot = i;
+		}
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	public static int getFluidConsumedGasCent(FluidType fluid) {
+		
+		List<GasCentOutput> list = new ArrayList();
+		
+		switch(fluid) {
+		case LAVA:
+			return 1000;
+		case UF6:
+			return 100;
+		case PUF6:
+			return 100;
+		case WATZ:
+			return 100;
+		case SAS3:
+			return 100;
+		case COOLANT:
+			return 2000;
+		case CRYOGEL:
+			return 1000;
+		case NITAN:
+			return 500;
+		}
+		
+		return 100;
+	}
+	
+	private static List<ItemStack> addToListWithWeight(List<ItemStack> list, ItemStack stack, int weight) {
+		
+		for(int i = 0; i < weight; i++)
+			list.add(stack);
+		
+		return list;
 	}
 	
 	public static List<Item> stamps_flat = new ArrayList<Item>() {{
@@ -869,38 +1089,109 @@ public class MachineRecipes {
 
 	public Map<Object, Object[]> getCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
-		recipes.put(new ItemStack(ModItems.cell_uf6), getCentrifugeOutput(ModItems.cell_uf6));
-		recipes.put(new ItemStack(ModItems.cell_puf6), getCentrifugeOutput(ModItems.cell_puf6));
 		if (MainRegistry.enableDebugMode) {
 			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)),
-					getCentrifugeOutput(Item.getItemFromBlock(ModBlocks.test_render)));
+					getCentrifugeOutput(new ItemStack(ModBlocks.test_render)));
 		}
-		recipes.put(new ItemStack(ModItems.cell_sas3), getCentrifugeOutput(ModItems.cell_sas3));
 		recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_uranium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_uranium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_dual_uranium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_quad_uranium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_plutonium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_plutonium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_plutonium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_dual_plutonium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_quad_plutonium_fuel_depleted));
-		recipes.put(new ItemStack(ModItems.rod_mox_fuel_depleted), getCentrifugeOutput(ModItems.rod_mox_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted)));
+		recipes.put(new ItemStack(ModItems.rod_mox_fuel_depleted),
+				getCentrifugeOutput(new ItemStack(ModItems.rod_mox_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_dual_mox_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_dual_mox_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_mox_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_quad_mox_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_quad_mox_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_mox_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_schrabidium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_schrabidium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_dual_schrabidium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
-				getCentrifugeOutput(ModItems.rod_quad_schrabidium_fuel_depleted));
+				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.powder_cloud),
-				getCentrifugeOutput(ModItems.powder_cloud));
+				getCentrifugeOutput(new ItemStack(ModItems.powder_cloud)));
+		recipes.put(new ItemStack(Blocks.coal_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.coal_ore)));
+		recipes.put(new ItemStack(Blocks.iron_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.iron_ore)));
+		recipes.put(new ItemStack(Blocks.gold_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.gold_ore)));
+		recipes.put(new ItemStack(Blocks.diamond_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.diamond_ore)));
+		recipes.put(new ItemStack(Blocks.emerald_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.emerald_ore)));
+		recipes.put(new ItemStack(ModBlocks.ore_uranium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_uranium)));
+		recipes.put(new ItemStack(ModBlocks.ore_titanium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_titanium)));
+		recipes.put(new ItemStack(ModBlocks.ore_tungsten),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_tungsten)));
+		recipes.put(new ItemStack(ModBlocks.ore_aluminium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_aluminium)));
+		recipes.put(new ItemStack(ModBlocks.ore_beryllium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_beryllium)));
+		recipes.put(new ItemStack(ModBlocks.ore_copper),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_copper)));
+		recipes.put(new ItemStack(ModBlocks.ore_lead),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_lead)));
+		recipes.put(new ItemStack(ModBlocks.ore_rare),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_rare)));
+		recipes.put(new ItemStack(ModBlocks.ore_schrabidium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_schrabidium)));
+		recipes.put(new ItemStack(ModBlocks.ore_tikite),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_tikite)));
+		recipes.put(new ItemStack(Blocks.redstone_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.redstone_ore)));
+		recipes.put(new ItemStack(Blocks.lapis_ore),
+				getCentrifugeOutput(new ItemStack(Blocks.lapis_ore)));
+		recipes.put(new ItemStack(ModBlocks.ore_nether_plutonium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_plutonium)));
+		return recipes;
+	}
+
+	public Map<Object, Object[]> getGasCentrifugeRecipes() {
+		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
+
+		for(int i = 0; i < FluidType.values().length; i++) {
+			
+			if(getGasCentOutput(FluidType.getEnum(i)) != null) {
+				
+				List<GasCentOutput> outputs = getGasCentOutput(FluidType.getEnum(i));
+				
+				int totalWeight = 0;
+				
+				for(GasCentOutput o : outputs) {
+					totalWeight += o.weight;
+				}
+				
+				ItemStack input = new ItemStack(ModItems.fluid_icon, 1, i);
+				ItemFluidIcon.addQuantity(input, getFluidConsumedGasCent(FluidType.getEnum(i)) * totalWeight);
+
+				ItemStack[] out = new ItemStack[4];
+				
+				for(int j = 0; j < outputs.size(); j++) {
+					
+					out[j] = outputs.get(j).output.copy();
+					out[j].stackSize *= outputs.get(j).weight;
+				}
+				
+				for(int j = 0; j < 4; j++)
+					if(out[j] == null)
+						out[j] = new ItemStack(ModItems.nothing);
+				
+				recipes.put(input, out);
+			}
+		}
+		
 		return recipes;
 	}
 
@@ -2457,10 +2748,20 @@ public class MachineRecipes {
 		case CENTRIFUGE:
 			list.add(new ItemStack(ModItems.centrifuge_tower, 1));
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
-			list.add(new ItemStack(ModItems.ingot_polymer, 2));
-			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(Items.iron_ingot, 4));
+			list.add(new ItemStack(ModItems.plate_steel, 2));
 			list.add(new ItemStack(ModItems.plate_copper, 2));
 			list.add(new ItemStack(ModItems.wire_red_copper, 8));
+			break;
+		case CENTRIFUGE_GAS:
+			list.add(new ItemStack(ModItems.centrifuge_tower, 1));
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.ingot_polymer, 4));
+			list.add(new ItemStack(ModItems.ingot_desh, 2));
+			list.add(new ItemStack(ModItems.plate_steel, 6));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.wire_red_copper, 8));
+			list.add(new ItemStack(ModItems.wire_gold, 4));
 			break;
 		case BREEDING_REACTOR:
 			list.add(new ItemStack(ModItems.reactor_core, 1));
@@ -3833,6 +4134,9 @@ public class MachineRecipes {
 			break;
 		case CENTRIFUGE:
 			output = new ItemStack(ModBlocks.machine_centrifuge, 1);
+			break;
+		case CENTRIFUGE_GAS:
+			output = new ItemStack(ModBlocks.machine_gascent, 1);
 			break;
 		case BREEDING_REACTOR:
 			output = new ItemStack(ModBlocks.machine_reactor, 1);

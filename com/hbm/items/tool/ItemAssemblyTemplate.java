@@ -153,6 +153,7 @@ public class ItemAssemblyTemplate extends Item {
 		BLAST_DOOR,
 		SLIDING_DOOR,
 		CENTRIFUGE,
+		CENTRIFUGE_GAS,
 		BREEDING_REACTOR,
 		RTG_FURNACE,
 		RAD_GEN,
@@ -605,6 +606,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 200;
 		case CENTRIFUGE:
 			return 250;
+		case CENTRIFUGE_GAS:
+			return 300;
 		case BREEDING_REACTOR:
 			return 150;
 		case RTG_FURNACE:

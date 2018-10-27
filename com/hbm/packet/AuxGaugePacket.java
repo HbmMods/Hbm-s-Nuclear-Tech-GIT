@@ -9,6 +9,7 @@ import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
+import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
@@ -148,6 +149,12 @@ public class AuxGaugePacket implements IMessage {
 						radio.isOn = (m.value == 1);
 					if(m.id == 1)
 						radio.freq = ((double)m.value) / 10D;
+				}
+				if (te instanceof TileEntityMachineGasCent) {
+					TileEntityMachineGasCent cent = (TileEntityMachineGasCent)te;
+					
+					if(m.id == 0)
+						cent.progress = m.value;
 				}
 				
 			} catch (Exception x) { }

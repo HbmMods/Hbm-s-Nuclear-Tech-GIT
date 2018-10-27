@@ -17,6 +17,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerRecipeHandler(new AlloyFurnaceRecipeHandler());
 		API.registerUsageHandler(new AlloyFurnaceRecipeHandler());
 		API.registerRecipeHandler(new CentrifugeRecipeHandler());
+		API.registerUsageHandler(new GasCentrifugeRecipeHandler());
+		API.registerRecipeHandler(new GasCentrifugeRecipeHandler());
 		API.registerUsageHandler(new CentrifugeRecipeHandler());
 		API.registerRecipeHandler(new ReactorRecipeHandler());
 		API.registerUsageHandler(new ReactorRecipeHandler());

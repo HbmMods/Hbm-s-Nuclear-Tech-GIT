@@ -3,6 +3,8 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.MultiblockHandler;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachinePuF6Tank;
@@ -24,7 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachinePuF6Tank extends BlockContainer {
+public class MachinePuF6Tank extends BlockContainer implements IMultiblock {
 	
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory;
@@ -85,6 +87,12 @@ public class MachinePuF6Tank extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
+		
+		if(MultiblockHandler.checkSpace(world, x, y, z, MultiblockHandler.uf6Dimension)) {
+			MultiblockHandler.fillUp(world, x, y, z, MultiblockHandler.uf6Dimension, ModBlocks.dummy_block_puf6);
+			
+		} else
+			world.func_147480_a(x, y, z, true);
 	}
 	
 	@Override

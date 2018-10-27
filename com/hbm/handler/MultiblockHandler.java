@@ -78,6 +78,7 @@ public class MultiblockHandler {
 	public static final int[] radGenDimensionSouth = new int[] { 1, 4, 2, 0, 1, 1 };
 	public static final int[] radGenDimensionWest  = new int[] { 1, 1, 2, 0, 1, 4 };
 	public static final int[] reactorSmallDimension  = new int[] { 0, 0, 2, 0, 0, 0 };
+	public static final int[] uf6Dimension  = new int[] { 0, 0, 1, 0, 0, 0 };
 	
 	//Approved!
 	public static boolean checkSpace(World world, int x, int y, int z, int[] i) {

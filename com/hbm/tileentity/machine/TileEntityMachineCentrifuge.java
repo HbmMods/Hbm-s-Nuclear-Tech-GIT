@@ -28,7 +28,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	public long power;
 	public int soundCycle = 0;
 	public static final int maxPower = 100000;
-	public static final int processingSpeed = 500;
+	public static final int processingSpeed = 200;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {2, 3, 4, 5};
@@ -209,7 +209,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		{
 			return false;
 		}
-		ItemStack[] itemStack = MachineRecipes.getCentrifugeProcessingResult(slots[0].getItem());
+		ItemStack[] itemStack = MachineRecipes.getCentrifugeProcessingResult(slots[0]);
 		if(itemStack == null)
 		{
 			return false;
@@ -233,7 +233,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	private void processItem() {
 		if(canProcess()) {
-			ItemStack[] itemStack = MachineRecipes.getCentrifugeProcessingResult(slots[0].getItem());
+			ItemStack[] itemStack = MachineRecipes.getCentrifugeProcessingResult(slots[0]);
 			
 			if(slots[2] == null && itemStack[0] != null)
 			{
@@ -302,7 +302,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			
 			if(hasPower() && isProcessing())
 			{
-				this.power -= 500;
+				this.power -= 200;
 				
 				if(this.power < 0)
 				{

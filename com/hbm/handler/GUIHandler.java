@@ -42,6 +42,7 @@ import com.hbm.tileentity.machine.TileEntityMachineDeuterium;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineGasFlare;
 import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
@@ -708,6 +709,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_gascent:
+			{
+				if(entity instanceof TileEntityMachineGasCent)
+				{
+					return new ContainerMachineGasCent(player.inventory, (TileEntityMachineGasCent) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1336,6 +1346,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntitySafe)
 					{
 						return new GUISafe(player.inventory, (TileEntitySafe) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_gascent:
+				{
+					if(entity instanceof TileEntityMachineGasCent)
+					{
+						return new GUIMachineGasCent(player.inventory, (TileEntityMachineGasCent) entity);
 					}
 					return null;
 				}

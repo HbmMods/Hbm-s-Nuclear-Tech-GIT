@@ -303,6 +303,8 @@ tile.machine_difurnace_on.name=Alloy Furnace
 container.diFurnace=Alloy Furnace
 tile.machine_centrifuge.name=Centrifuge
 container.centrifuge=Centrifuge
+tile.machine_gascent.name=Gas Centrifuge
+container.gasCentrifuge=Gas Centrifuge
 tile.machine_uf6_tank.name=Uranium Hexafluoride Tank
 container.uf6_tank=UF6 Tank
 tile.machine_puf6_tank.name=Plutonium Hexafluoride Tank
@@ -396,6 +398,8 @@ tile.broadcaster_pc.name=Corrupted Broadcaster
 
 tile.radiobox.name=RTG-Powered High-Gain FM Transmitter
 tile.radiorec.name=FM Radio
+container.radiobox=FM Transmitter
+container.radiorec=FM Radio
 
 tile.red_pylon.name=Electricity Pole
 item.wiring_red_copper.name=Cable Drum

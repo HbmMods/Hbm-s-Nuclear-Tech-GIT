@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
+import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -33,7 +35,10 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(ResourceManager.centrifuge_new_tex);
+		if(tileEntity instanceof TileEntityMachineCentrifuge)
+			bindTexture(ResourceManager.centrifuge_new_tex);
+		if(tileEntity instanceof TileEntityMachineGasCent)
+			bindTexture(ResourceManager.centrifuge_gas_tex);
         ResourceManager.centrifuge_new.renderAll();
 
         GL11.glPopMatrix();

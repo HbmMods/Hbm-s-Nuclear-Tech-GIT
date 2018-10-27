@@ -80,7 +80,7 @@ public class GUIRadioRec extends GuiInfoContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = I18n.format("container.radiobox");
+		String name = I18n.format("container.radiorec");
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 	}
 
