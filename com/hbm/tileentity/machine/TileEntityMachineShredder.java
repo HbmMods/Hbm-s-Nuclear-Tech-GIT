@@ -185,7 +185,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i >= 9 && i <= 28)
+		if(i >= 9 && i <= 26)
 				return true;
 		if(i >= 27 && i <= 29)
 			if(itemStack.getItemDamage() == itemStack.getMaxDamage())

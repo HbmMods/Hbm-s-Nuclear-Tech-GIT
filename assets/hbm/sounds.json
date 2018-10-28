@@ -26,6 +26,7 @@
     "block.lockOpen": {"category": "block", "sounds": [{"name": "block/lockOpen", "stream": false}]},
     "block.lockHang": {"category": "block", "sounds": [{"name": "block/lockHang", "stream": false}]},
     "block.debris": {"category": "block", "sounds": ["block/debris1", "block/debris2", "block/debris3"]},
+    "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

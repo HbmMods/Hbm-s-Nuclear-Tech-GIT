@@ -5,6 +5,8 @@ import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxGaugePacket;
+import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +28,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	public int dualCookTime;
 	public long power;
-	public int soundCycle = 0;
+	public boolean isProgressing;
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 200;
 	
@@ -310,6 +312,13 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 				}
 			}
 			
+			if(hasPower() && canProcess())
+			{
+				isProgressing = true;
+			} else {
+				isProgressing = false;
+			}
+			
 			boolean trigger = true;
 			
 			if(hasPower() && canProcess() && this.dualCookTime == 0)
@@ -323,17 +332,14 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
             }
 			
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, isProgressing ? 1 : 0, 1));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
 		
 		if(hasPower() && canProcess())
 		{
 			dualCookTime++;
-			if(soundCycle == 0)
-		        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 1.5F);
-			soundCycle++;
-				
-			if(soundCycle >= 25)
-				soundCycle = 0;
 			
 			if(this.dualCookTime >= TileEntityMachineCentrifuge.processingSpeed)
 			{

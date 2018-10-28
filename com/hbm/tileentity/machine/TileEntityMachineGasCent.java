@@ -14,6 +14,7 @@ import com.hbm.inventory.MachineRecipes.GasCentOutput;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
+import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
@@ -33,6 +34,7 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 	
 	public long power;
 	public int progress;
+	public boolean isProgressing;
 	public static final int maxPower = 100000;
 	public static final int processingSpeed = 200;
 	
@@ -154,6 +156,7 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 		
 		power = nbt.getLong("powerTime");
 		progress = nbt.getShort("CookTime");
+		tank.readFromNBT(nbt, "tank");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -172,6 +175,7 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 		super.writeToNBT(nbt);
 		nbt.setLong("powerTime", power);
 		nbt.setShort("cookTime", (short) progress);
+		tank.writeToNBT(nbt, "tank");
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -283,6 +287,8 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 			
 			if(canProcess()) {
 				
+				isProgressing = true;
+				
 				this.progress++;
 				
 				this.power -= 200;
@@ -295,11 +301,14 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 				}
 				
 			} else {
+				isProgressing = false;
 				this.progress = 0;
 			}
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, progress, 0));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, isProgressing ? 1 : 0, 1));
+			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 		}
 	}
 	

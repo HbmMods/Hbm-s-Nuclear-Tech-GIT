@@ -89,7 +89,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.template_folder, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_press, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_difurnace_off, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_centrifuge, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_puf6_tank, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_nuke_furnace_off, 1));
@@ -160,7 +160,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_lead, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.ingot_polymer, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_difurnace_off, 3));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_centrifuge, 3));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 3));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_centrifuge, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_uf6_tank, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_puf6_tank, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor, 2));
@@ -231,6 +232,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 8, FluidType.COOLANT.getID()));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 3));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_gascent, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_nuke_furnace_off, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_furnace_off, 3));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_grey, 2));

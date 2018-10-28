@@ -2,13 +2,16 @@ package com.hbm.packet;
 
 import com.hbm.sound.SoundLoopAssembler;
 import com.hbm.sound.SoundLoopBroadcaster;
+import com.hbm.sound.SoundLoopCentrifuge;
 import com.hbm.sound.SoundLoopChemplant;
 import com.hbm.sound.SoundLoopIGen;
 import com.hbm.sound.SoundLoopMiner;
 import com.hbm.sound.SoundLoopTurbofan;
 import com.hbm.tileentity.machine.TileEntityBroadcaster;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
+import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
+import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
@@ -135,6 +138,34 @@ public class LoopedSoundPacket implements IMessage {
 				
 				if(flag && te.getWorldObj().isRemote)
 					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopBroadcaster(new ResourceLocation("hbm:block.broadcast" + (Math.abs(j) % 3 + 1)), te));
+			}
+			
+			if (te != null && te instanceof TileEntityMachineCentrifuge) {
+				
+				boolean flag = true;
+				for(int i = 0; i < SoundLoopCentrifuge.list.size(); i++)  {
+					if(SoundLoopCentrifuge.list.get(i).getTE() == te && !SoundLoopCentrifuge.list.get(i).isDonePlaying())
+						flag = false;
+				}
+				
+				int j = te.xCoord + te.zCoord + te.yCoord;
+				
+				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineCentrifuge)te).isProgressing)
+					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopCentrifuge(new ResourceLocation("hbm:block.centrifugeOperate"), te));
+			}
+			
+			if (te != null && te instanceof TileEntityMachineGasCent) {
+				
+				boolean flag = true;
+				for(int i = 0; i < SoundLoopCentrifuge.list.size(); i++)  {
+					if(SoundLoopCentrifuge.list.get(i).getTE() == te && !SoundLoopCentrifuge.list.get(i).isDonePlaying())
+						flag = false;
+				}
+				
+				int j = te.xCoord + te.zCoord + te.yCoord;
+				
+				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineGasCent)te).isProgressing)
+					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopCentrifuge(new ResourceLocation("hbm:block.centrifugeOperate"), te));
 			}
 			return null;
 		}

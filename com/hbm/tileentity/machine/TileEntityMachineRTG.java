@@ -208,17 +208,17 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 	@Override
 	public void updateEntity() {
 
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
-		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
-
 		if(!worldObj.isRemote)
 		{
+			age++;
+			if(age >= 20)
+			{
+				age = 0;
+			}
+			
+			if(age == 9 || age == 19)
+				ffgeuaInit();
+			
 			heat = 0;
 			
 			for(int i = 0; i < slots.length; i++) {

@@ -13,10 +13,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerCentrifuge extends Container {
 	
 	private TileEntityMachineCentrifuge diFurnace;
-	private int dualCookTime;
 	
 	public ContainerCentrifuge(InventoryPlayer invPlayer, TileEntityMachineCentrifuge tedf) {
-		dualCookTime = 0;
 		
 		diFurnace = tedf;
 		
@@ -79,31 +77,6 @@ public class ContainerCentrifuge extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return diFurnace.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			
-			if(this.dualCookTime != this.diFurnace.dualCookTime)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
-			}
-		}
-		
-		this.dualCookTime = this.diFurnace.dualCookTime;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.dualCookTime = j;
-		}
 	}
 
 }
