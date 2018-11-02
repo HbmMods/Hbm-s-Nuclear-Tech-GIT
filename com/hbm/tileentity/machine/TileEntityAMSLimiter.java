@@ -397,13 +397,13 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}
 
 	@Override
-	public int getAFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			return tank.getFill();
 		else
@@ -411,7 +411,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	}
 
 	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			return tank.getMaxFill();
 		else
@@ -438,6 +438,14 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tank);
+		
+		return list;
 	}
 
 }

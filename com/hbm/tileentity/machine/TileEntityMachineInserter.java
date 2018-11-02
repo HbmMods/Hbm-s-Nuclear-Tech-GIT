@@ -294,7 +294,7 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -304,7 +304,7 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public int getAFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -316,29 +316,7 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setSFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			tanks[2].setFill(i);
-	}
-
-	@Override
-	public int getSFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else if(type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getFill();
-		
-		return 0;
-	}
-
-	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -368,5 +346,15 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 			list2.clear();
 		if(type.name().equals(tanks[2].getTankType().name()))
 			list3.clear();
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+		list.add(tanks[2]);
+		
+		return list;
 	}
 }

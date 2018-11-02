@@ -589,7 +589,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -599,7 +599,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -607,7 +607,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getAFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -626,5 +626,14 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 	public void setType(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+		
+		return list;
 	}
 }

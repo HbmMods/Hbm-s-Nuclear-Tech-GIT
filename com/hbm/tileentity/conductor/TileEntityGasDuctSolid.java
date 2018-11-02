@@ -15,4 +15,9 @@ public class TileEntityGasDuctSolid extends TileEntity implements IFluidDuct {
 	public FluidType type = FluidType.GAS;
 	public List<UnionOfTileEntitiesAndBooleansForFluids> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleansForFluids>();
 
+	@Override
+	public FluidType getType() {
+		return type;
+	}
+
 }

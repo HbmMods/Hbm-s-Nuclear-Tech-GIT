@@ -747,11 +747,11 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
 	}
 	@Override
-	public int getSFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		return tank.getFill();
 	}
 	@Override
-	public void setSFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		tank.setFill(i);
 	}
 	@Override
@@ -761,5 +761,13 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 	@Override
 	public void clearFluidList(FluidType type) {
 		list1.clear();
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tank);
+		
+		return list;
 	}
 }

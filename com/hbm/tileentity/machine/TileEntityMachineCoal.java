@@ -350,18 +350,18 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
 	}
 
 	@Override
-	public int getAFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
@@ -373,5 +373,13 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 	@Override
 	public void setType(FluidType type, int index) {
 		tank.setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tank);
+		
+		return list;
 	}
 }

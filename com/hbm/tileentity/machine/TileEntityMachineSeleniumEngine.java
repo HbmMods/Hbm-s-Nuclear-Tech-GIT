@@ -362,18 +362,26 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 	}
 
 	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
 	}
 
 	@Override
-	public int getAFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tank.getTankType().name()))
 			tank.setFill(i);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tank);
+		
+		return list;
 	}
 }

@@ -34,8 +34,16 @@ public abstract class TileEntityLockableBase extends TileEntity {
 		lock = pins;
 	}
 	
+	public int getPins() {
+		return lock;
+	}
+	
 	public void setMod(double mod) {
 		lockMod = mod;
+	}
+	
+	public double getMod() {
+		return lockMod;
 	}
 	
 	@Override

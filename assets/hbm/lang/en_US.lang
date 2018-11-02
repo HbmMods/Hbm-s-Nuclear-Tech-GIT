@@ -1505,6 +1505,7 @@ item.thruster_large.name=Large Thruster
 item.wand_k.name=Construction Wand
 item.wand_s.name=Structure Wand
 item.wand_d.name=Debug Wand
+item.analyzer.name=Analyzer
 
 item.screwdriver.name=Screwdriver
 item.overfuse.name=Singularity Screwdriver
@@ -1576,7 +1577,10 @@ item.cape_ayy.name=Ayy's Cape
 
 tile.machine_converter_he_rf.name=HE to RF Converter
 tile.machine_converter_rf_he.name=RF to HE Converter
-tile.machine_transformer.name=Transformer
+tile.machine_transformer.name=10k-20Hz Transformer
+tile.machine_transformer_dnt.name=DNT-20Hz Transformer
+tile.machine_transformer_20.name=10k-1Hz Transformer
+tile.machine_transformer_dnt_20.name=DNT-1Hz Transformer
 
 tile.vent_chlorine.name=Chlorine Vent
 tile.vent_cloud.name=Cloud Vent

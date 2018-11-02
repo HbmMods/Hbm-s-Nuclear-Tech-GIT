@@ -360,8 +360,10 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public int getSFluidFill(FluidType type) {
-		if(type.name().equals(tanks[1].getTankType().name()))
+	public int getFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
 		else if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getFill();
@@ -374,8 +376,10 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setSFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[1].getTankType().name()))
+	public void setFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
 		else if(type.name().equals(tanks[2].getTankType().name()))
 			tanks[2].setFill(i);
@@ -411,21 +415,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-	}
-
-	@Override
-	public int getAFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else
@@ -442,6 +432,18 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public void setType(FluidType type, int index) {
 		if(index < 5 && tanks[index] != null)
 			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+		list.add(tanks[2]);
+		list.add(tanks[3]);
+		list.add(tanks[4]);
+		
+		return list;
 	}
 	
 	@Override

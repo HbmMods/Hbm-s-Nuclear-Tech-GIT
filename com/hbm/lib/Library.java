@@ -37,6 +37,7 @@ import com.hbm.tileentity.conductor.TileEntityWireCoated;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
+import com.hbm.tileentity.machine.TileEntityMachineTransformer;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -382,15 +383,7 @@ public class Library {
 	public static boolean checkFluidConnectables(World world, int x, int y, int z, FluidType type)
 	{
 		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if(tileentity != null && tileentity instanceof TileEntityFluidDuct && ((TileEntityFluidDuct)tileentity).type == type)
-			return true;
-		if(tileentity != null && tileentity instanceof TileEntityOilDuct && ((TileEntityOilDuct)tileentity).type == type)
-			return true;
-		if(tileentity != null && tileentity instanceof TileEntityGasDuct && ((TileEntityGasDuct)tileentity).type == type)
-			return true;
-		if(tileentity != null && tileentity instanceof TileEntityOilDuctSolid && ((TileEntityOilDuctSolid)tileentity).type == type)
-			return true;
-		if(tileentity != null && tileentity instanceof TileEntityGasDuctSolid && ((TileEntityGasDuctSolid)tileentity).type == type)
+		if(tileentity != null && tileentity instanceof IFluidDuct && ((IFluidDuct)tileentity).getType() == type)
 			return true;
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
@@ -947,15 +940,21 @@ public class Library {
 			}
 		}
 		
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
+		//TE will not be added as consumer if:
+		// -TE is the source (will not send to itself)
+		// -TE is already full
+		// -TE is a battery set to output only
+		// -TE as well as source are transformers of the same frequency
+		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts) &&
+				tileentity != that && ((IConsumer)tileentity).getPower() < ((IConsumer)tileentity).getMaxPower() &&
+				!(tileentity instanceof TileEntityMachineTransformer && that instanceof TileEntityMachineTransformer &&
+						((TileEntityMachineTransformer)tileentity).delay == ((TileEntityMachineTransformer)that).delay))
 		{
 			that.getList().add((IConsumer)tileentity);
 		}
 		
 		if(!newTact)
 		{
-			//TODO: fix energy distr. quirks
-			
 			int size = that.getList().size();
 			if(size > 0)
 			{
@@ -1217,18 +1216,18 @@ public class Library {
 			int size = that.getFluidList(type).size();
 			if(size > 0)
 			{
-				int part = that.getSFluidFill(type) / size;
+				int part = that.getFluidFill(type) / size;
 				for(IFluidAcceptor consume : that.getFluidList(type))
 				{
-					if(consume.getAFluidFill(type) < consume.getMaxAFluidFill(type))
+					if(consume.getFluidFill(type) < consume.getMaxFluidFill(type))
 					{
-						if(consume.getMaxAFluidFill(type) - consume.getAFluidFill(type) >= part)
+						if(consume.getMaxFluidFill(type) - consume.getFluidFill(type) >= part)
 						{
-							that.setSFluidFill(that.getSFluidFill(type)-part, type);
-							consume.setAFluidFill(consume.getAFluidFill(type) + part, type);
+							that.setFluidFill(that.getFluidFill(type)-part, type);
+							consume.setFluidFill(consume.getFluidFill(type) + part, type);
 						} else {
-							that.setSFluidFill(that.getSFluidFill(type) - (consume.getMaxAFluidFill(type) - consume.getAFluidFill(type)), type);
-							consume.setAFluidFill(consume.getMaxAFluidFill(type), type);
+							that.setFluidFill(that.getFluidFill(type) - (consume.getMaxFluidFill(type) - consume.getFluidFill(type)), type);
+							consume.setFluidFill(consume.getMaxFluidFill(type), type);
 						}
 					}
 				}

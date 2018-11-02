@@ -2869,7 +2869,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.ingot_combine_steel, 32));
 			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 8));
 			break;
-		case HE_TO_RF:
+		/*case HE_TO_RF:
 			list.add(new ItemStack(ModItems.ingot_steel, 4));
 			list.add(new ItemStack(ModItems.plate_steel, 4));
 			list.add(new ItemStack(ModItems.coil_copper, 2));
@@ -2880,7 +2880,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_steel, 4));
 			list.add(new ItemStack(ModItems.coil_copper, 2));
 			list.add(new ItemStack(ModItems.coil_copper_torus, 1));
-			break;
+			break;*/
 		case SHREDDER:
 			list.add(new ItemStack(ModItems.ingot_steel, 2));
 			list.add(new ItemStack(ModItems.plate_steel, 4));
@@ -4177,12 +4177,12 @@ public class MachineRecipes {
 		case BATTERY_D:
 			output = new ItemStack(ModBlocks.machine_dineutronium_battery, 1);
 			break;
-		case HE_TO_RF:
+		/*case HE_TO_RF:
 			output = new ItemStack(ModBlocks.machine_converter_he_rf, 1);
 			break;
 		case RF_TO_HE:
 			output = new ItemStack(ModBlocks.machine_converter_rf_he, 1);
-			break;
+			break;*/
 		case SHREDDER:
 			output = new ItemStack(ModBlocks.machine_shredder, 1);
 			break;

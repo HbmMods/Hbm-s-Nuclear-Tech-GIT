@@ -167,8 +167,8 @@ public class ItemAssemblyTemplate extends Item {
 		BATTERY_L,
 		BATTERY_S,
 		BATTERY_D,
-		HE_TO_RF,
-		RF_TO_HE,
+		//HE_TO_RF,
+		//RF_TO_HE,
 		SHREDDER,
 		DERRICK,
 		PUMPJACK,
@@ -634,10 +634,10 @@ public class ItemAssemblyTemplate extends Item {
 			return 800;
 		case BATTERY_D:
 			return 1600;
-		case HE_TO_RF:
-			return 150;
-		case RF_TO_HE:
-			return 150;
+		//case HE_TO_RF:
+		//	return 150;
+		//case RF_TO_HE:
+		//	return 150;
 		case SHREDDER:
 			return 200;
 		case DERRICK:

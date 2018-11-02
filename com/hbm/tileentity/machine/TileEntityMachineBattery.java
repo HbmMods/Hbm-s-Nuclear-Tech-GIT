@@ -35,8 +35,9 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	
 	private String customName;
 	
-	public TileEntityMachineBattery() {
+	public TileEntityMachineBattery(long maxPower) {
 		slots = new ItemStack[2];
+		this.maxPower = maxPower;
 	}
 
 	@Override
@@ -216,8 +217,10 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	@Override
 	public void updateEntity() {
 		
-		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery) {
+		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
 			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
+			
+			conducts = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 		
 			if(this.conducts)
 			{
@@ -231,12 +234,10 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 					ffgeuaInit();
 			}
 			
-			if(!worldObj.isRemote) {
-				power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-				power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
+			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
 			
-				PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
-			}
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
 

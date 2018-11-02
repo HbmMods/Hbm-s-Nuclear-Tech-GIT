@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -231,6 +232,73 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.powder_niobium, 0, 1, 32, 1),
 			new WeightedRandomChestContent(ModItems.powder_tennessine, 0, 1, 32, 1),
 			new WeightedRandomChestContent(ModItems.powder_cerium, 0, 1, 32, 1) };
+
+	private static WeightedRandomChestContent[] vault1 = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(Items.gold_ingot, 0, 3, 14, 1),
+			new WeightedRandomChestContent(ModItems.pin, 0, 8, 8, 1),
+			new WeightedRandomChestContent(ModItems.gun_calamity, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 3, 1),
+			new WeightedRandomChestContent(ModItems.ingot_advanced_alloy, 0, 4, 12, 1),
+			new WeightedRandomChestContent(ModItems.gun_calamity_ammo, 0, 24, 48, 1),
+			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 6, 12, 1),
+			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade_if_he, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade_if_incendiary, 0, 1, 1, 1),
+			new WeightedRandomChestContent(Items.diamond, 0, 1, 2, 1) };
+
+	private static WeightedRandomChestContent[] vault2 = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 2, 6, 1),
+			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_advanced_cell_4), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_desh_mix, 0, 1, 5, 1),
+			new WeightedRandomChestContent(Items.diamond, 0, 3, 6, 1),
+			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.ammo_container, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.grenade_smart, 0, 1, 6, 1),
+			new WeightedRandomChestContent(ModItems.powder_yellowcake, 0, 16, 24, 1),
+			new WeightedRandomChestContent(ModItems.gun_uzi, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_uzi_silencer, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.clip_uzi, 0, 1, 3, 1),
+			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 12, 16, 1),
+			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 2, 6, 1) };
+
+	private static WeightedRandomChestContent[] vault3 = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.ingot_desh, 0, 6, 16, 1),
+			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_lithium), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_power, 0, 1, 5, 1),
+			new WeightedRandomChestContent(ModItems.sat_chip, 0, 1, 1, 1),
+			new WeightedRandomChestContent(Items.diamond, 0, 5, 9, 1),
+			new WeightedRandomChestContent(ModItems.warhead_nuclear, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_fatman_ammo, 0, 1, 3, 1),
+			new WeightedRandomChestContent(ModItems.ammo_container, 0, 1, 4, 1),
+			new WeightedRandomChestContent(ModItems.grenade_nuclear, 0, 1, 2, 1),
+			new WeightedRandomChestContent(ModItems.grenade_mirv, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_yellowcake, 0, 26, 42, 1),
+			new WeightedRandomChestContent(ModItems.ingot_u235, 0, 3, 6, 1),
+			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_revolver_pip, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.clip_revolver_pip, 0, 2, 4, 1),
+			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 18, 32, 1),
+			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 6, 12, 1),
+			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 6, 12, 1) };
+
+	private static WeightedRandomChestContent[] vault4 = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.ammo_container, 0, 3, 6, 1),
+			new WeightedRandomChestContent(ModItems.clip_fatman, 0, 2, 3, 1),
+			new WeightedRandomChestContent(ModItems.gun_mirv_ammo, 0, 2, 3, 1),
+			new WeightedRandomChestContent(ModItems.gun_mirv, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_fatman, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_proto, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.gun_b92, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.ingot_combine_steel, 0, 16, 28, 1),
+			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 8, 18, 1),
+			new WeightedRandomChestContent(ModItems.man_core, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.boy_kit, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.nuke_starter_kit, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.weaponized_starblaster_cell, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.warhead_mirv, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ItemBattery.getFullBattery(ModItems.battery_schrabidium_cell), 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.powder_nitan_mix, 0, 16, 32, 1) };
 	
 	/**
 	 * @param i
@@ -267,6 +335,14 @@ public class HbmChestContents {
 			return spaceship;
 		case 9:
 			return powder;
+		case 10:
+			return vault1;
+		case 11:
+			return vault2;
+		case 12:
+			return vault3;
+		case 13:
+			return vault4;
 		}
 
 		return null;

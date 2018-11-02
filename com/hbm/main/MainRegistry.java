@@ -476,6 +476,7 @@ public class MainRegistry
 	public static boolean enableMeteorTails = true;
 	public static boolean enableSpecialMeteors = true;
 	public static boolean enableBomberShortMode = false;
+	public static boolean enableVaults = true;
 	
 	public static int uraniumSpawn = 7;
 	public static int titaniumSpawn = 8;
@@ -523,6 +524,7 @@ public class MainRegistry
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
 	public static int radfreq = 5000;
+	public static int vaultfreq = 2500;
 	public static int meteorStrikeChance = 20 * 60 * 180;
 	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
@@ -1554,6 +1556,7 @@ public class MainRegistry
         enableMeteorTails = config.get(Configuration.CATEGORY_GENERAL, "1.12_enableMeteorTails", true).getBoolean(true);
         enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.13_enableSpecialMeteors", false).getBoolean(false);
         enableBomberShortMode = config.get(Configuration.CATEGORY_GENERAL, "1.14_enableBomberShortMode", false).getBoolean(false);
+        enableVaults = config.get(Configuration.CATEGORY_GENERAL, "1.15_enableVaultSpawn", true).getBoolean(true);
 
         Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";
@@ -1677,6 +1680,9 @@ public class MainRegistry
         Property propRad = config.get(Configuration.CATEGORY_GENERAL, "4.15_radHotsoptSpawn", 5000);
         propRad.comment = "Spawn radiation hotspot on every nTH chunk";
         radfreq = propRad.getInt();
+        Property propVault = config.get(Configuration.CATEGORY_GENERAL, "4.16_vaultSpawn", 2500);
+        propVault.comment = "Spawn locked safe on every nTH chunk";
+        vaultfreq = propVault.getInt();
 
         Property propMeteorStrikeChance = config.get(Configuration.CATEGORY_GENERAL, "5.00_meteorStrikeChance", 20 * 60 * 180);
         propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";

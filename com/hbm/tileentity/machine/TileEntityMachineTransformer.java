@@ -16,30 +16,64 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityMachineTransformer extends TileEntity implements ISource, IConsumer {
 
 	public long power;
-	public static final long maxPower = 1000000000000000L;
+	public long maxPower = 10000;
+	public int delay = 1;
 	public List<IConsumer> list = new ArrayList();
 	boolean tact;
+	int age;
+	
+	public TileEntityMachineTransformer(long buffer, int d) {
+		maxPower = buffer;
+		delay = d;
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		this.power = nbt.getLong("powerTime");
+		this.maxPower = nbt.getLong("maxPower");
+		this.delay = nbt.getInteger("delay");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("powerTime", power);
+		nbt.setLong("maxPower", maxPower);
+		nbt.setInteger("delay", delay);
 	}
 
 
 	@Override
 	public void updateEntity() {
-		tact = true;
-		ffgeuaInit();
-		tact = false;
-		ffgeuaInit();
+		
+		if(!worldObj.isRemote) {
+			
+			age++;
+			
+			if(age == delay) {
+				
+				maxPower /= (20D / delay);
+				long saved = 0;
+				
+				if(power > maxPower) {
+					saved = power - maxPower;
+					power = maxPower;
+				}
+				
+				tact = true;
+				ffgeuaInit();
+				tact = false;
+				ffgeuaInit();
+				
+				age = 0;
+				
+				maxPower *= (20D / delay);
+				
+				power += saved;
+			}
+		}
 	}
 
 	@Override

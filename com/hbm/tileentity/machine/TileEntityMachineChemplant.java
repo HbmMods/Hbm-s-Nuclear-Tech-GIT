@@ -810,34 +810,24 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
-	}
-
-	@Override
-	public int getAFluidFill(FluidType type) {
-		if(type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if(type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setSFluidFill(int i, FluidType type) {
-		if(type.name().equals(tanks[2].getTankType().name()))
+		else if(type.name().equals(tanks[2].getTankType().name()))
 			tanks[2].setFill(i);
 		else if(type.name().equals(tanks[3].getTankType().name()))
 			tanks[3].setFill(i);
 	}
 
 	@Override
-	public int getSFluidFill(FluidType type) {
-		if(type.name().equals(tanks[2].getTankType().name()))
+	public int getFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		else if(type.name().equals(tanks[2].getTankType().name()))
 			return tanks[2].getFill();
 		else if(type.name().equals(tanks[3].getTankType().name()))
 			return tanks[3].getFill();
@@ -846,7 +836,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	}
 
 	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -916,5 +906,16 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			list1.clear();
 		if(type.name().equals(tanks[3].getTankType().name()))
 			list2.clear();
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+		list.add(tanks[2]);
+		list.add(tanks[3]);
+		
+		return list;
 	}
 }

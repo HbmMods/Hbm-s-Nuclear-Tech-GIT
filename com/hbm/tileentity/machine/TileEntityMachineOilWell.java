@@ -477,7 +477,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public int getSFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -487,7 +487,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	}
 
 	@Override
-	public void setSFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -521,6 +521,15 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 	public void setType(FluidType type, int index) {
 		if(index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+		
+		return list;
 	}
 
 }

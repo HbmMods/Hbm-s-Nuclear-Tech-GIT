@@ -15,20 +15,31 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class MachineTransformer extends BlockContainer {
+
+	long buffer;
+	int delay;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
-	public MachineTransformer(Material p_i45394_1_) {
+	public MachineTransformer(Material p_i45394_1_, long b, int d) {
 		super(p_i45394_1_);
+		buffer = b;
+		delay = d;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer");
+		if(this == ModBlocks.machine_transformer || this == ModBlocks.machine_transformer_20) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_top_iron");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_iron");
+		}
+		if(this == ModBlocks.machine_transformer_dnt || this == ModBlocks.machine_transformer_dnt_20) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer");
+		}
 	}
 
 	@Override
@@ -39,6 +50,6 @@ public class MachineTransformer extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineTransformer();
+		return new TileEntityMachineTransformer(buffer, delay);
 	}
 }

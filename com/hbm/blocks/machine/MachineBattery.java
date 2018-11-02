@@ -140,22 +140,8 @@ public class MachineBattery extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineBattery();
+		return new TileEntityMachineBattery(maxPower);
 	}
-	
-    @Override
-	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
-    {
-    	TileEntityMachineBattery entity = (TileEntityMachineBattery) p_149695_1_.getTileEntity(x, y, z);
-        if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z))
-        {
-        	entity.conducts = true;
-        }
-        else
-        {
-        	entity.conducts = false;
-        }
-    }
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {

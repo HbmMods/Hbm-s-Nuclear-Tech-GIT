@@ -565,7 +565,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 
 	@Override
-	public int getMaxAFluidFill(FluidType type) {
+	public int getMaxFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getMaxFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -579,7 +579,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 
 	@Override
-	public void setAFluidFill(int i, FluidType type) {
+	public void setFluidFill(int i, FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			tanks[0].setFill(i);
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -591,7 +591,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	}
 
 	@Override
-	public int getAFluidFill(FluidType type) {
+	public int getFluidFill(FluidType type) {
 		if(type.name().equals(tanks[0].getTankType().name()))
 			return tanks[0].getFill();
 		else if(type.name().equals(tanks[1].getTankType().name()))
@@ -671,5 +671,16 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		List<FluidTank> list = new ArrayList();
+		list.add(tanks[0]);
+		list.add(tanks[1]);
+		list.add(tanks[2]);
+		list.add(tanks[3]);
+		
+		return list;
 	}
 }
