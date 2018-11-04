@@ -33,6 +33,7 @@ import com.hbm.tileentity.machine.TileEntityFWatzCore;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
@@ -718,6 +719,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_machine_boiler:
+			{
+				if(entity instanceof TileEntityMachineBoiler)
+				{
+					return new ContainerMachineBoiler(player.inventory, (TileEntityMachineBoiler) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1355,6 +1365,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineGasCent)
 					{
 						return new GUIMachineGasCent(player.inventory, (TileEntityMachineGasCent) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_machine_boiler:
+				{
+					if(entity instanceof TileEntityMachineBoiler)
+					{
+						return new GUIMachineBoiler(player.inventory, (TileEntityMachineBoiler) entity);
 					}
 					return null;
 				}

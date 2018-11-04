@@ -8,6 +8,7 @@ import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
@@ -166,6 +167,14 @@ public class AuxGaugePacket implements IMessage {
 						cent.dualCookTime = m.value;
 					if(m.id == 1)
 						cent.isProgressing = m.value == 1;
+				}
+				if (te instanceof TileEntityMachineBoiler) {
+					TileEntityMachineBoiler boiler = (TileEntityMachineBoiler)te;
+					
+					if(m.id == 0)
+						boiler.heat = m.value;
+					if(m.id == 1)
+						boiler.burnTime = m.value;
 				}
 				
 			} catch (Exception x) { }

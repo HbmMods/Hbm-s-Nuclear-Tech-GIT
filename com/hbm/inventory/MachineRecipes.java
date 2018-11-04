@@ -471,6 +471,18 @@ public class MachineRecipes {
 		return list;
 	}
 	
+	//return: FluidType, amount produced, amount required, heat required (°C * 100)
+	@SuppressWarnings("incomplete-switch")
+	public static Object[] getBoilerOutput(FluidType type) {
+		
+		switch(type) {
+		case WATER: return new Object[] { FluidType.STEAM, 5, 5, 10000 };
+		case OIL: return new Object[] { FluidType.HOTOIL, 5, 5, 35000 };
+		}
+		
+		return null;
+	}
+	
 	public static List<Item> stamps_flat = new ArrayList<Item>() {{
 		add(ModItems.stamp_stone_flat);
 		add(ModItems.stamp_iron_flat);

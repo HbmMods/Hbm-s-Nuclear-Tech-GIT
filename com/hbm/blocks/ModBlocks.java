@@ -441,6 +441,14 @@ public class ModBlocks {
 	public static Block machine_refinery;
 	public static final int guiID_machine_refinery = 43;
 
+	public static Block machine_boiler_off;
+	public static Block machine_boiler_on;
+	public static final int guiID_machine_boiler = 72;
+
+	public static Block machine_boiler_electric_off;
+	public static Block machine_boiler_electric_on;
+	public static final int guiID_machine_boiler_electric = 73;
+
 	public static Block machine_drill;
 	public static Block drill_pipe;
 	public static final int guiID_machine_drill = 45;
@@ -950,6 +958,11 @@ public class ModBlocks {
 		machine_selenium = new MachineSeleniumEngine(Material.iron).setBlockName("machine_selenium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_selenium");
 		machine_reactor_small = new MachineReactorSmall(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
 
+		machine_boiler_off = new MachineBoiler(false).setBlockName("machine_boiler_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_off");
+		machine_boiler_on = new MachineBoiler(true).setBlockName("machine_boiler_on").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_on");
+		machine_boiler_electric_off = new MachineBoiler(false).setBlockName("machine_boiler_electric_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_electric_off");
+		machine_boiler_electric_on = new MachineBoiler(true).setBlockName("machine_boiler_electric_on").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_electric_on");
+
 		machine_schrabidium_transmutator = new MachineSchrabidiumTransmutator(Material.iron).setBlockName("machine_schrabidium_transmutator").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
 		machine_reix_mainframe = new MachineReiXMainframe(Material.iron).setBlockName("machine_reix_mainframe").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1321,6 +1334,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_assembler, machine_assembler.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chemplant, machine_chemplant.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_fluidtank, machine_fluidtank.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_boiler_off, machine_boiler_off.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_boiler_on, machine_boiler_on.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_boiler_electric_on, machine_boiler_electric_on.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_boiler_electric_off, machine_boiler_electric_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_well, machine_well.getUnlocalizedName());

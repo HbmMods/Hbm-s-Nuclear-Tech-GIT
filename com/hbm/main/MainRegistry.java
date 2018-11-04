@@ -274,6 +274,8 @@ import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityHatch;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.TileEntityMachineBoiler;
+import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
 import com.hbm.tileentity.machine.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
@@ -722,6 +724,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityBlastDoor.class, "tileentity_blast_door");
 		GameRegistry.registerTileEntity(TileEntitySafe.class, "tileentity_safe");
 		GameRegistry.registerTileEntity(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");
+		GameRegistry.registerTileEntity(TileEntityMachineBoiler.class, "tileentity_boiler");
+		GameRegistry.registerTileEntity(TileEntityMachineBoilerElectric.class, "tileentity_electric_boiler");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
