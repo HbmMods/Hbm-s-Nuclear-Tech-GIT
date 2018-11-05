@@ -3,17 +3,14 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.machine.MachineBoiler;
-import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -21,7 +18,6 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,15 +25,15 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 
-public class TileEntityMachineBoiler extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineTurbine extends TileEntity implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, ISource {
 
 	private ItemStack slots[];
-	
-	public int burnTime;
-	public int heat = 2000;
-	public static final int maxHeat = 50000;
+
+	public long power;
+	public static final long maxPower = 1000000;
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IConsumer> list1 = new ArrayList();
+	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
 	
 	private static final int[] slots_top = new int[] {4};
@@ -46,11 +42,11 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	
 	private String customName;
 	
-	public TileEntityMachineBoiler() {
+	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
-		tanks[1] = new FluidTank(FluidType.STEAM, 8000, 1);
+		tanks[0] = new FluidTank(FluidType.STEAM, 8000, 0);
+		tanks[1] = new FluidTank(FluidType.WATER, 8000, 1);
 	}
 
 	@Override
@@ -86,7 +82,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machineBoiler";
+		return this.hasCustomInventoryName() ? this.customName : "container.machineTurbine";
 	}
 
 	@Override
@@ -123,7 +119,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
 		if(i == 4)
-			if(TileEntityFurnace.getItemBurnTime(stack) > 0)
+			if(stack != null && stack.getItem() instanceof ItemBattery)
 				return true;
 		
 		return false;
@@ -156,10 +152,10 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
-		heat = nbt.getInteger("heat");
-		burnTime = nbt.getInteger("burnTime");
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
+		power = nbt.getLong("power");
+		
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -176,10 +172,10 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("heat", heat);
-		nbt.setInteger("burnTime", burnTime);
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
+		nbt.setLong("power", power);
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -211,8 +207,8 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 		return false;
 	}
 	
-	public int getHeatScaled(int i) {
-		return (heat * i) / maxHeat;
+	public long getPowerScaled(int i) {
+		return (power * i) / maxPower;
 	}
 	
 	@Override
@@ -228,94 +224,57 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 				age = 0;
 			}
 			
-			if(age == 9 || age == 19)
+			if(age == 9 || age == 19) {
 				fillFluidInit(tanks[1].getTankType());
+				ffgeuaInit();
+			}
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
 			
-			Object[] outs = MachineRecipes.getBoilerOutput(tanks[0].getTankType());
+			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
 				tanks[1].setTankType(FluidType.NONE);
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
+				
+				for(int i = 0; i < tanks[0].getFill() / 50 + 1; i++) {
+					if(tanks[0].getFill() >= (Integer)outs[2] && tanks[1].getFill() + (Integer)outs[1] <= tanks[1].getMaxFill()) {
+						tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2]);
+						tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1]);
+						
+						power += (Integer)outs[3];
+						
+						if(power > maxPower)
+							power = maxPower;
+					}
+				}
 			}
 			
 			tanks[1].unloadTank(5, 6, slots);
 			
 			for(int i = 0; i < 2; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord);
-			
-			boolean flag1 = false;
-			
-			if(heat > 2000) {
-				heat -= 15;
-			}
-			
-			if(burnTime > 0) {
-				burnTime--;
-				heat += 50;
-				flag1 = true;
-			}
-			
-			if(burnTime == 0 && flag1) {
-				MachineBoiler.updateBlockState(false, worldObj, xCoord, yCoord, zCoord);
-				mark = true;
-			}
-			
-			if(heat > maxHeat)
-				heat = maxHeat;
-			
-			if(burnTime == 0 && TileEntityFurnace.getItemBurnTime(slots[4]) > 0) {
-				burnTime = (int) (TileEntityFurnace.getItemBurnTime(slots[4]) * 0.25);
-				slots[4].stackSize--;
-				
-				if(slots[4].stackSize <= 0)
-					slots[4] = null;
-				
-				if(!flag1) {
-					MachineBoiler.updateBlockState(true, worldObj, xCoord, yCoord, zCoord);
-					mark = true;
-				}
-			}
-			
-			if(outs != null) {
-				
-				for(int i = 0; i < (heat / ((Integer)outs[3]).intValue()); i++) {
-					if(tanks[0].getFill() >= ((Integer)outs[2]).intValue() && tanks[1].getFill() + ((Integer)outs[1]).intValue() <= tanks[1].getMaxFill()) {
-						tanks[0].setFill(tanks[0].getFill() - ((Integer)outs[2]).intValue());
-						tanks[1].setFill(tanks[1].getFill() + ((Integer)outs[1]).intValue());
-						
-						if(i == 0)
-							heat -= 25;
-						else
-							heat -= 5;
-					}
-				}
-			}
-			
-			if(heat < 2000) {
-				heat = 2000;
-			}
 
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, heat, 0));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, burnTime, 1));
-		}
-		
-		if(mark) {
-			this.markDirty();
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
 	}
-	
-	public boolean isItemValid() {
 
-		if(slots[1] != null && TileEntityFurnace.getItemBurnTime(slots[1]) > 0)
-		{
-			return true;
-		}
+	@Override
+	public void ffgeua(int x, int y, int z, boolean newTact) {
 		
-		return false;
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
+	}
+
+	@Override
+	public void ffgeuaInit() {
+		ffgeua(this.xCoord, this.yCoord + 1, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord - 1, this.zCoord, getTact());
+		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 	}
 
 	@Override
@@ -393,11 +352,31 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 	
 	@Override
 	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
+		return list2;
 	}
 	
 	@Override
 	public void clearFluidList(FluidType type) {
-		list.clear();
+		list2.clear();
+	}
+
+	@Override
+	public long getSPower() {
+		return power;
+	}
+
+	@Override
+	public void setSPower(long i) {
+		this.power = i;
+	}
+
+	@Override
+	public List<IConsumer> getList() {
+		return list1;
+	}
+
+	@Override
+	public void clearList() {
+		this.list1.clear();
 	}
 }

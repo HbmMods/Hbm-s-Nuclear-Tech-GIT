@@ -4,24 +4,22 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.container.ContainerMachineBoiler;
-import com.hbm.inventory.container.ContainerMachineGasCent;
+import com.hbm.inventory.container.ContainerMachineTurbine;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityMachineBoiler;
-import com.hbm.tileentity.machine.TileEntityMachineGasCent;
+import com.hbm.tileentity.machine.TileEntityMachineTurbine;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineBoiler extends GuiInfoContainer {
+public class GUIMachineTurbine extends GuiInfoContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_boiler.png");
-	private TileEntityMachineBoiler diFurnace;
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_turbine.png");
+	private TileEntityMachineTurbine diFurnace;
 	
-	public GUIMachineBoiler(InventoryPlayer invPlayer, TileEntityMachineBoiler tedf) {
-		super(new ContainerMachineBoiler(invPlayer, tedf));
+	public GUIMachineTurbine(InventoryPlayer invPlayer, TileEntityMachineTurbine tedf) {
+		super(new ContainerMachineTurbine(invPlayer, tedf));
 		diFurnace = tedf;
 
 		this.xSize = 176;
@@ -34,32 +32,14 @@ public class GUIMachineBoiler extends GuiInfoContainer {
 
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 69 - 52, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 69 - 52, 16, 52);
-
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 102, guiTop + 16, 8, 18, mouseX, mouseY, new String[] { String.valueOf((int)((double)diFurnace.heat / 100D)) + "°C"});
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 97, guiTop + 34, 18, 18, mouseX, mouseY, new String[] { String.valueOf((int)(Math.ceil((double)diFurnace.burnTime / 20D))) + "s"});
-		
-		String[] text = new String[] { "Heat produced:",
-				"  0.5°C/t",
-				"  or 10°C/s",
-				"Heat consumed:",
-				"  0.15°C/t",
-				"  or 3.0°C/s (base)",
-				"  0.25°C/t",
-				"  or 5.0°C/t (once boiling point is reached)",
-				"  0.05°C/t",
-				"  or 1.0°C/t (for every subsequent multiple of boiling point)" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
-		
-		String[] text1 = new String[] { "Boiling rate:",
-				"  Base rate * amount of full multiples",
-				"  of boiling points reached" };
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 		
 		if(diFurnace.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
 			
-			String[] text2 = new String[] { "Error: Liquid can not be boiled!" };
+			String[] text2 = new String[] { "Error: Invalid fluid!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32, 16, 16, guiLeft - 8, guiTop + 36 + 16 + 32, text2);
 		}
+		
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 123, guiTop + 69 - 34, 7, 34, diFurnace.power, diFurnace.maxPower);
 	}
 	
 	@Override
@@ -76,17 +56,18 @@ public class GUIMachineBoiler extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(diFurnace.burnTime > 0)
-			drawTexturedModalRect(guiLeft + 97, guiTop + 34, 176, 0, 18, 18);
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.STEAM.name())) {
+			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 0, 14, 14);
+		}
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.HOTSTEAM.name())) {
+			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
+		}
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.SUPERHOTSTEAM.name())) {
+			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
+		}
 
-		int j = (int)diFurnace.getHeatScaled(17);
-		drawTexturedModalRect(guiLeft + 103, guiTop + 33 - j, 194, 16 - j, 6, j);
-		
-		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineBoiler)
-			diFurnace = (TileEntityMachineBoiler) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
-
-		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
-		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
+		int i = (int)diFurnace.getPowerScaled(34);
+		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 176, 34 - i, 7, i);
 		
 		if(diFurnace.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);

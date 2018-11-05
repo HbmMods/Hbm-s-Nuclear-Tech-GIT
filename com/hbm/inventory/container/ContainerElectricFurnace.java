@@ -13,12 +13,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerElectricFurnace extends Container {
 	
 	private TileEntityMachineElectricFurnace diFurnace;
-	private int dualCookTime;
-	private int lastItemBurnTime;
 	
 	public ContainerElectricFurnace(InventoryPlayer invPlayer, TileEntityMachineElectricFurnace tedf) {
-		dualCookTime = 0;
-		lastItemBurnTime = 0;
 		
 		diFurnace = tedf;
 		
@@ -43,7 +39,6 @@ public class ContainerElectricFurnace extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
 	}
 	
 	@Override
@@ -85,30 +80,5 @@ public class ContainerElectricFurnace extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return diFurnace.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			
-			if(this.dualCookTime != this.diFurnace.dualCookTime)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.dualCookTime);
-			}
-		}
-		
-		this.dualCookTime = this.diFurnace.dualCookTime;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.dualCookTime = j;
-		}
 	}
 }

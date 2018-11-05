@@ -34,6 +34,7 @@ import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
+import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
 import com.hbm.tileentity.machine.TileEntityMachineCMBFactory;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
@@ -66,6 +67,7 @@ import com.hbm.tileentity.machine.TileEntityMachineShredder;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import com.hbm.tileentity.machine.TileEntityMachineTeleLinker;
 import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
+import com.hbm.tileentity.machine.TileEntityMachineTurbine;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 import com.hbm.tileentity.machine.TileEntityMachineUF6Tank;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
@@ -728,6 +730,24 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_machine_boiler_electric:
+			{
+				if(entity instanceof TileEntityMachineBoilerElectric)
+				{
+					return new ContainerMachineBoilerElectric(player.inventory, (TileEntityMachineBoilerElectric) entity);
+				}
+				return null;
+			}
+
+			case ModBlocks.guiID_machine_turbine:
+			{
+				if(entity instanceof TileEntityMachineTurbine)
+				{
+					return new ContainerMachineTurbine(player.inventory, (TileEntityMachineTurbine) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1374,6 +1394,24 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineBoiler)
 					{
 						return new GUIMachineBoiler(player.inventory, (TileEntityMachineBoiler) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_machine_boiler_electric:
+				{
+					if(entity instanceof TileEntityMachineBoilerElectric)
+					{
+						return new GUIMachineBoilerElectric(player.inventory, (TileEntityMachineBoilerElectric) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_machine_turbine:
+				{
+					if(entity instanceof TileEntityMachineTurbine)
+					{
+						return new GUIMachineTurbine(player.inventory, (TileEntityMachineTurbine) entity);
 					}
 					return null;
 				}

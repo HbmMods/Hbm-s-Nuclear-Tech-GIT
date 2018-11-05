@@ -5,6 +5,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -218,7 +219,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 			return false;
 		}
         ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
-        //ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
+        
 		if(itemStack == null)
 		{
 			return false;
@@ -243,7 +244,6 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	private void processItem() {
 		if(canProcess()) {
 	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
-	        //ItemStack itemStack = MachineRecipes.getShredderResult(this.slots[1]);
 			
 			if(slots[2] == null)
 			{
@@ -305,8 +305,9 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
             }
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			
+
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0));
 		}
 		
 		

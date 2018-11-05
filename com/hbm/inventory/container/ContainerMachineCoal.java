@@ -13,11 +13,8 @@ import net.minecraft.item.ItemStack;
 public class ContainerMachineCoal extends Container {
 	
 	private TileEntityMachineCoal diFurnace;
-	private int burnTime;
 	
 	public ContainerMachineCoal(InventoryPlayer invPlayer, TileEntityMachineCoal tedf) {
-		burnTime = 0;
-		
 		diFurnace = tedf;
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 53 - 36));
@@ -42,7 +39,6 @@ public class ContainerMachineCoal extends Container {
 	@Override
 	public void addCraftingToCrafters(ICrafting crafting) {
 		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.diFurnace.burnTime);
 	}
 	
 	@Override
@@ -85,30 +81,5 @@ public class ContainerMachineCoal extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return diFurnace.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			
-			if(this.burnTime != this.diFurnace.burnTime)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.diFurnace.burnTime);
-			}
-		}
-		
-		this.burnTime = this.diFurnace.burnTime;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			diFurnace.burnTime = j;
-		}
 	}
 }

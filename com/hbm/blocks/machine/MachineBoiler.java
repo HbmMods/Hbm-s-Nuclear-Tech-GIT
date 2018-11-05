@@ -7,7 +7,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
-import com.hbm.tileentity.machine.TileEntityMachineCoal;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -144,7 +143,7 @@ public class MachineBoiler extends BlockContainer {
 		
 		if(itemStack.hasDisplayName())
 		{
-			((TileEntityMachineCoal)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
+			((TileEntityMachineBoiler)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
 		}
 	}
 	
@@ -214,7 +213,7 @@ public class MachineBoiler extends BlockContainer {
 			}
 		
 		keepInventory = false;
-		world.setBlockMetadataWithNotify(x, y, z, i, 2);
+		world.setBlockMetadataWithNotify(x, y, z, i, 3);
 		
 		if(entity != null) {
 			entity.validate();

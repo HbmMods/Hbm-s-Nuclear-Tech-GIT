@@ -35,6 +35,10 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	
 	private String customName;
 	
+	public TileEntityMachineBattery() {
+		slots = new ItemStack[2];
+	}
+	
 	public TileEntityMachineBattery(long maxPower) {
 		slots = new ItemStack[2];
 		this.maxPower = maxPower;

@@ -9,6 +9,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IOilAcceptor;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
@@ -33,7 +34,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public long power = 0;
 	public int sulfur = 0;
 	public static final int maxSulfur = 100;
-	public static final long maxPower = 100000;
+	public static final long maxPower = 1000;
 	public int age = 0;
 	public FluidTank[] tanks;
 	public List<IFluidAcceptor> list1 = new ArrayList();
@@ -50,7 +51,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	public TileEntityMachineRefinery() {
 		slots = new ItemStack[12];
 		tanks = new FluidTank[5];
-		tanks[0] = new FluidTank(FluidType.OIL, 64000, 0);
+		tanks[0] = new FluidTank(FluidType.HOTOIL, 64000, 0);
 		tanks[1] = new FluidTank(FluidType.HEAVYOIL, 16000, 1);
 		tanks[2] = new FluidTank(FluidType.NAPHTHA, 16000, 2);
 		tanks[3] = new FluidTank(FluidType.LIGHTOIL, 16000, 3);
@@ -127,7 +128,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 		
 		if(i == 0 && stack.getItem() instanceof ItemBattery)
 			return true;
-		if(i == 1 && stack.getItem() == ModItems.canister_oil)
+		if(i == 1 && FluidContainerRegistry.getFluidContent(stack, FluidType.HOTOIL) > 0)
 			return true;
 		if(stack.getItem() == ModItems.canister_empty) {
 			if(i == 3)
@@ -274,7 +275,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 			int lo = 15;
 			int pe = 10;
 			
-			if(power >= 50 && tanks[0].getFill() >= 100 &&
+			if(power >= 5 && tanks[0].getFill() >= 100 &&
 					tanks[1].getFill() + ho <= tanks[1].getMaxFill() && 
 					tanks[2].getFill() + nt <= tanks[2].getMaxFill() && 
 					tanks[3].getFill() + lo <= tanks[3].getMaxFill() && 
@@ -286,7 +287,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 				tanks[3].setFill(tanks[3].getFill() + lo);
 				tanks[4].setFill(tanks[4].getFill() + pe);
 				sulfur += 1;
-				power -= 100;
+				power -= 5;
 			}
 
 			tanks[1].unloadTank(3, 4, slots);

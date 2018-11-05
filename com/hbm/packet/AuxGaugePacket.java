@@ -9,8 +9,11 @@ import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
+import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
+import com.hbm.tileentity.machine.TileEntityMachineCoal;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
+import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
@@ -176,8 +179,26 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 1)
 						boiler.burnTime = m.value;
 				}
+				if (te instanceof TileEntityMachineCoal) {
+					TileEntityMachineCoal coalgen = (TileEntityMachineCoal)te;
+					
+					if(m.id == 0)
+						coalgen.burnTime = m.value;
+				}
+				if (te instanceof TileEntityMachineElectricFurnace) {
+					TileEntityMachineElectricFurnace furn = (TileEntityMachineElectricFurnace)te;
+					
+					if(m.id == 0)
+						furn.dualCookTime = m.value;
+				}
+				if (te instanceof TileEntityMachineBoilerElectric) {
+					TileEntityMachineBoilerElectric boiler = (TileEntityMachineBoilerElectric)te;
+					
+					if(m.id == 0)
+						boiler.heat = m.value;
+				}
 				
-			} catch (Exception x) { }
+			} catch (Exception x) {}
 			return null;
 		}
 	}

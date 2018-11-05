@@ -477,7 +477,21 @@ public class MachineRecipes {
 		
 		switch(type) {
 		case WATER: return new Object[] { FluidType.STEAM, 5, 5, 10000 };
+		case STEAM: return new Object[] { FluidType.HOTSTEAM, 5, 50, 45000 };
 		case OIL: return new Object[] { FluidType.HOTOIL, 5, 5, 35000 };
+		}
+		
+		return null;
+	}
+	
+	//return: FluidType, amount produced, amount required, HE produced
+	@SuppressWarnings("incomplete-switch")
+	public static Object[] getTurbineOutput(FluidType type) {
+		
+		switch(type) {
+		case STEAM: return new Object[] { FluidType.WATER, 5, 5, 50 };
+		case HOTSTEAM: return new Object[] { FluidType.STEAM, 50, 5, 250 };
+		case SUPERHOTSTEAM: return new Object[] { FluidType.HOTSTEAM, 50, 5, 750 };
 		}
 		
 		return null;
@@ -4641,7 +4655,7 @@ public class MachineRecipes {
 
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
-		ItemStack oil = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.OIL));
+		ItemStack oil = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(FluidType.HOTOIL));
 		oil.stackTagCompound = new NBTTagCompound();
 		oil.stackTagCompound.setInteger("fill", 1000);
 		
@@ -4667,6 +4681,30 @@ public class MachineRecipes {
         		light, 
         		petroleum, 
         		new ItemStack(ModItems.sulfur, 1) });
+		
+		return recipes;
+	}
+	
+	public Map<Object, Object> getBoilerRecipes() {
+
+		Map<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(int i = 0; i < FluidType.values().length; i++) {
+			Object[] outs = getBoilerOutput(FluidType.getEnum(i));
+			
+			if(outs != null) {
+
+				ItemStack in = new ItemStack(ModItems.fluid_icon, 1, i);
+				in.stackTagCompound = new NBTTagCompound();
+				in.stackTagCompound.setInteger("fill", (Integer) outs[2]);
+				
+				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidType)outs[0]).getID());
+				out.stackTagCompound = new NBTTagCompound();
+				out.stackTagCompound.setInteger("fill", (Integer) outs[1]);
+				
+				recipes.put(in, out);
+			}
+		}
 		
 		return recipes;
 	}
