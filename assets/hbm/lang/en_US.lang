@@ -1045,6 +1045,7 @@ item.missile_kit.name=Missile Kit
 item.t45_kit.name=T45 Power Armor Kit
 item.euphemium_kit.name=Euphemium Kit
 item.solinium_kit.name=Solinium Kit
+item.hazmat_kit.name=Hazmat Kit
 
 tile.waste_earth.name=Dead Grass
 tile.waste_trinitite.name=Trinitite Ore

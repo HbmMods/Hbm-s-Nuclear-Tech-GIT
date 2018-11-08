@@ -561,6 +561,11 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
 		}
 		
+		if(this == ModItems.hazmat_kit)
+		{
+			giveHaz(world, player);
+		}
+		
 		if(this == ModItems.letter && world.isRemote)
 		{
 			if(player.getUniqueID().toString().equals(Library.a20)) {
@@ -608,7 +613,8 @@ public class ItemStarterKit extends Item {
     			this == ModItems.tsar_kit ||
     			this == ModItems.prototype_kit ||
     			this == ModItems.fleija_kit ||
-    			this == ModItems.solinium_kit) {
+    			this == ModItems.solinium_kit ||
+    			this == ModItems.hazmat_kit) {
     		list.add("Armor will be displaced by hazmat suit.");
     	}
     }

@@ -1045,6 +1045,7 @@ item.missile_kit.name=Raketen Kit
 item.t45_kit.name=T45-Powerrüstungskit
 item.euphemium_kit.name=Euphemium Kit
 item.solinium_kit.name=Solinium Kit
+item.hazmat_kit.name=Strahlenschutz-Kit
 
 tile.waste_earth.name=Totes Gras
 tile.waste_trinitite.name=Trinititerz
