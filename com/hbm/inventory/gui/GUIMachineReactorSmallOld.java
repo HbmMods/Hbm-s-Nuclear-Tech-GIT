@@ -2,14 +2,13 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.container.ContainerMachineReactorSmall;
+import com.hbm.inventory.container.ContainerMachineReactorSmallOld;
 import com.hbm.inventory.container.ContainerMachineSelenium;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
+import com.hbm.tileentity.machine.TileEntityMachineReactorSmallOld;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 
 import net.minecraft.client.Minecraft;
@@ -18,15 +17,15 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineReactorSmall extends GuiInfoContainer {
+public class GUIMachineReactorSmallOld extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_reactor_experimental.png");
-	private static ResourceLocation overlay = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_reactor_overlay_experimental.png");
-	private TileEntityMachineReactorSmall diFurnace;
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_reactor_small.png");
+	private static ResourceLocation overlay = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_reactor_small_overlay.png");
+	private TileEntityMachineReactorSmallOld diFurnace;
 	private boolean toggleOverlay = false;
 
-	public GUIMachineReactorSmall(InventoryPlayer invPlayer, TileEntityMachineReactorSmall tedf) {
-		super(new ContainerMachineReactorSmall(invPlayer, tedf));
+	public GUIMachineReactorSmallOld(InventoryPlayer invPlayer, TileEntityMachineReactorSmallOld tedf) {
+		super(new ContainerMachineReactorSmallOld(invPlayer, tedf));
 		diFurnace = tedf;
 		
 		this.xSize = 176;
@@ -39,13 +38,13 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 
 		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 36, 16, 52);
 		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 36, 16, 52);
-		diFurnace.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 108, 88, 4);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 108, 88, 4, diFurnace.power, diFurnace.powerMax);
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 114, 88, 4, new String[] { "Hull Temperature:", "   " + Math.round((diFurnace.hullHeat) * 0.00001 * 980 + 20) + "°C" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 120, 88, 4, new String[] { "Core Temperature:", "   " + Math.round((diFurnace.coreHeat) * 0.00002 * 980 + 20) + "°C" });
 		
 		String[] text = new String[] { "Coolant will move heat from the core to",
 				"the hull. Water will use that heat and",
-				"generate steam.",
+				"generate power.",
 				"Water consumption rate:",
 				" 100 mB/t",
 				" 2000 mB/s",
@@ -68,8 +67,7 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		}
 
 		if(diFurnace.tanks[1].getFill() <= 0) {
-			String[] text3 = new String[] { "Error: Coolant is required for",
-					"the reactor to function properly!" };
+			String[] text3 = new String[] { "Use of coolant is advised." };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, text3);
 		}
 	}
@@ -90,20 +88,6 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, diFurnace.retracting ? 0 : 1, 0));
     	}
-		
-    	if(guiLeft + 63 <= x && guiLeft + 63 + 14 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
-    		
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			int c = 0;
-			
-			switch(diFurnace.tanks[2].getTankType()) {
-			case STEAM: c = 0; break;
-			case HOTSTEAM: c = 1; break;
-			case SUPERHOTSTEAM: c = 2; break;
-			}
-			
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, c, 1));
-    	}
     }
 
 	@Override
@@ -116,6 +100,14 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		if(diFurnace.power > 0) {
+			int i = (int)diFurnace.getPowerScaled(88);
+			
+			i = (int) Math.min(i, 88);
+			
+			drawTexturedModalRect(guiLeft + 80, guiTop + 108, 0, 222, i, 4);
+		}
 		
 		if(diFurnace.hasHullHeat()) {
 			int i = diFurnace.getHullHeatScaled(88);
@@ -150,12 +142,6 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 						drawTexturedModalRect(guiLeft + 79 + 36 * x, guiTop + 17 + 36 * y, 194, 0, 18, 18);
 				
 			}
-		}
-		
-		switch(diFurnace.tanks[2].getTankType()) {
-		case STEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 176, 18, 14, 18); break;
-		case HOTSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 190, 18, 14, 18); break;
-		case SUPERHOTSTEAM: drawTexturedModalRect(guiLeft + 63, guiTop + 107, 204, 18, 14, 18); break;
 		}
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);

@@ -84,7 +84,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machineElecricBoiler";
+		return this.hasCustomInventoryName() ? this.customName : "container.machineElectricBoiler";
 	}
 
 	@Override
@@ -252,12 +252,14 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 				tanks[i].updateTank(xCoord, yCoord, zCoord);
 			
 			if(heat > 2000) {
-				heat -= 15;
+				heat -= 30;
 			}
 			
 			if(power > 0) {
-				power -= 100;
-				heat += 150;
+				power -= 150;
+				heat += Math.min(((double)power / (double)maxPower * 300), 150);
+			} else {
+				heat -= 100;
 			}
 			
 			if(power <= 0 && worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_boiler_electric_on) {
@@ -282,9 +284,9 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 						tanks[1].setFill(tanks[1].getFill() + ((Integer)outs[1]).intValue());
 						
 						if(i == 0)
-							heat -= 25;
+							heat -= 35;
 						else
-							heat -= 15;
+							heat -= 50;
 					}
 				}
 			}

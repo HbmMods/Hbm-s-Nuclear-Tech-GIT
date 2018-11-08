@@ -398,7 +398,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (MainRegistry.enableVaults && rand.nextInt(/*MainRegistry.vaultfreq*/ 1) == 0) {
+			if (MainRegistry.enableVaults && rand.nextInt(MainRegistry.vaultfreq) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);

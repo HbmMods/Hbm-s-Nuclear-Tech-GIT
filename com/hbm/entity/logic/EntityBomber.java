@@ -125,6 +125,9 @@ public class EntityBomber extends Entity implements IChunkLoader {
 				ExplosionChaos.spawnChlorine(worldObj, this.posX, this.posY - 1F, this.posZ, 10, 0.5, 3);
 				
 			} else {
+				
+	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.bombWhistle", 10.0F, 0.9F + rand.nextFloat() * 0.2F);
+	        	
 				EntityBombletZeta zeta = new EntityBombletZeta(worldObj);
 				/*zeta.prevRotationYaw = zeta.rotationYaw = this.rotationYaw;
 				zeta.prevRotationPitch = zeta.rotationPitch = this.rotationPitch;*/
@@ -137,8 +140,13 @@ public class EntityBomber extends Entity implements IChunkLoader {
 				zeta.posY = posY - rand.nextDouble();
 				zeta.posZ = posZ + rand.nextDouble() - 0.5;
 				
-				zeta.motionX = motionX;
-				zeta.motionZ = motionZ;
+				if(type == 0) {
+					zeta.motionX = motionX + rand.nextGaussian() * 0.15;
+					zeta.motionZ = motionZ + rand.nextGaussian() * 0.15;
+				} else {
+					zeta.motionX = motionX;
+					zeta.motionZ = motionZ;
+				}
 				
 				worldObj.spawnEntityInWorld(zeta);
 			}
@@ -197,7 +205,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.timer = 200;
     	bomber.bombStart = 50;
     	bomber.bombStop = 100;
-    	bomber.bombRate = 3;
+    	bomber.bombRate = 2;
 
     	bomber.fac(world, x, y, z);
     	

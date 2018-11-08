@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
 import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -260,9 +261,11 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 			}
 			
 			if(burnTime == 0 && flag1) {
-				MachineBoiler.updateBlockState(false, worldObj, xCoord, yCoord, zCoord);
 				mark = true;
 			}
+			
+			if(burnTime > 0 && worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_boiler_on)
+				MachineBoiler.updateBlockState(false, worldObj, xCoord, yCoord, zCoord);
 			
 			if(heat > maxHeat)
 				heat = maxHeat;
@@ -275,10 +278,12 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 					slots[4] = null;
 				
 				if(!flag1) {
-					MachineBoiler.updateBlockState(true, worldObj, xCoord, yCoord, zCoord);
 					mark = true;
 				}
 			}
+			
+			if(burnTime > 0 && worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_boiler_off)
+				MachineBoiler.updateBlockState(true, worldObj, xCoord, yCoord, zCoord);
 			
 			if(outs != null) {
 				
@@ -290,7 +295,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 						if(i == 0)
 							heat -= 25;
 						else
-							heat -= 5;
+							heat -= 40;
 					}
 				}
 			}

@@ -5,13 +5,13 @@ import java.util.Arrays;
 public class FluidTypeHandler {
 	
 	public enum FluidType {
-		NONE		(0x888888, 8947848, 	0,	1,	1, "hbmfluid.none"),
+		NONE			(0x888888, 8947848, 	0,	1,	1, "hbmfluid.none"),
 
 		WATER			(0x3333FF, 3355647, 	1,	1,	1,  "hbmfluid.water"),
 		STEAM			(0xe5e5e5, 15066597, 	9,	2,	1,  "hbmfluid.steam"),
-		HOTSTEAM		(0xE7D6D6, 0xE7D6D6, 	9,	2,	1,  "hbmfluid.hotsteam"),
-		SUPERHOTSTEAM	(0xE7B7B7, 0xE7B7B7, 	9,	2,	1,  "hbmfluid.superhotsteam"),
-		COOLANT			(0xd8fcff, 14220543, 	1,	1,	2,  "hbmfluid.coolant"),
+		HOTSTEAM		(0xE7D6D6, 0xE7D6D6, 	1,	1,	2,  "hbmfluid.hotsteam"),
+		SUPERHOTSTEAM	(0xE7B7B7, 0xE7B7B7, 	2,	1,	2,  "hbmfluid.superhotsteam"),
+		COOLANT			(0xd8fcff, 14220543, 	2,	1,	1,  "hbmfluid.coolant"),
 		
 		LAVA			(0xFF3300, 16724736, 	3,	1,	1,  "hbmfluid.lava"),
 		

@@ -1,8 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
-import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
+import com.hbm.tileentity.machine.TileEntityMachineReactorSmallOld;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,11 +9,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineReactorSmall extends Container {
+public class ContainerMachineReactorSmallOld extends Container {
 
-private TileEntityMachineReactorSmall seleniumEngine;
+private TileEntityMachineReactorSmallOld seleniumEngine;
 	
-	public ContainerMachineReactorSmall(InventoryPlayer invPlayer, TileEntityMachineReactorSmall tedf) {
+	public ContainerMachineReactorSmallOld(InventoryPlayer invPlayer, TileEntityMachineReactorSmallOld tedf) {
 		
 		seleniumEngine = tedf;
 		
@@ -37,6 +36,9 @@ private TileEntityMachineReactorSmall seleniumEngine;
 		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 8, 108));
 		this.addSlotToContainer(new Slot(tedf, 14, 26, 90));
 		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 15, 26, 108));
+		
+		//Battery
+		this.addSlotToContainer(new Slot(tedf, 16, 62, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{

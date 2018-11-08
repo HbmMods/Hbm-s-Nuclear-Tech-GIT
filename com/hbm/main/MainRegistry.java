@@ -1757,6 +1757,7 @@ public class MainRegistry
         broadcaster = setDef(broadcaster, 1000);
         minefreq = setDef(minefreq, 1000);
         radfreq = setDef(radfreq, 1000);
+        vaultfreq = setDef(vaultfreq, 1000);
         meteorStrikeChance = setDef(meteorStrikeChance, 1000);
         meteorShowerChance = setDef(meteorShowerChance, 1000);
 	}

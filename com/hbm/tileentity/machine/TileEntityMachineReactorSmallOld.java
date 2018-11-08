@@ -10,7 +10,6 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -39,8 +38,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineReactorSmall extends TileEntity
-		implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource {
+public class TileEntityMachineReactorSmallOld extends TileEntity
+		implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
 
 	private ItemStack slots[];
 
@@ -48,25 +47,26 @@ public class TileEntityMachineReactorSmall extends TileEntity
 	public final int maxHullHeat = 100000;
 	public int coreHeat;
 	public final int maxCoreHeat = 50000;
+	public long power;
+	public final long powerMax = 250000;
 	public int rods;
 	public final int rodsMax = 100;
 	public boolean retracting = true;
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IConsumer> list = new ArrayList();
 	public FluidTank[] tanks;
 
-	private static final int[] slots_top = new int[] { 0 };
+	private static final int[] slots_top = new int[] { 16 };
 	private static final int[] slots_bottom = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16 };
 	private static final int[] slots_side = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16 };
 
 	private String customName;
 
-	public TileEntityMachineReactorSmall() {
-		slots = new ItemStack[16];
-		tanks = new FluidTank[3];
+	public TileEntityMachineReactorSmallOld() {
+		slots = new ItemStack[17];
+		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.WATER, 32000, 0);
 		tanks[1] = new FluidTank(FluidType.COOLANT, 16000, 1);
-		tanks[2] = new FluidTank(FluidType.STEAM, 16000, 2);
 	}
 
 	@Override
@@ -149,6 +149,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			if (itemStack.getItem() == ModItems.rod_coolant || itemStack.getItem() == ModItems.rod_dual_coolant
 					|| itemStack.getItem() == ModItems.rod_quad_coolant)
 				return true;
+		if (i == 16)
+			if (itemStack.getItem() instanceof ItemBattery)
+				return true;
 		return false;
 	}
 
@@ -176,6 +179,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
+		power = nbt.getLong("power");
 		coreHeat = nbt.getInteger("heat");
 		hullHeat = nbt.getInteger("hullHeat");
 		slots = new ItemStack[getSizeInventory()];
@@ -194,6 +198,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
 		nbt.setInteger("heat", coreHeat);
 		nbt.setInteger("hullHeat", hullHeat);
 		NBTTagList list = new NBTTagList();
@@ -244,9 +249,16 @@ public class TileEntityMachineReactorSmall extends TileEntity
 					|| itemStack.getItem() == ModItems.fluid_tank_empty
 					|| itemStack.getItem() == ModItems.fluid_barrel_empty)
 				return true;
+		if (i == 16)
+			if (itemStack.getItem() instanceof ItemBattery
+					&& ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack))
+				return true;
 
 		return false;
-	
+	}
+
+	public long getPowerScaled(long i) {
+		return (power * i) / powerMax;
 	}
 
 	public int getCoreHeatScaled(int i) {
@@ -255,6 +267,10 @@ public class TileEntityMachineReactorSmall extends TileEntity
 
 	public int getHullHeatScaled(int i) {
 		return (hullHeat * i) / maxHullHeat;
+	}
+
+	public boolean hasPower() {
+		return power > 0;
 	}
 
 	public boolean hasCoreHeat() {
@@ -308,7 +324,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			}
 
 			if (age == 9 || age == 19)
-				fillFluidInit(tanks[2].getTankType());
+				ffgeuaInit();
 
 			if (tanks[0].getFill() < tanks[0].getMaxFill()) {
 
@@ -360,8 +376,11 @@ public class TileEntityMachineReactorSmall extends TileEntity
 							1.0F);
 			}
 
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 2; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord);
+
+			// Batteries
+			power = Library.chargeItemsFromTE(slots, 11, power, powerMax);
 
 			if (rods >= rodsMax)
 				for (int i = 0; i < 12; i++) {
@@ -384,13 +403,17 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			}
 
 			if (this.hullHeat > 0 && this.tanks[0].getFill() > 0) {
-				generateSteam();
+				this.power += this.hullHeat * 0.1;
 				this.hullHeat -= this.hullHeat * 0.085;
 
 				this.tanks[0].setFill(this.tanks[0].getFill() - 100);
 
 				if (this.tanks[0].getFill() < 0)
 					this.tanks[0].setFill(0);
+			}
+
+			if (this.power > powerMax) {
+				this.power = powerMax;
 			}
 
 			if (this.coreHeat > maxCoreHeat) {
@@ -417,31 +440,12 @@ public class TileEntityMachineReactorSmall extends TileEntity
 				}
 			}
 
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, retracting ? 1 : 0, 1));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, coreHeat, 2));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, hullHeat, 3));
 		}
-	}
-	
-	private void generateSteam() {
-
-		//function of SHS produced per tick
-		//maxes out at heat% * tank capacity / 20
-		int producted = (int)
-			(((double)hullHeat / (double)maxHullHeat) * ((double)tanks[2].getMaxFill() / 20D));
-		
-		switch(tanks[2].getTankType()) {
-		case STEAM:
-			break;
-		case HOTSTEAM:
-			break;
-		case SUPERHOTSTEAM:
-			break;
-		}
-		
-		if(tanks[2].getFill() > tanks[2].getMaxFill())
-			tanks[2].setFill(tanks[2].getMaxFill());
 	}
 
 	private boolean hasFuelRod(int id) {
@@ -547,21 +551,22 @@ public class TileEntityMachineReactorSmall extends TileEntity
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
+	public void ffgeua(int x, int y, int z, boolean newTact) {
+
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 1, getTact(), type);
+	public void ffgeuaInit() {
+		ffgeua(this.xCoord - 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord, this.zCoord + 1, getTact());
 
-		fillFluid(this.xCoord - 1, this.yCoord + 2, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord + 2, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord + 2, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord + 2, this.zCoord + 1, getTact(), type);
+		ffgeua(this.xCoord - 1, this.yCoord + 2, this.zCoord, getTact());
+		ffgeua(this.xCoord + 1, this.yCoord + 2, this.zCoord, getTact());
+		ffgeua(this.xCoord, this.yCoord + 2, this.zCoord - 1, getTact());
+		ffgeua(this.xCoord, this.yCoord + 2, this.zCoord + 1, getTact());
 	}
 
 	@Override
@@ -571,6 +576,26 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		}
 
 		return false;
+	}
+
+	@Override
+	public long getSPower() {
+		return power;
+	}
+
+	@Override
+	public void setSPower(long i) {
+		this.power = i;
+	}
+
+	@Override
+	public List<IConsumer> getList() {
+		return list;
+	}
+
+	@Override
+	public void clearList() {
+		this.list.clear();
 	}
 
 	@Override
@@ -589,8 +614,6 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			tanks[0].setFill(i);
 		else if (type.name().equals(tanks[1].getTankType().name()))
 			tanks[1].setFill(i);
-		else if (type.name().equals(tanks[2].getTankType().name()))
-			tanks[2].setFill(i);
 	}
 
 	@Override
@@ -599,21 +622,19 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			return tanks[0].getFill();
 		else if (type.name().equals(tanks[1].getTankType().name()))
 			return tanks[1].getFill();
-		else if (type.name().equals(tanks[2].getTankType().name()))
-			return tanks[2].getFill();
 		else
 			return 0;
 	}
 
 	@Override
 	public void setFillstate(int fill, int index) {
-		if (index < 3 && tanks[index] != null)
+		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
 	}
 
 	@Override
 	public void setType(FluidType type, int index) {
-		if (index < 3 && tanks[index] != null)
+		if (index < 2 && tanks[index] != null)
 			tanks[index].setTankType(type);
 	}
 
@@ -622,19 +643,8 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		List<FluidTank> list = new ArrayList();
 		list.add(tanks[0]);
 		list.add(tanks[1]);
-		list.add(tanks[2]);
 		
 		return list;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
 	}
 
 	@Override
