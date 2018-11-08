@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -25,6 +26,7 @@ import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -66,7 +68,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		tanks = new FluidTank[3];
 		tanks[0] = new FluidTank(FluidType.WATER, 32000, 0);
 		tanks[1] = new FluidTank(FluidType.COOLANT, 16000, 1);
-		tanks[2] = new FluidTank(FluidType.STEAM, 16000, 2);
+		tanks[2] = new FluidTank(FluidType.STEAM, 8000, 2);
 	}
 
 	@Override
@@ -257,6 +259,10 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		return (hullHeat * i) / maxHullHeat;
 	}
 
+	public int getSteamScaled(int i) {
+		return (tanks[2].getFill() * i) / tanks[2].getMaxFill();
+	}
+
 	public boolean hasCoreHeat() {
 		return coreHeat > 0;
 	}
@@ -310,28 +316,6 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			if (age == 9 || age == 19)
 				fillFluidInit(tanks[2].getTankType());
 
-			if (tanks[0].getFill() < tanks[0].getMaxFill()) {
-
-				if (worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord) == Blocks.water
-						|| worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord) == Blocks.flowing_water)
-					tanks[0].setFill(tanks[0].getFill() + 25);
-
-				if (worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord) == Blocks.water
-						|| worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord) == Blocks.flowing_water)
-					tanks[0].setFill(tanks[0].getFill() + 25);
-
-				if (worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) == Blocks.water
-						|| worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) == Blocks.flowing_water)
-					tanks[0].setFill(tanks[0].getFill() + 25);
-
-				if (worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) == Blocks.water
-						|| worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) == Blocks.flowing_water)
-					tanks[0].setFill(tanks[0].getFill() + 25);
-
-				if (tanks[0].getFill() > tanks[0].getMaxFill())
-					tanks[0].setFill(tanks[0].getMaxFill());
-			}
-
 			tanks[0].loadTank(12, 13, slots);
 			tanks[1].loadTank(14, 15, slots);
 
@@ -360,17 +344,21 @@ public class TileEntityMachineReactorSmall extends TileEntity
 							1.0F);
 			}
 
-			for (int i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
-
 			if (rods >= rodsMax)
 				for (int i = 0; i < 12; i++) {
 					if (slots[i] != null && slots[i].getItem() instanceof ItemFuelRod)
 						decay(i);
 				}
 
+			coreHeatMod = 1.0;
+			hullHeatMod = 1.0;
+			conversionMod = 1.0;
+			decayMod = 1.0;
+			
+			getInteractions();
+
 			if (this.coreHeat > 0 && this.tanks[1].getFill() > 0 && this.hullHeat < this.maxHullHeat) {
-				this.hullHeat += this.coreHeat * 0.175;
+				this.hullHeat += this.coreHeat * 0.175 * hullHeatMod;
 				this.coreHeat -= this.coreHeat * 0.1;
 
 				this.tanks[1].setFill(this.tanks[1].getFill() - 10);
@@ -386,11 +374,6 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			if (this.hullHeat > 0 && this.tanks[0].getFill() > 0) {
 				generateSteam();
 				this.hullHeat -= this.hullHeat * 0.085;
-
-				this.tanks[0].setFill(this.tanks[0].getFill() - 100);
-
-				if (this.tanks[0].getFill() < 0)
-					this.tanks[0].setFill(0);
 			}
 
 			if (this.coreHeat > maxCoreHeat) {
@@ -417,6 +400,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
 				}
 			}
 
+			for (int i = 0; i < 3; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord);
+
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, retracting ? 1 : 0, 1));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, coreHeat, 2));
@@ -428,20 +414,151 @@ public class TileEntityMachineReactorSmall extends TileEntity
 
 		//function of SHS produced per tick
 		//maxes out at heat% * tank capacity / 20
-		int producted = (int)
-			(((double)hullHeat / (double)maxHullHeat) * ((double)tanks[2].getMaxFill() / 20D));
+		double steam = (((double)hullHeat / (double)maxHullHeat) * ((double)tanks[2].getMaxFill() / 50D)) * conversionMod;
+		
+		double water = steam;
 		
 		switch(tanks[2].getTankType()) {
 		case STEAM:
+			water /= 100D;
 			break;
 		case HOTSTEAM:
+			water /= 10;
 			break;
 		case SUPERHOTSTEAM:
 			break;
 		}
 		
+		tanks[0].setFill(tanks[0].getFill() - (int)Math.ceil(water));
+		tanks[2].setFill(tanks[2].getFill() + (int)Math.floor(steam));
+		
+		if(tanks[0].getFill() < 0)
+			tanks[0].setFill(0);
+		
 		if(tanks[2].getFill() > tanks[2].getMaxFill())
 			tanks[2].setFill(tanks[2].getMaxFill());
+		
+	}
+	
+	private void getInteractions() {
+
+		getInteractionForBlock(xCoord + 1, yCoord + 1, zCoord);
+		getInteractionForBlock(xCoord - 1, yCoord + 1, zCoord);
+		getInteractionForBlock(xCoord, yCoord + 1, zCoord + 1);
+		getInteractionForBlock(xCoord, yCoord + 1, zCoord - 1);
+		
+		TileEntity te1 = worldObj.getTileEntity(xCoord + 2, yCoord, zCoord);
+		TileEntity te2 = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
+		TileEntity te3 = worldObj.getTileEntity(xCoord, yCoord, zCoord + 2);
+		TileEntity te4 = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
+
+		boolean b1 = blocksRad(xCoord + 1, yCoord + 1, zCoord);
+		boolean b2 = blocksRad(xCoord - 1, yCoord + 1, zCoord);
+		boolean b3 = blocksRad(xCoord, yCoord + 1, zCoord + 1);
+		boolean b4 = blocksRad(xCoord, yCoord + 1, zCoord - 1);
+		
+		TileEntityMachineReactorSmall[] reactors = new TileEntityMachineReactorSmall[4];
+
+		reactors[0] = ((te1 instanceof TileEntityMachineReactorSmall && !b1) ? (TileEntityMachineReactorSmall)te1 : null);
+		reactors[1] = ((te2 instanceof TileEntityMachineReactorSmall && !b2) ? (TileEntityMachineReactorSmall)te2 : null);
+		reactors[2] = ((te3 instanceof TileEntityMachineReactorSmall && !b3) ? (TileEntityMachineReactorSmall)te3 : null);
+		reactors[3] = ((te4 instanceof TileEntityMachineReactorSmall && !b4) ? (TileEntityMachineReactorSmall)te4 : null);
+		
+		for(int i = 0; i < 4; i++) {
+			
+			if(reactors[i] != null && reactors[i].rods >= rodsMax && reactors[i].getRodCount() > 0) {
+				decayMod += reactors[i].getRodCount() / 2D;
+			}
+		}
+	}
+
+	private double decayMod = 1.0D;
+	private double coreHeatMod = 1.0D;
+	private double hullHeatMod = 1.0D;
+	private double conversionMod = 1.0D;
+	
+	private void getInteractionForBlock(int x, int y, int z) {
+		
+		Block b = worldObj.getBlock(x, y, z);
+		TileEntity te = worldObj.getTileEntity(x, y, z);
+		
+		if(b == Blocks.lava || b == Blocks.flowing_lava) {
+			hullHeatMod *= 3;
+			conversionMod *= 0.5;
+			
+		} else if(b == Blocks.redstone_block) {
+			conversionMod *= 1.15;
+			
+		} else if(b == ModBlocks.block_lead) {
+			decayMod += 1;
+			
+		} else if(b == Blocks.water || b == Blocks.flowing_water) {
+			tanks[0].setFill(tanks[0].getFill() + 25);
+			
+			if(tanks[0].getFill() > tanks[0].getMaxFill())
+				tanks[0].setFill(tanks[0].getMaxFill());
+			
+		} else if(b == ModBlocks.block_niter) {
+			if(tanks[0].getFill() >= 50 && tanks[1].getFill() + 5 <= tanks[1].getMaxFill()) {
+				tanks[0].setFill(tanks[0].getFill() - 50);
+				tanks[1].setFill(tanks[1].getFill() + 5);
+			}
+			
+		} else if(te instanceof TileEntityMachineReactor) {
+			TileEntityMachineReactor reactor = (TileEntityMachineReactor)te;
+			if(reactor.dualPower < 1)
+				reactor.dualPower = 1;
+			
+		} else if(te instanceof TileEntityNukeFurnace) {
+			TileEntityNukeFurnace reactor = (TileEntityNukeFurnace)te;
+			if(reactor.dualPower < 1)
+				reactor.dualPower = 1;
+			
+		} else if(b == ModBlocks.block_uranium) {
+			coreHeatMod *= 1.05;
+			
+		} else if(b == Blocks.coal_block) {
+			hullHeatMod *= 1.1;
+			
+		} else if(b == ModBlocks.block_beryllium) {
+			hullHeatMod *= 0.95;
+			conversionMod *= 1.05;
+			
+		} else if(b == ModBlocks.block_schrabidium) {
+			decayMod += 1;
+			conversionMod *= 1.25;
+			hullHeatMod *= 1.1;
+			
+		} else if(b == ModBlocks.block_waste) {
+			decayMod += 3;
+			
+		}
+	}
+	
+	private boolean blocksRad(int x, int y, int z) {
+		
+		Block b = worldObj.getBlock(x, y, z);
+		
+		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.brick_concrete)
+			return true;
+		
+		if(b.getExplosionResistance(null) >= 100)
+			return true;
+		
+		return false;
+	}
+	
+	public int getRodCount() {
+		
+		int count = 0;
+		
+		for(int i = 0; i < 12; i++) {
+			
+			if(slots[i] != null && slots[i].getItem() instanceof ItemFuelRod)
+				count++;
+		}
+		
+		return count;
 	}
 
 	private boolean hasFuelRod(int id) {
@@ -477,10 +594,12 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			return;
 
 		int decay = getNeightbourCount(id) + 1;
+		
+		decay *= decayMod;
 
 		for (int i = 0; i < decay; i++) {
 			ItemFuelRod rod = ((ItemFuelRod) slots[id].getItem());
-			this.coreHeat += rod.heat;
+			this.coreHeat += rod.heat * coreHeatMod;
 			ItemFuelRod.setLifeTime(slots[id], ItemFuelRod.getLifeTime(slots[id]) + 1);
 			ItemFuelRod.updateDamage(slots[id]);
 

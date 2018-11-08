@@ -476,7 +476,7 @@ public class MachineRecipes {
 	public static Object[] getBoilerOutput(FluidType type) {
 		
 		switch(type) {
-		case WATER: return new Object[] { FluidType.STEAM, 5, 5, 10000 };
+		case WATER: return new Object[] { FluidType.STEAM, 500, 5, 10000 };
 		case STEAM: return new Object[] { FluidType.HOTSTEAM, 5, 50, 30000 };
 		case HOTSTEAM: return new Object[] { FluidType.SUPERHOTSTEAM, 5, 50, 45000 };
 		case OIL: return new Object[] { FluidType.HOTOIL, 5, 5, 35000 };
@@ -490,7 +490,7 @@ public class MachineRecipes {
 	public static Object[] getTurbineOutput(FluidType type) {
 		
 		switch(type) {
-		case STEAM: return new Object[] { FluidType.WATER, 5, 5, 50 };
+		case STEAM: return new Object[] { FluidType.WATER, 5, 500, 50 };
 		case HOTSTEAM: return new Object[] { FluidType.STEAM, 50, 5, 100 };
 		case SUPERHOTSTEAM: return new Object[] { FluidType.HOTSTEAM, 50, 5, 150 };
 		}

@@ -72,6 +72,21 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 					"the reactor to function properly!" };
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 32 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 32 + 16, text3);
 		}
+		
+		String s = "0";
+		
+		switch(diFurnace.tanks[2].getTankType()) {
+		case STEAM: s = "1x"; break;
+		case HOTSTEAM:s = "10x"; break;
+		case SUPERHOTSTEAM: s = "100x"; break;
+		}
+		
+		String[] text4 = new String[] { "Steam compression switch.",
+				"Current compression level: " + s};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 63, guiTop + 107, 14, 18, mouseX, mouseY, text4);
+		
+		String[] text5 = new String[] { diFurnace.retracting ? "Raise control rods." : "Lower control rods."};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 53, 18, 18, mouseX, mouseY, text5);
 	}
 	
 	@Override
@@ -85,7 +100,7 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
     protected void mouseClicked(int x, int y, int i) {
     	super.mouseClicked(x, y, i);
 		
-    	if(guiLeft + 53 <= x && guiLeft + 53 + 16 > x && guiTop + 54 < y && guiTop + 54 + 16 >= y) {
+    	if(guiLeft + 52 <= x && guiLeft + 52 + 16 > x && guiTop + 53 < y && guiTop + 53 + 16 >= y) {
     		
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, diFurnace.retracting ? 0 : 1, 0));
@@ -116,6 +131,21 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(diFurnace.tanks[2].getFill() > 0) {
+			int i = diFurnace.getSteamScaled(88);
+			
+			//i = (int) Math.min(i, 160);
+			
+			int offset = 234;
+			
+			switch(diFurnace.tanks[2].getTankType()) {
+			case HOTSTEAM: offset += 4; break;
+			case SUPERHOTSTEAM: offset += 8; break;
+			}
+			
+			drawTexturedModalRect(guiLeft + 80, guiTop + 108, 0, offset, i, 4);
+		}
 		
 		if(diFurnace.hasHullHeat()) {
 			int i = diFurnace.getHullHeatScaled(88);
