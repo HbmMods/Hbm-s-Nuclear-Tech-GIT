@@ -384,6 +384,7 @@ tile.machine_chemplant.name=Chemical Plant
 container.chemplant=Chemical Plant
 tile.fluid_duct.name=Universal Fluid Duct
 tile.machine_fluidtank.name=Tank
+item.fluid_duct.name=Fluid Duct:
 container.fluidtank=Tank
 tile.machine_turbofan.name=Turbofan
 container.machineTurbofan=Turbofan
@@ -782,6 +783,7 @@ item.powder_meteorite.name=Meteorite Powder
 item.powder_meteorite_tiny.name=Tiny Pile of Meteorite Powder
 item.powder_yellowcake.name=Yellowcake
 item.powder_magic.name=Pulverized Enchantment
+item.redstone_depleted.name=Desaturated Redstone Dust
 
 item.fragment_neodymium.name=Neodymium Fragment
 item.fragment_cobalt.name=Cobalt Fragment

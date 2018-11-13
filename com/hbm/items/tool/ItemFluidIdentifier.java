@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,6 +33,19 @@ public class ItemFluidIdentifier extends Item {
         int i = stack.getItemDamage();
         return super.getUnlocalizedName() + "." + FluidType.getEnum(i).getName();
     }*/
+    
+    public ItemStack getContainerItem(ItemStack stack) {
+    	return stack.copy();
+    }
+    
+    public boolean hasContainerItem() {
+    	return true;
+    }
+    
+    public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack)
+    {
+        return false;
+    }
 
     @Override
 	@SideOnly(Side.CLIENT)

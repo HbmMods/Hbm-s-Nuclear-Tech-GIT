@@ -410,6 +410,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		}
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	private void generateSteam() {
 
 		//function of SHS produced per tick
