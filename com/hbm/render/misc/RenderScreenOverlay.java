@@ -14,7 +14,11 @@ public class RenderScreenOverlay {
 
 	private static final ResourceLocation misc = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_misc.png");
 	
-	public static void renderRadCounter(ScaledResolution resolution, float radiation, Gui gui) {
+	private static long lastSurvey;
+	private static float prevResult;
+	private static float lastResult;
+	
+	public static void renderRadCounter(ScaledResolution resolution, float in, Gui gui) {
 		GL11.glPushMatrix();
 
 		GL11.glEnable(GL11.GL_BLEND);
@@ -23,14 +27,24 @@ public class RenderScreenOverlay {
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
+        
+        float radiation = 0;
+        
+        radiation = lastResult - prevResult;
+        
+        if(System.currentTimeMillis() >= lastSurvey + 1000) {
+        	lastSurvey = System.currentTimeMillis();
+        	prevResult = lastResult;
+        	lastResult = in;
+        }
 		
 		int length = 74;
 		int maxRad = 1000;
 		
-		int bar = getScaled(radiation, maxRad, 74);
+		int bar = getScaled(in, maxRad, 74);
 		
-		if(radiation >= 1 && radiation <= 999)
-			bar -= (2 + Minecraft.getMinecraft().theWorld.rand.nextInt(5));
+		//if(radiation >= 1 && radiation <= 999)
+		//	bar -= (1 + Minecraft.getMinecraft().theWorld.rand.nextInt(3));
 		
 		int posX = 16;
 		int posY = resolution.getScaledHeight() - 18 - 2;

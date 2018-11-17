@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemGeigerCounter;
 import com.hbm.lib.Library;
 import com.hbm.render.misc.RenderScreenOverlay;
+import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
@@ -48,9 +49,8 @@ public class ModEventHandlerClient {
 				
 				////TEST
 				
-				RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
-				Chunk chunk = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-				rads = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+				RadEntitySavedData data = RadEntitySavedData.getData(player.worldObj);
+				rads = data.getRadFromEntity(player);
 				
 				////TEST
 				

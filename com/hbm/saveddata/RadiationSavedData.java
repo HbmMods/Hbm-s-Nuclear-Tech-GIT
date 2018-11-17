@@ -6,10 +6,9 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.chunk.Chunk;
 
 public class RadiationSavedData extends WorldSavedData {
-	
-	public int count;
 	
 	public List<RadiationSaveStructure> contamination = new ArrayList();
 	
@@ -34,19 +33,19 @@ public class RadiationSavedData extends WorldSavedData {
     public void createEntry(int x, int y, float rad) {
     	
     	contamination.add(new RadiationSaveStructure(x, y, rad));
-    	count = contamination.size();
+        this.markDirty();
     }
     
     public void deleteEntry(RadiationSaveStructure struct) {
     	
     	contamination.remove(struct);
-    	count = contamination.size();
+        this.markDirty();
     }
     
     public void jettisonData() {
     	
     	contamination.clear();
-    	count = contamination.size();
+        this.markDirty();
     }
     
     public void setRadForCoord(int x, int y, float radiation) {
@@ -63,10 +62,10 @@ public class RadiationSavedData extends WorldSavedData {
 
     		entry = new RadiationSaveStructure(x, y, radiation);
         	contamination.add(entry);
-        	count = contamination.size();
     	}
     	
     	entry.radiation = radiation;
+        this.markDirty();
     	
     }
     
@@ -97,6 +96,13 @@ public class RadiationSavedData extends WorldSavedData {
     	for(RadiationSaveStructure struct : tempList) {
     		
     		if(struct.radiation != 0) {
+
+				struct.radiation *= 0.999F;
+				struct.radiation -= 0.5F;
+				
+				if(struct.radiation <= 0) {
+					struct.radiation = 0;
+				}
     			
     			if(struct.radiation > 1) {
     				
@@ -111,7 +117,7 @@ public class RadiationSavedData extends WorldSavedData {
     				rads[6] = getRadNumFromCoord(struct.chunkX + 1, struct.chunkY - 1);
     				rads[7] = getRadNumFromCoord(struct.chunkX + 1, struct.chunkY);
     				rads[8] = getRadNumFromCoord(struct.chunkX, struct.chunkY);
-
+    				
     				float main = 0.6F;
     				float side = 0.075F;
     				float corner = 0.025F;
@@ -133,19 +139,18 @@ public class RadiationSavedData extends WorldSavedData {
     		}
     	}
     	
-    	count = contamination.size();
+        this.markDirty();
     }
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		count = nbt.getInteger("radCount");
+		int count = nbt.getInteger("radCount");
 		
 		for(int i = 0; i < count; i++) {
 			RadiationSaveStructure struct = new RadiationSaveStructure();
 			struct.readFromNBT(nbt, i);
 			
-			createEntry(struct.chunkX, struct.chunkY, struct.radiation);
-			//contamination.add(struct);
+			contamination.add(struct);
 		}
 	}
 
@@ -168,6 +173,20 @@ public class RadiationSavedData extends WorldSavedData {
 	    }
 	    
 	    return data;
+	}
+	
+	public static void incrementRad(World worldObj, int x, int z, float rad, float maxRad) {
+		
+		RadiationSavedData data = getData(worldObj);
+		
+		Chunk chunk = worldObj.getChunkFromBlockCoords(x, z);
+		
+		float r = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+		
+		if(r < maxRad) {
+			
+			data.setRadForCoord(chunk.xPosition, chunk.zPosition, r + rad);
+		}
 	}
 
 }

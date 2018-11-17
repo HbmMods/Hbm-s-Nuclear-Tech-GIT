@@ -13,6 +13,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.RadSurveyPacket;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -101,25 +102,18 @@ public class ModEventHandler
 		
 		if(event.world != null && !event.world.isRemote) {
 			if(!event.world.playerEntities.isEmpty()) {
+
+				RadiationSavedData data = RadiationSavedData.getData(event.world);
+				RadEntitySavedData eData = RadEntitySavedData.getData(event.world);
 				
 				for(Object o : event.world.playerEntities) {
+					
 					EntityPlayer player = (EntityPlayer)o;
-
-					RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
-					Chunk chunk = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-					
-					float[] rads = new float[9];
-					rads[0] = data.getRadNumFromCoord(chunk.xPosition + 1, chunk.zPosition + 1);
-					rads[1] = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition + 1);
-					rads[2] = data.getRadNumFromCoord(chunk.xPosition - 1, chunk.zPosition + 1);
-					rads[3] = data.getRadNumFromCoord(chunk.xPosition - 1, chunk.zPosition);
-					rads[4] = data.getRadNumFromCoord(chunk.xPosition - 1, chunk.zPosition - 1);
-					rads[5] = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition - 1);
-					rads[6] = data.getRadNumFromCoord(chunk.xPosition + 1, chunk.zPosition - 1);
-					rads[7] = data.getRadNumFromCoord(chunk.xPosition + 1, chunk.zPosition);
-					rads[8] = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
-					
-					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(rads), (EntityPlayerMP) player);
+					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(eData.getRadFromEntity(player)), (EntityPlayerMP) player);
+				}
+				
+				if(event.world.getTotalWorldTime() % 20 == 0) {
+					data.updateSystem();
 				}
 			}
 		}
@@ -164,6 +158,8 @@ public class ModEventHandler
 				
 				for(Object e : oList) {
 					if(e instanceof EntityLivingBase) {
+						
+						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
 						PotionEffect effect = entity.getActivePotionEffect(HbmPotion.radiation);
 						
@@ -235,7 +231,9 @@ public class ModEventHandler
 								}
 				        	}
 						}
+						//radiation end
 						
+						//effect for tainted heart
 						if(entity.isPotionActive(HbmPotion.mutation) && !entity.isDead && entity.getHealth() > 0) {
 
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -268,6 +266,22 @@ public class ModEventHandler
 				        		entity.removePotionEffect(Potion.digSlowdown.id);
 				        	if(entity.isPotionActive(Potion.moveSlowdown))
 				        		entity.removePotionEffect(Potion.moveSlowdown.id);
+						}
+						//effect end
+						
+						//apply radiation
+						
+						if(event.world.getTotalWorldTime() % 20 == 0) {
+
+							RadiationSavedData chunkData = RadiationSavedData.getData(event.world);
+							RadEntitySavedData entityData = RadEntitySavedData.getData(event.world);
+
+							Chunk chunk = entity.worldObj.getChunkFromBlockCoords((int)entity.posX, (int)entity.posZ);
+							float rad = chunkData.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+							
+							if(rad > 0) {
+								entityData.setRadForEntity(entity, entityData.getRadFromEntity(entity) + rad * 0.5F);
+							}
 						}
 					}
 				}

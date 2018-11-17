@@ -205,7 +205,7 @@ public class TestEventTester extends Block {
 
 				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
 				
-				data.setRadForCoord(chunk.xPosition, chunk.zPosition, 1000000);
+				data.setRadForCoord(chunk.xPosition, chunk.zPosition, 100);
 				
 				System.out.println(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
         	}
@@ -230,7 +230,7 @@ public class TestEventTester extends Block {
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_steel) {
 				
-				System.out.println(data.count);
+				System.out.println(data.contamination.size());
         	}
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_uranium) {

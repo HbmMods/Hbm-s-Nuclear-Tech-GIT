@@ -2,6 +2,7 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
@@ -20,14 +21,14 @@ import net.minecraft.world.chunk.Chunk;
 
 public class RadSurveyPacket implements IMessage {
 
-	float[] rad;
+	float rad;
 
 	public RadSurveyPacket()
 	{
 		
 	}
 
-	public RadSurveyPacket(float[] rad)
+	public RadSurveyPacket(float rad)
 	{
 		this.rad = rad;
 	}
@@ -35,17 +36,13 @@ public class RadSurveyPacket implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		
-		rad = new float[9];
-		
-		for(int i = 0; i < 9; i++)
-			rad[i] = buf.readFloat();
+		rad = buf.readFloat();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		
-		for(int i = 0; i < 9; i++)
-			buf.writeFloat(rad[i]);
+		buf.writeFloat(rad);
 	}
 
 	public static class Handler implements IMessageHandler<RadSurveyPacket, IMessage> {
@@ -56,23 +53,9 @@ public class RadSurveyPacket implements IMessage {
 			try {
 				
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
-				data.jettisonData();
-
-				Chunk[] chunks = new Chunk[9];
-
-				chunks[0] = player.worldObj.getChunkFromBlockCoords((int)player.posX + 16, (int)player.posZ + 16);
-				chunks[1] = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ + 16);
-				chunks[2] = player.worldObj.getChunkFromBlockCoords((int)player.posX - 16, (int)player.posZ + 16);
-				chunks[3] = player.worldObj.getChunkFromBlockCoords((int)player.posX - 16, (int)player.posZ);
-				chunks[4] = player.worldObj.getChunkFromBlockCoords((int)player.posX - 16, (int)player.posZ - 16);
-				chunks[5] = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ - 16);
-				chunks[6] = player.worldObj.getChunkFromBlockCoords((int)player.posX + 16, (int)player.posZ - 16);
-				chunks[7] = player.worldObj.getChunkFromBlockCoords((int)player.posX + 16, (int)player.posZ);
-				chunks[8] = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-
-				for(int i = 0; i < 9; i++)
-					data.createEntry(chunks[i].xPosition, chunks[i].zPosition, m.rad[i]);
+				RadEntitySavedData data = RadEntitySavedData.getData(player.worldObj);
+				
+				data.setRadForEntity(player, m.rad);
 				
 			} catch (Exception x) { }
 			return null;

@@ -10,6 +10,7 @@ import com.hbm.items.gear.JetpackRegular;
 import com.hbm.items.gear.JetpackVectorized;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadEntitySavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -215,6 +216,9 @@ public class ItemSyringe extends Item {
             if (!world.isRemote)
             {
         		player.removePotionEffect(HbmPotion.radiation.id);
+        		
+				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
+				entityData.setRadForEntity(player, 0);
             
             	stack.stackSize--;
             	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
