@@ -920,7 +920,7 @@ public class ModItems {
 	public static Item custom_amat;
 	public static Item custom_dirty;
 	public static Item custom_schrab;
-	
+	public static Item custom_fall;
 
 	public static Item battery_generic;
 	public static Item battery_advanced;
@@ -2210,6 +2210,7 @@ public class ModItems {
 		custom_amat = new ItemCustomLore().setUnlocalizedName("custom_amat").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_amat");
 		custom_dirty = new ItemCustomLore().setUnlocalizedName("custom_dirty").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_dirty");
 		custom_schrab = new ItemCustomLore().setUnlocalizedName("custom_schrab").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_schrab");
+		custom_fall = new ItemCustomLore().setUnlocalizedName("custom_fall").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_fall");
 
 		battery_generic = new ItemBattery(50, 1, 1).setUnlocalizedName("battery_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_generic");
 		battery_advanced = new ItemBattery(200, 5, 5).setUnlocalizedName("battery_advanced").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_advanced");
@@ -3876,6 +3877,7 @@ public class ModItems {
 		GameRegistry.registerItem(custom_amat, custom_amat.getUnlocalizedName());
 		GameRegistry.registerItem(custom_dirty, custom_dirty.getUnlocalizedName());
 		GameRegistry.registerItem(custom_schrab, custom_schrab.getUnlocalizedName());
+		GameRegistry.registerItem(custom_fall, custom_fall.getUnlocalizedName());
 		
 		//Power Armor
 		GameRegistry.registerItem(t45_helmet, t45_helmet.getUnlocalizedName());

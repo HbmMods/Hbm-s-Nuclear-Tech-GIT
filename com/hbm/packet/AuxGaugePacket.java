@@ -2,6 +2,7 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.deco.TileEntityBomber;
@@ -196,6 +197,11 @@ public class AuxGaugePacket implements IMessage {
 					
 					if(m.id == 0)
 						boiler.heat = m.value;
+				}
+				if (te instanceof TileEntityNukeCustom) {
+					TileEntityNukeCustom nuke = (TileEntityNukeCustom)te;
+					
+					nuke.falls = m.value == 1;
 				}
 				
 			} catch (Exception x) {}

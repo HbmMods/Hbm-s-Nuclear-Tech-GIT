@@ -10,7 +10,10 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.RadSurveyPacket;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -25,12 +28,14 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 
@@ -93,6 +98,31 @@ public class ModEventHandler
 		/////
 		//try {
 		/////
+		
+		if(event.world != null && !event.world.isRemote) {
+			if(!event.world.playerEntities.isEmpty()) {
+				
+				for(Object o : event.world.playerEntities) {
+					EntityPlayer player = (EntityPlayer)o;
+
+					RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
+					Chunk chunk = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
+					
+					float[] rads = new float[9];
+					rads[0] = data.getRadNumFromCoord(chunk.xPosition + 1, chunk.zPosition + 1);
+					rads[1] = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition + 1);
+					rads[2] = data.getRadNumFromCoord(chunk.xPosition - 1, chunk.zPosition + 1);
+					rads[3] = data.getRadNumFromCoord(chunk.xPosition - 1, chunk.zPosition);
+					rads[4] = data.getRadNumFromCoord(chunk.xPosition - 1, chunk.zPosition - 1);
+					rads[5] = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition - 1);
+					rads[6] = data.getRadNumFromCoord(chunk.xPosition + 1, chunk.zPosition - 1);
+					rads[7] = data.getRadNumFromCoord(chunk.xPosition + 1, chunk.zPosition);
+					rads[8] = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+					
+					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(rads), (EntityPlayerMP) player);
+				}
+			}
+		}
 		
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
 			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {

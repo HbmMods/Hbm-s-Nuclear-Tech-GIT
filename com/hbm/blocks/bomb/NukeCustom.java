@@ -9,6 +9,10 @@ import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityNukeExplosionPlus;
+import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.particle.EntityDSmokeFX;
+import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.entity.projectile.EntityFallingNuke;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionParticle;
@@ -124,217 +128,233 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		if (p_149695_1_.isBlockIndirectlyGettingPowered(x, y, z) && !p_149695_1_.isRemote) {
 			if (entity.isReady()) {
 				float[] f = entity.returnAllValues();
+				boolean fall = entity.falls;
+				int meta = p_149695_1_.getBlockMetadata(x, y, z);
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
 				entity.clearSlots();
 				p_149695_1_.setBlockToAir(x, y, z);
-				igniteTestBomb(p_149695_1_, x, y, z, f);
+				igniteTestBomb(p_149695_1_, x, y, z, f, fall, meta);
 			}
 		}
 	}
 
-	public boolean igniteTestBomb(World world, int x, int y, int z, float[] f) {
+	public boolean igniteTestBomb(World world, int x, int y, int z, float[] f, boolean fall, int meta) {
 		if (!world.isRemote) {
-			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F); // x,y,z,sound,volume,pitch
 			
 			float tnt = f[0];
 			float nuke = f[1];
-			float hydro = f[2];;
+			float hydro = f[2];
 			float amat = f[3];
 			float dirty = f[4];
 			float schrab = f[5];
 			float euph = f[6];
 			
-			if(euph > 0) {
-				EntityGrenadeZOMG zomg = new EntityGrenadeZOMG(world);
-				zomg.posX = x + 0.5;
-				zomg.posY = y + 0.5;
-				zomg.posZ = z + 0.5;
-				ExplosionChaos.zomgMeSinPi(world, x, y, z, 1000, null, zomg);
-			} else if(schrab > 0) {
-				nuke += (tnt/2);
-				hydro += (nuke/2);
-				amat += (hydro/2);
-				schrab += (amat/2);
+			if(!fall) {
 				
-				if(schrab > 300)
-					schrab = 300;
+				explodeCustom(world, x + 0.5, y + 0.5, z + 0.5, tnt, nuke, hydro, amat, dirty, schrab, euph);
+				world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 				
-				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
-				entity.posX = x + 0.5;
-				entity.posY = y + 0.5;
-				entity.posZ = z + 0.5;
-				entity.destructionRange = (int)schrab;
-				entity.speed = MainRegistry.blastSpeed;
-				entity.coefficient = 1.0F;
-				entity.waste = false;
-
-				world.spawnEntityInWorld(entity);
-	    		
-	    		EntityCloudFleija cloud = new EntityCloudFleija(world, (int)schrab);
-	    		cloud.posX = x + 0.5;
-	    		cloud.posY = y + 0.5;
-	    		cloud.posZ = z + 0.5;
-	    		world.spawnEntityInWorld(cloud);
+			} else {
+				EntityFallingNuke bomb = new EntityFallingNuke(world, tnt, nuke, hydro, amat, dirty, schrab, euph);
+				bomb.getDataWatcher().updateObject(20, (byte)meta);
+				bomb.setPositionAndRotation(x + 0.5, y, z + 0.5, 0, 0);
 				
-			} else if (amat > 0) {
-				nuke += (tnt/2);
-				hydro += (nuke/2);
-				amat += (hydro/2);
-
-				if(amat > 350)
-					amat = 350;
-
-				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
-				entity.posX = x + 0.5;
-				entity.posY = y + 0.5;
-				entity.posZ = z + 0.5;
-				entity.destructionRange = (int)amat;
-				entity.speed = 25;
-	    	    entity.coefficient = 10.0F;
-	    	    entity.wasteRange = (int) (amat * 1.4) + (int) dirty;
-	    	    	
-	    	    world.spawnEntityInWorld(entity);
-	    	    
-	    	    if(amat < 75) {
-	    	    	ExplosionParticleB.spawnMush(world, x, y - ((int)amat / 10), z);
-	    	    } else if(amat < 200) {
-	    	    	if(MainRegistry.enableNukeClouds) {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, amat * 0.005F);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (amat/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	} else {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (amat/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	}
-	    	    } else {
-	    	    	if(MainRegistry.enableNukeClouds) {
-						EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
-						entity2.posX = x;
-	    				entity2.posY = y - (amat/10);
-						entity2.posZ = z;
-						world.spawnEntityInWorld(entity2);
-	    	    	} else {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (amat/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	}
-	    	    }
-				
-			} else if(hydro > 0) {
-				nuke += (tnt/2);
-				hydro += (nuke/2);
-
-				if(hydro > 350)
-					hydro = 350;
-
-				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
-				entity.posX = x + 0.5;
-				entity.posY = y + 0.5;
-				entity.posZ = z + 0.5;
-				entity.destructionRange = (int)hydro;
-				entity.speed = 25;
-	    	    entity.coefficient = 10.0F;
-	    	    entity.wasteRange = (int) (hydro * 1.4) + (int) dirty;
-	    	    	
-	    	    world.spawnEntityInWorld(entity);
-	    	    
-	    	    if(hydro < 75) {
-	    	    	ExplosionParticle.spawnMush(world, x, y - ((int)hydro / 10), z);
-	    	    } else if(hydro < 200) {
-	    	    	if(MainRegistry.enableNukeClouds) {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, hydro * 0.005F);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (hydro/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	} else {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (hydro/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	}
-	    	    } else {
-	    	    	if(MainRegistry.enableNukeClouds) {
-						EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
-						entity2.posX = x;
-	    				entity2.posY = y - (hydro/10);
-						entity2.posZ = z;
-						world.spawnEntityInWorld(entity2);
-	    	    	} else {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (hydro/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	}
-	    	    }
-				
-			} else if(nuke > 0) {
-				nuke += (tnt/2);
-
-				if(nuke > 350)
-					nuke = 350;
-
-				EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
-				entity.posX = x + 0.5;
-				entity.posY = y + 0.5;
-				entity.posZ = z + 0.5;
-				entity.destructionRange = (int)nuke;
-				entity.speed = 25;
-	    	    entity.coefficient = 10.0F;
-	    	    entity.wasteRange = (int) (nuke * 1.4) + (int) dirty;
-	    	    	
-	    	    world.spawnEntityInWorld(entity);
-	    	    
-	    	    if(nuke < 75) {
-	    	    	ExplosionParticle.spawnMush(world, x, y - ((int)nuke / 10), z);
-	    	    } else if(nuke < 200) {
-	    	    	if(MainRegistry.enableNukeClouds) {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, nuke * 0.005F);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (nuke/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	} else {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (nuke/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	}
-	    	    } else {
-	    	    	if(MainRegistry.enableNukeClouds) {
-						EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
-						entity2.posX = x;
-	    				entity2.posY = y - (nuke/10);
-						entity2.posZ = z;
-						world.spawnEntityInWorld(entity2);
-	    	    	} else {
-	    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-	    				entity2.posX = x;
-	    				entity2.posY = y - (nuke/10);
-	    				entity2.posZ = z;
-	    				world.spawnEntityInWorld(entity2);
-	    	    	}
-	    	    }
-				
-			} else if(tnt > 0) {
-
-				if(tnt > 100)
-					tnt = 100;
-				//world.newExplosion((Entity)null, x + 0.5F, y + 0.5F, z + 0.5F, tnt, field_149933_a.nextInt(5) == 0 ? true : false, true);
-				ExplosionLarge.explode(world, x, y, z, tnt, true, true, true);
+				world.spawnEntityInWorld(bomb);
 			}
 		}
 		return false;
+	}
+	
+	public static void explodeCustom(World world, double posX, double posY, double posZ, float tnt, float nuke, float hydro, float amat, float dirty, float schrab, float euph) {
+		
+		if(euph > 0) {
+			EntityGrenadeZOMG zomg = new EntityGrenadeZOMG(world);
+			zomg.posX = posX;
+			zomg.posY = posY;
+			zomg.posZ = posZ;
+			ExplosionChaos.zomgMeSinPi(world, posX, posY, posZ, 1000, null, zomg);
+		} else if(schrab > 0) {
+			nuke += (tnt/2);
+			hydro += (nuke/2);
+			amat += (hydro/2);
+			schrab += (amat/2);
+			
+			if(schrab > 300)
+				schrab = 300;
+			
+			EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
+			entity.posX = posX;
+			entity.posY = posY;
+			entity.posZ = posZ;
+			entity.destructionRange = (int)schrab;
+			entity.speed = MainRegistry.blastSpeed;
+			entity.coefficient = 1.0F;
+			entity.waste = false;
+
+			world.spawnEntityInWorld(entity);
+    		
+    		EntityCloudFleija cloud = new EntityCloudFleija(world, (int)schrab);
+    		cloud.posX = posX;
+    		cloud.posY = posY;
+    		cloud.posZ = posZ;
+    		world.spawnEntityInWorld(cloud);
+			
+		} else if (amat > 0) {
+			nuke += (tnt/2);
+			hydro += (nuke/2);
+			amat += (hydro/2);
+
+			if(amat > 350)
+				amat = 350;
+
+			EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
+			entity.posX = posX;
+			entity.posY = posY;
+			entity.posZ = posZ;
+			entity.destructionRange = (int)amat;
+			entity.speed = 25;
+    	    entity.coefficient = 10.0F;
+    	    entity.wasteRange = (int) (amat * 1.4) + (int) dirty;
+    	    	
+    	    world.spawnEntityInWorld(entity);
+    	    
+    	    if(amat < 75) {
+    	    	ExplosionParticleB.spawnMush(world, posX, posY, posZ);
+    	    } else if(amat < 200) {
+    	    	if(MainRegistry.enableNukeClouds) {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, amat * 0.005F);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	} else {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	}
+    	    } else {
+    	    	if(MainRegistry.enableNukeClouds) {
+					EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
+					entity2.posX = posX;
+    				entity2.posY = posY;
+					entity2.posZ = posZ;
+					world.spawnEntityInWorld(entity2);
+    	    	} else {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	}
+    	    }
+			
+		} else if(hydro > 0) {
+			nuke += (tnt/2);
+			hydro += (nuke/2);
+
+			if(hydro > 350)
+				hydro = 350;
+
+			EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
+			entity.posX = posX;
+			entity.posY = posY;
+			entity.posZ = posZ;
+			entity.destructionRange = (int)hydro;
+			entity.speed = 25;
+    	    entity.coefficient = 10.0F;
+    	    entity.wasteRange = (int) (hydro * 1.4) + (int) dirty;
+    	    	
+    	    world.spawnEntityInWorld(entity);
+    	    
+    	    if(hydro < 75) {
+    	    	ExplosionParticle.spawnMush(world, posX, posY, posZ);
+    	    } else if(hydro < 200) {
+    	    	if(MainRegistry.enableNukeClouds) {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, hydro * 0.005F);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	} else {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	}
+    	    } else {
+    	    	if(MainRegistry.enableNukeClouds) {
+					EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+					world.spawnEntityInWorld(entity2);
+    	    	} else {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	}
+    	    }
+			
+		} else if(nuke > 0) {
+			nuke += (tnt/2);
+
+			if(nuke > 350)
+				nuke = 350;
+
+			EntityNukeExplosionPlus entity = new EntityNukeExplosionPlus(world);
+			entity.posX = posX;
+			entity.posY = posY;
+			entity.posZ = posZ;
+			entity.destructionRange = (int)nuke;
+			entity.speed = 25;
+    	    entity.coefficient = 10.0F;
+    	    entity.wasteRange = (int) (nuke * 1.4) + (int) dirty;
+    	    	
+    	    world.spawnEntityInWorld(entity);
+    	    
+    	    if(nuke < 75) {
+    	    	ExplosionParticle.spawnMush(world, posX, posY, posZ);
+    	    } else if(nuke < 200) {
+    	    	if(MainRegistry.enableNukeClouds) {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, nuke * 0.005F);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	} else {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	}
+    	    } else {
+    	    	if(MainRegistry.enableNukeClouds) {
+					EntityNukeCloudBig entity2 = new EntityNukeCloudBig(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+					world.spawnEntityInWorld(entity2);
+    	    	} else {
+    				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
+    				entity2.posX = posX;
+    				entity2.posY = posY;
+    				entity2.posZ = posZ;
+    				world.spawnEntityInWorld(entity2);
+    	    	}
+    	    }
+			
+		} else if(tnt > 0) {
+
+			if(tnt > 100)
+				tnt = 100;
+			ExplosionLarge.explode(world, posX, posY, posZ, tnt, true, true, true);
+		}
 	}
 
 	@Override
@@ -376,10 +396,12 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		{
 			if (entity.isReady()) {
 				float[] f = entity.returnAllValues();
+				boolean fall = entity.falls;
+				int meta = world.getBlockMetadata(x, y, z);
 				this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 				entity.clearSlots();
 				world.setBlockToAir(x, y, z);
-				igniteTestBomb(world, x, y, z, f);
+				igniteTestBomb(world, x, y, z, f, fall, meta);
 			}
 		}
 	}

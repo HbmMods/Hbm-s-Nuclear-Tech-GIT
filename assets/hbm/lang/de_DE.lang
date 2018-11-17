@@ -220,6 +220,7 @@ item.custom_hydro.name=AB - Wasserstoffelement
 item.custom_amat.name=AB - Antimaterie-Element
 item.custom_dirty.name=AB - Schmutziges Element
 item.custom_schrab.name=AB - Schrabidiumelement
+item.custom_fall.name=AB - Abwurf-Upgrade
 
 container.nukeGadget=The Gadget
 container.nukeBoy=Little Boy

@@ -220,6 +220,7 @@ item.custom_hydro.name=Custom Nuke Hydrogen Rod
 item.custom_amat.name=Custom Nuke Antimatter Rod
 item.custom_dirty.name=Custom Nuke Dirty Rod
 item.custom_schrab.name=Custom Nuke Schrabidium Rod
+item.custom_fall.name=Custom Nuke Drop Upgrade
 
 container.nukeGadget=The Gadget
 container.nukeBoy=Little Boy

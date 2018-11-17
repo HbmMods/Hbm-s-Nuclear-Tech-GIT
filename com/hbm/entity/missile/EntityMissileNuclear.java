@@ -41,7 +41,6 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
     	entity2.posX = this.posX;
     	entity2.posY = this.posY/* - 9*/;
     	entity2.posZ = this.posZ;
-    	entity2.getDataWatcher().updateObject(18, 2F); 
     	this.worldObj.spawnEntityInWorld(entity2);
 	}
 

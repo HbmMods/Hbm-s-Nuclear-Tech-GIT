@@ -71,6 +71,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(SatPanelPacket.Handler.class, SatPanelPacket.class, i++, Side.CLIENT);
 		//Packet to send block break particles
 		wrapper.registerMessage(ParticleBurstPacket.Handler.class, ParticleBurstPacket.class, i++, Side.CLIENT);
+		//Packet to send chunk radiation info to individual players
+		wrapper.registerMessage(RadSurveyPacket.Handler.class, RadSurveyPacket.class, i++, Side.CLIENT);
 	}
 	
 }

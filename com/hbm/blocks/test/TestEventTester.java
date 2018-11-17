@@ -20,6 +20,8 @@ import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadiationSaveStructure;
+import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
@@ -190,7 +192,57 @@ public class TestEventTester extends Block {
         	if(!worldObj.isRemote)
         		worldObj.spawnEntityInWorld(rainbow);*/
         	
+        	RadiationSavedData data = RadiationSavedData.getData(worldObj);
         	
+        	//ALU SETS RAD TO 1000
+        	//BER PRINTS RAD LEVEL
+        	//COP INITIATES CYCLE
+        	//RED FLUSHES ALL RAD
+        	//STE PRINTS RAD CHUNKS
+        	//URA PRINTS TOTAL RAD
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_aluminium) {
+
+				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
+				
+				data.setRadForCoord(chunk.xPosition, chunk.zPosition, 1000000);
+				
+				System.out.println(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
+        	}
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_beryllium) {
+
+				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
+				
+				System.out.println(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
+        	}
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_copper) {
+        		data.updateSystem();
+        	}
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_red_copper) {
+
+				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
+				
+				data.jettisonData();
+        	}
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_steel) {
+				
+				System.out.println(data.count);
+        	}
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_uranium) {
+				
+        		float r = 0;
+        		
+        		for(RadiationSaveStructure st : data.contamination) {
+        			r += st.radiation;
+        		}
+        		
+				System.out.println(r);
+        	}
         	
         }
     }

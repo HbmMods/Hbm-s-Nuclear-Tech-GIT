@@ -62,7 +62,7 @@ public class ItemGeigerCounter extends Item {
 		stack.stackTagCompound.setInteger(name, i);
 	}
 	
-	static int getInt(ItemStack stack, String name) {
+	public static int getInt(ItemStack stack, String name) {
 		if(stack.hasTagCompound())
 			return stack.stackTagCompound.getInteger(name);
 		

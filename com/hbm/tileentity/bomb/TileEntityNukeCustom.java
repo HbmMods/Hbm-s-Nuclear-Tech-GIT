@@ -2,6 +2,8 @@ package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxGaugePacket;
+import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,6 +29,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 	public float dirtyStrength;
 	public float schrabStrength;
 	public float euphStrength;
+	public boolean falls;
 	
 	public TileEntityNukeCustom() {
 		slots = new ItemStack[27];
@@ -37,6 +40,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		dirtyStrength = 0;
 		schrabStrength = 0;
 		euphStrength = 0;
+		falls = false;
 	}
 	
 	@Override
@@ -354,6 +358,10 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			if(item == ModItems.ingot_euphemium) {
 				this.euphStrength += 1F;
 			}
+			
+			if(item == ModItems.custom_fall) {
+				this.falls = true;
+			}
 		}
 	}
 	
@@ -473,7 +481,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 	}
 	
 	public float[] returnAllValues() {
-		return new float[] { this.tntStrength, this.nukeStrength, this.hydroStrength, this.amatStrength, this.dirtyStrength, this.schrabStrength, this.euphStrength};
+		return new float[] { this.tntStrength, this.nukeStrength, this.hydroStrength, this.amatStrength, this.dirtyStrength, this.schrabStrength, this.euphStrength };
 	}
 	
 	public void clearSlots() {

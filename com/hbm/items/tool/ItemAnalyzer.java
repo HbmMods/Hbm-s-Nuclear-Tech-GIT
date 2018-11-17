@@ -30,7 +30,7 @@ public class ItemAnalyzer extends Item {
 		Block block = world.getBlock(x, y, z);
 		TileEntity te = world.getTileEntity(x, y, z);
 		
-		if(!world.isRemote) {
+		if(world.isRemote) {
 			player.addChatMessage(new ChatComponentText(
 					"Block: " + I18n.format(block.getUnlocalizedName() + ".name") + " (" + block.getUnlocalizedName() + ")"
 					));
@@ -38,6 +38,9 @@ public class ItemAnalyzer extends Item {
 			player.addChatMessage(new ChatComponentText(
 					"Meta: " + world.getBlockMetadata(x, y, z)
 					));
+		}
+		
+		if(!world.isRemote) {
 			
 			if(te == null) {
 				player.addChatMessage(new ChatComponentText(

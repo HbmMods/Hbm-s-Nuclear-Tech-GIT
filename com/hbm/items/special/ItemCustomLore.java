@@ -639,6 +639,12 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Removes fallout");
 		}
 		
+		if(this == ModItems.custom_fall)
+		{
+			list.add("That's what you've aaaaaaall been waiting for!");
+			list.add("Makes bomb drop upon activation");
+		}
+		
 		if(this == ModItems.pin)
 		{
 			list.add("Can be used with a screwdriver to pick locks.");

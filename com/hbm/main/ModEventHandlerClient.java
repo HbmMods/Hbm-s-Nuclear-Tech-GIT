@@ -2,7 +2,11 @@ package com.hbm.main;
 
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemGeigerCounter;
 import com.hbm.lib.Library;
+import com.hbm.render.misc.RenderScreenOverlay;
+import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -14,10 +18,49 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 
 public class ModEventHandlerClient {
+	
+	@SubscribeEvent
+	public void onOverlayRender(RenderGameOverlayEvent event) {
+		
+		if(event.type == ElementType.HOTBAR) {
+			
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			
+			if(player.inventory.hasItem(ModItems.geiger_counter)) {
+				
+				float rads = 0;
+				
+				for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
+					
+					if(player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == ModItems.geiger_counter) {
+						rads = ItemGeigerCounter.getInt(player.inventory.getStackInSlot(i), "ticker");
+						break;
+					}
+				}
+				
+				////TEST
+				
+				RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
+				Chunk chunk = player.worldObj.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
+				rads = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+				
+				////TEST
+				
+				//if(player.worldObj.rand.nextInt(100) == 0)
+				//	System.out.println(rads);
+				
+				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {
