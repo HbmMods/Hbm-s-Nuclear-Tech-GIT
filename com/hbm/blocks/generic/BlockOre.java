@@ -8,6 +8,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -278,11 +279,55 @@ public class BlockOre extends Block {
     @Override
 	public void updateTick(World world, int x, int y, int z, Random rand)
     {
-        if(this == ModBlocks.block_meteor_molten && rand.nextInt(3) == 0) {
+        if(this == ModBlocks.block_meteor_molten) {
         	if(!world.isRemote)
         		world.setBlock(x, y, z, ModBlocks.block_meteor_cobble);
         	world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
         }
+        
+        if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) {
+        	RadiationSavedData.incrementRad(world, x, z, 2, 20);
+
+        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+        }
+        
+        if(this == ModBlocks.block_waste) {
+        	RadiationSavedData.incrementRad(world, x, z, 5, 50);
+
+        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+        }
+        
+        if(this == ModBlocks.block_trinitite) {
+        	RadiationSavedData.incrementRad(world, x, z, 3, 35);
+
+        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+        }
+    }
+    
+    @Override
+    public int tickRate(World world) {
+    	
+    	if(this == ModBlocks.block_meteor_molten)
+    		return 30;
+    	
+    	if(this == ModBlocks.waste_trinitite
+    		 || this == ModBlocks.waste_trinitite_red
+   			 || this == ModBlocks.block_waste
+			 || this == ModBlocks.block_trinitite)
+    		return 20;
+    	
+    	return 100;
+    }
+    
+    public void onBlockAdded(World world, int x, int y, int z)
+    {
+        super.onBlockAdded(world, x, y, z);
+    	
+    	if(this == ModBlocks.waste_trinitite
+    			|| this == ModBlocks.waste_trinitite_red
+    			|| this == ModBlocks.block_waste
+    			|| this == ModBlocks.block_trinitite)
+        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
     }
 
 	@Override
