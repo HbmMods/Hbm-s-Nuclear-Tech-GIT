@@ -53,13 +53,13 @@ public class RenderScreenOverlay {
         gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);
         gui.drawTexturedModalRect(posX + 1, posY + 1, 1, 19, bar, 16);
         
-        if(radiation >= maxRad * 0.75) {
+        if(radiation >= 25) {
             gui.drawTexturedModalRect(posX + length + 2, posY - 18, 36, 36, 18, 18);
         	
-        } else if(radiation >= maxRad * 0.5) {
+        } else if(radiation >= 10) {
             gui.drawTexturedModalRect(posX + length + 2, posY - 18, 18, 36, 18, 18);
         	
-        } else if(radiation >= maxRad * 0.25) {
+        } else if(radiation >= 2.5) {
             gui.drawTexturedModalRect(posX + length + 2, posY - 18, 0, 36, 18, 18);
         	
         }

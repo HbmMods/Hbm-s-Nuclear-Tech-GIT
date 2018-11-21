@@ -36,26 +36,12 @@ public class ModEventHandlerClient {
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			
 			if(player.inventory.hasItem(ModItems.geiger_counter)) {
-				
+
 				float rads = 0;
-				
-				for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-					
-					if(player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == ModItems.geiger_counter) {
-						rads = ItemGeigerCounter.getInt(player.inventory.getStackInSlot(i), "ticker");
-						break;
-					}
-				}
-				
-				////TEST
-				
+				float abs = 0;
+
 				RadEntitySavedData data = RadEntitySavedData.getData(player.worldObj);
 				rads = data.getRadFromEntity(player);
-				
-				////TEST
-				
-				//if(player.worldObj.rand.nextInt(100) == 0)
-				//	System.out.println(rads);
 				
 				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 			}
