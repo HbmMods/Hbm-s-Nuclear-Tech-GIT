@@ -412,6 +412,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_dirty, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_dirty, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_schrab, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.custom_fall, 1));
 		}
 		
 		if(this == ModItems.grenade_kit)

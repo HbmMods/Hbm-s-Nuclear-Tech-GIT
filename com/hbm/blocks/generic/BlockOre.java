@@ -31,11 +31,24 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class BlockOre extends Block {
+	
+	private float radIn = 0.0F;
+	private float radMax = 0.0F;
 
-	public BlockOre(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		//if(this == ModBlocks.block_meteor_molten)
+	public BlockOre(Material mat) {
+		super(mat);
+	}
+
+	public BlockOre(Material mat, boolean tick) {
+		super(mat);
+	    this.setTickRandomly(tick);
+	}
+
+	public BlockOre(Material mat, float rad, float max) {
+		super(mat);
 	    this.setTickRandomly(true);
+	    radIn = rad;
+	    radMax = max;
 	}
 
 	@Override
@@ -217,7 +230,7 @@ public class BlockOre extends Block {
     	{
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
     	}
-    	if (entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite)
+    	/*if (entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite)
     	{
     		Library.applyRadiation((EntityLivingBase)entity, 45, 19, 30, 14);
     	}
@@ -248,7 +261,7 @@ public class BlockOre extends Block {
     	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_4)
     	{
     		Library.applyRadiation((EntityLivingBase)entity, 4 * 60, 80, 2 * 90, 60);
-    	}
+    	}*/
     	
         if(this == ModBlocks.block_meteor_molten)
         	entity.setFire(5);
@@ -283,22 +296,12 @@ public class BlockOre extends Block {
         	if(!world.isRemote)
         		world.setBlock(x, y, z, ModBlocks.block_meteor_cobble);
         	world.playSoundEffect((double)((float)x + 0.5F), (double)((float)y + 0.5F), (double)((float)z + 0.5F), "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+        	return;
         }
         
-        if(this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red) {
-        	RadiationSavedData.incrementRad(world, x, z, 2, 20);
-
-        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-        }
-        
-        if(this == ModBlocks.block_waste) {
-        	RadiationSavedData.incrementRad(world, x, z, 5, 50);
-
-        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-        }
-        
-        if(this == ModBlocks.block_trinitite) {
-        	RadiationSavedData.incrementRad(world, x, z, 3, 35);
+        if(this.radIn > 0) {
+        	
+        	RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
 
         	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
         }
@@ -307,13 +310,7 @@ public class BlockOre extends Block {
     @Override
     public int tickRate(World world) {
     	
-    	if(this == ModBlocks.block_meteor_molten)
-    		return 30;
-    	
-    	if(this == ModBlocks.waste_trinitite
-    		 || this == ModBlocks.waste_trinitite_red
-   			 || this == ModBlocks.block_waste
-			 || this == ModBlocks.block_trinitite)
+    	if(this.radIn > 0)
     		return 20;
     	
     	return 100;
@@ -323,10 +320,7 @@ public class BlockOre extends Block {
     {
         super.onBlockAdded(world, x, y, z);
     	
-    	if(this == ModBlocks.waste_trinitite
-    			|| this == ModBlocks.waste_trinitite_red
-    			|| this == ModBlocks.block_waste
-    			|| this == ModBlocks.block_trinitite)
+    	if(this.radIn > 0)
         	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
     }
 

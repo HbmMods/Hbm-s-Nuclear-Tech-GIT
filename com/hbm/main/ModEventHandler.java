@@ -100,24 +100,6 @@ public class ModEventHandler
 		//try {
 		/////
 		
-		if(event.world != null && !event.world.isRemote) {
-			if(!event.world.playerEntities.isEmpty()) {
-
-				RadiationSavedData data = RadiationSavedData.getData(event.world);
-				RadEntitySavedData eData = RadEntitySavedData.getData(event.world);
-				
-				for(Object o : event.world.playerEntities) {
-					
-					EntityPlayer player = (EntityPlayer)o;
-					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(eData.getRadFromEntity(player)), (EntityPlayerMP) player);
-				}
-				
-				if(event.world.getTotalWorldTime() % 20 == 0) {
-					data.updateSystem();
-				}
-			}
-		}
-		
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
 			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {
 				if(!event.world.playerEntities.isEmpty()) {
@@ -152,6 +134,19 @@ public class ModEventHandler
 		
 		if(event.world != null && !event.world.isRemote) {
 			if(!event.world.loadedEntityList.isEmpty()) {
+
+				RadiationSavedData data = RadiationSavedData.getData(event.world);
+				RadEntitySavedData eData = RadEntitySavedData.getData(event.world);
+				
+				for(Object o : event.world.playerEntities) {
+					
+					EntityPlayer player = (EntityPlayer)o;
+					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(eData.getRadFromEntity(player)), (EntityPlayerMP) player);
+				}
+				
+				if(event.world.getTotalWorldTime() % 20 == 0) {
+					data.updateSystem();
+				}
 				
 				List<Object> oList = new ArrayList<Object>();
 				oList.addAll(event.world.loadedEntityList);
@@ -161,7 +156,70 @@ public class ModEventHandler
 						
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
-						PotionEffect effect = entity.getActivePotionEffect(HbmPotion.radiation);
+
+						if(event.world.getTotalWorldTime() % 20 == 0) {
+
+							Chunk chunk = entity.worldObj.getChunkFromBlockCoords((int)entity.posX, (int)entity.posZ);
+							float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+							
+							if(rad > 0) {
+								eData.setRadForEntity(entity, eData.getRadFromEntity(entity) + rad * 0.5F);
+							}
+						}
+						
+						float eRad = eData.getRadFromEntity(entity);
+						
+						if(eRad < 200)
+							continue;
+						
+						if(eRad >= 1000) {
+							entity.attackEntityFrom(ModDamageSource.radiation, 1000);
+						} else if(eRad >= 800) {
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
+				        	if(event.world.rand.nextInt(500) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 2));
+				        	if(event.world.rand.nextInt(700) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 1));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 5 * 20, 3));
+							
+						} else if(eRad >= 600) {
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
+				        	if(event.world.rand.nextInt(500) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 1));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 3));
+							
+						} else if(eRad >= 400) {
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+				        	if(event.world.rand.nextInt(500) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
+				        	if(event.world.rand.nextInt(500) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 2));
+				        	
+						} else if(eRad >= 200) {
+				        	if(event.world.rand.nextInt(300) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+				        	if(event.world.rand.nextInt(500) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
+				        	if(event.world.rand.nextInt(700) == 0)
+				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 2));
+						}
+						
+						/*PotionEffect effect = entity.getActivePotionEffect(HbmPotion.radiation);
 						
 						if(effect != null && !entity.isDead && entity.getHealth() > 0) {
 							
@@ -266,23 +324,10 @@ public class ModEventHandler
 				        		entity.removePotionEffect(Potion.digSlowdown.id);
 				        	if(entity.isPotionActive(Potion.moveSlowdown))
 				        		entity.removePotionEffect(Potion.moveSlowdown.id);
-						}
+						}*/
 						//effect end
 						
 						//apply radiation
-						
-						if(event.world.getTotalWorldTime() % 20 == 0) {
-
-							RadiationSavedData chunkData = RadiationSavedData.getData(event.world);
-							RadEntitySavedData entityData = RadEntitySavedData.getData(event.world);
-
-							Chunk chunk = entity.worldObj.getChunkFromBlockCoords((int)entity.posX, (int)entity.posZ);
-							float rad = chunkData.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
-							
-							if(rad > 0) {
-								entityData.setRadForEntity(entity, entityData.getRadFromEntity(entity) + rad * 0.5F);
-							}
-						}
 					}
 				}
 			}

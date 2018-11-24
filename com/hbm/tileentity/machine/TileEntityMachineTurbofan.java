@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
+import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
@@ -280,14 +281,13 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 					
 					for(int i = 0; i < afterburner * 5; i++)
 						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
 							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 							smoke.posZ = zCoord + 4.25;
-							//smoke.motionX = rand.nextGaussian() * 0.3;
-							//smoke.motionY = rand.nextGaussian() * 0.3;
+							smoke.motionX = rand.nextGaussian() * 0.3;
+							smoke.motionY = rand.nextGaussian() * 0.3;
 							smoke.motionZ = 2.5 + (rand.nextFloat() * 3.5);
-							//smoke.isBurn = true;
 							if(!worldObj.isRemote)
 								worldObj.spawnEntityInWorld(smoke);
 						}
@@ -333,14 +333,13 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 					for(int i = 0; i < afterburner * 5; i++)
 						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
 							smoke.posX = xCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 							smoke.posZ = zCoord - 4.25;
-							//smoke.motionX = rand.nextGaussian() * 0.3;
-							//smoke.motionY = rand.nextGaussian() * 0.3;
+							smoke.motionX = rand.nextGaussian() * 0.3;
+							smoke.motionY = rand.nextGaussian() * 0.3;
 							smoke.motionZ = -2.5 - (rand.nextFloat() * 3.5);
-							//smoke.isBurn = true;
 							if(!worldObj.isRemote)
 								worldObj.spawnEntityInWorld(smoke);
 						}
@@ -378,22 +377,21 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 						smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 						smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 						smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
-						//smoke.motionY = rand.nextGaussian() * 0.3;
-						//smoke.motionZ = rand.nextGaussian() * 0.3;
+						smoke.motionY = rand.nextGaussian() * 0.3;
+						smoke.motionZ = rand.nextGaussian() * 0.3;
 						if(!worldObj.isRemote)
 							worldObj.spawnEntityInWorld(smoke);
 					}
 
 					for(int i = 0; i < afterburner * 5; i++)
 						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
 							smoke.posX = xCoord + 4.25;
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.motionX = 2.5 + (rand.nextFloat() * 3.5);
-							//smoke.motionY = rand.nextGaussian() * 0.3;
-							//smoke.motionZ = rand.nextGaussian() * 0.3;
-							//smoke.isBurn = true;
+							smoke.motionY = rand.nextGaussian() * 0.3;
+							smoke.motionZ = rand.nextGaussian() * 0.3;
 							if(!worldObj.isRemote)
 								worldObj.spawnEntityInWorld(smoke);
 						}
@@ -439,14 +437,13 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 					for(int i = 0; i < afterburner * 5; i++)
 						if(afterburner > 0 && rand.nextInt(2) == 0) {
-							EntityGasFlameFX smoke = new EntityGasFlameFX(worldObj);
+							EntitySSmokeFX smoke = new EntitySSmokeFX(worldObj);
 							smoke.posX = xCoord - 4.25;
 							smoke.posY = yCoord + 1.5 + (rand.nextGaussian() * 0.5);
 							smoke.posZ = zCoord + 0.5 + (rand.nextGaussian() * 0.5);
 							smoke.motionX = -2.5 - (rand.nextFloat() * 3.5);
-							//smoke.motionY = rand.nextGaussian() * 0.3;
-							//smoke.motionZ = rand.nextGaussian() * 0.3;
-							//smoke.isBurn = true;
+							smoke.motionY = rand.nextGaussian() * 0.3;
+							smoke.motionZ = rand.nextGaussian() * 0.3;
 							if(!worldObj.isRemote)
 								worldObj.spawnEntityInWorld(smoke);
 						}

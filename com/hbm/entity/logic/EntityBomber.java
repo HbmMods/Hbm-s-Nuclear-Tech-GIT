@@ -10,6 +10,8 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.LoopedEntitySoundPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
@@ -74,6 +76,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     
     private void killBomber() {
         ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+    	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.planeShotDown", 25.0F, 1.0F);
     }
 	
 	@Override
@@ -86,6 +89,16 @@ public class EntityBomber extends Entity implements IChunkLoader {
 		this.lastTickPosZ = this.prevPosZ = posZ;
 
 		this.setPosition(posX + motionX, posY + motionY, posZ + motionZ);
+		
+		if(!worldObj.isRemote) {
+			
+			this.dataWatcher.updateObject(17, health);
+			
+			if(health > 0)
+				PacketDispatcher.wrapper.sendToAll(new LoopedEntitySoundPacket(this.getEntityId()));
+		} else {
+			health = this.dataWatcher.getWatchableObjectInt(17);
+		}
 		
 		this.rotation();
 		
@@ -109,6 +122,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
 				}*/
 				
 				ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, 25, true, false, true);
+		    	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.planeCrash", 10.0F, 1.0F);
 				
 				return;
 			}
@@ -298,6 +312,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
 	public void entityInit() {
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
         this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(17, Integer.valueOf((int)50));
     }
 
 	@Override
@@ -307,8 +322,9 @@ public class EntityBomber extends Entity implements IChunkLoader {
 		bombStop = nbt.getInteger("bombStop");
 		bombRate = nbt.getInteger("bombRate");
 		type = nbt.getInteger("type");
-    	
+
     	this.getDataWatcher().updateObject(16, nbt.getByte("style"));
+    	this.getDataWatcher().updateObject(17, nbt.getInteger("health"));
     	this.setSize(8.0F, 4.0F);
 	}
 
@@ -320,6 +336,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
 		nbt.setInteger("bombRate", bombRate);
 		nbt.setInteger("type", type);
 		nbt.setByte("style", this.getDataWatcher().getWatchableObjectByte(16));
+		nbt.setInteger("health", this.getDataWatcher().getWatchableObjectInt(17));
 	}
 	
 	protected void rotation() {

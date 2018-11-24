@@ -4,9 +4,6 @@ import net.minecraft.world.World;
 
 public class EntityTSmokeFX extends EntityModFX
 {
-    float smokeParticleScale;
-    public int particleAge;
-    public int maxAge;
     private static final String __OBFID = "CL_00000924";
 
     public EntityTSmokeFX(World world) {
@@ -47,9 +44,9 @@ public class EntityTSmokeFX extends EntityModFX
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         
-        if(maxAge < 100)
+        if(maxAge < 25)
         {
-        	maxAge = rand.nextInt(21) + 65;
+        	maxAge = rand.nextInt(6) + 25;
         }
 
         this.particleAge++;

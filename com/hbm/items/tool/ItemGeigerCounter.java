@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.block.Block;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import scala.Int;
@@ -36,7 +38,11 @@ public class ItemGeigerCounter extends Item {
 		if(getInt(stack, "timer") % 5 == 0) {
 			if(x > 0) {
 				List<Integer> list = new ArrayList<Integer>();
-			
+
+				if(x < 1)
+					list.add(0);
+				if(x < 5)
+					list.add(0);
 				if(x < 10)
 					list.add(1);
 				if(x > 5 && x < 15)
@@ -50,7 +56,10 @@ public class ItemGeigerCounter extends Item {
 				if(x > 25)
 					list.add(6);
 			
-				world.playSoundAtEntity(entity, "hbm:item.geiger" + list.get(rand.nextInt(list.size())), 1.0F, 1.0F);
+				int r = list.get(rand.nextInt(list.size()));
+				
+				if(r > 0)
+					world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
 			} else if(rand.nextInt(50) == 0) {
 				world.playSoundAtEntity(entity, "hbm:item.geiger"+ (1 + rand.nextInt(1)), 1.0F, 1.0F);
 			}
@@ -92,5 +101,25 @@ public class ItemGeigerCounter extends Item {
     	
     	return false;
     }
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(!world.isRemote) {
+	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+
+			RadEntitySavedData eData = RadEntitySavedData.getData(player.worldObj);
+			int eRad = (int)eData.getRadFromEntity(player);
+
+			RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
+			Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
+			int rads = (int)Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
+
+			player.addChatMessage(new ChatComponentText("Current chunk radiation: " + rads + " RAD/s"));
+			player.addChatMessage(new ChatComponentText("Player contamination: " + eRad + " RAD"));
+		}
+		
+		return stack;
+	}
 
 }

@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
@@ -42,6 +43,10 @@ public class SoundLoopCentrifuge extends SoundLoopMachine {
 			
 			if(!plant.isProgressing)
 				this.donePlaying = true;
+		}
+		
+		if(!Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(this)) {
+			stop();
 		}
 	}
 	

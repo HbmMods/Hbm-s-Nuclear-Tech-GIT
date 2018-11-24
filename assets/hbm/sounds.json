@@ -85,7 +85,7 @@
     "weapon.ciwsFiringLoop": {"category": "player", "sounds": [{"name": "weapon/ciwsFiringLoop", "stream": false}]},
     "weapon.ciwsSpinup": {"category": "player", "sounds": [{"name": "weapon/ciwsSpinup", "stream": false}]},
     "weapon.ciwsSpindown": {"category": "player", "sounds": [{"name": "weapon/ciwsSpindown", "stream": false}]},
-    "weapon.laserBang": {"category": "player", "sounds": ["weapon/laserBang1", "weapon/laserBang2", "weapon/laserBang3"]},
+    "weapon.laserBang": {"category": "player", "sounds": ["weapon/laserBang1", "weapon/laserBang2", "weapon/laserBang3", "weapon/laserBang4"]},
     "weapon.uziShoot": {"category": "player", "sounds": [{"name": "weapon/uziShoot", "stream": false}]},
     "weapon.silencerShoot": {"category": "player", "sounds": [{"name": "weapon/silencerShoot", "stream": false}]},
     "weapon.gBounce": {"category": "player", "sounds": ["weapon/gBounce1", "weapon/gBounce2", "weapon/gBounce3"]},
@@ -105,6 +105,9 @@
     "entity.rocketTakeoff": {"category": "player", "sounds": [{"name": "entity/rocketTakeoff", "stream": false}]},
     "entity.bombDet": {"category": "player", "sounds": ["entity/bombDet1", "entity/bombDet2", "entity/bombDet3"]},
     "entity.bombWhistle": {"category": "player", "sounds": [{"name": "entity/bombWhistle", "stream": false}]},
+    "entity.bomberLoop": {"category": "player", "sounds": [{"name": "entity/bomber1", "stream": false}]},
+    "entity.planeCrash": {"category": "player", "sounds": [{"name": "entity/planeCrash", "stream": false}]},
+    "entity.planeShotDown": {"category": "player", "sounds": [{"name": "entity/planeShotDown", "stream": false}]},
     
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.lib.RefStrings;
+import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.tileentity.deco.TileEntityYellowBarrel;
 
 import cpw.mods.fml.relauncher.Side;
@@ -41,12 +42,14 @@ public class YellowBarrel extends BlockContainer {
     }
 	
 	public void explode(World p_149695_1_, int x, int y, int z) {
-		if(rand.nextInt(5) == 0) {
+		if(rand.nextInt(3) == 0) {
 			p_149695_1_.setBlock(x, y, z, ModBlocks.toxic_block);
 		} else {
 			p_149695_1_.createExplosion(null, x, y, z, 18.0F, true);
 		}
     	ExplosionNukeGeneric.waste(p_149695_1_, x, y, z, 35);
+        
+        RadiationSavedData.incrementRad(p_149695_1_, x, z, 35, 1500);
 	}
 	
 	@Override
@@ -97,6 +100,28 @@ public class YellowBarrel extends BlockContainer {
         super.randomDisplayTick(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_, p_149734_5_);
 
         p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat(), p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
+    }
+	
+    @Override
+	public void updateTick(World world, int x, int y, int z, Random rand)
+    {
+    	super.updateTick(world, x, y, z, rand);
+        
+        RadiationSavedData.incrementRad(world, x, z, 5, 75);
+
+        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+    }
+    
+    @Override
+    public int tickRate(World world) {
+    	
+    	return 20;
+    }
+    
+    public void onBlockAdded(World world, int x, int y, int z)
+    {
+        super.onBlockAdded(world, x, y, z);
+        world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
     }
 
 }

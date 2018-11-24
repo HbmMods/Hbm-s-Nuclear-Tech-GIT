@@ -46,9 +46,9 @@ public class EntitySSmokeFX extends EntityModFX
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         
-        if(maxAge < 100)
+        if(maxAge < 25)
         {
-        	maxAge = rand.nextInt(21) + 65;
+        	maxAge = rand.nextInt(6) + 25;
         }
 
         this.particleAge++;
@@ -58,15 +58,19 @@ public class EntitySSmokeFX extends EntityModFX
             this.setDead();
         }
 
-        this.motionX *= 0.9599999785423279D;
-        this.motionY *= 0.9599999785423279D;
-        this.motionZ *= 0.9599999785423279D;
+        this.motionX *= 0.7599999785423279D;
+        this.motionY *= 0.7599999785423279D;
+        this.motionZ *= 0.7599999785423279D;
 
         if (this.onGround)
         {
             this.motionX *= 0.699999988079071D;
             this.motionZ *= 0.699999988079071D;
         }
+
+        this.posX += this.motionX;
+        this.posY += this.motionY;
+        this.posZ += this.motionZ;
     }
 
     @Override

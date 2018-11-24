@@ -7,6 +7,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,14 +32,24 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class WasteEarth extends Block {
+
+	private float radIn = 0.0F;
+	private float radMax = 0.0F;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
 
-	public WasteEarth(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		this.setTickRandomly(true);
+	public WasteEarth(Material mat) {
+		super(mat);
+	}
+
+	public WasteEarth(Material mat, float rad, float max) {
+		super(mat);
+	    this.setTickRandomly(true);
+	    radIn = rad;
+	    radMax = max;
 	}
 	
 	@Override
@@ -80,19 +91,19 @@ public class WasteEarth extends Block {
     @Override
 	public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity entity)
     {
-    	if (entity instanceof EntityLivingBase && this == ModBlocks.waste_earth)
+    	/*if (entity instanceof EntityLivingBase && this == ModBlocks.waste_earth)
     	{
     		Library.applyRadiation((EntityLivingBase)entity, 4, 10, 0, 0);
-    	}
+    	}*/
     	
     	if (entity instanceof EntityLivingBase && this == ModBlocks.frozen_grass)
     	{
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
     	}
-    	if (entity instanceof EntityLivingBase && this == ModBlocks.waste_mycelium)
+    	/*if (entity instanceof EntityLivingBase && this == ModBlocks.waste_mycelium)
     	{
     		Library.applyRadiation((EntityLivingBase)entity, 30, 14, 15, 9);
-    	}
+    	}*/
     }
     
     @Override
@@ -114,6 +125,13 @@ public class WasteEarth extends Block {
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
+        if(this.radIn > 0) {
+        	
+        	RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
+
+        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+        }
+    	
     	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0 && MainRegistry.enableMycelium)
     	{
     		Block b0;
@@ -181,6 +199,23 @@ public class WasteEarth extends Block {
     	if(MainRegistry.enableAutoCleanup && (this == ModBlocks.waste_earth | this == ModBlocks.waste_mycelium))
     		if(!world.isRemote)
     			world.setBlock(x, y, z, Blocks.dirt);
+    }
+    
+    @Override
+    public int tickRate(World world) {
+    	
+    	if(this.radIn > 0)
+    		return 20;
+    	
+    	return 100;
+    }
+    
+    public void onBlockAdded(World world, int x, int y, int z)
+    {
+        super.onBlockAdded(world, x, y, z);
+    	
+    	if(this.radIn > 0)
+        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
     }
 
 }

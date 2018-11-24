@@ -26,7 +26,7 @@ import net.minecraft.util.Vec3;
 
 public class TileEntityYellowBarrel extends TileEntity {
 
-	@Override
+	/*@Override
 	public void updateEntity() {
 		int strength = 4;
 		float f = strength;
@@ -71,7 +71,7 @@ public class TileEntityYellowBarrel extends TileEntity {
         }
 
         strength = (int)f;
-    }
+    }*/
 	
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -18,12 +18,14 @@ import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 
 public class ModEventHandlerClient {
@@ -47,6 +49,16 @@ public class ModEventHandlerClient {
 			}
 		}
 	}
+	
+	/*@SubscribeEvent
+	public void renderGunPull(RenderPlayerEvent.Specials.Post event) {
+		
+		RenderPlayer renderer = event.renderer;
+		
+		//TESTING
+		renderer.modelBipedMain.bipedLeftArm.rotateAngleX += 90;
+		
+	}*/
 
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {
