@@ -1,6 +1,9 @@
 package com.hbm.packet;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.entity.logic.EntityBomber;
+import com.hbm.main.ResourceManager;
 import com.hbm.sound.MovingSoundBomber;
 import com.hbm.sound.SoundLoopAssembler;
 import com.hbm.sound.SoundLoopBroadcaster;
@@ -63,7 +66,23 @@ public class LoopedEntitySoundPacket implements IMessage {
 			Entity e = Minecraft.getMinecraft().theWorld.getEntityByID(m.entityID);
 			
 			if(e instanceof EntityBomber) {
-				
+
+				int n = 1;
+		        int x = e.getDataWatcher().getWatchableObjectByte(16);
+
+		        switch(x) {
+		        case 0:
+		        case 1:
+		        case 2:
+		        case 3:
+		        case 4: n = 2; break;
+		        case 5:
+		        case 6:
+		        case 7:
+		        case 8: n = 1; break;
+		        default: n = 2; break;
+		        }
+		        
 				boolean flag = true;
 				for(int i = 0; i < MovingSoundBomber.globalSoundList.size(); i++)  {
 					if(MovingSoundBomber.globalSoundList.get(i).bomber == e && !MovingSoundBomber.globalSoundList.get(i).isDonePlaying())
@@ -71,7 +90,10 @@ public class LoopedEntitySoundPacket implements IMessage {
 				}
 				
 				if(flag) {
-					Minecraft.getMinecraft().getSoundHandler().playSound(new MovingSoundBomber(new ResourceLocation("hbm:entity.bomberLoop"), (EntityBomber)e));
+					if(n == 2)
+						Minecraft.getMinecraft().getSoundHandler().playSound(new MovingSoundBomber(new ResourceLocation("hbm:entity.bomberSmallLoop"), (EntityBomber)e));
+					if(n == 1)
+						Minecraft.getMinecraft().getSoundHandler().playSound(new MovingSoundBomber(new ResourceLocation("hbm:entity.bomberLoop"), (EntityBomber)e));
 				}
 			}
 			

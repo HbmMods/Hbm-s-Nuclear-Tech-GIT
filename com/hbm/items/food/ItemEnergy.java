@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -74,12 +75,14 @@ public class ItemEnergy extends Item {
         		player.heal(4F);
                 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
                 player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 30 * 20, 1));
+                Library.applyRadDirect(player, 5.0F);
         	}
         	if(this == ModItems.bottle_cherry)
         	{
         		player.heal(6F);
                 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 0));
                 player.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 2));
+                Library.applyRadDirect(player, 5.0F);
         	}
         	if(this == ModItems.bottle_quantum)
         	{
@@ -87,6 +90,7 @@ public class ItemEnergy extends Item {
                 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));
                 player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 2));
                 player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
+                Library.applyRadDirect(player, 15.0F);
         	}
         	if(this == ModItems.bottle2_korl)
         	{
@@ -123,6 +127,17 @@ public class ItemEnergy extends Item {
                 player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
                 player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 2));
                 player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
+                Library.applyRadDirect(player, 5.0F);
+        	}
+        	if(this == ModItems.bottle_rad)
+        	{
+        		player.heal(10F);
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 120 * 20, 1));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 120 * 20, 2));
+                player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 120 * 20, 0));
+                player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 120 * 20, 4));
+                player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
+                Library.applyRadDirect(player, 15.0F);
         	}
         	if(this == ModItems.bottle2_sunset)
         	{
@@ -190,6 +205,16 @@ public class ItemEnergy extends Item {
         	
         	if(this == ModItems.bottle_sparkle) {
             	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_sparkle));
+        		if (stack.stackSize <= 0)
+            	{
+                	return new ItemStack(ModItems.bottle_empty);
+            	}
+
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_empty));
+        	}
+        	
+        	if(this == ModItems.bottle_rad) {
+            	player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_rad));
         		if (stack.stackSize <= 0)
             	{
                 	return new ItemStack(ModItems.bottle_empty);
@@ -317,6 +342,13 @@ public class ItemEnergy extends Item {
     			list.add("Contains trace amounts of taint.");
     		else
     			list.add("The most delicious beverage in the wasteland!");
+    	}
+    	if(this == ModItems.bottle_sparkle)
+    	{
+    		if(MainRegistry.polaroidID == 11)
+    			list.add("Now with 400% more radiation!");
+    		else
+    			list.add("Tastes like radish and radiation.");
     	}
     	if(this == ModItems.bottle2_sunset)
     	{

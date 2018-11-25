@@ -21,6 +21,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -434,10 +435,14 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 						AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 5, yCoord + 1.5 - 5, zCoord + 0.5 - 5,
 								xCoord + 0.5 + 5, yCoord + 1.5 + 5, zCoord + 0.5 + 5));
 
-				for (Entity e : list) {
+				/*for (Entity e : list) {
 					if (e instanceof EntityLivingBase)
                 		Library.applyRadiation((EntityLivingBase)e, 80, 24, 60, 19);
-				}
+				}*/
+				
+				float rad = (float)coreHeat / (float)maxCoreHeat * 150F;
+				RadiationSavedData data = RadiationSavedData.getData(worldObj);
+				data.incrementRad(worldObj, xCoord, zCoord, rad, 750F);
 			}
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
@@ -548,6 +553,9 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
+
+		RadiationSavedData data = RadiationSavedData.getData(worldObj);
+		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
 	}
 
 	@Override

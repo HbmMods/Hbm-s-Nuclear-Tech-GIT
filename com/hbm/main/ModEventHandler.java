@@ -8,6 +8,7 @@ import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -39,6 +40,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 
 public class ModEventHandler
 {	
@@ -54,6 +56,13 @@ public class ModEventHandler
         }
         
         showMessage = !showMessage;
+	}
+	
+	@SubscribeEvent
+	public void onPlayerDeath(PlayerDropsEvent event) {
+
+		RadEntitySavedData eData = RadEntitySavedData.getData(event.entityPlayer.worldObj);
+		eData.setRadForEntity(event.entityPlayer, 0);
 	}
 	
 	@SubscribeEvent
@@ -163,13 +172,52 @@ public class ModEventHandler
 							float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
 							
 							if(rad > 0) {
-								eData.setRadForEntity(entity, eData.getRadFromEntity(entity) + rad * 0.5F);
+								//eData.increaseRad(entity, rad / 2);
+								
+								if(!entity.isPotionActive(HbmPotion.mutation))
+									Library.applyRadData(entity, rad / 2);
 							}
 						}
 						
 						float eRad = eData.getRadFromEntity(entity);
 						
-						if(eRad < 200)
+						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
+							
+							if(event.world.rand.nextInt(3) == 0 ) {
+								EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
+								creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+				        		
+				        		if(!entity.isDead)
+				        			if(!event.world.isRemote)
+				        				event.world.spawnEntityInWorld(creep);
+				        		entity.setDead();
+							} else {
+								entity.attackEntityFrom(ModDamageSource.radiation, 100F);
+							}
+							continue;
+		        		
+			        	} else if(entity instanceof EntityCow && !(entity instanceof EntityMooshroom) && eRad >= 50) {
+			        		EntityMooshroom creep = new EntityMooshroom(event.world);
+			        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+
+			        		if(!entity.isDead)
+			        			if(!event.world.isRemote)
+			        				event.world.spawnEntityInWorld(creep);
+			        		entity.setDead();
+							continue;
+			        		
+			        	} else if(entity instanceof EntityVillager && eRad >= 500) {
+			        		EntityZombie creep = new EntityZombie(event.world);
+			        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			        		
+			        		if(!entity.isDead)
+				        		if(!event.world.isRemote)
+				        			event.world.spawnEntityInWorld(creep);
+			        		entity.setDead();
+							continue;
+			        	}
+						
+						if(eRad < 200 || entity instanceof EntityNuclearCreeper || entity instanceof EntityMooshroom || entity instanceof EntityZombie || entity instanceof EntitySkeleton)
 							continue;
 						
 						if(eRad >= 1000) {

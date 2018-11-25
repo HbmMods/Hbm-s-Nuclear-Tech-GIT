@@ -5,11 +5,13 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.NukeEnvironmentalEffect;
 import com.hbm.lib.Library;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -75,16 +77,20 @@ public class EntityFalloutRain extends Entity {
         			EntityLivingBase entity = (EntityLivingBase) o;
         			
         			if(Math.sqrt(Math.pow(entity.posX - posX, 2) + Math.pow(entity.posZ - posZ, 2)) <= getScale()) {
-        				Library.applyRadiation(entity, 30, 9, 0, 0);
+        				//Library.applyRadiation(entity, 30, 9, 0, 0);
+        				
+        				entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
         			}
         		}
         	}
-        }
-        
-        if(this.age >= this.maxAge)
-        {
-    		this.age = 0;
-        	this.setDead();
+            
+            if(this.age >= this.maxAge)
+            {
+        		this.age = 0;
+            	this.setDead();
+            }
+            
+            System.out.println(age + " " + maxAge);
         }
     }
 
@@ -96,11 +102,15 @@ public class EntityFalloutRain extends Entity {
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
 		age = p_70037_1_.getShort("age");
+		setScale(p_70037_1_.getInteger("scale"));
+		maxAge = p_70037_1_.getShort("maxAge");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
 		p_70014_1_.setShort("age", (short)age);
+		p_70014_1_.setInteger("scale", getScale());
+		p_70014_1_.setShort("maxAge", (short)maxAge);
 		
 	}
 

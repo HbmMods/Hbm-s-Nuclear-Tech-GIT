@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -41,6 +42,9 @@ public class RadEntitySavedData extends WorldSavedData {
     
     public void setRadForEntity(Entity e, float rad) {
     	
+    	if(!(e instanceof EntityLivingBase))
+    		return;
+    	
     	for(int i = 0; i < contaminated.size(); i++) {
     		if(contaminated.get(i).entID == e.getEntityId()) {
     			contaminated.get(i).rad = rad;
@@ -52,6 +56,11 @@ public class RadEntitySavedData extends WorldSavedData {
     	contaminated.add(new RadEntry(e.getEntityId(), rad));
     	
     	this.markDirty();
+    }
+    
+    public void increaseRad(Entity e, float rad) {
+    	
+    	setRadForEntity(e, getRadFromEntity(e) + rad);
     }
 
 	@Override

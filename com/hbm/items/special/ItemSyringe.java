@@ -215,10 +215,55 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
-        		player.removePotionEffect(HbmPotion.radiation.id);
+        		//player.removePotionEffect(HbmPotion.radiation.id);
         		
 				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
-				entityData.setRadForEntity(player, 0);
+				
+				float rad = entityData.getRadFromEntity(player);
+				rad -= 140F;
+				
+				if(rad < 0)
+					rad = 0;
+				
+				entityData.setRadForEntity(player, rad);
+            
+            	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
+            }
+		}
+		
+		if(this == ModItems.radaway_strong)
+		{
+            if (!world.isRemote)
+            {
+				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
+				
+				float rad = entityData.getRadFromEntity(player);
+				rad -= 350F;
+				
+				if(rad < 0)
+					rad = 0;
+				
+				entityData.setRadForEntity(player, rad);
+            
+            	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
+            }
+		}
+		
+		if(this == ModItems.radaway_flush)
+		{
+            if (!world.isRemote)
+            {
+				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
+				
+				float rad = entityData.getRadFromEntity(player);
+				rad -= 1000F;
+				
+				if(rad < 0)
+					rad = 0;
+				
+				entityData.setRadForEntity(player, rad);
             
             	stack.stackSize--;
             	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
@@ -545,7 +590,13 @@ public class ItemSyringe extends Item {
 			list.add("Removes negative effects");
 		}
 		if(this == ModItems.radaway) {
-			list.add("Removes radiation effect");
+			list.add("Removes 140 RAD");
+		}
+		if(this == ModItems.radaway_strong) {
+			list.add("Removes 350 RAD");
+		}
+		if(this == ModItems.radaway_flush) {
+			list.add("Removes 1000 RAD");
 		}
 		if(this == ModItems.syringe_taint) {
 			list.add("Tainted I for 60 seconds");

@@ -24,6 +24,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -464,7 +465,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 
 					if(!this.isCoatingValid(worldObj))
 					{
-						int strength = 20;
+						/*int strength = 20;
 						float f = strength;
 				        HashSet hashset = new HashSet();
 				        int i;
@@ -502,7 +503,11 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				                    	Library.applyRadiation((EntityLivingBase)entity, 80, 24, 60, 19);
 				                }
 				            }
-				        }
+				        }*/
+
+						
+						RadiationSavedData data = RadiationSavedData.getData(worldObj);
+						data.incrementRad(worldObj, xCoord, zCoord, 100F, 500F);
 					}
 				}
 				
@@ -660,6 +665,9 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 		worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, 50, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
     	
         ExplosionParticle.spawnMush(this.worldObj, this.xCoord, this.yCoord - 3, this.zCoord);
+        
+		RadiationSavedData data = RadiationSavedData.getData(worldObj);
+		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
 	}
 
 	@Override

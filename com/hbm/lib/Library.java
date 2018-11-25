@@ -10,6 +10,7 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -26,6 +27,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
@@ -226,7 +228,7 @@ public class Library {
 	//radLevel: Radiation level (0 = I)
 	//maskDura: Radiation duration when wearing gasmask
 	//maskLevel: Radiation level when wearing gasmask
-	public static void applyRadiation(Entity e, int radDura, int radLevel, int maskDura, int maskLevel) {
+	/*public static void applyRadiation(Entity e, int radDura, int radLevel, int maskDura, int maskLevel) {
 		
 		if(!(e instanceof EntityLivingBase))
 			return;
@@ -253,6 +255,33 @@ public class Library {
 		}
 		
 		entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, radDura * 20, radLevel));
+	}*/
+	
+	public static void applyRadData(Entity e, float f) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)entity;
+			
+			float koeff = 5.0F;
+			f *= (float) Math.pow(koeff, -HazmatRegistry.instance.getResistance(player));
+		}
+		
+		RadEntitySavedData data = RadEntitySavedData.getData(entity.worldObj);
+		data.increaseRad(entity, f);
+	}
+	
+	public static void applyRadDirect(Entity e, float f) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		RadEntitySavedData data = RadEntitySavedData.getData(e.worldObj);
+		data.increaseRad(e, f);
 	}
 	
 	public static boolean checkForHazmat(EntityPlayer player) {
@@ -295,6 +324,14 @@ public class Library {
 	public static boolean checkForGasMask(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
 		{
 			return true;
 		}

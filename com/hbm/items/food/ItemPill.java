@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class ItemPill extends ItemFood {
@@ -43,6 +44,10 @@ public class ItemPill extends ItemFood {
         		for(int i = 0; i < 10; i++)
         			player.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
         	}
+
+        	if(this == ModItems.radx) {
+        		player.addPotionEffect(new PotionEffect(HbmPotion.radx.id, 3 * 60 * 20, 0));
+        	}
         }
     }
     
@@ -55,6 +60,22 @@ public class ItemPill extends ItemFood {
 		if(this == ModItems.plan_c) {
 			list.add("Deadly");
 		}
+		if(this == ModItems.radx) {
+			list.add("Increases radiation resistance by 0.4 for 3 minutes");
+		}
+	}
+
+	@Override
+	public int getMaxItemUseDuration(ItemStack p_77626_1_) {
+		return 10;
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
+		
+		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
+
+		return p_77659_1_;
 	}
 
 }

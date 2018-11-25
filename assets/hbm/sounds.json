@@ -106,6 +106,7 @@
     "entity.bombDet": {"category": "player", "sounds": ["entity/bombDet1", "entity/bombDet2", "entity/bombDet3"]},
     "entity.bombWhistle": {"category": "player", "sounds": [{"name": "entity/bombWhistle", "stream": false}]},
     "entity.bomberLoop": {"category": "player", "sounds": [{"name": "entity/bomber1", "stream": false}]},
+    "entity.bomberSmallLoop": {"category": "player", "sounds": [{"name": "entity/bomber2", "stream": false}]},
     "entity.planeCrash": {"category": "player", "sounds": [{"name": "entity/planeCrash", "stream": false}]},
     "entity.planeShotDown": {"category": "player", "sounds": [{"name": "entity/planeShotDown", "stream": false}]},
     

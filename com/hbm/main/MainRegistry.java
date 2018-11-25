@@ -193,6 +193,7 @@ import com.hbm.entity.projectile.EntitySparkBeam;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.FuelHandler;
 import com.hbm.handler.GUIHandler;
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.MachineRecipes;
@@ -375,6 +376,8 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialSchrabidium = EnumHelper.addArmorMaterial("SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
 	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 2100000000, new int[] {3, 8, 6, 3}, 100);
 	public static ArmorMaterial enumArmorMaterialHazmat = EnumHelper.addArmorMaterial("HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial enumArmorMaterialHazmat2 = EnumHelper.addArmorMaterial("HAZMAT2", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial enumArmorMaterialHazmat3 = EnumHelper.addArmorMaterial("HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
 	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
 	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
@@ -545,6 +548,7 @@ public class MainRegistry
 	public static int radiationID = 63;
 	public static int bangID = 64;
 	public static int mutationID = 65;
+	public static int radxID = 66;
 
 	public static int x;
 	public static int y;
@@ -590,6 +594,8 @@ public class MainRegistry
 
 		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
 		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
+		enumArmorMaterialHazmat2.customCraftingMaterial = ModItems.hazmat_cloth_red;
+		enumArmorMaterialHazmat3.customCraftingMaterial = ModItems.hazmat_cloth_grey;
 		enumArmorMaterialT45.customCraftingMaterial = ModItems.plate_titanium;
 		enumArmorMaterialTitanium.customCraftingMaterial = ModItems.ingot_titanium;
 		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
@@ -1533,6 +1539,52 @@ public class MainRegistry
 			FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), FluidType.getEnum(i), 1000));
 			FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), FluidType.getEnum(i), 16000));
 		}
+
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_helmet, 0.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_plate, 0.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_legs, 0.3F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_boots, 0.1F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_helmet_red, 0.3F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_plate_red, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_legs_red, 0.45F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_boots_red, 0.15F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_helmet_grey, 0.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_plate_grey, 0.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_legs_grey, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_boots_grey, 0.2F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_helmet, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_plate, 1.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_legs, 0.9F);
+		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_boots, 0.3F);
+
+		HazmatRegistry.instance.registerHazmat(ModItems.jackt, 0.3F);
+		HazmatRegistry.instance.registerHazmat(ModItems.jackt2, 0.3F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.gas_mask, 0.15F);
+		HazmatRegistry.instance.registerHazmat(ModItems.gas_mask_m65, 0.175F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.steel_helmet, 0.04F);
+		HazmatRegistry.instance.registerHazmat(ModItems.steel_plate, 0.08F);
+		HazmatRegistry.instance.registerHazmat(ModItems.steel_legs, 0.06F);
+		HazmatRegistry.instance.registerHazmat(ModItems.steel_boots, 0.02F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.alloy_helmet, 0.08F);
+		HazmatRegistry.instance.registerHazmat(ModItems.alloy_plate, 0.16F);
+		HazmatRegistry.instance.registerHazmat(ModItems.alloy_legs, 0.12F);
+		HazmatRegistry.instance.registerHazmat(ModItems.alloy_boots, 0.04F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_helmet, 1.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_plate, 2.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_legs, 1.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_boots, 0.6F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_helmet, 6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_plate, 12F);
+		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_legs, 9F);
+		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_boots, 3F);
 	}
 	
 	@EventHandler
@@ -1740,6 +1792,9 @@ public class MainRegistry
         Property propMutationID = config.get(Configuration.CATEGORY_GENERAL, "8.03_mutationPotionID", 65);
         propMutationID.comment = "What potion ID the taint mutation effect will have";
         mutationID = propMutationID.getInt();
+        Property propRadxID = config.get(Configuration.CATEGORY_GENERAL, "8.04_radxPotionID", 66);
+        propRadxID.comment = "What potion ID the Rad-X effect will have";
+        radxID = propRadxID.getInt();
         
         config.save();
         

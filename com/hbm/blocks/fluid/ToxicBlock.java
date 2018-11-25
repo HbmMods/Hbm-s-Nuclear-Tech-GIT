@@ -109,7 +109,9 @@ public class ToxicBlock extends BlockFluidClassic {
 //			entity.attackEntityFrom(ModDamageSource.radiation, 2.5F);
 //		}
 		
-		Library.applyRadiation(entity, 2 * 60 * 20, 50, 60 * 20, 35);
+		//Library.applyRadiation(entity, 2 * 60 * 20, 50, 60 * 20, 35);
+		
+		Library.applyRadData(entity, 1.0F);
 	}
 
 	@Override

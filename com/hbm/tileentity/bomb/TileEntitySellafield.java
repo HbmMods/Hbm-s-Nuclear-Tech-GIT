@@ -27,7 +27,7 @@ public class TileEntitySellafield extends TileEntity {
 				EntityLivingBase entity = (EntityLivingBase) o;
 				
 				if(Math.sqrt(Math.pow(xCoord + 0.5D - entity.posX, 2) + Math.pow(yCoord + 0.5D - entity.posY, 2) + Math.pow(zCoord + 0.5D - entity.posZ, 2)) <= radius) {
-					Library.applyRadiation(entity, 5 * 60, 100, 4 * 60, 75);
+					//Library.applyRadiation(entity, 5 * 60, 100, 4 * 60, 75);
 					entity.attackEntityFrom(ModDamageSource.radiation, entity.getHealth() * 0.5F);
 				}
 			}

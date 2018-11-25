@@ -5,6 +5,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -45,6 +46,15 @@ public class EntityNukeExplosionMK4 extends Entity {
 			return;
 		}
 		
+		if(!worldObj.isRemote && fallout && explosion != null) {
+			RadiationSavedData data = RadiationSavedData.getData(worldObj);
+			
+			float radMax = (float) (length / 2F * Math.pow(length, 2) / 35F);
+			System.out.println(radMax);
+			float rad = radMax / 4F;
+			data.incrementRad(worldObj, (int)this.posX, (int)this.posZ, rad, radMax);
+		}
+		
     	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
     	if(rand.nextInt(5) == 0)
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
@@ -73,7 +83,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 				explosion.processTip(1024);
 		} else if(fallout) {
 			
-			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 1.8) * 25 * MainRegistry.falloutDura / 100);
+			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 0.9) * 2 * MainRegistry.falloutDura / 100);
 			fallout.posX = this.posX;
 			fallout.posY = this.posY;
 			fallout.posZ = this.posZ;

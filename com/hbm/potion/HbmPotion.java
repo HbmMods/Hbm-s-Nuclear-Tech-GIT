@@ -4,8 +4,10 @@ import java.lang.reflect.Field;
 
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.RadEntitySavedData;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -22,6 +24,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion radiation;
 	public static HbmPotion bang;
 	public static HbmPotion mutation;
+	public static HbmPotion radx;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -32,6 +35,7 @@ public class HbmPotion extends Potion {
 		radiation = registerPotion(MainRegistry.radiationID, true, 8700200, "potion.hbm_radiation", 1, 0);
 		bang = registerPotion(MainRegistry.bangID, true, 1118481, "potion.hbm_bang", 3, 0);
 		mutation = registerPotion(MainRegistry.mutationID, false, 8388736, "potion.hbm_mutation", 2, 0);
+		radx = registerPotion(MainRegistry.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -80,9 +84,14 @@ public class HbmPotion extends Potion {
 		}
 		if(this == radiation) {
 			
-			if (entity.getHealth() > entity.getMaxHealth() - (level + 1)) {
+			/*if (entity.getHealth() > entity.getMaxHealth() - (level + 1)) {
 				entity.attackEntityFrom(ModDamageSource.radiation, 1);
-			}
+			}*/
+			
+			//RadEntitySavedData data = RadEntitySavedData.getData(entity.worldObj);
+			//data.increaseRad(entity, (float)(level + 1F) * 0.05F);
+			
+			Library.applyRadData(entity, (float)(level + 1F) * 0.05F);
 		}
 		if(this == bang) {
 			
@@ -105,8 +114,11 @@ public class HbmPotion extends Potion {
 	        return k > 0 ? par1 % k == 0 : true;
 		}
 		if(this == radiation) {
-			int k = 40 >> par2;
-			return k > 0 ? par1 % k == 0 : true;
+			
+			return true;
+			
+			//int k = 40 >> par2;
+			//return k > 0 ? par1 % k == 0 : true;
 		}
 		if(this == bang) {
 

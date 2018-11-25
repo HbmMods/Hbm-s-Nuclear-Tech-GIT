@@ -91,21 +91,7 @@ public class MudBlock extends BlockFluidClassic {
 			 * Library.damageSuit(((EntityPlayer)entity), 3);
 			 */
 
-		} else if (entity instanceof EntityCreeper) {
-			EntityNuclearCreeper creep = new EntityNuclearCreeper(world);
-			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			if (!entity.isDead)
-				if (!world.isRemote)
-					world.spawnEntityInWorld(creep);
-			entity.setDead();
-		} else if (entity instanceof EntityVillager) {
-			EntityZombie creep = new EntityZombie(world);
-			creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			entity.setDead();
-			if (!world.isRemote)
-				world.spawnEntityInWorld(creep);
-		} else if (entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper)
-				&& !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
+		} else {
 			entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
 		}
 	}

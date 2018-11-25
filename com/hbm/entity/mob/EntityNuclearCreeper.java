@@ -258,7 +258,9 @@ public class EntityNuclearCreeper extends EntityMob {
                 {
                 	if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper))
                     {
-                    	Library.applyRadiation(entity, 20, 9, 5, 2);
+                    	//Library.applyRadiation(entity, 20, 9, 5, 2);
+                		
+                		Library.applyRadData(entity, 0.25F);
                     }
                 }
             }

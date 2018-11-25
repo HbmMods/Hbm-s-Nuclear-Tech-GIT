@@ -230,38 +230,42 @@ public class BlockOre extends Block {
     	{
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
     	}
-    	/*if (entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite)
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.block_trinitite)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 45, 19, 30, 14);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.block_waste)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 60, 19, 40, 14);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
     	}
     	if (entity instanceof EntityLivingBase && (this == ModBlocks.waste_trinitite || this == ModBlocks.waste_trinitite_red))
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 30, 9, 15, 4);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_0)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 30, 10, 20, 5);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 0));
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_1)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 60, 25, 40, 20);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 1));
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_2)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 2 * 60, 40, 90, 30);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 2));
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_3)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 3 * 60, 60, 2 * 60, 40);
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 3));
     	}
     	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_4)
     	{
-    		Library.applyRadiation((EntityLivingBase)entity, 4 * 60, 80, 2 * 90, 60);
-    	}*/
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 4));
+    	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.sellafield_core)
+    	{
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 5));
+    	}
     	
         if(this == ModBlocks.block_meteor_molten)
         	entity.setFire(5);
