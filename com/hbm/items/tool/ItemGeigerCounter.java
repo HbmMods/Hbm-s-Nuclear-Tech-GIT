@@ -30,7 +30,7 @@ public class ItemGeigerCounter extends Item {
 		setInt(stack, getInt(stack, "timer") + 1, "timer");
 		if(getInt(stack, "timer") == 10) {
 			setInt(stack, 0, "timer");
-			setInt(stack, check(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ, 15), "ticker");
+			setInt(stack, check(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ), "ticker");
 		}
 		
 		int x = getInt(stack, "ticker");
@@ -80,7 +80,7 @@ public class ItemGeigerCounter extends Item {
 		return 0;
 	}
 
-	public static int check(World world, int x, int y, int z, int radius) {
+	public static int check(World world, int x, int y, int z) {
 		
 		RadiationSavedData data = RadiationSavedData.getData(world);
 		

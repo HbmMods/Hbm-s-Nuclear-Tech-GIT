@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelBroadcaster;
+import com.hbm.render.model.ModelGeiger;
 import com.hbm.render.model.ModelRadio;
 import com.hbm.render.model.ModelSteelBeam;
 import com.hbm.render.model.ModelSteelCorner;
@@ -28,6 +29,7 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	private static final ResourceLocation texture6 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/ModelBroadcaster.png");
 	private static final ResourceLocation texture7 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/ModelRadio.png");
 	private static final ResourceLocation texture8 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/ModelRadioReceiver.png");
+	private static final ResourceLocation texture9 = new ResourceLocation(RefStrings.MODID + ":" + "textures/models/ModelGeiger.png");
 	
 	private ModelSteelWall model1;
 	private ModelSteelCorner model2;
@@ -36,6 +38,7 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	private ModelSteelScaffold model5;
 	private ModelBroadcaster model6;
 	private ModelRadio model7;
+	private ModelGeiger model8;
 	
 	public RenderDecoBlock() {
 		this.model1 = new ModelSteelWall();
@@ -45,6 +48,7 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 		this.model5 = new ModelSteelScaffold();
 		this.model6 = new ModelBroadcaster();
 		this.model7 = new ModelRadio();
+		this.model8 = new ModelGeiger();
 	}
 	
 	@Override
@@ -123,6 +127,21 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.geiger)
+			{
+				this.bindTexture(texture9);
+				switch(tileentity.getBlockMetadata())
+				{
+				case 4:
+					GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 2:
+					GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5:
+					GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 3:
+					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				}
+			}
 			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiorec)
 			{
 				this.bindTexture(texture8);
@@ -172,6 +191,8 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					this.model5.renderModel(0.0625F);
 				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.broadcaster_pc)
 					this.model6.renderModel(0.0625F);
+				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.geiger)
+					this.model8.renderModel(0.0625F);
 				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiobox)
 					this.model7.renderModel(0.0625F, tileentity.getBlockMetadata() > 5 ? 160 : 20);
 				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiorec)

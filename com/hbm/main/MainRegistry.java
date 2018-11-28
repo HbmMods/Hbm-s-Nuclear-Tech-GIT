@@ -44,6 +44,7 @@ import java.util.Random;
 import org.apache.logging.log4j.Logger;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.TileEntityGeiger;
 import com.hbm.creativetabs.BlockTab;
 import com.hbm.creativetabs.ConsumableTab;
 import com.hbm.creativetabs.ControlTab;
@@ -271,6 +272,7 @@ import com.hbm.tileentity.machine.TileEntityCrateIron;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.tileentity.machine.TileEntityDummy;
+import com.hbm.tileentity.machine.TileEntityFF;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityHatch;
@@ -735,6 +737,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineBoiler.class, "tileentity_boiler");
 		GameRegistry.registerTileEntity(TileEntityMachineBoilerElectric.class, "tileentity_electric_boiler");
 		GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_turbine");
+		GameRegistry.registerTileEntity(TileEntityGeiger.class, "tileentity_geiger");
+		GameRegistry.registerTileEntity(TileEntityFF.class, "tileentity_forcefield");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

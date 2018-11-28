@@ -50,7 +50,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 			RadiationSavedData data = RadiationSavedData.getData(worldObj);
 			
 			float radMax = (float) (length / 2F * Math.pow(length, 2) / 35F);
-			System.out.println(radMax);
+			//System.out.println(radMax);
 			float rad = radMax / 4F;
 			data.incrementRad(worldObj, (int)this.posX, (int)this.posZ, rad, radMax);
 		}

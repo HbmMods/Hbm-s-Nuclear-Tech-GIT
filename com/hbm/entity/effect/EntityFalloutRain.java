@@ -90,7 +90,7 @@ public class EntityFalloutRain extends Entity {
             	this.setDead();
             }
             
-            System.out.println(age + " " + maxAge);
+            //System.out.println(age + " " + maxAge);
         }
     }
 

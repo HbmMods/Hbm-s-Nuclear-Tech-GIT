@@ -154,6 +154,7 @@ public class ModBlocks {
 	public static Block steel_scaffold;
 
 	public static Block broadcaster_pc;
+	public static Block geiger;
 
 	public static Block mush;
 	public static Block mush_block;
@@ -594,7 +595,8 @@ public class ModBlocks {
 
 	public static Block ntm_dirt;
 	
-
+	public static Block ff;
+	
 	private static void initializeBlock() {
 		
 		test_render = new TestRender(Material.rock).setBlockName("test_render").setCreativeTab(null);
@@ -718,6 +720,7 @@ public class ModBlocks {
 		steel_scaffold = new DecoBlock(Material.rock).setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_scaffold");
 		
 		broadcaster_pc = new PinkCloudBroadcaster(Material.rock).setBlockName("broadcaster_pc").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":broadcaster_pc");
+		geiger = new GeigerCounter(Material.rock).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":geiger");
 
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.blockTab).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
@@ -1048,6 +1051,8 @@ public class ModBlocks {
 		dummy_block_puf6 = new DummyBlockMachine(Material.iron, guiID_puf6_tank, machine_puf6_tank).setBlockName("dummy_block_puf6").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		ntm_dirt = new BlockNTMDirt().setBlockName("ntm_dirt").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName("dirt");
+		
+		ff = new BlockFF(Material.iron).setBlockName("ff").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
 	}
 
 	private static void registerBlock() {
@@ -1264,6 +1269,9 @@ public class ModBlocks {
 		
 		//This Thing
 		GameRegistry.registerBlock(broadcaster_pc, broadcaster_pc.getUnlocalizedName());
+		
+		//Geiger Counter
+		GameRegistry.registerBlock(geiger, geiger.getUnlocalizedName());
 		
 		//Silo Hatch
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
@@ -1509,5 +1517,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(cheater_virus, cheater_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus_seed, cheater_virus_seed.getUnlocalizedName());
 		GameRegistry.registerBlock(ntm_dirt, ntm_dirt.getUnlocalizedName());
+		GameRegistry.registerBlock(ff, ff.getUnlocalizedName());
 	}
 }

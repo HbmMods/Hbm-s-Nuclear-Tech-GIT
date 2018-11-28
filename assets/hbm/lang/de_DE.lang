@@ -268,6 +268,8 @@ item.turret_biometry.name=Geschütz-Telemetriekarte
 
 item.key.name=Schlüssel
 item.key_red.name=Roter Schlüssel
+item.key_kit.name=Schlüssel-Imitationskit
+item.key_fake.name=Gefälschter Schlüssel
 item.pin.name=Haarklammer
 item.padlock_rusty.name=Rostiges Vorhängeschloss
 item.padlock.name=Vorhängeschloss
@@ -1783,7 +1785,8 @@ item.pellet_coolant.name=Kühlcluster
 
 item.linker.name=Telelinker
 item.oil_detector.name=Ölvorkommen-Detektor
-item.geiger_counter.name=Geigerzähler
+item.geiger_counter.name=Mobiler Geigerzähler
+tile.geiger.name=Geigerzähler
 item.survey_scanner.name=Tiefenscanner
 
 item.thermo_element.name=Thermoelektrisches Element

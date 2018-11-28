@@ -174,12 +174,13 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 
 		if(!worldObj.isRemote)
 		{
-			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ItemKeyPin && slots[1].getItem() instanceof ItemKeyPin) {
+			if(slots[0] != null && slots[1] != null && slots[0].getItem() instanceof ItemKeyPin && slots[1].getItem() instanceof ItemKeyPin && 
+					((ItemKeyPin)slots[0].getItem()).canTransfer() && ((ItemKeyPin)slots[1].getItem()).canTransfer()) {
 				
 				ItemKeyPin.setPins(slots[1], ItemKeyPin.getPins(slots[0]));
 			}
 			
-			if(slots[2] != null && slots[2].getItem() instanceof ItemKeyPin) {
+			if(slots[2] != null && slots[2].getItem() instanceof ItemKeyPin && ((ItemKeyPin)slots[2].getItem()).canTransfer()) {
 				ItemKeyPin.setPins(slots[2], worldObj.rand.nextInt(900) + 100);
 			}
 

@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -148,7 +149,7 @@ public class BlockStorageCrate extends BlockContainer {
 		if(world.isRemote)
 		{
 			return true;
-		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLock) {
+		} else if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit)) {
 			return false;
 			
 		} else if(!player.isSneaking())

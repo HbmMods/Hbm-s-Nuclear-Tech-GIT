@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IDummy;
+import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
@@ -85,7 +86,7 @@ public class DummyBlockVault extends BlockContainer implements IDummy, IBomb {
 		if(world.isRemote)
 		{
 			return true;
-		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLock) {
+		} else if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit)) {
 			return false;
 			
 		} else if(!player.isSneaking())

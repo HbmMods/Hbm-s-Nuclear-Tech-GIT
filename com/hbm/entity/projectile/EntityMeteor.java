@@ -27,13 +27,20 @@ public class EntityMeteor extends EntityThrowable {
 	
 	@Override
 	public void onUpdate() {
-		this.prevPosX = this.posX;
+
+
+		this.lastTickPosX = this.prevPosX = posX;
+		this.lastTickPosY = this.prevPosY = posY;
+		this.lastTickPosZ = this.prevPosZ = posZ;
+		this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
+		
+		/*this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 		
 		this.posX += this.motionX;
 		this.posY += this.motionY;
-		this.posZ += this.motionZ;
+		this.posZ += this.motionZ;*/
 		
 		this.motionY -= 0.03;
 		if(motionY < -2.5)

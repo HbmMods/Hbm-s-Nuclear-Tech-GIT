@@ -281,6 +281,8 @@ item.turret_biometry.name=Turret Telemetry Card
 
 item.key.name=Key
 item.key_red.name=Red Key
+item.key_kit.name=Key Imitation Kit
+item.key_fake.name=Counterfeit Key
 item.pin.name=Bobby Pin
 item.padlock_rusty.name=Rusty Padlock
 item.padlock.name=Padlock
@@ -1783,7 +1785,8 @@ item.pellet_coolant.name=Coolant Cluster
 
 item.linker.name=Telelinker
 item.oil_detector.name=Oil Reservoir Detector
-item.geiger_counter.name=Geiger Counter
+item.geiger_counter.name=Handheld Geiger Counter
+tile.geiger.name=Geiger Counter
 item.survey_scanner.name=Survey Scanner
 
 item.thermo_element.name=Thermoelectric Element

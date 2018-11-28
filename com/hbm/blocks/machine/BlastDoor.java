@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiblock;
+import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLock;
 import com.hbm.tileentity.machine.TileEntityBlastDoor;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
@@ -57,7 +58,7 @@ public class BlastDoor extends BlockContainer implements IBomb, IMultiblock {
 		if(world.isRemote)
 		{
 			return true;
-		} else if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLock) {
+		} else if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit)) {
 			return false;
 			
 		} if(!player.isSneaking()) {
