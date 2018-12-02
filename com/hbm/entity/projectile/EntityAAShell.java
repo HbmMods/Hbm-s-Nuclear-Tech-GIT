@@ -52,10 +52,8 @@ public class EntityAAShell extends Entity {
 
 		
 		for(int i = 0; i < 5; i++) {
-			
-			this.posX += this.motionX;
-			this.posY += this.motionY;
-			this.posZ += this.motionZ;
+
+			this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
 			
 			rotation();
 			

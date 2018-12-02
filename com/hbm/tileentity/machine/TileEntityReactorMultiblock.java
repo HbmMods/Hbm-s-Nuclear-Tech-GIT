@@ -507,7 +507,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 
 						
 						RadiationSavedData data = RadiationSavedData.getData(worldObj);
-						data.incrementRad(worldObj, xCoord, zCoord, 100F, 500F);
+						data.incrementRad(worldObj, xCoord, zCoord, 50F, 150F);
 					}
 				}
 				

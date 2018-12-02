@@ -382,14 +382,10 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			}
 
 			if (rods > 0 && coreHeat > 0
-					&& !(worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord).isNormalCube()
-							&& worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord).isNormalCube()
-							&& worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1).isNormalCube()
-							&& worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1).isNormalCube()
-							&& worldObj.getBlock(xCoord + 1, yCoord + 1, zCoord) != Blocks.air
-							&& worldObj.getBlock(xCoord - 1, yCoord + 1, zCoord) != Blocks.air
-							&& worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) != Blocks.air
-							&& worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) != Blocks.air)) {
+					&& !(blocksRad(xCoord + 1, yCoord + 1, zCoord)
+							&& blocksRad(xCoord - 1, yCoord + 1, zCoord)
+							&& blocksRad(xCoord, yCoord + 1, zCoord + 1)
+							&& blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
 
 				/*List<Entity> list = (List<Entity>) worldObj.getEntitiesWithinAABBExcludingEntity(null,
 						AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 5, yCoord + 1.5 - 5, zCoord + 0.5 - 5,
@@ -400,9 +396,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
                 		Library.applyRadiation((EntityLivingBase)e, 80, 24, 60, 19);
 				}*/
 				
-				float rad = (float)coreHeat / (float)maxCoreHeat * 150F;
+				float rad = (float)coreHeat / (float)maxCoreHeat * 50F;
 				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				data.incrementRad(worldObj, xCoord, zCoord, rad, 750F);
+				data.incrementRad(worldObj, xCoord, zCoord, rad, rad * 4);
 			}
 
 			for (int i = 0; i < 3; i++)

@@ -38,6 +38,12 @@ public class ItemBombCaller extends Item {
     		list.add("Type: Agent orange");
         if(itemstack.getItemDamage() == 4)
     		list.add("Type: Atomic bomb");
+        if(itemstack.getItemDamage() == 5)
+    		list.add("Type: VT stinger rockets");
+        if(itemstack.getItemDamage() == 6)
+    		list.add("Type: PIP OH GOD");
+        if(itemstack.getItemDamage() == 7)
+    		list.add("Type: Cloud the cloud oh god the cloud");
 	}
 	
 	@Override
@@ -68,6 +74,15 @@ public class ItemBombCaller extends Item {
 	        if(stack.getItemDamage() == 4)
 	        	if(world.spawnEntityInWorld(EntityBomber.statFacABomb(world, x, y, z)))
 	        		b = true;
+	        if(stack.getItemDamage() == 5)
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacStinger(world, x, y, z)))
+	        		b = true;
+	        if(stack.getItemDamage() == 6)
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacBoxcar(world, x, y, z)))
+	        		b = true;
+	        if(stack.getItemDamage() == 7)
+	        	if(world.spawnEntityInWorld(EntityBomber.statFacPC(world, x, y, z)))
+	        		b = true;
 	        
 	        if(b) {
 		    	player.addChatMessage(new ChatComponentText("Called in airstrike!"));
@@ -97,6 +112,6 @@ public class ItemBombCaller extends Item {
 	@SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack p_77636_1_)
     {
-        return p_77636_1_.getItemDamage() == 4;
+        return p_77636_1_.getItemDamage() >= 4;
     }
 }

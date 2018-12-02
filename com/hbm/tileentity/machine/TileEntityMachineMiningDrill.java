@@ -788,6 +788,13 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 		Block b = worldObj.getBlock(x, y, z);
 		int meta = worldObj.getBlockMetadata(x, y, z);
 		ItemStack stack = new ItemStack(b.getItemDropped(meta, rand, fortune), b.quantityDropped(meta, fortune, rand), b.damageDropped(meta));
+
+		//yup that worked
+		if(stack != null && stack.getItem() == null) {
+			worldObj.func_147480_a(x, y, z, false);
+			return true;
+		}
+		
 		if(hasSpace(stack)) {
 			this.addItemToInventory(stack);
 			worldObj.func_147480_a(x, y, z, false);
@@ -841,14 +848,17 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 
 		ItemStack st = stack.copy();
 		
-		if(st == null)
+		if(stack == null || st == null)
 			return true;
 		
 		for(int i = 1; i < 10; i++) {
 			
 			if(array[i] != null) {
 				ItemStack sta = array[i].copy();
-			
+				
+				if(stack == null || st == null)
+					return true;
+				
 				if(sta != null && sta.getItem() == st.getItem() && sta.stackSize < st.getMaxStackSize()) {
 					array[i].stackSize++;
 					return true;

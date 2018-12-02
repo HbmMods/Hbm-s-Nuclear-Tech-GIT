@@ -121,8 +121,8 @@ public class ItemAnalyzer extends Item {
 					
 					if(((TileEntityLockableBase)te).isLocked()) {
 
-						player.addChatMessage(new ChatComponentText(
-								"Pins: " + ((TileEntityLockableBase)te).getPins()));
+						//player.addChatMessage(new ChatComponentText(
+						//		"Pins: " + ((TileEntityLockableBase)te).getPins()));
 						player.addChatMessage(new ChatComponentText(
 								"Pick Chance: " + (((TileEntityLockableBase)te).getMod() * 100D) + "%"));
 					}

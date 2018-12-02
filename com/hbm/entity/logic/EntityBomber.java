@@ -6,6 +6,8 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBombletZeta;
+import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
@@ -137,6 +139,40 @@ public class EntityBomber extends Entity implements IChunkLoader {
 
 	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 				ExplosionChaos.spawnChlorine(worldObj, this.posX, this.posY - 1F, this.posZ, 10, 0.5, 3);
+				
+			} else if(type == 5) {
+				
+	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:weapon.missileTakeOff", 10.0F, 0.9F + rand.nextFloat() * 0.2F);
+	        	EntityRocketHoming rocket = new EntityRocketHoming(worldObj);
+	        	rocket.setIsCritical(true);
+	        	//rocket.motionX = motionX;
+	        	//rocket.motionZ = motionZ;
+	        	rocket.motionY = -1;
+	        	rocket.shootingEntity = this;
+	        	rocket.homingRadius = 50;
+	        	rocket.homingMod = 5;
+				
+	        	rocket.posX = posX + rand.nextDouble() - 0.5;
+	        	rocket.posY = posY - rand.nextDouble();
+	        	rocket.posZ = posZ + rand.nextDouble() - 0.5;
+	        	
+				worldObj.spawnEntityInWorld(rocket);
+	        	
+			} else if(type == 6) {
+				
+	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:weapon.missileTakeOff", 10.0F, 0.9F + rand.nextFloat() * 0.2F);
+	        	EntityBoxcar rocket = new EntityBoxcar(worldObj);
+				
+	        	rocket.posX = posX + rand.nextDouble() - 0.5;
+	        	rocket.posY = posY - rand.nextDouble();
+	        	rocket.posZ = posZ + rand.nextDouble() - 0.5;
+	        	
+				worldObj.spawnEntityInWorld(rocket);
+	        	
+			} else if(type == 7) {
+
+	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
+				ExplosionChaos.spawnChlorine(worldObj, this.posX, worldObj.getHeightValue((int)this.posX, (int)this.posZ) + 2, this.posZ, 10, 1, 2);
 				
 			} else {
 				
@@ -304,6 +340,60 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	bomber.getDataWatcher().updateObject(16, (byte)i);
     	
     	bomber.type = 4;
+    	
+    	return bomber;
+    }
+    
+    public static EntityBomber statFacStinger(World world, double x, double y, double z) {
+    	
+    	EntityBomber bomber = new EntityBomber(world);
+    	
+    	bomber.timer = 200;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 150;
+    	bomber.bombRate = 10;
+
+    	bomber.fac(world, x, y, z);
+    	
+    	bomber.getDataWatcher().updateObject(16, (byte)4);
+    	
+    	bomber.type = 5;
+    	
+    	return bomber;
+    }
+    
+    public static EntityBomber statFacBoxcar(World world, double x, double y, double z) {
+    	
+    	EntityBomber bomber = new EntityBomber(world);
+    	
+    	bomber.timer = 200;
+    	bomber.bombStart = 50;
+    	bomber.bombStop = 150;
+    	bomber.bombRate = 10;
+
+    	bomber.fac(world, x, y, z);
+    	
+    	bomber.getDataWatcher().updateObject(16, (byte)6);
+    	
+    	bomber.type = 6;
+    	
+    	return bomber;
+    }
+    
+    public static EntityBomber statFacPC(World world, double x, double y, double z) {
+    	
+    	EntityBomber bomber = new EntityBomber(world);
+    	
+    	bomber.timer = 200;
+    	bomber.bombStart = 75;
+    	bomber.bombStop = 125;
+    	bomber.bombRate = 1;
+
+    	bomber.fac(world, x, y, z);
+    	
+    	bomber.getDataWatcher().updateObject(16, (byte)6);
+    	
+    	bomber.type = 7;
     	
     	return bomber;
     }

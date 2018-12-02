@@ -87,7 +87,8 @@ public class TileEntityFF extends TileEntity {
 						entity.posX -= entity.motionX;
 						entity.posY -= entity.motionY;
 						entity.posZ -= entity.motionZ;
-						
+
+			    		worldObj.playSoundAtEntity(entity, "hbm:weapon.sparkShoot", 2.5F, 1.0F);
 						outside.add(entity);
 					} else
 					
@@ -111,7 +112,8 @@ public class TileEntityFF extends TileEntity {
 						entity.posX -= entity.motionX;
 						entity.posY -= entity.motionY;
 						entity.posZ -= entity.motionZ;
-						
+
+			    		worldObj.playSoundAtEntity(entity, "hbm:weapon.sparkShoot", 2.5F, 1.0F);
 						inside.add(entity);
 					} else {
 						

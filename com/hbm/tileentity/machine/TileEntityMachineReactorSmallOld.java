@@ -440,9 +440,9 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
                 		Library.applyRadiation((EntityLivingBase)e, 80, 24, 60, 19);
 				}*/
 				
-				float rad = (float)coreHeat / (float)maxCoreHeat * 150F;
+				float rad = (float)coreHeat / (float)maxCoreHeat * 50F;
 				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				data.incrementRad(worldObj, xCoord, zCoord, rad, 750F);
+				data.incrementRad(worldObj, xCoord, zCoord, rad, rad * 4);
 			}
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));

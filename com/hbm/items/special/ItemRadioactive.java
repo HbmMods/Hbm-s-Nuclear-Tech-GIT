@@ -19,10 +19,8 @@ public class ItemRadioactive extends Item {
 	
     @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
-    	if((entity instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)entity)) || !(entity instanceof EntityPlayer))
-    	{
-    		doRadiationDamage(entity, stack.stackSize);
-    	}
+    	
+    	doRadiationDamage(entity, stack.stackSize);
     }
     
     public void doRadiationDamage(Entity entity, float mod) {

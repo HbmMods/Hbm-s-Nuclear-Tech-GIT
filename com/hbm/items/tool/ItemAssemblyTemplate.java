@@ -185,11 +185,11 @@ public class ItemAssemblyTemplate extends Item {
 		FA_HATCH,
 		FA_CORE,
 		FA_PORT,
-		LR_ELEMENT,
-		LR_CONTROL,
-		LR_HATCH,
-		LR_PORT,
-		LR_CORE,
+		//LR_ELEMENT,
+		//LR_CONTROL,
+		//LR_HATCH,
+		//LR_PORT,
+		//LR_CORE,
 		LF_MAGNET,
 		LF_CENTER,
 		LF_MOTOR,
@@ -670,7 +670,7 @@ public class ItemAssemblyTemplate extends Item {
 			return 100;
 		case FA_PORT:
 			return 50;
-		case LR_ELEMENT:
+		/*case LR_ELEMENT:
 			return 150;
 		case LR_CONTROL:
 			return 100;
@@ -679,7 +679,7 @@ public class ItemAssemblyTemplate extends Item {
 		case LR_PORT:
 			return 150;
 		case LR_CORE:
-			return 250;
+			return 250;*/
 		case LF_MAGNET:
 			return 150;
 		case LF_CENTER:
