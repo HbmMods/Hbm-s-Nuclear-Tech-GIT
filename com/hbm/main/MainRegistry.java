@@ -274,6 +274,7 @@ import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityFF;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
+import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityHatch;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
@@ -739,6 +740,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineTurbine.class, "tileentity_turbine");
 		GameRegistry.registerTileEntity(TileEntityGeiger.class, "tileentity_geiger");
 		GameRegistry.registerTileEntity(TileEntityFF.class, "tileentity_forcefield");
+		GameRegistry.registerTileEntity(TileEntityForceField.class, "tileentity_machine_field");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

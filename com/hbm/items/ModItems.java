@@ -1001,6 +1001,8 @@ public class ModItems {
 	public static Item upgrade_afterburn_1;
 	public static Item upgrade_afterburn_2;
 	public static Item upgrade_afterburn_3;
+	public static Item upgrade_radius;
+	public static Item upgrade_health;
 
 	public static Item ingot_euphemium;
 	public static Item nugget_euphemium;
@@ -2316,6 +2318,8 @@ public class ModItems {
 		upgrade_afterburn_1 = new ItemCustomLore().setUnlocalizedName("upgrade_afterburn_1").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_afterburn_1");
 		upgrade_afterburn_2 = new ItemCustomLore().setUnlocalizedName("upgrade_afterburn_2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_afterburn_2");
 		upgrade_afterburn_3 = new ItemCustomLore().setUnlocalizedName("upgrade_afterburn_3").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_afterburn_3");
+		upgrade_radius = new ItemCustomLore().setUnlocalizedName("upgrade_radius").setMaxStackSize(16).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_radius");
+		upgrade_health = new ItemCustomLore().setUnlocalizedName("upgrade_health").setMaxStackSize(16).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_health");
 
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand");
 		wand_s = new ItemWandS().setUnlocalizedName("wand_s").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand_s");
@@ -3266,6 +3270,8 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_afterburn_1, upgrade_afterburn_1.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_afterburn_2, upgrade_afterburn_2.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_afterburn_3, upgrade_afterburn_3.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_radius, upgrade_radius.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_health, upgrade_health.getUnlocalizedName());
 		
 		//Machine Templates
 		GameRegistry.registerItem(siren_track, siren_track.getUnlocalizedName());

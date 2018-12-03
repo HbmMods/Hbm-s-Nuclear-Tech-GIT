@@ -578,6 +578,22 @@ public class ItemCustomLore extends ItemRadioactive {
 			list.add("Production x4 / Consumption x7.5");
 		}
 		
+		if(this == ModItems.upgrade_radius)
+		{
+			list.add("Forcefield Range Upgrade");
+			list.add("Radius +16 / Consumption +500");
+			list.add("");
+			list.add("Stacks to 16");
+		}
+		
+		if(this == ModItems.upgrade_health)
+		{
+			list.add("Forcefield Health Upgrade");
+			list.add("Max. Health +50 / Consumption +250");
+			list.add("");
+			list.add("Stacks to 16");
+		}
+		
 		if(this == ModItems.entanglement_kit)
 		{
 			list.add("Teleporter crafting item.");

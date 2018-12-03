@@ -9,6 +9,7 @@ import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
@@ -111,6 +112,12 @@ public class AuxButtonPacket implements IMessage {
 						radio.freq = ((double)m.value) / 10D;
 						System.out.println("Radio is now " + radio.freq);
 					}
+				}
+				
+				if (te instanceof TileEntityForceField) {
+					TileEntityForceField field = (TileEntityForceField)te;
+					
+					field.isOn = !field.isOn;
 				}
 				
 			//} catch (Exception x) { }

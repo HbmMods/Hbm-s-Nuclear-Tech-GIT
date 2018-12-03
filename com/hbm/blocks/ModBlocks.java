@@ -511,6 +511,9 @@ public class ModBlocks {
 	public static Block radiorec;
 	public static final int guiID_radiorec = 69;
 
+	public static Block machine_forcefield;
+	public static final int guiID_forcefield = 75;
+
 	public static Block turret_light;
 	public static Block turret_heavy;
 	public static Block turret_rocket;
@@ -981,6 +984,8 @@ public class ModBlocks {
 		
 		radiobox = new Radiobox(Material.iron).setBlockName("radiobox").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":radiobox");
 		radiorec = new RadioRec(Material.iron).setBlockName("radiorec").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":radiorec");
+		
+		machine_forcefield = new MachineForceField(Material.iron).setBlockName("machine_forcefield").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_forcefield");
 
 		cheater_virus = new CheaterVirus(Material.iron).setBlockName("cheater_virus").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus");
 		cheater_virus_seed = new CheaterVirusSeed(Material.iron).setBlockName("cheater_virus_seed").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":cheater_virus_seed");
@@ -1365,6 +1370,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_satlinker, machine_satlinker.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_telelinker, machine_telelinker.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_keyforge, machine_keyforge.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_forcefield, machine_forcefield.getUnlocalizedName());
 		GameRegistry.registerBlock(radiorec, radiorec.getUnlocalizedName());
 		GameRegistry.registerBlock(radiobox, radiobox.getUnlocalizedName());
 		

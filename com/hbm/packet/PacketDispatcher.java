@@ -75,6 +75,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(RadSurveyPacket.Handler.class, RadSurveyPacket.class, i++, Side.CLIENT);
 		//Entity sound packet that keeps client and server separated
 		wrapper.registerMessage(LoopedEntitySoundPacket.Handler.class, LoopedEntitySoundPacket.class, i++, Side.CLIENT);
+		//Entity sound packet that keeps client and server separated
+		wrapper.registerMessage(TEFFPacket.Handler.class, TEFFPacket.class, i++, Side.CLIENT);
 	}
 	
 }

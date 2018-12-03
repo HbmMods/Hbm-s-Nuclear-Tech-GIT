@@ -30,6 +30,7 @@ import com.hbm.tileentity.machine.TileEntityCrateIron;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
+import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
@@ -748,6 +749,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_forcefield:
+			{
+				if(entity instanceof TileEntityForceField)
+				{
+					return new ContainerForceField(player.inventory, (TileEntityForceField) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1412,6 +1422,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineTurbine)
 					{
 						return new GUIMachineTurbine(player.inventory, (TileEntityMachineTurbine) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_forcefield:
+				{
+					if(entity instanceof TileEntityForceField)
+					{
+						return new GUIForceField(player.inventory, (TileEntityForceField) entity);
 					}
 					return null;
 				}
