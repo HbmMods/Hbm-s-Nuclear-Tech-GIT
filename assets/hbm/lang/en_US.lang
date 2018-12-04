@@ -270,6 +270,8 @@ tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.turret_cheapo.name=Cheapo Gatling Sentry
 tile.machine_radar.name=Radar
 container.radar=Radar
+tile.machine_forcefield.name=Forcefield Emitter
+container.forceField=Forcefield Emitter
 tile.machine_satlinker.name=Satellite ID Manager
 container.satLinker=SatLink Device
 tile.machine_telelinker.name=Turret Telemetry Linker
@@ -848,6 +850,8 @@ item.upgrade_fortune_3.name=Purple Machine Upgrade Mk.III
 item.upgrade_afterburn_1.name=Pink Machine Upgrade Mk.I
 item.upgrade_afterburn_2.name=Pink Machine Upgrade Mk.II
 item.upgrade_afterburn_3.name=Pink Machine Upgrade Mk.III
+item.upgrade_radius.name=Teal Emitter Upgrade
+item.upgrade_health.name=Pink Emitter Upgrade
 
 item.fusion_core.name=Fusion Core
 item.energy_core.name=Makeshift Energy Core

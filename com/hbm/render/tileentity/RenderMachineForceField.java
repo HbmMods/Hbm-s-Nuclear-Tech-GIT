@@ -21,7 +21,7 @@ public class RenderMachineForceField extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.radar_body_tex);
+        bindTexture(ResourceManager.forcefield_base_tex);
         
         ResourceManager.radar_body.renderAll();
         
@@ -33,7 +33,7 @@ public class RenderMachineForceField extends TileEntitySpecialRenderer {
         
         int segments = (int)(16 + ff.radius * 0.125);
         
-        bindTexture(ResourceManager.universal);
+        bindTexture(ResourceManager.forcefield_top_tex);
 
         if(ff.isOn && ff.health > 0 && ff.power > 0 && ff.cooldown == 0) {
         	generateSphere(segments, segments * 2, ff.radius, ff.color);

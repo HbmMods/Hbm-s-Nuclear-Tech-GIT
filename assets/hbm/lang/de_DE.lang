@@ -257,6 +257,8 @@ tile.turret_cwis.name=Phalanx Mk-15 CIWS
 tile.turret_cheapo.name=Billigsdorfer Gatling-Geschütz
 tile.machine_radar.name=Radar
 container.radar=Radar
+tile.machine_forcefield.name=Kraftfeldgenerator
+container.forceField=Kraftfeldgenerator
 tile.machine_satlinker.name=Satelliten-ID-Manager
 container.satLinker=SatLink-Gerät
 tile.machine_telelinker.name=Geschütz-Telemetrie-Manager
@@ -848,6 +850,8 @@ item.upgrade_fortune_3.name=Lila Maschinenupgrade Mk.III
 item.upgrade_afterburn_1.name=Pinkes Maschinenupgrade Mk.I
 item.upgrade_afterburn_2.name=Pinkes Maschinenupgrade Mk.II
 item.upgrade_afterburn_3.name=Pinkes Maschinenupgrade Mk.III
+item.upgrade_radius.name=Türkises Emitterupgrade
+item.upgrade_health.name=Pinkes Emitterupgrade
 
 item.fusion_core.name=Fusionskern
 item.energy_core.name=Selbstgebauter Energiekern
