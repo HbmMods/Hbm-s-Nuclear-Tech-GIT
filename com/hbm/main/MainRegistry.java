@@ -328,6 +328,7 @@ import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityStructureMarker;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
+import com.hbm.tileentity.machinee.TileEntityMachineShredderLarge;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -741,6 +742,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityGeiger.class, "tileentity_geiger");
 		GameRegistry.registerTileEntity(TileEntityFF.class, "tileentity_forcefield");
 		GameRegistry.registerTileEntity(TileEntityForceField.class, "tileentity_machine_field");
+		GameRegistry.registerTileEntity(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

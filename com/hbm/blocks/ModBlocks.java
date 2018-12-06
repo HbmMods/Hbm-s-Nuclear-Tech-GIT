@@ -413,6 +413,9 @@ public class ModBlocks {
 	public static Block machine_shredder;
 	public static final int guiID_machine_shredder = 34;
 
+	public static Block machine_shredder_large;
+	public static final int guiID_machine_shredder_large = 76;
+
 	public static Block machine_combine_factory;
 	public static final int guiID_combine_factory = 35;
 
@@ -825,6 +828,7 @@ public class ModBlocks {
 		machine_diesel = new MachineDiesel(Material.iron).setBlockName("machine_diesel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 		machine_shredder = new MachineShredder(Material.iron).setBlockName("machine_shredder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_shredder_large = new MachineShredderLarge(Material.iron).setBlockName("machine_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 		machine_combine_factory = new MachineCMBFactory(Material.iron).setBlockName("machine_combine_factory").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
@@ -1357,6 +1361,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_boiler_electric_off, machine_boiler_electric_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_turbine, machine_turbine.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_shredder_large, machine_shredder_large.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_deuterium, machine_deuterium.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_well, machine_well.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_pumpjack, machine_pumpjack.getUnlocalizedName());

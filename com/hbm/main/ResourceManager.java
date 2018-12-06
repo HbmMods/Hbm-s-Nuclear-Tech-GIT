@@ -91,6 +91,11 @@ public class ResourceManager {
 	//Forcefield
 	public static final IModelCustom forcefield_top = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/forcefield_top.obj"));
 	
+	//Shredder
+	public static final IModelCustom shredder_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shredder_body.obj"));
+	public static final IModelCustom shredder_blade1 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shredder_blade1.obj"));
+	public static final IModelCustom shredder_blade2 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/shredder_blade2.obj"));
+	
 	//Bombs
 	public static final IModelCustom bomb_solinium = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/ufp.obj"));
 	public static final IModelCustom n2 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/n2.obj"));
