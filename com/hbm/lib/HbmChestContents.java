@@ -117,6 +117,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.rod_quad_pu240, 0, 1, 1, 3),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.hazmat_kit, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2) };
 
@@ -146,6 +147,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.powder_cobalt, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 60, 1, 1, 5),
+			new WeightedRandomChestContent(ModItems.hazmat_kit, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3) };
 

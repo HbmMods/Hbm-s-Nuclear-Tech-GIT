@@ -147,6 +147,11 @@ public class ModEventHandler
 				RadiationSavedData data = RadiationSavedData.getData(event.world);
 				RadEntitySavedData eData = RadEntitySavedData.getData(event.world);
 				
+				if(eData.worldObj == null) {
+					System.out.println("shit");
+					eData.worldObj = event.world;
+				}
+				
 				for(Object o : event.world.playerEntities) {
 					
 					EntityPlayer player = (EntityPlayer)o;
@@ -221,7 +226,8 @@ public class ModEventHandler
 							continue;
 						
 						if(eRad >= 1000) {
-							entity.attackEntityFrom(ModDamageSource.radiation, 1000);
+							if(entity.attackEntityFrom(ModDamageSource.radiation, 1000))
+								eData.setRadForEntity(entity, 0);
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));

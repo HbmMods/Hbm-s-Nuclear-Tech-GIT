@@ -136,8 +136,13 @@ public class GunRevolver extends Item {
 			if (this == ModItems.gun_revolver_schrabidium) {
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.schrabidiumShoot", 1.0F, 1.0F);
 			}
-			if (this == ModItems.gun_revolver_pip) {
+			if(this == ModItems.gun_revolver_pip ||
+					this == ModItems.gun_revolver_nopip ||
+					this == ModItems.gun_revolver_red) {
 				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 1.0F);
+			}
+			if (this == ModItems.gun_revolver_blackjack) {
+				p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShootAlt", 1.0F, 0.75F);
 			}
 
 			if (flag) {
@@ -265,6 +270,24 @@ public class GunRevolver extends Item {
 			list.add("Enemy is hit by boxcar.");
 			list.add("");
 			list.add("[LEGENDARY WEAPON]");
+		}
+		if (this == ModItems.gun_revolver_nopip) {
+			list.add("The 'No' stands for 'NoSQL'");
+			list.add("");
+			list.add("Ammo: .44 Magnum");
+			list.add("Damage: 25 - 35");
+		}
+		if (this == ModItems.gun_revolver_blackjack) {
+			list.add("Hol on-");
+			list.add("");
+			list.add("Ammo: .44 Magnum");
+			list.add("Damage: 35 - 45");
+		}
+		if (this == ModItems.gun_revolver_red) {
+			list.add("Explore the other-what?");
+			list.add("");
+			list.add("Ammo: .44 Magnum");
+			list.add("Damage: 100 - 105");
 		}
 	}
 

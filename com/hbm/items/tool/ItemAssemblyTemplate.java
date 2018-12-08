@@ -134,6 +134,8 @@ public class ItemAssemblyTemplate extends Item {
 		UPGRADE_PINK_I,
 		UPGRADE_PINK_II,
 		UPGRADE_PINK_III,
+		UPGRADE_RANGE,
+		UPGRADE_HEALTH,
 		FUSE,
 		REDCOIL_CAPACITOR,
 		TITANIUM_FILTER,
@@ -289,7 +291,8 @@ public class ItemAssemblyTemplate extends Item {
 		COMPONENT_EMITTER,
 		AMS_LIMITER,
 		AMS_EMITTER,
-		RADAR;
+		RADAR,
+		FORCEFIELD;
 		
 		//private final int value;
 		//private EnumAssemblyTemplate(int value) {
@@ -567,6 +570,10 @@ public class ItemAssemblyTemplate extends Item {
 		case UPGRADE_PINK_II:
 			return 300;
 		case UPGRADE_PINK_III:
+			return 500;
+		case UPGRADE_RANGE:
+			return 500;
+		case UPGRADE_HEALTH:
 			return 500;
 		case FUSE:
 			return 100;
@@ -880,6 +887,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 6000;
 		case RADAR:
 			return 300;
+		case FORCEFIELD:
+			return 1000;
         default:
         	return 100;
         }

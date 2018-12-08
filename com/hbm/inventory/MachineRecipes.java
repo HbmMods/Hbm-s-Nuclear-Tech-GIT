@@ -2670,6 +2670,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.powder_tungsten, 6));
 			list.add(new ItemStack(ModItems.ingot_desh, 4));
 			break;
+		case UPGRADE_RANGE:
+			list.add(new ItemStack(ModItems.upgrade_template, 1));
+			list.add(new ItemStack(Items.glowstone_dust, 6));
+			list.add(new ItemStack(ModItems.powder_diamond, 4));
+			break;
+		case UPGRADE_HEALTH:
+			list.add(new ItemStack(ModItems.upgrade_template, 1));
+			list.add(new ItemStack(Items.glowstone_dust, 6));
+			list.add(new ItemStack(ModItems.powder_titanium, 4));
+			break;
 		case FUSE:
 			list.add(new ItemStack(ModItems.plate_steel, 2));
 			list.add(new ItemStack(Blocks.glass_pane, 1));
@@ -3753,6 +3763,17 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_gold, 4));
 			list.add(new ItemStack(ModItems.coil_copper, 12));
 			break;
+		case FORCEFIELD:
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 8));
+			list.add(new ItemStack(ModItems.plate_desh, 4));
+			list.add(new ItemStack(ModItems.coil_gold_torus, 6));
+			list.add(new ItemStack(ModItems.coil_magnetized_tungsten, 12));
+			list.add(new ItemStack(ModItems.motor, 1));
+			list.add(new ItemStack(ModItems.upgrade_radius, 1));
+			list.add(new ItemStack(ModItems.upgrade_health, 1));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 1));
+			list.add(new ItemStack(ModBlocks.machine_transformer, 1));
+			break;
 		default:
 			list.add(new ItemStack(Items.stick));
 			break;
@@ -4104,6 +4125,12 @@ public class MachineRecipes {
 			break;
 		case UPGRADE_PINK_III:
 			output = new ItemStack(ModItems.upgrade_afterburn_3, 1);
+			break;
+		case UPGRADE_RANGE:
+			output = new ItemStack(ModItems.upgrade_radius, 1);
+			break;
+		case UPGRADE_HEALTH:
+			output = new ItemStack(ModItems.upgrade_health, 1);
 			break;
 		case FUSE:
 			output = new ItemStack(ModItems.fuse, 1);
@@ -4575,6 +4602,9 @@ public class MachineRecipes {
 			break;
 		case RADAR:
 			output = new ItemStack(ModBlocks.machine_radar, 1);
+			break;
+		case FORCEFIELD:
+			output = new ItemStack(ModBlocks.machine_forcefield, 1);
 			break;
 		default:
 			output = new ItemStack(Items.stick, 1);

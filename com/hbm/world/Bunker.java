@@ -299,6 +299,7 @@ public class Bunker extends WorldGenerator
 		{
 			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(3), (TileEntityChest)world.getTileEntity(x + 2, y + -24, z + 1), rand.nextInt(2)+ 6);
 		}
+		world.setBlock(x + 2, y + -23, z + 1, ModBlocks.geiger, 2, 3);
         world.setBlock(x + 3, y + -24, z + 1, Block2, 0, 3);
 		world.setBlock(x + 4, y + -24, z + 1, Block1, 0, 3);
 		world.setBlock(x + 11, y + -24, z + 1, Block1, 0, 3);
@@ -490,7 +491,8 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 11, y + -23, z + 13, Block1, 0, 3);
 		world.setBlock(x + 0, y + -23, z + 14, Block1, 0, 3);
 		world.setBlock(x + 1, y + -23, z + 14, Block1, 0, 3);
-		world.setBlock(x + 2, y + -23, z + 14, Block1, 0, 3);
+		//prevent geiger displacement
+		//world.setBlock(x + 2, y + -23, z + 14, Block1, 0, 3);
 		world.setBlock(x + 3, y + -23, z + 14, Block1, 0, 3);
 		world.setBlock(x + 4, y + -23, z + 14, Block3, 0, 3);
 		world.setBlock(x + 5, y + -23, z + 14, Block1, 0, 3);

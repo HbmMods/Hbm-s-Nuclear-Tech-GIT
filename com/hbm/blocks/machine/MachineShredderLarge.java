@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.tileentity.machinee.TileEntityMachineShredderLarge;
+import com.hbm.tileentity.machine.TileEntityMachineShredderLarge;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

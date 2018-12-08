@@ -1,4 +1,4 @@
-package com.hbm.tileentity.machinee;
+package com.hbm.tileentity.machine;
 
 import net.minecraft.tileentity.TileEntity;
 

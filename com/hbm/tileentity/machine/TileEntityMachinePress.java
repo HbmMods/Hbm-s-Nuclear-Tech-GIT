@@ -224,8 +224,13 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 			if(slots[0] != null && this.burnTime == 0 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) {
 				this.maxBurn = this.burnTime = TileEntityFurnace.getItemBurnTime(slots[0]) / 8;
 				slots[0].stackSize--;
-				if(slots[0].stackSize <= 0)
-					slots[0] = null;
+				if(slots[0].stackSize <= 0) {
+					
+					if(slots[0].getItem().getContainerItem() != null)
+						slots[0] = new ItemStack(slots[0].getItem().getContainerItem());
+					else
+						slots[0] = null;
+				}
 			}
 			
 			if(power >= maxPower / 3) {

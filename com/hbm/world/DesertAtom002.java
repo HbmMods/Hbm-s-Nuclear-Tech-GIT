@@ -1701,7 +1701,7 @@ public class DesertAtom002
 		world.setBlock(x + 22, y + 1, z + 14, Blocks.stone_brick_stairs, 4, 3);
 		world.setBlock(x + 23, y + 1, z + 14, Block1, 0, 3);
 		world.setBlock(x + 24, y + 1, z + 14, Block5, 0, 3);
-		world.setBlock(x + 29, y + 1, z + 14, Blocks.trapdoor, 4, 3);
+		world.setBlock(x + 29, y + 1, z + 14, Blocks.air, 0, 3);
 		world.setBlock(x + 30, y + 1, z + 14, Block1, 0, 3);
 		world.setBlock(x + 31, y + 1, z + 14, Blocks.vine, 2, 3);
 		world.setBlock(x + 36, y + 1, z + 14, Block9, 4, 3);
@@ -1762,7 +1762,7 @@ public class DesertAtom002
 		world.setBlock(x + 22, y + 1, z + 16, Blocks.stone_brick_stairs, 4, 3);
 		world.setBlock(x + 23, y + 1, z + 16, Block1, 0, 3);
 		world.setBlock(x + 24, y + 1, z + 16, Block9, 5, 3);
-		world.setBlock(x + 29, y + 1, z + 16, Blocks.trapdoor, 5, 3);
+		world.setBlock(x + 29, y + 1, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 30, y + 1, z + 16, Block1, 0, 3);
 		world.setBlock(x + 36, y + 1, z + 16, Block9, 4, 3);
 		world.setBlock(x + 37, y + 1, z + 16, Block1, 0, 3);
@@ -2182,7 +2182,7 @@ public class DesertAtom002
 		world.setBlock(x + 23, y + 2, z + 15, Block1, 0, 3);
 		world.setBlock(x + 24, y + 2, z + 15, Block9, 5, 3);
 		world.setBlock(x + 27, y + 2, z + 15, Blocks.web, 0, 3);
-		world.setBlock(x + 29, y + 2, z + 15, Blocks.trapdoor, 2, 3);
+		world.setBlock(x + 29, y + 2, z + 15, Blocks.air, 0, 3);
 		world.setBlock(x + 30, y + 2, z + 15, Block1, 0, 3);
 		world.setBlock(x + 31, y + 2, z + 15, Blocks.vine, 2, 3);
 		world.setBlock(x + 36, y + 2, z + 15, Blocks.stone_brick_stairs, 0, 3);

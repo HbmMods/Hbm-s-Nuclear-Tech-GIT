@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +19,7 @@ public class RadEntitySavedData extends WorldSavedData {
 	
 	public List<RadEntry> contaminated = new ArrayList();
 	
-    private World worldObj;
+    public World worldObj;
 
 	public RadEntitySavedData(String p_i2141_1_) {
 		super(p_i2141_1_);
@@ -33,7 +35,7 @@ public class RadEntitySavedData extends WorldSavedData {
     public float getRadFromEntity(Entity e) {
     	
     	for(int i = 0; i < contaminated.size(); i++) {
-    		if(contaminated.get(i).entID == e.getEntityId())
+    		if(new UUID(contaminated.get(i).hID, contaminated.get(i).lID).equals(e.getUniqueID()))
     			return contaminated.get(i).rad;
     	}
     	
@@ -46,14 +48,18 @@ public class RadEntitySavedData extends WorldSavedData {
     		return;
     	
     	for(int i = 0; i < contaminated.size(); i++) {
-    		if(contaminated.get(i).entID == e.getEntityId()) {
+    		if(new UUID(contaminated.get(i).hID, contaminated.get(i).lID).equals(e.getUniqueID())) {
     			contaminated.get(i).rad = rad;
+    			
+    			if(contaminated.get(i).rad > 2500)
+    				contaminated.get(i).rad = 2500;
+    			
     			this.markDirty();
     			return;
     		}
     	}
     	
-    	contaminated.add(new RadEntry(e.getEntityId(), rad));
+    	contaminated.add(new RadEntry(e.getUniqueID().getMostSignificantBits(), e.getUniqueID().getLeastSignificantBits(), rad));
     	
     	this.markDirty();
     }
@@ -69,7 +75,10 @@ public class RadEntitySavedData extends WorldSavedData {
 		
 		for(int i = 0; i < count; i++) {
 			
-	    	contaminated.add(new RadEntry(nbt.getInteger("entID_" + i), nbt.getFloat("cont_" + i)));
+			contaminated.add(new RadEntry(
+					nbt.getLong("uH_" + i),
+					nbt.getLong("uL_" + i),
+					nbt.getFloat("cont_" + i)));
 		}
 	}
 
@@ -80,8 +89,9 @@ public class RadEntitySavedData extends WorldSavedData {
 		int i = 0;
 		
 		for (RadEntry entry : contaminated) {
-
-			nbt.setInteger("entID_" + i, entry.entID);
+			
+			nbt.setLong("uH_" + i, entry.hID);
+			nbt.setLong("uL_" + i, entry.lID);
 			nbt.setFloat("cont_" + i, entry.rad);
 			
 			i++;
@@ -101,14 +111,15 @@ public class RadEntitySavedData extends WorldSavedData {
 	}
 	
 	public class RadEntry {
-	
-		int entID;
+
+		long hID;
+		long lID;
 		float rad;
 		
-		public RadEntry(int id, float rad) {
-			this.entID = id;
+		public RadEntry(long hID, long lID, float rad) {
+			this.hID = hID;
+			this.lID = lID;
 			this.rad = rad;
 		}
 	}
-
 }

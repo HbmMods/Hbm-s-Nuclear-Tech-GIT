@@ -25,10 +25,9 @@ public class ItemStarterKit extends Item {
     public ItemStarterKit()
     {
         this.maxStackSize = 1;
-        this.setMaxDamage(1);
     }
     
-    private void giveHaz(World world, EntityPlayer p) {
+    private void giveHaz(World world, EntityPlayer p, int tier) {
     	
     	for(int i = 0; i < 4; i++) {
     		
@@ -37,10 +36,26 @@ public class ItemStarterKit extends Item {
     		}
     	}
 
-    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet);
-    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate);
-    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs);
-    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots);
+    	switch(tier) {
+    	case 0:
+	    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet);
+	    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate);
+	    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs);
+	    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots);
+	    	break;
+    	case 1:
+	    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet_red);
+	    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate_red);
+	    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs_red);
+	    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots_red);
+	    	break;
+    	case 2:
+	    	p.inventory.armorInventory[3] = new ItemStack(ModItems.hazmat_helmet_grey);
+	    	p.inventory.armorInventory[2] = new ItemStack(ModItems.hazmat_plate_grey);
+	    	p.inventory.armorInventory[1] = new ItemStack(ModItems.hazmat_legs_grey);
+	    	p.inventory.armorInventory[0] = new ItemStack(ModItems.hazmat_boots_grey);
+	    	break;
+    	}
     }
 	
 	@Override
@@ -96,7 +111,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_chemplant, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_small, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.stamp_titanium_flat, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.stamp_titanium_flat, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.stamp_titanium_flat, 1));
@@ -106,7 +123,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_m65, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 1);
 		}
 		
 		if(this == ModItems.nuke_advanced_kit)
@@ -167,6 +184,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_furnace_off, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_small, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_radgen, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_grey, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_assembler, 3));
@@ -181,14 +199,15 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_empty, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_full, 4, FluidType.COOLANT.getID()));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_strong, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tritium_deuterium_cake, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.survey_scanner, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gas_mask_m65, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 2);
 		}
 		
 		if(this == ModItems.nuke_commercially_kit)
@@ -237,6 +256,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_furnace_off, 3));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_rtg_grey, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_reactor_small, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_turbine, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_lithium_battery, 4));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 32));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_wire_coated, 8));
@@ -249,11 +269,13 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pellet_rtg_weak, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway, 4));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_strong, 8));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radaway_flush, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.radx, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.pill_iodine, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 2);
 		}
 
 		if(this == ModItems.nuke_electric_kit)
@@ -324,7 +346,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_wireing, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gadget_core, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 0);
 		}
 		
 		if(this == ModItems.boy_kit)
@@ -336,7 +358,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.boy_propellant, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.boy_igniter, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 0);
 		}
 		
 		if(this == ModItems.man_kit)
@@ -349,7 +371,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_igniter, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_core, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 0);
 		}
 		
 		if(this == ModItems.mike_kit)
@@ -364,7 +386,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.mike_deut, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.mike_cooling_unit, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 0);
 		}
 		
 		if(this == ModItems.tsar_kit)
@@ -377,7 +399,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.man_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.tsar_core, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 0);
 		}
 		
 		if(this == ModItems.multi_kit)
@@ -462,7 +484,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fleija_core, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.fleija_core, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 2);
 		}
 		
 		if(this == ModItems.solinium_kit)
@@ -478,7 +500,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_propellant, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.solinium_core, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 1);
 		}
 		
 		if(this == ModItems.prototype_kit)
@@ -497,7 +519,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.rod_quad_uranium, 1));
 			
-			giveHaz(world, player);
+			giveHaz(world, player, 2);
 		}
 		
 		if(this == ModItems.missile_kit)
@@ -564,7 +586,17 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.hazmat_kit)
 		{
-			giveHaz(world, player);
+			giveHaz(world, player, 0);
+		}
+		
+		if(this == ModItems.hazmat_red_kit)
+		{
+			giveHaz(world, player, 1);
+		}
+		
+		if(this == ModItems.hazmat_grey_kit)
+		{
+			giveHaz(world, player, 2);
 		}
 		
 		if(this == ModItems.letter && world.isRemote)

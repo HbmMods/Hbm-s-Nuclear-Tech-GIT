@@ -443,7 +443,8 @@ public class DesertAtom003
 		world.setBlock(x + 33, y + 4, z + 9, Blocks.redstone_wire, 0, 3);
 		world.setBlock(x + 34, y + 4, z + 9, Blocks.redstone_wire, 0, 3);
 		world.setBlock(x + 35, y + 4, z + 9, Block12, 0, 3);
-		world.setBlock(x + 36, y + 4, z + 9, Blocks.chest, 3, 3);
+		world.setBlock(x + 35, y + 5, z + 9, ModBlocks.geiger, 2, 3);
+		world.setBlock(x + 36, y + 4, z + 9, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 36, y + 4, z + 9) == Blocks.chest)
 		{
 			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(5), (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);

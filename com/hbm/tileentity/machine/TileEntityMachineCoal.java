@@ -274,7 +274,10 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			slots[1].stackSize -= 1;
 			if(slots[1].stackSize == 0)
 			{
-				slots[1] = null;
+				if(slots[1].getItem().getContainerItem() != null)
+					slots[1] = new ItemStack(slots[1].getItem().getContainerItem());
+				else
+					slots[1] = null;
 			}
 		}
 		

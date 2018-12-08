@@ -125,7 +125,7 @@ public class BlockMush extends Block implements IGrowable {
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         this.checkAndDropBlock(world, x, y, z);
-    	if(world.getBlock(x, y - 1, z) == ModBlocks.waste_earth && rand.nextInt(5) == 0 && MainRegistry.enableMycelium)
+    	if(world.getBlock(x, y - 1, z) == ModBlocks.waste_earth && rand.nextInt(5) == 0)
     	{
     		world.setBlock(x, y - 1, z, ModBlocks.waste_mycelium);
     	}

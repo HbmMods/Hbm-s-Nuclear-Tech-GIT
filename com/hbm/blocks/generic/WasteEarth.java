@@ -132,7 +132,7 @@ public class WasteEarth extends Block {
         	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
         }
     	
-    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0 && MainRegistry.enableMycelium)
+    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(1000) == 0)
     	{
     		Block b0;
     		int count = 0;

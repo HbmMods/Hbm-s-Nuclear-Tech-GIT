@@ -294,11 +294,10 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 	}
 	
 	private int impact(Entity e) {
-		Vec3 vector = Vec3.createVectorHelper(e.motionX, e.motionY, e.motionZ);
 		
-		double mass = Math.pow(e.height * e.width * e.width, 2);
-		double speed = vector.lengthVector();
-		return (int)(mass * speed * 100);
+		double mass = e.height * e.width * e.width;
+		double speed = getMotionWithFallback(e);
+		return (int)(mass * speed * 50);
 	}
 	
 	private void damage(int ouch) {
@@ -415,6 +414,23 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 				}
 			}
 		}
+	}
+	
+	private double getMotionWithFallback(Entity e) {
+
+		Vec3 v1 = Vec3.createVectorHelper(e.motionX, e.motionY, e.motionZ);
+		Vec3 v2 = Vec3.createVectorHelper(e.posX - e.prevPosY, e.posY - e.prevPosY, e.posZ - e.prevPosZ);
+
+		double s1 = v1.lengthVector();
+		double s2 = v2.lengthVector();
+		
+		if(s1 == 0)
+			return s2;
+		
+		if(s2 == 0)
+			return s1;
+		
+		return Math.min(s1, s2);
 	}
 
 

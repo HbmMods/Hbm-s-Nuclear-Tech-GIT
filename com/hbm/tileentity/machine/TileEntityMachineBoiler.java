@@ -274,8 +274,13 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 				burnTime = (int) (TileEntityFurnace.getItemBurnTime(slots[4]) * 0.25);
 				slots[4].stackSize--;
 				
-				if(slots[4].stackSize <= 0)
-					slots[4] = null;
+				if(slots[4].stackSize <= 0) {
+					
+					if(slots[4].getItem().getContainerItem() != null)
+						slots[4] = new ItemStack(slots[4].getItem().getContainerItem());
+					else
+						slots[4] = null;
+				}
 				
 				if(!flag1) {
 					mark = true;
