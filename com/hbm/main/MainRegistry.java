@@ -1768,10 +1768,10 @@ public class MainRegistry
         Property propBlastSpeed = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 1024);
         propBlastSpeed.comment = "Base speed of all detonations (Blocks / tick)";
         blastSpeed = propBlastSpeed.getInt();
-        Property propFalloutRange = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 100);
+        Property propFalloutRange = config.get(Configuration.CATEGORY_GENERAL, "6.02_falloutRange", 100);
         propFalloutRange.comment = "Radius of fallout area (base radius * value in percent)";
         falloutRange = propFalloutRange.getInt();
-        Property propFalloutDura = config.get(Configuration.CATEGORY_GENERAL, "6.01_blastSpeed", 100);
+        Property propFalloutDura = config.get(Configuration.CATEGORY_GENERAL, "6.03_falloutDuration", 100);
         propFalloutDura.comment = "Duration of fallout (base duration * value in percent)";
         falloutDura = propFalloutDura.getInt();
 

@@ -148,7 +148,6 @@ public class ModEventHandler
 				RadEntitySavedData eData = RadEntitySavedData.getData(event.world);
 				
 				if(eData.worldObj == null) {
-					System.out.println("shit");
 					eData.worldObj = event.world;
 				}
 				

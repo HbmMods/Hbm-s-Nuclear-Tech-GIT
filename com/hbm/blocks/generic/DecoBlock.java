@@ -44,7 +44,7 @@ public class DecoBlock extends BlockContainer {
 	
 	@Override
 	public int getRenderType(){
-		return -1;
+		return 334078;
 	}
 	
 	@Override

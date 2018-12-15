@@ -54,7 +54,7 @@ public class BlockReactor extends Block {
 		}
 		if(this == ModBlocks.fusion_heater)
 		{
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_tungsten");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fusion_heater_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fusion_heater_side");
 		}
 		if(this == ModBlocks.factory_titanium_conductor)

@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
+import com.hbm.tileentity.bomb.TileEntityNukeN45;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -28,7 +29,10 @@ public class RenderNukeN45 extends TileEntitySpecialRenderer {
         		ResourceManager.n45_stand.renderAll();
         	}
         	
-        	double d = /*0;*/ Math.sin((System.currentTimeMillis() % (1000* Math.PI)) / 500D) * 0.175 + 0.175;
+        	double d = 0.25;
+        	
+        	if(((TileEntityNukeN45)tileEntity).primed)
+        		d /= 4D;
         
             GL11.glTranslated(0, standing ? 1D : 0.5D, 0);
 

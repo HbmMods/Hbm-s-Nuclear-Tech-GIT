@@ -34,6 +34,7 @@ public class MachineDiFurnace extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
 	public MachineDiFurnace(boolean blockState) {

@@ -3,6 +3,7 @@ package com.hbm.packet;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.deco.TileEntityBomber;
@@ -202,6 +203,11 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityNukeCustom nuke = (TileEntityNukeCustom)te;
 					
 					nuke.falls = m.value == 1;
+				}
+				if (te instanceof TileEntityNukeN45) {
+					TileEntityNukeN45 nuke = (TileEntityNukeN45)te;
+					
+					nuke.primed = m.value == 1;
 				}
 				
 			} catch (Exception x) {}

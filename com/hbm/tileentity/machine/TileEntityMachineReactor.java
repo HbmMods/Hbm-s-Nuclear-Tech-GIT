@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.machine.MachineDiFurnace;
+import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 
@@ -365,6 +367,7 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 			if(trigger)
             {
                 flag1 = true;
+                MachineReactor.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
 		}
 		

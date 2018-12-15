@@ -73,7 +73,7 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
     
 	@Override
 	public String getRecipeName() {
-		return "Assembler";
+		return "Assembly Machine";
 	}
 
 	@Override

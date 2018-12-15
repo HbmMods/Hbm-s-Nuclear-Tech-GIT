@@ -28,30 +28,32 @@ import net.minecraft.world.World;
 public class MachineReactor extends BlockContainer {
 
 	private final Random field_149933_a = new Random();
-	private Random rand;
+	private final boolean isActive;
+	private static boolean keepInventory;
 	
 	@SideOnly(Side.CLIENT)
-	//private IIcon iconFront;
 	private IIcon iconTop;
-	private IIcon iconBottom;
+	@SideOnly(Side.CLIENT)
+	private IIcon iconFront;
 
-    public MachineReactor(Material p_i45386_1_) {
-		super(p_i45386_1_);
+
+	public MachineReactor(boolean blockState) {
+		super(Material.iron);
+		isActive = blockState;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":reactor_top"));
-		//this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (":reactor_front"));
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":block_lead"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":reactor_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_reactor_decal");
+		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_reactor_front_on" : ":machine_reactor_front_off"));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_reactor_top");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconBottom : this.blockIcon);
+		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : (side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon)));
 	}
 	
 	@Override
@@ -146,11 +148,32 @@ public class MachineReactor extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityMachineReactor();
 	}
+
+	public static void updateBlockState(boolean isProcessing, World world, int x, int y, int z) {
+		int i = world.getBlockMetadata(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
+		keepInventory = true;
+		
+		if(isProcessing)
+		{
+			world.setBlock(x, y, z, ModBlocks.machine_reactor_on);
+		}else{
+			world.setBlock(x, y, z, ModBlocks.machine_reactor);
+		}
+		
+		keepInventory = false;
+		world.setBlockMetadataWithNotify(x, y, z, i, 2);
+		
+		if(entity != null) {
+			entity.validate();
+			world.setTileEntity(x, y, z, entity);
+		}
+	}
 	
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
-        if (true)
+        if (!keepInventory)
         {
         	TileEntityMachineReactor tileentityfurnace = (TileEntityMachineReactor)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
@@ -197,5 +220,12 @@ public class MachineReactor extends BlockContainer {
         }
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+    }
+
+    @Override
+	@SideOnly(Side.CLIENT)
+    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+    {
+        return Item.getItemFromBlock(ModBlocks.machine_reactor);
     }
 }

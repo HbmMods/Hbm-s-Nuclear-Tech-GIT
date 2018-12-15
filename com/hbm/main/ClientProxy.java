@@ -40,8 +40,9 @@ public class ClientProxy extends ServerProxy
 		MinecraftForge.EVENT_BUS.register(new ModEventHandlerClient());
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
-		
+
 		RenderingRegistry.registerBlockHandler(new RenderTaintBlock());
+		RenderingRegistry.registerBlockHandler(new RenderRoofBlock());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestRender.class, new RenderTestRender());
 		

@@ -83,7 +83,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 				explosion.processTip(1024);
 		} else if(fallout) {
 			
-			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 0.9) * 2 * MainRegistry.falloutDura / 100);
+			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 0.9) * 2 * MainRegistry.falloutDura / 10);
 			fallout.posX = this.posX;
 			fallout.posY = this.posY;
 			fallout.posZ = this.posZ;

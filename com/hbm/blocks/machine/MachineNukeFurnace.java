@@ -33,6 +33,8 @@ public class MachineNukeFurnace extends BlockContainer {
 	private static boolean keepInventory;
 	
 	@SideOnly(Side.CLIENT)
+	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
 
 	public MachineNukeFurnace(boolean blockState) {
@@ -44,14 +46,15 @@ public class MachineNukeFurnace extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_nuke_furnace_front_on" : ":machine_nuke_furnace_front_off"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_steel");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_nuke_furnace_base_alt");
+		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_nuke_furnace_front_on_alt" : ":machine_nuke_furnace_front_off_alt"));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_nuke_furnace_side_alt");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
+		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : (side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon)));
 	}
 	
 	@Override
@@ -228,7 +231,7 @@ public class MachineNukeFurnace extends BlockContainer {
         {
             int l = p_149734_1_.getBlockMetadata(x, y, z);
             float f = x + 0.5F;
-            float f1 = y + 0.0F + rand.nextFloat() * 6.0F / 16.0F;
+            float f1 = y + 0.25F + rand.nextFloat() * 6.0F / 16.0F;
             float f2 = z + 0.5F;
             float f3 = 0.52F;
             float f4 = rand.nextFloat() * 0.6F - 0.3F;
