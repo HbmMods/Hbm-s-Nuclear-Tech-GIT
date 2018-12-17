@@ -102,13 +102,17 @@ public class TEMissilePacket implements IMessage {
 		
 		@Override
 		public IMessage onMessage(TEMissilePacket m, MessageContext ctx) {
-			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-			if (te != null && te instanceof TileEntityLaunchPad) {
-					
-				TileEntityLaunchPad gen = (TileEntityLaunchPad)te;
-				gen.state = m.type;
-			}
+			
+			try {
+				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
+	
+				if (te != null && te instanceof TileEntityLaunchPad) {
+						
+					TileEntityLaunchPad gen = (TileEntityLaunchPad)te;
+					gen.state = m.type;
+				}
+			} catch(Exception e) { }
+			
 			return null;
 		}
 	}

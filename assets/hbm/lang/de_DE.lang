@@ -624,6 +624,27 @@ item.mechanism_rifle_2.name=Fortgeschrittener Gewehmechanismus
 item.mechanism_launcher_1.name=Werfermechanismus
 item.mechanism_launcher_2.name=Fortgeschrittener Werfermechanismus
 item.mechanism_special.name=High-Tech Waffenmechanismus
+item.primer_357.name=.357 Magnum-Zündhütchen (x16)
+item.primer_44.name=.44 Magnum-Zündhütchen (x16)
+item.primer_9.name=Kleinkaliber-Zündhütchen (x24)
+item.primer_50.name=Großkaliber-Zündhütchen (x8)
+item.primer_buckshot.name=Schrot-Zündhütchen (x8)
+item.casing_357.name=.357 Magnum-Hülse (x16)
+item.casing_44.name=.44 Magnum-Hülse (x16)
+item.casing_9.name=Kleinkaliberhülse (x24)
+item.casing_50.name=Großkaliberhülse (x8)
+item.casing_buckshot.name=Schrothülse (x8)
+item.assembly_iron.name=Eisenpatronensatz
+item.assembly_steel.name=Bleipatronensatz
+item.assembly_lead.name=Glaspatronensatz
+item.assembly_gold.name=Goldpatronensatz
+item.assembly_schrabidium.name=Schrabidiumpatronensatz
+item.assembly_nightmare.name=Nightmare-Patronensatz
+item.assembly_pip.name=Verdorbener .44er Patronensatz
+item.assembly_nopip.name=.44er Patronensatz
+item.assembly_smg.name=9mm Patronensatz
+item.assembly_uzi.name=.22LR Patronensatz
+item.assembly_calamity.name=.50 BMG Patronensatz
 
 item.piston_selenium.name=Sternmotorenkolben
 

@@ -303,6 +303,7 @@ public class ModItems {
 	public static Item assembly_lead;
 	public static Item assembly_gold;
 	public static Item assembly_schrabidium;
+	public static Item assembly_nightmare;
 	public static Item assembly_pip;
 	public static Item assembly_nopip;
 	public static Item assembly_smg;
@@ -1767,6 +1768,7 @@ public class ModItems {
 		assembly_lead = new Item().setUnlocalizedName("assembly_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lead");
 		assembly_gold = new Item().setUnlocalizedName("assembly_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_gold");
 		assembly_schrabidium = new Item().setUnlocalizedName("assembly_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_schrabidium");
+		assembly_nightmare = new Item().setUnlocalizedName("assembly_nightmare").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nightmare");
 		assembly_pip = new Item().setUnlocalizedName("assembly_pip").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_pip");
 		assembly_nopip = new Item().setUnlocalizedName("assembly_nopip").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nopip");
 		assembly_smg = new Item().setUnlocalizedName("assembly_smg").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_smg");
@@ -3167,6 +3169,7 @@ public class ModItems {
 		GameRegistry.registerItem(assembly_lead, assembly_lead.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_gold, assembly_gold.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_schrabidium, assembly_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_nightmare, assembly_nightmare.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_pip, assembly_pip.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_nopip, assembly_nopip.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_smg, assembly_smg.getUnlocalizedName());

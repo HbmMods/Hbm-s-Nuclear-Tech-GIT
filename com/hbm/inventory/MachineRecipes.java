@@ -639,6 +639,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.gun_revolver_gold_ammo);
 			if(input.getItem() == ModItems.assembly_schrabidium)
 				return new ItemStack(ModItems.gun_revolver_schrabidium_ammo);
+			if(input.getItem() == ModItems.assembly_nightmare)
+				return new ItemStack(ModItems.gun_revolver_nightmare_ammo);
 
 			if(mODE(input, "ingotSteel"))
 				return new ItemStack(ModItems.gun_revolver_cursed_ammo);
@@ -658,6 +660,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.gun_mp40_ammo);
 			if(input.getItem() == ModItems.assembly_uzi)
 				return new ItemStack(ModItems.gun_uzi_ammo);
+			if(mODE(input, "ingotGold"))
+				return new ItemStack(ModItems.gun_mp_ammo);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_50) {
@@ -731,12 +735,14 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_gold) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_gold));
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_schrabidium) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_schrabidium));
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.ingot_steel) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.ingot_steel));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_nightmare) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_nightmare));
 
 		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_nopip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_nopip));
 		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_pip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_pip));
 
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_smg) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_smg));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_uzi) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_uzi));
+		recipes.put(new Object[] { i_stamps_9, new ItemStack(Items.gold_ingot) }, getPressResultNN(i_stamps_9.get(0).getItem(), Items.gold_ingot));
 		
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_calamity) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_calamity));
 		

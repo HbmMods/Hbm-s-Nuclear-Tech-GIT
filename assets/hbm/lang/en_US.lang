@@ -642,6 +642,7 @@ item.assembly_steel.name=Lead Bullet Assembly
 item.assembly_lead.name=Glass Bullet Assembly
 item.assembly_gold.name=Gold Bullet Assembly
 item.assembly_schrabidium.name=Schrabidium Bullet Assembly
+item.assembly_nightmare.name=Nightmare Bullet Assembly
 item.assembly_pip.name=Tainted Bullet Assembly
 item.assembly_nopip.name=.44 Magnum Assembly
 item.assembly_smg.name=9mm Assembly

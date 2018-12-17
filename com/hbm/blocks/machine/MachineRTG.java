@@ -41,28 +41,7 @@ public class MachineRTG extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		
-		String s;
-		//if(this == ModBlocks.machine_rtg_blue)
-		//	s = "blue";
-		/*else*/ if(this == ModBlocks.machine_rtg_cyan)
-			s = "cyan";
-		//else if(this == ModBlocks.machine_rtg_green)
-		//	s = "green";
-		else if(this == ModBlocks.machine_rtg_grey)
-			s = "grey";
-		//else if(this == ModBlocks.machine_rtg_orange)
-		//	s = "orange";
-		//else if(this == ModBlocks.machine_rtg_purple)
-		//	s = "purple";
-		//else if(this == ModBlocks.machine_rtg_red)
-		//	s = "red";
-		//else if(this == ModBlocks.machine_rtg_yellow)
-		//	s = "yellow";
-		else 
-			s = "null";
-		
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":machine_rtg_top"));
-		//this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (":reactor_front"));
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":red_wire_coated"));
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_rtg_furnace_base_alt");
 	}

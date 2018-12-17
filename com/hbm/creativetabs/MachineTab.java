@@ -18,7 +18,7 @@ public class MachineTab extends CreativeTabs {
 		
 		if(ModBlocks.machine_generator != null)
 		{
-			return Item.getItemFromBlock(ModBlocks.machine_generator);
+			return Item.getItemFromBlock(ModBlocks.machine_rtg_grey);
 		}
 		
 		return Items.iron_pickaxe;
