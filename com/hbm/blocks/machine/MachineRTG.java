@@ -61,10 +61,10 @@ public class MachineRTG extends BlockContainer {
 		else 
 			s = "null";
 		
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":machine_rtg_top_" + s));
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":machine_rtg_top"));
 		//this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (":reactor_front"));
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":red_wire_coated"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_rtg_side_" + s);
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_rtg_furnace_base_alt");
 	}
 	
 	@Override

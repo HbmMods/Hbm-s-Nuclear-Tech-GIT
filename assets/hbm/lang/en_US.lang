@@ -233,6 +233,7 @@ container.nukePrototype=The Prototype
 container.nukeCustom=Custom Nuke
 container.nukeSolinium=The Blue Rinse
 container.nukeN2=N² Mine
+container.nukeN45=N45 Naval Mine
 
 container.bombMulti=Multi Purpose Bomb
 
@@ -246,6 +247,7 @@ tile.nuke_prototype.name=The Prototype
 tile.nuke_custom.name=Custom Nuke
 tile.nuke_solinium.name=The Blue Rinse
 tile.nuke_n2.name=N² Mine
+tile.nuke_n45.name=N45 Naval Mine
 
 tile.bomb_multi.name=Multi Purpose Bomb
 tile.rejuvinator.name=Rejuvination Device
@@ -625,6 +627,27 @@ item.mechanism_launcher_1.name=Launcher Mechanism
 item.mechanism_launcher_2.name=Advanced Launcher Mechanism
 item.mechanism_special.name=High-Tech Weapon Mechanism
 
+item.primer_357.name=.357 Magnum Primer (x16)
+item.primer_44.name=.44 Magnum Primer (x16)
+item.primer_9.name=Small Caliber Primer (x24)
+item.primer_50.name=Large Caliber Primer (x8)
+item.primer_buckshot.name=Buckshot Primer (x8)
+item.casing_357.name=.357 Magnum Casing (x16)
+item.casing_44.name=.44 Magnum Casing (x16)
+item.casing_9.name=Small Caliber Casing (x24)
+item.casing_50.name=Large Caliber Casing (x8)
+item.casing_buckshot.name=Buckshot Casing (x8)
+item.assembly_iron.name=Iron Bullet Assembly
+item.assembly_steel.name=Lead Bullet Assembly
+item.assembly_lead.name=Glass Bullet Assembly
+item.assembly_gold.name=Gold Bullet Assembly
+item.assembly_schrabidium.name=Schrabidium Bullet Assembly
+item.assembly_pip.name=Tainted Bullet Assembly
+item.assembly_nopip.name=.44 Magnum Assembly
+item.assembly_smg.name=9mm Assembly
+item.assembly_uzi.name=.22LR Assembly
+item.assembly_calamity.name=.50 BMG Assembly
+
 item.piston_selenium.name=Radial Engine Piston
 
 tile.block_aluminium.name=Block of Aluminium
@@ -703,6 +726,7 @@ tile.reinforced_light.name=Reinforced Glowstone
 tile.reinforced_lamp_off.name=Reinforced Lamp
 tile.reinforced_lamp_on.name=Reinforced Lamp
 
+tile.concrete.name=Concrete
 tile.brick_concrete.name=Concrete Bricks
 tile.brick_obsidian.name=Obsidian Bricks
 tile.brick_light.name=Light Bricks
@@ -1746,6 +1770,10 @@ item.stamp_schrabidium_flat.name=Flat Stamp (Schrabidium)
 item.stamp_schrabidium_plate.name=Plate Stamp (Schrabidium)
 item.stamp_schrabidium_wire.name=Wire Stamp (Schrabidium)
 item.stamp_schrabidium_circuit.name=Circuit Stamp (Schrabidium)
+item.stamp_357.name=.357 Magnum Stamp
+item.stamp_44.name=.44 Magnum Stamp
+item.stamp_9.name=Small Caliber Stamp
+item.stamp_50.name=Large Caliber Stamp
 
 item.part_lithium.name=Box of Lithium Dust
 item.part_beryllium.name=Box of Beryllium Dust

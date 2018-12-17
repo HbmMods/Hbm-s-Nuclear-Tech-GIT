@@ -19,6 +19,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -45,7 +46,7 @@ public class NukeN45 extends BlockContainer implements IBomb {
     {
         if (!keepInventory)
         {
-        	TileEntityNukeN2 tileentityfurnace = (TileEntityNukeN2)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	ISidedInventory tileentityfurnace = (ISidedInventory)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (tileentityfurnace != null)
             {
@@ -133,6 +134,15 @@ public class NukeN45 extends BlockContainer implements IBomb {
 
 	@Override
 	public void explode(World world, int x, int y, int z) {
+
+		TileEntityNukeN45 entity = (TileEntityNukeN45) world.getTileEntity(x, y, z);
 		
+		if(entity.getType() == 100) {
+			entity.primed = true;
+		} else if(!entity.primed && entity.getType() > 0) {
+			int t = entity.getType();
+			entity.clearSlots();
+			entity.explode(world, x, y, z, t);
+		}
 	}
 }

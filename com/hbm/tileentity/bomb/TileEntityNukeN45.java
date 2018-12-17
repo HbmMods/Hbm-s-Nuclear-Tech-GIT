@@ -3,13 +3,18 @@ package com.hbm.tileentity.bomb;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,6 +23,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -189,8 +195,6 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 		
 		if(!worldObj.isRemote) {
 			
-			primed = true;
-			
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, primed ? 1 : 0, 0));
 			
 			if(primed) {
@@ -211,14 +215,21 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 						rad = 15;
 				}
 				
+				if(rad == 0) {
+					primed = false;
+					return;
+				}
+				
 				List<Object> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - rad, yCoord + 0.5 - rad, zCoord + 0.5 - rad, xCoord + 0.5 + rad, yCoord + 0.5 + rad, zCoord + 0.5 + rad));
 				
 				for(Object o : list) {
 					
 					Entity e  = (Entity)o;
 					
-					if(e.width * e.width * e.height >= 1.5) {
-						explode(worldObj, xCoord, yCoord, zCoord, getType());
+					if(e instanceof EntityLivingBase && e.width * e.width * e.height >= 0.5 && !((EntityLivingBase)e).isPotionActive(Potion.invisibility.id)) {
+						int t = getType();
+						this.clearSlots();
+						explode(worldObj, xCoord, yCoord, zCoord, t);
 						break;
 					}
 				}
@@ -229,9 +240,43 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 	
 	public static void explode(World world, int x, int y, int z, int type) {
 		
+		if(!world.isRemote) {
+			world.setBlockToAir(x, y, z);
+			
+			System.out.println(type);
+			
+			switch(type) {
+			case 1:
+				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 1.5F, true);
+				break;
+			case 2:
+		        world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 4.0F, true);
+				break;
+			case 3:
+				ExplosionLarge.explode(world, x, y, z, 15, true, false, false);
+				break;
+			case 4:
+				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(MainRegistry.missileRadius * 0.75F), x + 0.5, y + 0.5, z + 0.5));
+	
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, MainRegistry.missileRadius * 0.005F * 0.75F);
+				entity2.posX = x;
+				entity2.posY = y;
+				entity2.posZ = z;
+				world.spawnEntityInWorld(entity2);
+				break;
+			}
+		}
 	}
 	
 	public int getType() {
+		
+		if(!primed && slots[1] != null) {
+			
+			if(slots[1].getItem() == ModItems.upgrade_effect_1 ||
+					slots[1].getItem() == ModItems.upgrade_effect_2 ||
+					slots[1].getItem() == ModItems.upgrade_effect_3)
+				return 100;
+		}
 		
 		if(slots[0] != null) {
 
@@ -243,14 +288,6 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 				return 3;
 			if(slots[0].getItem() == Item.getItemFromBlock(ModBlocks.det_nuke))
 				return 4;
-		}
-		
-		if(!primed && slots[1] != null) {
-			
-			if(slots[1].getItem() == ModItems.upgrade_effect_1 ||
-					slots[1].getItem() == ModItems.upgrade_effect_2 ||
-					slots[1].getItem() == ModItems.upgrade_effect_3)
-				return 100;
 		}
 		
 		return 0;

@@ -627,6 +627,45 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.circuit_aluminium);
 		}
 		
+		if(stamp.getItem() == ModItems.stamp_357) {
+
+			if(input.getItem() == ModItems.assembly_iron)
+				return new ItemStack(ModItems.gun_revolver_iron_ammo);
+			if(input.getItem() == ModItems.assembly_steel)
+				return new ItemStack(ModItems.gun_revolver_ammo);
+			if(input.getItem() == ModItems.assembly_lead)
+				return new ItemStack(ModItems.gun_revolver_lead_ammo);
+			if(input.getItem() == ModItems.assembly_gold)
+				return new ItemStack(ModItems.gun_revolver_gold_ammo);
+			if(input.getItem() == ModItems.assembly_schrabidium)
+				return new ItemStack(ModItems.gun_revolver_schrabidium_ammo);
+
+			if(mODE(input, "ingotSteel"))
+				return new ItemStack(ModItems.gun_revolver_cursed_ammo);
+		}
+		
+		if(stamp.getItem() == ModItems.stamp_44) {
+
+			if(input.getItem() == ModItems.assembly_pip)
+				return new ItemStack(ModItems.gun_revolver_pip_ammo);
+			if(input.getItem() == ModItems.assembly_nopip)
+				return new ItemStack(ModItems.gun_revolver_nopip_ammo);
+		}
+		
+		if(stamp.getItem() == ModItems.stamp_9) {
+
+			if(input.getItem() == ModItems.assembly_smg)
+				return new ItemStack(ModItems.gun_mp40_ammo);
+			if(input.getItem() == ModItems.assembly_uzi)
+				return new ItemStack(ModItems.gun_uzi_ammo);
+		}
+		
+		if(stamp.getItem() == ModItems.stamp_50) {
+
+			if(input.getItem() == ModItems.assembly_calamity)
+				return new ItemStack(ModItems.gun_calamity_ammo);
+		}
+		
 		return null;
 	}
 
@@ -646,6 +685,15 @@ public class MachineRecipes {
 		for(Item i : stamps_circuit)
 			i_stamps_circuit.add(new ItemStack(i));
 
+		List<ItemStack> i_stamps_357 = new ArrayList<ItemStack>();
+		i_stamps_357.add(new ItemStack(ModItems.stamp_357));
+		List<ItemStack> i_stamps_44 = new ArrayList<ItemStack>();
+		i_stamps_44.add(new ItemStack(ModItems.stamp_44));
+		List<ItemStack> i_stamps_9 = new ArrayList<ItemStack>();
+		i_stamps_9.add(new ItemStack(ModItems.stamp_9));
+		List<ItemStack> i_stamps_50 = new ArrayList<ItemStack>();
+		i_stamps_50.add(new ItemStack(ModItems.stamp_50));
+		
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_coal));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_quartz) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_quartz));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_lapis) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_lapis));
@@ -676,6 +724,21 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_wire, new ItemStack(ModItems.ingot_magnetized_tungsten) }, getPressResultNN(stamps_wire.get(0), ModItems.ingot_magnetized_tungsten));
 
 		recipes.put(new Object[] { i_stamps_circuit, new ItemStack(ModItems.circuit_raw) }, getPressResultNN(stamps_circuit.get(0), ModItems.circuit_raw));
+
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_iron) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_iron));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_steel) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_steel));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_lead) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_lead));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_gold) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_gold));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_schrabidium) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_schrabidium));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.ingot_steel) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.ingot_steel));
+
+		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_nopip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_nopip));
+		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_pip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_pip));
+
+		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_smg) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_smg));
+		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_uzi) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_uzi));
+		
+		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_calamity) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_calamity));
 		
 		return recipes;
 	}

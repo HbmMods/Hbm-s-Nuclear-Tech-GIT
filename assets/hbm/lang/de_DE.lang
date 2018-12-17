@@ -703,6 +703,7 @@ tile.reinforced_light.name=Verstärkter Glowstone
 tile.reinforced_lamp_off.name=Verstärkte Lampe
 tile.reinforced_lamp_on.name=Verstärkte Lampe
 
+tile.concrete.name=Beton
 tile.brick_concrete.name=Betonziegel
 tile.brick_obsidian.name=Obsidianziegel
 tile.brick_light.name=Helle Ziegel
@@ -1746,6 +1747,10 @@ item.stamp_schrabidium_flat.name=Flacher Stempel (Schrabidium)
 item.stamp_schrabidium_plate.name=Plattenstempel (Schrabidium)
 item.stamp_schrabidium_wire.name=Kabelstempel (Schrabidium)
 item.stamp_schrabidium_circuit.name=Schaltkreisstempel (Schrabidium)
+item.stamp_357.name=.357 Magnum-Stempel
+item.stamp_44.name=.44 Magnum-Stempel
+item.stamp_9.name=Kleinkaliberstempel
+item.stamp_50.name=Großkaliberstempel
 
 item.part_lithium.name=Lithiumstaubkiste
 item.part_beryllium.name=Berylliumstaubkiste

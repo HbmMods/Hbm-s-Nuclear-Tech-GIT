@@ -245,6 +245,7 @@ import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityOilDuct;
 import com.hbm.tileentity.conductor.TileEntityOilDuctSolid;
 import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
+import com.hbm.tileentity.conductor.TileEntityRFDuct;
 import com.hbm.tileentity.conductor.TileEntityWireCoated;
 import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.deco.TileEntityDecoBlock;
@@ -743,6 +744,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityFF.class, "tileentity_forcefield");
 		GameRegistry.registerTileEntity(TileEntityForceField.class, "tileentity_machine_field");
 		GameRegistry.registerTileEntity(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
+		GameRegistry.registerTileEntity(TileEntityRFDuct.class, "tileentity_hbm_rfduct");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

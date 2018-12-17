@@ -288,6 +288,27 @@ public class ModItems {
 	public static Item mechanism_launcher_2;
 	public static Item mechanism_special;
 
+	public static Item primer_357;
+	public static Item primer_44;
+	public static Item primer_9;
+	public static Item primer_50;
+	public static Item primer_buckshot;
+	public static Item casing_357;
+	public static Item casing_44;
+	public static Item casing_9;
+	public static Item casing_50;
+	public static Item casing_buckshot;
+	public static Item assembly_iron;
+	public static Item assembly_steel;
+	public static Item assembly_lead;
+	public static Item assembly_gold;
+	public static Item assembly_schrabidium;
+	public static Item assembly_pip;
+	public static Item assembly_nopip;
+	public static Item assembly_smg;
+	public static Item assembly_uzi;
+	public static Item assembly_calamity;
+
 	public static Item circuit_targeting_tier1;
 	public static Item circuit_targeting_tier2;
 	public static Item circuit_targeting_tier3;
@@ -395,6 +416,11 @@ public class ModItems {
 	public static Item stamp_schrabidium_plate;
 	public static Item stamp_schrabidium_wire;
 	public static Item stamp_schrabidium_circuit;
+
+	public static Item stamp_357;
+	public static Item stamp_44;
+	public static Item stamp_9;
+	public static Item stamp_50;
 
 	public static Item blades_gold;
 	public static Item blades_aluminium;
@@ -1726,6 +1752,26 @@ public class ModItems {
 		mechanism_launcher_1 = new Item().setUnlocalizedName("mechanism_launcher_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_5");
 		mechanism_launcher_2 = new Item().setUnlocalizedName("mechanism_launcher_2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_6");
 		mechanism_special = new Item().setUnlocalizedName("mechanism_special").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_7");
+		primer_357 = new Item().setUnlocalizedName("primer_357").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_357");
+		primer_44 = new Item().setUnlocalizedName("primer_44").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_44");
+		primer_9 = new Item().setUnlocalizedName("primer_9").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_9");
+		primer_50 = new Item().setUnlocalizedName("primer_50").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_50");
+		primer_buckshot = new Item().setUnlocalizedName("primer_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":primer_buckshot");
+		casing_357 = new Item().setUnlocalizedName("casing_357").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_357");
+		casing_44 = new Item().setUnlocalizedName("casing_44").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_44");
+		casing_9 = new Item().setUnlocalizedName("casing_9").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_9");
+		casing_50 = new Item().setUnlocalizedName("casing_50").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_50");
+		casing_buckshot = new Item().setUnlocalizedName("casing_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":casing_buckshot");
+		assembly_iron = new Item().setUnlocalizedName("assembly_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_iron");
+		assembly_steel = new Item().setUnlocalizedName("assembly_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_steel");
+		assembly_lead = new Item().setUnlocalizedName("assembly_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lead");
+		assembly_gold = new Item().setUnlocalizedName("assembly_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_gold");
+		assembly_schrabidium = new Item().setUnlocalizedName("assembly_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_schrabidium");
+		assembly_pip = new Item().setUnlocalizedName("assembly_pip").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_pip");
+		assembly_nopip = new Item().setUnlocalizedName("assembly_nopip").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_nopip");
+		assembly_smg = new Item().setUnlocalizedName("assembly_smg").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_smg");
+		assembly_uzi = new Item().setUnlocalizedName("assembly_uzi").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_uzi");
+		assembly_calamity = new Item().setUnlocalizedName("assembly_calamity").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_calamity");
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
@@ -1803,6 +1849,10 @@ public class ModItems {
 		stamp_schrabidium_plate = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_plate");
 		stamp_schrabidium_wire = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_wire");
 		stamp_schrabidium_circuit = new ItemBlades(1024).setUnlocalizedName("stamp_schrabidium_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_schrabidium_circuit");
+		stamp_357 = new ItemBlades(512).setUnlocalizedName("stamp_357").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_357");
+		stamp_44 = new ItemBlades(512).setUnlocalizedName("stamp_44").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_44");
+		stamp_9 = new ItemBlades(512).setUnlocalizedName("stamp_9").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_9");
+		stamp_50 = new ItemBlades(512).setUnlocalizedName("stamp_50").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_50");
 
 		blades_aluminium = new ItemBlades(1 * 1200).setUnlocalizedName("blades_aluminium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_aluminium");
 		blades_gold = new ItemBlades(5 * 1200).setUnlocalizedName("blades_gold").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":blades_gold");
@@ -3097,6 +3147,32 @@ public class ModItems {
 		GameRegistry.registerItem(mechanism_launcher_2, mechanism_launcher_2.getUnlocalizedName());
 		GameRegistry.registerItem(mechanism_special, mechanism_special.getUnlocalizedName());
 		
+		//Primers
+		GameRegistry.registerItem(primer_357, primer_357.getUnlocalizedName());
+		GameRegistry.registerItem(primer_44, primer_44.getUnlocalizedName());
+		GameRegistry.registerItem(primer_9, primer_9.getUnlocalizedName());
+		GameRegistry.registerItem(primer_50, primer_50.getUnlocalizedName());
+		GameRegistry.registerItem(primer_buckshot, primer_buckshot.getUnlocalizedName());
+		
+		//Casings
+		GameRegistry.registerItem(casing_357, casing_357.getUnlocalizedName());
+		GameRegistry.registerItem(casing_44, casing_44.getUnlocalizedName());
+		GameRegistry.registerItem(casing_9, casing_9.getUnlocalizedName());
+		GameRegistry.registerItem(casing_50, casing_50.getUnlocalizedName());
+		GameRegistry.registerItem(casing_buckshot, casing_buckshot.getUnlocalizedName());
+		
+		//Bullet Assemblies
+		GameRegistry.registerItem(assembly_iron, assembly_iron.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_steel, assembly_steel.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_lead, assembly_lead.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_gold, assembly_gold.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_schrabidium, assembly_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_pip, assembly_pip.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_nopip, assembly_nopip.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_smg, assembly_smg.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_uzi, assembly_uzi.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_calamity, assembly_calamity.getUnlocalizedName());
+		
 		//Wiring
 		GameRegistry.registerItem(wiring_red_copper, wiring_red_copper.getUnlocalizedName());
 		
@@ -3264,6 +3340,10 @@ public class ModItems {
 		GameRegistry.registerItem(stamp_schrabidium_plate, stamp_schrabidium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_schrabidium_wire, stamp_schrabidium_wire.getUnlocalizedName());
 		GameRegistry.registerItem(stamp_schrabidium_circuit, stamp_schrabidium_circuit.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_357, stamp_357.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_44, stamp_44.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_9, stamp_9.getUnlocalizedName());
+		GameRegistry.registerItem(stamp_50, stamp_50.getUnlocalizedName());
 		
 		//Machine Upgrades
 		GameRegistry.registerItem(upgrade_template, upgrade_template.getUnlocalizedName());
