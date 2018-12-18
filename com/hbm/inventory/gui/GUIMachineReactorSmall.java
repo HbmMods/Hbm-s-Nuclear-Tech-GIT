@@ -33,6 +33,7 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		this.ySize = 222;
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
@@ -97,7 +98,8 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
-    protected void mouseClicked(int x, int y, int i) {
+    @SuppressWarnings("incomplete-switch")
+	protected void mouseClicked(int x, int y, int i) {
     	super.mouseClicked(x, y, i);
 		
     	if(guiLeft + 52 <= x && guiLeft + 52 + 16 > x && guiTop + 53 < y && guiTop + 53 + 16 >= y) {
@@ -121,6 +123,7 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
     	}
     }
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

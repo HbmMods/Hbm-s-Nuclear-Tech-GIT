@@ -181,6 +181,8 @@ public class TileEntityMachineReactorSmall extends TileEntity
 
 		coreHeat = nbt.getInteger("heat");
 		hullHeat = nbt.getInteger("hullHeat");
+		rods = nbt.getInteger("rods");
+		retracting = nbt.getBoolean("ret");
 		slots = new ItemStack[getSizeInventory()];
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "coolant");
@@ -199,6 +201,8 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		super.writeToNBT(nbt);
 		nbt.setInteger("heat", coreHeat);
 		nbt.setInteger("hullHeat", hullHeat);
+		nbt.setInteger("rods", rods);
+		nbt.setBoolean("ret", retracting);
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
@@ -302,6 +306,25 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		}
 
 		return null;
+	}
+	
+	public int getFuelPercent() {
+		
+		if(getRodCount() == 0)
+			return 0;
+		
+		int rodMax = 0;
+		int rod = 0;
+		
+		for(int i = 0; i < 12; i++) {
+			
+			if(slots[i] != null && slots[i].getItem() instanceof ItemFuelRod) {
+				rodMax += ((ItemFuelRod)slots[i].getItem()).lifeTime;
+				rod += ((ItemFuelRod)slots[i].getItem()).lifeTime - ItemFuelRod.getLifeTime(slots[i]);
+			}
+		}
+		
+		return rod * 100 / rodMax;
 	}
 
 	@Override

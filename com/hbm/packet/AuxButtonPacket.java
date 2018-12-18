@@ -14,6 +14,7 @@ import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
+import com.hbm.tileentity.machine.TileEntityReactorControl;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -118,6 +119,19 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityForceField field = (TileEntityForceField)te;
 					
 					field.isOn = !field.isOn;
+				}
+				
+				if (te instanceof TileEntityReactorControl) {
+					TileEntityReactorControl control = (TileEntityReactorControl)te;
+					
+					TileEntity reac = p.worldObj.getTileEntity(control.linkX, control.linkY, control.linkZ);
+					
+					if (reac instanceof TileEntityMachineReactorSmall) {
+						TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
+						
+						if(m.id == 0)
+							reactor.retracting = m.value == 0;
+					}
 				}
 				
 			//} catch (Exception x) { }

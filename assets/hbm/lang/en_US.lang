@@ -320,6 +320,7 @@ container.uf6_tank=UF6 Tank
 tile.machine_puf6_tank.name=Plutonium Hexafluoride Tank
 container.puf6_tank=PuF6 Tank
 tile.machine_reactor.name=Breeding Reactor
+tile.machine_reactor_on.name=Breeding Reactor
 container.reactor=Breeding Reactor
 tile.machine_nuke_furnace_off.name=Nuclear Powered Furnace
 tile.machine_nuke_furnace_on.name=Nuclear Powered Furnace

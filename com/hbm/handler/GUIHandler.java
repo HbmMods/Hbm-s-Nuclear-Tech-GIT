@@ -693,6 +693,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_machine_controller:
+			{
+				if(entity instanceof TileEntityReactorControl)
+				{
+					return new ContainerReactorControl(player.inventory, (TileEntityReactorControl) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1375,6 +1384,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityNukeN45)
 					{
 						return new GUINukeN45(player.inventory, (TileEntityNukeN45) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_machine_controller:
+				{
+					if(entity instanceof TileEntityReactorControl)
+					{
+						return new GUIReactorControl(player.inventory, (TileEntityReactorControl) entity);
 					}
 					return null;
 				}

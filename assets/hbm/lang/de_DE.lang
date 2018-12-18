@@ -233,6 +233,7 @@ container.nukePrototype=Der Prototyp
 container.nukeCustom=Anpassbare Bombe
 container.nukeSolinium=Die Blauspülung
 container.nukeN2=N²-Mine
+container.nukeN45=N45 Seemine
 
 container.bombMulti=Mehrzweckbombe
 
@@ -246,6 +247,7 @@ tile.nuke_prototype.name=Der Prototyp
 tile.nuke_custom.name=Anpassbare Bombe
 tile.nuke_solinium.name=Die Blauspülung
 tile.nuke_n2.name=N²-Mine
+tile.nuke_n45.name=N45 Seemine
 
 tile.turret_light.name=Leichtes MG-Geschütz
 tile.turret_heavy.name=Schweres MG-Geschütz
@@ -318,6 +320,7 @@ container.uf6_tank=UF6 Tank
 tile.machine_puf6_tank.name=Plutoniumhexafluorit-Tank
 container.puf6_tank=PuF6 Tank
 tile.machine_reactor.name=Brutreaktor
+tile.machine_reactor_on.name=Brutreaktor
 container.reactor=Brutreaktor
 tile.machine_nuke_furnace_off.name=Atombetriebener Ofen
 tile.machine_nuke_furnace_on.name=Atombetriebener Ofen
@@ -624,6 +627,7 @@ item.mechanism_rifle_2.name=Fortgeschrittener Gewehmechanismus
 item.mechanism_launcher_1.name=Werfermechanismus
 item.mechanism_launcher_2.name=Fortgeschrittener Werfermechanismus
 item.mechanism_special.name=High-Tech Waffenmechanismus
+
 item.primer_357.name=.357 Magnum-Zündhütchen (x16)
 item.primer_44.name=.44 Magnum-Zündhütchen (x16)
 item.primer_9.name=Kleinkaliber-Zündhütchen (x24)
@@ -1879,4 +1883,5 @@ tile.cheater_virus.name=Geliertes Euphemium
 tile.cheater_virus_seed.name=Instabiler Euphemiumschrabid-Block
 
 item.mysteryshovel.name=Brüchiger Spaten
+tile.ntm_dirt.name=Erde
 item.memory.name=item.null.name
