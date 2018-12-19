@@ -30,8 +30,46 @@ public class GUIReactorControl extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 34, 88, 4, new String[] { "Fuel: " + control.fuel + "%" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 40, 88, 4, new String[] { "Water: " + control.water + "/" + control.maxWater + "mB" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 46, 88, 4, new String[] { "Coolant: " + control.cool + "/" + control.maxCool + "mB" });
 		
-		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 114, 88, 4, new String[] { "Hull Temperature:", "   " + Math.round((control.hullHeat) * 0.00001 * 980 + 20) + "°C" });
+
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 7, guiTop + 16, 18, 18, new String[] { "Reactor Status: " + (control.isOn ? "ON" : "OFF") });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 43, guiTop + 16, 18, 18, new String[] { "Automatic Shutdown: " + (control.auto ? "ENABLED" : "DISABLED") });
+
+		
+		if(!control.isLinked) {
+			this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 79, guiTop + 16, 18, 18, new String[] { "Reactor link not found!" });
+		}
+
+		if(control.water < control.maxWater * 0.1) {
+			this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 79 + 18, guiTop + 16, 18, 18, new String[] { "Water level low!" });
+		}
+		
+		if(control.cool < control.maxCool * 0.1) {
+			this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 79 + 18 * 2, guiTop + 16, 18, 18, new String[] { "Coolant level low!" });
+		}
+		
+		if(control.steam > control.maxSteam * 0.95) {
+			this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 79 + 18 * 3, guiTop + 16, 18, 18, new String[] { "Steam buffer full!" });
+		}
+		
+		if(control.coreHeat > (50000 * 0.85)) {
+			this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 79 + 18 * 4, guiTop + 16, 18, 18, new String[] { "CORE TEMPERATURE CRITICAL!!" });
+		}
+		
+		String s = "";
+		switch(control.compression) {
+		case 0: s = "Steam"; break;
+		case 1: s = "Dense Steam"; break;
+		case 2: s = "Super Dense Steam"; break;
+		}
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 52, 88, 4, new String[] { s + ": " + control.steam + "/" + control.maxSteam + "mB" });
+		
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 58, 88, 4, new String[] { "Hull Heat: " + Math.round((control.hullHeat) * 0.00001 * 980 + 20) + "°C" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 64, 88, 4, new String[] { "Core Heat: " + Math.round((control.coreHeat) * 0.00002 * 980 + 20) + "°C" });
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -41,6 +79,18 @@ public class GUIReactorControl extends GuiInfoContainer {
     		
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, control.isOn ? 0 : 1, 0));
+    	}
+		
+    	if(guiLeft + 43 <= x && guiLeft + 43 + 18 > x && guiTop + 16 < y && guiTop + 16 + 18 >= y) {
+    		
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, control.auto ? 0 : 1, 1));
+    	}
+		
+    	if(guiLeft + 63 <= x && guiLeft + 63 + 14 > x && guiTop + 52 < y && guiTop + 52 + 18 >= y) {
+    		
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, (control.compression + 1) % 3, 2));
     	}
     }
 	
@@ -128,15 +178,15 @@ public class GUIReactorControl extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 79 + 18 * 2, guiTop + 16, 88 + 18 * 2, 166, 18, 18);
 		}
 		
-		if(control.steam > control.maxSteam * 0.9) {
+		if(control.steam > control.maxSteam * 0.95) {
 			drawTexturedModalRect(guiLeft + 79 + 18 * 3, guiTop + 16, 88 + 18 * 3, 166, 18, 18);
 		}
 		
-		if(control.coreHeat > (50000 * 0.9)) {
+		if(control.coreHeat > (50000 * 0.85)) {
 			drawTexturedModalRect(guiLeft + 79 + 18 * 4, guiTop + 16, 88 + 18 * 4, 166, 18, 18);
 		}
 		
-		if(control.rods == control.maxRods) {
+		if(control.rods == control.maxRods && control.rods != 0) {
 			drawTexturedModalRect(guiLeft + 25, guiTop + 16, 176, 18, 18, 18);
 		} else if(control.rods > 0) {
 			drawTexturedModalRect(guiLeft + 25, guiTop + 16, 194, 18, 18, 18);

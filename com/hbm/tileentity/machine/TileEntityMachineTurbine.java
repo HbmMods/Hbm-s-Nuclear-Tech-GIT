@@ -45,8 +45,8 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.STEAM, 16000, 0);
-		tanks[1] = new FluidTank(FluidType.WATER, 32000, 1);
+		tanks[0] = new FluidTank(FluidType.STEAM, 64000, 0);
+		tanks[1] = new FluidTank(FluidType.WATER, 128000, 1);
 	}
 
 	@Override
@@ -219,15 +219,13 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 		if(!worldObj.isRemote)
 		{
 			age++;
-			if(age >= 10)
+			if(age >= 2)
 			{
 				age = 0;
 			}
 			
-			if(age == 4 || age == 9) {
-				fillFluidInit(tanks[1].getTankType());
-				ffgeuaInit();
-			}
+			fillFluidInit(tanks[1].getTankType());
+			ffgeuaInit();
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
@@ -239,7 +237,7 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
 				
-				for(int i = 0; i < tanks[0].getFill() / 1000 + 1; i++) {
+				for(int i = 0; i < 1200; i++) {
 					if(tanks[0].getFill() >= (Integer)outs[2] && tanks[1].getFill() + (Integer)outs[1] <= tanks[1].getMaxFill()) {
 						tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2]);
 						tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1]);
@@ -248,6 +246,8 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 						
 						if(power > maxPower)
 							power = maxPower;
+					} else {
+						break;
 					}
 				}
 			}
@@ -295,7 +295,7 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 	
 	@Override
 	public boolean getTact() {
-		if(age >= 0 && age < 5)
+		if(age == 0)
 		{
 			return true;
 		}

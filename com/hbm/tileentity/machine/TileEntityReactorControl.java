@@ -7,6 +7,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEControlPacket;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -126,6 +127,8 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 		
+		redstoned = nbt.getBoolean("red");
+		
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -143,6 +146,8 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
+		
+		nbt.setBoolean("red", redstoned);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -192,13 +197,14 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 	public boolean isOn;
 	public boolean auto;
 	public boolean isLinked;
+	public boolean redstoned;
 	
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote)
 		{
-        	if(slots[0] != null && slots[0].getItem() == ModItems.detonator && 
+        	if(slots[0] != null && slots[0].getItem() == ModItems.reactor_sensor && 
         			slots[0].stackTagCompound != null)
         	{
         		int xCoord = slots[0].stackTagCompound.getInteger("x");
@@ -248,6 +254,21 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
             		compression = 0; break;
         		}
         		
+        		if(!redstoned) {
+        			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+        				redstoned = true;
+        				reactor.retracting = !reactor.retracting;
+        			}
+        		} else {
+        			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+        				redstoned = false;
+        			}
+        		}
+        		
+        		if(auto && (water < 100 || cool < 100 || coreHeat > (50000 * 0.95)) && fuel > 0) {
+        			reactor.retracting = true;
+        		}
+        		
         	} else {
         		hullHeat = 0;
         		coreHeat = 0;
@@ -263,6 +284,19 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         		isOn = false;
         		compression = 0;
         		isLinked = false;
+        	}
+
+        	if(worldObj.getBlock(xCoord, yCoord, zCoord + 1) instanceof BlockRedstoneComparator) {
+        		worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord + 1, worldObj.getBlock(xCoord, yCoord, zCoord + 1), 1);
+        	}
+        	if(worldObj.getBlock(xCoord, yCoord, zCoord - 1) instanceof BlockRedstoneComparator) {
+        		worldObj.scheduleBlockUpdate(xCoord, yCoord, zCoord - 1, worldObj.getBlock(xCoord, yCoord, zCoord - 1), 1);
+        	}
+        	if(worldObj.getBlock(xCoord + 1, yCoord, zCoord) instanceof BlockRedstoneComparator) {
+        		worldObj.scheduleBlockUpdate(xCoord + 1, yCoord, zCoord, worldObj.getBlock(xCoord + 1, yCoord, zCoord), 1);
+        	}
+        	if(worldObj.getBlock(xCoord - 1, yCoord, zCoord) instanceof BlockRedstoneComparator) {
+        		worldObj.scheduleBlockUpdate(xCoord - 1, yCoord, zCoord, worldObj.getBlock(xCoord - 1, yCoord, zCoord), 1);
         	}
         	
         	PacketDispatcher.wrapper.sendToAll(new TEControlPacket(xCoord, yCoord, zCoord, hullHeat, coreHeat, fuel, water, cool, steam, maxWater, maxCool, maxSteam, compression, rods, maxRods, isOn, auto, isLinked));

@@ -413,6 +413,8 @@ tile.machine_selenium.name=Hochleistungs-Sternmotor
 container.machineSelenium=Hochleistungs-Sternmotor
 tile.machine_reactor_small.name=Atomreaktor
 container.reactorSmall=Atomreaktor
+tile.machine_controller.name=Reaktorfernsteuerung
+container.reactorControl=Reaktorfernsteuerung
 
 tile.broadcaster_pc.name=Korrupter Sender
 
@@ -1822,6 +1824,7 @@ item.crystal_energy.name=Energiekristall
 item.pellet_coolant.name=Kühlcluster
 
 item.linker.name=Telelinker
+item.reactor_sensor.name=Reaktor-Fernsensor
 item.oil_detector.name=Ölvorkommen-Detektor
 item.geiger_counter.name=Mobiler Geigerzähler
 tile.geiger.name=Geigerzähler
