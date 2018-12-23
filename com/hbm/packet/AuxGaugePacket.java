@@ -17,6 +17,8 @@ import com.hbm.tileentity.machine.TileEntityMachineCoal;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
@@ -208,6 +210,24 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityNukeN45 nuke = (TileEntityNukeN45)te;
 					
 					nuke.primed = m.value == 1;
+				}
+				if (te instanceof TileEntityMachineReactorLarge) {
+					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
+
+					if(m.id == 0)
+						reactor.rods = m.value;
+					if(m.id == 1)
+						reactor.coreHeat = m.value;
+					if(m.id == 2)
+						reactor.hullHeat = m.value;
+					if(m.id == 3)
+						reactor.size = m.value;
+					if(m.id == 4)
+						reactor.fuel = m.value;
+					if(m.id == 5)
+						reactor.waste = m.value;
+					if(m.id == 6)
+						reactor.type = ReactorFuelType.getEnum(m.value);
 				}
 				
 			} catch (Exception x) {}

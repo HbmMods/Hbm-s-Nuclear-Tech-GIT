@@ -11,6 +11,7 @@ import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
@@ -151,6 +152,30 @@ public class AuxButtonPacket implements IMessage {
 							reactor.tanks[2].setTankType(type);
 							reactor.tanks[2].setFill(fill);
 						}
+					}
+				}
+				
+				if (te instanceof TileEntityMachineReactorLarge) {
+					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
+					
+					if(m.id == 0)
+						reactor.rods = m.value;
+					
+					if(m.id == 1) {
+						FluidType type = FluidType.STEAM;
+						int fill = reactor.tanks[2].getFill();
+						
+						switch(m.value) {
+						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
+						}
+						
+						if(fill > reactor.tanks[2].getMaxFill())
+							fill = reactor.tanks[2].getMaxFill();
+						
+						reactor.tanks[2].setTankType(type);
+						reactor.tanks[2].setFill(fill);
 					}
 				}
 				

@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.Random;
 
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 
 import net.minecraft.block.Block;
@@ -25,7 +26,7 @@ public class ReactorCore extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityReactorMultiblock();
+		return new TileEntityMachineReactorLarge();
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public class ReactorCore extends BlockContainer {
     {
         if (!keepInventory)
         {
-        	TileEntityReactorMultiblock tileentityfurnace = (TileEntityReactorMultiblock)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+        	TileEntityMachineReactorLarge tileentityfurnace = (TileEntityMachineReactorLarge)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
 
             if (tileentityfurnace != null)
             {
@@ -80,17 +81,17 @@ public class ReactorCore extends BlockContainer {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 	
-    @Override
+    /*@Override
 	public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
     {
         if (!p_149723_1_.isRemote)
         {
-        	TileEntityReactorMultiblock entity = (TileEntityReactorMultiblock) p_149723_1_.getTileEntity(p_149723_2_, p_149723_3_, p_149723_4_);
+        	TileEntityMachineReactorLarge entity = (TileEntityMachineReactorLarge) p_149723_1_.getTileEntity(p_149723_2_, p_149723_3_, p_149723_4_);
 			if(entity != null && entity.isLoaded)
 			{
 				entity.explode();
 			}
         }
-    }
+    }*/
 
 }

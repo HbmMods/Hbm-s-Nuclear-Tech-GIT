@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityReactorMultiblock;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -118,9 +119,9 @@ public class ReactorHatch extends Block {
 		{
 			if(world.getBlockMetadata(x, y, z) == 2)
 			{
-				if(world.getTileEntity(x, y, z + 2) instanceof TileEntityReactorMultiblock)
+				if(world.getTileEntity(x, y, z + 2) instanceof TileEntityMachineReactorLarge)
 				{
-					if(((TileEntityReactorMultiblock)world.getTileEntity(x, y, z + 2)).isStructureValid(world))
+					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z + 2)).checkBody())
 					{
 						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z + 2);
 					} else {
@@ -132,9 +133,9 @@ public class ReactorHatch extends Block {
 			}
 			if(world.getBlockMetadata(x, y, z) == 3)
 			{
-				if(world.getTileEntity(x, y, z - 2) instanceof TileEntityReactorMultiblock)
+				if(world.getTileEntity(x, y, z - 2) instanceof TileEntityMachineReactorLarge)
 				{
-					if(((TileEntityReactorMultiblock)world.getTileEntity(x, y, z - 2)).isStructureValid(world))
+					if(((TileEntityMachineReactorLarge)world.getTileEntity(x, y, z - 2)).checkBody())
 					{
 						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x, y, z - 2);
 					} else {
@@ -146,9 +147,9 @@ public class ReactorHatch extends Block {
 			}
 			if(world.getBlockMetadata(x, y, z) == 4)
 			{
-				if(world.getTileEntity(x + 2, y, z) instanceof TileEntityReactorMultiblock)
+				if(world.getTileEntity(x + 2, y, z) instanceof TileEntityMachineReactorLarge)
 				{
-					if(((TileEntityReactorMultiblock)world.getTileEntity(x + 2, y, z)).isStructureValid(world))
+					if(((TileEntityMachineReactorLarge)world.getTileEntity(x + 2, y, z)).checkBody())
 					{
 						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x + 2, y, z);
 					} else {
@@ -160,9 +161,9 @@ public class ReactorHatch extends Block {
 			}
 			if(world.getBlockMetadata(x, y, z) == 5)
 			{
-				if(world.getTileEntity(x - 2, y, z) instanceof TileEntityReactorMultiblock)
+				if(world.getTileEntity(x - 2, y, z) instanceof TileEntityMachineReactorLarge)
 				{
-					if(((TileEntityReactorMultiblock)world.getTileEntity(x - 2, y, z)).isStructureValid(world))
+					if(((TileEntityMachineReactorLarge)world.getTileEntity(x - 2, y, z)).checkBody())
 					{
 						FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor_multiblock, world, x - 2, y, z);
 					} else {

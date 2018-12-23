@@ -7,6 +7,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
@@ -91,19 +92,19 @@ public class WasteEarth extends Block {
     @Override
 	public void onEntityWalking(World p_149724_1_, int p_149724_2_, int p_149724_3_, int p_149724_4_, Entity entity)
     {
-    	/*if (entity instanceof EntityLivingBase && this == ModBlocks.waste_earth)
-    	{
-    		Library.applyRadiation((EntityLivingBase)entity, 4, 10, 0, 0);
-    	}*/
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.waste_earth) {
+
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 0));
+    	}
     	
-    	if (entity instanceof EntityLivingBase && this == ModBlocks.frozen_grass)
-    	{
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.frozen_grass) {
+    	
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 60 * 20, 2));
     	}
-    	/*if (entity instanceof EntityLivingBase && this == ModBlocks.waste_mycelium)
-    	{
-    		Library.applyRadiation((EntityLivingBase)entity, 30, 14, 15, 9);
-    	}*/
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.waste_mycelium) {
+    	
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 3));
+    	}
     }
     
     @Override

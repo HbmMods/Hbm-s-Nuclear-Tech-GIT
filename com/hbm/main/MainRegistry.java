@@ -306,6 +306,8 @@ import com.hbm.tileentity.machine.TileEntityMachineRTG;
 import com.hbm.tileentity.machine.TileEntityMachineRadGen;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
+import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSPP;
@@ -659,7 +661,6 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDecoBlock.class, "tileentity_deco");
 		GameRegistry.registerTileEntity(TileEntityCoreTitanium.class, "tileentity_core_titanium");
 		GameRegistry.registerTileEntity(TileEntityCoreAdvanced.class, "tileentity_core_advanced");
-		GameRegistry.registerTileEntity(TileEntityReactorMultiblock.class, "tileentity_reactor_multiblock");
 		GameRegistry.registerTileEntity(TileEntityFusionMultiblock.class, "tileentity_fusion_multiblock");
 		GameRegistry.registerTileEntity(TileEntityCrashedBomb.class, "tileentity_crashed_balefire");
 		GameRegistry.registerTileEntity(TileEntityCable.class, "tileentity_cable");
@@ -747,6 +748,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
 		GameRegistry.registerTileEntity(TileEntityRFDuct.class, "tileentity_hbm_rfduct");
 		GameRegistry.registerTileEntity(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
+		GameRegistry.registerTileEntity(TileEntityMachineReactorLarge.class, "tileentity_large_reactor");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1597,6 +1599,42 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_plate, 12F);
 		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_legs, 9F);
 		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_boots, 3F);
+
+		TileEntityMachineReactorLarge.registerFuelEntry(1, ReactorFuelType.URANIUM, false, ModItems.nugget_uranium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(9, ReactorFuelType.URANIUM, false, ModItems.ingot_uranium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.URANIUM, false, ModItems.rod_uranium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.URANIUM, false, ModItems.rod_dual_uranium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.URANIUM, false, ModItems.rod_quad_uranium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.URANIUM, true, ModItems.rod_uranium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.URANIUM, true, ModItems.rod_dual_uranium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.URANIUM, true, ModItems.rod_quad_uranium_fuel_depleted);
+
+		TileEntityMachineReactorLarge.registerFuelEntry(1, ReactorFuelType.PLUTONIUM, false, ModItems.nugget_plutonium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(9, ReactorFuelType.PLUTONIUM, false, ModItems.ingot_plutonium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.PLUTONIUM, false, ModItems.rod_plutonium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.PLUTONIUM, false, ModItems.rod_dual_plutonium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.PLUTONIUM, false, ModItems.rod_quad_plutonium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.PLUTONIUM, true, ModItems.rod_plutonium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.PLUTONIUM, true, ModItems.rod_dual_plutonium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.PLUTONIUM, true, ModItems.rod_quad_plutonium_fuel_depleted);
+
+		TileEntityMachineReactorLarge.registerFuelEntry(1, ReactorFuelType.MOX, false, ModItems.nugget_mox_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(9, ReactorFuelType.MOX, false, ModItems.ingot_mox_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.MOX, false, ModItems.rod_mox_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.MOX, false, ModItems.rod_dual_mox_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.MOX, false, ModItems.rod_quad_mox_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.MOX, true, ModItems.rod_mox_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.MOX, true, ModItems.rod_dual_mox_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.MOX, true, ModItems.rod_quad_mox_fuel_depleted);
+
+		TileEntityMachineReactorLarge.registerFuelEntry(1, ReactorFuelType.SCHRABIDIUM, false, ModItems.nugget_schrabidium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(9, ReactorFuelType.SCHRABIDIUM, false, ModItems.ingot_schrabidium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.SCHRABIDIUM, false, ModItems.rod_schrabidium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.SCHRABIDIUM, false, ModItems.rod_dual_schrabidium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.SCHRABIDIUM, false, ModItems.rod_quad_schrabidium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.SCHRABIDIUM, true, ModItems.rod_schrabidium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.SCHRABIDIUM, true, ModItems.rod_dual_schrabidium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.SCHRABIDIUM, true, ModItems.rod_quad_schrabidium_fuel_depleted);
 	}
 	
 	@EventHandler

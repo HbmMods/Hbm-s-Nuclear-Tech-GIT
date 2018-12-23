@@ -237,9 +237,9 @@ public class GUIHandler implements IGuiHandler {
 			
 			case ModBlocks.guiID_reactor_multiblock:
 			{
-				if(entity instanceof TileEntityReactorMultiblock)
+				if(entity instanceof TileEntityMachineReactorLarge)
 				{
-					return new ContainerReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
+					return new ContainerReactorMultiblock(player.inventory, (TileEntityMachineReactorLarge) entity);
 				}
 				return null;
 			}
@@ -931,9 +931,9 @@ public class GUIHandler implements IGuiHandler {
 				
 				case ModBlocks.guiID_reactor_multiblock:
 				{
-					if(entity instanceof TileEntityReactorMultiblock)
+					if(entity instanceof TileEntityMachineReactorLarge)
 					{
-						return new GUIReactorMultiblock(player.inventory, (TileEntityReactorMultiblock) entity);
+						return new GUIReactorMultiblock(player.inventory, (TileEntityMachineReactorLarge) entity);
 					}
 					return null;
 				}

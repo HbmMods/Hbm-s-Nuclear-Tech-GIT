@@ -61,6 +61,18 @@ public class FluidTank {
 		return maxFluid;
 	}
 	
+	public int changeTankSize(int size) {
+		maxFluid = size;
+		
+		if(fluid > maxFluid) {
+			int dif = fluid - maxFluid;
+			fluid = maxFluid;
+			return dif;
+		}
+			
+		return 0;
+	}
+	
 	//Called on TE update
 	public void updateTank(int x, int y, int z) {
 
@@ -151,6 +163,13 @@ public class FluidTank {
 			
 			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
 				this.fluid = 0;
+				return;
+			}
+			
+			if(slots[in].getItem() == ModItems.inf_water && this.type.name().equals(FluidType.WATER.name())) {
+				this.fluid -= 50;
+				if(this.fluid < 0)
+					this.fluid = 0;
 				return;
 			}
 			

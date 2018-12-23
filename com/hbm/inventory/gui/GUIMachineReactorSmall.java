@@ -82,11 +82,11 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		case SUPERHOTSTEAM: s = "100x"; break;
 		}
 		
-		String[] text4 = new String[] { "Steam compression switch.",
+		String[] text4 = new String[] { "Steam compression switch",
 				"Current compression level: " + s};
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 63, guiTop + 107, 14, 18, mouseX, mouseY, text4);
 		
-		String[] text5 = new String[] { diFurnace.retracting ? "Raise control rods." : "Lower control rods."};
+		String[] text5 = new String[] { diFurnace.retracting ? "Raise control rods" : "Lower control rods"};
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 53, 18, 18, mouseX, mouseY, text5);
 	}
 	
