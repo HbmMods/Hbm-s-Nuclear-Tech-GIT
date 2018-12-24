@@ -8,12 +8,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 public class BlockReactor extends Block {
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
+	private IIcon iconAlt;
 
 	public BlockReactor(Material p_i45394_1_) {
 		super(p_i45394_1_);
@@ -22,6 +26,9 @@ public class BlockReactor extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
+		
+		this.iconAlt = iconRegister.registerIcon(RefStrings.MODID + ":code");
+		
 		if(this == ModBlocks.reactor_conductor)
 		{
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":reactor_conductor_top");
@@ -36,6 +43,7 @@ public class BlockReactor extends Block {
 		{
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":reactor_element_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":reactor_element_side");
+			this.iconAlt = iconRegister.registerIcon(RefStrings.MODID + ":reactor_element_base");
 		}
 		if(this == ModBlocks.fusion_conductor)
 		{
@@ -97,7 +105,32 @@ public class BlockReactor extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
+		
+		if(this == ModBlocks.reactor_element && metadata == 1)
+			return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.iconAlt);
+		
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
+	}
+
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		
+		if(this != ModBlocks.reactor_element)
+			return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
+		
+		if(player.isSneaking())
+		{
+			if(world.getBlockMetadata(x, y, z) == 0) {
+				world.setBlockMetadataWithNotify(x, y, z, 1, 3);
+			} else {
+				world.setBlockMetadataWithNotify(x, y, z, 0, 3);
+			}
+			
+			return true;
+		}
+		
+		return false;
 	}
 
 }

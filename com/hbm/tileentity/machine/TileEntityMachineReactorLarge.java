@@ -322,7 +322,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		fuel -= consumption;
 		waste += consumption;
 		
-		int heat = consumption * type.heat / fuelMult;
+		int heat = (consumption / size) * type.heat / fuelMult;
 		
 		this.coreHeat += heat;
 		
@@ -361,6 +361,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			tanks[0].loadTank(0, 1, slots);
 			tanks[1].loadTank(2, 3, slots);
 			
+			//Change fuel type if empty
 			if(fuel == 0) {
 				
 				if(slots[4] != null && !getFuelType(slots[4].getItem()).toString().equals(ReactorFuelType.UNKNOWN.toString())) {
@@ -370,6 +371,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				}
 			}
 			
+			//Load fuel
 			if(slots[4] != null && getFuelContent(slots[4].getItem(), type) > 0) {
 				
 				int cont = getFuelContent(slots[4].getItem(), type) * fuelMult;
@@ -400,6 +402,32 @@ public class TileEntityMachineReactorLarge extends TileEntity
 					if(slots[4].stackSize == 0)
 						slots[4] = null;
 				}
+			}
+			
+			//Unload waste
+			if(slots[6] != null && getWasteAbsorbed(slots[6].getItem(), type) > 0) {
+				
+				int absorbed = getWasteAbsorbed(slots[6].getItem(), type) * fuelMult;
+				
+				if(absorbed <= waste) {
+					
+					if(slots[7] == null) {
+
+						waste -= absorbed;
+						slots[7] = new ItemStack(getWaste(slots[6].getItem(), type));
+						slots[6].stackSize--;
+						
+					} else if(slots[7] != null && slots[7].getItem() == getWaste(slots[6].getItem(), type) && slots[7].stackSize < slots[7].getMaxStackSize()) {
+
+						waste -= absorbed;
+						slots[7].stackSize++;
+						slots[6].stackSize--;
+					}
+					
+					if(slots[6].stackSize == 0)
+						slots[6] = null;
+				}
+				
 			}
 			
 			if(rods > 0)
@@ -453,7 +481,10 @@ public class TileEntityMachineReactorLarge extends TileEntity
 
 		//function of SHS produced per tick
 		//maxes out at heat% * tank capacity / 20
-		double steam = (((double)hullHeat / (double)maxHullHeat) * ((double)tanks[2].getMaxFill() / 50D)) * size;
+		
+		double statSteMaFiFiLe = 8000;
+		
+		double steam = (((double)hullHeat / (double)maxHullHeat) * (/*(double)tanks[2].getMaxFill()*/statSteMaFiFiLe / 50D)) * size;
 		
 		double water = steam;
 		
@@ -633,27 +664,47 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		
 		int value;
 		ReactorFuelType type;
-		boolean isWaste;
 		Item item;
 		
-		public ReactorFuelEntry(int value, ReactorFuelType type, boolean isWaste, Item item) {
+		public ReactorFuelEntry(int value, ReactorFuelType type, Item item) {
 			this.value = value;
 			this.type = type;
-			this.isWaste = isWaste;
 			this.item = item;
 		}
 	}
 	
-	static List<ReactorFuelEntry> entries = new ArrayList();
+	static class ReactorWasteEntry {
+		
+		int value;
+		ReactorFuelType type;
+		Item in;
+		Item out;
+		
+		public ReactorWasteEntry(int value, ReactorFuelType type, Item in, Item out) {
+			this.value = value;
+			this.type = type;
+			this.in = in;
+			this.out = out;
+		}
+	}
+
+	static List<ReactorFuelEntry> fuels = new ArrayList();
+	static List<ReactorWasteEntry> wastes = new ArrayList();
 	
-	public static void registerFuelEntry(int nuggets, ReactorFuelType type, boolean isWaste, Item fuel) {
-		entries.add(new ReactorFuelEntry(nuggets, type, isWaste, fuel));
+	public static void registerFuelEntry(int nuggets, ReactorFuelType type, Item fuel) {
+		
+		fuels.add(new ReactorFuelEntry(nuggets, type, fuel));
+	}
+	
+	public static void registerWasteEntry(int nuggets, ReactorFuelType type, Item in, Item out) {
+		
+		wastes.add(new ReactorWasteEntry(nuggets, type, in, out));
 	}
 	
 	public static int getFuelContent(Item item, ReactorFuelType type) {
 		
-		for(ReactorFuelEntry ent : entries) {
-			if(!ent.isWaste && ent.item == item && type.toString().equals(ent.type.toString()))
+		for(ReactorFuelEntry ent : fuels) {
+			if(ent.item == item && type.toString().equals(ent.type.toString()))
 				return ent.value;
 		}
 			
@@ -662,11 +713,31 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	
 	public static ReactorFuelType getFuelType(Item item) {
 		
-		for(ReactorFuelEntry ent : entries) {
-			if(!ent.isWaste && ent.item == item)
+		for(ReactorFuelEntry ent : fuels) {
+			if(ent.item == item)
 				return ent.type;
 		}
 			
 		return ReactorFuelType.UNKNOWN;
+	}
+	
+	public static Item getWaste(Item item, ReactorFuelType type) {
+		
+		for(ReactorWasteEntry ent : wastes) {
+			if(ent.in == item && type.toString().equals(ent.type.toString()))
+				return ent.out;
+		}
+			
+		return null;
+	}
+	
+	public static int getWasteAbsorbed(Item item, ReactorFuelType type) {
+		
+		for(ReactorWasteEntry ent : wastes) {
+			if(ent.in == item && type.toString().equals(ent.type.toString()))
+				return ent.value;
+		}
+			
+		return 0;
 	}
 }

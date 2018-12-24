@@ -34,8 +34,11 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52);
-		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 70 - 52, 16, 52);
+		diFurnace.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 88 - 52, 16, 52);
+		diFurnace.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 88 - 52, 16, 52);
+		diFurnace.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 108, 88, 4);
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 114, 88, 4, new String[] { "Hull Temperature:", "   " + Math.round((diFurnace.hullHeat) * 0.00001 * 980 + 20) + "°C" });
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 120, 88, 4, new String[] { "Core Temperature:", "   " + Math.round((diFurnace.coreHeat) * 0.00002 * 980 + 20) + "°C" });
 
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 115, guiTop + 17, 18, 90, new String[] { "Operating Level: " + diFurnace.rods + "%" });
 		
@@ -64,6 +67,18 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 		
 		String[] text0 = new String[] { diFurnace.rods > 0 ? "Reactor is ON" : "Reactor is OFF"};
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 52, guiTop + 53, 18, 18, mouseX, mouseY, text0);
+		
+		String s = "0";
+		
+		switch(diFurnace.tanks[2].getTankType()) {
+		case STEAM: s = "1x"; break;
+		case HOTSTEAM:s = "10x"; break;
+		case SUPERHOTSTEAM: s = "100x"; break;
+		}
+		
+		String[] text4 = new String[] { "Steam compression switch",
+				"Current compression level: " + s};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 63, guiTop + 107, 14, 18, mouseX, mouseY, text4);
 	}
 
 	@SuppressWarnings("incomplete-switch")
