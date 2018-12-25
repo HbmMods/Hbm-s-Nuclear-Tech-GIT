@@ -3134,15 +3134,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.wire_advanced_alloy, 4));
 			list.add(new ItemStack(ModItems.fuse, 6));
 			break;
-		/*case LR_ELEMENT:
-			list.add(new ItemStack(ModItems.ingot_steel, 4));
-			list.add(new ItemStack(ModItems.neutron_reflector, 2));
+		case LR_ELEMENT:
+			list.add(new ItemStack(ModItems.ingot_steel, 2));
+			list.add(new ItemStack(ModItems.neutron_reflector, 4));
 			list.add(new ItemStack(ModItems.plate_lead, 2));
-			list.add(new ItemStack(ModItems.rod_empty, 3));
+			list.add(new ItemStack(ModItems.rod_empty, 8));
 			break;
 		case LR_CONTROL:
-			list.add(new ItemStack(ModItems.ingot_steel, 6));
-			list.add(new ItemStack(ModItems.ingot_lead, 4));
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.ingot_lead, 6));
+			list.add(new ItemStack(ModItems.bolt_tungsten, 6));
 			list.add(new ItemStack(ModItems.motor, 1));
 			break;
 		case LR_HATCH:
@@ -3150,16 +3151,15 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_steel, 6));
 			break;
 		case LR_PORT:
-			list.add(new ItemStack(ModItems.ingot_steel, 8));
-			list.add(new ItemStack(ModItems.ingot_red_copper, 2));
-			list.add(new ItemStack(ModItems.wire_red_copper, 4));
-			list.add(new ItemStack(ModItems.fuse, 6));
+			list.add(new ItemStack(ModItems.ingot_steel, 4));
+			list.add(new ItemStack(ModItems.plate_copper, 12));
+			list.add(new ItemStack(ModItems.wire_tungsten, 4));
 			break;
 		case LR_CORE:
 			list.add(new ItemStack(ModBlocks.reactor_conductor, 2));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 12));
-			list.add(new ItemStack(ModItems.circuit_gold, 4));
-			break;*/
+			list.add(new ItemStack(ModItems.circuit_targeting_tier3, 4));
+			list.add(new ItemStack(ModItems.circuit_gold, 1));
+			break;
 		case LF_MAGNET:
 			list.add(new ItemStack(ModItems.plate_steel, 10));
 			list.add(new ItemStack(ModItems.coil_advanced_alloy, 5));
@@ -4357,7 +4357,7 @@ public class MachineRecipes {
 		case FA_PORT:
 			output = new ItemStack(ModBlocks.factory_advanced_conductor, 1);
 			break;
-		/*case LR_ELEMENT:
+		case LR_ELEMENT:
 			output = new ItemStack(ModBlocks.reactor_element, 1);
 			break;
 		case LR_CONTROL:
@@ -4371,7 +4371,7 @@ public class MachineRecipes {
 			break;
 		case LR_CORE:
 			output = new ItemStack(ModBlocks.reactor_computer, 1);
-			break;*/
+			break;
 		case LF_MAGNET:
 			output = new ItemStack(ModBlocks.fusion_conductor, 1);
 			break;

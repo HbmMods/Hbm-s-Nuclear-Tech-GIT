@@ -69,9 +69,10 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
         switch(tileEntity.type) {
         case 1:
         case 2: bindTexture(ResourceManager.vault_cog_tex); break;
-        case 3: bindTexture(ResourceManager.stable_cog_tex); break;
-        case 4:
-        case 5: bindTexture(ResourceManager.vault4_cog_tex); break;
+        case 3:
+        case 4: bindTexture(ResourceManager.stable_cog_tex); break;
+        case 5:
+        case 6: bindTexture(ResourceManager.vault4_cog_tex); break;
         default: bindTexture(ResourceManager.vault_cog_tex); break;
         }
         ResourceManager.vault_cog.renderAll();
@@ -80,8 +81,9 @@ public class RenderVaultDoor extends TileEntitySpecialRenderer {
         case 1: bindTexture(ResourceManager.vault_label_87_tex); break;
         case 2: bindTexture(ResourceManager.vault_label_106_tex); break;
         case 3: bindTexture(ResourceManager.stable_label_tex); break;
-        case 4: bindTexture(ResourceManager.vault4_label_111_tex); break;
-        case 5: bindTexture(ResourceManager.vault4_label_81_tex); break;
+        case 4: bindTexture(ResourceManager.stable_label_99_tex); break;
+        case 5: bindTexture(ResourceManager.vault4_label_111_tex); break;
+        case 6: bindTexture(ResourceManager.vault4_label_81_tex); break;
         default: bindTexture(ResourceManager.vault_label_101_tex); break;
         }
         ResourceManager.vault_label.renderAll();

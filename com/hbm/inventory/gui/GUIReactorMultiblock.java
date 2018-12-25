@@ -30,6 +30,7 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 		this.ySize = 222;
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);

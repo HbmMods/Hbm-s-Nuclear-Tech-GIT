@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -88,7 +89,7 @@ public class NuclearReactor extends WorldGenerator
 		world.setBlock(x + 4, y + 0, z + 1, Block1, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 2, Block1, 0, 3);
 		world.setBlock(x + 1, y + 0, z + 2, Block1, 0, 3);
-		world.setBlock(x + 2, y + 0, z + 2, ModBlocks.red_wire_coated, 0, 3);
+		world.setBlock(x + 2, y + 0, z + 2, ModBlocks.fluid_duct, 0, 3);
 		world.setBlock(x + 3, y + 0, z + 2, Block1, 0, 3);
 		world.setBlock(x + 4, y + 0, z + 2, Block1, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 3, Block1, 0, 3);
@@ -188,7 +189,7 @@ public class NuclearReactor extends WorldGenerator
 		world.setBlock(x + 4, y + 4, z + 1, Block1, 0, 3);
 		world.setBlock(x + 0, y + 4, z + 2, Block1, 0, 3);
 		world.setBlock(x + 1, y + 4, z + 2, Block1, 0, 3);
-		world.setBlock(x + 2, y + 4, z + 2, ModBlocks.red_wire_coated, 0, 3);
+		world.setBlock(x + 2, y + 4, z + 2, ModBlocks.fluid_duct, 0, 3);
 		world.setBlock(x + 3, y + 4, z + 2, Block1, 0, 3);
 		world.setBlock(x + 4, y + 4, z + 2, Block1, 0, 3);
 		world.setBlock(x + 0, y + 4, z + 3, Block1, 0, 3);

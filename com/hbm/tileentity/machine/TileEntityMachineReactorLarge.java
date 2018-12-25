@@ -172,6 +172,8 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		coreHeat = nbt.getInteger("heat");
 		hullHeat = nbt.getInteger("hullHeat");
 		rods = nbt.getInteger("rods");
+		fuel = nbt.getInteger("fuel");
+		waste = nbt.getInteger("waste");
 		slots = new ItemStack[getSizeInventory()];
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "coolant");
@@ -192,6 +194,8 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		nbt.setInteger("heat", coreHeat);
 		nbt.setInteger("hullHeat", hullHeat);
 		nbt.setInteger("rods", rods);
+		nbt.setInteger("fuel", fuel);
+		nbt.setInteger("waste", waste);
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
@@ -277,6 +281,63 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				worldObj.getBlock(xCoord, yCoord + offset, zCoord) == ModBlocks.reactor_conductor;
 	}
 	
+	private float checkHull() {
+		
+		float max = getSize() * 12;
+		float count = 0;
+		
+		for(int y = yCoord - depth; y <= yCoord + height; y++) {
+
+			if(blocksRad(xCoord - 1, y, zCoord + 2))
+				count++;
+			if(blocksRad(xCoord, y, zCoord + 2))
+				count++;
+			if(blocksRad(xCoord + 1, y, zCoord + 2))
+				count++;
+
+			if(blocksRad(xCoord - 1, y, zCoord - 2))
+				count++;
+			if(blocksRad(xCoord, y, zCoord - 2))
+				count++;
+			if(blocksRad(xCoord + 1, y, zCoord - 2))
+				count++;
+
+			if(blocksRad(xCoord + 2, y, zCoord - 1))
+				count++;
+			if(blocksRad(xCoord + 2, y, zCoord))
+				count++;
+			if(blocksRad(xCoord + 2, y, zCoord + 1))
+				count++;
+			
+			if(blocksRad(xCoord - 2, y, zCoord - 1))
+				count++;
+			if(blocksRad(xCoord - 2, y, zCoord))
+				count++;
+			if(blocksRad(xCoord - 2, y, zCoord + 1))
+				count++;
+		}
+		
+		if(count == 0)
+			return 1;
+
+		//System.out.println(count + "/" + max);
+		
+		return 1 - (count / max);
+	}
+	
+	private boolean blocksRad(int x, int y, int z) {
+		
+		Block b = worldObj.getBlock(x, y, z);
+		
+		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.brick_concrete)
+			return true;
+		
+		if(b.getExplosionResistance(null) >= 100)
+			return true;
+		
+		return false;
+	}
+	
 	int height;
 	int depth;
 	public int size;
@@ -342,11 +403,12 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				fillFluidInit(tanks[2].getTankType());
 			
 			caluclateSize();
-
-			tanks[0].changeTankSize(waterBase * getSize());
-			tanks[1].changeTankSize(coolantBase * getSize());
-			tanks[2].changeTankSize(steamBase * getSize());
+			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, size, 3));
 		}
+
+		tanks[0].changeTankSize(waterBase * getSize());
+		tanks[1].changeTankSize(coolantBase * getSize());
+		tanks[2].changeTankSize(steamBase * getSize());
 		
 		maxWaste = maxFuel = fuelBase * getSize();
 			
@@ -367,6 +429,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				if(slots[4] != null && !getFuelType(slots[4].getItem()).toString().equals(ReactorFuelType.UNKNOWN.toString())) {
 					
 					this.type = getFuelType(slots[4].getItem());
+					this.waste = 0;
 					
 				}
 			}
@@ -375,8 +438,6 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			if(slots[4] != null && getFuelContent(slots[4].getItem(), type) > 0) {
 				
 				int cont = getFuelContent(slots[4].getItem(), type) * fuelMult;
-				
-				System.out.println(type.toString());
 				
 				if(fuel + cont <= maxFuel) {
 					
@@ -456,11 +517,15 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				this.explode();
 			}
 
-			if (rods > 0 && coreHeat > 0 /*rad block*/) {
+			if (rods > 0 && coreHeat > 0 && age == 5) {
 
 				float rad = (float)coreHeat / (float)maxCoreHeat * 50F;
 				RadiationSavedData data = RadiationSavedData.getData(worldObj);
-				data.incrementRad(worldObj, xCoord, zCoord, rad, rad * 4);
+				//System.out.println(rad);
+				rad *= checkHull();
+				//System.out.println(rad);
+				
+				data.incrementRad(worldObj, xCoord, zCoord, rad, 50 * 4);
 			}
 
 			for (int i = 0; i < 3; i++)
@@ -469,7 +534,6 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, coreHeat, 1));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, hullHeat, 2));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, size, 3));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, fuel, 4));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, waste, 5));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, type.getID(), 6));
@@ -515,32 +579,54 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			this.slots[i] = null;
 		}
 
+		RadiationSavedData data = RadiationSavedData.getData(worldObj);
+
+		int rad = (int)(((long)fuel) * 25000L / (fuelBase * 15L));
+		
+		data.incrementRad(worldObj, xCoord, zCoord, rad, 75000);
+
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 7.5F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
 		
 		for(int i = yCoord - depth; i <= yCoord + height; i++) {
 
-			if(worldObj.rand.nextInt(4) == 0) {
-				worldObj.setBlock(this.xCoord + 1, i, this.zCoord + 1, ModBlocks.toxic_block);
+			if(worldObj.rand.nextInt(2) == 0) {
+				randomizeRadBlock(this.xCoord + 1, i, this.zCoord + 1);
 			}
-			if(worldObj.rand.nextInt(4) == 0) {
-				worldObj.setBlock(this.xCoord + 1, i, this.zCoord - 1, ModBlocks.toxic_block);
+			if(worldObj.rand.nextInt(2) == 0) {
+				randomizeRadBlock(this.xCoord + 1, i, this.zCoord - 1);
 			}
-			if(worldObj.rand.nextInt(4) == 0) {
-				worldObj.setBlock(this.xCoord - 1, i, this.zCoord - 1, ModBlocks.toxic_block);
+			if(worldObj.rand.nextInt(2) == 0) {
+				randomizeRadBlock(this.xCoord - 1, i, this.zCoord - 1);
 			}
-			if(worldObj.rand.nextInt(4) == 0) {
-				worldObj.setBlock(this.xCoord - 1, i, this.zCoord + 1, ModBlocks.toxic_block);
+			if(worldObj.rand.nextInt(2) == 0) {
+				randomizeRadBlock(this.xCoord - 1, i, this.zCoord + 1);
 			}
 			
-			if(worldObj.rand.nextInt(10) == 0) {
+			if(worldObj.rand.nextInt(5) == 0) {
 				worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 5.0F, true);
 			}
 		}
-
-		RadiationSavedData data = RadiationSavedData.getData(worldObj);
-		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
+		
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.sellafield_core);
+	}
+	
+	private void randomizeRadBlock(int x, int y, int z) {
+		
+		int rand = worldObj.rand.nextInt(20);
+		
+		if(rand < 7)
+			worldObj.setBlock(x, y, z, ModBlocks.toxic_block);
+		else if(rand < 10)
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield_0);
+		else if(rand < 14)
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield_1);
+		else if(rand < 17)
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield_2);
+		else if(rand < 19)
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield_3);
+		else
+			worldObj.setBlock(x, y, z, ModBlocks.sellafield_4);
 	}
 
 	@Override
@@ -550,10 +636,22 @@ public class TileEntityMachineReactorLarge extends TileEntity
 
 	@Override
 	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord - 3, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 3, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 3, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 3, getTact(), type);
+		
+		if(worldObj.getBlock(xCoord - 2, yCoord, zCoord) == ModBlocks.reactor_hatch)
+			fillFluid(this.xCoord - 3, this.yCoord, this.zCoord, getTact(), type);
+		
+		if(worldObj.getBlock(xCoord + 2, yCoord, zCoord) == ModBlocks.reactor_hatch)
+			fillFluid(this.xCoord + 3, this.yCoord, this.zCoord, getTact(), type);
+		
+		if(worldObj.getBlock(xCoord, yCoord, zCoord - 2) == ModBlocks.reactor_hatch)
+			fillFluid(this.xCoord, this.yCoord, this.zCoord - 3, getTact(), type);
+		
+		if(worldObj.getBlock(xCoord, yCoord, zCoord + 2) == ModBlocks.reactor_hatch)
+			fillFluid(this.xCoord, this.yCoord, this.zCoord + 3, getTact(), type);
+
+		fillFluid(this.xCoord, this.yCoord + height + 1, this.zCoord, getTact(), type);
+		
+		fillFluid(this.xCoord, this.yCoord - depth - 1, this.zCoord + 3, getTact(), type);
 	}
 
 	@Override

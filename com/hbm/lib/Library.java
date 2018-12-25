@@ -393,7 +393,6 @@ public class Library {
 				tileentity instanceof IConsumer ||
 				tileentity instanceof ISource)) ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_center ||
-				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.factory_titanium_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.factory_advanced_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.watz_conductor ||
@@ -434,6 +433,7 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_pumpjack ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_turbofan ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
+				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.watz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||

@@ -120,17 +120,17 @@ public class ToxicBlock extends BlockFluidClassic {
 		super.onNeighborBlockChange(world, x, y, z, block);
 		
 		if(reactToBlocks(world, x + 1, y, z))
-			world.setBlock(x, y, z, ModBlocks.block_waste);
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
 		if(reactToBlocks(world, x - 1, y, z))
-			world.setBlock(x, y, z, ModBlocks.block_waste);
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
 		if(reactToBlocks(world, x, y + 1, z))
-			world.setBlock(x, y, z, ModBlocks.block_waste);
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
 		if(reactToBlocks(world, x, y - 1, z))
-			world.setBlock(x, y, z, ModBlocks.block_waste);
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
 		if(reactToBlocks(world, x, y, z + 1))
-			world.setBlock(x, y, z, ModBlocks.block_waste);
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
 		if(reactToBlocks(world, x, y, z - 1))
-			world.setBlock(x, y, z, ModBlocks.block_waste);
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
     }
 	
 	public boolean reactToBlocks(World world, int x, int y, int z) {

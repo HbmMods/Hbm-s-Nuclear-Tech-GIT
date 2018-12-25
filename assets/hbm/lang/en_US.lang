@@ -445,9 +445,9 @@ container.factoryAdvanced=Advanced Factory
 tile.reactor_element.name=Reactor Chamber
 tile.reactor_control.name=Control Rods
 tile.reactor_hatch.name=Reactor Access Hatch
-tile.reactor_conductor.name=Reactor Electricity Port
+tile.reactor_conductor.name=Reactor Boiler
 tile.reactor_computer.name=Reactor Control
-container.reactorMultiblock=Big Nuclear Reactor
+container.reactorLarge=Big Nuclear Reactor
 
 tile.fusion_conductor.name=Superconducting Magnet
 tile.fusion_center.name=Central Magnet Piece
