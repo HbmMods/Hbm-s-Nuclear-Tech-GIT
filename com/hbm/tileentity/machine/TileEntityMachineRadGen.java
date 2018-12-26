@@ -340,6 +340,10 @@ public class TileEntityMachineRadGen extends TileEntity implements ISidedInvento
 		if(item == ModItems.rod_quad_schrabidium) return 2880;
 
 		if(item == ModItems.nuclear_waste) return 100;
+		if(item == ModItems.waste_uranium) return 150;
+		if(item == ModItems.waste_plutonium) return 150;
+		if(item == ModItems.waste_mox) return 150;
+		if(item == ModItems.waste_schrabidium) return 150;
 		if(item == Item.getItemFromBlock(ModBlocks.block_waste)) return 1000;
 		if(item == Item.getItemFromBlock(ModBlocks.yellow_barrel)) return 900;
 		if(item == ModItems.trinitite) return 80;

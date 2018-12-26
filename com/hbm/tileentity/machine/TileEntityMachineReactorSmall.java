@@ -186,6 +186,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		slots = new ItemStack[getSizeInventory()];
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "coolant");
+		tanks[2].readFromNBT(nbt, "steam");
 
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -206,6 +207,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
+		tanks[2].writeToNBT(nbt, "steam");
 
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] != null) {

@@ -77,7 +77,11 @@ public class ItemRadioactive extends Item {
 					this == ModItems.boy_target || 
 					this == ModItems.gadget_core || 
 					this == ModItems.man_core || 
-					this == ModItems.nuclear_waste) {
+					this == ModItems.nuclear_waste || 
+					this == ModItems.waste_uranium || 
+					this == ModItems.waste_plutonium || 
+					this == ModItems.waste_mox || 
+					this == ModItems.waste_schrabidium) {
         		//Library.applyRadiation(living, 60, 19, 40, 14);
 				Library.applyRadData(living, 25F/20F * mod);
 			}
@@ -176,13 +180,17 @@ public class ItemRadioactive extends Item {
 					this == ModItems.powder_plutonium) {
         		//Library.applyRadiation(living, 60, 19, 45, 14);
 				Library.applyRadData(living, 10F/20F * mod);
-				living.setFire(5);
+				
+				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living))
+					living.setFire(5);
 			}
 
 			if (this == ModItems.powder_uranium) {
         		//Library.applyRadiation(living, 20, 4, 0, 0);
 				Library.applyRadData(living, 5F/20F * mod);
-				living.setFire(5);
+				
+				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living))
+					living.setFire(5);
 			}
 			
 			//Schrabidic
@@ -204,7 +212,10 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_schrabidium_fuel || 
 					this == ModItems.rod_dual_schrabidium_fuel || 
 					this == ModItems.rod_quad_schrabidium_fuel) {
-				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+				
+				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living))
+					living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+				
         		//Library.applyRadiation(living, 100, 29, 75, 24);
 				Library.applyRadData(living, 35F/20F * mod);
 			}
@@ -227,10 +238,13 @@ public class ItemRadioactive extends Item {
 			}
 
 			if (this == ModItems.powder_schrabidium) {
-				living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
         		//Library.applyRadiation(living, 100, 29, 75, 24);
 				Library.applyRadData(living, 35F/20F * mod);
-				living.setFire(5);
+				
+				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living)) {
+					living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
+					living.setFire(5);
+				}
 			}
 		}
     }

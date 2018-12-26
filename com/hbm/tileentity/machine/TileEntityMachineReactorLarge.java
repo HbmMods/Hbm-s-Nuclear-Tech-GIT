@@ -24,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -177,6 +178,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		slots = new ItemStack[getSizeInventory()];
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "coolant");
+		tanks[2].readFromNBT(nbt, "steam");
 		type = ReactorFuelType.getEnum(nbt.getInteger("type"));
 
 		for (int i = 0; i < list.tagCount(); i++) {
@@ -531,12 +533,119 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			for (int i = 0; i < 3; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord);
 
+			if(worldObj.getBlock(xCoord, yCoord, zCoord - 2) == ModBlocks.reactor_ejector && worldObj.getBlockMetadata(xCoord, yCoord, zCoord - 2) == 2)
+				tryEjectInto(xCoord, yCoord, zCoord - 3);
+			if(worldObj.getBlock(xCoord, yCoord, zCoord + 2) == ModBlocks.reactor_ejector && worldObj.getBlockMetadata(xCoord, yCoord, zCoord + 2) == 3)
+				tryEjectInto(xCoord, yCoord, zCoord + 3);
+			if(worldObj.getBlock(xCoord - 2, yCoord, zCoord) == ModBlocks.reactor_ejector && worldObj.getBlockMetadata(xCoord - 2, yCoord, zCoord) == 4)
+				tryEjectInto(xCoord - 3, yCoord, zCoord);
+			if(worldObj.getBlock(xCoord + 2, yCoord, zCoord) == ModBlocks.reactor_ejector && worldObj.getBlockMetadata(xCoord + 2, yCoord, zCoord) == 5)
+				tryEjectInto(xCoord + 3, yCoord, zCoord);
+
+			if(worldObj.getBlock(xCoord, yCoord, zCoord - 2) == ModBlocks.reactor_inserter && worldObj.getBlockMetadata(xCoord, yCoord, zCoord - 2) == 2)
+				tryInsertFrom(xCoord, yCoord, zCoord - 3);
+			if(worldObj.getBlock(xCoord, yCoord, zCoord + 2) == ModBlocks.reactor_inserter && worldObj.getBlockMetadata(xCoord, yCoord, zCoord + 2) == 3)
+				tryInsertFrom(xCoord, yCoord, zCoord + 3);
+			if(worldObj.getBlock(xCoord - 2, yCoord, zCoord) == ModBlocks.reactor_inserter && worldObj.getBlockMetadata(xCoord - 2, yCoord, zCoord) == 4)
+				tryInsertFrom(xCoord - 3, yCoord, zCoord);
+			if(worldObj.getBlock(xCoord + 2, yCoord, zCoord) == ModBlocks.reactor_inserter && worldObj.getBlockMetadata(xCoord + 2, yCoord, zCoord) == 5)
+				tryInsertFrom(xCoord + 3, yCoord, zCoord);
+
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, coreHeat, 1));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, hullHeat, 2));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, fuel, 4));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, waste, 5));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, type.getID(), 6));
+		}
+	}
+	
+	private void tryEjectInto(int x, int y, int z) {
+		
+		int wSize = type.toString().equals(ReactorFuelType.SCHRABIDIUM.toString()) ? 60 * fuelMult : 6 * fuelMult;
+		
+		if(waste < wSize)
+			return;
+		
+		TileEntity te = worldObj.getTileEntity(x, y, z);
+		
+		if(te instanceof IInventory) {
+			
+			IInventory chest = (IInventory)te;
+			
+			Item waste = ModItems.waste_uranium;
+			
+			switch(type) {
+			case PLUTONIUM:
+				waste = ModItems.waste_plutonium;
+				break;
+			case MOX:
+				waste = ModItems.waste_mox;
+				break;
+			case SCHRABIDIUM:
+				waste = ModItems.waste_schrabidium;
+				break;
+			default:
+				waste = ModItems.waste_uranium;
+				break;
+			}
+			
+			for(int i = 0; i < chest.getSizeInventory(); i++) {
+				
+				if(chest.isItemValidForSlot(i, new ItemStack(waste)) && chest.getStackInSlot(i) != null && chest.getStackInSlot(i).getItem() == waste && chest.getStackInSlot(i).stackSize < chest.getStackInSlot(i).getMaxStackSize()) {
+					chest.setInventorySlotContents(i, new ItemStack(waste, chest.getStackInSlot(i).stackSize + 1));
+					this.waste -= wSize;
+					return;
+				}
+			}
+			
+			for(int i = 0; i < chest.getSizeInventory(); i++) {
+				
+				if(chest.isItemValidForSlot(i, new ItemStack(waste)) && chest.getStackInSlot(i) == null) {
+					chest.setInventorySlotContents(i, new ItemStack(waste));
+					this.waste -= wSize;
+					return;
+				}
+			}
+		}
+	}
+	
+	private void tryInsertFrom(int x, int y, int z) {
+		
+		TileEntity te = worldObj.getTileEntity(x, y, z);
+		
+		if(te instanceof IInventory) {
+			
+			IInventory chest = (IInventory)te;
+			
+			if(fuel > 0) {
+				for(int i = 0; i < chest.getSizeInventory(); i++) {
+					
+					if(chest.getStackInSlot(i) != null) {
+						int cont = getFuelContent(chest.getStackInSlot(i).getItem(), type) * fuelMult;
+						
+						if(cont > 0 && fuel + cont <= maxFuel && !chest.getStackInSlot(i).getItem().hasContainerItem()) {
+							
+							chest.decrStackSize(i, 1);
+							fuel += cont;
+						}
+					}
+				}
+			} else {
+				for(int i = 0; i < chest.getSizeInventory(); i++) {
+					
+					if(chest.getStackInSlot(i) != null) {
+						int cont = getFuelContent(chest.getStackInSlot(i).getItem(), getFuelType(chest.getStackInSlot(i).getItem())) * fuelMult;
+						
+						if(cont > 0 && fuel + cont <= maxFuel && !chest.getStackInSlot(i).getItem().hasContainerItem()) {
+							
+							type = getFuelType(chest.getStackInSlot(i).getItem());
+							chest.decrStackSize(i, 1);
+							fuel += cont;
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -732,7 +841,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		URANIUM(250000),
 		PLUTONIUM(312500),
 		MOX(250000),
-		SCHRABIDIUM(20850000),
+		SCHRABIDIUM(2085000),
 		UNKNOWN(1);
 		
 		private ReactorFuelType(int i) {

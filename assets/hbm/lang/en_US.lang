@@ -445,6 +445,8 @@ container.factoryAdvanced=Advanced Factory
 tile.reactor_element.name=Reactor Chamber
 tile.reactor_control.name=Control Rods
 tile.reactor_hatch.name=Reactor Access Hatch
+tile.reactor_ejector.name=Reactor Waste Ejector
+tile.reactor_inserter.name=Reactor Fuel Inserter
 tile.reactor_conductor.name=Reactor Boiler
 tile.reactor_computer.name=Reactor Control
 container.reactorLarge=Big Nuclear Reactor
@@ -742,6 +744,11 @@ tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
 tile.gravel_obsidian.name=Crushed Obsidian
 
 tile.barbed_wire.name=Barbed Wire
+tile.barbed_wire_fire.name=Flaming Barbed Wire
+tile.barbed_wire_poison.name=Poisoned Barbed Wire
+tile.barbed_wire_acid.name=Caustic Barbed Wire
+tile.barbed_wire_wither.name=Withered Barbed Wire
+tile.barbed_wire_ultradeath.name=Cloud Barbed Wire
 
 tile.seal_frame.name=Silo Hatch Frame
 tile.seal_controller.name=Silo Hatch Opener
@@ -1095,6 +1102,10 @@ tile.waste_planks.name=Charred Wooden Planks
 
 item.trinitite.name=Trinitite
 item.nuclear_waste.name=Nuclear Waste
+item.waste_uranium.name=Depleted Uranium Fuel
+item.waste_plutonium.name=Depleted Plutonium Fuel
+item.waste_mox.name=Depleted MOX Fuel
+item.waste_schrabidium.name=Depleted Schrabidium Fuel
 item.scrap.name=Scrap
 
 item.ingot_uranium_fuel.name=Ingot of Uranium Fuel

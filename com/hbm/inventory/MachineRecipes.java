@@ -131,7 +131,7 @@ public class MachineRecipes {
 
 		ItemStack[] uran1 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 1),
 				new ItemStack(ModItems.nugget_u238, 3), new ItemStack(ModItems.nugget_pu239, 2),
-				new ItemStack(ModItems.rod_waste, 1) };
+				new ItemStack(ModItems.nuclear_waste, 1) };
 		ItemStack[] uran2 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 2),
 				new ItemStack(ModItems.nugget_u238, 6), new ItemStack(ModItems.nugget_pu239, 4),
 				new ItemStack(ModItems.rod_dual_waste, 1) };
@@ -140,7 +140,7 @@ public class MachineRecipes {
 				new ItemStack(ModItems.rod_quad_waste, 1) };
 		ItemStack[] plutonium1 = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
 				new ItemStack(ModItems.nugget_pu240, 3), new ItemStack(ModItems.nugget_lead, 2),
-				new ItemStack(ModItems.rod_waste, 1) };
+				new ItemStack(ModItems.nuclear_waste, 1) };
 		ItemStack[] plutonium2 = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 2),
 				new ItemStack(ModItems.nugget_pu240, 6), new ItemStack(ModItems.nugget_lead, 4),
 				new ItemStack(ModItems.rod_dual_waste, 1) };
@@ -149,7 +149,7 @@ public class MachineRecipes {
 				new ItemStack(ModItems.rod_quad_waste, 1) };
 		ItemStack[] mox1 = new ItemStack[] { new ItemStack(ModItems.nugget_mox_fuel, 1),
 				new ItemStack(ModItems.nugget_neptunium, 3), new ItemStack(ModItems.nugget_u238, 2),
-				new ItemStack(ModItems.rod_waste, 1) };
+				new ItemStack(ModItems.nuclear_waste, 1) };
 		ItemStack[] mox2 = new ItemStack[] { new ItemStack(ModItems.nugget_mox_fuel, 2),
 				new ItemStack(ModItems.nugget_neptunium, 6), new ItemStack(ModItems.nugget_u238, 4),
 				new ItemStack(ModItems.rod_dual_waste, 1) };
@@ -158,7 +158,7 @@ public class MachineRecipes {
 				new ItemStack(ModItems.rod_quad_waste, 1) };
 		ItemStack[] schrabidium1 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 1),
 				new ItemStack(ModItems.nugget_lead, 3), new ItemStack(ModItems.nugget_schrabidium, 2),
-				new ItemStack(ModItems.rod_waste, 1) };
+				new ItemStack(ModItems.nuclear_waste, 1) };
 		ItemStack[] schrabidium2 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 2),
 				new ItemStack(ModItems.nugget_lead, 6), new ItemStack(ModItems.nugget_schrabidium, 4),
 				new ItemStack(ModItems.rod_dual_waste, 1) };
@@ -233,53 +233,53 @@ public class MachineRecipes {
 			}
 		}
 
-		if (item.getItem() == ModItems.rod_uranium_fuel_depleted) {
+		if (item.getItem() == ModItems.waste_uranium) {
 			return uran1;
 		}
 
-		if (item.getItem() == ModItems.rod_dual_uranium_fuel_depleted) {
+		/*if (item.getItem() == ModItems.rod_dual_uranium_fuel_depleted) {
 			return uran2;
 		}
 
 		if (item.getItem() == ModItems.rod_quad_uranium_fuel_depleted) {
 			return uran3;
-		}
+		}*/
 
-		if (item.getItem() == ModItems.rod_plutonium_fuel_depleted) {
+		if (item.getItem() == ModItems.waste_plutonium) {
 			return plutonium1;
 		}
 
-		if (item.getItem() == ModItems.rod_dual_plutonium_fuel_depleted) {
+		/*if (item.getItem() == ModItems.rod_dual_plutonium_fuel_depleted) {
 			return plutonium2;
 		}
 
 		if (item.getItem() == ModItems.rod_quad_plutonium_fuel_depleted) {
 			return plutonium3;
-		}
+		}*/
 
-		if (item.getItem() == ModItems.rod_mox_fuel_depleted) {
+		if (item.getItem() == ModItems.waste_mox) {
 			return mox1;
 		}
 
-		if (item.getItem() == ModItems.rod_dual_mox_fuel_depleted) {
+		/*if (item.getItem() == ModItems.rod_dual_mox_fuel_depleted) {
 			return mox2;
 		}
 
 		if (item.getItem() == ModItems.rod_quad_mox_fuel_depleted) {
 			return mox3;
-		}
+		}*/
 
-		if (item.getItem() == ModItems.rod_schrabidium_fuel_depleted) {
+		if (item.getItem() == ModItems.waste_schrabidium) {
 			return schrabidium1;
 		}
 
-		if (item.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted) {
+		/*if (item.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted) {
 			return schrabidium2;
 		}
 
 		if (item.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted) {
 			return schrabidium3;
-		}
+		}*/
 
 		if (item.getItem() == ModItems.powder_cloud) {
 			return cloud;
@@ -1189,30 +1189,30 @@ public class MachineRecipes {
 			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)),
 					getCentrifugeOutput(new ItemStack(ModBlocks.test_render)));
 		}
-		recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_uranium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_plutonium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_plutonium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_mox_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_mox_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_dual_mox_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_mox_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_quad_mox_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_mox_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_schrabidium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted)));
-		recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
-				getCentrifugeOutput(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_uranium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_plutonium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_plutonium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_mox_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_mox_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_dual_mox_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_mox_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_quad_mox_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_mox_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_schrabidium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted)));
+		//recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
+		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.powder_cloud),
 				getCentrifugeOutput(new ItemStack(ModItems.powder_cloud)));
 		recipes.put(new ItemStack(Blocks.coal_ore),
@@ -1251,6 +1251,14 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(Blocks.lapis_ore)));
 		recipes.put(new ItemStack(ModBlocks.ore_nether_plutonium),
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_plutonium)));
+		recipes.put(new ItemStack(ModItems.waste_uranium),
+				getCentrifugeOutput(new ItemStack(ModItems.waste_uranium)));
+		recipes.put(new ItemStack(ModItems.waste_plutonium),
+				getCentrifugeOutput(new ItemStack(ModItems.waste_plutonium)));
+		recipes.put(new ItemStack(ModItems.waste_mox),
+				getCentrifugeOutput(new ItemStack(ModItems.waste_mox)));
+		recipes.put(new ItemStack(ModItems.waste_schrabidium),
+				getCentrifugeOutput(new ItemStack(ModItems.waste_schrabidium)));
 		return recipes;
 	}
 

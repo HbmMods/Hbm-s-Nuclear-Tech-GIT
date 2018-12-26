@@ -445,6 +445,8 @@ container.factoryAdvanced=Fortgeschrittene Fabrik
 tile.reactor_element.name=Reaktorkammer
 tile.reactor_control.name=Steuerstäbe
 tile.reactor_hatch.name=Kraftwerkszugriffsluke
+tile.reactor_ejector.name=Reaktor-Brennstoffauswurf
+tile.reactor_inserter.name=Reaktor-Brennstoffeinlass
 tile.reactor_conductor.name=Reaktorboiler
 tile.reactor_computer.name=Reaktorsteuerung
 container.reactorLarge=Großer Atomreaktor
@@ -742,6 +744,11 @@ tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
 tile.gravel_obsidian.name=Gebrochener Obsidian
 
 tile.barbed_wire.name=Stacheldraht
+tile.barbed_wire_fire.name=Flammender Stacheldraht
+tile.barbed_wire_poison.name=Vergifteter Stacheldraht
+tile.barbed_wire_acid.name=Ätzender Stacheldraht
+tile.barbed_wire_wither.name=Withernder Stacheldraht
+tile.barbed_wire_ultradeath.name=Wolken-Stacheldraht
 
 tile.seal_frame.name=Siloluke (Rahmen)
 tile.seal_controller.name=Silolukenöffner
@@ -1095,6 +1102,10 @@ tile.waste_planks.name=Verkohlte Holzbretter
 
 item.trinitite.name=Trinitit
 item.nuclear_waste.name=Atommüll
+item.waste_uranium.name=Erschöpfter Urankernbrennstoff
+item.waste_plutonium.name=Erschöpfter Plutoniumkernbrennstoff
+item.waste_mox.name=Erschöpfter MOX-Kernbrennstoff
+item.waste_schrabidium.name=Erschöpfter Schrabidiumkernbrennstoff
 item.scrap.name=Schrott
 
 item.ingot_uranium_fuel.name=Urankernbrennstoffbarren
