@@ -58,7 +58,10 @@ public class GUIReactorMultiblock extends GuiInfoContainer {
 		case SCHRABIDIUM:
 			fuel = "Schrabidium";
 			break;
-		case UNKNOWN:
+		case THORIUM:
+			fuel = "Thorium";
+			break;
+		default:
 			fuel = "ERROR";
 			break;
 		}

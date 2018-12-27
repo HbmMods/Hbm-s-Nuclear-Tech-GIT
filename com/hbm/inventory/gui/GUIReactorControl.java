@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerReactorControl;
@@ -100,6 +101,8 @@ public class GUIReactorControl extends GuiInfoContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		
+		this.fontRendererObj.drawString("Rods: " + control.rods + "%", 8, 40, 4210752);
 	}
 	
 	@Override
@@ -192,4 +195,69 @@ public class GUIReactorControl extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 25, guiTop + 16, 194, 18, 18, 18);
 		}
 	}
+	
+    protected void keyTyped(char ch, int i)
+    {
+        super.keyTyped(ch, i);
+        
+        switch(ch) {
+        case '0':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 0, 0)); break;
+        case '1':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 10, 0)); break;
+        case '2':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 20, 0)); break;
+        case '3':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 30, 0)); break;
+        case '4':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 40, 0)); break;
+        case '5':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 50, 0)); break;
+        case '6':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 60, 0)); break;
+        case '7':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 70, 0)); break;
+        case '8':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 80, 0)); break;
+        case '9':
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, 90, 0)); break;
+        }
+        
+    }
+    
+    public void handleMouseInput()
+    {
+        super.handleMouseInput();
+        int i = Mouse.getEventDWheel();
+
+        if (i > 0)
+        {
+            i = 1;
+        }
+
+        if (i < 0)
+        {
+            i = -1;
+        }
+        
+        int rods = control.rods + i;
+        
+        if(rods < 0)
+        	rods = 0;
+        
+        if(rods > 100)
+        	rods = 100;
+        
+		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, rods, 0));
+    }
 }

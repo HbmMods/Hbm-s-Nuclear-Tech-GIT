@@ -585,6 +585,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			case SCHRABIDIUM:
 				waste = ModItems.waste_schrabidium;
 				break;
+			case THORIUM:
+				waste = ModItems.waste_thorium;
+				break;
 			default:
 				waste = ModItems.waste_uranium;
 				break;
@@ -624,10 +627,15 @@ public class TileEntityMachineReactorLarge extends TileEntity
 					if(chest.getStackInSlot(i) != null) {
 						int cont = getFuelContent(chest.getStackInSlot(i).getItem(), type) * fuelMult;
 						
-						if(cont > 0 && fuel + cont <= maxFuel && !chest.getStackInSlot(i).getItem().hasContainerItem()) {
+						if(cont > 0 && fuel + cont <= maxFuel) {
+							
+							Item container =  chest.getStackInSlot(i).getItem().getContainerItem();
 							
 							chest.decrStackSize(i, 1);
 							fuel += cont;
+							
+							if(chest.getStackInSlot(i) == null && container != null)
+								chest.setInventorySlotContents(i, new ItemStack(container));
 						}
 					}
 				}
@@ -637,11 +645,16 @@ public class TileEntityMachineReactorLarge extends TileEntity
 					if(chest.getStackInSlot(i) != null) {
 						int cont = getFuelContent(chest.getStackInSlot(i).getItem(), getFuelType(chest.getStackInSlot(i).getItem())) * fuelMult;
 						
-						if(cont > 0 && fuel + cont <= maxFuel && !chest.getStackInSlot(i).getItem().hasContainerItem()) {
+						if(cont > 0 && fuel + cont <= maxFuel) {
+							
+							Item container =  chest.getStackInSlot(i).getItem().getContainerItem();
 							
 							type = getFuelType(chest.getStackInSlot(i).getItem());
 							chest.decrStackSize(i, 1);
 							fuel += cont;
+							
+							if(chest.getStackInSlot(i) == null && container != null)
+								chest.setInventorySlotContents(i, new ItemStack(container));
 						}
 					}
 				}
@@ -837,8 +850,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 	}
 	
 	public enum ReactorFuelType {
-		
+
 		URANIUM(250000),
+		THORIUM(200000),
 		PLUTONIUM(312500),
 		MOX(250000),
 		SCHRABIDIUM(2085000),

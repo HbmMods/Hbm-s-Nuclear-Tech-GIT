@@ -216,12 +216,14 @@ public class BlockCrate extends BlockFalling {
     	//Red Crate
     	BlockCrate.addToListWithWeight(redList, ModItems.mysteryshovel, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.gun_revolver_pip, 1);
+    	BlockCrate.addToListWithWeight(redList, ModItems.gun_revolver_blackjack, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.clip_revolver_pip, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.gun_calamity_dual, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.gun_b92, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.weaponized_starblaster_cell, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.battery_spark, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.bottle_sparkle, 1);
+    	BlockCrate.addToListWithWeight(redList, ModItems.bottle_rad, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.missile_taint, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.flame_pony, 1);
     	BlockCrate.addToListWithWeight(redList, ModItems.burnt_bark, 1);

@@ -509,7 +509,9 @@ item.fuse.name=Sicherung
 
 tile.test_nuke.name=Test Atombombe
 
+item.ingot_th232.name=Th232-Barren
 item.ingot_uranium.name=Uranbarren
+item.ingot_u233.name=U233-Barren
 item.ingot_u235.name=U235-Barren
 item.ingot_u238.name=U238-Barren
 item.ingot_u238m2.name=Metastabiler U238/2-Barren
@@ -1093,6 +1095,8 @@ item.t45_kit.name=T45-Powerrüstungskit
 item.euphemium_kit.name=Euphemium Kit
 item.solinium_kit.name=Solinium Kit
 item.hazmat_kit.name=Strahlenschutz-Kit
+item.hazmat_red_kit.name=Lvl 2 Strahlenschutz-Kit
+item.hazmat_grey_kit.name=Lvl 3 Strahlenschutz-Kit
 
 tile.waste_earth.name=Totes Gras
 tile.waste_trinitite.name=Trinititerz
@@ -1103,12 +1107,14 @@ tile.waste_planks.name=Verkohlte Holzbretter
 item.trinitite.name=Trinitit
 item.nuclear_waste.name=Atommüll
 item.waste_uranium.name=Erschöpfter Urankernbrennstoff
+item.waste_thorium.name=Erschöpfter Thoriumkernbrennstoff
 item.waste_plutonium.name=Erschöpfter Plutoniumkernbrennstoff
 item.waste_mox.name=Erschöpfter MOX-Kernbrennstoff
 item.waste_schrabidium.name=Erschöpfter Schrabidiumkernbrennstoff
 item.scrap.name=Schrott
 
 item.ingot_uranium_fuel.name=Urankernbrennstoffbarren
+item.ingot_thorium_fuel.name=Thoriumkernbrennstoffbarren
 item.ingot_plutonium_fuel.name=Plutoniumkernbrennstoffbarren
 item.ingot_mox_fuel.name=MOX-Kernbrennstoffbarren
 item.ingot_schrabidium_fuel.name=Schrabidiumkernbrennstoffbarren
@@ -1678,6 +1684,8 @@ item.redcoil_capacitor.name=Rotspulenkondensator
 item.detonator.name=Fernzünder
 item.detonator_multi.name=Mehrfach-Fernzünder
 item.detonator_laser.name=Laserzünder
+item.detonator_deadman.name=Totmannzünder
+item.detonator_de.name=Totmannladung
 item.crate_caller.name=Nachschub-Requester
 item.bomb_caller.name=Luftschlag Zielmarker
 item.meteor_remote.name=Meteoritenkontroller

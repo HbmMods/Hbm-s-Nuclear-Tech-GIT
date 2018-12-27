@@ -10,6 +10,7 @@ import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -17,15 +18,51 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
 
 public class ItemDrop extends Item {
 
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		if (entityItem != null) {
-			if (entityItem.onGround) {
+			
+			ItemStack stack = entityItem.getEntityItem();
 
-				ItemStack stack = entityItem.getEntityItem();
+			if (stack.getItem() != null && stack.getItem() == ModItems.detonator_deadman) {
+				if (!entityItem.worldObj.isRemote) {
+					
+					if(stack.stackTagCompound != null) {
+						
+						 int x = stack.stackTagCompound.getInteger("x");
+						 int y = stack.stackTagCompound.getInteger("y");
+						 int z = stack.stackTagCompound.getInteger("z");
+						 
+						 if(entityItem.worldObj.getBlock(x, y, z) instanceof IBomb)
+						 {
+							if(!entityItem.worldObj.isRemote)
+							{
+								((IBomb)entityItem.worldObj.getBlock(x, y, z)).explode(entityItem.worldObj, x, y, z);
+							}
+						 }
+					}
+
+					entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY,
+							entityItem.posZ, 0.0F, true);
+					entityItem.setDead();
+				}
+			}
+			if (stack.getItem() != null && stack.getItem() == ModItems.detonator_de) {
+				if (!entityItem.worldObj.isRemote) {
+					entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY,
+							entityItem.posZ, 15.0F, true);
+				}
+				
+				entityItem.setDead();
+			}
+			
+			if (entityItem.onGround) {
 
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_antimatter) {
 					if (!entityItem.worldObj.isRemote) {
@@ -142,26 +179,26 @@ public class ItemDrop extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.cell_antimatter) {
+		if (this == ModItems.cell_antimatter) {
 			list.add("Warning: Exposure to matter will");
 			list.add("lead to violent annihilation!");
 		}
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.pellet_antimatter) {
+		if (this == ModItems.pellet_antimatter) {
 			list.add("Very heavy antimatter cluster.");
 			list.add("Gets rid of black holes.");
 		}
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.cell_anti_schrabidium) {
+		if (this == ModItems.cell_anti_schrabidium) {
 			list.add("Warning: Exposure to matter will");
 			list.add("create a fólkvangr field!");
 		}
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity) {
+		if (this == ModItems.singularity) {
 			list.add("You may be asking:");
 			list.add("\"But HBM, a manifold with an undefined");
 			list.add("state of spacetime? How is this possible?\"");
 			list.add("Long answer short:");
 			list.add("\"I have no idea!\"");
 		}
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity_counter_resonant) {
+		if (this == ModItems.singularity_counter_resonant) {
 			list.add("Nullifies resonance of objects in");
 			list.add("non-euclidean space, creates variable");
 			list.add("gravity well. Spontaneously spawns");
@@ -169,19 +206,63 @@ public class ItemDrop extends Item {
 			list.add("appear near you, do not look directly");
 			list.add("at it.");
 		}
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.singularity_super_heated) {
+		if (this == ModItems.singularity_super_heated) {
 			list.add("Continuously heats up matter by");
 			list.add("resonating every planck second.");
 			list.add("Tends to catch fire or to create");
 			list.add("small plamsa arcs. Not edible.");
 		}
-		if (itemstack.getItem() != null && itemstack.getItem() == ModItems.black_hole) {
+		if (this == ModItems.black_hole) {
 			list.add("Contains a regular singularity");
 			list.add("in the center. Large enough to");
 			list.add("stay stable. It's not the end");
 			list.add("of the world as we know it,");
 			list.add("and I don't feel fine.");
 		}
+		if (this == ModItems.detonator_deadman) {
+			list.add("Shift right-click to set position,");
+			list.add("drop to detonate!");
+			if(itemstack.getTagCompound() == null)
+			{
+				list.add("No position set!");
+			} else {
+				list.add("Set pos to " + itemstack.stackTagCompound.getInteger("x") + ", " + itemstack.stackTagCompound.getInteger("y") + ", " + itemstack.stackTagCompound.getInteger("z"));
+			}
+		}
+		if (this == ModItems.detonator_de) {
+			list.add("Explodes when dropped!");
+		}
 	}
+	
+	@Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
+    {
+		if(this != ModItems.detonator_deadman) {
+			return super.onItemUse(stack, player, world, x, y, z, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_);
+		}
+		
+		if(stack.stackTagCompound == null)
+		{
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		
+		if(player.isSneaking())
+		{
+			stack.stackTagCompound.setInteger("x", x);
+			stack.stackTagCompound.setInteger("y", y);
+			stack.stackTagCompound.setInteger("z", z);
+			
+			if(world.isRemote)
+			{
+				player.addChatMessage(new ChatComponentText("Position set!"));
+			}
+			
+	        world.playSoundAtEntity(player, "hbm:item.techBoop", 2.0F, 1.0F);
+        	
+			return true;
+		}
+		
+		return false;
+    }
 
 }

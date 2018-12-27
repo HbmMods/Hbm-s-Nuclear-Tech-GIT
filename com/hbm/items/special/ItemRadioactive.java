@@ -44,7 +44,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.pellet_neptunium || 
 					this == ModItems.pellet_schrabidium) {
         		//Library.applyRadiation(living, 80, 24, 60, 19);
-				Library.applyRadData(living, 100F/20F * mod);
+				Library.applyRadData(living, 50F/20F * mod);
 			}
 
 			//Strong
@@ -83,7 +83,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.waste_mox || 
 					this == ModItems.waste_schrabidium) {
         		//Library.applyRadiation(living, 60, 19, 40, 14);
-				Library.applyRadData(living, 25F/20F * mod);
+				Library.applyRadData(living, 5F/20F * mod);
 			}
 			
 			//Strong Nuggets
@@ -102,9 +102,10 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_mox_fuel || 
 					this == ModItems.rod_uranium_fuel_depleted || 
 					this == ModItems.rod_plutonium_fuel_depleted || 
-					this == ModItems.rod_mox_fuel_depleted) {
+					this == ModItems.rod_mox_fuel_depleted || 
+					this == ModItems.ingot_thorium_fuel) {
         		//Library.applyRadiation(living, 45, 19, 30, 14);
-				Library.applyRadData(living, 15F/20F * mod);
+				Library.applyRadData(living, 3.5F/20F * mod);
 			}
 			
 			//Medium
@@ -123,7 +124,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.tsar_core || 
 					this == ModItems.trinitite) {
         		//Library.applyRadiation(living, 30, 14, 15, 9);
-				Library.applyRadData(living, 10F/20F * mod);
+				Library.applyRadData(living, 2.5F/20F * mod);
 			}
 			
 			//Medium Nuggets
@@ -134,9 +135,10 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_neptunium || 
 					this == ModItems.rod_pu238 || 
 					this == ModItems.rod_plutonium || 
-					this == ModItems.pellet_rtg_weak) {
+					this == ModItems.pellet_rtg_weak || 
+					this == ModItems.waste_thorium) {
         		//Library.applyRadiation(living, 20, 14, 5, 9);
-				Library.applyRadData(living, 5F/20F * mod);
+				Library.applyRadData(living, 1F/20F * mod);
 			}
 			
 			//Weak
@@ -150,7 +152,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_quad_pu238 || 
 					this == ModItems.rod_dual_pu238) {
         		//Library.applyRadiation(living, 20, 4, 5, 0);
-				Library.applyRadData(living, 5F/20F * mod);
+				Library.applyRadData(living, 0.5F/20F * mod);
 			}
 			
 			//Weak Nuggets
@@ -161,7 +163,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_u238 || 
 					this == ModItems.powder_yellowcake) {
         		//Library.applyRadiation(living, 10, 4, 0, 0);
-				Library.applyRadData(living, 1F/20F * mod);
+				Library.applyRadData(living, 0.25F/20F * mod);
 			}
 			
 			//Tritium
@@ -171,7 +173,7 @@ public class ItemRadioactive extends Item {
 					this == ModItems.rod_dual_tritium || 
 					this == ModItems.rod_quad_tritium) {
         		//Library.applyRadiation(living, 10, 4, 0, 0);
-				Library.applyRadData(living, 2.5F/20F * mod);
+				Library.applyRadData(living, 0.75F/20F * mod);
 			}
 			
 			//Powder
@@ -179,7 +181,7 @@ public class ItemRadioactive extends Item {
 			if (this == ModItems.powder_neptunium || 
 					this == ModItems.powder_plutonium) {
         		//Library.applyRadiation(living, 60, 19, 45, 14);
-				Library.applyRadData(living, 10F/20F * mod);
+				Library.applyRadData(living, 2F/20F * mod);
 				
 				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living))
 					living.setFire(5);
@@ -187,7 +189,7 @@ public class ItemRadioactive extends Item {
 
 			if (this == ModItems.powder_uranium) {
         		//Library.applyRadiation(living, 20, 4, 0, 0);
-				Library.applyRadData(living, 5F/20F * mod);
+				Library.applyRadData(living, 1F/20F * mod);
 				
 				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living))
 					living.setFire(5);
@@ -217,7 +219,7 @@ public class ItemRadioactive extends Item {
 					living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
 				
         		//Library.applyRadiation(living, 100, 29, 75, 24);
-				Library.applyRadData(living, 35F/20F * mod);
+				Library.applyRadData(living, 7.5F/20F * mod);
 			}
 
 			if (this == ModItems.nugget_schrabidium || 
@@ -226,20 +228,20 @@ public class ItemRadioactive extends Item {
 					this == ModItems.nugget_hes || 
 					this == ModItems.nugget_les) {
 				//living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
-				Library.applyRadData(living, 20F/20F * mod);
+				Library.applyRadData(living, 5F/20F * mod);
         		//Library.applyRadiation(living, 75, 29, 60, 24);
 			}
 
 			if (this == ModItems.plate_schrabidium || 
 					this == ModItems.wire_schrabidium) {
 				//living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));
-				Library.applyRadData(living, 25F/20F * mod);
+				Library.applyRadData(living, 7.5F/20F * mod);
         		//Library.applyRadiation(living, 80, 29, 60, 24);
 			}
 
 			if (this == ModItems.powder_schrabidium) {
         		//Library.applyRadiation(living, 100, 29, 75, 24);
-				Library.applyRadData(living, 35F/20F * mod);
+				Library.applyRadData(living, 7.5F/20F * mod);
 				
 				if(living instanceof EntityPlayer && !Library.checkForHazmat((EntityPlayer)living)) {
 					living.addPotionEffect(new PotionEffect(Potion.blindness.id, 60 * 20, 0));

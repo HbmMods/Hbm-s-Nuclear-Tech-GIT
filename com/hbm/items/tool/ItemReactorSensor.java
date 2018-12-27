@@ -39,6 +39,36 @@ public class ItemReactorSensor extends Item {
 
 		}
 
+		if (b == ModBlocks.reactor_hatch || b == ModBlocks.reactor_ejector
+				|| b == ModBlocks.reactor_inserter) {
+			
+			int meta = world.getBlockMetadata(x, y, z);
+			
+			switch(meta) {
+			case 2: z += 2; break;
+			case 3: z -= 2; break;
+			case 4: x += 2; break;
+			case 5: x -= 2; break;
+			}
+		}
+		
+		b = world.getBlock(x, y, z);
+		
+		if (b == ModBlocks.reactor_computer) {
+
+			if (stack.stackTagCompound == null)
+				stack.stackTagCompound = new NBTTagCompound();
+
+			stack.stackTagCompound.setInteger("x", x);
+			stack.stackTagCompound.setInteger("y", y);
+			stack.stackTagCompound.setInteger("z", z);
+
+			world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
+
+			player.swingItem();
+			return true;
+		}
+
 		return false;
 	}
 

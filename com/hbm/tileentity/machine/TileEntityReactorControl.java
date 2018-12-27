@@ -128,6 +128,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 		NBTTagList list = nbt.getTagList("items", 10);
 		
 		redstoned = nbt.getBoolean("red");
+		lastRods = nbt.getInteger("lastRods");
 		
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -148,6 +149,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 		NBTTagList list = new NBTTagList();
 		
 		nbt.setBoolean("red", redstoned);
+		nbt.setInteger("lastRods", lastRods);
 		
 		for(int i = 0; i < slots.length; i++)
 		{
@@ -198,6 +200,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 	public boolean auto;
 	public boolean isLinked;
 	public boolean redstoned;
+	private int lastRods = 100;
 	
 	@Override
 	public void updateEntity() {
@@ -213,7 +216,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         		
         		Block b = worldObj.getBlock(xCoord, yCoord, zCoord);
         		
-        		if(b == ModBlocks.machine_reactor_small) {
+        		if(b == ModBlocks.machine_reactor_small || b == ModBlocks.reactor_computer) {
         			linkX = xCoord;
         			linkY = yCoord;
         			linkZ = zCoord;
@@ -267,6 +270,54 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         		
         		if(auto && (water < 100 || cool < 100 || coreHeat > (50000 * 0.95)) && fuel > 0) {
         			reactor.retracting = true;
+        		}
+        		
+        	} else if(linkY >= 0 && worldObj.getTileEntity(linkX, linkY, linkZ) instanceof TileEntityMachineReactorLarge) {
+        		TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)worldObj.getTileEntity(linkX, linkY, linkZ);
+        		
+        		hullHeat = reactor.hullHeat;
+        		coreHeat = reactor.coreHeat;
+        		fuel = reactor.fuel * 100 / reactor.maxFuel;
+        		water = reactor.tanks[0].getFill();
+        		cool = reactor.tanks[1].getFill();
+        		steam = reactor.tanks[2].getFill();
+        		maxWater = reactor.tanks[0].getMaxFill();
+        		maxCool = reactor.tanks[1].getMaxFill();
+        		maxSteam = reactor.tanks[2].getMaxFill();
+        		rods = reactor.rods;
+        		maxRods = reactor.rodsMax;
+        		isOn = reactor.rods > 0;
+        		isLinked = true;
+        		
+        		switch(reactor.tanks[2].getTankType()) {
+        		case HOTSTEAM: 
+            		compression = 1; break;
+        		case SUPERHOTSTEAM: 
+            		compression = 2; break;
+            	default:
+            		compression = 0; break;
+        		}
+        		
+        		if(rods != 0)
+        			lastRods = rods;
+        		
+        		if(!redstoned) {
+        			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+        				redstoned = true;
+        				
+        				if(rods == 0)
+        					rods = lastRods;
+        				else
+        					rods = 0;
+        			}
+        		} else {
+        			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+        				redstoned = false;
+        			}
+        		}
+        		
+        		if(auto && (water < 100 || cool < 100 || coreHeat > (50000 * 0.95)) && fuel > 0) {
+        			reactor.rods = 0;
         		}
         		
         	} else {
