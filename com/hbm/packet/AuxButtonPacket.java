@@ -133,6 +133,8 @@ public class AuxButtonPacket implements IMessage {
 					if (reac instanceof TileEntityMachineReactorSmall) {
 						TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
 
+						System.out.println(m.id + "/" + m.value);
+						
 						if(m.id == 0)
 							reactor.retracting = m.value == 0;
 						

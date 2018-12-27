@@ -272,7 +272,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         			reactor.retracting = true;
         		}
         		
-        	} else if(linkY >= 0 && worldObj.getTileEntity(linkX, linkY, linkZ) instanceof TileEntityMachineReactorLarge) {
+        	} else if(linkY >= 0 && worldObj.getTileEntity(linkX, linkY, linkZ) instanceof TileEntityMachineReactorLarge && ((TileEntityMachineReactorLarge)worldObj.getTileEntity(linkX, linkY, linkZ)).checkBody()) {
         		TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)worldObj.getTileEntity(linkX, linkY, linkZ);
         		
         		hullHeat = reactor.hullHeat;

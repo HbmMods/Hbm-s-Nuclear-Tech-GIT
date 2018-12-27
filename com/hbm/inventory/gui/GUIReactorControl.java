@@ -239,25 +239,27 @@ public class GUIReactorControl extends GuiInfoContainer {
     {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-
-        if (i > 0)
-        {
-            i = 1;
+        
+        if(i != 0) {
+	        if (i > 0)
+	        {
+	            i = 1;
+	        }
+	
+	        if (i < 0)
+	        {
+	            i = -1;
+	        }
+	        
+	        int rods = control.rods + i;
+	        
+	        if(rods < 0)
+	        	rods = 0;
+	        
+	        if(rods > 100)
+	        	rods = 100;
+	        
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, rods, 0));
         }
-
-        if (i < 0)
-        {
-            i = -1;
-        }
-        
-        int rods = control.rods + i;
-        
-        if(rods < 0)
-        	rods = 0;
-        
-        if(rods > 100)
-        	rods = 100;
-        
-		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(control.xCoord, control.yCoord, control.zCoord, rods, 0));
     }
 }
