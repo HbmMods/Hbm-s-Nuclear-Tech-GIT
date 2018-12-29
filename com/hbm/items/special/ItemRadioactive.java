@@ -49,12 +49,16 @@ public class ItemRadioactive extends Item {
 
 			//Strong
 			
-			if (this == ModItems.ingot_u235 || 
+			if (this == ModItems.ingot_u233 || 
+					this == ModItems.ingot_u235 || 
+					this == ModItems.ingot_pu239 || 
 					this == ModItems.ingot_pu239 || 
 					this == ModItems.ingot_pu240 || 
 					this == ModItems.ingot_uranium_fuel || 
 					this == ModItems.ingot_plutonium_fuel || 
 					this == ModItems.ingot_mox_fuel || 
+					this == ModItems.rod_quad_u233 || 
+					this == ModItems.rod_dual_u233 || 
 					this == ModItems.rod_quad_u235 || 
 					this == ModItems.rod_dual_u235 || 
 					this == ModItems.rod_quad_pu239 || 
@@ -88,12 +92,14 @@ public class ItemRadioactive extends Item {
 			
 			//Strong Nuggets
 			
-			if (this == ModItems.nugget_u235 || 
+			if (this == ModItems.nugget_u233 || 
+					this == ModItems.nugget_u235 || 
 					this == ModItems.nugget_pu239 || 
 					this == ModItems.nugget_pu240 || 
 					this == ModItems.nugget_uranium_fuel || 
 					this == ModItems.nugget_plutonium_fuel || 
 					this == ModItems.nugget_mox_fuel || 
+					this == ModItems.rod_u233 || 
 					this == ModItems.rod_u235 || 
 					this == ModItems.rod_pu239 || 
 					this == ModItems.rod_pu240 || 
@@ -171,7 +177,8 @@ public class ItemRadioactive extends Item {
 			if (this == ModItems.cell_tritium || 
 					this == ModItems.rod_tritium || 
 					this == ModItems.rod_dual_tritium || 
-					this == ModItems.rod_quad_tritium) {
+					this == ModItems.rod_quad_tritium || 
+					this == ModItems.nugget_thorium_fuel) {
         		//Library.applyRadiation(living, 10, 4, 0, 0);
 				Library.applyRadData(living, 0.75F/20F * mod);
 			}

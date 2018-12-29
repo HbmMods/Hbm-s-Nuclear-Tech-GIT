@@ -67,6 +67,7 @@ public class ModItems {
 	public static Item ingot_schrabidium_fuel;
 	public static Item ingot_thorium_fuel;
 	public static Item nugget_uranium_fuel;
+	public static Item nugget_thorium_fuel;
 	public static Item nugget_plutonium_fuel;
 	public static Item nugget_mox_fuel;
 	public static Item nugget_schrabidium_fuel;
@@ -106,7 +107,9 @@ public class ModItems {
 	public static Item ingot_saturnite;
 	public static Item plate_saturnite;
 
+	public static Item nugget_th232;
 	public static Item nugget_uranium;
+	public static Item nugget_u233;
 	public static Item nugget_u235;
 	public static Item nugget_u238;
 	public static Item nugget_plutonium;
@@ -596,6 +599,7 @@ public class ModItems {
 
 	public static Item rod_empty;
 	public static Item rod_uranium;
+	public static Item rod_u233;
 	public static Item rod_u235;
 	public static Item rod_u238;
 	public static Item rod_plutonium;
@@ -616,6 +620,7 @@ public class ModItems {
 
 	public static Item rod_dual_empty;
 	public static Item rod_dual_uranium;
+	public static Item rod_dual_u233;
 	public static Item rod_dual_u235;
 	public static Item rod_dual_u238;
 	public static Item rod_dual_plutonium;
@@ -629,6 +634,7 @@ public class ModItems {
 
 	public static Item rod_quad_empty;
 	public static Item rod_quad_uranium;
+	public static Item rod_quad_u233;
 	public static Item rod_quad_u235;
 	public static Item rod_quad_u238;
 	public static Item rod_quad_plutonium;
@@ -684,6 +690,11 @@ public class ModItems {
 	public static Item waste_plutonium;
 	public static Item waste_mox;
 	public static Item waste_schrabidium;
+	public static Item waste_uranium_hot;
+	public static Item waste_thorium_hot;
+	public static Item waste_plutonium_hot;
+	public static Item waste_mox_hot;
+	public static Item waste_schrabidium_hot;
 	
 	public static Item rod_lithium;
 	public static Item rod_dual_lithium;
@@ -1468,6 +1479,7 @@ public class ModItems {
 		ingot_schrabidium_fuel = new ItemRadioactive().setUnlocalizedName("ingot_schrabidium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_schrabidium_fuel");
 		ingot_thorium_fuel = new ItemRadioactive().setUnlocalizedName("ingot_thorium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_thorium_fuel");
 		nugget_uranium_fuel = new ItemRadioactive().setUnlocalizedName("nugget_uranium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_uranium_fuel");
+		nugget_thorium_fuel = new ItemRadioactive().setUnlocalizedName("nugget_thorium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_thorium_fuel");
 		nugget_plutonium_fuel = new ItemRadioactive().setUnlocalizedName("nugget_plutonium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_plutonium_fuel");
 		nugget_mox_fuel = new ItemRadioactive().setUnlocalizedName("nugget_mox_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_mox_fuel");
 		nugget_schrabidium_fuel = new ItemRadioactive().setUnlocalizedName("nugget_schrabidium_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_schrabidium_fuel");
@@ -1544,7 +1556,9 @@ public class ModItems {
 		nugget_daffergon = new ItemCustomLore().setUnlocalizedName("nugget_daffergon").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_daffergon");
 		nugget_verticium = new ItemCustomLore().setUnlocalizedName("nugget_verticium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_verticium");
 
+		nugget_th232 = new Item().setUnlocalizedName("nugget_th232").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_th232");
 		nugget_uranium = new ItemRadioactive().setUnlocalizedName("nugget_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_uranium");
+		nugget_u233 = new ItemRadioactive().setUnlocalizedName("nugget_u233").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_u233");
 		nugget_u235 = new ItemRadioactive().setUnlocalizedName("nugget_u235").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_u235");
 		nugget_u238 = new ItemRadioactive().setUnlocalizedName("nugget_u238").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_u238");
 		nugget_plutonium = new ItemRadioactive().setUnlocalizedName("nugget_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_plutonium");
@@ -1964,6 +1978,7 @@ public class ModItems {
 
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_empty");
 		rod_uranium = new ItemCustomLore().setUnlocalizedName("rod_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
+		rod_u233 = new ItemCustomLore().setUnlocalizedName("rod_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_u233");
 		rod_u235 = new ItemCustomLore().setUnlocalizedName("rod_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_u235");
 		rod_u238 = new ItemCustomLore().setUnlocalizedName("rod_u238").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_u238");
 		rod_plutonium = new ItemCustomLore().setUnlocalizedName("rod_plutonium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_plutonium");
@@ -1984,6 +1999,7 @@ public class ModItems {
 
 		rod_dual_empty = new Item().setUnlocalizedName("rod_dual_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_dual_empty");
 		rod_dual_uranium = new ItemCustomLore().setUnlocalizedName("rod_dual_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium");
+		rod_dual_u233 = new ItemCustomLore().setUnlocalizedName("rod_dual_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_u233");
 		rod_dual_u235 = new ItemCustomLore().setUnlocalizedName("rod_dual_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_u235");
 		rod_dual_u238 = new ItemCustomLore().setUnlocalizedName("rod_dual_u238").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_u238");
 		rod_dual_plutonium = new ItemCustomLore().setUnlocalizedName("rod_dual_plutonium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_plutonium");
@@ -1997,6 +2013,7 @@ public class ModItems {
 
 		rod_quad_empty = new Item().setUnlocalizedName("rod_quad_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_quad_empty");
 		rod_quad_uranium = new ItemCustomLore().setUnlocalizedName("rod_quad_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_uranium");
+		rod_quad_u233 = new ItemCustomLore().setUnlocalizedName("rod_quad_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_u233");
 		rod_quad_u235 = new ItemCustomLore().setUnlocalizedName("rod_quad_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_u235");
 		rod_quad_u238 = new ItemCustomLore().setUnlocalizedName("rod_quad_u238").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_u238");
 		rod_quad_plutonium = new ItemCustomLore().setUnlocalizedName("rod_quad_plutonium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_plutonium");
@@ -2044,6 +2061,11 @@ public class ModItems {
 		waste_plutonium = new ItemCustomLore().setUnlocalizedName("waste_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plutonium");
 		waste_mox = new ItemCustomLore().setUnlocalizedName("waste_mox").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_mox");
 		waste_schrabidium = new ItemCustomLore().setUnlocalizedName("waste_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_schrabidium");
+		waste_uranium_hot = new ItemCustomLore().setUnlocalizedName("waste_uranium_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_uranium_hot");
+		waste_thorium_hot = new ItemCustomLore().setUnlocalizedName("waste_thorium_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_thorium_hot");
+		waste_plutonium_hot = new ItemCustomLore().setUnlocalizedName("waste_plutonium_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plutonium_hot");
+		waste_mox_hot = new ItemCustomLore().setUnlocalizedName("waste_mox_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_mox_hot");
+		waste_schrabidium_hot = new ItemCustomLore().setUnlocalizedName("waste_schrabidium_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_schrabidium_hot");
 		scrap = new Item().setUnlocalizedName("scrap").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scrap");
 		rod_uranium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium_fuel_depleted");
 		rod_dual_uranium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_dual_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium_fuel_depleted");
@@ -2831,12 +2853,12 @@ public class ModItems {
 		GameRegistry.registerItem(test_nuke_tier2_target, test_nuke_tier2_target.getUnlocalizedName());
 
 		//Ingots
-		GameRegistry.registerItem(ingot_th232, ingot_th232.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_uranium, ingot_uranium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_u233, ingot_u233.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_u235, ingot_u235.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_u238, ingot_u238.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_u238m2, ingot_u238m2.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_th232, ingot_th232.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_plutonium, ingot_plutonium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_pu238, ingot_pu238.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_pu239, ingot_pu239.getUnlocalizedName());
@@ -2971,8 +2993,10 @@ public class ModItems {
 
 		//Nuggets
 		GameRegistry.registerItem(nugget_uranium, nugget_uranium.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_u233, nugget_u233.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_u235, nugget_u235.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_u238, nugget_u238.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_th232, nugget_th232.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_plutonium, nugget_plutonium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_pu238, nugget_pu238.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_pu239, nugget_pu239.getUnlocalizedName());
@@ -2983,6 +3007,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_schrabidium, nugget_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_solinium, nugget_solinium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_uranium_fuel, nugget_uranium_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_thorium_fuel, nugget_thorium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_plutonium_fuel, nugget_plutonium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_mox_fuel, nugget_mox_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_schrabidium_fuel, nugget_schrabidium_fuel.getUnlocalizedName());
@@ -3483,6 +3508,10 @@ public class ModItems {
 		GameRegistry.registerItem(rod_dual_u235, rod_dual_u235.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_u235, rod_quad_u235.getUnlocalizedName());
 		
+		GameRegistry.registerItem(rod_u233, rod_u233.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_u233, rod_dual_u233.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_u233, rod_quad_u233.getUnlocalizedName());
+		
 		GameRegistry.registerItem(rod_u238, rod_u238.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_u238, rod_dual_u238.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_u238, rod_quad_u238.getUnlocalizedName());
@@ -3583,6 +3612,11 @@ public class ModItems {
 		GameRegistry.registerItem(rod_quad_waste, rod_quad_waste.getUnlocalizedName());
 		
 		GameRegistry.registerItem(scrap, scrap.getUnlocalizedName());
+		GameRegistry.registerItem(waste_uranium_hot, waste_uranium_hot.getUnlocalizedName());
+		GameRegistry.registerItem(waste_thorium_hot, waste_thorium_hot.getUnlocalizedName());
+		GameRegistry.registerItem(waste_plutonium_hot, waste_plutonium_hot.getUnlocalizedName());
+		GameRegistry.registerItem(waste_mox_hot, waste_mox_hot.getUnlocalizedName());
+		GameRegistry.registerItem(waste_schrabidium_hot, waste_schrabidium_hot.getUnlocalizedName());
 		GameRegistry.registerItem(waste_uranium, waste_uranium.getUnlocalizedName());
 		GameRegistry.registerItem(waste_thorium, waste_thorium.getUnlocalizedName());
 		GameRegistry.registerItem(waste_plutonium, waste_plutonium.getUnlocalizedName());

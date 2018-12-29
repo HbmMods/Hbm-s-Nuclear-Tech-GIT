@@ -188,5 +188,24 @@ public class RadiationSavedData extends WorldSavedData {
 			data.setRadForCoord(chunk.xPosition, chunk.zPosition, r + rad);
 		}
 	}
+	
+	public static void decrementRad(World worldObj, int x, int z, float rad) {
+		
+		RadiationSavedData data = getData(worldObj);
+		
+		Chunk chunk = worldObj.getChunkFromBlockCoords(x, z);
+		
+		float r = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+		
+		r -= rad;
+		
+		if(r > 0) {
+			data.setRadForCoord(chunk.xPosition, chunk.zPosition, r);
+		} else {
+			data.setRadForCoord(chunk.xPosition, chunk.zPosition, 0);
+		}
+		
+		System.out.println(r);
+	}
 
 }

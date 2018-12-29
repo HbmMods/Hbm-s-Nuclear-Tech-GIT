@@ -1111,6 +1111,11 @@ item.waste_thorium.name=Erschöpfter Thoriumkernbrennstoff
 item.waste_plutonium.name=Erschöpfter Plutoniumkernbrennstoff
 item.waste_mox.name=Erschöpfter MOX-Kernbrennstoff
 item.waste_schrabidium.name=Erschöpfter Schrabidiumkernbrennstoff
+item.waste_uranium_hot.name=Erschöpfter Urankernbrennstoff (Heiß)
+item.waste_thorium_hot.name=Erschöpfter Thoriumkernbrennstoff (Heiß)
+item.waste_plutonium_hot.name=Erschöpfter Plutoniumkernbrennstoff (Heiß)
+item.waste_mox_hot.name=Erschöpfter MOX-Kernbrennstoff (Heiß)
+item.waste_schrabidium_hot.name=Erschöpfter Schrabidiumkernbrennstoff (Heiß)
 item.scrap.name=Schrott
 
 item.ingot_uranium_fuel.name=Urankernbrennstoffbarren

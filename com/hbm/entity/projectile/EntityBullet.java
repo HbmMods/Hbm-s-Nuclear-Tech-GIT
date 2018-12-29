@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -39,6 +40,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -585,11 +587,30 @@ public class EntityBullet extends Entity implements IProjectile {
 									;
 							}
 						} else {
+							
+							if(movingobjectposition.entityHit instanceof EntityLivingBase) {
+								
+								try {
+									Field lastDamage = ReflectionHelper.findField(EntityLivingBase.class, "lastDamage", "field_110153_bc");
+									
+									float dmg = (float) damage + lastDamage.getFloat(movingobjectposition.entityHit);
+									
+									movingobjectposition.entityHit.attackEntityFrom(damagesource, dmg);
+								} catch (Exception x) { }
+							}
+							
+						}
+						
+						
+						
+						
+						
+						/* else {
 							if (movingobjectposition.entityHit instanceof EntityLivingBase && !(movingobjectposition.entityHit instanceof EntityHunterChopper)) {
 								EntityLivingBase target = (EntityLivingBase) movingobjectposition.entityHit;
 								target.setHealth((float) (target.getHealth() - damage));
 							}
-						}
+						}*/
 					} else {
 						this.setDead();
 					}
