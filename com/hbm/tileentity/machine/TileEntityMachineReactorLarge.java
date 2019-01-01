@@ -573,23 +573,23 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			
 			IInventory chest = (IInventory)te;
 			
-			Item waste = ModItems.waste_uranium;
+			Item waste = ModItems.waste_uranium_hot;
 			
 			switch(type) {
 			case PLUTONIUM:
-				waste = ModItems.waste_plutonium;
+				waste = ModItems.waste_plutonium_hot;
 				break;
 			case MOX:
-				waste = ModItems.waste_mox;
+				waste = ModItems.waste_mox_hot;
 				break;
 			case SCHRABIDIUM:
-				waste = ModItems.waste_schrabidium;
+				waste = ModItems.waste_schrabidium_hot;
 				break;
 			case THORIUM:
-				waste = ModItems.waste_thorium;
+				waste = ModItems.waste_thorium_hot;
 				break;
 			default:
-				waste = ModItems.waste_uranium;
+				waste = ModItems.waste_uranium_hot;
 				break;
 			}
 			

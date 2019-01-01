@@ -332,6 +332,7 @@ import com.hbm.tileentity.machine.TileEntitySafe;
 import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityStructureMarker;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
+import com.hbm.tileentity.machine.TileEntityWasteDrum;
 import com.hbm.tileentity.machine.TileEntityWatzCore;
 
 import cpw.mods.fml.common.SidedProxy;
@@ -749,6 +750,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityRFDuct.class, "tileentity_hbm_rfduct");
 		GameRegistry.registerTileEntity(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
 		GameRegistry.registerTileEntity(TileEntityMachineReactorLarge.class, "tileentity_large_reactor");
+		GameRegistry.registerTileEntity(TileEntityWasteDrum.class, "tileentity_waste_drum");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1231,14 +1233,19 @@ public class MainRegistry
 		}));
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
+		OreDictionary.registerOre("ingotUranium233", ModItems.ingot_u233);
 		OreDictionary.registerOre("ingotUranium235", ModItems.ingot_u235);
 		OreDictionary.registerOre("ingotUranium238", ModItems.ingot_u238);
+		OreDictionary.registerOre("ingotThorium", ModItems.ingot_th232);
+		OreDictionary.registerOre("ingotThorium232", ModItems.ingot_th232);
 		OreDictionary.registerOre("ingotPlutonium", ModItems.ingot_plutonium);
 		OreDictionary.registerOre("ingotPlutonium238", ModItems.ingot_pu238);
 		OreDictionary.registerOre("ingotPlutonium239", ModItems.ingot_pu239);
 		OreDictionary.registerOre("ingotPlutonium240", ModItems.ingot_pu240);
+		OreDictionary.registerOre("U233", ModItems.ingot_u233);
 		OreDictionary.registerOre("U235", ModItems.ingot_u235);
 		OreDictionary.registerOre("U238", ModItems.ingot_u238);
+		OreDictionary.registerOre("Th232", ModItems.ingot_th232);
 		OreDictionary.registerOre("Pu238", ModItems.ingot_pu238);
 		OreDictionary.registerOre("Pu39", ModItems.ingot_pu239);
 		OreDictionary.registerOre("Pu240", ModItems.ingot_pu240);
@@ -1280,8 +1287,11 @@ public class MainRegistry
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
+		OreDictionary.registerOre("nuggetUranium233", ModItems.nugget_u233);
 		OreDictionary.registerOre("nuggetUranium235", ModItems.nugget_u235);
 		OreDictionary.registerOre("nuggetUranium238", ModItems.nugget_u238);
+		OreDictionary.registerOre("nuggetThorium", ModItems.nugget_th232);
+		OreDictionary.registerOre("nuggetThorium232", ModItems.nugget_th232);
 		OreDictionary.registerOre("nuggetPlutonium", ModItems.nugget_plutonium);
 		OreDictionary.registerOre("nuggetPlutonium238", ModItems.nugget_pu238);
 		OreDictionary.registerOre("nuggetPlutonium239", ModItems.nugget_pu239);
@@ -1293,8 +1303,10 @@ public class MainRegistry
 		OreDictionary.registerOre("nuggetDaffergon", ModItems.nugget_daffergon);
 		OreDictionary.registerOre("nuggetVerticium", ModItems.nugget_verticium);
 		OreDictionary.registerOre("nuggetEuphemium", ModItems.nugget_euphemium);
+		OreDictionary.registerOre("tinyU233", ModItems.nugget_u233);
 		OreDictionary.registerOre("tinyU235", ModItems.nugget_u235);
 		OreDictionary.registerOre("tinyU238", ModItems.nugget_u238);
+		OreDictionary.registerOre("tinyTh232", ModItems.nugget_th232);
 		OreDictionary.registerOre("tinyPu238", ModItems.nugget_pu238);
 		OreDictionary.registerOre("tinyPu239", ModItems.nugget_pu239);
 		OreDictionary.registerOre("tinyPu240", ModItems.nugget_pu240);
@@ -1319,6 +1331,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
 		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
+		OreDictionary.registerOre("dustThorium", ModItems.powder_thorium);
 		OreDictionary.registerOre("dustPlutonium", ModItems.powder_plutonium);
 		OreDictionary.registerOre("dustTitanium", ModItems.powder_titanium);
 		OreDictionary.registerOre("dustTungsten", ModItems.powder_tungsten);
@@ -1375,6 +1388,7 @@ public class MainRegistry
 		OreDictionary.registerOre("gemCoal", Items.coal);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
+		OreDictionary.registerOre("oreThorium", ModBlocks.ore_thorium);
 		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_titanium);
 		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_schrabidium);
 		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_sulfur);
@@ -1400,6 +1414,7 @@ public class MainRegistry
 		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_nether_sulfur);
 		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_nether_schrabidium);
 
+		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
 		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
 		OreDictionary.registerOre("blockSulfur", ModBlocks.block_sulfur);
@@ -1636,7 +1651,14 @@ public class MainRegistry
 		TileEntityMachineReactorLarge.registerWasteEntry(120, ReactorFuelType.SCHRABIDIUM, ModItems.rod_dual_empty, ModItems.rod_dual_schrabidium_fuel_depleted);
 		TileEntityMachineReactorLarge.registerWasteEntry(240, ReactorFuelType.SCHRABIDIUM, ModItems.rod_quad_empty, ModItems.rod_quad_schrabidium_fuel_depleted);
 
+		TileEntityMachineReactorLarge.registerFuelEntry(1, ReactorFuelType.THORIUM, ModItems.nugget_thorium_fuel);
 		TileEntityMachineReactorLarge.registerFuelEntry(9, ReactorFuelType.THORIUM, ModItems.ingot_thorium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(6, ReactorFuelType.THORIUM, ModItems.rod_thorium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(12, ReactorFuelType.THORIUM, ModItems.rod_dual_thorium_fuel);
+		TileEntityMachineReactorLarge.registerFuelEntry(24, ReactorFuelType.THORIUM, ModItems.rod_quad_thorium_fuel);
+		TileEntityMachineReactorLarge.registerWasteEntry(6, ReactorFuelType.THORIUM, ModItems.rod_empty, ModItems.rod_thorium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerWasteEntry(12, ReactorFuelType.THORIUM, ModItems.rod_dual_empty, ModItems.rod_dual_thorium_fuel_depleted);
+		TileEntityMachineReactorLarge.registerWasteEntry(24, ReactorFuelType.THORIUM, ModItems.rod_quad_empty, ModItems.rod_quad_thorium_fuel_depleted);
 	}
 	
 	@EventHandler

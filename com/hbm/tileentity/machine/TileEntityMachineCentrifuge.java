@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
@@ -34,7 +35,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {2, 3, 4, 5};
-	private static final int[] slots_side = new int[] {1};
+	private static final int[] slots_side = new int[] {0, 1};
 	
 	private String customName;
 	
@@ -115,7 +116,11 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 			return false;
 		}
 		
-		return true;
+		if(i == 1) {
+			return itemStack.getItem() instanceof ItemBattery;
+		}
+		
+		return !(itemStack.getItem() instanceof ItemBattery);
 	}
 	
 	@Override

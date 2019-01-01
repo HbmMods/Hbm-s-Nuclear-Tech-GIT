@@ -689,7 +689,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
-		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.flowing_lava);
+		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
 
 		RadiationSavedData data = RadiationSavedData.getData(worldObj);
 		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);

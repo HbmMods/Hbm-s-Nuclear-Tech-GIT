@@ -2,6 +2,7 @@ package com.hbm.main;
 
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemGeigerCounter;
 import com.hbm.lib.Library;
@@ -50,15 +51,15 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	/*@SubscribeEvent
-	public void renderGunPull(RenderPlayerEvent.Specials.Post event) {
+	@SubscribeEvent
+	public void renderGunPull(RenderPlayerEvent.Pre event) {
 		
 		RenderPlayer renderer = event.renderer;
+		EntityPlayer player = event.entityPlayer;
 		
-		//TESTING
-		renderer.modelBipedMain.bipedLeftArm.rotateAngleX += 90;
-		
-	}*/
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon)
+			renderer.modelBipedMain.aimedBow = true;
+	}
 
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {

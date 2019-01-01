@@ -129,42 +129,22 @@ public class MachineRecipes {
 		ItemStack[] test = new ItemStack[] { new ItemStack(Items.apple, 3), new ItemStack(Items.leather, 1),
 				new ItemStack(Items.sugar, 3), new ItemStack(Items.blaze_powder, 2) };
 
-		ItemStack[] uran1 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 1),
-				new ItemStack(ModItems.nugget_u238, 3), new ItemStack(ModItems.nugget_pu239, 2),
-				new ItemStack(ModItems.nuclear_waste, 1) };
-		ItemStack[] uran2 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 2),
-				new ItemStack(ModItems.nugget_u238, 6), new ItemStack(ModItems.nugget_pu239, 4),
-				new ItemStack(ModItems.rod_dual_waste, 1) };
-		ItemStack[] uran3 = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 4),
-				new ItemStack(ModItems.nugget_u238, 12), new ItemStack(ModItems.nugget_pu239, 8),
-				new ItemStack(ModItems.rod_quad_waste, 1) };
-		ItemStack[] plutonium1 = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nugget_pu240, 3), new ItemStack(ModItems.nugget_lead, 2),
-				new ItemStack(ModItems.nuclear_waste, 1) };
-		ItemStack[] plutonium2 = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 2),
-				new ItemStack(ModItems.nugget_pu240, 6), new ItemStack(ModItems.nugget_lead, 4),
-				new ItemStack(ModItems.rod_dual_waste, 1) };
-		ItemStack[] plutonium3 = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 4),
-				new ItemStack(ModItems.nugget_pu240, 12), new ItemStack(ModItems.nugget_lead, 8),
-				new ItemStack(ModItems.rod_quad_waste, 1) };
-		ItemStack[] mox1 = new ItemStack[] { new ItemStack(ModItems.nugget_mox_fuel, 1),
-				new ItemStack(ModItems.nugget_neptunium, 3), new ItemStack(ModItems.nugget_u238, 2),
-				new ItemStack(ModItems.nuclear_waste, 1) };
-		ItemStack[] mox2 = new ItemStack[] { new ItemStack(ModItems.nugget_mox_fuel, 2),
-				new ItemStack(ModItems.nugget_neptunium, 6), new ItemStack(ModItems.nugget_u238, 4),
-				new ItemStack(ModItems.rod_dual_waste, 1) };
-		ItemStack[] mox3 = new ItemStack[] { new ItemStack(ModItems.nugget_mox_fuel, 4),
-				new ItemStack(ModItems.nugget_neptunium, 12), new ItemStack(ModItems.nugget_u238, 8),
-				new ItemStack(ModItems.rod_quad_waste, 1) };
-		ItemStack[] schrabidium1 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 1),
-				new ItemStack(ModItems.nugget_lead, 3), new ItemStack(ModItems.nugget_schrabidium, 2),
-				new ItemStack(ModItems.nuclear_waste, 1) };
-		ItemStack[] schrabidium2 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 2),
-				new ItemStack(ModItems.nugget_lead, 6), new ItemStack(ModItems.nugget_schrabidium, 4),
-				new ItemStack(ModItems.rod_dual_waste, 1) };
-		ItemStack[] schrabidium3 = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 4),
-				new ItemStack(ModItems.nugget_lead, 19), new ItemStack(ModItems.nugget_neptunium, 1),
-				new ItemStack(ModItems.rod_quad_euphemium, 1) };
+		ItemStack[] uranF = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 1),
+				new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_pu239, 1),
+				new ItemStack(ModItems.nuclear_waste_tiny, 2) };
+		ItemStack[] plutoniumF = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
+				new ItemStack(ModItems.nugget_pu240, 1), new ItemStack(ModItems.nugget_lead, 1),
+				new ItemStack(ModItems.nuclear_waste_tiny, 3) };
+		ItemStack[] moxF = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
+				new ItemStack(ModItems.nugget_neptunium, 1), new ItemStack(ModItems.nugget_u238, 2),
+				new ItemStack(ModItems.nuclear_waste_tiny, 2) };
+		ItemStack[] schrabidiumF = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 1),
+				new ItemStack(ModItems.nugget_lead, 1), new ItemStack(ModItems.nugget_schrabidium, 1),
+				new ItemStack(ModItems.nuclear_waste_tiny, 3) };
+		ItemStack[] thoriumF = new ItemStack[] { new ItemStack(ModItems.nugget_u238, 1),
+				new ItemStack(ModItems.nugget_th232, 1), new ItemStack(ModItems.nugget_u233, 3),
+				new ItemStack(ModItems.nuclear_waste_tiny, 1) };
+		
 		ItemStack[] cloud = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.dust, 1),
 				new ItemStack(ModItems.dust, 1) };
@@ -234,7 +214,11 @@ public class MachineRecipes {
 		}
 
 		if (item.getItem() == ModItems.waste_uranium) {
-			return uran1;
+			return uranF;
+		}
+
+		if (item.getItem() == ModItems.waste_thorium) {
+			return thoriumF;
 		}
 
 		/*if (item.getItem() == ModItems.rod_dual_uranium_fuel_depleted) {
@@ -246,7 +230,7 @@ public class MachineRecipes {
 		}*/
 
 		if (item.getItem() == ModItems.waste_plutonium) {
-			return plutonium1;
+			return plutoniumF;
 		}
 
 		/*if (item.getItem() == ModItems.rod_dual_plutonium_fuel_depleted) {
@@ -258,7 +242,7 @@ public class MachineRecipes {
 		}*/
 
 		if (item.getItem() == ModItems.waste_mox) {
-			return mox1;
+			return moxF;
 		}
 
 		/*if (item.getItem() == ModItems.rod_dual_mox_fuel_depleted) {
@@ -270,7 +254,7 @@ public class MachineRecipes {
 		}*/
 
 		if (item.getItem() == ModItems.waste_schrabidium) {
-			return schrabidium1;
+			return schrabidiumF;
 		}
 
 		/*if (item.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted) {
@@ -662,6 +646,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.gun_uzi_ammo);
 			if(mODE(input, "ingotGold"))
 				return new ItemStack(ModItems.gun_mp_ammo);
+			if(input.getItem() == ModItems.assembly_lacunae)
+				return new ItemStack(ModItems.gun_lacunae_ammo);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_50) {
@@ -742,6 +728,7 @@ public class MachineRecipes {
 
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_smg) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_smg));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_uzi) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_uzi));
+		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_lacunae) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_lacunae));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(Items.gold_ingot) }, getPressResultNN(i_stamps_9.get(0).getItem(), Items.gold_ingot));
 		
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_calamity) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_calamity));
@@ -755,8 +742,16 @@ public class MachineRecipes {
 
 	public static ItemStack getReactorOutput(Item item) {
 
+		if (item == ModItems.rod_th232) {
+			return new ItemStack(ModItems.rod_u233, 1);
+		}
+
 		if (item == ModItems.rod_uranium) {
 			return new ItemStack(ModItems.rod_plutonium, 1);
+		}
+
+		if (item == ModItems.rod_u233) {
+			return new ItemStack(ModItems.rod_u235, 1);
 		}
 
 		if (item == ModItems.rod_u235) {
@@ -791,8 +786,16 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.rod_solinium, 1);
 		}
 
+		if (item == ModItems.rod_dual_th232) {
+			return new ItemStack(ModItems.rod_dual_u233, 1);
+		}
+
 		if (item == ModItems.rod_dual_uranium) {
 			return new ItemStack(ModItems.rod_dual_plutonium, 1);
+		}
+
+		if (item == ModItems.rod_dual_u233) {
+			return new ItemStack(ModItems.rod_dual_u235, 1);
 		}
 
 		if (item == ModItems.rod_dual_u235) {
@@ -827,8 +830,16 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.rod_dual_solinium, 1);
 		}
 
+		if (item == ModItems.rod_quad_th232) {
+			return new ItemStack(ModItems.rod_quad_u233, 1);
+		}
+
 		if (item == ModItems.rod_quad_uranium) {
 			return new ItemStack(ModItems.rod_quad_plutonium, 1);
+		}
+
+		if (item == ModItems.rod_quad_u233) {
+			return new ItemStack(ModItems.rod_quad_u235, 1);
 		}
 
 		if (item == ModItems.rod_quad_u235) {
@@ -1253,6 +1264,8 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_plutonium)));
 		recipes.put(new ItemStack(ModItems.waste_uranium),
 				getCentrifugeOutput(new ItemStack(ModItems.waste_uranium)));
+		recipes.put(new ItemStack(ModItems.waste_thorium),
+				getCentrifugeOutput(new ItemStack(ModItems.waste_thorium)));
 		recipes.put(new ItemStack(ModItems.waste_plutonium),
 				getCentrifugeOutput(new ItemStack(ModItems.waste_plutonium)));
 		recipes.put(new ItemStack(ModItems.waste_mox),
@@ -1352,6 +1365,12 @@ public class MachineRecipes {
 		recipes.put(new ItemStack(ModBlocks.sellafield_2), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_2)));
 		recipes.put(new ItemStack(ModBlocks.sellafield_3), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_3)));
 		recipes.put(new ItemStack(ModBlocks.sellafield_4), getReactorOutput(Item.getItemFromBlock(ModBlocks.sellafield_4)));
+		recipes.put(new ItemStack(ModItems.rod_th232), getReactorOutput(ModItems.rod_th232));
+		recipes.put(new ItemStack(ModItems.rod_dual_th232), getReactorOutput(ModItems.rod_dual_th232));
+		recipes.put(new ItemStack(ModItems.rod_quad_th232), getReactorOutput(ModItems.rod_quad_th232));
+		recipes.put(new ItemStack(ModItems.rod_u233), getReactorOutput(ModItems.rod_u233));
+		recipes.put(new ItemStack(ModItems.rod_dual_u233), getReactorOutput(ModItems.rod_dual_u233));
+		recipes.put(new ItemStack(ModItems.rod_quad_u233), getReactorOutput(ModItems.rod_quad_u233));
 		return recipes;
 	}
 	

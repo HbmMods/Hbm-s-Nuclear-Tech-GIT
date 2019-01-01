@@ -702,6 +702,15 @@ public class GUIHandler implements IGuiHandler {
 				}
 				return null;
 			}
+
+			case ModBlocks.guiID_waste_drum:
+			{
+				if(entity instanceof TileEntityWasteDrum)
+				{
+					return new ContainerWasteDrum(player.inventory, (TileEntityWasteDrum) entity);
+				}
+				return null;
+			}
 		}
 		return null;
 	}
@@ -1393,6 +1402,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityReactorControl)
 					{
 						return new GUIReactorControl(player.inventory, (TileEntityReactorControl) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_waste_drum:
+				{
+					if(entity instanceof TileEntityWasteDrum)
+					{
+						return new GUIWasteDrum(player.inventory, (TileEntityWasteDrum) entity);
 					}
 					return null;
 				}

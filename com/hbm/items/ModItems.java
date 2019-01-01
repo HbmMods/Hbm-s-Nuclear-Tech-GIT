@@ -315,6 +315,7 @@ public class ModItems {
 	public static Item assembly_smg;
 	public static Item assembly_uzi;
 	public static Item assembly_calamity;
+	public static Item assembly_lacunae;
 
 	public static Item circuit_targeting_tier1;
 	public static Item circuit_targeting_tier2;
@@ -599,6 +600,7 @@ public class ModItems {
 
 	public static Item rod_empty;
 	public static Item rod_uranium;
+	public static Item rod_th232;
 	public static Item rod_u233;
 	public static Item rod_u235;
 	public static Item rod_u238;
@@ -620,6 +622,7 @@ public class ModItems {
 
 	public static Item rod_dual_empty;
 	public static Item rod_dual_uranium;
+	public static Item rod_dual_th232;
 	public static Item rod_dual_u233;
 	public static Item rod_dual_u235;
 	public static Item rod_dual_u238;
@@ -634,6 +637,7 @@ public class ModItems {
 
 	public static Item rod_quad_empty;
 	public static Item rod_quad_uranium;
+	public static Item rod_quad_th232;
 	public static Item rod_quad_u233;
 	public static Item rod_quad_u235;
 	public static Item rod_quad_u238;
@@ -649,6 +653,9 @@ public class ModItems {
 	public static Item rod_uranium_fuel;
 	public static Item rod_dual_uranium_fuel;
 	public static Item rod_quad_uranium_fuel;
+	public static Item rod_thorium_fuel;
+	public static Item rod_dual_thorium_fuel;
+	public static Item rod_quad_thorium_fuel;
 	public static Item rod_plutonium_fuel;
 	public static Item rod_dual_plutonium_fuel;
 	public static Item rod_quad_plutonium_fuel;
@@ -670,9 +677,13 @@ public class ModItems {
 	public static Item scrap;
 	public static Item trinitite;
 	public static Item nuclear_waste;
+	public static Item nuclear_waste_tiny;
 	public static Item rod_uranium_fuel_depleted;
 	public static Item rod_dual_uranium_fuel_depleted;
 	public static Item rod_quad_uranium_fuel_depleted;
+	public static Item rod_thorium_fuel_depleted;
+	public static Item rod_dual_thorium_fuel_depleted;
+	public static Item rod_quad_thorium_fuel_depleted;
 	public static Item rod_plutonium_fuel_depleted;
 	public static Item rod_dual_plutonium_fuel_depleted;
 	public static Item rod_quad_plutonium_fuel_depleted;
@@ -805,6 +816,10 @@ public class ModItems {
 	public static Item gun_calamity;
 	public static Item gun_calamity_dual;
 	public static Item gun_calamity_ammo;
+	public static Item gun_minigun;
+	public static Item gun_avenger;
+	public static Item gun_lacunae;
+	public static Item gun_lacunae_ammo;
 	public static Item gun_fatman;
 	public static Item gun_proto;
 	public static Item gun_fatman_ammo;
@@ -1255,6 +1270,7 @@ public class ModItems {
 	public static Item clip_revolver_nightmare;
 	public static Item clip_revolver_nightmare2;
 	public static Item clip_revolver_pip;
+	public static Item clip_revolver_nopip;
 	public static Item clip_rpg;
 	public static Item clip_stinger;
 	public static Item clip_fatman;
@@ -1802,6 +1818,7 @@ public class ModItems {
 		assembly_smg = new Item().setUnlocalizedName("assembly_smg").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_smg");
 		assembly_uzi = new Item().setUnlocalizedName("assembly_uzi").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_uzi");
 		assembly_calamity = new Item().setUnlocalizedName("assembly_calamity").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_calamity");
+		assembly_lacunae = new Item().setUnlocalizedName("assembly_lacunae").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lacunae");
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
@@ -1977,6 +1994,7 @@ public class ModItems {
 		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ring_pull");
 
 		rod_empty = new Item().setUnlocalizedName("rod_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_empty");
+		rod_th232 = new ItemCustomLore().setUnlocalizedName("rod_th232").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_th232");
 		rod_uranium = new ItemCustomLore().setUnlocalizedName("rod_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium");
 		rod_u233 = new ItemCustomLore().setUnlocalizedName("rod_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_u233");
 		rod_u235 = new ItemCustomLore().setUnlocalizedName("rod_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_u235");
@@ -1998,6 +2016,7 @@ public class ModItems {
 		rod_verticium = new ItemCustomLore().setUnlocalizedName("rod_verticium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_verticium");
 
 		rod_dual_empty = new Item().setUnlocalizedName("rod_dual_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_dual_empty");
+		rod_dual_th232 = new ItemCustomLore().setUnlocalizedName("rod_dual_th232").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_th232");
 		rod_dual_uranium = new ItemCustomLore().setUnlocalizedName("rod_dual_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium");
 		rod_dual_u233 = new ItemCustomLore().setUnlocalizedName("rod_dual_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_u233");
 		rod_dual_u235 = new ItemCustomLore().setUnlocalizedName("rod_dual_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_u235");
@@ -2012,6 +2031,7 @@ public class ModItems {
 		rod_dual_solinium = new ItemCustomLore().setUnlocalizedName("rod_dual_solinium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_solinium");
 
 		rod_quad_empty = new Item().setUnlocalizedName("rod_quad_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_quad_empty");
+		rod_quad_th232 = new ItemCustomLore().setUnlocalizedName("rod_quad_th232").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_th232");
 		rod_quad_uranium = new ItemCustomLore().setUnlocalizedName("rod_quad_uranium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_uranium");
 		rod_quad_u233 = new ItemCustomLore().setUnlocalizedName("rod_quad_u233").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_u233");
 		rod_quad_u235 = new ItemCustomLore().setUnlocalizedName("rod_quad_u235").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_u235");
@@ -2025,6 +2045,9 @@ public class ModItems {
 		rod_quad_schrabidium = new ItemCustomLore().setUnlocalizedName("rod_quad_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_schrabidium");
 		rod_quad_solinium = new ItemCustomLore().setUnlocalizedName("rod_quad_solinium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_solinium");
 
+		rod_thorium_fuel = new ItemFuelRod(100000, 10).setUnlocalizedName("rod_thorium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_thorium_fuel");
+		rod_dual_thorium_fuel = new ItemFuelRod(100000, 20).setUnlocalizedName("rod_dual_thorium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_thorium_fuel");
+		rod_quad_thorium_fuel = new ItemFuelRod(100000, 40).setUnlocalizedName("rod_quad_thorium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_thorium_fuel");
 		rod_uranium_fuel = new ItemFuelRod(100000, 15).setUnlocalizedName("rod_uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium_fuel");
 		rod_dual_uranium_fuel = new ItemFuelRod(100000, 30).setUnlocalizedName("rod_dual_uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium_fuel");
 		rod_quad_uranium_fuel = new ItemFuelRod(100000, 60).setUnlocalizedName("rod_quad_uranium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_uranium_fuel");
@@ -2056,6 +2079,7 @@ public class ModItems {
 
 		trinitite = new ItemCustomLore().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste = new ItemCustomLore().setUnlocalizedName("nuclear_waste").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste");
+		nuclear_waste_tiny = new ItemCustomLore().setUnlocalizedName("nuclear_waste_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_tiny");
 		waste_uranium = new ItemCustomLore().setUnlocalizedName("waste_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_uranium");
 		waste_thorium = new ItemCustomLore().setUnlocalizedName("waste_thorium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_thorium");
 		waste_plutonium = new ItemCustomLore().setUnlocalizedName("waste_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_plutonium");
@@ -2067,6 +2091,9 @@ public class ModItems {
 		waste_mox_hot = new ItemCustomLore().setUnlocalizedName("waste_mox_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_mox_hot");
 		waste_schrabidium_hot = new ItemCustomLore().setUnlocalizedName("waste_schrabidium_hot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_schrabidium_hot");
 		scrap = new Item().setUnlocalizedName("scrap").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scrap");
+		rod_thorium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_thorium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_thorium_fuel_depleted");
+		rod_dual_thorium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_dual_thorium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_thorium_fuel_depleted");
+		rod_quad_thorium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_quad_thorium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_thorium_fuel_depleted");
 		rod_uranium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_uranium_fuel_depleted");
 		rod_dual_uranium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_dual_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_uranium_fuel_depleted");
 		rod_quad_uranium_fuel_depleted = new ItemCustomLore().setUnlocalizedName("rod_quad_uranium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_uranium_fuel_depleted");
@@ -2169,6 +2196,10 @@ public class ModItems {
 		gun_calamity_ammo = new ItemCustomLore().setUnlocalizedName("gun_calamity_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity_ammo");
 		gun_calamity = new GunCalamity().setUnlocalizedName("gun_calamity").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity");
 		gun_calamity_dual = new GunCalamity().setUnlocalizedName("gun_calamity_dual").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity_dual");
+		gun_lacunae_ammo = new ItemCustomLore().setUnlocalizedName("gun_lacunae_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_lacunae_ammo");
+		gun_minigun = new GunLacunae().setUnlocalizedName("gun_minigun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_minigun");
+		gun_avenger = new GunLacunae().setUnlocalizedName("gun_avenger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_avenger");
+		gun_lacunae = new GunLacunae().setUnlocalizedName("gun_lacunae").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_lacunae");
 		gun_fatman_ammo = new Item().setUnlocalizedName("gun_fatman_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman_ammo");
 		gun_fatman = new GunFatman().setMaxDamage(2500).setUnlocalizedName("gun_fatman").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		gun_proto = new GunProtoMirv().setMaxDamage(2500).setUnlocalizedName("gun_proto").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
@@ -2460,6 +2491,7 @@ public class ModItems {
 		clip_revolver_nightmare = new ItemClip().setUnlocalizedName("clip_revolver_nightmare").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_revolver_nightmare");
 		clip_revolver_nightmare2 = new ItemClip().setUnlocalizedName("clip_revolver_nightmare2").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_revolver_nightmare2");
 		clip_revolver_pip = new ItemClip().setUnlocalizedName("clip_revolver_pip").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_revolver_pip");
+		clip_revolver_nopip = new ItemClip().setUnlocalizedName("clip_revolver_nopip").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_revolver_nopip");
 		clip_rpg = new ItemClip().setUnlocalizedName("clip_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_rpg_alt");
 		clip_stinger = new ItemClip().setUnlocalizedName("clip_stinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_stinger");
 		clip_fatman = new ItemClip().setUnlocalizedName("clip_fatman").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":clip_fatman");
@@ -3224,6 +3256,7 @@ public class ModItems {
 		GameRegistry.registerItem(assembly_nopip, assembly_nopip.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_smg, assembly_smg.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_uzi, assembly_uzi.getUnlocalizedName());
+		GameRegistry.registerItem(assembly_lacunae, assembly_lacunae.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_calamity, assembly_calamity.getUnlocalizedName());
 		
 		//Wiring
@@ -3504,6 +3537,10 @@ public class ModItems {
 		GameRegistry.registerItem(rod_dual_uranium, rod_dual_uranium.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_uranium, rod_quad_uranium.getUnlocalizedName());
 		
+		GameRegistry.registerItem(rod_th232, rod_th232.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_th232, rod_dual_th232.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_th232, rod_quad_th232.getUnlocalizedName());
+		
 		GameRegistry.registerItem(rod_u235, rod_u235.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_u235, rod_dual_u235.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_u235, rod_quad_u235.getUnlocalizedName());
@@ -3552,6 +3589,10 @@ public class ModItems {
 		GameRegistry.registerItem(rod_dual_uranium_fuel, rod_dual_uranium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_uranium_fuel, rod_quad_uranium_fuel.getUnlocalizedName());
 		
+		GameRegistry.registerItem(rod_thorium_fuel, rod_thorium_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_thorium_fuel, rod_dual_thorium_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_thorium_fuel, rod_quad_thorium_fuel.getUnlocalizedName());
+		
 		GameRegistry.registerItem(rod_plutonium_fuel, rod_plutonium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_plutonium_fuel, rod_dual_plutonium_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_plutonium_fuel, rod_quad_plutonium_fuel.getUnlocalizedName());
@@ -3592,6 +3633,10 @@ public class ModItems {
 		GameRegistry.registerItem(rod_uranium_fuel_depleted, rod_uranium_fuel_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_uranium_fuel_depleted, rod_dual_uranium_fuel_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_uranium_fuel_depleted, rod_quad_uranium_fuel_depleted.getUnlocalizedName());
+
+		GameRegistry.registerItem(rod_thorium_fuel_depleted, rod_thorium_fuel_depleted.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_thorium_fuel_depleted, rod_dual_thorium_fuel_depleted.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_thorium_fuel_depleted, rod_quad_thorium_fuel_depleted.getUnlocalizedName());
 		
 		GameRegistry.registerItem(rod_plutonium_fuel_depleted, rod_plutonium_fuel_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_plutonium_fuel_depleted, rod_dual_plutonium_fuel_depleted.getUnlocalizedName());
@@ -3624,6 +3669,7 @@ public class ModItems {
 		GameRegistry.registerItem(waste_schrabidium, waste_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(trinitite, trinitite.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste, nuclear_waste.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_tiny, nuclear_waste_tiny.getUnlocalizedName());
 		
 		//Da Chopper
 		GameRegistry.registerItem(chopper, chopper.getUnlocalizedName());
@@ -3704,6 +3750,9 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_red, gun_revolver_red.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity, gun_calamity.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity_dual, gun_calamity_dual.getUnlocalizedName());
+		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());
+		GameRegistry.registerItem(gun_avenger, gun_avenger.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lacunae, gun_lacunae.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b93, gun_b93.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
@@ -3757,6 +3806,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_pip_ammo, gun_revolver_pip_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_revolver_nopip_ammo, gun_revolver_nopip_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity_ammo, gun_calamity_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lacunae_ammo, gun_lacunae_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg_ammo, gun_rpg_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger_ammo, gun_stinger_ammo.getUnlocalizedName());
@@ -3801,6 +3851,7 @@ public class ModItems {
 		GameRegistry.registerItem(clip_revolver_nightmare, clip_revolver_nightmare.getUnlocalizedName());
 		GameRegistry.registerItem(clip_revolver_nightmare2, clip_revolver_nightmare2.getUnlocalizedName());
 		GameRegistry.registerItem(clip_revolver_pip, clip_revolver_pip.getUnlocalizedName());
+		GameRegistry.registerItem(clip_revolver_nopip, clip_revolver_nopip.getUnlocalizedName());
 		GameRegistry.registerItem(clip_rpg, clip_rpg.getUnlocalizedName());
 		GameRegistry.registerItem(clip_stinger, clip_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(clip_fatman, clip_fatman.getUnlocalizedName());

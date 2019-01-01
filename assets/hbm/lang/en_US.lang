@@ -655,6 +655,7 @@ item.assembly_nopip.name=.44 Magnum Assembly
 item.assembly_smg.name=9mm Assembly
 item.assembly_uzi.name=.22LR Assembly
 item.assembly_calamity.name=.50 BMG Assembly
+item.assembly_lacunae.name=.5mm Assembly
 
 item.piston_selenium.name=Radial Engine Piston
 
@@ -1249,6 +1250,9 @@ item.gun_revolver_blackjack.name=Blackjack Five-Shooter
 item.gun_revolver_red.name=Red Key Revolver
 item.gun_calamity.name=Calamity
 item.gun_calamity_dual.name=Saddle Gun
+item.gun_minigun.name=CZ53 Personal Minigun
+item.gun_avenger.name=CZ57 Avenger Minigun
+item.gun_lacunae.name=CZ33 Abaddon
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_proto.name=M42 Nuclear Catapult "Proto MIRV"
 item.gun_mirv.name=M42 Nuclear Catapult "Experimental MIRV"
@@ -1296,6 +1300,7 @@ item.gun_revolver_nightmare2_ammo.name=Laser Buckshot
 item.gun_revolver_pip_ammo.name=Tainted Bullet
 item.gun_revolver_nopip_ammo.name=.44 Magnum Bullet
 item.gun_calamity_ammo.name=.50 BMG Round
+item.gun_lacunae_ammo.name=5mm Round
 item.gun_fatman_ammo.name=Mini Nuke
 item.gun_mirv_ammo.name=Eightfold MIRV
 item.gun_bf_ammo.name=Mk.V Compact AMAT-Artillery Shell - Type B.F.

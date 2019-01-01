@@ -655,6 +655,7 @@ item.assembly_nopip.name=.44er Patronensatz
 item.assembly_smg.name=9mm Patronensatz
 item.assembly_uzi.name=.22LR Patronensatz
 item.assembly_calamity.name=.50 BMG Patronensatz
+item.assembly_lacunae.name=5mm Patronensatz
 
 item.piston_selenium.name=Sternmotorenkolben
 
@@ -1248,6 +1249,9 @@ item.gun_revolver_nopip.name=Novac
 item.gun_revolver_blackjack.name=Blackjack Five-Shooter
 item.gun_revolver_red.name=Roter Schlüssel-Revolver
 item.gun_calamity.name=Calamity
+item.gun_minigun.name=CZ53 Persönliche Minigun
+item.gun_avenger.name=CZ57 Avenger-Minigun
+item.gun_lacunae.name=CZ33 Abaddon
 item.gun_calamity_dual.name=Sattelkanone
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_proto.name=M42 Nukleares Katapult "Proto MIRV"
@@ -1296,6 +1300,7 @@ item.gun_revolver_nightmare2_ammo.name=Laserschrot
 item.gun_revolver_pip_ammo.name=Verdorbene Patrone
 item.gun_revolver_nopip_ammo.name=.44 Magnumpatrone
 item.gun_calamity_ammo.name=.50 BMG Patrone
+item.gun_lacunae_ammo.name=5mm Patrone
 item.gun_fatman_ammo.name=Miniatombombe
 item.gun_mirv_ammo.name=Achtfaches MIRV
 item.gun_bf_ammo.name=Mk.V kompaktes AMAT-Artilleriegeschoss - Typ B.F.

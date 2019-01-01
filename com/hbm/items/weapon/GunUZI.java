@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
@@ -19,7 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
-public class GunUZI extends Item {
+public class GunUZI extends Item implements IHoldableWeapon {
 
 	Random rand = new Random();
 
@@ -30,7 +31,7 @@ public class GunUZI extends Item {
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
+		return EnumAction.none;
 	}
 
 	@Override
