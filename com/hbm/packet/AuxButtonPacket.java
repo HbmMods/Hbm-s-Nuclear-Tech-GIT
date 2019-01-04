@@ -128,49 +128,75 @@ public class AuxButtonPacket implements IMessage {
 					if(m.id == 1)
 						control.auto = m.value == 1;
 					
-					TileEntity reac = p.worldObj.getTileEntity(control.linkX, control.linkY, control.linkZ);
+					if(control.linkY > -1) {
+						TileEntity reac = p.worldObj.getTileEntity(control.linkX, control.linkY, control.linkZ);
+						
+						if (reac instanceof TileEntityMachineReactorSmall) {
+							TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
+	
+							System.out.println(m.id + "/" + m.value);
+							
+							if(m.id == 0)
+								reactor.retracting = m.value == 0;
+							
+							if(m.id == 2) {
+								FluidType type = FluidType.STEAM;
+								int fill = reactor.tanks[2].getFill();
+								
+								switch(m.value) {
+								case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
+								case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+								case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+								}
+								
+								if(fill > reactor.tanks[2].getMaxFill())
+									fill = reactor.tanks[2].getMaxFill();
+								
+								reactor.tanks[2].setTankType(type);
+								reactor.tanks[2].setFill(fill);
+							}
+						}
+						
+						if (reac instanceof TileEntityMachineReactorLarge) {
+							TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)reac;
+							
+							if(m.id == 0) {
+								reactor.rods = m.value;
+							}
+							
+							if(m.id == 2) {
+								FluidType type = FluidType.STEAM;
+								int fill = reactor.tanks[2].getFill();
+								
+								switch(m.value) {
+								case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
+								case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+								case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+								}
+								
+								if(fill > reactor.tanks[2].getMaxFill())
+									fill = reactor.tanks[2].getMaxFill();
+								
+								reactor.tanks[2].setTankType(type);
+								reactor.tanks[2].setFill(fill);
+							}
+						}
+					}
 					
-					if (reac instanceof TileEntityMachineReactorSmall) {
-						TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
-
-						System.out.println(m.id + "/" + m.value);
+					if (te instanceof TileEntityMachineReactorLarge) {
+						TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
 						
 						if(m.id == 0)
-							reactor.retracting = m.value == 0;
-						
-						if(m.id == 2) {
-							FluidType type = FluidType.STEAM;
-							int fill = reactor.tanks[2].getFill();
-							
-							switch(m.value) {
-							case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-							case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-							case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-							}
-							
-							if(fill > reactor.tanks[2].getMaxFill())
-								fill = reactor.tanks[2].getMaxFill();
-							
-							reactor.tanks[2].setTankType(type);
-							reactor.tanks[2].setFill(fill);
-						}
-					}
-					
-					if (reac instanceof TileEntityMachineReactorLarge) {
-						TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)reac;
-						
-						if(m.id == 0) {
 							reactor.rods = m.value;
-						}
 						
-						if(m.id == 2) {
+						if(m.id == 1) {
 							FluidType type = FluidType.STEAM;
 							int fill = reactor.tanks[2].getFill();
 							
 							switch(m.value) {
-							case 0: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-							case 1: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-							case 2: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+							case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+							case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
+							case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
 							}
 							
 							if(fill > reactor.tanks[2].getMaxFill())
@@ -179,30 +205,6 @@ public class AuxButtonPacket implements IMessage {
 							reactor.tanks[2].setTankType(type);
 							reactor.tanks[2].setFill(fill);
 						}
-					}
-				}
-				
-				if (te instanceof TileEntityMachineReactorLarge) {
-					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
-					
-					if(m.id == 0)
-						reactor.rods = m.value;
-					
-					if(m.id == 1) {
-						FluidType type = FluidType.STEAM;
-						int fill = reactor.tanks[2].getFill();
-						
-						switch(m.value) {
-						case 0: type = FluidType.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 1: type = FluidType.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 2: type = FluidType.STEAM; fill = (int)Math.floor(fill * 100); break;
-						}
-						
-						if(fill > reactor.tanks[2].getMaxFill())
-							fill = reactor.tanks[2].getMaxFill();
-						
-						reactor.tanks[2].setTankType(type);
-						reactor.tanks[2].setFill(fill);
 					}
 				}
 				

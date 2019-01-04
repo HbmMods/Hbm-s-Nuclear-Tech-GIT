@@ -489,6 +489,9 @@ tile.machine_rtg_cyan.name=Schrabidium Decay Generator (WIP)
 tile.machine_rtg_blue.name=Convection Generator
 tile.machine_rtg_purple.name=Antimatter Annihilation Generator
 
+tile.machine_waste_drum.name=Spent Fuel Pool Drum
+container.wasteDrum=Spent Fuel Pool Drum
+
 tile.machine_spp_bottom.name=ZPE Potential Generator (Bottom)
 tile.machine_spp_top.name=ZPE Potential Generator (Top)
 
@@ -598,6 +601,8 @@ item.plate_saturnite.name=Saturnite Plate
 
 item.solid_fuel.name=Solid Fuel
 
+item.nugget_th232.name=Th232 Nugget
+item.nugget_u233.name=U233 Nugget
 item.nugget_u235.name=U235 Nugget
 item.nugget_u238.name=U238 Nugget
 item.nugget_pu238.name=Pu238 Nugget
@@ -669,6 +674,7 @@ tile.block_sulfur.name=Block of Sulfur
 tile.block_titanium.name=Block of Titanium
 tile.block_tungsten.name=Block of Tungsten
 tile.block_uranium.name=Block of Uranium
+tile.block_thorium.name=Block of Thorium
 tile.block_trinitite.name=Block of Trinitite
 tile.block_beryllium.name=Block of Beryllium
 tile.block_waste.name=Block of Nuclear Waste
@@ -694,6 +700,7 @@ tile.ore_sulfur.name=Sulfur Ore
 tile.ore_titanium.name=Titanium Ore
 tile.ore_tungsten.name=Tungsten Ore
 tile.ore_uranium.name=Uranium Ore
+tile.ore_thorium.name=Thorium Ore
 tile.ore_schrabidium.name=Schrabidium Ore
 tile.ore_beryllium.name=Beryllium Ore
 
@@ -995,7 +1002,9 @@ item.fluid_barrel_full.name=Fluid Barrel:
 item.fluid_barrel_infinite.name=Infinite Fluid Barrel
 
 item.rod_empty.name=Empty Rod
+item.rod_th232.name=Th232 Rod
 item.rod_uranium.name=Uranium Rod
+item.rod_u233.name=U233 Rod
 item.rod_u235.name=U235 Rod
 item.rod_u238.name=U238 Rod
 item.rod_plutonium.name=Plutonium Rod
@@ -1015,7 +1024,9 @@ item.rod_daffergon.name=Daffergon Rod
 item.rod_verticium.name=Verticium Rod
 
 item.rod_dual_empty.name=Empty Dual Rod
+item.rod_dual_th232.name=Th232 Dual Rod
 item.rod_dual_uranium.name=Uranium Dual Fuel Rod
+item.rod_dual_u233.name=U233 Dual Rod
 item.rod_dual_u235.name=U235 Dual Rod
 item.rod_dual_u238.name=U238 Dual Rod
 item.rod_dual_plutonium.name=Plutonium Dual Rod
@@ -1028,7 +1039,9 @@ item.rod_dual_schrabidium.name=Sa326 Dual Rod
 item.rod_dual_solinium.name=Sa327 Dual Rod
 
 item.rod_quad_empty.name=Empty Quad Rod
+item.rod_quad_th232.name=Th232 Quad Rod
 item.rod_quad_uranium.name=Uranium Quad Rod
+item.rod_quad_u233.name=U233 Quad Rod
 item.rod_quad_u235.name=U235 Quad Rod
 item.rod_quad_u238.name=U238 Quad Rod
 item.rod_quad_plutonium.name=Plutonium Quad Rod
@@ -1043,6 +1056,9 @@ item.rod_quad_solinium.name=Sa327 Quad Rod
 item.rod_uranium_fuel_depleted.name=Depleted Uranium Fuel Rod
 item.rod_dual_uranium_fuel_depleted.name=Depleted Uranium Dual Fuel Rod
 item.rod_quad_uranium_fuel_depleted.name=Depleted Uranium Quad Fuel Rod
+item.rod_thorium_fuel_depleted.name=Depleted Thorium Fuel Rod
+item.rod_dual_thorium_fuel_depleted.name=Depleted Thorium Dual Fuel Rod
+item.rod_quad_thorium_fuel_depleted.name=Depleted Thorium Quad Fuel Rod
 item.rod_plutonium_fuel_depleted.name=Depleted Plutonium Fuel Rod
 item.rod_dual_plutonium_fuel_depleted.name=Depleted Plutonium Dual Fuel Rod
 item.rod_quad_plutonium_fuel_depleted.name=Depleted Plutonium Quad Fuel Rod
@@ -1107,6 +1123,7 @@ tile.waste_planks.name=Charred Wooden Planks
 
 item.trinitite.name=Trinitite
 item.nuclear_waste.name=Nuclear Waste
+item.nuclear_waste_tiny.name=Tiny Pile of Nuclear Waste
 item.waste_uranium.name=Depleted Uranium Fuel
 item.waste_thorium.name=Depleted Thorium Fuel
 item.waste_plutonium.name=Depleted Plutonium Fuel
@@ -1126,6 +1143,7 @@ item.ingot_mox_fuel.name=Ingot of MOX Fuel
 item.ingot_schrabidium_fuel.name=Ingot of Schrabidium Fuel
 
 item.nugget_uranium_fuel.name=Nugget of Uranium Fuel
+item.nugget_thorium_fuel.name=Nugget of Thorium Fuel
 item.nugget_plutonium_fuel.name=Nugget of Plutonium Fuel
 item.nugget_mox_fuel.name=Nugget of MOX Fuel
 item.nugget_schrabidium_fuel.name=Nugget of Schrabidium Fuel
@@ -1177,6 +1195,9 @@ item.grenade_if_null.name=IF - Null Grenade
 item.rod_uranium_fuel.name=Uranium Fuel Rod
 item.rod_dual_uranium_fuel.name=Uranium Dual Fuel Rod
 item.rod_quad_uranium_fuel.name=Uranium Quad Fuel Rod
+item.rod_thorium_fuel.name=Thorium Fuel Rod
+item.rod_dual_thorium_fuel.name=Thorium Dual Fuel Rod
+item.rod_quad_thorium_fuel.name=Thorium Quad Fuel Rod
 item.rod_plutonium_fuel.name=Plutonium Fuel Rod
 item.rod_dual_plutonium_fuel.name=Plutonium Dual Fuel Rod
 item.rod_quad_plutonium_fuel.name=Plutonium Quad Fuel Rod
@@ -1358,6 +1379,7 @@ item.clip_emp.name=Small Pack of Energy Cells
 item.clip_revolver_nightmare.name=Bag of Bullets
 item.clip_revolver_nightmare2.name=Belt with Laser Buckshot
 item.clip_revolver_pip.name=Speedloader with Tainted Bullets
+item.clip_revolver_nopip.name=Box of .44 Rounds
 item.clip_stinger.name=Pack of Stinger Rockets
 item.clip_jack.name=Box of Quadruple 12x70 Buckshot Rounds
 item.clip_spark.name=Large Electromagnetic Cartridge
@@ -1678,6 +1700,11 @@ tile.machine_transformer_dnt_20.name=DNT-1Hz Transformer
 tile.vent_chlorine.name=Chlorine Vent
 tile.vent_cloud.name=Cloud Vent
 tile.vent_pink_cloud.name=Pink Cloud Vent
+
+tile.absorber.name=Radiation Absorber
+tile.absorber_red.name=Enhanced Radiation Absorber
+tile.absorber_green.name=Advanced Radiation Absorber
+tile.absorber_pink.name=Elite Radiation Absorber
 
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.shimmer_sledge.name=Shimmer Sledge

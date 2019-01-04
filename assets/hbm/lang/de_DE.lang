@@ -489,6 +489,9 @@ tile.machine_rtg_cyan.name=Schrabidium-Zerfallsenergie-Generator (WIP)
 tile.machine_rtg_blue.name=Konvektionsgenerator
 tile.machine_rtg_purple.name=Paarvernichtungsgenerator
 
+tile.machine_waste_drum.name=Abklingbecken-Trommel
+container.wasteDrum=Abklingbecken-Trommel
+
 tile.machine_spp_bottom.name=NPE-Potentialgenerator (Unterteil)
 tile.machine_spp_top.name=NPE-Potentialgenerator (Oberteil)
 
@@ -598,6 +601,8 @@ item.plate_saturnite.name=Saturnitplatte
 
 item.solid_fuel.name=Festbrennstoff
 
+item.nugget_th232.name=Th232-Nugget
+item.nugget_u233.name=U233-Nugget
 item.nugget_u235.name=U235-Nugget
 item.nugget_u238.name=U238-Nugget
 item.nugget_pu238.name=Pu238-Nugget
@@ -669,6 +674,7 @@ tile.block_sulfur.name=Schwefelblock
 tile.block_titanium.name=Titanblock
 tile.block_tungsten.name=Wolframblock
 tile.block_uranium.name=Uranblock
+tile.block_thorium.name=Thoriumblock
 tile.block_trinitite.name=Trinititblock
 tile.block_beryllium.name=Berylliumblock
 tile.block_waste.name=Atommüllblock
@@ -694,6 +700,7 @@ tile.ore_sulfur.name=Schwefelerz
 tile.ore_titanium.name=Titanerz
 tile.ore_tungsten.name=Wolframerz
 tile.ore_uranium.name=Uranerz
+tile.ore_thorium.name=Thoriumerz
 tile.ore_schrabidium.name=Schrabidiumerz
 tile.ore_beryllium.name=Berylliumerz
 
@@ -995,7 +1002,9 @@ item.fluid_barrel_full.name=Flüssigkeitsfass:
 item.fluid_barrel_infinite.name=Unendliches Fass
 
 item.rod_empty.name=Leerer Brennstab
+item.rod_th232.name=Th232-Brennstab
 item.rod_uranium.name=Uranbrennstab
+item.rod_u233.name=U233-Brennstab
 item.rod_u235.name=U235-Brennstab
 item.rod_u238.name=U238-Brennstab
 item.rod_plutonium.name=Plutoniumbrennstab
@@ -1015,7 +1024,9 @@ item.rod_daffergon.name=Daffergonbrennstab
 item.rod_verticium.name=Verticiumbrennstab
 
 item.rod_dual_empty.name=Leerer Doppelbrennstab
+item.rod_dual_th232.name=Th232-Doppelbrennstab
 item.rod_dual_uranium.name=Urandoppelbrennstab
+item.rod_dual_u233.name=U233-Doppelbrennstab
 item.rod_dual_u235.name=U235-Doppelbrennstab
 item.rod_dual_u238.name=U238-Doppelbrennstab
 item.rod_dual_plutonium.name=Plutoniumdoppelbrennstab
@@ -1028,7 +1039,9 @@ item.rod_dual_schrabidium.name=Sa326-Doppelbrennstab
 item.rod_dual_solinium.name=Sa327-Doppelbrennstab
 
 item.rod_quad_empty.name=Leerer Vierfachbrennstab
+item.rod_quad_th232.name=Th232-Vierfachbrennstab
 item.rod_quad_uranium.name=Uranvierfachbrennstab
+item.rod_quad_u233.name=U233-Vierfachbrennstab
 item.rod_quad_u235.name=U235-Vierfachbrennstab
 item.rod_quad_u238.name=U238-Vierfachbrennstab
 item.rod_quad_plutonium.name=Plutoniumvierfachbrennstab
@@ -1043,6 +1056,9 @@ item.rod_quad_solinium.name=Sa327-Vierfachbrennstab
 item.rod_uranium_fuel_depleted.name=Erschöpfte Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel_depleted.name=Erschöpfte Urandoppelkernbrennstoffzelle
 item.rod_quad_uranium_fuel_depleted.name=Erschöpfte Uranvierfachkernbrennstoffzelle
+item.rod_thorium_fuel_depleted.name=Erschöpfte Thoriumkernbrennstoffzelle
+item.rod_dual_thorium_fuel_depleted.name=Erschöpfte Thoriumdoppelkernbrennstoffzelle
+item.rod_quad_thorium_fuel_depleted.name=Erschöpfte Thoriumvierfachkernbrennstoffzelle
 item.rod_plutonium_fuel_depleted.name=Erschöpfte Plutoniumkernbrennstoffzelle
 item.rod_dual_plutonium_fuel_depleted.name=Erschöpfte Plutoniumdoppelkernbrennstoffzelle
 item.rod_quad_plutonium_fuel_depleted.name=Erschöpfte Plutoniumvierfachkernbrennstoffzelle
@@ -1107,6 +1123,7 @@ tile.waste_planks.name=Verkohlte Holzbretter
 
 item.trinitite.name=Trinitit
 item.nuclear_waste.name=Atommüll
+item.nuclear_waste_tiny.name=Kleiner Haufen Atommüll
 item.waste_uranium.name=Erschöpfter Urankernbrennstoff
 item.waste_thorium.name=Erschöpfter Thoriumkernbrennstoff
 item.waste_plutonium.name=Erschöpfter Plutoniumkernbrennstoff
@@ -1126,6 +1143,7 @@ item.ingot_mox_fuel.name=MOX-Kernbrennstoffbarren
 item.ingot_schrabidium_fuel.name=Schrabidiumkernbrennstoffbarren
 
 item.nugget_uranium_fuel.name=Urankernbrennstoffnugget
+item.nugget_thorium_fuel.name=Thoriumkernbrennstoffnugget
 item.nugget_plutonium_fuel.name=Plutoniumkernbrennstoffnugget
 item.nugget_mox_fuel.name=MOX-Kernbrennstoffnugget
 item.nugget_schrabidium_fuel.name=Schrabidiumkernbrennstoffnugget
@@ -1177,6 +1195,9 @@ item.grenade_if_null.name=IF - Null-Granate
 item.rod_uranium_fuel.name=Urankernbrennstoffzelle
 item.rod_dual_uranium_fuel.name=Doppelte Urankernbrennstoffzelle
 item.rod_quad_uranium_fuel.name=Vierfache Urankernbrennstoffzelle
+item.rod_thorium_fuel.name=Thoriumkernbrennstoffzelle
+item.rod_dual_thorium_fuel.name=Doppelte Thoriumkernbrennstoffzelle
+item.rod_quad_thorium_fuel.name=Vierfache Thoriumkernbrennstoffzelle
 item.rod_plutonium_fuel.name=Plutoniumkernbrennstoffzelle
 item.rod_dual_plutonium_fuel.name=Doppelte Plutoniumkernbrennstoffzelle
 item.rod_quad_plutonium_fuel.name=Vierfache Plutoniumkernbrennstoffzelle
@@ -1358,6 +1379,7 @@ item.clip_emp.name=Magnetsteifen mit Energiezellen
 item.clip_revolver_nightmare.name=Sack voll Kugeln
 item.clip_revolver_nightmare2.name=Munitionsgürtel mit Laserschrot
 item.clip_revolver_pip.name=Speedloader mit verdorbenen Patronen
+item.clip_revolver_nopip.name=.44 Magnum Patronen
 item.clip_stinger.name=Dreierpack Stinger-Raketen
 item.clip_jack.name=12x70 Vierfache Schrotpatronenbox
 item.clip_spark.name=Große Elektromagnetische Katusche
@@ -1678,6 +1700,11 @@ tile.machine_transformer_dnt_20.name=DNT-1Hz-Transformator
 tile.vent_chlorine.name=Chlorgas-Auslass
 tile.vent_cloud.name=Wolken-Auslass
 tile.vent_pink_cloud.name=Pinker Wolken-Auslass
+
+tile.absorber.name=Strahlungs-Absorber
+tile.absorber_red.name=Verbesserter Strahlungs-Absorber
+tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
+tile.absorber_pink.name=Elite Strahlungs-Absorber
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.shimmer_sledge.name=Shimmer Sledge

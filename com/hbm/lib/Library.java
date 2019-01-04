@@ -656,13 +656,15 @@ public class Library {
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
 			
 			long dR = ((ItemBattery)slots[index].getItem()).getChargeRate();
+			
+			System.out.println(dR + "");
 
 			while(dR >= 1000000000000L) {
 				if(power - 100000000000000L >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
 				{
 					power -= 100000000000000L;
 					dR -= 1000000000000L;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000000000000L);
 				} else break;
 			}
 			while(dR >= 1000000000) {
@@ -670,7 +672,7 @@ public class Library {
 				{
 					power -= 100000000000L;
 					dR -= 1000000000;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000000000);
 				} else break;
 			}
 			while(dR >= 1000000) {
@@ -678,7 +680,7 @@ public class Library {
 				{
 					power -= 100000000;
 					dR -= 1000000;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000000);
 				} else break;
 			}
 			while(dR >= 1000) {
@@ -686,7 +688,7 @@ public class Library {
 				{
 					power -= 100000;
 					dR -= 1000;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000);
 				} else break;
 			}
 			while(dR >= 1) {
@@ -768,7 +770,7 @@ public class Library {
 				{
 					power += 100000000000000L;
 					dR -= 1000000000000L;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000000000000L);
 				} else break;
 			}
 			while(dR >= 1000000000) {
@@ -776,7 +778,7 @@ public class Library {
 				{
 					power += 100000000000L;
 					dR -= 1000000000L;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000000000);
 				} else break;
 			}
 			while(dR >= 1000000) {
@@ -784,7 +786,7 @@ public class Library {
 				{
 					power += 100000000L;
 					dR -= 1000000;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000000);
 				} else break;
 			}
 			while(dR >= 1000) {
@@ -792,7 +794,7 @@ public class Library {
 				{
 					power += 100000L;
 					dR -= 1000;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
+					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000);
 				} else break;
 			}
 			while(dR >= 1) {

@@ -674,19 +674,6 @@ public class ItemCustomLore extends ItemRadioactive {
 		if(this == ModItems.key_red)
 		{
 			if(MainRegistry.polaroidID == 11) {
-				list.add("ard lock is ~10%5Success ra");
-				list.add("Antimatter +15");
-				list.add("ced resource scanner.27Production x4 / Co");
-				list.add("this == ModItems.watch || this == ModI");
-				list.add("list.add(\"Woo, scary!\");");
-				list.add(EnumChatFormatting.OBFUSCATED + "//list.add(\"Blue horse beats yellow horse, look it up!\");");
-				list.add("ion -60 / Delay +1019All hail");
-				list.add("bank angle bank angle bank angle");
-				list.add("'M");
-				list.add("");
-				list.add("bank angle bank angle bank angle");
-				list.add("bank angle bank angle bank angle");
-				list.add("");
 				list.add(EnumChatFormatting.DARK_RED + "" + EnumChatFormatting.BOLD + "e");
 			} else {
 				list.add("Explore the other side.");

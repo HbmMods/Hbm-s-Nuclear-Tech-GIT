@@ -74,7 +74,7 @@ public class ItemBattery extends Item {
     	return EnumRarity.common;
     }
     
-    public void chargeBattery(ItemStack stack, int i) {
+    public void chargeBattery(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ItemBattery) {
     		if(stack.hasTagCompound()) {
     			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
@@ -85,7 +85,7 @@ public class ItemBattery extends Item {
     	}
     }
     
-    public void setCharge(ItemStack stack, int i) {
+    public void setCharge(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ItemBattery) {
     		if(stack.hasTagCompound()) {
     			stack.stackTagCompound.setLong("charge", i);
@@ -96,7 +96,7 @@ public class ItemBattery extends Item {
     	}
     }
     
-    public void dischargeBattery(ItemStack stack, int i) {
+    public void dischargeBattery(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ItemBattery) {
     		if(stack.hasTagCompound()) {
     			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);

@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -17,6 +18,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
@@ -31,7 +33,7 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack) {
-		return EnumAction.bow;
+		return EnumAction.none;
 	}
 
 	@Override
@@ -100,13 +102,27 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 			list.add("The perfect gift for the man who has everything.");
 		if(this == ModItems.gun_avenger)
 			list.add("Interloper! No quarter shall be shown hither, fiend!");
-		if(this == ModItems.gun_lacunae)
-			list.add("Auntie Lacunae to the rescue!");
+		
+		if(this == ModItems.gun_lacunae) {
+			list.add("Whoa, wait, what's that sound? Do you hear that?");
+			list.add("I think that's silence! That's the sound people make");
+			list.add("when everyone trying to kill me is dead!");
+			list.add("And I have a minigun!");
+		}
 		
 		list.add("");
 		list.add("Ammo: 5mm Round");
 		list.add("Damage: 5");
 	}
+
+    public String getItemStackDisplayName(ItemStack stack)
+    {
+
+		if(this == ModItems.gun_lacunae && MainRegistry.polaroidID == 11)
+			return "CZ97 Lacunae";
+		
+		return super.getItemStackDisplayName(stack);
+    }
 
 	@Override
 	public Multimap getItemAttributeModifiers() {

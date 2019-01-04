@@ -136,8 +136,9 @@ public class ItemRenderOverkill implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_lacunae ||
 						item.getItem() == ModItems.gun_minigun ||
 						item.getItem() == ModItems.gun_avenger) {
+					GL11.glRotatef(-15.0F, 0.0F, 0.0F, 1.0F);
 					GL11.glRotatef(180, 0, 1, 0);
-					GL11.glTranslatef(0.0F, 0.3F, -0.2F);
+					GL11.glTranslatef(0.5F, 0.3F, -0.2F);
 				}
 				
 				if(item.getItem() == ModItems.gun_jack)
@@ -250,7 +251,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_lacunae ||
 					item.getItem() == ModItems.gun_minigun ||
 					item.getItem() == ModItems.gun_avenger) {
-				GL11.glRotatef(180, 0, 1, 0);
+				GL11.glRotatef(5.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(185, 0, 1, 0);
 				GL11.glTranslatef(0.5F, 0.6F, 0.2F);
 			}
 			

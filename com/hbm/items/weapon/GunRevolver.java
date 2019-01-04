@@ -278,7 +278,9 @@ public class GunRevolver extends Item {
 			list.add("Damage: 25 - 35");
 		}
 		if (this == ModItems.gun_revolver_blackjack) {
-			list.add("Hol on-");
+			list.add("Contents under pressure.");
+			list.add("Extremely volatile.");
+			list.add("Handle with care!");
 			list.add("");
 			list.add("Ammo: .44 Magnum");
 			list.add("Damage: 35 - 45");

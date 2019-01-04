@@ -6,22 +6,25 @@ public class GunConfiguration {
 	
 	//amount of ticks between each bullet
 	public int rateOfFire;
-	public int rateOfFireAlt;
 	//greatest amount of pellets created each shot
 	public int bulletsMin;
-	public int bulletsMinAlt;
 	//least amount of pellets created each shot
 	public int bulletsMax;
-	public int bulletsMaxAlt;
 	//0 = normal, 1 = release, 2 = both
 	public int gunMode;
 	//0 = manual, 1 = automatic
 	public int firingMode;
+	//spread of bullets in gaussian range
+	public float spread;
 	
 	//whether or not there is a reload delay animation
 	public boolean hasReloadAnim;
 	//whether or not there is a firing delay with animation
 	public boolean hasFiringAnim;
+	//whether there is a warmup duration for spinup
+	public boolean hasSpinup;
+	//whether there is a cooldown duration for spindown
+	public boolean hasSpindown;
 	
 	//how long the reload animation will play
 	public int reloadDuration;
@@ -32,8 +35,10 @@ public class GunConfiguration {
 	public int ammoCap;
 	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
 	public int reloadType;
+	//whether or not the infinity enchantment should work
+	public boolean allowsInfinity;
 
-	public List<BulletConfiguration> bConfig;
-	public List<BulletConfiguration> altConfig;
+	//bullet configs for main and alt fire
+	public List<BulletConfiguration> config;
 
 }
