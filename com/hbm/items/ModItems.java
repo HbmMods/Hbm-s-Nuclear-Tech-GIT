@@ -728,6 +728,7 @@ public class ModItems {
 	public static Item powder_ice;
 	public static Item powder_poison;
 	public static Item powder_thermite;
+	public static Item cordite;
 	public static Item pellet_gas;
 	public static Item magnetron;
 	public static Item pellet_buckshot;
@@ -820,6 +821,9 @@ public class ModItems {
 	public static Item gun_avenger;
 	public static Item gun_lacunae;
 	public static Item gun_lacunae_ammo;
+	public static Item gun_folly_ammo_taint;
+	public static Item gun_folly_ammo_nuclear;
+	public static Item gun_folly_ammo_du;
 	public static Item gun_fatman;
 	public static Item gun_proto;
 	public static Item gun_fatman_ammo;
@@ -2115,6 +2119,7 @@ public class ModItems {
 		powder_ice = new ItemCustomLore().setUnlocalizedName("powder_ice").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ice");
 		powder_poison = new ItemCustomLore().setUnlocalizedName("powder_poison").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_poison");
 		powder_thermite = new ItemCustomLore().setUnlocalizedName("powder_thermite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_thermite");
+		cordite = new Item().setUnlocalizedName("cordite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cordite");
 		pellet_gas = new ItemCustomLore().setUnlocalizedName("pellet_gas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_gas");
 		magnetron = new ItemCustomLore().setUnlocalizedName("magnetron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnetron_alt");
 		pellet_buckshot = new Item().setUnlocalizedName("pellet_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_lead");
@@ -2200,6 +2205,9 @@ public class ModItems {
 		gun_minigun = new GunLacunae().setUnlocalizedName("gun_minigun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_minigun");
 		gun_avenger = new GunLacunae().setUnlocalizedName("gun_avenger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_avenger");
 		gun_lacunae = new GunLacunae().setUnlocalizedName("gun_lacunae").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_lacunae");
+		gun_folly_ammo_taint = new ItemCustomLore().setUnlocalizedName("gun_folly_ammo_taint").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly_ammo_taint");
+		gun_folly_ammo_nuclear = new ItemCustomLore().setUnlocalizedName("gun_folly_ammo_nuclear").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly_ammo_nuclear");
+		gun_folly_ammo_du = new ItemCustomLore().setUnlocalizedName("gun_folly_ammo_du").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly_ammo_du");
 		gun_fatman_ammo = new Item().setUnlocalizedName("gun_fatman_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman_ammo");
 		gun_fatman = new GunFatman().setMaxDamage(2500).setUnlocalizedName("gun_fatman").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		gun_proto = new GunProtoMirv().setMaxDamage(2500).setUnlocalizedName("gun_proto").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
@@ -3009,6 +3017,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_poison, powder_poison.getUnlocalizedName());
 		GameRegistry.registerItem(powder_thermite, powder_thermite.getUnlocalizedName());
 		GameRegistry.registerItem(powder_power, powder_power.getUnlocalizedName());
+		GameRegistry.registerItem(cordite, cordite.getUnlocalizedName());
 		
 		//Fragments
 		GameRegistry.registerItem(fragment_neodymium, fragment_neodymium.getUnlocalizedName());
@@ -3807,6 +3816,9 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_nopip_ammo, gun_revolver_nopip_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity_ammo, gun_calamity_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lacunae_ammo, gun_lacunae_ammo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_folly_ammo_taint, gun_folly_ammo_taint.getUnlocalizedName());
+		GameRegistry.registerItem(gun_folly_ammo_nuclear, gun_folly_ammo_nuclear.getUnlocalizedName());
+		GameRegistry.registerItem(gun_folly_ammo_du, gun_folly_ammo_du.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg_ammo, gun_rpg_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger_ammo, gun_stinger_ammo.getUnlocalizedName());
