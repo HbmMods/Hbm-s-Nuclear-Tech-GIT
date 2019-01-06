@@ -1,11 +1,16 @@
 package com.hbm.handler;
 
+import java.util.List;
+
 import net.minecraft.item.Item;
+import net.minecraft.potion.PotionEffect;
 
 public class BulletConfiguration {
 	
 	//what item this specific configuration consumes
 	public Item ammo;
+	//spread of bullets in gaussian range
+	public float spread;
 	
 	//damage bounds
 	public float dmgMin;
@@ -13,6 +18,8 @@ public class BulletConfiguration {
 	
 	//acceleration torwards neg Y
 	public double gravity;
+	//max age in ticks before despawning
+	public int maxAge;
 
 	//whether the projectile should be able to bounce off of blocks
 	public boolean doesRicochet;
@@ -25,18 +32,18 @@ public class BulletConfiguration {
 	public boolean doesBreakGlass;
 	
 	//bullet effects
+	public List<PotionEffect> effects;
 	public int incendiary;
-	public int poison;
-	public int wither;
 	public int emp;
-	public int stun;
 	public int explosive;
 	public int rainbow;
 	public int nuke;
 	public boolean boxcar;
 	public boolean destroysBlocks;
 	
-	//appearance for rendering
+	//appearance
 	public int style;
+	//0: no plinking, 1: bullet plink, 2: grenade plink
+	public int plink;
 
 }

@@ -7,9 +7,12 @@ import org.lwjgl.input.Mouse;
 
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.packet.GunButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,6 +24,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 
 	private GunConfiguration mainConfig;
 	private GunConfiguration altConfig;
+	
+	public ItemGunBase(GunConfiguration config) {
+		mainConfig = config;
+	}
+	
+	public ItemGunBase(GunConfiguration config, GunConfiguration alt) {
+		mainConfig = config;
+		altConfig = alt;
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -30,50 +42,62 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	@Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem) {
 		
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-
-			boolean left = getIsMouseDown(stack);
-			boolean right = getIsAltDown(stack);
-			
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && entity instanceof EntityPlayer && world.isRemote) {
+			updateClient(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
+		} else {
+			updateServer(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
+		}
+    	
+    }
+	
+	private void updateClient(ItemStack stack, World world, EntityPlayer entity, int slot, boolean isCurrentItem) {
+		
+		boolean clickLeft = Mouse.isButtonDown(0);
+		boolean clickRight = Mouse.isButtonDown(1);
+		boolean left = getIsMouseDown(stack);
+		boolean right = getIsAltDown(stack);
+		
+		if(isCurrentItem) {
 			if(left && right) {
-				//TODO: stop both with packet
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
 				setIsMouseDown(stack, false);
 				setIsAltDown(stack, false);
 			}
 			
 			if(!left && !right) {
-				if(Mouse.isButtonDown(0)) {
-					//TODO: start with packet
+				if(clickLeft) {
+					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
 					setIsMouseDown(stack, true);
-				} else if(Mouse.isButtonDown(0)) {
-					//TODO: start with packet
+				} else if(clickRight) {
+					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
 					setIsAltDown(stack, true);
 				}
 			}
 			
-			if(left && !Mouse.isButtonDown(0)) {
-				//TODO: stop with packet
+			if(left && !clickLeft) {
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
 				setIsMouseDown(stack, false);
 			}
 			
-			if(right && !Mouse.isButtonDown(1)) {
-				//TODO: stop with packet
+			if(right && !clickRight) {
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
 				setIsAltDown(stack, false);
 			}
 			
 			if(mainConfig.reloadType != 0 || (altConfig != null && altConfig.reloadType != 0)) {
 				
 				if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
-					
+					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
+					setIsReloading(stack, true);
 				}
-				//TODO: reload with packet
 			}
-			
-		} else {
-			
 		}
-    	
-    }
+	}
+	
+	private void updateServer(ItemStack stack, World world, EntityPlayer entity, int slot, boolean isCurrentItem) {
+		
+	}
 	
 	//called every time the gun shoots
 	private void fire(ItemStack stack, World world, EntityPlayer player) {
@@ -100,6 +124,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
 	}
+	
+	/*//returns main config from itemstack
+	public static GunConfiguration extractConfig(ItemStack stack) {
+		
+		if(stack != null && stack.getItem() instanceof ItemGunBase) {
+			return ((ItemGunBase)stack.getItem()).mainConfig;
+		}
+		
+		return null;
+	}*/
 	
 	/// if reloading routine is active ///
 	public static void setIsReloading(ItemStack stack, boolean b) {
@@ -147,11 +181,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 	
 	/// R/W reload animation timer ///
-	public static void setReloadAnim(ItemStack stack, int i) {
+	public static void setReloadCycle(ItemStack stack, int i) {
 		writeNBT(stack, "reload", i);
 	}
 	
-	public static int getReloadAnim(ItemStack stack) {
+	public static int getReloadCycle(ItemStack stack) {
 		return readNBT(stack, "reload");
 	}
 	

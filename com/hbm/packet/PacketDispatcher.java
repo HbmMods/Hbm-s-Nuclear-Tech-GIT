@@ -79,6 +79,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEFFPacket.Handler.class, TEFFPacket.class, i++, Side.CLIENT);
 		//Information packet for the reactor control block
 		wrapper.registerMessage(TEControlPacket.Handler.class, TEControlPacket.class, i++, Side.CLIENT);
+		//Sends button information for ItemGunBase
+		wrapper.registerMessage(GunButtonPacket.Handler.class, GunButtonPacket.class, i++, Side.SERVER);
 	}
 	
 }

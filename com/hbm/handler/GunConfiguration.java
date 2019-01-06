@@ -14,8 +14,6 @@ public class GunConfiguration {
 	public int gunMode;
 	//0 = manual, 1 = automatic
 	public int firingMode;
-	//spread of bullets in gaussian range
-	public float spread;
 	
 	//whether or not there is a reload delay animation
 	public boolean hasReloadAnim;
