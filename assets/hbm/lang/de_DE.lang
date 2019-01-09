@@ -1344,6 +1344,29 @@ item.gun_hp_ammo.name=Tintenpatrone
 item.gun_euthanasia_ammo.name=Spritze
 item.gun_defabricator_ammo.name=Defabrikator-Energiezelle
 
+item.ammo_12gauge.name=Kaliber 12 Schrot
+item.ammo_12gauge_incendiary.name=Kaliber 12 Schrot (Brand)
+item.ammo_20gauge.name=Kaliber 20 Schrot
+item.ammo_20gauge_slug.name=Kaliber 20 Brenneke
+item.ammo_20gauge_flechette.name=Kaliber 20 Flechet
+item.ammo_20gauge_incendiary.name=Kaliber 20 Schrot (Brand)
+item.ammo_20gauge_shock.name=Kaliber 20 Schrot (Schock)
+item.ammo_20gauge_caustic.name=Kaliber 20 Schrot (Ätzend)
+item.ammo_20gauge_explosive.name=Kaliber 20 Schrot (Explosiv)
+item.ammo_20gauge_wither.name=Kaliber 20 Schrot (Wither)
+item.ammo_5mm.name=5mm Patrone
+item.ammo_5mm_explosive.name=5mm Patrone (Explosiv)
+item.ammo_50bmg.name=.50 BMG Patrone
+item.ammo_50bmg_incendiary.name=.50 BMG Patrone (Brand)
+item.ammo_50bmg_explosive.name=.50 BMG Patrone (Explosiv)
+item.ammo_9mm.name=9mm Patrone
+item.ammo_9mm_ap.name=9mm Patrone (Panzerbrechend)
+item.gun_folly_ammo_taint.name=Silbernes Geschoss (Original)
+item.gun_folly_ammo_nuclear.name=Silbernes Geschoss (Atomar)
+item.gun_folly_ammo_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)
+
+item.cordite.name=Kordit
+
 item.weaponized_starblaster_cell.name=§cManipulierte Sternenblaster-Energiezelle§r
 
 item.turret_light_ammo.name=Leichte MG Munitionskiste

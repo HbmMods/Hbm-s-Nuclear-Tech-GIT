@@ -5,7 +5,10 @@ import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemGeigerCounter;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
+import com.hbm.packet.GunButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.misc.RenderScreenOverlay;
 import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
@@ -24,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -34,9 +38,9 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent event) {
 		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
 		if(event.type == ElementType.HOTBAR) {
-			
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			
 			if(player.inventory.hasItem(ModItems.geiger_counter)) {
 
@@ -48,6 +52,8 @@ public class ModEventHandlerClient {
 				
 				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 			}
+		} else if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon) {
+			event.setCanceled(true);
 		}
 	}
 	
@@ -59,6 +65,32 @@ public class ModEventHandlerClient {
 		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon)
 			renderer.modelBipedMain.aimedBow = true;
+	}
+
+	@SubscribeEvent
+	public void clickHandler(MouseEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
+			
+			if(event.button == 0)
+				event.setCanceled(true);
+			
+			ItemGunBase item = (ItemGunBase)player.getHeldItem().getItem();
+			
+			if(event.button == 0 && !item.m1 && !item.m2) {
+				item.m1 = true;
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
+				System.out.println("M1");
+			}
+			else if(event.button == 1 && !item.m2 && !item.m1) {
+				item.m2 = true;
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
+				System.out.println("M2");
+			}
+		}
+
 	}
 
 	@SubscribeEvent

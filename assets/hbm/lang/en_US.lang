@@ -1344,6 +1344,29 @@ item.gun_hp_ammo.name=Ink Cartridge
 item.gun_euthanasia_ammo.name=Syringe
 item.gun_defabricator_ammo.name=Defabricator Energy Cell
 
+item.ammo_12gauge.name=12 Gauge Buckshot
+item.ammo_12gauge_incendiary.name=12 Gauge Buckshot (Incendiary)
+item.ammo_20gauge.name=20 Gauge Buckshot
+item.ammo_20gauge_slug.name=20 Gauge Brenneke Slug
+item.ammo_20gauge_flechette.name=20 Gauge Flechette Shell
+item.ammo_20gauge_incendiary.name=20 Gauge Buckshot (Incendiary)
+item.ammo_20gauge_shock.name=20 Gauge Buckshot (Shock)
+item.ammo_20gauge_caustic.name=20 Gauge Buckshot (Caustic)
+item.ammo_20gauge_explosive.name=20 Gauge Buckshot (Explosive)
+item.ammo_20gauge_wither.name=20 Gauge Buckshot (Withering)
+item.ammo_5mm.name=5mm Round
+item.ammo_5mm_explosive.name=5mm Round (Explosive)
+item.ammo_50bmg.name=.50 BMG Round
+item.ammo_50bmg_incendiary.name=.50 BMG Round (Incendiary)
+item.ammo_50bmg_explosive.name=.50 BMG Round (Explosive)
+item.ammo_9mm.name=9mm Round
+item.ammo_9mm_ap.name=9mm Round (Armor Piercing)
+item.gun_folly_ammo_taint.name=Silver Bullet (Original)
+item.gun_folly_ammo_nuclear.name=Silver Bullet (Nuclear)
+item.gun_folly_ammo_du.name=Silver Bullet (DU, Non-Explosive)
+
+item.cordite.name=Cordite
+
 item.weaponized_starblaster_cell.name=§cRigged Star Blaster Energy Cell§r
 
 item.turret_light_ammo.name=Light MG Turret Ammo Box

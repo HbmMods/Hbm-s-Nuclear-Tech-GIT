@@ -4,6 +4,14 @@ import java.util.List;
 
 public class GunConfiguration {
 	
+	/**
+	 * alt function restrictions:
+	 * alt can not be reloaded (reload type of 0, ammo cap of 0)
+	 * alt cooldown and main cooldown are shared (alt cooldown will almoast always be greater or equal)
+	 * alt is always the lower priority, mouse2 will be canceled then mouse1 is activated at the same time
+	 * restrictions must be applied in gun's logic, mechanism may be dysfunctional if these rules are ignored
+	 */
+	
 	//amount of ticks between each bullet
 	public int rateOfFire;
 	//greatest amount of pellets created each shot

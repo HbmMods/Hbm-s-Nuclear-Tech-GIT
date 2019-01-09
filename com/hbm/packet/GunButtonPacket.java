@@ -18,6 +18,7 @@ import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -62,18 +63,23 @@ public class GunButtonPacket implements IMessage {
 		@Override
 		public IMessage onMessage(GunButtonPacket m, MessageContext ctx) {
 			
+			if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+				return null;
+			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
 			
 			if(p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemGunBase) {
 				
+				ItemGunBase item = (ItemGunBase)p.getHeldItem().getItem();
+				
 				switch(m.button) {
-				case 0: ItemGunBase.setIsMouseDown(p.getHeldItem(), m.state); break;
-				case 1: ItemGunBase.setIsAltDown(p.getHeldItem(), m.state); break;
+				case 0: ItemGunBase.setIsMouseDown(p.getHeldItem(), m.state); item.startAction(p.getHeldItem(), p.worldObj, p, true); break;
+				case 1: ItemGunBase.setIsAltDown(p.getHeldItem(), m.state); item.startAction(p.getHeldItem(), p.worldObj, p, false); break;
 				case 2: ItemGunBase.setIsReloading(p.getHeldItem(), true); break;
 				}
 			}
 			
-			System.out.println(m.button + ": " + m.state);
+			//System.out.println(m.button + ": " + m.state);
 			
 			return null;
 		}

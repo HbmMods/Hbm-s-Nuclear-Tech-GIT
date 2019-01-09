@@ -11,7 +11,10 @@ import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,14 +22,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.MouseEvent;
 
 public class ItemGunBase extends Item implements IHoldableWeapon {
 
 	private GunConfiguration mainConfig;
 	private GunConfiguration altConfig;
 	
-	private boolean m1 = false;
-	private boolean m2 = false;
+	@SideOnly(Side.CLIENT)
+	public boolean m1 = false;
+	@SideOnly(Side.CLIENT)
+	public boolean m2 = false;
 	
 	public ItemGunBase(GunConfiguration config) {
 		mainConfig = config;
@@ -35,11 +41,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	public ItemGunBase(GunConfiguration config, GunConfiguration alt) {
 		mainConfig = config;
 		altConfig = alt;
-	}
-
-	@Override
-	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		return stack;
 	}
 
 	@Override
@@ -52,13 +53,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		}
     	
     }
-	
+
+	@SideOnly(Side.CLIENT)
 	private void updateClient(ItemStack stack, World world, EntityPlayer entity, int slot, boolean isCurrentItem) {
 		
 		boolean clickLeft = Mouse.isButtonDown(0);
 		boolean clickRight = Mouse.isButtonDown(1);
-		boolean left = m1; //getIsMouseDown(stack);
-		boolean right = m2; //getIsAltDown(stack);
+		boolean left = m1;
+		boolean right = m2;
 		
 		if(isCurrentItem) {
 			if(left && right) {
@@ -70,7 +72,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				m2 = false;
 			}
 			
-			if(!left && !right) {
+			/*if(!left && !right) {
 				if(clickLeft) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
 					//setIsMouseDown(stack, true);
@@ -80,7 +82,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 					//setIsAltDown(stack, true);
 					m2 = true;
 				}
-			}
+			}*/
 			
 			if(left && !clickLeft) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
@@ -101,6 +103,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 					setIsReloading(stack, true);
 				}
 			}
+		} else {
+
+			if(left) {
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
+				m1 = false;
+			}
+			if(right) {
+				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
+				m2 = false;
+			}
 		}
 	}
 	
@@ -108,13 +120,18 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 	}
 	
-	//called every time the gun shoots
+	//tries to shoot, bullet checks are done here
+	private boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
+		return false;
+	}
+	
+	//called every time the gun shoots, overridden to change bullet entity/special additions
 	private void fire(ItemStack stack, World world, EntityPlayer player) {
 		
 	}
 	
-	//called on click
-	private void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
+	//called on click (server side, called by mouse packet)
+	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 	}
 	
