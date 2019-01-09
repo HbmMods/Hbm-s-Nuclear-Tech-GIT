@@ -25,6 +25,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	private GunConfiguration mainConfig;
 	private GunConfiguration altConfig;
 	
+	private boolean m1 = false;
+	private boolean m2 = false;
+	
 	public ItemGunBase(GunConfiguration config) {
 		mainConfig = config;
 	}
@@ -54,35 +57,41 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		boolean clickLeft = Mouse.isButtonDown(0);
 		boolean clickRight = Mouse.isButtonDown(1);
-		boolean left = getIsMouseDown(stack);
-		boolean right = getIsAltDown(stack);
+		boolean left = m1; //getIsMouseDown(stack);
+		boolean right = m2; //getIsAltDown(stack);
 		
 		if(isCurrentItem) {
 			if(left && right) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
-				setIsMouseDown(stack, false);
-				setIsAltDown(stack, false);
+				//setIsMouseDown(stack, false);
+				//setIsAltDown(stack, false);
+				m1 = false;
+				m2 = false;
 			}
 			
 			if(!left && !right) {
 				if(clickLeft) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
-					setIsMouseDown(stack, true);
+					//setIsMouseDown(stack, true);
+					m1 = true;
 				} else if(clickRight) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
-					setIsAltDown(stack, true);
+					//setIsAltDown(stack, true);
+					m2 = true;
 				}
 			}
 			
 			if(left && !clickLeft) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
-				setIsMouseDown(stack, false);
+				//setIsMouseDown(stack, false);
+				m1 = false;
 			}
 			
 			if(right && !clickRight) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
-				setIsAltDown(stack, false);
+				//setIsAltDown(stack, false);
+				m2 = false;
 			}
 			
 			if(mainConfig.reloadType != 0 || (altConfig != null && altConfig.reloadType != 0)) {
@@ -104,12 +113,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 	}
 	
-	//called on right click
+	//called on click
 	private void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 	}
 	
-	//called on right click release
+	//called on click release
 	private void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 	}

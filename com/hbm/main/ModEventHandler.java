@@ -39,6 +39,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 
@@ -59,10 +60,10 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onPlayerDeath(PlayerDropsEvent event) {
+	public void onPlayerDeath(LivingDeathEvent event) {
 
-		RadEntitySavedData eData = RadEntitySavedData.getData(event.entityPlayer.worldObj);
-		eData.setRadForEntity(event.entityPlayer, 0);
+		RadEntitySavedData eData = RadEntitySavedData.getData(event.entityLiving.worldObj);
+		eData.setRadForEntity(event.entityLiving, 0);
 	}
 	
 	@SubscribeEvent

@@ -11,6 +11,8 @@ public class BulletConfiguration {
 	public Item ammo;
 	//spread of bullets in gaussian range
 	public float spread;
+	//weapon durability reduced (centered around 10)
+	public float tear;
 	
 	//damage bounds
 	public float dmgMin;

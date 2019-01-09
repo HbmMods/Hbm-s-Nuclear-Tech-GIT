@@ -19,28 +19,25 @@ public class RenderMachineShredder extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        GL11.glTranslated(0, -0.5, 0);
-		GL11.glRotatef(10, -1F, 0F, 1F);
-
-        bindTexture(ResourceManager.boxcar_tex);
+        bindTexture(ResourceManager.universal);
         ResourceManager.shredder_body.renderAll();
 
         GL11.glPushMatrix();
         GL11.glTranslated(-0.25, 2.85, 0.4375/2);
 
-		GL11.glRotatef((System.currentTimeMillis() / 2) % 360, 0F, 0F, -1F);
+		GL11.glRotatef((System.currentTimeMillis() / 4) % 360, 0F, 0F, -1F);
         bindTexture(ResourceManager.turbofan_blades_tex);
-        ResourceManager.shredder_blade1.renderAll();
+        ResourceManager.shredder_blade.renderAll();
 
         GL11.glPopMatrix();
 
         GL11.glPushMatrix();
         GL11.glTranslated(0.25, 2.85, 0);
 
-		GL11.glRotatef((System.currentTimeMillis() / 2) % 360, 0F, 0F, 1F);
+		GL11.glRotatef((System.currentTimeMillis() / 4) % 360, 0F, 0F, 1F);
         bindTexture(ResourceManager.turbofan_blades_tex);
         GL11.glScaled(-1, 1, 1);
-        ResourceManager.shredder_blade1.renderAll();
+        ResourceManager.shredder_blade.renderAll();
 
         GL11.glPopMatrix();
 
