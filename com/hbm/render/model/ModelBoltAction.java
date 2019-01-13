@@ -201,6 +201,25 @@ public class ModelBoltAction extends ModelBase {
 		Pointer.render(f5);
 		HandleBottom.render(f5);
 		HandleGrip.render(f5);
+		
+		
+		
+		GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+
+        Tessellator tessellator = Tessellator.instance;
+        int color = 0x00FF00;
+
+        tessellator.startDrawing(3);
+        tessellator.setColorOpaque_I(color);
+        tessellator.addVertex(-32F / 16F, 0 + 4F / 16F, 0);
+        tessellator.addVertex(-150, 0, 0);
+        tessellator.draw();
+        
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glPopMatrix();
 	}
 
 	public void renderAnim(Entity entity, float f, float f1, float f2, float f3, float f4, float f5, float rot, float tran) {

@@ -1,5 +1,7 @@
 package com.hbm.render.entity;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
@@ -32,6 +34,10 @@ public class RenderRocket extends Render {
 		GL11.glRotatef(rocket.prevRotationPitch + (rocket.rotationPitch - rocket.prevRotationPitch) * p_76986_9_ + 180,
 				0.0F, 0.0F, 1.0F);
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
+		
+
+		GL11.glRotatef(new Random(rocket.getEntityId()).nextInt(360),
+				1.0F, 0.0F, 0.0F);
 
 		if (rocket instanceof EntityBullet && ((EntityBullet) rocket).getIsChopper()) {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/emplacer.png"));
@@ -156,7 +162,7 @@ public class RenderRocket extends Render {
         
 		Tessellator tess = Tessellator.instance;
 		
-		float red = 0.125F;
+		float red = 0.25F;
 		float green = 0.0F;
 		float blue = 1.0F;
 		

@@ -9,6 +9,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -248,6 +249,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			return 0;
 		
 		return stack.stackTagCompound.getInteger(key);
+	}
+
+	@Override
+	public Crosshair getCrosshair() {
+		return Crosshair.L_CLASSIC;
 	}
 
 }

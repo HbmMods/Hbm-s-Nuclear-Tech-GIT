@@ -4932,6 +4932,11 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.ingot_starmetal, 1));
 			list.add(new ItemStack(ModItems.catalyst_clay, 32));
 			break;
+        case CORDITE:
+			list.add(new ItemStack(ModItems.niter, 2));
+			list.add(new ItemStack(Blocks.planks, 1));
+			list.add(new ItemStack(Items.sugar, 1));
+			break;
 		default:
 			break;
 		}
@@ -5107,6 +5112,9 @@ public class MachineRecipes {
         case OIL_SAND:
 			input[0] = new FluidStack(400, FluidType.BITUMEN);
         	break;
+        case CORDITE:
+			input[0] = new FluidStack(250, FluidType.HEATINGOIL);
+        	break;
 		default:
 			break;
 		}
@@ -5211,6 +5219,9 @@ public class MachineRecipes {
         	break;
         case DYN_DNT:
 			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);
+        	break;
+        case CORDITE:
+			output[0] = new ItemStack(ModItems.cordite, 4);
         	break;
 		default:
 			break;

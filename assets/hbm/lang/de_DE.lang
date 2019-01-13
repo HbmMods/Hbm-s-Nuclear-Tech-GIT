@@ -129,6 +129,7 @@ chem.NITAN=NITAN-Supertreibstoff mischen
 chem.DYN_SCHRAB=Schrabidium-Dynosynthese
 chem.DYN_EUPH=Euphemium-Dynosynthese
 chem.DYN_DNT=Dineutronium-Dynosynthese
+chem.CORDITE=Korditherstellung
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -1361,9 +1362,14 @@ item.ammo_50bmg_incendiary.name=.50 BMG Patrone (Brand)
 item.ammo_50bmg_explosive.name=.50 BMG Patrone (Explosiv)
 item.ammo_9mm.name=9mm Patrone
 item.ammo_9mm_ap.name=9mm Patrone (Panzerbrechend)
-item.gun_folly_ammo_taint.name=Silbernes Geschoss (Original)
-item.gun_folly_ammo_nuclear.name=Silbernes Geschoss (Atomar)
-item.gun_folly_ammo_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)
+item.ammo_22lr.name=.22 LR Patrone
+item.ammo_22lr_ap.name=.22 LR Patrone (Panzerbrechend)
+item.ammo_folly_taint.name=Silbernes Geschoss (Original)
+item.ammo_folly_nuclear.name=Silbernes Geschoss (Atomar)
+item.ammo_folly_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)
+item.ammo_44.name=.44 Magnum Patrone
+item.ammo_44_ap.name=.44 Magnum Patrone (Panzerbrechend)
+item.ammo_44_pip.name=.44 Magnum Patrone (Güterwagon)
 
 item.cordite.name=Kordit
 

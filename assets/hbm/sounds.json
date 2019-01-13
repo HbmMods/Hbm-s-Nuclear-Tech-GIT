@@ -93,6 +93,12 @@
     "weapon.lacunaeSpinup": {"category": "player", "sounds": [{"name": "weapon/lacunaeSpinup", "stream": false}]},
     "weapon.lacunaeSpindown": {"category": "player", "sounds": [{"name": "weapon/lacunaeSpindown", "stream": false}]},
     "weapon.lacunaeShoot": {"category": "player", "sounds": [{"name": "weapon/lacunaeShoot", "stream": false}]},
+    "weapon.follyOpen": {"category": "player", "sounds": [{"name": "weapon/follyOpen", "stream": false}]},
+    "weapon.follyClose": {"category": "player", "sounds": [{"name": "weapon/follyClose", "stream": false}]},
+    "weapon.follyReload": {"category": "player", "sounds": [{"name": "weapon/follyReload", "stream": false}]},
+    "weapon.follyBuzzer": {"category": "player", "sounds": [{"name": "weapon/follyBuzzer", "stream": false}]},
+    "weapon.follyAquired": {"category": "player", "sounds": [{"name": "weapon/follyAquiredAlt", "stream": false}]},
+    "weapon.follyFire": {"category": "player", "sounds": [{"name": "weapon/follyFire", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

@@ -129,6 +129,7 @@ chem.NITAN=NITAN Super Fuel Mixing
 chem.DYN_SCHRAB=Schrabidium Dynosynthesis
 chem.DYN_EUPH=Euphemium Dynosynthesis
 chem.DYN_DNT=Dineutronium Dynosynthesis
+chem.CORDITE=Cordite Production
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -1361,9 +1362,14 @@ item.ammo_50bmg_incendiary.name=.50 BMG Round (Incendiary)
 item.ammo_50bmg_explosive.name=.50 BMG Round (Explosive)
 item.ammo_9mm.name=9mm Round
 item.ammo_9mm_ap.name=9mm Round (Armor Piercing)
-item.gun_folly_ammo_taint.name=Silver Bullet (Original)
-item.gun_folly_ammo_nuclear.name=Silver Bullet (Nuclear)
-item.gun_folly_ammo_du.name=Silver Bullet (DU, Non-Explosive)
+item.ammo_22lr.name=.22 LR Round
+item.ammo_22lr_ap.name=.22 LR Round (Armor Piercing)
+item.ammo_folly.name=Silver Bullet (Original)
+item.ammo_folly_nuclear.name=Silver Bullet (Nuclear)
+item.ammo_folly_du.name=Silver Bullet (DU, Non-Explosive)
+item.ammo_44.name=.44 Magnum Bullet
+item.ammo_44_ap.name=.44 Magnum Bullet (Armor Piercing)
+item.ammo_44_pip.name=.44 Magnum Bullet (Boxcar)
 
 item.cordite.name=Cordite
 

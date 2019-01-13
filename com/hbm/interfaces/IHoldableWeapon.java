@@ -1,3 +1,8 @@
 package com.hbm.interfaces;
 
-public interface IHoldableWeapon { }
+import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+
+public interface IHoldableWeapon {
+	
+	public Crosshair getCrosshair();
+}

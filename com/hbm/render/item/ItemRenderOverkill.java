@@ -3,6 +3,7 @@ package com.hbm.render.item;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.GunFolly;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelCalBarrel;
@@ -11,6 +12,7 @@ import com.hbm.render.model.ModelCalStock;
 import com.hbm.render.model.ModelDash;
 import com.hbm.render.model.ModelDefabricator;
 import com.hbm.render.model.ModelEuthanasia;
+import com.hbm.render.model.ModelFolly;
 import com.hbm.render.model.ModelGun;
 import com.hbm.render.model.ModelHP;
 import com.hbm.render.model.ModelJack;
@@ -38,6 +40,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 	protected ModelTwiGun rgottp;
 	protected ModelPip pip;
 	protected ModelLacunae lacunae;
+	protected ModelFolly folly;
 
 	protected ModelCalBarrel barrel;
 	protected ModelCalStock stock;
@@ -56,6 +59,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 		stock = new ModelCalStock();
 		saddle = new ModelCalDualStock();
 		lacunae = new ModelLacunae();
+		folly = new ModelFolly();
 	}
 
 	@Override
@@ -114,6 +118,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeAvenger.png"));
 				if(item.getItem() == ModItems.gun_lacunae)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeReal.png"));
+				if(item.getItem() == ModItems.gun_folly)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelFolly.png"));
 
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
@@ -139,6 +145,12 @@ public class ItemRenderOverkill implements IItemRenderer {
 					GL11.glRotatef(-15.0F, 0.0F, 0.0F, 1.0F);
 					GL11.glRotatef(180, 0, 1, 0);
 					GL11.glTranslatef(0.5F, 0.3F, -0.2F);
+				}
+				
+				if(item.getItem() == ModItems.gun_folly) {
+					GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
+					GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
 				}
 				
 				if(item.getItem() == ModItems.gun_jack)
@@ -182,6 +194,12 @@ public class ItemRenderOverkill implements IItemRenderer {
 						item.getItem() == ModItems.gun_avenger)
 					lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 				
+				if(item.getItem() == ModItems.gun_folly) {
+					int state = GunFolly.getState(item);
+					int time = GunFolly.getTimer(item);
+					folly.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, state, time);
+				}
+				
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
@@ -215,6 +233,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeAvenger.png"));
 			if(item.getItem() == ModItems.gun_lacunae)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeReal.png"));
+			if(item.getItem() == ModItems.gun_folly)
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelFolly.png"));
 			
 			GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
@@ -296,6 +316,12 @@ public class ItemRenderOverkill implements IItemRenderer {
 					item.getItem() == ModItems.gun_minigun ||
 					item.getItem() == ModItems.gun_avenger)
 				lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
+			
+			if(item.getItem() == ModItems.gun_folly) {
+				int state = GunFolly.getState(item);
+				int time = GunFolly.getTimer(item);
+				folly.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, state, time);
+			}
 			GL11.glPopMatrix();
 			break;
 		case ENTITY:
@@ -329,6 +355,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeAvenger.png"));
 			if(item.getItem() == ModItems.gun_lacunae)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeReal.png"));
+			if(item.getItem() == ModItems.gun_folly)
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelFolly.png"));
 
 			
 			GL11.glRotatef(180.0F, 1.0F, 0.0F, 0.0F);
@@ -392,6 +420,12 @@ public class ItemRenderOverkill implements IItemRenderer {
 					item.getItem() == ModItems.gun_minigun ||
 					item.getItem() == ModItems.gun_avenger)
 				lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
+			
+			if(item.getItem() == ModItems.gun_folly) {
+				int state = GunFolly.getState(item);
+				int time = GunFolly.getTimer(item);
+				folly.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, state, time);
+			}
 			GL11.glPopMatrix();
 			break;
 		default: break;

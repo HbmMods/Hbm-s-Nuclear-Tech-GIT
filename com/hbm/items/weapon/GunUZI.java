@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
+import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -125,5 +126,10 @@ public class GunUZI extends Item implements IHoldableWeapon {
 		multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),
 				new AttributeModifier(field_111210_e, "Weapon modifier", 2.5D, 0));
 		return multimap;
+	}
+
+	@Override
+	public Crosshair getCrosshair() {
+		return Crosshair.L_CROSS;
 	}
 }

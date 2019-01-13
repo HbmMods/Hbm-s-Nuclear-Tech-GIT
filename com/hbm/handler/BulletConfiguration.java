@@ -45,7 +45,9 @@ public class BulletConfiguration {
 	
 	//appearance
 	public int style;
-	//0: no plinking, 1: bullet plink, 2: grenade plink
+	//additional appearance data, i.e. particle effects
+	public int trail;
+	//0: no plinking, 1: bullet plink, 2: grenade plink, 3: sing boink
 	public int plink;
 
 }

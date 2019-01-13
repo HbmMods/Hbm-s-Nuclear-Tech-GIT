@@ -40,6 +40,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		
 		this.setSize(0.5F, 0.5F);
+
+		this.dataWatcher.updateObject(16, (byte)config.style);
+		this.dataWatcher.updateObject(17, (byte)config.trail);
 	}
 
 	@Override
@@ -74,6 +77,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	protected void entityInit() {
 		//style
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
+		//trail
+		this.dataWatcher.addObject(17, Byte.valueOf((byte) 0));
 	}
 	
 	@Override

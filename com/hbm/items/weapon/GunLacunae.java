@@ -8,6 +8,7 @@ import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -141,5 +142,10 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 					new AttributeModifier(field_111210_e, "Weapon modifier", -0.2, 1));
 		
 		return multimap;
+	}
+
+	@Override
+	public Crosshair getCrosshair() {
+		return Crosshair.L_CIRCLE;
 	}
 }

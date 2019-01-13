@@ -318,6 +318,11 @@ public class ModItems {
 	public static Item assembly_calamity;
 	public static Item assembly_lacunae;
 
+	public static Item folly_shell;
+	public static Item folly_bullet;
+	public static Item folly_bullet_nuclear;
+	public static Item folly_bullet_du;
+
 	public static Item circuit_targeting_tier1;
 	public static Item circuit_targeting_tier2;
 	public static Item circuit_targeting_tier3;
@@ -735,6 +740,7 @@ public class ModItems {
 	public static Item pellet_gas;
 	public static Item magnetron;
 	public static Item pellet_buckshot;
+	public static Item pellet_flechette;
 
 	public static Item designator;
 	public static Item designator_range;
@@ -799,13 +805,21 @@ public class ModItems {
 	public static Item ammo_20gauge_caustic;
 	public static Item ammo_20gauge_shock;
 	public static Item ammo_20gauge_wither;
+	public static Item ammo_44;
+	public static Item ammo_44_ap;
+	public static Item ammo_44_pip;
 	public static Item ammo_5mm;
 	public static Item ammo_5mm_explosive;
 	public static Item ammo_9mm;
 	public static Item ammo_9mm_ap;
+	public static Item ammo_22lr;
+	public static Item ammo_22lr_ap;
 	public static Item ammo_50bmg;
 	public static Item ammo_50bmg_incendiary;
 	public static Item ammo_50bmg_explosive;
+	public static Item ammo_folly;
+	public static Item ammo_folly_nuclear;
+	public static Item ammo_folly_du;
 	
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -842,9 +856,7 @@ public class ModItems {
 	public static Item gun_avenger;
 	public static Item gun_lacunae;
 	public static Item gun_lacunae_ammo;
-	public static Item gun_folly_ammo_taint;
-	public static Item gun_folly_ammo_nuclear;
-	public static Item gun_folly_ammo_du;
+	public static Item gun_folly;
 	public static Item gun_fatman;
 	public static Item gun_proto;
 	public static Item gun_fatman_ammo;
@@ -1845,6 +1857,10 @@ public class ModItems {
 		assembly_uzi = new Item().setUnlocalizedName("assembly_uzi").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_uzi");
 		assembly_calamity = new Item().setUnlocalizedName("assembly_calamity").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_calamity");
 		assembly_lacunae = new Item().setUnlocalizedName("assembly_lacunae").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":assembly_lacunae");
+		folly_shell = new Item().setUnlocalizedName("folly_shell").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_shell");
+		folly_bullet = new Item().setUnlocalizedName("folly_bullet").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet");
+		folly_bullet_nuclear = new Item().setUnlocalizedName("folly_bullet_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet_nuclear");
+		folly_bullet_du = new Item().setUnlocalizedName("folly_bullet_du").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":folly_bullet_du");
 		
 		wiring_red_copper = new ItemWiring().setUnlocalizedName("wiring_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wiring_red_copper");
 
@@ -2146,6 +2162,7 @@ public class ModItems {
 		pellet_gas = new ItemCustomLore().setUnlocalizedName("pellet_gas").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_gas");
 		magnetron = new ItemCustomLore().setUnlocalizedName("magnetron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnetron_alt");
 		pellet_buckshot = new Item().setUnlocalizedName("pellet_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_lead");
+		pellet_flechette = new Item().setUnlocalizedName("pellet_flechette").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_flechette");
 
 		pellet_schrabidium = new WatzFuel(50000, 140000, 0.975F, 200, 1.05F, 1.05F).setUnlocalizedName("pellet_schrabidium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_schrabidium").setMaxStackSize(1);
 		pellet_hes = new WatzFuel(108000, 65000, 1F, 85, 1, 1.025F).setUnlocalizedName("pellet_hes").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_hes").setMaxStackSize(1);
@@ -2210,6 +2227,14 @@ public class ModItems {
 		ammo_50bmg = new Item().setUnlocalizedName("ammo_50bmg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg");
 		ammo_50bmg_incendiary = new Item().setUnlocalizedName("ammo_50bmg_incendiary").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_incendiary");
 		ammo_50bmg_explosive = new Item().setUnlocalizedName("ammo_50bmg_explosive").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_50bmg_explosive");
+		ammo_44 = new Item().setUnlocalizedName("ammo_44").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_44");
+		ammo_44_ap = new Item().setUnlocalizedName("ammo_44_ap").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_44_ap");
+		ammo_44_pip = new Item().setUnlocalizedName("ammo_44_pip").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_44_pip");
+		ammo_22lr = new Item().setUnlocalizedName("ammo_22lr").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_22lr");
+		ammo_22lr_ap = new Item().setUnlocalizedName("ammo_22lr_ap").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_22lr_ap");
+		ammo_folly = new ItemCustomLore().setUnlocalizedName("ammo_folly").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_folly");
+		ammo_folly_nuclear = new ItemCustomLore().setUnlocalizedName("ammo_folly_nuclear").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_folly_nuclear");
+		ammo_folly_du = new ItemCustomLore().setUnlocalizedName("ammo_folly_du").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_folly_du");
 		
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_alt");
@@ -2247,9 +2272,7 @@ public class ModItems {
 		gun_minigun = new GunLacunae().setUnlocalizedName("gun_minigun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_minigun");
 		gun_avenger = new GunLacunae().setUnlocalizedName("gun_avenger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_avenger");
 		gun_lacunae = new GunLacunae().setUnlocalizedName("gun_lacunae").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_lacunae");
-		gun_folly_ammo_taint = new ItemCustomLore().setUnlocalizedName("gun_folly_ammo_taint").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly_ammo_taint");
-		gun_folly_ammo_nuclear = new ItemCustomLore().setUnlocalizedName("gun_folly_ammo_nuclear").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly_ammo_nuclear");
-		gun_folly_ammo_du = new ItemCustomLore().setUnlocalizedName("gun_folly_ammo_du").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly_ammo_du");
+		gun_folly = new GunFolly().setUnlocalizedName("gun_folly").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly");
 		gun_fatman_ammo = new Item().setUnlocalizedName("gun_fatman_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman_ammo");
 		gun_fatman = new GunFatman().setMaxDamage(2500).setUnlocalizedName("gun_fatman").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		gun_proto = new GunProtoMirv().setMaxDamage(2500).setUnlocalizedName("gun_proto").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
@@ -3310,6 +3333,12 @@ public class ModItems {
 		GameRegistry.registerItem(assembly_lacunae, assembly_lacunae.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_calamity, assembly_calamity.getUnlocalizedName());
 		
+		//Folly Parts
+		GameRegistry.registerItem(folly_shell, folly_shell.getUnlocalizedName());
+		GameRegistry.registerItem(folly_bullet, folly_bullet.getUnlocalizedName());
+		GameRegistry.registerItem(folly_bullet_nuclear, folly_bullet_nuclear.getUnlocalizedName());
+		GameRegistry.registerItem(folly_bullet_du, folly_bullet_du.getUnlocalizedName());
+		
 		//Wiring
 		GameRegistry.registerItem(wiring_red_copper, wiring_red_copper.getUnlocalizedName());
 		
@@ -3325,6 +3354,7 @@ public class ModItems {
 		GameRegistry.registerItem(tritium_deuterium_cake, tritium_deuterium_cake.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_cluster, pellet_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_buckshot, pellet_buckshot.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_flechette, pellet_flechette.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_gas, pellet_gas.getUnlocalizedName());
 
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());
@@ -3805,6 +3835,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_avenger, gun_avenger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lacunae, gun_lacunae.getUnlocalizedName());
+		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b93, gun_b93.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
@@ -3859,9 +3890,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_revolver_nopip_ammo, gun_revolver_nopip_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity_ammo, gun_calamity_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lacunae_ammo, gun_lacunae_ammo.getUnlocalizedName());
-		GameRegistry.registerItem(gun_folly_ammo_taint, gun_folly_ammo_taint.getUnlocalizedName());
-		GameRegistry.registerItem(gun_folly_ammo_nuclear, gun_folly_ammo_nuclear.getUnlocalizedName());
-		GameRegistry.registerItem(gun_folly_ammo_du, gun_folly_ammo_du.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg_ammo, gun_rpg_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger_ammo, gun_stinger_ammo.getUnlocalizedName());
@@ -3896,13 +3924,21 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_20gauge_caustic, ammo_20gauge_caustic.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_20gauge_shock, ammo_20gauge_shock.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_20gauge_wither, ammo_20gauge_wither.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_44, ammo_44.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_44_ap, ammo_44_ap.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_44_pip, ammo_44_pip.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_5mm, ammo_5mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_5mm_explosive, ammo_5mm_explosive.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_9mm, ammo_9mm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_9mm_ap, ammo_9mm_ap.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_22lr, ammo_22lr.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_22lr_ap, ammo_22lr_ap.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg, ammo_50bmg.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg_incendiary, ammo_50bmg_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_50bmg_explosive, ammo_50bmg_explosive.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_folly, ammo_folly.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_folly_nuclear, ammo_folly_nuclear.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());
 		
 		//Turret Ammo
 		GameRegistry.registerItem(turret_light_ammo, turret_light_ammo.getUnlocalizedName());
