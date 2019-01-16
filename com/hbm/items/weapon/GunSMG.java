@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigFactory;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
@@ -14,6 +15,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -58,8 +60,9 @@ public class GunSMG extends Item {
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp40_ammo))
 				&& count % 2 == 0) {
-			
-			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigFactory.getTestConfig(), player, 3.0F);
+
+			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.TEST_CONFIG, player);
+			//EntityArrow bullet = new EntityArrow(world, player, 3.0F);
 
 			//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
 			world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));

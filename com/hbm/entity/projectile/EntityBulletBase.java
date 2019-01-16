@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 
 import cpw.mods.fml.relauncher.Side;
@@ -22,16 +23,18 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.setSize(0.5F, 0.5F);
 	}
 
-	public EntityBulletBase(World world, BulletConfiguration config) {
+	public EntityBulletBase(World world, int config) {
 		super(world);
-		this.config = config;
+		this.config = BulletConfigSyncingUtil.pullConfig(config);
+		this.dataWatcher.updateObject(18, config);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 	}
 	
-	public EntityBulletBase(World world, BulletConfiguration config, EntityLivingBase entity, float vel) {
+	public EntityBulletBase(World world, int config, EntityLivingBase entity) {
 		super(world);
-		this.config = config;
+		this.config = BulletConfigSyncingUtil.pullConfig(config);
+		this.dataWatcher.updateObject(18, config);
 		shooter = entity;
 
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
@@ -48,25 +51,22 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
 
-		this.dataWatcher.updateObject(16, (byte)config.style);
-		this.dataWatcher.updateObject(17, (byte)config.trail);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread);
+		
+		this.dataWatcher.updateObject(16, (byte)this.config.style);
+		this.dataWatcher.updateObject(17, (byte)this.config.trail);
 	}
 
 	@Override
 	public void setThrowableHeading(double moX, double moY, double moZ, float mult1, float mult2) {
 		
-		float deviation = 0;
-		
-		if(config != null)
-			deviation = config.spread;
-		
 		float f2 = MathHelper.sqrt_double(moX * moX + moY * moY + moZ * moZ);
 		moX /= f2;
 		moY /= f2;
 		moZ /= f2;
-		moX += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ deviation * mult2;
-		moY += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ deviation * mult2;
-		moZ += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ deviation * mult2;
+		moX += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ mult2;
+		moY += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ mult2;
+		moZ += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ mult2;
 		moX *= mult1;
 		moY *= mult1;
 		moZ *= mult1;
@@ -109,6 +109,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.dataWatcher.addObject(16, Byte.valueOf((byte) 0));
 		//trail
 		this.dataWatcher.addObject(17, Byte.valueOf((byte) 0));
+		//bullet config sync
+		this.dataWatcher.addObject(18, Integer.valueOf((int) 0));
 	}
 	
 	@Override
@@ -117,18 +119,25 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		super.onUpdate();
 		
 		if(config == null)
-			return;
+			config = BulletConfigSyncingUtil.pullConfig(dataWatcher.getWatchableObjectInt(18));
 		
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
 		}
+		
+		/// ZONE 1 START ///
+		//entity and block collision, plinking
+		
+		
+		
+		/// ZONE 1 END ///
 
 		motionY -= config.gravity;
-		this.posX += this.motionX;
-		this.posY += this.motionY;
-		this.posZ += this.motionZ;
+		this.posX += this.motionX * this.config.velocity;
+		this.posY += this.motionY * this.config.velocity;
+		this.posZ += this.motionZ * this.config.velocity;
 		this.setPosition(this.posX, this.posY, this.posZ);
 
 		float f2;
@@ -157,15 +166,20 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		// TODO Auto-generated method stub
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		
+		int cfg = nbt.getInteger("config");
+		this.config = BulletConfigSyncingUtil.pullConfig(cfg);
+		this.dataWatcher.updateObject(18, cfg);
+		
+		this.dataWatcher.updateObject(16, (byte)this.config.style);
+		this.dataWatcher.updateObject(17, (byte)this.config.trail);
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		// TODO Auto-generated method stub
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		
+		nbt.setInteger("config", dataWatcher.getWatchableObjectInt(18));
 	}
 
 }

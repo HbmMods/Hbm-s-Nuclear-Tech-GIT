@@ -192,6 +192,7 @@ import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
 import com.hbm.entity.projectile.EntityShrapnel;
 import com.hbm.entity.projectile.EntitySparkBeam;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.FuelHandler;
 import com.hbm.handler.GUIHandler;
@@ -590,7 +591,8 @@ public class MainRegistry
 		HbmWorld.mainRegistry();
 		GameRegistry.registerFuelHandler(new FuelHandler());
 		HbmPotion.init();
-
+		BulletConfigSyncingUtil.loadConfigsForSync();
+		
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
 		Library.superuser.add("937c9804-e11f-4ad2-a5b1-42e62ac73077");

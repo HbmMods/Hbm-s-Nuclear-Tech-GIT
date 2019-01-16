@@ -4,12 +4,15 @@ import com.hbm.items.ModItems;
 
 public class BulletConfigFactory {
 	
-	public static BulletConfiguration getTestConfig() {
+	/// configs should never be loaded manually due to syncing issues: use the syncing util and pass the UID in the DW of the bullet to make the client load the config correctly ////
+	
+	protected static BulletConfiguration getTestConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();
 		
 		bullet.ammo = ModItems.gun_revolver_lead_ammo;
-		bullet.spread = 0F;
+		bullet.velocity = 5.0F;
+		bullet.spread = 0.05F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 17;
 		bullet.gravity = 0D;
