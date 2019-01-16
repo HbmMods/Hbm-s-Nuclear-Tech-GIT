@@ -155,7 +155,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		int playercount = nbt.getInteger("playercount");
 		
 		for(int i = 0; i < playercount; i++) {
-			players.add(nbt.getString("player_") + i);
+			players.add(nbt.getString("player_" + i));
 		}
 	}
 	

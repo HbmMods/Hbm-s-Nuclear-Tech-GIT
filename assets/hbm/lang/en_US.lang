@@ -1087,6 +1087,7 @@ item.flame_opinion.name=Own Opinion
 
 item.pellet_cluster.name=Explosive Pellets
 item.pellet_buckshot.name=Lead Pellets
+item.pellet_flechette.name=Flechettes
 item.powder_fire.name=Flame Powder
 item.powder_ice.name=Cryo Powder
 item.powder_poison.name=Poison Powder
@@ -1310,6 +1311,7 @@ item.gun_hp.name=HPP Lazerjet
 item.gun_euthanasia.name=Euthanasia
 item.gun_defabricator.name=Defabricator
 item.gun_dampfmaschine.name=Totally Not a Joke Weapon
+item.gun_folly.name=Prototype Digamma "Folly"
 
 item.gun_revolver_iron_ammo.name=Bullet
 item.gun_revolver_ammo.name=Lead Bullet
@@ -1370,6 +1372,18 @@ item.ammo_folly_du.name=Silver Bullet (DU, Non-Explosive)
 item.ammo_44.name=.44 Magnum Bullet
 item.ammo_44_ap.name=.44 Magnum Bullet (Armor Piercing)
 item.ammo_44_pip.name=.44 Magnum Bullet (Boxcar)
+item.ammo_44_bj.name=.44 Magnum Bullet (Boat)
+item.ammo_rocket.name=84mm Rocket
+item.ammo_rocket_he.name=84mm Rocket (HE)
+item.ammo_rocket_incendiary.name=84mm Rocket (Incendiary)
+item.ammo_rocket_shrapnel.name=84mm Rocket (Shrapnel)
+item.ammo_rocket_emp.name=84mm Rocket (Pulse)
+item.ammo_rocket_glare.name=84mm Rocket (Red Glare)
+
+item.folly_shell.name=Silver Bullet Casing
+item.folly_bullet.name=12.8cm Starmetal High-Energy Shell
+item.folly_bullet_nuclear.name=12.8cm Nuclear Shell
+item.folly_bullet_du.name=12.8cm DU-Shell
 
 item.cordite.name=Cordite
 

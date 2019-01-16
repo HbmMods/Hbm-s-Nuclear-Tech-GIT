@@ -154,17 +154,18 @@ public class RenderRocket extends Render {
         GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glDepthMask(false);
 
         GL11.glScalef(1F/4F, 1F/8F, 1F/8F);
         GL11.glScalef(-1, 1, 1);
+
+        GL11.glScalef(2, 2, 2);
         
 		Tessellator tess = Tessellator.instance;
 		
-		float red = 0.25F;
-		float green = 0.0F;
-		float blue = 1.0F;
+		float red = 0.5F;
+		float green = 0.5F;
+		float blue = 0.0F;
 		
 		//front
 		tess.startDrawing(4);
@@ -271,8 +272,7 @@ public class RenderRocket extends Render {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glDepthMask(true);
 		
 		GL11.glPopMatrix();

@@ -272,6 +272,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_brimstone, new ItemRenderObj());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBase.class, new RenderBullet());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniMIRV.class, new RenderMiniMIRV());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBaleflare.class, new RenderBaleflare());

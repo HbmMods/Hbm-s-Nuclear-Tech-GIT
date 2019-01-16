@@ -1,9 +1,11 @@
 package com.hbm.items.tool;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemRadioactive;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -18,5 +20,4 @@ public class ItemLeadBox extends Item {
 		
 		return stack;
 	}
-
 }

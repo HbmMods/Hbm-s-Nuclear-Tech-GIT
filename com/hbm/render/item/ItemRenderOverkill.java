@@ -275,6 +275,9 @@ public class ItemRenderOverkill implements IItemRenderer {
 				GL11.glRotatef(185, 0, 1, 0);
 				GL11.glTranslatef(0.5F, 0.6F, 0.2F);
 			}
+			if(item.getItem() == ModItems.gun_folly) {
+				GL11.glTranslatef(0.6F, 0.0F, 0.0F);
+			}
 			
 			if(item.getItem() == ModItems.gun_jack)
 				powerJack.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);

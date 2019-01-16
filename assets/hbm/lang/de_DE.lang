@@ -1087,6 +1087,7 @@ item.flame_opinion.name=Eigene Meinung
 
 item.pellet_cluster.name=Explosive Pellets
 item.pellet_buckshot.name=Schrotkugeln
+item.pellet_flechette.name=Flechets
 item.powder_fire.name=Flammenpulver
 item.powder_ice.name=Kryopulver
 item.powder_poison.name=Giftpulver
@@ -1310,6 +1311,7 @@ item.gun_hp.name=HPP Lazerjet
 item.gun_euthanasia.name=Euthanasia
 item.gun_defabricator.name=Defabrikator
 item.gun_dampfmaschine.name=Garantiert keine Scherzwaffe
+item.gun_folly.name=Prototyp Digamma "Irrsinn"
 
 item.gun_revolver_iron_ammo.name=Patrone
 item.gun_revolver_ammo.name=Bleipatrone
@@ -1370,6 +1372,18 @@ item.ammo_folly_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)
 item.ammo_44.name=.44 Magnum Patrone
 item.ammo_44_ap.name=.44 Magnum Patrone (Panzerbrechend)
 item.ammo_44_pip.name=.44 Magnum Patrone (Güterwagon)
+item.ammo_44_bj.name=.44 Magnum Patrone (Boot)
+item.ammo_rocket.name=84mm Rakete
+item.ammo_rocket_he.name=84mm Rakete (HE)
+item.ammo_rocket_incendiary.name=84mm Rakete (Brand)
+item.ammo_rocket_shrapnel.name=84mm Rakete (Schrapnell)
+item.ammo_rocket_emp.name=84mm Rakete (Impuls)
+item.ammo_rocket_glare.name=84mm Rakete (Roter Schein)
+
+item.folly_shell.name=Silberne Kanonenhülse
+item.folly_bullet.name=12,8cm Sternenmetall-Hochenergiegeschoss
+item.folly_bullet_nuclear.name=12,8cm Atomares Geschoss
+item.folly_bullet_du.name=12,8cm DU-Geschoss
 
 item.cordite.name=Kordit
 

@@ -1,5 +1,10 @@
 package com.hbm.items.weapon;
 
+import com.hbm.entity.particle.EntityGasFlameFX;
+import com.hbm.entity.particle.EntitySSmokeFX;
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigFactory;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
@@ -52,6 +57,31 @@ public class GunFolly extends Item implements IHoldableWeapon {
 				
 				setState(stack, 0);
 				world.playSoundAtEntity(player, "hbm:weapon.follyFire", 1.0F, 1.0F);
+
+				double mult = 1.75D;
+				
+				player.motionX -= player.getLookVec().xCoord * mult;
+				player.motionY -= player.getLookVec().yCoord * mult;
+				player.motionZ -= player.getLookVec().zCoord * mult;
+
+				if (!world.isRemote) {
+					EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigFactory.getTestConfig(), player, 3.0F);
+					world.spawnEntityInWorld(bullet);
+					
+					for(int i = 0; i < 25; i++) {
+						EntitySSmokeFX flame = new EntitySSmokeFX(world);
+						
+						flame.motionX = player.getLookVec().xCoord;
+						flame.motionY = player.getLookVec().yCoord;
+						flame.motionZ = player.getLookVec().zCoord;
+						
+						flame.posX = player.posX + flame.motionX + world.rand.nextGaussian() * 0.35;
+						flame.posY = player.posY + flame.motionY + world.rand.nextGaussian() * 0.35 + player.eyeHeight;
+						flame.posZ = player.posZ + flame.motionZ + world.rand.nextGaussian() * 0.35;
+						
+						world.spawnEntityInWorld(flame);
+					}
+				}
 			}
 		}
 		
@@ -61,20 +91,24 @@ public class GunFolly extends Item implements IHoldableWeapon {
 	@Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem) {
 		
-		if(getState(stack) == 3 && isCurrentItem) {
+		if(getState(stack) == 3) {
 			
-			int timer = getTimer(stack);
-			
-			if(timer > 0) {
-				timer--;
-
-				if(timer % 20 == 0 && timer != 0)
-					world.playSoundAtEntity(entity, "hbm:weapon.follyBuzzer", 1.0F, 1.0F);
+			if(isCurrentItem) {
+				int timer = getTimer(stack);
 				
-				if(timer == 0)
-					world.playSoundAtEntity(entity, "hbm:weapon.follyAquired", 1.0F, 1.0F);
-				
-				setTimer(stack, timer);
+				if(timer > 0) {
+					timer--;
+	
+					if(timer % 20 == 0 && timer != 0)
+						world.playSoundAtEntity(entity, "hbm:weapon.follyBuzzer", 1.0F, 1.0F);
+					
+					if(timer == 0)
+						world.playSoundAtEntity(entity, "hbm:weapon.follyAquired", 1.0F, 1.0F);
+					
+					setTimer(stack, timer);
+				}
+			} else {
+				setTimer(stack, 100);
 			}
 		}
 	}

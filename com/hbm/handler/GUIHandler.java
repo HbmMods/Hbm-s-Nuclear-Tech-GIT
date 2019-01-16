@@ -720,7 +720,7 @@ public class GUIHandler implements IGuiHandler {
 			switch(ID)
 			{
 			case ModItems.guiID_item_box:
-				return new ContainerLeadBox();
+				return new ContainerLeadBox(player.inventory);
 			}
 		}
 		
@@ -1439,7 +1439,7 @@ public class GUIHandler implements IGuiHandler {
 			case ModItems.guiID_item_sat_interface:
 				return new GUIScreenSatInterface(player);
 			case ModItems.guiID_item_box:
-				return new GUILeadBox();
+				return new GUILeadBox(player.inventory);
 			}
 		}
 		return null;

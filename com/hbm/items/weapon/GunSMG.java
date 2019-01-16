@@ -5,6 +5,8 @@ import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigFactory;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
@@ -56,20 +58,19 @@ public class GunSMG extends Item {
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp40_ammo))
 				&& count % 2 == 0) {
-			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 2, 8, false, false);
-			entityarrow.setDamage(1 + rand.nextInt(8));
+			
+			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigFactory.getTestConfig(), player, 3.0F);
 
 			//world.playSoundAtEntity(player, "random.explode", 1.0F, 1.5F + (rand.nextFloat() / 4));
 			world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (flag) {
-				entityarrow.canBePickedUp = 2;
 			} else {
 				player.inventory.consumeInventoryItem(ModItems.gun_mp40_ammo);
 			}
 
 			if (!world.isRemote) {
-				world.spawnEntityInWorld(entityarrow);
+				world.spawnEntityInWorld(bullet);
 			}
 		}
 	}

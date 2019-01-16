@@ -166,6 +166,7 @@ import com.hbm.entity.projectile.EntityBaleflare;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.projectile.EntityCombineBall;
@@ -883,6 +884,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeIFHopwire.class, "entity_grenade_ironshod", 128, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeIFNull.class, "entity_grenade_ironshod", 129, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityFallingNuke.class, "entity_falling_bomb", 130, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBulletBase.class, "entity_bullet_mk2", 131, this, 250, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

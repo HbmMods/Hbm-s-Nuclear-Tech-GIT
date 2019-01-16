@@ -138,8 +138,8 @@ public class MachineRecipes {
 		ItemStack[] moxF = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
 				new ItemStack(ModItems.nugget_neptunium, 1), new ItemStack(ModItems.nugget_u238, 2),
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) };
-		ItemStack[] schrabidiumF = new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium_fuel, 1),
-				new ItemStack(ModItems.nugget_lead, 1), new ItemStack(ModItems.nugget_schrabidium, 1),
+		ItemStack[] schrabidiumF = new ItemStack[] { new ItemStack(ModItems.nugget_beryllium, 1),
+				new ItemStack(ModItems.nugget_lead, 1), new ItemStack(ModItems.nugget_solinium, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 3) };
 		ItemStack[] thoriumF = new ItemStack[] { new ItemStack(ModItems.nugget_u238, 1),
 				new ItemStack(ModItems.nugget_th232, 1), new ItemStack(ModItems.nugget_u233, 3),

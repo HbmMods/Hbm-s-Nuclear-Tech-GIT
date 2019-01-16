@@ -15,7 +15,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemRadioactive extends Item {
+public class ItemRadioactive extends ItemCustomLore {
 	
     @Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
