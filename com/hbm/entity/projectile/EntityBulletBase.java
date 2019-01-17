@@ -1,15 +1,35 @@
 package com.hbm.entity.projectile;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
+import com.hbm.calc.VectorUtil;
+import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.effect.EntityEMPBlast;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityBulletBase extends Entity implements IProjectile {
@@ -126,11 +146,138 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
 		}
-		
+
 		/// ZONE 1 START ///
 		//entity and block collision, plinking
 		
+		/// ZONE 2 START ///
+		//entity detection
+        Vec3 vecOrigin = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+        Vec3 vecDestination = Vec3.createVectorHelper(this.posX + this.motionX * this.config.velocity, this.posY + this.motionY * this.config.velocity, this.posZ + this.motionZ * this.config.velocity);
+        MovingObjectPosition movement = this.worldObj.rayTraceBlocks(vecOrigin, vecDestination);
+        vecOrigin = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+        vecDestination = Vec3.createVectorHelper(this.posX + this.motionX * this.config.velocity, this.posY + this.motionY * this.config.velocity, this.posZ + this.motionZ * this.config.velocity);
+
+		Entity victim = null;
+		List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * this.config.velocity, this.motionY * this.config.velocity, this.motionZ * this.config.velocity).expand(1.0D, 1.0D, 1.0D));
 		
+		double d0 = 0.0D;
+		int i;
+		float f1;
+
+		for (i = 0; i < list.size(); ++i) {
+			Entity entity1 = (Entity) list.get(i);
+
+			if (entity1.canBeCollidedWith() && (entity1 != this.shooter)) {
+				f1 = 0.3F;
+				AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f1, f1, f1);
+				MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vecOrigin, vecDestination);
+
+				if (movingobjectposition1 != null) {
+					double d1 = vecOrigin.distanceTo(movingobjectposition1.hitVec);
+
+					if (d1 < d0 || d0 == 0.0D) {
+						victim = entity1;
+						d0 = d1;
+					}
+				}
+			}
+		}
+
+		if (victim != null) {
+			movement = new MovingObjectPosition(victim);
+		}
+		
+		/// ZONE 2 END ///
+		
+        if (movement != null) {
+        	
+        	//handle entity collision
+        	if(movement.entityHit != null) {
+
+				DamageSource damagesource = null;
+				
+				if (this.shooter == null) {
+					damagesource = ModDamageSource.causeBulletDamage(this, this);
+				} else {
+					damagesource = ModDamageSource.causeBulletDamage(this, shooter);
+				}
+				
+				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
+				
+        		if(!victim.attackEntityFrom(damagesource, damage)) {
+
+					try {
+						Field lastDamage = ReflectionHelper.findField(EntityLivingBase.class, "lastDamage", "field_110153_bc");
+						
+						float dmg = (float) damage + lastDamage.getFloat(victim);
+						
+						victim.attackEntityFrom(damagesource, dmg);
+					} catch (Exception x) { }
+        		}
+        		
+        		if(!config.doesPenetrate)
+        			onEntityImpact(victim);
+        		else
+        			onEntityHurt(victim);
+        		
+        	//handle block collision
+        	} else {
+        		
+        		if(!config.isSpectral && !config.doesRicochet)
+        			this.setDead();
+        		
+        		if(config.doesRicochet) {
+        			
+        			Vec3 face = null;
+                	
+                	switch(movement.sideHit) {
+                	case 0:
+                		face = Vec3.createVectorHelper(0, -1, 0); break;
+                	case 1:
+                		face = Vec3.createVectorHelper(0, 1, 0); break;
+                	case 2:
+                		face = Vec3.createVectorHelper(0, 0, 1); break;
+                	case 3:
+                		face = Vec3.createVectorHelper(0, 0, -1); break;
+                	case 4:
+                		face = Vec3.createVectorHelper(-1, 0, 0); break;
+                	case 5:
+                		face = Vec3.createVectorHelper(1, 0, 0); break;
+                	}
+                	
+                	if(face != null) {
+                		
+                		Vec3 vel = Vec3.createVectorHelper(motionX, motionY, motionZ);
+                		vel.normalize();
+                		
+                		double angle = Math.abs(VectorUtil.getCrossAngle(vel, face) - 90);
+                		
+                		if(angle <= config.ricochetAngle) {
+                        	switch(movement.sideHit) {
+                        	case 0:
+                        	case 1:
+                        		motionY *= -1; break;
+                        	case 2:
+                        	case 3:
+                        		motionZ *= -1; break;
+                        	case 4:
+                        	case 5:
+                        		motionX *= -1; break;
+                        	}
+                    		System.out.println(angle);
+                		} else {
+                			onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
+                		}
+
+                        this.posX += (movement.hitVec.xCoord - this.posX) * 0.6;
+                        this.posY += (movement.hitVec.yCoord - this.posY) * 0.6;
+                        this.posZ += (movement.hitVec.zCoord - this.posZ) * 0.6;
+                	}
+        		}
+        	}
+        	
+        }
 		
 		/// ZONE 1 END ///
 
@@ -163,6 +310,122 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 		//this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
 		//this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+	}
+	
+	//for when a bullet dies by hitting a block
+	private void onBlockImpact(int bX, int bY, int bZ) {
+		
+		this.setDead();
+		
+		if(config.incendiary > 0 && !this.worldObj.isRemote) {
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ, Blocks.fire);
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX + 1, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX + 1, (int)posY, (int)posZ, Blocks.fire);
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX - 1, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX - 1, (int)posY, (int)posZ, Blocks.fire);
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY + 1, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY + 1, (int)posZ, Blocks.fire);
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY - 1, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY - 1, (int)posZ, Blocks.fire);
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ + 1) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ + 1, Blocks.fire);
+			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ - 1) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ - 1, Blocks.fire);
+		}
+
+		if(config.emp > 0)
+			ExplosionNukeGeneric.empBlast(this.worldObj, (int)(this.posX + 0.5D), (int)(this.posY + 0.5D), (int)(this.posZ + 0.5D), config.emp);
+		
+		if(config.emp > 3) {
+			if (!this.worldObj.isRemote) {
+				
+	    		EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
+	    		cloud.posX = this.posX;
+	    		cloud.posY = this.posY + 0.5F;
+	    		cloud.posZ = this.posZ;
+	    		
+				this.worldObj.spawnEntityInWorld(cloud);
+			}
+		}
+		
+		if(config.explosive > 0 && !worldObj.isRemote)
+			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, true);
+		
+		if(config.rainbow > 0 && !worldObj.isRemote) {
+			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
+			entity.posX = this.posX;
+			entity.posY = this.posY;
+			entity.posZ = this.posZ;
+			entity.destructionRange = config.rainbow;
+			entity.speed = 25;
+			entity.coefficient = 1.0F;
+			entity.waste = false;
+
+			this.worldObj.spawnEntityInWorld(entity);
+	    		
+	    	EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
+	    	cloud.posX = this.posX;
+	    	cloud.posY = this.posY;
+	    	cloud.posZ = this.posZ;
+	    	this.worldObj.spawnEntityInWorld(cloud);
+		}
+		
+		if(config.nuke > 0 && !worldObj.isRemote) {
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ));
+		}
+		
+		if(config.destroysBlocks && !worldObj.isRemote) {
+			if(worldObj.getBlock(bX, bY, bZ).getBlockHardness(worldObj, bX, bY, bZ) <= 120)
+    			worldObj.func_147480_a(bX, bY, bZ, false);
+		} else if(config.doesBreakGlass && !worldObj.isRemote) {
+			if(worldObj.getBlock(bX, bY, bZ) == Blocks.glass || 
+					worldObj.getBlock(bX, bY, bZ) == Blocks.glass_pane || 
+					worldObj.getBlock(bX, bY, bZ) == Blocks.stained_glass || 
+					worldObj.getBlock(bX, bY, bZ) == Blocks.stained_glass_pane)
+				worldObj.func_147480_a(bX, bY, bZ, false);
+			
+		}
+	}
+	
+	//for when a bullet dies by hitting an entity
+	private void onEntityImpact(Entity e) {
+		onBlockImpact(-1, -1, -1);
+		onEntityHurt(e);
+		
+		if(config.boxcar && !worldObj.isRemote) {
+			EntityBoxcar pippo = new EntityBoxcar(worldObj);
+			pippo.posX = e.posX;
+			pippo.posY = e.posY + 50;
+			pippo.posZ = e.posZ;
+			
+			for(int j = 0; j < 50; j++) {
+				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
+				worldObj.spawnEntityInWorld(fx);
+			}
+			worldObj.spawnEntityInWorld(pippo);
+		}
+		
+		if(config.boat && !worldObj.isRemote) {
+			EntityBoxcar pippo = new EntityBoxcar(worldObj);
+			pippo.posX = e.posX;
+			pippo.posY = e.posY + 50;
+			pippo.posZ = e.posZ;
+			
+			for(int j = 0; j < 50; j++) {
+				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
+				worldObj.spawnEntityInWorld(fx);
+			}
+			worldObj.spawnEntityInWorld(pippo);
+		}
+	}
+	
+	//for when a bullet hurts an entity, not necessarily dying
+	private void onEntityHurt(Entity e) {
+		
+		if(config.incendiary > 0)
+			e.setFire(config.incendiary);
+		
+		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty()) {
+			
+			for(PotionEffect effect : config.effects)
+				((EntityLivingBase)e).addPotionEffect(effect);
+		}
 	}
 
 	@Override

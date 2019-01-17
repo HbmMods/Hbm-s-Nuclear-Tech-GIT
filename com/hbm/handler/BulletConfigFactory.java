@@ -18,7 +18,7 @@ public class BulletConfigFactory {
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
-		bullet.ricochetAngle = 15;
+		bullet.ricochetAngle = 10;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
 		bullet.incendiary = 0;

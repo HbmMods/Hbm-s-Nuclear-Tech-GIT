@@ -32,6 +32,8 @@ public class BulletConfiguration {
 
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;
+	//whether or not the bullet should phase through blocks
+	public boolean isSpectral;
 	//whether or not the bullet should break glass
 	public boolean doesBreakGlass;
 	
@@ -39,10 +41,11 @@ public class BulletConfiguration {
 	public List<PotionEffect> effects;
 	public int incendiary;
 	public int emp;
-	public int explosive;
+	public float explosive;
 	public int rainbow;
 	public int nuke;
 	public boolean boxcar;
+	public boolean boat;
 	public boolean destroysBlocks;
 	
 	//appearance

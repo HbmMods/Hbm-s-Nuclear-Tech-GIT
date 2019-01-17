@@ -1,6 +1,7 @@
 package com.hbm.lib;
 
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityDischarge;
 import com.hbm.entity.projectile.EntityFire;
@@ -46,6 +47,10 @@ public class ModDamageSource extends DamageSource {
     public static DamageSource causeBulletDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {
         return (new EntityDamageSourceIndirect("revolverBullet", p_76353_0_, p_76353_1_)).setProjectile();
+    }
+    public static DamageSource causeBulletDamage(EntityBulletBase base, Entity ent)
+    {
+        return (new EntityDamageSourceIndirect("revolverBullet", base, ent)).setProjectile();
     }
     public static DamageSource causeDisplacementDamage(EntityBullet p_76353_0_, Entity p_76353_1_)
     {

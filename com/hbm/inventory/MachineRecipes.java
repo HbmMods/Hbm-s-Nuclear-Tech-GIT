@@ -632,28 +632,26 @@ public class MachineRecipes {
 		
 		if(stamp.getItem() == ModItems.stamp_44) {
 
-			if(input.getItem() == ModItems.assembly_pip)
-				return new ItemStack(ModItems.gun_revolver_pip_ammo);
 			if(input.getItem() == ModItems.assembly_nopip)
-				return new ItemStack(ModItems.gun_revolver_nopip_ammo);
+				return new ItemStack(ModItems.ammo_44);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_9) {
 
 			if(input.getItem() == ModItems.assembly_smg)
-				return new ItemStack(ModItems.gun_mp40_ammo);
+				return new ItemStack(ModItems.ammo_9mm);
 			if(input.getItem() == ModItems.assembly_uzi)
-				return new ItemStack(ModItems.gun_uzi_ammo);
+				return new ItemStack(ModItems.ammo_22lr);
 			if(mODE(input, "ingotGold"))
 				return new ItemStack(ModItems.gun_mp_ammo);
 			if(input.getItem() == ModItems.assembly_lacunae)
-				return new ItemStack(ModItems.gun_lacunae_ammo);
+				return new ItemStack(ModItems.ammo_5mm);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_50) {
 
 			if(input.getItem() == ModItems.assembly_calamity)
-				return new ItemStack(ModItems.gun_calamity_ammo);
+				return new ItemStack(ModItems.ammo_50bmg);
 		}
 		
 		return null;
@@ -724,7 +722,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_nightmare) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_nightmare));
 
 		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_nopip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_nopip));
-		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_pip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_pip));
+		//recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_pip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_pip));
 
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_smg) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_smg));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_uzi) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_uzi));
