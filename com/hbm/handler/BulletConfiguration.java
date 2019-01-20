@@ -47,12 +47,29 @@ public class BulletConfiguration {
 	public boolean boxcar;
 	public boolean boat;
 	public boolean destroysBlocks;
+	public boolean instakill;
 	
 	//appearance
 	public int style;
 	//additional appearance data, i.e. particle effects
 	public int trail;
-	//0: no plinking, 1: bullet plink, 2: grenade plink, 3: sing boink
+	//ricochet sound type
 	public int plink;
+
+	public static final int STYLE_NORMAL = 0;
+	public static final int STYLE_FLECHETTE = 1;
+	public static final int STYLE_PELLET = 2;
+	public static final int STYLE_BOLT = 3;
+	public static final int STYLE_FOLLY = 4;
+	public static final int STYLE_ROCKET = 5;
+	public static final int STYLE_STINGER = 6;
+	public static final int STYLE_NUKE = 7;
+	public static final int STYLE_MIRV = 8;
+
+	public static final int PLINK_NONE = 0;
+	public static final int PLINK_BULLET = 1;
+	public static final int PLINK_GRENADE = 2;
+	public static final int PLINK_ENERGY = 3;
+	public static final int PLINK_SING = 4;
 
 }

@@ -189,6 +189,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		/// ZONE 2 END ///
+
+		boolean didBounce = false;
 		
         if (movement != null) {
         	
@@ -253,7 +255,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
                 		
                 		double angle = Math.abs(VectorUtil.getCrossAngle(vel, face) - 90);
                 		
-                		if(angle <= config.ricochetAngle) {
+                		if(angle <= 10000) {
                         	switch(movement.sideHit) {
                         	case 0:
                         	case 1:
@@ -265,7 +267,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         	case 5:
                         		motionX *= -1; break;
                         	}
-                    		System.out.println(angle);
+
+                        	if(config.plink == 1)
+                        		worldObj.playSoundAtEntity(this, "hbm:weapon.ricochet", 0.25F, 1.0F);
+                        	if(config.plink == 2)
+                        		worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 1.0F, 1.0F);
+                        	
                 		} else {
                 			onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
                 		}
@@ -273,6 +280,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         this.posX += (movement.hitVec.xCoord - this.posX) * 0.6;
                         this.posY += (movement.hitVec.yCoord - this.posY) * 0.6;
                         this.posZ += (movement.hitVec.zCoord - this.posZ) * 0.6;
+                        
+                		didBounce = true;
                 	}
         		}
         	}
@@ -281,11 +290,13 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		/// ZONE 1 END ///
 
+        if(!didBounce) {
 		motionY -= config.gravity;
-		this.posX += this.motionX * this.config.velocity;
-		this.posY += this.motionY * this.config.velocity;
-		this.posZ += this.motionZ * this.config.velocity;
-		this.setPosition(this.posX, this.posY, this.posZ);
+			this.posX += this.motionX * this.config.velocity;
+			this.posY += this.motionY * this.config.velocity;
+			this.posZ += this.motionZ * this.config.velocity;
+			this.setPosition(this.posX, this.posY, this.posZ);
+        }
 
 		float f2;
 		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -307,6 +318,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			this.prevRotationYaw += 360.0F;
 		}
 		
+		if(this.ticksExisted > config.maxAge)
+			this.setDead();
 
 		//this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
 		//this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
@@ -425,6 +438,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			
 			for(PotionEffect effect : config.effects)
 				((EntityLivingBase)e).addPotionEffect(effect);
+		}
+		
+		if(config.instakill && e instanceof EntityLivingBase) {
+			((EntityLivingBase)e).setHealth(0.0F);
 		}
 	}
 

@@ -680,6 +680,12 @@ public class ItemCustomLore extends Item {
 				list.add("Explore the other side.");
 			}
 		}
+		
+		if(this == ModItems.book_of_)
+		{
+			list.add("Denn wer den Walzer richtig tritt,");
+			list.add("der ist auch für den Abgang fit.");
+		}
 	}
 
     @Override

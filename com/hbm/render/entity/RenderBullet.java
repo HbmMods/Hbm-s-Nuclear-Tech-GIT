@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelBullet;
+import com.hbm.render.model.ModelRocket;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -16,9 +17,11 @@ import net.minecraft.util.ResourceLocation;
 public class RenderBullet extends Render {
 
 	private ModelBullet bullet;
+	private ModelRocket rocket;
 
 	public RenderBullet() {
 		bullet = new ModelBullet();
+		rocket = new ModelRocket();
 	}
 
 	@Override
@@ -34,7 +37,7 @@ public class RenderBullet extends Render {
 		
 		GL11.glRotatef(new Random(bullet.getEntityId()).nextInt(360), 1.0F, 0.0F, 0.0F);
 		
-		renderFlechette();
+		renderDart(0.75F, 0.0F, 1.0F);
 		
 		GL11.glPopMatrix();
 	}
@@ -50,6 +53,28 @@ public class RenderBullet extends Render {
 		}
 		
 		bullet.renderAll(0.0625F);
+	}
+	
+	private void renderRocket(int type) {
+		
+		switch(type) {
+		case 0:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocket.png")); break;
+		case 1:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketHE.png")); break;
+		case 2:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketIncendiary.png")); break;
+		case 3:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketShrapnel.png")); break;
+		case 4:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketEMP.png")); break;
+		case 5:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketGlare.png")); break;
+		case 6:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketSleek.png")); break;
+		}
+		
+		rocket.renderAll(0.0625F);
 	}
 	
 	private void renderFlechette() {

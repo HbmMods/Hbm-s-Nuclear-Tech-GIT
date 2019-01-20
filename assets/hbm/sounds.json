@@ -99,6 +99,7 @@
     "weapon.follyBuzzer": {"category": "player", "sounds": [{"name": "weapon/follyBuzzer", "stream": false}]},
     "weapon.follyAquired": {"category": "player", "sounds": [{"name": "weapon/follyAquiredAlt", "stream": false}]},
     "weapon.follyFire": {"category": "player", "sounds": [{"name": "weapon/follyFire", "stream": false}]},
+    "weapon.ricochet": {"category": "player", "sounds": ["weapon/ric1", "weapon/ric2", "weapon/ric3", "weapon/ric4", "weapon/ric5"]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

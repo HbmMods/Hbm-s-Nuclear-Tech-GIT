@@ -5,6 +5,8 @@ import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
@@ -67,59 +69,39 @@ public class GunLeverAction extends Item {
 			if (j > 10.0F) {
 				f = 10.0F;
 			}
-			EntityBullet entityarrow1;
-			EntityBullet entityarrow2;
-			EntityBullet entityarrow3;
-			EntityBullet entityarrow4;
-			EntityBullet entityarrow5;
-			EntityBullet entityarrow6;
-			EntityBullet entityarrow7;
-			EntityBullet entityarrow8;
-			EntityBullet entityarrow9;
-			EntityBullet entityarrow10;
+			EntityBulletBase entityarrow1;
+			EntityBulletBase entityarrow2;
+			EntityBulletBase entityarrow3;
+			EntityBulletBase entityarrow4;
+			EntityBulletBase entityarrow5;
+			EntityBulletBase entityarrow6;
+			EntityBulletBase entityarrow7;
+			EntityBulletBase entityarrow8;
+			EntityBulletBase entityarrow9;
+			EntityBulletBase entityarrow10;
 			
 			if (!p_77615_3_.isSneaking()) {
-				entityarrow1 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow1.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow2 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow2.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow3 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow3.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow4 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow4.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow5 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow5.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow6 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow6.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow7 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow7.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow8 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow8.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow9 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow9.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow10 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F);
-				entityarrow10.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
+				entityarrow1 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow2 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow3 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow4 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow5 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow6 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow7 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow8 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow9 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow10 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
 			} else {
-				entityarrow1 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow1.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow2 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow2.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow3 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow3.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow4 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow4.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow5 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow5.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow6 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow6.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow7 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow7.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow8 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow8.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow9 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow9.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
-				entityarrow10 = new EntityBullet(p_77615_2_, p_77615_3_, 3.0F, dmgMin, dmgMax, false, false);
-				entityarrow10.setDamage(dmgMin + rand.nextInt(dmgMax - dmgMin));
+				entityarrow1 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow2 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow3 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow4 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow5 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow6 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow7 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow8 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow9 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
+				entityarrow10 = new EntityBulletBase(p_77615_2_, BulletConfigSyncingUtil.TEST_CONFIG, p_77615_3_);
 			}
 
 			p_77615_1_.damageItem(1, p_77615_3_);
