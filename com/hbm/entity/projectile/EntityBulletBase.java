@@ -280,6 +280,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         this.posX += (movement.hitVec.xCoord - this.posX) * 0.6;
                         this.posY += (movement.hitVec.yCoord - this.posY) * 0.6;
                         this.posZ += (movement.hitVec.zCoord - this.posZ) * 0.6;
+
+                        this.motionX *= 0.8;
+                        this.motionY *= 0.8;
+                        this.motionZ *= 0.8;
                         
                 		didBounce = true;
                 	}
