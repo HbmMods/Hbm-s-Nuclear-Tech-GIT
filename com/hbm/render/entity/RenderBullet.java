@@ -5,8 +5,11 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.model.ModelBuckshot;
 import com.hbm.render.model.ModelBullet;
+import com.hbm.render.model.ModelGrenade;
 import com.hbm.render.model.ModelRocket;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -17,11 +20,15 @@ import net.minecraft.util.ResourceLocation;
 public class RenderBullet extends Render {
 
 	private ModelBullet bullet;
+	private ModelBuckshot buckshot;
 	private ModelRocket rocket;
+	private ModelGrenade grenade;
 
 	public RenderBullet() {
 		bullet = new ModelBullet();
+		buckshot = new ModelBuckshot();
 		rocket = new ModelRocket();
+		grenade = new ModelGrenade();
 	}
 
 	@Override
@@ -36,8 +43,21 @@ public class RenderBullet extends Render {
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
 		
 		GL11.glRotatef(new Random(bullet.getEntityId()).nextInt(360), 1.0F, 0.0F, 0.0F);
+
+		int style = bullet.getDataWatcher().getWatchableObjectByte(16);
+		int trail = bullet.getDataWatcher().getWatchableObjectByte(17);
 		
-		renderDart(0.75F, 0.0F, 1.0F);
+		switch(style) {
+			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
+			case BulletConfiguration.STYLE_BOLT: renderDart(0.25F, 0.0F, 0.75F); break;
+			case BulletConfiguration.STYLE_FLECHETTE: renderFlechette(); break;
+			case BulletConfiguration.STYLE_FOLLY: renderBullet(trail); break;
+			case BulletConfiguration.STYLE_PELLET: renderBuckshot(); break;
+			case BulletConfiguration.STYLE_ROCKET: renderRocket(trail); break;
+			case BulletConfiguration.STYLE_GRENADE: renderGrenade(trail); break;
+			default: renderBullet(trail); break;
+		}
+		
 		
 		GL11.glPopMatrix();
 	}
@@ -55,26 +75,53 @@ public class RenderBullet extends Render {
 		bullet.renderAll(0.0625F);
 	}
 	
+	private void renderBuckshot() {
+
+		bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/buckshot.png"));
+		
+		buckshot.renderAll(0.0625F);
+	}
+	
 	private void renderRocket(int type) {
 		
 		switch(type) {
 		case 0:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocket.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocket.png")); break;
 		case 1:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketHE.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketHE.png")); break;
 		case 2:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketIncendiary.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketIncendiary.png")); break;
 		case 3:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketShrapnel.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketShrapnel.png")); break;
 		case 4:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketEMP.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketEMP.png")); break;
 		case 5:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketGlare.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketGlare.png")); break;
 		case 6:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/ModelRocketSleek.png")); break;
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketSleek.png")); break;
 		}
 		
 		rocket.renderAll(0.0625F);
+	}
+	
+	private void renderGrenade(int type) {
+
+		GL11.glScalef(0.25F, 0.25F, 0.25F);
+		
+		switch(type) {
+		case 0:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenade.png")); break;
+		case 1:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeHE.png")); break;
+		case 2:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeIncendiary.png")); break;
+		case 3:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeToxic.png")); break;
+		case 4:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeSleek.png")); break;
+		}
+		
+		grenade.renderAll(0.0625F);
 	}
 	
 	private void renderFlechette() {

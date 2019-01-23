@@ -1,5 +1,6 @@
 package com.hbm.entity.grenade;
 
+import com.hbm.explosion.ExplosionChaos;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 
@@ -31,6 +32,8 @@ public class EntityGrenadeIFMystery extends EntityGrenadeBouncyBase {
             this.setDead();
     		
     		worldObj.newExplosion(this, posX, posY, posZ, 10, false, false);
+    		
+    		ExplosionChaos.spawnVolley(worldObj, posX, posY, posZ, 100, 1.0D);
         }
     }
 

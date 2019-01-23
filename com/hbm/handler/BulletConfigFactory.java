@@ -24,6 +24,9 @@ public class BulletConfigFactory {
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
 		bullet.ricochetAngle = 10;
+		bullet.HBRC = 2;
+		bullet.LBRC = 90;
+		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
 		bullet.incendiary = 0;
@@ -52,6 +55,9 @@ public class BulletConfigFactory {
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
 		bullet.ricochetAngle = 5;
+		bullet.HBRC = 2;
+		bullet.LBRC = 95;
+		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
 		bullet.incendiary = 0;
@@ -61,8 +67,8 @@ public class BulletConfigFactory {
 		bullet.boxcar = false;
 		bullet.boat = false;
 		bullet.destroysBlocks = false;
-		bullet.style = 0;
-		bullet.plink = 1;
+		bullet.style = BulletConfiguration.STYLE_NORMAL;
+		bullet.plink = BulletConfiguration.PLINK_BULLET;
 		bullet.instakill = false;
 		
 		return bullet;
@@ -77,7 +83,10 @@ public class BulletConfigFactory {
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
-		bullet.ricochetAngle = 3;
+		bullet.ricochetAngle = 5;
+		bullet.HBRC = 10;
+		bullet.LBRC = 95;
+		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = false;
 		bullet.doesBreakGlass = true;
 		bullet.incendiary = 0;
@@ -87,8 +96,8 @@ public class BulletConfigFactory {
 		bullet.boxcar = false;
 		bullet.boat = false;
 		bullet.destroysBlocks = false;
-		bullet.style = 0;
-		bullet.plink = 1;
+		bullet.style = BulletConfiguration.STYLE_PELLET;
+		bullet.plink = BulletConfiguration.PLINK_BULLET;
 		bullet.instakill = false;
 		
 		return bullet;

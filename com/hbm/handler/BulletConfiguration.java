@@ -29,6 +29,12 @@ public class BulletConfiguration {
 	public boolean doesRicochet;
 	//the maximum angle at which the projectile should bounce
 	public double ricochetAngle;
+	//lower bound ricochet chance (below R angle)
+	public int LBRC;
+	//higher bound ricochet chance (above R angle)
+	public int HBRC;
+	//how much of the initial velocity is kept after bouncing
+	public double bounceMod;
 
 	//whether or not the bullet should penetrate mobs
 	public boolean doesPenetrate;
@@ -65,6 +71,7 @@ public class BulletConfiguration {
 	public static final int STYLE_STINGER = 6;
 	public static final int STYLE_NUKE = 7;
 	public static final int STYLE_MIRV = 8;
+	public static final int STYLE_GRENADE = 9;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;

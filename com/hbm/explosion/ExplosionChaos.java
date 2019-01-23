@@ -379,6 +379,21 @@ public class ExplosionChaos {
 		}
 	}
 
+	public static void spawnVolley(World world, double x, double y, double z, int count, double speed) {
+		
+		for(int i = 0; i < count; i++) {
+			
+			EntityModFX fx = new EntityOrangeFX(world, x, y, z, 0.0, 0.0, 0.0);
+			
+			fx.motionX = rand.nextGaussian() * speed;
+			fx.motionZ = rand.nextGaussian() * speed;
+			
+			fx.motionY = rand.nextDouble() * speed * 7.5D;
+			
+			world.spawnEntityInWorld(fx);
+		}
+	}
+
 	public static void destruction(World world, int x, int y, int z) {
 
 		if (world.getBlock(x, y, z) == Blocks.bedrock || world.getBlock(x, y, z) == ModBlocks.reinforced_brick

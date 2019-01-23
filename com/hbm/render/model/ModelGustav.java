@@ -6,6 +6,8 @@
 
 package com.hbm.render.model;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -260,6 +262,7 @@ public class ModelGustav extends ModelBase {
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		Shape1.render(f5);
 		Shape2.render(f5);
 		Shape3.render(f5);
@@ -294,6 +297,7 @@ public class ModelGustav extends ModelBase {
 		Shape32.render(f5);
 		Shape33.render(f5);
 		Shape34.render(f5);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

@@ -226,10 +226,13 @@ public class EntityBulletBase extends Entity implements IProjectile {
         	//handle block collision
         	} else {
         		
-        		if(!config.isSpectral && !config.doesRicochet)
+        		boolean hRic = rand.nextInt(100) < config.HBRC;
+        		boolean doesRic = config.doesRicochet || hRic;
+        		
+        		if(!config.isSpectral && !doesRic)
         			this.setDead();
         		
-        		if(config.doesRicochet) {
+        		if(doesRic) {
         			
         			Vec3 face = null;
                 	
@@ -252,10 +255,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
                 		
                 		Vec3 vel = Vec3.createVectorHelper(motionX, motionY, motionZ);
                 		vel.normalize();
-                		
+
+                		boolean lRic = rand.nextInt(100) < config.LBRC;
                 		double angle = Math.abs(VectorUtil.getCrossAngle(vel, face) - 90);
                 		
-                		if(angle <= 10000) {
+                		if(hRic || (angle <= config.ricochetAngle && lRic)) {
                         	switch(movement.sideHit) {
                         	case 0:
                         	case 1:
@@ -281,9 +285,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         this.posY += (movement.hitVec.yCoord - this.posY) * 0.6;
                         this.posZ += (movement.hitVec.zCoord - this.posZ) * 0.6;
 
-                        this.motionX *= 0.8;
-                        this.motionY *= 0.8;
-                        this.motionZ *= 0.8;
+                        this.motionX *= config.bounceMod;
+                        this.motionY *= config.bounceMod;
+                        this.motionZ *= config.bounceMod;
                         
                 		didBounce = true;
                 	}

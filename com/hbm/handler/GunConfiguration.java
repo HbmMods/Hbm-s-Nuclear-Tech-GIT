@@ -12,6 +12,8 @@ public class GunConfiguration {
 	 * restrictions must be applied in gun's logic, mechanism may be dysfunctional if these rules are ignored
 	 */
 	
+	//TODO: bind RoF and spread to ammo
+	
 	//amount of ticks between each bullet
 	public int rateOfFire;
 	//greatest amount of pellets created each shot

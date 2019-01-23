@@ -842,6 +842,12 @@ public class ModItems {
 	public static Item ammo_rocket_shrapnel;
 	public static Item ammo_rocket_emp;
 	public static Item ammo_rocket_glare;
+	public static Item ammo_rocket_sleek;
+	public static Item ammo_grenade;
+	public static Item ammo_grenade_he;
+	public static Item ammo_grenade_incendiary;
+	public static Item ammo_grenade_toxic;
+	public static Item ammo_grenade_sleek;
 	
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
@@ -2280,6 +2286,12 @@ public class ModItems {
 		ammo_rocket_shrapnel = new Item().setUnlocalizedName("ammo_rocket_shrapnel").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_shrapnel");
 		ammo_rocket_emp = new Item().setUnlocalizedName("ammo_rocket_emp").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_emp");
 		ammo_rocket_glare = new Item().setUnlocalizedName("ammo_rocket_glare").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_glare");
+		ammo_rocket_sleek = new Item().setUnlocalizedName("ammo_rocket_sleek").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_rocket_sleek");
+		ammo_grenade = new Item().setUnlocalizedName("ammo_grenade").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade");
+		ammo_grenade_he = new Item().setUnlocalizedName("ammo_grenade_he").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_he");
+		ammo_grenade_incendiary = new Item().setUnlocalizedName("ammo_grenade_incendiary").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_incendiary");
+		ammo_grenade_toxic = new Item().setUnlocalizedName("ammo_grenade_toxic").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_toxic");
+		ammo_grenade_sleek = new Item().setUnlocalizedName("ammo_grenade_sleek").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_sleek");
 		
 		gun_rpg = new GunRpg().setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg_new");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_alt");
@@ -4005,6 +4017,12 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_rocket_shrapnel, ammo_rocket_shrapnel.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_emp, ammo_rocket_emp.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_glare, ammo_rocket_glare.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_rocket_sleek, ammo_rocket_sleek.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_grenade, ammo_grenade.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_grenade_he, ammo_grenade_he.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_grenade_incendiary, ammo_grenade_incendiary.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_grenade_toxic, ammo_grenade_toxic.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_grenade_sleek, ammo_grenade_sleek.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly, ammo_folly.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_nuclear, ammo_folly_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());

@@ -1383,6 +1383,12 @@ item.ammo_rocket_incendiary.name=84mm Rakete (Brand)
 item.ammo_rocket_shrapnel.name=84mm Rakete (Schrapnell)
 item.ammo_rocket_emp.name=84mm Rakete (Impuls)
 item.ammo_rocket_glare.name=84mm Rakete (Roter Schein)
+item.ammo_rocket_sleek.name=84mm Rakete (IF-R&D)
+item.ammo_grenade.name=40mm Granate
+item.ammo_grenade_he.name=40mm Granate (HE)
+item.ammo_grenade_incendiary.name=40mm Granate (Brand)
+item.ammo_grenade_toxic.name=40mm Granate (Chemisch)
+item.ammo_grenade_sleek.name=40mm Granate (IF-F&E)
 
 item.folly_shell.name=Silberne Kanonenhülse
 item.folly_bullet.name=12,8cm Sternenmetall-Hochenergiegeschoss
