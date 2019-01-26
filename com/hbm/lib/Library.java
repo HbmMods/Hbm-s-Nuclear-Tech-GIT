@@ -656,8 +656,6 @@ public class Library {
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
 			
 			long dR = ((ItemBattery)slots[index].getItem()).getChargeRate();
-			
-			System.out.println(dR + "");
 
 			while(dR >= 1000000000000L) {
 				if(power - 100000000000000L >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
