@@ -58,7 +58,7 @@ public class GunSMG extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp40_ammo))
+		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_9mm))
 				&& count % 2 == 0) {
 
 			EntityBulletBase bullet = new EntityBulletBase(world, BulletConfigSyncingUtil.TEST_CONFIG, player);
@@ -69,7 +69,7 @@ public class GunSMG extends Item {
 
 			if (flag) {
 			} else {
-				player.inventory.consumeInventoryItem(ModItems.gun_mp40_ammo);
+				player.inventory.consumeInventoryItem(ModItems.ammo_9mm);
 			}
 
 			if (!world.isRemote) {

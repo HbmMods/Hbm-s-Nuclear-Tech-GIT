@@ -47,6 +47,9 @@ public class RadEntitySavedData extends WorldSavedData {
     	if(!(e instanceof EntityLivingBase))
     		return;
     	
+    	if(rad < 0)
+    		rad = 0;
+    	
     	for(int i = 0; i < contaminated.size(); i++) {
     		if(new UUID(contaminated.get(i).hID, contaminated.get(i).lID).equals(e.getUniqueID())) {
     			contaminated.get(i).rad = rad;

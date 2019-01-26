@@ -57,7 +57,7 @@ public class GunUZI extends Item implements IHoldableWeapon {
 
 		boolean flag = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 		
-		if (player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_uzi_ammo)) {
+		if (player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_22lr)) {
 			
 			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 2, 4, false, false);
 			entityarrow.setDamage(2 + rand.nextInt(3));
@@ -73,7 +73,7 @@ public class GunUZI extends Item implements IHoldableWeapon {
 				world.playSoundAtEntity(player, "hbm:weapon.silencerShoot", 0.15F, 1.0F);
 
 			if (!flag) {
-				player.inventory.consumeInventoryItem(ModItems.gun_uzi_ammo);
+				player.inventory.consumeInventoryItem(ModItems.ammo_22lr);
 			}
 
 			if (!world.isRemote) {

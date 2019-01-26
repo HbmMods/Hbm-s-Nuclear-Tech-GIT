@@ -56,7 +56,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_rpg)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_rpg_ammo, 3)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_rocket, 3)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_rpg_ammo, 3), false);
         	}
@@ -116,7 +116,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_mp40)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mp40_ammo, 32)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_9mm, 32)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}
@@ -124,7 +124,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_uzi)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_22lr, 32)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_uzi_ammo, 32), false);
         	}
@@ -132,7 +132,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_uboinik)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uboinik_ammo, 24)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_12gauge, 24)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_uboinik_ammo, 24), false);
         	}
@@ -140,7 +140,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_lever_action)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 24)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 24)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_lever_action_ammo, 24), false);
         	}
@@ -148,7 +148,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_bolt_action)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bolt_action_ammo, 24)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge_flechette, 24)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_bolt_action_ammo, 24), false);
         	}
@@ -212,7 +212,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_revolver_pip)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip_ammo, 6)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_44_pip, 6)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}
@@ -220,7 +220,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_revolver_nopip)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nopip_ammo, 12)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_44, 12)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}
@@ -293,34 +293,34 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_revolver_nightmare2))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nightmare2_ammo, 3));
 			if(player.inventory.hasItem(ModItems.gun_revolver_pip))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_44_pip, 12));
 			if(player.inventory.hasItem(ModItems.gun_revolver_nopip))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nopip_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_44, 12));
 			if(player.inventory.hasItem(ModItems.gun_revolver_blackjack))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nopip_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_44_bj, 12));
 			if(player.inventory.hasItem(ModItems.gun_revolver_red))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_nopip_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_44, 12));
 			if(player.inventory.hasItem(ModItems.gun_calamity))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_calamity_ammo, 16));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_50bmg, 16));
 			if(player.inventory.hasItem(ModItems.gun_calamity_dual))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_calamity_ammo, 32));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_50bmg, 32));
 			if(player.inventory.hasItem(ModItems.gun_minigun)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
 			}
 			if(player.inventory.hasItem(ModItems.gun_avenger)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
 			}
 			if(player.inventory.hasItem(ModItems.gun_lacunae)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lacunae_ammo, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_5mm, 64));
 			}
 			if(player.inventory.hasItem(ModItems.gun_rpg))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_rpg_ammo, 3));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_rocket, 3));
 			if(player.inventory.hasItem(ModItems.gun_stinger))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_stinger_ammo, 2));
 			if(player.inventory.hasItem(ModItems.gun_skystinger))
@@ -334,27 +334,27 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_bf))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bf_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_mp40))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mp40_ammo, 32));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_9mm, 32));
 			if(player.inventory.hasItem(ModItems.gun_uzi))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_22lr, 32));
 			if(player.inventory.hasItem(ModItems.gun_uzi_silencer))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_22lr, 32));
 			if(player.inventory.hasItem(ModItems.gun_uzi_saturnite))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_22lr, 32));
 			if(player.inventory.hasItem(ModItems.gun_uzi_saturnite_silencer))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uzi_ammo, 32));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_22lr, 32));
 			if(player.inventory.hasItem(ModItems.gun_uboinik))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_uboinik_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_12gauge, 12));
 			if(player.inventory.hasItem(ModItems.gun_lever_action))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 12));
 			if(player.inventory.hasItem(ModItems.gun_lever_action_dark))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 12));
 			if(player.inventory.hasItem(ModItems.gun_lever_action_sonata))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action_ammo, 1));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 1));
 			if(player.inventory.hasItem(ModItems.gun_bolt_action))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bolt_action_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge_flechette, 12));
 			if(player.inventory.hasItem(ModItems.gun_bolt_action_green))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_bolt_action_ammo, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge_flechette, 12));
 			if(player.inventory.hasItem(ModItems.gun_xvl1456))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_xvl1456_ammo, 40));
 			if(player.inventory.hasItem(ModItems.gun_osipr)) {

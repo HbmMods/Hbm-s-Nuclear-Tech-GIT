@@ -60,7 +60,7 @@ public class GunBoltAction extends Item {
 		boolean flag = p_77615_3_.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
 
-		if (flag || p_77615_3_.inventory.hasItem(ModItems.gun_bolt_action_ammo)) {
+		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_20gauge_slug)) {
 			float f = j / 20.0F;
 			f = (f * f + f * 2.0F) / 3.0F;
 
@@ -83,7 +83,7 @@ public class GunBoltAction extends Item {
 			p_77615_2_.playSoundAtEntity(p_77615_3_, "hbm:weapon.revolverShoot", 5.0F, 0.75F);
 
 			if (flag) { } else {
-				p_77615_3_.inventory.consumeInventoryItem(ModItems.gun_bolt_action_ammo);
+				p_77615_3_.inventory.consumeInventoryItem(ModItems.ammo_20gauge_slug);
 			}
 
 			if (!p_77615_2_.isRemote) {

@@ -1074,7 +1074,7 @@ item.rod_waste.name=Atommüllstab
 item.rod_dual_waste.name=Doppelter Atommüllstab
 item.rod_quad_waste.name=Vierfacher Atommüllstab
 
-item.gun_rpg.name=Raketenwerfer
+item.gun_rpg.name=Carl Gustav Reaktive Panzerbüchse
 item.gun_rpg_ammo.name=Rakete
 item.gun_stinger.name=FIM-92 Stinger
 item.gun_skystinger.name=The One Sky Stinger
@@ -1758,6 +1758,7 @@ tile.absorber.name=Strahlungs-Absorber
 tile.absorber_red.name=Verbesserter Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
+tile.decon.name=Spieler-Dekontaminierer
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.shimmer_sledge.name=Shimmer Sledge

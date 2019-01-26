@@ -218,12 +218,12 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 				progress++;
 				
 				power -= 5;
-
-				this.slots[27].setItemDamage(this.slots[27].getItemDamage() + 1);
-				this.slots[28].setItemDamage(this.slots[28].getItemDamage() + 1);
 				
 				if(this.progress == TileEntityMachineShredder.processingSpeed)
 				{
+					this.slots[27].setItemDamage(this.slots[27].getItemDamage() + 1);
+					this.slots[28].setItemDamage(this.slots[28].getItemDamage() + 1);
+					
 					this.progress = 0;
 					this.processItem();
 					flag1 = true;

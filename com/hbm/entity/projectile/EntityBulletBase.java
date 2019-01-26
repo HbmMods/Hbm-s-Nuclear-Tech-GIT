@@ -19,6 +19,7 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
@@ -154,7 +155,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		//entity detection
         Vec3 vecOrigin = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         Vec3 vecDestination = Vec3.createVectorHelper(this.posX + this.motionX * this.config.velocity, this.posY + this.motionY * this.config.velocity, this.posZ + this.motionZ * this.config.velocity);
-        MovingObjectPosition movement = this.worldObj.rayTraceBlocks(vecOrigin, vecDestination);
+        MovingObjectPosition movement = this.worldObj.func_147447_a(vecOrigin, vecDestination, false, true, false);
         vecOrigin = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         vecDestination = Vec3.createVectorHelper(this.posX + this.motionX * this.config.velocity, this.posY + this.motionY * this.config.velocity, this.posZ + this.motionZ * this.config.velocity);
 
@@ -224,7 +225,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
         			onEntityHurt(victim);
         		
         	//handle block collision
-        	} else {
+        	} else if(worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ).getMaterial() != Material.air) {
         		
         		boolean hRic = rand.nextInt(100) < config.HBRC;
         		boolean doesRic = config.doesRicochet || hRic;

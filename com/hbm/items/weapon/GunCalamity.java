@@ -65,7 +65,7 @@ public class GunCalamity extends Item {
 					if (flag) {
 						entityarrow.canBePickedUp = 2;
 					} else {
-						player.inventory.consumeInventoryItem(ModItems.gun_calamity_ammo);
+						player.inventory.consumeInventoryItem(ModItems.ammo_50bmg);
 					}
 
 					if (!world.isRemote) {
@@ -82,7 +82,7 @@ public class GunCalamity extends Item {
 					if (flag) {
 						entityarrow.canBePickedUp = 2;
 					} else {
-						player.inventory.consumeInventoryItem(ModItems.gun_calamity_ammo);
+						player.inventory.consumeInventoryItem(ModItems.ammo_50bmg);
 					}
 
 					if (!world.isRemote) {

@@ -62,18 +62,18 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 
-				if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_lacunae_ammo)) && count % 1 == 0 && this.getMaxItemUseDuration(stack) - count > 15) {
+				if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_5mm)) && count % 1 == 0 && this.getMaxItemUseDuration(stack) - count > 15) {
 					
 					world.playSoundAtEntity(player, "hbm:weapon.lacunaeShoot", 1.0F, 1.0F);
 							
 					for(int i = 0; i < 3; i++) {
 						
-						if((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_lacunae_ammo))) {
+						if((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_5mm))) {
 							EntityBullet entityarrow = new EntityBullet(world, player, 3.0F);
 							entityarrow.setDamage(5);
 	
 							if(!flag)
-								player.inventory.consumeInventoryItem(ModItems.gun_lacunae_ammo);
+								player.inventory.consumeInventoryItem(ModItems.ammo_5mm);
 							
 							if (!world.isRemote) {
 								world.spawnEntityInWorld(entityarrow);

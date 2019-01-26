@@ -55,7 +55,7 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 		
 		if (!this.worldObj.isRemote) {
 			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
-					AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5,
+					AxisAlignedBB.getBoundingBox(this.xCoord - 0.25, this.yCoord, this.zCoord - 0.25, this.xCoord + 1.5,
 							this.yCoord + 2, this.zCoord + 1.5));
 			if (!entities.isEmpty())
 				for (Entity e : entities) {
@@ -80,7 +80,7 @@ public class TileEntityMachineTeleporter extends TileEntity implements IConsumer
 		TileEntity te = this.worldObj.getTileEntity(targetX, targetY, targetZ);
 
 		if (te == null || !(te instanceof TileEntityMachineTeleporter) || ((TileEntityMachineTeleporter) te).mode) {
-			entity.attackEntityFrom(ModDamageSource.teleporter, Float.POSITIVE_INFINITY);
+			entity.attackEntityFrom(ModDamageSource.teleporter, 10000);
 		} else {
 			if ((entity instanceof EntityPlayerMP)) {
 				((EntityPlayerMP) entity).setPositionAndUpdate(this.targetX + 0.5D,

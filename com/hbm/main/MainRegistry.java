@@ -273,6 +273,7 @@ import com.hbm.tileentity.machine.TileEntityCoreAdvanced;
 import com.hbm.tileentity.machine.TileEntityCoreTitanium;
 import com.hbm.tileentity.machine.TileEntityCrateIron;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.TileEntityDecon;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityFF;
@@ -754,6 +755,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
 		GameRegistry.registerTileEntity(TileEntityMachineReactorLarge.class, "tileentity_large_reactor");
 		GameRegistry.registerTileEntity(TileEntityWasteDrum.class, "tileentity_waste_drum");
+		GameRegistry.registerTileEntity(TileEntityDecon.class, "tileentity_decon");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
