@@ -31,9 +31,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	private GunConfiguration altConfig;
 	
 	@SideOnly(Side.CLIENT)
-	public boolean m1 = false;
+	public boolean m1;// = false;
 	@SideOnly(Side.CLIENT)
-	public boolean m2 = false;
+	public boolean m2;// = false;
 	
 	public ItemGunBase(GunConfiguration config) {
 		mainConfig = config;
