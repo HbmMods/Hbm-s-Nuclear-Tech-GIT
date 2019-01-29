@@ -10,23 +10,22 @@ public class GunConfigFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 20;
-		config.bulletsMin = 1;
-		config.bulletsMax = 1;
+		config.rateOfFire = 10;
 		config.gunMode = 0;
-		config.firingMode = 0;
+		config.firingMode = 1;
 		config.hasReloadAnim = false;
 		config.hasFiringAnim = false;
 		config.hasSpinup = false;
 		config.hasSpindown = false;
-		config.reloadDuration = 0;
+		config.reloadDuration = 10;
 		config.firingDuration = 0;
 		config.ammoCap = 6;
 		config.reloadType = 1;
 		config.allowsInfinity = true;
 		
-		config.config = new ArrayList<BulletConfiguration>();
-		config.config.add(BulletConfigFactory.getTestConfig());
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
 		
 		return config;
 	}

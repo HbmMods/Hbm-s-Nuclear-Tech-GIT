@@ -12,14 +12,8 @@ public class GunConfiguration {
 	 * restrictions must be applied in gun's logic, mechanism may be dysfunctional if these rules are ignored
 	 */
 	
-	//TODO: bind RoF and spread to ammo
-	
 	//amount of ticks between each bullet
 	public int rateOfFire;
-	//greatest amount of pellets created each shot
-	public int bulletsMin;
-	//least amount of pellets created each shot
-	public int bulletsMax;
 	//0 = normal, 1 = release, 2 = both
 	public int gunMode;
 	//0 = manual, 1 = automatic
@@ -35,6 +29,7 @@ public class GunConfiguration {
 	public boolean hasSpindown;
 	
 	//how long the reload animation will play
+	//MUST BE GREATER THAN ZERO ! ! !
 	public int reloadDuration;
 	//duration of every animation cycle
 	public int firingDuration;
@@ -47,6 +42,6 @@ public class GunConfiguration {
 	public boolean allowsInfinity;
 
 	//bullet configs for main and alt fire
-	public List<BulletConfiguration> config;
+	public List<Integer> config;
 
 }

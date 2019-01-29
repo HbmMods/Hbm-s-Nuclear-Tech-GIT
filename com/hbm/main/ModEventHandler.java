@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -64,6 +65,12 @@ public class ModEventHandler
 
 		RadEntitySavedData eData = RadEntitySavedData.getData(event.entityLiving.worldObj);
 		eData.setRadForEntity(event.entityLiving, 0);
+		
+		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft)) {
+			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
+			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
+			event.entity.worldObj.spawnEntityInWorld(foeq);
+		}
 	}
 	
 	@SubscribeEvent

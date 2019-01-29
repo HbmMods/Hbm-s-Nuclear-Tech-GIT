@@ -20,6 +20,8 @@ public class BulletConfigFactory {
 		bullet.spread = 0.05F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 17;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
@@ -51,6 +53,8 @@ public class BulletConfigFactory {
 		
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.005F;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
@@ -80,6 +84,8 @@ public class BulletConfigFactory {
 		
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
+		bullet.bulletsMin = 5;
+		bullet.bulletsMax = 8;
 		bullet.gravity = 0D;
 		bullet.maxAge = 100;
 		bullet.doesRicochet = true;
@@ -109,8 +115,8 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_iron_ammo;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 2;
+		bullet.dmgMax = 4;
 		
 		return bullet;
 	}
@@ -120,8 +126,8 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_ammo;
-		bullet.dmgMin = 10;
-		bullet.dmgMax = 20;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 5;
 		
 		return bullet;
 	}
@@ -131,8 +137,8 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_lead_ammo;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 2;
+		bullet.dmgMax = 3;
 		
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(HbmPotion.radiation.id, 10 * 20, 4));
@@ -145,8 +151,8 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_gold_ammo;
-		bullet.dmgMin = 20;
-		bullet.dmgMax = 25;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
 		
 		return bullet;
 	}
@@ -168,8 +174,8 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = standardBulletConfig();
 		
 		bullet.ammo = ModItems.gun_revolver_cursed_ammo;
-		bullet.dmgMin = 25;
-		bullet.dmgMax = 35;
+		bullet.dmgMin = 12;
+		bullet.dmgMax = 15;
 		
 		return bullet;
 	}
@@ -180,7 +186,7 @@ public class BulletConfigFactory {
 		
 		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
 		bullet.dmgMin = 1;
-		bullet.dmgMax = 100;
+		bullet.dmgMax = 50;
 		
 		return bullet;
 	}

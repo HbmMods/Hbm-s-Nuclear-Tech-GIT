@@ -89,6 +89,17 @@ public class ItemRadioactive extends ItemCustomLore {
         		//Library.applyRadiation(living, 60, 19, 40, 14);
 				Library.applyRadData(living, 5F/20F * mod);
 			}
+
+			//Strong Fire
+			
+			if (this == ModItems.waste_uranium_hot || 
+					this == ModItems.waste_plutonium_hot || 
+					this == ModItems.waste_mox_hot || 
+					this == ModItems.waste_schrabidium_hot) {
+        		//Library.applyRadiation(living, 60, 19, 40, 14);
+				Library.applyRadData(living, 5F/20F * mod);
+				living.setFire(5);
+			}
 			
 			//Strong Nuggets
 			

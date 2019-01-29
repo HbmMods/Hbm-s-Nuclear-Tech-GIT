@@ -73,9 +73,23 @@ public class GunButtonPacket implements IMessage {
 				ItemGunBase item = (ItemGunBase)p.getHeldItem().getItem();
 				
 				switch(m.button) {
-				case 0: ItemGunBase.setIsMouseDown(p.getHeldItem(), m.state); item.startAction(p.getHeldItem(), p.worldObj, p, true); break;
-				case 1: ItemGunBase.setIsAltDown(p.getHeldItem(), m.state); item.startAction(p.getHeldItem(), p.worldObj, p, false); break;
-				case 2: ItemGunBase.setIsReloading(p.getHeldItem(), true); break;
+				case 0: ItemGunBase.setIsMouseDown(p.getHeldItem(), m.state);
+						if(m.state)
+							item.startAction(p.getHeldItem(), p.worldObj, p, true);
+						else
+							item.endAction(p.getHeldItem(), p.worldObj, p, true);
+						break;
+						
+				case 1: ItemGunBase.setIsAltDown(p.getHeldItem(), m.state);
+						if(m.state)
+							item.startAction(p.getHeldItem(), p.worldObj, p, false);
+						else
+							item.endAction(p.getHeldItem(), p.worldObj, p, false);
+						break;
+						
+				case 2: ItemGunBase.setIsReloading(p.getHeldItem(), true);
+						ItemGunBase.resetReloadCycle(p.getHeldItem());
+						break;
 				}
 			}
 			

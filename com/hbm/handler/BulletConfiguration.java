@@ -15,6 +15,10 @@ public class BulletConfiguration {
 	public float spread;
 	//weapon durability reduced (centered around 10)
 	public float tear;
+	//greatest amount of pellets created each shot
+	public int bulletsMin;
+	//least amount of pellets created each shot
+	public int bulletsMax;
 	
 	//damage bounds
 	public float dmgMin;

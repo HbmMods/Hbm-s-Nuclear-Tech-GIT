@@ -66,8 +66,11 @@ public class ModEventHandlerClient {
 		RenderPlayer renderer = event.renderer;
 		EntityPlayer player = event.entityPlayer;
 		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon)
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon) {
 			renderer.modelBipedMain.aimedBow = true;
+			renderer.modelArmor.aimedBow = true;
+			renderer.modelArmorChestplate.aimedBow = true;
+		}
 	}
 
 	@SubscribeEvent

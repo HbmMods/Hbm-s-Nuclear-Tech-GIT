@@ -5,8 +5,12 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.items.ModItems;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
@@ -27,8 +31,8 @@ import net.minecraftforge.client.event.MouseEvent;
 
 public class ItemGunBase extends Item implements IHoldableWeapon {
 
-	private GunConfiguration mainConfig;
-	private GunConfiguration altConfig;
+	public GunConfiguration mainConfig;
+	public GunConfiguration altConfig;
 	
 	@SideOnly(Side.CLIENT)
 	public boolean m1;// = false;
@@ -102,6 +106,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
+					resetReloadCycle(stack);
 				}
 			}
 		} else {
@@ -119,6 +124,18 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	private void updateServer(ItemStack stack, World world, EntityPlayer entity, int slot, boolean isCurrentItem) {
 		
+		if(getDelay(stack) > 0)
+			setDelay(stack, getDelay(stack) - 1);
+			
+		if(mainConfig.firingMode == 1 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0) {
+			fire(stack, world, entity);
+			setDelay(stack, mainConfig.rateOfFire);
+			setMag(stack, getMag(stack) - 1);
+		}
+		
+		if(getIsReloading(stack)) {
+			reload(stack, world, entity);
+		}
 	}
 	
 	//tries to shoot, bullet checks are done here
@@ -128,28 +145,126 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	//called every time the gun shoots, overridden to change bullet entity/special additions
 	private void fire(ItemStack stack, World world, EntityPlayer player) {
-		
+
+		EntityBulletBase bullet = new EntityBulletBase(world, mainConfig.config.get(getMagType(stack)), player);
+		world.spawnEntityInWorld(bullet);
+		player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_gold_ammo));
 	}
 	
 	//called on click (server side, called by mouse packet)
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
-		
+
+		if(mainConfig.firingMode == 0 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0) {
+			fire(stack, world, player);
+			setDelay(stack, mainConfig.rateOfFire);
+			setMag(stack, getMag(stack) - 1);
+		}
 	}
 	
 	//called on click release
-	private void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
+	public void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 	}
 	
 	//reload action, if existent
 	private void reload(ItemStack stack, World world, EntityPlayer player) {
 		
+		if(getReloadCycle(stack) == 0) {
+			
+			//if the mag has bullet in them -> load only the same type
+			if(getMag(stack) > 0) {
+				
+				Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
+				
+				int count = 1;
+				
+				if(mainConfig.reloadType == 1) {
+					
+					count = mainConfig.ammoCap - getMag(stack);
+				}
+				
+				for(int i = 0; i < count; i++) {
+					
+					if(getMag(stack) < mainConfig.ammoCap) {
+						
+						if(player.inventory.hasItem(ammo)) {
+							player.inventory.consumeInventoryItem(ammo);
+							setMag(stack, getMag(stack) + 1);
+						} else {
+							setIsReloading(stack, false);
+							break;
+						}
+					}
+					
+					if(getMag(stack) == mainConfig.ammoCap) {
+						setIsReloading(stack, false);
+						break;
+					} else {
+						resetReloadCycle(stack);
+					}
+				}
+				
+			//if the mag has no bullets in them -> load new type
+			} else {
+				
+				Item ammo = null;
+				
+				//determine new type
+				for(Integer config : mainConfig.config) {
+					
+					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
+					
+					if(player.inventory.hasItem(cfg.ammo)) {
+						ammo = cfg.ammo;
+						setMagType(stack, mainConfig.config.indexOf(config));
+						break;
+					}
+				}
+				
+				//load new type if bullets are present
+				if(ammo != null) {
+					
+					int count = 1;
+					
+					if(mainConfig.reloadType == 1) {
+						
+						count = mainConfig.ammoCap - getMag(stack);
+					}
+					
+					for(int i = 0; i < count; i++) {
+						
+						if(getMag(stack) < mainConfig.ammoCap) {
+							
+							if(player.inventory.hasItem(ammo)) {
+								player.inventory.consumeInventoryItem(ammo);
+								setMag(stack, getMag(stack) + 1);
+							} else {
+								setIsReloading(stack, false);
+								break;
+							}
+						}
+						
+						if(getMag(stack) == mainConfig.ammoCap) {
+							setIsReloading(stack, false);
+							break;
+						} else {
+							resetReloadCycle(stack);
+						}
+					}
+				}
+			}
+		} else {
+			setReloadCycle(stack, getReloadCycle(stack) - 1);
+		}
 	}
 	
 	//item mouseover text
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		
+
+		list.add("Ammo: " + getMag(stack));
+		list.add("Ammo Type: " + getMagType(stack));
+		list.add("Reload DLAY: " + getReloadCycle(stack));
 	}
 	
 	/*//returns main config from itemstack
@@ -161,6 +276,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		return null;
 	}*/
+	
+	/// sets reload cycle to config defult ///
+	public static void resetReloadCycle(ItemStack stack) {
+		writeNBT(stack, "reload", ((ItemGunBase)stack.getItem()).mainConfig.reloadDuration);
+	}
 	
 	/// if reloading routine is active ///
 	public static void setIsReloading(ItemStack stack, boolean b) {
@@ -182,11 +302,11 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	/// if alt mouse button is down ///
 	public static void setIsAltDown(ItemStack stack, boolean b) {
-		writeNBT(stack, "isMouseDown", b ? 1 : 0);
+		writeNBT(stack, "isAltDown", b ? 1 : 0);
 	}
 	
 	public static boolean getIsAltDown(ItemStack stack) {
-		return readNBT(stack, "isMouseDown") == 1;
+		return readNBT(stack, "isAltDown") == 1;
 	}
 	
 	/// RoF cooldown ///
