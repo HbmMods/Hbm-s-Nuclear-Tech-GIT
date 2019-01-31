@@ -314,6 +314,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineRefinery;
 import com.hbm.tileentity.machine.TileEntityMachineSPP;
+import com.hbm.tileentity.machine.TileEntityMachineSatDock;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
@@ -561,6 +562,7 @@ public class MainRegistry
 	public static int bangID = 64;
 	public static int mutationID = 65;
 	public static int radxID = 66;
+	public static int leadID = 67;
 
 	public static int x;
 	public static int y;
@@ -756,6 +758,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineReactorLarge.class, "tileentity_large_reactor");
 		GameRegistry.registerTileEntity(TileEntityWasteDrum.class, "tileentity_waste_drum");
 		GameRegistry.registerTileEntity(TileEntityDecon.class, "tileentity_decon");
+		GameRegistry.registerTileEntity(TileEntityMachineSatDock.class, "tileentity_miner_dock");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1875,6 +1878,9 @@ public class MainRegistry
         Property propRadxID = config.get(Configuration.CATEGORY_GENERAL, "8.04_radxPotionID", 66);
         propRadxID.comment = "What potion ID the Rad-X effect will have";
         radxID = propRadxID.getInt();
+        Property propLeadID = config.get(Configuration.CATEGORY_GENERAL, "8.05_leadPotionID", 67);
+        propLeadID.comment = "What potion ID the lead poisoning effect will have";
+        leadID = propLeadID.getInt();
         
         config.save();
         

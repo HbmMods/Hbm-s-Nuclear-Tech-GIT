@@ -39,6 +39,7 @@ potion.hbm_mutation=Verdorbenes Herz
 potion.hbm_radiation=Kontaminiert
 potion.hbm_bang=! ! !
 potion.hbm_radx=Rad-X
+potion.hbm_lead=Bleivergiftung
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
@@ -172,6 +173,7 @@ death.attack.amsCore=%1$s wurde vom Feuer einer Singularität verdampft.
 death.attack.bang=%1$s wurde in mundgerechte Stücke zerfetzt.
 death.attack.pc=%1$s wurde zu einer Pfütze in der pinken Wolke.
 death.attack.cloud=%1$s schmolz wie ein Eis in der Sonne.
+death.attack.lead=%1$s starb an Bleivergiftung.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

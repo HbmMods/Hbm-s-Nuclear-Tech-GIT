@@ -25,6 +25,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion bang;
 	public static HbmPotion mutation;
 	public static HbmPotion radx;
+	public static HbmPotion lead;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -36,6 +37,7 @@ public class HbmPotion extends Potion {
 		bang = registerPotion(MainRegistry.bangID, true, 1118481, "potion.hbm_bang", 3, 0);
 		mutation = registerPotion(MainRegistry.mutationID, false, 8388736, "potion.hbm_mutation", 2, 0);
 		radx = registerPotion(MainRegistry.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
+		lead = registerPotion(MainRegistry.leadID, false, 0x767682, "potion.hbm_lead", 6, 0);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -104,10 +106,14 @@ public class HbmPotion extends Potion {
 			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.laserBang", 100.0F, 1.0F);
 			ExplosionLarge.spawnParticles(entity.worldObj, entity.posX, entity.posY, entity.posZ, 10);
 		}
+		if(this == lead) {
+			
+			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
+		}
 	}
 
 	public boolean isReady(int par1, int par2) {
-		
+
 		if(this == taint) {
 
 			int k = 80 >> par2;
@@ -116,13 +122,15 @@ public class HbmPotion extends Potion {
 		if(this == radiation) {
 			
 			return true;
-			
-			//int k = 40 >> par2;
-			//return k > 0 ? par1 % k == 0 : true;
 		}
 		if(this == bang) {
 
 			return par1 <= 10;
+		}
+		if(this == lead) {
+
+			int k = 60;
+	        return k > 0 ? par1 % k == 0 : true;
 		}
 		
 		return false;

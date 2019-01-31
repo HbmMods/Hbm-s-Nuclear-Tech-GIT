@@ -21,6 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -127,7 +128,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		if(getDelay(stack) > 0)
 			setDelay(stack, getDelay(stack) - 1);
 			
-		if(mainConfig.firingMode == 1 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0) {
+		if(mainConfig.firingMode == 1 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0 && !getIsReloading(stack)) {
 			fire(stack, world, entity);
 			setDelay(stack, mainConfig.rateOfFire);
 			setMag(stack, getMag(stack) - 1);
@@ -146,15 +147,24 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//called every time the gun shoots, overridden to change bullet entity/special additions
 	private void fire(ItemStack stack, World world, EntityPlayer player) {
 
-		EntityBulletBase bullet = new EntityBulletBase(world, mainConfig.config.get(getMagType(stack)), player);
-		world.spawnEntityInWorld(bullet);
-		player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_gold_ammo));
+		BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
+		
+		int bullets = config.bulletsMin;
+		
+		if(config.bulletsMax > config.bulletsMin)
+			bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
+		
+		for(int i = 0; i < bullets; i++) {
+			EntityBulletBase bullet = new EntityBulletBase(world, mainConfig.config.get(getMagType(stack)), player);
+			world.spawnEntityInWorld(bullet);
+		}
+		//player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_gold_ammo));
 	}
 	
 	//called on click (server side, called by mouse packet)
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(mainConfig.firingMode == 0 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0) {
+		if(mainConfig.firingMode == 0 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0 && !getIsReloading(stack)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			setMag(stack, getMag(stack) - 1);
@@ -169,7 +179,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//reload action, if existent
 	private void reload(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(getReloadCycle(stack) == 0) {
+		if(getReloadCycle(stack) < 0 && stack == player.getHeldItem()) {
 			
 			//if the mag has bullet in them -> load only the same type
 			if(getMag(stack) > 0) {
@@ -261,10 +271,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//item mouseover text
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-
-		list.add("Ammo: " + getMag(stack));
-		list.add("Ammo Type: " + getMagType(stack));
-		list.add("Reload DLAY: " + getReloadCycle(stack));
+		
+		Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
+		
+		if(mainConfig.ammoCap > 0)
+			list.add("Ammo: " + getMag(stack) + " / " + mainConfig.ammoCap);
+		else
+			list.add("Ammo: Belt");
+		
+		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
+		//list.add("Reload DLAY: " + getReloadCycle(stack));
 	}
 	
 	/*//returns main config from itemstack

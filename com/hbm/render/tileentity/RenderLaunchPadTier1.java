@@ -14,14 +14,14 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/LaunchPad.obj");
+	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/missilePad.obj");
 	private IModelCustom padModel;
     private ResourceLocation padTexture;
 	
 	public RenderLaunchPadTier1()
     {
 		padModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/TheGadget3_.png");
+		padTexture = new ResourceLocation(RefStrings.MODID, "textures/models/missilePad.png");
     }
 
     @Override
@@ -30,6 +30,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_CULL_FACE);
 		/*switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
@@ -42,10 +43,10 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}*/
 
-		GL11.glScalef(1.5F, 1.0F, 1.5F);
+		//GL11.glScalef(1.5F, 1.0F, 1.5F);
         bindTexture(padTexture);
         padModel.renderAll();
-		GL11.glScalef(2/3F, 1.0F, 2/3F);
+		//GL11.glScalef(2/3F, 1.0F, 2/3F);
 
         GL11.glDisable(GL11.GL_CULL_FACE);
         int state = 0;
@@ -53,7 +54,7 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
         if(tileEntity instanceof TileEntityLaunchPad)
         	state = ((TileEntityLaunchPad)tileEntity).state;
         
-	        GL11.glTranslated(0, 0.5, 0);
+	        GL11.glTranslated(0, 1, 0);
 	        
 			if(state == 1)
 			{

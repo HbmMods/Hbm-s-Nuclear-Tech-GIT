@@ -337,7 +337,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	//for when a bullet dies by hitting a block
 	private void onBlockImpact(int bX, int bY, int bZ) {
 		
-		this.setDead();
+		if(!worldObj.isRemote)
+			this.setDead();
 		
 		if(config.incendiary > 0 && !this.worldObj.isRemote) {
 			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ, Blocks.fire);

@@ -44,4 +44,15 @@ public class GunConfiguration {
 	//bullet configs for main and alt fire
 	public List<Integer> config;
 
+	public static final int MODE_NORMAL = 0;
+	public static final int MODE_RELEASE = 1;
+	public static final int MODE_BOTH = 1;
+
+	public static final int FIRE_MANUAL = 0;
+	public static final int FIRE_AUTO = 1;
+
+	public static final int RELOAD_NONE = 0;
+	public static final int RELOAD_FULL = 1;
+	public static final int RELOAD_SINGLE = 2;
+
 }

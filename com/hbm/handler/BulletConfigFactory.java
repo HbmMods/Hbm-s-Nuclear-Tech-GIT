@@ -110,6 +110,8 @@ public class BulletConfigFactory {
 	}
 	
 	/// ADJUSTED CONFIGS ///
+	
+	/// .357 ///
 	protected static BulletConfiguration getRevIronConfig() {
 		
 		BulletConfiguration bullet = standardBulletConfig();
@@ -187,6 +189,92 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 50;
+		
+		return bullet;
+	}
+	
+	/// 12 Gauge ///
+	protected static BulletConfiguration get12GaugeConfig() {
+		
+		BulletConfiguration bullet = standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge;
+		bullet.dmgMin = 1;
+		bullet.dmgMax = 4;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration get12GaugeFireConfig() {
+		
+		BulletConfiguration bullet = standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_incendiary;
+		bullet.dmgMin = 1;
+		bullet.dmgMax = 4;
+		bullet.incendiary = 5;
+		
+		return bullet;
+	}
+	
+	/// 20 Gauge ///
+	protected static BulletConfiguration get20GaugeConfig() {
+		
+		BulletConfiguration bullet = standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge;
+		bullet.dmgMin = 1;
+		bullet.dmgMax = 3;
+		
+		return bullet;
+	}
+
+	protected static BulletConfiguration get20GaugeSlugConfig() {
+		
+		BulletConfiguration bullet = standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge_slug;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.style = BulletConfiguration.STYLE_NORMAL;
+		
+		return bullet;
+	}
+
+	protected static BulletConfiguration get20GaugeFlechetteConfig() {
+		
+		BulletConfiguration bullet = standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge_flechette;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 6;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.HBRC = 2;
+		bullet.LBRC = 95;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration get20GaugeFireConfig() {
+		
+		BulletConfiguration bullet = standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge_incendiary;
+		bullet.dmgMin = 1;
+		bullet.dmgMax = 4;
+		bullet.incendiary = 5;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration get20GaugeExplosiveConfig() {
+		
+		BulletConfiguration bullet = standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge_explosive;
+		bullet.dmgMin = 2;
+		bullet.dmgMax = 6;
+		bullet.explosive = 0.5F;
 		
 		return bullet;
 	}
