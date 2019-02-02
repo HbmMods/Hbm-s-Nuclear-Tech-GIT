@@ -148,9 +148,9 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 			}
 			if(state == 16)
 			{
-		        GL11.glScalef(2F, 2F, 2F);
+				GL11.glScalef(1.5F, 1.5F, 1.5F);
 				bindTexture(ResourceManager.missileMIRV_tex);
-				ResourceManager.missileMIRV.renderAll();
+				ResourceManager.missileNuclear.renderAll();
 			}
 			if(state == 17)
 			{

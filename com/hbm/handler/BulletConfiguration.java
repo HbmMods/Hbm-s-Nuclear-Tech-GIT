@@ -54,6 +54,7 @@ public class BulletConfiguration {
 	public float explosive;
 	public int rainbow;
 	public int nuke;
+	public int shrapnel;
 	public boolean boxcar;
 	public boolean boat;
 	public boolean destroysBlocks;

@@ -2,6 +2,8 @@ package com.hbm.handler;
 
 import java.util.List;
 
+import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+
 public class GunConfiguration {
 	
 	/**
@@ -43,6 +45,9 @@ public class GunConfiguration {
 
 	//bullet configs for main and alt fire
 	public List<Integer> config;
+
+	//crosshair
+	public Crosshair crosshair;
 
 	public static final int MODE_NORMAL = 0;
 	public static final int MODE_RELEASE = 1;

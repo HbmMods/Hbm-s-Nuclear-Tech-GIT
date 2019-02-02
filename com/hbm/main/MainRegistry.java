@@ -121,6 +121,7 @@ import com.hbm.entity.missile.EntityBombletTheta;
 import com.hbm.entity.missile.EntityBooster;
 import com.hbm.entity.missile.EntityCarrier;
 import com.hbm.entity.missile.EntityMIRV;
+import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBHole;
 import com.hbm.entity.missile.EntityMissileBunkerBuster;
@@ -497,8 +498,11 @@ public class MainRegistry
 	public static boolean enableSpecialMeteors = true;
 	public static boolean enableBomberShortMode = false;
 	public static boolean enableVaults = true;
-	
-	public static int uraniumSpawn = 7;
+	public static boolean enableRads = true;
+	public static boolean enableCataclysm = true;
+
+	public static int uraniumSpawn = 6;
+	public static int thoriumSpawn = 7;
 	public static int titaniumSpawn = 8;
 	public static int sulfurSpawn = 5;
 	public static int aluminiumSpawn = 7;
@@ -892,6 +896,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeIFNull.class, "entity_grenade_ironshod", 129, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityFallingNuke.class, "entity_falling_bomb", 130, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBulletBase.class, "entity_bullet_mk2", 131, this, 250, 1, true);
+	    EntityRegistry.registerModEntity(EntityMinerRocket.class, "entity_miner_lander", 132, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -1609,6 +1614,16 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.steel_legs, 0.06F);
 		HazmatRegistry.instance.registerHazmat(ModItems.steel_boots, 0.02F);
 		
+		HazmatRegistry.instance.registerHazmat(Items.iron_helmet, 0.04F);
+		HazmatRegistry.instance.registerHazmat(Items.iron_chestplate, 0.08F);
+		HazmatRegistry.instance.registerHazmat(Items.iron_leggings, 0.06F);
+		HazmatRegistry.instance.registerHazmat(Items.iron_boots, 0.02F);
+		
+		HazmatRegistry.instance.registerHazmat(Items.golden_helmet, 0.04F);
+		HazmatRegistry.instance.registerHazmat(Items.golden_chestplate, 0.08F);
+		HazmatRegistry.instance.registerHazmat(Items.golden_leggings, 0.06F);
+		HazmatRegistry.instance.registerHazmat(Items.golden_boots, 0.02F);
+		
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_helmet, 0.08F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_plate, 0.16F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_legs, 0.12F);
@@ -1700,8 +1715,10 @@ public class MainRegistry
         enableSpecialMeteors = config.get(Configuration.CATEGORY_GENERAL, "1.13_enableSpecialMeteors", false).getBoolean(false);
         enableBomberShortMode = config.get(Configuration.CATEGORY_GENERAL, "1.14_enableBomberShortMode", false).getBoolean(false);
         enableVaults = config.get(Configuration.CATEGORY_GENERAL, "1.15_enableVaultSpawn", true).getBoolean(true);
+        enableRads = config.get(Configuration.CATEGORY_GENERAL, "1.16_enableNewRadiation", true).getBoolean(true);
+        enableCataclysm = config.get(Configuration.CATEGORY_GENERAL, "1.17_enableCataclysm", false).getBoolean(false);
 
-        Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 7);
+        Property PuraniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.00_uraniumSpawnrate", 6);
         PuraniumSpawn.comment = "Ammount of uranium ore veins per chunk";
         uraniumSpawn = PuraniumSpawn.getInt();
         Property PtitaniumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.01_titaniumSpawnrate", 8);
@@ -1731,6 +1748,9 @@ public class MainRegistry
         Property PberylliumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.09_berylliumSpawnrate", 6);
         PberylliumSpawn.comment = "Ammount of beryllium ore veins per chunk";
         berylliumSpawn = PberylliumSpawn.getInt();
+        Property PthoriumSpawn = config.get(Configuration.CATEGORY_GENERAL, "2.10_thoriumSpawnrate", 7);
+        PthoriumSpawn.comment = "Ammount of thorium ore veins per chunk";
+        thoriumSpawn = PthoriumSpawn.getInt();
         
         Property propGadget = config.get(Configuration.CATEGORY_GENERAL, "3.00_gadgetRadius", 150);
         propGadget.comment = "Radius of the Gadget";

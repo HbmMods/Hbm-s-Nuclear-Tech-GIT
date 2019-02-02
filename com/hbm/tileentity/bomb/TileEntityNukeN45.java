@@ -243,7 +243,7 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 		if(!world.isRemote) {
 			world.setBlockToAir(x, y, z);
 			
-			System.out.println(type);
+			//System.out.println(type);
 			
 			switch(type) {
 			case 1:

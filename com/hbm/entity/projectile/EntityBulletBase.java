@@ -9,7 +9,9 @@ import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -220,9 +222,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
         		}
         		
         		if(!config.doesPenetrate)
-        			onEntityImpact(victim);
+        			if(!worldObj.isRemote)
+        				onEntityImpact(victim);
         		else
-        			onEntityHurt(victim);
+        			if(!worldObj.isRemote)
+        				onEntityHurt(victim);
         		
         	//handle block collision
         	} else if(worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ).getMaterial() != Material.air) {
@@ -279,7 +283,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         		worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 1.0F, 1.0F);
                         	
                 		} else {
-                			onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
+                			if(!worldObj.isRemote)
+                				onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
                 		}
 
                         this.posX += (movement.hitVec.xCoord - this.posX) * 0.6;
@@ -306,6 +311,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			this.posZ += this.motionZ * this.config.velocity;
 			this.setPosition(this.posX, this.posY, this.posZ);
         }
+        
+        if(this.config.style == BulletConfiguration.STYLE_ROCKET && !worldObj.isRemote)
+    		this.worldObj.spawnEntityInWorld(new EntityTSmokeFX(worldObj, this.posX, this.posY, this.posZ, 0, 0, 0));
 
 		float f2;
 		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -367,6 +375,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.explosive > 0 && !worldObj.isRemote)
 			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, true);
+		
+		if(config.shrapnel > 0 && !worldObj.isRemote)
+			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);

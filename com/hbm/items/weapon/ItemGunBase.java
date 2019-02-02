@@ -389,7 +389,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 
 	@Override
 	public Crosshair getCrosshair() {
-		return Crosshair.L_CLASSIC;
+		return mainConfig.crosshair;
 	}
 
 }

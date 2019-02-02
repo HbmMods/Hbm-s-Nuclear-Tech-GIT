@@ -132,10 +132,8 @@ public class GUIScreenSatInterface extends GuiScreen {
 			drawNoService();
 		} else {
 			switch(connectedSat.satelliteType) {
-			
+
 			case LASER:
-				drawMap(); break;
-				
 			case MAPPER:
 				drawMap(); break;
 				
@@ -147,6 +145,7 @@ public class GUIScreenSatInterface extends GuiScreen {
 				
 			case RELAY:
 			case RESONATOR:
+			case MINER:
 				drawNoService(); break;
 			}
 		}

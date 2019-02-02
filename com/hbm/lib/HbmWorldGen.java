@@ -63,6 +63,16 @@ public class HbmWorldGen implements IWorldGenerator {
 			(new WorldGenMinable(ModBlocks.ore_uranium, 5)).generate(world, rand, randPosX, randPosY, randPosZ);
 		}
 
+		for (int k = 0; k < MainRegistry.thoriumSpawn; k++) {
+			int randPosX = i + rand.nextInt(16);
+			// Max height of generation
+			int randPosY = rand.nextInt(30);
+			int randPosZ = j + rand.nextInt(16);
+
+			// Ore, amount of ore in one stain
+			(new WorldGenMinable(ModBlocks.ore_thorium, 5)).generate(world, rand, randPosX, randPosY, randPosZ);
+		}
+
 		for (int k = 0; k < MainRegistry.titaniumSpawn; k++) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(35);

@@ -2411,10 +2411,13 @@ public class MachineRecipes {
 			list.add(new ItemStack(Blocks.tnt, 2));
 			break;
 		case W_MIRV:
-			list.add(new ItemStack(ModItems.warhead_generic_large, 1));
-			list.add(new ItemStack(ModItems.plate_steel, 16));
-			list.add(new ItemStack(ModBlocks.det_cord, 8));
-			list.add(new ItemStack(ModItems.warhead_mirvlet, 8));
+			list.add(new ItemStack(ModItems.plate_titanium, 20));
+			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModItems.ingot_pu239, 1));
+			list.add(new ItemStack(Blocks.tnt, 8));
+			list.add(new ItemStack(ModItems.neutron_reflector, 6));
+			list.add(new ItemStack(ModItems.lithium, 4));
+			list.add(new ItemStack(ModItems.cell_deuterium, 6));
 			break;
 		case W_ENDOTHERMIC:
 			list.add(new ItemStack(ModBlocks.therm_endo, 2));
@@ -2541,6 +2544,20 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.rod_quad_uranium_fuel, 2));
 			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 6));
 			list.add(new ItemStack(ModItems.magnetron, 3));
+			list.add(ItemBattery.getEmptyBattery(ModItems.battery_lithium_cell_6));
+			break;
+		case SAT_MINER:
+			list.add(new ItemStack(ModItems.plate_saturnite, 24));
+			list.add(new ItemStack(ModItems.plate_desh, 8));
+			list.add(new ItemStack(ModItems.motor, 2));
+			list.add(new ItemStack(ModItems.drill_titanium, 2));
+			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 2));
+			list.add(new ItemStack(ModItems.fluid_barrel_full, 1, FluidType.KEROSENE.getID()));
+			list.add(new ItemStack(ModItems.thruster_small, 1));
+			list.add(new ItemStack(ModItems.photo_panel, 12));
+			list.add(new ItemStack(ModItems.centrifuge_element, 4));
+			list.add(new ItemStack(ModItems.magnet_circular, 3));
+			list.add(new ItemStack(ModItems.plate_polymer, 12));
 			list.add(ItemBattery.getEmptyBattery(ModItems.battery_lithium_cell_6));
 			break;
 		case CHOPPER_HEAD:
@@ -4102,6 +4119,9 @@ public class MachineRecipes {
 			break;
 		case SAT_FOEQ:
 			output = new ItemStack(ModItems.sat_foeq, 1);
+			break;
+		case SAT_MINER:
+			output = new ItemStack(ModItems.sat_miner, 1);
 			break;
 		case CHOPPER_HEAD:
 			output = new ItemStack(ModItems.chopper_head, 1);

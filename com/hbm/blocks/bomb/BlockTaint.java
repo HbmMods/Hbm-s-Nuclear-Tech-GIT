@@ -190,8 +190,6 @@ public class BlockTaint extends Block/*Container*/ {
     	if(entity instanceof EntityCreeper) {
     		EntityTaintedCreeper creep = new EntityTaintedCreeper(world);
     		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-    		
-    		System.out.println(entity.getClass().toString());
 
     		if(!world.isRemote) {
     			entity.setDead();

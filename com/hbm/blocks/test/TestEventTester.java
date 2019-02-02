@@ -11,6 +11,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
+import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.explosion.ExplosionLarge;
@@ -358,10 +359,19 @@ public class TestEventTester extends Block {
     	if(!worldObj.isRemote)
     		worldObj.spawnEntityInWorld(foeq);*/
     	
-    	if(!worldObj.isRemote) {
+    	/*if(!worldObj.isRemote) {
     		worldObj.setBlockToAir(par2, par3, par4);
     		ExplosionLarge.jolt(worldObj, par2 - 0.5, par3 - 0.5, par4 - 0.5, 5, 200, 0.25);
     		ExplosionLarge.explode(worldObj, par2 + 0.5, par3 + 0.5, par4 + 0.5, 5, false, false, false);
+    	}*/
+    	
+    	if(!worldObj.isRemote) {
+    		EntityMinerRocket rocket = new EntityMinerRocket(worldObj);
+    		rocket.posX = par2 + 0.5;
+    		rocket.posY = 100;
+    		rocket.posZ = par4 + 0.5;
+    		
+    		worldObj.spawnEntityInWorld(rocket);
     	}
 
     	/*if(!worldObj.isRemote) {

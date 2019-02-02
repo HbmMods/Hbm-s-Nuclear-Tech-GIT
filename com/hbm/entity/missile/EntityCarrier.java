@@ -149,6 +149,8 @@ public class EntityCarrier extends EntityThrowable {
 					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RELAY, this.dimension));
 				    if(payload.getItem() == ModItems.sat_resonator)
 					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RESONATOR, this.dimension));
+				    if(payload.getItem() == ModItems.sat_miner)
+					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.MINER, this.dimension));
 
 				    data.markDirty();
 			    }

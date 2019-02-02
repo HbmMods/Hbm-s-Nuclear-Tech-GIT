@@ -204,8 +204,6 @@ public class RadiationSavedData extends WorldSavedData {
 		} else {
 			data.setRadForCoord(chunk.xPosition, chunk.zPosition, 0);
 		}
-		
-		System.out.println(r);
 	}
 
 }

@@ -107,12 +107,10 @@ public class AuxButtonPacket implements IMessage {
 					
 					if(m.id == 0) {
 						radio.isOn = (m.value == 1);
-						System.out.println("Radio is now " + radio.isOn);
 					}
 					
 					if(m.id == 1) {
 						radio.freq = ((double)m.value) / 10D;
-						System.out.println("Radio is now " + radio.freq);
 					}
 				}
 				
@@ -133,8 +131,6 @@ public class AuxButtonPacket implements IMessage {
 						
 						if (reac instanceof TileEntityMachineReactorSmall) {
 							TileEntityMachineReactorSmall reactor = (TileEntityMachineReactorSmall)reac;
-	
-							System.out.println(m.id + "/" + m.value);
 							
 							if(m.id == 0)
 								reactor.retracting = m.value == 0;

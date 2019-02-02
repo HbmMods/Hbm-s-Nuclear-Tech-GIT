@@ -31,13 +31,6 @@ public class BulletConfigFactory {
 		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
-		bullet.incendiary = 0;
-		bullet.emp = 0;
-		bullet.rainbow = 0;
-		bullet.nuke = 0;
-		bullet.boxcar = false;
-		bullet.boat = false;
-		bullet.destroysBlocks = false;
 		bullet.style = 0;
 		bullet.plink = 1;
 		
@@ -64,16 +57,9 @@ public class BulletConfigFactory {
 		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = true;
-		bullet.incendiary = 0;
-		bullet.emp = 0;
-		bullet.rainbow = 0;
-		bullet.nuke = 0;
-		bullet.boxcar = false;
-		bullet.boat = false;
 		bullet.destroysBlocks = false;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
 		bullet.plink = BulletConfiguration.PLINK_BULLET;
-		bullet.instakill = false;
 		
 		return bullet;
 	}
@@ -95,16 +81,32 @@ public class BulletConfigFactory {
 		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = false;
 		bullet.doesBreakGlass = true;
-		bullet.incendiary = 0;
-		bullet.emp = 0;
-		bullet.rainbow = 0;
-		bullet.nuke = 0;
-		bullet.boxcar = false;
-		bullet.boat = false;
-		bullet.destroysBlocks = false;
 		bullet.style = BulletConfiguration.STYLE_PELLET;
 		bullet.plink = BulletConfiguration.PLINK_BULLET;
-		bullet.instakill = false;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration standardRocketConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 2.0F;
+		bullet.spread = 0.005F;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.gravity = 0.005D;
+		bullet.maxAge = 300;
+		bullet.doesRicochet = true;
+		bullet.ricochetAngle = 3;
+		bullet.HBRC = 0;
+		bullet.LBRC = 95;
+		bullet.bounceMod = 0.8;
+		bullet.doesPenetrate = false;
+		bullet.doesBreakGlass = false;
+		bullet.explosive = 5.0F;
+		bullet.style = BulletConfiguration.STYLE_ROCKET;
+		bullet.plink = BulletConfiguration.PLINK_GRENADE;
 		
 		return bullet;
 	}
@@ -275,6 +277,103 @@ public class BulletConfigFactory {
 		bullet.dmgMin = 2;
 		bullet.dmgMax = 6;
 		bullet.explosive = 0.5F;
+		
+		return bullet;
+	}
+	
+	/// 84mm Rockets ///
+	protected static BulletConfiguration getRocketConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 3.5F;
+		bullet.trail = 0;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getRocketHEConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_he;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 6.5F;
+		bullet.trail = 1;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getRocketIncendiaryConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_incendiary;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 6.5F;
+		bullet.incendiary = 5;
+		bullet.trail = 2;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getRocketEMPConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_emp;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 2.5F;
+		bullet.emp = 10;
+		bullet.trail = 4;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getRocketSleekConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_sleek;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 10F;
+		bullet.trail = 6;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getRocketShrapnelConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_shrapnel;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 6.5F;
+		bullet.shrapnel = 25;
+		bullet.trail = 3;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getRocketGlareConfig() {
+		
+		BulletConfiguration bullet = standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_glare;
+		bullet.velocity = 5.0F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.explosive = 6.5F;
+		bullet.incendiary = 5;
+		bullet.trail = 5;
 		
 		return bullet;
 	}

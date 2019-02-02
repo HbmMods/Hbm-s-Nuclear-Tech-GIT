@@ -66,10 +66,14 @@ public class ModEventHandler
 		RadEntitySavedData eData = RadEntitySavedData.getData(event.entityLiving.worldObj);
 		eData.setRadForEntity(event.entityLiving, 0);
 		
-		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft)) {
+		if(MainRegistry.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
 			event.entity.worldObj.spawnEntityInWorld(foeq);
+		}
+		
+		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft)) {
+			
 		}
 	}
 	
@@ -137,7 +141,7 @@ public class ModEventHandler
 			
 			if(meteorShower > 0) {
 				meteorShower--;
-				if(meteorShower == 0)
+				if(meteorShower == 0 && MainRegistry.enableDebugMode)
 					MainRegistry.logger.info("Ended meteor shower.");
 			}
 			
@@ -145,11 +149,13 @@ public class ModEventHandler
 				meteorShower = 
 						(int)(MainRegistry.meteorShowerDuration * 0.75 + 
 								MainRegistry.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
-				MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
+
+				if(MainRegistry.enableDebugMode)
+					MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
 			}
 		}
 		
-		if(event.world != null && !event.world.isRemote) {
+		if(event.world != null && !event.world.isRemote && MainRegistry.enableRads) {
 			if(!event.world.loadedEntityList.isEmpty()) {
 
 				RadiationSavedData data = RadiationSavedData.getData(event.world);

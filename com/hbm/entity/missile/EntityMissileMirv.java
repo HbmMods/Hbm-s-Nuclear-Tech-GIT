@@ -24,25 +24,18 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 
 	public EntityMissileMirv(World world, float x, float y, float z, int a, int b) {
 		super(world, x, y, z, a, b);
-		this.isCluster = true;
 	}
 
 	@Override
 	public void onImpact() {
 		
-    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.missileRadius, posX, posY, posZ));
+    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.missileRadius * 2, posX, posY, posZ));
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, MainRegistry.missileRadius * 0.005F);
+		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, MainRegistry.missileRadius * 2 * 0.005F);
     	entity2.posX = this.posX;
     	entity2.posY = this.posY - 9;
     	entity2.posZ = this.posZ;
     	this.worldObj.spawnEntityInWorld(entity2);
-	}
-	
-	@Override
-	public void cluster() {
-		this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 15.0F, true);
-		ExplosionChaos.mirv(this.worldObj,this.posX, this.posY, this.posZ);
 	}
 
 	@Override
@@ -53,7 +46,6 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 		list.add(new ItemStack(ModItems.plate_steel, 20));
 		list.add(new ItemStack(ModItems.plate_aluminium, 12));
 		list.add(new ItemStack(ModItems.thruster_large, 1));
-		list.add(new ItemStack(ModItems.warhead_mirvlet, 8));
 		list.add(new ItemStack(ModItems.circuit_targeting_tier5, 1));
 		
 		return list;
@@ -61,7 +53,7 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.warhead_generic_large);
+		return new ItemStack(ModItems.warhead_mirv);
 	}
 
 	@Override

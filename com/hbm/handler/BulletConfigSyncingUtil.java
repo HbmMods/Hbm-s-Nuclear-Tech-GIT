@@ -28,11 +28,19 @@ public class BulletConfigSyncingUtil {
 	public static final int IRON_REVOLVER = 0x01;
 	public static final int STEEL_REVOLVER = 0x02;
 
-	public static final int G20_NORMAL = 0x03;
-	public static final int G20_SLUG = 0x04;
-	public static final int G20_FLECHETTE = 0x05;
-	public static final int G20_FIRE = 0x06;
-	public static final int G20_EXPLOSIVE = 0x07;
+	public static final int G20_NORMAL = 0x10;
+	public static final int G20_SLUG = 0x11;
+	public static final int G20_FLECHETTE = 0x12;
+	public static final int G20_FIRE = 0x13;
+	public static final int G20_EXPLOSIVE = 0x14;
+
+	public static final int ROCKET_NORMAL = 0x20;
+	public static final int ROCKET_HE = 0x21;
+	public static final int ROCKET_INCENDIARY = 0x22;
+	public static final int ROCKET_SHRAPNEL = 0x23;
+	public static final int ROCKET_EMP = 0x24;
+	public static final int ROCKET_GLARE = 0x25;
+	public static final int ROCKET_SLEEK = 0x26;
 	
 	public static void loadConfigsForSync() {
 		
@@ -45,6 +53,14 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.get20GaugeFlechetteConfig(), G20_FLECHETTE));
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.get20GaugeFireConfig(), G20_FIRE));
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.get20GaugeExplosiveConfig(), G20_EXPLOSIVE));
+
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketConfig(), ROCKET_NORMAL));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketHEConfig(), ROCKET_HE));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketIncendiaryConfig(), ROCKET_INCENDIARY));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketShrapnelConfig(), ROCKET_SHRAPNEL));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketEMPConfig(), ROCKET_EMP));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketGlareConfig(), ROCKET_GLARE));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketSleekConfig(), ROCKET_SLEEK));
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

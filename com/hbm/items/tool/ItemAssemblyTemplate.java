@@ -94,6 +94,7 @@ public class ItemAssemblyTemplate extends Item {
 		SAT_LASER,
 		SAT_RESONATOR,
 		SAT_FOEQ,
+		SAT_MINER,
 		CHOPPER_HEAD,
 		CHOPPER_GUN,
 		CHOPPER_BODY,
@@ -491,6 +492,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 1000;
 		case SAT_FOEQ:
 			return 1200;
+		case SAT_MINER:
+			return 600;
 		case CHOPPER_HEAD:
 			return 300;
 		case CHOPPER_GUN:

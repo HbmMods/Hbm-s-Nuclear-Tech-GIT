@@ -34,7 +34,9 @@ public class SatelliteSaveStructure {
 		//Death ray
 		LASER,
 		//Allows use of AMS
-		RESONATOR;
+		RESONATOR,
+		//Farms ores for free
+		MINER;
 		
 		public static SatelliteType getEnum(int i) {
 			if(i < SatelliteType.values().length)

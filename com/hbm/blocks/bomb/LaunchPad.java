@@ -453,7 +453,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
     		{
     			EntityCarrier missile = new EntityCarrier(p_149695_1_);
     			missile.posX = x + 0.5F;
-    			missile.posY = y + 0.5F;
+    			missile.posY = y + 1F;
     			missile.posZ = z + 0.5F;
     			
     			if(entity.slots[1] != null)

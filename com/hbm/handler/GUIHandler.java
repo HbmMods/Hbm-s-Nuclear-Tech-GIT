@@ -713,6 +713,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_dock:
+				{
+					if(entity instanceof TileEntityMachineSatDock)
+					{
+						return new ContainerSatDock(player.inventory, (TileEntityMachineSatDock) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//CLIENTONLY CONTAINERS
@@ -1423,6 +1432,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityWasteDrum)
 					{
 						return new GUIWasteDrum(player.inventory, (TileEntityWasteDrum) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_dock:
+				{
+					if(entity instanceof TileEntityMachineSatDock)
+					{
+						return new GUISatDock(player.inventory, (TileEntityMachineSatDock) entity);
 					}
 					return null;
 				}
