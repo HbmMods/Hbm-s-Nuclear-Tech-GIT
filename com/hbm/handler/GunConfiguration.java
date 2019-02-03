@@ -20,6 +20,8 @@ public class GunConfiguration {
 	public int gunMode;
 	//0 = manual, 1 = automatic
 	public int firingMode;
+	//weapon won't fire after weapon breaks
+	public int durability;
 	
 	//whether or not there is a reload delay animation
 	public boolean hasReloadAnim;

@@ -24,6 +24,7 @@ public class GunConfigFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CLASSIC;
+		config.durability = 350;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
@@ -49,6 +50,7 @@ public class GunConfigFactory {
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
+		config.durability = 350;
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
@@ -86,6 +88,7 @@ public class GunConfigFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
+		config.durability = 140;
 		
 		return config;
 	}

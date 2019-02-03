@@ -14,7 +14,7 @@ public class BulletConfiguration {
 	//spread of bullets in gaussian range
 	public float spread;
 	//weapon durability reduced (centered around 10)
-	public float tear;
+	public int wear;
 	//greatest amount of pellets created each shot
 	public int bulletsMin;
 	//least amount of pellets created each shot

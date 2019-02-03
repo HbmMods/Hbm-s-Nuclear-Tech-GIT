@@ -18,6 +18,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.gun_revolver_ammo;
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
+		bullet.wear = 10;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 17;
 		bullet.bulletsMin = 1;
@@ -46,6 +47,7 @@ public class BulletConfigFactory {
 		
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.005F;
+		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
 		bullet.gravity = 0D;
@@ -70,6 +72,7 @@ public class BulletConfigFactory {
 		
 		bullet.velocity = 5.0F;
 		bullet.spread = 0.05F;
+		bullet.wear = 10;
 		bullet.bulletsMin = 5;
 		bullet.bulletsMax = 8;
 		bullet.gravity = 0D;
@@ -93,6 +96,7 @@ public class BulletConfigFactory {
 		
 		bullet.velocity = 2.0F;
 		bullet.spread = 0.005F;
+		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
 		bullet.gravity = 0.005D;
@@ -212,6 +216,7 @@ public class BulletConfigFactory {
 		BulletConfiguration bullet = standardBuckshotConfig();
 		
 		bullet.ammo = ModItems.ammo_12gauge_incendiary;
+		bullet.wear = 15;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 4;
 		bullet.incendiary = 5;
@@ -238,6 +243,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_20gauge_slug;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
+		bullet.wear = 7;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
 		
 		return bullet;
@@ -250,6 +256,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_20gauge_flechette;
 		bullet.dmgMin = 3;
 		bullet.dmgMax = 6;
+		bullet.wear = 15;
 		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
 		bullet.HBRC = 2;
 		bullet.LBRC = 95;
@@ -264,6 +271,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_20gauge_incendiary;
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 4;
+		bullet.wear = 15;
 		bullet.incendiary = 5;
 		
 		return bullet;
@@ -276,6 +284,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_20gauge_explosive;
 		bullet.dmgMin = 2;
 		bullet.dmgMax = 6;
+		bullet.wear = 25;
 		bullet.explosive = 0.5F;
 		
 		return bullet;
@@ -289,7 +298,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_rocket;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
-		bullet.explosive = 3.5F;
+		bullet.explosive = 4F;
 		bullet.trail = 0;
 		
 		return bullet;
@@ -302,6 +311,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_rocket_he;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
+		bullet.wear = 15;
 		bullet.explosive = 6.5F;
 		bullet.trail = 1;
 		
@@ -315,7 +325,8 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_rocket_incendiary;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
-		bullet.explosive = 6.5F;
+		bullet.wear = 15;
+		bullet.explosive = 4F;
 		bullet.incendiary = 5;
 		bullet.trail = 2;
 		
@@ -345,6 +356,7 @@ public class BulletConfigFactory {
 		bullet.dmgMax = 15;
 		bullet.explosive = 10F;
 		bullet.trail = 6;
+		bullet.gravity = 0;
 		
 		return bullet;
 	}
@@ -356,7 +368,7 @@ public class BulletConfigFactory {
 		bullet.ammo = ModItems.ammo_rocket_shrapnel;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
-		bullet.explosive = 6.5F;
+		bullet.explosive = 4F;
 		bullet.shrapnel = 25;
 		bullet.trail = 3;
 		
@@ -371,7 +383,8 @@ public class BulletConfigFactory {
 		bullet.velocity = 5.0F;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
-		bullet.explosive = 6.5F;
+		bullet.wear = 20;
+		bullet.explosive = 4F;
 		bullet.incendiary = 5;
 		bullet.trail = 5;
 		

@@ -42,11 +42,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	public ItemGunBase(GunConfiguration config) {
 		mainConfig = config;
+		this.setMaxStackSize(1);
 	}
 	
 	public ItemGunBase(GunConfiguration config, GunConfiguration alt) {
 		mainConfig = config;
 		altConfig = alt;
+		this.setMaxStackSize(1);
 	}
 
 	@Override
@@ -104,7 +106,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			
 			if(mainConfig.reloadType != 0 || (altConfig != null && altConfig.reloadType != 0)) {
 				
-				if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
+				if(Keyboard.isKeyDown(Keyboard.KEY_R) && getMag(stack) < mainConfig.ammoCap) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
 					setIsReloading(stack, true);
 					resetReloadCycle(stack);
@@ -158,6 +160,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			EntityBulletBase bullet = new EntityBulletBase(world, mainConfig.config.get(getMagType(stack)), player);
 			world.spawnEntityInWorld(bullet);
 		}
+		
+		setItemWear(stack, getItemWear(stack) + config.wear);
+		
 		//player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_gold_ammo));
 	}
 	
@@ -280,7 +285,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			list.add("Ammo: Belt");
 		
 		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
-		//list.add("Reload DLAY: " + getReloadCycle(stack));
+		
+		int dura = mainConfig.durability - getItemWear(stack);
+		
+		if(dura < 0)
+			dura = 0;
+		
+		list.add("Durability: " + dura + " / " + mainConfig.durability);
 	}
 	
 	/*//returns main config from itemstack
@@ -332,6 +343,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	public static int getDelay(ItemStack stack) {
 		return readNBT(stack, "dlay");
+	}
+	
+	/// RoF cooldown ///
+	public static void setItemWear(ItemStack stack, int i) {
+		writeNBT(stack, "wear", i);
+	}
+	
+	public static int getItemWear(ItemStack stack) {
+		return readNBT(stack, "wear");
 	}
 	
 	/// R/W cycle animation timer ///
