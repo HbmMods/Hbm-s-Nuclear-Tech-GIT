@@ -26,6 +26,9 @@ public class GunConfigFactory {
 		config.crosshair = Crosshair.L_CLASSIC;
 		config.durability = 350;
 		
+		config.name = "FFI Viper";
+		config.manufacturer = "FlimFlam Industries";
+		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
@@ -51,6 +54,9 @@ public class GunConfigFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.durability = 350;
+		
+		config.name = "Winchester Model 1887";
+		config.manufacturer = "Winchester Repeating Arms Company";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
@@ -80,6 +86,9 @@ public class GunConfigFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
 		
+		config.name = "Carl Gustav Recoilless Rifle M1";
+		config.manufacturer = "Saab Bofors Dynamics";
+		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
@@ -88,6 +97,38 @@ public class GunConfigFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
+		config.durability = 140;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getGrenadeConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 30;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.hasReloadAnim = false;
+		config.hasFiringAnim = false;
+		config.hasSpinup = false;
+		config.hasSpindown = false;
+		config.reloadDuration = 40;
+		config.firingDuration = 0;
+		config.ammoCap = 1;
+		config.reloadType = GunConfiguration.RELOAD_SINGLE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		
+		config.name = "Granatpistole HK69";
+		config.manufacturer = "Heckler & Koch";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
 		config.durability = 140;
 		
 		return config;

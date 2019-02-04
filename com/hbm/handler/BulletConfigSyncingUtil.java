@@ -41,6 +41,12 @@ public class BulletConfigSyncingUtil {
 	public static final int ROCKET_EMP = 0x24;
 	public static final int ROCKET_GLARE = 0x25;
 	public static final int ROCKET_SLEEK = 0x26;
+
+	public static final int GRENADE_NORMAL = 0x30;
+	public static final int GRENADE_HE = 0x31;
+	public static final int GRENADE_INCENDIARY = 0x32;
+	public static final int GRENADE_CHEMICAL = 0x33;
+	public static final int GRENADE_SLEEK = 0x34;
 	
 	public static void loadConfigsForSync() {
 		
@@ -61,6 +67,12 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketEMPConfig(), ROCKET_EMP));
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketGlareConfig(), ROCKET_GLARE));
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.getRocketSleekConfig(), ROCKET_SLEEK));
+
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getGrenadeConfig(), GRENADE_NORMAL));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getGrenadeHEConfig(), GRENADE_HE));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getGrenadeIncendirayConfig(), GRENADE_INCENDIARY));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getGrenadeChlorineConfig(), GRENADE_CHEMICAL));
+		configSet.add(new ConfigKeyPair(BulletConfigFactory.getGrenadeSleekConfig(), GRENADE_SLEEK));
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

@@ -6,6 +6,7 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
+import com.hbm.items.special.ItemBlades;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
@@ -118,7 +119,14 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		return false;
+		
+		if(stack.getItem() instanceof ItemBlades && i == 1)
+			return true;
+		
+		if(TileEntityFurnace.getItemBurnTime(stack) > 0 && i == 0)
+			return true;
+		
+		return i == 2;
 	}
 	
 	@Override
@@ -192,9 +200,9 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
+	public int[] getAccessibleSlotsFromSide(int side)
     {
-        return new int[] {0, 1, 2, 3};
+		return side == 0 ? new int[] { 3 } : new int[]{ 0, 1, 2 };
     }
 
 	@Override
@@ -204,7 +212,7 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
+		return i == 3;
 	}
 	
 	@Override

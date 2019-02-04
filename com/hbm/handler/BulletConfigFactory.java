@@ -115,6 +115,31 @@ public class BulletConfigFactory {
 		return bullet;
 	}
 	
+	protected static BulletConfiguration standardGrenadeConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 2.0F;
+		bullet.spread = 0.005F;
+		bullet.wear = 10;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.gravity = 0.05D;
+		bullet.maxAge = 300;
+		bullet.doesRicochet = false;
+		bullet.ricochetAngle = 0;
+		bullet.HBRC = 0;
+		bullet.LBRC = 0;
+		bullet.bounceMod = 1.0;
+		bullet.doesPenetrate = false;
+		bullet.doesBreakGlass = false;
+		bullet.explosive = 2.5F;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.plink = BulletConfiguration.PLINK_GRENADE;
+		
+		return bullet;
+	}
+	
 	/// ADJUSTED CONFIGS ///
 	
 	/// .357 ///
@@ -387,6 +412,81 @@ public class BulletConfigFactory {
 		bullet.explosive = 4F;
 		bullet.incendiary = 5;
 		bullet.trail = 5;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getGrenadeConfig() {
+		
+		BulletConfiguration bullet = standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.trail = 0;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getGrenadeHEConfig() {
+		
+		BulletConfiguration bullet = standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_he;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 20;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.explosive = 5.0F;
+		bullet.trail = 1;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getGrenadeIncendirayConfig() {
+		
+		BulletConfiguration bullet = standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_incendiary;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.trail = 0;
+		bullet.incendiary = 2;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getGrenadeChlorineConfig() {
+		
+		BulletConfiguration bullet = standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_toxic;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.trail = 3;
+		bullet.explosive = 0;
+		bullet.chlorine = 50;
+		
+		return bullet;
+	}
+	
+	protected static BulletConfiguration getGrenadeSleekConfig() {
+		
+		BulletConfiguration bullet = standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_sleek;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.trail = 4;
+		bullet.explosive = 7.5F;
 		
 		return bullet;
 	}

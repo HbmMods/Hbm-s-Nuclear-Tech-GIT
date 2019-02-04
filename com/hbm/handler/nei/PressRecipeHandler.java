@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.hbm.handler.nei.ShredderRecipeHandler.Fuel;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.gui.GUIMachineEPress;
 import com.hbm.inventory.gui.GUIMachinePress;
 import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.items.ModItems;
@@ -149,6 +150,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
         transferRectsGui.add(new RecipeTransferRect(new Rectangle(74 + 6 + 18, 23, 24, 18), "pressing"));
         //guiRec.add(GuiRecipe.class);
         guiGui.add(GUIMachinePress.class);
+        guiGui.add(GUIMachineEPress.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
         //RecipeTransferRectHandler.registerRectsToGuis(guiRec, transferRectsRec);
         RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);

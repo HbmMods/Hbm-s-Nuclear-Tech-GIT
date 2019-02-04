@@ -44,6 +44,9 @@ public class GunConfiguration {
 	public int reloadType;
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
+	
+	public String name;
+	public String manufacturer;
 
 	//bullet configs for main and alt fire
 	public List<Integer> config;

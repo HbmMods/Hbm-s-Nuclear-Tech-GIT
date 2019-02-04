@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderScreenOverlay {
 
 	private static final ResourceLocation misc = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_misc.png");
+	private static final ResourceLocation hud = new ResourceLocation("textures/gui/widgets.png");
 	
 	private static long lastSurvey;
 	private static float prevResult;
@@ -77,6 +78,7 @@ public class RenderScreenOverlay {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
 	}
 	
 	private static int getScaled(double cur, double max, double scale) {
@@ -88,13 +90,16 @@ public class RenderScreenOverlay {
 	public static void renderCustomCrosshairs(ScaledResolution resolution, Gui gui, Crosshair cross) {
 
 		int size = cross.size;
-		
-		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
-        GL11.glEnable(GL11.GL_BLEND);
-        OpenGlHelper.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, 1, 0);
-        gui.drawTexturedModalRect(resolution.getScaledWidth() / 2 - (size / 2), resolution.getScaledHeight() / 2 - (size / 2), cross.x, cross.y, size, size);
-        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-        GL11.glDisable(GL11.GL_BLEND);
+
+		GL11.glPushMatrix();
+			Minecraft.getMinecraft().renderEngine.bindTexture(misc);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        OpenGlHelper.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, 1, 0);
+	        gui.drawTexturedModalRect(resolution.getScaledWidth() / 2 - (size / 2), resolution.getScaledHeight() / 2 - (size / 2), cross.x, cross.y, size, size);
+	        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+	        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
 	}
 	
 	public enum Crosshair {

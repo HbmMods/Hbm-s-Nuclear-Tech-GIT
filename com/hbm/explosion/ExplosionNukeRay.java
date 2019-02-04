@@ -315,6 +315,7 @@ public class ExplosionNukeRay {
 		isAusf3Complete = true;
 	}*/
 	
+	//currently used by mk4
 	public void collectTipMk4_5(int count) {
 		
 		int amountProcessed = 0;

@@ -235,7 +235,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
         		boolean doesRic = config.doesRicochet || hRic;
         		
         		if(!config.isSpectral && !doesRic)
-        			this.setDead();
+        			this.onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
         		
         		if(doesRic) {
         			
@@ -378,6 +378,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
+		
+		if(config.chlorine > 0 && !worldObj.isRemote) {
+			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
+        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
+		}
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
 			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 100.0f, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);

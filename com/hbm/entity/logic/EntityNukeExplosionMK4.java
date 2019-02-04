@@ -63,7 +63,9 @@ public class EntityNukeExplosionMK4 extends Entity {
 		
 		if(explosion == null) {
 			explosion = new ExplosionNukeRay(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.strength, this.count, this.speed, this.length);
-
+			
+			MainRegistry.logger.info("START: " + System.currentTimeMillis());
+			
 			/*if(!worldObj.isRemote)
 				for(int x = (int) (posX - 1); x <= (int) (posX + 1); x++)
 					for(int y = (int) (posY - 1); y <= (int) (posY + 1); y++)
@@ -82,6 +84,8 @@ public class EntityNukeExplosionMK4 extends Entity {
 			//MainRegistry.logger.info(explosion.getProgress() + " / " + count / length);
 				explosion.processTip(1024);
 		} else if(fallout) {
+
+			MainRegistry.logger.info("STOP: " + System.currentTimeMillis());
 			
 			EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.length * 0.9) * 2 * MainRegistry.falloutDura / 10);
 			fallout.posX = this.posX;
