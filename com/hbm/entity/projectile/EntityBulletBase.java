@@ -17,6 +17,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -376,6 +377,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(config.explosive > 0 && !worldObj.isRemote)
 			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, true);
 		
+		if(config.jolt > 0 && !worldObj.isRemote)
+    		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
+		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
 		
@@ -457,16 +461,19 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	//for when a bullet hurts an entity, not necessarily dying
 	private void onEntityHurt(Entity e) {
 		
-		if(config.incendiary > 0)
+		if(config.incendiary > 0 && !worldObj.isRemote)
 			e.setFire(config.incendiary);
 		
-		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty()) {
+		if(config.leadChance > 0 && !worldObj.isRemote && worldObj.rand.nextInt(100) < config.leadChance && e instanceof EntityLivingBase)
+			((EntityLivingBase)e).addPotionEffect(new PotionEffect(HbmPotion.lead.id, 10 * 20, 0));
+		
+		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
 			
 			for(PotionEffect effect : config.effects)
 				((EntityLivingBase)e).addPotionEffect(effect);
 		}
 		
-		if(config.instakill && e instanceof EntityLivingBase) {
+		if(config.instakill && e instanceof EntityLivingBase && !worldObj.isRemote) {
 			((EntityLivingBase)e).setHealth(0.0F);
 		}
 	}

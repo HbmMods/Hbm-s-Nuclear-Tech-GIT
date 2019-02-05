@@ -52,10 +52,12 @@ public class BulletConfiguration {
 	public int incendiary;
 	public int emp;
 	public float explosive;
+	public double jolt;
 	public int rainbow;
 	public int nuke;
 	public int shrapnel;
 	public int chlorine;
+	public int leadChance;
 	public boolean boxcar;
 	public boolean boat;
 	public boolean destroysBlocks;
@@ -84,5 +86,16 @@ public class BulletConfiguration {
 	public static final int PLINK_GRENADE = 2;
 	public static final int PLINK_ENERGY = 3;
 	public static final int PLINK_SING = 4;
+
+	public static final int BOLT_LACUNAE = 0;
+	public static final int BOLT_NIGHTMARE = 1;
+	public static final int BOLT_LASER = 2;
+	
+	public BulletConfiguration setToBolt(int trail) {
+		
+		this.style = STYLE_BOLT;
+		this.trail = trail;
+		return this;
+	}
 
 }

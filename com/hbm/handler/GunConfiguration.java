@@ -13,9 +13,11 @@ public class GunConfiguration {
 	 * alt is always the lower priority, mouse2 will be canceled then mouse1 is activated at the same time
 	 * restrictions must be applied in gun's logic, mechanism may be dysfunctional if these rules are ignored
 	 */
-	
+
 	//amount of ticks between each bullet
 	public int rateOfFire;
+	//amount of bullets fired per delay passed
+	public int roundsPerCycle;
 	//0 = normal, 1 = release, 2 = both
 	public int gunMode;
 	//0 = manual, 1 = automatic

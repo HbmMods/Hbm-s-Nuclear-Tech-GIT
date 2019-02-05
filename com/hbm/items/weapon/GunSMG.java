@@ -6,8 +6,8 @@ import java.util.Random;
 import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.handler.BulletConfigFactory;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.items.ModItems;
 
 import net.minecraft.enchantment.Enchantment;
