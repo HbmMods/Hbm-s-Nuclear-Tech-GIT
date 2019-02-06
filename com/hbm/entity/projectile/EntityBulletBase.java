@@ -221,13 +221,13 @@ public class EntityBulletBase extends Entity implements IProjectile {
 						victim.attackEntityFrom(damagesource, dmg);
 					} catch (Exception x) { }
         		}
-        		
-        		if(!config.doesPenetrate)
-        			if(!worldObj.isRemote)
-        				onEntityImpact(victim);
-        		else
-        			if(!worldObj.isRemote)
-        				onEntityHurt(victim);
+
+    			if(!worldObj.isRemote) {
+	        		if(!config.doesPenetrate)
+	        			onEntityImpact(victim);
+	        		else
+	        			onEntityHurt(victim);
+    			}
         		
         	//handle block collision
         	} else if(worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ).getMaterial() != Material.air) {
@@ -374,11 +374,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			}
 		}
 		
-		if(config.explosive > 0 && !worldObj.isRemote)
-			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, true);
-		
 		if(config.jolt > 0 && !worldObj.isRemote)
     		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
+		
+		if(config.explosive > 0 && !worldObj.isRemote)
+			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, true);
 		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);

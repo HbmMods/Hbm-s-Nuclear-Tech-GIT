@@ -11,6 +11,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
@@ -292,6 +293,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			dura = 0;
 		
 		list.add("Durability: " + dura + " / " + mainConfig.durability);
+		
+		if(MainRegistry.enableDebugMode) {
+			list.add("");
+			list.add("Name: " + mainConfig.name);
+			list.add("Manufacturer: " + mainConfig.manufacturer);
+		}
 	}
 	
 	/*//returns main config from itemstack

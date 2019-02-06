@@ -39,6 +39,10 @@ public class GunConfiguration {
 	public int reloadDuration;
 	//duration of every animation cycle
 	public int firingDuration;
+	//sound path to the reload sound
+	public String reloadSound;
+	//sound path to the shooting sound
+	public String firingSound;
 	
 	//how much ammo the clip can hold, 0 if drawn from inventory
 	public int ammoCap;
@@ -66,5 +70,9 @@ public class GunConfiguration {
 	public static final int RELOAD_NONE = 0;
 	public static final int RELOAD_FULL = 1;
 	public static final int RELOAD_SINGLE = 2;
+
+	public static final String RSOUND_REVOLVER = "";
+	public static final String RSOUND_RIFLE = "";
+	public static final String RSOUND_SHOTGUN = "";
 
 }

@@ -13,7 +13,7 @@ import net.minecraft.potion.PotionEffect;
 
 public class Gun357MagnumFactory {
 	
-	public static GunConfiguration getRevolverConfig() {
+	public static GunConfiguration getBaseConfig() {
 		
 		GunConfiguration config = new GunConfiguration();
 		
@@ -31,9 +31,32 @@ public class Gun357MagnumFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CLASSIC;
-		config.durability = 350;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverIronConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 2000;
 		
 		config.name = "FFI Viper";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 3500;
+		
+		config.name = "FFI Viper Inox";
 		config.manufacturer = "FlimFlam Industries";
 		
 		config.config = new ArrayList<Integer>();
@@ -41,6 +64,119 @@ public class Gun357MagnumFactory {
 		
 		return config;
 	}
+	
+	public static GunConfiguration getRevolverSaturniteConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 3500;
+		
+		config.name = "FFI Viper D-25A";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.SATURNITE_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverLeadConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 2000;
+		
+		config.name = "FFI Viper Lead";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverGoldConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 2500;
+		
+		config.name = "FFI Viper Bling";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverCursedConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.rateOfFire = 7;
+		config.ammoCap = 17;
+		config.durability = 5000;
+		
+		config.name = "Britannia Standard Issue Motorized Handgun";
+		config.manufacturer = "BAE Systems plc";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverSchrabidiumConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 7500;
+		
+		config.name = "FFI Viper Ultra";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.SCHRABIDIUM_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverNightmareConfig() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 4000;
+		
+		config.name = "FFI Viper N1";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.NIGHT_REVOLVER);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getRevolverNightmare2Config() {
+		
+		GunConfiguration config = getBaseConfig();
+		
+		config.durability = 4000;
+		
+		config.name = "FFI Viper N2";
+		config.manufacturer = "FlimFlam Industries";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.NIGHT2_REVOLVER);
+		
+		return config;
+	}
+	
+	    ////    //  //  //      //      //////  //////  //////
+	   //  //  //  //  //      //      //        //    //
+	  ////    //  //  //      //      ////      //    //////
+	 //  //  //  //  //      //      //        //        //
+	////    //////  //////  //////  //////    //    //////
 	
 	public static BulletConfiguration getRevIronConfig() {
 		
@@ -127,12 +263,15 @@ public class Gun357MagnumFactory {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
-		bullet.ammo = ModItems.gun_revolver_nightmare_ammo;
+		bullet.ammo = ModItems.gun_revolver_nightmare2_ammo;
+		bullet.spread *= 10;
 		bullet.bulletsMin = 4;
 		bullet.bulletsMax = 6;
 		bullet.dmgMin = 50;
 		bullet.dmgMax = 150;
 		bullet.destroysBlocks = true;
+		bullet.style = bullet.STYLE_BOLT;
+		bullet.trail = bullet.BOLT_NIGHTMARE;
 		
 		return bullet;
 	}

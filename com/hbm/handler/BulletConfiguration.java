@@ -97,5 +97,11 @@ public class BulletConfiguration {
 		this.trail = trail;
 		return this;
 	}
+	
+	public BulletConfiguration setToFire(int duration) {
+		
+		this.incendiary = duration;
+		return this;
+	}
 
 }

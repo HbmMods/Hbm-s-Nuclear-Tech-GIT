@@ -3,6 +3,7 @@ package com.hbm.render.misc;
 import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.CROSSHAIRS;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.lib.RefStrings;
 
@@ -10,12 +11,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.GuiIngameForge;
 
 public class RenderScreenOverlay {
 
 	private static final ResourceLocation misc = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_misc.png");
 	private static final ResourceLocation hud = new ResourceLocation("textures/gui/widgets.png");
+	private static final RenderItem itemRenderer = RenderItem.getInstance();
 	
 	private static long lastSurvey;
 	private static float prevResult;
@@ -98,6 +105,28 @@ public class RenderScreenOverlay {
 	        gui.drawTexturedModalRect(resolution.getScaledWidth() / 2 - (size / 2), resolution.getScaledHeight() / 2 - (size / 2), cross.x, cross.y, size, size);
 	        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 	        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
+	}
+	
+	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, int count, int max) {
+		
+		GL11.glPushMatrix();
+        
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		int pX = resolution.getScaledWidth() / 2 + 62 + 36;
+		int pZ = resolution.getScaledHeight() - 19;
+		
+		Minecraft.getMinecraft().fontRenderer.drawString("x" + count, pX + 14, pZ + 6, 0xFFFFFF);
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        RenderHelper.enableGUIStandardItemLighting();
+        	itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(ammo), pX, pZ);
+        RenderHelper.disableStandardItemLighting();
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        
         GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
 	}
