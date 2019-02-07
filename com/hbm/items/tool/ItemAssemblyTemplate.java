@@ -177,6 +177,7 @@ public class ItemAssemblyTemplate extends Item {
 		PUMPJACK,
 		FLARE_STACK,
 		REFINERY,
+		EPRESS,
 		CHEMPLANT,
 		TANK,
 		MINER,
@@ -658,6 +659,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 200;
 		case REFINERY:
 			return 350;
+		case EPRESS:
+			return 160;
 		case CHEMPLANT:
 			return 200;
 		case TANK:

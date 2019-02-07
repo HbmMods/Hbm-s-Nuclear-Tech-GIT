@@ -22,12 +22,14 @@ public class GunRocketFactory {
 		config.hasFiringAnim = false;
 		config.hasSpinup = false;
 		config.hasSpindown = false;
-		config.reloadDuration = 60;
+		config.reloadDuration = 30;
 		config.firingDuration = 0;
 		config.ammoCap = 1;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		config.firingSound = "hbm:weapon.rpgShoot";
+		config.reloadSound = GunConfiguration.RSOUND_LAUNCHER;
 		
 		config.name = "Carl Gustav Recoilless Rifle M1";
 		config.manufacturer = "Saab Bofors Dynamics";

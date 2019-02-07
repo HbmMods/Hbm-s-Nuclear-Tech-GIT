@@ -58,6 +58,7 @@ public class BulletConfiguration {
 	public int shrapnel;
 	public int chlorine;
 	public int leadChance;
+	public int caustic;
 	public boolean boxcar;
 	public boolean boat;
 	public boolean destroysBlocks;

@@ -402,6 +402,7 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialAusIII = EnumHelper.addArmorMaterial("AUSIII", 375, new int[] {2, 6, 5, 2}, 0);
 	public static ArmorMaterial enumArmorMaterialAusIV = EnumHelper.addArmorMaterial("AUSIV", 375, new int[] {2, 6, 5, 2}, 0);
 	public static ArmorMaterial enumArmorMaterialAusV = EnumHelper.addArmorMaterial("AUSV", 375, new int[] {2, 6, 5, 2}, 0);
+	public static ArmorMaterial enumArmorMaterialSecurity = EnumHelper.addArmorMaterial("SECURITY", 100, new int[] {3, 8, 6, 3}, 15);
 	
 	//Creative Tabs
 	//ingots, nuggets, wires, machine parts
@@ -625,6 +626,7 @@ public class MainRegistry
 		enumArmorMaterialAusIII.customCraftingMaterial = ModItems.ingot_australium;
 		enumArmorMaterialAusIV.customCraftingMaterial = ModItems.rod_australium;
 		enumArmorMaterialAusV.customCraftingMaterial = ModItems.nugget_australium;
+		enumArmorMaterialSecurity.customCraftingMaterial = ModItems.plate_kevlar;
 		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		enumToolMaterialHammer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));

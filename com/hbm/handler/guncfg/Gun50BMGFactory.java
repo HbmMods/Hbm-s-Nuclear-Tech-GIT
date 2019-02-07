@@ -1,9 +1,82 @@
 package com.hbm.handler.guncfg;
 
+import java.util.ArrayList;
+
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
+import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
 
 public class Gun50BMGFactory {
+	
+	public static GunConfiguration getCalamityConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 6;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.hasReloadAnim = false;
+		config.hasFiringAnim = false;
+		config.hasSpinup = false;
+		config.hasSpindown = false;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 50;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_BOX;
+		config.durability = 2000;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.calShoot";
+		
+		config.name = "Maxim gun";
+		config.manufacturer = "Hiram Maxim";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getSaddleConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 3;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.hasReloadAnim = false;
+		config.hasFiringAnim = false;
+		config.hasSpinup = false;
+		config.hasSpindown = false;
+		config.reloadDuration = 30;
+		config.firingDuration = 0;
+		config.ammoCap = 100;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_BOX;
+		config.durability = 3500;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.calShoot";
+		
+		config.name = "Double Maxim gun";
+		config.manufacturer = "???";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
+		
+		return config;
+	}
 
 	static float inaccuracy = 2.5F;
 	public static BulletConfiguration get50BMGConfig() {

@@ -77,7 +77,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
     
 	@Override
 	public String getRecipeName() {
-		return "Burner Press";
+		return "Press";
 	}
 
 	@Override

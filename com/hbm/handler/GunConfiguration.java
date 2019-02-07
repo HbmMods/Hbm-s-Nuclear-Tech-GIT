@@ -40,9 +40,10 @@ public class GunConfiguration {
 	//duration of every animation cycle
 	public int firingDuration;
 	//sound path to the reload sound
-	public String reloadSound;
+	public String reloadSound = "";
 	//sound path to the shooting sound
-	public String firingSound;
+	public String firingSound = "";
+	public float firingPitch = 1.0F;
 	
 	//how much ammo the clip can hold, 0 if drawn from inventory
 	public int ammoCap;
@@ -51,8 +52,8 @@ public class GunConfiguration {
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
 	
-	public String name;
-	public String manufacturer;
+	public String name = "";
+	public String manufacturer = "";
 
 	//bullet configs for main and alt fire
 	public List<Integer> config;
@@ -71,8 +72,15 @@ public class GunConfiguration {
 	public static final int RELOAD_FULL = 1;
 	public static final int RELOAD_SINGLE = 2;
 
-	public static final String RSOUND_REVOLVER = "";
+	public static final String RSOUND_REVOLVER = "hbm:weapon.revolverReload";
 	public static final String RSOUND_RIFLE = "";
-	public static final String RSOUND_SHOTGUN = "";
+	public static final String RSOUND_MAG = "hbm:weapon.magReload";
+	public static final String RSOUND_SHOTGUN = "hbm:weapon.shotgunReload";
+	public static final String RSOUND_LAUNCHER = "hbm:weapon.rpgReload";
+	
+	public GunConfiguration silenced() {
+		this.firingSound = "hbm:weapon.silencerShoot";
+		return this;
+	}
 
 }

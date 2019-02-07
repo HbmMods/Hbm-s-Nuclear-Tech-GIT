@@ -15,6 +15,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
@@ -26,6 +27,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -208,6 +210,13 @@ public class EntityBulletBase extends Entity implements IProjectile {
 				} else {
 					damagesource = ModDamageSource.causeBulletDamage(this, shooter);
 				}
+
+    			if(!worldObj.isRemote) {
+	        		if(!config.doesPenetrate)
+	        			onEntityImpact(victim);
+	        		else
+	        			onEntityHurt(victim);
+    			}
 				
 				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
 				
@@ -221,13 +230,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
 						victim.attackEntityFrom(damagesource, dmg);
 					} catch (Exception x) { }
         		}
-
-    			if(!worldObj.isRemote) {
-	        		if(!config.doesPenetrate)
-	        			onEntityImpact(victim);
-	        		else
-	        			onEntityHurt(victim);
-    			}
         		
         	//handle block collision
         	} else if(worldObj.getBlock(movement.blockX, movement.blockY, movement.blockZ).getMaterial() != Material.air) {
@@ -428,8 +430,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	
 	//for when a bullet dies by hitting an entity
 	private void onEntityImpact(Entity e) {
-		onBlockImpact(-1, -1, -1);
 		onEntityHurt(e);
+		onBlockImpact(-1, -1, -1);
 		
 		if(config.boxcar && !worldObj.isRemote) {
 			EntityBoxcar pippo = new EntityBoxcar(worldObj);
@@ -461,20 +463,30 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	//for when a bullet hurts an entity, not necessarily dying
 	private void onEntityHurt(Entity e) {
 		
-		if(config.incendiary > 0 && !worldObj.isRemote)
+		if(config.incendiary > 0 && !worldObj.isRemote) {
 			e.setFire(config.incendiary);
+		}
 		
-		if(config.leadChance > 0 && !worldObj.isRemote && worldObj.rand.nextInt(100) < config.leadChance && e instanceof EntityLivingBase)
+		if(config.leadChance > 0 && !worldObj.isRemote && worldObj.rand.nextInt(100) < config.leadChance && e instanceof EntityLivingBase) {
 			((EntityLivingBase)e).addPotionEffect(new PotionEffect(HbmPotion.lead.id, 10 * 20, 0));
+		}
 		
 		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
 			
-			for(PotionEffect effect : config.effects)
+			for(PotionEffect effect : config.effects) {
 				((EntityLivingBase)e).addPotionEffect(effect);
+			}
 		}
 		
 		if(config.instakill && e instanceof EntityLivingBase && !worldObj.isRemote) {
 			((EntityLivingBase)e).setHealth(0.0F);
+		}
+		
+		if(config.caustic > 0 && e instanceof EntityPlayer){
+			Library.damageSuit((EntityPlayer)e, 0, config.caustic);
+			Library.damageSuit((EntityPlayer)e, 1, config.caustic);
+			Library.damageSuit((EntityPlayer)e, 2, config.caustic);
+			Library.damageSuit((EntityPlayer)e, 3, config.caustic);
 		}
 	}
 

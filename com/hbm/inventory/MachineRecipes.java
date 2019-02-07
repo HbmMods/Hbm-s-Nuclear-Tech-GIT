@@ -3085,6 +3085,16 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.circuit_red_copper, 4));
 			list.add(new ItemStack(ModItems.plate_polymer, 8));
 			break;
+		case EPRESS:
+			list.add(new ItemStack(ModItems.plate_steel, 8));
+			list.add(new ItemStack(ModItems.plate_polymer, 4));
+			list.add(new ItemStack(ModItems.pipes_steel, 1));
+			list.add(new ItemStack(ModItems.bolt_tungsten, 4));
+			list.add(new ItemStack(ModItems.coil_copper, 2));
+			list.add(new ItemStack(ModItems.motor, 1));
+			list.add(new ItemStack(ModItems.circuit_copper, 1));
+			list.add(new ItemStack(ModItems.canister_canola, 1));
+			break;
 		case CHEMPLANT:
 			list.add(new ItemStack(ModItems.ingot_steel, 8));
 			list.add(new ItemStack(ModItems.plate_copper, 6));
@@ -4369,6 +4379,9 @@ public class MachineRecipes {
 		case REFINERY:
 			output = new ItemStack(ModBlocks.machine_refinery, 1);
 			break;
+		case EPRESS:
+			output = new ItemStack(ModBlocks.machine_epress, 1);
+			break;
 		case CHEMPLANT:
 			output = new ItemStack(ModBlocks.machine_chemplant, 1);
 			break;
@@ -4955,6 +4968,11 @@ public class MachineRecipes {
 			list.add(new ItemStack(Blocks.planks, 1));
 			list.add(new ItemStack(Items.sugar, 1));
 			break;
+        case KEVLAR:
+			list.add(new ItemStack(ModItems.niter, 2));
+			list.add(new ItemStack(Items.brick, 1));
+			list.add(new ItemStack(Items.coal, 1));
+			break;
 		default:
 			break;
 		}
@@ -5131,7 +5149,10 @@ public class MachineRecipes {
 			input[0] = new FluidStack(400, FluidType.BITUMEN);
         	break;
         case CORDITE:
-			input[0] = new FluidStack(250, FluidType.HEATINGOIL);
+			input[0] = new FluidStack(200, FluidType.HEATINGOIL);
+        	break;
+        case KEVLAR:
+			input[0] = new FluidStack(100, FluidType.PETROLEUM);
         	break;
 		default:
 			break;
@@ -5240,6 +5261,9 @@ public class MachineRecipes {
         	break;
         case CORDITE:
 			output[0] = new ItemStack(ModItems.cordite, 4);
+        	break;
+        case KEVLAR:
+			output[0] = new ItemStack(ModItems.plate_kevlar, 4);
         	break;
 		default:
 			break;

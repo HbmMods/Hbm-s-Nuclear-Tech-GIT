@@ -31,6 +31,8 @@ public class Gun357MagnumFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CLASSIC;
+		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
+		config.firingSound = "hbm:weapon.revolverShoot";
 		
 		return config;
 	}
@@ -117,6 +119,7 @@ public class Gun357MagnumFactory {
 		config.rateOfFire = 7;
 		config.ammoCap = 17;
 		config.durability = 5000;
+		config.firingSound = "hbm:weapon.heavyShoot";
 		
 		config.name = "Britannia Standard Issue Motorized Handgun";
 		config.manufacturer = "BAE Systems plc";
@@ -132,6 +135,7 @@ public class Gun357MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 7500;
+		config.firingSound = "hbm:weapon.schrabidiumShoot";
 		
 		config.name = "FFI Viper Ultra";
 		config.manufacturer = "FlimFlam Industries";
@@ -147,6 +151,7 @@ public class Gun357MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 4000;
+		config.firingSound = "hbm:weapon.schrabidiumShoot";
 		
 		config.name = "FFI Viper N1";
 		config.manufacturer = "FlimFlam Industries";
@@ -162,6 +167,7 @@ public class Gun357MagnumFactory {
 		GunConfiguration config = getBaseConfig();
 		
 		config.durability = 4000;
+		config.firingSound = "hbm:weapon.schrabidiumShoot";
 		
 		config.name = "FFI Viper N2";
 		config.manufacturer = "FlimFlam Industries";

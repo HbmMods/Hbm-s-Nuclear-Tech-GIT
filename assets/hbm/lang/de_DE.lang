@@ -1085,6 +1085,7 @@ item.gun_rpg_ammo.name=Rakete
 item.gun_stinger.name=FIM-92 Stinger
 item.gun_skystinger.name=The One Sky Stinger
 item.gun_stinger_ammo.name=Stinger-Rakete
+item.gun_hk69.name=Granatenpistole
 
 item.flame_pony.name=Bild eines Cartoon Ponys
 item.flame_conspiracy.name=Verschwörungstheorie
@@ -1402,6 +1403,7 @@ item.folly_bullet_nuclear.name=12,8cm Atomares Geschoss
 item.folly_bullet_du.name=12,8cm DU-Geschoss
 
 item.cordite.name=Kordit
+item.plate_kevlar.name=Kevlar-Keramik-Verbund
 
 item.weaponized_starblaster_cell.name=§cManipulierte Sternenblaster-Energiezelle§r
 
@@ -1701,6 +1703,10 @@ item.cmb_helmet.name=CMB-Stahlhelm
 item.cmb_plate.name=CMB-Stahlbrustpanzer
 item.cmb_legs.name=CMB-Stahlbeinschutz
 item.cmb_boots.name=CMB-Stahlstiefel
+item.security_helmet.name=Sicherheitshelm
+item.security_plate.name=Sicherheitsbrustpanzer
+item.security_legs.name=Sicherheitsbeinschutz
+item.security_boots.name=Sicherheitsstiefel
 
 item.steel_sword.name=Stahlschwert
 item.steel_pickaxe.name=Stahlspitzhacke

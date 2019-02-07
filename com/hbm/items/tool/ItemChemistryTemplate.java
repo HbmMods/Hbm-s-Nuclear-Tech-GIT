@@ -77,7 +77,8 @@ public class ItemChemistryTemplate extends Item {
 		DYN_SCHRAB,
 		DYN_EUPH,
 		DYN_DNT,
-		CORDITE;
+		CORDITE,
+		KEVLAR;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -234,6 +235,8 @@ public class ItemChemistryTemplate extends Item {
         case DYN_DNT:
         	return 5*60*20;
         case CORDITE:
+        	return 40;
+        case KEVLAR:
         	return 40;
         default:
         	return 100;

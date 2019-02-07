@@ -43,8 +43,9 @@ public class ItemAmmo extends Item {
 		}
 		if(this == ModItems.ammo_20gauge_caustic) {
 			list.add(EnumChatFormatting.BLUE + "+ Toxic");
+			list.add(EnumChatFormatting.BLUE + "+ Caustic");
 			list.add(EnumChatFormatting.YELLOW + "* Not bouncy");
-			list.add(EnumChatFormatting.RED + "- Increased wear");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		if(this == ModItems.ammo_20gauge_shock) {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");

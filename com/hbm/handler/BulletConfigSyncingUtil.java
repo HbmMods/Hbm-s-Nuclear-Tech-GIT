@@ -42,6 +42,9 @@ public class BulletConfigSyncingUtil {
 	public static final int G20_FLECHETTE = 0x12;
 	public static final int G20_FIRE = 0x13;
 	public static final int G20_EXPLOSIVE = 0x14;
+	public static final int G20_CAUSTIC = 0x15;
+	public static final int G20_SHOCK = 0x16;
+	public static final int G20_WITHER = 0x17;
 
 	public static final int ROCKET_NORMAL = 0x20;
 	public static final int ROCKET_HE = 0x21;
@@ -62,6 +65,8 @@ public class BulletConfigSyncingUtil {
 
 	public static final int LR22_NORMAL = 0x50;
 	public static final int LR22_AP = 0x51;
+	public static final int LR22_NORMAL_FIRE = 0x52;
+	public static final int LR22_AP_FIRE = 0x53;
 
 	public static final int M44_NORMAL = 0x60;
 	public static final int M44_AP = 0x61;
@@ -104,6 +109,9 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeFlechetteConfig(), G20_FLECHETTE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeFireConfig(), G20_FIRE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeExplosiveConfig(), G20_EXPLOSIVE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeCausticConfig(), G20_CAUSTIC));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeShockConfig(), G20_SHOCK));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeWitherConfig(), G20_WITHER));
 
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketConfig(), ROCKET_NORMAL));
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketHEConfig(), ROCKET_HE));
@@ -124,6 +132,8 @@ public class BulletConfigSyncingUtil {
 
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRConfig(), LR22_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRAPConfig(), LR22_AP));
+		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRConfig().setToFire(3), LR22_NORMAL_FIRE));
+		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRAPConfig().setToFire(3), LR22_AP_FIRE));
 
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipConfig(), M44_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipAPConfig(), M44_AP));
