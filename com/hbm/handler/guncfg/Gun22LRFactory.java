@@ -28,7 +28,7 @@ public class Gun22LRFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CROSS;
-		config.durability = 2000;
+		config.durability = 3000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.uziShoot";
 		
@@ -46,7 +46,7 @@ public class Gun22LRFactory {
 		
 		GunConfiguration config = getUziConfig();
 		
-		config.durability = 3500;
+		config.durability = 4500;
 		
 		config.name = "IMI Uzi D-25A";
 		config.manufacturer = "IMI / Big MT";

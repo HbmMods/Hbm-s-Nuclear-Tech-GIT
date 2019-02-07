@@ -131,6 +131,7 @@ chem.DYN_SCHRAB=Schrabidium-Dynosynthese
 chem.DYN_EUPH=Euphemium-Dynosynthese
 chem.DYN_DNT=Dineutronium-Dynosynthese
 chem.CORDITE=Korditherstellung
+chem.KEVLAR=Kevlarverbundherstellung
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -665,7 +666,7 @@ item.assembly_nightmare.name=Nightmare-Patronensatz
 item.assembly_pip.name=Verdorbener .44er Patronensatz
 item.assembly_nopip.name=.44er Patronensatz
 item.assembly_smg.name=9mm Patronensatz
-item.assembly_uzi.name=.22LR Patronensatz
+item.assembly_uzi.name=.22 LR Patronensatz
 item.assembly_calamity.name=.50 BMG Patronensatz
 item.assembly_lacunae.name=5mm Patronensatz
 
@@ -1546,6 +1547,9 @@ item.jetpack_fly.name=Raketenrucksack
 item.jetpack_break.name=Bremsrucksack
 item.jetpack_vector.name=Schubvektorgesteuerter Raketenrucksack
 item.jetpack_tank.name=Raketenrucksack-Reservetank
+
+item.gun_kit_1.name=Waffenöl
+item.gun_kit_2.name=Waffenreparatursatz
 
 item.chainsaw.name=Kettensäge
 item.crowbar.name=Mk.V Kistenöffnungsapparat "Brechstange"

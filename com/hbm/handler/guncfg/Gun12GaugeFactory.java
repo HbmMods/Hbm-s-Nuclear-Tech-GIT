@@ -25,7 +25,7 @@ public class Gun12GaugeFactory {
 		config.reloadDuration = 10;
 		config.firingDuration = 0;
 		config.ammoCap = 6;
-		config.durability = 2000;
+		config.durability = 1500;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;

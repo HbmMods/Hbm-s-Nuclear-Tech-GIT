@@ -51,7 +51,7 @@ public class Gun20GaugeFactory {
 		
 		GunConfiguration config = getShotgunConfig();
 		
-		config.durability = 3500;
+		config.durability = 2000;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
@@ -76,7 +76,7 @@ public class Gun20GaugeFactory {
 		
 		GunConfiguration config = getShotgunConfig();
 		
-		config.durability = 4000;
+		config.durability = 2500;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.75F;
@@ -102,7 +102,7 @@ public class Gun20GaugeFactory {
 		GunConfiguration config = getShotgunConfig();
 		
 		config.ammoCap = 1;
-		config.durability = 4000;
+		config.durability = 3000;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;
@@ -128,7 +128,7 @@ public class Gun20GaugeFactory {
 		GunConfiguration config = getShotgunConfig();
 		
 		config.ammoCap = 1;
-		config.durability = 3500;
+		config.durability = 2500;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
 		config.firingSound = "hbm:weapon.revolverShoot";
 		config.firingPitch = 0.75F;

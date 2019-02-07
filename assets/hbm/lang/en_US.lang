@@ -131,6 +131,7 @@ chem.DYN_SCHRAB=Schrabidium Dynosynthesis
 chem.DYN_EUPH=Euphemium Dynosynthesis
 chem.DYN_DNT=Dineutronium Dynosynthesis
 chem.CORDITE=Cordite Production
+chem.KEVLAR=Kevlar Compound Production
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -665,7 +666,7 @@ item.assembly_nightmare.name=Nightmare Bullet Assembly
 item.assembly_pip.name=Tainted Bullet Assembly
 item.assembly_nopip.name=.44 Magnum Assembly
 item.assembly_smg.name=9mm Assembly
-item.assembly_uzi.name=.22LR Assembly
+item.assembly_uzi.name=.22 LR Assembly
 item.assembly_calamity.name=.50 BMG Assembly
 item.assembly_lacunae.name=.5mm Assembly
 
@@ -1546,6 +1547,9 @@ item.jetpack_fly.name=Jetpack
 item.jetpack_break.name=Breakpack
 item.jetpack_vector.name=Vectored Jetpack
 item.jetpack_tank.name=Jetpack Reserve Fuel Tank
+
+item.gun_kit_1.name=Gun Oil
+item.gun_kit_2.name=Gun Repair Kit
 
 item.chainsaw.name=Chainsaw
 item.crowbar.name=Mk.V Crate Opening Device "Crowbar"

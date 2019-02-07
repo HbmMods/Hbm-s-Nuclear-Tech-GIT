@@ -55,7 +55,15 @@ public class ModEventHandlerClient {
 			int count = ItemGunBase.getMag(player.getHeldItem());
 			int max = gcfg.ammoCap;
 			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max);
+			if(gcfg.reloadType == gcfg.RELOAD_NONE) {
+				ammo = ItemGunBase.getBeltType(player, player.getHeldItem());
+				count = ItemGunBase.getBeltSize(player, ammo);
+				max = -1;
+			}
+			
+			int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
+			
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
 			//RenderScreenOverlay.renderRadCounter(event.resolution, 0, Minecraft.getMinecraft().ingameGUI);
 			
 		}

@@ -5319,10 +5319,10 @@ public class MachineRecipes {
 			input[0] = new FluidStack(800, FluidType.PETROLEUM);
 			break;
         case CC_OIL:
-			input[0] = new FluidStack(1000, FluidType.OIL);
+			input[0] = new FluidStack(2000, FluidType.OIL);
 			break;
         case CC_I:
-			input[0] = new FluidStack(800, FluidType.SMEAR);
+			input[0] = new FluidStack(1600, FluidType.SMEAR);
 			break;
         case CC_HEATING:
 			input[0] = new FluidStack(1800, FluidType.HEATINGOIL);

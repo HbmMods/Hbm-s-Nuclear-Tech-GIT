@@ -97,7 +97,7 @@ public class Gun5mmFactory {
 		bullet.spread *= inaccuracy;
 		bullet.dmgMin = 4;
 		bullet.dmgMax = 7;
-		bullet.explosive = 0.5F;
+		bullet.explosive = 1F;
 		bullet.wear = 25;
 		
 		return bullet;

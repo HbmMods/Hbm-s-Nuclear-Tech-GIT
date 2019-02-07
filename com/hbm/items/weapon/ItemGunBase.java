@@ -23,6 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -55,10 +57,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	@Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem) {
 		
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && entity instanceof EntityPlayer && world.isRemote) {
-			updateClient(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
-		} else {
-			updateServer(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
+		//if(!isCurrentItem)
+		//	return;
+		
+		if(entity instanceof EntityPlayer) {
+			if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && world.isRemote) {
+				updateClient(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
+			} else if(isCurrentItem) {
+				updateServer(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
+			}
 		}
     	
     }
@@ -105,7 +112,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				m2 = false;
 			}
 			
-			if(mainConfig.reloadType != 0 || (altConfig != null && altConfig.reloadType != 0)) {
+			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
 				if(Keyboard.isKeyDown(Keyboard.KEY_R) && getMag(stack) < mainConfig.ammoCap) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
@@ -126,55 +133,82 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		}
 	}
 	
-	private void updateServer(ItemStack stack, World world, EntityPlayer entity, int slot, boolean isCurrentItem) {
+	private void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
 		
-		if(getDelay(stack) > 0)
+		if(getDelay(stack) > 0 && isCurrentItem)
 			setDelay(stack, getDelay(stack) - 1);
 			
-		if(mainConfig.firingMode == 1 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0 && !getIsReloading(stack)) {
-			fire(stack, world, entity);
+		if(mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
+			
+			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
-			setMag(stack, getMag(stack) - 1);
+			//setMag(stack, getMag(stack) - 1);
+			useUpAmmo(player, stack);
 		}
 		
-		if(getIsReloading(stack)) {
-			reload(stack, world, entity);
+		if(getIsReloading(stack) && isCurrentItem) {
+			reload(stack, world, player);
 		}
 	}
 	
 	//tries to shoot, bullet checks are done here
 	private boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
+		
+		if(getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
+			
+			if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+				return getBeltSize(player, getBeltType(player, stack)) > 0;
+				
+			} else {
+				return getMag(stack) > 0;
+			}
+		}
+		
 		return false;
 	}
 	
 	//called every time the gun shoots, overridden to change bullet entity/special additions
 	private void fire(ItemStack stack, World world, EntityPlayer player) {
 
-		BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
+		BulletConfiguration config = null;
+		
+		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+			config = getBeltCfg(player, stack);
+		} else {
+			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
+		}
 		
 		int bullets = config.bulletsMin;
 		
-		if(config.bulletsMax > config.bulletsMin)
-			bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
-		
-		for(int i = 0; i < bullets; i++) {
-			EntityBulletBase bullet = new EntityBulletBase(world, mainConfig.config.get(getMagType(stack)), player);
-			world.spawnEntityInWorld(bullet);
+		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
+			if(config.bulletsMax > config.bulletsMin)
+				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
+			
+			for(int i = 0; i < bullets; i++) {
+				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+			}
+			
+			setItemWear(stack, getItemWear(stack) + config.wear);
 		}
-		
-		setItemWear(stack, getItemWear(stack) + config.wear);
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 		
 		//player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_gold_ammo));
 	}
 	
+	private void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
+		
+		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
+		world.spawnEntityInWorld(bullet);
+	}
+	
 	//called on click (server side, called by mouse packet)
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(mainConfig.firingMode == 0 && getIsMouseDown(stack) && getDelay(stack) == 0 && getMag(stack) > 0 && !getIsReloading(stack)) {
+		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && getIsMouseDown(stack) && tryShoot(stack, world, player, main)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
-			setMag(stack, getMag(stack) - 1);
+			//setMag(stack, getMag(stack) - 1);
+			useUpAmmo(player, stack);
 		}
 	}
 	
@@ -309,6 +343,66 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		}
 	}
 	
+	public static Item getBeltType(EntityPlayer player, ItemStack stack) {
+		
+		ItemGunBase gun = (ItemGunBase)stack.getItem();
+		Item ammo = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(0)).ammo;
+
+		for(Integer config : gun.mainConfig.config) {
+			
+			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
+			
+			if(player.inventory.hasItem(cfg.ammo)) {
+				ammo = cfg.ammo;
+				break;
+			}
+		}
+		
+		return ammo;
+	}
+	
+	public static BulletConfiguration getBeltCfg(EntityPlayer player, ItemStack stack) {
+		
+		ItemGunBase gun = (ItemGunBase)stack.getItem();
+		Item ammo = getBeltType(player, stack);
+
+		for(Integer config : gun.mainConfig.config) {
+			
+			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
+			
+			if(player.inventory.hasItem(cfg.ammo)) {
+				return cfg;
+			}
+		}
+
+		return BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(0));
+	}
+	
+	public static int getBeltSize(EntityPlayer player, Item ammo) {
+		
+		int amount = 0;
+		
+		for(ItemStack stack : player.inventory.mainInventory) {
+			if(stack != null && stack.getItem() == ammo)
+				amount += stack.stackSize;
+		}
+		
+		return amount;
+	}
+	
+	public void useUpAmmo(EntityPlayer player, ItemStack stack) {
+		
+		if(mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
+			return;
+
+		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
+			if(mainConfig.reloadType != mainConfig.RELOAD_NONE)
+				setMag(stack, getMag(stack) - 1);
+			else
+				player.inventory.consumeInventoryItem(getBeltType(player, stack));
+		}
+	}
+	
 	/*//returns main config from itemstack
 	public static GunConfiguration extractConfig(ItemStack stack) {
 		
@@ -360,7 +454,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		return readNBT(stack, "dlay");
 	}
 	
-	/// RoF cooldown ///
+	/// Gun wear ///
 	public static void setItemWear(ItemStack stack, int i) {
 		writeNBT(stack, "wear", i);
 	}
