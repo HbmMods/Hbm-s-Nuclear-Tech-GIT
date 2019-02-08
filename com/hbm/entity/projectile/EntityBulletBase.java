@@ -444,6 +444,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 				worldObj.spawnEntityInWorld(fx);
 			}
 			worldObj.spawnEntityInWorld(pippo);
+			
+			worldObj.playSoundEffect(pippo.posX, 
+					pippo.posY + 50, 
+					pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
 		}
 		
 		if(config.boat && !worldObj.isRemote) {
@@ -457,6 +461,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 				worldObj.spawnEntityInWorld(fx);
 			}
 			worldObj.spawnEntityInWorld(pippo);
+			
+			worldObj.playSoundEffect(pippo.posX, 
+					pippo.posY + 50, 
+					pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
 		}
 	}
 	

@@ -426,8 +426,8 @@ container.reactorControl=Reactor Remote Control Block
 
 tile.broadcaster_pc.name=Corrupted Broadcaster
 
-tile.radiobox.name=RTG-Powered High-Gain FM Transmitter
-tile.radiorec.name=FM Radio
+tile.radiobox.name=Rosenberg Pest Control Box [WIP]
+tile.radiorec.name=Broken FM Radio
 container.radiobox=FM Transmitter
 container.radiorec=FM Radio
 

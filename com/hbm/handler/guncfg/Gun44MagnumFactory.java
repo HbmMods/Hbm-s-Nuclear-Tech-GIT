@@ -154,6 +154,7 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 5;
 		bullet.boxcar = true;
 		bullet.wear = 25;
+		bullet.doesPenetrate = false;
 		
 		return bullet;
 	}
@@ -167,6 +168,7 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 5;
 		bullet.boat = true;
 		bullet.wear = 25;
+		bullet.doesPenetrate = false;
 		
 		return bullet;
 	}

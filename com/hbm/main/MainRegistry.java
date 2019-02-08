@@ -1498,22 +1498,6 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone_stairs), new ItemStack(Blocks.sand, 6));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.hardened_clay), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 0), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 1), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 2), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 3), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 4), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 5), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 6), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 7), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 8), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 9), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 10), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 11), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 12), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 13), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 14), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, 15), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
@@ -1526,6 +1510,11 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
 		recipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
+
+		for(int i = 0; i < 16; i++) {
+			recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
+			recipes.overridePreSetRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
+		}
 		
 		recipes.PrintRecipes();
 

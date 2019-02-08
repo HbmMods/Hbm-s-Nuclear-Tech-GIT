@@ -136,7 +136,10 @@ public class ItemRenderOverkill implements IItemRenderer {
 						item.getItem() == ModItems.gun_revolver_blackjack ||
 						item.getItem() == ModItems.gun_revolver_red) {
 					GL11.glScalef(0.60F, 0.60F, 0.60F);
-					GL11.glTranslatef(0.0F, 0.3F, 0.2F);
+					GL11.glTranslatef(0.0F, 0.0F, -0.1F);
+					GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
+					GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
 				}
 				
 				if(item.getItem() == ModItems.gun_lacunae ||
@@ -174,12 +177,20 @@ public class ItemRenderOverkill implements IItemRenderer {
 					pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
 				if(item.getItem() == ModItems.gun_calamity) {
+					GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
+					GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
+					
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelCalBarrel.png"));
 					barrel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelCalStock.png"));
 					stock.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				}
 				if(item.getItem() == ModItems.gun_calamity_dual) {
+					GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
+					GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
+					
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelCalDualStock.png"));
 					saddle.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelCalBarrel.png"));

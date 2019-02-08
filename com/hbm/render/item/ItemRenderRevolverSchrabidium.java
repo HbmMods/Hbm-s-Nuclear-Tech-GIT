@@ -45,6 +45,9 @@ public class ItemRenderRevolverSchrabidium implements IItemRenderer {
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
 				//GL11.glScalef(2.0F, 2.0F, 2.0F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
+				GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;

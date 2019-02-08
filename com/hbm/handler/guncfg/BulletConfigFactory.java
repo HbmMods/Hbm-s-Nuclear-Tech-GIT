@@ -105,9 +105,9 @@ public class BulletConfigFactory {
 		bullet.gravity = 0.005D;
 		bullet.maxAge = 300;
 		bullet.doesRicochet = true;
-		bullet.ricochetAngle = 3;
-		bullet.HBRC = 0;
-		bullet.LBRC = 95;
+		bullet.ricochetAngle = 10;
+		bullet.HBRC = 2;
+		bullet.LBRC = 100;
 		bullet.bounceMod = 0.8;
 		bullet.doesPenetrate = false;
 		bullet.doesBreakGlass = false;

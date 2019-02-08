@@ -426,8 +426,8 @@ container.reactorControl=Reaktorfernsteuerung
 
 tile.broadcaster_pc.name=Korrupter Sender
 
-tile.radiobox.name=RTG-Betriebener Hochleistungs-UKW-Sender
-tile.radiorec.name=UKW Radio
+tile.radiobox.name=Rosenberg Ungeziefervernichter [WIP]
+tile.radiorec.name=Kaputtes UKW Radio
 container.radiobox=UKW-Sender
 container.radiorec=UKW Radio
 

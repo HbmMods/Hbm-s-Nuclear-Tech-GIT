@@ -8,6 +8,8 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunBase;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -206,18 +208,7 @@ public class ModelNightmare2 extends ModelBase {
 		Shape11.render(f5);
 		Shape12.render(f5);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		if(item.getItemDamage() <= 0)
-			Bullet1.render(f5);
-		if(item.getItemDamage() <= 1)
-			Bullet2.render(f5);
-		if(item.getItemDamage() <= 2)
-			Bullet3.render(f5);
-		if(item.getItemDamage() <= 3)
-			Bullet4.render(f5);
-		if(item.getItemDamage() <= 4)
-			Bullet5.render(f5);
-		if(item.getItemDamage() <= 5)
-			Bullet6.render(f5);
+		
 		Shape13.render(f5);
 		Shape14.render(f5);
 		Shape15.render(f5);
@@ -225,6 +216,21 @@ public class ModelNightmare2 extends ModelBase {
 		Shape17.render(f5);
 		Shape18.render(f5);
 		Shape19.render(f5);
+		
+		int ammo = ItemGunBase.getMag(item);
+		
+		if(ammo > 0)
+			Bullet1.render(f5);
+		if(ammo > 1)
+			Bullet2.render(f5);
+		if(ammo > 2)
+			Bullet3.render(f5);
+		if(ammo > 3)
+			Bullet4.render(f5);
+		if(ammo > 4)
+			Bullet5.render(f5);
+		if(ammo > 5)
+			Bullet6.render(f5);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

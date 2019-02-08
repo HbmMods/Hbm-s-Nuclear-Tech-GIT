@@ -8,9 +8,12 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunBase;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 
 public class ModelUboinik extends ModelBase {
 	// fields
@@ -217,8 +220,7 @@ public class ModelUboinik extends ModelBase {
 		setRotation(StockBottom, 0F, 0F, 0F);
 	}
 
-	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5, ItemStack item) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		Barrel.render(f5);
@@ -233,12 +235,22 @@ public class ModelUboinik extends ModelBase {
 		DrumCenter.render(f5);
 		DrumBack.render(f5);
 		DrumBottom.render(f5);
-		Shell1.render(f5);
-		Shell2.render(f5);
-		Shell3.render(f5);
-		Shell4.render(f5);
-		Shell5.render(f5);
-		Shell6.render(f5);
+		
+		int ammo = ItemGunBase.getMag(item);
+		
+		if(ammo > 5)
+			Shell5.render(f5);
+		if(ammo > 4)
+			Shell4.render(f5);
+		if(ammo > 3)
+			Shell3.render(f5);
+		if(ammo > 2)
+			Shell2.render(f5);
+		if(ammo > 1)
+			Shell1.render(f5);
+		if(ammo > 0)
+			Shell6.render(f5);
+		
 		Clip1.render(f5);
 		Clip2.render(f5);
 		Clip3.render(f5);

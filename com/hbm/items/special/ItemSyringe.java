@@ -340,22 +340,22 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
+    			float repair = 0;
+    			
+    			if(this == ModItems.gun_kit_1) {
+    				repair = 0.1F;
+    		        world.playSoundAtEntity(player, "hbm:item.spray", 1.0F, 1.0F);
+    			}
+    			if(this == ModItems.gun_kit_2) {
+    				repair = 0.5F;
+    		        world.playSoundAtEntity(player, "hbm:item.repair", 1.0F, 1.0F);
+    			}
+    			
             	for(int i = 0; i < 9; i++) {
             		
             		ItemStack gun = player.inventory.mainInventory[i];
             		
             		if(gun != null && gun.getItem() instanceof ItemGunBase) {
-            			
-            			float repair = 0;
-            			
-            			if(this == ModItems.gun_kit_1) {
-            				repair = 0.1F;
-            		        world.playSoundAtEntity(player, "hbm:item.spray", 1.0F, 1.0F);
-            			}
-            			if(this == ModItems.gun_kit_2) {
-            				repair = 0.5F;
-            		        world.playSoundAtEntity(player, "hbm:item.repair", 1.0F, 1.0F);
-            			}
             			
             			int full = ((ItemGunBase)gun.getItem()).mainConfig.durability;
             			int wear = ItemGunBase.getItemWear(gun);

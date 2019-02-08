@@ -2556,7 +2556,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.thruster_small, 1));
 			list.add(new ItemStack(ModItems.photo_panel, 12));
 			list.add(new ItemStack(ModItems.centrifuge_element, 4));
-			list.add(new ItemStack(ModItems.magnet_circular, 3));
+			list.add(new ItemStack(ModItems.magnetron, 3));
 			list.add(new ItemStack(ModItems.plate_polymer, 12));
 			list.add(ItemBattery.getEmptyBattery(ModItems.battery_lithium_cell_6));
 			break;

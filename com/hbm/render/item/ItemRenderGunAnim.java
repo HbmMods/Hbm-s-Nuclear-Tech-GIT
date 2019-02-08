@@ -123,6 +123,14 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					GL11.glRotatef(GunB92.getRotationFromAnim(item) * -90, 0.0F, 0.0F, 1.0F);
 					GL11.glTranslatef(off * -0.5F, off * -0.5F, 0.0F);
 				}
+				
+				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green ||
+						item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark) {
+					GL11.glTranslatef(0.0F, -0.4F, 0.0F);
+					GL11.glRotatef(-20.0F, 0.0F, 0.0F, 1.0F);
+					GL11.glRotatef(5.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
+				}
 
 				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));

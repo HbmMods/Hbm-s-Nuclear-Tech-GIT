@@ -8,6 +8,8 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunBase;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -165,17 +167,20 @@ public class ModelNightmare extends ModelBase {
 		Shape11.render(f5);
 		Shape12.render(f5);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		if(item.getItemDamage() <= 0)
+		
+		int ammo = ItemGunBase.getMag(item);
+		
+		if(ammo > 0)
 			Bullet1.render(f5);
-		if(item.getItemDamage() <= 1)
+		if(ammo > 1)
 			Bullet2.render(f5);
-		if(item.getItemDamage() <= 2)
+		if(ammo > 2)
 			Bullet3.render(f5);
-		if(item.getItemDamage() <= 3)
+		if(ammo > 3)
 			Bullet4.render(f5);
-		if(item.getItemDamage() <= 4)
+		if(ammo > 4)
 			Bullet5.render(f5);
-		if(item.getItemDamage() <= 5)
+		if(ammo > 5)
 			Bullet6.render(f5);
 	}
 
