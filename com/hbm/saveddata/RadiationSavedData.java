@@ -3,6 +3,8 @@ package com.hbm.saveddata;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.particle.EntityFogFX;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -12,7 +14,7 @@ public class RadiationSavedData extends WorldSavedData {
 	
 	public List<RadiationSaveStructure> contamination = new ArrayList();
 	
-    private World worldObj;
+    public World worldObj;
 
 	public RadiationSavedData(String p_i2141_1_) {
 		super(p_i2141_1_);
@@ -97,11 +99,24 @@ public class RadiationSavedData extends WorldSavedData {
     		
     		if(struct.radiation != 0) {
 
-				struct.radiation *= 0.999F;
+				//struct.radiation *= 0.999F;
+				struct.radiation *= 0.99F;
 				struct.radiation -= 0.5F;
 				
 				if(struct.radiation <= 0) {
 					struct.radiation = 0;
+				}
+				
+				if(struct.radiation > 100 && worldObj != null && worldObj.rand.nextInt(10) == 0 && worldObj.getChunkFromChunkCoords(struct.chunkX, struct.chunkY).isChunkLoaded) {
+					
+					int x = struct.chunkX * 16 + worldObj.rand.nextInt(16);
+					int z = struct.chunkY * 16 + worldObj.rand.nextInt(16);
+					int y = worldObj.getHeightValue(x, z) + worldObj.rand.nextInt(10);
+					
+					EntityFogFX fog = new EntityFogFX(worldObj);
+					fog.setPosition(x, y, z);
+					//System.out.println(x + " " + y + " " + z);
+					worldObj.spawnEntityInWorld(fog);
 				}
     			
     			if(struct.radiation > 1) {

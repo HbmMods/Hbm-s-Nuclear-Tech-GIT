@@ -42,6 +42,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.durability = 140;
 		
 		return config;
@@ -144,6 +145,23 @@ public class GunRocketFactory {
 		bullet.explosive = 4F;
 		bullet.incendiary = 5;
 		bullet.trail = 5;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketNukeConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_nuclear;
+		bullet.velocity = 1.5F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 35;
+		bullet.explosive = 0;
+		bullet.incendiary = 0;
+		bullet.trail = 7;
+		bullet.nuke = 25;
 		
 		return bullet;
 	}

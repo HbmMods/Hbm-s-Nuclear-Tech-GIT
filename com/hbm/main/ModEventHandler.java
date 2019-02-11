@@ -165,6 +165,10 @@ public class ModEventHandler
 					eData.worldObj = event.world;
 				}
 				
+				if(data.worldObj == null) {
+					data.worldObj = event.world;
+				}
+				
 				for(Object o : event.world.playerEntities) {
 					
 					EntityPlayer player = (EntityPlayer)o;

@@ -99,6 +99,8 @@ public class RenderBullet extends Render {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketGlare.png")); break;
 		case 6:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketSleek.png")); break;
+		case 7:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketNuclear.png")); break;
 		}
 		
 		rocket.renderAll(0.0625F);

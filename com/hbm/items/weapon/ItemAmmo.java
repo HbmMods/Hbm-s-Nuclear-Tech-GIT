@@ -149,6 +149,10 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Not affected by gravity");
 			list.add(EnumChatFormatting.YELLOW + "* Jolt");
 		}
+		if(this == ModItems.ammo_rocket_nuclear) {
+			list.add(EnumChatFormatting.BLUE + "+ Nuclear");
+			list.add(EnumChatFormatting.RED + "- Very highly increased wear");
+		}
 		
 		//40mm GRENADES
 		if(this == ModItems.ammo_grenade_he) {

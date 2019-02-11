@@ -1392,6 +1392,7 @@ item.ammo_rocket_shrapnel.name=84mm Rakete (Schrapnell)
 item.ammo_rocket_emp.name=84mm Rakete (Impuls)
 item.ammo_rocket_glare.name=84mm Rakete (Roter Schein)
 item.ammo_rocket_sleek.name=84mm Rakete (IF-R&D)
+item.ammo_rocket_nuclear.name=84mm Rakete (Привет)
 item.ammo_grenade.name=40mm Granate
 item.ammo_grenade_he.name=40mm Granate (HE)
 item.ammo_grenade_incendiary.name=40mm Granate (Brand)

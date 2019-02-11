@@ -34,6 +34,8 @@ public class MachineBattery extends BlockContainer {
 	public long maxPower;
 	
 	@SideOnly(Side.CLIENT)
+	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
 
 	public MachineBattery(Material p_i45386_1_, long maxPower) {
@@ -46,18 +48,27 @@ public class MachineBattery extends BlockContainer {
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		if(this == ModBlocks.machine_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_front_alt");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_side_alt");
+		}
+		if(this == ModBlocks.machine_battery_potato) {
+			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_potato_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_potato_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_potato_side");
 		}
 		if(this == ModBlocks.machine_lithium_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_lithium_side");
 		}
 		if(this == ModBlocks.machine_schrabidium_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_schrabidium_side");
 		}
 		if(this == ModBlocks.machine_dineutronium_battery) {
 			this.iconFront = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_front");
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":battery_dineutronium_side");
 		}
 	}
@@ -65,6 +76,10 @@ public class MachineBattery extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
+		
+		if(side == 0 || side == 1)
+			return iconTop;
+		
 		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.blockIcon);
 	}
 	
