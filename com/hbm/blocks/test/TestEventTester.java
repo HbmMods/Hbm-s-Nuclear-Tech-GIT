@@ -201,6 +201,7 @@ public class TestEventTester extends Block {
         	//RED FLUSHES ALL RAD
         	//STE PRINTS RAD CHUNKS
         	//URA PRINTS TOTAL RAD
+        	//THO SETS RAD TO 1000000
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_aluminium) {
 
@@ -243,6 +244,15 @@ public class TestEventTester extends Block {
         		}
         		
 				System.out.println(r);
+        	}
+        	
+        	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_thorium) {
+
+				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
+				
+				data.setRadForCoord(chunk.xPosition, chunk.zPosition, 1000000);
+				
+				System.out.println(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
         	}
         	
         }

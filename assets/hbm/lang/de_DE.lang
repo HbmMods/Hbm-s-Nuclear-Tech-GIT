@@ -340,6 +340,7 @@ container.generator=Atomreaktor
 tile.red_wire_coated.name=Geschirmtes rotes Kupferkabel
 tile.machine_deuterium.name=Deuteriumextraktor
 container.machine_deuterium=Deuteriumextraktor
+tile.machine_battery_potato.name=Kartoffelbatterieblock
 tile.machine_battery.name=Energiespeicherblock
 tile.machine_lithium_battery.name=Li-Ion-Energiespeicherblock
 tile.machine_schrabidium_battery.name=Schrabidium-Energiespeicherblock

@@ -5,7 +5,9 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.NukeEnvironmentalEffect;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.AuxSavedData;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,6 +19,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityFalloutRain extends Entity {
 	
@@ -41,7 +44,7 @@ public class EntityFalloutRain extends Entity {
 
         if(!worldObj.isRemote) {
         	
-        	for(int i = 0; i < 256; i++) {
+        	for(int i = 0; i < MainRegistry.fSpeed; i++) {
         		
 	        	Vec3 vec = Vec3.createVectorHelper(radProgress, 0, 0);
 	        	double circum = radProgress * 2 * Math.PI * 2;
@@ -66,8 +69,19 @@ public class EntityFalloutRain extends Entity {
 	        		radProgress++;
 	        	}
 	        	
-	        	if(radProgress > getScale())
+	        	if(radProgress > getScale()) {
 	        		this.setDead();
+	        	}
+        	}
+        	
+        	if(this.isDead) {
+        		if(MainRegistry.rain > 0 && getScale() > 150) {
+        			worldObj.getWorldInfo().setRaining(true);
+    				worldObj.getWorldInfo().setThundering(true);
+    				worldObj.getWorldInfo().setRainTime(MainRegistry.rain);
+    				worldObj.getWorldInfo().setThunderTime(MainRegistry.rain);
+    				AuxSavedData.setThunder(worldObj, MainRegistry.rain);
+        		}
         	}
         }
     }
@@ -81,6 +95,11 @@ public class EntityFalloutRain extends Entity {
     		
     		if(b.getMaterial() == Material.air)
     			continue;
+    		
+    		if(b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
+    			if(rand.nextInt(5) == 0)
+    				worldObj.setBlock(x, y + 1, z, Blocks.fire);
+    		}
     		
 			if (b == Blocks.leaves || b == Blocks.leaves2) {
 				worldObj.setBlock(x, y, z, Blocks.air);

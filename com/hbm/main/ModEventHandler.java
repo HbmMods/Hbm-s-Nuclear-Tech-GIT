@@ -15,6 +15,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.RadSurveyPacket;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -37,6 +38,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
@@ -156,6 +158,12 @@ public class ModEventHandler
 		}
 		
 		if(event.world != null && !event.world.isRemote && MainRegistry.enableRads) {
+			
+			int thunder = AuxSavedData.getThunder(event.world);
+			
+			if(thunder > 0)
+				AuxSavedData.setThunder(event.world, thunder - 1);
+			
 			if(!event.world.loadedEntityList.isEmpty()) {
 
 				RadiationSavedData data = RadiationSavedData.getData(event.world);
@@ -198,6 +206,14 @@ public class ModEventHandler
 								
 								if(!entity.isPotionActive(HbmPotion.mutation))
 									Library.applyRadData(entity, rad / 2);
+							}
+							
+							if(entity.worldObj.isRaining() && MainRegistry.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 &&
+									entity.worldObj.canBlockSeeTheSky(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))) {
+
+								if(!entity.isPotionActive(HbmPotion.mutation)) {
+									Library.applyRadData(entity, MainRegistry.cont * 0.005F);
+								}
 							}
 						}
 						

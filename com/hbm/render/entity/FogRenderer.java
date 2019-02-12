@@ -24,7 +24,7 @@ public class FogRenderer extends Render {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_LIGHTING);
 		//GL11.glScalef(0.5F, 0.5F, 0.5F);
 		GL11.glScalef(7.5F, 7.5F, 7.5F);
 		
@@ -84,6 +84,7 @@ public class FogRenderer extends Render {
 		}
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL11.glEnable(GL11.GL_LIGHTING);
         //GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
         

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.particle.EntityFogFX;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -107,11 +108,11 @@ public class RadiationSavedData extends WorldSavedData {
 					struct.radiation = 0;
 				}
 				
-				if(struct.radiation > 100 && worldObj != null && worldObj.rand.nextInt(10) == 0 && worldObj.getChunkFromChunkCoords(struct.chunkX, struct.chunkY).isChunkLoaded) {
+				if(struct.radiation > MainRegistry.fogRad && worldObj != null && worldObj.rand.nextInt(MainRegistry.fogCh) == 0 && worldObj.getChunkFromChunkCoords(struct.chunkX, struct.chunkY).isChunkLoaded) {
 					
 					int x = struct.chunkX * 16 + worldObj.rand.nextInt(16);
 					int z = struct.chunkY * 16 + worldObj.rand.nextInt(16);
-					int y = worldObj.getHeightValue(x, z) + worldObj.rand.nextInt(10);
+					int y = worldObj.getHeightValue(x, z) + worldObj.rand.nextInt(5);
 					
 					EntityFogFX fog = new EntityFogFX(worldObj);
 					fog.setPosition(x, y, z);

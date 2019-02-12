@@ -152,6 +152,7 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_rocket_nuclear) {
 			list.add(EnumChatFormatting.BLUE + "+ Nuclear");
 			list.add(EnumChatFormatting.RED + "- Very highly increased wear");
+			list.add(EnumChatFormatting.RED + "- Decreased projectile speed");
 		}
 		
 		//40mm GRENADES
