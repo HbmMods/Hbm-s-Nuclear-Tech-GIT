@@ -2,6 +2,8 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -16,15 +18,25 @@ public class RenderBoxcar extends Render {
 
 		GL11.glPushMatrix();
         GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
-        GL11.glTranslatef(0, 0, -1.5F);
-        GL11.glRotated(180, 0, 0, 1);
-        GL11.glRotated(90, 1, 0, 0);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        
-        bindTexture(ResourceManager.boxcar_tex);
-        ResourceManager.boxcar.renderAll();
-        
         GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        
+        if(p_76986_1_ instanceof EntityBoxcar) {
+            GL11.glTranslatef(0, 0, -1.5F);
+            GL11.glRotated(180, 0, 0, 1);
+            GL11.glRotated(90, 1, 0, 0);
+            
+	        bindTexture(ResourceManager.boxcar_tex);
+	        ResourceManager.boxcar.renderAll();
+        }
+        
+        if(p_76986_1_ instanceof EntityDuchessGambit) {
+            GL11.glTranslatef(0, 0, -1.0F);
+            
+	        bindTexture(ResourceManager.duchessgambit_tex);
+	        ResourceManager.duchessgambit.renderAll();
+        }
+        
 		GL11.glPopMatrix();
 	}
 

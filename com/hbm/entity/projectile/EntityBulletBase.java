@@ -13,6 +13,8 @@ import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.Library;
@@ -413,6 +415,20 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
 	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ));
+	    	
+    	    if(MainRegistry.polaroidID == 11) {
+    	    	if(rand.nextInt(100) >= 0) {
+    	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+    	    	} else {
+    	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+    	    	}
+    	    } else {
+    	    	if(rand.nextInt(100) == 0) {
+    	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+    	    	} else {
+    	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+    	    	}
+    	    }
 		}
 		
 		if(config.destroysBlocks && !worldObj.isRemote) {
@@ -451,20 +467,20 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.boat && !worldObj.isRemote) {
-			EntityBoxcar pippo = new EntityBoxcar(worldObj);
+			EntityDuchessGambit pippo = new EntityDuchessGambit(worldObj);
 			pippo.posX = e.posX;
 			pippo.posY = e.posY + 50;
 			pippo.posZ = e.posZ;
 			
-			for(int j = 0; j < 50; j++) {
-				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
+			for(int j = 0; j < 150; j++) {
+				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 7, pippo.posY + (rand.nextDouble() - 0.5) * 8, pippo.posZ + (rand.nextDouble() - 0.5) * 18, 0, 0, 0);
 				worldObj.spawnEntityInWorld(fx);
 			}
 			worldObj.spawnEntityInWorld(pippo);
 			
 			worldObj.playSoundEffect(pippo.posX, 
 					pippo.posY + 50, 
-					pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+					pippo.posZ, "hbm:weapon.boat", 100F, 1F);
 		}
 	}
 	

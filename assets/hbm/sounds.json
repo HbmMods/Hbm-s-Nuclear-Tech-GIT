@@ -106,6 +106,7 @@
     "weapon.shotgunReload": {"category": "player", "sounds": ["weapon/shotgunReload1", "weapon/shotgunReload2", "weapon/shotgunReload3"]},
     "weapon.magReload": {"category": "player", "sounds": [{"name": "weapon/magReload", "stream": false}]},
     "weapon.rpgReload": {"category": "player", "sounds": [{"name": "weapon/rpgReload", "stream": false}]},
+    "weapon.boat": {"category": "player", "sounds": [{"name": "weapon/boat", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},
@@ -152,5 +153,6 @@
     "alarm.nostromoSiren": {"category": "record", "sounds": [{"name": "alarm/nostromoSiren", "stream": false}]},
     "alarm.easAlarm": {"category": "record", "sounds": [{"name": "alarm/easAlarm", "stream": false}]},
     "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]},
-    "alarm.classic": {"category": "record", "sounds": [{"name": "alarm/classicSiren", "stream": true}]}
+    "alarm.classic": {"category": "record", "sounds": [{"name": "alarm/classicSiren", "stream": true}]},
+    "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]}
 }

@@ -173,6 +173,7 @@ import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.projectile.EntityCombineBall;
 import com.hbm.entity.projectile.EntityDischarge;
+import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
 import com.hbm.entity.projectile.EntityFallingNuke;
 import com.hbm.entity.projectile.EntityFire;
@@ -910,6 +911,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBulletBase.class, "entity_bullet_mk2", 131, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityMinerRocket.class, "entity_miner_lander", 132, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityFogFX.class, "entity_nuclear_fog", 133, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityDuchessGambit.class, "entity_duchessgambit", 134, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -1874,9 +1876,9 @@ public class MainRegistry
         propBlastSpeed.comment = "Base speed of MK3 system (old and schrabidium) detonations (Blocks / tick)";
         blastSpeed = propBlastSpeed.getInt();
         //fallout range
-        Property propFalloutRange = config.get(CATEGORY_NUKE, "6.02_falloutRange", 100);
-        propFalloutRange.comment = "Radius of fallout area (base radius * value in percent)";
-        falloutRange = propFalloutRange.getInt();
+        Property propFalloutRange = config.get(CATEGORY_NUKE, "6.02_blastSpeedNew", 1024);
+        propFalloutRange.comment = "Base speed of MK4 system (new) detonations (Blocks / tick)";
+        mk4 = propFalloutRange.getInt();
         //fallout speed
         Property falloutRangeProp = config.get(CATEGORY_NUKE, "6.03_falloutRange", 100);
         falloutRangeProp.comment = "Radius of fallout area (base radius * value in percent)";

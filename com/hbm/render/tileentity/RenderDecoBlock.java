@@ -209,6 +209,16 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	            GL11.glEnable(GL11.GL_CULL_FACE);
 			}
 			
+			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.boat) {
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, 0, -1.5F);
+				GL11.glTranslatef(0, 0.5F, 0);
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+	        	bindTexture(ResourceManager.duchessgambit_tex);
+	        	ResourceManager.duchessgambit.renderAll();
+			}
+			
 			if(tileentity instanceof TileEntityBomber)
 			{
 				TileEntityBomber bomber = (TileEntityBomber)tileentity;
