@@ -192,7 +192,10 @@ public class MachineRecipes {
 				new ItemStack(ModItems.powder_plutonium, 1), new ItemStack(ModItems.powder_uranium, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] uranium = new ItemStack[] { new ItemStack(ModItems.powder_uranium, 1),
-				new ItemStack(ModItems.powder_uranium, 1), new ItemStack(ModItems.powder_lead, 1),
+				new ItemStack(ModItems.powder_uranium, 1), new ItemStack(ModItems.powder_thorium, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] thorium = new ItemStack[] { new ItemStack(ModItems.powder_thorium, 1),
+				new ItemStack(ModItems.powder_thorium, 1), new ItemStack(ModItems.powder_uranium, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] beryllium = new ItemStack[] { new ItemStack(ModItems.powder_beryllium, 1),
 				new ItemStack(ModItems.powder_beryllium, 1), new ItemStack(ModItems.powder_emerald, 1),
@@ -291,6 +294,10 @@ public class MachineRecipes {
 
 		if (mODE(item, "oreUranium")) {
 			return uranium;
+		}
+
+		if (mODE(item, "oreThorium")) {
+			return thorium;
 		}
 
 		if (mODE(item, "orePlutonium")) {
@@ -1236,6 +1243,8 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(Blocks.emerald_ore)));
 		recipes.put(new ItemStack(ModBlocks.ore_uranium),
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_uranium)));
+		recipes.put(new ItemStack(ModBlocks.ore_thorium),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_thorium)));
 		recipes.put(new ItemStack(ModBlocks.ore_titanium),
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_titanium)));
 		recipes.put(new ItemStack(ModBlocks.ore_tungsten),

@@ -411,8 +411,7 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_radgen ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_radgen)
 		{
 			return true;
 		}

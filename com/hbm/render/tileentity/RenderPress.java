@@ -50,6 +50,7 @@ public class RenderPress extends TileEntitySpecialRenderer {
 			GL11.glTranslated(x + 0.5D, y + 1 - 0.125D, z + 0.5D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(180, 0F, 1F, 0F);
+			GL11.glScalef(0.95F, 1, 0.95F);
 
 			TileEntityMachinePress press = (TileEntityMachinePress)tileEntity;
 			float f1 = press.progress * (1 - 0.125F) / press.maxProgress;
