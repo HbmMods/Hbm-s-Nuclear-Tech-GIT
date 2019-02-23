@@ -109,6 +109,7 @@ import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.logic.EntityDeathBlast;
+import com.hbm.entity.logic.EntityEMP;
 import com.hbm.entity.logic.EntityMissileTest;
 import com.hbm.entity.logic.EntityNukeExplosion;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
@@ -132,6 +133,7 @@ import com.hbm.entity.missile.EntityMissileClusterStrong;
 import com.hbm.entity.missile.EntityMissileDoomsday;
 import com.hbm.entity.missile.EntityMissileDrill;
 import com.hbm.entity.missile.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileEMPStrong;
 import com.hbm.entity.missile.EntityMissileEndo;
 import com.hbm.entity.missile.EntityMissileExo;
 import com.hbm.entity.missile.EntityMissileGeneric;
@@ -287,6 +289,7 @@ import com.hbm.tileentity.machine.TileEntityFWatzCore;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityHatch;
+import com.hbm.tileentity.machine.TileEntityMachineAmgen;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
@@ -784,6 +787,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCoreReceiver.class, "tileentity_v0_receiver");
 		GameRegistry.registerTileEntity(TileEntityCoreInjector.class, "tileentity_v0_injector");
 		GameRegistry.registerTileEntity(TileEntityMachineArcFurnace.class, "tileentity_arc_furnace");
+		GameRegistry.registerTileEntity(TileEntityMachineAmgen.class, "tileentity_amgen");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -920,6 +924,8 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityMinerRocket.class, "entity_miner_lander", 132, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityFogFX.class, "entity_nuclear_fog", 133, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityDuchessGambit.class, "entity_duchessgambit", 134, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMissileEMPStrong.class, "entity_missile_emp_strong", 135, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityEMP.class, "entity_emp_logic", 136, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -1509,6 +1515,8 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.gravel, 1));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.stonebrick), new ItemStack(Blocks.gravel, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 1));
+		recipes.overridePreSetRecipe(new ItemStack(Blocks.sand), new ItemStack(ModItems.dust, 2));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_block), new ItemStack(Items.clay_ball, 4));
 		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_stairs), new ItemStack(Items.clay_ball, 3));
 		recipes.overridePreSetRecipe(new ItemStack(Items.flower_pot), new ItemStack(Items.clay_ball, 3));
@@ -1529,6 +1537,8 @@ public class MainRegistry
 		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
 		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
 		recipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_burnt), new ItemStack(ModItems.powder_coal, 1));
+		recipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_desh), new ItemStack(ModItems.powder_desh, 2));
 
 		for(int i = 0; i < 16; i++) {
 			recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));

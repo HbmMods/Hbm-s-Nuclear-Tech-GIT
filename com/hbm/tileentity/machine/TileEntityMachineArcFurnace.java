@@ -1,7 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineArcFurnace;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -23,16 +25,22 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 	public int dualCookTime;
 	public long power;
 	public static final long maxPower = 100000;
-	public static final int processingSpeed = 100;
+	public static final int processingSpeed = 20;
 	
-	private static final int[] slots_top = new int[] {1};
-	private static final int[] slots_bottom = new int[] {2, 0};
+	//0: i
+	//1: o
+	//2: 1
+	//3: 2
+	//4: 3
+	//5: b
+	private static final int[] slots_top = new int[] {0, 2, 3, 4, 5};
+	private static final int[] slots_bottom = new int[] {1, 2, 3, 4, 5};
 	private static final int[] slots_side = new int[] {0};
 	
 	private String customName;
 	
 	public TileEntityMachineArcFurnace() {
-		slots = new ItemStack[3];
+		slots = new ItemStack[6];
 	}
 
 	@Override
@@ -68,7 +76,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.electricFurnace";
+		return this.hasCustomInventoryName() ? this.customName : "container.arcFurnace";
 	}
 
 	@Override
@@ -103,11 +111,18 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		if(i == 0)
+		
+		if(i == 1)
+			return false;
+		
+		if(i == 5)
 			if(itemStack.getItem() instanceof ItemBattery)
 				return true;
 		
-		if(i == 1)
+		if(i == 2 || i == 3 || i == 4)
+			return itemStack.getItem() == ModItems.arc_electrode || itemStack.getItem() == ModItems.arc_electrode_desh;
+		
+		if(i == 0)
 			return true;
 		
 		return false;
@@ -188,11 +203,15 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 0)
+		if(i == 5)
 			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
 				return true;
-		if(i == 2)
+		
+		if(i == 1)
 			return true;
+		
+		if(i == 2 || i == 3 || i == 4)
+			return itemStack.getItem() == ModItems.arc_electrode_burnt;
 		
 		return false;
 	}
@@ -213,46 +232,62 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 		return this.dualCookTime > 0;
 	}
 	
+	private boolean hasElectrodes() {
+		
+		if(slots[2] != null && slots[3] != null && slots[4] != null) {
+			if((slots[2].getItem() == ModItems.arc_electrode || slots[2].getItem() == ModItems.arc_electrode_desh) &&
+					(slots[3].getItem() == ModItems.arc_electrode || slots[3].getItem() == ModItems.arc_electrode_desh) &&
+					(slots[4].getItem() == ModItems.arc_electrode || slots[4].getItem() == ModItems.arc_electrode_desh))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean canProcess() {
-		if(slots[1] == null)
+		
+		if(!hasElectrodes())
+			return false;
+		
+		if(slots[0] == null)
 		{
 			return false;
 		}
-        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[0]);
         
 		if(itemStack == null)
 		{
 			return false;
 		}
 		
-		if(slots[2] == null)
+		if(slots[1] == null)
 		{
 			return true;
 		}
 		
-		if(!slots[2].isItemEqual(itemStack)) {
+		if(!slots[1].isItemEqual(itemStack)) {
 			return false;
 		}
 		
-		if(slots[2].stackSize < getInventoryStackLimit() && slots[2].stackSize < slots[2].getMaxStackSize()) {
+		if(slots[1].stackSize < getInventoryStackLimit() && slots[1].stackSize < slots[1].getMaxStackSize()) {
 			return true;
 		}else{
-			return slots[2].stackSize < itemStack.getMaxStackSize();
+			return slots[1].stackSize < itemStack.getMaxStackSize();
 		}
 	}
 	
 	private void processItem() {
 		if(canProcess()) {
-	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[1]);
+	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[0]);
 			
-			if(slots[2] == null)
+			if(slots[1] == null)
 			{
-				slots[2] = itemStack.copy();
-			}else if(slots[2].isItemEqual(itemStack)) {
-				slots[2].stackSize += itemStack.stackSize;
+				slots[1] = itemStack.copy();
+			}else if(slots[1].isItemEqual(itemStack)) {
+				slots[1].stackSize += itemStack.stackSize;
 			}
 			
-			for(int i = 1; i < 2; i++)
+			for(int i = 0; i < 1; i++)
 			{
 				if(slots[i].stackSize <= 0)
 				{
@@ -263,6 +298,15 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 				if(slots[i].stackSize <= 0)
 				{
 					slots[i] = null;
+				}
+			}
+			
+			for(int i = 2; i < 5; i++) {
+				if(slots[i] != null && slots[i].getItem() == ModItems.arc_electrode) {
+					if(slots[i].getItemDamage() < slots[i].getMaxDamage())
+						slots[i].setItemDamage(slots[i].getItemDamage() + 1);
+					else
+						slots[i] = new ItemStack(ModItems.arc_electrode_burnt);
 				}
 			}
 		}
@@ -279,9 +323,9 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 			{
 				dualCookTime++;
 				
-				power -= 50;
+				power -= 1000;
 				
-				if(this.dualCookTime == TileEntityMachineElectricFurnace.processingSpeed)
+				if(this.dualCookTime == processingSpeed)
 				{
 					this.dualCookTime = 0;
 					this.processItem();
@@ -304,7 +348,19 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
                 MachineArcFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
 			
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			if(worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_arc_furnace_off) {
+				
+				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+
+				if(hasElectrodes() && meta <= 5) {
+					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta + 4, 2);
+				}
+				if(!hasElectrodes() && meta > 5) {
+					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta - 4, 2);
+				}
+			}
+			
+			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
 
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0));

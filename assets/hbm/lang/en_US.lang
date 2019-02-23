@@ -335,6 +335,9 @@ container.rtgFurnace=RTG Furnace
 tile.machine_electric_furnace_off.name=Electric Furnace
 tile.machine_electric_furnace_on.name=Electric Furnace
 container.electricFurnace=Electric Furnace
+tile.machine_arc_furnace_off.name=Arc Furnace
+tile.machine_arc_furnace_on.name=Arc Furnace
+container.arcFurnace=Arc Furnace
 tile.machine_generator.name=Nuclear Reactor (Old)
 container.generator=Nuclear Reactor
 tile.red_wire_coated.name=Coated Red Copper Cable
@@ -518,6 +521,9 @@ item.chemistry_template.name=Chemistry Template:
 item.siren_track.name=Siren Track
 
 item.fuse.name=Fuse
+item.arc_electrode.name=Graphite Electrode
+item.arc_electrode_burnt.name=Molten Electrode
+item.arc_electrode_desh.name=Desh Electrode
 
 tile.test_nuke.name=Test Nuke
 
@@ -1085,6 +1091,8 @@ item.rod_dual_waste.name=Nuclear Waste Dual Rod
 item.rod_quad_waste.name=Nuclear Waste Quad Rod
 
 item.gun_rpg.name=Carl Gustav Recoilless Rifle
+item.gun_karl.name=Karl
+item.gun_panzerschreck.name=Panzerschreck
 item.gun_rpg_ammo.name=Rocket
 item.gun_stinger.name=FIM-92 Stinger
 item.gun_skystinger.name=The One Sky Stinger

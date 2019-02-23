@@ -332,6 +332,7 @@ public class ModBlocks {
 	
 	public static Block machine_arc_furnace_off;
 	public static Block machine_arc_furnace_on;
+	public static final int guiID_machine_arc = 82;
 
 	//public static Block machine_deuterium;
 	public static final int guiID_machine_deuterium = 20;
@@ -461,6 +462,7 @@ public class ModBlocks {
 	public static Block machine_rtg_cyan;
 	//public static Block machine_rtg_blue;
 	//public static Block machine_rtg_purple;
+	public static Block machine_amgen;
 
 	public static Block machine_well;
 	public static Block oil_pipe;
@@ -893,6 +895,7 @@ public class ModBlocks {
 		machine_rtg_cyan = new MachineRTG(Material.iron).setBlockName("machine_rtg_cyan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		//machine_rtg_blue = new MachineRTG(Material.iron).setBlockName("machine_rtg_blue").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		//machine_rtg_purple = new MachineRTG(Material.iron).setBlockName("machine_rtg_purple").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_amgen = new MachineAmgen(Material.iron).setBlockName("machine_amgen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
 		red_cable = new BlockCable(Material.iron).setBlockName("red_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_cable_icon");
@@ -1413,6 +1416,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_radgen, machine_radgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rtg_grey, machine_rtg_grey.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_amgen, machine_amgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
 		//GameRegistry.registerBlock(machine_rtg_red, machine_rtg_red.getUnlocalizedName());

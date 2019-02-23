@@ -335,6 +335,9 @@ container.rtgFurnace=RTG-Ofen
 tile.machine_electric_furnace_off.name=Elektrischer Ofen
 tile.machine_electric_furnace_on.name=Elektrischer Ofen
 container.electricFurnace=Elektrischer Ofen
+tile.machine_arc_furnace_off.name=Lichtbogenofen
+tile.machine_arc_furnace_on.name=Lichtbogenofen
+container.arcFurnace=Lichtbogenofen
 tile.machine_generator.name=Atomreaktor (Alt)
 container.generator=Atomreaktor
 tile.red_wire_coated.name=Geschirmtes rotes Kupferkabel
@@ -518,6 +521,9 @@ item.chemistry_template.name=Chemievorlage:
 item.siren_track.name=Sirenentrack
 
 item.fuse.name=Sicherung
+item.arc_electrode.name=Graphitelektrode
+item.arc_electrode_burnt.name=Geschmolzene Elektrode
+item.arc_electrode_desh.name=Desh-Elektrode
 
 tile.test_nuke.name=Test Atombombe
 
@@ -1085,6 +1091,8 @@ item.rod_dual_waste.name=Doppelter Atommüllstab
 item.rod_quad_waste.name=Vierfacher Atommüllstab
 
 item.gun_rpg.name=Carl Gustav Reaktive Panzerbüchse
+item.gun_karl.name=Karl
+item.gun_panzerschreck.name=Panzerschreck
 item.gun_rpg_ammo.name=Rakete
 item.gun_stinger.name=FIM-92 Stinger
 item.gun_skystinger.name=The One Sky Stinger

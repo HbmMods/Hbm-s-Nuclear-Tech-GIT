@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
-import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -39,6 +38,8 @@ public class MachineArcFurnace extends BlockContainer {
 	private IIcon iconTop;
 	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
+	@SideOnly(Side.CLIENT)
+	private IIcon iconRods;
 
 	public MachineArcFurnace(boolean blockState) {
 		super(Material.iron);
@@ -53,11 +54,22 @@ public class MachineArcFurnace extends BlockContainer {
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_arc_furnace_top_on" : ":machine_arc_furnace_top"));
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_arc_furnace_bottom");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_arc_furnace_side");
+		this.iconRods = iconRegister.registerIcon(RefStrings.MODID + ":machine_arc_furnace_top_rods");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
+		
+		if(this == ModBlocks.machine_arc_furnace_off) {
+			
+			if(side == 1 && metadata > 5) {
+				return iconRods;
+			}
+		}
+		
+		if(metadata > 5)
+			metadata -= 4;
 		
 		if(side == 0)
 			return this.iconBottom;
@@ -147,7 +159,7 @@ public class MachineArcFurnace extends BlockContainer {
 			TileEntityMachineArcFurnace entity = (TileEntityMachineArcFurnace) world.getTileEntity(x, y, z);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_electric_furnace, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_arc, world, x, y, z);
 			}
 			return true;
 		} else {

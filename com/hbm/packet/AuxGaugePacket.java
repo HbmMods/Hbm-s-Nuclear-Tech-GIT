@@ -10,6 +10,7 @@ import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
+import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
@@ -191,6 +192,12 @@ public class AuxGaugePacket implements IMessage {
 				}
 				if (te instanceof TileEntityMachineElectricFurnace) {
 					TileEntityMachineElectricFurnace furn = (TileEntityMachineElectricFurnace)te;
+					
+					if(m.id == 0)
+						furn.dualCookTime = m.value;
+				}
+				if (te instanceof TileEntityMachineArcFurnace) {
+					TileEntityMachineArcFurnace furn = (TileEntityMachineArcFurnace)te;
 					
 					if(m.id == 0)
 						furn.dualCookTime = m.value;
