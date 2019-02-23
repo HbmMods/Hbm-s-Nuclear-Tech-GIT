@@ -713,8 +713,10 @@ public class CraftingManager {
 
 		//GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.asphalt), 8), new Object[] { "BGB", "GSG", "BGB", 'B', ModItems.canister_bitumen, 'G', Blocks.gravel, 'S', Blocks.sand });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_light), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.fence, 'B', Blocks.brick_block });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.concrete), 8), new Object[] { "SGS", "GWG", "SGS", 'S', Blocks.sand, 'G', Blocks.gravel, 'W', Items.water_bucket });
-		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.concrete), 8), new Object[] { "GSG", "SWS", "GSG", 'S', Blocks.sand, 'G', Blocks.gravel, 'W', Items.water_bucket });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.concrete_smooth), 8), new Object[] { "SGS", "GWG", "SGS", 'S', Blocks.sand, 'G', Blocks.gravel, 'W', Items.water_bucket });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.concrete_smooth), 8), new Object[] { "GSG", "SWS", "GSG", 'S', Blocks.sand, 'G', Blocks.gravel, 'W', Items.water_bucket });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.concrete), 4), new Object[] { "CC", "CC", 'C', ModBlocks.concrete_smooth });
+		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_concrete), 4), new Object[] { " C ", "CBC", " C ", 'C', ModBlocks.concrete_smooth, 'B', Items.clay_ball });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_concrete), 4), new Object[] { " C ", "CBC", " C ", 'C', ModBlocks.concrete, 'B', Items.clay_ball });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.brick_obsidian), 4), new Object[] { "FBF", "BFB", "FBF", 'F', Blocks.iron_bars, 'B', Blocks.obsidian });
 		//GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.cmb_brick), 4), new Object[] { "PPP", "PIP", "PPP", 'P', ModItems.plate_combine_steel, 'I', ModItems.ingot_combine_steel });

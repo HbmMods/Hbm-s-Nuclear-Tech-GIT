@@ -751,11 +751,13 @@ tile.reinforced_light.name=Verstärkter Glowstone
 tile.reinforced_lamp_off.name=Verstärkte Lampe
 tile.reinforced_lamp_on.name=Verstärkte Lampe
 
-tile.concrete.name=Beton
+tile.concrete_smooth.name=Beton
+tile.concrete.name=Betonfliese
 tile.brick_concrete.name=Betonziegel
 tile.brick_obsidian.name=Obsidianziegel
 tile.brick_light.name=Helle Ziegel
 tile.asphalt.name=Asphalt
+tile.brick_compound.name=Verstärkter Verbund
 
 tile.cmb_brick.name=CMB-Stahlfliese
 tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel

@@ -865,6 +865,8 @@ public class ModItems {
 	
 	public static Item gun_rpg;
 	public static Item gun_rpg_ammo;
+	public static Item gun_karl;
+	public static Item gun_panzerschreck;
 	public static Item gun_hk69;
 	public static Item gun_stinger;
 	public static Item gun_skystinger;
@@ -2319,6 +2321,8 @@ public class ModItems {
 		ammo_grenade_sleek = new ItemAmmo().setUnlocalizedName("ammo_grenade_sleek").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_grenade_sleek");
 		
 		gun_rpg = new ItemGunBase(GunRocketFactory.getGustavConfig()).setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
+		gun_karl = new ItemGunBase(GunRocketFactory.getKarlConfig()).setUnlocalizedName("gun_karl").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_karl");
+		gun_panzerschreck = new ItemGunBase(GunRocketFactory.getPanzConfig()).setUnlocalizedName("gun_panzerschreck").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_panzerschreck");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_alt");
 		gun_hk69 = new ItemGunBase(GunGrenadeFactory.getHK69Config()).setFull3D().setUnlocalizedName("gun_hk69").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_hk69");
 		gun_stinger = new GunStinger().setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger");
@@ -3942,6 +3946,8 @@ public class ModItems {
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b93, gun_b93.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
+		GameRegistry.registerItem(gun_karl, gun_karl.getUnlocalizedName());
+		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hk69, gun_hk69.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());

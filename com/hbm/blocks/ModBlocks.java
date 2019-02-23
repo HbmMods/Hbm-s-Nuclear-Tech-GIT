@@ -132,10 +132,12 @@ public class ModBlocks {
 	public static Block reinforced_lamp_off;
 	public static Block reinforced_lamp_on;
 
+	public static Block concrete_smooth;
 	public static Block concrete;
 	public static Block brick_concrete;
 	public static Block brick_obsidian;
 	public static Block brick_light;
+	public static Block brick_compound;
 
 	public static Block cmb_brick;
 	public static Block cmb_brick_reinforced;
@@ -327,6 +329,9 @@ public class ModBlocks {
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
 	public static final int guiID_electric_furnace = 16;
+	
+	public static Block machine_arc_furnace_off;
+	public static Block machine_arc_furnace_on;
 
 	//public static Block machine_deuterium;
 	public static final int guiID_machine_deuterium = 20;
@@ -415,6 +420,10 @@ public class ModBlocks {
 	public static final int guiID_ams_emitter = 55;
 	public static Block ams_limiter;
 	public static final int guiID_ams_limiter = 56;
+
+	public static Block dfc_emitter;
+	public static Block dfc_injector;
+	public static Block dfc_receiver;
 
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
@@ -731,17 +740,19 @@ public class ModBlocks {
 		gravel_obsidian = new BlockFalling(Material.iron).setBlockName("gravel_obsidian").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGravel).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":gravel_obsidian");
 		asphalt = new BlockGeneric(Material.rock).setBlockName("asphalt").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":asphalt");
 
-		reinforced_brick = new BlockGeneric(Material.rock).setBlockName("reinforced_brick").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_brick");
-		reinforced_glass = new ReinforcedBlock(Material.glass).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(15.0F).setResistance(3000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_glass");
-		reinforced_light = new ReinforcedBlock(Material.rock).setBlockName("reinforced_light").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setLightLevel(1.0F).setHardness(15.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_light");
-		reinforced_sand = new BlockGeneric(Material.rock).setBlockName("reinforced_sand").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_sand");
-		reinforced_lamp_off = new ReinforcedLamp(Material.rock, false).setBlockName("reinforced_lamp_off").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_off");
-		reinforced_lamp_on = new ReinforcedLamp(Material.rock, true).setBlockName("reinforced_lamp_on").setHardness(15.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_on");
+		reinforced_brick = new BlockGeneric(Material.rock).setBlockName("reinforced_brick").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_brick");
+		reinforced_glass = new ReinforcedBlock(Material.glass).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(15.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_glass");
+		reinforced_light = new ReinforcedBlock(Material.rock).setBlockName("reinforced_light").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setLightLevel(1.0F).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_light");
+		reinforced_sand = new BlockGeneric(Material.rock).setBlockName("reinforced_sand").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(400.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_sand");
+		reinforced_lamp_off = new ReinforcedLamp(Material.rock, false).setBlockName("reinforced_lamp_off").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_off");
+		reinforced_lamp_on = new ReinforcedLamp(Material.rock, true).setBlockName("reinforced_lamp_on").setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_on");
 
-		concrete = new BlockGeneric(Material.rock).setBlockName("concrete").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
-		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
-		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
+		concrete_smooth = new BlockGeneric(Material.rock).setBlockName("concrete_smooth").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
+		concrete = new BlockGeneric(Material.rock).setBlockName("concrete").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete_tile");
+		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
+		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
 		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
+		brick_compound = new BlockGeneric(Material.rock).setBlockName("brick_compound").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(3000.0F).setBlockTextureName(RefStrings.MODID + ":brick_compound");
 		cmb_brick = new BlockGeneric(Material.rock).setBlockName("cmb_brick").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick");
 		cmb_brick_reinforced = new BlockGeneric(Material.rock).setBlockName("cmb_brick_reinforced").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(60000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick_reinforced");
 
@@ -848,9 +859,11 @@ public class ModBlocks {
 		machine_industrial_generator = new MachineIGenerator(Material.iron).setBlockName("machine_industrial_generator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":industrial_generator");
 		machine_cyclotron = new MachineCyclotron(Material.iron).setBlockName("machine_cyclotron").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cyclotron");
 		machine_radgen = new MachineRadGen(Material.iron).setBlockName("machine_radgen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_radgen");
-		
+
 		machine_electric_furnace_off = new MachineElectricFurnace(false).setBlockName("machine_electric_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_electric_furnace_on = new MachineElectricFurnace(true).setBlockName("machine_electric_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
+		machine_arc_furnace_off = new MachineArcFurnace(false).setBlockName("machine_arc_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_arc_furnace_on = new MachineArcFurnace(true).setBlockName("machine_arc_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 
 		//machine_deuterium = new MachineDeuterium(Material.iron).setBlockName("machine_deuterium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
@@ -948,6 +961,10 @@ public class ModBlocks {
 
 		machine_converter_he_rf = new BlockConverterHeRf(Material.iron).setBlockName("machine_converter_he_rf").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_converter_he_rf");
 		machine_converter_rf_he = new BlockConverterRfHe(Material.iron).setBlockName("machine_converter_rf_he").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_converter_rf_he");
+
+		dfc_emitter = new CoreComponent(Material.iron).setBlockName("dfc_emitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_emitter");
+		dfc_injector = new CoreComponent(Material.iron).setBlockName("dfc_injector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_injector");
+		dfc_receiver = new CoreComponent(Material.iron).setBlockName("dfc_receiver").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_receiver");
 
 		seal_frame = new BlockGeneric(Material.iron).setBlockName("seal_frame").setHardness(10.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":seal_frame");
 		seal_controller = new BlockSeal(Material.iron).setBlockName("seal_controller").setHardness(10.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1229,9 +1246,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(reinforced_lamp_on, reinforced_lamp_on.getUnlocalizedName());
 
 		//Bricks
+		GameRegistry.registerBlock(concrete_smooth, concrete_smooth.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete, concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete, brick_concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_obsidian, brick_obsidian.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_compound, brick_compound.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_light, brick_light.getUnlocalizedName());
 		
 		//CMB Building Elements
@@ -1425,6 +1444,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_converter_rf_he, machine_converter_rf_he.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_off, machine_electric_furnace_off.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_electric_furnace_on, machine_electric_furnace_on.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_arc_furnace_off, machine_arc_furnace_off.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_arc_furnace_on, machine_arc_furnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_assembler, machine_assembler.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_chemplant, machine_chemplant.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_fluidtank, machine_fluidtank.getUnlocalizedName());
@@ -1517,6 +1538,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ams_base, ams_base.getUnlocalizedName());
 		GameRegistry.registerBlock(ams_emitter, ams_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(ams_limiter, ams_limiter.getUnlocalizedName());
+		
+		//Dark Fusion Core
+		GameRegistry.registerBlock(dfc_emitter, dfc_emitter.getUnlocalizedName());
+		GameRegistry.registerBlock(dfc_injector, dfc_injector.getUnlocalizedName());
+		GameRegistry.registerBlock(dfc_receiver, dfc_receiver.getUnlocalizedName());
 		
 		//Missile Blocks
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());

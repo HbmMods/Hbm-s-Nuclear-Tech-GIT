@@ -48,6 +48,39 @@ public class GunRocketFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getKarlConfig() {
+		
+		GunConfiguration config = getGustavConfig();
+		
+		config.reloadDuration = 20;
+		
+		config.name = "M1 Karl-Gerät";
+		config.manufacturer = "???";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
+		config.durability = 500;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getPanzConfig() {
+		
+		GunConfiguration config = getGustavConfig();
+		
+		config.reloadDuration = 25;
+		
+		config.name = "Raketenpanzerbüchse 54";
+		config.manufacturer = "Enzinger Union";
+		
+		config.durability = 260;
+		
+		return config;
+	}
+	
 	public static BulletConfiguration getRocketConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();

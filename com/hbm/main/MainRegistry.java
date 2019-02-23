@@ -273,6 +273,9 @@ import com.hbm.tileentity.machine.TileEntityBroadcaster;
 import com.hbm.tileentity.machine.TileEntityConverterHeRf;
 import com.hbm.tileentity.machine.TileEntityConverterRfHe;
 import com.hbm.tileentity.machine.TileEntityCoreAdvanced;
+import com.hbm.tileentity.machine.TileEntityCoreEmitter;
+import com.hbm.tileentity.machine.TileEntityCoreInjector;
+import com.hbm.tileentity.machine.TileEntityCoreReceiver;
 import com.hbm.tileentity.machine.TileEntityCoreTitanium;
 import com.hbm.tileentity.machine.TileEntityCrateIron;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
@@ -284,6 +287,7 @@ import com.hbm.tileentity.machine.TileEntityFWatzCore;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityFusionMultiblock;
 import com.hbm.tileentity.machine.TileEntityHatch;
+import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
@@ -776,6 +780,10 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityDecon.class, "tileentity_decon");
 		GameRegistry.registerTileEntity(TileEntityMachineSatDock.class, "tileentity_miner_dock");
 		GameRegistry.registerTileEntity(TileEntityMachineEPress.class, "tileentity_electric_press");
+		GameRegistry.registerTileEntity(TileEntityCoreEmitter.class, "tileentity_v0_emitter");
+		GameRegistry.registerTileEntity(TileEntityCoreReceiver.class, "tileentity_v0_receiver");
+		GameRegistry.registerTileEntity(TileEntityCoreInjector.class, "tileentity_v0_injector");
+		GameRegistry.registerTileEntity(TileEntityMachineArcFurnace.class, "tileentity_arc_furnace");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

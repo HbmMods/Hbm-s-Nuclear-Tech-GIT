@@ -241,7 +241,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 						if(player.inventory.hasItem(ammo)) {
 							player.inventory.consumeInventoryItem(ammo);
 							setMag(stack, getMag(stack) + 1);
-							world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 						} else {
 							setIsReloading(stack, false);
 							break;
@@ -250,6 +249,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 					
 					if(getMag(stack) == mainConfig.ammoCap) {
 						setIsReloading(stack, false);
+						world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 						break;
 					} else {
 						resetReloadCycle(stack);
@@ -290,7 +290,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 							if(player.inventory.hasItem(ammo)) {
 								player.inventory.consumeInventoryItem(ammo);
 								setMag(stack, getMag(stack) + 1);
-								world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 							} else {
 								setIsReloading(stack, false);
 								break;
@@ -299,6 +298,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 						
 						if(getMag(stack) == mainConfig.ammoCap) {
 							setIsReloading(stack, false);
+							world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 							break;
 						} else {
 							resetReloadCycle(stack);
