@@ -674,6 +674,7 @@ item.assembly_pip.name=Tainted Bullet Assembly
 item.assembly_nopip.name=.44 Magnum Assembly
 item.assembly_smg.name=9mm Assembly
 item.assembly_uzi.name=.22 LR Assembly
+item.assembly_actionexpress.name=.50 AE Assembly
 item.assembly_calamity.name=.50 BMG Assembly
 item.assembly_lacunae.name=.5mm Assembly
 
@@ -1379,6 +1380,9 @@ item.ammo_20gauge_wither.name=20 Gauge Buckshot (Withering)
 item.ammo_5mm.name=5mm Round
 item.ammo_5mm_explosive.name=5mm Round (Explosive)
 item.ammo_5mm_du.name=5mm Round (DU)
+item.ammo_50ae.name=.50 AE Round
+item.ammo_50ae_ap.name=.50 AE Round (Armor Piercing)
+item.ammo_50ae_du.name=.50 AE Round (DU)
 item.ammo_50bmg.name=.50 BMG Round
 item.ammo_50bmg_incendiary.name=.50 BMG Round (Incendiary)
 item.ammo_50bmg_explosive.name=.50 BMG Round (Explosive)

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.missile.EntityMissileBusterStrong;
 import com.hbm.entity.missile.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileEMPStrong;
 import com.hbm.entity.missile.EntityMissileIncendiaryStrong;
 import com.hbm.entity.missile.EntityMissileStrong;
 import com.hbm.lib.RefStrings;
@@ -36,6 +37,8 @@ public class RenderMissileStrong extends Render {
         	bindTexture(ResourceManager.missileStrong_CL_tex);
         if(p_76986_1_ instanceof EntityMissileBusterStrong)
         	bindTexture(ResourceManager.missileStrong_BU_tex);
+        if(p_76986_1_ instanceof EntityMissileEMPStrong)
+        	bindTexture(ResourceManager.missileStrong_EMP_tex);
         ResourceManager.missileStrong.renderAll();
 		GL11.glPopMatrix();
 	}

@@ -15,6 +15,7 @@ import com.hbm.entity.missile.EntityMissileClusterStrong;
 import com.hbm.entity.missile.EntityMissileDoomsday;
 import com.hbm.entity.missile.EntityMissileDrill;
 import com.hbm.entity.missile.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileEMPStrong;
 import com.hbm.entity.missile.EntityMissileEndo;
 import com.hbm.entity.missile.EntityMissileExo;
 import com.hbm.entity.missile.EntityMissileGeneric;
@@ -440,6 +441,16 @@ public class LaunchPad extends BlockContainer implements IBomb {
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_emp && entity.power >= 75000)
         		{
             		EntityMissileEMP missile = new EntityMissileEMP(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
+            		if (!p_149695_1_.isRemote)
+            			p_149695_1_.spawnEntityInWorld(missile);
+            		entity.power -= 75000;
+            		
+            		entity.slots[0] = null;
+            		p_149695_1_.playSoundEffect(x, y, z, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
+        		}
+        		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_emp_strong && entity.power >= 75000)
+        		{
+            		EntityMissileEMPStrong missile = new EntityMissileEMPStrong(p_149695_1_, x + 0.5F, y + 2F, z + 0.5F, xCoord, zCoord);
             		if (!p_149695_1_.isRemote)
             			p_149695_1_.spawnEntityInWorld(missile);
             		entity.power -= 75000;

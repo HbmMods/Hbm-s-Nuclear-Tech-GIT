@@ -674,6 +674,7 @@ item.assembly_pip.name=Verdorbener .44er Patronensatz
 item.assembly_nopip.name=.44er Patronensatz
 item.assembly_smg.name=9mm Patronensatz
 item.assembly_uzi.name=.22 LR Patronensatz
+item.assembly_actionexpress.name=.50 AE Patronensatz
 item.assembly_calamity.name=.50 BMG Patronensatz
 item.assembly_lacunae.name=5mm Patronensatz
 
@@ -1379,6 +1380,9 @@ item.ammo_20gauge_wither.name=Kaliber 20 Schrot (Wither)
 item.ammo_5mm.name=5mm Patrone
 item.ammo_5mm_explosive.name=5mm Patrone (Explosiv)
 item.ammo_5mm_du.name=5mm Patrone (DU)
+item.ammo_50ae.name=.50 AE Patrone
+item.ammo_50ae_ap.name=.50 AE Patrone (Panzerbrechend)
+item.ammo_50ae_du.name=.50 AE Patrone (DU)
 item.ammo_50bmg.name=.50 BMG Patrone
 item.ammo_50bmg_incendiary.name=.50 BMG Patrone (Brand)
 item.ammo_50bmg_explosive.name=.50 BMG Patrone (Explosiv)

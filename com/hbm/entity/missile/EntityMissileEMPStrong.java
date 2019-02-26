@@ -3,6 +3,7 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.logic.EntityEMP;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
@@ -21,7 +22,13 @@ public class EntityMissileEMPStrong extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		ExplosionLarge.explode(worldObj, posX, posY, posZ, 25.0F, true, true, true);
+		
+		EntityEMP emp = new EntityEMP(worldObj);
+		emp.posX = posX;
+		emp.posY = posY;
+		emp.posZ = posZ;
+		
+		worldObj.spawnEntityInWorld(emp);
 	}
 
 	@Override

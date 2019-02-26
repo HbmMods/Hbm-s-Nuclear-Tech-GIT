@@ -659,6 +659,8 @@ public class MachineRecipes {
 
 			if(input.getItem() == ModItems.assembly_calamity)
 				return new ItemStack(ModItems.ammo_50bmg);
+			if(input.getItem() == ModItems.assembly_actionexpress)
+				return new ItemStack(ModItems.ammo_50ae);
 		}
 		
 		return null;
@@ -736,6 +738,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_lacunae) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_lacunae));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(Items.gold_ingot) }, getPressResultNN(i_stamps_9.get(0).getItem(), Items.gold_ingot));
 		
+		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_actionexpress) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_actionexpress));
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_calamity) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_calamity));
 		
 		return recipes;
