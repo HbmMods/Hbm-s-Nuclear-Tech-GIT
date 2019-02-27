@@ -91,6 +91,10 @@ public class BulletConfigSyncingUtil {
 	public static final int R5_NORMAL_BOLT = 0x93;
 	public static final int R5_EXPLOSIVE_BOLT = 0x94;
 	public static final int R5_DU_BOLT = 0x95;
+
+	public static final int AE50_NORMAL = 0xA0;
+	public static final int AE50_AP = 0xA1;
+	public static final int AE50_DU = 0xA2;
 	
 	public static void loadConfigsForSync() {
 		
@@ -160,6 +164,10 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_NORMAL_BOLT));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmExplosiveConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_EXPLOSIVE_BOLT));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmDUConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_DU_BOLT));
+
+		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50AEConfig(), AE50_NORMAL));
+		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50APConfig(), AE50_AP));
+		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50DUConfig(), AE50_DU));
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

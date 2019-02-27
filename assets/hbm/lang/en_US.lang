@@ -1301,6 +1301,7 @@ item.gun_revolver_pip.name=Lil' Pipsqueak
 item.gun_revolver_nopip.name=Novac
 item.gun_revolver_blackjack.name=Blackjack Five-Shooter
 item.gun_revolver_red.name=Red Key Revolver
+item.gun_deagle.name=Big Iron
 item.gun_calamity.name=Calamity
 item.gun_calamity_dual.name=Saddle Gun
 item.gun_minigun.name=CZ53 Personal Minigun
