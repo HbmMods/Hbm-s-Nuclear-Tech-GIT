@@ -24,7 +24,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 	
 	public int dualCookTime;
 	public long power;
-	public static final long maxPower = 100000;
+	public static final long maxPower = 50000;
 	public static final int processingSpeed = 20;
 	
 	//0: i
@@ -323,7 +323,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 			{
 				dualCookTime++;
 				
-				power -= 1000;
+				power -= 250;
 				
 				if(this.dualCookTime == processingSpeed)
 				{

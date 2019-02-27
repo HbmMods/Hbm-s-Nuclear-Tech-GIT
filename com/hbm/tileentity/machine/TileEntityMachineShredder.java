@@ -249,11 +249,11 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
             {
                 flag1 = true;
             }
+			
+			power = Library.chargeTEFromItems(slots, 29, power, maxPower);
+			
+			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}
-		
-		power = Library.chargeTEFromItems(slots, 29, power, maxPower);
-		
-		PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		
 		if(flag1)
 		{

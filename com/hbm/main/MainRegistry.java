@@ -523,6 +523,7 @@ public class MainRegistry
 	public static int tungstenSpawn = 10;
 	public static int leadSpawn = 6;
 	public static int berylliumSpawn = 6;
+	public static int ligniteSpawn = 2;
 	
 	public static int gadgetRadius = 150;
 	public static int boyRadius = 120;
@@ -1385,6 +1386,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustEmerald", ModItems.powder_emerald);
 		OreDictionary.registerOre("dustLapis", ModItems.powder_lapis);
 		OreDictionary.registerOre("dustCoal", ModItems.powder_coal);
+		OreDictionary.registerOre("dustLignite", ModItems.powder_lignite);
 		OreDictionary.registerOre("dustAdvanced", ModItems.powder_advanced_alloy);
 		OreDictionary.registerOre("dustAdvancedAlloy", ModItems.powder_advanced_alloy);
 		OreDictionary.registerOre("dustCMBSteel", ModItems.powder_combine_steel);
@@ -1429,6 +1431,7 @@ public class MainRegistry
 		OreDictionary.registerOre("nuggetActinium", ModItems.fragment_actinium);
 
 		OreDictionary.registerOre("gemCoal", Items.coal);
+		OreDictionary.registerOre("gemLignite", ModItems.lignite);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
 		OreDictionary.registerOre("oreThorium", ModBlocks.ore_thorium);
@@ -1443,6 +1446,7 @@ public class MainRegistry
 		OreDictionary.registerOre("oreFluorite", ModBlocks.ore_fluorite);
 		OreDictionary.registerOre("oreLead", ModBlocks.ore_lead);
 		OreDictionary.registerOre("oreBeryllium", ModBlocks.ore_beryllium);
+		OreDictionary.registerOre("oreLignite", ModBlocks.ore_lignite);
 		OreDictionary.registerOre("oreAustralium", ModBlocks.ore_australium);
 		OreDictionary.registerOre("oreWeidanium", ModBlocks.ore_weidanium);
 		OreDictionary.registerOre("oreReiium", ModBlocks.ore_reiium);
@@ -1776,6 +1780,9 @@ public class MainRegistry
         Property PthoriumSpawn = config.get(CATEGORY_OREGEN, "2.10_thoriumSpawnrate", 7);
         PthoriumSpawn.comment = "Ammount of thorium ore veins per chunk";
         thoriumSpawn = PthoriumSpawn.getInt();
+        Property ligniteSpawnP = config.get(CATEGORY_OREGEN, "2.11_ligniteSpawnrate", 2);
+        ligniteSpawnP.comment = "Ammount of lignite ore veins per chunk";
+        ligniteSpawn = ligniteSpawnP.getInt();
         
         final String CATEGORY_NUKES = "03_nukes";
         Property propGadget = config.get(CATEGORY_NUKES, "3.00_gadgetRadius", 150);

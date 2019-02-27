@@ -36,6 +36,7 @@ public class BulletConfigSyncingUtil {
 	public static final int NIGHT_REVOLVER = 0x07;
 	public static final int NIGHT2_REVOLVER = 0x08;
 	public static final int SATURNITE_REVOLVER = 0x09;
+	public static final int DESH_REVOLVER = 0x0A;
 
 	public static final int G20_NORMAL = 0x10;
 	public static final int G20_SLUG = 0x11;
@@ -104,6 +105,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun357MagnumFactory.getRevNightmareConfig(), NIGHT_REVOLVER));
 		configSet.add(new ConfigKeyPair(Gun357MagnumFactory.getRevNightmare2Config(), NIGHT2_REVOLVER));
 		configSet.add(new ConfigKeyPair(Gun357MagnumFactory.getRevSteelConfig().setToFire(3), SATURNITE_REVOLVER));
+		configSet.add(new ConfigKeyPair(Gun357MagnumFactory.getRevDeshConfig(), DESH_REVOLVER));
 
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeConfig(), G20_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeSlugConfig(), G20_SLUG));

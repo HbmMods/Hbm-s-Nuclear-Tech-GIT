@@ -514,6 +514,10 @@ container.amsEmitter=AMS Emitter [WIP]
 tile.ams_base.name=AMS Base [WIP]
 container.amsBase=AMS Base [WIP]
 
+tile.dfc_emitter.name=[WIP]
+tile.dfc_receiver.name=[WIP]
+tile.dfc_injector.name=[WIP]
+
 item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier
 item.assembly_template.name=Assembly Template:
@@ -615,6 +619,10 @@ item.ingot_saturnite.name=Saturnite Ingot
 item.plate_saturnite.name=Saturnite Plate
 
 item.solid_fuel.name=Solid Fuel
+item.coke.name=Coke
+item.lignite.name=Lignite
+item.briquette_lignite.name=Lignite Briquette
+item.powder_lignite.name=Lignite Powder
 
 item.nugget_th232.name=Th232 Nugget
 item.nugget_u233.name=U233 Nugget
@@ -670,6 +678,7 @@ item.assembly_lead.name=Glass Bullet Assembly
 item.assembly_gold.name=Gold Bullet Assembly
 item.assembly_schrabidium.name=Schrabidium Bullet Assembly
 item.assembly_nightmare.name=Nightmare Bullet Assembly
+item.assembly_desh.name=Desh Bullet Assembly
 item.assembly_pip.name=Tainted Bullet Assembly
 item.assembly_nopip.name=.44 Magnum Assembly
 item.assembly_smg.name=9mm Assembly
@@ -719,6 +728,7 @@ tile.ore_uranium.name=Uranium Ore
 tile.ore_thorium.name=Thorium Ore
 tile.ore_schrabidium.name=Schrabidium Ore
 tile.ore_beryllium.name=Beryllium Ore
+tile.ore_lignite.name=Lignite Ore
 
 tile.ore_nether_uranium.name=Nether Uranium Ore
 tile.ore_nether_plutonium.name=Nether Plutonium Ore
@@ -1395,6 +1405,7 @@ item.ammo_22lr_ap.name=.22 LR Round (Armor Piercing)
 item.ammo_folly.name=Silver Bullet (Original)
 item.ammo_folly_nuclear.name=Silver Bullet (Nuclear)
 item.ammo_folly_du.name=Silver Bullet (DU, Non-Explosive)
+item.ammo_357_desh.name=.357 Magnum Desh Bullet
 item.ammo_44.name=.44 Magnum Bullet
 item.ammo_44_ap.name=.44 Magnum Bullet (Armor Piercing)
 item.ammo_44_du.name=.44 Magnum Bullet (DU)
@@ -1595,6 +1606,7 @@ item.missile_strong.name=Strong HE Missile
 item.missile_incendiary_strong.name=Strong Incendiary Missile
 item.missile_cluster_strong.name=Strong Cluster Missile
 item.missile_buster_strong.name=Enhanced Bunker Buster
+item.missile_emp_strong.name=Strong EMP Missile
 item.missile_burst.name=Spare Missile
 item.missile_inferno.name=Inferno Missile G.R.N. Mk.II
 item.missile_rain.name=Bomblet Rain
@@ -1793,6 +1805,7 @@ tile.absorber_red.name=Enhanced Radiation Absorber
 tile.absorber_green.name=Advanced Radiation Absorber
 tile.absorber_pink.name=Elite Radiation Absorber
 tile.decon.name=Player Decontaminator
+tile.machine_amgen.name=Ambience Radiation Generator
 
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.shimmer_sledge.name=Shimmer Sledge

@@ -514,6 +514,10 @@ container.amsEmitter=AMS-Emitter [WIP]
 tile.ams_base.name=AMS-Basis [WIP]
 container.amsBase=AMS-Basis [WIP]
 
+tile.dfc_emitter.name=[WIP]
+tile.dfc_receiver.name=[WIP]
+tile.dfc_injector.name=[WIP]
+
 item.template_folder.name=Produktionsvorlagen-Zeichenmappe
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
 item.assembly_template.name=Fertigungsvorlage:
@@ -615,6 +619,10 @@ item.ingot_saturnite.name=Saturnitbarren
 item.plate_saturnite.name=Saturnitplatte
 
 item.solid_fuel.name=Festbrennstoff
+item.coke.name=Koks
+item.lignite.name=Braunkohle
+item.briquette_lignite.name=Braunkohlebrikett
+item.powder_lignite.name=Braunkohlestaub
 
 item.nugget_th232.name=Th232-Nugget
 item.nugget_u233.name=U233-Nugget
@@ -670,6 +678,7 @@ item.assembly_lead.name=Glaspatronensatz
 item.assembly_gold.name=Goldpatronensatz
 item.assembly_schrabidium.name=Schrabidiumpatronensatz
 item.assembly_nightmare.name=Nightmare-Patronensatz
+item.assembly_desh.name=Desh-Patronensatz
 item.assembly_pip.name=Verdorbener .44er Patronensatz
 item.assembly_nopip.name=.44er Patronensatz
 item.assembly_smg.name=9mm Patronensatz
@@ -719,6 +728,7 @@ tile.ore_uranium.name=Uranerz
 tile.ore_thorium.name=Thoriumerz
 tile.ore_schrabidium.name=Schrabidiumerz
 tile.ore_beryllium.name=Berylliumerz
+tile.ore_lignite.name=Braunkohleerz
 
 tile.ore_nether_uranium.name=Nether-Uranerz
 tile.ore_nether_plutonium.name=Nether-Plutoniumerz
@@ -1395,6 +1405,7 @@ item.ammo_22lr_ap.name=.22 LR Patrone (Panzerbrechend)
 item.ammo_folly_taint.name=Silbernes Geschoss (Original)
 item.ammo_folly_nuclear.name=Silbernes Geschoss (Atomar)
 item.ammo_folly_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)
+item.ammo_357_desh.name=.357 Magnum Deshkugel
 item.ammo_44.name=.44 Magnum Patrone
 item.ammo_44_ap.name=.44 Magnum Patrone (Panzerbrechend)
 item.ammo_44_du.name=.44 Magnum Patrone (DU)
@@ -1595,6 +1606,7 @@ item.missile_strong.name=Starke HE Rakete
 item.missile_incendiary_strong.name=Starke Brandrakete
 item.missile_cluster_strong.name=Starke Streurakete
 item.missile_buster_strong.name=Verbesserte bunkerbrechende Rakete
+item.missile_emp_strong.name=Verbesserte EMP-Rakete
 item.missile_burst.name=Spare Missile
 item.missile_inferno.name=Inferno Missile G.R.N. Mk.II
 item.missile_rain.name=Schüttbombenregen
@@ -1793,6 +1805,7 @@ tile.absorber_red.name=Verbesserter Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
 tile.decon.name=Spieler-Dekontaminierer
+tile.machine_amgen.name=Umgebungsstrahlungs-Generator
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.shimmer_sledge.name=Shimmer Sledge

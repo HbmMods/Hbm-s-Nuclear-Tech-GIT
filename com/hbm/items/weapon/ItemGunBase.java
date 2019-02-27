@@ -243,6 +243,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 							setMag(stack, getMag(stack) + 1);
 						} else {
 							setIsReloading(stack, false);
+							world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 							break;
 						}
 					}
@@ -292,6 +293,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 								setMag(stack, getMag(stack) + 1);
 							} else {
 								setIsReloading(stack, false);
+								world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 								break;
 							}
 						}

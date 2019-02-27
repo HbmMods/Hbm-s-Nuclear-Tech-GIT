@@ -557,6 +557,8 @@ public class MachineRecipes {
 				return new ItemStack(Items.diamond);
 			if(input.getItem() == ModItems.biomass)
 				return new ItemStack(ModItems.biomass_compressed);
+			if(input.getItem() == ModItems.powder_lignite)
+				return new ItemStack(ModItems.briquette_lignite);
 		}
 		
 		if(stamps_plate.contains(stamp.getItem())) {
@@ -632,6 +634,8 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.gun_revolver_schrabidium_ammo);
 			if(input.getItem() == ModItems.assembly_nightmare)
 				return new ItemStack(ModItems.gun_revolver_nightmare_ammo);
+			if(input.getItem() == ModItems.assembly_desh)
+				return new ItemStack(ModItems.ammo_357_desh);
 
 			if(mODE(input, "ingotSteel"))
 				return new ItemStack(ModItems.gun_revolver_cursed_ammo);
@@ -698,6 +702,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_emerald) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_emerald));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.pellet_coal) }, getPressResultNN(stamps_flat.get(0), ModItems.pellet_coal));
 		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.biomass) }, getPressResultNN(stamps_flat.get(0), ModItems.biomass));
+		recipes.put(new Object[] { i_stamps_flat, new ItemStack(ModItems.powder_lignite) }, getPressResultNN(stamps_flat.get(0), ModItems.powder_lignite));
 
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.iron_ingot) }, getPressResultNN(stamps_plate.get(0), Items.iron_ingot));
 		recipes.put(new Object[] { i_stamps_plate, new ItemStack(Items.gold_ingot) }, getPressResultNN(stamps_plate.get(0), Items.gold_ingot));
@@ -729,6 +734,7 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_schrabidium) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_schrabidium));
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.ingot_steel) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.ingot_steel));
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_nightmare) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_nightmare));
+		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_desh) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_desh));
 
 		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_nopip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_nopip));
 		//recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_pip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_pip));
@@ -1194,11 +1200,13 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(Items.coal));
 		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.coal_block)));
 		fuels.add(new ItemStack(Items.lava_bucket));
-		fuels.add(new ItemStack(Items.redstone));
-		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.redstone_block)));
-		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.netherrack)));
 		fuels.add(new ItemStack(Items.blaze_rod));
 		fuels.add(new ItemStack(Items.blaze_powder));
+		fuels.add(new ItemStack(ModItems.lignite));
+		fuels.add(new ItemStack(ModItems.powder_lignite));
+		fuels.add(new ItemStack(ModItems.briquette_lignite));
+		fuels.add(new ItemStack(ModItems.coke));
+		fuels.add(new ItemStack(ModItems.powder_coal));
 		return fuels;
 	}
 

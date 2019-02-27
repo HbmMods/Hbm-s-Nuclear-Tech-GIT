@@ -48,6 +48,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.IRON_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -63,6 +64,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.STEEL_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -78,6 +80,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SATURNITE_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -93,6 +96,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.LEAD_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -108,6 +112,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.GOLD_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -126,6 +131,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -142,6 +148,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.SCHRABIDIUM_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -158,6 +165,7 @@ public class Gun357MagnumFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NIGHT_REVOLVER);
+		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
 		
 		return config;
 	}
@@ -227,6 +235,17 @@ public class Gun357MagnumFactory {
 		bullet.ammo = ModItems.gun_revolver_gold_ammo;
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRevDeshConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_357_desh;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 17;
 		
 		return bullet;
 	}

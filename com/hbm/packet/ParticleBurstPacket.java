@@ -56,7 +56,9 @@ public class ParticleBurstPacket implements IMessage {
 		@Override
 		public IMessage onMessage(ParticleBurstPacket m, MessageContext ctx) {
 			
-    		Minecraft.getMinecraft().effectRenderer.addBlockDestroyEffects(m.x, m.y, m.z, Block.getBlockById(m.block), m.meta);
+			try {
+				Minecraft.getMinecraft().effectRenderer.addBlockDestroyEffects(m.x, m.y, m.z, Block.getBlockById(m.block), m.meta);
+			} catch(Exception x) { }
 			
 			return null;
 		}

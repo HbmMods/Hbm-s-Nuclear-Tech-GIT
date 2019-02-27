@@ -112,7 +112,10 @@ public class BlockCrate extends BlockFalling {
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver_pip, 3);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_calamity, 3);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_calamity_dual, 2);
-    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_rpg, 8);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_rpg, 7);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_karl, 4);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_panzerschreck, 6);
+    	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_hk69, 8);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_stinger, 7);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_fatman, 5);
     	BlockCrate.addToListWithWeight(weaponList, ModItems.gun_proto, 3);

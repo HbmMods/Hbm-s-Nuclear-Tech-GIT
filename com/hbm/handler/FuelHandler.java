@@ -26,6 +26,14 @@ public class FuelHandler implements IFuelHandler {
 			return 6400;
 		if(fuel.getItem().equals(Item.getItemFromBlock(ModBlocks.block_scrap)))
 			return 4000;
+		if(fuel.getItem() == ModItems.lignite)
+			return 1200;
+		if(fuel.getItem() == ModItems.powder_lignite)
+			return 1200;
+		if(fuel.getItem() == ModItems.briquette_lignite)
+			return 1600;
+		if(fuel.getItem() == ModItems.coke)
+			return 3200;
 		
 		return 0;
 	}

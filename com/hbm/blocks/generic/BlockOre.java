@@ -178,6 +178,10 @@ public class BlockOre extends Block {
 		{
 			return ModItems.ingot_tungsten;
 		}
+		if(this == ModBlocks.ore_lignite)
+		{
+			return ModItems.lignite;
+		}
 		
 		return Item.getItemFromBlock(this);
     }

@@ -20,8 +20,8 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	
 	public int dualCookTime;
 	public int dualPower;
-	public static final int maxPower = 100000;
-	public static final int processingSpeed = 100;
+	public static final int maxPower = 12800;
+	public static final int processingSpeed = 400;
 	
 	private static final int[] slots_top = new int[] {0};
 	private static final int[] slots_bottom = new int[] {3};
@@ -118,18 +118,20 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		{
 			return 0;
 		}else{
-		Item item = itemStack.getItem();
-		
-		if(item == Items.coal) return 2500;
-		if(item == Item.getItemFromBlock(Blocks.coal_block)) return 25000;
-		if(item == Items.lava_bucket) return 50000;
-		if(item == Items.redstone) return  1000;
-		if(item == Item.getItemFromBlock(Blocks.redstone_block)) return 10000;
-		if(item == Item.getItemFromBlock(Blocks.netherrack)) return 1750;
-		if(item == Items.blaze_rod) return 15000;
-		if(item == Items.blaze_powder) return 5000;
-		
-		return 0;
+			Item item = itemStack.getItem();
+			
+			if(item == Items.coal) return 200;
+			if(item == Item.getItemFromBlock(Blocks.coal_block)) return 2000;
+			if(item == Items.lava_bucket) return 12800;
+			if(item == Items.blaze_rod) return 1000;
+			if(item == Items.blaze_powder) return 300;
+			if(item == ModItems.lignite) return 150;
+			if(item == ModItems.powder_lignite) return 150;
+			if(item == ModItems.powder_coal) return 200;
+			if(item == ModItems.briquette_lignite) return 200;
+			if(item == ModItems.coke) return 400;
+			
+			return 0;
 		}
 	}
 	
@@ -288,7 +290,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 		
 		if(hasPower() && isProcessing())
 		{
-			this.dualPower = this.dualPower - 50;
+			this.dualPower = this.dualPower - 1;
 			
 			if(this.dualPower < 0)
 			{

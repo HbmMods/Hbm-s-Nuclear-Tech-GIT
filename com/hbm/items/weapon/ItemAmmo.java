@@ -58,6 +58,12 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
 			list.add(EnumChatFormatting.BLUE + "+ Withering");
 		}
+		
+		//.357 MAGNUM
+		if(this == ModItems.ammo_357_desh) {
+			list.add(EnumChatFormatting.BLUE + "+ Fits every .357 model");
+			list.add(EnumChatFormatting.BLUE + "+ Above-average damage");
+		}
 
 		//.44 MAGNUM
 		if(this == ModItems.ammo_44_ap) {
