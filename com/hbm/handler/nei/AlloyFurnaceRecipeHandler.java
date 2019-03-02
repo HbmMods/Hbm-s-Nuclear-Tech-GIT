@@ -60,7 +60,7 @@ public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
     
 	@Override
 	public String getRecipeName() {
-		return "Alloy Furnace";
+		return "Blast Furnace";
 	}
 
 	@Override

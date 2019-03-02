@@ -185,6 +185,10 @@ public class ModBlocks {
 	public static Block sellafield_4;
 	public static Block sellafield_core;
 
+	public static Block geysir_water;
+	public static Block geysir_chlorine;
+	public static Block geysir_vapor;
+
 	public static Block flame_war;
 	public static Block float_bomb;
 	public static Block therm_endo;
@@ -464,6 +468,7 @@ public class ModBlocks {
 	//public static Block machine_rtg_blue;
 	//public static Block machine_rtg_purple;
 	public static Block machine_amgen;
+	public static Block machine_geo;
 
 	public static Block machine_well;
 	public static Block oil_pipe;
@@ -801,6 +806,10 @@ public class ModBlocks {
 		sellafield_3 = new BlockOre(Material.rock, 4F, 40F).setBlockName("sellafield_3").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_3");
 		sellafield_4 = new BlockOre(Material.rock, 5, 50F).setBlockName("sellafield_4").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_4");
 		sellafield_core = new BlockOre(Material.rock, 10F, 150F).setBlockName("sellafield_core").setStepSound(Block.soundTypeStone).setHardness(10.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_core");
+
+		geysir_water = new BlockGeysir(Material.rock).setBlockName("geysir_water").setStepSound(Block.soundTypeStone).setHardness(5.0F);
+		geysir_chlorine = new BlockGeysir(Material.rock).setBlockName("geysir_chlorine").setStepSound(Block.soundTypeStone).setHardness(5.0F);
+		geysir_vapor = new BlockGeysir(Material.rock).setBlockName("geysir_vapor").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		
 		nuke_gadget = new NukeGadget(Material.iron).setBlockName("nuke_gadget").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":theGadget");
 		nuke_boy = new NukeBoy(Material.iron).setBlockName("nuke_boy").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":lilBoy");
@@ -898,6 +907,7 @@ public class ModBlocks {
 		//machine_rtg_blue = new MachineRTG(Material.iron).setBlockName("machine_rtg_blue").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		//machine_rtg_purple = new MachineRTG(Material.iron).setBlockName("machine_rtg_purple").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_amgen = new MachineAmgen(Material.iron).setBlockName("machine_amgen").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_geo = new MachineAmgen(Material.iron).setBlockName("machine_geo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
 		red_cable = new BlockCable(Material.iron).setBlockName("red_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_cable_icon");
@@ -1311,6 +1321,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(sellafield_4, sellafield_4.getUnlocalizedName());
 		GameRegistry.registerBlock(sellafield_core, sellafield_core.getUnlocalizedName());
 
+		//Geysirs
+		GameRegistry.registerBlock(geysir_water, geysir_water.getUnlocalizedName());
+		GameRegistry.registerBlock(geysir_chlorine, geysir_chlorine.getUnlocalizedName());
+		GameRegistry.registerBlock(geysir_vapor, geysir_vapor.getUnlocalizedName());
+
 		//Nukes
 		GameRegistry.registerBlock(nuke_gadget, nuke_gadget.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_boy, nuke_boy.getUnlocalizedName());
@@ -1419,6 +1434,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_radgen, machine_radgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_cyclotron, machine_cyclotron.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_rtg_grey, machine_rtg_grey.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_geo, machine_geo.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_amgen, machine_amgen.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());

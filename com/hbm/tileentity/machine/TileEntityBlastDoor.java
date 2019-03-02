@@ -19,6 +19,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 	public int state = 0;
 	public long sysTime;
 	private int timer = 0;
+	public boolean redstoned = false;
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -36,6 +37,17 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
     public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord + 6, zCoord)) {
+				
+				if(!redstoned) {
+					this.tryToggle();
+				}
+				redstoned = true;
+				
+			} else {
+				redstoned = false;
+			}
 	    			
 	    	if(state != 1) {
 	    		timer = 0;
@@ -309,6 +321,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 		state = nbt.getInteger("state");
 		sysTime = nbt.getLong("sysTime");
 		timer = nbt.getInteger("timer");
+		redstoned = nbt.getBoolean("redstoned");
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -318,6 +331,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 		nbt.setInteger("state", state);
 		nbt.setLong("sysTime", sysTime);
 		nbt.setInteger("timer", timer);
+		nbt.setBoolean("redstoned", redstoned);
 	}
 
 }

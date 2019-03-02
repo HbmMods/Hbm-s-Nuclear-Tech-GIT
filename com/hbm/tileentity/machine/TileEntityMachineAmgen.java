@@ -3,12 +3,15 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.RadiationSavedData;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.Chunk;
 
@@ -16,7 +19,7 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 
 	public List<IConsumer> list = new ArrayList();
 	public long power;
-	public long maxPower = 50;
+	public long maxPower = 100;
 	boolean tact = false;
 	
 	@Override
@@ -24,13 +27,58 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 		
 		if(!worldObj.isRemote) {
 
-			RadiationSavedData data = RadiationSavedData.getData(worldObj);
-			Chunk c = worldObj.getChunkFromBlockCoords(xCoord, zCoord);
-			float rad = data.getRadNumFromCoord(c.xPosition, c.zPosition);
+			if(worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_amgen) {
+				RadiationSavedData data = RadiationSavedData.getData(worldObj);
+				Chunk c = worldObj.getChunkFromBlockCoords(xCoord, zCoord);
+				float rad = data.getRadNumFromCoord(c.xPosition, c.zPosition);
+				
+				power += rad;
+				
+				data.decrementRad(worldObj, xCoord, zCoord, 5F);
+				
+			} else if(worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_geo) {
+				
+				Block b = worldObj.getBlock(xCoord, yCoord - 1, zCoord);
+				
+				if(b == ModBlocks.geysir_water) {
+					power += 75;
+				} else if(b == ModBlocks.geysir_chlorine) {
+					power += 100;
+				} else if(b == ModBlocks.geysir_vapor) {
+					power += 50;
+				} else if(b == Blocks.lava) {
+					power += 100;
+					
+					if(worldObj.rand.nextInt(1200) == 0) {
+						worldObj.setBlock(xCoord, yCoord - 1, zCoord, Blocks.obsidian);
+					}
+				} else if(b == Blocks.flowing_lava) {
+					power += 25;
+					
+					if(worldObj.rand.nextInt(600) == 0) {
+						worldObj.setBlock(xCoord, yCoord - 1, zCoord, Blocks.cobblestone);
+					}
+				}
+				
+				b = worldObj.getBlock(xCoord, yCoord + 1, zCoord);
+				
+				if(b == Blocks.lava) {
+					power += 100;
+					
+					if(worldObj.rand.nextInt(1200) == 0) {
+						worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.obsidian);
+					}
+				} else if(b == Blocks.flowing_lava) {
+					power += 25;
+					
+					if(worldObj.rand.nextInt(600) == 0) {
+						worldObj.setBlock(xCoord, yCoord + 1, zCoord, Blocks.cobblestone);
+					}
+				}
+			}
 			
-			power += rad;
-			
-			data.decrementRad(worldObj, xCoord, zCoord, 5F);
+			if(power > maxPower)
+				power = maxPower;
 
 			tact = false;
 			ffgeuaInit();

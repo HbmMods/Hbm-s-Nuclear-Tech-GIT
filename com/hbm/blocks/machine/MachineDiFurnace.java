@@ -46,9 +46,9 @@ public class MachineDiFurnace extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":test_difurnace_top_on" : ":test_difurnace_top_off"));
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":test_difurnace_front_on" : ":test_difurnace_front_off"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":test_difurnace_side");
+		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":difurnace_top_on" : ":difurnace_top_off"));
+		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":difurnace_front_on" : ":difurnace_front_off"));
+		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":difurnace_side");
 	}
 	
 	@Override
@@ -233,36 +233,36 @@ public class MachineDiFurnace extends BlockContainer {
         {
             int l = p_149734_1_.getBlockMetadata(x, y, z);
             float f = x + 0.5F;
-            float f1 = y + 0.0F + rand.nextFloat() * 6.0F / 16.0F;
+            float f1 = y + 0.25F + rand.nextFloat() * 6.0F / 16.0F;
             float f2 = z + 0.5F;
             float f3 = 0.52F;
-            float f4 = rand.nextFloat() * 0.6F - 0.3F;
-            float f5 = rand.nextFloat();
-            float f6 = rand.nextFloat();
+            float f4 = rand.nextFloat() * 0.5F - 0.25F;
+            float f5 = rand.nextFloat() * 0.75F + 0.125F;
+            float f6 = rand.nextFloat() * 0.75F + 0.125F;
 
             if (l == 4)
             {
-                p_149734_1_.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
                 //p_149734_1_.spawnParticle("flame", (double)(f - f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("reddust", x + f5, (double)f1 + 1, z + f6, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", x + f5, (double)y + 1, z + f6, 0.0D, 0.0D, 0.0D);
             }
             else if (l == 5)
             {
-                p_149734_1_.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
                 //p_149734_1_.spawnParticle("flame", (double)(f + f3), (double)f1, (double)(f2 + f4), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("reddust", x + f5, (double)f1 + 1, z + f6, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", x + f5, (double)y + 1, z + f6, 0.0D, 0.0D, 0.0D);
             }
             else if (l == 2)
             {
-                p_149734_1_.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
                 //p_149734_1_.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 - f3), 0.0D, 0.0D, 0.0D)
-                p_149734_1_.spawnParticle("reddust", x + f5, (double)f1 + 1, z + f6, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", x + f5, (double)y + 1, z + f6, 0.0D, 0.0D, 0.0D);
             }
             else if (l == 3)
             {
-                p_149734_1_.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
                 //p_149734_1_.spawnParticle("flame", (double)(f + f4), (double)f1, (double)(f2 + f3), 0.0D, 0.0D, 0.0D);
-                p_149734_1_.spawnParticle("reddust", x + f5, (double)f1 + 1, z + f6, 0.0D, 0.0D, 0.0D);
+                p_149734_1_.spawnParticle("smoke", x + f5, (double)y + 1, z + f6, 0.0D, 0.0D, 0.0D);
             }
         }
     }

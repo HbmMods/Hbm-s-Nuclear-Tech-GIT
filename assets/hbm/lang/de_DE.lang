@@ -312,9 +312,9 @@ tile.crate_metal.name=Maschinenkiste
 tile.crate_red.name=Rote Kiste
 tile.marker_structure.name=Multiblock-Strukturvorlage
 
-tile.machine_difurnace_off.name=Legierungshochofen
-tile.machine_difurnace_on.name=Legierungshochofen
-container.diFurnace=Legierungshochofen
+tile.machine_difurnace_off.name=Hochofen
+tile.machine_difurnace_on.name=Hochofen
+container.diFurnace=Hochofen
 tile.machine_centrifuge.name=Zentrifuge
 container.centrifuge=Zentrifuge
 tile.machine_gascent.name=Gaszentrifuge

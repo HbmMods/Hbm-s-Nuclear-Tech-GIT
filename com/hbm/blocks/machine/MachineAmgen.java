@@ -30,9 +30,15 @@ public class MachineAmgen extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_amgen_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_amgen_side");
+
+		if(this == ModBlocks.machine_amgen) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_amgen_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_amgen_side");
+		}
+		if(this == ModBlocks.machine_geo) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_geo_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_geo_side");
+		}
 	}
 
 	@Override

@@ -22,6 +22,7 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	private int timer = 0;
 	public int type;
 	public static final int maxTypes = 7;
+	public boolean redstoned = false;
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -41,6 +42,51 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 		if(!worldObj.isRemote) {
 
 	    	if(isOpening && state == 1) {
+				
+				boolean flagX = false;
+				boolean flagZ = false;
+
+				for(int x = xCoord - 2; x <= xCoord + 2; x++)
+					for(int y = yCoord; y <= yCoord + 5; y++)
+						if(worldObj.isBlockIndirectlyGettingPowered(x, y, zCoord)) {
+							flagX = true;
+							break;
+						}
+				
+				for(int z = zCoord - 2; z <= zCoord + 2; z++)
+					for(int y = yCoord; y <= yCoord + 5; y++)
+						if(worldObj.isBlockIndirectlyGettingPowered(xCoord, y, z)) {
+							flagZ = true;
+							break;
+						}
+
+				if(worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 2 || worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 3) {
+					if(flagX) {
+						
+						if(!redstoned) {
+							this.tryToggle();
+						}
+						
+						redstoned = true;
+					} else {
+						
+						redstoned = false;
+					}
+				}
+				if(worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 4 || worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 5) {
+					if(flagZ) {
+						
+						if(!redstoned) {
+							this.tryToggle();
+						}
+						
+						redstoned = true;
+					} else {
+						
+						redstoned = false;
+					}
+				}
+				
 	    		if(timer == 0)
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);
 	    		if(timer == 45)
@@ -283,6 +329,7 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 		sysTime = nbt.getLong("sysTime");
 		timer = nbt.getInteger("timer");
 		type = nbt.getInteger("type");
+		redstoned = nbt.getBoolean("redstoned");
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -293,5 +340,6 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 		nbt.setLong("sysTime", sysTime);
 		nbt.setInteger("timer", timer);
 		nbt.setInteger("type", type);
+		nbt.setBoolean("redstoned", redstoned);
 	}
 }

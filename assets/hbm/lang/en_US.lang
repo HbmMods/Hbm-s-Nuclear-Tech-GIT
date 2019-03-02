@@ -312,9 +312,9 @@ tile.crate_metal.name=Machine Crate
 tile.crate_red.name=Red Crate
 tile.marker_structure.name=Multiblock Structure Marker
 
-tile.machine_difurnace_off.name=Alloy Furnace
-tile.machine_difurnace_on.name=Alloy Furnace
-container.diFurnace=Alloy Furnace
+tile.machine_difurnace_off.name=Blast Furnace
+tile.machine_difurnace_on.name=Blast Furnace
+container.diFurnace=Blast Furnace
 tile.machine_centrifuge.name=Centrifuge
 container.centrifuge=Centrifuge
 tile.machine_gascent.name=Gas Centrifuge
