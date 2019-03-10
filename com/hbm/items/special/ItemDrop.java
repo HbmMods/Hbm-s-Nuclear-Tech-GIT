@@ -2,6 +2,8 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityRagingVortex;
@@ -44,6 +46,9 @@ public class ItemDrop extends Item {
 							if(!entityItem.worldObj.isRemote)
 							{
 								((IBomb)entityItem.worldObj.getBlock(x, y, z)).explode(entityItem.worldObj, x, y, z);
+
+					    		if(MainRegistry.enableExtendedLogging)
+					    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch!");
 							}
 						 }
 					}
@@ -57,6 +62,9 @@ public class ItemDrop extends Item {
 				if (!entityItem.worldObj.isRemote) {
 					entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY,
 							entityItem.posZ, 15.0F, true);
+
+		    		if(MainRegistry.enableExtendedLogging)
+		    			MainRegistry.logger.log(Level.INFO, "[DET] Detonated dead man's explosive at " + ((int)entityItem.posX) + " / " + ((int)entityItem.posY) + " / " + ((int)entityItem.posZ) + "!");
 				}
 				
 				entityItem.setDead();

@@ -4914,6 +4914,10 @@ public class MachineRecipes {
 			list.add(new ItemStack(Blocks.gravel, 2));
 			list.add(new ItemStack(Blocks.sand, 6));
 			break;
+        case CONCRETE:
+			list.add(new ItemStack(Blocks.gravel, 8));
+			list.add(new ItemStack(Blocks.sand, 8));
+			break;
         case COOLANT:
 			list.add(new ItemStack(ModItems.niter, 1));
 			break;
@@ -5073,6 +5077,9 @@ public class MachineRecipes {
         case ASPHALT:
 			input[0] = new FluidStack(8000, FluidType.BITUMEN);
 			break;
+        case CONCRETE:
+			input[0] = new FluidStack(2000, FluidType.WATER);
+			break;
         case COOLANT:
 			input[0] = new FluidStack(1800, FluidType.WATER);
 			break;
@@ -5194,6 +5201,12 @@ public class MachineRecipes {
 			output[1] = new ItemStack(ModBlocks.asphalt, 4);
 			output[2] = new ItemStack(ModBlocks.asphalt, 4);
 			output[3] = new ItemStack(ModBlocks.asphalt, 4);
+			break;
+		case CONCRETE:
+			output[0] = new ItemStack(ModBlocks.concrete_smooth, 4);
+			output[1] = new ItemStack(ModBlocks.concrete_smooth, 4);
+			output[2] = new ItemStack(ModBlocks.concrete_smooth, 4);
+			output[3] = new ItemStack(ModBlocks.concrete_smooth, 4);
 			break;
 		case DESH:
 			output[0] = new ItemStack(ModItems.ingot_desh, 1);

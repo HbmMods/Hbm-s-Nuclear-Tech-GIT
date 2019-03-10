@@ -78,7 +78,8 @@ public class ItemChemistryTemplate extends Item {
 		DYN_EUPH,
 		DYN_DNT,
 		CORDITE,
-		KEVLAR;
+		KEVLAR,
+		CONCRETE;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -238,6 +239,8 @@ public class ItemChemistryTemplate extends Item {
         	return 40;
         case KEVLAR:
         	return 40;
+        case CONCRETE:
+        	return 100;
         default:
         	return 100;
         }

@@ -40,9 +40,8 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
     public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-
-	    	if(isOpening && state == 1) {
-				
+			
+			if(!isLocked()) {
 				boolean flagX = false;
 				boolean flagZ = false;
 
@@ -86,6 +85,9 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 						redstoned = false;
 					}
 				}
+			}
+
+	    	if(isOpening && state == 1) {
 				
 	    		if(timer == 0)
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.vaultScrapeNew", 1.0F, 1.0F);

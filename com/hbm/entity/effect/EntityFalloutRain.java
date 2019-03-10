@@ -46,7 +46,7 @@ public class EntityFalloutRain extends Entity {
         	
         	for(int i = 0; i < MainRegistry.fSpeed; i++) {
         		
-	        	Vec3 vec = Vec3.createVectorHelper(radProgress, 0, 0);
+	        	Vec3 vec = Vec3.createVectorHelper(radProgress * 0.5, 0, 0);
 	        	double circum = radProgress * 2 * Math.PI * 2;
 	        	double part = 360D / circum;
 	        	
@@ -60,7 +60,9 @@ public class EntityFalloutRain extends Entity {
 	        	//if(worldObj.getBlock(x, y, z) == Blocks.grass)
 	        	//	worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
 	        	
-	        	stomp(x, z);
+	        	double dist = radProgress * 100 / getScale() * 0.5;
+	        	
+	        	stomp(x, z, dist);
 	        	
 	        	revProgress++;
 	        	
@@ -69,7 +71,7 @@ public class EntityFalloutRain extends Entity {
 	        		radProgress++;
 	        	}
 	        	
-	        	if(radProgress > getScale()) {
+	        	if(radProgress > getScale() * 2D) {
 	        		this.setDead();
 	        	}
         	}
@@ -86,7 +88,9 @@ public class EntityFalloutRain extends Entity {
         }
     }
     
-    private void stomp(int x, int z) {
+    private void stomp(int x, int z, double dist) {
+    	
+    	int depth = 0;
     	
     	for(int y = 255; y >= 0; y--) {
     		
@@ -105,7 +109,23 @@ public class EntityFalloutRain extends Entity {
 				worldObj.setBlock(x, y, z, Blocks.air);
 			}
     		
-    		else if(b == Blocks.grass) {
+			else if(b == Blocks.stone) {
+				
+				depth++;
+				
+				if(dist < 5)
+					worldObj.setBlock(x, y, z, ModBlocks.sellafield_1);
+				else if(dist < 15)
+					worldObj.setBlock(x, y, z, ModBlocks.sellafield_0);
+				else if(dist < 75)
+					worldObj.setBlock(x, y, z, ModBlocks.sellafield_slaked);
+				else
+					return;
+				
+    			if(depth > 2)
+    				return;
+			
+			}else if(b == Blocks.grass) {
     			worldObj.setBlock(x, y, z, ModBlocks.waste_earth);
     			return;
     			

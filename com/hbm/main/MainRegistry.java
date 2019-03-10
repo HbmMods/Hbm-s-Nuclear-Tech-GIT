@@ -232,6 +232,7 @@ public class MainRegistry
 	public static boolean enableVaults = true;
 	public static boolean enableRads = true;
 	public static boolean enableCataclysm = true;
+	public static boolean enableExtendedLogging = false;
 
 	public static int uraniumSpawn = 6;
 	public static int thoriumSpawn = 7;
@@ -1468,6 +1469,7 @@ public class MainRegistry
         enableVaults = config.get(CATEGORY_GENERAL, "1.15_enableVaultSpawn", true).getBoolean(true);
         enableRads = config.get(CATEGORY_GENERAL, "1.16_enableNewRadiation", true).getBoolean(true);
         enableCataclysm = config.get(CATEGORY_GENERAL, "1.17_enableCataclysm", false).getBoolean(false);
+        enableExtendedLogging = config.get(CATEGORY_GENERAL, "1.18_enableExtendedLogging", false).getBoolean(false);
 
         final String CATEGORY_OREGEN = "02_ores";
         Property PuraniumSpawn = config.get(CATEGORY_OREGEN, "2.00_uraniumSpawnrate", 6);

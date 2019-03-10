@@ -1,5 +1,7 @@
 package com.hbm.entity.logic;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -119,6 +121,9 @@ public class EntityNukeExplosionMK4 extends Entity {
 	
 	public static EntityNukeExplosionMK4 statFac(World world, int r, double x, double y, double z) {
 		
+		if(MainRegistry.enableExtendedLogging && !world.isRemote)
+			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized explosion at " + x + " / " + y + " / " + z + " with strength " + r + "!");
+		
 		if(r == 0)
 			r = 25;
 		
@@ -135,6 +140,9 @@ public class EntityNukeExplosionMK4 extends Entity {
 	
 	public static EntityNukeExplosionMK4 statFacExperimental(World world, int r, double x, double y, double z) {
 		
+		if(MainRegistry.enableExtendedLogging && !world.isRemote)
+			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized eX explosion at " + x + " / " + y + " / " + z + " with strength " + r + "!");
+		
 		r *= 2;
 		
 		EntityNukeExplosionMK4 mk4 = new EntityNukeExplosionMK4(world);
@@ -147,6 +155,9 @@ public class EntityNukeExplosionMK4 extends Entity {
 	}
 	
 	public static EntityNukeExplosionMK4 statFacNoRad(World world, int r, double x, double y, double z) {
+		
+		if(MainRegistry.enableExtendedLogging && !world.isRemote)
+			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized nR explosion at " + x + " / " + y + " / " + z + " with strength " + r + "!");
 		
 		r *= 2;
 		

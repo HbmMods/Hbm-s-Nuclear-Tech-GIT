@@ -272,6 +272,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 						setMagType(stack, mainConfig.config.indexOf(config));
 						break;
 					}
+					setIsReloading(stack, false);
 				}
 				
 				//load new type if bullets are present
@@ -342,6 +343,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			list.add("");
 			list.add("Name: " + mainConfig.name);
 			list.add("Manufacturer: " + mainConfig.manufacturer);
+		}
+		
+		if(MainRegistry.enableExtendedLogging) {
+			list.add("");
+			list.add("Type: " + getMagType(stack));
+			list.add("Is Reloading: " + getIsReloading(stack));
+			list.add("Reload Cycle: " + getReloadCycle(stack));
+			list.add("RoF Cooldown: " + getDelay(stack));
 		}
 	}
 	

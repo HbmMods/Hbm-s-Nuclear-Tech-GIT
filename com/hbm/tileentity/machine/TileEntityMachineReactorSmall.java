@@ -647,6 +647,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		if (item == ModItems.rod_uranium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_uranium_fuel_depleted);
 
+		} else if (item == ModItems.rod_thorium_fuel) {
+			slots[id] = new ItemStack(ModItems.rod_thorium_fuel_depleted);
+
 		} else if (item == ModItems.rod_plutonium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_plutonium_fuel_depleted);
 
@@ -659,6 +662,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
 		} else if (item == ModItems.rod_dual_uranium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_dual_uranium_fuel_depleted);
 
+		} else if (item == ModItems.rod_dual_thorium_fuel) {
+			slots[id] = new ItemStack(ModItems.rod_dual_thorium_fuel_depleted);
+
 		} else if (item == ModItems.rod_dual_plutonium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted);
 
@@ -670,6 +676,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
 
 		} else if (item == ModItems.rod_quad_uranium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_quad_uranium_fuel_depleted);
+
+		} else if (item == ModItems.rod_quad_thorium_fuel) {
+			slots[id] = new ItemStack(ModItems.rod_quad_thorium_fuel_depleted);
 
 		} else if (item == ModItems.rod_quad_plutonium_fuel) {
 			slots[id] = new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted);

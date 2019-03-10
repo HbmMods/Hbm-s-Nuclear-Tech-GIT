@@ -1,6 +1,11 @@
 package com.hbm.entity.grenade;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.main.MainRegistry;
+
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
@@ -33,6 +38,18 @@ public abstract class EntityGrenadeBase extends EntityThrowable
             byte b0 = 0;
 
             p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), b0);
+        }
+        
+        if(!worldObj.isRemote) {
+    		if(MainRegistry.enableExtendedLogging) {
+    			
+    			String s = "null";
+    			
+    			if(getThrower() != null && getThrower() instanceof EntityPlayer)
+    				s = ((EntityPlayer)getThrower()).getDisplayName();
+    			
+    			MainRegistry.logger.log(Level.INFO, "[GREN] Set off grenade at " + ((int)posX) + " / " + ((int)posY) + " / " + ((int)posZ) + " by " + s + "!");
+    		}
         }
         
         this.explode();

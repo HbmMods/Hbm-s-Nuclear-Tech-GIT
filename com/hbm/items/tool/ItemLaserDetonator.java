@@ -2,9 +2,12 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -35,6 +38,10 @@ public class ItemLaserDetonator extends Item {
 		{
 	    	if(world.getBlock(x, y, z) instanceof IBomb) {
 	    		((IBomb)world.getBlock(x, y, z)).explode(world, x, y, z);
+
+	    		if(MainRegistry.enableExtendedLogging)
+	    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
+	    		
 	    		player.addChatMessage(new ChatComponentText("Detonated!"));
 	        	world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 	    	} else {

@@ -1807,6 +1807,8 @@ tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
 tile.decon.name=Spieler-Dekontaminierer
 tile.machine_amgen.name=Umgebungsstrahlungs-Generator
+tile.machine_geo.name=Gepthermiegenerator
+tile.machine_minirtg.name=Radioisotopenzelle
 
 item.schrabidium_hammer.name=Schrabidiumhammer
 item.shimmer_sledge.name=Shimmer Sledge

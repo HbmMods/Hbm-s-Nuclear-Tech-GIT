@@ -2,7 +2,10 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.interfaces.IBomb;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -71,6 +74,13 @@ public class ItemDetonator extends Item {
 				if(!world.isRemote)
 				{
 					((IBomb)world.getBlock(x, y, z)).explode(world, x, y, z);
+
+		    		if(MainRegistry.enableExtendedLogging)
+		    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
+				}
+				if(world.isRemote)
+				{
+		    		player.addChatMessage(new ChatComponentText("Detonated!"));
 				}
 			 } else {
 				if(world.isRemote)

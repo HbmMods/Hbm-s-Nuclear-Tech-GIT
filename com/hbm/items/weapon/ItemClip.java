@@ -148,7 +148,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_bolt_action)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge_flechette, 24)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge_slug, 24)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_bolt_action_ammo, 24), false);
         	}

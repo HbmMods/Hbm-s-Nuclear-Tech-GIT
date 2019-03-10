@@ -38,7 +38,7 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 		
 		if(!worldObj.isRemote) {
 			
-			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord + 6, zCoord)) {
+			if(!isLocked() && worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord + 6, zCoord)) {
 				
 				if(!redstoned) {
 					this.tryToggle();

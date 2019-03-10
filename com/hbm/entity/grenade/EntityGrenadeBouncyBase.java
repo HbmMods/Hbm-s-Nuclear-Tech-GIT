@@ -1,10 +1,15 @@
 package com.hbm.entity.grenade;
 
+import org.apache.logging.log4j.Level;
+
+import com.hbm.main.MainRegistry;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -211,8 +216,16 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         
         timer++;
         
-        if(timer >= getMaxTimer()) {
+        if(timer >= getMaxTimer() && !worldObj.isRemote) {
         	explode();
+        	
+        	String s = "null";
+        	
+        	if(thrower != null && thrower instanceof EntityPlayer)
+        		s = ((EntityPlayer)thrower).getDisplayName();
+
+    		if(MainRegistry.enableExtendedLogging)
+    			MainRegistry.logger.log(Level.INFO, "[GREN] Set off grenade at " + ((int)posX) + " / " + ((int)posY) + " / " + ((int)posZ) + " by " + s + "!");
         }
     }
 

@@ -27,7 +27,9 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 		
 		if(!worldObj.isRemote) {
 
-			if(worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_amgen) {
+			Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
+			
+			if(block == ModBlocks.machine_amgen) {
 				RadiationSavedData data = RadiationSavedData.getData(worldObj);
 				Chunk c = worldObj.getChunkFromBlockCoords(xCoord, zCoord);
 				float rad = data.getRadNumFromCoord(c.xPosition, c.zPosition);
@@ -36,7 +38,11 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 				
 				data.decrementRad(worldObj, xCoord, zCoord, 5F);
 				
-			} else if(worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_geo) {
+			} else if(block == ModBlocks.machine_minirtg) {
+				
+				power += 25;
+				
+			} else if(block == ModBlocks.machine_geo) {
 				
 				Block b = worldObj.getBlock(xCoord, yCoord - 1, zCoord);
 				

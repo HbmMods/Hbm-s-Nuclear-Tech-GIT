@@ -1807,6 +1807,8 @@ tile.absorber_green.name=Advanced Radiation Absorber
 tile.absorber_pink.name=Elite Radiation Absorber
 tile.decon.name=Player Decontaminator
 tile.machine_amgen.name=Ambience Radiation Generator
+tile.machine_geo.name=Geothermal Electric Generator
+tile.machine_minirtg.name=Radio Isotope Cell
 
 item.schrabidium_hammer.name=Schrabidium Hammer
 item.shimmer_sledge.name=Shimmer Sledge

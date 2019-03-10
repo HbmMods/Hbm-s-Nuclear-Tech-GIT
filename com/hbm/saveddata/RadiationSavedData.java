@@ -15,6 +15,8 @@ public class RadiationSavedData extends WorldSavedData {
 	
 	public List<RadiationSaveStructure> contamination = new ArrayList();
 	
+	private static RadiationSavedData openInstance;
+	
     public World worldObj;
 
 	public RadiationSavedData(String p_i2141_1_) {
@@ -180,6 +182,9 @@ public class RadiationSavedData extends WorldSavedData {
 	}
 	
 	public static RadiationSavedData getData(World worldObj) {
+		
+		if(openInstance != null && openInstance.worldObj == worldObj)
+			return openInstance;
 
 		RadiationSavedData data = (RadiationSavedData)worldObj.perWorldStorage.loadData(RadiationSavedData.class, "radiation");
 	    if(data == null) {
@@ -188,7 +193,10 @@ public class RadiationSavedData extends WorldSavedData {
 	        data = (RadiationSavedData)worldObj.perWorldStorage.loadData(RadiationSavedData.class, "radiation");
 	    }
 	    
-	    return data;
+	    data.worldObj = worldObj;
+	    openInstance  = data;
+	    
+	    return openInstance;
 	}
 	
 	public static void incrementRad(World worldObj, int x, int z, float rad, float maxRad) {

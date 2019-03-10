@@ -1,5 +1,7 @@
 package com.hbm.entity.logic;
 
+import org.apache.logging.log4j.Level;
+
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionFleija;
 import com.hbm.explosion.ExplosionNukeAdvanced;
@@ -107,6 +109,9 @@ public class EntityNukeExplosionMK3 extends Entity {
         	
         if(!this.did)
         {
+    		if(MainRegistry.enableExtendedLogging && !worldObj.isRemote)
+    			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized mk3 explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
+    		
         	if(this.waste)
         	{
             	exp = new ExplosionNukeAdvanced((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.coefficient, 0);
