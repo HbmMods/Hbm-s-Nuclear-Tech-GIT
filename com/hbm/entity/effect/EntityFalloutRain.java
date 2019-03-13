@@ -134,7 +134,7 @@ public class EntityFalloutRain extends Entity {
     			return;
     		} else if(b == Blocks.sand) {
     			
-    			if(rand.nextInt(20) == 0)
+    			if(rand.nextInt(60) == 0)
     				worldObj.setBlock(x, y, z, meta == 0 ? ModBlocks.waste_trinitite : ModBlocks.waste_trinitite_red);
     			return;
     		}
@@ -150,11 +150,11 @@ public class EntityFalloutRain extends Entity {
 			}
 
 			else if (b == Blocks.coal_ore) {
-				int ra = rand.nextInt(10);
-				if (ra < 3) {
+				int ra = rand.nextInt(30);
+				if (ra < 9) {
 					worldObj.setBlock(x, y, z, Blocks.diamond_ore);
 				}
-				if (ra == 3) {
+				if (ra == 9) {
 					worldObj.setBlock(x, y, z, Blocks.emerald_ore);
 				}
     			return;
@@ -177,13 +177,13 @@ public class EntityFalloutRain extends Entity {
 			}
 
 			else if (b == ModBlocks.ore_uranium) {
-				if (rand.nextInt(30) == 0)
+				if (rand.nextInt(90) == 0)
 					worldObj.setBlock(x, y, z, ModBlocks.ore_schrabidium);
     			return;
 			}
 
 			else if (b == ModBlocks.ore_nether_uranium) {
-				if (rand.nextInt(30) == 0)
+				if (rand.nextInt(90) == 0)
 					worldObj.setBlock(x, y, z, ModBlocks.ore_nether_schrabidium);
     			return;
     			

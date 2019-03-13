@@ -96,6 +96,7 @@ chem.CC_HEATING=Fortgeschrittene Kohleverflüssigung
 chem.CC_HEAVY=Einfache Kohleverflüssigung
 chem.CC_NAPHTHA=Naphtha-Kohleverflüssigung
 chem.ASPHALT=Asphaltherstellung
+chem.CONCRETE=Betonherstellung
 chem.COOLANT=Kühlflüssigkeit mischen
 chem.CRYOGEL=Kryogel mischen
 chem.DESH=Deshherstellung
@@ -768,6 +769,7 @@ tile.reinforced_light.name=Verstärkter Glowstone
 tile.reinforced_lamp_off.name=Verstärkte Lampe
 tile.reinforced_lamp_on.name=Verstärkte Lampe
 
+tile.reinforced_stone.name=Verdichteter Stein
 tile.concrete_smooth.name=Beton
 tile.concrete.name=Betonfliese
 tile.brick_concrete.name=Betonziegel

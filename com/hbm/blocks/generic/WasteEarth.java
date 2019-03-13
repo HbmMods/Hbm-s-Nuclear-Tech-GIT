@@ -48,7 +48,7 @@ public class WasteEarth extends Block {
 
 	public WasteEarth(Material mat, float rad, float max) {
 		super(mat);
-	    this.setTickRandomly(true);
+	    //this.setTickRandomly(true);
 	    radIn = rad;
 	    radMax = max;
 	}
@@ -133,7 +133,7 @@ public class WasteEarth extends Block {
         	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
         }
     	
-    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(1000) == 0)
+    	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0)
     	{
     		Block b0;
     		int count = 0;
@@ -202,7 +202,7 @@ public class WasteEarth extends Block {
     			world.setBlock(x, y, z, Blocks.dirt);
     }
     
-    @Override
+    /*@Override
     public int tickRate(World world) {
     	
     	if(this.radIn > 0)
@@ -217,6 +217,6 @@ public class WasteEarth extends Block {
     	
     	if(this.radIn > 0)
         	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-    }
+    }*/
 
 }

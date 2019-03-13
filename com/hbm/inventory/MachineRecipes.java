@@ -593,25 +593,25 @@ public class MachineRecipes {
 		if(stamps_wire.contains(stamp.getItem())) {
 
 			if(mODE(input, "ingotAluminum"))
-				return new ItemStack(ModItems.wire_aluminium, 3);
+				return new ItemStack(ModItems.wire_aluminium, 8);
 			if(mODE(input, "ingotCopper"))
-				return new ItemStack(ModItems.wire_copper, 3);
+				return new ItemStack(ModItems.wire_copper, 8);
 			if(mODE(input, "ingotTungsten"))
-				return new ItemStack(ModItems.wire_tungsten, 3);
+				return new ItemStack(ModItems.wire_tungsten, 8);
 			if(mODE(input, "ingotRedAlloy"))
-				return new ItemStack(ModItems.wire_red_copper, 3);
+				return new ItemStack(ModItems.wire_red_copper, 8);
 			if(mODE(input, "ingotRedstoneAlloy"))
-				return new ItemStack(ModItems.wire_red_copper, 3);
+				return new ItemStack(ModItems.wire_red_copper, 8);
 			if(mODE(input, "ingotGold"))
-				return new ItemStack(ModItems.wire_gold, 3);
+				return new ItemStack(ModItems.wire_gold, 8);
 			if(mODE(input, "ingotSchrabidium"))
-				return new ItemStack(ModItems.wire_schrabidium, 3);
+				return new ItemStack(ModItems.wire_schrabidium, 8);
 			if(mODE(input, "ingotAdvanced"))
-				return new ItemStack(ModItems.wire_advanced_alloy, 3);
+				return new ItemStack(ModItems.wire_advanced_alloy, 8);
 			if(mODE(input, "ingotAdvancedAlloy"))
-				return new ItemStack(ModItems.wire_advanced_alloy, 3);
+				return new ItemStack(ModItems.wire_advanced_alloy, 8);
 			if(mODE(input, "ingotMagnetizedTungsten"))
-				return new ItemStack(ModItems.wire_magnetized_tungsten, 3);
+				return new ItemStack(ModItems.wire_magnetized_tungsten, 8);
 		}
 		
 		if(stamps_circuit.contains(stamp.getItem())) {
@@ -2168,37 +2168,37 @@ public class MachineRecipes {
 		
 		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
         case IRON_PLATE:
-			list.add(new ItemStack(Items.iron_ingot, 1));
+			list.add(new ItemStack(Items.iron_ingot, 3));
 			break;
 		case GOLD_PLATE:
-			list.add(new ItemStack(Items.gold_ingot, 1));
+			list.add(new ItemStack(Items.gold_ingot, 3));
 			break;
 		case TITANIUM_PLATE:
-			list.add(new ItemStack(ModItems.ingot_titanium, 1));
+			list.add(new ItemStack(ModItems.ingot_titanium, 3));
 			break;
 		case ALUMINIUM_PLATE:
-			list.add(new ItemStack(ModItems.ingot_aluminium, 1));
+			list.add(new ItemStack(ModItems.ingot_aluminium, 3));
 			break;
 		case STEEL_PLATE:
-			list.add(new ItemStack(ModItems.ingot_steel, 1));
+			list.add(new ItemStack(ModItems.ingot_steel, 3));
 			break;
 		case LEAD_PLATE:
-			list.add(new ItemStack(ModItems.ingot_lead, 1));
+			list.add(new ItemStack(ModItems.ingot_lead, 3));
 			break;
 		case COPPER_PLATE:
-			list.add(new ItemStack(ModItems.ingot_copper, 1));
+			list.add(new ItemStack(ModItems.ingot_copper, 3));
 			break;
 		case ADVANCED_PLATE:
-			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 1));
+			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 3));
 			break;
 		case SCHRABIDIUM_PLATE:
-			list.add(new ItemStack(ModItems.ingot_schrabidium, 1));
+			list.add(new ItemStack(ModItems.ingot_schrabidium, 3));
 			break;
 		case CMB_PLATE:
-			list.add(new ItemStack(ModItems.ingot_combine_steel, 1));
+			list.add(new ItemStack(ModItems.ingot_combine_steel, 3));
 			break;
 		case SATURN_PLATE:
-			list.add(new ItemStack(ModItems.ingot_saturnite, 1));
+			list.add(new ItemStack(ModItems.ingot_saturnite, 3));
 			break;
 		case ALUMINIUM_WIRE:
 			list.add(new ItemStack(ModItems.ingot_aluminium, 1));

@@ -698,41 +698,41 @@ public class Library {
 				} else break;
 			}
 
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
 				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
 				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
 				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) == ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
 				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
 		
 		for(int i = 0; i < 50; i++)
-			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_sword && slots[index].getItemDamage() > 0)
+			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_sword && slots[index].getItemDamage() > 0)
 			{
-				power -= 1;
+				power -= 10;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
 	
 		for(int i = 0; i < 50; i++)
-			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_pickaxe && slots[index].getItemDamage() > 0)
+			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_pickaxe && slots[index].getItemDamage() > 0)
 			{
-				power -= 1;
+				power -= 10;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
 	
 		for(int i = 0; i < 50; i++)
-			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_axe && slots[index].getItemDamage() > 0)
+			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_axe && slots[index].getItemDamage() > 0)
 			{
-				power -= 1;
+				power -= 10;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
 	
 		for(int i = 0; i < 50; i++)
-			if(power - 1 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_shovel && slots[index].getItemDamage() > 0)
+			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_shovel && slots[index].getItemDamage() > 0)
 			{
-				power -= 1;
+				power -= 10;
 				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
 			} else break;
 		

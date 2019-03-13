@@ -96,6 +96,7 @@ chem.CC_HEATING=Advanced Coal Liquefaction
 chem.CC_HEAVY=Basic Coal Liquefaction
 chem.CC_NAPHTHA=Naphtha Coal Liquefaction
 chem.ASPHALT=Asphalt Production
+chem.CONCRETE=Concrete Production
 chem.COOLANT=Coolant Mixing
 chem.CRYOGEL=Cryogel Mixing
 chem.DESH=Desh Production
@@ -768,6 +769,7 @@ tile.reinforced_light.name=Reinforced Glowstone
 tile.reinforced_lamp_off.name=Reinforced Lamp
 tile.reinforced_lamp_on.name=Reinforced Lamp
 
+tile.reinforced_stone.name=Dense Stone
 tile.concrete_smooth.name=Concrete
 tile.concrete.name=Concrete Tile
 tile.brick_concrete.name=Concrete Bricks
