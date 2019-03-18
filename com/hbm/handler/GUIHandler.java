@@ -3,7 +3,9 @@ package com.hbm.handler;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
+import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemLeadBox;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
 
@@ -742,12 +744,12 @@ public class GUIHandler implements IGuiHandler {
 				}
 			}
 		} else {
-			//CLIENTONLY CONTAINERS
+			//NON-TE CONTAINERS
 			
 			switch(ID)
 			{
 			case ModItems.guiID_item_box:
-				return new ContainerLeadBox(player.inventory);
+				return new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem()));
 			}
 		}
 		
@@ -1493,7 +1495,7 @@ public class GUIHandler implements IGuiHandler {
 			case ModItems.guiID_item_sat_interface:
 				return new GUIScreenSatInterface(player);
 			case ModItems.guiID_item_box:
-				return new GUILeadBox(player.inventory);
+				return new GUILeadBox(new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem())));
 			}
 		}
 		return null;

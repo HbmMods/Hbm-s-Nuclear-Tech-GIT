@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerLeadBox;
 import com.hbm.inventory.container.ContainerWasteDrum;
+import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemLeadBox;
 import com.hbm.lib.RefStrings;
@@ -19,9 +20,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUILeadBox extends GuiContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_containment.png");
-
-	public GUILeadBox(InventoryPlayer invPlayer) {
-		super(new ContainerLeadBox(invPlayer));
+	private final InventoryLeadBox inventory;
+	
+	public GUILeadBox(ContainerLeadBox container) {
+		super(container);
+		this.inventory = container.inventory;
 		
 		this.xSize = 176;
 		this.ySize = 186;
@@ -29,7 +32,7 @@ public class GUILeadBox extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = "";//ItemLeadBox.getGuiName();
+		String name = this.inventory.getInventoryName();
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);

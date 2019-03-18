@@ -29,9 +29,11 @@ public class MachineKeyForge extends BlockContainer {
     private final Random field_149933_a = new Random();
 	private Random rand;
 	private static boolean keepInventory;
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
+	@SideOnly(Side.CLIENT)
+	private IIcon iconBottom;
 
 	public MachineKeyForge(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -45,15 +47,16 @@ public class MachineKeyForge extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		
+
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_keyforge_top");
+		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_keyforge_bottom");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_keyforge_side");
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
+		return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.blockIcon);
 	}
 	
 	@Override

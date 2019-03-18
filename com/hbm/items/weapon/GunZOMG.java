@@ -61,44 +61,44 @@ public class GunZOMG extends Item {
 					if (!player.inventory.hasItem(ModItems.nugget_euphemium)
 							&& !player.inventory.hasItem(ModItems.ingot_euphemium)) {
 						stack.stackTagCompound.setBoolean("valid", false);
-						if (world.isRemote) {
+						if (!world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Validation lost!"));
 							player.addChatMessage(new ChatComponentText("[ZOMG] Request new validation!"));
 						}
 					}
 				}
 			} else {
-				if (world.isRemote) {
+				if (!world.isRemote) {
 					player.addChatMessage(new ChatComponentText("[ZOMG] Gun not validated!"));
 					player.addChatMessage(new ChatComponentText("[ZOMG] Validate your gun with shift right-click."));
 				}
 			}
 		} else {
 			if (stack.stackTagCompound.getBoolean("valid")) {
-				if (world.isRemote) {
+				if (!world.isRemote) {
 					player.addChatMessage(new ChatComponentText("[ZOMG] Gun has already been validated."));
 				}
 			} else {
 				if (player.inventory.hasItem(ModItems.nugget_euphemium) || player.inventory.hasItem(ModItems.ingot_euphemium)) {
 					stack.stackTagCompound.setBoolean("valid", true);
-					if (world.isRemote) {
+					if (!world.isRemote) {
 						player.addChatMessage(new ChatComponentText("[ZOMG] Gun has been validated!"));
 					}
 
 					//if(Library.superuser.contains(player.getUniqueID().toString())) {
 					if(player.inventory.hasItem(ModItems.polaroid)) {
-						if (world.isRemote) {
+						if (!world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, superuser!"));
 						}
 						stack.stackTagCompound.setBoolean("superuser", true);
 					} else {
-						if (world.isRemote) {
+						if (!world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Welcome, user!"));
 						}
 						stack.stackTagCompound.setBoolean("superuser", false);
 					}
 				} else {
-					if (world.isRemote) {
+					if (!world.isRemote) {
 						player.addChatMessage(new ChatComponentText("[ZOMG] Validation failed!"));
 						player.addChatMessage(new ChatComponentText("[ZOMG] No external negative gravity well found!"));
 					}
@@ -176,7 +176,7 @@ public class GunZOMG extends Item {
 					if (!player.inventory.hasItem(ModItems.nugget_euphemium)
 							&& !player.inventory.hasItem(ModItems.ingot_euphemium)) {
 						stack.stackTagCompound.setBoolean("valid", false);
-						if (world.isRemote) {
+						if (!world.isRemote) {
 							player.addChatMessage(new ChatComponentText("[ZOMG] Validation lost!"));
 							player.addChatMessage(new ChatComponentText("[ZOMG] Request new validation!"));
 						}
