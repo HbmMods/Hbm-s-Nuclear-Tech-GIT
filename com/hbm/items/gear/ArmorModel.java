@@ -84,7 +84,7 @@ public class ArmorModel extends ItemArmor {
 		if (this == ModItems.cape_schrabidium) {
 			return armorType == 1;
 		}
-		if (this == ModItems.cape_hbm) {
+		/*if (this == ModItems.cape_hbm) {
 			return armorType == 1;
 		}
 		if (this == ModItems.cape_dafnik) {
@@ -104,7 +104,7 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (this == ModItems.cape_nostalgia) {
 			return armorType == 1;
-		}
+		}*/
 		return armorType == 0;
 	}
 
@@ -151,14 +151,14 @@ public class ArmorModel extends ItemArmor {
 				return this.modelCloak;
 			}
 		}
-		if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice || this == ModItems.cape_codered_ || this == ModItems.cape_ayy || this == ModItems.cape_nostalgia) {
+		/*if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice || this == ModItems.cape_codered_ || this == ModItems.cape_ayy || this == ModItems.cape_nostalgia) {
 			if (armorSlot == 1) {
 				if (this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
 				}
 				return this.modelCloak;
 			}
-		}
+		}*/
 		return null;
 	}
 
@@ -194,7 +194,7 @@ public class ArmorModel extends ItemArmor {
 		if (stack.getItem() == ModItems.cape_schrabidium) {
 			return "hbm:textures/models/CapeSchrabidium.png";
 		}
-		if (stack.getItem() == ModItems.cape_hbm && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.HbMinecraft)) {
+		/*if (stack.getItem() == ModItems.cape_hbm && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.HbMinecraft)) {
 			if(MainRegistry.polaroidID == 11)
 				return "hbm:textures/models/CapeHbm.png";
 			else
@@ -217,7 +217,7 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (stack.getItem() == ModItems.cape_nostalgia && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.nostalgia)) {
 			return "hbm:textures/models/CapeNostalgia.png";
-		}
+		}*/
 		return "hbm:textures/models/CapeUnknown.png";
 	}
 	
@@ -296,7 +296,7 @@ public class ArmorModel extends ItemArmor {
 		if (itemstack.getItem() == ModItems.cape_schrabidium) {
 			list.add("Avalible for everyone");
 		}
-		if (itemstack.getItem() == ModItems.cape_hbm) {
+		/*if (itemstack.getItem() == ModItems.cape_hbm) {
 			list.add("Only works for HbMinecraft");
 		}
 		if (itemstack.getItem() == ModItems.cape_dafnik) {
@@ -316,6 +316,6 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (itemstack.getItem() == ModItems.cape_nostalgia) {
 			list.add("Only works for Dr_Nostalgia");
-		}
+		}*/
 	}
 }

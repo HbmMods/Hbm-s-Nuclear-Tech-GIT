@@ -10,10 +10,13 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemGeigerCounter;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
+import com.hbm.lib.RefStrings;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.misc.RenderAccessoryUtility;
 import com.hbm.render.misc.RenderScreenOverlay;
 import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.model.ModelCloak;
 import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.sound.MovingSoundChopper;
@@ -21,10 +24,12 @@ import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
 import com.hbm.sound.MovingSoundPlayerLoop;
 import com.hbm.sound.MovingSoundXVL1456;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -91,10 +96,15 @@ public class ModEventHandlerClient {
 	}
 	
 	@SubscribeEvent
-	public void renderGunPull(RenderPlayerEvent.Pre event) {
+	public void preRenderEvent(RenderPlayerEvent.Pre event) {
 		
 		RenderPlayer renderer = event.renderer;
-		EntityPlayer player = event.entityPlayer;
+		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
+		
+		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
+		
+		if(cloak != null)
+			player.func_152121_a(Type.CAPE, cloak);
 		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon) {
 			renderer.modelBipedMain.aimedBow = true;
