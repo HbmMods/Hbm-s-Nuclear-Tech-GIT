@@ -84,8 +84,9 @@ public class Radiobox extends BlockContainer {
 			
 			return true;
 		} else {
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_radiobox, world, x, y, z);
-			return true;
+			//FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_radiobox, world, x, y, z);
+			//return true;
+			return false;
 		}
 	}
 	

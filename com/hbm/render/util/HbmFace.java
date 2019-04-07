@@ -63,7 +63,7 @@ public class HbmFace {
                     offsetV = -offsetV;
                 }
 
-                tessellator.addVertexWithUV(vertices[i].x, vertices[i].y, vertices[i].z, textureCoordinates[i].u + offsetU, textureCoordinates[i].v + offsetV + (((double)System.currentTimeMillis() % 100000) / 5000D));
+                tessellator.addVertexWithUV(vertices[i].x, vertices[i].y, vertices[i].z, textureCoordinates[i].u + offsetU, textureCoordinates[i].v + offsetV + (((double)System.currentTimeMillis() % HmfController.modoloMod) / HmfController.quotientMod));
             }
             else
             {

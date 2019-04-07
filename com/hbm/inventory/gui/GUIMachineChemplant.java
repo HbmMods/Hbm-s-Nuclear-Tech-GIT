@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.container.ContainerMachineChemplant;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
@@ -37,6 +38,18 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 		chemplant.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 52 - 34, 16, 34);
 		chemplant.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 52 - 34, 16, 34);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 70 - 52, 16, 52, chemplant.power, chemplant.maxPower);
+		
+		if(chemplant.getStackInSlot(4) == null || chemplant.getStackInSlot(4).getItem()!= ModItems.chemistry_template) {
+
+			String[] text = new String[] { "Error: This machine requires a chemistry template!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		}
+
+		String[] text = new String[] { "Acceptable upgrades:",
+				" -Red (speed)",
+				" -Blue (energy saving)",
+				"Max upgrade level is 3"};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 105, guiTop + 40, 8, 8, guiLeft + 105, guiTop + 40 + 16, text);
 	}
 
 	@Override
@@ -58,6 +71,13 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 
 		int j = chemplant.getProgressScaled(90);
 		drawTexturedModalRect(guiLeft + 43, guiTop + 89, 0, 222, j, 18);
+
+		this.drawInfoPanel(guiLeft + 105, guiTop + 40, 8, 8, 8);
+		
+		if(chemplant.getStackInSlot(4) == null || chemplant.getStackInSlot(4).getItem()!= ModItems.chemistry_template) {
+
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
+		}
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(chemplant.tanks[0].getSheet());
 		chemplant.tanks[0].renderTank(this, guiLeft + 8, guiTop + 52, chemplant.tanks[0].getTankType().textureX() * FluidTank.x, chemplant.tanks[0].getTankType().textureY() * FluidTank.y, 16, 34);

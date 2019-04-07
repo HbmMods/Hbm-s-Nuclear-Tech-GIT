@@ -69,8 +69,9 @@ public class Library {
 	public static String LordVertice = "a41df45e-13d8-4677-9398-090d3882b74f";
 	public static String CodeRed_ = "912ec334-e920-4dd7-8338-4d9b2d42e0a1";
 	public static String dxmaster769 = "62c168b2-d11d-4dbf-9168-c6cea3dcb20e";
-	public static String nostalgia = "e82684a7-30f1-44d2-ab37-41b342be1bbd";
-	public static String samino2 = "87c3960a-4332-46a0-a929-ef2a488d1cda";
+	public static String Dr_Nostalgia = "e82684a7-30f1-44d2-ab37-41b342be1bbd";
+	public static String Samino2 = "87c3960a-4332-46a0-a929-ef2a488d1cda";
+	public static String Hoboy03new = "d7f29d9c-5103-4f6f-88e1-2632ff95973f";
 	
 	public static List<String> superuser = new ArrayList<String>();
 	

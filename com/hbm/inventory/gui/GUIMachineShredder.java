@@ -30,6 +30,19 @@ public class GUIMachineShredder extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 106 - 88, 16, 88, diFurnace.power, diFurnace.maxPower);
+		
+		boolean flag = false;
+
+		if(diFurnace.getGearLeft() == 0 || diFurnace.getGearLeft() == 3)
+			flag = true;
+		
+		if(diFurnace.getGearRight() == 0 || diFurnace.getGearRight() == 3)
+			flag = true;
+		
+		if(flag) {
+			String[] text = new String[] { "Error: Shredder blades are broken or missing!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		}
 	}
 	
 	@Override
@@ -51,6 +64,11 @@ public class GUIMachineShredder extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 8, guiTop + 106 - i, 176, 160 - i, 16, i);
 		}
 		
+		int j1 = diFurnace.getDiFurnaceProgressScaled(34);
+		drawTexturedModalRect(guiLeft + 63, guiTop + 89, 176, 54, j1 + 1, 18);
+		
+		boolean flag = false;
+		
 		if(diFurnace.getGearLeft() != 0)
 		{
 			int i = diFurnace.getGearLeft();
@@ -65,7 +83,10 @@ public class GUIMachineShredder extends GuiInfoContainer {
 			if(i == 3)
 			{
 				drawTexturedModalRect(guiLeft + 43, guiTop + 71, 176, 36, 18, 18);
+				flag = true;
 			}
+		} else {
+			flag = true;
 		}
 		
 		if(diFurnace.getGearRight() != 0)
@@ -82,10 +103,13 @@ public class GUIMachineShredder extends GuiInfoContainer {
 			if(i == 3)
 			{
 				drawTexturedModalRect(guiLeft + 79, guiTop + 71, 194, 36, 18, 18);
+				flag = true;
 			}
+		} else {
+			flag = true;
 		}
-		
-		int j1 = diFurnace.getDiFurnaceProgressScaled(34);
-		drawTexturedModalRect(guiLeft + 63, guiTop + 89, 176, 54, j1 + 1, 18);
+
+		if(flag)
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 	}
 }

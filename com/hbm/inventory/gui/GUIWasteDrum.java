@@ -14,7 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIWasteDrum extends GuiContainer {
+public class GUIWasteDrum extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_waste_drum.png");
 	private TileEntityWasteDrum diFurnace;
@@ -25,6 +25,16 @@ public class GUIWasteDrum extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 186;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		String[] text = new String[] { "The drum will cool down hot nuclear",
+				"waste when submerged in water. More",
+				"water speeds up the process." };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 	}
 	
 	@Override
@@ -40,5 +50,7 @@ public class GUIWasteDrum extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 	}
 }

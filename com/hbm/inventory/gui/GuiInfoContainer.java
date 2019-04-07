@@ -68,6 +68,18 @@ public abstract class GuiInfoContainer extends GuiContainer {
 		case 7:
 			//Large yellow !
 			drawTexturedModalRect(x, y, 24, 16, 16, 16); break;
+		case 8:
+			//Small blue *
+			drawTexturedModalRect(x, y, 0, 32, 8, 8); break;
+		case 9:
+			//Small grey *
+			drawTexturedModalRect(x, y, 0, 40, 8, 8); break;
+		case 10:
+			//Large blue *
+			drawTexturedModalRect(x, y, 8, 32, 16, 16); break;
+		case 11:
+			//Large grey *
+			drawTexturedModalRect(x, y, 24, 32, 16, 16); break;
 		}
 	}
 

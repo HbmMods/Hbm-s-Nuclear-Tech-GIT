@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -121,10 +122,12 @@ public class RadioRec extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_radiorec, world, x, y, z);
+			//FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_radiorec, world, x, y, z);
+			player.addChatMessage(new ChatComponentText("It's a broken radio, it doesn't do anything. What did you expect, a plasma TV?"));
 			return true;
 		} else {
-			return true;
+			//return true;
+			return false;
 		}
 	}
 

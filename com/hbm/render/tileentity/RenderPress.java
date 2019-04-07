@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.misc.RenderDecoItem;
 import com.hbm.render.model.ModelRotationTester;
 import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
 import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;

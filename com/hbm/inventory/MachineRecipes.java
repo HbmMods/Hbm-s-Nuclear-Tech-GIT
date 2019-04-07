@@ -1198,7 +1198,7 @@ public class MachineRecipes {
 	public ArrayList<ItemStack> getAlloyFuels() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(Items.coal));
-		fuels.add(new ItemStack(Item.getItemFromBlock(Blocks.coal_block)));
+		fuels.add(new ItemStack(Blocks.coal_block));
 		fuels.add(new ItemStack(Items.lava_bucket));
 		fuels.add(new ItemStack(Items.blaze_rod));
 		fuels.add(new ItemStack(Items.blaze_powder));

@@ -41,6 +41,9 @@ public class ClientProxy extends ServerProxy
 
 		RenderingRegistry.registerBlockHandler(new RenderTaintBlock());
 		RenderingRegistry.registerBlockHandler(new RenderRoofBlock());
+
+		MinecraftForgeClient.registerItemRenderer(ModItems.assembly_template, new ItemRenderTemplate());
+		MinecraftForgeClient.registerItemRenderer(ModItems.chemistry_template, new ItemRenderTemplate());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestRender.class, new RenderTestRender());
 		

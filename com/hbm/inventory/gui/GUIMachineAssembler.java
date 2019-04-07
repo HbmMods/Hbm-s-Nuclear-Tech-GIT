@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineAssembler;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
@@ -30,6 +31,18 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52, assembler.power, assembler.maxPower);
+		
+		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
+
+			String[] text = new String[] { "Error: This machine requires an assembly template!" };
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		}
+
+		String[] text = new String[] { "Acceptable upgrades:",
+				" -Red (speed)",
+				" -Blue (energy saving)",
+				"Max upgrade level is 3"};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 141, guiTop + 40 + 16, text);
 	}
 
 	@Override
@@ -51,5 +64,12 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 
 		int j = assembler.getProgressScaled(83);
 		drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		
+		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
+
+			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
+		}
+		
+		this.drawInfoPanel(guiLeft + 141, guiTop + 40, 8, 8, 8);
 	}
 }

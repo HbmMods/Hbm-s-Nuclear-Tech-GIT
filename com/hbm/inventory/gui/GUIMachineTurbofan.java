@@ -33,6 +33,10 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 
 		diFurnace.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 69 - 52, 34, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152 - 9, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+
+		String[] text = new String[] { "Acceptable upgrades:",
+				" -Pink (afterburner)" };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 96, guiTop + 21, 8, 8, guiLeft + 96, guiTop + 21 + 16, text);
 	}
 	
 	@Override
@@ -58,6 +62,8 @@ public class GUIMachineTurbofan extends GuiInfoContainer {
 			int i = diFurnace.afterburner;
 			drawTexturedModalRect(guiLeft + 107, guiTop + 53, 176, (i - 1) * 16, 16, 16);
 		}
+
+		this.drawInfoPanel(guiLeft + 96, guiTop + 21, 8, 8, 8);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
 		diFurnace.tank.renderTank(this, guiLeft + 53, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);

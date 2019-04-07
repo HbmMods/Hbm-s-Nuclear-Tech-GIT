@@ -30,6 +30,13 @@ public class GUIMachineMiningDrill extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 69 - 52, 16, 52, diFurnace.power, diFurnace.maxPower);
+
+		String[] text = new String[] { "Acceptable upgrades:",
+				" -Red (speed)",
+				" -Blue (energy saving)",
+				" -Green (drill radius)",
+				"Max upgrade level is 3"};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 39, 8, 8, guiLeft + 141, guiTop + 39 + 16, text);
 	}
 	
 	@Override
@@ -56,5 +63,7 @@ public class GUIMachineMiningDrill extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 192, 0, 16, 16);
 		if(k == 1)
 			drawTexturedModalRect(guiLeft + 44, guiTop + 17, 208, 0, 16, 16);
+		
+		this.drawInfoPanel(guiLeft + 141, guiTop + 39, 8, 8, 8);
 	}
 }

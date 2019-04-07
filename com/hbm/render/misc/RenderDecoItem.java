@@ -1,11 +1,11 @@
-package com.hbm.render.tileentity;
+package com.hbm.render.misc;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 
 	public class RenderDecoItem extends RenderItem {
-		RenderDecoItem(TileEntitySpecialRenderer render) {}
+		public RenderDecoItem(TileEntitySpecialRenderer render) {}
 
 		@Override
 		public byte getMiniBlockCount(ItemStack stack, byte original)
