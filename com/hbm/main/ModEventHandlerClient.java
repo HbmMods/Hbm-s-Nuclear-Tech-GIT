@@ -1,5 +1,7 @@
 package com.hbm.main;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -98,10 +100,14 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void preRenderEvent(RenderPlayerEvent.Pre event) {
 		
+		//event.setCanceled(true);
+		
 		RenderPlayer renderer = event.renderer;
 		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
 		
 		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
+		
+		//GL11.glRotated(180, 1, 0, 0);
 		
 		if(cloak != null)
 			player.func_152121_a(Type.CAPE, cloak);

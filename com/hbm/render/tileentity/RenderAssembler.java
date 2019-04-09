@@ -94,7 +94,10 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
         if(offset > 500)
         	offset = 500 - (offset - 500);
         
-		GL11.glTranslated(offset * 0.003 - 0.75, 0, 0);
+        TileEntityMachineAssembler assembler = (TileEntityMachineAssembler) tileEntity;
+        
+        if(assembler.isProgressing)
+        	GL11.glTranslated(offset * 0.003 - 0.75, 0, 0);
 		
         sliderModel.renderAll();
 
@@ -103,8 +106,9 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
         double sway = (System.currentTimeMillis() % 2000) / 2;
 
         sway = Math.sin(sway / Math.PI / 50);
-        
-		GL11.glTranslated(0, 0, sway * 0.3);
+
+        if(assembler.isProgressing)
+        	GL11.glTranslated(0, 0, sway * 0.3);
         armModel.renderAll();
 
         GL11.glPopMatrix();
@@ -137,7 +141,12 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
         bindTexture(cogTexture);
 
         int rotation = (int) (System.currentTimeMillis() % (360 * 5)) / 5;
+        
+        TileEntityMachineAssembler assembler = (TileEntityMachineAssembler) tileEntity;
 
+        if(!assembler.isProgressing)
+        	rotation = 0;
+        
         GL11.glPushMatrix();
 		GL11.glTranslated(-0.6, 0.75, 1.0625);
 		GL11.glRotatef(-rotation, 0F, 0F, 1F);

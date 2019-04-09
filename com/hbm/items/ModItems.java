@@ -1028,6 +1028,7 @@ public class ModItems {
 	public static Item bomb_waffle;
 	public static Item schnitzel_vegan;
 	public static Item cotton_candy;
+	public static Item apple_lead;
 	public static Item apple_schrabidium;
 	public static Item tem_flakes;
 	public static Item glowing_stew;
@@ -2500,6 +2501,7 @@ public class ModItems {
 		bomb_waffle = new ItemWaffle(20, false).setUnlocalizedName("bomb_waffle").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bomb_waffle");
 		schnitzel_vegan = new ItemSchnitzelVegan(0, true).setUnlocalizedName("schnitzel_vegan").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":schnitzel_vegan");
 		cotton_candy = new ItemCottonCandy(5, false).setUnlocalizedName("cotton_candy").setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":cotton_candy");
+		apple_lead = new ItemAppleSchrabidium(5, 0, false).setUnlocalizedName("apple_lead").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":apple_lead");
 		apple_schrabidium = new ItemAppleSchrabidium(20, 100, false).setUnlocalizedName("apple_schrabidium").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":apple_schrabidium");
 		tem_flakes = new ItemTemFlakes(0, 0, false).setUnlocalizedName("tem_flakes").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":tem_flakes");
 		glowing_stew = new ItemSoup(6).setUnlocalizedName("glowing_stew").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glowing_stew");
@@ -4310,6 +4312,7 @@ public class ModItems {
 		GameRegistry.registerItem(bomb_waffle, bomb_waffle.getUnlocalizedName());
 		GameRegistry.registerItem(schnitzel_vegan, schnitzel_vegan.getUnlocalizedName());
 		GameRegistry.registerItem(cotton_candy, cotton_candy.getUnlocalizedName());
+		GameRegistry.registerItem(apple_lead, apple_lead.getUnlocalizedName());
 		GameRegistry.registerItem(apple_schrabidium, apple_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(tem_flakes, tem_flakes.getUnlocalizedName());
 		GameRegistry.registerItem(glowing_stew, glowing_stew.getUnlocalizedName());

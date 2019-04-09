@@ -176,6 +176,7 @@ death.attack.bang=%1$s wurde in mundgerechte Stücke zerfetzt.
 death.attack.pc=%1$s wurde zu einer Pfütze in der pinken Wolke.
 death.attack.cloud=%1$s schmolz wie ein Eis in der Sonne.
 death.attack.lead=%1$s starb an Bleivergiftung.
+death.attack.taint=%1$s starb an Flux-Tumoren.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert
@@ -1265,6 +1266,7 @@ item.thermo_unit_exo.name=Hitzeverteilungseinheit
 
 item.bomb_waffle.name=Massenvernichtungswaffel
 item.schnitzel_vegan.name=Veganes Schnitzel
+item.apple_lead.name=Bleiapfel
 item.apple_schrabidium.name=Schrabidiumapfel
 item.cotton_candy.name=Radioaktive Zuckerwatte
 item.tem_flakes.name=Tem Flakes

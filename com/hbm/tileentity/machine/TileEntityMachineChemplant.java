@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -46,7 +47,6 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	public static final long maxPower = 100000;
 	public int progress;
 	public int maxProgress = 100;
-	public float rotation = 0;
 	public boolean isProgressing;
 	int age = 0;
 	int consumption = 100;
@@ -284,6 +284,8 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 
 		if(!worldObj.isRemote)
 		{
+			int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+			
 			isProgressing = false;
 			
 			age++;
@@ -322,10 +324,6 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 					if(hasSpaceForItems(MachineRecipes.getChemOutputFromTempate(slots[4])) && hasSpaceForFluids(outputs)) {
 						progress++;
 						isProgressing = true;
-						rotation += 5;
-						
-						if(rotation >= 360)
-							rotation -= 360;
 						
 						if(progress >= maxProgress) {
 							progress = 0;
@@ -344,7 +342,6 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			} else
 				progress = 0;
 
-			int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
 			TileEntity te = null;
 			if(meta == 2) {
 				te = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
@@ -433,7 +430,22 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 						break;
 			}
 			
-			PacketDispatcher.wrapper.sendToAll(new TEChemplantPacket(xCoord, yCoord, zCoord, rotation, isProgressing));
+			if(isProgressing) {
+				if(meta == 2) {
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.375, yCoord + 3, zCoord - 0.625, 0.0, 0.0, 0.0));
+				}
+				if(meta == 3) {
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.625, yCoord + 3, zCoord + 1.625, 0.0, 0.0, 0.0));
+				}
+				if(meta == 4) {
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord - 0.625, yCoord + 3, zCoord + 0.625, 0.0, 0.0, 0.0));
+				}
+				if(meta == 5) {
+					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 1.625, yCoord + 3, zCoord + 0.375, 0.0, 0.0, 0.0));
+				}
+			}
+			
+			PacketDispatcher.wrapper.sendToAll(new TEChemplantPacket(xCoord, yCoord, zCoord, isProgressing));
 			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}

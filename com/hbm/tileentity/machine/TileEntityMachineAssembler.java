@@ -35,7 +35,6 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 	public static final long maxPower = 100000;
 	public int progress;
 	public int maxProgress = 100;
-	public float rotation = 0;
 	public boolean isProgressing;
 	int age = 0;
 	int consumption = 100;
@@ -266,10 +265,6 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					if(slots[5] == null || (slots[5] != null && slots[5].getItem() == MachineRecipes.getOutputFromTempate(slots[4]).copy().getItem()) && slots[5].stackSize + MachineRecipes.getOutputFromTempate(slots[4]).copy().stackSize <= slots[5].getMaxStackSize()) {
 						progress++;
 						isProgressing = true;
-						rotation += 5;
-						
-						if(rotation >= 360)
-							rotation -= 360;
 						
 						if(progress >= maxProgress) {
 							progress = 0;
@@ -374,7 +369,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 						break;
 			}
 
-			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, rotation, isProgressing));
+			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, isProgressing));
 			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 		}

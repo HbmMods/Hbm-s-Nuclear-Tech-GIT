@@ -1348,6 +1348,11 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_legs_grey, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_boots_grey, 0.2F);
 		
+		HazmatRegistry.instance.registerHazmat(ModItems.t45_helmet, 0.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.t45_plate, 0.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.t45_legs, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.t45_boots, 0.2F);
+		
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_helmet, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_plate, 1.2F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_legs, 0.9F);

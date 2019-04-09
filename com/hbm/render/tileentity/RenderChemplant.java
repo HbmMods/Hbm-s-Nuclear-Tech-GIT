@@ -97,15 +97,23 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 
         GL11.glPushMatrix();
 		GL11.glTranslated(-0.625, 0, 0.625);
-		if(!chem.tanks[1].getTankType().name().equals(FluidType.NONE.name()))
+		
+		if(!chem.tanks[0].getTankType().name().equals(FluidType.NONE.name()) && chem.isProgressing)
 			GL11.glRotatef(-rotation, 0F, 1F, 0F);
+		else
+			GL11.glRotatef(-45, 0F, 1F, 0F);
+		
 		spinnerModel.renderAll();
         GL11.glPopMatrix();
         
         GL11.glPushMatrix();
 		GL11.glTranslated(0.625, 0, 0.625);
-		if(!chem.tanks[0].getTankType().name().equals(FluidType.NONE.name()))
+		
+		if(!chem.tanks[1].getTankType().name().equals(FluidType.NONE.name()) && chem.isProgressing)
 			GL11.glRotatef(rotation, 0F, 1F, 0F);
+		else
+			GL11.glRotatef(45, 0F, 1F, 0F);
+		
 		spinnerModel.renderAll();
         GL11.glPopMatrix();
 
@@ -114,7 +122,12 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
         bindTexture(pistonTexture);
         
         GL11.glPushMatrix();
-		GL11.glTranslated(0, push, 0);
+        
+        if(chem.isProgressing)
+        	GL11.glTranslated(0, push, 0);
+		else
+        	GL11.glTranslated(0, -0.25, 0);
+        
 		pistonModel.renderAll();
         GL11.glPopMatrix();
 
@@ -122,14 +135,19 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
         int color = 0;
 
         GL11.glDisable(GL11.GL_LIGHTING);
-        if(!chem.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+        if(!chem.tanks[0].getTankType().name().equals(FluidType.NONE.name())) {
             GL11.glPushMatrix();
-	        HmfController.setMod(50000D, -250D);
-	        color = chem.tanks[1].getTankType().getColor();
+	        
+	        if(chem.isProgressing)
+	        	HmfController.setMod(50000D, -250D);
+	        else
+	        	HmfController.setMod(50000D, -50000D);
+	        
+	        color = chem.tanks[0].getTankType().getColor();
 			GL11.glColor3ub((byte)((color & 0xFF0000) >> 16), (byte)((color & 0x00FF00) >> 8), (byte)((color & 0x0000FF) >> 0));
 			GL11.glTranslated(-0.625, 0, 0.625);
 	        
-			int count = chem.tanks[1].getFill() / 1000;
+			int count = chem.tanks[0].getFill() / 1000;
 	        for(int i = 0; i < count; i++) {
 	        	
 	        	if(i < count - 1)
@@ -141,14 +159,19 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 	        GL11.glPopMatrix();
         }
 
-        if(!chem.tanks[0].getTankType().name().equals(FluidType.NONE.name())) {
+        if(!chem.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
 	        GL11.glPushMatrix();
-	        HmfController.setMod(50000D, 250D);
-	        color = chem.tanks[0].getTankType().getColor();
+	        
+	        if(chem.isProgressing)
+	        	HmfController.setMod(50000D, 250D);
+	        else
+	        	HmfController.setMod(50000D, 50000D);
+	        
+	        color = chem.tanks[1].getTankType().getColor();
 			GL11.glColor3ub((byte)((color & 0xFF0000) >> 16), (byte)((color & 0x00FF00) >> 8), (byte)((color & 0x0000FF) >> 0));
 			GL11.glTranslated(0.625, 0, 0.625);
 
-			int count = chem.tanks[0].getFill() / 1000;
+			int count = chem.tanks[1].getFill() / 1000;
 	        for(int i = 0; i < count; i++) {
 	        	
 	        	if(i < count - 1)

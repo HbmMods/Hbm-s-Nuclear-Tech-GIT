@@ -14,7 +14,6 @@ public class TEAssemblerPacket implements IMessage {
 	int x;
 	int y;
 	int z;
-	float spin;
 	boolean progress;
 
 	public TEAssemblerPacket()
@@ -22,12 +21,11 @@ public class TEAssemblerPacket implements IMessage {
 		
 	}
 
-	public TEAssemblerPacket(int x, int y, int z, float spin, boolean bool)
+	public TEAssemblerPacket(int x, int y, int z, boolean bool)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.spin = spin;
 		this.progress = bool;
 	}
 
@@ -36,7 +34,6 @@ public class TEAssemblerPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		spin = buf.readFloat();
 		progress = buf.readBoolean();
 	}
 
@@ -45,7 +42,6 @@ public class TEAssemblerPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeFloat(spin);
 		buf.writeBoolean(progress);
 	}
 
@@ -58,7 +54,6 @@ public class TEAssemblerPacket implements IMessage {
 			if (te != null && te instanceof TileEntityMachineAssembler) {
 					
 				TileEntityMachineAssembler gen = (TileEntityMachineAssembler) te;
-				gen.rotation = m.spin;
 				gen.isProgressing = m.progress;
 			}
 			return null;

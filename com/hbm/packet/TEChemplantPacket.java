@@ -15,7 +15,6 @@ public class TEChemplantPacket implements IMessage {
 	int x;
 	int y;
 	int z;
-	float spin;
 	boolean isProgressing;
 
 	public TEChemplantPacket()
@@ -23,12 +22,11 @@ public class TEChemplantPacket implements IMessage {
 		
 	}
 
-	public TEChemplantPacket(int x, int y, int z, float spin, boolean isProgressing)
+	public TEChemplantPacket(int x, int y, int z, boolean isProgressing)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.spin = spin;
 		this.isProgressing = isProgressing;
 	}
 
@@ -37,7 +35,6 @@ public class TEChemplantPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		spin = buf.readFloat();
 		isProgressing = buf.readBoolean();
 	}
 
@@ -46,7 +43,6 @@ public class TEChemplantPacket implements IMessage {
 		buf.writeInt(x);
 		buf.writeInt(y);
 		buf.writeInt(z);
-		buf.writeFloat(spin);
 		buf.writeBoolean(isProgressing);
 	}
 
@@ -59,7 +55,6 @@ public class TEChemplantPacket implements IMessage {
 			if (te != null && te instanceof TileEntityMachineChemplant) {
 					
 				TileEntityMachineChemplant gen = (TileEntityMachineChemplant) te;
-				gen.rotation = m.spin;
 				gen.isProgressing = m.isProgressing;
 			}
 			return null;
