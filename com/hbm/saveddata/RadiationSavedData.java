@@ -8,6 +8,7 @@ import com.hbm.main.MainRegistry;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderHell;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.chunk.Chunk;
 
@@ -88,6 +89,9 @@ public class RadiationSavedData extends WorldSavedData {
     	for(RadiationSaveStructure rad : contamination)
     		if(rad.chunkX == x && rad.chunkY == y)
     			return rad.radiation;
+    	
+    	if(worldObj != null && worldObj.provider instanceof WorldProviderHell)
+    		return MainRegistry.hellRad;
     	
     	return 0F;
     }

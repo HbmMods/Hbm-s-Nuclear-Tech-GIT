@@ -28,6 +28,8 @@ import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
 import com.hbm.world.Barrel;
+import com.hbm.world.Geyser;
+import com.hbm.world.GeyserLarge;
 import com.hbm.world.Meteorite;
 import com.hbm.world.Sellafield;
 
@@ -385,13 +387,18 @@ public class TestEventTester extends Block {
     		worldObj.spawnEntityInWorld(rocket);
     	}*/
     	
-    	if(!worldObj.isRemote) {
+    	/*if(!worldObj.isRemote) {
     		EntityEMP emp = new EntityEMP(worldObj);
     		emp.posX = par2 + 0.5;
     		emp.posY = par3 + 0.5;
     		emp.posZ = par4 + 0.5;
     		
     		worldObj.spawnEntityInWorld(emp);
+    	}*/
+    	
+    	if(!worldObj.isRemote) {
+    		
+    		new GeyserLarge().generate(worldObj, itemRand, par2, par3, par4);
     	}
 
     	/*if(!worldObj.isRemote) {

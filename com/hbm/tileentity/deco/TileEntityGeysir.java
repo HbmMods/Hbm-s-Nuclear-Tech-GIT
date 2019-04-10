@@ -11,6 +11,7 @@ import com.hbm.entity.projectile.EntityWaterSplash;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -23,7 +24,7 @@ public class TileEntityGeysir extends TileEntity {
 	@Override
 	public void updateEntity() {
 		
-		if (!this.worldObj.isRemote) {
+		if (!this.worldObj.isRemote && worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.air) {
 			
 			timer--;
 			
@@ -72,7 +73,7 @@ public class TileEntityGeysir extends TileEntity {
 	private void vapor() {
 
 		List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
-				AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5,
+				AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord + 0.5, this.zCoord - 0.5, this.xCoord + 1.5,
 						this.yCoord + 2, this.zCoord + 1.5));
 		
 		if (!entities.isEmpty()) {

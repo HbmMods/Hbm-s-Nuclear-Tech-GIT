@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -328,8 +329,13 @@ public class EntityTaintedCreeper extends EntityMob {
 			    	int a = rand.nextInt(15) + (int)posX - 7;
 			    	int b = rand.nextInt(15) + (int)posY - 7;
 			    	int c = rand.nextInt(15) + (int)posZ - 7;
-			           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c))
-			        	   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 5, 2);
+			           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c)) {
+			        	   
+			        	   if(!MainRegistry.enableHardcoreTaint)
+			        		   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 5, 2);
+			        	   else
+			        		   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3), 2);
+			           }
 			    }
 			    
             } else {
@@ -338,8 +344,14 @@ public class EntityTaintedCreeper extends EntityMob {
 			    	int a = rand.nextInt(7) + (int)posX - 3;
 			    	int b = rand.nextInt(7) + (int)posY - 3;
 			    	int c = rand.nextInt(7) + (int)posZ - 3;
-			           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c))
-			        	   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(6) + 10, 2);
+			           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && hasPosNeightbour(worldObj, a, b, c)) {
+			        	   
+			        	   if(!MainRegistry.enableHardcoreTaint)
+			        	   
+			        		   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(6) + 10, 2);
+			        	   else
+			        		   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+			           }
 			    }
             }
 

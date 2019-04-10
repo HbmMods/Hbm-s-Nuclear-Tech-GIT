@@ -2,6 +2,8 @@ package com.hbm.potion;
 
 import java.lang.reflect.Field;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.Library;
@@ -81,8 +83,22 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 			
-			if(!(entity instanceof EntityTaintedCreeper))
+			if(!(entity instanceof EntityTaintedCreeper) && entity.worldObj.rand.nextInt(80) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
+			
+			if(MainRegistry.enableHardcoreTaint && !entity.worldObj.isRemote) {
+				
+				int x = (int)(entity.posX - 1);
+				int y = (int)entity.posY;
+				int z = (int)(entity.posZ);
+				
+				if(entity.worldObj.getBlock(x, y, z)
+						.isReplaceable(entity.worldObj, x, y, z) && 
+						BlockTaint.hasPosNeightbour(entity.worldObj, x, y, z)) {
+					
+					entity.worldObj.setBlock(x, y, z, ModBlocks.taint, 14, 2);
+				}
+			}
 		}
 		if(this == radiation) {
 			
@@ -116,8 +132,7 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 
-			int k = 80 >> par2;
-	        return k > 0 ? par1 % k == 0 : true;
+	        return par1 % 2 == 0;
 		}
 		if(this == radiation) {
 			

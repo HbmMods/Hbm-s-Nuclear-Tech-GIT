@@ -138,7 +138,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		if(getDelay(stack) > 0 && isCurrentItem)
 			setDelay(stack, getDelay(stack) - 1);
 			
-		if(mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
+		if(MainRegistry.enableGuns && mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
 			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);

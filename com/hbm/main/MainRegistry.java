@@ -233,6 +233,8 @@ public class MainRegistry
 	public static boolean enableRads = true;
 	public static boolean enableCataclysm = true;
 	public static boolean enableExtendedLogging = false;
+	public static boolean enableHardcoreTaint = false;
+	public static boolean enableGuns = true;
 
 	public static int uraniumSpawn = 6;
 	public static int thoriumSpawn = 7;
@@ -298,6 +300,7 @@ public class MainRegistry
 	public static int cont = 0;
 	public static int fogRad = 100;
 	public static int fogCh = 20;
+	public static float hellRad = 0.1F;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -1475,6 +1478,8 @@ public class MainRegistry
         enableRads = config.get(CATEGORY_GENERAL, "1.16_enableNewRadiation", true).getBoolean(true);
         enableCataclysm = config.get(CATEGORY_GENERAL, "1.17_enableCataclysm", false).getBoolean(false);
         enableExtendedLogging = config.get(CATEGORY_GENERAL, "1.18_enableExtendedLogging", false).getBoolean(false);
+        enableHardcoreTaint = config.get(CATEGORY_GENERAL, "1.19_enableHardcoreTaint", false).getBoolean(false);
+        enableGuns = config.get(CATEGORY_GENERAL, "1.20_enableGuns", true).getBoolean(true);
 
         final String CATEGORY_OREGEN = "02_ores";
         Property PuraniumSpawn = config.get(CATEGORY_OREGEN, "2.00_uraniumSpawnrate", 6);
@@ -1658,6 +1663,10 @@ public class MainRegistry
         Property fogChance = config.get(CATEGORY_NUKE, "6.08_fogChance", 10);
         fogChance.comment = "1:n chance of fog spawning every second";
         fogCh = fogChance.getInt();
+        //nether radiation
+        Property netherRad = config.get(CATEGORY_NUKE, "6.09_netherRad", 10);
+        netherRad.comment = "RAD/s in the nether in hundredths";
+        hellRad = netherRad.getInt() * 0.01F;
 
         final String CATEGORY_MISSILE = "07_missile_machines";
         Property propRadarRange = config.get(CATEGORY_MISSILE, "7.00_radarRange", 1000);

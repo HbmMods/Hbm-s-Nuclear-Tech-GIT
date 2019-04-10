@@ -12,6 +12,8 @@ import com.hbm.world.CrashedVertibird;
 import com.hbm.world.DesertAtom001;
 import com.hbm.world.Dud;
 import com.hbm.world.Factory;
+import com.hbm.world.Geyser;
+import com.hbm.world.GeyserLarge;
 import com.hbm.world.LibraryDungeon;
 import com.hbm.world.OilBubble;
 import com.hbm.world.OilSandBubble;
@@ -414,6 +416,33 @@ public class HbmWorldGen implements IWorldGenerator {
 					if(MainRegistry.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned raditation hotspot at " + x + " " + z);
 				}
+			}
+
+			if (biome == BiomeGenBase.plains && rand.nextInt(20) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+				
+				if(world.getBlock(x, y - 1, z) == Blocks.grass)
+					new Geyser().generate(world, rand, x, y, z);
+			}
+
+			if (biome == BiomeGenBase.desert && rand.nextInt(20) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+
+				if(world.getBlock(x, y - 1, z) == Blocks.sand)
+					new GeyserLarge().generate(world, rand, x, y, z);
+			}
+
+			if (rand.nextInt(20) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+
+				if(world.getBlock(x, y - 1, z) == Blocks.stone)
+					world.setBlock(x, y - 1, z, ModBlocks.geysir_vapor);
 			}
 
 			if (MainRegistry.enableVaults && rand.nextInt(MainRegistry.vaultfreq) == 0) {
