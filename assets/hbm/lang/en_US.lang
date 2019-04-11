@@ -1276,6 +1276,7 @@ item.definitelyfood.name=TotallyNotDirt-Brand MRE
 item.loops.name=Lööps
 item.loop_stew.name=IT Breakfast
 item.fooditem.name=food item
+item.twinkie.name=Twinkie
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt

@@ -1276,6 +1276,7 @@ item.definitelyfood.name=GarantiertKeinDreck-Marken Feldration
 item.loops.name=Lüüps
 item.loop_stew.name=Informatiker-Frühstück
 item.fooditem.name=lebensmittel
+item.twinkie.name=Twinkie
 
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_dirt.name=Gefrorene Erde

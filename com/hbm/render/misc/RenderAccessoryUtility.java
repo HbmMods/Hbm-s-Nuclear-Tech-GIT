@@ -20,6 +20,8 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation nostalgia = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeNostalgia.png");
 	private static ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeSam.png");
 	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeHoboy.png");
+	private static ResourceLocation master = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeMaster.png");
+	private static ResourceLocation mek = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeMek.png");
 	private static ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeTest.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
@@ -57,6 +59,12 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.Hoboy03new)) {
 			return hoboy;
+		}
+		if(uuid.equals(Library.Dragon59MC)) {
+			return master;
+		}
+		if(uuid.equals(Library.Steelcourage)) {
+			return mek;
 		}
 		if(name.startsWith("Player")) {
 			return test;

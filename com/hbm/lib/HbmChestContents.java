@@ -16,6 +16,7 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] modGeneric = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(Items.bread, 0, 1, 5, 8),
+			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 3, 6),
 			new WeightedRandomChestContent(Items.iron_ingot, 0, 2, 6, 10),
 			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 2, 5, 7),
 			new WeightedRandomChestContent(ModItems.ingot_beryllium, 0, 1, 2, 4),
@@ -42,6 +43,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 3)  };
 
 	private static WeightedRandomChestContent[] antenna = new WeightedRandomChestContent[] {
+			new WeightedRandomChestContent(ModItems.twinkie, 0, 1, 3, 4),
 			new WeightedRandomChestContent(ModItems.ingot_steel, 0, 1, 2, 7),
 			new WeightedRandomChestContent(ModItems.ingot_red_copper, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.ingot_titanium, 0, 1, 3, 5),

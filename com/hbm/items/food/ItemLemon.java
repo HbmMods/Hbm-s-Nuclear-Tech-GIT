@@ -65,6 +65,10 @@ public class ItemLemon extends ItemFood {
 		if(this == ModItems.loop_stew) {
 			list.add("A very, very healthy breakfast.");
 		}
+		
+		if(this == ModItems.twinkie) {
+			list.add("Expired 600 years ago!");
+		}
 	}
 
 

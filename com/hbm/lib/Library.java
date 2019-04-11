@@ -2,6 +2,8 @@ package com.hbm.lib;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
@@ -55,6 +57,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class Library {
+	
+	static Random rand = new Random();
 
 	public static List<String> book1 = new ArrayList<String>();
 	public static List<String> book2 = new ArrayList<String>();
@@ -72,6 +76,8 @@ public class Library {
 	public static String Dr_Nostalgia = "e82684a7-30f1-44d2-ab37-41b342be1bbd";
 	public static String Samino2 = "87c3960a-4332-46a0-a929-ef2a488d1cda";
 	public static String Hoboy03new = "d7f29d9c-5103-4f6f-88e1-2632ff95973f";
+	public static String Dragon59MC = "dc23a304-0f84-4e2d-b47d-84c8d3bfbcdb";
+	public static String Steelcourage = "ac49720b-4a9a-4459-a26f-bee92160287a";
 	
 	public static List<String> superuser = new ArrayList<String>();
 	
@@ -1321,5 +1327,18 @@ public class Library {
 				return i;
 		}
 		return -1;
+	}
+	
+	public static Block getRandomConcrete() {
+		int i = rand.nextInt(100);
+
+		if(i < 5)
+			return ModBlocks.brick_concrete_broken;
+		if(i < 20)
+			return ModBlocks.brick_concrete_cracked;
+		if(i < 50)
+			return ModBlocks.brick_concrete_mossy;
+		
+		return ModBlocks.brick_concrete;
 	}
 }
