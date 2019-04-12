@@ -10,4 +10,8 @@ public class ServerProxy
 	public void registerTileEntitySpecialRenderer() {
 		
 	}
+	
+	public void particleControl(double x, double y, double z, int type) {
+		
+	}
 }

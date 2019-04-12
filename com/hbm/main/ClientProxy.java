@@ -1,7 +1,10 @@
  package com.hbm.main;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
+import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -426,6 +429,29 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerTileEntitySpecialRenderer() {
 		
+	}
+	
+	@Override
+	public void particleControl(double x, double y, double z, int type) {
+
+		
+		World world = Minecraft.getMinecraft().theWorld;
+		
+		switch(type) {
+		case 0:
+			
+			for(int i = 0; i < 10; i++) {
+				EntityCloudFX smoke = new EntityCloudFX(world, x + world.rand.nextGaussian(), y + world.rand.nextGaussian(), z + world.rand.nextGaussian(), 0.0, 0.0, 0.0);
+				Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
+			}
+			break;
+			
+		case 1:
+			
+			EntityCloudFX smoke = new EntityCloudFX(world, x, y, z, 0.0, 0.1, 0.0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
+			break;
+		}
 	}
 }
 

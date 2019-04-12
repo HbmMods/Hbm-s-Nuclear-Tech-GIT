@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 
@@ -8,9 +9,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityCloudFX;
-import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -57,23 +55,7 @@ public class AuxParticlePacket implements IMessage {
 			
 			try {
 				
-				World world = Minecraft.getMinecraft().theWorld;
-				
-				switch(m.type) {
-				case 0:
-					
-					for(int i = 0; i < 10; i++) {
-						EntityCloudFX smoke = new EntityCloudFX(world, m.x + world.rand.nextGaussian(), m.y + world.rand.nextGaussian(), m.z + world.rand.nextGaussian(), 0.0, 0.0, 0.0);
-						Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
-					}
-					break;
-					
-				case 1:
-					
-					EntityCloudFX smoke = new EntityCloudFX(world, m.x, m.y, m.z, 0.0, 0.1, 0.0);
-					Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
-					break;
-				}
+				MainRegistry.proxy.particleControl(m.x, m.y, m.z, m.type);
 				
 			} catch(Exception x) { }
 			
