@@ -150,11 +150,11 @@ public class TileEntitySafe extends TileEntityLockableBase implements ISidedInve
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+		return this.isItemValidForSlot(i, itemStack) && !this.isLocked();
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return true;
+		return !this.isLocked();
 	}
 }

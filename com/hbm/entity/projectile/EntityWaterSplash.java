@@ -1,6 +1,10 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.entity.particle.EntityOilSpillFX;
+import com.hbm.packet.AuxParticlePacket;
+import com.hbm.packet.PacketDispatcher;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.MovingObjectPosition;
@@ -30,13 +34,12 @@ public class EntityWaterSplash extends EntityThrowable {
     @Override
     public void onUpdate() {
     	super.onUpdate();
-
-    	for(int i = 0; i < 10; i++)
-    		worldObj.spawnParticle("cloud", posX + rand.nextGaussian(), posY + rand.nextGaussian(), posZ + rand.nextGaussian(), 0.0D, 0.0D, 0.0D);
 		
     	if(!worldObj.isRemote) {
     		
-	        if(this.ticksExisted > 100) {
+    		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY, posZ, 0), new TargetPoint(this.dimension, posX, posY, posZ, 75));
+    		
+	        if(this.ticksExisted > 80) {
 	        	this.setDead();
 	        }
     	}

@@ -282,10 +282,15 @@ public class MainRegistry
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
 	public static int barrelStructure = 5000;
+	public static int geyserWater = 3000;
+	public static int geyserChlorine = 3000;
+	public static int geyserVapor = 500;
+	
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
 	public static int radfreq = 5000;
 	public static int vaultfreq = 2500;
+	
 	public static int meteorStrikeChance = 20 * 60 * 180;
 	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
@@ -1615,6 +1620,15 @@ public class MainRegistry
         Property propVault = config.get(CATEGORY_DUNGEON, "4.16_vaultSpawn", 2500);
         propVault.comment = "Spawn locked safe on every nTH chunk";
         vaultfreq = propVault.getInt();
+        Property pGW = config.get(CATEGORY_DUNGEON, "4.17_geyserWaterSpawn", 3000);
+        pGW.comment = "Spawn water geyser on every nTH chunk";
+        geyserWater = pGW.getInt();
+        Property pGC = config.get(CATEGORY_DUNGEON, "4.18_geyserChlorineSpawn", 3000);
+        pGC.comment = "Spawn poison geyser on every nTH chunk";
+        geyserChlorine = pGC.getInt();
+        Property pGV = config.get(CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", 500);
+        pGV.comment = "Spawn vapor geyser on every nTH chunk";
+        geyserVapor = pGV.getInt();
 
         final String CATEGORY_METEOR = "05_meteors";
         Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 180);
@@ -1717,6 +1731,9 @@ public class MainRegistry
         dudStructure = setDef(dudStructure, 1000);
         spaceshipStructure = setDef(spaceshipStructure, 1000);
         barrelStructure = setDef(barrelStructure, 1000);
+        geyserWater = setDef(geyserWater, 1000);
+        geyserChlorine = setDef(geyserChlorine, 1000);
+        geyserVapor = setDef(geyserVapor, 1000);
         broadcaster = setDef(broadcaster, 1000);
         minefreq = setDef(minefreq, 1000);
         radfreq = setDef(radfreq, 1000);

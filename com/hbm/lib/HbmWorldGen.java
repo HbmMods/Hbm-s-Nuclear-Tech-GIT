@@ -418,7 +418,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (biome == BiomeGenBase.plains && rand.nextInt(20) == 0) {
+			if (biome == BiomeGenBase.plains && rand.nextInt(MainRegistry.geyserWater) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -427,7 +427,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					new Geyser().generate(world, rand, x, y, z);
 			}
 
-			if (biome == BiomeGenBase.desert && rand.nextInt(20) == 0) {
+			if (biome == BiomeGenBase.desert && rand.nextInt(MainRegistry.geyserChlorine) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -436,7 +436,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					new GeyserLarge().generate(world, rand, x, y, z);
 			}
 
-			if (rand.nextInt(20) == 0) {
+			if (rand.nextInt(MainRegistry.geyserVapor) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);

@@ -21,8 +21,8 @@ public class ItemLeadBox extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(world.isRemote)
-			player.openGui(MainRegistry.instance, ModItems.guiID_item_box, world, 0, 0, 0);
+		//if(world.isRemote)
+		//	player.openGui(MainRegistry.instance, ModItems.guiID_item_box, world, 0, 0, 0);
 		
 		return stack;
 	}

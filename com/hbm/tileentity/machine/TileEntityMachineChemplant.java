@@ -19,11 +19,13 @@ import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEChemplantPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -432,16 +434,20 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			
 			if(isProgressing) {
 				if(meta == 2) {
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.375, yCoord + 3, zCoord - 0.625, 0.0, 0.0, 0.0));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(xCoord + 0.375, yCoord + 3, zCoord - 0.625, 1),
+							new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.375, yCoord + 3, zCoord - 0.625, 50));
 				}
 				if(meta == 3) {
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 0.625, yCoord + 3, zCoord + 1.625, 0.0, 0.0, 0.0));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(xCoord + 0.625, yCoord + 3, zCoord + 1.625, 1),
+							new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.625, yCoord + 3, zCoord + 1.625, 50));
 				}
 				if(meta == 4) {
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord - 0.625, yCoord + 3, zCoord + 0.625, 0.0, 0.0, 0.0));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(xCoord - 0.625, yCoord + 3, zCoord + 0.625, 1),
+							new TargetPoint(worldObj.provider.dimensionId, xCoord - 0.625, yCoord + 3, zCoord + 0.625, 50));
 				}
 				if(meta == 5) {
-					worldObj.spawnEntityInWorld(new EntityGasFlameFX(worldObj, xCoord + 1.625, yCoord + 3, zCoord + 0.375, 0.0, 0.0, 0.0));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(xCoord + 1.625, yCoord + 3, zCoord + 0.375, 1),
+							new TargetPoint(worldObj.provider.dimensionId, xCoord + 1.625, yCoord + 3, zCoord + 0.375, 50));
 				}
 			}
 			
