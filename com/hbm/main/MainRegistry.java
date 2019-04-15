@@ -213,6 +213,11 @@ public class MainRegistry
 	public static Achievement achFOEQ;
 	public static Achievement achFiend;
 	public static Achievement achFiend2;
+	public static Achievement bobMetalworks;
+	public static Achievement bobAssembly;
+	public static Achievement bobChemistry;
+	public static Achievement bobOil;
+	public static Achievement bobNuclear;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -992,6 +997,12 @@ public class MainRegistry
 		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 2, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
 		achFiend = new Achievement("achievement.fiend", "fiend", 6, 0, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
 		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 2, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
+
+		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 4, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
+		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 4, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
+		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 4, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
+		bobOil = new Achievement("achievement.oil", "oil", 4, 4, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
+		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 4, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -1005,8 +1016,16 @@ public class MainRegistry
 				achSpace,
 				achFOEQ,
 				achFiend,
-				achFiend2
+				achFiend2,
+				bobMetalworks,
+				bobAssembly,
+				bobChemistry,
+				bobOil,
+				bobNuclear
 		}));
+
+		//MUST be initialized AFTER achievements!!
+		BobmazonOfferFactory.init();
 		
 		OreDictionary.registerOre("ingotUranium", ModItems.ingot_uranium);
 		OreDictionary.registerOre("ingotUranium233", ModItems.ingot_u233);

@@ -33,6 +33,16 @@ achievement.fiend=Delinquent
 achievement.fiend.desc=Be mean.
 achievement.fiend2=Delinquent 2: Delinquent Harder
 achievement.fiend2.desc=Be meaner.
+achievement.metalworks=Metalworks
+achievement.metalworks.desc=Bobmazon Level 1
+achievement.assembly=Fabrication
+achievement.assembly.desc=Bobmazon Level 2
+achievement.chemistry=Chemistry
+achievement.chemistry.desc=Bobmazon Level 3
+achievement.oil=Petroleum
+achievement.oil.desc=Bobmazon Level 4
+achievement.nuclear=Atomic Science
+achievement.nuclear.desc=Bobmazon Level 5
 
 potion.hbm_taint=Tainted
 potion.hbm_mutation=Tainted Heart

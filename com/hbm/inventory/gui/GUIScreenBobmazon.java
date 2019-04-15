@@ -15,6 +15,7 @@ import com.hbm.items.tool.ItemCassette.TrackType;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -23,52 +24,37 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIScreenTemplateFolder extends GuiScreen {
+public class GUIScreenBobmazon extends GuiScreen {
 	
-    protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_planner.png");
+    protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_bobmazon.png");
     protected int xSize = 176;
     protected int ySize = 229;
     protected int guiLeft;
     protected int guiTop;
     int currentPage = 0;
-    List<ItemStack> stacks = new ArrayList<ItemStack>();
+    List<Offer> offers = new ArrayList<Offer>();
     List<FolderButton> buttons = new ArrayList<FolderButton>();
     private final EntityPlayer player;
     
-    public GUIScreenTemplateFolder(EntityPlayer player) {
+    public GUIScreenBobmazon(EntityPlayer player, List<Offer> offers) {
     	
     	this.player = player;
 
-    	//Stamps
-		for(Item i : MachineRecipes.stamps_plate)
-			stacks.add(new ItemStack(i));
-		for(Item i : MachineRecipes.stamps_wire)
-			stacks.add(new ItemStack(i));
-		for(Item i : MachineRecipes.stamps_circuit)
-			stacks.add(new ItemStack(i));
-		//Tracks
-    	for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
-    		stacks.add(new ItemStack(ModItems.siren_track, 1, i));
-    	//Fluid IDs
-    	for(int i = 1; i < FluidType.values().length; i++)
-    		stacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
-    	//Assembly Templates
-    	for(int i = 0; i < EnumAssemblyTemplate.values().length; i++)
-    		stacks.add(new ItemStack(ModItems.assembly_template, 1, i));
-    	//Chemistry Templates
-    	for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++)
-    		stacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
+    	this.offers = offers;
     }
     
     int getPageCount() {
-    	return (int)Math.ceil((stacks.size() - 1) / (5 * 7));
+    	return (int)Math.ceil((offers.size() - 1) / 3);
     }
     
     public void updateScreen() {
@@ -95,19 +81,14 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
         updateButtons();
     }
-	
-	@Override
-	public boolean doesGuiPauseGame() {
-		return false;
-	}
     
     protected void updateButtons() {
         
         if(!buttons.isEmpty())
         	buttons.clear();
         
-        for(int i = currentPage * 35; i < Math.min(currentPage * 35 + 35, stacks.size()); i++) {
-    		buttons.add(new FolderButton(guiLeft + 25 + (27 * (i % 5)), guiTop + 26 + (27 * (int)Math.floor((i / 5D))) - currentPage * 27 * 7, stacks.get(i)));
+        for(int i = currentPage * 3; i < Math.min(currentPage * 3 + 3, offers.size()); i++) {
+    		buttons.add(new FolderButton(guiLeft + 34, guiTop + 35 + (54 * (int)Math.floor(i)) - currentPage * 3 * 54, offers.get(i)));
         }
 
         if(currentPage != 0)
@@ -129,7 +110,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 
 		this.fontRendererObj.drawString(I18n.format((currentPage + 1) + "/" + (getPageCount() + 1)), 
-				guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(I18n.format((currentPage + 1) + "/" + (getPageCount() + 1))) / 2, guiTop + 10, 4210752);
+				guiLeft + this.xSize / 2 - this.fontRendererObj.getStringWidth(I18n.format((currentPage + 1) + "/" + (getPageCount() + 1))) / 2, guiTop + 205, 4210752);
 		
 		for(FolderButton b : buttons)
 			if(b.isMouseOnButton(i, j))
@@ -145,6 +126,10 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			b.drawButton(b.isMouseOnButton(i, j));
 		for(FolderButton b : buttons)
 			b.drawIcon(b.isMouseOnButton(i, j));
+        
+        for(int d = currentPage * 3; d < Math.min(currentPage * 3 + 3, offers.size()); d++) {
+    		offers.get(d).drawRequirement(this, guiLeft + 34, guiTop + 53 + (54 * (int)Math.floor(d)) - currentPage * 3 * 54);
+        }
 	}
 	
     protected void keyTyped(char p_73869_1_, int p_73869_2_)
@@ -163,7 +148,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		//0: regular, 1: prev, 2: next
 		int type;
 		String info;
-		ItemStack stack;
+		Offer offer;
 		
 		public FolderButton(int x, int y, int t, String i) {
 			xPos = x;
@@ -172,12 +157,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			info = i;
 		}
 		
-		public FolderButton(int x, int y, ItemStack stack) {
+		public FolderButton(int x, int y, Offer offer) {
 			xPos = x;
 			yPos = y;
 			type = 0;
-			info = stack.getDisplayName();
-			this.stack = stack.copy();
+			this.offer = offer;
 		}
 		
 		public void updateButton(int mouseX, int mouseY) {
@@ -195,13 +179,8 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		public void drawIcon(boolean b) {
 			try {
 		        GL11.glDisable(GL11.GL_LIGHTING);
-				if(stack != null) {
-					if(stack.getItem() == ModItems.assembly_template)
-						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), MachineRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
-					else if(stack.getItem() == ModItems.chemistry_template)
-						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage()), xPos + 1, yPos + 1);
-					else
-						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), stack, xPos + 1, yPos + 1);
+				if(offer != null) {
+					itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), offer.offer, xPos + 1, yPos + 1);
 				}
 		        GL11.glEnable(GL11.GL_LIGHTING);
 			} catch(Exception x) { }
@@ -211,21 +190,14 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			if(info == null || info.isEmpty())
 				return;
 			
-			String s = info;
-			if(stack != null) {
-				if(stack.getItem() instanceof ItemFluidIdentifier)
-					s += (": " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));
-				else if(stack.getItem() instanceof ItemCassette)
-					s = TrackType.getEnum(stack.getItemDamage()).getTrackTitle();
-			}
-
-			func_146283_a(Arrays.asList(new String[] { s }), x, y);
+			func_146283_a(Arrays.asList(new String[] { info }), x, y);
 		}
 		
 		public void executeAction() {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if(type == 0) {
-				PacketDispatcher.wrapper.sendToServer(new ItemFolderPacket(stack.copy()));
+				//TODO: request purchase
+				//PacketDispatcher.wrapper.sendToServer(new ItemFolderPacket(stack.copy()));
 			} else if(type == 1) {
 				if(currentPage > 0)
 					currentPage--;
@@ -236,7 +208,106 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 				updateButtons();
 			}
 		}
+	}
+	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+	
+	public static class Offer {
 		
+		ItemStack offer;
+		Requirement requirement;
+		int cost;
+		int rating;
+		String comment;
+		String author;
+		
+		public Offer(ItemStack offer, Requirement requirement, int cost, int rating, String comment, String author) {
+			this.offer = offer;
+			this.requirement = requirement;
+			this.cost = cost;
+			this.rating = rating * 4 - 1;
+			this.comment = comment;
+			this.author = author;
+		}
+		
+		public Offer(ItemStack offer, Requirement requirement, int cost) {
+			this.offer = offer;
+			this.requirement = requirement;
+			this.cost = cost;
+			this.rating = 0;
+			this.comment = "No Ratings";
+			this.author = "";
+		}
+		
+		public void drawRequirement(GUIScreenBobmazon gui, int x, int y) {
+			try {
+
+				RenderHelper.enableGUIStandardItemLighting();
+				GL11.glColor3f(1F, 1F, 1F);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+				gui.drawTexturedModalRect(x + 19, y - 4, 176, 62, 39, 8);
+				gui.drawTexturedModalRect(x + 19, y - 4, 176, 54, rating, 8);
+				
+				String count = "";
+				if(offer.stackSize > 1)
+					count = " x" + offer.stackSize;
+
+				GL11.glPushMatrix();
+				
+				float scale = 0.65F;
+				GL11.glScalef(scale, scale, scale);
+				gui.fontRendererObj.drawString(I18n.format(offer.getDisplayName()) + count, (int)((x + 20) / scale), (int)((y - 12) / scale), 4210752);
+				
+				GL11.glPopMatrix();
+				
+				String price = cost + " Cap";
+				if(cost != 1)
+					price += "s";
+
+				gui.fontRendererObj.drawString(price, x + 62, y - 3, 4210752);
+				
+				GL11.glPushMatrix();
+					
+					GL11.glScalef(0.5F, 0.5F, 0.5F);
+					
+					if(!author.isEmpty())
+						gui.fontRendererObj.drawString("- " + author, (x + 20) * 2, (y + 18) * 2, 0x222222);
+					gui.fontRendererObj.drawString(comment, (x + 20) * 2, (y + 8) * 2, 0x222222);
+					
+				GL11.glPopMatrix();
+				
+		        GL11.glDisable(GL11.GL_LIGHTING);
+				if(offer != null) {
+					gui.itemRender.renderItemAndEffectIntoGUI(gui.fontRendererObj, gui.mc.getTextureManager(), requirement.achievement.theItemStack, x + 1, y + 1);
+				}
+		        GL11.glEnable(GL11.GL_LIGHTING);
+		        
+			} catch(Exception ex) { }
+		}
+		
+	}
+	
+	public enum Requirement {
+
+		STEEL(MainRegistry.bobMetalworks),
+		ASSEMBLY(MainRegistry.bobAssembly),
+		CHEMICS(MainRegistry.bobChemistry),
+		OIL(MainRegistry.bobOil),
+		NUCLEAR(MainRegistry.bobNuclear);
+		
+		private Requirement(Achievement achievement) {
+			this.achievement = achievement;
+		}
+		
+		public boolean fullfills(EntityPlayerMP player) {
+			
+			return player.func_147099_x().hasAchievementUnlocked(achievement);
+		}
+		
+		Achievement achievement;
 	}
 
 }

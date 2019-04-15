@@ -21,6 +21,8 @@ import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ModEventHandler;
+import com.hbm.packet.AuxParticlePacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSaveStructure;
 import com.hbm.saveddata.RadiationSavedData;
@@ -33,6 +35,7 @@ import com.hbm.world.GeyserLarge;
 import com.hbm.world.Meteorite;
 import com.hbm.world.Sellafield;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -396,10 +399,14 @@ public class TestEventTester extends Block {
     		worldObj.spawnEntityInWorld(emp);
     	}*/
     	
-    	if(!worldObj.isRemote) {
+    	/*if(!worldObj.isRemote) {
     		
     		new GeyserLarge().generate(worldObj, itemRand, par2, par3, par4);
-    	}
+    	}*/
+    	
+    	if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(par2, par3 + 2, par4, 2),
+					new TargetPoint(worldObj.provider.dimensionId,par2, par3, par4, 50));
 
     	/*if(!worldObj.isRemote) {
 

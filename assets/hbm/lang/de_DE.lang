@@ -33,6 +33,16 @@ achievement.fiend=Unhold
 achievement.fiend.desc=Sei gemein.
 achievement.fiend2=Unhold 2: Noch unholdiger
 achievement.fiend2.desc=Sei gemeiner.
+achievement.metalworks=Metallurgie
+achievement.metalworks.desc=Bobmazon Level 1
+achievement.assembly=Fertigung
+achievement.assembly.desc=Bobmazon Level 2
+achievement.chemistry=Chemie
+achievement.chemistry.desc=Bobmazon Level 3
+achievement.oil=Petroleum
+achievement.oil.desc=Bobmazon Level 4
+achievement.nuclear=Atomwissenschaft
+achievement.nuclear.desc=Bobmazon Level 5
 
 potion.hbm_taint=Verdorben
 potion.hbm_mutation=Verdorbenes Herz

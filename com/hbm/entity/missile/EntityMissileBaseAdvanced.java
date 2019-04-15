@@ -7,8 +7,11 @@ import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -225,7 +228,9 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	        }
 	
 			if(!this.worldObj.isRemote)
-				this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+				//this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY, posZ, 2),
+						new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 300));
 	        
 	        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && 
         			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
@@ -238,6 +243,8 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
     			this.setDead();
     			return;
         	}
+	        
+	        loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
         
         	if(motionY < -1 && this.isCluster && !worldObj.isRemote) {
         		cluster();

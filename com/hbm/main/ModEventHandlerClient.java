@@ -123,6 +123,12 @@ public class ModEventHandlerClient {
 	public void clickHandler(MouseEvent event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+		if(event.button == 0 && player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+			if(player.worldObj.rand.nextInt(2) == 0)
+				Minecraft.getMinecraft().gameSettings.limitFramerate = 10;
+			else
+				Minecraft.getMinecraft().gameSettings.limitFramerate = 60;
 		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
 			

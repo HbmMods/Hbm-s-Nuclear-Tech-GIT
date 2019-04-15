@@ -791,6 +791,11 @@ public class ModItems {
 	public static Item siren_track;
 	public static Item fluid_duct;
 
+	public static Item bobmazon_materials;
+	public static Item bobmazon_machines;
+	public static Item bobmazon_weapons;
+	public static Item bobmazon_tools;
+
 	public static Item missile_assembly;
 	public static Item missile_generic;
 	public static Item missile_anti_ballistic;
@@ -1556,10 +1561,17 @@ public class ModItems {
 	public static Item nothing;
 	public static Item void_anim;
 
+	public static Item bob_metalworks;
+	public static Item bob_assembly;
+	public static Item bob_chemistry;
+	public static Item bob_oil;
+	public static Item bob_nuclear;
+
 	public static final int guiID_item_folder = 99;
 	public static final int guiID_item_designator = 100;
 	public static final int guiID_item_sat_interface = 101;
 	public static final int guiID_item_box = 102;
+	public static final int guiID_item_bobmazon = 103;
 
 	public static Item mysteryshovel;
 	public static Item memory;
@@ -2771,6 +2783,11 @@ public class ModItems {
 		siren_track = new ItemCassette().setUnlocalizedName("siren_track").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":cassette");
 		fluid_duct = new ItemFluidDuct().setUnlocalizedName("fluid_duct").setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":duct");
 
+		bobmazon_materials = new ItemCatalog().setUnlocalizedName("bobmazon_materials").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_materials");
+		bobmazon_machines = new ItemCatalog().setUnlocalizedName("bobmazon_machines").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_machines");
+		bobmazon_weapons = new ItemCatalog().setUnlocalizedName("bobmazon_weapons").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_weapons");
+		bobmazon_tools = new ItemCatalog().setUnlocalizedName("bobmazon_tools").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":bobmazon_tools");
+
 		euphemium_helmet = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 0).setUnlocalizedName("euphemium_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_helmet");
 		euphemium_plate = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 1).setUnlocalizedName("euphemium_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_plate");
 		euphemium_legs = new ArmorEuphemium(MainRegistry.enumArmorMaterialEuphemium, 6, 2).setUnlocalizedName("euphemium_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":euphemium_legs");
@@ -3051,6 +3068,12 @@ public class ModItems {
 		ln2_10 = new Item().setUnlocalizedName("ln2_10").setTextureName(RefStrings.MODID + ":ln2_10");
 		nothing = new Item().setUnlocalizedName("nothing").setTextureName(RefStrings.MODID + ":nothing");
 		void_anim = new Item().setUnlocalizedName("void_anim").setTextureName(RefStrings.MODID + ":void_anim");
+
+		bob_metalworks = new Item().setUnlocalizedName("bob_metalworks").setTextureName(RefStrings.MODID + ":bob_metalworks");
+		bob_assembly = new Item().setUnlocalizedName("bob_assembly").setTextureName(RefStrings.MODID + ":bob_assembly");
+		bob_chemistry = new Item().setUnlocalizedName("bob_chemistry").setTextureName(RefStrings.MODID + ":bob_chemistry");
+		bob_oil = new Item().setUnlocalizedName("bob_oil").setTextureName(RefStrings.MODID + ":bob_oil");
+		bob_nuclear = new Item().setUnlocalizedName("bob_nuclear").setTextureName(RefStrings.MODID + ":bob_nuclear");
 		
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
 		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
@@ -3615,8 +3638,12 @@ public class ModItems {
 		GameRegistry.registerItem(dynosphere_dineutronium, dynosphere_dineutronium.getUnlocalizedName());
 		GameRegistry.registerItem(dynosphere_dineutronium_charged, dynosphere_dineutronium_charged.getUnlocalizedName());
 		
-		//Template Folder
+		//Folders
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
+		GameRegistry.registerItem(bobmazon_materials, bobmazon_materials.getUnlocalizedName());
+		GameRegistry.registerItem(bobmazon_machines, bobmazon_machines.getUnlocalizedName());
+		GameRegistry.registerItem(bobmazon_weapons, bobmazon_weapons.getUnlocalizedName());
+		GameRegistry.registerItem(bobmazon_tools, bobmazon_tools.getUnlocalizedName());
 		
 		//Hydraulic Press Stamps
 		GameRegistry.registerItem(stamp_stone_flat, stamp_stone_flat.getUnlocalizedName());
@@ -4663,6 +4690,11 @@ public class ModItems {
 		GameRegistry.registerItem(ln2_10, ln2_10.getUnlocalizedName());
 		GameRegistry.registerItem(nothing, nothing.getUnlocalizedName());
 		GameRegistry.registerItem(void_anim, void_anim.getUnlocalizedName());
+		GameRegistry.registerItem(bob_metalworks, bob_metalworks.getUnlocalizedName());
+		GameRegistry.registerItem(bob_assembly, bob_assembly.getUnlocalizedName());
+		GameRegistry.registerItem(bob_chemistry, bob_chemistry.getUnlocalizedName());
+		GameRegistry.registerItem(bob_oil, bob_oil.getUnlocalizedName());
+		GameRegistry.registerItem(bob_nuclear, bob_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 	}

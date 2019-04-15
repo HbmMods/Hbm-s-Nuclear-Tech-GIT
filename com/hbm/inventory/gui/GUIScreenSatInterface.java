@@ -107,6 +107,11 @@ public class GUIScreenSatInterface extends GuiScreen {
 	    }
     }
 	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+	
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 
     	if(connectedSat != null && connectedSat.satelliteType == SatelliteType.LASER) {

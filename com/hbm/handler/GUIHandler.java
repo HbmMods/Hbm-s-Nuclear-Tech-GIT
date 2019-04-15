@@ -1496,6 +1496,9 @@ public class GUIHandler implements IGuiHandler {
 				return new GUIScreenSatInterface(player);
 			case ModItems.guiID_item_box:
 				return new GUILeadBox(new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem())));
+			case ModItems.guiID_item_bobmazon:
+				if(BobmazonOfferFactory.getOffers(player.getHeldItem()) != null)
+					return new GUIScreenBobmazon(player, BobmazonOfferFactory.getOffers(player.getHeldItem()));
 			}
 		}
 		return null;
