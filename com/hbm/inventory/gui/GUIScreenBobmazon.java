@@ -16,6 +16,7 @@ import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.ItemBobmazonPacket;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -196,8 +197,7 @@ public class GUIScreenBobmazon extends GuiScreen {
 		public void executeAction() {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if(type == 0) {
-				//TODO: request purchase
-				//PacketDispatcher.wrapper.sendToServer(new ItemFolderPacket(stack.copy()));
+				PacketDispatcher.wrapper.sendToServer(new ItemBobmazonPacket(offer));
 			} else if(type == 1) {
 				if(currentPage > 0)
 					currentPage--;
@@ -217,12 +217,12 @@ public class GUIScreenBobmazon extends GuiScreen {
 	
 	public static class Offer {
 		
-		ItemStack offer;
-		Requirement requirement;
-		int cost;
-		int rating;
-		String comment;
-		String author;
+		public ItemStack offer;
+		public Requirement requirement;
+		public int cost;
+		public int rating;
+		public String comment;
+		public String author;
 		
 		public Offer(ItemStack offer, Requirement requirement, int cost, int rating, String comment, String author) {
 			this.offer = offer;
@@ -307,7 +307,7 @@ public class GUIScreenBobmazon extends GuiScreen {
 			return player.func_147099_x().hasAchievementUnlocked(achievement);
 		}
 		
-		Achievement achievement;
+		public Achievement achievement;
 	}
 
 }

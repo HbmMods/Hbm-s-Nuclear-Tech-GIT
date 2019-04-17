@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
@@ -460,6 +461,21 @@ public class ModEventHandler
 		}
 		if(item == ModItems.gun_revolver_pip) {
 			e.player.addStat(MainRegistry.achC44, 1);
+		}
+		if(item == Item.getItemFromBlock(ModBlocks.machine_difurnace_off)) {
+			e.player.addStat(MainRegistry.bobMetalworks, 1);
+		}
+		if(item == Item.getItemFromBlock(ModBlocks.machine_assembler)) {
+			e.player.addStat(MainRegistry.bobAssembly, 1);
+		}
+		if(item == Item.getItemFromBlock(ModBlocks.brick_concrete)) {
+			e.player.addStat(MainRegistry.bobChemistry, 1);
+		}
+		if(item == Item.getItemFromBlock(ModBlocks.machine_boiler_electric_off)) {
+			e.player.addStat(MainRegistry.bobOil, 1);
+		}
+		if(item == ModItems.ingot_uranium_fuel) {
+			e.player.addStat(MainRegistry.bobNuclear, 1);
 		}
 	}
 	

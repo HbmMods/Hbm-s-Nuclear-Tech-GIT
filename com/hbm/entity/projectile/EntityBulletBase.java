@@ -3,6 +3,8 @@ package com.hbm.entity.projectile;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.calc.VectorUtil;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
@@ -441,6 +443,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 					worldObj.getBlock(bX, bY, bZ) == Blocks.stained_glass_pane)
 				worldObj.func_147480_a(bX, bY, bZ, false);
 			
+			if(worldObj.getBlock(bX, bY, bZ) == ModBlocks.red_barrel)
+				((RedBarrel) ModBlocks.red_barrel).explode(worldObj, bX, bY, bZ);
 		}
 	}
 	

@@ -2,6 +2,7 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -19,7 +20,14 @@ public class RenderMinerRocket extends Render {
         //GL11.glRotated(180, 0, 0, 1);
         GL11.glDisable(GL11.GL_CULL_FACE);
         
-        bindTexture(ResourceManager.minerRocket_tex);
+        if(p_76986_1_ instanceof EntityMinerRocket) {
+        	bindTexture(ResourceManager.minerRocket_tex);
+        } else {
+        	bindTexture(ResourceManager.bobmazon_tex);
+        	GL11.glRotatef(180, 1, 0, 0);
+            //GL11.glTranslatef(0, 2, 0);
+        }
+        
         ResourceManager.minerRocket.renderAll();
         
         GL11.glEnable(GL11.GL_CULL_FACE);

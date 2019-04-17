@@ -48,6 +48,12 @@ public class EntityFalloutRain extends Entity {
         		
 	        	Vec3 vec = Vec3.createVectorHelper(radProgress * 0.5, 0, 0);
 	        	double circum = radProgress * 2 * Math.PI * 2;
+	        	
+	        	///
+	        	if(circum == 0)
+	        		circum = 1;
+	        	///
+	        	
 	        	double part = 360D / circum;
 	        	
 	        	vec.rotateAroundY((float) (part * revProgress));
@@ -222,6 +228,8 @@ public class EntityFalloutRain extends Entity {
 
 	public int getScale() {
 
-		return this.dataWatcher.getWatchableObjectInt(16);
+		int scale = this.dataWatcher.getWatchableObjectInt(16);
+		
+		return scale == 0 ? 1 : scale;
 	}
 }
