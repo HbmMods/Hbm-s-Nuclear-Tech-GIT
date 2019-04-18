@@ -742,6 +742,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_missile_assembly:
+				{
+					if(entity instanceof TileEntityMachineMissileAssembly)
+					{
+						return new ContainerMachineMissileAssembly(player.inventory, (TileEntityMachineMissileAssembly) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1479,6 +1488,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineArcFurnace)
 					{
 						return new GUIMachineArcFurnace(player.inventory, (TileEntityMachineArcFurnace) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_missile_assembly:
+				{
+					if(entity instanceof TileEntityMachineMissileAssembly)
+					{
+						return new GUIMachineMissileAssembly(player.inventory, (TileEntityMachineMissileAssembly) entity);
 					}
 					return null;
 				}

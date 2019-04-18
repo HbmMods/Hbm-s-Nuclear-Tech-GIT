@@ -64,6 +64,8 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.misc.MissilePart;
+import com.hbm.render.misc.MissilePart.PartType;
 import com.hbm.render.util.HmfModelLoader;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -525,6 +527,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineArcFurnace.class, "tileentity_arc_furnace");
 		GameRegistry.registerTileEntity(TileEntityMachineAmgen.class, "tileentity_amgen");
 		GameRegistry.registerTileEntity(TileEntityGeysir.class, "tileentity_geysir");
+		GameRegistry.registerTileEntity(TileEntityMachineMissileAssembly.class, "tileentity_missile_assembly");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1466,6 +1469,24 @@ public class MainRegistry
 		TileEntityMachineReactorLarge.registerWasteEntry(6, ReactorFuelType.THORIUM, ModItems.rod_empty, ModItems.rod_thorium_fuel_depleted);
 		TileEntityMachineReactorLarge.registerWasteEntry(12, ReactorFuelType.THORIUM, ModItems.rod_dual_empty, ModItems.rod_dual_thorium_fuel_depleted);
 		TileEntityMachineReactorLarge.registerWasteEntry(24, ReactorFuelType.THORIUM, ModItems.rod_quad_empty, ModItems.rod_quad_thorium_fuel_depleted);
+
+		MissilePart.registerPart(ModItems.mp_t_10, PartType.THRUSTER, 1, ResourceManager.mp_t_10_kerosene, ResourceManager.mp_t_10_kerosene_tex);
+		MissilePart.registerPart(ModItems.mp_t_15, PartType.THRUSTER, 1.625, ResourceManager.mp_t_15, ResourceManager.universal);
+		MissilePart.registerPart(ModItems.mp_t_20, PartType.THRUSTER, 2.25, ResourceManager.mp_t_20, ResourceManager.universal);
+
+		MissilePart.registerPart(ModItems.mp_s_10, PartType.FINS, 0, ResourceManager.mp_s_10_flat, ResourceManager.mp_s_10_flat_tex);
+		MissilePart.registerPart(ModItems.mp_s_15, PartType.FINS, 0, ResourceManager.mp_s_15, ResourceManager.universal);
+		MissilePart.registerPart(ModItems.mp_s_20, PartType.FINS, 0, ResourceManager.mp_s_20, ResourceManager.universal);
+
+		MissilePart.registerPart(ModItems.mp_f_10, PartType.FUSELAGE, 4, ResourceManager.mp_f_10_kerosene, ResourceManager.mp_f_10_kerosene_tex);
+		MissilePart.registerPart(ModItems.mp_f_15, PartType.FUSELAGE, 6, ResourceManager.mp_f_15, ResourceManager.universal);
+		MissilePart.registerPart(ModItems.mp_f_20, PartType.FUSELAGE, 10, ResourceManager.mp_f_20, ResourceManager.universal);
+
+		MissilePart.registerPart(ModItems.mp_w_10, PartType.WARHEAD, 2, ResourceManager.mp_w_10_he, ResourceManager.mp_w_10_he_tex);
+		MissilePart.registerPart(ModItems.mp_w_15, PartType.WARHEAD, 3, ResourceManager.mp_w_15, ResourceManager.universal);
+		MissilePart.registerPart(ModItems.mp_w_20, PartType.WARHEAD, 3, ResourceManager.mp_w_20, ResourceManager.universal);
+		
+		proxy.registerMissileItems();
 	}
 	
 	@EventHandler

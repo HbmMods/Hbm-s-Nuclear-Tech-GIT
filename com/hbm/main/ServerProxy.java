@@ -7,11 +7,11 @@ public class ServerProxy
 		
 	}
 	
-	public void registerTileEntitySpecialRenderer() {
-		
-	}
+	public void registerTileEntitySpecialRenderer() { }
 	
 	public void particleControl(double x, double y, double z, int type) {
 		
 	}
+
+	public void registerMissileItems() { }
 }

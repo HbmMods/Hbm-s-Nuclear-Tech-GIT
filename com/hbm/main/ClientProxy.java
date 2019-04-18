@@ -24,6 +24,7 @@ import com.hbm.items.ModItems;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
 import com.hbm.render.item.*;
+import com.hbm.render.misc.MissilePart;
 import com.hbm.render.tileentity.*;
 import com.hbm.render.util.HmfModelLoader;
 import com.hbm.tileentity.bomb.*;
@@ -309,6 +310,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityYellowBarrel.class, new RenderYellowBarrel());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPad.class, new RenderLaunchPadTier1());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMissileAssembly.class, new RenderMissileAssembly());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOilDuct.class, new RenderOilDuct());
@@ -426,6 +428,14 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.addNewArmourRendererPrefix("7");
 		RenderingRegistry.addNewArmourRendererPrefix("8");
 		RenderingRegistry.addNewArmourRendererPrefix("9");
+	}
+	
+	@Override
+	public void registerMissileItems() {
+		
+		for(MissilePart part : MissilePart.parts) {
+			MinecraftForgeClient.registerItemRenderer(part.part, new ItemRenderMissilePart(part));
+		}
 	}
 	
 	@Override

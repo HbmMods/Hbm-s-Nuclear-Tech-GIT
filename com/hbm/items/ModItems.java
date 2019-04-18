@@ -822,6 +822,22 @@ public class ModItems {
 	public static Item missile_schrabidium;
 	public static Item missile_emp;
 
+	public static Item mp_t_10;
+	public static Item mp_t_15;
+	public static Item mp_t_20;
+	public static Item mp_s_10;
+	public static Item mp_s_15;
+	public static Item mp_s_20;
+	public static Item mp_f_10;
+	public static Item mp_f_15;
+	public static Item mp_f_20;
+	public static Item mp_w_10;
+	public static Item mp_w_15;
+	public static Item mp_w_20;
+	public static Item mp_c_1;
+	public static Item mp_c_2;
+	public static Item mp_c_3;
+
 	public static Item missile_carrier;
 	public static Item sat_mapper;
 	public static Item sat_scanner;
@@ -2313,6 +2329,22 @@ public class ModItems {
 		sat_miner = new ItemSatChip().setUnlocalizedName("sat_miner").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_miner");
 		sat_chip = new ItemSatChip().setUnlocalizedName("sat_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_chip");
 		sat_interface = new ItemSatInterface().setUnlocalizedName("sat_interface").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_interface");
+
+		mp_t_10 = new Item().setUnlocalizedName("mp_t_10").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_t_10");
+		mp_t_15 = new Item().setUnlocalizedName("mp_t_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_t_15");
+		mp_t_20 = new Item().setUnlocalizedName("mp_t_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_t_20");
+		mp_s_10 = new Item().setUnlocalizedName("mp_s_10").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_s_10");
+		mp_s_15 = new Item().setUnlocalizedName("mp_s_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_s_15");
+		mp_s_20 = new Item().setUnlocalizedName("mp_s_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_s_20");
+		mp_f_10 = new Item().setUnlocalizedName("mp_f_10").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_f_10");
+		mp_f_15 = new Item().setUnlocalizedName("mp_f_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_f_15");
+		mp_f_20 = new Item().setUnlocalizedName("mp_f_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_f_20");
+		mp_w_10 = new Item().setUnlocalizedName("mp_w_10").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_w_10");
+		mp_w_15 = new Item().setUnlocalizedName("mp_w_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_w_15");
+		mp_w_20 = new Item().setUnlocalizedName("mp_w_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_w_20");
+		mp_c_1 = new Item().setUnlocalizedName("mp_c_1").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_1");
+		mp_c_2 = new Item().setUnlocalizedName("mp_c_2").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_2");
+		mp_c_3 = new Item().setUnlocalizedName("mp_c_3").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_3");
 		
 		ammo_12gauge = new ItemAmmo().setUnlocalizedName("ammo_12gauge").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge");
 		ammo_12gauge_incendiary = new ItemAmmo().setUnlocalizedName("ammo_12gauge_incendiary").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge_incendiary");
@@ -3984,6 +4016,23 @@ public class ModItems {
 		GameRegistry.registerItem(missile_schrabidium, missile_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(missile_emp, missile_emp.getUnlocalizedName());
 		GameRegistry.registerItem(missile_carrier, missile_carrier.getUnlocalizedName());
+		
+		//Missile Parts
+		GameRegistry.registerItem(mp_t_10, mp_t_10.getUnlocalizedName());
+		GameRegistry.registerItem(mp_t_15, mp_t_15.getUnlocalizedName());
+		GameRegistry.registerItem(mp_t_20, mp_t_20.getUnlocalizedName());
+		GameRegistry.registerItem(mp_s_10, mp_s_10.getUnlocalizedName());
+		GameRegistry.registerItem(mp_s_15, mp_s_15.getUnlocalizedName());
+		GameRegistry.registerItem(mp_s_20, mp_s_20.getUnlocalizedName());
+		GameRegistry.registerItem(mp_f_10, mp_f_10.getUnlocalizedName());
+		GameRegistry.registerItem(mp_f_15, mp_f_15.getUnlocalizedName());
+		GameRegistry.registerItem(mp_f_20, mp_f_20.getUnlocalizedName());
+		GameRegistry.registerItem(mp_w_10, mp_w_10.getUnlocalizedName());
+		GameRegistry.registerItem(mp_w_15, mp_w_15.getUnlocalizedName());
+		GameRegistry.registerItem(mp_w_20, mp_w_20.getUnlocalizedName());
+		GameRegistry.registerItem(mp_c_1, mp_c_1.getUnlocalizedName());
+		GameRegistry.registerItem(mp_c_2, mp_c_2.getUnlocalizedName());
+		GameRegistry.registerItem(mp_c_3, mp_c_3.getUnlocalizedName());
 		
 		//Satellites
 		GameRegistry.registerItem(sat_mapper, sat_mapper.getUnlocalizedName());
