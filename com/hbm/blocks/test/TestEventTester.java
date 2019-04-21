@@ -24,6 +24,7 @@ import com.hbm.main.ModEventHandler;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.misc.MissilePart;
 import com.hbm.saveddata.RadiationSaveStructure;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.saveddata.SatelliteSaveStructure;
@@ -404,9 +405,9 @@ public class TestEventTester extends Block {
     		new GeyserLarge().generate(worldObj, itemRand, par2, par3, par4);
     	}*/
     	
-    	if(!worldObj.isRemote)
+    	/*if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(par2, par3 + 2, par4, 2),
-					new TargetPoint(worldObj.provider.dimensionId,par2, par3, par4, 50));
+					new TargetPoint(worldObj.provider.dimensionId,par2, par3, par4, 50));*/
 
     	/*if(!worldObj.isRemote) {
 

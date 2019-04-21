@@ -77,7 +77,8 @@ public class ItemRenderMissilePart implements IItemRenderer {
 			
 		case INVENTORY:
 			
-			double height = part.height;
+			double height = part.guiheight;
+			
 			if(height == 0D)
 				height = 4D;
 			
