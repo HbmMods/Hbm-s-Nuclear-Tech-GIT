@@ -11,6 +11,7 @@ import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
+import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
@@ -202,6 +203,12 @@ public class AuxButtonPacket implements IMessage {
 						reactor.tanks[2].setTankType(type);
 						reactor.tanks[2].setFill(fill);
 					}
+				}
+				
+				if (te instanceof TileEntityMachineMissileAssembly) {
+					TileEntityMachineMissileAssembly assembly = (TileEntityMachineMissileAssembly)te;
+					
+					assembly.construct();
 				}
 				
 			//} catch (Exception x) { }

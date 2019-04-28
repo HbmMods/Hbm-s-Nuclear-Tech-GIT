@@ -20,9 +20,4 @@ public class MissileMultipart {
 		
 		return height;
 	}
-	
-	/*public boolean hadFuselage() {
-		return fuselage != null;
-	}*/
-
 }

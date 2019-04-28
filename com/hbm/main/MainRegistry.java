@@ -65,7 +65,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.misc.MissilePart;
-import com.hbm.render.misc.MissilePart.PartType;
 import com.hbm.render.util.HmfModelLoader;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;

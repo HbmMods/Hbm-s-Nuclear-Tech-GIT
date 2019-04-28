@@ -436,6 +436,8 @@ public class ClientProxy extends ServerProxy
 		for(MissilePart part : MissilePart.parts) {
 			MinecraftForgeClient.registerItemRenderer(part.part, new ItemRenderMissilePart(part));
 		}
+		
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_custom, new ItemRenderMissile());
 	}
 	
 	@Override

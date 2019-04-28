@@ -9,13 +9,20 @@ import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
+import com.hbm.items.weapon.ItemCustomMissile;
+import com.hbm.items.weapon.ItemMissile;
+import com.hbm.items.weapon.ItemMissile.FuelType;
+import com.hbm.items.weapon.ItemMissile.PartType;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineMissileAssembly extends TileEntity implements ISidedInventory {
 
@@ -165,5 +172,122 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
+	}
+	
+	public int fuselageState() {
+		
+		if(slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+			
+			ItemMissile part = (ItemMissile)slots[2].getItem();
+			
+			if(part.type == PartType.FUSELAGE)
+				return 1;
+		}
+		
+		return 0;
+	}
+
+	public int chipState() {
+		
+		if(slots[0] != null && slots[0].getItem() instanceof ItemMissile) {
+			
+			ItemMissile part = (ItemMissile)slots[0].getItem();
+			
+			if(part.type == PartType.CHIP)
+				return 1;
+		}
+		
+		return 0;
+	}
+
+	public int warheadState() {
+		
+		if(slots[1] != null && slots[1].getItem() instanceof ItemMissile &&
+				slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+
+			ItemMissile part = (ItemMissile)slots[1].getItem();
+			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
+			
+			if(part.type == PartType.WARHEAD && fuselage.type == PartType.FUSELAGE &&
+					part.bottom == fuselage.top)
+				return 1;
+		}
+		
+		return 0;
+	}
+
+	public int stabilityState() {
+		
+		if(slots[3] == null)
+			return -1;
+		
+		if(slots[3] != null && slots[3].getItem() instanceof ItemMissile &&
+				slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+
+			ItemMissile part = (ItemMissile)slots[3].getItem();
+			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
+			
+			if(part.type == PartType.FINS && fuselage.type == PartType.FUSELAGE &&
+					part.top == fuselage.bottom)
+				return 1;
+		}
+		
+		return 0;
+	}
+
+	public int thrusterState() {
+		
+		if(slots[4] != null && slots[4].getItem() instanceof ItemMissile &&
+				slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+
+			ItemMissile part = (ItemMissile)slots[4].getItem();
+			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
+			
+			if(part.type == PartType.THRUSTER && fuselage.type == PartType.FUSELAGE &&
+					part.top == fuselage.bottom && (FuelType)part.attributes[0] == (FuelType)fuselage.attributes[0]) {
+				return 1;
+			}
+		}
+		
+		return 0;
+	}
+	
+	public boolean canBuild() {
+		
+		if(slots[5] == null && chipState() == 1 && warheadState() == 1 && fuselageState() == 1 && thrusterState() == 1) {
+			return stabilityState() != 0;
+		}
+		
+		return false;
+	}
+
+	public void construct() {
+		
+		if(!canBuild())
+			return;
+		
+		slots[5] = ItemCustomMissile.buildMissile(slots[0], slots[1], slots[2], slots[3], slots[4]).copy();
+		
+		if(stabilityState() == 1)
+			slots[3] = null;
+
+		slots[0] = null;
+		slots[1] = null;
+		slots[2] = null;
+		slots[4] = null;
+
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.missileAssembly", 1F, 1F);
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

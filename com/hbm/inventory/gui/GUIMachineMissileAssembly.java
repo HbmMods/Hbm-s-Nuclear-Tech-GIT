@@ -7,6 +7,8 @@ import com.hbm.inventory.container.ContainerMachineMissileAssembly;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.misc.MissileMultipart;
 import com.hbm.render.misc.MissilePart;
 import com.hbm.render.misc.MissilePronter;
@@ -14,6 +16,7 @@ import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -36,6 +39,16 @@ public class GUIMachineMissileAssembly extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 	}
 
+	protected void mouseClicked(int x, int y, int i) {
+    	super.mouseClicked(x, y, i);
+		
+    	if(guiLeft + 115 <= x && guiLeft + 115 + 18 > x && guiTop + 35 < y && guiTop + 35 + 18 >= y) {
+    		
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(assembler.xCoord, assembler.yCoord, assembler.zCoord, 0, 0));
+    	}
+    }
+
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.assembler.hasCustomInventoryName() ? this.assembler.getInventoryName() : I18n.format(this.assembler.getInventoryName());
@@ -49,6 +62,22 @@ public class GUIMachineMissileAssembly extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		if(assembler.fuselageState() == 1)
+			drawTexturedModalRect(guiLeft + 49, guiTop + 23, 194, 0, 6, 8);
+		if(assembler.warheadState() == 1)
+			drawTexturedModalRect(guiLeft + 31, guiTop + 23, 194, 0, 6, 8);
+		if(assembler.chipState() == 1)
+			drawTexturedModalRect(guiLeft + 13, guiTop + 23, 194, 0, 6, 8);
+		if(assembler.stabilityState() == 1)
+			drawTexturedModalRect(guiLeft + 67, guiTop + 23, 194, 0, 6, 8);
+		if(assembler.stabilityState() == 0)
+			drawTexturedModalRect(guiLeft + 67, guiTop + 23, 200, 0, 6, 8);
+		if(assembler.thrusterState() == 1)
+			drawTexturedModalRect(guiLeft + 85, guiTop + 23, 194, 0, 6, 8);
+		
+		if(assembler.canBuild())
+			drawTexturedModalRect(guiLeft + 115, guiTop + 35, 176, 0, 18, 18);
 		
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();

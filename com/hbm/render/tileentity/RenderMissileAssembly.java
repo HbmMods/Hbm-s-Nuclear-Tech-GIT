@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.render.misc.MissileMultipart;
 import com.hbm.render.misc.MissilePart;
 import com.hbm.render.misc.MissilePronter;
@@ -28,9 +29,11 @@ public class RenderMissileAssembly extends TileEntitySpecialRenderer {
 		
 		GL11.glPushMatrix();
 		
-		GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
-		GL11.glRotatef(180, 0F, 0F, 1F);
+		GL11.glTranslatef((float) x + 0.5F, (float) y, (float) z + 0.5F);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 
+		bindTexture(ResourceManager.missile_assembly_tex);
+		ResourceManager.missile_assembly.renderAll();
 
 		MissileMultipart missile = new MissileMultipart();
 		
@@ -46,6 +49,26 @@ public class RenderMissileAssembly extends TileEntitySpecialRenderer {
 		if(te.getStackInSlot(4) != null)
 			missile.thruster = MissilePart.getPart(te.getStackInSlot(4).getItem());
 		
+		int range = (int) (missile.getHeight() / 2 - 1);
+		
+		int step = 1;
+		
+		if(range >= 2)
+			step = 2;
+		
+		for(int i = -range; i <= range; i += step) {
+
+			if(i != 0) {
+				GL11.glTranslatef(i, 0F, 0F);
+				bindTexture(ResourceManager.strut_tex);
+				ResourceManager.strut.renderAll();
+				GL11.glTranslatef(-i, 0F, 0F);
+			}
+		}
+
+		GL11.glTranslatef(0F, 1.5F, 0F);
+		GL11.glRotatef(180, 0F, 0F, 1F);
+		
 		GL11.glTranslated(-missile.getHeight() / 2, 0, 0);
 		//GL11.glScaled(scale, scale, scale);
 		
@@ -53,6 +76,7 @@ public class RenderMissileAssembly extends TileEntitySpecialRenderer {
 		GL11.glRotatef(-90, 0, 0, 1);
 		GL11.glScalef(1, 1, 1);
 
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
 		
 		GL11.glPopMatrix();
