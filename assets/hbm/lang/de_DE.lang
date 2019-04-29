@@ -1674,6 +1674,7 @@ item.mp_thruster_10_solid.name=Größe 10 Festbrennstofftriebwerk
 item.mp_thruster_10_xenon.name=Größe 10 Ionentriebwerk
 item.mp_thruster_15_kerosene.name=Größe 15 Flüssigtriebwerk
 item.mp_thruster_15_kerosene_dual.name=Größe 15 Flüssigtriebwerk-Zwilling
+item.mp_thruster_15_kerosene_triple.name=Größe 15 Flüssigtriebwerk-Drilling
 
 item.missile_carrier.name=HTR-01 Trägerrakete
 item.sat_mapper.name=Oberflächen-Abtastungssatellit
