@@ -1675,6 +1675,8 @@ item.mp_thruster_10_xenon.name=Size 10 Ion Thruster
 item.mp_thruster_15_kerosene.name=Size 15 Liquid Fuel Thruster
 item.mp_thruster_15_kerosene_dual.name=Size 15 Liquid Fuel Twin Thrusters
 item.mp_thruster_15_kerosene_triple.name=Size 15 Liquid Fuel Triple Thrusters
+item.mp_thruster_15_solid.name=Size 15 Solid Fuel Thruster
+item.mp_thruster_15_solid_hexdecuple.name=Size 15 Solid Fuel Hexdecuple Thrusters
 
 item.missile_carrier.name=HTR-01 Carrier Rocket
 item.sat_mapper.name=Surface Mapping Satellite

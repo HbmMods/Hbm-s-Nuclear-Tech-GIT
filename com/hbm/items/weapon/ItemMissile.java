@@ -67,7 +67,10 @@ public class ItemMissile extends Item {
 		INC,
 		BUSTER,
 		CLUSTER,
-		NUCLEAR
+		NUCLEAR,
+		TX,
+		N2,
+		BALEFIRE
 	}
 	
 	public enum FuelType {
@@ -161,7 +164,7 @@ public class ItemMissile extends Item {
 				list.add("Size: " + getSize(bottom));
 				list.add("Type: " + getWarhead((WarheadType)attributes[0]));
 				list.add("Strength: " + (Float)attributes[1]);
-				list.add("Weight: " + (Float)attributes[2]);
+				list.add("Weight: " + (Float)attributes[2] + "t");
 				break;
 			case FUSELAGE:
 				list.add("Top size: " + getSize(top));
@@ -176,7 +179,7 @@ public class ItemMissile extends Item {
 			case THRUSTER:
 				list.add("Size: " + getSize(top));
 				list.add("Fuel type: " + getFuel((FuelType)attributes[0]));
-				list.add("Fuel consumption: " + (Float)attributes[1] + "l/t");
+				list.add("Fuel consumption: " + (Float)attributes[1] + "l/tick");
 				list.add("Max. payload: " + (Float)attributes[2] + "t");
 				break;
 			}
@@ -214,6 +217,12 @@ public class ItemMissile extends Item {
 			return "Bunker Buster";
 		case NUCLEAR:
 			return "Nuclear";
+		case TX:
+			return "Thermonuclear";
+		case N2:
+			return "N²";
+		case BALEFIRE:
+			return "BF";
 		default:
 			return "N/A";
 		}

@@ -831,6 +831,8 @@ public class ModItems {
 	public static Item mp_thruster_15_kerosene;
 	public static Item mp_thruster_15_kerosene_dual;
 	public static Item mp_thruster_15_kerosene_triple;
+	public static Item mp_thruster_15_solid;
+	public static Item mp_thruster_15_solid_hexdecuple;
 	public static Item mp_thruster_20_kerosene;
 	
 	public static Item mp_stability_10_flat;
@@ -2362,7 +2364,9 @@ public class ModItems {
 		mp_thruster_10_xenon = new ItemMissile().makeThruster(FuelType.XENON, 1F, 1F, PartSize.SIZE_10)								.setUnlocalizedName("mp_thruster_10_xenon").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_kerosene = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)						.setUnlocalizedName("mp_thruster_15_kerosene").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_kerosene_dual = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)					.setUnlocalizedName("mp_thruster_15_kerosene_dual").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
-		mp_thruster_15_kerosene_triple = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)					.setUnlocalizedName("mp_thruster_15_kerosene_triple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
+		mp_thruster_15_kerosene_triple = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)				.setUnlocalizedName("mp_thruster_15_kerosene_triple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
+		mp_thruster_15_solid = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)								.setUnlocalizedName("mp_thruster_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
+		mp_thruster_15_solid_hexdecuple = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)								.setUnlocalizedName("mp_thruster_15_solid_hexdecuple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_20_kerosene = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_20)						.setUnlocalizedName("mp_t_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_stability_10_flat = new ItemMissile().makeStability(0.5F, PartSize.SIZE_10)												.setUnlocalizedName("mp_stability_10_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_stability");
 		mp_stability_10_cruise = new ItemMissile().makeStability(0.25F, PartSize.SIZE_10)											.setUnlocalizedName("mp_stability_10_cruise").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_stability");
@@ -4069,6 +4073,8 @@ public class ModItems {
 		GameRegistry.registerItem(mp_thruster_15_kerosene, mp_thruster_15_kerosene.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_kerosene_dual, mp_thruster_15_kerosene_dual.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_kerosene_triple, mp_thruster_15_kerosene_triple.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_15_solid, mp_thruster_15_solid.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_15_solid_hexdecuple, mp_thruster_15_solid_hexdecuple.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_20_kerosene, mp_thruster_20_kerosene.getUnlocalizedName());
 		GameRegistry.registerItem(mp_stability_10_flat, mp_stability_10_flat.getUnlocalizedName());
 		GameRegistry.registerItem(mp_stability_10_cruise, mp_stability_10_cruise.getUnlocalizedName());
