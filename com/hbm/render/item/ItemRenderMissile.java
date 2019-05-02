@@ -84,7 +84,8 @@ public class ItemRenderMissile implements IItemRenderer {
 				GL11.glTranslated(0, 0, 0);
 				//GL11.glRotated(-45, 1, 0, 0);
 			}*/
-			
+
+			GL11.glRotatef(System.currentTimeMillis() / 25 % 360, 0, -1, 0);
 			MissilePronter.prontMissile(missile, Minecraft.getMinecraft().renderEngine);
 			
 			break;

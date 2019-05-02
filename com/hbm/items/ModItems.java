@@ -849,13 +849,17 @@ public class ModItems {
 	public static Item mp_fuselage_10_15_hydrogen;
 	public static Item mp_fuselage_10_15_balefire;
 	public static Item mp_fuselage_15_kerosene;
+	public static Item mp_fuselage_15_solid;
+	public static Item mp_fuselage_15_hydrogen;
 	public static Item mp_fuselage_20_kerosene;
 
 	public static Item mp_warhead_10_he;
 	public static Item mp_warhead_10_incendiary;
 	public static Item mp_warhead_10_buster;
 	public static Item mp_warhead_10_nuclear;
+	public static Item mp_warhead_10_nuclear_large;
 	public static Item mp_warhead_15_he;
+	public static Item mp_warhead_15_nuclear;
 	public static Item mp_warhead_20_he;
 	
 	public static Item mp_chip_1;
@@ -2366,7 +2370,7 @@ public class ModItems {
 		mp_thruster_15_kerosene_dual = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)					.setUnlocalizedName("mp_thruster_15_kerosene_dual").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_kerosene_triple = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)				.setUnlocalizedName("mp_thruster_15_kerosene_triple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_solid = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)								.setUnlocalizedName("mp_thruster_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
-		mp_thruster_15_solid_hexdecuple = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)								.setUnlocalizedName("mp_thruster_15_solid_hexdecuple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
+		mp_thruster_15_solid_hexdecuple = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)					.setUnlocalizedName("mp_thruster_15_solid_hexdecuple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_20_kerosene = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_20)						.setUnlocalizedName("mp_t_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_stability_10_flat = new ItemMissile().makeStability(0.5F, PartSize.SIZE_10)												.setUnlocalizedName("mp_stability_10_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_stability");
 		mp_stability_10_cruise = new ItemMissile().makeStability(0.25F, PartSize.SIZE_10)											.setUnlocalizedName("mp_stability_10_cruise").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_stability");
@@ -2380,13 +2384,17 @@ public class ModItems {
 		mp_fuselage_10_15_solid = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)			.setUnlocalizedName("mp_fuselage_10_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_15_hydrogen = new ItemMissile().makeFuselage(FuelType.HYDROGEN, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)	.setUnlocalizedName("mp_fuselage_10_15_hydrogen").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_15_balefire = new ItemMissile().makeFuselage(FuelType.BALEFIRE, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)	.setUnlocalizedName("mp_fuselage_10_15_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
-		mp_fuselage_15_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_f_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_fuselage_15_kerosene").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_solid = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)			.setUnlocalizedName("mp_fuselage_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_hydrogen = new ItemMissile().makeFuselage(FuelType.HYDROGEN, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_fuselage_15_hydrogen").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_20_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_20, PartSize.SIZE_20)		.setUnlocalizedName("mp_f_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_warhead_10_he = new ItemMissile().makeWarhead(WarheadType.HE, 15F, 1F, PartSize.SIZE_10)									.setUnlocalizedName("mp_warhead_10_he").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_10_incendiary = new ItemMissile().makeWarhead(WarheadType.INC, 15F, 1F, PartSize.SIZE_10)						.setUnlocalizedName("mp_warhead_10_incendiary").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_10_buster = new ItemMissile().makeWarhead(WarheadType.BUSTER, 15F, 1F, PartSize.SIZE_10)							.setUnlocalizedName("mp_warhead_10_buster").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_10_nuclear = new ItemMissile().makeWarhead(WarheadType.NUCLEAR, 15F, 1F, PartSize.SIZE_10)						.setUnlocalizedName("mp_warhead_10_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
-		mp_warhead_15_he = new ItemMissile().makeWarhead(WarheadType.HE, 15F, 1F, PartSize.SIZE_15)									.setUnlocalizedName("mp_w_15").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		mp_warhead_10_nuclear_large = new ItemMissile().makeWarhead(WarheadType.NUCLEAR, 15F, 1F, PartSize.SIZE_10)					.setUnlocalizedName("mp_warhead_10_nuclear_large").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		mp_warhead_15_he = new ItemMissile().makeWarhead(WarheadType.HE, 15F, 1F, PartSize.SIZE_15)									.setUnlocalizedName("mp_w_15_he").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		mp_warhead_15_nuclear = new ItemMissile().makeWarhead(WarheadType.NUCLEAR, 15F, 1F, PartSize.SIZE_15)						.setUnlocalizedName("mp_warhead_15_nuclear").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_warhead_20_he = new ItemMissile().makeWarhead(WarheadType.HE, 15F, 1F, PartSize.SIZE_20)									.setUnlocalizedName("mp_w_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		mp_chip_1 = new ItemMissile().makeChip(0.1F)																				.setUnlocalizedName("mp_c_1").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_1");
 		mp_chip_2 = new ItemMissile().makeChip(0.05F)																				.setUnlocalizedName("mp_c_2").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_2");
@@ -4089,12 +4097,16 @@ public class ModItems {
 		GameRegistry.registerItem(mp_fuselage_10_15_hydrogen, mp_fuselage_10_15_hydrogen.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_15_balefire, mp_fuselage_10_15_balefire.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_15_kerosene, mp_fuselage_15_kerosene.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_solid, mp_fuselage_15_solid.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_hydrogen, mp_fuselage_15_hydrogen.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_20_kerosene, mp_fuselage_20_kerosene.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_10_he, mp_warhead_10_he.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_10_incendiary, mp_warhead_10_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_10_buster, mp_warhead_10_buster.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_10_nuclear, mp_warhead_10_nuclear.getUnlocalizedName());
+		GameRegistry.registerItem(mp_warhead_10_nuclear_large, mp_warhead_10_nuclear_large.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_15_he, mp_warhead_15_he.getUnlocalizedName());
+		GameRegistry.registerItem(mp_warhead_15_nuclear, mp_warhead_15_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(mp_warhead_20_he, mp_warhead_20_he.getUnlocalizedName());
 		GameRegistry.registerItem(mp_chip_1, mp_chip_1.getUnlocalizedName());
 		GameRegistry.registerItem(mp_chip_2, mp_chip_2.getUnlocalizedName());

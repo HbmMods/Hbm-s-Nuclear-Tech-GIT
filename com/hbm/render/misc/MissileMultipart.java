@@ -1,5 +1,7 @@
 package com.hbm.render.misc;
 
+import com.hbm.items.weapon.ItemMissile.PartType;
+
 public class MissileMultipart {
 
 	public MissilePart warhead;
@@ -11,11 +13,11 @@ public class MissileMultipart {
 		
 		double height = 0;
 
-		if(warhead != null)
+		if(warhead != null && warhead.type == PartType.WARHEAD)
 			height += warhead.height;
-		if(fuselage != null)
+		if(fuselage != null && fuselage.type == PartType.FUSELAGE)
 			height += fuselage.height;
-		if(thruster != null)
+		if(thruster != null && thruster.type == PartType.THRUSTER)
 			height += thruster.height;
 		
 		return height;

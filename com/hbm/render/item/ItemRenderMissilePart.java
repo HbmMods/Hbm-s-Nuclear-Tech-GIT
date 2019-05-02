@@ -97,7 +97,8 @@ public class ItemRenderMissilePart implements IItemRenderer {
 				GL11.glTranslated(0, 0, 0);
 				//GL11.glRotated(-45, 1, 0, 0);
 			}*/
-			
+
+			GL11.glRotatef(System.currentTimeMillis() / 25 % 360, 0, -1, 0);
 			Minecraft.getMinecraft().renderEngine.bindTexture(part.texture);
 			part.model.renderAll();
 			

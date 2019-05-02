@@ -1665,6 +1665,7 @@ item.mp_fuselage_10_15_kerosene.name=Size 10/15 Kerosene Fuselage
 item.mp_fuselage_10_15_solid.name=Size 10/15 Solid Fuel Fuselage
 item.mp_fuselage_10_15_hydrogen.name=Size 10/15 Hydrogen Fuselage
 item.mp_fuselage_10_15_balefire.name=Size 10/15 BF Fuselage
+item.mp_fuselage_15_kerosene.name=Size 15 Kerosene Fuselage
 item.mp_stability_10_flat.name=Size 10 Flat Fins
 item.mp_stability_10_cruise.name=Size 10 Cruise Fins
 item.mp_stability_15_flat.name=Size 15 Flat Fins

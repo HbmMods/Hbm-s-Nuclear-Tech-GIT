@@ -1665,6 +1665,7 @@ item.mp_fuselage_10_15_kerosene.name=Größe 10/15 Kerosintank
 item.mp_fuselage_10_15_solid.name=Größe 10/15 Festbrennstofftank
 item.mp_fuselage_10_15_hydrogen.name=Größe 10/15 Wasserstofftank
 item.mp_fuselage_10_15_balefire.name=Größe 10/15 BF-Kraftstofftank
+item.mp_fuselage_15_kerosene.name=Größe 15 Kerosintank
 item.mp_stability_10_flat.name=Größe 10 Flache Flügel
 item.mp_stability_10_cruise.name=Größe 10 Cruise-Flügel
 item.mp_stability_15_flat.name=Größe 15 Flache Flügel
