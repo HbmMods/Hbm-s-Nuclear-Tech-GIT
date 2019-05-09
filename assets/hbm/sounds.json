@@ -29,6 +29,7 @@
     "block.centrifugeOperate": {"category": "block", "sounds": [{"name": "block/centrifugeOperate", "stream": false}]},
     "block.pipePlaced": {"category": "block", "sounds": [{"name": "block/pipePlaced", "stream": false}]},
     "block.missileAssembly": {"category": "block", "sounds": [{"name": "block/missileAssembly", "stream": false}]},
+    "block.missileAssembly2": {"category": "block", "sounds": [{"name": "block/missileAssembly2", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

@@ -273,6 +273,9 @@ public class Library {
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
+		if(entity.isPotionActive(HbmPotion.mutation))
+			return;
+		
 		if(entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)entity;
 			
@@ -287,6 +290,9 @@ public class Library {
 	public static void applyRadDirect(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		if(((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
 			return;
 		
 		RadEntitySavedData data = RadEntitySavedData.getData(e.worldObj);

@@ -276,7 +276,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 		slots[2] = null;
 		slots[4] = null;
 
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.missileAssembly", 1F, 1F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.missileAssembly2", 1F, 1F);
 	}
 	
 	@Override

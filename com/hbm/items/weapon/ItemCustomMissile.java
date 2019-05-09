@@ -19,13 +19,13 @@ public class ItemCustomMissile extends Item {
 		
 		ItemStack missile = new ItemStack(ModItems.missile_custom);
 
-		writeToNBT(missile, "chip", ItemMissile.parts.indexOf(chip.getItem()));
-		writeToNBT(missile, "warhead", ItemMissile.parts.indexOf(warhead.getItem()));
-		writeToNBT(missile, "fuselage", ItemMissile.parts.indexOf(fuselage.getItem()));
-		writeToNBT(missile, "thruster", ItemMissile.parts.indexOf(thruster.getItem()));
+		writeToNBT(missile, "chip", chip.getItem().hashCode());
+		writeToNBT(missile, "warhead", warhead.getItem().hashCode());
+		writeToNBT(missile, "fuselage", fuselage.getItem().hashCode());
+		writeToNBT(missile, "thruster", thruster.getItem().hashCode());
 		
 		if(stability != null)
-			writeToNBT(missile, "stability", ItemMissile.parts.indexOf(stability.getItem()));
+			writeToNBT(missile, "stability", stability.getItem().hashCode());
 		
 		return missile;
 	}

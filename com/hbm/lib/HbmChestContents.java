@@ -210,16 +210,15 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.coil_advanced_alloy, 0, 2, 16, 5),
 			new WeightedRandomChestContent(ModItems.cell_deuterium, 0, 1, 8, 5),
 			new WeightedRandomChestContent(ModItems.cell_tritium, 0, 1, 8, 5),
-			new WeightedRandomChestContent(ModItems.cell_antimatter, 0, 1, 4, 5),
-			new WeightedRandomChestContent(ModItems.cell_anti_schrabidium, 0, 1, 2, 5),
+			new WeightedRandomChestContent(ModItems.cell_antimatter, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_neodymium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.powder_niobium, 0, 1, 1, 1),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 4, 8, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 6, 5),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 2, 4, 5),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 3, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.reactor_element), 0, 1, 2, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 8, 32, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 16, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 32, 5) };
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 3, 8, 5),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 8, 5),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5) };
 
 	private static WeightedRandomChestContent[] powder = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.powder_neptunium, 0, 1, 32, 1),

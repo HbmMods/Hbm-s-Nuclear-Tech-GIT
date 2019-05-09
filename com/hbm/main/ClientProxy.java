@@ -10,6 +10,9 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.*;
 import com.hbm.entity.effect.*;
@@ -311,6 +314,7 @@ public class ClientProxy extends ServerProxy
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPad.class, new RenderLaunchPadTier1());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMissileAssembly.class, new RenderMissileAssembly());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchTable.class, new RenderLaunchTable());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOilDuct.class, new RenderOilDuct());
@@ -433,9 +437,14 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerMissileItems() {
 		
-		for(MissilePart part : MissilePart.parts) {
+		Iterator it = MissilePart.parts.entrySet().iterator();
+		
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        //System.out.println(pair.getKey() + " = " + pair.getValue());
+	        MissilePart part = (MissilePart)pair.getValue();
 			MinecraftForgeClient.registerItemRenderer(part.part, new ItemRenderMissilePart(part));
-		}
+	    }
 		
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_custom, new ItemRenderMissile());
 	}

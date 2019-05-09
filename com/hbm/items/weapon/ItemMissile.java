@@ -1,6 +1,8 @@
 package com.hbm.items.weapon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.items.ModItems;
@@ -16,7 +18,7 @@ public class ItemMissile extends Item {
 	public PartSize top;
 	public PartSize bottom;
 	
-	public static List<ItemMissile> parts = new ArrayList();
+	public static HashMap<Integer, ItemMissile> parts = new HashMap();
 	
 	/**
 	 * == Chips ==
@@ -89,9 +91,7 @@ public class ItemMissile extends Item {
 		this.bottom = PartSize.ANY;
 		this.attributes = new Object[] { inaccuracy };
 		
-		if(parts.size() == 0)
-			parts.add(null);
-		parts.add(this);
+		parts.put(this.hashCode(), this);
 		
 		return this;
 	}
@@ -102,10 +102,8 @@ public class ItemMissile extends Item {
 		this.top = PartSize.NONE;
 		this.bottom = size;
 		this.attributes = new Object[] { type, punch, weight };
-
-		if(parts.size() == 0)
-			parts.add(null);
-		parts.add(this);
+		
+		parts.put(this.hashCode(), this);
 		
 		return this;
 	}
@@ -116,10 +114,8 @@ public class ItemMissile extends Item {
 		this.top = top;
 		this.bottom = bottom;
 		attributes = new Object[] { type, fuel };
-
-		if(parts.size() == 0)
-			parts.add(null);
-		parts.add(this);
+		
+		parts.put(this.hashCode(), this);
 		
 		return this;
 	}
@@ -130,10 +126,8 @@ public class ItemMissile extends Item {
 		this.top = size;
 		this.bottom = size;
 		this.attributes = new Object[] { inaccuracy };
-
-		if(parts.size() == 0)
-			parts.add(null);
-		parts.add(this);
+		
+		parts.put(this.hashCode(), this);
 		
 		return this;
 	}
@@ -144,10 +138,8 @@ public class ItemMissile extends Item {
 		this.top = size;
 		this.bottom = PartSize.NONE;
 		this.attributes = new Object[] { type, consumption, lift };
-
-		if(parts.size() == 0)
-			parts.add(null);
-		parts.add(this);
+		
+		parts.put(this.hashCode(), this);
 		
 		return this;
 	}
