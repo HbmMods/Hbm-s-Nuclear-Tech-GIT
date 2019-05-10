@@ -751,6 +751,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_compact_launcher:
+				{
+					if(entity instanceof TileEntityCompactLauncher)
+					{
+						return new ContainerCompactLauncher(player.inventory, (TileEntityCompactLauncher) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1497,6 +1506,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineMissileAssembly)
 					{
 						return new GUIMachineMissileAssembly(player.inventory, (TileEntityMachineMissileAssembly) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_compact_launcher:
+				{
+					if(entity instanceof TileEntityCompactLauncher)
+					{
+						return new GUIMachineCompactLauncher(player.inventory, (TileEntityCompactLauncher) entity);
 					}
 					return null;
 				}

@@ -39,7 +39,7 @@ public class ItemMissile extends Item {
 	 * == Thrusters ===
 	 * [0]: type
 	 * [1]: consumption
-	 * [1]: lift strength
+	 * [2]: lift strength
 	 */
 	public Object[] attributes;
 	

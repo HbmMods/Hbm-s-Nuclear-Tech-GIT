@@ -834,6 +834,8 @@ public class ModItems {
 	public static Item mp_thruster_15_kerosene_triple;
 	public static Item mp_thruster_15_solid;
 	public static Item mp_thruster_15_solid_hexdecuple;
+	public static Item mp_thruster_15_hydrogen;
+	public static Item mp_thruster_15_hydrogen_dual;
 	public static Item mp_thruster_15_balefire_short;
 	public static Item mp_thruster_15_balefire;
 	public static Item mp_thruster_15_balefire_large;
@@ -846,15 +848,21 @@ public class ModItems {
 	public static Item mp_stability_20_flat;
 
 	public static Item mp_fuselage_10_kerosene;
+	public static Item mp_fuselage_10_kerosene_camo;
+	public static Item mp_fuselage_10_kerosene_desert;
 	public static Item mp_fuselage_10_kerosene_flames;
 	public static Item mp_fuselage_10_kerosene_sleek;
+	public static Item mp_fuselage_10_kerosene_metal;
 	public static Item mp_fuselage_10_solid;
 	public static Item mp_fuselage_10_solid_flames;
 	public static Item mp_fuselage_10_solid_sleek;
 	public static Item mp_fuselage_10_xenon;
 	public static Item mp_fuselage_10_long_kerosene;
+	public static Item mp_fuselage_10_long_kerosene_camo;
+	public static Item mp_fuselage_10_long_kerosene_desert;
 	public static Item mp_fuselage_10_long_kerosene_flames;
 	public static Item mp_fuselage_10_long_kerosene_sleek;
+	public static Item mp_fuselage_10_long_kerosene_metal;
 	public static Item mp_fuselage_10_long_solid;
 	public static Item mp_fuselage_10_long_solid_flames;
 	public static Item mp_fuselage_10_long_solid_sleek;
@@ -863,7 +871,13 @@ public class ModItems {
 	public static Item mp_fuselage_10_15_hydrogen;
 	public static Item mp_fuselage_10_15_balefire;
 	public static Item mp_fuselage_15_kerosene;
+	public static Item mp_fuselage_15_kerosene_camo;
+	public static Item mp_fuselage_15_kerosene_desert;
+	public static Item mp_fuselage_15_kerosene_metal;
+	public static Item mp_fuselage_15_kerosene_decorated;
 	public static Item mp_fuselage_15_solid;
+	public static Item mp_fuselage_15_solid_soviet_glory;
+	public static Item mp_fuselage_15_solid_soviet_stank;
 	public static Item mp_fuselage_15_hydrogen;
 	public static Item mp_fuselage_15_balefire;
 	public static Item mp_fuselage_20_kerosene;
@@ -885,12 +899,14 @@ public class ModItems {
 	public static Item mp_chip_5;
 
 	public static Item missile_skin_camo;
+	public static Item missile_skin_desert;
 	public static Item missile_skin_flames;
 	public static Item missile_skin_manly_pink;
 	public static Item missile_skin_orange_insulation;
 	public static Item missile_skin_sleek;
 	public static Item missile_skin_soviet_glory;
 	public static Item missile_skin_soviet_stank;
+	public static Item missile_skin_metal;
 	
 	public static Item missile_custom;
 
@@ -2396,6 +2412,8 @@ public class ModItems {
 		mp_thruster_15_kerosene_triple = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1F, PartSize.SIZE_15)						.setUnlocalizedName("mp_thruster_15_kerosene_triple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_solid = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)										.setUnlocalizedName("mp_thruster_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_solid_hexdecuple = new ItemMissile().makeThruster(FuelType.SOLID, 1F, 1F, PartSize.SIZE_15)							.setUnlocalizedName("mp_thruster_15_solid_hexdecuple").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
+		mp_thruster_15_hydrogen = new ItemMissile().makeThruster(FuelType.HYDROGEN, 1F, 1F, PartSize.SIZE_15)								.setUnlocalizedName("mp_thruster_15_hydrogen").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
+		mp_thruster_15_hydrogen_dual = new ItemMissile().makeThruster(FuelType.HYDROGEN, 1F, 1F, PartSize.SIZE_15)							.setUnlocalizedName("mp_thruster_15_hydrogen_dual").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_balefire_short = new ItemMissile().makeThruster(FuelType.BALEFIRE, 1F, 1F, PartSize.SIZE_15)							.setUnlocalizedName("mp_thruster_15_balefire_short").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_balefire = new ItemMissile().makeThruster(FuelType.BALEFIRE, 1F, 1F, PartSize.SIZE_15)								.setUnlocalizedName("mp_thruster_15_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
 		mp_thruster_15_balefire_large = new ItemMissile().makeThruster(FuelType.BALEFIRE, 1F, 1F, PartSize.SIZE_15)							.setUnlocalizedName("mp_thruster_15_balefire_large").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_thruster");
@@ -2406,24 +2424,36 @@ public class ModItems {
 		mp_stability_15_thin = new ItemMissile().makeStability(0.25F, PartSize.SIZE_15)														.setUnlocalizedName("mp_stability_15_thin").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_stability");
 		mp_stability_20_flat = new ItemMissile().makeStability(0.5F, PartSize.SIZE_20)														.setUnlocalizedName("mp_s_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_stability");
 		mp_fuselage_10_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)				.setUnlocalizedName("mp_fuselage_10_kerosene").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_kerosene_camo = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)			.setUnlocalizedName("mp_fuselage_10_kerosene_camo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_kerosene_desert = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)			.setUnlocalizedName("mp_fuselage_10_kerosene_desert").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_kerosene_flames = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)		.setUnlocalizedName("mp_fuselage_10_kerosene_flames").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_kerosene_sleek = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)		.setUnlocalizedName("mp_fuselage_10_kerosene_sleek").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_kerosene_metal = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)		.setUnlocalizedName("mp_fuselage_10_kerosene_metal").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_solid = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)					.setUnlocalizedName("mp_fuselage_10_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_solid_flames = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)				.setUnlocalizedName("mp_fuselage_10_solid_flames").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_solid_sleek = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)				.setUnlocalizedName("mp_fuselage_10_solid_sleek").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_xenon = new ItemMissile().makeFuselage(FuelType.XENON, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)					.setUnlocalizedName("mp_fuselage_10_xenon").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_long_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)			.setUnlocalizedName("mp_fuselage_10_long_kerosene").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_long_kerosene_camo = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)	.setUnlocalizedName("mp_fuselage_10_long_kerosene_camo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_long_kerosene_desert = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)	.setUnlocalizedName("mp_fuselage_10_long_kerosene_desert").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_long_kerosene_flames = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)	.setUnlocalizedName("mp_fuselage_10_long_kerosene_flames").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_long_kerosene_sleek = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)	.setUnlocalizedName("mp_fuselage_10_long_kerosene_sleek").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_long_kerosene_metal = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)	.setUnlocalizedName("mp_fuselage_10_long_kerosene_metal").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_long_solid = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)				.setUnlocalizedName("mp_fuselage_10_long_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
-		mp_fuselage_10_long_solid_flames = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)				.setUnlocalizedName("mp_fuselage_10_long_solid_flames").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
-		mp_fuselage_10_long_solid_sleek = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)				.setUnlocalizedName("mp_fuselage_10_long_solid_sleek").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_long_solid_flames = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)		.setUnlocalizedName("mp_fuselage_10_long_solid_flames").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_10_long_solid_sleek = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_10)			.setUnlocalizedName("mp_fuselage_10_long_solid_sleek").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_15_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)			.setUnlocalizedName("mp_fuselage_10_15_kerosene").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_15_solid = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)					.setUnlocalizedName("mp_fuselage_10_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_15_hydrogen = new ItemMissile().makeFuselage(FuelType.HYDROGEN, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)			.setUnlocalizedName("mp_fuselage_10_15_hydrogen").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_10_15_balefire = new ItemMissile().makeFuselage(FuelType.BALEFIRE, 1000F, PartSize.SIZE_10, PartSize.SIZE_15)			.setUnlocalizedName("mp_fuselage_10_15_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_15_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)				.setUnlocalizedName("mp_fuselage_15_kerosene").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_kerosene_camo = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)			.setUnlocalizedName("mp_fuselage_15_kerosene_camo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_kerosene_desert = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_fuselage_15_kerosene_desert").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_kerosene_metal = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_fuselage_15_kerosene_metal").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_kerosene_decorated = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)	.setUnlocalizedName("mp_fuselage_15_kerosene_decorated").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_15_solid = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)					.setUnlocalizedName("mp_fuselage_15_solid").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_solid_soviet_glory = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_fuselage_15_solid_soviet_glory").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
+		mp_fuselage_15_solid_soviet_stank = new ItemMissile().makeFuselage(FuelType.SOLID, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)		.setUnlocalizedName("mp_fuselage_15_solid_soviet_stank").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_15_hydrogen = new ItemMissile().makeFuselage(FuelType.HYDROGEN, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)				.setUnlocalizedName("mp_fuselage_15_hydrogen").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_15_balefire = new ItemMissile().makeFuselage(FuelType.BALEFIRE, 1000F, PartSize.SIZE_15, PartSize.SIZE_15)				.setUnlocalizedName("mp_fuselage_15_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
 		mp_fuselage_20_kerosene = new ItemMissile().makeFuselage(FuelType.KEROSENE, 1000F, PartSize.SIZE_20, PartSize.SIZE_20)				.setUnlocalizedName("mp_f_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_fuselage");
@@ -2442,13 +2472,15 @@ public class ModItems {
 		mp_chip_4 = new ItemMissile().makeChip(0.005F)																						.setUnlocalizedName("mp_c_4").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_4");
 		mp_chip_5 = new ItemMissile().makeChip(0.0F)																						.setUnlocalizedName("mp_c_5").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_c_5");
 
-		missile_skin_camo = new Item().setUnlocalizedName("missile_skin_camo").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_camo");
-		missile_skin_flames = new Item().setUnlocalizedName("missile_skin_flames").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_flames");
-		missile_skin_manly_pink = new Item().setUnlocalizedName("missile_skin_manly_pink").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_manly_pink");
-		missile_skin_orange_insulation = new Item().setUnlocalizedName("missile_skin_orange_insulation").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_orange_insulation");
-		missile_skin_sleek = new Item().setUnlocalizedName("missile_skin_sleek").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_sleek");
-		missile_skin_soviet_glory = new Item().setUnlocalizedName("missile_skin_soviet_glory").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_soviet_glory");
-		missile_skin_soviet_stank = new Item().setUnlocalizedName("missile_skin_soviet_stank").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_soviet_stank");
+		missile_skin_camo = new ItemCustomLore().setUnlocalizedName("missile_skin_camo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_camo");
+		missile_skin_desert = new ItemCustomLore().setUnlocalizedName("missile_skin_desert").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_desert");
+		missile_skin_flames = new ItemCustomLore().setUnlocalizedName("missile_skin_flames").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_flames");
+		missile_skin_manly_pink = new ItemCustomLore().setUnlocalizedName("missile_skin_manly_pink").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_manly_pink");
+		missile_skin_orange_insulation = new ItemCustomLore().setUnlocalizedName("missile_skin_orange_insulation").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_orange_insulation");
+		missile_skin_sleek = new ItemCustomLore().setUnlocalizedName("missile_skin_sleek").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_sleek");
+		missile_skin_soviet_glory = new ItemCustomLore().setUnlocalizedName("missile_skin_soviet_glory").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_soviet_glory");
+		missile_skin_soviet_stank = new ItemCustomLore().setUnlocalizedName("missile_skin_soviet_stank").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_soviet_stank");
+		missile_skin_metal = new ItemCustomLore().setUnlocalizedName("missile_skin_metal").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_metal");
 		
 		ammo_12gauge = new ItemAmmo().setUnlocalizedName("ammo_12gauge").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge");
 		ammo_12gauge_incendiary = new ItemAmmo().setUnlocalizedName("ammo_12gauge_incendiary").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge_incendiary");
@@ -4132,6 +4164,8 @@ public class ModItems {
 		GameRegistry.registerItem(mp_thruster_15_kerosene_triple, mp_thruster_15_kerosene_triple.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_solid, mp_thruster_15_solid.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_solid_hexdecuple, mp_thruster_15_solid_hexdecuple.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_15_hydrogen, mp_thruster_15_hydrogen.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_15_hydrogen_dual, mp_thruster_15_hydrogen_dual.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_balefire_short, mp_thruster_15_balefire_short.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_balefire, mp_thruster_15_balefire.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_15_balefire_large, mp_thruster_15_balefire_large.getUnlocalizedName());
@@ -4142,15 +4176,21 @@ public class ModItems {
 		GameRegistry.registerItem(mp_stability_15_thin, mp_stability_15_thin.getUnlocalizedName());
 		GameRegistry.registerItem(mp_stability_20_flat, mp_stability_20_flat.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_kerosene, mp_fuselage_10_kerosene.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_10_kerosene_camo, mp_fuselage_10_kerosene_camo.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_10_kerosene_desert, mp_fuselage_10_kerosene_desert.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_kerosene_flames, mp_fuselage_10_kerosene_flames.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_kerosene_sleek, mp_fuselage_10_kerosene_sleek.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_10_kerosene_metal, mp_fuselage_10_kerosene_metal.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_solid, mp_fuselage_10_solid.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_solid_flames, mp_fuselage_10_solid_flames.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_solid_sleek, mp_fuselage_10_solid_sleek.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_xenon, mp_fuselage_10_xenon.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_long_kerosene, mp_fuselage_10_long_kerosene.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_10_long_kerosene_camo, mp_fuselage_10_long_kerosene_camo.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_10_long_kerosene_desert, mp_fuselage_10_long_kerosene_desert.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_long_kerosene_flames, mp_fuselage_10_long_kerosene_flames.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_long_kerosene_sleek, mp_fuselage_10_long_kerosene_sleek.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_10_long_kerosene_metal, mp_fuselage_10_long_kerosene_metal.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_long_solid, mp_fuselage_10_long_solid.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_long_solid_flames, mp_fuselage_10_long_solid_flames.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_long_solid_sleek, mp_fuselage_10_long_solid_sleek.getUnlocalizedName());
@@ -4159,7 +4199,13 @@ public class ModItems {
 		GameRegistry.registerItem(mp_fuselage_10_15_hydrogen, mp_fuselage_10_15_hydrogen.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_10_15_balefire, mp_fuselage_10_15_balefire.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_15_kerosene, mp_fuselage_15_kerosene.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_kerosene_camo, mp_fuselage_15_kerosene_camo.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_kerosene_desert, mp_fuselage_15_kerosene_desert.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_kerosene_metal, mp_fuselage_15_kerosene_metal.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_kerosene_decorated, mp_fuselage_15_kerosene_decorated.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_15_solid, mp_fuselage_15_solid.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_solid_soviet_glory, mp_fuselage_15_solid_soviet_glory.getUnlocalizedName());
+		GameRegistry.registerItem(mp_fuselage_15_solid_soviet_stank, mp_fuselage_15_solid_soviet_stank.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_15_hydrogen, mp_fuselage_15_hydrogen.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_15_balefire, mp_fuselage_15_balefire.getUnlocalizedName());
 		GameRegistry.registerItem(mp_fuselage_20_kerosene, mp_fuselage_20_kerosene.getUnlocalizedName());
@@ -4179,12 +4225,14 @@ public class ModItems {
 		GameRegistry.registerItem(mp_chip_5, mp_chip_5.getUnlocalizedName());
 
 		GameRegistry.registerItem(missile_skin_camo, missile_skin_camo.getUnlocalizedName());
+		GameRegistry.registerItem(missile_skin_desert, missile_skin_desert.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_flames, missile_skin_flames.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_manly_pink, missile_skin_manly_pink.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_orange_insulation, missile_skin_orange_insulation.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_sleek, missile_skin_sleek.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_soviet_glory, missile_skin_soviet_glory.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_soviet_stank, missile_skin_soviet_stank.getUnlocalizedName());
+		GameRegistry.registerItem(missile_skin_metal, missile_skin_metal.getUnlocalizedName());
 		
 		//Satellites
 		GameRegistry.registerItem(sat_mapper, sat_mapper.getUnlocalizedName());

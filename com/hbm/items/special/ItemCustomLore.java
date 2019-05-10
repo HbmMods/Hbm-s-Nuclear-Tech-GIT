@@ -686,6 +686,52 @@ public class ItemCustomLore extends Item {
 			list.add("Denn wer den Walzer richtig tritt,");
 			list.add("der ist auch für den Abgang fit.");
 		}
+		
+		if(this == ModItems.missile_skin_camo)
+		{
+			list.add("I can't find my missile anymore!");
+		}
+		
+		if(this == ModItems.missile_skin_desert)
+		{
+			list.add("Looks like sand, tastes like metal.");
+		}
+		
+		if(this == ModItems.missile_skin_flames)
+		{
+			list.add("Radical!");
+		}
+		
+		if(this == ModItems.missile_skin_manly_pink)
+		{
+			list.add("Pink, the manliest color of them all.");
+		}
+		
+		if(this == ModItems.missile_skin_orange_insulation)
+		{
+			list.add("Not an orange juice bottle;");
+			list.add("do not attempt to drink contents.");
+		}
+		
+		if(this == ModItems.missile_skin_sleek)
+		{
+			list.add("Chevrons are cool!");
+		}
+		
+		if(this == ModItems.missile_skin_soviet_glory)
+		{
+			list.add("услуга перевода недоступна");
+		}
+		
+		if(this == ModItems.missile_skin_soviet_stank)
+		{
+			list.add("This one's got the real 60's stank to it.");
+		}
+		
+		if(this == ModItems.missile_skin_metal)
+		{
+			list.add("Metal sheets and metal bolts, reinforced with metal.");
+		}
 	}
 
     @Override

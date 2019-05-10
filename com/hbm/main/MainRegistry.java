@@ -527,6 +527,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineAmgen.class, "tileentity_amgen");
 		GameRegistry.registerTileEntity(TileEntityGeysir.class, "tileentity_geysir");
 		GameRegistry.registerTileEntity(TileEntityMachineMissileAssembly.class, "tileentity_missile_assembly");
+		GameRegistry.registerTileEntity(TileEntityLaunchTable.class, "tileentity_large_launch_table");
+		GameRegistry.registerTileEntity(TileEntityCompactLauncher.class, "tileentity_small_launcher");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

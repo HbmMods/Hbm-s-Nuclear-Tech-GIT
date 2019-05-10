@@ -1655,6 +1655,7 @@ item.mp_c_2.name=Tier 2 Missile Targeting Circuit
 item.mp_c_3.name=Tier 3 Missile Targeting Circuit
 item.mp_c_4.name=Tier 4 Missile Targeting Circuit
 item.mp_c_5.name=Tier 5 Missile Targeting Circuit
+
 item.mp_warhead_10_he.name=Size 10 HE Warhead
 item.mp_warhead_10_incendiary.name=Size 10 Incendiary Warhead
 item.mp_warhead_10_buster.name=Size 10 Bunker Buster Warhead
@@ -1663,23 +1664,48 @@ item.mp_warhead_15_he.name=Size 15 HE Warhead
 item.mp_warhead_15_incendiary.name=Size 15 Incendiary Warhead
 item.mp_warhead_10_nuclear_large.name=Size 10 Nuclear Warhead "Chernobyl Boris"
 item.mp_warhead_15_nuclear.name=Size 15 Nuclear Warhead "Auntie Bertha"
+
 item.mp_fuselage_10_kerosene.name=Size 10 Kerosene Fuselage
+item.mp_fuselage_10_kerosene_camo.name=Size 10 Kerosene Fuselage (Camo)
+item.mp_fuselage_10_kerosene_desert.name=Size 10 Kerosene Fuselage (Desert Camo)
+item.mp_fuselage_10_kerosene_flames.name=Size 10 Kerosene Fuselage (Sick Flames)
+item.mp_fuselage_10_kerosene_sleek.name=Size 10 Kerosene Fuselage (IF-R&D)
+item.mp_fuselage_10_kerosene_metal.name=Size 10 Kerosene Fuselage (Metal)
 item.mp_fuselage_10_solid.name=Size 10 Solid Fuel Fuselage
+item.mp_fuselage_10_solid_flames.name=Size 10 Solid Fuselage (Sick Flames)
+item.mp_fuselage_10_solid_sleek.name=Size 10 Solid Fuselage (IF-R&D)
 item.mp_fuselage_10_xenon.name=Size 10 Xenon Fuselage
 item.mp_fuselage_10_long_kerosene.name=Size 10 Long Kerosene Fuselage
+item.mp_fuselage_10_long_kerosene_camo.name=Size 10 Long Kerosene Fuselage (Camo)
+item.mp_fuselage_10_long_kerosene_desert.name=Size 10 Long Kerosene Fuselage (Desert Camo)
+item.mp_fuselage_10_long_kerosene_flames.name=Size 10 Long Kerosene Fuselage (Sick Flames)
+item.mp_fuselage_10_long_kerosene_sleek.name=Size 10 Long Kerosene Fuselage (IF-R&D)
+item.mp_fuselage_10_long_kerosene_metal.name=Size 10 Long Kerosene Fuselage (Metal)
 item.mp_fuselage_10_long_solid.name=Size 10 Long Solid Fuel Fuselage
+item.mp_fuselage_10_long_solid_flames.name=Size 10 Long Solid Fuel Fuselage (Sick Flames)
+item.mp_fuselage_10_long_solid_sleek.name=Size 10 Long Solid Fuel Fuselage (IF-R&D)
+
 item.mp_fuselage_10_15_kerosene.name=Size 10/15 Kerosene Fuselage
 item.mp_fuselage_10_15_solid.name=Size 10/15 Solid Fuel Fuselage
 item.mp_fuselage_10_15_hydrogen.name=Size 10/15 Hydrogen Fuselage
 item.mp_fuselage_10_15_balefire.name=Size 10/15 BF Fuselage
+
 item.mp_fuselage_15_kerosene.name=Size 15 Kerosene Fuselage
+item.mp_fuselage_15_kerosene_camo.name=Size 15 Kerosene Fuselage (Camo)
+item.mp_fuselage_15_kerosene_desert.name=Size 15 Kerosene Fuselage (Desert Camo)
+item.mp_fuselage_15_kerosene_metal.name=Size 15 Kerosene Fuselage (Metal)
+item.mp_fuselage_15_kerosene_decorated.name=Size 15 Kerosene Fuselage (Decorated Metal)
 item.mp_fuselage_15_solid.name=Size 15 Solid Fuel Fuselage
+item.mp_fuselage_15_solid_soviet_glory.name=Size 15 Solid Fuel Fuselage (Soviet Glory)
+item.mp_fuselage_15_solid_soviet_stank.name=Size 15 Solid Fuel Fuselage (Soviet Stank)
 item.mp_fuselage_15_hydrogen.name=Size 15 Hydrogen Fuselage
 item.mp_fuselage_15_balefire.name=Size 15 BF Fuselage
+
 item.mp_stability_10_flat.name=Size 10 Flat Fins
 item.mp_stability_10_cruise.name=Size 10 Cruise Fins
 item.mp_stability_15_flat.name=Size 15 Flat Fins
 item.mp_stability_15_thin.name=Size 15 Thin Fins
+
 item.mp_thruster_10_kerosene.name=Size 10 Liquid Fuel Thruster
 item.mp_thruster_10_solid.name=Size 10 Solid Fuel Thruster
 item.mp_thruster_10_xenon.name=Size 10 Ion Thruster
@@ -1688,17 +1714,23 @@ item.mp_thruster_15_kerosene_dual.name=Size 15 Liquid Fuel Twin Thrusters
 item.mp_thruster_15_kerosene_triple.name=Size 15 Liquid Fuel Triple Thrusters
 item.mp_thruster_15_solid.name=Size 15 Solid Fuel Thruster
 item.mp_thruster_15_solid_hexdecuple.name=Size 15 Solid Fuel Hexdecuple Thrusters
+item.mp_thruster_15_hydrogen.name=Size 15 Hydrogen Thruster
+item.mp_thruster_15_hydrogen_dual.name=Size 15 Hydrogen Twin Thrusters
 item.mp_thruster_15_balefire_short.name=Size 15 BF Thruster with Nuclear Preheater (Shortened)
 item.mp_thruster_15_balefire.name=Size 15 BF Thruster with Nuclear Preheater
 item.mp_thruster_15_balefire_large.name=Size 15 BF Thruster with Nuclear Preheater (Heavy Duty Nozzle)
 
 item.missile_skin_camo.name=Missile Skin: Camo
+item.missile_skin_desert.name=Missile Skin: Desert Camo
 item.missile_skin_flames.name=Missile Skin: Sick Flames
 item.missile_skin_manly_pink.name=Missile Skin: Manly Pink
 item.missile_skin_orange_insulation.name=Missile Skin: Orange Insulation
 item.missile_skin_sleek.name=Missile Skin: IF-R&D
 item.missile_skin_soviet_glory.name=Missile Skin: Soviet Glory
 item.missile_skin_soviet_stank.name=Missile Skin: Soviet Stank
+item.missile_skin_metal.name=Missile Skin: Metal
+
+item.missile_custom.name=Custom Missile
 
 item.missile_carrier.name=HTR-01 Carrier Rocket
 item.sat_mapper.name=Surface Mapping Satellite

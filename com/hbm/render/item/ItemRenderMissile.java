@@ -39,11 +39,8 @@ public class ItemRenderMissile implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 
 		MissileMultipart missile = new MissileMultipart();
-		missile.warhead = MissilePart.getPart(ItemMissile.parts.get(ItemCustomMissile.readFromNBT(item, "warhead")));
-		missile.fuselage = MissilePart.getPart(ItemMissile.parts.get(ItemCustomMissile.readFromNBT(item, "fuselage")));
-		if(ItemMissile.parts.get(ItemCustomMissile.readFromNBT(item, "stability")) != null)
-			missile.fins = MissilePart.getPart(ItemMissile.parts.get(ItemCustomMissile.readFromNBT(item, "stability")));
-		missile.thruster = MissilePart.getPart(ItemMissile.parts.get(ItemCustomMissile.readFromNBT(item, "thruster")));
+		
+		missile = ItemCustomMissile.getMultipart(item);
 		
 		GL11.glPushMatrix();
 		
