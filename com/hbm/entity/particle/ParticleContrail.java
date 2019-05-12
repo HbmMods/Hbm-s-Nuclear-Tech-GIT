@@ -65,7 +65,7 @@ public class ParticleContrail extends EntityFX {
 			
 			p_70539_1_.startDrawingQuads();
 			
-	        this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.5F + 0.2F;
+	        this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.7F + 0.2F;
 	        
 			p_70539_1_.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 			p_70539_1_.setNormal(0.0F, 1.0F, 0.0F);

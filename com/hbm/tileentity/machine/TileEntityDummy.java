@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IMultiblock;
+
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -15,6 +17,7 @@ public class TileEntityDummy extends TileEntity {
     	if(!this.worldObj.isRemote) {
     		if(!(this.worldObj.getBlock(targetX, targetY, targetZ) instanceof IMultiblock)) {
     			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
+    			//worldObj.setBlock(targetX, targetY, targetZ, Blocks.gold_block);
     		}
     	}
     }

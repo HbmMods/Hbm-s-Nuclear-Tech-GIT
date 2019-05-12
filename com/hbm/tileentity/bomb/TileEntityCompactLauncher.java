@@ -24,7 +24,7 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	private String customName;
 
 	public TileEntityCompactLauncher() {
-		slots = new ItemStack[2];
+		slots = new ItemStack[6];
 	}
 
 	@Override

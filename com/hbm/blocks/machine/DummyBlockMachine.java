@@ -18,6 +18,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class DummyBlockMachine extends BlockContainer implements IDummy {
@@ -26,6 +28,12 @@ public class DummyBlockMachine extends BlockContainer implements IDummy {
 
 	private int id;
 	private Block drop;
+	float oX = 0;
+	float oY = 0;
+	float oZ = 0;
+	float dX = 1;
+	float dY = 1;
+	float dZ = 1;
 
 	public DummyBlockMachine(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -35,6 +43,18 @@ public class DummyBlockMachine extends BlockContainer implements IDummy {
 		super(mat);
 		this.id = id;
 		this.drop = drop;
+	}
+	
+	public DummyBlockMachine setBounds(float oX, float oY, float oZ, float dX, float dY, float dZ) {
+
+		this.oX = oX * 0.0625F;
+		this.oY = oY * 0.0625F;
+		this.oZ = oZ * 0.0625F;
+		this.dX = dX * 0.0625F;
+		this.dY = dY * 0.0625F;
+		this.dZ = dZ * 0.0625F;
+		
+		return this;
 	}
 
 	@Override
@@ -109,5 +129,18 @@ public class DummyBlockMachine extends BlockContainer implements IDummy {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
+    {
+        this.setBlockBounds(oX, oY, oZ, dX, dY, dZ);
+    }
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		
+        this.setBlockBounds(oX, oY, oZ, dX, dY, dZ);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 }

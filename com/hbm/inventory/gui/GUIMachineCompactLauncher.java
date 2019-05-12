@@ -40,16 +40,6 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 		super.drawScreen(mouseX, mouseY, f);
 	}
 
-	protected void mouseClicked(int x, int y, int i) {
-    	super.mouseClicked(x, y, i);
-		
-    	if(guiLeft + 115 <= x && guiLeft + 115 + 18 > x && guiTop + 35 < y && guiTop + 35 + 18 >= y) {
-    		
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(assembler.xCoord, assembler.yCoord, assembler.zCoord, 0, 0));
-    	}
-    }
-
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
 		String name = this.assembler.hasCustomInventoryName() ? this.assembler.getInventoryName() : I18n.format(this.assembler.getInventoryName());

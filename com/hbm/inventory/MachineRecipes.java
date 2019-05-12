@@ -1842,7 +1842,7 @@ public class MachineRecipes {
 		public boolean doesExist(ItemStack stack) {
 			
 			for(DictCouple dic : theWholeThing) {
-				if(dic.item.getItem() == stack.getItem())
+				if(dic.item.getItem() == stack.getItem() && dic.item.getItemDamage() == stack.getItemDamage())
 					return true;
 			}
 			

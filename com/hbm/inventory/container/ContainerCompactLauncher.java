@@ -19,6 +19,10 @@ public class ContainerCompactLauncher extends Container {
 
 		this.addSlotToContainer(new Slot(tedf, 0, 26, 36));
 		this.addSlotToContainer(new Slot(tedf, 1, 26, 72));
+		this.addSlotToContainer(new Slot(tedf, 2, 116, 90));
+		this.addSlotToContainer(new Slot(tedf, 3, 134, 90));
+		this.addSlotToContainer(new Slot(tedf, 4, 152, 90));
+		this.addSlotToContainer(new Slot(tedf, 5, 116, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
