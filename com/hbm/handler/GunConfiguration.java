@@ -77,6 +77,7 @@ public class GunConfiguration {
 	public static final String RSOUND_MAG = "hbm:weapon.magReload";
 	public static final String RSOUND_SHOTGUN = "hbm:weapon.shotgunReload";
 	public static final String RSOUND_LAUNCHER = "hbm:weapon.rpgReload";
+	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";
 	
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";

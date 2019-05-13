@@ -61,6 +61,7 @@ public class BulletConfiguration {
 	public int caustic;
 	public boolean boxcar;
 	public boolean boat;
+	public boolean destroysWood;
 	public boolean destroysBlocks;
 	public boolean instakill;
 	

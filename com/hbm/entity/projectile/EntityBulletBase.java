@@ -289,6 +289,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
                         	if(config.plink == 2)
                         		worldObj.playSoundAtEntity(this, "hbm:weapon.gBounce", 1.0F, 1.0F);
                         	
+                        	onRicochet(movement.blockX, movement.blockY, movement.blockZ);
+                        	
                 		} else {
                 			if(!worldObj.isRemote)
                 				onBlockImpact(movement.blockX, movement.blockY, movement.blockZ);
@@ -446,6 +448,18 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			if(worldObj.getBlock(bX, bY, bZ) == ModBlocks.red_barrel)
 				((RedBarrel) ModBlocks.red_barrel).explode(worldObj, bX, bY, bZ);
 		}
+	}
+	
+	//for when a bullet dies by hitting a block
+	private void onRicochet(int bX, int bY, int bZ) {
+		
+		if(!worldObj.isRemote && config.destroysWood &&
+				(worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.wood ||
+				worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.plants ||
+				worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.glass ||
+				worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.leaves))
+			worldObj.func_147480_a(bX, bY, bZ, false);
+		
 	}
 	
 	//for when a bullet dies by hitting an entity

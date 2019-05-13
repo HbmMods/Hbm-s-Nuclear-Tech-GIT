@@ -43,6 +43,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
 		config.durability = 140;
 		
 		return config;
@@ -62,6 +63,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
 		config.durability = 500;
 		
 		return config;
@@ -195,6 +197,27 @@ public class GunRocketFactory {
 		bullet.incendiary = 0;
 		bullet.trail = 7;
 		bullet.nuke = 25;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketRPCConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_rpc;
+		bullet.velocity = 3.0F;
+		bullet.dmgMin = 20;
+		bullet.dmgMax = 25;
+		bullet.wear = 15;
+		bullet.explosive = 0;
+		bullet.incendiary = 0;
+		bullet.trail = 8;
+		bullet.gravity = 0.000D;
+		bullet.ricochetAngle = 90;
+		bullet.LBRC = 100;
+		bullet.destroysWood = true;
+		bullet.doesPenetrate = true;
 		
 		return bullet;
 	}

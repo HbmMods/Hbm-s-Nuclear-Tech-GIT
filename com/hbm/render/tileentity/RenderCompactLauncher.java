@@ -39,12 +39,13 @@ public class RenderCompactLauncher extends TileEntitySpecialRenderer {
 
 		MissileMultipart missile;
 		
-		if(launcher.getStackInSlot(0) != null && launcher.getStackInSlot(0).getItem() instanceof ItemCustomMissile) {
-			ItemStack custom = launcher.getStackInSlot(0);
+		if(launcher.load != null) {
+			//ItemStack custom = launcher.getStackInSlot(0);
 			
-			missile = ItemCustomMissile.getMultipart(custom);
+			//missile = ItemCustomMissile.getMultipart(custom);
 			
-			MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
+			MissilePronter.prontMissile(launcher.load, Minecraft.getMinecraft().getTextureManager());
+			//
 		}
 		
 		GL11.glPopMatrix();

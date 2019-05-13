@@ -85,6 +85,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(AuxParticlePacket.Handler.class, AuxParticlePacket.class, i++, Side.CLIENT);
 		//Signals server to buy offer from bobmazon
 		wrapper.registerMessage(ItemBobmazonPacket.Handler.class, ItemBobmazonPacket.class, i++, Side.SERVER);
+		//Packet to send missile multipart information to TEs
+		wrapper.registerMessage(TEMissileMultipartPacket.Handler.class, TEMissileMultipartPacket.class, i++, Side.CLIENT);
 	}
 	
 }

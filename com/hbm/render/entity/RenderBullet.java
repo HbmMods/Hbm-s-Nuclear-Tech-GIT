@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelBuckshot;
 import com.hbm.render.model.ModelBullet;
 import com.hbm.render.model.ModelGrenade;
@@ -42,7 +43,7 @@ public class RenderBullet extends Render {
 				0.0F, 0.0F, 1.0F);
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
 		
-		GL11.glRotatef(new Random(bullet.getEntityId()).nextInt(360), 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(new Random(bullet.getEntityId()).nextInt(90) - 45, 1.0F, 0.0F, 0.0F);
 
 		int style = bullet.getDataWatcher().getWatchableObjectByte(16);
 		int trail = bullet.getDataWatcher().getWatchableObjectByte(17);
@@ -101,6 +102,14 @@ public class RenderBullet extends Render {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketSleek.png")); break;
 		case 7:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketNuclear.png")); break;
+		}
+		
+		if(type == 8) {
+			bindTexture(ResourceManager.rpc_tex);
+			GL11.glScalef(0.25F, 0.25F, 0.25F);
+			GL11.glRotatef(180, 1, 0, 0);
+			ResourceManager.rpc.renderAll();
+			return;
 		}
 		
 		rocket.renderAll(0.0625F);

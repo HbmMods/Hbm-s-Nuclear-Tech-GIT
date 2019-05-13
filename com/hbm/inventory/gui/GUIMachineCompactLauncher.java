@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerCompactLauncher;
 import com.hbm.inventory.container.ContainerMachineMissileAssembly;
 import com.hbm.items.weapon.ItemCustomMissile;
@@ -25,11 +26,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUIMachineCompactLauncher extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_launch_table_small.png");
-	private TileEntityCompactLauncher assembler;
+	private TileEntityCompactLauncher launcher;
 	
 	public GUIMachineCompactLauncher(InventoryPlayer invPlayer, TileEntityCompactLauncher tedf) {
 		super(new ContainerCompactLauncher(invPlayer, tedf));
-		assembler = tedf;
+		launcher = tedf;
 		
 		this.xSize = 176;
 		this.ySize = 222;
@@ -38,11 +39,16 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
+
+		launcher.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 88 - 52, 16, 52);
+		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 88 - 52, 16, 52);
+		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 88 - 52, 16, 52, new String[] { "Solid Fuel: " + launcher.solid + "l" });
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 113, 34, 6, launcher.power, launcher.maxPower);
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
-		String name = this.assembler.hasCustomInventoryName() ? this.assembler.getInventoryName() : I18n.format(this.assembler.getInventoryName());
+		String name = this.launcher.hasCustomInventoryName() ? this.launcher.getInventoryName() : I18n.format(this.launcher.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -54,13 +60,46 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
+		int i = (int)launcher.getPowerScaled(34);
+		drawTexturedModalRect(guiLeft + 134, guiTop + 113, 176, 96, i, 6);
+		
+		int j = (int)launcher.getSolidScaled(52);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 88 - j, 176, 96 - j, 16, j);
+		
+		if(launcher.isMissileValid())
+			drawTexturedModalRect(guiLeft + 25, guiTop + 35, 176, 26, 18, 18);
+		
+		if(launcher.hasDesignator())
+			drawTexturedModalRect(guiLeft + 25, guiTop + 71, 176, 26, 18, 18);
+		
+		if(launcher.liquidState() == 1)
+			drawTexturedModalRect(guiLeft + 121, guiTop + 23, 176, 0, 6, 8);
+		if(launcher.liquidState() == 0)
+			drawTexturedModalRect(guiLeft + 121, guiTop + 23, 182, 0, 6, 8);
+		
+		if(launcher.oxidizerState() == 1)
+			drawTexturedModalRect(guiLeft + 139, guiTop + 23, 176, 0, 6, 8);
+		if(launcher.oxidizerState() == 0)
+			drawTexturedModalRect(guiLeft + 139, guiTop + 23, 182, 0, 6, 8);
+		
+		if(launcher.solidState() == 1)
+			drawTexturedModalRect(guiLeft + 157, guiTop + 23, 176, 0, 6, 8);
+		if(launcher.solidState() == 0)
+			drawTexturedModalRect(guiLeft + 157, guiTop + 23, 182, 0, 6, 8);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[0].getSheet());
+		launcher.tanks[0].renderTank(this, guiLeft + 116, guiTop + 88, launcher.tanks[0].getTankType().textureX() * FluidTank.x, launcher.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[1].getSheet());
+		launcher.tanks[1].renderTank(this, guiLeft + 134, guiTop + 88, launcher.tanks[1].getTankType().textureX() * FluidTank.x, launcher.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();
 
 		MissileMultipart missile;
 		
-		if(assembler.getStackInSlot(0) != null && assembler.getStackInSlot(0).getItem() instanceof ItemCustomMissile) {
-			ItemStack custom = assembler.getStackInSlot(0);
+		if(launcher.isMissileValid()) {
+			ItemStack custom = launcher.getStackInSlot(0);
 			
 			missile = new MissileMultipart();
 			

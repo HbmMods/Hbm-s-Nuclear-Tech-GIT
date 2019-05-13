@@ -55,6 +55,7 @@ public class BulletConfigSyncingUtil {
 	public static final int ROCKET_GLARE = 0x25;
 	public static final int ROCKET_SLEEK = 0x26;
 	public static final int ROCKET_NUKE = 0x27;
+	public static final int ROCKET_CHAINSAW = 0x28;
 
 	public static final int GRENADE_NORMAL = 0x30;
 	public static final int GRENADE_HE = 0x31;
@@ -128,6 +129,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketGlareConfig(), ROCKET_GLARE));
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketSleekConfig(), ROCKET_SLEEK));
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketNukeConfig(), ROCKET_NUKE));
+		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketRPCConfig(), ROCKET_CHAINSAW));
 
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeConfig(), GRENADE_NORMAL));
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeHEConfig(), GRENADE_HE));

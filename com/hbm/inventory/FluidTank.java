@@ -86,7 +86,7 @@ public class FluidTank {
 		if(slots[in] != null) {
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
 			
-			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {
+			if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != FluidType.NONE) {
 				this.fluid = this.maxFluid;
 				return;
 			}

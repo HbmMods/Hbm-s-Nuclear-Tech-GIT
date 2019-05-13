@@ -13,6 +13,10 @@ import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartType;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TEMissileMultipartPacket;
+import com.hbm.render.misc.MissileMultipart;
+import com.hbm.render.misc.MissilePart;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,6 +31,8 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntityMachineMissileAssembly extends TileEntity implements ISidedInventory {
 
 	private ItemStack slots[];
+	
+	public MissileMultipart load;
 
 	private static final int[] access = new int[] { 0 };
 
@@ -172,6 +178,29 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
+	}
+	
+	@Override
+	public void updateEntity() {
+
+		if(!worldObj.isRemote) {
+			
+			MissileMultipart multipart = new MissileMultipart();
+			
+			if(slots[1] != null)
+				multipart.warhead = MissilePart.getPart(slots[1].getItem());
+			
+			if(slots[2] != null)
+				multipart.fuselage = MissilePart.getPart(slots[2].getItem());
+			
+			if(slots[3] != null)
+				multipart.fins = MissilePart.getPart(slots[3].getItem());
+			
+			if(slots[4] != null)
+				multipart.thruster = MissilePart.getPart(slots[4].getItem());
+			
+			PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
+		}
 	}
 	
 	public int fuselageState() {

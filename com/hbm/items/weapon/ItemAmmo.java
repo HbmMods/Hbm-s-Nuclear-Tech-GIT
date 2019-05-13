@@ -160,6 +160,13 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Very highly increased wear");
 			list.add(EnumChatFormatting.RED + "- Decreased projectile speed");
 		}
+		if(this == ModItems.ammo_rocket_rpc) {
+			list.add(EnumChatFormatting.BLUE + "+ Chainsaw");
+			list.add(EnumChatFormatting.BLUE + "+ Penetrating");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+			list.add(EnumChatFormatting.RED + "- Non-explosive");
+			list.add(EnumChatFormatting.YELLOW + "* Uhhhh");
+		}
 		
 		//40mm GRENADES
 		if(this == ModItems.ammo_grenade_he) {

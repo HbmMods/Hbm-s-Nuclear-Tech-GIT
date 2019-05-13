@@ -2,6 +2,7 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
@@ -235,6 +236,11 @@ public class AuxGaugePacket implements IMessage {
 						reactor.waste = m.value;
 					if(m.id == 6)
 						reactor.type = ReactorFuelType.getEnum(m.value);
+				}
+				if (te instanceof TileEntityCompactLauncher) {
+					TileEntityCompactLauncher launcher = (TileEntityCompactLauncher)te;
+					
+					launcher.solid = m.value;
 				}
 				
 			} catch (Exception x) {}
