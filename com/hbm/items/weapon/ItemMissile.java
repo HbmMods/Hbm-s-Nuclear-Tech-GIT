@@ -72,7 +72,10 @@ public class ItemMissile extends Item {
 		NUCLEAR,
 		TX,
 		N2,
-		BALEFIRE
+		BALEFIRE,
+		SCHRAB,
+		TAINT,
+		CLOUD
 	}
 	
 	public enum FuelType {
@@ -215,6 +218,12 @@ public class ItemMissile extends Item {
 			return "N²";
 		case BALEFIRE:
 			return "BF";
+		case SCHRAB:
+			return "Schrabidium";
+		case TAINT:
+			return "Taint";
+		case CLOUD:
+			return "Cloud";
 		default:
 			return "N/A";
 		}

@@ -25,6 +25,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.items.ModItems;
 import com.hbm.particle.ParticleContrail;
+import com.hbm.particle.ParticleSmokePlume;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
 import com.hbm.render.item.*;
@@ -485,6 +486,20 @@ public class ClientProxy extends ServerProxy
 			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 			break;
+		}
+	}
+	
+	//version 2, now with strings!
+	@Override
+	public void spawnParticle(double x, double y, double z, String type, float args[]) {
+
+		
+		World world = Minecraft.getMinecraft().theWorld;
+		TextureManager man = Minecraft.getMinecraft().renderEngine;
+		
+		if("launchsmoke".equals(type)) {
+			ParticleSmokePlume contrail = new ParticleSmokePlume(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
 	}
 }

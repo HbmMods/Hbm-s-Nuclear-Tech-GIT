@@ -3,6 +3,8 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
@@ -41,6 +43,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 	double velocity;
 	double decelY;
 	double accelXZ;
+	float fuel;
+	float consumption;
     private Ticket loaderTicket;
     public int health = 50;
     MissileMultipart template;
@@ -107,7 +111,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		if(template.fins != null)
 			this.dataWatcher.updateObject(11, Item.getIdFromItem(template.fins.part));
         else
-        	this.dataWatcher.addObject(11, Integer.valueOf(0));
+        	this.dataWatcher.updateObject(11, Integer.valueOf(0));
 		this.dataWatcher.updateObject(12, Item.getIdFromItem(template.thruster.part));
 		
         Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
@@ -115,6 +119,12 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		decelY *= 2;
 		
 		velocity = 0.0;
+
+		ItemMissile fuselage = (ItemMissile) template.fuselage.part;
+		ItemMissile thruster = (ItemMissile) template.thruster.part;
+
+		this.fuel = (Float)fuselage.attributes[1];
+		this.consumption = (Float)thruster.attributes[1];
 
         this.setSize(1.5F, 1.5F);
 	}
@@ -158,6 +168,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		startX = nbt.getInteger("sX");
 		startZ = nbt.getInteger("sZ");
 		velocity = nbt.getInteger("veloc");
+		fuel = nbt.getFloat("fuel");
+		consumption = nbt.getFloat("consumption");
 		this.dataWatcher.updateObject(9, nbt.getInteger("warhead"));
 		this.dataWatcher.updateObject(10, nbt.getInteger("fuselage"));
 		this.dataWatcher.updateObject(11, nbt.getInteger("fins"));
@@ -179,6 +191,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		nbt.setInteger("sX", startX);
 		nbt.setInteger("sZ", startZ);
 		nbt.setDouble("veloc", velocity);
+		nbt.setFloat("fuel", fuel);
+		nbt.setFloat("consumption", consumption);
 		nbt.setInteger("warhead", this.dataWatcher.getWatchableObjectInt(9));
 		nbt.setInteger("fuselage", this.dataWatcher.getWatchableObjectInt(10));
 		nbt.setInteger("fins", this.dataWatcher.getWatchableObjectInt(11));
@@ -222,29 +236,36 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
 
 		this.rotation();
+		
+		if(fuel > 0) {
+			
+			fuel -= consumption;
+	
+			this.motionY -= decelY * velocity;
+	
+			Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+			vector = vector.normalize();
+			vector.xCoord *= accelXZ * velocity;
+			vector.zCoord *= accelXZ * velocity;
+	
+			if (motionY > 0) {
+				motionX += vector.xCoord;
+				motionZ += vector.zCoord;
+			}
+	
+			if (motionY < 0) {
+				motionX -= vector.xCoord;
+				motionZ -= vector.zCoord;
+			}
+			
+			if(velocity < 5)
+				velocity += 0.01;
+		} else {
 
-		this.motionY -= decelY * velocity;
-
-		Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-		vector = vector.normalize();
-		vector.xCoord *= accelXZ * velocity;
-		vector.zCoord *= accelXZ * velocity;
-
-		if (motionY > 0) {
-			motionX += vector.xCoord;
-			motionZ += vector.zCoord;
+			motionX *= 0.99;
+			motionZ *= 0.99;
+			motionY -= 0.1;
 		}
-
-		if (motionY < 0) {
-			motionX -= vector.xCoord;
-			motionZ -= vector.zCoord;
-		}
-
-		if (!this.worldObj.isRemote)
-			// this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj,
-			// this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY, posZ, 2),
-					new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 300));
 
 		if (this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air
 				&& this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.water
@@ -257,10 +278,10 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 			return;
 		}
 
+		if (this.worldObj.isRemote)
+			MainRegistry.proxy.particleControl(posX, posY, posZ, 2);
+
 		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
-		
-		if(velocity < 5)
-			velocity += 0.01;
     }
 	
     @Override
@@ -282,18 +303,31 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 			ExplosionLarge.explode(worldObj, posX, posY, posZ, strength, true, true, true);
 			break;
 		case INC:
+			ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, strength, true, true, true);
 			break;
 		case CLUSTER:
 			break;
 		case BUSTER:
+			ExplosionLarge.buster(worldObj, posX, posY, posZ, Vec3.createVectorHelper(motionX, motionY, motionZ), strength, strength * 4);
 			break;
 		case NUCLEAR:
-			break;
 		case TX:
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int) strength, posX, posY, posZ));
+			EntityNukeCloudSmall nuke = new EntityNukeCloudSmall(worldObj, 1000, strength * 0.005F);
+			nuke.posX = posX;
+			nuke.posY = posY;
+			nuke.posZ = posZ;
+			worldObj.spawnEntityInWorld(nuke);
 			break;
 		case BALEFIRE:
 			break;
 		case N2:
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(worldObj, (int) strength, posX, posY, posZ));
+			EntityNukeCloudSmall n2 = new EntityNukeCloudSmall(worldObj, 1000, strength * 0.005F);
+			n2.posX = posX;
+			n2.posY = posY;
+			n2.posZ = posZ;
+			worldObj.spawnEntityInWorld(n2);
 			break;
 		default:
 			break;

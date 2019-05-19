@@ -203,6 +203,16 @@ public class ExplosionLarge {
 			spawnShrapnels(world, x, y, z, shrapnelFunction((int)strength));
 	}
 	
+	public static void buster(World world, double x, double y, double z, Vec3 vector, float strength, float depth) {
+		
+		vector = vector.normalize();
+		
+		for(int i = 0; i < depth; i += 2) {
+			
+			world.createExplosion((Entity)null, x + vector.xCoord * i, y + vector.yCoord * i, z + vector.zCoord * i, strength, true);
+		}
+	}
+	
 	public static void jolt(World world, double posX, double posY, double posZ, double strength, int count, double vel) {
 		
 		for(int j = 0; j < count; j++) {

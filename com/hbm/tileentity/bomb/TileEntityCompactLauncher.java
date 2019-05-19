@@ -16,6 +16,7 @@ import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -24,6 +25,7 @@ import com.hbm.render.misc.MissileMultipart;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -197,6 +199,20 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 					}
 				}
 			}
+		} else {
+			
+			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
+			
+			for(Entity e : entities) {
+				
+				if(e instanceof EntityMissileCustom) {
+					
+					for(int i = 0; i < 15; i++)
+						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", null);
+					
+					break;
+				}
+			}
 		}
 	}
 	
@@ -210,12 +226,50 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getMultipart(slots[0]));
 		worldObj.spawnEntityInWorld(missile);
 		
+		subtractFuel();
+		
 		slots[0] = null;
 	}
 	
 	private boolean hasFuel() {
 
 		return solidState() != 0 && liquidState() != 0 && oxidizerState() != 0;
+	}
+	
+	private void subtractFuel() {
+		
+		MissileMultipart multipart = getMultipart(slots[0]);
+		
+		if(multipart == null || multipart.fuselage == null)
+			return;
+		
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		
+		float f = (Float)fuselage.attributes[1];
+		int fuel = (int)f;
+		
+		switch((FuelType)fuselage.attributes[0]) {
+			case KEROSENE:
+				tanks[0].setFill(tanks[0].getFill() - fuel);
+				tanks[1].setFill(tanks[1].getFill() - fuel);
+				break;
+			case HYDROGEN:
+				tanks[0].setFill(tanks[0].getFill() - fuel);
+				tanks[1].setFill(tanks[1].getFill() - fuel);
+				break;
+			case XENON:
+				tanks[0].setFill(tanks[0].getFill() - fuel);
+				break;
+			case BALEFIRE:
+				tanks[0].setFill(tanks[0].getFill() - fuel);
+				tanks[1].setFill(tanks[1].getFill() - fuel);
+				break;
+			case SOLID:
+				this.solid -= fuel; break;
+			default: break;
+		}
+		
+		this.power -= maxPower * 0.75;
 	}
 	
 	public static MissileMultipart getMultipart(ItemStack stack) {
