@@ -103,17 +103,17 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 			
 			missile = new MissileMultipart();
 			
-			missile = ItemCustomMissile.getMultipart(custom);
+			missile = MissileMultipart.loadFromStruct(ItemCustomMissile.getStruct(custom));
 		
-			GL11.glTranslatef(guiLeft + 42, guiTop + 115, 100);
+			GL11.glTranslatef(guiLeft + 88, guiTop + 115, 100);
 			
 			double size = 5 * 18;
 			double scale = size / Math.max(missile.getHeight(), 6);
-			
-			GL11.glTranslated(missile.getHeight() / 2 * scale, 0, 0);
-			GL11.glScaled(scale, scale, scale);
 
 			GL11.glRotatef(90, 0, 1, 0);
+			GL11.glTranslated(missile.getHeight() / 2D * scale, 0, 0);
+			GL11.glScaled(scale, scale, scale);
+			
 			GL11.glScalef(-1, -1, -1);
 			
 			MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());

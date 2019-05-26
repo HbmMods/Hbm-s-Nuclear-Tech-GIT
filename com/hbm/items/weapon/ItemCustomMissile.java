@@ -2,10 +2,10 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.hbm.handler.MissileStruct;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.WarheadType;
-import com.hbm.render.misc.MissileMultipart;
 import com.hbm.render.misc.MissilePart;
 
 import net.minecraft.client.resources.I18n;
@@ -13,9 +13,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class ItemCustomMissile extends Item {
+
+	public static ItemStack buildMissile(Item chip, Item warhead, Item fuselage, Item stability, Item thruster) {
+		
+		if(stability == null) {
+			return buildMissile(new ItemStack(chip), new ItemStack(warhead), new ItemStack(fuselage), null, new ItemStack(thruster));
+		} else {
+			return buildMissile(new ItemStack(chip), new ItemStack(warhead), new ItemStack(fuselage), new ItemStack(stability), new ItemStack(thruster));
+		}
+	}
 	
 	public static ItemStack buildMissile(ItemStack chip, ItemStack warhead, ItemStack fuselage, ItemStack stability, ItemStack thruster) {
 		
@@ -53,15 +63,19 @@ public class ItemCustomMissile extends Item {
 		ItemMissile stability = (ItemMissile) Item.getItemById(readFromNBT(stack, "stability"));
 		ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
 
-		list.add(I18n.format(StatCollector.translateToLocal(chip.getUnlocalizedName() + ".name")).trim());
-		list.add(I18n.format(StatCollector.translateToLocal(warhead.getUnlocalizedName() + ".name")).trim());
-		list.add(I18n.format(StatCollector.translateToLocal(fuselage.getUnlocalizedName() + ".name")).trim());
+		list.add(EnumChatFormatting.BOLD + "Warhead: " + EnumChatFormatting.GRAY + warhead.getWarhead((WarheadType)warhead.attributes[0]));
+		list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)warhead.attributes[1]);
+		list.add(EnumChatFormatting.BOLD + "Fuel Type: " + EnumChatFormatting.GRAY + fuselage.getFuel((FuelType)fuselage.attributes[0]));
+		list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)fuselage.attributes[1] + "l");
+		list.add(EnumChatFormatting.BOLD + "Chip inaccuracy: " + EnumChatFormatting.GRAY + (Float)chip.attributes[0] * 100 + "%");
 		if(stability != null)
-			list.add(I18n.format(StatCollector.translateToLocal(stability.getUnlocalizedName() + ".name")).trim());
-		list.add(I18n.format(StatCollector.translateToLocal(thruster.getUnlocalizedName() + ".name")).trim());
+			list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + (Float)stability.attributes[0] * 100 + "%");
+		else
+			list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + "100%");
+		list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + fuselage.getSize(fuselage.top) + "/" + fuselage.getSize(fuselage.bottom));
 	}
 	
-	public static MissileMultipart getMultipart(ItemStack stack) {
+	public static MissileStruct getStruct(ItemStack stack) {
 		
 		if(stack == null || !(stack.getItem() instanceof ItemCustomMissile))
 			return null;
@@ -71,12 +85,7 @@ public class ItemCustomMissile extends Item {
 		ItemMissile stability = (ItemMissile) Item.getItemById(readFromNBT(stack, "stability"));
 		ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
 		
-		MissileMultipart missile = new MissileMultipart();
-
-		missile.warhead = MissilePart.getPart(warhead);
-		missile.fuselage = MissilePart.getPart(fuselage);
-		missile.fins = MissilePart.getPart(stability);
-		missile.thruster = MissilePart.getPart(thruster);
+		MissileStruct missile = new MissileStruct(warhead, fuselage, stability, thruster);
 		
 		return missile;
 	}

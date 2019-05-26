@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -21,7 +22,6 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
-import com.hbm.render.misc.MissileMultipart;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +44,7 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	public static final int maxSolid = 25000;
 	public FluidTank[] tanks;
 	
-	public MissileMultipart load;
+	public MissileStruct load;
 
 	private static final int[] access = new int[] { 0 };
 
@@ -179,12 +179,12 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0));
 			
-			MissileMultipart multipart = getMultipart(slots[0]);
+			MissileStruct multipart = getStruct(slots[0]);
 			
 			if(multipart != null)
 				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
 			else
-				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileMultipart()));
+				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()));
 			
 			if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel()) {
 
@@ -223,7 +223,7 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 		int tX = slots[1].stackTagCompound.getInteger("xCoord");
 		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
 		
-		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getMultipart(slots[0]));
+		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getStruct(slots[0]));
 		worldObj.spawnEntityInWorld(missile);
 		
 		subtractFuel();
@@ -238,12 +238,12 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	
 	private void subtractFuel() {
 		
-		MissileMultipart multipart = getMultipart(slots[0]);
+		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.fuselage == null)
 			return;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
 		
 		float f = (Float)fuselage.attributes[1];
 		int fuel = (int)f;
@@ -272,19 +272,19 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 		this.power -= maxPower * 0.75;
 	}
 	
-	public static MissileMultipart getMultipart(ItemStack stack) {
+	public static MissileStruct getStruct(ItemStack stack) {
 		
-		return ItemCustomMissile.getMultipart(stack);
+		return ItemCustomMissile.getStruct(stack);
 	}
 	
 	public boolean isMissileValid() {
 		
-		MissileMultipart multipart = getMultipart(slots[0]);
+		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.fuselage == null)
 			return false;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
 		
 		return fuselage.top == PartSize.SIZE_10;
 	}
@@ -301,12 +301,12 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	
 	public int solidState() {
 		
-		MissileMultipart multipart = getMultipart(slots[0]);
+		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
 		
 		if((FuelType)fuselage.attributes[0] == FuelType.SOLID) {
 			
@@ -321,12 +321,12 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	
 	public int liquidState() {
 		
-		MissileMultipart multipart = getMultipart(slots[0]);
+		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
@@ -346,12 +346,12 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	
 	public int oxidizerState() {
 		
-		MissileMultipart multipart = getMultipart(slots[0]);
+		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
@@ -370,12 +370,12 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	
 	public void updateTypes() {
 		
-		MissileMultipart multipart = getMultipart(slots[0]);
+		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.fuselage == null)
 			return;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage.part;
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:

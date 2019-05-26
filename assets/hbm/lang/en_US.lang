@@ -329,6 +329,11 @@ tile.crate_metal.name=Machine Crate
 tile.crate_red.name=Red Crate
 tile.marker_structure.name=Multiblock Structure Marker
 
+tile.struct_launcher.name=Launch Pad Component Block
+tile.struct_scaffold.name=Launch Pad Scaffold Block
+tile.struct_launcher_core.name=Compact Launcher Core Component
+tile.struct_launcher_core_large.name=Launch Table Core Component
+
 tile.machine_difurnace_off.name=Blast Furnace
 tile.machine_difurnace_on.name=Blast Furnace
 container.diFurnace=Blast Furnace
@@ -1671,6 +1676,7 @@ item.mp_warhead_10_nuclear_large.name=Size 10 Nuclear Warhead "Chernobyl Boris"
 item.mp_warhead_15_nuclear.name=Size 15 Nuclear Warhead "Auntie Bertha"
 item.mp_warhead_15_nuclear_shark.name=Size 15 Nuclear Warhead "Discount Bullet Bill"
 item.mp_warhead_15_boxcar.name=Size 15 Boxcar?
+item.mp_warhead_15_n2.name=Size 15 N² Mine
 
 item.mp_fuselage_10_kerosene.name=Size 10 Kerosene Fuselage
 item.mp_fuselage_10_kerosene_camo.name=Size 10 Kerosene Fuselage (Camo)
@@ -1710,11 +1716,13 @@ item.mp_fuselage_15_kerosene_insulation.name=Size 15 Kerosene Fuselage (Orange I
 item.mp_fuselage_15_kerosene_metal.name=Size 15 Kerosene Fuselage (Metal)
 item.mp_fuselage_15_kerosene_decorated.name=Size 15 Kerosene Fuselage (Decorated Metal)
 item.mp_fuselage_15_kerosene_steampunk.name=Size 15 Kerosene Fuselage (Steampunk)
+item.mp_fuselage_15_kerosene_polite.name=Size 15 Kerosene Fuselage (Polite)
 item.mp_fuselage_15_kerosene_blackjack.name=Size 15 Kerosene Fuselage (Queen Whiskey)
 item.mp_fuselage_15_solid.name=Size 15 Solid Fuel Fuselage
 item.mp_fuselage_15_solid_insulation.name=Size 15 Solid Fuel Fuselage (Orange Insulation)
 item.mp_fuselage_15_solid_soviet_glory.name=Size 15 Solid Fuel Fuselage (Soviet Glory)
 item.mp_fuselage_15_solid_soviet_stank.name=Size 15 Solid Fuel Fuselage (Soviet Stank)
+item.mp_fuselage_15_solid_desh.name=Size 15 Solid Fuel Fuselage (Desh Plating)
 item.mp_fuselage_15_hydrogen.name=Size 15 Hydrogen Fuselage
 item.mp_fuselage_15_balefire.name=Size 15 BF Fuselage
 
@@ -1758,6 +1766,7 @@ item.sat_laser.name=Orbital Death Ray
 item.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion
 item.sat_resonator.name=Xenium Resonator Satellite
 item.sat_miner.name=Asteroid Mining Ship
+item.sat_gerald.name=Gerald The Construction Android
 item.sat_chip.name=Satellite ID-Chip
 item.sat_interface.name=Satellite Control Interface
 tile.sat_mapper.name=Surface Mapping Satellite (Deco Block)

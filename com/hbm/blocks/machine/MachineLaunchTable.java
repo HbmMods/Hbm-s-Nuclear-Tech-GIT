@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
@@ -12,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachineLaunchTable extends BlockContainer {
+public class MachineLaunchTable extends BlockContainer implements IMultiblock {
 
 	public MachineLaunchTable(Material p_i45386_1_) {
 		super(p_i45386_1_);

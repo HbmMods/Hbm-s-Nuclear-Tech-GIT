@@ -375,6 +375,11 @@ public class ModBlocks {
 	public static Block bomb_multi_large;
 	public static final int guiID_bomb_multi_large = 18;
 
+	public static Block struct_launcher;
+	public static Block struct_scaffold;
+	public static Block struct_launcher_core;
+	public static Block struct_launcher_core_large;
+	
 	public static Block factory_titanium_hull;
 	public static Block factory_titanium_furnace;
 	public static Block factory_titanium_conductor;
@@ -664,6 +669,8 @@ public class ModBlocks {
 	public static Block dummy_block_puf6;
 	public static Block dummy_plate_compact_launcher;
 	public static Block dummy_port_compact_launcher;
+	public static Block dummy_plate_launch_table;
+	public static Block dummy_port_launch_table;
 
 	public static Block ntm_dirt;
 	
@@ -799,7 +806,7 @@ public class ModBlocks {
 		steel_corner = new DecoBlock(Material.rock).setBlockName("steel_corner").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_corner");
 		steel_roof = new DecoBlock(Material.rock).setBlockName("steel_roof").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_roof");
 		steel_beam = new DecoBlock(Material.rock).setBlockName("steel_beam").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_beam");
-		steel_scaffold = new DecoBlock(Material.rock).setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_scaffold");
+		steel_scaffold = new DecoBlock(Material.rock).setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel");
 		
 		broadcaster_pc = new PinkCloudBroadcaster(Material.rock).setBlockName("broadcaster_pc").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":broadcaster_pc");
 		geiger = new GeigerCounter(Material.rock).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
@@ -949,6 +956,11 @@ public class ModBlocks {
 		machine_telelinker = new MachineTeleLinker(Material.iron).setBlockName("machine_telelinker").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":machine_telelinker_side");
 		machine_keyforge = new MachineKeyForge(Material.iron).setBlockName("machine_keyforge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":machine_keyforge_side");
 
+		struct_launcher = new BlockGeneric(Material.iron).setBlockName("struct_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":struct_launcher");
+		struct_scaffold = new BlockGeneric(Material.iron).setBlockName("struct_scaffold").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":struct_scaffold");
+		struct_launcher_core = new BlockStruct(Material.iron).setBlockName("struct_launcher_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":struct_launcher_core");
+		struct_launcher_core_large = new BlockStruct(Material.iron).setBlockName("struct_launcher_core_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":struct_launcher_core_large");
+		
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
 		factory_titanium_conductor = new BlockReactor(Material.iron).setBlockName("factory_titanium_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_conductor");
@@ -1176,6 +1188,8 @@ public class ModBlocks {
 		dummy_block_puf6 = new DummyBlockMachine(Material.iron, guiID_puf6_tank, machine_puf6_tank).setBlockName("dummy_block_puf6").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_plate_compact_launcher = new DummyBlockMachine(Material.iron, guiID_compact_launcher, compact_launcher).setBounds(0, 16, 0, 16, 16, 16).setBlockName("dummy_plate_compact_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_compact_launcher = new DummyBlockMachine(Material.iron, guiID_compact_launcher, compact_launcher).setBlockName("dummy_port_compact_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_plate_launch_table = new DummyBlockMachine(Material.iron, guiID_launch_table, launch_table).setBounds(0, 16, 0, 16, 16, 16).setBlockName("dummy_plate_launch_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_port_launch_table = new DummyBlockMachine(Material.iron, guiID_launch_table, launch_table).setBlockName("dummy_port_launch_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		ntm_dirt = new BlockNTMDirt().setBlockName("ntm_dirt").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName("dirt");
 		
@@ -1535,6 +1549,12 @@ public class ModBlocks {
 		//Multiblock Helpers
 		GameRegistry.registerBlock(marker_structure, marker_structure.getUnlocalizedName());
 		
+		//Multiblock Parts
+		GameRegistry.registerBlock(struct_launcher, struct_launcher.getUnlocalizedName());
+		GameRegistry.registerBlock(struct_scaffold, struct_scaffold.getUnlocalizedName());
+		GameRegistry.registerBlock(struct_launcher_core, struct_launcher_core.getUnlocalizedName());
+		GameRegistry.registerBlock(struct_launcher_core_large, struct_launcher_core_large.getUnlocalizedName());
+		
 		//Absorbers
 		GameRegistry.registerBlock(absorber, absorber.getUnlocalizedName());
 		GameRegistry.registerBlock(absorber_red, absorber_red.getUnlocalizedName());
@@ -1681,6 +1701,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_block_puf6, dummy_block_puf6.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_plate_compact_launcher, dummy_plate_compact_launcher.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_compact_launcher, dummy_port_compact_launcher.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_plate_launch_table, dummy_plate_launch_table.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_port_launch_table, dummy_port_launch_table.getUnlocalizedName());
 		
 		//Other Technical Blocks
 		GameRegistry.registerBlock(oil_pipe, oil_pipe.getUnlocalizedName());

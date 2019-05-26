@@ -2,7 +2,9 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
+import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
@@ -241,6 +243,14 @@ public class AuxGaugePacket implements IMessage {
 					TileEntityCompactLauncher launcher = (TileEntityCompactLauncher)te;
 					
 					launcher.solid = m.value;
+				}
+				if (te instanceof TileEntityLaunchTable) {
+					TileEntityLaunchTable launcher = (TileEntityLaunchTable)te;
+					
+					if(m.id == 0)
+						launcher.solid = m.value;
+					if(m.id == 1)
+						launcher.padSize = PartSize.values()[m.value];
 				}
 				
 			} catch (Exception x) {}

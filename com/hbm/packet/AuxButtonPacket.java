@@ -2,8 +2,10 @@ package com.hbm.packet;
 
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
 import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
@@ -209,6 +211,12 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityMachineMissileAssembly assembly = (TileEntityMachineMissileAssembly)te;
 					
 					assembly.construct();
+				}
+				
+				if (te instanceof TileEntityLaunchTable) {
+					TileEntityLaunchTable launcher = (TileEntityLaunchTable)te;
+					
+					launcher.padSize = PartSize.values()[m.value];
 				}
 				
 			//} catch (Exception x) { }

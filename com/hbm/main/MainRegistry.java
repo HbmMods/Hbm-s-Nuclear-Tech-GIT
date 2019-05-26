@@ -529,6 +529,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineMissileAssembly.class, "tileentity_missile_assembly");
 		GameRegistry.registerTileEntity(TileEntityLaunchTable.class, "tileentity_large_launch_table");
 		GameRegistry.registerTileEntity(TileEntityCompactLauncher.class, "tileentity_small_launcher");
+		GameRegistry.registerTileEntity(TileEntityMultiblock.class, "tileentity_multi_core");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1471,8 +1472,6 @@ public class MainRegistry
 		TileEntityMachineReactorLarge.registerWasteEntry(6, ReactorFuelType.THORIUM, ModItems.rod_empty, ModItems.rod_thorium_fuel_depleted);
 		TileEntityMachineReactorLarge.registerWasteEntry(12, ReactorFuelType.THORIUM, ModItems.rod_dual_empty, ModItems.rod_dual_thorium_fuel_depleted);
 		TileEntityMachineReactorLarge.registerWasteEntry(24, ReactorFuelType.THORIUM, ModItems.rod_quad_empty, ModItems.rod_quad_thorium_fuel_depleted);
-		
-		MissilePart.registerAllParts();
 		
 		proxy.registerMissileItems();
 	}

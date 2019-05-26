@@ -329,6 +329,11 @@ tile.crate_metal.name=Maschinenkiste
 tile.crate_red.name=Rote Kiste
 tile.marker_structure.name=Multiblock-Strukturvorlage
 
+tile.struct_launcher.name=Startrampe-Komponentenblock
+tile.struct_scaffold.name=Startrampe-Gerüstblock
+tile.struct_launcher_core.name=Kompaktrampe-Kernkomponente
+tile.struct_launcher_core_large.name=Startrampe-Kernkomponente
+
 tile.machine_difurnace_off.name=Hochofen
 tile.machine_difurnace_on.name=Hochofen
 container.diFurnace=Hochofen
@@ -1671,6 +1676,7 @@ item.mp_warhead_15_incendiary.name=Größe 15 Brandsprengkopf
 item.mp_warhead_15_nuclear.name=Größe 15 Atomsprengkopf "Tantchen Bertha"
 item.mp_warhead_15_nuclear_shark.name=Größe 15 Atomsprengkopf "Billigsdorfer Kugelwilli"
 item.mp_warhead_15_boxcar.name=Größe 15 Güterwagon?
+item.mp_warhead_15_n2.name=Größe 15 N²-Mine
 
 item.mp_fuselage_10_kerosene.name=Größe 10 Kerosintank
 item.mp_fuselage_10_kerosene_camo.name=Größe 10 Kerosintank (Camouflage)
@@ -1710,11 +1716,13 @@ item.mp_fuselage_15_kerosene_insulation.name=Größe 15 Kerosintank (Oranger Iso
 item.mp_fuselage_15_kerosene_metal.name=Größe 15 Kerosintank (Metall)
 item.mp_fuselage_15_kerosene_decorated.name=Größe 15 Kerosintank (Dekoriertes Metall)
 item.mp_fuselage_15_kerosene_steampunk.name=Größe 15 Kerosintank (Steampunk)
+item.mp_fuselage_15_kerosene_polite.name=Größe 15 Kerosintank (Höflich)
 item.mp_fuselage_15_kerosene_blackjack.name=Größe 15 Kerosintank (Queen Whiskey)
 item.mp_fuselage_15_solid.name=Größe 15 Festbrennstofftank
 item.mp_fuselage_15_solid_insulation.name=Größe 15 Festbrennstofftank (Oranger Isolator)
 item.mp_fuselage_15_solid_soviet_glory.name=Größe 15 Festbrennstofftank (Sowjetischer Ruhm)
 item.mp_fuselage_15_solid_soviet_stank.name=Größe 15 Festbrennstofftank (Sowjetischer Mief)
+item.mp_fuselage_15_solid_desh.name=Größe 15 Festbrennstofftank (Deshverkleidung)
 item.mp_fuselage_15_hydrogen.name=Größe 15 Wasserstofftank
 item.mp_fuselage_15_balefire.name=Größe 15 BF-Kraftstofftank
 
@@ -1758,6 +1766,7 @@ item.sat_laser.name=Orbitaler Todesstrahl
 item.sat_foeq.name=PEAF - Mk.I FOEQ Dunasonde mit experimenter nuklearer Schubdüse
 item.sat_resonator.name=Xenium-Resonator-Satellit
 item.sat_miner.name=Asteroiden-Förderschiff
+item.sat_gerald.name=Gerald der Konstruktionsandroid
 item.sat_chip.name=Satelliten-ID-Chip
 item.sat_interface.name=Satelliten-Kontrollinterface
 tile.sat_mapper.name=Oberflächen-Abtastungssatellit (Dekoblock)

@@ -38,9 +38,7 @@ public class ItemRenderMissile implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 
-		MissileMultipart missile = new MissileMultipart();
-		
-		missile = ItemCustomMissile.getMultipart(item);
+		MissileMultipart missile = MissileMultipart.loadFromStruct(ItemCustomMissile.getStruct(item));
 		
 		GL11.glPushMatrix();
 		

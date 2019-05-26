@@ -44,7 +44,7 @@ public class RenderCompactLauncher extends TileEntitySpecialRenderer {
 			
 			//missile = ItemCustomMissile.getMultipart(custom);
 			
-			MissilePronter.prontMissile(launcher.load, Minecraft.getMinecraft().getTextureManager());
+			MissilePronter.prontMissile(MissileMultipart.loadFromStruct(launcher.load), Minecraft.getMinecraft().getTextureManager());
 			//
 		}
 		

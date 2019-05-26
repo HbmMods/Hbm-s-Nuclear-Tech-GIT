@@ -31,8 +31,29 @@ public class RenderPylon extends TileEntitySpecialRenderer {
 			this.pylon.renderAll(0.0625F);
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
-		for(TileEntityPylonRedWire wire : pyl.connected)
-			drawPowerLine(x + 0.5, y + 5.3, z + 0.5, x + (wire.xCoord - pyl.xCoord) + 0.5, y + (wire.yCoord - pyl.yCoord) + 5.3, z + (wire.zCoord - pyl.zCoord) + 0.5);
+		
+		for(int i = 0; i < pyl.connected.size(); i++) {
+
+			TileEntityPylonRedWire wire = pyl.connected.get(i);
+			
+			float wX = (wire.xCoord - pyl.xCoord) / 2F;
+			float wY = (wire.yCoord - pyl.yCoord) / 2F;
+			float wZ = (wire.zCoord - pyl.zCoord) / 2F;
+			
+			float count = 10;
+			for(float j = 0; j < count; j++) {
+				
+				float k = j + 1;
+				
+				drawPowerLine(
+						x + 0.5 + (wX * j / count),
+						y + 5.4 + (wY * j / count) - Math.sin(j / count * Math.PI * 0.5),
+						z + 0.5 + (wZ * j / count),
+						x + 0.5 + (wX * k / count),
+						y + 5.4 + (wY * k / count) - Math.sin(k / count * Math.PI * 0.5),
+						z + 0.5 + (wZ * k / count));
+			}
+		}
 		GL11.glPopMatrix();
 	}
 	
@@ -42,21 +63,24 @@ public class RenderPylon extends TileEntitySpecialRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawing(5);
-        tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
+        tessellator.setColorOpaque_I(0xBB3311);
+        //tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
         tessellator.addVertex(x, y + 0.05F, z);
         tessellator.addVertex(x, y - 0.05F, z);
         tessellator.addVertex(a, b + 0.05F, c);
         tessellator.addVertex(a, b - 0.05F, c);
         tessellator.draw();
         tessellator.startDrawing(5);
-        tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
+        tessellator.setColorOpaque_I(0xBB3311);
+        //tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
         tessellator.addVertex(x + 0.05F, y, z);
         tessellator.addVertex(x - 0.05F, y, z);
         tessellator.addVertex(a + 0.05F, b, c);
         tessellator.addVertex(a - 0.05F, b, c);
         tessellator.draw();
         tessellator.startDrawing(5);
-        tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
+        tessellator.setColorOpaque_I(0xBB3311);
+        //tessellator.setColorRGBA_F(0.683F, 0.089F, 0.0F, 1.0F);
         tessellator.addVertex(x, y, z + 0.05F);
         tessellator.addVertex(x, y, z - 0.05F);
         tessellator.addVertex(a, b, c + 0.05F);

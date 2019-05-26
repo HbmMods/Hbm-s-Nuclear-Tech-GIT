@@ -153,29 +153,29 @@ public class ItemMissile extends Item {
 		try {
 			switch(type) {
 			case CHIP:
-				list.add("Inaccuracy: " + (Float)attributes[0]);
+				list.add(EnumChatFormatting.BOLD + "Inaccuracy: " + EnumChatFormatting.GRAY + (Float)attributes[0] * 100 + "%");
 				break;
 			case WARHEAD:
-				list.add("Size: " + getSize(bottom));
-				list.add("Type: " + getWarhead((WarheadType)attributes[0]));
-				list.add("Strength: " + (Float)attributes[1]);
-				list.add("Weight: " + (Float)attributes[2] + "t");
+				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(bottom));
+				list.add(EnumChatFormatting.BOLD + "Type: " + EnumChatFormatting.GRAY + getWarhead((WarheadType)attributes[0]));
+				list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)attributes[1]);
+				list.add(EnumChatFormatting.BOLD + "Weight: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 				break;
 			case FUSELAGE:
-				list.add("Top size: " + getSize(top));
-				list.add("Bottom size: " + getSize(bottom));
-				list.add("Fuel type: " + getFuel((FuelType)attributes[0]));
-				list.add("Fuel amount: " + (Float)attributes[1] + "l");
+				list.add(EnumChatFormatting.BOLD + "Top size: " + EnumChatFormatting.GRAY + getSize(top));
+				list.add(EnumChatFormatting.BOLD + "Bottom size: " + EnumChatFormatting.GRAY + getSize(bottom));
+				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
+				list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l");
 				break;
 			case FINS:
-				list.add("Size: " + getSize(top));
-				list.add("Inaccuracy: " + (Float)attributes[0]);
+				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(top));
+				list.add(EnumChatFormatting.BOLD + "Inaccuracy: " + EnumChatFormatting.GRAY + (Float)attributes[0] * 100 + "%");
 				break;
 			case THRUSTER:
-				list.add("Size: " + getSize(top));
-				list.add("Fuel type: " + getFuel((FuelType)attributes[0]));
-				list.add("Fuel consumption: " + (Float)attributes[1] + "l/tick");
-				list.add("Max. payload: " + (Float)attributes[2] + "t");
+				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(top));
+				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
+				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l/tick");
+				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 				break;
 			}
 		} catch(Exception ex) {
@@ -183,7 +183,7 @@ public class ItemMissile extends Item {
 		}
 	}
 	
-	private String getSize(PartSize size) {
+	public String getSize(PartSize size) {
 		
 		switch(size) {
 		case ANY:
@@ -199,51 +199,51 @@ public class ItemMissile extends Item {
 		}
 	}
 	
-	private String getWarhead(WarheadType type) {
+	public String getWarhead(WarheadType type) {
 		
 		switch(type) {
 		case HE:
-			return "HE";
+			return EnumChatFormatting.YELLOW + "HE";
 		case INC:
-			return "Incendiary";
+			return EnumChatFormatting.GOLD + "Incendiary";
 		case CLUSTER:
-			return "Cluster";
+			return EnumChatFormatting.GRAY + "Cluster";
 		case BUSTER:
-			return "Bunker Buster";
+			return EnumChatFormatting.WHITE + "Bunker Buster";
 		case NUCLEAR:
-			return "Nuclear";
+			return EnumChatFormatting.DARK_GREEN + "Nuclear";
 		case TX:
-			return "Thermonuclear";
+			return EnumChatFormatting.DARK_PURPLE + "Thermonuclear (TX)";
 		case N2:
-			return "N²";
+			return EnumChatFormatting.RED + "N²";
 		case BALEFIRE:
-			return "BF";
+			return EnumChatFormatting.GREEN + "BF";
 		case SCHRAB:
-			return "Schrabidium";
+			return EnumChatFormatting.AQUA + "Schrabidium";
 		case TAINT:
-			return "Taint";
+			return EnumChatFormatting.DARK_PURPLE + "Taint";
 		case CLOUD:
-			return "Cloud";
+			return EnumChatFormatting.LIGHT_PURPLE + "Cloud";
 		default:
-			return "N/A";
+			return EnumChatFormatting.BOLD + "N/A";
 		}
 	}
 	
-	private String getFuel(FuelType type) {
+	public String getFuel(FuelType type) {
 		
 		switch(type) {
 		case KEROSENE:
-			return "Kerosene";
+			return EnumChatFormatting.LIGHT_PURPLE + "Kerosene / Peroxide";
 		case SOLID:
-			return "Solid Fuel";
+			return EnumChatFormatting.GOLD + "Solid Fuel";
 		case HYDROGEN:
-			return "Hydrogen";
+			return EnumChatFormatting.DARK_AQUA + "Hydrogen / Oxygen";
 		case XENON:
-			return "Xenon Gas";
+			return EnumChatFormatting.DARK_PURPLE + "Xenon Gas";
 		case BALEFIRE:
-			return "BF Inferno Fuel";
+			return EnumChatFormatting.GREEN + "BF Inferno Fuel / Peroxide";
 		default:
-			return "N/A";
+			return EnumChatFormatting.BOLD + "N/A";
 		}
 	}
 

@@ -46,7 +46,7 @@ public class RenderMissileAssembly extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.missile_assembly_tex);
 		ResourceManager.missile_assembly.renderAll();
 
-		MissileMultipart missile = te.load;
+		MissileMultipart missile = MissileMultipart.loadFromStruct(te.load);
 		
 		if(missile != null) {
 		

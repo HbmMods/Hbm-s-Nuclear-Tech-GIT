@@ -760,6 +760,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_launch_table:
+				{
+					if(entity instanceof TileEntityLaunchTable)
+					{
+						return new ContainerLaunchTable(player.inventory, (TileEntityLaunchTable) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1515,6 +1524,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityCompactLauncher)
 					{
 						return new GUIMachineCompactLauncher(player.inventory, (TileEntityCompactLauncher) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_launch_table:
+				{
+					if(entity instanceof TileEntityLaunchTable)
+					{
+						return new GUIMachineLaunchTable(player.inventory, (TileEntityLaunchTable) entity);
 					}
 					return null;
 				}

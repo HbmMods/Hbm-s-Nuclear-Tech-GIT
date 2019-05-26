@@ -426,7 +426,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_radgen ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table)
 		{
 			return true;
 		}
@@ -456,7 +457,8 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher)
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table)
 		{
 			return true;
 		}
@@ -911,8 +913,8 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
-		//Compact Launcher
-		if(block == ModBlocks.dummy_port_compact_launcher)
+		//Launchers
+		if(block == ModBlocks.dummy_port_compact_launcher || block == ModBlocks.dummy_port_launch_table)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
@@ -1138,8 +1140,8 @@ public class Library {
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}
-		//Compact Launcher
-		if(block == ModBlocks.dummy_port_compact_launcher)
+		//Launchers
+		if(block == ModBlocks.dummy_port_compact_launcher || block == ModBlocks.dummy_port_launch_table)
 		{
 			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
 		}

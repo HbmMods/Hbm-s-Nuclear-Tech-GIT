@@ -1,10 +1,14 @@
 package com.hbm.render.misc;
 
+import com.hbm.handler.MissileStruct;
 import com.hbm.items.weapon.ItemMissile.PartType;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.Item;
 
+@SideOnly(Side.CLIENT)
 public class MissileMultipart {
 
 	public MissilePart warhead;
@@ -26,7 +30,22 @@ public class MissileMultipart {
 		return height;
 	}
 	
-	public void writeToByteBuffer(ByteBuf buf) {
+	public static MissileMultipart loadFromStruct(MissileStruct struct) {
+		
+		if(struct == null)
+			return null;
+		
+		MissileMultipart multipart = new MissileMultipart();
+
+		multipart.warhead = MissilePart.getPart(struct.warhead);
+		multipart.fuselage = MissilePart.getPart(struct.fuselage);
+		multipart.fins = MissilePart.getPart(struct.fins);
+		multipart.thruster = MissilePart.getPart(struct.thruster);
+		
+		return multipart;
+	}
+	
+	/*public void writeToByteBuffer(ByteBuf buf) {
 
 
 		if(warhead != null && warhead.type == PartType.WARHEAD)
@@ -72,5 +91,5 @@ public class MissileMultipart {
 			multipart.thruster = MissilePart.getPart(Item.getItemById(t));
 		
 		return multipart;
-	}
+	}*/
 }

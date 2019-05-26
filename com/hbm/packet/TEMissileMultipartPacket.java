@@ -1,8 +1,9 @@
 package com.hbm.packet;
 
+import com.hbm.handler.MissileStruct;
 import com.hbm.main.MainRegistry;
-import com.hbm.render.misc.MissileMultipart;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
+import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 
@@ -18,14 +19,14 @@ public class TEMissileMultipartPacket implements IMessage {
 	int x;
 	int y;
 	int z;
-	MissileMultipart missile;
+	MissileStruct missile;
 
 	public TEMissileMultipartPacket()
 	{
 		
 	}
 
-	public TEMissileMultipartPacket(int x, int y, int z, MissileMultipart missile)
+	public TEMissileMultipartPacket(int x, int y, int z, MissileStruct missile)
 	{
 		this.x = x;
 		this.y = y;
@@ -38,7 +39,7 @@ public class TEMissileMultipartPacket implements IMessage {
 		x = buf.readInt();
 		y = buf.readInt();
 		z = buf.readInt();
-		missile = MissileMultipart.readFromByteBuffer(buf);
+		missile = MissileStruct.readFromByteBuffer(buf);
 	}
 
 	@Override
@@ -59,6 +60,12 @@ public class TEMissileMultipartPacket implements IMessage {
 			if (te != null && te instanceof TileEntityCompactLauncher) {
 				
 				TileEntityCompactLauncher launcher = (TileEntityCompactLauncher) te;
+				launcher.load = m.missile;
+			}
+
+			if (te != null && te instanceof TileEntityLaunchTable) {
+				
+				TileEntityLaunchTable launcher = (TileEntityLaunchTable) te;
 				launcher.load = m.missile;
 			}
 

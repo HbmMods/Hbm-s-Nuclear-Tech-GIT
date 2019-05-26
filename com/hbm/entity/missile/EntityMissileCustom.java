@@ -3,17 +3,19 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.handler.MissileStruct;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.WarheadType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.misc.MissileMultipart;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -47,7 +49,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 	float consumption;
     private Ticket loaderTicket;
     public int health = 50;
-    MissileMultipart template;
+    MissileStruct template;
 
 	public EntityMissileCustom(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -91,7 +93,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
         ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
     }
 
-	public EntityMissileCustom(World world, float x, float y, float z, int a, int b, MissileMultipart template) {
+	public EntityMissileCustom(World world, float x, float y, float z, int a, int b, MissileStruct template) {
 		super(world);
 		this.ignoreFrustumCheck = true;
 		/*this.posX = x;
@@ -106,13 +108,13 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		
 		this.template = template;
 		
-		this.dataWatcher.updateObject(9, Item.getIdFromItem(template.warhead.part));
-		this.dataWatcher.updateObject(10, Item.getIdFromItem(template.fuselage.part));
+		this.dataWatcher.updateObject(9, Item.getIdFromItem(template.warhead));
+		this.dataWatcher.updateObject(10, Item.getIdFromItem(template.fuselage));
 		if(template.fins != null)
-			this.dataWatcher.updateObject(11, Item.getIdFromItem(template.fins.part));
+			this.dataWatcher.updateObject(11, Item.getIdFromItem(template.fins));
         else
         	this.dataWatcher.updateObject(11, Integer.valueOf(0));
-		this.dataWatcher.updateObject(12, Item.getIdFromItem(template.thruster.part));
+		this.dataWatcher.updateObject(12, Item.getIdFromItem(template.thruster));
 		
         Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
 		accelXZ = decelY = 1/vector.lengthVector();
@@ -120,8 +122,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		
 		velocity = 0.0;
 
-		ItemMissile fuselage = (ItemMissile) template.fuselage.part;
-		ItemMissile thruster = (ItemMissile) template.thruster.part;
+		ItemMissile fuselage = (ItemMissile) template.fuselage;
+		ItemMissile thruster = (ItemMissile) template.thruster;
 
 		this.fuel = (Float)fuselage.attributes[1];
 		this.consumption = (Float)thruster.attributes[1];
@@ -136,15 +138,15 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 
         if(template != null) {
 	        System.out.println("yeah");
-	        this.dataWatcher.addObject(9, Integer.valueOf(Item.getIdFromItem(template.warhead.part)));
-	        this.dataWatcher.addObject(10, Integer.valueOf(Item.getIdFromItem(template.fuselage.part)));
+	        this.dataWatcher.addObject(9, Integer.valueOf(Item.getIdFromItem(template.warhead)));
+	        this.dataWatcher.addObject(10, Integer.valueOf(Item.getIdFromItem(template.fuselage)));
 	        
 	        if(template.fins != null)
-	        	this.dataWatcher.addObject(11, Integer.valueOf(Item.getIdFromItem(template.fins.part)));
+	        	this.dataWatcher.addObject(11, Integer.valueOf(Item.getIdFromItem(template.fins)));
 	        else
 	        	this.dataWatcher.addObject(11, Integer.valueOf(0));
 	        
-	        this.dataWatcher.addObject(12, Integer.valueOf(Item.getIdFromItem(template.thruster.part)));
+	        this.dataWatcher.addObject(12, Integer.valueOf(Item.getIdFromItem(template.thruster)));
         } else {
 	        this.dataWatcher.addObject(9, Integer.valueOf(0));
 	        this.dataWatcher.addObject(10, Integer.valueOf(0));
@@ -300,10 +302,12 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		
 		switch(type) {
 		case HE:
-			ExplosionLarge.explode(worldObj, posX, posY, posZ, strength, true, true, true);
+			ExplosionLarge.explode(worldObj, posX, posY, posZ, strength, true, false, true);
+			ExplosionLarge.jolt(worldObj, posX, posY, posZ, strength, (int) (strength * 50), 0.25);
 			break;
 		case INC:
-			ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, strength, true, true, true);
+			ExplosionLarge.explodeFire(worldObj, posX, posY, posZ, strength, true, false, true);
+			ExplosionLarge.jolt(worldObj, posX, posY, posZ, strength * 1.5, (int) (strength * 50), 0.25);
 			break;
 		case CLUSTER:
 			break;
@@ -328,6 +332,19 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 			n2.posY = posY;
 			n2.posZ = posZ;
 			worldObj.spawnEntityInWorld(n2);
+			break;
+		case TAINT:
+            int r = (int) strength;
+		    for(int i = 0; i < r * 10; i++) {
+		    	int a = rand.nextInt(r) + (int)posX - (r / 2 - 1);
+		    	int b = rand.nextInt(r) + (int)posY - (r / 2 - 1);
+		    	int c = rand.nextInt(r) + (int)posZ - (r / 2 - 1);
+		           if(worldObj.getBlock(a, b, c).isReplaceable(worldObj, a, b, c) && BlockTaint.hasPosNeightbour(worldObj, a, b, c)) {
+		        		   worldObj.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+		           }
+		    }
+			break;
+		case CLOUD:
 			break;
 		default:
 			break;
