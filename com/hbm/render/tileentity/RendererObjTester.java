@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.misc.SoyuzPronter;
 import com.hbm.render.model.ModelCalBarrel;
 import com.hbm.render.model.ModelCalDualStock;
 import com.hbm.render.model.ModelCalStock;
@@ -35,8 +36,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y + 1, z + 0.5D);
-        GL11.glRotatef(180, 0F, 0F, 1F);
+        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		/*switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
@@ -94,7 +94,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);*/
 
-        ModelCalBarrel barrel = new ModelCalBarrel();
+        /*ModelCalBarrel barrel = new ModelCalBarrel();
         ModelCalStock stock = new ModelCalStock();
         ModelCalDualStock saddle = new ModelCalDualStock();
 
@@ -107,8 +107,10 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         GL11.glTranslated(0, 0, 0.5);
         barrel.renderAll(1F/16F);
         
-        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));
+        bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));*/
         //stock.renderAll(1F/16F);
+        
+        SoyuzPronter.prontSoyuz();
 
         GL11.glPopMatrix();
     }

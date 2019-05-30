@@ -28,6 +28,21 @@ public class ParticleContrail extends EntityFX {
 		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
 		theRenderEngine = p_i1213_1_;
 		maxAge = 100 + rand.nextInt(40);
+		
+        this.particleRed = this.particleGreen = this.particleBlue = 0;
+        this.particleScale = 1F;
+	}
+
+	public ParticleContrail(TextureManager p_i1213_1_, World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_, float red, float green, float blue, float scale) {
+		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
+		theRenderEngine = p_i1213_1_;
+		maxAge = 100 + rand.nextInt(40);
+
+        this.particleRed = red;
+        this.particleGreen = green;
+        this.particleBlue = blue;
+        
+        this.particleScale = scale;
 	}
 
 	public void onUpdate() {
@@ -65,14 +80,14 @@ public class ParticleContrail extends EntityFX {
 		for(int i = 0; i < 6; i++) {
 			
 			p_70539_1_.startDrawingQuads();
+
 			
-	        this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.2F + 0.2F;
-	        
-			p_70539_1_.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
+			float mod = urandom.nextFloat() * 0.2F + 0.2F;
+			p_70539_1_.setColorRGBA_F(this.particleRed + mod, this.particleGreen + mod, this.particleBlue + mod, this.particleAlpha);
 			p_70539_1_.setNormal(0.0F, 1.0F, 0.0F);
 			p_70539_1_.setBrightness(240);
 			
-			float scale = particleAlpha + 0.5F;
+			float scale = particleAlpha + 0.5F * this.particleScale;
 	        float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double)p_70539_2_ - interpPosX) + urandom.nextGaussian() * 0.5);
 	        float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double)p_70539_2_ - interpPosY) + urandom.nextGaussian() * 0.5);
 	        float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double)p_70539_2_ - interpPosZ) + urandom.nextGaussian() * 0.5);

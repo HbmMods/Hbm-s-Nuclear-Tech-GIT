@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,6 +19,15 @@ public class ItemMissile extends Item {
 	public PartType type;
 	public PartSize top;
 	public PartSize bottom;
+	public float health;
+	private String title;
+	private String author;
+	private String witty;
+	
+	public ItemMissile() {
+		this.setMaxStackSize(1);
+		this.setCreativeTab(MainRegistry.missileTab);
+	}
 	
 	public static HashMap<Integer, ItemMissile> parts = new HashMap();
 	
@@ -105,6 +116,7 @@ public class ItemMissile extends Item {
 		this.top = PartSize.NONE;
 		this.bottom = size;
 		this.attributes = new Object[] { type, punch, weight };
+		setTextureName(RefStrings.MODID + ":mp_warhead");
 		
 		parts.put(this.hashCode(), this);
 		
@@ -117,6 +129,7 @@ public class ItemMissile extends Item {
 		this.top = top;
 		this.bottom = bottom;
 		attributes = new Object[] { type, fuel };
+		setTextureName(RefStrings.MODID + ":mp_fuselage");
 		
 		parts.put(this.hashCode(), this);
 		
@@ -129,6 +142,7 @@ public class ItemMissile extends Item {
 		this.top = size;
 		this.bottom = size;
 		this.attributes = new Object[] { inaccuracy };
+		setTextureName(RefStrings.MODID + ":mp_stability");
 		
 		parts.put(this.hashCode(), this);
 		
@@ -141,6 +155,7 @@ public class ItemMissile extends Item {
 		this.top = size;
 		this.bottom = PartSize.NONE;
 		this.attributes = new Object[] { type, consumption, lift };
+		setTextureName(RefStrings.MODID + ":mp_thruster");
 		
 		parts.put(this.hashCode(), this);
 		
@@ -150,6 +165,10 @@ public class ItemMissile extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
+
+		if(title != null)
+			list.add(EnumChatFormatting.DARK_PURPLE + "\"" + title + "\"");
+		
 		try {
 			switch(type) {
 			case CHIP:
@@ -181,6 +200,13 @@ public class ItemMissile extends Item {
 		} catch(Exception ex) {
 			list.add("### I AM ERROR ###");
 		}
+		
+		if(type != PartType.CHIP)
+			list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GRAY + health + "HP");
+		if(author != null)
+			list.add(EnumChatFormatting.WHITE + "   by " + author);
+		if(witty != null)
+			list.add(EnumChatFormatting.GOLD + "   " + EnumChatFormatting.ITALIC + "\"" + witty + "\"");
 	}
 	
 	public String getSize(PartSize size) {
@@ -245,6 +271,35 @@ public class ItemMissile extends Item {
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}
+	}
+	
+	//am i retarded?
+	public ItemMissile copy() {
+		
+		ItemMissile part = new ItemMissile();
+		part.type = this.type;
+		part.top = this.top;
+		part.bottom = this.bottom;
+		part.health = this.health;
+		part.attributes = this.attributes;
+		part.setTextureName(this.iconString);
+		
+		return part;
+	}
+	
+	public ItemMissile setAuthor(String author) {
+		this.author = author;
+		return this;
+	}
+	
+	public ItemMissile setTitle(String title) {
+		this.title = title;
+		return this;
+	}
+	
+	public ItemMissile setWittyText(String witty) {
+		this.witty = witty;
+		return this;
 	}
 
 }

@@ -22,6 +22,10 @@ public class ObjUtil {
                 
                 if(shadow) {
 	                float brightness = (n.y + 1) * 0.65F;
+	                
+	                if(brightness < 0.45F)
+	                	brightness = 0.45F;
+	                
 	                tes.setColorOpaque_F(brightness, brightness, brightness);
                 }
                 

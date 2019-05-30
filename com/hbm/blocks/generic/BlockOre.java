@@ -105,13 +105,13 @@ public class BlockOre extends Block {
 			case 1: return ModItems.plate_advanced_alloy;
 			case 2: return ModItems.powder_desh_mix;
 			case 3: return ModItems.ingot_desh;
-			case 4: return ModItems.fusion_core;
+			case 4: return ModItems.battery_advanced;
 			case 5: return ModItems.battery_lithium_cell;
-			case 6: return ModItems.battery_schrabidium;
+			case 6: return ModItems.battery_advanced_cell;
 			case 7: return ModItems.nugget_schrabidium;
-			case 8: return ModItems.ingot_pu238;
-			case 9: return ModItems.ingot_pu239;
-			case 10: return ModItems.ingot_u235;
+			case 8: return ModItems.ingot_plutonium;
+			case 9: return ModItems.ingot_thorium_fuel;
+			case 10: return ModItems.ingot_u233;
 			case 11: return ModItems.turbine_tungsten;
 			case 12: return ModItems.ingot_dura_steel;
 			case 13: return ModItems.ingot_polymer;

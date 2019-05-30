@@ -28,11 +28,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
 public class TileEntityCompactLauncher extends TileEntity implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
 
@@ -185,17 +187,14 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
 			else
 				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()));
-			
-			if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel()) {
 
-				outer:
-				for(int x = -1; x <= 1; x++) {
-					for(int z = -1; z <= 1; z++) {
+			outer:
+			for(int x = -1; x <= 1; x++) {
+				for(int z = -1; z <= 1; z++) {
 						
-						if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z)) {
-							launch();
-							break outer;
-						}
+					if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z) && canLaunch()) {
+						launch();
+						break outer;
 					}
 				}
 			}
@@ -216,14 +215,37 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 		}
 	}
 	
-	private void launch() {
+	public boolean canLaunch() {
+		
+		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel())
+			return true;
+		
+		return false;
+	}
+	
+	public void launch() {
 
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 
 		int tX = slots[1].stackTagCompound.getInteger("xCoord");
 		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
 		
-		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX, tZ, getStruct(slots[0]));
+		ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
+		float c = (Float)chip.attributes[0];
+		float f = 1.0F;
+		
+		if(getStruct(slots[0]).fins != null) {
+			ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
+			f = (Float) fins.attributes[0];
+		}
+		
+		Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
+		target.xCoord *= c * f;
+		target.zCoord *= c * f;
+		
+		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
+		
+		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
 		worldObj.spawnEntityInWorld(missile);
 		
 		subtractFuel();

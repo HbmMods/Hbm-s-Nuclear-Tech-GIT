@@ -93,7 +93,7 @@ public class ItemGlitch extends Item {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter));
-				player.addChatMessage(new ChatComponentText("Congratz, you're the hero now, now throw yourself into some fire or something for this weird achievement. Get going already, I'm not even being paid to tell you this."));
+				player.addChatMessage(new ChatComponentText("Have some free stuff. You'll need it for that one cryptic achievement."));
 				break;
 			case 14:
 				player.inventory.dropAllItems();
@@ -115,10 +115,10 @@ public class ItemGlitch extends Item {
 				player.addChatMessage(new ChatComponentText("Here ya go."));
 				break;
 			case 19:
-				player.addChatMessage(new ChatComponentText("Indigo - Purple - Pink - Indigo"));
+				player.addChatMessage(new ChatComponentText("Ë"));
 				break;
 			case 20:
-				player.addChatMessage(new ChatComponentText("These colors are everywhere. Everywhere."));
+				player.addChatMessage(new ChatComponentText("Good day, I am text"));
 				break;
 			case 21:
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear));
@@ -155,15 +155,15 @@ public class ItemGlitch extends Item {
 				mirv.posY = player.posY + 100;
 				mirv.posZ = player.posZ;
 				world.spawnEntityInWorld(mirv);
-				player.addChatMessage(new ChatComponentText("Watch your head..."));
+				player.addChatMessage(new ChatComponentText("Watch your head!"));
 				break;
 			case 29:
 				ExplosionLarge.spawnBurst(world, player.posX, player.posY, player.posZ, 27, 3);
 				player.addChatMessage(new ChatComponentText("Bam!"));
 				break;
 			case 30:
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_dineutronium));
-				player.addChatMessage(new ChatComponentText("Stare at it. No really, stare at it until you understand. Stare at it more. Stop reading this text, STARE AT IT!"));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.plate_saturnite));
+				player.addChatMessage(new ChatComponentText("It's dangerous to go alone, take this!"));
 				break;
 			}
 		

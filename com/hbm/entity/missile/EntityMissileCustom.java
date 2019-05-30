@@ -12,6 +12,7 @@ import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.weapon.ItemMissile;
+import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.WarheadType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacket;
@@ -231,15 +232,11 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
     {
         this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
         
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        
 		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
 
 		this.rotation();
 		
-		if(fuel > 0) {
+		if(fuel > 0 || worldObj.isRemote) {
 			
 			fuel -= consumption;
 	
@@ -266,7 +263,9 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 
 			motionX *= 0.99;
 			motionZ *= 0.99;
-			motionY -= 0.1;
+			
+			if(motionY > -1.5)
+				motionY -= 0.05;
 		}
 
 		if (this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air
@@ -280,8 +279,35 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 			return;
 		}
 
-		if (this.worldObj.isRemote)
-			MainRegistry.proxy.particleControl(posX, posY, posZ, 2);
+		if (this.worldObj.isRemote) {
+			
+			Vec3 v = Vec3.createVectorHelper(motionX, motionY, motionZ);
+			v = v.normalize();
+			
+			String smoke = "";
+			
+			ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+			FuelType type = (FuelType)part.attributes[0];
+			
+			switch(type) {
+			case BALEFIRE:
+				break;
+			case HYDROGEN:
+				smoke = "exHydrogen";
+				break;
+			case KEROSENE:
+				smoke = "exKerosene";
+				break;
+			case SOLID:
+				smoke = "exSolid";
+				break;
+			case XENON:
+				break;
+			}
+			
+			for(int i = 0; i < velocity; i++)
+				MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
+		}
 
 		loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
     }

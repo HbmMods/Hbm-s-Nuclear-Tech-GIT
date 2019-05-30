@@ -1049,7 +1049,7 @@ public class MainRegistry
 		OreDictionary.registerOre("U238", ModItems.ingot_u238);
 		OreDictionary.registerOre("Th232", ModItems.ingot_th232);
 		OreDictionary.registerOre("Pu238", ModItems.ingot_pu238);
-		OreDictionary.registerOre("Pu39", ModItems.ingot_pu239);
+		OreDictionary.registerOre("Pu239", ModItems.ingot_pu239);
 		OreDictionary.registerOre("Pu240", ModItems.ingot_pu240);
 		OreDictionary.registerOre("ingotTitanium", ModItems.ingot_titanium);
 		OreDictionary.registerOre("ingotSchrabidium", ModItems.ingot_schrabidium);

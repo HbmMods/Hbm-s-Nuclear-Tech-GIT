@@ -68,11 +68,19 @@ public class ItemCustomMissile extends Item {
 		list.add(EnumChatFormatting.BOLD + "Fuel Type: " + EnumChatFormatting.GRAY + fuselage.getFuel((FuelType)fuselage.attributes[0]));
 		list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)fuselage.attributes[1] + "l");
 		list.add(EnumChatFormatting.BOLD + "Chip inaccuracy: " + EnumChatFormatting.GRAY + (Float)chip.attributes[0] * 100 + "%");
+		
 		if(stability != null)
 			list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + (Float)stability.attributes[0] * 100 + "%");
 		else
 			list.add(EnumChatFormatting.BOLD + "Fin inaccuracy: " + EnumChatFormatting.GRAY + "100%");
+		
 		list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + fuselage.getSize(fuselage.top) + "/" + fuselage.getSize(fuselage.bottom));
+		
+		float health = warhead.health + fuselage.health + thruster.health;
+		if(stability != null)
+			health += stability.health;
+
+		list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GRAY + health + "HP");
 	}
 	
 	public static MissileStruct getStruct(ItemStack stack) {

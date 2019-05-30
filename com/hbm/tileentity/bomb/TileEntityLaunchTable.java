@@ -189,17 +189,14 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
 			else
 				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()));
-			
-			if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel()) {
 
-				outer:
-				for(int x = -4; x <= 4; x++) {
-					for(int z = -4; z <= 4; z++) {
-						
-						if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z)) {
-							launch();
-							break outer;
-						}
+			outer:
+			for(int x = -4; x <= 4; x++) {
+				for(int z = -4; z <= 4; z++) {
+					
+					if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z) && canLaunch()) {
+						launch();
+						break outer;
 					}
 				}
 			}
@@ -220,7 +217,15 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 		}
 	}
 	
-	private void launch() {
+	public boolean canLaunch() {
+		
+		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel())
+			return true;
+		
+		return false;
+	}
+	
+	public void launch() {
 
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 

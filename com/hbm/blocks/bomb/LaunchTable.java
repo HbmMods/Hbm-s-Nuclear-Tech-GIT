@@ -1,8 +1,10 @@
-package com.hbm.blocks.machine;
+package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 
@@ -13,9 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MachineLaunchTable extends BlockContainer implements IMultiblock {
+public class LaunchTable extends BlockContainer implements IMultiblock, IBomb {
 
-	public MachineLaunchTable(Material p_i45386_1_) {
+	public LaunchTable(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
 
@@ -55,6 +57,14 @@ public class MachineLaunchTable extends BlockContainer implements IMultiblock {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public void explode(World world, int x, int y, int z) {
+		TileEntityLaunchTable entity = (TileEntityLaunchTable) world.getTileEntity(x, y, z);
+		
+		if(entity.canLaunch())
+			entity.launch();
 	}
 
 }

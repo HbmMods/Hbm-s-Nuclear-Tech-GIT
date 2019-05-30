@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
@@ -19,7 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class CompactLauncher extends BlockContainer implements IMultiblock {
+public class CompactLauncher extends BlockContainer implements IMultiblock, IBomb {
 
 	public CompactLauncher(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -118,6 +119,14 @@ public class CompactLauncher extends BlockContainer implements IMultiblock {
 
         this.setBlockBounds(0, 1, 0, 1, 1, 1);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
+	public void explode(World world, int x, int y, int z) {
+		TileEntityCompactLauncher entity = (TileEntityCompactLauncher) world.getTileEntity(x, y, z);
+		
+		if(entity.canLaunch())
+			entity.launch();
 	}
 
 }

@@ -45,7 +45,7 @@ public class TileEntityMultiblock extends TileEntity {
 	private int isTable() {
 		
 		for(int i = -4; i <= 4; i++)
-			for(int j = -4; j <= -4; j++)
+			for(int j = -4; j <= 4; j++)
 				if(!(i == 0 && j == 0))
 					if(worldObj.getBlock(xCoord + i, yCoord, zCoord + j) != ModBlocks.struct_launcher)
 						return -1;
