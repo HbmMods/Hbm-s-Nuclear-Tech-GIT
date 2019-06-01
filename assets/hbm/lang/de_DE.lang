@@ -1753,6 +1753,8 @@ item.mp_fuselage_15_hydrogen.name=Größe 15 Wasserstofftank
 item.mp_fuselage_15_hydrogen_cathedral.name=Größe 15 Wasserstofftank
 item.mp_fuselage_15_balefire.name=Größe 15 BF-Kraftstofftank
 
+item.mp_fuselage_15_20_kerosene.name=Größe 15/20 Kerosintank
+
 item.mp_stability_10_flat.name=Größe 10 Flache Flügel
 item.mp_stability_10_cruise.name=Größe 10 Cruise-Flügel
 item.mp_stability_10_space.name=Größe 10 Weltraum-Flügel

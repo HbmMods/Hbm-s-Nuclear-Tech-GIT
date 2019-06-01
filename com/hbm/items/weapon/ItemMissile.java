@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemLootCrate;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
@@ -19,6 +20,7 @@ public class ItemMissile extends Item {
 	public PartType type;
 	public PartSize top;
 	public PartSize bottom;
+	public Rarity rarity;
 	public float health;
 	private String title;
 	private String author;
@@ -96,6 +98,22 @@ public class ItemMissile extends Item {
 		HYDROGEN,
 		XENON,
 		BALEFIRE
+	}
+	
+	public enum Rarity {
+		
+		COMMON(EnumChatFormatting.GRAY + "Common"),
+		UNCOMMON(EnumChatFormatting.YELLOW + "Uncommon"),
+		RARE(EnumChatFormatting.AQUA + "Rare"),
+		EPIC(EnumChatFormatting.LIGHT_PURPLE + "Epic"),
+		LEGENDARY(EnumChatFormatting.DARK_GREEN + "Legendary"),
+		SEWS_CLOTHES_AND_SUCKS_HORSE_COCK(EnumChatFormatting.DARK_AQUA + "Strange");
+		
+		String name;
+		
+		Rarity(String name) {
+			this.name = name;
+		}
 	}
 	
 	public ItemMissile makeChip(float inaccuracy) {
@@ -201,6 +219,9 @@ public class ItemMissile extends Item {
 			list.add("### I AM ERROR ###");
 		}
 		
+		if(this.rarity != null)
+			list.add(EnumChatFormatting.BOLD + "Rarity: " + EnumChatFormatting.GRAY + this.rarity.name);
+		
 		if(type != PartType.CHIP)
 			list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GRAY + health + "HP");
 		if(author != null)
@@ -282,6 +303,7 @@ public class ItemMissile extends Item {
 		part.bottom = this.bottom;
 		part.health = this.health;
 		part.attributes = this.attributes;
+		part.health = this.health;
 		part.setTextureName(this.iconString);
 		
 		return part;
@@ -299,6 +321,25 @@ public class ItemMissile extends Item {
 	
 	public ItemMissile setWittyText(String witty) {
 		this.witty = witty;
+		return this;
+	}
+	
+	public ItemMissile setHealth(float health) {
+		this.health = health;
+		return this;
+	}
+	
+	public ItemMissile setRarity(Rarity rarity) {
+		this.rarity = rarity;
+		
+		if(this.type == PartType.FUSELAGE) {
+			if(this.top == PartSize.SIZE_10)
+				ItemLootCrate.list10.add(this);
+			if(this.top == PartSize.SIZE_15)
+				ItemLootCrate.list15.add(this);
+		} else {
+			ItemLootCrate.listMisc.add(this);
+		}
 		return this;
 	}
 

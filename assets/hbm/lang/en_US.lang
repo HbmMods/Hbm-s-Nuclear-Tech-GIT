@@ -1753,6 +1753,8 @@ item.mp_fuselage_15_hydrogen.name=Size 15 Hydrogen Fuselage
 item.mp_fuselage_15_hydrogen_cathedral.name=Size 15 Hydrogen Fuselage
 item.mp_fuselage_15_balefire.name=Size 15 BF Fuselage
 
+item.mp_fuselage_15_20_kerosene.name=Size 15/20 Kerosene Fuselage
+
 item.mp_stability_10_flat.name=Size 10 Flat Fins
 item.mp_stability_10_cruise.name=Size 10 Cruise Fins
 item.mp_stability_10_space.name=Size 10 Space Fins
