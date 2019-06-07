@@ -90,13 +90,14 @@ public class MultiCloudRenderer extends Render {
 				
 				////
 				Random randy = new Random(p_76986_1_.hashCode());
-				double d = randy.nextInt(10) * 0.05;
-				GL11.glColor3d(1 - d, 1 - d, 1 - d);
 				////
 				
 				Random rand = new Random(100);
 				
 				for(int i = 0; i < 5; i++) {
+					
+					double d = randy.nextInt(10) * 0.05;
+					GL11.glColor3d(1 - d, 1 - d, 1 - d);
 
 					double dX = (rand.nextGaussian() - 1D) * 0.15D;
 					double dY = (rand.nextGaussian() - 1D) * 0.15D;

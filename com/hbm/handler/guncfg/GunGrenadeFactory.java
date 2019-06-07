@@ -22,6 +22,7 @@ public class GunGrenadeFactory {
 		config.hasFiringAnim = false;
 		config.hasSpinup = false;
 		config.hasSpindown = false;
+		config.hasSights = true;
 		config.reloadDuration = 40;
 		config.firingDuration = 0;
 		config.ammoCap = 1;
@@ -67,7 +68,7 @@ public class GunGrenadeFactory {
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 20;
 		bullet.dmgMax = 15;
-		bullet.wear = 10;
+		bullet.wear = 15;
 		bullet.explosive = 5.0F;
 		bullet.trail = 1;
 		
@@ -82,7 +83,7 @@ public class GunGrenadeFactory {
 		bullet.velocity = 2.0F;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 15;
-		bullet.wear = 10;
+		bullet.wear = 15;
 		bullet.trail = 0;
 		bullet.incendiary = 2;
 		

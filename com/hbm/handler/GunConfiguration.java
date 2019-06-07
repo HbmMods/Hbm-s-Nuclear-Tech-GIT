@@ -33,6 +33,8 @@ public class GunConfiguration {
 	public boolean hasSpinup;
 	//whether there is a cooldown duration for spindown
 	public boolean hasSpindown;
+	//whether ot not to disable crosshais when sneaking
+	public boolean hasSights;
 	
 	//how long the reload animation will play
 	//MUST BE GREATER THAN ZERO ! ! !

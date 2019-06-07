@@ -234,6 +234,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 					count = mainConfig.ammoCap - getMag(stack);
 				}
 				
+				if(count == 0)
+					setIsReloading(stack, false);
+				
 				for(int i = 0; i < count; i++) {
 					
 					if(getMag(stack) < mainConfig.ammoCap) {

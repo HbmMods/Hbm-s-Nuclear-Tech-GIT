@@ -156,11 +156,10 @@ public class EntityFalloutRain extends Entity {
 			}
 
 			else if (b == Blocks.coal_ore) {
-				int ra = rand.nextInt(30);
-				if (ra < 9) {
+				int ra = rand.nextInt(150);
+				if (ra < 7) {
 					worldObj.setBlock(x, y, z, Blocks.diamond_ore);
-				}
-				if (ra == 9) {
+				} else if (ra < 10) {
 					worldObj.setBlock(x, y, z, Blocks.emerald_ore);
 				}
     			return;
