@@ -219,11 +219,11 @@ public class ItemMissile extends Item {
 			list.add("### I AM ERROR ###");
 		}
 		
-		if(this.rarity != null)
-			list.add(EnumChatFormatting.BOLD + "Rarity: " + EnumChatFormatting.GRAY + this.rarity.name);
-		
 		if(type != PartType.CHIP)
 			list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GRAY + health + "HP");
+		
+		if(this.rarity != null)
+			list.add(EnumChatFormatting.BOLD + "Rarity: " + EnumChatFormatting.GRAY + this.rarity.name);
 		if(author != null)
 			list.add(EnumChatFormatting.WHITE + "   by " + author);
 		if(witty != null)
@@ -288,7 +288,7 @@ public class ItemMissile extends Item {
 		case XENON:
 			return EnumChatFormatting.DARK_PURPLE + "Xenon Gas";
 		case BALEFIRE:
-			return EnumChatFormatting.GREEN + "BF Inferno Fuel / Peroxide";
+			return EnumChatFormatting.GREEN + "BF Rocket Fuel / Peroxide";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}

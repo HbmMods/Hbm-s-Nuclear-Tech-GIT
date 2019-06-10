@@ -91,5 +91,12 @@ public class MissileTab extends CreativeTabs {
 				ModItems.mp_fuselage_15_kerosene_blackjack,
 				ModItems.mp_stability_15_thin,
 				ModItems.mp_thruster_15_kerosene).setStackDisplayName(EnumChatFormatting.RED + "Auntie Blackjack"));
+		
+		list.add(ItemCustomMissile.buildMissile(
+				ModItems.mp_chip_4,
+				ModItems.mp_warhead_15_balefire,
+				ModItems.mp_fuselage_15_20_kerosene_magnusson,
+				null,
+				ModItems.mp_thruster_20_kerosene).setStackDisplayName(EnumChatFormatting.GREEN + "Hightower Missile"));
 	}
 }

@@ -386,7 +386,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
     		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
 		
 		if(config.explosive > 0 && !worldObj.isRemote)
-			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, true);
+			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
 		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);

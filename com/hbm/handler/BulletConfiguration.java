@@ -51,6 +51,7 @@ public class BulletConfiguration {
 	public List<PotionEffect> effects;
 	public int incendiary;
 	public int emp;
+	public boolean blockDamage = true;
 	public float explosive;
 	public double jolt;
 	public int rainbow;

@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
@@ -79,7 +80,12 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
         if (!world.isRemote) {
         	
         	world.setBlockToAir(x, y, z);
-	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(MainRegistry.fatmanRadius * 1.25), x + 0.5, y + 0.5, z + 0.5));
+			EntityBalefire bf = new EntityBalefire(world);
+			bf.posX = x;
+			bf.posY = y;
+			bf.posZ = z;
+			bf.destructionRange = (int) (MainRegistry.fatmanRadius * 1.25);
+			world.spawnEntityInWorld(bf);
     		ExplosionParticleB.spawnMush(world, x, y, z);
         }
 	}

@@ -236,10 +236,10 @@ public class Meteorite {
 			ipL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 1:
-			ipL.add(new ItemStack(Blocks.stone));
+			ipL.add(new ItemStack(ModBlocks.block_meteor_broken));
 			break;
 		case 2:
-			ipL.add(new ItemStack(Blocks.netherrack));
+			ipL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		}
 		
@@ -347,10 +347,10 @@ public class Meteorite {
 			ipL.add(new ItemStack(ModBlocks.block_meteor_treasure));
 			break;
 		case 1:
-			ipL.add(new ItemStack(Blocks.stone));
+			ipL.add(new ItemStack(ModBlocks.block_meteor_broken));
 			break;
 		case 2:
-			ipL.add(new ItemStack(Blocks.netherrack));
+			ipL.add(new ItemStack(ModBlocks.block_meteor_cobble));
 			break;
 		}
 		
@@ -708,65 +708,31 @@ public class Meteorite {
 	}
 	
 	public List<ItemStack> getRandomOre(Random rand) {
-		List<ItemStack> ores = new ArrayList<ItemStack>();
 		
-		try {
-			String[] names = OreDictionary.getOreNames();
-			
-			for(int i = 0; i < names.length; i++) {
-				if(names[i] != null && names[i].length() > 3 && names[i].substring(0, 3).equals("ore")) {
-					
-					List<ItemStack> ota = OreDictionary.getOres(names[i]);
-					for(int j = 0; j < ota.size(); j++) {
-						ItemStack stack = ota.get(j);
-						if(Block.getBlockFromItem(stack.getItem()) != null)
-							ores.add(stack.copy());
-					}
-				}
-			}
-			
-			switch(rand.nextInt(15)) {
-			case 0:
-				List<ItemStack> list1 = new ArrayList<ItemStack>();
-				list1.add(new ItemStack(ModBlocks.ore_rare, 1).copy());
-				return list1;
-			case 1:
-				List<ItemStack> list2 = new ArrayList<ItemStack>();
-				list2.add(new ItemStack(ModBlocks.ore_uranium, 1).copy());
-				return list2;
-			case 2:
-				List<ItemStack> list3 = new ArrayList<ItemStack>();
-				list3.add(new ItemStack(ModBlocks.ore_reiium, 1).copy());
-				list3.add(new ItemStack(ModBlocks.ore_weidanium, 1).copy());
-				list3.add(new ItemStack(ModBlocks.ore_australium, 1).copy());
-				list3.add(new ItemStack(ModBlocks.ore_unobtainium, 1).copy());
-				list3.add(new ItemStack(ModBlocks.ore_daffergon, 1).copy());
-				list3.add(new ItemStack(ModBlocks.ore_verticium, 1).copy());
-				return list3;
-			case 3:
-				List<ItemStack> list4 = new ArrayList<ItemStack>();
-				list4.add(new ItemStack(ModBlocks.ore_nether_fire, 1).copy());
-				list4.add(new ItemStack(ModBlocks.ore_nether_plutonium, 1).copy());
-				list4.add(new ItemStack(ModBlocks.ore_nether_schrabidium, 1).copy());
-				list4.add(new ItemStack(ModBlocks.ore_nether_sulfur, 1).copy());
-				list4.add(new ItemStack(ModBlocks.ore_nether_tungsten, 1).copy());
-				list4.add(new ItemStack(ModBlocks.ore_nether_uranium, 1).copy());
-				return list4;
-			}
-			
-			if(ores.isEmpty()) {
-				List<ItemStack> list = new ArrayList<ItemStack>();
-				list.add(new ItemStack(Blocks.iron_ore, 1).copy());
-				return list;
-			} else {
-				return ores;
-			}
-		} catch(Exception ex) {
-			MainRegistry.logger.error("Critical error in meteor creation, falling back to iron ore...");
-			ores.clear();
-			ores.add(new ItemStack(Blocks.iron_ore, 1).copy());
-			return ores;
-		}
+		List<ItemStack> ores = new ArrayList<ItemStack>();
+
+		for(int i = 0; i < 3; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_uranium));
+		for(int i = 0; i < 5; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_thorium));
+		for(int i = 0; i < 6; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_titanium));
+		for(int i = 0; i < 7; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_sulfur));
+		for(int i = 0; i < 8; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_copper));
+		for(int i = 0; i < 5; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_tungsten));
+		for(int i = 0; i < 7; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_aluminium));
+		for(int i = 0; i < 6; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_lead));
+		for(int i = 0; i < 4; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_lithium));
+		for(int i = 0; i < 1; i++)
+			ores.add(new ItemStack(ModBlocks.ore_meteor_starmetal));
+		
+		return ores;
 	}
 
 }

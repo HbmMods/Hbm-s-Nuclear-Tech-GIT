@@ -56,12 +56,16 @@ public class BulletConfigSyncingUtil {
 	public static final int ROCKET_SLEEK = 0x26;
 	public static final int ROCKET_NUKE = 0x27;
 	public static final int ROCKET_CHAINSAW = 0x28;
+	public static final int ROCKET_TOXIC = 0x29;
 
 	public static final int GRENADE_NORMAL = 0x30;
 	public static final int GRENADE_HE = 0x31;
 	public static final int GRENADE_INCENDIARY = 0x32;
 	public static final int GRENADE_CHEMICAL = 0x33;
 	public static final int GRENADE_SLEEK = 0x34;
+	public static final int GRENADE_CONCUSSION = 0x35;
+	public static final int GRENADE_FINNED = 0x36;
+	public static final int GRENADE_NUCLEAR = 0x37;
 
 	public static final int G12_NORMAL = 0x40;
 	public static final int G12_INCENDIARY = 0x41;
@@ -130,12 +134,16 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketSleekConfig(), ROCKET_SLEEK));
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketNukeConfig(), ROCKET_NUKE));
 		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketRPCConfig(), ROCKET_CHAINSAW));
+		configSet.add(new ConfigKeyPair(GunRocketFactory.getRocketChlorineConfig(), ROCKET_TOXIC));
 
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeConfig(), GRENADE_NORMAL));
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeHEConfig(), GRENADE_HE));
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeIncendirayConfig(), GRENADE_INCENDIARY));
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeChlorineConfig(), GRENADE_CHEMICAL));
 		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeSleekConfig(), GRENADE_SLEEK));
+		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeConcussionConfig(), GRENADE_CONCUSSION));
+		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeFinnedConfig(), GRENADE_FINNED));
+		configSet.add(new ConfigKeyPair(GunGrenadeFactory.getGrenadeNuclearConfig(), GRENADE_NUCLEAR));
 
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeConfig(), G12_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeFireConfig(), G12_INCENDIARY));

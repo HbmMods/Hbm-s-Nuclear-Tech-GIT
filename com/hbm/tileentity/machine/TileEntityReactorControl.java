@@ -126,8 +126,9 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		redstoned = nbt.getBoolean("red");
+		auto = nbt.getBoolean("auto");
 		lastRods = nbt.getInteger("lastRods");
 		
 		slots = new ItemStack[getSizeInventory()];
@@ -149,6 +150,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
 		NBTTagList list = new NBTTagList();
 		
 		nbt.setBoolean("red", redstoned);
+		nbt.setBoolean("auto", auto);
 		nbt.setInteger("lastRods", lastRods);
 		
 		for(int i = 0; i < slots.length; i++)

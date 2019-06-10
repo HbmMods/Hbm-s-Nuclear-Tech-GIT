@@ -147,6 +147,9 @@ chem.DYN_EUPH=Euphemium Dynosynthesis
 chem.DYN_DNT=Dineutronium Dynosynthesis
 chem.CORDITE=Cordite Production
 chem.KEVLAR=Kevlar Compound Production
+chem.SOLID_FUEL=Solid Rocket Fuel Production
+chem.ELECTROLYSIS=Cryo-Electrolysis
+chem.XENON=Linde Xenon Cycle
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -454,7 +457,7 @@ container.reactorControl=Reactor Remote Control Block
 
 tile.broadcaster_pc.name=Corrupted Broadcaster
 
-tile.radiobox.name=Rosenberg Pest Control Box [WIP]
+tile.radiobox.name=Rosenberg Pest Control Box
 tile.radiorec.name=Broken FM Radio
 container.radiobox=FM Transmitter
 container.radiorec=FM Radio
@@ -552,6 +555,7 @@ item.bobmazon_materials.name=Bobmazon: Materials
 item.bobmazon_machines.name=Bobmazon: Blocks and Machines
 item.bobmazon_weapons.name=Bobmazon: Weapons and Explosives
 item.bobmazon_tools.name=Bobmazon: Tools
+item.bobmazon_hidden.name=Hidden Catalog
 
 item.fuse.name=Fuse
 item.arc_electrode.name=Graphite Electrode
@@ -766,6 +770,17 @@ tile.ore_nether_tungsten.name=Nether Tungsten Ore
 tile.ore_nether_sulfur.name=Nether Sulfur Ore
 tile.ore_nether_fire.name=Fire Ore
 tile.ore_nether_schrabidium.name=Nether Schrabidium Ore
+
+tile.ore_meteor_aluminium.name=Meteor Aluminium Ore
+tile.ore_meteor_copper.name=Meteor Copper Ore
+tile.ore_meteor_sulfur.name=Meteor Sulfur Ore
+tile.ore_meteor_titanium.name=Meteor Titanium Ore
+tile.ore_meteor_tungsten.name=Meteor Tungsten Ore
+tile.ore_meteor_uranium.name=Meteor Uranium Ore
+tile.ore_meteor_thorium.name=Meteor Thorium Ore
+tile.ore_meteor_lead.name=Meteor Lead Ore
+tile.ore_meteor_lithium.name=Meteor Lithium Ore
+tile.ore_meteor_starmetal.name=Starmetal Ore
 
 tile.ore_tikite.name=Trixite
 
@@ -1454,6 +1469,7 @@ item.ammo_rocket_incendiary.name=84mm Rocket (Incendiary)
 item.ammo_rocket_shrapnel.name=84mm Rocket (Shrapnel)
 item.ammo_rocket_emp.name=84mm Rocket (Pulse)
 item.ammo_rocket_glare.name=84mm Rocket (Red Glare)
+item.ammo_rocket_toxic.name=84mm Rocket (Chemical)
 item.ammo_rocket_sleek.name=84mm Rocket (IF-R&D)
 item.ammo_rocket_nuclear.name=84mm Rocket (Привет)
 item.ammo_rocket_rpc.name=84mm Rocket Propelled Chainsaw
@@ -1461,6 +1477,9 @@ item.ammo_grenade.name=40mm Grenade
 item.ammo_grenade_he.name=40mm Grenade (HE)
 item.ammo_grenade_incendiary.name=40mm Grenade (Incendiary)
 item.ammo_grenade_toxic.name=40mm Grenade (Chemical)
+item.ammo_grenade_concussion.name=40mm Grenade (Concussion)
+item.ammo_grenade_finned.name=40mm Grenade (Finned)
+item.ammo_grenade_nuclear.name=40mm Grenade (Привет)
 item.ammo_grenade_sleek.name=40mm Grenade (IF-R&D)
 
 item.folly_shell.name=Silver Bullet Casing
@@ -1469,6 +1488,7 @@ item.folly_bullet_nuclear.name=12.8cm Nuclear Shell
 item.folly_bullet_du.name=12.8cm DU-Shell
 
 item.cordite.name=Cordite
+item.ballistite.name=Ballistite
 item.plate_kevlar.name=Kevlar-Ceramic Compound
 
 item.weaponized_starblaster_cell.name=§cRigged Star Blaster Energy Cell§r
@@ -1660,6 +1680,10 @@ item.missile_bhole.name=Black Hole Missile
 item.missile_schrabidium.name=Schrabidium Missile
 item.missile_emp.name=EMP Missile
 
+item.seg_10.name=Size 10 Connector
+item.seg_15.name=Size 15 Connector
+item.seg_20.name=Size 20 Connector
+
 item.mp_c_1.name=Tier 1 Missile Targeting Circuit
 item.mp_c_2.name=Tier 2 Missile Targeting Circuit
 item.mp_c_3.name=Tier 3 Missile Targeting Circuit
@@ -1671,6 +1695,7 @@ item.mp_warhead_10_incendiary.name=Size 10 Incendiary Warhead
 item.mp_warhead_10_buster.name=Size 10 Bunker Buster Warhead
 item.mp_warhead_10_nuclear.name=Size 10 Micro Nuclear Warhead
 item.mp_warhead_10_taint.name=Size 10 Tainted Warhead
+item.mp_warhead_10_cloud.name=Size 10 Pink Cloud Warhead
 item.mp_warhead_15_he.name=Size 15 HE Warhead
 item.mp_warhead_15_incendiary.name=Size 15 Incendiary Warhead
 item.mp_warhead_10_nuclear_large.name=Size 10 Nuclear Warhead
@@ -1754,6 +1779,8 @@ item.mp_fuselage_15_hydrogen_cathedral.name=Size 15 Hydrogen Fuselage
 item.mp_fuselage_15_balefire.name=Size 15 BF Fuselage
 
 item.mp_fuselage_15_20_kerosene.name=Size 15/20 Kerosene Fuselage
+item.mp_fuselage_15_20_kerosene_magnusson.name=Size 15/20 Kerosene Fuselage
+item.mp_fuselage_15_20_solid.name=Size 15/20 Solid Fuel Fuselage
 
 item.mp_stability_10_flat.name=Size 10 Flat Fins
 item.mp_stability_10_cruise.name=Size 10 Cruise Fins
@@ -1776,6 +1803,12 @@ item.mp_thruster_15_balefire_short.name=Size 15 BF Thruster with Nuclear Preheat
 item.mp_thruster_15_balefire.name=Size 15 BF Thruster with Nuclear Preheater
 item.mp_thruster_15_balefire_large.name=Size 15 BF Thruster with Nuclear Preheater (Heavy Duty Nozzle)
 item.mp_thruster_15_balefire_large_rad.name=Size 15 BF Thruster with Nuclear Preheater (Heavy Duty Nozzle)
+item.mp_thruster_20_kerosene.name=Size 20 Liquid Fuel Thruster
+item.mp_thruster_20_kerosene_dual.name=Size 20 Liquid Fuel Twin Thrusters
+item.mp_thruster_20_kerosene_triple.name=Size 20 Liquid Fuel Triple Thrusters
+item.mp_thruster_20_solid.name=Size 20 Solid Fuel Thruster
+item.mp_thruster_20_solid_multi.name=Size 20 Solid Fuel Hexdecuple 30-Fold Thrusters
+item.mp_thruster_20_solid_multier.name=Size 20 Solid Fuel Hexdecuple 47-Fold Thrusters
 
 item.missile_skin_camo.name=Missile Skin: Camo
 item.missile_skin_desert.name=Missile Skin: Desert Camo
@@ -2189,6 +2222,10 @@ item.glitch.name=Glitch
 item.book_secret.name=3-596-50802-9
 item.book_of_.name=The Book of
 item.burnt_bark.name=Burnt Bark
+
+item.loot_10.name=Size 10 Missile Loot Crate
+item.loot_15.name=Size 15 Missile Loot Crate
+item.loot_misc.name=General Missile Loot Crate
 
 item.crystal_horn.name=Crystal Horn
 item.crystal_charred.name=Charred Crystal

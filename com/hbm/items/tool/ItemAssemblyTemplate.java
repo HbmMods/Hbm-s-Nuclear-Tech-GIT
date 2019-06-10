@@ -1,12 +1,16 @@
 package com.hbm.items.tool;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.items.ModItems;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -15,6 +19,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -294,16 +299,321 @@ public class ItemAssemblyTemplate extends Item {
 		AMS_LIMITER,
 		AMS_EMITTER,
 		RADAR,
-		FORCEFIELD;
+		FORCEFIELD,
 		
-		//private final int value;
-		//private EnumAssemblyTemplate(int value) {
-		//	this.value = value;
-		//}
+		MP_T_10_KEROSENE(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.pipes_steel, 1),
+				new ItemStack(ModItems.ingot_tungsten, 4),
+				new ItemStack(ModItems.plate_steel, 4)),
+				new ItemStack(ModItems.mp_thruster_10_kerosene)),
+		MP_T_10_SOLID(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.coil_tungsten, 1),
+				new ItemStack(ModItems.ingot_dura_steel, 4),
+				new ItemStack(ModItems.plate_steel, 4)),
+				new ItemStack(ModItems.mp_thruster_10_solid)),
+		MP_T_10_XENON(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_steel, 4),
+				new ItemStack(ModItems.pipes_steel, 2),
+				new ItemStack(ModItems.arc_electrode, 4)),
+				new ItemStack(ModItems.mp_thruster_10_xenon)),
+		MP_T_15_KEROSENE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.pipes_steel, 4),
+				new ItemStack(ModItems.ingot_tungsten, 8),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_desh, 4)),
+				new ItemStack(ModItems.mp_thruster_15_kerosene)),
+		MP_T_15_KEROSENE_TWIN(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.pipes_steel, 2),
+				new ItemStack(ModItems.ingot_tungsten, 4),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_desh, 1)),
+				new ItemStack(ModItems.mp_thruster_15_kerosene_dual)),
+		MP_T_15_KEROSENE_TRIPLE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.pipes_steel, 3),
+				new ItemStack(ModItems.ingot_tungsten, 6),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_desh, 2)),
+				new ItemStack(ModItems.mp_thruster_15_kerosene_triple)),
+		MP_T_15_SOLID(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_dura_steel, 6),
+				new ItemStack(ModItems.coil_tungsten, 3)),
+				new ItemStack(ModItems.mp_thruster_15_solid)),
+		MP_T_15_SOLID_HEXDECUPLE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_dura_steel, 12),
+				new ItemStack(ModItems.coil_tungsten, 6)),
+				new ItemStack(ModItems.mp_thruster_15_solid_hexdecuple)),
+		MP_T_15_HYDROGEN(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.pipes_steel, 4),
+				new ItemStack(ModItems.ingot_tungsten, 8),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.tank_steel, 1),
+				new ItemStack(ModItems.ingot_desh, 4)),
+				new ItemStack(ModItems.mp_thruster_15_hydrogen)),
+		MP_T_15_HYDROGEN_TWIN(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.pipes_steel, 2),
+				new ItemStack(ModItems.ingot_tungsten, 4),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.tank_steel, 1),
+				new ItemStack(ModItems.ingot_desh, 1)),
+				new ItemStack(ModItems.mp_thruster_15_hydrogen)),
+		MP_T_15_BALEFIRE_SHORT(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_polymer, 8),
+				new ItemStack(ModBlocks.reactor_element, 1),
+				new ItemStack(ModItems.ingot_desh, 8),
+				new ItemStack(ModItems.plate_saturnite, 12),
+				new ItemStack(ModItems.board_copper, 2),
+				new ItemStack(ModItems.ingot_uranium_fuel, 4),
+				new ItemStack(ModItems.pipes_steel, 2)),
+				new ItemStack(ModItems.mp_thruster_15_balefire_short)),
+		MP_T_15_BALEFIRE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_polymer, 16),
+				new ItemStack(ModBlocks.reactor_element, 2),
+				new ItemStack(ModItems.ingot_desh, 16),
+				new ItemStack(ModItems.plate_saturnite, 24),
+				new ItemStack(ModItems.board_copper, 4),
+				new ItemStack(ModItems.ingot_uranium_fuel, 8),
+				new ItemStack(ModItems.pipes_steel, 2)),
+				new ItemStack(ModItems.mp_thruster_15_balefire)),
+		MP_T_15_BALEFIRE_LARGE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_polymer, 16),
+				new ItemStack(ModBlocks.reactor_element, 2),
+				new ItemStack(ModItems.ingot_desh, 24),
+				new ItemStack(ModItems.plate_saturnite, 32),
+				new ItemStack(ModItems.board_copper, 4),
+				new ItemStack(ModItems.ingot_uranium_fuel, 8),
+				new ItemStack(ModItems.pipes_steel, 2)),
+				new ItemStack(ModItems.mp_thruster_15_balefire_large)),
+		MP_T_20_KEROSENE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModItems.pipes_steel, 8),
+				new ItemStack(ModItems.ingot_tungsten, 16),
+				new ItemStack(ModItems.plate_steel, 12),
+				new ItemStack(ModItems.ingot_desh, 8)),
+				new ItemStack(ModItems.mp_thruster_20_kerosene)),
+		MP_T_20_KEROSENE_TWIN(500, Arrays.asList(
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModItems.pipes_steel, 4),
+				new ItemStack(ModItems.ingot_tungsten, 8),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_desh, 4)),
+				new ItemStack(ModItems.mp_thruster_20_kerosene_dual)),
+		MP_T_20_KEROSENE_TRIPLE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModItems.pipes_steel, 6),
+				new ItemStack(ModItems.ingot_tungsten, 12),
+				new ItemStack(ModItems.plate_steel, 8),
+				new ItemStack(ModItems.ingot_desh, 6)),
+				new ItemStack(ModItems.mp_thruster_20_kerosene_triple)),
+		MP_T_20_SOLID(500, Arrays.asList(
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModItems.coil_tungsten, 8),
+				new ItemStack(ModItems.ingot_dura_steel, 16),
+				new ItemStack(ModItems.plate_steel, 12)),
+				new ItemStack(ModItems.mp_thruster_20_solid)),
 		
-		//public int getValue() {
-		//	return value;
-		//}
+		MP_F_10_KEROSENE(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 3),
+				new ItemStack(ModItems.plate_titanium, 12),
+				new ItemStack(ModItems.plate_steel, 3)),
+				new ItemStack(ModItems.mp_fuselage_10_kerosene)),
+		MP_F_10_SOLID(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 3),
+				new ItemStack(ModItems.plate_titanium, 12),
+				new ItemStack(ModItems.plate_aluminium, 3)),
+				new ItemStack(ModItems.mp_fuselage_10_solid)),
+		MP_F_10_XENON(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 3),
+				new ItemStack(ModItems.plate_titanium, 12),
+				new ItemStack(ModItems.board_copper, 3)),
+				new ItemStack(ModItems.mp_fuselage_10_xenon)),
+		MP_F_10_KEROSENE_LONG(200, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 6),
+				new ItemStack(ModItems.plate_titanium, 24),
+				new ItemStack(ModItems.plate_steel, 6)),
+				new ItemStack(ModItems.mp_fuselage_10_long_kerosene)),
+		MP_F_10_SOLID_LONG(200, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 6),
+				new ItemStack(ModItems.plate_titanium, 24),
+				new ItemStack(ModItems.plate_aluminium, 6)),
+				new ItemStack(ModItems.mp_fuselage_10_long_kerosene)),
+		MP_F_10_15_KEROSENE(300, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModBlocks.steel_scaffold, 9),
+				new ItemStack(ModItems.plate_titanium, 36),
+				new ItemStack(ModItems.plate_steel, 9)),
+				new ItemStack(ModItems.mp_fuselage_10_15_kerosene)),
+		MP_F_10_15_SOLID(300, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModBlocks.steel_scaffold, 9),
+				new ItemStack(ModItems.plate_titanium, 36),
+				new ItemStack(ModItems.plate_aluminium, 9)),
+				new ItemStack(ModItems.mp_fuselage_10_15_solid)),
+		MP_F_10_15_HYDROGEN(300, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModBlocks.steel_scaffold, 9),
+				new ItemStack(ModItems.plate_titanium, 36),
+				new ItemStack(ModItems.plate_iron, 9)),
+				new ItemStack(ModItems.mp_fuselage_10_15_hydrogen)),
+		MP_F_10_15_BALEFIRE(300, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModBlocks.steel_scaffold, 9),
+				new ItemStack(ModItems.plate_titanium, 36),
+				new ItemStack(ModItems.plate_saturnite, 9)),
+				new ItemStack(ModItems.mp_fuselage_10_15_balefire)),
+		MP_F_15_KEROSENE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 12),
+				new ItemStack(ModItems.plate_titanium, 48),
+				new ItemStack(ModItems.plate_steel, 12)),
+				new ItemStack(ModItems.mp_fuselage_15_kerosene)),
+		MP_F_15_SOLID(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 12),
+				new ItemStack(ModItems.plate_titanium, 48),
+				new ItemStack(ModItems.plate_aluminium, 12)),
+				new ItemStack(ModItems.mp_fuselage_15_solid)),
+		MP_F_15_HYDROGEN(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 12),
+				new ItemStack(ModItems.plate_titanium, 48),
+				new ItemStack(ModItems.plate_iron, 12)),
+				new ItemStack(ModItems.mp_fuselage_15_hydrogen)),
+		MP_F_15_BALEFIRE(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 2),
+				new ItemStack(ModBlocks.steel_scaffold, 12),
+				new ItemStack(ModItems.plate_titanium, 48),
+				new ItemStack(ModItems.plate_saturnite, 12)),
+				new ItemStack(ModItems.mp_fuselage_15_balefire)),
+		MP_F_15_20_KEROSENE(600, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModBlocks.steel_scaffold, 16),
+				new ItemStack(ModItems.plate_titanium, 64),
+				new ItemStack(ModItems.plate_steel, 16)),
+				new ItemStack(ModItems.mp_fuselage_15_20_kerosene)),
+		MP_F_15_20_SOLID(600, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModBlocks.steel_scaffold, 16),
+				new ItemStack(ModItems.plate_titanium, 64),
+				new ItemStack(ModItems.plate_aluminium, 16)),
+				new ItemStack(ModItems.mp_fuselage_15_20_solid)),
+
+		MP_W_10_HE(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(Blocks.tnt, 3),
+				new ItemStack(ModItems.circuit_targeting_tier2, 1)),
+				new ItemStack(ModItems.mp_warhead_10_he)),
+		MP_W_10_INC(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_titanium, 4),
+				new ItemStack(ModItems.powder_fire, 3),
+				new ItemStack(Blocks.tnt, 2),
+				new ItemStack(ModItems.circuit_targeting_tier2, 1)),
+				new ItemStack(ModItems.mp_warhead_10_incendiary)),
+		MP_W_10_BUSTER(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_titanium, 4),
+				new ItemStack(ModBlocks.det_charge, 1),
+				new ItemStack(ModBlocks.det_cord, 4),
+				new ItemStack(ModItems.board_copper, 4),
+				new ItemStack(ModItems.circuit_targeting_tier3, 1)),
+				new ItemStack(ModItems.mp_warhead_10_buster)),
+		MP_W_10_TATER(200, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_steel, 6),
+				new ItemStack(ModItems.ingot_pu239, 1),
+				new ItemStack(Blocks.tnt, 2),
+				new ItemStack(ModItems.circuit_targeting_tier3, 1)),
+				new ItemStack(ModItems.mp_warhead_10_nuclear)),
+		MP_W_10_BORIS(300, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_steel, 8),
+				new ItemStack(ModItems.plate_aluminium, 4),
+				new ItemStack(ModItems.ingot_pu239, 2),
+				new ItemStack(ModBlocks.det_charge, 2),
+				new ItemStack(ModItems.circuit_targeting_tier4, 1)),
+				new ItemStack(ModItems.mp_warhead_10_nuclear_large)),
+		MP_W_10_TAINT(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_steel, 12),
+				new ItemStack(ModBlocks.det_cord, 2),
+				new ItemStack(ModItems.powder_magic, 12),
+				new ItemStack(ModItems.bucket_mud, 1)),
+				new ItemStack(ModItems.mp_warhead_10_taint)),
+		MP_W_10_CLOUD(100, Arrays.asList(
+				new ItemStack(ModItems.seg_10, 1),
+				new ItemStack(ModItems.plate_steel, 12),
+				new ItemStack(ModBlocks.det_cord, 2),
+				new ItemStack(ModItems.grenade_pink_cloud, 2)),
+				new ItemStack(ModItems.mp_warhead_10_cloud)),
+		MP_W_15_HE(200, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_steel, 16),
+				new ItemStack(ModBlocks.det_charge, 4),
+				new ItemStack(ModItems.circuit_targeting_tier3, 1)),
+				new ItemStack(ModItems.mp_warhead_15_he)),
+		MP_W_15_INC(200, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_steel, 16),
+				new ItemStack(ModBlocks.det_charge, 2),
+				new ItemStack(ModItems.powder_fire, 8),
+				new ItemStack(ModItems.circuit_targeting_tier3, 1)),
+				new ItemStack(ModItems.mp_warhead_15_incendiary)),
+		MP_W_15_BERTHA(500, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_steel, 24),
+				new ItemStack(ModItems.plate_titanium, 12),
+				new ItemStack(ModItems.ingot_pu239, 3),
+				new ItemStack(ModBlocks.det_charge, 4),
+				new ItemStack(ModItems.circuit_targeting_tier4, 1)),
+				new ItemStack(ModItems.mp_warhead_15_nuclear)),
+		MP_W_15_NERV(400, Arrays.asList(
+				new ItemStack(ModItems.seg_15, 1),
+				new ItemStack(ModItems.plate_steel, 8),
+				new ItemStack(ModItems.plate_titanium, 20),
+				new ItemStack(ModBlocks.det_charge, 24),
+				new ItemStack(Blocks.redstone_block, 12),
+				new ItemStack(ModItems.powder_magnetized_tungsten, 6),
+				new ItemStack(ModItems.circuit_targeting_tier4, 1)),
+				new ItemStack(ModItems.mp_warhead_15_n2));
+
+		private EnumAssemblyTemplate() { }
+		
+		private EnumAssemblyTemplate(int time, List<ItemStack> ingredients, ItemStack output) {
+			this.time = time;
+			this.ingredients = ingredients;
+			this.output = output;
+		}
+		
+		public int time = 0;
+		public List<ItemStack> ingredients = null;
+		public ItemStack output = null;
 		
 		public static EnumAssemblyTemplate getEnum(int i) {
 			return EnumAssemblyTemplate.values()[i];
@@ -351,6 +661,9 @@ public class ItemAssemblyTemplate extends Item {
     	
         int i = stack.getItemDamage();
         EnumAssemblyTemplate enum1 = EnumAssemblyTemplate.getEnum(i);
+        
+        if(enum1.time != 0)
+        	return enum1.time;
         
         switch (enum1) {
         case IRON_PLATE:

@@ -17,6 +17,7 @@ public class BobmazonOfferFactory {
 	public static List<Offer> machines = new ArrayList();
 	public static List<Offer> weapons = new ArrayList();
 	public static List<Offer> tools = new ArrayList();
+	public static List<Offer> special = new ArrayList();
 	
 	public static void init() {
 
@@ -151,6 +152,40 @@ public class BobmazonOfferFactory {
 		tools.add(new Offer(new ItemStack(ModItems.hazmat_kit), Requirement.ASSEMBLY, 40));
 		tools.add(new Offer(new ItemStack(ModItems.hazmat_red_kit), Requirement.CHEMICS, 100));
 		tools.add(new Offer(new ItemStack(ModItems.hazmat_grey_kit), Requirement.OIL, 160));
+
+		special.add(new Offer(new ItemStack(ModItems.nuke_starter_kit), Requirement.STEEL, 200));
+		special.add(new Offer(new ItemStack(ModItems.nuke_advanced_kit), Requirement.STEEL, 300));
+		special.add(new Offer(new ItemStack(ModItems.boy_kit), Requirement.STEEL, 350));
+		special.add(new Offer(new ItemStack(ModItems.gun_lever_action), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ammo_20gauge, 24), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModItems.ammo_20gauge_incendiary, 24), Requirement.STEEL, 15));
+		special.add(new Offer(new ItemStack(ModItems.gun_uzi_silencer, 1), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ammo_22lr, 64), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModItems.ammo_22lr_ap, 64), Requirement.STEEL, 15));
+		special.add(new Offer(new ItemStack(ModItems.gun_hk69, 24), Requirement.STEEL, 30));
+		special.add(new Offer(new ItemStack(ModItems.ammo_grenade, 6), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ammo_grenade_sleek, 6), Requirement.STEEL, 40));
+		special.add(new Offer(new ItemStack(ModItems.gun_kit_1, 10), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModItems.gun_kit_2, 5), Requirement.STEEL, 15));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_epress, 2), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_assembler, 1), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_chemplant, 1), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_boiler_off, 1), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_well, 1), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_refinery, 1), Requirement.STEEL, 25));
+		special.add(new Offer(new ItemStack(ModBlocks.machine_fluidtank, 4), Requirement.STEEL, 10));
+		special.add(new Offer(new ItemStack(ModItems.ingot_steel, 64), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ingot_copper, 64), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ingot_red_copper, 64), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ingot_titanium, 64), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModItems.ingot_tungsten, 64), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModBlocks.struct_launcher_core, 1), Requirement.STEEL, 30));
+		special.add(new Offer(new ItemStack(ModBlocks.struct_launcher_core_large, 1), Requirement.STEEL, 30));
+		special.add(new Offer(new ItemStack(ModBlocks.struct_launcher, 40), Requirement.STEEL, 20));
+		special.add(new Offer(new ItemStack(ModBlocks.struct_scaffold, 11), Requirement.STEEL, 5));
+		special.add(new Offer(new ItemStack(ModItems.loot_10, 1), Requirement.STEEL, 5));
+		special.add(new Offer(new ItemStack(ModItems.loot_15, 1), Requirement.STEEL, 5));
+		special.add(new Offer(new ItemStack(ModItems.loot_misc, 1), Requirement.STEEL, 5));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {
@@ -165,6 +200,8 @@ public class BobmazonOfferFactory {
 				return weapons;
 			if(stack.getItem() == ModItems.bobmazon_tools)
 				return tools;
+			if(stack.getItem() == ModItems.bobmazon_hidden)
+				return special;
 		}
 		
 		return null;

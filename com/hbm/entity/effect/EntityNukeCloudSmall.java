@@ -62,6 +62,7 @@ public class EntityNukeCloudSmall extends Entity {
 		this.dataWatcher.addObject(16, (short)maxAge);
 		this.dataWatcher.addObject(17, (short)age);
 		this.dataWatcher.addObject(18, 1.0F);
+        this.dataWatcher.addObject(19, Byte.valueOf((byte)0));
 	}
 
 	@Override
@@ -85,6 +86,18 @@ public class EntityNukeCloudSmall extends Entity {
 		cloud.posX = x;
 		cloud.posY = y;
 		cloud.posZ = z;
+		cloud.dataWatcher.updateObject(19, (byte)0);
+		
+		return cloud;
+	}
+	
+	public static EntityNukeCloudSmall statFacBale(World world, double x, double y, double z, float radius, int maxAge) {
+		
+		EntityNukeCloudSmall cloud = new EntityNukeCloudSmall(world, (int)radius * 5, radius * 0.005F);
+		cloud.posX = x;
+		cloud.posY = y;
+		cloud.posZ = z;
+		cloud.dataWatcher.updateObject(19, (byte)1);
 		
 		return cloud;
 	}

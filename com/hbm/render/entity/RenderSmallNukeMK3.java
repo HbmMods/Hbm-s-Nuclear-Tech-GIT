@@ -22,7 +22,6 @@ public class RenderSmallNukeMK3 extends Render {
 	//what the fuck is all this, i thought you made the resource manager
 	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/mush.hmf");
 	private IModelCustom blastModel;
-    private ResourceLocation blastTexture;
 	private static final ResourceLocation ringModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/Ring.obj");
 	private IModelCustom ringModel;
     private ResourceLocation ringTexture;
@@ -35,7 +34,6 @@ public class RenderSmallNukeMK3 extends Render {
     //can't you just instantiate the AMLs as a whole like a normal person smh
     public RenderSmallNukeMK3() {
     	blastModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-    	blastTexture = new ResourceLocation(RefStrings.MODID, "textures/models/fireball.png");
     	ringModel = AdvancedModelLoader.loadModel(ringModelRL);
     	ringTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Ring2.png");
     	ringBigModel = AdvancedModelLoader.loadModel(ringBigModelRL);
@@ -49,7 +47,7 @@ public class RenderSmallNukeMK3 extends Render {
 		render((EntityNukeCloudSmall)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
 	}
 	
-	//coreographic analysis of a nuclear blast
+	//choreographic analysis of a nuclear blast
 	//by VeeTee McFuckface
 	
 	//shockwave: rapidly expanding sphere of compressed air
@@ -123,7 +121,11 @@ public class RenderSmallNukeMK3 extends Render {
         
         if(age >= 50 && age < 150) {
     		GL11.glPushMatrix();
-    		GL11.glColor4f(0.4F, 0.15F, 0.0F, 0.9F);
+    		
+    		if(cloud.getDataWatcher().getWatchableObjectByte(19) == 1)
+    			GL11.glColor4f(0.2F, 0.7F, 0.0F, 0.9F);
+    		else
+    			GL11.glColor4f(0.4F, 0.15F, 0.0F, 0.9F);
     		
     		GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -145,7 +147,7 @@ public class RenderSmallNukeMK3 extends Render {
         
         if(age >= 150) {
     		GL11.glPushMatrix();
-            bindTexture(blastTexture);
+            bindTexture(getEntityTexture(cloud));
 	        GL11.glTranslatef(0, -50, 0);
 	        GL11.glScalef(6, 6, 6);
 	        GL11.glDisable(GL11.GL_CULL_FACE);
@@ -212,8 +214,12 @@ public class RenderSmallNukeMK3 extends Render {
 	
 	//there, fixed it ~bob
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
-		return blastTexture;
+	protected ResourceLocation getEntityTexture(Entity ent) {
+		
+		if(ent.getDataWatcher().getWatchableObjectByte(19) == 1)
+			return ResourceManager.balefire;
+		
+		return ResourceManager.fireball;
 	}
 
 }

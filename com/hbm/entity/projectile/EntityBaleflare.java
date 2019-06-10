@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.explosion.ExplosionParticleB;
@@ -243,7 +244,12 @@ public class EntityBaleflare extends Entity implements IProjectile {
                 {
                     if (!this.worldObj.isRemote)
                     {
-            	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.fatmanRadius, posX, posY, posZ));
+            			EntityBalefire bf = new EntityBalefire(worldObj);
+            			bf.posX = this.posX;
+            			bf.posY = this.posY;
+            			bf.posZ = this.posZ;
+            			bf.destructionRange = MainRegistry.fatmanRadius;
+            			worldObj.spawnEntityInWorld(bf);
                 	    
                     	ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
                     }

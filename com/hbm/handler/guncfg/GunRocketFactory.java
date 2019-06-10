@@ -41,6 +41,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_TOXIC);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
@@ -62,6 +63,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_TOXIC);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
 		config.durability = 500;
@@ -74,6 +76,7 @@ public class GunRocketFactory {
 		GunConfiguration config = getGustavConfig();
 		
 		config.reloadDuration = 25;
+		config.hasSights = true;
 		
 		config.name = "Raketenpanzerbüchse 54";
 		config.manufacturer = "Enzinger Union";
@@ -197,6 +200,22 @@ public class GunRocketFactory {
 		bullet.incendiary = 0;
 		bullet.trail = 7;
 		bullet.nuke = 25;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketChlorineConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_toxic;
+		bullet.velocity = 1.5F;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 10;
+		bullet.explosive = 0;
+		bullet.chlorine = 50;
+		bullet.trail = 7;
 		
 		return bullet;
 	}

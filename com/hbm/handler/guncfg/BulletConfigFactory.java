@@ -127,7 +127,7 @@ public class BulletConfigFactory {
 		bullet.wear = 10;
 		bullet.bulletsMin = 1;
 		bullet.bulletsMax = 1;
-		bullet.gravity = 0.05D;
+		bullet.gravity = 0.035D;
 		bullet.maxAge = 300;
 		bullet.doesRicochet = false;
 		bullet.ricochetAngle = 0;

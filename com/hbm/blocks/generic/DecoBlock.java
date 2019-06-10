@@ -39,7 +39,7 @@ public class DecoBlock extends BlockContainer {
 		if(this == ModBlocks.bomber)
 			return new TileEntityBomber();
 		
-		if(this == ModBlocks.steel_scaffold)
+		if(this == ModBlocks.steel_scaffold || this == ModBlocks.steel_beam)
 			return null;
 		
 		return new TileEntityDecoBlock();
@@ -49,6 +49,8 @@ public class DecoBlock extends BlockContainer {
 	public int getRenderType(){
 		if(this == ModBlocks.steel_scaffold)
 			return 334078;
+		else if(this == ModBlocks.steel_beam)
+			return 334080;
 		else
 			return -1;
 	}

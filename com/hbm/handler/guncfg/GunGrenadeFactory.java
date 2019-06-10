@@ -40,7 +40,10 @@ public class GunGrenadeFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_CONCUSSION);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
 		config.durability = 140;
 		
 		return config;
@@ -118,6 +121,44 @@ public class GunGrenadeFactory {
 		bullet.trail = 4;
 		bullet.explosive = 7.5F;
 		bullet.jolt = 6.5D;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getGrenadeConcussionConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_concussion;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 20;
+		bullet.dmgMax = 15;
+		bullet.blockDamage = false;
+		bullet.explosive = 10.0F;
+		bullet.trail = 3;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getGrenadeFinnedConfig() {
+		
+		BulletConfiguration bullet = getGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_finned;
+		bullet.gravity = 0.02;
+		bullet.explosive = 1.5F;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getGrenadeNuclearConfig() {
+		
+		BulletConfiguration bullet = getGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_nuclear;
+		bullet.velocity = 4;
+		bullet.explosive = 0.0F;
+		bullet.nuke = 15;
 		
 		return bullet;
 	}

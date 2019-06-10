@@ -150,6 +150,11 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Incendiary explosion");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
+		if(this == ModItems.ammo_rocket_toxic) {
+			list.add(EnumChatFormatting.BLUE + "+ Chlorine gas");
+			list.add(EnumChatFormatting.RED + "- No explosion");
+			list.add(EnumChatFormatting.RED + "- Decreased projectile speed");
+		}
 		if(this == ModItems.ammo_rocket_sleek) {
 			list.add(EnumChatFormatting.BLUE + "+ Highly increased blast radius");
 			list.add(EnumChatFormatting.BLUE + "+ Not affected by gravity");
@@ -182,9 +187,22 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Chlorine gas");
 			list.add(EnumChatFormatting.RED + "- No explosion");
 		}
+		if(this == ModItems.ammo_grenade_concussion) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased blast radius");
+			list.add(EnumChatFormatting.RED + "- No block damage");
+		}
+		if(this == ModItems.ammo_grenade_finned) {
+			list.add(EnumChatFormatting.BLUE + "+ Decreased gravity");
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+		}
 		if(this == ModItems.ammo_grenade_sleek) {
 			list.add(EnumChatFormatting.BLUE + "+ Increased blast radius");
 			list.add(EnumChatFormatting.YELLOW + "* Jolt");
+		}
+		if(this == ModItems.ammo_grenade_nuclear) {
+			list.add(EnumChatFormatting.BLUE + "+ Nuclear");
+			list.add(EnumChatFormatting.BLUE + "+ Increased range");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		
 		//FOLLY

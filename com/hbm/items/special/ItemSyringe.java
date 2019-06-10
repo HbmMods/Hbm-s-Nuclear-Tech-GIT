@@ -365,8 +365,6 @@ public class ItemSyringe extends Item {
             			if(nWear < 0)
             				nWear = 0;
             			
-            			System.out.println(wear + " " + nWear);
-            			
             			ItemGunBase.setItemWear(gun, nWear);
             		}
             	}

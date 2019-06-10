@@ -59,7 +59,11 @@ public class ItemRenderRpg implements IItemRenderer {
 
 				if(item.getItem() == ModItems.gun_panzerschreck) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
-					GL11.glTranslatef(-0.2F, -0.3F, -0.5F);
+					
+					if(Minecraft.getMinecraft().thePlayer.isSneaking())
+						GL11.glTranslatef(-0.2F, -0.3F, -0.5F);
+					else
+						GL11.glTranslatef(-0.1F, 0.0F, 0.0F);
 				} else {
 					GL11.glTranslatef(0F, -0.1F, -0.4F);
 				}

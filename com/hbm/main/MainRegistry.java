@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorProjectileDispense;
@@ -530,6 +531,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityLaunchTable.class, "tileentity_large_launch_table");
 		GameRegistry.registerTileEntity(TileEntityCompactLauncher.class, "tileentity_small_launcher");
 		GameRegistry.registerTileEntity(TileEntityMultiblock.class, "tileentity_multi_core");
+		GameRegistry.registerTileEntity(TileEntityChlorineSeal.class, "tileentity_chlorine_seal");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -671,6 +673,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityWaterSplash.class, "entity_water_splash", 137, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBobmazon.class, "entity_bobmazon_delivery", 138, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityMissileCustom.class, "entity_custom_missile", 139, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBalefire.class, "entity_balefire", 140, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -1086,6 +1089,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotSaturnite", ModItems.ingot_saturnite);
 		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
 		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
+		OreDictionary.registerOre("ingotStarmetal", ModItems.ingot_starmetal);
 		OreDictionary.registerOre("dustFluorite", ModItems.fluorite);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -1218,6 +1222,17 @@ public class MainRegistry
 		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_nether_tungsten);
 		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_nether_sulfur);
 		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_nether_schrabidium);
+
+		OreDictionary.registerOre("oreUranium", ModBlocks.ore_meteor_uranium);
+		OreDictionary.registerOre("oreThorium", ModBlocks.ore_meteor_thorium);
+		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_meteor_titanium);
+		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_meteor_sulfur);
+		OreDictionary.registerOre("oreCopper", ModBlocks.ore_meteor_copper);
+		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_meteor_tungsten);
+		OreDictionary.registerOre("oreAluminum", ModBlocks.ore_meteor_aluminium);
+		OreDictionary.registerOre("oreLead", ModBlocks.ore_meteor_lead);
+		OreDictionary.registerOre("oreLithium", ModBlocks.ore_meteor_lithium);
+		OreDictionary.registerOre("oreStarmetal", ModBlocks.ore_meteor_starmetal);
 
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
@@ -1659,13 +1674,13 @@ public class MainRegistry
         geyserVapor = pGV.getInt();
 
         final String CATEGORY_METEOR = "05_meteors";
-        Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 180);
+        Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);
         propMeteorStrikeChance.comment = "The probability of a meteor spawning (an average of once every nTH ticks)";
         meteorStrikeChance = propMeteorStrikeChance.getInt();
-        Property propMeteorShowerChance = config.get(CATEGORY_METEOR, "5.01_meteorShowerChance", 20 * 60 * 5);
+        Property propMeteorShowerChance = config.get(CATEGORY_METEOR, "5.01_meteorShowerChance", 20 * 60 * 15);
         propMeteorShowerChance.comment = "The probability of a meteor spawning during meteor shower (an average of once every nTH ticks)";
         meteorShowerChance = propMeteorShowerChance.getInt();
-        Property propMeteorShowerDuration = config.get(CATEGORY_METEOR, "5.02_meteorShowerDuration", 6000);
+        Property propMeteorShowerDuration = config.get(CATEGORY_METEOR, "5.02_meteorShowerDuration", 20 * 60 * 30);
         propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
         meteorShowerDuration = propMeteorShowerDuration.getInt();
 

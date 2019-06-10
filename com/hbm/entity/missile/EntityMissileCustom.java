@@ -6,9 +6,11 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.particle.EntitySmokeFX;
+import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.weapon.ItemMissile;
@@ -291,6 +293,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 			
 			switch(type) {
 			case BALEFIRE:
+				smoke = "exBalefire";
 				break;
 			case HYDROGEN:
 				smoke = "exHydrogen";
@@ -350,6 +353,13 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 			worldObj.spawnEntityInWorld(nuke);
 			break;
 		case BALEFIRE:
+			EntityBalefire bf = new EntityBalefire(worldObj);
+			bf.posX = this.posX;
+			bf.posY = this.posY;
+			bf.posZ = this.posZ;
+			bf.destructionRange = (int) strength;
+			worldObj.spawnEntityInWorld(bf);
+			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, posX, posY + 5, posZ, strength * 1.5F, 1000));
 			break;
 		case N2:
 	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(worldObj, (int) strength, posX, posY, posZ));
@@ -371,6 +381,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
 		    }
 			break;
 		case CLOUD:
+            this.worldObj.playAuxSFX(2002, (int)Math.round(this.posX), (int)Math.round(this.posY), (int)Math.round(this.posZ), 0);
+			ExplosionChaos.spawnChlorine(worldObj, posX - motionX, posY - motionY, posZ - motionZ, 750, 2.5, 2);
 			break;
 		default:
 			break;

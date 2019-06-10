@@ -135,7 +135,7 @@ chem.SF_BIOFUEL=Biodieselverfestigung
 chem.POLYMER=Polymersynthese
 chem.DEUTERIUM=Deuteriumextrahierung
 chem.STEAM=Wasser kochen
-chem.YELLOWCAKE=Yellowcakeproduction
+chem.YELLOWCAKE=Yellowcakeproduktion
 chem.UF6=Uranhexafluoritproduktion
 chem.PUF6=Plutoniumhexafluoritproduktion
 chem.BP_BIOGAS=Biogasherstellung
@@ -147,6 +147,9 @@ chem.DYN_EUPH=Euphemium-Dynosynthese
 chem.DYN_DNT=Dineutronium-Dynosynthese
 chem.CORDITE=Korditherstellung
 chem.KEVLAR=Kevlarverbundherstellung
+chem.SOLID_FUEL=Festbrennstoffherstellung
+chem.ELECTROLYSIS=Kryo-Elektrolyse
+chem.XENON=Lindeverfahren (Xenon)
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
@@ -454,7 +457,7 @@ container.reactorControl=Reaktorfernsteuerung
 
 tile.broadcaster_pc.name=Korrupter Sender
 
-tile.radiobox.name=Rosenberg Ungeziefervernichter [WIP]
+tile.radiobox.name=Rosenberg Ungeziefervernichter
 tile.radiorec.name=Kaputtes UKW Radio
 container.radiobox=UKW-Sender
 container.radiorec=UKW Radio
@@ -552,6 +555,7 @@ item.bobmazon_materials.name=Bobmazon: Ressourcen
 item.bobmazon_machines.name=Bobmazon: Blöcke und Maschinen
 item.bobmazon_weapons.name=Bobmazon: Waffen und Sprengstoffe
 item.bobmazon_tools.name=Bobmazon: Werkzeuge
+item.bobmazon_hidden.name=Versteckter Katalog
 
 item.fuse.name=Sicherung
 item.arc_electrode.name=Graphitelektrode
@@ -766,6 +770,17 @@ tile.ore_nether_tungsten.name=Nether-Wolframerz
 tile.ore_nether_sulfur.name=Nether-Schwefelerz
 tile.ore_nether_fire.name=Feuererz
 tile.ore_nether_schrabidium.name=Nether-Schrabidiumerz
+
+tile.ore_meteor_aluminium.name=Meteoriten-Aluminiumerz
+tile.ore_meteor_copper.name=Meteoriten-Kupfererz
+tile.ore_meteor_sulfur.name=Meteoriten-Schwefelerz
+tile.ore_meteor_titanium.name=Meteoriten-Titanerz
+tile.ore_meteor_tungsten.name=Meteoriten-Wolframerz
+tile.ore_meteor_uranium.name=Meteoriten-Uranerz
+tile.ore_meteor_thorium.name=Meteoriten-Thoriumerz
+tile.ore_meteor_lead.name=Meteoriten-Bleierz
+tile.ore_meteor_lithium.name=Meteoriten-Lithiumerz
+tile.ore_meteor_starmetal.name=Sternenmetallerz
 
 tile.ore_tikite.name=Trixit
 
@@ -1454,6 +1469,7 @@ item.ammo_rocket_incendiary.name=84mm Rakete (Brand)
 item.ammo_rocket_shrapnel.name=84mm Rakete (Schrapnell)
 item.ammo_rocket_emp.name=84mm Rakete (Impuls)
 item.ammo_rocket_glare.name=84mm Rakete (Roter Schein)
+item.ammo_rocket_toxic.name=84mm Rakete (Chemisch)
 item.ammo_rocket_sleek.name=84mm Rakete (IF-R&D)
 item.ammo_rocket_nuclear.name=84mm Rakete (Привет)
 item.ammo_rocket_rpc.name=84mm Raketengetriebene Kettensäge
@@ -1461,6 +1477,9 @@ item.ammo_grenade.name=40mm Granate
 item.ammo_grenade_he.name=40mm Granate (HE)
 item.ammo_grenade_incendiary.name=40mm Granate (Brand)
 item.ammo_grenade_toxic.name=40mm Granate (Chemisch)
+item.ammo_grenade_concussion.name=40mm Granate (Erschütterung)
+item.ammo_grenade_finned.name=40mm Granate (Geflügelt)
+item.ammo_grenade_nuclear.name=40mm Granate (Привет)
 item.ammo_grenade_sleek.name=40mm Granate (IF-F&E)
 
 item.folly_shell.name=Silberne Kanonenhülse
@@ -1469,6 +1488,7 @@ item.folly_bullet_nuclear.name=12,8cm Atomares Geschoss
 item.folly_bullet_du.name=12,8cm DU-Geschoss
 
 item.cordite.name=Kordit
+item.ballistite.name=Ballistit
 item.plate_kevlar.name=Kevlar-Keramik-Verbund
 
 item.weaponized_starblaster_cell.name=§cManipulierte Sternenblaster-Energiezelle§r
@@ -1660,6 +1680,10 @@ item.missile_bhole.name=Schwarzes-Loch-Rakete
 item.missile_schrabidium.name=Schrabidiumrakete
 item.missile_emp.name=EMP-Rakete
 
+item.seg_10.name=Größe 10 Bindeglied
+item.seg_15.name=Größe 15 Bindeglied
+item.seg_20.name=Größe 20 Bindeglied
+
 item.mp_c_1.name=Stufe 1 Zielsucher-Schaltkreis
 item.mp_c_2.name=Stufe 2 Zielsucher-Schaltkreis
 item.mp_c_3.name=Stufe 3 Zielsucher-Schaltkreis
@@ -1672,6 +1696,7 @@ item.mp_warhead_10_buster.name=Größe 10 Bunkerbrechender Sprengkopf
 item.mp_warhead_10_nuclear.name=Größe 10 Mikro-Atomsprengkopf "Kleine Krokette"
 item.mp_warhead_10_nuclear_large.name=Größe 10 Atomsprengkopf "Chernobyl Boris"
 item.mp_warhead_10_taint.name=Größe 10 Verseuchter Gefechtskopf
+item.mp_warhead_10_cloud.name=Größe 10 Rosa Wolken-Gefechtskopf
 item.mp_warhead_15_he.name=Größe 15 HE-Sprengkopf
 item.mp_warhead_15_incendiary.name=Größe 15 Brandsprengkopf
 item.mp_warhead_15_nuclear.name=Größe 15 Atomsprengkopf "Tantchen Bertha"
@@ -1754,6 +1779,8 @@ item.mp_fuselage_15_hydrogen_cathedral.name=Größe 15 Wasserstofftank
 item.mp_fuselage_15_balefire.name=Größe 15 BF-Kraftstofftank
 
 item.mp_fuselage_15_20_kerosene.name=Größe 15/20 Kerosintank
+item.mp_fuselage_15_20_kerosene_magnusson.name=Größe 15/20 Kerosintank
+item.mp_fuselage_15_20_solid.name=Größe 15/20 Festbrennstofftank
 
 item.mp_stability_10_flat.name=Größe 10 Flache Flügel
 item.mp_stability_10_cruise.name=Größe 10 Cruise-Flügel
@@ -1776,6 +1803,12 @@ item.mp_thruster_15_balefire_short.name=Größe 15 BF-Triebwerk mit nuklearem Vo
 item.mp_thruster_15_balefire.name=Größe 15 BF-Triebwerk mit nuklearem Vorwärmer
 item.mp_thruster_15_balefire_large.name=Größe 15 BF-Triebwerk mit nuklearem Vorwärmer (Schwerlastdüse)
 item.mp_thruster_15_balefire_large_rad.name=Größe 15 BF-Triebwerk mit nuklearem Vorwärmer (Schwerlastdüse)
+item.mp_thruster_20_kerosene.name=Größe 20 Flüssigtriebwerk
+item.mp_thruster_20_kerosene_dual.name=Größe 20 Flüssigtriebwerk-Zwilling
+item.mp_thruster_20_kerosene_triple.name=Größe 20 Flüssigtriebwerk-Drilling
+item.mp_thruster_20_solid.name=Größe 20 Festbrennstofftriebwerk
+item.mp_thruster_20_solid_multi.name=Größe 20 30-Faches Festbrennstofftriebwerk
+item.mp_thruster_20_solid_multier.name=Größe 20 47-Faches Festbrennstofftriebwerk
 
 item.missile_skin_camo.name=Raketenskin: Camouflage
 item.missile_skin_desert.name=Raketenskin: Wüstencamouflage
@@ -2189,6 +2222,10 @@ item.glitch.name=Glitch
 item.book_secret.name=3-596-50802-9
 item.book_of_.name=Das Buch der
 item.burnt_bark.name=Verbrannte Rinde
+
+item.loot_10.name=Größe 10 Raketen-Lootbox
+item.loot_15.name=Größe 15 Raketen-Lootbox
+item.loot_misc.name=Generelle Raketen-Lootbox
 
 item.crystal_horn.name=Kristallhorn
 item.crystal_charred.name=Verkohlter Kristall

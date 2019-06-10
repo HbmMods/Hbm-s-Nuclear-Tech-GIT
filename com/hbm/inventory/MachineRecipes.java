@@ -105,8 +105,8 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2.getItem() == ModItems.powder_meteorite
-				|| item.getItem() == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+		if (mODE(item, new String[] {"ingotDuraSteel", "dustDuraSteel"}) && item2.getItem() == ModItems.powder_meteorite
+				|| item.getItem() == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotDuraSteel", "dustDuraSteel"})) {
 			return new ItemStack(ModItems.ingot_starmetal, 2);
 		}
 
@@ -148,9 +148,12 @@ public class MachineRecipes {
 		ItemStack[] cloud = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
 				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.dust, 1),
 				new ItemStack(ModItems.dust, 1) };
-		
+
 		ItemStack[] coal = new ItemStack[] { new ItemStack(ModItems.powder_coal, 2),
 				new ItemStack(ModItems.powder_coal, 2), new ItemStack(ModItems.powder_coal, 2),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] lignite = new ItemStack[] { new ItemStack(ModItems.powder_lignite, 2),
+				new ItemStack(ModItems.powder_lignite, 2), new ItemStack(ModItems.powder_lignite, 2),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] iron = new ItemStack[] { new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_iron, 1),
@@ -208,6 +211,9 @@ public class MachineRecipes {
 				new ItemStack(Blocks.end_stone, 1) };
 		ItemStack[] lapis = new ItemStack[] { new ItemStack(ModItems.powder_lapis, 3),
 				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt, 1),
+				new ItemStack(Blocks.gravel, 1) };
+		ItemStack[] starmetal = new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3),
+				new ItemStack(ModItems.powder_astatine, 1), new ItemStack(ModItems.powder_cobalt, 2),
 				new ItemStack(Blocks.gravel, 1) };
 
 		if (MainRegistry.enableDebugMode) {
@@ -274,6 +280,10 @@ public class MachineRecipes {
 
 		if (mODE(item, "oreCoal")) {
 			return coal;
+		}
+
+		if (mODE(item, "oreLignite")) {
+			return lignite;
 		}
 
 		if (mODE(item, "oreIron")) {
@@ -350,6 +360,10 @@ public class MachineRecipes {
 
 		if (mODE(item, "oreLapis")) {
 			return lapis;
+		}
+
+		if (mODE(item, "oreStarmetal")) {
+			return starmetal;
 		}
 
 		return null;
@@ -932,6 +946,10 @@ public class MachineRecipes {
 			return new ItemStack(ModBlocks.sellafield_core, 1);
 		}
 
+		if (item == ModItems.bobmazon_materials) {
+			return new ItemStack(ModItems.bobmazon_hidden);
+		}
+
 		return null;
 	}
 
@@ -1185,8 +1203,8 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_meteorite)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_dura_steel), new ItemStack(ModItems.powder_meteorite) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_dura_steel), new ItemStack(ModItems.powder_meteorite)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_starmetal), new ItemStack(ModItems.powder_cobalt) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_starmetal), new ItemStack(ModItems.powder_cobalt)).copy());
 		} catch (Exception x) {
@@ -1290,6 +1308,10 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(ModItems.waste_mox)));
 		recipes.put(new ItemStack(ModItems.waste_schrabidium),
 				getCentrifugeOutput(new ItemStack(ModItems.waste_schrabidium)));
+		recipes.put(new ItemStack(ModBlocks.ore_lignite),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_lignite)));
+		recipes.put(new ItemStack(ModBlocks.ore_meteor_starmetal),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_meteor_starmetal)));
 		return recipes;
 	}
 
@@ -2166,7 +2188,12 @@ public class MachineRecipes {
 		
 		List<ItemStack> list = new ArrayList<ItemStack>();
 		
-		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
+		EnumAssemblyTemplate template = ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage());
+		
+		if(template.ingredients != null)
+			return template.ingredients;
+		
+		switch(template) {
         case IRON_PLATE:
 			list.add(new ItemStack(Items.iron_ingot, 3));
 			break;
@@ -3931,9 +3958,14 @@ public class MachineRecipes {
 		if(stack == null || !(stack.getItem() instanceof ItemAssemblyTemplate))
 			return null;
 		
+		EnumAssemblyTemplate template = ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage());
+		
+		if(template.output != null)
+			return template.output;
+		
 		ItemStack output = null;
 		
-		switch(ItemAssemblyTemplate.EnumAssemblyTemplate.getEnum(stack.getItemDamage())) {
+		switch(template) {
         case IRON_PLATE:
 			output = new ItemStack(ModItems.plate_iron, 2);
 			break;
@@ -4997,6 +5029,11 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.brick, 1));
 			list.add(new ItemStack(Items.coal, 1));
 			break;
+        case SOLID_FUEL:
+			list.add(new ItemStack(ModItems.solid_fuel, 2));
+			list.add(new ItemStack(ModItems.niter, 1));
+			list.add(new ItemStack(Items.redstone, 1));
+			break;
 		default:
 			break;
 		}
@@ -5181,6 +5218,15 @@ public class MachineRecipes {
         case KEVLAR:
 			input[0] = new FluidStack(100, FluidType.PETROLEUM);
         	break;
+        case SOLID_FUEL:
+			input[0] = new FluidStack(200, FluidType.PETROLEUM);
+        	break;
+    	case ELECTROLYSIS:
+			input[0] = new FluidStack(8000, FluidType.WATER);
+        	break;
+    	case XENON:
+			input[0] = new FluidStack(0, FluidType.NONE);
+        	break;
 		default:
 			break;
 		}
@@ -5298,6 +5344,9 @@ public class MachineRecipes {
         case KEVLAR:
 			output[0] = new ItemStack(ModItems.plate_kevlar, 4);
         	break;
+        case SOLID_FUEL:
+			output[0] = new ItemStack(ModItems.rocket_fuel, 1);
+        	break;
 		default:
 			break;
 		}
@@ -5310,112 +5359,119 @@ public class MachineRecipes {
 		if(stack == null || !(stack.getItem() instanceof ItemChemistryTemplate))
 			return null;
 		
-		FluidStack[] input = new FluidStack[2];
+		FluidStack[] output = new FluidStack[2];
 		
 		switch(ItemChemistryTemplate.EnumChemistryTemplate.getEnum(stack.getItemDamage())) {
         case FP_HEAVYOIL:
-			input[0] = new FluidStack(300, FluidType.BITUMEN);
-			input[1] = new FluidStack(700, FluidType.SMEAR);
+			output[0] = new FluidStack(300, FluidType.BITUMEN);
+			output[1] = new FluidStack(700, FluidType.SMEAR);
 			break;
         case FP_SMEAR:
-			input[0] = new FluidStack(600, FluidType.HEATINGOIL);
-			input[1] = new FluidStack(400, FluidType.LUBRICANT);
+			output[0] = new FluidStack(600, FluidType.HEATINGOIL);
+			output[1] = new FluidStack(400, FluidType.LUBRICANT);
 			break;
         case FP_NAPHTHA:
-			input[0] = new FluidStack(400, FluidType.HEATINGOIL);
-			input[1] = new FluidStack(600, FluidType.DIESEL);
+			output[0] = new FluidStack(400, FluidType.HEATINGOIL);
+			output[1] = new FluidStack(600, FluidType.DIESEL);
 			break;
         case FP_LIGHTOIL:
-			input[0] = new FluidStack(400, FluidType.DIESEL);
-			input[1] = new FluidStack(600, FluidType.KEROSENE);
+			output[0] = new FluidStack(400, FluidType.DIESEL);
+			output[1] = new FluidStack(600, FluidType.KEROSENE);
 			break;
         case FR_REOIL:
-			input[0] = new FluidStack(800, FluidType.RECLAIMED);
+			output[0] = new FluidStack(800, FluidType.RECLAIMED);
 			break;
         case FR_PETROIL:
-			input[0] = new FluidStack(1000, FluidType.PETROIL);
+			output[0] = new FluidStack(1000, FluidType.PETROIL);
 			break;
         case FC_BITUMEN:
-			input[0] = new FluidStack(1000, FluidType.OIL);
-			input[1] = new FluidStack(200, FluidType.PETROLEUM);
+			output[0] = new FluidStack(1000, FluidType.OIL);
+			output[1] = new FluidStack(200, FluidType.PETROLEUM);
 			break;
         case FC_I_NAPHTHA:
-			input[0] = new FluidStack(800, FluidType.NAPHTHA);
+			output[0] = new FluidStack(800, FluidType.NAPHTHA);
 			break;
         case FC_GAS_PETROLEUM:
-			input[0] = new FluidStack(800, FluidType.PETROLEUM);
+			output[0] = new FluidStack(800, FluidType.PETROLEUM);
 			break;
         case FC_DIESEL_KEROSENE:
-			input[0] = new FluidStack(400, FluidType.KEROSENE);
+			output[0] = new FluidStack(400, FluidType.KEROSENE);
 			break;
         case FC_KEROSENE_PETROLEUM:
-			input[0] = new FluidStack(800, FluidType.PETROLEUM);
+			output[0] = new FluidStack(800, FluidType.PETROLEUM);
 			break;
         case CC_OIL:
-			input[0] = new FluidStack(2000, FluidType.OIL);
+			output[0] = new FluidStack(2000, FluidType.OIL);
 			break;
         case CC_I:
-			input[0] = new FluidStack(1600, FluidType.SMEAR);
+			output[0] = new FluidStack(1600, FluidType.SMEAR);
 			break;
         case CC_HEATING:
-			input[0] = new FluidStack(1800, FluidType.HEATINGOIL);
+			output[0] = new FluidStack(1800, FluidType.HEATINGOIL);
 			break;
         case CC_HEAVY:
-			input[0] = new FluidStack(1800, FluidType.HEAVYOIL);
+			output[0] = new FluidStack(1800, FluidType.HEAVYOIL);
 			break;
         case CC_NAPHTHA:
-			input[0] = new FluidStack(2000, FluidType.NAPHTHA);
+			output[0] = new FluidStack(2000, FluidType.NAPHTHA);
 			break;
         case COOLANT:
-			input[0] = new FluidStack(2000, FluidType.COOLANT);
+			output[0] = new FluidStack(2000, FluidType.COOLANT);
 			break;
         case CRYOGEL:
-			input[0] = new FluidStack(2000, FluidType.CRYOGEL);
+			output[0] = new FluidStack(2000, FluidType.CRYOGEL);
 			break;
         case PEROXIDE:
-			input[0] = new FluidStack(800, FluidType.ACID);
+			output[0] = new FluidStack(800, FluidType.ACID);
 			break;
         case DEUTERIUM:
-			input[0] = new FluidStack(500, FluidType.DEUTERIUM);
+			output[0] = new FluidStack(500, FluidType.DEUTERIUM);
         	break;
         case STEAM:
-			input[0] = new FluidStack(1000, FluidType.STEAM);
+			output[0] = new FluidStack(1000, FluidType.STEAM);
         	break;
         case BP_BIOGAS:
-			input[0] = new FluidStack(4000, FluidType.BIOGAS);
+			output[0] = new FluidStack(4000, FluidType.BIOGAS);
         	break;
         case BP_BIOFUEL:
-			input[0] = new FluidStack(1000, FluidType.BIOFUEL);
+			output[0] = new FluidStack(1000, FluidType.BIOFUEL);
         	break;
         case UF6:
-			input[0] = new FluidStack(1000, FluidType.UF6);
+			output[0] = new FluidStack(1000, FluidType.UF6);
         	break;
         case PUF6:
-			input[0] = new FluidStack(1000, FluidType.PUF6);
+			output[0] = new FluidStack(1000, FluidType.PUF6);
         	break;
         case SAS3:
-			input[0] = new FluidStack(1000, FluidType.SAS3);
+			output[0] = new FluidStack(1000, FluidType.SAS3);
         	break;
         case NITAN:
-			input[0] = new FluidStack(1000, FluidType.NITAN);
+			output[0] = new FluidStack(1000, FluidType.NITAN);
         	break;
         case OIL_SAND:
-			input[0] = new FluidStack(1000, FluidType.BITUMEN);
+			output[0] = new FluidStack(1000, FluidType.BITUMEN);
         	break;
         case DYN_SCHRAB:
-			input[0] = new FluidStack(50, FluidType.WATZ);
+			output[0] = new FluidStack(50, FluidType.WATZ);
         	break;
         case DYN_EUPH:
-			input[0] = new FluidStack(100, FluidType.WATZ);
+			output[0] = new FluidStack(100, FluidType.WATZ);
         	break;
         case DYN_DNT:
-			input[0] = new FluidStack(150, FluidType.WATZ);
+			output[0] = new FluidStack(150, FluidType.WATZ);
+        	break;
+        case ELECTROLYSIS:
+			output[0] = new FluidStack(400, FluidType.HYDROGEN);
+			output[1] = new FluidStack(400, FluidType.OXYGEN);
+        	break;
+        case XENON:
+			output[0] = new FluidStack(50, FluidType.XENON);
         	break;
 		default:
 			break;
 		}
 		
-		return input;
+		return output;
 	}
 	
 	public String[] getInfoFromItem(ItemStack stack) {

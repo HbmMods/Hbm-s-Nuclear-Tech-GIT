@@ -106,6 +106,7 @@ public class ItemBobmazonPacket implements IMessage {
 				if(countCaps(p) >= m.cost) {
 					
 					payCaps(p, m.cost);
+					p.inventoryContainer.detectAndSendChanges();
 					
 					Random rand = world.rand;
 					EntityBobmazon bob = new EntityBobmazon(world);
@@ -158,8 +159,6 @@ public class ItemBobmazonPacket implements IMessage {
 			
 			if(price == 0)
 				return;
-
-			int count = 0;
 			
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				
@@ -178,12 +177,13 @@ public class ItemBobmazonPacket implements IMessage {
 							item == ModItems.cap_star ||
 							item == ModItems.cap_sunset) {
 						
-						for(int j = 0; j < stack.stackSize; j++) {
+						int size = stack.stackSize;
+						for(int j = 0; j < size; j++) {
 							
 							player.inventory.decrStackSize(i, 1);
-							count++;
+							price--;
 							
-							if(count == price)
+							if(price == 0)
 								return;
 						}
 					}
