@@ -32,7 +32,7 @@ public class GUILaunchPadTier1 extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 53, 160, 16, diFurnace.power, diFurnace.maxPower);
 
 		String[] text = new String[] { "First Slot:",
-				"  -Missile",
+				"  -Missile (no custom ones!)",
 				"  -Carrier Rocket" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		

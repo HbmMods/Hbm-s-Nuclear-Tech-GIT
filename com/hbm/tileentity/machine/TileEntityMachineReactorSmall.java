@@ -326,6 +326,9 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			}
 		}
 		
+		if(rodMax == 0)
+			return 0;
+		
 		return rod * 100 / rodMax;
 	}
 

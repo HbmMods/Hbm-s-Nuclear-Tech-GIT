@@ -71,6 +71,7 @@ public class HbmChestContents {
 
 	private static WeightedRandomChestContent[] expensive = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_schrabidium, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.chlorine_pinwheel, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier3, 0, 1, 1, 4),
 			new WeightedRandomChestContent(ModItems.circuit_gold, 0, 1, 2, 3),
 			new WeightedRandomChestContent(ModItems.circuit_targeting_tier4, 0, 1, 1, 2),

@@ -372,6 +372,7 @@ public class ModBlocks {
 	public static Block red_wire_coated;
 	public static Block red_cable;
 	public static Block red_pylon;
+	public static Block cable_switch;
 	public static Block rf_cable;
 	public static Block oil_duct_solid;
 	public static Block oil_duct;
@@ -970,6 +971,7 @@ public class ModBlocks {
 		red_cable = new BlockCable(Material.iron).setBlockName("red_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_cable_icon");
 		rf_cable = new BlockRFCable(Material.iron).setBlockName("rf_cable").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rf_cable_icon");
 		red_pylon = new PylonRedWire(Material.iron).setBlockName("red_pylon").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_pylon");
+		cable_switch = new CableSwitch(Material.iron).setBlockName("cable_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":cable_switch_off");
 		oil_duct_solid = new OilDuctSolid(Material.iron).setBlockName("oil_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":oil_duct_solid_alt");
 		oil_duct = new BlockOilDuct(Material.iron).setBlockName("oil_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":oil_duct_icon_alt");
 		gas_duct_solid = new GasDuctSolid(Material.iron).setBlockName("gas_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_duct_solid");
@@ -1541,6 +1543,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
 		GameRegistry.registerBlock(red_pylon, red_pylon.getUnlocalizedName());
+		GameRegistry.registerBlock(cable_switch, cable_switch.getUnlocalizedName());
 		GameRegistry.registerBlock(rf_cable, rf_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(oil_duct, oil_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(oil_duct_solid, oil_duct_solid.getUnlocalizedName());

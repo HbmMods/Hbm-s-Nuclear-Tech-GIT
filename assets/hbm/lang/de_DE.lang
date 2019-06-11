@@ -367,6 +367,7 @@ container.arcFurnace=Lichtbogenofen
 tile.machine_generator.name=Atomreaktor (Alt)
 container.generator=Atomreaktor
 tile.red_wire_coated.name=Geschirmtes rotes Kupferkabel
+tile.cable_switch.name=Stromschalter
 tile.machine_deuterium.name=Deuteriumextraktor
 container.machine_deuterium=Deuteriumextraktor
 tile.machine_battery_potato.name=Kartoffelbatterieblock

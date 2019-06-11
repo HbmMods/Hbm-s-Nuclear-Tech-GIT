@@ -78,14 +78,14 @@ private TileEntityMachineChemplant nukeBoy;
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 17) {
-				if (!this.mergeItemStack(var5, 18, this.inventorySlots.size(), true))
+            if (par2 <= 20) {
+				if (!this.mergeItemStack(var5, 21, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 6, 18, false))
-				if (!this.mergeItemStack(var5, 0, 4, false))
+			else if (!this.mergeItemStack(var5, 4, 5, false))
+				if (!this.mergeItemStack(var5, 13, 19, false))
 					return null;
 			
 			if (var5.stackSize == 0)

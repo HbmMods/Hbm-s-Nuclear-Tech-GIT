@@ -425,6 +425,18 @@ public class ItemAssemblyTemplate extends Item {
 				new ItemStack(ModItems.ingot_dura_steel, 16),
 				new ItemStack(ModItems.plate_steel, 12)),
 				new ItemStack(ModItems.mp_thruster_20_solid)),
+		MP_T_20_SOLID_MULTI(500, Arrays.asList(
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModItems.coil_tungsten, 12),
+				new ItemStack(ModItems.ingot_dura_steel, 18),
+				new ItemStack(ModItems.plate_steel, 12)),
+				new ItemStack(ModItems.mp_thruster_20_solid_multi)),
+		MP_T_20_SOLID_MULTIER(500, Arrays.asList(
+				new ItemStack(ModItems.seg_20, 1),
+				new ItemStack(ModItems.coil_tungsten, 16),
+				new ItemStack(ModItems.ingot_dura_steel, 20),
+				new ItemStack(ModItems.plate_steel, 12)),
+				new ItemStack(ModItems.mp_thruster_20_solid_multier)),
 		
 		MP_F_10_KEROSENE(100, Arrays.asList(
 				new ItemStack(ModItems.seg_10, 2),

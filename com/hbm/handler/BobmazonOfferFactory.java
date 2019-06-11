@@ -85,7 +85,10 @@ public class BobmazonOfferFactory {
 		machines.add(new Offer(new ItemStack(ModBlocks.absorber), Requirement.CHEMICS, 10));
 		machines.add(new Offer(new ItemStack(ModBlocks.absorber_green), Requirement.OIL, 25));
 		machines.add(new Offer(new ItemStack(ModBlocks.decon), Requirement.CHEMICS, 15));
-		
+
+		weapons.add(new Offer(new ItemStack(ModItems.loot_10), Requirement.OIL, 50));
+		weapons.add(new Offer(new ItemStack(ModItems.loot_15), Requirement.OIL, 65));
+		weapons.add(new Offer(new ItemStack(ModItems.loot_misc), Requirement.NUCLEAR, 65));
 		weapons.add(new Offer(new ItemStack(ModBlocks.launch_pad), Requirement.OIL, 95));
 		weapons.add(new Offer(new ItemStack(ModBlocks.machine_radar), Requirement.OIL, 90));
 		weapons.add(new Offer(new ItemStack(ModItems.designator), Requirement.CHEMICS, 35));

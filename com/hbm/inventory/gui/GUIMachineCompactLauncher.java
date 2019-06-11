@@ -45,7 +45,7 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 88 - 52, 16, 52, new String[] { "Solid Fuel: " + launcher.solid + "l" });
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 113, 34, 6, launcher.power, launcher.maxPower);
 
-		String[] text = new String[] { "Only accepts custom missiles", "of all sizes" };
+		String[] text = new String[] { "Only accepts custom missiles", "of size 10 and 10/15." };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
 		String[] text1 = new String[] { "Detonator can only trigger center block." };

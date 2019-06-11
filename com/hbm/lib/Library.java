@@ -31,6 +31,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.tileentity.conductor.TileEntityCable;
+import com.hbm.tileentity.conductor.TileEntityCableSwitch;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuct;
 import com.hbm.tileentity.conductor.TileEntityGasDuctSolid;
@@ -967,6 +968,34 @@ public class Library {
 					}
 				} else {
 					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
+				}
+			}
+			if(tileentity instanceof TileEntityCableSwitch)
+			{
+				if(tileentity.getBlockMetadata() == 1) {
+					if(Library.checkUnionList(((TileEntityCableSwitch)tileentity).uoteab, that))
+					{
+						for(int i = 0; i < ((TileEntityCableSwitch)tileentity).uoteab.size(); i++)
+						{
+							if(((TileEntityCableSwitch)tileentity).uoteab.get(i).source == that)
+							{
+								if(((TileEntityCableSwitch)tileentity).uoteab.get(i).ticked != newTact)
+								{
+									((TileEntityCableSwitch)tileentity).uoteab.get(i).ticked = newTact;
+									that.ffgeua(x, y + 1, z, that.getTact());
+									that.ffgeua(x, y - 1, z, that.getTact());
+									that.ffgeua(x - 1, y, z, that.getTact());
+									that.ffgeua(x + 1, y, z, that.getTact());
+									that.ffgeua(x, y, z - 1, that.getTact());
+									that.ffgeua(x, y, z + 1, that.getTact());
+								}
+							}
+						}
+					} else {
+						((TileEntityCableSwitch)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(that, newTact));
+					}
+				} else {
+					((TileEntityCableSwitch)tileentity).uoteab.clear();
 				}
 			}
 			if(tileentity instanceof TileEntityPylonRedWire)

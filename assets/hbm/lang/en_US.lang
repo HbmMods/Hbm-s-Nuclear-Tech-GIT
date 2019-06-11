@@ -367,6 +367,7 @@ container.arcFurnace=Arc Furnace
 tile.machine_generator.name=Nuclear Reactor (Old)
 container.generator=Nuclear Reactor
 tile.red_wire_coated.name=Coated Red Copper Cable
+tile.cable_switch.name=Power Switch
 tile.machine_deuterium.name=Deuterium Extractor
 container.machine_deuterium=Deuterium Extractor
 tile.machine_battery_potato.name=Potato Battery Block
