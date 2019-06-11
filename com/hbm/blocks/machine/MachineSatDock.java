@@ -3,7 +3,9 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
 
@@ -11,6 +13,7 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -21,7 +24,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class MachineSatDock extends BlockContainer {
+public class MachineSatDock extends BlockContainer implements IMultiblock {
 
     private final Random field_149933_a = new Random();
 	private Random rand;
@@ -126,5 +129,36 @@ public class MachineSatDock extends BlockContainer {
 
 		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
+
+	@Override
+	public void onBlockPlacedBy(World worldObj, int xCoord, int yCoord, int zCoord, EntityLivingBase player, ItemStack itemStack) {
+
+		for(int k = -1; k <= 1; k++)
+			for(int l = -1; l <= 1; l++)
+				if(l != 0 || k != 0)
+					if(!worldObj.getBlock(xCoord + k, yCoord, zCoord + l).isReplaceable(worldObj, xCoord + k, yCoord, zCoord + l)) {
+						worldObj.func_147480_a(xCoord, yCoord, zCoord, true);
+						return;
+					}
+		
+		for(int k = -1; k <= 1; k++)
+			for(int l = -1; l <= 1; l++)
+				if(l != 0 || k != 0)
+					placeDummy(worldObj, xCoord + k, yCoord, zCoord + l, xCoord, yCoord, zCoord, ModBlocks.dummy_plate_cargo);
+	}
+	
+	private void placeDummy(World world, int x, int y, int z, int xCoord, int yCoord, int zCoord, Block block) {
+		
+		world.setBlock(x, y, z, block);
+		
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof TileEntityDummy) {
+			TileEntityDummy dummy = (TileEntityDummy)te;
+			dummy.targetX = xCoord;
+			dummy.targetY = yCoord;
+			dummy.targetZ = zCoord;
+		}
+	}
 
 }

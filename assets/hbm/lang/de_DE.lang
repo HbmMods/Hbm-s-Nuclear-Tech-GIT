@@ -323,6 +323,7 @@ tile.emp_bomb.name=EMP-Ladung
 
 tile.crashed_bomb.name=Blindgänger
 tile.boxcar.name=Güterwagon
+tile.boat.name=Boot
 tile.bomber.name=Abgestürtzer Bomber
 
 tile.crate.name=Vorratskiste
@@ -387,6 +388,10 @@ tile.machine_turbine.name=Dampfturbine
 container.machineTurbine=Dampfturbine
 tile.launch_pad.name=Raketenabschussrampe
 container.launchPad=Raketenabschussrampe
+tile.compact_launcher.name=Kompakt-Startrampe
+container.compactLauncher=Kompakt-Startrampe
+tile.launch_table.name=Große Startrampe
+container.launchTable=Große Startrampe
 tile.machine_missile_assembly.name=Raketenmontagestation
 container.missileAssembly=Raketenmontagestation
 tile.sat_dock.name=Frachtlandeplattform
@@ -750,6 +755,7 @@ tile.block_daffergon.name=Daffergonblock
 tile.block_verticium.name=Verticiumblock
 tile.block_desh.name=Verstärketer Deshblock
 tile.block_yellowcake.name=Yellowcakeblock
+tile.block_starmetal.name=Sternenmetallblock
 
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_copper.name=Kupfererz
@@ -1361,7 +1367,7 @@ item.gun_calamity_dual.name=Sattelkanone
 item.gun_fatman.name=M42 Nukleares Katapult "Fat Man"
 item.gun_proto.name=M42 Nukleares Katapult "Proto MIRV"
 item.gun_mirv.name=M42 Nukleares Katapult "Experimentelles MIRV"
-item.gun_bf.name=M42_2 Nukleares Katapult "Antimaterienwerfer"
+item.gun_bf.name=BEL
 item.gun_mp40.name=Maschinenpistole
 item.gun_uzi.name=IMI Uzi
 item.gun_uzi_silencer.name=IMI Uzi mit Schalldämpfer
@@ -2000,6 +2006,9 @@ tile.machine_transformer_dnt_20.name=DNT-1Hz-Transformator
 tile.vent_chlorine.name=Chlorgas-Auslass
 tile.vent_cloud.name=Wolken-Auslass
 tile.vent_pink_cloud.name=Pinker Wolken-Auslass
+tile.vent_chlorine_seal.name=Chlorgassiegel
+tile.chlorine_gas.name=Chlorgas
+item.chlorine_pinwheel.name=Chlorgas-Konverter
 
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_red.name=Verbesserter Strahlungs-Absorber

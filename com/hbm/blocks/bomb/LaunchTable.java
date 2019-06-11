@@ -1,5 +1,7 @@
 package com.hbm.blocks.bomb;
 
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiblock;
@@ -16,6 +18,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -45,6 +48,11 @@ public class LaunchTable extends BlockContainer implements IMultiblock, IBomb {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+
+	@Override
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+		return Item.getItemFromBlock(ModBlocks.struct_launcher_core_large);
 	}
 	
 	@Override

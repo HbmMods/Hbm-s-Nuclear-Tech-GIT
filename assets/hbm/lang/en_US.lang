@@ -284,6 +284,7 @@ tile.emp_bomb.name=EMP Device
 
 tile.crashed_bomb.name=Dud
 tile.boxcar.name=Boxcar
+tile.boat.name=Boat
 tile.bomber.name=Crashed Bomber
 
 tile.turret_light.name=Light Machine Gun Turret
@@ -387,6 +388,10 @@ tile.machine_turbine.name=Steam Turbine
 container.machineTurbine=Steam Turbine
 tile.launch_pad.name=Missile Launch Pad
 container.launchPad=Missile Launch Pad
+tile.compact_launcher.name=Compact Launch Pad
+container.compactLauncher=Compact Launch Pad
+tile.launch_table.name=Large Launch Pad
+container.launchTable=Large Launch Pad
 tile.machine_missile_assembly.name=Missile Assembly Station
 container.missileAssembly=Missile Assembly Station
 tile.sat_dock.name=Cargo Landing Pad
@@ -750,6 +755,7 @@ tile.block_daffergon.name=Block of Daffergon
 tile.block_verticium.name=Block of Verticium
 tile.block_desh.name=Reinforced Block of Desh
 tile.block_yellowcake.name=Block of Yellowcake
+tile.block_starmetal.name=Block of Starmetal
 
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_copper.name=Copper Ore
@@ -1361,7 +1367,7 @@ item.gun_lacunae.name=CZ33 Abaddon
 item.gun_fatman.name=M42 Nuclear Catapult "Fat Man"
 item.gun_proto.name=M42 Nuclear Catapult "Proto MIRV"
 item.gun_mirv.name=M42 Nuclear Catapult "Experimental MIRV"
-item.gun_bf.name=M42_2 Nuclear Catapult "Antimatter Launcher"
+item.gun_bf.name=BEL
 item.gun_mp40.name=Submachine Gun
 item.gun_uzi.name=IMI Uzi
 item.gun_uzi_silencer.name=IMI Uzi with Silencer
@@ -2000,6 +2006,9 @@ tile.machine_transformer_dnt_20.name=DNT-1Hz Transformer
 tile.vent_chlorine.name=Chlorine Vent
 tile.vent_cloud.name=Cloud Vent
 tile.vent_pink_cloud.name=Pink Cloud Vent
+tile.vent_chlorine_seal.name=Chlorine Seal
+tile.chlorine_gas.name=Chlorine Gas
+item.chlorine_pinwheel.name=Chlorine Pinwheel
 
 tile.absorber.name=Radiation Absorber
 tile.absorber_red.name=Enhanced Radiation Absorber

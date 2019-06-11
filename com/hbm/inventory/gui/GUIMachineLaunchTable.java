@@ -46,6 +46,12 @@ public class GUIMachineLaunchTable extends GuiInfoContainer {
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 7, guiTop + 98, 18, 18, new String[] { "Size 10 & 10/15" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 25, guiTop + 98, 18, 18, new String[] { "Size 15 & 15/20" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 43, guiTop + 98, 18, 18, new String[] { "Size 20" });
+
+		String[] text = new String[] { "Only accepts custom missiles", "of size 10 and 10/15." };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
+		
+		String[] text1 = new String[] { "Detonator can only trigger center block." };
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36 + 16, 16, 16, guiLeft - 8, guiTop + 36 + 16, text1);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -126,6 +132,9 @@ public class GUIMachineLaunchTable extends GuiInfoContainer {
 			break;
 		
 		}
+		
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
+		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 11);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[0].getSheet());
 		launcher.tanks[0].renderTank(this, guiLeft + 116, guiTop + 88, launcher.tanks[0].getTankType().textureX() * FluidTank.x, launcher.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);

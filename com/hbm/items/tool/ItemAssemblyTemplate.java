@@ -367,7 +367,7 @@ public class ItemAssemblyTemplate extends Item {
 				new ItemStack(ModItems.plate_steel, 6),
 				new ItemStack(ModItems.tank_steel, 1),
 				new ItemStack(ModItems.ingot_desh, 1)),
-				new ItemStack(ModItems.mp_thruster_15_hydrogen)),
+				new ItemStack(ModItems.mp_thruster_15_hydrogen_dual)),
 		MP_T_15_BALEFIRE_SHORT(500, Arrays.asList(
 				new ItemStack(ModItems.seg_15, 1),
 				new ItemStack(ModItems.plate_polymer, 8),
@@ -455,7 +455,7 @@ public class ItemAssemblyTemplate extends Item {
 				new ItemStack(ModBlocks.steel_scaffold, 6),
 				new ItemStack(ModItems.plate_titanium, 24),
 				new ItemStack(ModItems.plate_aluminium, 6)),
-				new ItemStack(ModItems.mp_fuselage_10_long_kerosene)),
+				new ItemStack(ModItems.mp_fuselage_10_long_solid)),
 		MP_F_10_15_KEROSENE(300, Arrays.asList(
 				new ItemStack(ModItems.seg_10, 1),
 				new ItemStack(ModItems.seg_15, 1),

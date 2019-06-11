@@ -687,6 +687,7 @@ public class ModBlocks {
 	public static Block dummy_port_compact_launcher;
 	public static Block dummy_plate_launch_table;
 	public static Block dummy_port_launch_table;
+	public static Block dummy_plate_cargo;
 
 	public static Block ntm_dirt;
 	
@@ -1222,6 +1223,7 @@ public class ModBlocks {
 		dummy_port_compact_launcher = new DummyBlockMachine(Material.iron, guiID_compact_launcher, compact_launcher).setBlockName("dummy_port_compact_launcher").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_plate_launch_table = new DummyBlockMachine(Material.iron, guiID_launch_table, launch_table).setBounds(0, 16, 0, 16, 16, 16).setBlockName("dummy_plate_launch_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_launch_table = new DummyBlockMachine(Material.iron, guiID_launch_table, launch_table).setBlockName("dummy_port_launch_table").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		dummy_plate_cargo = new DummyBlockMachine(Material.iron, guiID_dock, sat_dock).setBounds(0, 0, 0, 16, 8, 16).setBlockName("dummy_plate_cargo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		ntm_dirt = new BlockNTMDirt().setBlockName("ntm_dirt").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName("dirt");
 		
@@ -1751,6 +1753,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dummy_port_compact_launcher, dummy_port_compact_launcher.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_plate_launch_table, dummy_plate_launch_table.getUnlocalizedName());
 		GameRegistry.registerBlock(dummy_port_launch_table, dummy_port_launch_table.getUnlocalizedName());
+		GameRegistry.registerBlock(dummy_plate_cargo, dummy_plate_cargo.getUnlocalizedName());
 		
 		//Other Technical Blocks
 		GameRegistry.registerBlock(oil_pipe, oil_pipe.getUnlocalizedName());
