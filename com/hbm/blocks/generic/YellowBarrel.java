@@ -10,6 +10,7 @@ import com.hbm.tileentity.deco.TileEntityYellowBarrel;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -19,7 +20,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class YellowBarrel extends BlockContainer {
+public class YellowBarrel extends Block {
 	
 	Random rand = new Random();
 
@@ -27,15 +28,10 @@ public class YellowBarrel extends BlockContainer {
 		super(p_i45386_1_);
 	}
 
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityYellowBarrel();
-	}
-
     @Override
 	public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_)
     {
-        if (!p_149723_1_.isRemote)
+        if (!p_149723_1_.isRemote && this == ModBlocks.yellow_barrel)
         {
         	explode(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_);
         }
@@ -54,7 +50,7 @@ public class YellowBarrel extends BlockContainer {
 	
 	@Override
 	public int getRenderType(){
-		return -1;
+		return 334081;
 	}
 	
 	@Override
@@ -65,12 +61,6 @@ public class YellowBarrel extends BlockContainer {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconregister) {
-		this.blockIcon = iconregister.registerIcon(RefStrings.MODID + ":yellow_barrel");
 	}
 	
 	@Override
@@ -99,7 +89,7 @@ public class YellowBarrel extends BlockContainer {
     {
         super.randomDisplayTick(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_, p_149734_5_);
 
-        p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat(), p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat(), 0.0D, 0.0D, 0.0D);
+        p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat() * 0.5F + 0.25F, p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat() * 0.5F + 0.25F, 0.0D, 0.0D, 0.0D);
     }
 	
     @Override

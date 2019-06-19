@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.misc.SoyuzPronter;
+import com.hbm.render.misc.TomPronter;
 import com.hbm.render.model.ModelCalBarrel;
 import com.hbm.render.model.ModelCalDualStock;
 import com.hbm.render.model.ModelCalStock;
@@ -110,7 +111,8 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));*/
         //stock.renderAll(1F/16F);
         
-        SoyuzPronter.prontSoyuz();
+        //SoyuzPronter.prontSoyuz();
+        TomPronter.prontTom();
 
         GL11.glPopMatrix();
     }

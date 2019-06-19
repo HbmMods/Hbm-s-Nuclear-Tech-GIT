@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import com.hbm.tileentity.deco.TileEntityDecoSteelPoles;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,20 +11,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class DecoSteelPoles extends BlockContainer {
+public class DecoSteelPoles extends Block {
 
 	public DecoSteelPoles(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
-
-	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityDecoSteelPoles();
-	}
 	
 	@Override
 	public int getRenderType(){
-		return -1;
+		return 334079;
 	}
 	
 	@Override

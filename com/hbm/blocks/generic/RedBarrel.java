@@ -1,5 +1,10 @@
 package com.hbm.blocks.generic;
 
+import java.util.Random;
+
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.explosion.ExplosionThermo;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.bomb.TileEntityRedBarrel;
 
@@ -17,7 +22,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class RedBarrel extends BlockContainer {
+public class RedBarrel extends Block {
 
 	public RedBarrel(Material p_i45394_1_) {
 		super(p_i45394_1_);
@@ -35,7 +40,7 @@ public class RedBarrel extends BlockContainer {
 	@Override
 	public void onNeighborBlockChange(World p_149695_1_, int x, int y, int z, Block p_149695_5_)
     {
-        if (p_149695_1_.getBlock(x + 1, y, z) == Blocks.fire || p_149695_1_.getBlock(x - 1, y, z) == Blocks.fire || p_149695_1_.getBlock(x, y + 1, z) == Blocks.fire || p_149695_1_.getBlock(x, y - 1, z) == Blocks.fire || p_149695_1_.getBlock(x, y, z + 1) == Blocks.fire || p_149695_1_.getBlock(x, y, z - 1) == Blocks.fire)
+        if ((this == ModBlocks.red_barrel || this == ModBlocks.pink_barrel) && p_149695_1_.getBlock(x + 1, y, z) == Blocks.fire || p_149695_1_.getBlock(x - 1, y, z) == Blocks.fire || p_149695_1_.getBlock(x, y + 1, z) == Blocks.fire || p_149695_1_.getBlock(x, y - 1, z) == Blocks.fire || p_149695_1_.getBlock(x, y, z + 1) == Blocks.fire || p_149695_1_.getBlock(x, y, z - 1) == Blocks.fire)
         {
         	if(!p_149695_1_.isRemote)
         		explode(p_149695_1_, x, y, z);
@@ -44,12 +49,35 @@ public class RedBarrel extends BlockContainer {
 	
 	public void explode(World p_149695_1_, int x, int y, int z) {
 
-		p_149695_1_.newExplosion((Entity)null, x + 0.5F, y + 0.5F, z + 0.5F, 2.5F, true, true);
+		if(this == ModBlocks.red_barrel || this == ModBlocks.pink_barrel)
+			p_149695_1_.newExplosion((Entity)null, x + 0.5F, y + 0.5F, z + 0.5F, 2.5F, true, true);
+		
+		if(this == ModBlocks.lox_barrel) {
+
+			p_149695_1_.newExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 1F, false, false);
+			
+    		ExplosionThermo.freeze(p_149695_1_, x, y, z, 7);
+		}
+		
+		if(this == ModBlocks.taint_barrel) {
+
+			p_149695_1_.newExplosion(null, x + 0.5F, y + 0.5F, z + 0.5F, 1F, false, false);
+			
+			Random rand = p_149695_1_.rand;
+		    for(int i = 0; i < 100; i++) {
+		    	int a = rand.nextInt(9) - 4 + x;
+		    	int b = rand.nextInt(9) - 4 + y;
+		    	int c = rand.nextInt(9) - 4 + z;
+		           if(p_149695_1_.getBlock(a, b, c).isReplaceable(p_149695_1_, a, b, c) && BlockTaint.hasPosNeightbour(p_149695_1_, a, b, c)) {
+		        	   p_149695_1_.setBlock(a, b, c, ModBlocks.taint, rand.nextInt(3) + 4, 2);
+		           }
+		    }
+		}
 	}
 	
 	@Override
 	public int getRenderType(){
-		return -1;
+		return 334081;
 	}
 	
 	@Override
@@ -60,18 +88,6 @@ public class RedBarrel extends BlockContainer {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
-	}
-	
-	
-	@Override
-	public TileEntity createNewTileEntity(World var1, int var2) {
-		return new TileEntityRedBarrel();
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconregister) {
-		this.blockIcon = iconregister.registerIcon(RefStrings.MODID + ":red_barrel");
 	}
 	
 	@Override
