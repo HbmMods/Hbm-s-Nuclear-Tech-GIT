@@ -1656,7 +1656,11 @@ tile.det_cord.name=Det Cord
 tile.det_charge.name=Explosive Charge
 tile.det_nuke.name=Nuclear Charge
 tile.red_barrel.name=Explosive Barrel
+tile.pink_barrel.name=Kerosene Barrel
+tile.lox_barrel.name=LOX Barrel
+tile.taint_barrel.name=IMP Residue Barrel
 tile.yellow_barrel.name=Radioactive Barrel
+tile.vitrified_barrel.name=Vitrified Nuclear Waste Drum
 
 item.designator.name=Short Range Target Designator
 item.designator_range.name=Long Range Target Designator

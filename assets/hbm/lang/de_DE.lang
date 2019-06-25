@@ -1656,7 +1656,11 @@ tile.det_cord.name=Det Cord
 tile.det_charge.name=Sprengladung
 tile.det_nuke.name=Atomare Sprengladung
 tile.red_barrel.name=Explosives Fass
+tile.pink_barrel.name=Kerosinfass
+tile.lox_barrel.name=LOX-Fass
+tile.taint_barrel.name=IMP-Rückstandsfass
 tile.yellow_barrel.name=Radioaktives Fass
+tile.vitrified_barrel.name=Fass voll vitrifiziertem Atommüll
 
 item.designator.name=Kurzdistanz Zielmarkierer
 item.designator_range.name=Weitstrecken-Zielmarkierer

@@ -2,23 +2,19 @@ package com.hbm.entity.logic;
 
 import org.apache.logging.log4j.Level;
 
-import com.hbm.entity.effect.EntityFalloutRain;
-import com.hbm.explosion.ExplosionBalefire;
-import com.hbm.explosion.ExplosionFleija;
-import com.hbm.explosion.ExplosionNukeAdvanced;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionSolinium;
+import com.hbm.explosion.ExplosionTom;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class EntityBalefire extends Entity {
+public class EntityTomBlast extends Entity {
 	
 	public int age = 0;
 	public int destructionRange = 0;
-	public ExplosionBalefire exp;
+	public ExplosionTom exp;
 	public int speed = 1;
 	public boolean did = false;
 
@@ -28,9 +24,8 @@ public class EntityBalefire extends Entity {
 		destructionRange = nbt.getInteger("destructionRange");
 		speed = nbt.getInteger("speed");
 		did = nbt.getBoolean("did");
-		
     	
-		exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
+		exp = new ExplosionTom((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
 		exp.readFromNbt(nbt, "exp_");
     	
     	this.did = true;
@@ -49,7 +44,7 @@ public class EntityBalefire extends Entity {
 		
 	}
 
-	public EntityBalefire(World p_i1582_1_) {
+	public EntityTomBlast(World p_i1582_1_) {
 		super(p_i1582_1_);
 	}
 
@@ -60,9 +55,9 @@ public class EntityBalefire extends Entity {
         if(!this.did)
         {
     		if(MainRegistry.enableExtendedLogging && !worldObj.isRemote)
-    			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized BF explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
+    			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized TOM explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
     		
-        	exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
+        	exp = new ExplosionTom((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);
         	
         	this.did = true;
         }

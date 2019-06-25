@@ -33,6 +33,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -51,6 +52,10 @@ public class ModEventHandlerClient {
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+		if(player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+			if(player.ticksExisted > 5 * 60 * 20)
+				Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
 		
 		if(event.type == ElementType.HOTBAR && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
 			
@@ -123,12 +128,6 @@ public class ModEventHandlerClient {
 	public void clickHandler(MouseEvent event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-
-		if(event.button == 0 && player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
-			if(player.worldObj.rand.nextInt(2) == 0)
-				Minecraft.getMinecraft().gameSettings.limitFramerate = 10;
-			else
-				Minecraft.getMinecraft().gameSettings.limitFramerate = 60;
 		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
 			

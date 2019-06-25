@@ -111,8 +111,8 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));*/
         //stock.renderAll(1F/16F);
         
-        //SoyuzPronter.prontSoyuz();
-        TomPronter.prontTom();
+        SoyuzPronter.prontSoyuz();
+        //TomPronter.prontTom();
 
         GL11.glPopMatrix();
     }
