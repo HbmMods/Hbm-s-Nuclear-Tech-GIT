@@ -732,6 +732,16 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("Metal sheets and metal bolts, reinforced with metal.");
 		}
+		
+		if(this == ModItems.ingot_asbestos)
+		{
+			list.add(EnumChatFormatting.ITALIC + "\"Filled with life, self-doubt and asbestos. That comes with the air.\"");
+		}
+		
+		if(this == ModItems.ingot_fiberglass)
+		{
+			list.add("High in fiber, high in glass. Everything the body needs.");
+		}
 	}
 
     @Override

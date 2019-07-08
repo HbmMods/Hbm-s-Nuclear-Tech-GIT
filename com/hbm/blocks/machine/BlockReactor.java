@@ -100,6 +100,11 @@ public class BlockReactor extends Block {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":fwatz_cooler_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":fwatz_cooler");
 		}
+		if(this == ModBlocks.block_fiberglass)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_fiberglass_top");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_fiberglass_side");
+		}
 	}
 
 	@Override

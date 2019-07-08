@@ -180,6 +180,9 @@ public class ModItems {
 	
 	public static Item ingot_dura_steel;
 	public static Item ingot_polymer;
+	
+	public static Item ingot_fiberglass;
+	public static Item ingot_asbestos;
 
 	public static Item ingot_lanthanium;
 	public static Item ingot_actinium;
@@ -1212,6 +1215,7 @@ public class ModItems {
 	public static Item loop_stew;
 	public static Item fooditem;
 	public static Item twinkie;
+	public static Item static_sandwich;
 
 	public static Item med_ipecac;
 	public static Item med_ptsd;
@@ -1847,6 +1851,8 @@ public class ModItems {
 		ingot_starmetal = new ItemCustomLore().setUnlocalizedName("ingot_starmetal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_starmetal");
 		ingot_saturnite = new ItemCustomLore().setUnlocalizedName("ingot_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_saturnite");
 		plate_saturnite = new ItemCustomLore().setUnlocalizedName("plate_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_saturnite");
+		ingot_fiberglass = new ItemCustomLore().setUnlocalizedName("ingot_fiberglass").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_fiberglass");
+		ingot_asbestos = new ItemCustomLore().setUnlocalizedName("ingot_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_asbestos");
 
 		ingot_lanthanium = new ItemCustomLore().setUnlocalizedName("ingot_lanthanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_lanthanium");
 		ingot_actinium = new ItemCustomLore().setUnlocalizedName("ingot_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_actinium");
@@ -2863,6 +2869,7 @@ public class ModItems {
 		loop_stew = new ItemLemon(10, 10, false).setUnlocalizedName("loop_stew").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":loop_stew");
 		fooditem = new ItemLemon(2, 5, false).setUnlocalizedName("fooditem").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":fooditem");
 		twinkie = new ItemLemon(3, 5, false).setUnlocalizedName("twinkie").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":twinkie");
+		static_sandwich = new ItemLemon(6, 5, false).setUnlocalizedName("static_sandwich").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":static_sandwich");
 		canteen_13 = new ItemCanteen(1 * 60 * 20).setUnlocalizedName("canteen_13").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_13");
 		canteen_vodka = new ItemCanteen(3 * 60 * 20).setUnlocalizedName("canteen_vodka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_vodka");
 		
@@ -3502,6 +3509,8 @@ public class ModItems {
 		GameRegistry.registerItem(lithium, lithium.getUnlocalizedName());
 		GameRegistry.registerItem(solid_fuel, solid_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rocket_fuel, rocket_fuel.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_fiberglass, ingot_fiberglass.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_asbestos, ingot_asbestos.getUnlocalizedName());
 		GameRegistry.registerItem(coke, coke.getUnlocalizedName());
 		GameRegistry.registerItem(lignite, lignite.getUnlocalizedName());
 		GameRegistry.registerItem(briquette_lignite, briquette_lignite.getUnlocalizedName());
@@ -4841,6 +4850,7 @@ public class ModItems {
 		GameRegistry.registerItem(loop_stew, loop_stew.getUnlocalizedName());
 		GameRegistry.registerItem(fooditem, fooditem.getUnlocalizedName());
 		GameRegistry.registerItem(twinkie, twinkie.getUnlocalizedName());
+		GameRegistry.registerItem(static_sandwich, static_sandwich.getUnlocalizedName());
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		//GameRegistry.registerItem(med_schizophrenia, med_schizophrenia.getUnlocalizedName());

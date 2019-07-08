@@ -45,7 +45,7 @@ public class EntityTom extends EntityThrowable {
     			tom.posX = posX;
     			tom.posY = posY;
     			tom.posZ = posZ;
-    			tom.destructionRange = 250;
+    			tom.destructionRange = 500;
     			worldObj.spawnEntityInWorld(tom);
     		}
     		this.setDead();

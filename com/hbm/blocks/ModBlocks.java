@@ -90,6 +90,7 @@ public class ModBlocks {
 	public static Block ore_oil_empty;
 	public static Block ore_oil_sand;
 	public static Block ore_lignite;
+	public static Block ore_asbestos;
 
 	public static Block ore_tikite;
 
@@ -117,6 +118,8 @@ public class ModBlocks {
 	public static Block block_desh;
 	public static Block block_starmetal;
 	public static Block block_yellowcake;
+	public static Block block_fiberglass;
+	public static Block block_asbestos;
 
 	public static Block block_australium;
 	public static Block block_weidanium;
@@ -132,6 +135,7 @@ public class ModBlocks {
 	public static Block deco_steel;
 	public static Block deco_lead;
 	public static Block deco_beryllium;
+	public static Block deco_asbestos;
 
 	public static Block hazmat;
 
@@ -730,6 +734,7 @@ public class ModBlocks {
 		ore_schrabidium = new BlockOre(Material.rock, 0.1F, 0.5F).setBlockName("ore_schrabidium").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":ore_schrabidium");
 		ore_beryllium = new BlockGeneric(Material.rock).setBlockName("ore_beryllium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_beryllium");
 		ore_lignite = new BlockOre(Material.rock).setBlockName("ore_lignite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_lignite");
+		ore_asbestos = new BlockOre(Material.rock).setBlockName("ore_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_asbestos");
 
 		ore_nether_uranium = new BlockOre(Material.rock).setBlockName("ore_nether_uranium").setCreativeTab(MainRegistry.blockTab).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_uranium");
 		ore_nether_plutonium = new BlockGeneric(Material.rock).setBlockName("ore_nether_plutonium").setCreativeTab(MainRegistry.blockTab).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_nether_plutonium");
@@ -787,6 +792,8 @@ public class ModBlocks {
 		block_desh = new BlockGeneric(Material.iron).setBlockName("block_desh").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_desh");
 		block_starmetal = new BlockGeneric(Material.iron).setBlockName("block_starmetal").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_starmetal");
 		block_yellowcake = new BlockFallingRad(Material.sand, 0.5F, 3F).setBlockName("block_yellowcake").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_yellowcake");
+		block_fiberglass = new BlockReactor(Material.cloth).setBlockName("block_fiberglass").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F);
+		block_asbestos = new BlockGeneric(Material.cloth).setBlockName("block_asbestos").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_asbestos");
 
 		block_australium = new BlockGeneric(Material.iron).setBlockName("block_australium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_australium");
 		block_weidanium = new BlockGeneric(Material.iron).setBlockName("block_weidanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_weidanium");
@@ -802,6 +809,7 @@ public class ModBlocks {
 		deco_steel = new BlockOre(Material.iron).setBlockName("deco_steel").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel");
 		deco_lead = new BlockOre(Material.iron).setBlockName("deco_lead").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_lead");
 		deco_beryllium = new BlockOre(Material.iron).setBlockName("deco_beryllium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_beryllium");
+		deco_asbestos = new BlockOre(Material.iron).setBlockName("deco_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_asbestos");
 		
 		hazmat = new BlockGeneric(Material.cloth).setBlockName("hazmat").setStepSound(Block.soundTypeCloth).setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":hazmat");
 		
@@ -1274,6 +1282,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_oil_empty, ore_oil_empty.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil_sand, ore_oil_sand.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_lignite, ore_lignite.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_asbestos, ore_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_schrabidium, ItemSchrabidiumBlock.class, ore_schrabidium.getUnlocalizedName());
 		
 		//Rare Minerals
@@ -1326,6 +1335,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_yellowcake, block_yellowcake.getUnlocalizedName());
 		GameRegistry.registerBlock(block_scrap, block_scrap.getUnlocalizedName());
 		GameRegistry.registerBlock(block_electrical_scrap, block_electrical_scrap.getUnlocalizedName());
+		GameRegistry.registerBlock(block_fiberglass, block_fiberglass.getUnlocalizedName());
+		GameRegistry.registerBlock(block_asbestos, block_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(block_trinitite, block_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste, block_waste.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidium, ItemSchrabidiumBlock.class, block_schrabidium.getUnlocalizedName());
@@ -1348,6 +1359,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(deco_steel, deco_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_lead, deco_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_beryllium, deco_beryllium.getUnlocalizedName());
+		GameRegistry.registerBlock(deco_asbestos, deco_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(hazmat, hazmat.getUnlocalizedName());
 		
 		//Gravel
