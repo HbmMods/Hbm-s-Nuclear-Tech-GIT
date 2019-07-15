@@ -66,6 +66,15 @@ public class ItemEnergy extends Item {
                 player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 1));
                 player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 30 * 20, 2));
         	}
+        	if(this == ModItems.can_bepis)
+        	{
+                player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 3));
+                player.addPotionEffect(new PotionEffect(Potion.resistance.id, 30 * 20, 3));
+        	}
+        	if(this == ModItems.can_breen)
+        	{
+                player.addPotionEffect(new PotionEffect(Potion.confusion.id, 30 * 20, 0));
+        	}
         	if(this == ModItems.chocolate_milk)
         	{
         		ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 50, true, false, false);
@@ -153,7 +162,8 @@ public class ItemEnergy extends Item {
         {
         	if(this == ModItems.can_creature || this == ModItems.can_mrsugar || 
         			this == ModItems.can_overcharge || this == ModItems.can_redbomb || 
-        			this == ModItems.can_smart || this == ModItems.can_luna) {
+        			this == ModItems.can_smart || this == ModItems.can_luna || 
+        			this == ModItems.can_bepis || this == ModItems.can_breen) {
             	player.inventory.addItemStackToInventory(new ItemStack(ModItems.ring_pull));
         		if (stack.stackSize <= 0)
             	{
@@ -260,7 +270,8 @@ public class ItemEnergy extends Item {
     	if(!(this == ModItems.can_creature || this == ModItems.can_mrsugar || 
     			this == ModItems.can_overcharge || this == ModItems.can_redbomb || 
     			this == ModItems.can_smart || this == ModItems.chocolate_milk || 
-    			this == ModItems.can_luna))
+    			this == ModItems.can_luna || this == ModItems.can_bepis || 
+    			this == ModItems.can_breen))
     		if(!p_77659_3_.inventory.hasItem(ModItems.bottle_opener))
     			return p_77659_1_;
     	
@@ -296,6 +307,15 @@ public class ItemEnergy extends Item {
     	if(this == ModItems.can_luna)
     	{
             list.add("Contains actual selenium and star metal. Tastes like night.");
+    	}
+    	if(this == ModItems.can_bepis)
+    	{
+            list.add("beppp");
+    	}
+    	if(this == ModItems.can_breen)
+    	{
+            list.add("Don't drink the water. They put something in it, to make you forget.");
+            list.add("I don't even know how I got here.");
     	}
     	if(this == ModItems.chocolate_milk)
     	{

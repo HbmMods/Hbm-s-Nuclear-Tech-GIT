@@ -38,6 +38,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -533,6 +534,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMultiblock.class, "tileentity_multi_core");
 		GameRegistry.registerTileEntity(TileEntityChlorineSeal.class, "tileentity_chlorine_seal");
 		GameRegistry.registerTileEntity(TileEntityCableSwitch.class, "tileentity_he_switch");
+		GameRegistry.registerTileEntity(TileEntitySoyuzLauncher.class, "tileentity_soyuz_launcher");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1496,6 +1498,8 @@ public class MainRegistry
 		proxy.registerMissileItems();
 	}
 	
+	public static List<String> templateBlacklist = new ArrayList();
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -1745,24 +1749,15 @@ public class MainRegistry
         ciwsHitrate = propRadarAltitude.getInt();
 
         final String CATEGORY_POTION = "08_potion_effects";
-        Property propTaintID = config.get(CATEGORY_POTION, "8.00_taintPotionID", 62);
-        propTaintID.comment = "What potion ID the taint effect will have";
-        taintID = propTaintID.getInt();
-        Property propRadiationID = config.get(CATEGORY_POTION, "8.01_radiationPotionID", 63);
-        propRadiationID.comment = "What potion ID the radiation effect will have";
-        radiationID = propRadiationID.getInt();
-        Property propBangID = config.get(CATEGORY_POTION, "8.02_bangPotionID", 64);
-        propBangID.comment = "What potion ID the B93 timebomb effect will have";
-        bangID = propBangID.getInt();
-        Property propMutationID = config.get(CATEGORY_POTION, "8.03_mutationPotionID", 65);
-        propMutationID.comment = "What potion ID the taint mutation effect will have";
-        mutationID = propMutationID.getInt();
-        Property propRadxID = config.get(CATEGORY_POTION, "8.04_radxPotionID", 66);
-        propRadxID.comment = "What potion ID the Rad-X effect will have";
-        radxID = propRadxID.getInt();
-        Property propLeadID = config.get(CATEGORY_POTION, "8.05_leadPotionID", 67);
-        propLeadID.comment = "What potion ID the lead poisoning effect will have";
-        leadID = propLeadID.getInt();
+        taintID = createConfigInt(config, CATEGORY_POTION, "8.00_taintPotionID", "What potion ID the taint effect will have", 62);
+        radiationID = createConfigInt(config, CATEGORY_POTION, "8.01_radiationPotionID", "What potion ID the radiation effect will have", 63);
+        bangID = createConfigInt(config, CATEGORY_POTION, "8.02_bangPotionID", "What potion ID the B93 timebomb effect will have", 64);
+        mutationID = createConfigInt(config, CATEGORY_POTION, "8.03_mutationPotionID", "What potion ID the taint mutation effect will have", 65);
+        radxID = createConfigInt(config, CATEGORY_POTION, "8.04_radxPotionID", "What potion ID the Rad-X effect will have", 66);
+        leadID = createConfigInt(config, CATEGORY_POTION, "8.05_leadPotionID", "What potion ID the lead poisoning effect will have", 67);
+
+        final String CATEGORY_MACHINE = "09_machines";
+        templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));
         
         config.save();
         
@@ -1800,5 +1795,19 @@ public class MainRegistry
 		}
 		
 		return value;
+	}
+	
+	private static int createConfigInt(Configuration config, String category, String name, String comment, int def) {
+
+        Property prop = config.get(category, name, def);
+        prop.comment = comment;
+        return prop.getInt();
+	}
+	
+	private static String[] createConfigStringList(Configuration config, String category, String name, String comment) {
+
+        Property prop = config.get(category, name, new String[] { "PLACEHOLDER" } );
+        prop.comment = comment;
+        return prop.getStringList();
 	}
 }

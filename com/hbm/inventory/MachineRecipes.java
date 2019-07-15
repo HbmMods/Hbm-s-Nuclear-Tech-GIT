@@ -5177,10 +5177,10 @@ public class MachineRecipes {
 			input[0] = new FluidStack(600, FluidType.PETROLEUM);
         	break;
     	case SF_BIOGAS:
-			input[0] = new FluidStack(400, FluidType.BIOGAS);
+			input[0] = new FluidStack(3500, FluidType.BIOGAS);
         	break;
     	case SF_BIOFUEL:
-			input[0] = new FluidStack(300, FluidType.BIOFUEL);
+			input[0] = new FluidStack(1500, FluidType.BIOFUEL);
         	break;
         case POLYMER:
 			input[0] = new FluidStack(600, FluidType.PETROLEUM);

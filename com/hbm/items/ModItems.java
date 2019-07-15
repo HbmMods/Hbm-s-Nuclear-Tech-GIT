@@ -614,6 +614,8 @@ public class ModItems {
 	public static Item can_mrsugar;
 	public static Item can_overcharge;
 	public static Item can_luna;
+	public static Item can_bepis;
+	public static Item can_breen;
 	public static Item bottle_empty;
 	public static Item bottle_nuka;
 	public static Item bottle_cherry;
@@ -636,6 +638,34 @@ public class ModItems {
 	public static Item cap_sunset;
 	public static Item cap_star;
 	public static Item ring_pull;
+	public static Item canned_beef;
+	public static Item canned_tuna;
+	public static Item canned_mystery;
+	public static Item canned_pashtet;
+	public static Item canned_cheese;
+	public static Item canned_jizz;
+	public static Item canned_milk;
+	public static Item canned_ass;
+	public static Item canned_pizza;
+	public static Item canned_tube;
+	public static Item canned_tomato;
+	public static Item canned_asbestos;
+	public static Item canned_bhole;
+	public static Item canned_hotdogs;
+	public static Item canned_leftovers;
+	public static Item canned_yogurt;
+	public static Item canned_stew;
+	public static Item canned_chinese;
+	public static Item canned_oil;
+	public static Item canned_fist;
+	public static Item canned_spam;
+	public static Item canned_fried;
+	public static Item canned_napalm;
+	public static Item canned_diesel;
+	public static Item canned_kerosene;
+	public static Item canned_recursion;
+	public static Item canned_bark;
+	public static Item can_key;
 
 	public static Item rod_empty;
 	public static Item rod_uranium;
@@ -2288,6 +2318,8 @@ public class ModItems {
 		can_mrsugar = new ItemEnergy().setUnlocalizedName("can_mrsugar").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_mrsugar");
 		can_overcharge = new ItemEnergy().setUnlocalizedName("can_overcharge").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_overcharge");
 		can_luna = new ItemEnergy().setUnlocalizedName("can_luna").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_luna");
+		can_bepis = new ItemEnergy().setUnlocalizedName("can_bepis").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_bepis");;
+		can_breen = new ItemEnergy().setUnlocalizedName("can_breen").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_breen");
 		bottle_empty = new Item().setUnlocalizedName("bottle_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle_empty");
 		bottle_nuka = new ItemEnergy().setUnlocalizedName("bottle_nuka").setContainerItem(ModItems.bottle_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle_nuka");
 		bottle_cherry = new ItemEnergy().setUnlocalizedName("bottle_cherry").setContainerItem(ModItems.bottle_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bottle_cherry");
@@ -2310,6 +2342,36 @@ public class ModItems {
 		cap_sunset = new Item().setUnlocalizedName("cap_sunset").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sunset");
 		cap_star = new Item().setUnlocalizedName("cap_star").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_star");
 		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ring_pull");
+
+		canned_beef = new ItemLemon(8, 5, false).setUnlocalizedName("canned_beef").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_beef");
+		canned_tuna = new ItemLemon(4, 5, false).setUnlocalizedName("canned_tuna").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_tuna");
+		canned_mystery = new ItemLemon(6, 5, false).setUnlocalizedName("canned_mystery").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_mystery");
+		canned_pashtet = new ItemLemon(4, 5, false).setUnlocalizedName("canned_pashtet").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_pashtet");
+		canned_cheese = new ItemLemon(3, 5, false).setUnlocalizedName("canned_cheese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_cheese");
+		canned_jizz = new ItemLemon(15, 5, false).setUnlocalizedName("canned_jizz").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_jizz");
+		canned_milk = new ItemLemon(5, 5, false).setUnlocalizedName("canned_milk").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_milk");
+		canned_ass = new ItemLemon(6, 5, false).setUnlocalizedName("canned_ass").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_ass");
+		canned_pizza = new ItemLemon(8, 5, false).setUnlocalizedName("canned_pizza").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_pizza");
+		canned_tube = new ItemLemon(2, 5, false).setUnlocalizedName("canned_tube").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_tube");
+		canned_tomato = new ItemLemon(4, 5, false).setUnlocalizedName("canned_tomato").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_tomato");
+		canned_asbestos = new ItemLemon(7, 5, false).setUnlocalizedName("canned_asbestos").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_asbestos");
+		canned_bhole = new ItemLemon(10, 5, false).setUnlocalizedName("canned_bhole").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_bhole");
+		canned_hotdogs = new ItemLemon(5, 5, false).setUnlocalizedName("canned_hotdogs").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_hotdogs");
+		canned_leftovers = new ItemLemon(1, 5, false).setUnlocalizedName("canned_leftovers").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_leftovers");
+		canned_yogurt = new ItemLemon(3, 5, false).setUnlocalizedName("canned_yogurt").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_yogurt");
+		canned_stew = new ItemLemon(5, 5, false).setUnlocalizedName("canned_stew").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_stew");
+		canned_chinese = new ItemLemon(6, 5, false).setUnlocalizedName("canned_chinese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_chinese");
+		canned_oil = new ItemLemon(3, 5, false).setUnlocalizedName("canned_oil").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_oil");
+		canned_fist = new ItemLemon(6, 5, false).setUnlocalizedName("canned_fist").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_fist");
+		canned_spam = new ItemLemon(8, 5, false).setUnlocalizedName("canned_spam").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_spam");
+		canned_fried = new ItemLemon(10, 5, false).setUnlocalizedName("canned_fried").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_fried");
+		canned_napalm = new ItemLemon(6, 5, false).setUnlocalizedName("canned_napalm").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_napalm");
+		canned_diesel = new ItemLemon(6, 5, false).setUnlocalizedName("canned_diesel").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_diesel");
+		canned_kerosene = new ItemLemon(6, 5, false).setUnlocalizedName("canned_kerosene").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_kerosene");
+		canned_recursion = new ItemLemon(1, 5, false).setUnlocalizedName("canned_recursion").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_recursion");
+		canned_bark = new ItemLemon(2, 5, false).setUnlocalizedName("canned_bark").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned_bark");
+		can_key = new Item().setUnlocalizedName("can_key").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_key");
+		
 
 		recycled_ground = new Item().setUnlocalizedName("recycled_ground").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_ground");
 		recycled_rock = new Item().setUnlocalizedName("recycled_rock").setCreativeTab(null).setTextureName(RefStrings.MODID + ":recycled_rock");
@@ -4865,6 +4927,8 @@ public class ModItems {
 		GameRegistry.registerItem(can_mrsugar, can_mrsugar.getUnlocalizedName());
 		GameRegistry.registerItem(can_overcharge, can_overcharge.getUnlocalizedName());
 		GameRegistry.registerItem(can_luna, can_luna.getUnlocalizedName());
+		GameRegistry.registerItem(can_bepis, can_bepis.getUnlocalizedName());
+		GameRegistry.registerItem(can_breen, can_breen.getUnlocalizedName());
 		
 		//Cola
 		GameRegistry.registerItem(bottle_empty, bottle_empty.getUnlocalizedName());
@@ -4881,6 +4945,35 @@ public class ModItems {
 		GameRegistry.registerItem(bottle2_sunset, bottle2_sunset.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_opener, bottle_opener.getUnlocalizedName());
 		
+		//Canned Food
+		GameRegistry.registerItem(canned_beef, canned_beef.getUnlocalizedName());
+		GameRegistry.registerItem(canned_tuna, canned_tuna.getUnlocalizedName());
+		GameRegistry.registerItem(canned_mystery, canned_mystery.getUnlocalizedName());
+		GameRegistry.registerItem(canned_pashtet, canned_pashtet.getUnlocalizedName());
+		GameRegistry.registerItem(canned_cheese, canned_cheese.getUnlocalizedName());
+		GameRegistry.registerItem(canned_jizz, canned_jizz.getUnlocalizedName());
+		GameRegistry.registerItem(canned_milk, canned_milk.getUnlocalizedName());
+		GameRegistry.registerItem(canned_ass, canned_ass.getUnlocalizedName());
+		GameRegistry.registerItem(canned_pizza, canned_pizza.getUnlocalizedName());
+		GameRegistry.registerItem(canned_tube, canned_tube.getUnlocalizedName());
+		GameRegistry.registerItem(canned_tomato, canned_tomato.getUnlocalizedName());
+		GameRegistry.registerItem(canned_asbestos, canned_asbestos.getUnlocalizedName());
+		GameRegistry.registerItem(canned_bhole, canned_bhole.getUnlocalizedName());
+		GameRegistry.registerItem(canned_hotdogs, canned_hotdogs.getUnlocalizedName());
+		GameRegistry.registerItem(canned_leftovers, canned_leftovers.getUnlocalizedName());
+		GameRegistry.registerItem(canned_yogurt, canned_yogurt.getUnlocalizedName());
+		GameRegistry.registerItem(canned_stew, canned_stew.getUnlocalizedName());
+		GameRegistry.registerItem(canned_chinese, canned_chinese.getUnlocalizedName());
+		GameRegistry.registerItem(canned_oil, canned_oil.getUnlocalizedName());
+		GameRegistry.registerItem(canned_fist, canned_fist.getUnlocalizedName());
+		GameRegistry.registerItem(canned_spam, canned_spam.getUnlocalizedName());
+		GameRegistry.registerItem(canned_fried, canned_fried.getUnlocalizedName());
+		GameRegistry.registerItem(canned_napalm, canned_napalm.getUnlocalizedName());
+		GameRegistry.registerItem(canned_diesel, canned_diesel.getUnlocalizedName());
+		GameRegistry.registerItem(canned_kerosene, canned_kerosene.getUnlocalizedName());
+		GameRegistry.registerItem(canned_recursion, canned_recursion.getUnlocalizedName());
+		GameRegistry.registerItem(canned_bark, canned_bark.getUnlocalizedName());
+		
 		//Money
 		GameRegistry.registerItem(cap_nuka, cap_nuka.getUnlocalizedName());
 		GameRegistry.registerItem(cap_quantum, cap_quantum.getUnlocalizedName());
@@ -4891,6 +4984,7 @@ public class ModItems {
 		GameRegistry.registerItem(cap_sunset, cap_sunset.getUnlocalizedName());
 		GameRegistry.registerItem(cap_star, cap_star.getUnlocalizedName());
 		GameRegistry.registerItem(ring_pull, ring_pull.getUnlocalizedName());
+		GameRegistry.registerItem(can_key, can_key.getUnlocalizedName());
 		
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());

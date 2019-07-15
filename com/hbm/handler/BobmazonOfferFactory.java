@@ -133,7 +133,8 @@ public class BobmazonOfferFactory {
 		weapons.add(new Offer(new ItemStack(ModItems.ammo_20gauge_flechette, 6), Requirement.OIL, 22));
 		weapons.add(new Offer(new ItemStack(ModItems.grenade_if_generic, 3), Requirement.CHEMICS, 15));
 		weapons.add(new Offer(new ItemStack(ModItems.grenade_if_he, 3), Requirement.CHEMICS, 25));
-		
+
+		tools.add(new Offer(new ItemStack(ModBlocks.crate_can, 1), Requirement.STEEL, 20));
 		tools.add(new Offer(new ItemStack(ModBlocks.machine_keyforge), Requirement.STEEL, 10));
 		tools.add(new Offer(new ItemStack(ModBlocks.machine_telelinker), Requirement.CHEMICS, 35));
 		tools.add(new Offer(new ItemStack(ModBlocks.machine_satlinker), Requirement.CHEMICS, 50));
@@ -189,6 +190,7 @@ public class BobmazonOfferFactory {
 		special.add(new Offer(new ItemStack(ModItems.loot_10, 1), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.loot_15, 1), Requirement.STEEL, 5));
 		special.add(new Offer(new ItemStack(ModItems.loot_misc, 1), Requirement.STEEL, 5));
+		special.add(new Offer(new ItemStack(ModBlocks.crate_can, 1), Requirement.STEEL, 2));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {

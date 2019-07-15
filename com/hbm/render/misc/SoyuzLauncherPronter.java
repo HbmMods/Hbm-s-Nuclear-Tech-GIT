@@ -11,6 +11,8 @@ public class SoyuzLauncherPronter {
 
 	
 	public static void prontLauncher() {
+		
+		int rot = 0;//(int) (System.currentTimeMillis() / 20 % 45);
 
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -25,14 +27,24 @@ public class SoyuzLauncherPronter {
 		tex.bindTexture(ResourceManager.soyuz_launcher_tower_base_tex);
 		ResourceManager.soyuz_launcher_tower_base.renderAll();
 
-		tex.bindTexture(ResourceManager.soyuz_launcher_tower_tex);
-		ResourceManager.soyuz_launcher_tower.renderAll();
+		GL11.glPushMatrix();
+			tex.bindTexture(ResourceManager.soyuz_launcher_tower_tex);
+			GL11.glTranslated(0, 5.5, 5.5);
+			GL11.glRotated(rot, 1, 0, 0);
+			GL11.glTranslated(0, -5.5, -5.5);
+			ResourceManager.soyuz_launcher_tower.renderAll();
+		GL11.glPopMatrix();
 
 		tex.bindTexture(ResourceManager.soyuz_launcher_support_base_tex);
 		ResourceManager.soyuz_launcher_support_base.renderAll();
 
-		tex.bindTexture(ResourceManager.soyuz_launcher_support_tex);
-		ResourceManager.soyuz_launcher_support.renderAll();
+		GL11.glPushMatrix();
+			tex.bindTexture(ResourceManager.soyuz_launcher_support_tex);
+			GL11.glTranslated(0, 5.5, -6.5);
+			GL11.glRotated(rot, -1, 0, 0);
+			GL11.glTranslated(0, -5.5, 6.5);
+			ResourceManager.soyuz_launcher_support.renderAll();
+		GL11.glPopMatrix();
 		
 		GL11.glPopMatrix();
 	}

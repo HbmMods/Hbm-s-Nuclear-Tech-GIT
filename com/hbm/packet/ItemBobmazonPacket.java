@@ -121,7 +121,7 @@ public class ItemBobmazonPacket implements IMessage {
 				}
 				
 			} else {
-				p.addChatMessage(new ChatComponentText("[BOBMAZON] Requirements not met!"));
+				p.addChatMessage(new ChatComponentText("[BOBMAZON] Achievement requirement not met!"));
 			}
 			
 			return null;
