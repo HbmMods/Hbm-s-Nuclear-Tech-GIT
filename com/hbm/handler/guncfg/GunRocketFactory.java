@@ -2,11 +2,18 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 
 public class GunRocketFactory {
 	
@@ -30,6 +37,7 @@ public class GunRocketFactory {
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
 		config.firingSound = "hbm:weapon.rpgShoot";
 		config.reloadSound = GunConfiguration.RSOUND_LAUNCHER;
+		config.reloadSoundEnd = false;
 		
 		config.name = "Carl Gustav Recoilless Rifle M1";
 		config.manufacturer = "Saab Bofors Dynamics";
@@ -235,8 +243,20 @@ public class GunRocketFactory {
 		bullet.gravity = 0.000D;
 		bullet.ricochetAngle = 90;
 		bullet.LBRC = 100;
-		bullet.destroysWood = true;
 		bullet.doesPenetrate = true;
+		
+		bullet.bRicochet = new IBulletRicochetBehavior() {
+			
+			public void behaveBlockRicochet(EntityBulletBase bullet, int bX, int bY, int bZ) {
+				World worldObj = bullet.worldObj;
+				if(!worldObj.isRemote && 
+						(worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.wood ||
+						worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.plants ||
+						worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.glass ||
+						worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.leaves))
+					worldObj.func_147480_a(bX, bY, bZ, false);}
+			
+		};
 		
 		return bullet;
 	}

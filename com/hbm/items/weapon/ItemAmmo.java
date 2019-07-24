@@ -83,6 +83,10 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Boat");
 			list.add(EnumChatFormatting.RED + "- Highly decreased damage");
 		}
+		if(this == ModItems.ammo_44_rocket) {
+			list.add(EnumChatFormatting.BLUE + "+ Rocket");
+			list.add(EnumChatFormatting.YELLOW + "* Uhhhh");
+		}
 		
 		//5mm
 		if(this == ModItems.ammo_5mm_explosive) {
@@ -106,6 +110,10 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_9mm_rocket) {
+			list.add(EnumChatFormatting.BLUE + "+ Rocket");
+			list.add(EnumChatFormatting.YELLOW + "* Uhhhh");
+		}
 		
 		//.22LR
 		if(this == ModItems.ammo_22lr_ap) {
@@ -124,6 +132,17 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		if(this == ModItems.ammo_50bmg_du) {
+			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		
+		//.50 AE
+		if(this == ModItems.ammo_50ae_ap) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_50ae_du) {
 			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");

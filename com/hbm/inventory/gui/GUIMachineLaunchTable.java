@@ -47,7 +47,7 @@ public class GUIMachineLaunchTable extends GuiInfoContainer {
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 25, guiTop + 98, 18, 18, new String[] { "Size 15 & 15/20" });
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 43, guiTop + 98, 18, 18, new String[] { "Size 20" });
 
-		String[] text = new String[] { "Acepts custom missiles", "of all sizes, as long as the", "correct size setting is selected." };
+		String[] text = new String[] { "Accepts custom missiles", "of all sizes, as long as the", "correct size setting is selected." };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, text);
 		
 		String[] text1 = new String[] { "Detonator can only trigger center block." };

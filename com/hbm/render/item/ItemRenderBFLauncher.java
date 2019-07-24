@@ -41,11 +41,11 @@ public class ItemRenderBFLauncher implements IItemRenderer {
 			GL11.glPushMatrix();
 				GL11.glEnable(GL11.GL_CULL_FACE);
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/BFLauncher.png"));
-				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
-				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
+				GL11.glRotatef(-150.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glTranslatef(-0.6F, -0.1F, -0.2F);
 				//GL11.glScalef(2.0F, 2.0F, 2.0F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
@@ -60,7 +60,7 @@ public class ItemRenderBFLauncher implements IItemRenderer {
 				GL11.glRotatef(-5.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(0.5F, -0.2F, 0.0F);
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, item);
 			GL11.glPopMatrix();
 		default: break;
 		}

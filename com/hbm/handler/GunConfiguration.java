@@ -22,7 +22,7 @@ public class GunConfiguration {
 	public int gunMode;
 	//0 = manual, 1 = automatic
 	public int firingMode;
-	//weapon won't fire after weapon breaks
+	//weapon won't fire after weapon breaks (main only)
 	public int durability;
 	
 	//whether or not there is a reload delay animation
@@ -46,6 +46,8 @@ public class GunConfiguration {
 	//sound path to the shooting sound
 	public String firingSound = "";
 	public float firingPitch = 1.0F;
+	//whether the reload sound should be played at the beginning or at the end of the reload
+	public boolean reloadSoundEnd = true;
 	
 	//how much ammo the clip can hold, 0 if drawn from inventory
 	public int ammoCap;
@@ -80,6 +82,7 @@ public class GunConfiguration {
 	public static final String RSOUND_SHOTGUN = "hbm:weapon.shotgunReload";
 	public static final String RSOUND_LAUNCHER = "hbm:weapon.rpgReload";
 	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";
+	public static final String RSOUND_FATMAN = "hbm:weapon.fatmanReload";
 	
 	public GunConfiguration silenced() {
 		this.firingSound = "hbm:weapon.silencerShoot";

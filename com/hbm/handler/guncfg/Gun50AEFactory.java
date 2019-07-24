@@ -30,6 +30,7 @@ public class Gun50AEFactory {
 		config.crosshair = Crosshair.L_CLASSIC;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
+		config.reloadSoundEnd = false;
 		
 		return config;
 	}
@@ -41,7 +42,7 @@ public class Gun50AEFactory {
 		config.durability = 2500;
 		
 		config.name = "IMI Desert Eagle";
-		config.manufacturer = "	Magnum Research / Israel Military Industries";
+		config.manufacturer = "Magnum Research / Israel Military Industries";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.AE50_NORMAL);

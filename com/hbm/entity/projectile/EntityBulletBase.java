@@ -346,6 +346,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(this.ticksExisted > config.maxAge)
 			this.setDead();
+		
+		if(worldObj.isRemote && !config.vPFX.isEmpty()) {
+			for (i = 0; i < 8; ++i) {
+				this.worldObj.spawnParticle(config.vPFX, this.posX - this.motionX * i / 1.0D, this.posY - this.motionY * i / 1.0D, this.posZ - this.motionZ * i / 1.0D, 0, 0, 0);
+			}
+		}
 
 		//this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
 		//this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
@@ -353,6 +359,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	
 	//for when a bullet dies by hitting a block
 	private void onBlockImpact(int bX, int bY, int bZ) {
+		
+		if(config.bImpact != null)
+			config.bImpact.behaveBlockHit(this, bX, bY, bZ);
 		
 		if(!worldObj.isRemote)
 			this.setDead();
@@ -453,19 +462,17 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	//for when a bullet dies by hitting a block
 	private void onRicochet(int bX, int bY, int bZ) {
 		
-		if(!worldObj.isRemote && config.destroysWood &&
-				(worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.wood ||
-				worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.plants ||
-				worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.glass ||
-				worldObj.getBlock(bX, bY, bZ).getMaterial() == Material.leaves))
-			worldObj.func_147480_a(bX, bY, bZ, false);
-		
+		if(config.bRicochet != null)
+			config.bRicochet.behaveBlockRicochet(this, bX, bY, bZ);
 	}
 	
 	//for when a bullet dies by hitting an entity
 	private void onEntityImpact(Entity e) {
 		onEntityHurt(e);
 		onBlockImpact(-1, -1, -1);
+		
+		if(config.bHit != null)
+			config.bHit.behaveEntityHit(this, e);
 		
 		if(config.boxcar && !worldObj.isRemote) {
 			EntityBoxcar pippo = new EntityBoxcar(worldObj);
@@ -504,6 +511,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	
 	//for when a bullet hurts an entity, not necessarily dying
 	private void onEntityHurt(Entity e) {
+		
+		if(config.bHurt != null)
+			config.bHurt.behaveEntityHurt(this, e);
 		
 		if(config.incendiary > 0 && !worldObj.isRemote) {
 			e.setFire(config.incendiary);

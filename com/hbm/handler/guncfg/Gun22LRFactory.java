@@ -31,6 +31,7 @@ public class Gun22LRFactory {
 		config.durability = 3000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.uziShoot";
+		config.reloadSoundEnd = false;
 		
 		config.name = "IMI Uzi";
 		config.manufacturer = "Israel Military Industries";

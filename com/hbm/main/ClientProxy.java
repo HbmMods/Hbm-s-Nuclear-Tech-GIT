@@ -5,6 +5,7 @@ import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -32,6 +33,8 @@ import com.hbm.render.item.*;
 import com.hbm.render.misc.MissilePart;
 import com.hbm.render.tileentity.*;
 import com.hbm.render.util.HmfModelLoader;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.sound.AudioWrapperClient;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -523,6 +526,14 @@ public class ClientProxy extends ServerProxy
 			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.2F, 0.7F, 0.2F, 1F);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
+	}
+	
+	@Override
+	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) {
+		
+		AudioWrapperClient audio = new AudioWrapperClient(new ResourceLocation(sound));
+		audio.updatePosition(x, y, z);
+		return audio;
 	}
 }
 

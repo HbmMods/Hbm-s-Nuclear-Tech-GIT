@@ -8,9 +8,12 @@ package com.hbm.render.model;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunBase;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 
 public class ModelBFLauncher extends ModelBase {
 	// fields
@@ -203,8 +206,7 @@ public class ModelBFLauncher extends ModelBase {
 		setRotation(Shape20, 0F, 0F, 0F);
 	}
 
-	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5, ItemStack item) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		Shape1.render(f5);
@@ -231,14 +233,18 @@ public class ModelBFLauncher extends ModelBase {
 		Shape31.render(f5);
 		Shape32.render(f5);
 		Shape33.render(f5);
-		Shape13.render(f5);
-		Shape14.render(f5);
-		Shape15.render(f5);
-		Shape16.render(f5);
-		Shape17.render(f5);
-		Shape18.render(f5);
-		Shape19.render(f5);
-		Shape20.render(f5);
+
+		int ammo = ItemGunBase.getMag(item);
+		if(ammo > 0) {
+			Shape13.render(f5);
+			Shape14.render(f5);
+			Shape15.render(f5);
+			Shape16.render(f5);
+			Shape17.render(f5);
+			Shape18.render(f5);
+			Shape19.render(f5);
+			Shape20.render(f5);
+		}
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

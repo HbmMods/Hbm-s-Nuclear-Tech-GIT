@@ -30,6 +30,7 @@ public class Gun44MagnumFactory {
 		config.crosshair = Crosshair.L_CLASSIC;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
+		config.reloadSoundEnd = false;
 		
 		return config;
 	}
@@ -47,6 +48,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
@@ -65,6 +67,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
@@ -84,6 +87,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
@@ -104,6 +108,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
+		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
 	}
@@ -169,6 +174,18 @@ public class Gun44MagnumFactory {
 		bullet.boat = true;
 		bullet.wear = 25;
 		bullet.doesPenetrate = false;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_44_rocket;
+		bullet.velocity = 5;
+		bullet.explosive = 15F;
+		bullet.trail = 1;
 		
 		return bullet;
 	}

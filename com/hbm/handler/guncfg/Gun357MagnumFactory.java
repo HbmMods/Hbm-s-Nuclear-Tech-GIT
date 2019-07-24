@@ -33,6 +33,7 @@ public class Gun357MagnumFactory {
 		config.crosshair = Crosshair.L_CLASSIC;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.revolverShoot";
+		config.reloadSoundEnd = false;
 		
 		return config;
 	}

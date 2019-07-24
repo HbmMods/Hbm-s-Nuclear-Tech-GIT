@@ -2,6 +2,11 @@ package com.hbm.handler;
 
 import java.util.List;
 
+import com.hbm.interfaces.IBulletHitBehavior;
+import com.hbm.interfaces.IBulletHurtBehavior;
+import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletRicochetBehavior;
+
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 
@@ -62,9 +67,12 @@ public class BulletConfiguration {
 	public int caustic;
 	public boolean boxcar;
 	public boolean boat;
-	public boolean destroysWood;
 	public boolean destroysBlocks;
 	public boolean instakill;
+	public IBulletHurtBehavior bHurt;
+	public IBulletHitBehavior bHit;
+	public IBulletRicochetBehavior bRicochet;
+	public IBulletImpactBehavior bImpact;
 	
 	//appearance
 	public int style;
@@ -72,6 +80,8 @@ public class BulletConfiguration {
 	public int trail;
 	//ricochet sound type
 	public int plink;
+	//vanilla particle FX
+	public String vPFX = "";
 
 	public static final int STYLE_NORMAL = 0;
 	public static final int STYLE_FLECHETTE = 1;
@@ -83,6 +93,7 @@ public class BulletConfiguration {
 	public static final int STYLE_NUKE = 7;
 	public static final int STYLE_MIRV = 8;
 	public static final int STYLE_GRENADE = 9;
+	public static final int STYLE_BF = 10;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;

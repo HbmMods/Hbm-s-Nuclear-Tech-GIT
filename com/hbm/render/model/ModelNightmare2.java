@@ -12,6 +12,7 @@ import com.hbm.items.weapon.ItemGunBase;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 
@@ -231,6 +232,23 @@ public class ModelNightmare2 extends ModelBase {
 			Bullet5.render(f5);
 		if(ammo > 5)
 			Bullet6.render(f5);
+		
+		GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LIGHTING);
+
+        Tessellator tessellator = Tessellator.instance;
+        int color = 0xFF0000;
+
+        tessellator.startDrawing(3);
+        tessellator.setColorOpaque_I(color);
+        tessellator.addVertex(-19F / 16F, -3F / 16F, -1F / 16F);
+        tessellator.addVertex(-150, 0, 0);
+        tessellator.draw();
+        
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glPopMatrix();
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

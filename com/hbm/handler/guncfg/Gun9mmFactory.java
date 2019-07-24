@@ -31,6 +31,7 @@ public class Gun9mmFactory {
 		config.durability = 2500;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.rifleShoot";
+		config.reloadSoundEnd = false;
 		
 		config.name = "Maschinenpistole 40";
 		config.manufacturer = "Erfurter Maschinenfabrik Geipel";
@@ -39,6 +40,7 @@ public class Gun9mmFactory {
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.P9_AP);
 		config.config.add(BulletConfigSyncingUtil.P9_DU);
+		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
 		
 		return config;
 	}
@@ -80,6 +82,18 @@ public class Gun9mmFactory {
 		bullet.dmgMax = 8;
 		bullet.leadChance = 50;
 		bullet.wear = 25;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get9mmRocketConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_9mm_rocket;
+		bullet.velocity = 5;
+		bullet.explosive = 7.5F;
+		bullet.trail = 5;
 		
 		return bullet;
 	}

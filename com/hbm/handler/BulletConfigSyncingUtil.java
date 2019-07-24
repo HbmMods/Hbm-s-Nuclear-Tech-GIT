@@ -80,10 +80,12 @@ public class BulletConfigSyncingUtil {
 	public static final int M44_DU = 0x62;
 	public static final int M44_PIP = 0x63;
 	public static final int M44_BJ = 0x64;
+	public static final int M44_ROCKET = 0x65;
 
 	public static final int P9_NORMAL = 0x70;
 	public static final int P9_AP = 0x71;
 	public static final int P9_DU = 0x72;
+	public static final int P9_ROCKET = 0x73;
 
 	public static final int BMG50_NORMAL = 0x80;
 	public static final int BMG50_INCENDIARY = 0x81;
@@ -100,6 +102,23 @@ public class BulletConfigSyncingUtil {
 	public static final int AE50_NORMAL = 0xA0;
 	public static final int AE50_AP = 0xA1;
 	public static final int AE50_DU = 0xA2;
+
+	public static final int SPECIAL_OSIPR = 0xB0;
+	public static final int SPECIAL_GAUSS = 0xB1;
+	public static final int SPECIAL_GAUSS_CHARGED = 0xB2;
+
+	public static final int G20_NORMAL_FIRE = 0xC0;
+	public static final int G20_SLUG_FIRE = 0xC1;
+	public static final int G20_FLECHETTE_FIRE = 0xC2;
+	public static final int G20_EXPLOSIVE_FIRE = 0xC3;
+	public static final int G20_CAUSTIC_FIRE = 0xC4;
+	public static final int G20_SHOCK_FIRE = 0xC5;
+	public static final int G20_WITHER_FIRE = 0xC6;
+
+	public static final int NUKE_NORMAL = 0xD0;
+	public static final int NUKE_MIRV = 0xD1;
+	public static final int NUKE_AMAT = 0xD2;
+	public static final int NUKE_PROTO = 0xD3;
 	
 	public static void loadConfigsForSync() {
 		
@@ -158,10 +177,12 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipDUConfig(), M44_DU));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getPipConfig(), M44_PIP));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getBJConfig(), M44_BJ));
+		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getRocketConfig(), M44_ROCKET));
 
 		configSet.add(new ConfigKeyPair(Gun9mmFactory.get9mmConfig(), P9_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun9mmFactory.get9mmAPConfig(), P9_AP));
 		configSet.add(new ConfigKeyPair(Gun9mmFactory.get9mmDUConfig(), P9_DU));
+		configSet.add(new ConfigKeyPair(Gun9mmFactory.get9mmRocketConfig(), P9_ROCKET));
 
 		configSet.add(new ConfigKeyPair(Gun50BMGFactory.get50BMGConfig(), BMG50_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun50BMGFactory.get50BMGFireConfig(), BMG50_INCENDIARY));
@@ -178,6 +199,21 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50AEConfig(), AE50_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50APConfig(), AE50_AP));
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50DUConfig(), AE50_DU));
+
+		configSet.add(new ConfigKeyPair(GunOSIPRFactory.getPulseConfig(), SPECIAL_OSIPR));
+		configSet.add(new ConfigKeyPair(GunGaussFactory.getGaussConfig(), SPECIAL_GAUSS));
+		configSet.add(new ConfigKeyPair(GunGaussFactory.getAltConfig(), SPECIAL_GAUSS_CHARGED));
+
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeConfig().setToFire(3), G20_NORMAL_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeSlugConfig().setToFire(3), G20_SLUG_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeFlechetteConfig().setToFire(3), G20_FLECHETTE_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeExplosiveConfig().setToFire(3), G20_EXPLOSIVE_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeCausticConfig().setToFire(3), G20_CAUSTIC_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeShockConfig().setToFire(3), G20_SHOCK_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeWitherConfig().setToFire(3), G20_WITHER_FIRE));
+
+		configSet.add(new ConfigKeyPair(GunFatmanFactory.getNukeConfig(), NUKE_NORMAL));
+		configSet.add(new ConfigKeyPair(GunFatmanFactory.getNukeProtoConfig(), NUKE_PROTO));
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

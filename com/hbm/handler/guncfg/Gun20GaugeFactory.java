@@ -149,6 +149,32 @@ public class Gun20GaugeFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getBoltSaturniteConfig() {
+		
+		GunConfiguration config = getShotgunConfig();
+		
+		config.ammoCap = 1;
+		config.durability = 4000;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingSound = "hbm:weapon.revolverShoot";
+		config.firingPitch = 0.75F;
+		
+		config.name = "Winchester Model 20 D-25A";
+		config.manufacturer = "Winchester Repeating Arms Company / Big MT";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G20_SLUG_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_NORMAL_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHOCK_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_WITHER_FIRE);
+		
+		return config;
+	}
+	
 	public static BulletConfiguration get20GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();

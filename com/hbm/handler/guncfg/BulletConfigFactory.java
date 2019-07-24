@@ -142,5 +142,32 @@ public class BulletConfigFactory {
 		
 		return bullet;
 	}
+	
+	public static BulletConfiguration standardNukeConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 3.0F;
+		bullet.spread = 0.005F;
+		bullet.wear = 10;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.dmgMin = 1000;
+		bullet.dmgMax = 1000;
+		bullet.gravity = 0.025D;
+		bullet.maxAge = 300;
+		bullet.doesRicochet = false;
+		bullet.ricochetAngle = 0;
+		bullet.HBRC = 0;
+		bullet.LBRC = 0;
+		bullet.bounceMod = 1.0;
+		bullet.doesPenetrate = false;
+		bullet.doesBreakGlass = false;
+		bullet.nuke = 35;
+		bullet.style = BulletConfiguration.STYLE_NUKE;
+		bullet.plink = BulletConfiguration.PLINK_GRENADE;
+		
+		return bullet;
+	}
 
 }

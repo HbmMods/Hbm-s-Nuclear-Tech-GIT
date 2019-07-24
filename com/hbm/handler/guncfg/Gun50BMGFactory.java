@@ -31,6 +31,7 @@ public class Gun50BMGFactory {
 		config.durability = 2000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.calShoot";
+		config.reloadSoundEnd = false;
 		
 		config.name = "Maxim gun";
 		config.manufacturer = "Hiram Maxim";

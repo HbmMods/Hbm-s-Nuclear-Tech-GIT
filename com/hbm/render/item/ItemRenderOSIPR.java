@@ -46,7 +46,8 @@ public class ItemRenderOSIPR implements IItemRenderer {
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
 				//GL11.glScalef(2.0F, 2.0F, 2.0F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				GL11.glTranslatef(-0.4F, -0.1F, -0.1F);
+				GL11.glTranslatef(-0.4F, -0.2F, -0.1F);
+				GL11.glRotatef(-15.0F, 0.0F, 0.0F, 1.0F);
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;

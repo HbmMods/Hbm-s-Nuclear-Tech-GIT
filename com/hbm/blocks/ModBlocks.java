@@ -551,7 +551,7 @@ public class ModBlocks {
 	public static final int guiID_launch_table = 84;
 
 	public static Block soyuz_launcher;
-	public static final int guiID_soyuz_launcher = 85;
+	public static final int guiID_soyuz_launcher = 86;
 
 	public static Block machine_radar;
 	public static final int guiID_radar = 59;

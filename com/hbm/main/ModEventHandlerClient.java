@@ -139,12 +139,12 @@ public class ModEventHandlerClient {
 			if(event.button == 0 && !item.m1 && !item.m2) {
 				item.m1 = true;
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
-				//System.out.println("M1");
+				item.startActionClient(player.getHeldItem(), player.worldObj, player, true);
 			}
 			else if(event.button == 1 && !item.m2 && !item.m1) {
 				item.m2 = true;
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
-				//System.out.println("M2");
+				item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
 			}
 		}
 
