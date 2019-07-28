@@ -284,6 +284,8 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			} else
 				progress = 0;
 			
+			tryTemplateAuto();
+			
 			int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
 			TileEntity te = null;
 			if(meta == 2) {
@@ -299,29 +301,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 				te = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
 			}
 			
-			if(te != null && te instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te;
-				
-				tryFillContainer(chest, 5);
-			}
-			
-			if(te != null && te instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te;
-
-				tryFillContainer(hopper, 5);
-			}
-			
-			if(te != null && te instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
-
-				tryFillContainer(hopper, 5);
-			}
-			
-			if(te != null && te instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
-
-				tryFillContainer(hopper, 5);
-			}
+			tryFillContainer(te);
 			
 			te = null;
 			if(meta == 2) {
@@ -337,37 +317,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 				te = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 3);
 			}
 			
-			if(te != null && te instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te;
-				
-				for(int i = 0; i < chest.getSizeInventory(); i++)
-					if(tryFillAssembler(chest, i))
-						break;
-			}
-			
-			if(te != null && te instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te;
-
-				for(int i = 0; i < hopper.getSizeInventory(); i++)
-					if(tryFillAssembler(hopper, i))
-						break;
-			}
-			
-			if(te != null && te instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
-
-				for(int i = 0; i < hopper.getSizeInventory(); i++)
-					if(tryFillAssembler(hopper, i))
-						break;
-			}
-			
-			if(te != null && te instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
-
-				for(int i = 0; i < hopper.getSizeInventory(); i++)
-					if(tryFillAssembler(hopper, i))
-						break;
-			}
+			tryFillAssembler(te);
 
 			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, isProgressing));
 			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
@@ -376,6 +326,189 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		
 	}
 	
+	private void tryFillAssembler(TileEntity te) {
+		if(te != null && te instanceof TileEntityChest) {
+			TileEntityChest chest = (TileEntityChest)te;
+			
+			for(int i = 0; i < chest.getSizeInventory(); i++)
+				if(tryFillAssembler(chest, i))
+					break;
+		}
+		
+		if(te != null && te instanceof TileEntityHopper) {
+			TileEntityHopper hopper = (TileEntityHopper)te;
+
+			for(int i = 0; i < hopper.getSizeInventory(); i++)
+				if(tryFillAssembler(hopper, i))
+					break;
+		}
+		
+		if(te != null && te instanceof TileEntityCrateIron) {
+			TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+
+			for(int i = 0; i < hopper.getSizeInventory(); i++)
+				if(tryFillAssembler(hopper, i))
+					break;
+		}
+		
+		if(te != null && te instanceof TileEntityCrateSteel) {
+			TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+
+			for(int i = 0; i < hopper.getSizeInventory(); i++)
+				if(tryFillAssembler(hopper, i))
+					break;
+		}
+		
+	}
+
+	private void tryFillContainer(TileEntity te) {
+		if(te != null && te instanceof TileEntityChest) {
+			TileEntityChest chest = (TileEntityChest)te;
+			
+			tryFillContainer(chest, 5);
+		}
+		
+		if(te != null && te instanceof TileEntityHopper) {
+			TileEntityHopper hopper = (TileEntityHopper)te;
+
+			tryFillContainer(hopper, 5);
+		}
+		
+		if(te != null && te instanceof TileEntityCrateIron) {
+			TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+
+			tryFillContainer(hopper, 5);
+		}
+		
+		if(te != null && te instanceof TileEntityCrateSteel) {
+			TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+
+			tryFillContainer(hopper, 5);
+		}
+		
+		
+	}
+
+	public boolean tryTemplateAuto() {
+		
+		System.out.println("tried template auto");
+		
+		
+		int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
+		TileEntity te1 = null;
+		TileEntity te2 = null;
+		if(meta == 2) {
+			te1 = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
+			te2 = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
+		}
+		if(meta == 3) {
+			te1 = worldObj.getTileEntity(xCoord + 2, yCoord, zCoord);
+			te2 = worldObj.getTileEntity(xCoord - 3, yCoord, zCoord + 1);
+		}
+		if(meta == 4) {
+			te1 = worldObj.getTileEntity(xCoord, yCoord, zCoord + 2);
+			te2 = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord - 3);
+		}
+		if(meta == 5) {
+			te1 = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
+			te2 = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 3);
+		}
+		//te2 is chest that's filling it and te1 is the output.
+		boolean hasAutoTemplate = false;
+
+		if(te2 != null && te2 instanceof TileEntityChest) {
+			TileEntityChest chest = (TileEntityChest)te2;
+
+		
+				hasAutoTemplate = tryFillAssemblerT(chest);
+					
+						
+		}
+		
+		if(te2 != null && te2 instanceof TileEntityHopper) {
+			TileEntityHopper hopper = (TileEntityHopper)te2;
+
+			hasAutoTemplate = tryFillAssemblerT(hopper);
+		}
+		
+		if(te2 != null && te2 instanceof TileEntityCrateIron) {
+			TileEntityCrateIron hopper = (TileEntityCrateIron)te2;
+
+			hasAutoTemplate = tryFillAssemblerT(hopper);
+		}
+		
+		if(te2 != null && te2 instanceof TileEntityCrateSteel) {
+			TileEntityCrateSteel hopper = (TileEntityCrateSteel)te2;
+
+			hasAutoTemplate = tryFillAssemblerT(hopper);
+		}
+
+		if(te1 != null && te1 instanceof TileEntityChest && hasAutoTemplate) {
+			TileEntityChest chest = (TileEntityChest)te1;
+
+			tryFillContainer(chest, 4);
+			tryFillAssemblerTemplateSlot((IInventory)te2);
+		}
+		
+		if(te1 != null && te1 instanceof TileEntityHopper && hasAutoTemplate) {
+			TileEntityHopper hopper = (TileEntityHopper)te1;
+
+			tryFillContainer(hopper, 4);
+			tryFillAssemblerTemplateSlot((IInventory)te2);
+		}
+		
+		if(te1 != null && te1 instanceof TileEntityCrateIron && hasAutoTemplate) {
+			TileEntityCrateIron hopper = (TileEntityCrateIron)te1;
+
+			tryFillContainer(hopper, 4);
+			tryFillAssemblerTemplateSlot((IInventory)te2);
+		}
+		
+		if(te1 != null && te1 instanceof TileEntityCrateSteel && hasAutoTemplate) {
+			TileEntityCrateSteel hopper = (TileEntityCrateSteel)te1;
+
+			tryFillContainer(hopper, 4);
+			tryFillAssemblerTemplateSlot((IInventory)te2);
+		}
+		
+
+		return false;
+		
+	}
+
+	private boolean tryFillAssemblerT(IInventory inv) {
+		for(int i = 0; i < inv.getSizeInventory(); i++){
+			ItemStack stck = inv.getStackInSlot(i);
+			if(!(inv.getStackInSlot(i) == null) && stck.getItem() instanceof ItemAssemblyTemplate){
+				return true;
+				
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	public boolean tryFillAssemblerTemplateSlot(IInventory inv){
+		for(int i = 0; i < inv.getSizeInventory(); i++){
+			ItemStack stck = inv.getStackInSlot(i);
+			if(!(inv.getStackInSlot(i) == null) && stck.getItem() instanceof ItemAssemblyTemplate){
+				ItemStack copy = stck.copy();
+				if(this.slots[4] == null){
+				this.slots[4] = copy;
+				inv.setInventorySlotContents(i, null);;
+				} else {
+					return false;
+				}
+				return true;
+				
+			}
+			
+		}
+		
+		return false;
+	}
+
 	//I can't believe that worked.
 	public ItemStack[] cloneItemStackProper(ItemStack[] array) {
 		ItemStack[] stack = new ItemStack[array.length];
