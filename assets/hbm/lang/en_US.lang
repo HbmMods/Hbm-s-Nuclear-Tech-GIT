@@ -857,6 +857,10 @@ tile.seal_hatch.name=Silo Hatch
 tile.vault_door.name=Vault-Tec Blast Door
 tile.blast_door.name=Sliding Blast Door
 
+item.door_metal.name=Metal Door
+item.door_office.name=Office Door
+item.door_bunker.name=Bunker Door
+
 item.nugget_uranium.name=Uranium Nugget
 item.nugget_plutonium.name=Plutonium Nugget
 item.nugget_neptunium.name=Neptunium Nugget

@@ -5,6 +5,7 @@ package com.hbm.world;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.tool.ItemModDoor;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.TileEntityCrateSteel;
@@ -420,8 +421,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 5, y + 0, z + 4, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 4, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 4, Library.getRandomConcrete(), 0, 3);
-		world.setBlock(x + 8, y + 0, z + 4, Blocks.wooden_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 8, y + 0, z + 4, 3, Blocks.wooden_door);
+		world.setBlock(x + 8, y + 0, z + 4, ModBlocks.door_office, 3, 3);
+        ItemDoor.placeDoorBlock(world, x + 8, y + 0, z + 4, 3, ModBlocks.door_office);
 		world.setBlock(x + 9, y + 0, z + 4, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 10, y + 0, z + 4, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + 0, z + 5, Library.getRandomConcrete(), 0, 3);
@@ -464,8 +465,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 4, y + 0, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 0, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 8, Blocks.air, 0, 3);
-		world.setBlock(x + 7, y + 0, z + 8, Blocks.wooden_door, 2, 3);
-        ItemDoor.placeDoorBlock(world, x + 7, y + 0, z + 8, 2, Blocks.wooden_door);
+		world.setBlock(x + 7, y + 0, z + 8, ModBlocks.door_office, 2, 3);
+        ItemDoor.placeDoorBlock(world, x + 7, y + 0, z + 8, 2, ModBlocks.door_office);
 		world.setBlock(x + 8, y + 0, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 0, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 8, Library.getRandomConcrete(), 0, 3);
@@ -522,8 +523,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 4, y + 0, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 0, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 0, z + 13, Blocks.air, 0, 3);
-		world.setBlock(x + 7, y + 0, z + 13, Blocks.iron_door, 2, 3);
-        ItemDoor.placeDoorBlock(world, x + 7, y + 0, z + 13, 2, Blocks.iron_door);
+		world.setBlock(x + 7, y + 0, z + 13, ModBlocks.door_metal, 2, 3);
+        ItemDoor.placeDoorBlock(world, x + 7, y + 0, z + 13, 2, ModBlocks.door_office);
 		world.setBlock(x + 8, y + 0, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 0, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 13, Library.getRandomConcrete(), 0, 3);
@@ -560,8 +561,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 8, y + 0, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 0, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 16, Library.getRandomConcrete(), 0, 3);
-		world.setBlock(x + 0, y + 0, z + 17, Blocks.iron_door, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 0, y + 0, z + 17, 0, Blocks.iron_door);
+		world.setBlock(x + 0, y + 0, z + 17, ModBlocks.door_metal, 0, 3);
+        ItemDoor.placeDoorBlock(world, x + 0, y + 0, z + 17, 0, ModBlocks.door_metal);
 		world.setBlock(x - 1, y + 1, z + 17, Blocks.wall_sign, 4, 3);
 		world.setBlock(x + 1, y + 0, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 0, z + 17, Blocks.air, 0, 3);
@@ -573,8 +574,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 8, y + 0, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 0, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 0, z + 17, Library.getRandomConcrete(), 0, 3);
-		world.setBlock(x + 0, y + 0, z + 18, Blocks.iron_door, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 0, y + 0, z + 18, 0, Blocks.iron_door);
+		world.setBlock(x + 0, y + 0, z + 18, ModBlocks.door_metal, 0, 3);
+        ItemDoor.placeDoorBlock(world, x + 0, y + 0, z + 18, 0, ModBlocks.door_metal);
 		world.setBlock(x - 1, y + 1, z + 18, Blocks.wall_sign, 4, 3);
 		world.setBlock(x + 1, y + 0, z + 18, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 0, z + 18, Blocks.air, 0, 3);
@@ -632,8 +633,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 10, y + 0, z + 22, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + 0, z + 23, Blocks.air, 0, 3);
 		world.setBlock(x + 1, y + 0, z + 23, Blocks.air, 0, 3);
-		world.setBlock(x + 2, y + 0, z + 23, Blocks.wooden_door, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 2, y + 0, z + 23, 0, Blocks.wooden_door);
+		world.setBlock(x + 2, y + 0, z + 23, ModBlocks.door_metal, 0, 3);
+        ItemDoor.placeDoorBlock(world, x + 2, y + 0, z + 23, 0, ModBlocks.door_metal);
 		world.setBlock(x + 3, y + 0, z + 23, Blocks.air, 0, 3);
 		world.setBlock(x + 4, y + 0, z + 23, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 0, z + 23, ModBlocks.deco_steel, 0, 3);
@@ -718,7 +719,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 5, y + 1, z + 4, Blocks.stone_stairs, 5, 3);
 		world.setBlock(x + 6, y + 1, z + 4, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 4, Library.getRandomConcrete(), 0, 3);
-		//world.setBlock(x + 8, y + 1, z + 4, Blocks.wooden_door, 8, 3);
+		//world.setBlock(x + 8, y + 1, z + 4, ModBlocks.door_office, 8, 3);
 		world.setBlock(x + 9, y + 1, z + 4, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 10, y + 1, z + 4, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + 1, z + 5, Library.getRandomConcrete(), 0, 3);
@@ -761,7 +762,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 4, y + 1, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 1, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 1, z + 8, Blocks.air, 0, 3);
-		//world.setBlock(x + 7, y + 1, z + 8, Blocks.wooden_door, 8, 3);
+		//world.setBlock(x + 7, y + 1, z + 8, ModBlocks.door_office, 8, 3);
 		world.setBlock(x + 8, y + 1, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 1, z + 8, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 1, z + 8, Library.getRandomConcrete(), 0, 3);
@@ -816,7 +817,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 4, y + 1, z + 13, ModBlocks.deco_tungsten, 0, 3);
 		world.setBlock(x + 5, y + 1, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 1, z + 13, Blocks.air, 0, 3);
-		//world.setBlock(x + 7, y + 1, z + 13, Blocks.iron_door, 8, 3);
+		//world.setBlock(x + 7, y + 1, z + 13, ModBlocks.door_metal, 8, 3);
 		world.setBlock(x + 8, y + 1, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 1, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 1, z + 13, Library.getRandomConcrete(), 0, 3);
@@ -853,7 +854,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 8, y + 1, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 1, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 1, z + 16, Library.getRandomConcrete(), 0, 3);
-		//world.setBlock(x + 0, y + 1, z + 17, Blocks.iron_door, 8, 3);
+		//world.setBlock(x + 0, y + 1, z + 17, ModBlocks.door_metal, 8, 3);
 		world.setBlock(x + 1, y + 1, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 1, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 3, y + 1, z + 17, Blocks.air, 0, 3);
@@ -864,7 +865,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 8, y + 1, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 1, z + 17, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 1, z + 17, Library.getRandomConcrete(), 0, 3);
-		//world.setBlock(x + 0, y + 1, z + 18, Blocks.iron_door, 9, 3);
+		//world.setBlock(x + 0, y + 1, z + 18, ModBlocks.door_metal, 9, 3);
 		world.setBlock(x + 1, y + 1, z + 18, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 1, z + 18, Blocks.air, 0, 3);
 		world.setBlock(x + 3, y + 1, z + 18, Blocks.air, 0, 3);
@@ -921,7 +922,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 10, y + 1, z + 22, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + 1, z + 23, Blocks.air, 0, 3);
 		world.setBlock(x + 1, y + 1, z + 23, Blocks.air, 0, 3);
-		//world.setBlock(x + 2, y + 1, z + 23, Blocks.wooden_door, 8, 3);
+		//world.setBlock(x + 2, y + 1, z + 23, ModBlocks.door_office, 8, 3);
 		world.setBlock(x + 3, y + 1, z + 23, Blocks.air, 0, 3);
 		world.setBlock(x + 4, y + 1, z + 23, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 1, z + 23, ModBlocks.deco_steel, 0, 3);
@@ -1614,8 +1615,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 0, y + 4, z + 7, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 1, y + 4, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 4, z + 7, Blocks.air, 0, 3);
-		world.setBlock(x + 3, y + 4, z + 7, Blocks.iron_door, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 3, y + 4, z + 7, 0, Blocks.iron_door);
+		world.setBlock(x + 3, y + 4, z + 7, ModBlocks.door_metal, 0, 3);
+        ItemDoor.placeDoorBlock(world, x + 3, y + 4, z + 7, 0, ModBlocks.door_office);
 		world.setBlock(x + 4, y + 4, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 4, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 4, z + 7, Blocks.air, 0, 3);
@@ -1671,7 +1672,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 1, y + 4, z + 12, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 4, z + 12, Blocks.air, 0, 3);
 		//world.setBlock(x + 3, y + 4, z + 12, Blocks.air, 0, 3);
-        ItemDoor.placeDoorBlock(world, x + 3, y + 4, z + 12, 0, Blocks.iron_door);
+        ItemDoor.placeDoorBlock(world, x + 3, y + 4, z + 12, 0, ModBlocks.door_office);
 		world.setBlock(x + 4, y + 4, z + 12, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 4, z + 12, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 4, z + 12, Blocks.air, 0, 3);
@@ -1684,7 +1685,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 2, y + 4, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 3, y + 4, z + 13, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + 4, z + 13, Blocks.air, 0, 3);
-        //ItemDoor.placeDoorBlock(world, x + 4, y + 4, z + 13, 2, Blocks.iron_door);
+        //ItemDoor.placeDoorBlock(world, x + 4, y + 4, z + 13, 2, ModBlocks.door_metal);
 		world.setBlock(x + 5, y + 4, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 4, z + 13, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 4, z + 13, Blocks.air, 0, 3);
@@ -1717,8 +1718,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 10, y + 4, z + 15, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + 4, z + 16, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 1, y + 4, z + 16, Library.getRandomConcrete(), 0, 3);
-		world.setBlock(x + 2, y + 4, z + 16, Blocks.wooden_door, 5, 3);
-        ItemDoor.placeDoorBlock(world, x + 2, y + 4, z + 16, 5, Blocks.wooden_door);
+		world.setBlock(x + 2, y + 4, z + 16, ModBlocks.door_office, 5, 3);
+        ItemDoor.placeDoorBlock(world, x + 2, y + 4, z + 16, 5, ModBlocks.door_office);
 		world.setBlock(x + 3, y + 4, z + 16, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + 4, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 4, z + 16, Blocks.air, 0, 3);
@@ -1765,8 +1766,8 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 2, y + 4, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 3, y + 4, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + 4, z + 20, Library.getRandomConcrete(), 0, 3);
-		world.setBlock(x + 5, y + 4, z + 20, Blocks.iron_door, 3, 3);
-        ItemDoor.placeDoorBlock(world, x + 5, y + 4, z + 20, 3, Blocks.iron_door);
+		world.setBlock(x + 5, y + 4, z + 20, ModBlocks.door_metal, 3, 3);
+        ItemDoor.placeDoorBlock(world, x + 5, y + 4, z + 20, 3, ModBlocks.door_metal);
 		world.setBlock(x + 6, y + 4, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 4, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 8, y + 4, z + 20, Library.getRandomConcrete(), 0, 3);
@@ -1907,7 +1908,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 0, y + 5, z + 7, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 1, y + 5, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 5, z + 7, Blocks.air, 0, 3);
-		//world.setBlock(x + 3, y + 5, z + 7, Blocks.iron_door, 8, 3);
+		//world.setBlock(x + 3, y + 5, z + 7, ModBlocks.door_metal, 8, 3);
 		world.setBlock(x + 4, y + 5, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 5, z + 7, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + 5, z + 7, Blocks.air, 0, 3);
@@ -2005,7 +2006,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 10, y + 5, z + 15, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + 5, z + 16, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 1, y + 5, z + 16, Library.getRandomConcrete(), 0, 3);
-		//world.setBlock(x + 2, y + 5, z + 16, Blocks.wooden_door, 8, 3);
+		//world.setBlock(x + 2, y + 5, z + 16, ModBlocks.door_office, 8, 3);
 		world.setBlock(x + 3, y + 5, z + 16, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + 5, z + 16, Blocks.air, 0, 3);
 		world.setBlock(x + 5, y + 5, z + 16, Blocks.air, 0, 3);
@@ -2052,7 +2053,7 @@ public class Radio01 extends WorldGenerator
 		world.setBlock(x + 2, y + 5, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 3, y + 5, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 4, y + 5, z + 20, Library.getRandomConcrete(), 0, 3);
-		//world.setBlock(x + 5, y + 5, z + 20, Blocks.iron_door, 8, 3);
+		//world.setBlock(x + 5, y + 5, z + 20, ModBlocks.door_metal, 8, 3);
 		world.setBlock(x + 6, y + 5, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 7, y + 5, z + 20, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 8, y + 5, z + 20, Library.getRandomConcrete(), 0, 3);

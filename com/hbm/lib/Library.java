@@ -1379,13 +1379,13 @@ public class Library {
 	}
 	
 	public static Block getRandomConcrete() {
-		int i = rand.nextInt(100);
+		int i = rand.nextInt(20);
 
-		if(i < 5)
+		if(i <= 1)
 			return ModBlocks.brick_concrete_broken;
-		if(i < 20)
+		if(i <= 4)
 			return ModBlocks.brick_concrete_cracked;
-		if(i < 50)
+		if(i <= 10)
 			return ModBlocks.brick_concrete_mossy;
 		
 		return ModBlocks.brick_concrete;
