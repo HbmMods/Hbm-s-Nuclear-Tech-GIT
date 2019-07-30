@@ -857,6 +857,10 @@ tile.seal_hatch.name=Siloluke (Deckel)
 tile.vault_door.name=Vault-Tec Sprengtür
 tile.blast_door.name=Abschluss-Sprengtür
 
+item.door_metal.name=Metalltür
+item.door_office.name=Bürotür
+item.door_bunker.name=Bunkertür
+
 item.nugget_uranium.name=Urannugget
 item.nugget_plutonium.name=Plutoniumnugget
 item.nugget_neptunium.name=Neptuniumnugget

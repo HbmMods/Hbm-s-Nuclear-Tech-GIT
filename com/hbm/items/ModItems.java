@@ -1655,6 +1655,10 @@ public class ModItems {
 	public static Item bucket_mud;
 	public static Item bucket_acid;
 	public static Item bucket_toxic;
+
+	public static Item door_metal;
+	public static Item door_office;
+	public static Item door_bunker;
 	
 	public static Item record_lc;
 	public static Item record_ss;
@@ -3368,6 +3372,10 @@ public class ModItems {
 		bucket_mud = new ItemModBucket(ModBlocks.mud_block).setUnlocalizedName("bucket_mud").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_mud");
 		bucket_acid = new ItemModBucket(ModBlocks.acid_block).setUnlocalizedName("bucket_acid").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_acid");
 		bucket_toxic = new ItemModBucket(ModBlocks.toxic_block).setUnlocalizedName("bucket_toxic").setContainerItem(Items.bucket).setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":bucket_toxic");
+
+		door_metal = new ItemModDoor().setUnlocalizedName("door_metal").setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":door_metal");
+		door_office = new ItemModDoor().setUnlocalizedName("door_office").setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":door_office");
+		door_bunker = new ItemModDoor().setUnlocalizedName("door_bunker").setCreativeTab(MainRegistry.blockTab).setTextureName(RefStrings.MODID + ":door_bunker");
 
 		record_lc = new ItemModRecord("lc").setUnlocalizedName("record_lc").setCreativeTab(CreativeTabs.tabMisc).setTextureName(RefStrings.MODID + ":record_lc");
 		record_ss = new ItemModRecord("ss").setUnlocalizedName("record_ss").setCreativeTab(CreativeTabs.tabMisc).setTextureName(RefStrings.MODID + ":record_ss");
@@ -5186,6 +5194,11 @@ public class ModItems {
 		GameRegistry.registerItem(bucket_mud, bucket_mud.getUnlocalizedName());
 		GameRegistry.registerItem(bucket_acid, bucket_acid.getUnlocalizedName());
 		GameRegistry.registerItem(bucket_toxic, bucket_toxic.getUnlocalizedName());
+		
+		//Door Items
+		GameRegistry.registerItem(door_metal, door_metal.getUnlocalizedName());
+		GameRegistry.registerItem(door_office, door_office.getUnlocalizedName());
+		GameRegistry.registerItem(door_bunker, door_bunker.getUnlocalizedName());
 		
 		//Records
 		GameRegistry.registerItem(record_lc, record_lc.getUnlocalizedName());

@@ -248,6 +248,10 @@ public class ModBlocks {
 	public static Block vault_door;
 	public static Block blast_door;
 
+	public static Block door_metal;
+	public static Block door_office;
+	public static Block door_bunker;
+
 	public static Block barbed_wire;
 	public static Block barbed_wire_fire;
 	public static Block barbed_wire_poison;
@@ -703,6 +707,11 @@ public class ModBlocks {
 	public static Block dummy_plate_cargo;
 
 	public static Block ntm_dirt;
+
+	public static Block pink_log;
+	public static Block pink_planks;
+	public static Block pink_slab;
+	public static Block pink_stairs;
 	
 	public static Block ff;
 	
@@ -1073,7 +1082,11 @@ public class ModBlocks {
 		
 		vault_door = new VaultDoor(Material.iron).setBlockName("vault_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":vault_door");
 		blast_door = new BlastDoor(Material.iron).setBlockName("blast_door").setHardness(10.0F).setResistance(10000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":blast_door");
-		
+
+		door_metal = new BlockModDoor(Material.iron).setBlockName("door_metal").setHardness(5.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":door_metal");
+		door_office = new BlockModDoor(Material.iron).setBlockName("door_office").setHardness(10.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":door_office");
+		door_bunker = new BlockModDoor(Material.iron).setBlockName("door_bunker").setHardness(10.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":door_bunker");
+
 		barbed_wire = new BarbedWire(Material.iron).setBlockName("barbed_wire").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":barbed_wire");
 		barbed_wire_fire = new BarbedWire(Material.iron).setBlockName("barbed_wire_fire").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":barbed_wire_fire");
 		barbed_wire_poison = new BarbedWire(Material.iron).setBlockName("barbed_wire_poison").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":barbed_wire_poison");
@@ -1521,6 +1534,11 @@ public class ModBlocks {
 		//Vault Door
 		GameRegistry.registerBlock(vault_door, vault_door.getUnlocalizedName());
 		GameRegistry.registerBlock(blast_door, blast_door.getUnlocalizedName());
+		
+		//Doors
+		GameRegistry.registerBlock(door_metal, door_metal.getUnlocalizedName());
+		GameRegistry.registerBlock(door_office, door_office.getUnlocalizedName());
+		GameRegistry.registerBlock(door_bunker, door_bunker.getUnlocalizedName());
 		
 		//Crates
 		GameRegistry.registerBlock(crate_iron, crate_iron.getUnlocalizedName());
