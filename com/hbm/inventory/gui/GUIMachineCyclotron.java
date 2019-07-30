@@ -48,12 +48,12 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 
 		int k = (int)diFurnace.getPowerScaled(88);
 		drawTexturedModalRect(guiLeft + 152, guiTop + 106 - k, 212, 88 - k, 16, k);
-		if(diFurnace.isOn){
+		
 		int l = diFurnace.getProgressScaled(36);
 		drawTexturedModalRect(guiLeft + 61, guiTop + 26, 176, 0, l, 36);
-		} else {
-			drawTexturedModalRect(guiLeft + 61, guiTop + 26, 176, 0, 0, 36);
+		
+		
 			
-		}
+		
 	}
 }
