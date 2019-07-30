@@ -68,9 +68,13 @@ public class GUIMachineChemplant extends GuiInfoContainer {
 		
 		int i = (int)chemplant.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 44, guiTop + 70 - i, 176, 52 - i, 16, i);
-
+		
+		if(chemplant.isProgressing){
 		int j = chemplant.getProgressScaled(90);
 		drawTexturedModalRect(guiLeft + 43, guiTop + 89, 0, 222, j, 18);
+		} else {
+			drawTexturedModalRect(guiLeft + 43, guiTop + 89, 0, 222, 0, 18);
+		}
 
 		this.drawInfoPanel(guiLeft + 105, guiTop + 40, 8, 8, 8);
 		

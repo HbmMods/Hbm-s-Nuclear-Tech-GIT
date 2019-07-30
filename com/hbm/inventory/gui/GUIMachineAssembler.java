@@ -61,9 +61,13 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		
 		int i = (int)assembler.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 116, guiTop + 70 - i, 176, 52 - i, 16, i);
-
+		if(assembler.isProgressing){
 		int j = assembler.getProgressScaled(83);
 		drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		} else {
+			drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, 0, 32);
+			
+		}
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
 
