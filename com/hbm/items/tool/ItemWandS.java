@@ -70,22 +70,22 @@ public class ItemWandS extends Item {
 			switch(stack.stackTagCompound.getInteger("building"))
 			{
 			case 0:
-				new FactoryTitanium().generate(world, rand, x, up ? y : y - 2, z);
+				new FactoryTitanium().generate(world, rand, x, up ? y - 2 : y, z);
 				break;
 			case 1:
-				new FactoryAdvanced().generate(world, rand, x, up ? y : y - 2, z);
+				new FactoryAdvanced().generate(world, rand, x, up ? y - 2 : y, z);
 				break;
 			case 2:
-				new NuclearReactor().generate(world, rand, x, up ? y : y - 4, z);
+				new NuclearReactor().generate(world, rand, x, up ? y - 4 : y, z);
 				break;
 			case 3:
-				new FusionReactor().generate(world, rand, x, up ? y : y - 4, z);
+				new FusionReactor().generate(world, rand, x, up ? y - 4 : y, z);
 				break;
 			case 4:
-				new Watz().generate(world, rand, x, up ? y : y - 12, z);
+				new Watz().generate(world, rand, x, up ? y - 12 : y, z);
 				break;
 			case 5:
-				new FWatz().generateHull(world, rand, x, up ? y : y - 18, z);
+				new FWatz().generateHull(world, rand, x, up ? y - 18 : y, z);
 				break;
 			}
 			
