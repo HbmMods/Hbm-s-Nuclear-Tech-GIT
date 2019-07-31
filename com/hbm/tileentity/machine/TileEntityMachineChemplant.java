@@ -15,14 +15,12 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
-import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEAssemblerPacket;
 import com.hbm.packet.TEChemplantPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -469,6 +467,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			IInventory iTe2 = (IInventory)te2;
 			boolean openSlot = false;
 			boolean existingTemplate = false;
+			boolean filledContainer = false;
 			//Check if there's an existing template and an open slot
 			for(int i = 0; i < iTe1.getSizeInventory(); i++){
 				if(iTe1.getStackInSlot(i) == null){
@@ -484,12 +483,14 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			for(int i = 0; i < iTe2.getSizeInventory(); i++){
 				if(iTe2.getStackInSlot(i) != null && iTe2.getStackInSlot(i).getItem() instanceof ItemChemistryTemplate){
 					if(openSlot && existingTemplate){
-						tryFillContainer(iTe1, 4);
+						filledContainer = tryFillContainer(iTe1, 4);
 						
 					}
+					if(filledContainer){
 					ItemStack copy = iTe2.getStackInSlot(i).copy();
 					iTe2.setInventorySlotContents(i, null);
 					this.slots[4] = copy;
+					}
 				}
 				
 			}
