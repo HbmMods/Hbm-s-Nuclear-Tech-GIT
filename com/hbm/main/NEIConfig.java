@@ -93,6 +93,12 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_reactor_small));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_radgen));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_vault));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_gascent));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_uf6));
+		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_assembler));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_chemplant));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_cyclotron));
@@ -108,6 +114,18 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_reactor_small));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_radgen));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
+		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
+		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));
+		API.hideItem(new ItemStack(ModBlocks.dummy_plate_launch_table));
+		API.hideItem(new ItemStack(ModBlocks.dummy_plate_cargo));
+
+		API.hideItem(new ItemStack(ModBlocks.pink_log));
+		API.hideItem(new ItemStack(ModBlocks.pink_planks));
+		API.hideItem(new ItemStack(ModBlocks.pink_slab));
+		API.hideItem(new ItemStack(ModBlocks.pink_double_slab));
+		API.hideItem(new ItemStack(ModBlocks.pink_stairs));
 	}
 
 	@Override

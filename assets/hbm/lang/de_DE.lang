@@ -326,6 +326,11 @@ tile.boxcar.name=Güterwagon
 tile.boat.name=Boot
 tile.bomber.name=Abgestürtzer Bomber
 
+tile.pink_log.name=Pinkes Holz
+tile.pink_planks.name=Pinke Holzbretter
+tile.pink_slab.name=Pinke Holzstufe
+tile.pink_stairs.name=Pinke Holztreppen
+
 tile.crate.name=Vorratskiste
 tile.crate_weapon.name=Waffenkiste
 tile.crate_lead.name=Gefahrenstoffkiste
@@ -1340,7 +1345,8 @@ item.loops.name=Lüüps
 item.loop_stew.name=Informatiker-Frühstück
 item.fooditem.name=lebensmittel
 item.twinkie.name=Twinkie
-item.twinkie.name=Sandwich mit Fernsehrauschen garniert
+item.static_sandwich.name=Sandwich mit Fernsehrauschen garniert
+item.pudding.name=Pudding
 
 tile.frozen_grass.name=Gefrorenes Gras
 tile.frozen_dirt.name=Gefrorene Erde

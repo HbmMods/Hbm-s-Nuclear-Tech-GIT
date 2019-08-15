@@ -1265,6 +1265,11 @@ public class MainRegistry
 		OreDictionary.registerOre("blockDaffergon", ModBlocks.block_daffergon);
 		OreDictionary.registerOre("blockVerticium", ModBlocks.block_verticium);
 		OreDictionary.registerOre("blockDesh", ModBlocks.block_desh);
+
+		OreDictionary.registerOre("logWood", ModBlocks.pink_log);
+		OreDictionary.registerOre("plankWood", ModBlocks.pink_planks);
+		OreDictionary.registerOre("slabWood", ModBlocks.pink_slab);
+		OreDictionary.registerOre("stairWood", ModBlocks.pink_stairs);
 	}
 	
 	@EventHandler

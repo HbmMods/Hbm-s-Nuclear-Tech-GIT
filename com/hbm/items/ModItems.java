@@ -1251,6 +1251,7 @@ public class ModItems {
 	public static Item fooditem;
 	public static Item twinkie;
 	public static Item static_sandwich;
+	public static Item pudding;
 
 	public static Item med_ipecac;
 	public static Item med_ptsd;
@@ -2943,6 +2944,7 @@ public class ModItems {
 		fooditem = new ItemLemon(2, 5, false).setUnlocalizedName("fooditem").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":fooditem");
 		twinkie = new ItemLemon(3, 5, false).setUnlocalizedName("twinkie").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":twinkie");
 		static_sandwich = new ItemLemon(6, 5, false).setUnlocalizedName("static_sandwich").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":static_sandwich");
+		pudding = new ItemLemon(6, 15, false).setUnlocalizedName("pudding").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pudding");
 		canteen_13 = new ItemCanteen(1 * 60 * 20).setUnlocalizedName("canteen_13").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_13");
 		canteen_vodka = new ItemCanteen(3 * 60 * 20).setUnlocalizedName("canteen_vodka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_vodka");
 		
@@ -4930,6 +4932,7 @@ public class ModItems {
 		GameRegistry.registerItem(fooditem, fooditem.getUnlocalizedName());
 		GameRegistry.registerItem(twinkie, twinkie.getUnlocalizedName());
 		GameRegistry.registerItem(static_sandwich, static_sandwich.getUnlocalizedName());
+		GameRegistry.registerItem(pudding, pudding.getUnlocalizedName());
 		GameRegistry.registerItem(med_ipecac, med_ipecac.getUnlocalizedName());
 		GameRegistry.registerItem(med_ptsd, med_ptsd.getUnlocalizedName());
 		//GameRegistry.registerItem(med_schizophrenia, med_schizophrenia.getUnlocalizedName());

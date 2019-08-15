@@ -201,6 +201,9 @@ public class EntityBomber extends Entity implements IChunkLoader {
 				worldObj.spawnEntityInWorld(zeta);
 			}
 		}
+
+        if(!worldObj.isRemote)
+        	loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
 		
 	}
     
@@ -212,6 +215,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	vector.zCoord *= MainRegistry.enableBomberShortMode ? 1 : 2;
     	
     	this.setLocationAndAngles(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
+    	this.loadNeighboringChunks((int)(x / 16), (int)(z / 16));
     	
     	this.motionX = vector.xCoord;
     	this.motionZ = vector.zCoord;

@@ -95,6 +95,7 @@ public class BlockCanCrate extends Block {
     	items.add(ModItems.can_luna);
     	items.add(ModItems.can_breen);
     	items.add(ModItems.can_bepis);
+    	items.add(ModItems.pudding);
     	
         return items.get(rand.nextInt(items.size()));
     }

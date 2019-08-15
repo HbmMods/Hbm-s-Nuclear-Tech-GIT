@@ -19,7 +19,7 @@ public class RenderNukeBoy extends TileEntitySpecialRenderer {
 	public RenderNukeBoy()
     {
 		boyModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/LilBoy2.png");
+		boyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/lilboy.png");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class RenderNukeBoy extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_CULL_FACE);
 		switch(tileEntity.getBlockMetadata())
 		{
 		case 2:
@@ -47,8 +47,6 @@ public class RenderNukeBoy extends TileEntitySpecialRenderer {
 
         bindTexture(boyTexture);
         boyModel.renderAll();
-        
-        GL11.glEnable(GL11.GL_LIGHTING);
 
         GL11.glPopMatrix();
     }

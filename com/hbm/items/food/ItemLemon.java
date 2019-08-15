@@ -141,7 +141,7 @@ public class ItemLemon extends ItemFood {
 		}
 
 		if(this == ModItems.canned_chinese) {
-			list.add("In China, Chineese food is just called food.");
+			list.add("In China, Chinese food is just called food.");
 		}
 
 		if(this == ModItems.canned_oil) {
@@ -196,6 +196,12 @@ public class ItemLemon extends ItemFood {
 
 		if(this == ModItems.canned_bark) {
 			list.add("Extra cronchy!");
+		}
+
+		if(this == ModItems.pudding) {
+			list.add("What if he did?");
+			list.add("What if he didn't?");
+			list.add("What if the world was made of pudding?");
 		}
 	}
 

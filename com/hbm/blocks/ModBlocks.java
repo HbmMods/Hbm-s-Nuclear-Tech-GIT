@@ -18,6 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -711,6 +712,7 @@ public class ModBlocks {
 	public static Block pink_log;
 	public static Block pink_planks;
 	public static Block pink_slab;
+	public static Block pink_double_slab;
 	public static Block pink_stairs;
 	
 	public static Block ff;
@@ -1263,6 +1265,12 @@ public class ModBlocks {
 		dummy_plate_cargo = new DummyBlockMachine(Material.iron, guiID_dock, sat_dock).setBounds(0, 0, 0, 16, 8, 16).setBlockName("dummy_plate_cargo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		ntm_dirt = new BlockNTMDirt().setBlockName("ntm_dirt").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName("dirt");
+
+		pink_log = new BlockPinkLog().setBlockName("pink_log").setHardness(0.5F).setStepSound(Block.soundTypeWood).setCreativeTab(null);
+		pink_planks = new BlockGeneric(Material.wood).setBlockName("pink_planks").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
+		pink_slab = new BlockPinkSlab(false, Material.wood).setBlockName("pink_slab").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
+		pink_double_slab = new BlockPinkSlab(true, Material.wood).setBlockName("pink_double_slab").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
+		pink_stairs = new BlockPinkStairs(pink_planks, 0).setBlockName("pink_stairs").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
 		
 		ff = new BlockFF(Material.iron).setBlockName("ff").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
 	}
@@ -1826,6 +1834,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(cheater_virus, cheater_virus.getUnlocalizedName());
 		GameRegistry.registerBlock(cheater_virus_seed, cheater_virus_seed.getUnlocalizedName());
 		GameRegistry.registerBlock(ntm_dirt, ntm_dirt.getUnlocalizedName());
+		GameRegistry.registerBlock(pink_log, pink_log.getUnlocalizedName());
+		GameRegistry.registerBlock(pink_planks, pink_planks.getUnlocalizedName());
+		GameRegistry.registerBlock(pink_slab, pink_slab.getUnlocalizedName());
+		GameRegistry.registerBlock(pink_double_slab, pink_double_slab.getUnlocalizedName());
+		GameRegistry.registerBlock(pink_stairs, pink_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(ff, ff.getUnlocalizedName());
 	}
 }

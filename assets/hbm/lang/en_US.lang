@@ -287,6 +287,11 @@ tile.boxcar.name=Boxcar
 tile.boat.name=Boat
 tile.bomber.name=Crashed Bomber
 
+tile.pink_log.name=Pink Log
+tile.pink_planks.name=Pink Wood Planks
+tile.pink_slab.name=Pink Wood Slab
+tile.pink_stairs.name=Pink Wood Stairs
+
 tile.turret_light.name=Light Machine Gun Turret
 tile.turret_heavy.name=Heavy Machine Gun Turret
 tile.turret_rocket.name=Rocket Turret
@@ -1341,6 +1346,7 @@ item.loop_stew.name=IT Breakfast
 item.fooditem.name=food item
 item.twinkie.name=Twinkie
 item.static_sandwich.name=Sandwich Garnished with TV Static
+item.pudding.name=Pudding
 
 tile.frozen_grass.name=Frozen Grass
 tile.frozen_dirt.name=Frozen Dirt
