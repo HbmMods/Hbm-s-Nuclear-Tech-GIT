@@ -353,7 +353,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//now with less WET and more DRY
 	//compact, readable and most importantly, FUNCTIONAL
 	protected void reload2(ItemStack stack, World world, EntityPlayer player) {
-
+		
+		if(getMag(stack) >= mainConfig.ammoCap) {
+			setIsReloading(stack, false);
+			return;
+		}
+			
 		if(getReloadCycle(stack) < 0) {
 			
 			if(getMag(stack) == 0)
@@ -382,7 +387,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				}
 			}
 			
-			if(getMag(stack) == mainConfig.ammoCap) {
+			if(getMag(stack) >= mainConfig.ammoCap) {
 				setIsReloading(stack, false);
 			} else {
 				resetReloadCycle(stack);

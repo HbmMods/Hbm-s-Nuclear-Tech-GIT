@@ -228,12 +228,13 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
 			ItemMissile thruster = (ItemMissile)slots[4].getItem();
 
-			float weight = (Float)part.attributes[2];
-			float thrust = (Float)thruster.attributes[2];
-			
-			if(part.type == PartType.WARHEAD && fuselage.type == PartType.FUSELAGE &&
-					part.bottom == fuselage.top && weight <= thrust)
-				return 1;
+			if(part.type == PartType.WARHEAD && fuselage.type == PartType.FUSELAGE && thruster.type == PartType.THRUSTER) {
+				float weight = (Float)part.attributes[2];
+				float thrust = (Float)thruster.attributes[2];
+				
+				if(part.bottom == fuselage.top && weight <= thrust)
+					return 1;
+			}
 		}
 		
 		return 0;
@@ -250,8 +251,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 			ItemMissile part = (ItemMissile)slots[3].getItem();
 			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
 			
-			if(part.type == PartType.FINS && fuselage.type == PartType.FUSELAGE &&
-					part.top == fuselage.bottom)
+			if(part.top == fuselage.bottom)
 				return 1;
 		}
 		

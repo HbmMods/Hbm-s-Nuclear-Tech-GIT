@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -449,7 +450,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		if(MachineRecipes.getOutputFromTempate(slots[4]) == null || MachineRecipes.getRecipeFromTempate(slots[4]) == null)
 			return false;
 		else {
-			List<ItemStack> list = MachineRecipes.getRecipeFromTempate(slots[4]);
+			List<ItemStack> list = copyItemStackList(MachineRecipes.getRecipeFromTempate(slots[4]));
 			
 			for(int i = 0; i < list.size(); i++)
 				list.get(i).stackSize = 1;
@@ -582,6 +583,16 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		
 		return false;
 	}
+	
+	public static List<ItemStack> copyItemStackList(List<ItemStack> list){
+        List<ItemStack> newList = new ArrayList<ItemStack>();
+        if(list == null || list.isEmpty())
+            return newList;
+        for(ItemStack stack : list){
+            newList.add(stack.copy());
+        }
+        return newList;
+    }
 
 	@Override
 	public void setPower(long i) {

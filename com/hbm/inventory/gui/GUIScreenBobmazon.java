@@ -197,7 +197,7 @@ public class GUIScreenBobmazon extends GuiScreen {
 		public void executeAction() {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			if(type == 0) {
-				PacketDispatcher.wrapper.sendToServer(new ItemBobmazonPacket(offer));
+				PacketDispatcher.wrapper.sendToServer(new ItemBobmazonPacket(player, offer));
 			} else if(type == 1) {
 				if(currentPage > 0)
 					currentPage--;

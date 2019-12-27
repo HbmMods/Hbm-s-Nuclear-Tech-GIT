@@ -1837,8 +1837,8 @@ item.mp_thruster_20_kerosene.name=Size 20 Liquid Fuel Thruster
 item.mp_thruster_20_kerosene_dual.name=Size 20 Liquid Fuel Twin Thrusters
 item.mp_thruster_20_kerosene_triple.name=Size 20 Liquid Fuel Triple Thrusters
 item.mp_thruster_20_solid.name=Size 20 Solid Fuel Thruster
-item.mp_thruster_20_solid_multi.name=Size 20 Solid Fuel Hexdecuple 30-Fold Thrusters
-item.mp_thruster_20_solid_multier.name=Size 20 Solid Fuel Hexdecuple 47-Fold Thrusters
+item.mp_thruster_20_solid_multi.name=Size 20 Solid Fuel 30-Fold Thrusters
+item.mp_thruster_20_solid_multier.name=Size 20 Solid Fuel 47-Fold Thrusters
 
 item.missile_skin_camo.name=Missile Skin: Camo
 item.missile_skin_desert.name=Missile Skin: Desert Camo

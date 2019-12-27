@@ -650,7 +650,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 				(MachineRecipes.getChemOutputFromTempate(slots[4]) != null || !Library.isArrayEmpty(outputs))))
 			return false;
 		else {
-			List<ItemStack> list = MachineRecipes.getChemInputFromTempate(slots[4]);
+			List<ItemStack> list = copyItemStackList(MachineRecipes.getChemInputFromTempate(slots[4]));
 			if(list == null || list.isEmpty())
 				return false;
 			
@@ -785,6 +785,16 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 		
 		return false;
 	}
+	
+	public static List<ItemStack> copyItemStackList(List<ItemStack> list){
+        List<ItemStack> newList = new ArrayList<ItemStack>();
+        if(list == null || list.isEmpty())
+            return newList;
+        for(ItemStack stack : list){
+            newList.add(stack.copy());
+        }
+        return newList;
+    }
 
 	@Override
 	public void setPower(long i) {

@@ -124,6 +124,8 @@ public class ModEventHandler
 		//try {
 		/////
 		
+		
+		/// METEOR SHOWER START ///
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
 			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {
 				if(!event.world.playerEntities.isEmpty()) {
@@ -157,7 +159,9 @@ public class ModEventHandler
 					MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
 			}
 		}
-		
+		/// METEOR SHOWER END ///
+
+		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote && MainRegistry.enableRads) {
 			
 			int thunder = AuxSavedData.getThunder(event.world);
@@ -306,120 +310,11 @@ public class ModEventHandler
 				        	if(event.world.rand.nextInt(700) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 2));
 						}
-						
-						/*PotionEffect effect = entity.getActivePotionEffect(HbmPotion.radiation);
-						
-						if(effect != null && !entity.isDead && entity.getHealth() > 0) {
-							
-							if(entity instanceof EntityCreeper) {
-								
-								if(event.world.rand.nextInt(5) == 0 ) {
-									EntityNuclearCreeper creep = new EntityNuclearCreeper(event.world);
-									creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-					        		
-					        		if(!entity.isDead)
-					        			if(!event.world.isRemote)
-					        				event.world.spawnEntityInWorld(creep);
-					        		entity.setDead();
-								} else {
-									entity.attackEntityFrom(ModDamageSource.radiation, 100F);
-								}
-			        		
-				        	} else if(entity instanceof EntityCow && !(entity instanceof EntityMooshroom)) {
-				        		EntityMooshroom creep = new EntityMooshroom(event.world);
-				        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-
-				        		if(!entity.isDead)
-				        			if(!event.world.isRemote)
-				        				event.world.spawnEntityInWorld(creep);
-				        		entity.setDead();
-				        		
-				        	} else if(entity instanceof EntityVillager) {
-				        		EntityZombie creep = new EntityZombie(event.world);
-				        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-				        		
-				        		if(!entity.isDead)
-					        		if(!event.world.isRemote)
-					        			event.world.spawnEntityInWorld(creep);
-				        		entity.setDead();
-				        		
-				        	} else if(!(entity instanceof EntityNuclearCreeper) && !(entity instanceof EntityMooshroom) && !(entity instanceof EntityZombie)) {
-							
-								int level = effect.getAmplifier();
-						        
-						        if(level > 14) {
-						        	if(event.world.rand.nextInt(100) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
-						        	if(event.world.rand.nextInt(300) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 3));
-						        	if(event.world.rand.nextInt(300) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 3));
-						        	if(event.world.rand.nextInt(300) == 0)
-						        		entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 2));
-						        	if(event.world.rand.nextInt(500) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 4));
-						        } else if(level > 9) {
-						        	if(event.world.rand.nextInt(150) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
-						        	if(event.world.rand.nextInt(400) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 3));
-						        	if(event.world.rand.nextInt(400) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 3));
-						        	if(event.world.rand.nextInt(400) == 0)
-						           		entity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 5 * 20, 2));
-						        } else if(level > 4) {
-						        	if(event.world.rand.nextInt(300) == 0)
-						            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
-						        	if(event.world.rand.nextInt(500) == 0)
-						            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 1));
-						        	if(event.world.rand.nextInt(500) == 0)
-						            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
-								}
-				        	}
-						}
-						//radiation end
-						
-						//effect for tainted heart
-						if(entity.isPotionActive(HbmPotion.mutation) && !entity.isDead && entity.getHealth() > 0) {
-
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 10 * 20, 1));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 15 * 20, 0));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.jump.id, 30 * 20, 1));
-
-				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 5F)
-				            	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 5 * 20, 2));
-				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 4F)
-				            	entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5 * 20, 1));
-				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 3F)
-				            	entity.addPotionEffect(new PotionEffect(Potion.resistance.id, 5 * 20, 4));
-				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 2F)
-				            	entity.addPotionEffect(new PotionEffect(Potion.regeneration.id, 5 * 20, 3));
-				        	if(entity.getHealth() <= entity.getMaxHealth() / 10F * 1F)
-				            	entity.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 5 * 20, 0));
-
-				        	if(entity.isPotionActive(Potion.poison))
-				        		entity.removePotionEffect(Potion.poison.id);
-				        	if(entity.isPotionActive(Potion.wither))
-				        		entity.removePotionEffect(Potion.wither.id);
-				        	if(entity.isPotionActive(Potion.hunger))
-				        		entity.removePotionEffect(Potion.hunger.id);
-				        	if(entity.isPotionActive(Potion.confusion))
-				        		entity.removePotionEffect(Potion.confusion.id);
-				        	if(entity.isPotionActive(Potion.digSlowdown))
-				        		entity.removePotionEffect(Potion.digSlowdown.id);
-				        	if(entity.isPotionActive(Potion.moveSlowdown))
-				        		entity.removePotionEffect(Potion.moveSlowdown.id);
-						}*/
-						//effect end
-						
-						//apply radiation
 					}
 				}
 			}
 		}
+		/// RADIATION STUFF END ///
 		
 		//////////////////////
 		/*} catch(Exception x) {

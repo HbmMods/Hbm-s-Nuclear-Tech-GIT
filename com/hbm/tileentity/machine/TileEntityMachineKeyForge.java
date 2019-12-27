@@ -186,31 +186,40 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 
 			//DEBUG, remove later
 			if(slots[2] != null && slots[2].getItem() == Items.wheat_seeds) {
-				slots[2] = new ItemStack(ModItems.nuke_starter_kit);
+				//slots[2] = new ItemStack(ModItems.nuke_starter_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.bone) {
-				slots[2] = new ItemStack(ModItems.nuke_advanced_kit);
+				//slots[2] = new ItemStack(ModItems.nuke_advanced_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.feather) {
-				slots[2] = new ItemStack(ModItems.nuke_commercially_kit);
+				//slots[2] = new ItemStack(ModItems.nuke_commercially_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.apple) {
-				slots[2] = new ItemStack(ModItems.nuke_electric_kit);
+				//slots[2] = new ItemStack(ModItems.nuke_electric_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.clay_ball) {
-				slots[2] = new ItemStack(ModItems.t45_kit);
+				//slots[2] = new ItemStack(ModItems.t45_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.stick) {
-				slots[2] = new ItemStack(ModItems.missile_kit);
+				//slots[2] = new ItemStack(ModItems.missile_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.string) {
-				slots[2] = new ItemStack(ModItems.grenade_kit);
+				//slots[2] = new ItemStack(ModItems.grenade_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == Items.reeds) {
-				slots[2] = new ItemStack(ModItems.man_kit);
+				//slots[2] = new ItemStack(ModItems.man_kit);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			if(slots[2] != null && slots[2].getItem() == ModItems.battery_generic) {
-				slots[2] = new ItemStack(ModItems.memory);
+				//slots[2] = new ItemStack(ModItems.memory);
+				worldObj.createExplosion(null, xCoord, yCoord, zCoord, 10F, true);
 			}
 			//
 		}

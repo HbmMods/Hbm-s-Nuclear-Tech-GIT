@@ -26,6 +26,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.items.ModItems;
 import com.hbm.particle.ParticleContrail;
+import com.hbm.particle.ParticleRadiationFog;
 import com.hbm.particle.ParticleSmokePlume;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
@@ -495,6 +496,12 @@ public class ClientProxy extends ServerProxy
 			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 			break;
+			
+		case 3:
+
+			ParticleRadiationFog fog = new ParticleRadiationFog(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(fog);
+			break;
 		}
 	}
 	
@@ -524,6 +531,10 @@ public class ClientProxy extends ServerProxy
 		}
 		if("exBalefire".equals(type)) {
 			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.2F, 0.7F, 0.2F, 1F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+		if("radSmoke".equals(type)) {
+			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
 	}

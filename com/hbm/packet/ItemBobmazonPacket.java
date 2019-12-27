@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.entity.missile.EntityBobmazon;
+import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Offer;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemCassette;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIdentifier;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
@@ -31,52 +33,35 @@ import net.minecraft.world.World;
 
 public class ItemBobmazonPacket implements IMessage {
 
-	int item;
-	int stacksize;
-	int meta;
-	int cost;
-	int achievement;
+	int offer;
 
 	public ItemBobmazonPacket()
 	{
 		
 	}
 
-	public ItemBobmazonPacket(Offer offer)
+	public ItemBobmazonPacket(EntityPlayer player, Offer offer)
 	{
-		this.item = Item.getIdFromItem(offer.offer.getItem());
-		this.stacksize = offer.offer.stackSize;
-		this.meta = offer.offer.getItemDamage();
-		this.cost = offer.cost;
-
-		if(offer.requirement.achievement == MainRegistry.bobMetalworks)
-			this.achievement = 0;
-		if(offer.requirement.achievement == MainRegistry.bobAssembly)
-			this.achievement = 1;
-		if(offer.requirement.achievement == MainRegistry.bobChemistry)
-			this.achievement = 2;
-		if(offer.requirement.achievement == MainRegistry.bobOil)
-			this.achievement = 3;
-		if(offer.requirement.achievement == MainRegistry.bobNuclear)
-			this.achievement = 4;
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_materials)
+			this.offer = BobmazonOfferFactory.materials.indexOf(offer);
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_machines)
+			this.offer = BobmazonOfferFactory.machines.indexOf(offer);
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_weapons)
+			this.offer = BobmazonOfferFactory.weapons.indexOf(offer);
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_tools)
+			this.offer = BobmazonOfferFactory.tools.indexOf(offer);
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.bobmazon_hidden)
+			this.offer = BobmazonOfferFactory.special.indexOf(offer);
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		item = buf.readInt();
-		stacksize = buf.readInt();
-		meta = buf.readInt();
-		cost = buf.readInt();
-		achievement = buf.readInt();
+		offer = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(item);
-		buf.writeInt(stacksize);
-		buf.writeInt(meta);
-		buf.writeInt(cost);
-		buf.writeInt(achievement);
+		buf.writeInt(offer);
 	}
 
 	public static class Handler implements IMessageHandler<ItemBobmazonPacket, IMessage> {
@@ -86,26 +71,36 @@ public class ItemBobmazonPacket implements IMessage {
 			
 			EntityPlayerMP p = ctx.getServerHandler().playerEntity;
 			World world = p.worldObj;
-			ItemStack stack = new ItemStack(Item.getItemById(m.item), m.stacksize, m.meta);
-			
-			Achievement req = null;
 
-			if(m.achievement == 0)
-				req = MainRegistry.bobMetalworks;
-			if(m.achievement == 1)
-				req = MainRegistry.bobAssembly;
-			if(m.achievement == 2)
-				req = MainRegistry.bobChemistry;
-			if(m.achievement == 3)
-				req = MainRegistry.bobOil;
-			if(m.achievement == 4)
-				req = MainRegistry.bobNuclear;
+			Offer offer = null;
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_materials)
+				offer = BobmazonOfferFactory.materials.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_machines)
+				offer = BobmazonOfferFactory.machines.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_weapons)
+				offer = BobmazonOfferFactory.weapons.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_tools)
+				offer = BobmazonOfferFactory.tools.get(m.offer);
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() == ModItems.bobmazon_hidden)
+				offer = BobmazonOfferFactory.special.get(m.offer);
 			
-			if(req != null && p.func_147099_x().hasAchievementUnlocked(req)) {
+			if(offer == null) {
+				p.addChatMessage(new ChatComponentText("[BOBMAZON] There appears to be a mismatch between the offer you have requested and the offers that exist."));
+				p.addChatMessage(new ChatComponentText("[BOBMAZON] Engaging fail-safe..."));
+				p.attackEntityFrom(ModDamageSource.nuclearBlast, 1000);
+				p.motionY = 2.0D;
+				return null;
+			}
+			
+			ItemStack stack = offer.offer;
+			
+			Achievement req = offer.requirement.achievement;
+			
+			if(req != null && p.func_147099_x().hasAchievementUnlocked(req) || p.capabilities.isCreativeMode) {
 				
-				if(countCaps(p) >= m.cost) {
+				if(countCaps(p) >= offer.cost || p.capabilities.isCreativeMode) {
 					
-					payCaps(p, m.cost);
+					payCaps(p, offer.cost);
 					p.inventoryContainer.detectAndSendChanges();
 					
 					Random rand = world.rand;

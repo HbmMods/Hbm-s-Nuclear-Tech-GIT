@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.hbm.entity.particle.EntityFogFX;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacket;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderHell;
@@ -120,10 +123,11 @@ public class RadiationSavedData extends WorldSavedData {
 					int z = struct.chunkY * 16 + worldObj.rand.nextInt(16);
 					int y = worldObj.getHeightValue(x, z) + worldObj.rand.nextInt(5);
 					
-					EntityFogFX fog = new EntityFogFX(worldObj);
-					fog.setPosition(x, y, z);
+					//EntityFogFX fog = new EntityFogFX(worldObj);
+					//fog.setPosition(x, y, z);
 					//System.out.println(x + " " + y + " " + z);
-					worldObj.spawnEntityInWorld(fog);
+					//worldObj.spawnEntityInWorld(fog);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(x, y, z, 3), new TargetPoint(worldObj.provider.dimensionId, x, y, z, 100));
 				}
     			
     			if(struct.radiation > 1) {
