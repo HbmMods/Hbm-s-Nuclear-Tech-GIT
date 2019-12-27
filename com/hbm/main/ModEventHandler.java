@@ -1,6 +1,10 @@
 package com.hbm.main;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +30,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
@@ -34,10 +39,12 @@ import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -46,6 +53,9 @@ import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import scala.actors.threadpool.Arrays;
 
 public class ModEventHandler
 {	
@@ -372,6 +382,57 @@ public class ModEventHandler
 		if(item == ModItems.ingot_uranium_fuel) {
 			e.player.addStat(MainRegistry.bobNuclear, 1);
 		}
+	}
+	
+	String[] hashes = new String[] {
+			"da07ea0f3b13c2b3357511a7cb6121a7beaab120d0b9d745bb3637a1ff0e4d07",
+			"1aed2593fe54480eb240d110444131469757429dc7f9dd9ce5768aa4ae8c99c7",
+			"7bc4ada27654650ebc4a499d7ebd66f6f9fbb0d93b9091aadbe3afd155cc3547",
+			"3eec01bdbdfb1b9cb6eb66956f2049eac6e257a24e1e84b90da1ee3337c80385"
+
+	};
+	
+	@SubscribeEvent
+	public void onClickSign(PlayerInteractEvent event) {
+
+		int x = event.x;
+		int y = event.y;
+		int z = event.z;
+		World world = event.world;
+		
+		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getBlock(x, y, z) == Blocks.standing_sign) {
+			
+			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
+			
+			for(int i = 0; i < 4; i++) {
+				if(!hashes[i].equals(getHash(sign.signText[i]))) {
+					return;
+				}
+			}
+			
+			world.func_147480_a(x, y, z, false);
+            EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
+            entityitem.delayBeforeCanPickup = 10;
+            world.spawnEntityInWorld(entityitem);
+		}
+		
+	}
+	
+	private String getHash(String inp) {
+		
+		try {
+			MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+			byte[] bytes = sha256.digest(inp.getBytes());
+			String str = "";
+			
+		    for(int b : bytes)
+		      str = str + Integer.toString((b & 0xFF) + 256, 16).substring(1);
+	    
+		    return str;
+		    
+		} catch (NoSuchAlgorithmException e) { }
+		
+		return "";
 	}
 	
 	/*@SubscribeEvent
