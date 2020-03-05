@@ -18,12 +18,16 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemSlab;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -182,6 +186,8 @@ public class ModBlocks {
 
 	public static Block broadcaster_pc;
 	public static Block geiger;
+
+	public static Block fence_metal;
 
 	public static Block mush;
 	public static Block mush_block;
@@ -867,6 +873,8 @@ public class ModBlocks {
 		
 		broadcaster_pc = new PinkCloudBroadcaster(Material.rock).setBlockName("broadcaster_pc").setCreativeTab(MainRegistry.machineTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":broadcaster_pc");
 		geiger = new GeigerCounter(Material.rock).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
+		
+		fence_metal = new BlockMetalFence(Material.rock).setBlockName("fence_metal").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":fence_metal");
 
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.blockTab).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
@@ -1533,6 +1541,9 @@ public class ModBlocks {
 		
 		//Geiger Counter
 		GameRegistry.registerBlock(geiger, geiger.getUnlocalizedName());
+		
+		//Chainlink Fence
+		GameRegistry.registerBlock(fence_metal, fence_metal.getUnlocalizedName());
 		
 		//Silo Hatch
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());

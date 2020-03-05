@@ -20,6 +20,7 @@ public class SoyuzPronter {
 
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		TextureManager tex = Minecraft.getMinecraft().getTextureManager();
 
 		tex.bindTexture(ResourceManager.soyuz_engineblock);
@@ -52,6 +53,8 @@ public class SoyuzPronter {
 		tex.bindTexture(ResourceManager.soyuz_sideengines);
 		ResourceManager.soyuz.renderOnly("SideEngines");
 		
+		GL11.glShadeModel(GL11.GL_FLAT);
+		
 		GL11.glPopMatrix();
 	}
 	
@@ -59,6 +62,7 @@ public class SoyuzPronter {
 
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		TextureManager tex = Minecraft.getMinecraft().getTextureManager();
 		
 		tex.bindTexture(ResourceManager.soyuz_booster);
@@ -78,6 +82,8 @@ public class SoyuzPronter {
 		ResourceManager.soyuz.renderOnly("BoosterSide.001");
 		ResourceManager.soyuz.renderOnly("BoosterSide.002");
 		ResourceManager.soyuz.renderOnly("BoosterSide.003");
+		
+		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
 	}

@@ -6,6 +6,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.misc.BeamPronter;
+import com.hbm.render.misc.BeamPronter.EnumBeamType;
+import com.hbm.render.misc.BeamPronter.EnumWaveType;
 import com.hbm.render.misc.SoyuzPronter;
 import com.hbm.render.misc.TomPronter;
 import com.hbm.render.model.ModelCalBarrel;
@@ -16,6 +19,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -37,7 +41,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+        GL11.glTranslated(x + 0.5, y, z + 0.5);
 		/*switch(tileEntity.getBlockMetadata())
 		{
 		case 5:
@@ -113,6 +117,8 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         
         SoyuzPronter.prontSoyuz();
         //TomPronter.prontTom();
+        //BeamPronter.prontHelix(Vec3.createVectorHelper(0, 5, 0), 0.5, 0.5, 0.5, EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0xffff00, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25, 25, 0.25F);
+        //BeamPronter.prontHelix(Vec3.createVectorHelper(0, 5, 0), 0.5, 0.5, 0.5, EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0xffff00, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25 + 180, 25, 0.25F);
 
         GL11.glPopMatrix();
     }

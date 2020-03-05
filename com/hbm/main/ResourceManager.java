@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.render.util.HFRWavefrontObject;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -319,7 +320,7 @@ public class ResourceManager {
 	public static final IModelCustom missileCarrier = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileCarrier.obj"));
 	public static final IModelCustom missileBooster = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileBooster.obj"));
 	public static final IModelCustom minerRocket = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/minerRocket.obj"));
-	public static final IModelCustom soyuz = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/soyuz.obj"));
+	public static final IModelCustom soyuz = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/soyuz.obj"));
 	public static final IModelCustom soyuz_launcher_legs = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/launch_table/soyuz_launcher_legs.obj"));
 	public static final IModelCustom soyuz_launcher_table = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/launch_table/soyuz_launcher_table.obj"));
 	public static final IModelCustom soyuz_launcher_tower_base = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/launch_table/soyuz_launcher_tower_base.obj"));

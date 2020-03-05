@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class DecoTapeRecorder extends BlockContainer{
+public class DecoTapeRecorder extends BlockContainer {
 
 	public DecoTapeRecorder(Material p_i45386_1_) {
 		super(p_i45386_1_);
