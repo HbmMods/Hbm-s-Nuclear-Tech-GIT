@@ -2,7 +2,7 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.render.misc.TomPronter;
+import com.hbm.render.util.TomPronter;
 
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

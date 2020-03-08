@@ -7,7 +7,7 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
-import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;

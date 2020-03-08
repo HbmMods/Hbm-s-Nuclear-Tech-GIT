@@ -1,4 +1,4 @@
-package com.hbm.render.util;
+package com.hbm.render.loader;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;

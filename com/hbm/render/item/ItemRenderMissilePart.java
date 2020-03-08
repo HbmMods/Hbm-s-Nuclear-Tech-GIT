@@ -4,12 +4,12 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.misc.MissilePart;
 import com.hbm.render.model.ModelSteelBeam;
 import com.hbm.render.model.ModelSteelCorner;
 import com.hbm.render.model.ModelSteelRoof;
 import com.hbm.render.model.ModelSteelScaffold;
 import com.hbm.render.model.ModelSteelWall;
+import com.hbm.render.util.MissilePart;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

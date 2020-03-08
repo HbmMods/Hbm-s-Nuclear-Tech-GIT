@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.util.HmfController;
+import com.hbm.render.loader.HmfController;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

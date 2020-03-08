@@ -1,4 +1,4 @@
-package com.hbm.render.util;
+package com.hbm.render.loader;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

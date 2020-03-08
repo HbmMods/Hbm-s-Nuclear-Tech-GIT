@@ -2,7 +2,7 @@ package com.hbm.handler;
 
 import java.util.List;
 
-import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunConfiguration {
 	

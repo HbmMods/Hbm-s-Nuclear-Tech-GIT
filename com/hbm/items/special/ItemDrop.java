@@ -22,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemDrop extends Item {
@@ -240,6 +241,8 @@ public class ItemDrop extends Item {
 		if (this == ModItems.detonator_de) {
 			list.add("Explodes when dropped!");
 		}
+		
+		list.add(EnumChatFormatting.RED + "[Dangerous Drop]");
 	}
 	
 	@Override

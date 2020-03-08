@@ -8,9 +8,9 @@ import com.hbm.entity.missile.EntityMissileCluster;
 import com.hbm.entity.missile.EntityMissileGeneric;
 import com.hbm.entity.missile.EntityMissileIncendiary;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.misc.MissileMultipart;
-import com.hbm.render.misc.MissilePart;
-import com.hbm.render.misc.MissilePronter;
+import com.hbm.render.util.MissileMultipart;
+import com.hbm.render.util.MissilePart;
+import com.hbm.render.util.MissilePronter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;

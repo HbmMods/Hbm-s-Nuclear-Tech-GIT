@@ -8,7 +8,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
-import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

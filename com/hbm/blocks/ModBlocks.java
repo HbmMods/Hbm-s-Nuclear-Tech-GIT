@@ -474,6 +474,7 @@ public class ModBlocks {
 	public static Block dfc_emitter;
 	public static Block dfc_injector;
 	public static Block dfc_receiver;
+	public static Block dfc_core;
 
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;
@@ -1085,6 +1086,7 @@ public class ModBlocks {
 		dfc_emitter = new CoreComponent(Material.iron).setBlockName("dfc_emitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_emitter");
 		dfc_injector = new CoreComponent(Material.iron).setBlockName("dfc_injector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_injector");
 		dfc_receiver = new CoreComponent(Material.iron).setBlockName("dfc_receiver").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_receiver");
+		dfc_core = new CoreCore(Material.iron).setBlockName("dfc_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":dfc_core");
 
 		seal_frame = new BlockGeneric(Material.iron).setBlockName("seal_frame").setHardness(10.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":seal_frame");
 		seal_controller = new BlockSeal(Material.iron).setBlockName("seal_controller").setHardness(10.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
@@ -1738,6 +1740,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(dfc_emitter, dfc_emitter.getUnlocalizedName());
 		GameRegistry.registerBlock(dfc_injector, dfc_injector.getUnlocalizedName());
 		GameRegistry.registerBlock(dfc_receiver, dfc_receiver.getUnlocalizedName());
+		GameRegistry.registerBlock(dfc_core, dfc_core.getUnlocalizedName());
 		
 		//Missile Blocks
 		GameRegistry.registerBlock(machine_missile_assembly, machine_missile_assembly.getUnlocalizedName());

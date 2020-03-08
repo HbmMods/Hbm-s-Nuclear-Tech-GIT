@@ -1,4 +1,4 @@
-package com.hbm.render.misc;
+package com.hbm.render.util;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

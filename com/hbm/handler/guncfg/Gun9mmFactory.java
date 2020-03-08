@@ -6,7 +6,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
-import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun9mmFactory {
 	

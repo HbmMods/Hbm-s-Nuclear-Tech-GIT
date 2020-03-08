@@ -9,8 +9,8 @@ import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.misc.MissileMultipart;
-import com.hbm.render.misc.MissilePronter;
+import com.hbm.render.util.MissileMultipart;
+import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import net.minecraft.client.Minecraft;

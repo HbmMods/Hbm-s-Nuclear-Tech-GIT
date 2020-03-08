@@ -3,7 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.render.misc.RenderDecoItem;
+import com.hbm.render.util.RenderDecoItem;
 import com.hbm.tileentity.machine.TileEntityMachineEPress;
 
 import net.minecraft.client.renderer.entity.RenderItem;

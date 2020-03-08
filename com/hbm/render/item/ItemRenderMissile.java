@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile;
-import com.hbm.render.misc.MissileMultipart;
-import com.hbm.render.misc.MissilePart;
-import com.hbm.render.misc.MissilePronter;
+import com.hbm.render.util.MissileMultipart;
+import com.hbm.render.util.MissilePart;
+import com.hbm.render.util.MissilePronter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;

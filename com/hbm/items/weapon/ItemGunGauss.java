@@ -15,7 +15,7 @@ import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.sound.AudioWrapper;
 
 import cpw.mods.fml.common.FMLCommonHandler;

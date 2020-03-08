@@ -1,4 +1,4 @@
-package com.hbm.render.misc;
+package com.hbm.render.util;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;

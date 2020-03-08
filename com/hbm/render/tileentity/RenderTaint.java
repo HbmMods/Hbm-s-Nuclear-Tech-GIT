@@ -2,7 +2,7 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.render.util.RUVertice;
+import com.hbm.render.loader.RUVertice;
 import com.hbm.tileentity.deco.TileEntityTaint;
 
 import net.minecraft.client.Minecraft;

@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.HFRWavefrontObject;
+import com.hbm.render.loader.HFRWavefrontObject;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;

@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.render.misc.RenderDecoItem;
-import com.hbm.render.misc.RenderItemStack;
+import com.hbm.render.util.RenderDecoItem;
+import com.hbm.render.util.RenderItemStack;
 
 import codechicken.lib.render.RenderUtils;
 import net.minecraft.client.Minecraft;

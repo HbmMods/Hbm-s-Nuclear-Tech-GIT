@@ -6,14 +6,14 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.misc.BeamPronter;
-import com.hbm.render.misc.BeamPronter.EnumBeamType;
-import com.hbm.render.misc.BeamPronter.EnumWaveType;
-import com.hbm.render.misc.SoyuzPronter;
-import com.hbm.render.misc.TomPronter;
 import com.hbm.render.model.ModelCalBarrel;
 import com.hbm.render.model.ModelCalDualStock;
 import com.hbm.render.model.ModelCalStock;
+import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.SoyuzPronter;
+import com.hbm.render.util.TomPronter;
+import com.hbm.render.util.BeamPronter.EnumBeamType;
+import com.hbm.render.util.BeamPronter.EnumWaveType;
 
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

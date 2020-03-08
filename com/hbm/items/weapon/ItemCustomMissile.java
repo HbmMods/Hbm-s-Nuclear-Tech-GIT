@@ -6,7 +6,7 @@ import com.hbm.handler.MissileStruct;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.WarheadType;
-import com.hbm.render.misc.MissilePart;
+import com.hbm.render.util.MissilePart;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

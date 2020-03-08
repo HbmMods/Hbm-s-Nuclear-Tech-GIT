@@ -1,4 +1,4 @@
-package com.hbm.render.util;
+package com.hbm.render.loader;
 
 public class HmfController {
 	

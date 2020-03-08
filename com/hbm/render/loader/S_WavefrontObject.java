@@ -1,4 +1,4 @@
-package com.hbm.render.util;
+package com.hbm.render.loader;
 
 import java.io.BufferedReader;
 import java.io.IOException;

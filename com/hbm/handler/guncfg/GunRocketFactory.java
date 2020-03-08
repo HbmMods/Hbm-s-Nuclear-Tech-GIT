@@ -9,7 +9,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.items.ModItems;
-import com.hbm.render.misc.RenderScreenOverlay.Crosshair;
+import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;

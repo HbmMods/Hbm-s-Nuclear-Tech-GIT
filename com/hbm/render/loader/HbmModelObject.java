@@ -1,4 +1,4 @@
-package com.hbm.render.util;
+package com.hbm.render.loader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,8 +21,7 @@ import net.minecraftforge.client.model.ModelFormatException;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
-public class HFRWavefrontObject implements IModelCustom
-{
+public class HbmModelObject implements IModelCustom {
     private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
     private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
     private static Pattern textureCoordinatePattern = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+(\\.\\d+)?){2,3} *$)");
@@ -39,11 +38,11 @@ public class HFRWavefrontObject implements IModelCustom
     public ArrayList<Vertex> vertices = new ArrayList<Vertex>();
     public ArrayList<Vertex> vertexNormals = new ArrayList<Vertex>();
     public ArrayList<TextureCoordinate> textureCoordinates = new ArrayList<TextureCoordinate>();
-    public ArrayList<S_GroupObject> groupObjects = new ArrayList<S_GroupObject>();
-    private S_GroupObject currentGroupObject;
+    public ArrayList<HbmGroupObject> groupObjects = new ArrayList<HbmGroupObject>();
+    private HbmGroupObject currentGroupObject;
     private String fileName;
 
-    public HFRWavefrontObject(ResourceLocation resource) throws ModelFormatException
+    public HbmModelObject(ResourceLocation resource) throws ModelFormatException
     {
         this.fileName = resource.toString();
 
@@ -58,7 +57,7 @@ public class HFRWavefrontObject implements IModelCustom
         }
     }
 
-    public HFRWavefrontObject(String filename, InputStream inputStream) throws ModelFormatException
+    public HbmModelObject(String filename, InputStream inputStream) throws ModelFormatException
     {
         this.fileName = filename;
         loadObjModel(inputStream);
@@ -113,10 +112,10 @@ public class HFRWavefrontObject implements IModelCustom
 
                     if (currentGroupObject == null)
                     {
-                        currentGroupObject = new S_GroupObject("Default");
+                        currentGroupObject = new HbmGroupObject("Default");
                     }
 
-                    S_Face face = parseFace(currentLine, lineCount);
+                    HbmFace face = parseFace(currentLine, lineCount);
 
                     if (face != null)
                     {
@@ -125,7 +124,7 @@ public class HFRWavefrontObject implements IModelCustom
                 }
                 else if (currentLine.startsWith("g ") | currentLine.startsWith("o "))
                 {
-                	S_GroupObject group = parseGroupObject(currentLine, lineCount);
+                	HbmGroupObject group = parseGroupObject(currentLine, lineCount);
 
                     if (group != null)
                     {
@@ -189,7 +188,7 @@ public class HFRWavefrontObject implements IModelCustom
     @SideOnly(Side.CLIENT)
     public void tessellateAll(Tessellator tessellator)
     {
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             groupObject.render(tessellator);
         }
@@ -199,7 +198,7 @@ public class HFRWavefrontObject implements IModelCustom
     @SideOnly(Side.CLIENT)
     public void renderOnly(String... groupNames)
     {
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
@@ -213,7 +212,7 @@ public class HFRWavefrontObject implements IModelCustom
 
     @SideOnly(Side.CLIENT)
     public void tessellateOnly(Tessellator tessellator, String... groupNames) {
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             for (String groupName : groupNames)
             {
@@ -229,7 +228,7 @@ public class HFRWavefrontObject implements IModelCustom
     @SideOnly(Side.CLIENT)
     public void renderPart(String partName)
     {
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
@@ -240,7 +239,7 @@ public class HFRWavefrontObject implements IModelCustom
 
     @SideOnly(Side.CLIENT)
     public void tessellatePart(Tessellator tessellator, String partName) {
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             if (partName.equalsIgnoreCase(groupObject.name))
             {
@@ -253,7 +252,7 @@ public class HFRWavefrontObject implements IModelCustom
     @SideOnly(Side.CLIENT)
     public void renderAllExcept(String... excludedGroupNames)
     {
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             boolean skipPart=false;
             for (String excludedGroupName : excludedGroupNames)
@@ -274,7 +273,7 @@ public class HFRWavefrontObject implements IModelCustom
     public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames)
     {
         boolean exclude;
-        for (S_GroupObject groupObject : groupObjects)
+        for (HbmGroupObject groupObject : groupObjects)
         {
             exclude=false;
             for (String excludedGroupName : excludedGroupNames)
@@ -380,13 +379,13 @@ public class HFRWavefrontObject implements IModelCustom
         return textureCoordinate;
     }
 
-    private S_Face parseFace(String line, int lineCount) throws ModelFormatException
+    private HbmFace parseFace(String line, int lineCount) throws ModelFormatException
     {
-    	S_Face face = null;
+    	HbmFace face = null;
 
         if (isValidFaceLine(line))
         {
-            face = new S_Face();
+            face = new HbmFace();
 
             String trimmedLine = line.substring(line.indexOf(" ") + 1);
             String[] tokens = trimmedLine.split(" ");
@@ -490,9 +489,9 @@ public class HFRWavefrontObject implements IModelCustom
         return face;
     }
 
-    private S_GroupObject parseGroupObject(String line, int lineCount) throws ModelFormatException
+    private HbmGroupObject parseGroupObject(String line, int lineCount) throws ModelFormatException
     {
-    	S_GroupObject group = null;
+    	HbmGroupObject group = null;
 
         if (isValidGroupObjectLine(line))
         {
@@ -500,7 +499,7 @@ public class HFRWavefrontObject implements IModelCustom
 
             if (trimmedLine.length() > 0)
             {
-                group = new S_GroupObject(trimmedLine);
+                group = new HbmGroupObject(trimmedLine);
             }
         }
         else
@@ -511,6 +510,11 @@ public class HFRWavefrontObject implements IModelCustom
         return group;
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid vertex
+     * @param line the line being validated
+     * @return true if the line is a valid vertex, false otherwise
+     */
     private static boolean isValidVertexLine(String line)
     {
         if (vertexMatcher != null)
@@ -522,6 +526,11 @@ public class HFRWavefrontObject implements IModelCustom
         return vertexMatcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid vertex normal
+     * @param line the line being validated
+     * @return true if the line is a valid vertex normal, false otherwise
+     */
     private static boolean isValidVertexNormalLine(String line)
     {
         if (vertexNormalMatcher != null)
@@ -533,6 +542,11 @@ public class HFRWavefrontObject implements IModelCustom
         return vertexNormalMatcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid texture coordinate
+     * @param line the line being validated
+     * @return true if the line is a valid texture coordinate, false otherwise
+     */
     private static boolean isValidTextureCoordinateLine(String line)
     {
         if (textureCoordinateMatcher != null)
@@ -544,6 +558,11 @@ public class HFRWavefrontObject implements IModelCustom
         return textureCoordinateMatcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid face that is described by vertices, texture coordinates, and vertex normals
+     * @param line the line being validated
+     * @return true if the line is a valid face that matches the format "f v1/vt1/vn1 ..." (with a minimum of 3 points in the face, and a maximum of 4), false otherwise
+     */
     private static boolean isValidFace_V_VT_VN_Line(String line)
     {
         if (face_V_VT_VN_Matcher != null)
@@ -555,6 +574,11 @@ public class HFRWavefrontObject implements IModelCustom
         return face_V_VT_VN_Matcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid face that is described by vertices and texture coordinates
+     * @param line the line being validated
+     * @return true if the line is a valid face that matches the format "f v1/vt1 ..." (with a minimum of 3 points in the face, and a maximum of 4), false otherwise
+     */
     private static boolean isValidFace_V_VT_Line(String line)
     {
         if (face_V_VT_Matcher != null)
@@ -566,6 +590,11 @@ public class HFRWavefrontObject implements IModelCustom
         return face_V_VT_Matcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid face that is described by vertices and vertex normals
+     * @param line the line being validated
+     * @return true if the line is a valid face that matches the format "f v1//vn1 ..." (with a minimum of 3 points in the face, and a maximum of 4), false otherwise
+     */
     private static boolean isValidFace_V_VN_Line(String line)
     {
         if (face_V_VN_Matcher != null)
@@ -577,6 +606,11 @@ public class HFRWavefrontObject implements IModelCustom
         return face_V_VN_Matcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid face that is described by only vertices
+     * @param line the line being validated
+     * @return true if the line is a valid face that matches the format "f v1 ..." (with a minimum of 3 points in the face, and a maximum of 4), false otherwise
+     */
     private static boolean isValidFace_V_Line(String line)
     {
         if (face_V_Matcher != null)
@@ -588,11 +622,21 @@ public class HFRWavefrontObject implements IModelCustom
         return face_V_Matcher.matches();
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid face of any of the possible face formats
+     * @param line the line being validated
+     * @return true if the line is a valid face that matches any of the valid face formats, false otherwise
+     */
     private static boolean isValidFaceLine(String line)
     {
         return isValidFace_V_VT_VN_Line(line) || isValidFace_V_VT_Line(line) || isValidFace_V_VN_Line(line) || isValidFace_V_Line(line);
     }
 
+    /***
+     * Verifies that the given line from the model file is a valid group (or object)
+     * @param line the line being validated
+     * @return true if the line is a valid group (or object), false otherwise
+     */
     private static boolean isValidGroupObjectLine(String line)
     {
         if (groupObjectMatcher != null)
@@ -607,6 +651,6 @@ public class HFRWavefrontObject implements IModelCustom
     @Override
     public String getType()
     {
-        return "obj";
+        return "hmf";
     }
 }

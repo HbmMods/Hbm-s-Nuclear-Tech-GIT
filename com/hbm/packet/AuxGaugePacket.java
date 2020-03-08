@@ -2,7 +2,9 @@ package com.hbm.packet;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.weapon.ItemMissile.PartSize;
+import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
@@ -36,6 +38,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
+@Spaghetti("Changing all machiines to use TileEntityMachineBase will reduce the total chaos in this class")
 public class AuxGaugePacket implements IMessage {
 
 	int x;
@@ -251,6 +254,15 @@ public class AuxGaugePacket implements IMessage {
 						launcher.solid = m.value;
 					if(m.id == 1)
 						launcher.padSize = PartSize.values()[m.value];
+				}
+				
+				
+				
+				
+				
+				if(te instanceof TileEntityMachineBase) {
+					
+					((TileEntityMachineBase)te).processGauge(m.value, m.id);
 				}
 				
 			} catch (Exception x) {}

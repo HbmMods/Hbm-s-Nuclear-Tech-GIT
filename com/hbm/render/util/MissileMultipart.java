@@ -1,4 +1,4 @@
-package com.hbm.render.misc;
+package com.hbm.render.util;
 
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.weapon.ItemMissile.PartType;

@@ -4,9 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.misc.RenderDecoItem;
 import com.hbm.render.model.ModelGun;
 import com.hbm.render.model.ModelStatue;
+import com.hbm.render.util.RenderDecoItem;
 import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
 import com.hbm.tileentity.deco.TileEntityDecoBlockAltG;
 import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;

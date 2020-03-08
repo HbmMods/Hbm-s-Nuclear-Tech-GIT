@@ -24,7 +24,7 @@ import com.hbm.main.ModEventHandler;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
-import com.hbm.render.misc.MissilePart;
+import com.hbm.render.util.MissilePart;
 import com.hbm.saveddata.RadiationSaveStructure;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.saveddata.SatelliteSaveStructure;

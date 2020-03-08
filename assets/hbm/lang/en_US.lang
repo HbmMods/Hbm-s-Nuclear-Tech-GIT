@@ -553,9 +553,10 @@ container.amsEmitter=AMS Emitter [WIP]
 tile.ams_base.name=AMS Base [WIP]
 container.amsBase=AMS Base [WIP]
 
-tile.dfc_emitter.name=[WIP]
-tile.dfc_receiver.name=[WIP]
-tile.dfc_injector.name=[WIP]
+tile.dfc_emitter.name=DFC Emitter
+tile.dfc_receiver.name=DFC Receiver
+tile.dfc_injector.name=DFC Fuel Injector
+tile.dfc_core.name=Dark Fusion Core
 
 item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier
@@ -854,6 +855,8 @@ tile.barbed_wire_poison.name=Poisoned Barbed Wire
 tile.barbed_wire_acid.name=Caustic Barbed Wire
 tile.barbed_wire_wither.name=Withered Barbed Wire
 tile.barbed_wire_ultradeath.name=Cloud Barbed Wire
+
+tile.fence_metal.name=Chainlink Fence
 
 tile.seal_frame.name=Silo Hatch Frame
 tile.seal_controller.name=Silo Hatch Opener

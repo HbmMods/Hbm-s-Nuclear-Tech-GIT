@@ -27,6 +27,8 @@ public class ItemFuelRod extends ItemRadioactive {
 		
 		list.add("Generates " + heat + " heat per tick");
 		list.add("Lasts " + lifeTime + " ticks");
+		
+		super.addInformation(itemstack, player, list, bool);
 	}
 	
 	public static void setLifeTime(ItemStack stack, int time) {

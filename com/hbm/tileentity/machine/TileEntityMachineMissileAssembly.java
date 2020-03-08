@@ -16,8 +16,8 @@ import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
-import com.hbm.render.misc.MissileMultipart;
-import com.hbm.render.misc.MissilePart;
+import com.hbm.render.util.MissileMultipart;
+import com.hbm.render.util.MissilePart;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

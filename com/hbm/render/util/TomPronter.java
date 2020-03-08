@@ -1,11 +1,11 @@
-package com.hbm.render.misc;
+package com.hbm.render.util;
 
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.render.util.HmfController;
+import com.hbm.render.loader.HmfController;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;

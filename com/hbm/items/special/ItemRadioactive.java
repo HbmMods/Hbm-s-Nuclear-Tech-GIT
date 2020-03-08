@@ -1,5 +1,7 @@
 package com.hbm.items.special;
 
+import java.util.List;
+
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -13,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemRadioactive extends ItemCustomLore {
@@ -268,4 +271,12 @@ public class ItemRadioactive extends ItemCustomLore {
 			}
 		}
     }
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
+		super.addInformation(stack, player, list, bool);
+		
+		list.add(EnumChatFormatting.GREEN + "[Radioactive]");
+	}
 }
