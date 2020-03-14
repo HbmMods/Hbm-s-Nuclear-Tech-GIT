@@ -2,10 +2,15 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunFatmanFactory {
@@ -38,6 +43,19 @@ public class GunFatmanFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
 		config.durability = 1000;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getBELConfig() {
+		
+		GunConfiguration config = getFatmanConfig();
+		
+		config.name = "Balefire Egg Launcher";
+		config.manufacturer = "Fort Strong";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.NUKE_AMAT);
 		
 		return config;
 	}
@@ -107,6 +125,23 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		
 		bullet.ammo = ModItems.gun_bf_ammo;
+		bullet.nuke = 0;
+		bullet.style = BulletConfiguration.STYLE_BF;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					EntityBalefire bf = new EntityBalefire(bullet.worldObj);
+					bf.posX = x;
+					bf.posY = y;
+					bf.posZ = z;
+					bf.destructionRange = (int) (MainRegistry.fatmanRadius * 1.25);
+					bullet.worldObj.spawnEntityInWorld(bf);
+		    		ExplosionParticleB.spawnMush(bullet.worldObj, x, y, z);
+				}
+			}
+		};
 		
 		return bullet;
 	}

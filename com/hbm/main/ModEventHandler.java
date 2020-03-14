@@ -1,10 +1,8 @@
 package com.hbm.main;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -27,8 +25,6 @@ import com.hbm.saveddata.RadiationSavedData;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -52,10 +48,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
-import scala.actors.threadpool.Arrays;
 
 public class ModEventHandler
 {	
@@ -385,12 +379,14 @@ public class ModEventHandler
 	}
 	
 	String[] hashes = new String[] {
-			"da07ea0f3b13c2b3357511a7cb6121a7beaab120d0b9d745bb3637a1ff0e4d07",
-			"1aed2593fe54480eb240d110444131469757429dc7f9dd9ce5768aa4ae8c99c7",
-			"7bc4ada27654650ebc4a499d7ebd66f6f9fbb0d93b9091aadbe3afd155cc3547",
-			"3eec01bdbdfb1b9cb6eb66956f2049eac6e257a24e1e84b90da1ee3337c80385"
+			"7e6fabead604ce497b32c2ff29148254879980c045b97fa627eb074eb2de81e7",
+			"9031b60664473360593e89c7c9ece297ee3fbee25b0891450d904f15b3255bf6",
+			"d841ef1ebaf7bdb284fc20be3508a8db1dae78f8630bf9d192bb7cd8384458da",
+			"7c78f529c5f4748577bd8922753c04135cd733f525172b5a782894cfb9d544a8"
 
 	};
+	
+	static final String salt = "df5fe65986dc0f145a867ad29aee9bfebc3a1cd5afb05f32";
 	
 	@SubscribeEvent
 	public void onClickSign(PlayerInteractEvent event) {
@@ -404,16 +400,23 @@ public class ModEventHandler
 			
 			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
 			
+			int correct = 0;
+			
 			for(int i = 0; i < 4; i++) {
-				if(!hashes[i].equals(getHash(sign.signText[i]))) {
-					return;
+				if(hashes[i].equals(getHash(sign.signText[i] + salt))) {
+					sign.signText[i] = "Correct!";
+					sign.markDirty();
+					sign.getWorldObj().markBlockForUpdate(x, y, z);
+					correct++;
 				}
 			}
 			
-			world.func_147480_a(x, y, z, false);
-            EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
-            entityitem.delayBeforeCanPickup = 10;
-            world.spawnEntityInWorld(entityitem);
+			if(correct == 4) {
+				world.func_147480_a(x, y, z, false);
+	            EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
+	            entityitem.delayBeforeCanPickup = 10;
+	            world.spawnEntityInWorld(entityitem);
+			}
 		}
 		
 	}

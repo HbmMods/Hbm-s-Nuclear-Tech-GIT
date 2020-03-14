@@ -318,6 +318,12 @@ public class MainRegistry
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
 
+	public static boolean dropCell = true;
+	public static boolean dropSing = true;
+	public static boolean dropStar = true;
+	public static boolean dropCrys = true;
+	public static boolean dropDead = true;
+
 	public static int taintID = 62;
 	public static int radiationID = 63;
 	public static int bangID = 64;
@@ -1763,6 +1769,13 @@ public class MainRegistry
 
         final String CATEGORY_MACHINE = "09_machines";
         templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));
+
+        final String CATEGORY_DROPS = "10_dangerous_drops";
+        dropCell = createConfigBool(config, CATEGORY_DROPS, "10.00_dropCell", "Whether antimatter cells should explode when dropped", true);
+        dropSing = createConfigBool(config, CATEGORY_DROPS, "10.01_dropBHole", "Whether singularities and blaack holes should spawn when dropped", true);
+        dropStar = createConfigBool(config, CATEGORY_DROPS, "10.02_dropStar", "Whether rigged star blaster cells should explode when dropped", true);
+        dropCrys = createConfigBool(config, CATEGORY_DROPS, "10.04_dropCrys", "Whether xen crystals should move blocks when dropped", true);
+        dropDead = createConfigBool(config, CATEGORY_DROPS, "10.05_dropDead", "Whether dead man's explosives should explode when dropped", true);
         
         config.save();
         
@@ -1807,6 +1820,13 @@ public class MainRegistry
         Property prop = config.get(category, name, def);
         prop.comment = comment;
         return prop.getInt();
+	}
+	
+	private static boolean createConfigBool(Configuration config, String category, String name, String comment, boolean def) {
+
+        Property prop = config.get(category, name, def);
+        prop.comment = comment;
+        return prop.getBoolean();
 	}
 	
 	private static String[] createConfigStringList(Configuration config, String category, String name, String comment) {

@@ -1,20 +1,19 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IBomb;
-import com.hbm.interfaces.IMultiblock;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreInjector;
 import com.hbm.tileentity.machine.TileEntityCoreReceiver;
-import com.hbm.tileentity.machine.TileEntityVaultDoor;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class CoreComponent extends BlockContainer {
@@ -56,4 +55,21 @@ public class CoreComponent extends BlockContainer {
         int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
         world.setBlockMetadataWithNotify(x, y, z, l, 2);
     }
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			
+			if(this == ModBlocks.dfc_emitter)
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_emitter, world, x, y, z);
+			
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
 }

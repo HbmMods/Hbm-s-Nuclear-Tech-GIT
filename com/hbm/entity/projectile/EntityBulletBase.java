@@ -547,6 +547,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		int cfg = nbt.getInteger("config");
 		this.config = BulletConfigSyncingUtil.pullConfig(cfg);
+		
+		if(this.config == null) {
+			this.setDead();
+			return;
+		}
+		
 		this.dataWatcher.updateObject(18, cfg);
 		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);

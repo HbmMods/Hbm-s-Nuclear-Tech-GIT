@@ -1,5 +1,7 @@
 package com.hbm.items.tool;
 
+import java.util.List;
+
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -19,4 +21,10 @@ public class ItemCatalog extends Item {
 		return stack;
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
+		list.add("For a guide on how to obtain this, visit https://bit.ly/2TPgcqT");
+		list.add("No tricks this time, i promise.");
+	}
 }

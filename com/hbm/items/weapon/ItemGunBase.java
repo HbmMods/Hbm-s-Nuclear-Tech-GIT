@@ -30,6 +30,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.MouseEvent;
 
@@ -476,10 +477,17 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		list.add("Durability: " + dura + " / " + mainConfig.durability);
 		
-		if(MainRegistry.enableDebugMode) {
+		//if(MainRegistry.enableDebugMode) {
 			list.add("");
 			list.add("Name: " + mainConfig.name);
 			list.add("Manufacturer: " + mainConfig.manufacturer);
+		//}
+		
+		if(!mainConfig.comment.isEmpty()) {
+			list.add("");
+			for(String s : mainConfig.comment)
+				list.add(EnumChatFormatting.ITALIC + s);
+			list.add("");
 		}
 		
 		if(MainRegistry.enableExtendedLogging) {
@@ -652,7 +660,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 	
 	/// NBT utility ///
-	protected static void writeNBT(ItemStack stack, String key, int value) {
+	public static void writeNBT(ItemStack stack, String key, int value) {
 		
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
@@ -660,7 +668,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		stack.stackTagCompound.setInteger(key, value);
 	}
 	
-	protected static int readNBT(ItemStack stack, String key) {
+	public static int readNBT(ItemStack stack, String key) {
 		
 		if(!stack.hasTagCompound())
 			return 0;

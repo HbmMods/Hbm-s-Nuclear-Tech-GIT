@@ -121,4 +121,13 @@ public class ItemGunGauss extends ItemGunBase {
 	public static int getCharge(ItemStack stack) {
 		return readNBT(stack, "gauss_charge");
 	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+
+		list.add("alt-fire is broken, just yell at me until i fix it ok");
+		list.add("");
+		
+		super.addInformation(stack, player, list, bool);
+	}
 }

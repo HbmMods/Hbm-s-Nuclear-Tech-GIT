@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunFolly;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelCalBarrel;
@@ -203,7 +204,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_lacunae ||
 						item.getItem() == ModItems.gun_minigun ||
 						item.getItem() == ModItems.gun_avenger)
-					lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
+					lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, ItemGunBase.readNBT(item, "rot"));
 				
 				if(item.getItem() == ModItems.gun_folly) {
 					int state = GunFolly.getState(item);

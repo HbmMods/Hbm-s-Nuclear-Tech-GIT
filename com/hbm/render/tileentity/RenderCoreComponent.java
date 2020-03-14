@@ -4,6 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.BeamPronter.EnumBeamType;
+import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreInjector;
 import com.hbm.tileentity.machine.TileEntityCoreReceiver;
@@ -11,6 +14,7 @@ import com.hbm.tileentity.machine.TileEntityCoreReceiver;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -50,6 +54,8 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer {
         if(tileEntity instanceof TileEntityCoreEmitter) {
 	        bindTexture(ResourceManager.dfc_emitter_tex);
 	        ResourceManager.dfc_emitter.renderAll();
+	        BeamPronter.prontHelix(Vec3.createVectorHelper(0, 0, 6), 0, 0.5, 0.5, EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xFF0000, 0xFF8000, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * -50, 100, 0.25F);
+
         }
 
         if(tileEntity instanceof TileEntityCoreReceiver) {

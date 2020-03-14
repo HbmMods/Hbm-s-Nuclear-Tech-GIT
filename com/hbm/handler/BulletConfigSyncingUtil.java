@@ -25,100 +25,107 @@ public class BulletConfigSyncingUtil {
 		}
 	}
 	
+	static int i = 0;
+	
 	/// duplicate ids will cause wrong configs to be loaded ///
-	public static final int TEST_CONFIG = 0x00;
-	public static final int IRON_REVOLVER = 0x01;
-	public static final int STEEL_REVOLVER = 0x02;
-	public static final int LEAD_REVOLVER = 0x03;
-	public static final int GOLD_REVOLVER = 0x04;
-	public static final int CURSED_REVOLVER = 0x05;
-	public static final int SCHRABIDIUM_REVOLVER = 0x06;
-	public static final int NIGHT_REVOLVER = 0x07;
-	public static final int NIGHT2_REVOLVER = 0x08;
-	public static final int SATURNITE_REVOLVER = 0x09;
-	public static final int DESH_REVOLVER = 0x0A;
+	public static int TEST_CONFIG = i++;
+	public static int IRON_REVOLVER = i++;
+	public static int STEEL_REVOLVER = i++;
+	public static int LEAD_REVOLVER = i++;
+	public static int GOLD_REVOLVER = i++;
+	public static int CURSED_REVOLVER = i++;
+	public static int SCHRABIDIUM_REVOLVER = i++;
+	public static int NIGHT_REVOLVER = i++;
+	public static int NIGHT2_REVOLVER = i++;
+	public static int SATURNITE_REVOLVER = i++;
+	public static int DESH_REVOLVER = i++;
 
-	public static final int G20_NORMAL = 0x10;
-	public static final int G20_SLUG = 0x11;
-	public static final int G20_FLECHETTE = 0x12;
-	public static final int G20_FIRE = 0x13;
-	public static final int G20_EXPLOSIVE = 0x14;
-	public static final int G20_CAUSTIC = 0x15;
-	public static final int G20_SHOCK = 0x16;
-	public static final int G20_WITHER = 0x17;
+	public static int G20_NORMAL = i++;
+	public static int G20_SLUG = i++;
+	public static int G20_FLECHETTE = i++;
+	public static int G20_FIRE = i++;
+	public static int G20_EXPLOSIVE = i++;
+	public static int G20_CAUSTIC = i++;
+	public static int G20_SHOCK = i++;
+	public static int G20_WITHER = i++;
 
-	public static final int ROCKET_NORMAL = 0x20;
-	public static final int ROCKET_HE = 0x21;
-	public static final int ROCKET_INCENDIARY = 0x22;
-	public static final int ROCKET_SHRAPNEL = 0x23;
-	public static final int ROCKET_EMP = 0x24;
-	public static final int ROCKET_GLARE = 0x25;
-	public static final int ROCKET_SLEEK = 0x26;
-	public static final int ROCKET_NUKE = 0x27;
-	public static final int ROCKET_CHAINSAW = 0x28;
-	public static final int ROCKET_TOXIC = 0x29;
+	public static int ROCKET_NORMAL = i++;
+	public static int ROCKET_HE = i++;
+	public static int ROCKET_INCENDIARY = i++;
+	public static int ROCKET_SHRAPNEL = i++;
+	public static int ROCKET_EMP = i++;
+	public static int ROCKET_GLARE = i++;
+	public static int ROCKET_SLEEK = i++;
+	public static int ROCKET_NUKE = i++;
+	public static int ROCKET_CHAINSAW = i++;
+	public static int ROCKET_TOXIC = i++;
 
-	public static final int GRENADE_NORMAL = 0x30;
-	public static final int GRENADE_HE = 0x31;
-	public static final int GRENADE_INCENDIARY = 0x32;
-	public static final int GRENADE_CHEMICAL = 0x33;
-	public static final int GRENADE_SLEEK = 0x34;
-	public static final int GRENADE_CONCUSSION = 0x35;
-	public static final int GRENADE_FINNED = 0x36;
-	public static final int GRENADE_NUCLEAR = 0x37;
+	public static int GRENADE_NORMAL = i++;
+	public static int GRENADE_HE = i++;
+	public static int GRENADE_INCENDIARY = i++;
+	public static int GRENADE_CHEMICAL = i++;
+	public static int GRENADE_SLEEK = i++;
+	public static int GRENADE_CONCUSSION = i++;
+	public static int GRENADE_FINNED = i++;
+	public static int GRENADE_NUCLEAR = i++;
 
-	public static final int G12_NORMAL = 0x40;
-	public static final int G12_INCENDIARY = 0x41;
+	public static int G12_NORMAL = i++;
+	public static int G12_INCENDIARY = i++;
 
-	public static final int LR22_NORMAL = 0x50;
-	public static final int LR22_AP = 0x51;
-	public static final int LR22_NORMAL_FIRE = 0x52;
-	public static final int LR22_AP_FIRE = 0x53;
+	public static int LR22_NORMAL = i++;
+	public static int LR22_AP = i++;
+	public static int LR22_NORMAL_FIRE = i++;
+	public static int LR22_AP_FIRE = i++;
 
-	public static final int M44_NORMAL = 0x60;
-	public static final int M44_AP = 0x61;
-	public static final int M44_DU = 0x62;
-	public static final int M44_PIP = 0x63;
-	public static final int M44_BJ = 0x64;
-	public static final int M44_ROCKET = 0x65;
+	public static int M44_NORMAL = i++;
+	public static int M44_AP = i++;
+	public static int M44_DU = i++;
+	public static int M44_STAR = i++;
+	public static int M44_PIP = i++;
+	public static int M44_BJ = i++;
+	public static int M44_ROCKET = i++;
 
-	public static final int P9_NORMAL = 0x70;
-	public static final int P9_AP = 0x71;
-	public static final int P9_DU = 0x72;
-	public static final int P9_ROCKET = 0x73;
+	public static int P9_NORMAL = i++;
+	public static int P9_AP = i++;
+	public static int P9_DU = i++;
+	public static int P9_ROCKET = i++;
 
-	public static final int BMG50_NORMAL = 0x80;
-	public static final int BMG50_INCENDIARY = 0x81;
-	public static final int BMG50_EXPLOSIVE = 0x82;
-	public static final int BMG50_DU = 0x83;
+	public static int BMG50_NORMAL = i++;
+	public static int BMG50_INCENDIARY = i++;
+	public static int BMG50_EXPLOSIVE = i++;
+	public static int BMG50_DU = i++;
+	public static int BMG50_STAR = i++;
 
-	public static final int R5_NORMAL = 0x90;
-	public static final int R5_EXPLOSIVE = 0x91;
-	public static final int R5_DU = 0x92;
-	public static final int R5_NORMAL_BOLT = 0x93;
-	public static final int R5_EXPLOSIVE_BOLT = 0x94;
-	public static final int R5_DU_BOLT = 0x95;
+	public static int R5_NORMAL = i++;
+	public static int R5_EXPLOSIVE = i++;
+	public static int R5_DU = i++;
+	public static int R5_STAR = i++;
+	public static int R5_NORMAL_BOLT = i++;
+	public static int R5_EXPLOSIVE_BOLT = i++;
+	public static int R5_DU_BOLT = i++;
+	public static int R5_STAR_BOLT = i++;
 
-	public static final int AE50_NORMAL = 0xA0;
-	public static final int AE50_AP = 0xA1;
-	public static final int AE50_DU = 0xA2;
+	public static int AE50_NORMAL = i++;
+	public static int AE50_AP = i++;
+	public static int AE50_DU = i++;
+	public static int AE50_STAR = i++;
 
-	public static final int SPECIAL_OSIPR = 0xB0;
-	public static final int SPECIAL_GAUSS = 0xB1;
-	public static final int SPECIAL_GAUSS_CHARGED = 0xB2;
+	public static int SPECIAL_OSIPR = i++;
+	public static int SPECIAL_GAUSS = i++;
+	public static int SPECIAL_GAUSS_CHARGED = i++;
 
-	public static final int G20_NORMAL_FIRE = 0xC0;
-	public static final int G20_SLUG_FIRE = 0xC1;
-	public static final int G20_FLECHETTE_FIRE = 0xC2;
-	public static final int G20_EXPLOSIVE_FIRE = 0xC3;
-	public static final int G20_CAUSTIC_FIRE = 0xC4;
-	public static final int G20_SHOCK_FIRE = 0xC5;
-	public static final int G20_WITHER_FIRE = 0xC6;
+	public static int G20_NORMAL_FIRE = i++;
+	public static int G20_SLUG_FIRE = i++;
+	public static int G20_FLECHETTE_FIRE = i++;
+	public static int G20_EXPLOSIVE_FIRE = i++;
+	public static int G20_CAUSTIC_FIRE = i++;
+	public static int G20_SHOCK_FIRE = i++;
+	public static int G20_WITHER_FIRE = i++;
 
-	public static final int NUKE_NORMAL = 0xD0;
-	public static final int NUKE_MIRV = 0xD1;
-	public static final int NUKE_AMAT = 0xD2;
-	public static final int NUKE_PROTO = 0xD3;
+	public static int NUKE_NORMAL = i++;
+	public static int NUKE_MIRV = i++;
+	public static int NUKE_AMAT = i++;
+	public static int NUKE_PROTO = i++;
 	
 	public static void loadConfigsForSync() {
 		
@@ -175,6 +182,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipConfig(), M44_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipAPConfig(), M44_AP));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipDUConfig(), M44_DU));
+		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipStarConfig(), M44_STAR));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getPipConfig(), M44_PIP));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getBJConfig(), M44_BJ));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getRocketConfig(), M44_ROCKET));
@@ -188,17 +196,21 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun50BMGFactory.get50BMGFireConfig(), BMG50_INCENDIARY));
 		configSet.add(new ConfigKeyPair(Gun50BMGFactory.get50BMGExplosiveConfig(), BMG50_EXPLOSIVE));
 		configSet.add(new ConfigKeyPair(Gun50BMGFactory.get50BMGDUConfig(), BMG50_DU));
+		configSet.add(new ConfigKeyPair(Gun50BMGFactory.get50BMGStarConfig(), BMG50_STAR));
 
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmConfig(), R5_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmExplosiveConfig(), R5_EXPLOSIVE));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmDUConfig(), R5_DU));
+		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmStarConfig(), R5_STAR));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_NORMAL_BOLT));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmExplosiveConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_EXPLOSIVE_BOLT));
 		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmDUConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_DU_BOLT));
+		configSet.add(new ConfigKeyPair(Gun5mmFactory.get5mmStarConfig().setToBolt(BulletConfiguration.BOLT_LACUNAE), R5_STAR_BOLT));
 
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50AEConfig(), AE50_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50APConfig(), AE50_AP));
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50DUConfig(), AE50_DU));
+		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50StarConfig(), AE50_STAR));
 
 		configSet.add(new ConfigKeyPair(GunOSIPRFactory.getPulseConfig(), SPECIAL_OSIPR));
 		configSet.add(new ConfigKeyPair(GunGaussFactory.getGaussConfig(), SPECIAL_GAUSS));
@@ -214,6 +226,7 @@ public class BulletConfigSyncingUtil {
 
 		configSet.add(new ConfigKeyPair(GunFatmanFactory.getNukeConfig(), NUKE_NORMAL));
 		configSet.add(new ConfigKeyPair(GunFatmanFactory.getNukeProtoConfig(), NUKE_PROTO));
+		configSet.add(new ConfigKeyPair(GunFatmanFactory.getBalefireConfig(), NUKE_AMAT));
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

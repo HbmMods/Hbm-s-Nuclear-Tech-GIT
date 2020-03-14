@@ -1,5 +1,6 @@
 package com.hbm.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -58,6 +59,7 @@ public class GunConfiguration {
 	
 	public String name = "";
 	public String manufacturer = "";
+	public List<String> comment = new ArrayList();
 
 	//bullet configs for main and alt fire
 	public List<Integer> config;

@@ -464,7 +464,7 @@ public class ModelLacunae extends ModelBase {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		
-		rot *= 0.0025F;
+		rot *= Math.PI / 180F;
 
 		Barrel1.rotateAngleX += rot;
 		Barrel2.rotateAngleX += rot;
@@ -556,6 +556,33 @@ public class ModelLacunae extends ModelBase {
 		ClampB.render(f5);
 		ClampF.render(f5);
 		AmmoBox.render(f5);
+
+		Barrel1.rotateAngleX -= rot;
+		Barrel2.rotateAngleX -= rot;
+		Barrel3.rotateAngleX -= rot;
+		Barrel4.rotateAngleX -= rot;
+		Barrel5.rotateAngleX -= rot;
+		Barrel6.rotateAngleX -= rot;
+		Brace1.rotateAngleX -= rot;
+		Brace2.rotateAngleX -= rot;
+		Brace3.rotateAngleX -= rot;
+		Brace4.rotateAngleX -= rot;
+		Brace5.rotateAngleX -= rot;
+		Brace6.rotateAngleX -= rot;
+		Brace7.rotateAngleX -= rot;
+		Brace8.rotateAngleX -= rot;
+		Brace9.rotateAngleX -= rot;
+		Brace10.rotateAngleX -= rot;
+		Brace11.rotateAngleX -= rot;
+		Brace12.rotateAngleX -= rot;
+		Disc1.rotateAngleX -= rot;
+		Disc2.rotateAngleX -= rot;
+		Disc3.rotateAngleX -= rot;
+		Disc4.rotateAngleX -= rot;
+		Disc5.rotateAngleX -= rot;
+		Disc6.rotateAngleX -= rot;
+		Disc7.rotateAngleX -= rot;
+		Disc8.rotateAngleX -= rot;
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

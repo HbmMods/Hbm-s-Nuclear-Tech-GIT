@@ -28,13 +28,14 @@ public class Gun5mmFactory {
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCLE;
-		config.durability = 5000;
+		config.durability = 10000;
 		config.firingSound = "hbm:weapon.lacunaeShoot";
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.R5_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE);
 		config.config.add(BulletConfigSyncingUtil.R5_DU);
+		config.config.add(BulletConfigSyncingUtil.R5_STAR);
 		
 		return config;
 	}
@@ -53,7 +54,7 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 
-		config.durability = 6500;
+		config.durability = 15000;
 		config.name = "CZ57 Avenger Minigun";
 		config.manufacturer = "Rockwell International Corporation";
 		
@@ -64,7 +65,7 @@ public class Gun5mmFactory {
 		
 		GunConfiguration config = getMinigunConfig();
 
-		config.durability = 10000;
+		config.durability = 25000;
 		config.name = "Auntie Lacunae";
 		config.manufacturer = "Rockwell International Corporation?";
 		
@@ -72,6 +73,7 @@ public class Gun5mmFactory {
 		config.config.add(BulletConfigSyncingUtil.R5_NORMAL_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_EXPLOSIVE_BOLT);
 		config.config.add(BulletConfigSyncingUtil.R5_DU_BOLT);
+		config.config.add(BulletConfigSyncingUtil.R5_STAR_BOLT);
 		
 		return config;
 	}
@@ -113,6 +115,20 @@ public class Gun5mmFactory {
 		bullet.dmgMax = 10;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get5mmStarConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_5mm_star;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 12;
+		bullet.dmgMax = 20;
+		bullet.wear = 25;
+		bullet.leadChance = 100;
 		
 		return bullet;
 	}

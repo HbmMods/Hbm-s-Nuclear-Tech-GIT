@@ -5,7 +5,6 @@ import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
 import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemLeadBox;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
 
@@ -775,6 +774,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntitySoyuzLauncher)
 					{
 						return new ContainerSoyuzLauncher(player.inventory, (TileEntitySoyuzLauncher) entity);
+					}
+					return null;
+				}
+	
+				case ModBlocks.guiID_dfc_emitter:
+				{
+					if(entity instanceof TileEntityCoreEmitter)
+					{
+						return new ContainerCoreEmitter(player.inventory, (TileEntityCoreEmitter) entity);
 					}
 					return null;
 				}
@@ -1551,6 +1559,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntitySoyuzLauncher)
 					{
 						return new GUISoyuzLauncher(player.inventory, (TileEntitySoyuzLauncher) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_dfc_emitter:
+				{
+					if(entity instanceof TileEntityCoreEmitter)
+					{
+						return new GUICoreEmitter(player.inventory, (TileEntityCoreEmitter) entity);
 					}
 					return null;
 				}

@@ -48,6 +48,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
@@ -67,6 +68,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
@@ -87,6 +89,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
 		return config;
@@ -106,6 +109,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
@@ -146,6 +150,19 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 10;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNoPipStarConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_44_star;
+		bullet.dmgMin = 14;
+		bullet.dmgMax = 20;
+		bullet.wear = 25;
+		bullet.leadChance = 100;
 		
 		return bullet;
 	}

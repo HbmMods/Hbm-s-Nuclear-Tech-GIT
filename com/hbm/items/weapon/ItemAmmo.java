@@ -87,6 +87,11 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Rocket");
 			list.add(EnumChatFormatting.YELLOW + "* Uhhhh");
 		}
+		if(this == ModItems.ammo_44_star) {
+			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
+			list.add(EnumChatFormatting.RED + "- Highly decreased damage");
+		}
 		
 		//5mm
 		if(this == ModItems.ammo_5mm_explosive) {
@@ -97,6 +102,11 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_5mm_du) {
 			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		if(this == ModItems.ammo_5mm_star) {
+			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		
@@ -136,6 +146,11 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_50bmg_star) {
+			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
 		
 		//.50 AE
 		if(this == ModItems.ammo_50ae_ap) {
@@ -145,6 +160,11 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_50ae_du) {
 			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		if(this == ModItems.ammo_50ae_star) {
+			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		

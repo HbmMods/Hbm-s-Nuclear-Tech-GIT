@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,28 +21,31 @@ public class WeaponizedCell extends Item {
     	if(item.ticksExisted > 50 * 20 || item.isBurning()) {
 			
 	    	if(!world.isRemote) {
-	    		world.playSoundEffect(item.posX, item.posY, item.posZ,
-						"random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-
-				EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(world);
-				exp.posX = item.posX;
-				exp.posY = item.posY;
-				exp.posZ = item.posZ;
-				exp.destructionRange = 100;
-				exp.speed = 25;
-				exp.coefficient = 1.0F;
-				exp.waste = false;
-
-				world.spawnEntityInWorld(exp);
 	    		
-	    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 100);
-	    		cloud.posX = item.posX;
-	    		cloud.posY = item.posY;
-	    		cloud.posZ = item.posZ;
-	    		world.spawnEntityInWorld(cloud);
+	    		if(MainRegistry.dropStar) {
+	    		
+		    		world.playSoundEffect(item.posX, item.posY, item.posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+	
+					EntityNukeExplosionMK3 exp = new EntityNukeExplosionMK3(world);
+					exp.posX = item.posX;
+					exp.posY = item.posY;
+					exp.posZ = item.posZ;
+					exp.destructionRange = 100;
+					exp.speed = 25;
+					exp.coefficient = 1.0F;
+					exp.waste = false;
+	
+					world.spawnEntityInWorld(exp);
+		    		
+		    		EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(world, 100);
+		    		cloud.posX = item.posX;
+		    		cloud.posY = item.posY;
+		    		cloud.posZ = item.posZ;
+		    		world.spawnEntityInWorld(cloud);
+	    		}
+	    		
+	    		item.setDead();
 	    	}
-	    		
-	    	item.setDead();
     	}
     	
     	int randy = (50 * 20) - item.ticksExisted;

@@ -45,6 +45,8 @@ public class WatzFuel extends ItemRadioactive {
 		list.add("Heat provided:   " + heat + " heat");
 		list.add("Heat multiplier:   " + (heatMultiplier >= 1 ? "+" : "") + (Math.round(heatMultiplier * 1000) * .10 - 100) + "%");
 		list.add("Decay multiplier: " + (decayMultiplier >= 1 ? "+" : "") + (Math.round(decayMultiplier * 1000) * .10 - 100) + "%");
+		
+		super.addInformation(itemstack, player, list, bool);
 	}
 	
 	public static void setLifeTime(ItemStack stack, int time) {

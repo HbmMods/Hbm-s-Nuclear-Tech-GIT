@@ -60,7 +60,7 @@ public class ItemDrop extends Item {
 				}
 			}
 			if (stack.getItem() != null && stack.getItem() == ModItems.detonator_de) {
-				if (!entityItem.worldObj.isRemote) {
+				if (!entityItem.worldObj.isRemote && MainRegistry.dropDead) {
 					entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY,
 							entityItem.posZ, 15.0F, true);
 
@@ -73,19 +73,19 @@ public class ItemDrop extends Item {
 			
 			if (entityItem.onGround) {
 
-				if (stack.getItem() != null && stack.getItem() == ModItems.cell_antimatter) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.cell_antimatter && MainRegistry.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
 						entityItem.worldObj.createExplosion(entityItem, entityItem.posX, entityItem.posY,
 								entityItem.posZ, 10.0F, true);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.pellet_antimatter) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.pellet_antimatter && MainRegistry.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
 						ExplosionLarge.explodeFire(entityItem.worldObj, entityItem.posX, entityItem.posY,
 								entityItem.posZ, 100, true, true, true);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium && MainRegistry.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
 						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
 								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
@@ -108,7 +108,7 @@ public class ItemDrop extends Item {
 			    		entityItem.worldObj.spawnEntityInWorld(cloud);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.singularity) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity && MainRegistry.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 
 			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 1.5F);
@@ -118,7 +118,7 @@ public class ItemDrop extends Item {
 			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_counter_resonant) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_counter_resonant && MainRegistry.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 
 			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
@@ -128,7 +128,7 @@ public class ItemDrop extends Item {
 			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_super_heated) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_super_heated && MainRegistry.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 
 			        	EntityVortex bl = new EntityVortex(entityItem.worldObj, 2.5F);
@@ -138,7 +138,7 @@ public class ItemDrop extends Item {
 			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.black_hole) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.black_hole && MainRegistry.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 						/*entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ,
 								"random.explode", 100.0f, entityItem.worldObj.rand.nextFloat() * 0.1F + 0.9F);
@@ -162,7 +162,7 @@ public class ItemDrop extends Item {
 			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_spark) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.singularity_spark && MainRegistry.dropSing) {
 					if (!entityItem.worldObj.isRemote) {
 			        	EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 3.5F);
 			        	bl.posX = entityItem.posX ;
@@ -171,7 +171,7 @@ public class ItemDrop extends Item {
 			        	entityItem.worldObj.spawnEntityInWorld(bl);
 					}
 				}
-				if (stack.getItem() != null && stack.getItem() == ModItems.crystal_xen) {
+				if (stack.getItem() != null && stack.getItem() == ModItems.crystal_xen && MainRegistry.dropCrys) {
 					if (!entityItem.worldObj.isRemote) {
 						ExplosionChaos.floater(entityItem.worldObj, (int)entityItem.posX, (int)entityItem.posY, (int)entityItem.posZ, 25, 75);
 						ExplosionChaos.move(entityItem.worldObj, (int)entityItem.posX, (int)entityItem.posY, (int)entityItem.posZ, 25, 0, 75, 0);

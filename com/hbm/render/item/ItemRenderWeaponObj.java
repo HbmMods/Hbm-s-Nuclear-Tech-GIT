@@ -10,6 +10,7 @@ import com.hbm.render.model.ModelPanzerschreck;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -33,7 +34,8 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		return false;
+		
+		return type == ItemRenderType.ENTITY && (helper == ItemRendererHelper.ENTITY_ROTATION || helper == ItemRendererHelper.ENTITY_BOBBING);
 	}
 
 	@Override
@@ -41,44 +43,95 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_CULL_FACE);
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
 		if(item.getItem() == ModItems.gun_hk69)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.hk69_tex);
+
+		if(item.getItem() == ModItems.gun_deagle)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.turbofan_blades_tex);
 		
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
-			GL11.glTranslatef(1.0F, 0.5F, 0.0F);
-			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-25F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
-			GL11.glScaled(0.75, 0.75, 0.75);
 			
-			if(Minecraft.getMinecraft().thePlayer.isSneaking()) {
-				GL11.glTranslatef(1.16F, 0.35F, -0.8F);
-				GL11.glRotatef(5.5F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(4F, 1.0F, 0.0F, 0.0F);
+
+			if(item.getItem() == ModItems.gun_hk69) {
+				GL11.glTranslatef(1.0F, 0.5F, 0.0F);
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(-25F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
+				GL11.glScaled(0.75, 0.75, 0.75);
+				
+				if(player.isSneaking()) {
+					GL11.glTranslatef(1.16F, 0.35F, -0.8F);
+					GL11.glRotatef(5.5F, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(4F, 1.0F, 0.0F, 0.0F);
+				}
 			}
+
+			if(item.getItem() == ModItems.gun_deagle) {
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(25F, -1.0F, 0.0F, 0.0F);
+				GL11.glTranslatef(0.2F, 0.2F, 0.8F);
+				GL11.glScaled(0.2, 0.2, 0.2);
+				
+				if(player.isSneaking()) {
+					GL11.glTranslatef(3.7F, 1.7F, 0F);
+					GL11.glRotatef(-5F, 0.0F, 1.0F, 0.0F);
+				}
+			}
+			
 			break;
 			
 		case EQUIPPED:
-			GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
-			GL11.glRotatef(10F, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(0.4F, 0.0F, 0.55F);
-			GL11.glScaled(0.75, 0.75, 0.75);
+
+			if(item.getItem() == ModItems.gun_hk69) {
+				GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
+				GL11.glRotatef(10F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(0.4F, 0.0F, 0.55F);
+				GL11.glScaled(0.75, 0.75, 0.75);
+			}
+
+			if(item.getItem() == ModItems.gun_deagle) {
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(35F, -1.0F, 0.0F, 0.0F);
+				GL11.glTranslatef(0.0F, -0.1F, 0.8F);
+				GL11.glScaled(0.15, 0.15, 0.15);
+			}
+			
 			break;
 			
 		case ENTITY:
-			GL11.glTranslatef(0.0F, 0.2F, 0.0F);
-			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
-			GL11.glScaled(0.75, 0.75, 0.75);
+			
+			if(item.getItem() == ModItems.gun_hk69) {
+				GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+				GL11.glScaled(0.75, 0.75, 0.75);
+			}
+
+			if(item.getItem() == ModItems.gun_deagle) {
+				GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+				GL11.glScaled(0.25, 0.25, 0.25);
+			}
+			
 			break;
 			
 		default: break;
 		}
 
-		if(item.getItem() == ModItems.gun_hk69)
+		if(item.getItem() == ModItems.gun_hk69) {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.hk69.renderAll();
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
+
+		if(item.getItem() == ModItems.gun_deagle) {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			ResourceManager.deagle.renderAll();
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();

@@ -325,22 +325,27 @@ public class ItemEnergy extends Item {
     	if(this == ModItems.bottle_nuka)
     	{
             list.add("Contains about 210 kcal and 1500 mSv.");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle_cherry)
     	{
             list.add("Now with severe radiation poisoning in every seventh bottle!");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle_quantum)
     	{
             list.add("Comes with a colorful mix of over 70 isotopes!");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle2_korl)
     	{
             list.add("Contains actual orange juice!");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle2_fritz)
     	{
             list.add("moremore caffeine");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle2_korl_special)
     	{
@@ -348,6 +353,7 @@ public class ItemEnergy extends Item {
     			list.add("shgehgev u rguer");
     		else
                 list.add("Contains actual orange juice!");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle2_fritz_special)
     	{
@@ -355,6 +361,7 @@ public class ItemEnergy extends Item {
     			list.add("ygrogr fgrof bf");
     		else
     			list.add("moremore caffeine");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle_sparkle)
     	{
@@ -362,6 +369,7 @@ public class ItemEnergy extends Item {
     			list.add("Contains trace amounts of taint.");
     		else
     			list.add("The most delicious beverage in the wasteland!");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle_sparkle)
     	{
@@ -369,6 +377,7 @@ public class ItemEnergy extends Item {
     			list.add("Now with 400% more radiation!");
     		else
     			list.add("Tastes like radish and radiation.");
+            list.add("[Requires bottle opener]");
     	}
     	if(this == ModItems.bottle2_sunset)
     	{
@@ -384,6 +393,7 @@ public class ItemEnergy extends Item {
     		} else {
     			list.add("The eternal #2. Screw you, Bradberton!");
     		}
+            list.add("[Requires bottle opener]");
     	}
     }
 }
