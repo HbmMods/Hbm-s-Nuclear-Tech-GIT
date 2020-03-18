@@ -7,25 +7,25 @@ import com.hbm.potion.HbmPotion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class BarbedWire extends Block {
 
-    public BarbedWire(Material mat)
-    {
+    public BarbedWire(Material mat) {
         super(mat);
     }
     
-    public void onEntityCollidedWithBlock(World p_149670_1_, int x, int y, int z, Entity ent)
-    {
+    public void onEntityCollidedWithBlock(World p_149670_1_, int x, int y, int z, Entity ent) {
+    	
     	ent.setInWeb();
 
         if(this == ModBlocks.barbed_wire) {
@@ -83,12 +83,29 @@ public class BarbedWire extends Block {
 
     public int getRenderType()
     {
-        return 1;
+        return 334083;
     }
 
     public boolean renderAsNormalBlock()
     {
         return false;
-    }
+	}
 
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+
+		if (i == 0) {
+			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+		}
+		if (i == 1) {
+			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+		}
+		if (i == 2) {
+			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+		}
+		if (i == 3) {
+			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+		}
+	}
 }

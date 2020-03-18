@@ -10,6 +10,7 @@ import com.hbm.interfaces.ILaserable;
 import com.hbm.inventory.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import net.minecraft.block.Block;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityCoreEmitter extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, ILaserable {
@@ -38,8 +39,12 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 			//tank.updateTank(xCoord, yCoord, zCoord);
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+			int range = 50;
 			
-			//worldObj.setBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, Blocks.dirt);
+			for(int i = 1; i <= range; i++) {
+				
+				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			}
 		}
 	}
 

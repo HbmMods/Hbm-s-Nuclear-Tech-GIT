@@ -1,12 +1,14 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.main.MainRegistry;
+import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -20,7 +22,17 @@ public class EntityLaser extends Entity {
 	public EntityLaser(World world, EntityPlayer player) {
 		super(world);
 		this.ignoreFrustumCheck = true;
-		this.dataWatcher.updateObject(20, player.getUniqueID().toString());
+		this.dataWatcher.updateObject(20, player.getDisplayName());
+		
+		Vec3 vec = player.getLookVec();
+		vec.rotateAroundY(-90F);
+		float l = 0.25F;
+		vec.xCoord *= l;
+		vec.yCoord *= l;
+		vec.zCoord *= l;
+		
+		this.setPosition(player.posX + vec.xCoord, player.posY + player.getEyeHeight(), player.posZ + vec.zCoord);
+		
 	}
 
 	@Override
@@ -30,8 +42,29 @@ public class EntityLaser extends Entity {
 	
 	@Override
 	public void onUpdate() {
-		if(!worldObj.isRemote && this.ticksExisted > 1)
+		
+		if(this.ticksExisted > 1)
 			this.setDead();
+		
+		int range = 100;
+		
+		EntityPlayer player = worldObj.getPlayerEntityByName(this.dataWatcher.getWatchableObjectString(20));
+		
+		if(player != null) {
+			
+			//this.setPosition(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+			
+			MovingObjectPosition pos = Library.rayTrace(player, range, 1);
+			
+			if(pos.entityHit != null) {
+				pos.entityHit.attackEntityFrom(ModDamageSource.radiation, 2);
+			}
+			
+			//worldObj.createExplosion(this, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 1, false);
+			
+			worldObj.spawnParticle("cloud", pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 0, 0, 0);
+			worldObj.playSound(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, "random.fizz", 1, 1, true);
+		}
 	}
 
 	@Override

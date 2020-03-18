@@ -59,12 +59,8 @@ public class GunBrimstone extends Item {
 			
 			
 			EntityLaser laser = new EntityLaser(world, player);
-			MovingObjectPosition pos = Library.rayTrace(player, 200, 1.0F);
-			laser.posX = pos.blockX + 0.5;
-			laser.posY = pos.blockY + 0.5;
-			laser.posZ = pos.blockZ + 0.5;
 
-			world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
+			//world.playSoundAtEntity(player, "hbm:weapon.rifleShoot", 1.0F, 0.8F + (rand.nextFloat() * 0.4F));
 
 			if (!flag) {
 				player.inventory.consumeInventoryItem(ModItems.gun_dash_ammo);
