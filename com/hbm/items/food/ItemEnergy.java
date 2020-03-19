@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 public class ItemEnergy extends Item {
 
     @Override
-	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
-    {
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
+		
         if (!player.capabilities.isCreativeMode)
         {
             --stack.stackSize;

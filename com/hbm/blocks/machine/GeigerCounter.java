@@ -1,13 +1,7 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
-import com.hbm.tileentity.machine.TileEntityBroadcaster;
-import com.hbm.tileentity.machine.TileEntityMachineBattery;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -129,8 +123,7 @@ public class GeigerCounter extends BlockContainer {
 		{
 	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
 
-			RadEntitySavedData eData = RadEntitySavedData.getData(player.worldObj);
-			int eRad = (int)eData.getRadFromEntity(player);
+			int eRad = (int)player.getEntityData().getFloat("hfr_radiation");
 
 			RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
 			Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);

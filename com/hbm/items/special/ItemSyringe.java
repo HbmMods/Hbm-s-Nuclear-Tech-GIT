@@ -11,7 +11,6 @@ import com.hbm.items.gear.JetpackVectorized;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.RadEntitySavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -66,6 +65,7 @@ public class ItemSyringe extends Item {
                 player.addPotionEffect(new PotionEffect(Potion.field_76434_w.id, 50 * 20, 9));
                 player.addPotionEffect(new PotionEffect(Potion.field_76444_x.id, 50 * 20, 4));
                 player.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 4));
+                player.addPotionEffect(new PotionEffect(HbmPotion.radx.id, 50 * 20, 9));
                 
                 stack.stackSize--;
             	world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
@@ -216,17 +216,7 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
-        		//player.removePotionEffect(HbmPotion.radiation.id);
-        		
-				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
-				
-				float rad = entityData.getRadFromEntity(player);
-				rad -= 140F;
-				
-				if(rad < 0)
-					rad = 0;
-				
-				entityData.setRadForEntity(player, rad);
+                player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, 14, 9));
             
             	stack.stackSize--;
             	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
@@ -237,15 +227,16 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
-				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
-				
-				float rad = entityData.getRadFromEntity(player);
-				rad -= 350F;
-				
-				if(rad < 0)
-					rad = 0;
-				
-				entityData.setRadForEntity(player, rad);
+            	int duration = 35;
+            	int level = 9;
+            	
+            	if(!player.isPotionActive(HbmPotion.radaway)) {
+            		player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, duration, level));
+            	} else {
+            		
+            		int d = player.getActivePotionEffect(HbmPotion.radaway).getDuration() + duration;
+            		player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, d, level));
+            	}
             
             	stack.stackSize--;
             	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);
@@ -256,15 +247,7 @@ public class ItemSyringe extends Item {
 		{
             if (!world.isRemote)
             {
-				RadEntitySavedData entityData = RadEntitySavedData.getData(world);
-				
-				float rad = entityData.getRadFromEntity(player);
-				rad -= 1000F;
-				
-				if(rad < 0)
-					rad = 0;
-				
-				entityData.setRadForEntity(player, rad);
+                player.addPotionEffect(new PotionEffect(HbmPotion.radaway.id, 50, 19));
             
             	stack.stackSize--;
             	world.playSoundAtEntity(player, "hbm:item.radaway", 1.0F, 1.0F);

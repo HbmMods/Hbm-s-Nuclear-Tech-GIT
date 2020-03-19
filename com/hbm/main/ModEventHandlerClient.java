@@ -1,26 +1,19 @@
 package com.hbm.main;
 
-import org.lwjgl.opengl.GL11;
-
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemGeigerCounter;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
-import com.hbm.lib.RefStrings;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.model.ModelCloak;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderScreenOverlay;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
-import com.hbm.saveddata.RadEntitySavedData;
-import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -33,13 +26,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -84,10 +74,8 @@ public class ModEventHandlerClient {
 			if(player.inventory.hasItem(ModItems.geiger_counter)) {
 
 				float rads = 0;
-				float abs = 0;
 
-				RadEntitySavedData data = RadEntitySavedData.getData(player.worldObj);
-				rads = data.getRadFromEntity(player);
+				rads = player.getEntityData().getFloat("hfr_radiation");
 				
 				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 			}
@@ -150,6 +138,7 @@ public class ModEventHandlerClient {
 
 	}
 
+	@Spaghetti("please get this shit out of my face")
 	@SubscribeEvent
 	public void onPlaySound(PlaySoundEvent17 e) {
 		ResourceLocation r = e.sound.getPositionedSoundLocation();

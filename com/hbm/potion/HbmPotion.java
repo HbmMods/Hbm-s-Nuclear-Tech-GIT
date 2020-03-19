@@ -9,7 +9,6 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.RadEntitySavedData;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -28,6 +27,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion mutation;
 	public static HbmPotion radx;
 	public static HbmPotion lead;
+	public static HbmPotion radaway;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -39,7 +39,8 @@ public class HbmPotion extends Potion {
 		bang = registerPotion(MainRegistry.bangID, true, 1118481, "potion.hbm_bang", 3, 0);
 		mutation = registerPotion(MainRegistry.mutationID, false, 8388736, "potion.hbm_mutation", 2, 0);
 		radx = registerPotion(MainRegistry.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
-		lead = registerPotion(MainRegistry.leadID, false, 0x767682, "potion.hbm_lead", 6, 0);
+		lead = registerPotion(MainRegistry.leadID, true, 0x767682, "potion.hbm_lead", 6, 0);
+		radaway = registerPotion(MainRegistry.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -102,14 +103,16 @@ public class HbmPotion extends Potion {
 		}
 		if(this == radiation) {
 			
-			/*if (entity.getHealth() > entity.getMaxHealth() - (level + 1)) {
-				entity.attackEntityFrom(ModDamageSource.radiation, 1);
-			}*/
-			
-			//RadEntitySavedData data = RadEntitySavedData.getData(entity.worldObj);
-			//data.increaseRad(entity, (float)(level + 1F) * 0.05F);
-			
 			Library.applyRadData(entity, (float)(level + 1F) * 0.05F);
+		}
+		if(this == radaway) {
+
+			float rad = entity.getEntityData().getFloat("hfr_radiation");
+			rad -= (level + 1);
+			if(rad < 0) rad = 0;
+			
+			entity.getEntityData().setFloat("hfr_radiation", rad);
+			
 		}
 		if(this == bang) {
 			
@@ -134,7 +137,7 @@ public class HbmPotion extends Potion {
 
 	        return par1 % 2 == 0;
 		}
-		if(this == radiation) {
+		if(this == radiation || this == radaway) {
 			
 			return true;
 		}

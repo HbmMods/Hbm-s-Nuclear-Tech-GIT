@@ -5,16 +5,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.render.util.RenderDecoItem;
 import com.hbm.render.util.RenderItemStack;
 
-import codechicken.lib.render.RenderUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

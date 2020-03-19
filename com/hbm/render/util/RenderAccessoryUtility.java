@@ -1,6 +1,5 @@
 package com.hbm.render.util;
 
-import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -18,6 +17,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation red = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeRed.png");
 	private static ResourceLocation ayy = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeAyy.png");
 	private static ResourceLocation nostalgia = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeNostalgia.png");
+	private static ResourceLocation nostalgia2 = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeNostalgia2.png");
 	private static ResourceLocation sam = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeSam.png");
 	private static ResourceLocation hoboy = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeHoboy.png");
 	private static ResourceLocation master = new ResourceLocation(RefStrings.MODID + ":textures/models/CapeMaster.png");
@@ -52,7 +52,11 @@ public class RenderAccessoryUtility {
 			return ayy;
 		}
 		if(uuid.equals(Library.Dr_Nostalgia)) {
-			return nostalgia;
+			
+			if(MainRegistry.polaroidID == 11)
+				return nostalgia2;
+			else
+				return nostalgia;
 		}
 		if(uuid.equals(Library.Samino2)) {
 			return sam;

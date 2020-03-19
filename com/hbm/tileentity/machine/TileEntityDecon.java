@@ -2,10 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.RadEntitySavedData;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -22,9 +18,13 @@ public class TileEntityDecon extends TileEntity {
 			
 			if (!entities.isEmpty()) {
 				for (Entity e : entities) {
-
-					RadEntitySavedData entityData = RadEntitySavedData.getData(worldObj);
-					entityData.increaseRad(e, -0.5F);
+					
+					float f = e.getEntityData().getFloat("hfr_radiation");
+					f -= 0.5F;
+					
+					if(f < 0) f = 0;
+					
+					e.getEntityData().setFloat("hfr_radiation", f);
 				}
 			}
 		}

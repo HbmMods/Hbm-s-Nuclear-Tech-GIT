@@ -330,6 +330,7 @@ public class MainRegistry
 	public static int mutationID = 65;
 	public static int radxID = 66;
 	public static int leadID = 67;
+	public static int radawayID = 68;
 
 	public static int x;
 	public static int y;
@@ -1766,6 +1767,7 @@ public class MainRegistry
         mutationID = createConfigInt(config, CATEGORY_POTION, "8.03_mutationPotionID", "What potion ID the taint mutation effect will have", 65);
         radxID = createConfigInt(config, CATEGORY_POTION, "8.04_radxPotionID", "What potion ID the Rad-X effect will have", 66);
         leadID = createConfigInt(config, CATEGORY_POTION, "8.05_leadPotionID", "What potion ID the lead poisoning effect will have", 67);
+        radawayID = createConfigInt(config, CATEGORY_POTION, "8.06_radawayPotionID", "What potion ID the radaway effect will have", 68);
 
         final String CATEGORY_MACHINE = "09_machines";
         templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));

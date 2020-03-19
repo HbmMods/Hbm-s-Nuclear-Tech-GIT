@@ -50,6 +50,7 @@ potion.hbm_radiation=Kontaminiert
 potion.hbm_bang=! ! !
 potion.hbm_radx=Rad-X
 potion.hbm_lead=Bleivergiftung
+potion.hbm_radaway=Radaway
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser

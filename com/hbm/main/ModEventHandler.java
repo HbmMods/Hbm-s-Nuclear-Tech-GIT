@@ -19,7 +19,6 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.RadSurveyPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
-import com.hbm.saveddata.RadEntitySavedData;
 import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -69,9 +68,8 @@ public class ModEventHandler
 	
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event) {
-
-		RadEntitySavedData eData = RadEntitySavedData.getData(event.entityLiving.worldObj);
-		eData.setRadForEntity(event.entityLiving, 0);
+		
+		event.entityLiving.getEntityData().setFloat("hfr_radiation", 0);
 		
 		if(MainRegistry.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
@@ -176,11 +174,6 @@ public class ModEventHandler
 			if(!event.world.loadedEntityList.isEmpty()) {
 
 				RadiationSavedData data = RadiationSavedData.getData(event.world);
-				RadEntitySavedData eData = RadEntitySavedData.getData(event.world);
-				
-				if(eData.worldObj == null) {
-					eData.worldObj = event.world;
-				}
 				
 				if(data.worldObj == null) {
 					data.worldObj = event.world;
@@ -189,7 +182,7 @@ public class ModEventHandler
 				for(Object o : event.world.playerEntities) {
 					
 					EntityPlayer player = (EntityPlayer)o;
-					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(eData.getRadFromEntity(player)), (EntityPlayerMP) player);
+					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(player.getEntityData().getFloat("hfr_radiation")), (EntityPlayerMP) player);
 				}
 				
 				if(event.world.getTotalWorldTime() % 20 == 0) {
@@ -226,7 +219,7 @@ public class ModEventHandler
 							}
 						}
 						
-						float eRad = eData.getRadFromEntity(entity);
+						float eRad = entity.getEntityData().getFloat("hfr_radiation");
 						
 						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
 							
@@ -269,7 +262,7 @@ public class ModEventHandler
 						
 						if(eRad >= 1000) {
 							if(entity.attackEntityFrom(ModDamageSource.radiation, 1000))
-								eData.setRadForEntity(entity, 0);
+								entity.getEntityData().setFloat("hfr_radiation", 0);
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
