@@ -3,11 +3,9 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.items.ModItems;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

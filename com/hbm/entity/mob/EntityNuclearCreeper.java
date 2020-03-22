@@ -1,22 +1,18 @@
 package com.hbm.entity.mob;
 
-import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -26,13 +22,9 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -40,12 +32,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityNuclearCreeper extends EntityMob {
@@ -220,53 +208,12 @@ public class EntityNuclearCreeper extends EntityMob {
                 this.func_146077_cc();
             }
         }
-		int strength = 1;
-		float f = strength;
-        HashSet hashset = new HashSet();
-        int i;
-        int j;
-        int k;
-        double d5;
-        double d6;
-        double d7;
-        double wat = f*2;
-        boolean isOccupied = false;
         
+        List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(posX - 2, posY - 2, posZ - 2, posX + 2, posY + 2, posZ + 2));
 
-        strength *= 2.0F;
-        i = MathHelper.floor_double(this.posX - wat - 1.0D);
-        j = MathHelper.floor_double(this.posX + wat + 1.0D);
-        k = MathHelper.floor_double(this.posY - wat - 1.0D);
-        int i2 = MathHelper.floor_double(this.posY + wat + 1.0D);
-        int l = MathHelper.floor_double(this.posZ - wat - 1.0D);
-        int j2 = MathHelper.floor_double(this.posZ + wat + 1.0D);
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-        Vec3 vec3 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
-
-        for (int i1 = 0; i1 < list.size(); ++i1)
-        {
-            Entity entity = (Entity)list.get(i1);
-            double d4 = entity.getDistance(this.posX, this.posY, this.posZ) / 4;
-
-            if (d4 <= 1.0D)
-            {
-                d5 = entity.posX - this.posX;
-                d6 = entity.posY + entity.getEyeHeight() - this.posY;
-                d7 = entity.posZ - this.posZ;
-                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-                if (d9 < wat)
-                {
-                	if(entity instanceof EntityLivingBase && !(entity instanceof EntityNuclearCreeper))
-                    {
-                    	//Library.applyRadiation(entity, 20, 9, 5, 2);
-                		
-                		Library.applyRadData(entity, 0.25F);
-                    }
-                }
-            }
-        }
-
-        strength = (int)f;
+        for(Entity e : list)
+        	if(!(e instanceof EntityNuclearCreeper))
+        		Library.applyRadData(e, 0.25F);
 
         super.onUpdate();
         
@@ -434,7 +381,10 @@ public class EntityNuclearCreeper extends EntityMob {
             	this.explosionRadius *= 3;
             }
 
-	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, explosionRadius, posX, posY, posZ));
+            if(flag)
+            	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, explosionRadius, posX, posY, posZ));
+            else
+            	worldObj.createExplosion(this, posX, posY, posZ, explosionRadius, false);
             
             if(this.getPowered())
             {

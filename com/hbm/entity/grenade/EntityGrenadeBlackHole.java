@@ -4,7 +4,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 import com.hbm.entity.effect.EntityBlackHole;
-import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 

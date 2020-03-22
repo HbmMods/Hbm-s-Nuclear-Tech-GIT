@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandler;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
 import net.minecraft.block.Block;

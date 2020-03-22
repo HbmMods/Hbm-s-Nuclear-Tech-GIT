@@ -1,6 +1,5 @@
 package com.hbm.explosion;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +11,6 @@ import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityCloudFX;
-import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityModFX;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.particle.EntityPinkCloudFX;
@@ -22,15 +20,11 @@ import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
-import com.hbm.interfaces.IConductor;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -42,10 +36,8 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -615,7 +607,6 @@ public class ExplosionChaos {
 
 	public static void poison(World world, int x, int y, int z, int bombStartStrength) {
 		float f = bombStartStrength;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -623,7 +614,6 @@ public class ExplosionChaos {
 		double d6;
 		double d7;
 		double wat = bombStartStrength * 2;
-		boolean isOccupied = false;
 
 		bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -633,7 +623,6 @@ public class ExplosionChaos {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -669,7 +658,6 @@ public class ExplosionChaos {
 
 	public static void pc(World world, int x, int y, int z, int bombStartStrength) {
 		float f = bombStartStrength;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -677,7 +665,6 @@ public class ExplosionChaos {
 		double d6;
 		double d7;
 		double wat = bombStartStrength * 2;
-		boolean isOccupied = false;
 
 		bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -687,7 +674,6 @@ public class ExplosionChaos {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -719,7 +705,6 @@ public class ExplosionChaos {
 
 	public static void c(World world, int x, int y, int z, int bombStartStrength) {
 		float f = bombStartStrength;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -727,7 +712,6 @@ public class ExplosionChaos {
 		double d6;
 		double d7;
 		double wat = bombStartStrength * 2;
-		boolean isOccupied = false;
 
 		bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -737,7 +721,6 @@ public class ExplosionChaos {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -809,7 +792,6 @@ public class ExplosionChaos {
 
 	public static void move(World world, int x, int y, int z, int radius, int a, int b, int c) {
 		float f = radius;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -817,7 +799,6 @@ public class ExplosionChaos {
 		double d6;
 		double d7;
 		double wat = radius;
-		boolean isOccupied = false;
 		int rand = 0;
 
 		radius *= 2.0F;
@@ -828,7 +809,6 @@ public class ExplosionChaos {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -863,7 +843,6 @@ public class ExplosionChaos {
 
 	public static Entity getHomingTarget(World world, int x, int y, int z, int radius, Entity e) {
 		float f = radius;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -871,7 +850,6 @@ public class ExplosionChaos {
 		double d6;
 		double d7;
 		double wat = radius * 2;
-		boolean isOccupied = false;
 
 		radius *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -881,7 +859,6 @@ public class ExplosionChaos {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -896,7 +873,6 @@ public class ExplosionChaos {
 					d5 /= d9;
 					d6 /= d9;
 					d7 /= d9;
-					double d10 = world.getBlockDensity(vec3, entity.boundingBox);
 					if (entity instanceof EntityMissileBase && !(entity instanceof EntityMissileAntiBallistic)) {
 						return entity;
 					}
@@ -910,7 +886,6 @@ public class ExplosionChaos {
 
 	public static void delMissiles(World world, int x, int y, int z, int radius, Entity e) {
 		float f = radius;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -918,7 +893,6 @@ public class ExplosionChaos {
 		double d6;
 		double d7;
 		double wat = radius * 2;
-		boolean isOccupied = false;
 
 		radius *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -928,7 +902,6 @@ public class ExplosionChaos {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(e, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -943,7 +916,6 @@ public class ExplosionChaos {
 					d5 /= d9;
 					d6 /= d9;
 					d7 /= d9;
-					double d10 = world.getBlockDensity(vec3, entity.boundingBox);
 					if (entity instanceof EntityMissileBase) {
 						entity = null;
 					}
@@ -957,7 +929,6 @@ public class ExplosionChaos {
 	public static void mirv(World world, double x, double y, double z) {
 		double modifier = 2.5;
 		double zeta = Math.sqrt(2) / 2;
-		double theta = Math.sqrt(1 - Math.pow(0.5, 2));
 		EntityMIRV mirv1 = new EntityMIRV(world);
 		EntityMIRV mirv2 = new EntityMIRV(world);
 		EntityMIRV mirv3 = new EntityMIRV(world);
@@ -1050,7 +1021,6 @@ public class ExplosionChaos {
 	public static void miniMirv(World world, double x, double y, double z) {
 		double modifier = 1.25;
 		double zeta = Math.sqrt(2) / 2;
-		double theta = Math.sqrt(1 - Math.pow(0.5, 2));
 		EntityMiniNuke mirv1 = new EntityMiniNuke(world);
 		EntityMiniNuke mirv2 = new EntityMiniNuke(world);
 		EntityMiniNuke mirv3 = new EntityMiniNuke(world);
@@ -1271,66 +1241,63 @@ public class ExplosionChaos {
 	}
 
 	public static void decontaminate(World world, int x, int y, int z) {
-		//Bridged
-		//if (!world.isRemote) {
-			{ int rand;
-			Random random = new Random();
-			
-			if (world.getBlock(x, y, z) == ModBlocks.waste_earth && random.nextInt(3) != 0) {
-				world.setBlock(x, y, z, Blocks.grass);
-			}
+		
+		Random random = new Random();
 
-			else if (world.getBlock(x, y, z) == ModBlocks.waste_mycelium && random.nextInt(5) == 0) {
-				world.setBlock(x, y, z, Blocks.mycelium);
-			}
+		if (world.getBlock(x, y, z) == ModBlocks.waste_earth && random.nextInt(3) != 0) {
+			world.setBlock(x, y, z, Blocks.grass);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.waste_trinitite && random.nextInt(3) == 0) {
-				world.setBlock(x, y, z, Blocks.sand);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.waste_mycelium && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, Blocks.mycelium);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.waste_trinitite_red && random.nextInt(3) == 0) {
-				world.setBlock(x, y, z, Blocks.sand, 1, 2);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.waste_trinitite && random.nextInt(3) == 0) {
+			world.setBlock(x, y, z, Blocks.sand);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.waste_log && random.nextInt(3) != 0) {
-				world.setBlock(x, y, z, Blocks.log);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.waste_trinitite_red && random.nextInt(3) == 0) {
+			world.setBlock(x, y, z, Blocks.sand, 1, 2);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.waste_planks && random.nextInt(3) != 0) {
-				world.setBlock(x, y, z, Blocks.planks);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.waste_log && random.nextInt(3) != 0) {
+			world.setBlock(x, y, z, Blocks.log);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.block_trinitite && random.nextInt(10) == 0) {
-				world.setBlock(x, y, z, ModBlocks.block_lead);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.waste_planks && random.nextInt(3) != 0) {
+			world.setBlock(x, y, z, Blocks.planks);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.block_waste && random.nextInt(10) == 0) {
-				world.setBlock(x, y, z, ModBlocks.block_lead);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.block_trinitite && random.nextInt(10) == 0) {
+			world.setBlock(x, y, z, ModBlocks.block_lead);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_core && random.nextInt(10) == 0) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_4);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.block_waste && random.nextInt(10) == 0) {
+			world.setBlock(x, y, z, ModBlocks.block_lead);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_4 && random.nextInt(5) == 0) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_3);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_core && random.nextInt(10) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_4);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_3 && random.nextInt(5) == 0) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_2);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_4 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_3);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_2 && random.nextInt(5) == 0) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_1);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_3 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_2);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_1 && random.nextInt(5) == 0) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_0);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_2 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_1);
+		}
 
-			else if (world.getBlock(x, y, z) == ModBlocks.sellafield_0 && random.nextInt(5) == 0) {
-				world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
-			}
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_1 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_0);
+		}
+
+		else if (world.getBlock(x, y, z) == ModBlocks.sellafield_0 && random.nextInt(5) == 0) {
+			world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
 		}
 	}
 

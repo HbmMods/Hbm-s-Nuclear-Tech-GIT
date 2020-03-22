@@ -6,22 +6,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.nei.CentrifugeRecipeHandler.Fuel;
-import com.hbm.handler.nei.CentrifugeRecipeHandler.SmeltingSet;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIMachineCentrifuge;
 import com.hbm.inventory.gui.GUIMachineGasCent;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.IOverlayHandler;
-import codechicken.nei.api.IRecipeOverlayRenderer;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.IUsageHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {

@@ -7,7 +7,6 @@ import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

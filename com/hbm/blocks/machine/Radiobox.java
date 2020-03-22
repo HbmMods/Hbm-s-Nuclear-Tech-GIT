@@ -1,12 +1,7 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityDiFurnace;
-import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityRadiobox;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;

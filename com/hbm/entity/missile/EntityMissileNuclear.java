@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

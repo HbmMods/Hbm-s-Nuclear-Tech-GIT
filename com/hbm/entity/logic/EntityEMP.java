@@ -3,9 +3,6 @@ package com.hbm.entity.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityEMPBlast;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.packet.PacketDispatcher;
@@ -95,7 +92,6 @@ public class EntityEMP extends Entity {
 	
 	private void emp(int x, int y, int z) {
 		
-		Block b = worldObj.getBlock(x,y,z);
 		TileEntity te = worldObj.getTileEntity(x, y, z);
 		
 		boolean flag = false;

@@ -1,32 +1,20 @@
 package com.hbm.inventory.gui;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIScreenTemplateFolder.FolderButton;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
-import com.hbm.items.tool.ItemCassette;
-import com.hbm.items.tool.ItemCassette.TrackType;
-import com.hbm.items.tool.ItemChemistryTemplate;
-import com.hbm.items.tool.ItemFluidIdentifier;
 import com.hbm.items.tool.ItemSatChip;
 import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
-import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.SatLaserPacket;
 import com.hbm.saveddata.SatelliteSaveStructure;
 import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
-import com.hbm.saveddata.SatelliteSavedData;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

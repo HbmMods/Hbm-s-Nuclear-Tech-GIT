@@ -1,29 +1,19 @@
 package com.hbm.handler.nei;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.nei.RefineryRecipeHandler.SmeltingSet;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineBoiler;
 import com.hbm.inventory.gui.GUIMachineBoilerElectric;
-import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.IOverlayHandler;
-import codechicken.nei.api.IRecipeOverlayRenderer;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 public class BoilerRecipeHandler extends TemplateRecipeHandler {

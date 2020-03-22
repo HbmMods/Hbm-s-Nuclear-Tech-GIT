@@ -312,6 +312,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 		}
 	}
 	
+	//TODO: fix this punjabi trash
 	@Override
 	public void updateEntity() {
 		boolean flag = this.hasPower();

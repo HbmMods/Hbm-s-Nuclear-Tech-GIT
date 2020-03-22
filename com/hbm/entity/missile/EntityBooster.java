@@ -1,14 +1,7 @@
 package com.hbm.entity.missile;
 
-import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

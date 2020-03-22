@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;

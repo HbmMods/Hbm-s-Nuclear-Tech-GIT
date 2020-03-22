@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IDummy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 import com.hbm.tileentity.machine.TileEntityMachinePumpjack;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

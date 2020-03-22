@@ -3,13 +3,9 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

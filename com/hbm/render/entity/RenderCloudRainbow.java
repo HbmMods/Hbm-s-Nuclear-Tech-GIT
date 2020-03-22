@@ -2,7 +2,6 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.lib.RefStrings;
 

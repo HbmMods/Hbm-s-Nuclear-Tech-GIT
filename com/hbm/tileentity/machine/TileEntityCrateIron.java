@@ -1,18 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.FluidTank;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCrateIron extends TileEntityLockableBase implements ISidedInventory {
 

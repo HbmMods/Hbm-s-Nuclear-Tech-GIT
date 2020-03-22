@@ -5,24 +5,17 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineBoiler;
-import com.hbm.blocks.machine.MachineCoal;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

@@ -1,8 +1,5 @@
 package com.hbm.explosion;
 
-import com.hbm.blocks.ModBlocks;
-
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -107,11 +104,6 @@ public class ExplosionTom
 				
 				if(y == 0)
 					break;
-				
-				float hardness = worldObj.getBlock(pX, y, pZ).getBlockHardness(worldObj, pX, y, pZ);
-				
-				if(worldObj.getBlock(pX, y, pZ).getMaterial().isLiquid())
-					hardness = Blocks.air.getBlockHardness(worldObj, pX, y + 1, pZ);
 				
 				worldObj.setBlockToAir(pX, y, pZ);
 				

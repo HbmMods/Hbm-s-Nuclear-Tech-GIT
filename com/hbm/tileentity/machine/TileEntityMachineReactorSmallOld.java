@@ -2,9 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
@@ -16,17 +14,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -35,7 +30,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 

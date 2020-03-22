@@ -3,14 +3,10 @@ package com.hbm.items.tool;
 import java.util.Arrays;
 import java.util.List;
 
-import com.hbm.blocks.bomb.TurretBase;
-import com.hbm.tileentity.bomb.TileEntityTurretBase;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
@@ -28,8 +24,6 @@ public class ItemTurretBiometry extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-		int i = 0;
-		
 		addName(stack, player.getUniqueID().toString());
 
         if(world.isRemote)

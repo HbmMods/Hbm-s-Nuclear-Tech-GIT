@@ -66,7 +66,6 @@ public class MachineForceField extends BlockContainer {
 				float f = x;
 				float f1 = y + 2F;
 				float f2 = z;
-				float f3 = 0.52F;
 				float f4 = rand.nextFloat();
 				float f5 = rand.nextFloat();
 	
@@ -80,7 +79,6 @@ public class MachineForceField extends BlockContainer {
 				float f = x;
 				float f1 = y + 2F;
 				float f2 = z;
-				float f3 = 0.52F;
 				float f4 = rand.nextFloat();
 				float f5 = rand.nextFloat();
 	

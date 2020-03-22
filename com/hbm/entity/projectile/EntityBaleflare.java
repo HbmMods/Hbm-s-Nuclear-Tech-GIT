@@ -3,7 +3,6 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.entity.logic.EntityBalefire;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.main.MainRegistry;

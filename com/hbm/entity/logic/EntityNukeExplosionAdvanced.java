@@ -4,11 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import com.hbm.entity.effect.EntityFalloutRain;
-import com.hbm.explosion.ExplosionFleija;
-import com.hbm.explosion.ExplosionNukeAdvanced;
-import com.hbm.explosion.ExplosionNukeGeneric;
-
 public class EntityNukeExplosionAdvanced extends Entity {
 	
 	//public int age = 0;

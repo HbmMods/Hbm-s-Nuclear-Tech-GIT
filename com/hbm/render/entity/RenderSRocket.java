@@ -2,10 +2,8 @@ package com.hbm.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelBullet;
 import com.hbm.render.model.ModelSRocket;
 
 import net.minecraft.client.renderer.entity.Render;

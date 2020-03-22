@@ -24,7 +24,9 @@ public class ItemCatalog extends Item {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
-		list.add("For a guide on how to obtain this, visit https://bit.ly/2TPgcqT");
-		list.add("No tricks this time, i promise.");
+		if(this == ModItems.bobmazon_hidden) {
+			list.add("For a guide on how to obtain this, visit https://bit.ly/2TPgcqT");
+			list.add("No tricks this time, i promise.");
+		}
 	}
 }

@@ -1,64 +1,26 @@
 package com.hbm.blocks.test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityBlackHole;
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.effect.EntityCloudFleijaRainbow;
-import com.hbm.entity.logic.EntityEMP;
-import com.hbm.entity.missile.EntityMinerRocket;
-import com.hbm.entity.projectile.EntityBurningFOEQ;
-import com.hbm.entity.projectile.EntityMeteor;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNukeRay;
-import com.hbm.explosion.ExplosionNukeRay.FloatTriplet;
-import com.hbm.lib.HbmChestContents;
-import com.hbm.main.MainRegistry;
-import com.hbm.main.ModEventHandler;
-import com.hbm.packet.AuxParticlePacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.HbmPotion;
-import com.hbm.render.util.MissilePart;
-import com.hbm.saveddata.RadiationSaveStructure;
 import com.hbm.saveddata.RadiationSavedData;
-import com.hbm.saveddata.SatelliteSaveStructure;
-import com.hbm.saveddata.SatelliteSavedData;
-import com.hbm.tileentity.machine.TileEntityCrateSteel;
-import com.hbm.world.Barrel;
-import com.hbm.world.Geyser;
-import com.hbm.world.GeyserLarge;
-import com.hbm.world.Meteorite;
-import com.hbm.world.Sellafield;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.util.WeightedRandomChestContent;
-import net.minecraft.village.VillageCollection;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderServer;
 
 public class TestEventTester extends Block {
 	
@@ -232,8 +194,6 @@ public class TestEventTester extends Block {
         	
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_red_copper) {
 
-				Chunk chunk = worldObj.getChunkFromBlockCoords(x1, z1);
-				
 				data.jettisonData();
         	}
         	
@@ -245,9 +205,9 @@ public class TestEventTester extends Block {
         	if(worldObj.getBlock(x1, y1 - 1, z1) == ModBlocks.block_uranium) {
 				
         		float r = 0;
-        		
-        		for(RadiationSaveStructure st : data.contamination) {
-        			r += st.radiation;
+
+            	for(Entry<ChunkCoordIntPair, Float> struct : data.contamination.entrySet()) {
+        			r += struct.getValue();
         		}
         		
 				System.out.println(r);
@@ -418,23 +378,6 @@ public class TestEventTester extends Block {
         return true;
     }
     
-    /*public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c)
-    {
-    	EntityNukeExplosionAdvanced entity = new EntityNukeExplosionAdvanced(world);
-    	entity.posX = x;
-    	entity.posY = y;
-    	entity.posZ = z;
-    	entity.destructionRange = 20;
-    	entity.speed = 25;
-    	entity.coefficient = 3.5F;
-    	
-    	world.spawnEntityInWorld(entity);
-    	
-    	System.out.print("\nCALLED!!");
-    	
-    	return true;
-    }*/
-    
     public void buildEvent(World world, int x, int y, int z, int r) {
     	
     	Random rand = new Random();
@@ -466,7 +409,6 @@ public class TestEventTester extends Block {
 		
 			world.playSoundEffect(x + 0.5D, y + 0.5D, z + 0.5D, "random.break", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
 			float f = this.explosionSize;
-	        HashSet hashset = new HashSet();
 	        int i;
 	        int j;
 	        int k;
@@ -484,7 +426,6 @@ public class TestEventTester extends Block {
 	        int l = MathHelper.floor_double(z - wat - 1.0D);
 	        int j2 = MathHelper.floor_double(z + wat + 1.0D);
 	        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-	        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 	        Vec3 vec4 = Vec3.createVectorHelper(x, y + 1, z);
 
 	        for (int i1 = 0; i1 < list.size(); ++i1)
@@ -530,41 +471,4 @@ public class TestEventTester extends Block {
 
 	        this.explosionSize = f;
 	}
-	
-	/*public void killEvent1(World world, int x, int y, int z) {
-		double explosionDimension = 20.0D;
-		float damageDealt = 1000.0F;
-		world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "random.break", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-
-        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(explosionDimension, explosionDimension, explosionDimension, -explosionDimension, -explosionDimension, -explosionDimension)); //Many thanks Pridenauer, it's a fucking cube now, are you proud of yourself now? Oh, yes you are -_-
-        
-        for(int i = 0; i < list.size(); i++)
-        {
-        	Entity entity = (Entity)list.get(i);
-        	entity.attackEntityFrom(DamageSource.generic, damageDealt);
-        	
-        	double d5 = entity.posX - x;
-            double d6 = entity.posY + (double)entity.getEyeHeight() - y;
-            double d7 = entity.posZ - z;
-            double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-            double d4 = entity.getDistance(x, y, z) / (double)this.explosionSize;
-            d5 /= d9;
-            d6 /= d9;
-            d7 /= d9;
-            Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
-            double d10 = (double)world.getBlockDensity(vec3, entity.boundingBox);
-            double d11 = (1.0D - d4) * d10;
-            double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-            entity.motionX += d5 * d8;
-            entity.motionY += d6 * d8;
-            entity.motionZ += d7 * d8;
-        }
-	}*/
-	/*
-	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand)
-    {
-		p_149734_1_.spawnParticle("largesmoke", x + 0.5F, y + 1, z + 0.5F, 0, 0, 0);
-    }*/
-
 }

@@ -1,9 +1,6 @@
 package com.hbm.entity.missile;
 
-import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.particle.EntitySmokeFX;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemSatChip;
@@ -16,15 +13,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public class EntityCarrier extends EntityThrowable {
 

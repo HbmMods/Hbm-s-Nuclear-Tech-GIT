@@ -1,6 +1,5 @@
 package com.hbm.creativetabs;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
 import net.minecraft.creativetab.CreativeTabs;

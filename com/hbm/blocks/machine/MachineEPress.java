@@ -5,7 +5,6 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineEPress;
-import com.hbm.tileentity.machine.TileEntityRtgFurnace;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -15,7 +14,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
-import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -12,7 +11,6 @@ import com.hbm.main.MainRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;

@@ -2,16 +2,10 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.blocks.bomb.TurretBase;
-import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
 import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;

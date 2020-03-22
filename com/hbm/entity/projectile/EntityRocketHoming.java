@@ -3,15 +3,10 @@ package com.hbm.entity.projectile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.entity.particle.EntityDSmokeFX;
-import com.hbm.entity.particle.EntityGasFX;
-import com.hbm.entity.particle.EntityOilSpillFX;
-import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;

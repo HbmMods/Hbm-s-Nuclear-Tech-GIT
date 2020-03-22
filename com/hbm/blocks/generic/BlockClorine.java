@@ -2,7 +2,6 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
@@ -17,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 

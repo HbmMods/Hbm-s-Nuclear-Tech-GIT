@@ -5,10 +5,7 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import com.hbm.entity.particle.EntityBSmokeFX;
-import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityModFX;
-import com.hbm.items.ModItems;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.texture.TextureMap;

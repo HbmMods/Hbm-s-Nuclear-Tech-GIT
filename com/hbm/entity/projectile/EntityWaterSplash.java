@@ -1,6 +1,5 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.particle.EntityOilSpillFX;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 

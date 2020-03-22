@@ -1,7 +1,6 @@
 package com.hbm.blocks.test;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -189,7 +188,6 @@ public class TestNuke extends BlockContainer {
 		
 		//BlockTNT.class Damage code
 		float f = bombStartStrength;
-        HashSet hashset = new HashSet();
         int i;
         int j;
         int k;
@@ -207,7 +205,6 @@ public class TestNuke extends BlockContainer {
         int l = MathHelper.floor_double(z - wat - 1.0D);
         int j2 = MathHelper.floor_double(z + wat + 1.0D);
         List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {
@@ -226,7 +223,6 @@ public class TestNuke extends BlockContainer {
                     d5 /= d9;
                     d6 /= d9;
                     d7 /= d9;
-                    double d10 = world.getBlockDensity(vec3, entity.boundingBox);
                     double d11 = (1.0D - d4);// * d10;
                     entity.attackEntityFrom(DamageSource.generic, ((int)((d11 * d11 + d11) / 2.0D * 8.0D * bombStartStrength + 1.0D)));
                     double d8 = EnchantmentProtection.func_92092_a(entity, d11);

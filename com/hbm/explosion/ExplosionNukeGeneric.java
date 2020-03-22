@@ -1,13 +1,10 @@
 package com.hbm.explosion;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
@@ -20,13 +17,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.DecoBlockAlt;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
@@ -42,7 +37,6 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
-import com.hbm.tileentity.machine.TileEntityDummy;
 
 import cofh.api.energy.IEnergyProvider;
 
@@ -119,7 +113,6 @@ public class ExplosionNukeGeneric {
 
 	public static void dealDamage(World world, int x, int y, int z, int bombStartStrength) {
 		float f = bombStartStrength;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -128,7 +121,6 @@ public class ExplosionNukeGeneric {
 		double d7;
 		double wat = bombStartStrength/** 2 */
 		;
-		boolean isOccupied = false;
 
 		// bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -138,7 +130,6 @@ public class ExplosionNukeGeneric {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -185,8 +176,6 @@ public class ExplosionNukeGeneric {
 	}
 
 	public static void succ(World world, int x, int y, int z, int radius) {
-		float f = radius;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -195,7 +184,6 @@ public class ExplosionNukeGeneric {
 		double d7;
 		double wat = radius/** 2 */
 		;
-		boolean isOccupied = false;
 
 		// bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -205,7 +193,6 @@ public class ExplosionNukeGeneric {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -239,8 +226,6 @@ public class ExplosionNukeGeneric {
 	}
 
 	public static boolean dedify(World world, int x, int y, int z, int radius) {
-		float f = radius;
-		HashSet hashset = new HashSet();
 		int i;
 		int j;
 		int k;
@@ -249,7 +234,6 @@ public class ExplosionNukeGeneric {
 		double d7;
 		double wat = radius/** 2 */
 		;
-		boolean isOccupied = false;
 
 		// bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -259,7 +243,6 @@ public class ExplosionNukeGeneric {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = (Entity) list.get(i1);
@@ -279,7 +262,6 @@ public class ExplosionNukeGeneric {
 					// double d10 = (double)world.getBlockDensity(vec3,
 					// entity.boundingBox);
 					// if(d10 > 0) isOccupied = true;
-					double d11 = (1.0D - d4);// * d10;
 
 					if(entity instanceof EntityItem && ((EntityItem)entity).getEntityItem().getItem() == ModItems.flame_pony) {
 						entity.setDead();

@@ -2,10 +2,7 @@ package com.hbm.entity.missile;
 
 import java.util.List;
 
-import com.hbm.calc.EasyLocation;
-import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntitySmokeFX;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 
 import cpw.mods.fml.relauncher.Side;

@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;

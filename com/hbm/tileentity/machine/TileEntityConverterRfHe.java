@@ -8,7 +8,6 @@ import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;

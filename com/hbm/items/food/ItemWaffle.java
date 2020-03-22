@@ -1,6 +1,5 @@
 package com.hbm.items.food;
 
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.main.MainRegistry;

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityChlorineFX;
 import com.hbm.entity.particle.EntityOrangeFX;
 import com.hbm.entity.projectile.EntityWaterSplash;
 

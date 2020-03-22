@@ -1,7 +1,5 @@
 package com.hbm.entity.missile;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -10,7 +8,6 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

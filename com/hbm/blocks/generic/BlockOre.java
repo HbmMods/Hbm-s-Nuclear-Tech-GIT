@@ -3,10 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -16,18 +13,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class BlockOre extends Block {

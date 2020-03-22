@@ -1,22 +1,16 @@
 package com.hbm.blocks.bomb;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityNukeN2;
 import com.hbm.tileentity.bomb.TileEntityNukeN45;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;

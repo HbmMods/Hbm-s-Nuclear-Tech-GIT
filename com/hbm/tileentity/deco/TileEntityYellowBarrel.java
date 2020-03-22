@@ -1,28 +1,8 @@
 package com.hbm.tileentity.deco;
 
-import java.util.HashSet;
-import java.util.List;
-
-import com.hbm.entity.mob.EntityNuclearCreeper;
-import com.hbm.lib.Library;
-import com.hbm.lib.ModDamageSource;
-import com.hbm.potion.HbmPotion;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 
 public class TileEntityYellowBarrel extends TileEntity {
 

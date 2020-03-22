@@ -3,12 +3,9 @@ package com.hbm.blocks.bomb;
 import java.util.List;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
-import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
-import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;

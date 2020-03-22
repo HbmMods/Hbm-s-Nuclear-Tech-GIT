@@ -7,23 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.handler.nei.AssemblerRecipeHandler.SmeltingSet;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.gui.GUIMachineChemplant;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
-import codechicken.nei.api.IOverlayHandler;
-import codechicken.nei.api.IRecipeOverlayRenderer;
-import codechicken.nei.recipe.GuiRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRect;
-import codechicken.nei.recipe.TemplateRecipeHandler.RecipeTransferRectHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 
 public class ChemplantRecipeHandler extends TemplateRecipeHandler {

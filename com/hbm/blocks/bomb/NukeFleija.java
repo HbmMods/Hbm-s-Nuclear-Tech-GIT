@@ -6,8 +6,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.effect.EntityCloudFleijaRainbow;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;

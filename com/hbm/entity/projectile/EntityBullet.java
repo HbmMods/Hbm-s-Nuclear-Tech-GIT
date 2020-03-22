@@ -33,7 +33,6 @@ import net.minecraft.world.World;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
-import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.items.ModItems;

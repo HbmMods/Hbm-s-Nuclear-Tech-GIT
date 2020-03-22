@@ -16,7 +16,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -136,7 +135,6 @@ public class MachineDeuterium extends BlockContainer {
     {
         if (((TileEntityMachineDeuterium) p_149734_1_.getTileEntity(x, y, z)).isProcessing())
         {
-            int l = p_149734_1_.getBlockMetadata(x, y, z);
             float f = x + 0.5F;
             float f1 = y + 1.0F;
             float f2 = z + 0.5F;

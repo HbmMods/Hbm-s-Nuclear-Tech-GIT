@@ -1,47 +1,31 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.MachineGenerator;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.IReactor;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFuelRod;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityReactorMultiblock extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {

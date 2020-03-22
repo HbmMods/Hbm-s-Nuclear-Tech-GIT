@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityDSmokeFX;
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -16,7 +13,6 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;

@@ -1,11 +1,9 @@
 package com.hbm.entity.particle;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionNukeGeneric;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityOrangeFX extends EntityModFX {

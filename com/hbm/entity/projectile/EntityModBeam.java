@@ -3,7 +3,6 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.entity.effect.EntityBlackHole;
-import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.effect.EntityRagingVortex;
@@ -11,11 +10,7 @@ import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionThermo;
-import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 

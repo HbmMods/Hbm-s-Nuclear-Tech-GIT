@@ -1,16 +1,11 @@
 package com.hbm.items.tool;
 
-import java.util.List;
-
-import com.hbm.blocks.bomb.TurretBase;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class ItemLock extends ItemKeyPin {

@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIMachineAssembler;
 import com.hbm.inventory.gui.GUIMachineRefinery;
 import com.hbm.lib.RefStrings;
 
-import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;

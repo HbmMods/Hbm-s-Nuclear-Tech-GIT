@@ -8,7 +8,6 @@ import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;

@@ -2,23 +2,11 @@ package com.hbm.render.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelSteelBeam;
-import com.hbm.render.model.ModelSteelCorner;
-import com.hbm.render.model.ModelSteelRoof;
-import com.hbm.render.model.ModelSteelScaffold;
-import com.hbm.render.model.ModelSteelWall;
 import com.hbm.render.util.MissilePart;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderMissilePart implements IItemRenderer {
 	

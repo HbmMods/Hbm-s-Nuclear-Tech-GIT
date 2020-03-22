@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;

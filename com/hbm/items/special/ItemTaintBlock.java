@@ -2,16 +2,13 @@ package com.hbm.items.special;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 

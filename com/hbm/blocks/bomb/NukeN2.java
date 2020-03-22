@@ -1,13 +1,9 @@
 package com.hbm.blocks.bomb;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityCloudSolinium;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;

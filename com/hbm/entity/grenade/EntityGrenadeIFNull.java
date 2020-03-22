@@ -2,8 +2,6 @@ package com.hbm.entity.grenade;
 
 import java.util.List;
 
-import com.hbm.entity.effect.EntityVortex;
-import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;
 

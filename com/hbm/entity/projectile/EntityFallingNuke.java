@@ -1,22 +1,12 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.blocks.bomb.NukeCustom;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.missile.EntityBombletSelena;
-import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityFallingNuke extends EntityThrowable {

@@ -5,13 +5,8 @@ import java.util.Random;
 
 import com.google.common.collect.Multimap;
 import com.hbm.entity.missile.EntityBombletSelena;
-import com.hbm.entity.missile.EntityBombletTheta;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityRocket;
-import com.hbm.items.ModItems;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;

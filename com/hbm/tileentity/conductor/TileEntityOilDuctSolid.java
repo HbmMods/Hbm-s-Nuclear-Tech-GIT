@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleansForOil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
-import com.hbm.interfaces.IOilDuct;
 
 import net.minecraft.tileentity.TileEntity;
 

@@ -1,7 +1,6 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.main.MainRegistry;
 

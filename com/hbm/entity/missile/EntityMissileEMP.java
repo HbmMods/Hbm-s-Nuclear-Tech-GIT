@@ -5,17 +5,9 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityEMPBlast;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntitySmokeFX;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

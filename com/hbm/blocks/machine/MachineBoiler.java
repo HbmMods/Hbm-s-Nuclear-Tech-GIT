@@ -286,8 +286,6 @@ public class MachineBoiler extends BlockContainer {
 	            float f2 = z + 0.5F;
 	            float f3 = 0.52F;
 	            float f4 = rand.nextFloat() * 0.6F - 0.3F;
-	            float f5 = rand.nextFloat();
-	            float f6 = rand.nextFloat();
 	
 	            if (l == 4)
 	            {
@@ -316,8 +314,6 @@ public class MachineBoiler extends BlockContainer {
 	            float f2 = z + 0.5F;
 	            float f3 = 0.52F;
 	            float f4 = rand.nextFloat() * 0.6F - 0.3F;
-	            float f5 = rand.nextFloat();
-	            float f6 = rand.nextFloat();
 	
 	            if (l == 4)
 	            {

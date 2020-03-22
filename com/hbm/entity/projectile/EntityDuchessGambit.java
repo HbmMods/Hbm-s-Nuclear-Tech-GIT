@@ -3,12 +3,8 @@ package com.hbm.entity.projectile;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-import com.hbm.world.Meteorite;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -8,8 +8,6 @@ import com.hbm.interfaces.IMultiblock;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
-import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

@@ -1,23 +1,23 @@
 package com.hbm.saveddata;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
-import com.hbm.entity.particle.EntityFogFX;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProviderHell;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.chunk.Chunk;
 
 public class RadiationSavedData extends WorldSavedData {
-	
-	public List<RadiationSaveStructure> contamination = new ArrayList();
+
+	//public List<RadiationSaveStructure> contamination = new ArrayList();
+	public HashMap<ChunkCoordIntPair, Float> contamination = new HashMap();
 	
 	private static RadiationSavedData openInstance;
 	
@@ -34,23 +34,6 @@ public class RadiationSavedData extends WorldSavedData {
         this.markDirty();
     }
     
-    public boolean doesEntryExist(int x, int y) {
-    	
-    	return getRadFromCoord(x, y) != null;
-    }
-    
-    public void createEntry(int x, int y, float rad) {
-    	
-    	contamination.add(new RadiationSaveStructure(x, y, rad));
-        this.markDirty();
-    }
-    
-    public void deleteEntry(RadiationSaveStructure struct) {
-    	
-    	contamination.remove(struct);
-        this.markDirty();
-    }
-    
     public void jettisonData() {
     	
     	contamination.clear();
@@ -58,109 +41,80 @@ public class RadiationSavedData extends WorldSavedData {
     }
     
     public void setRadForCoord(int x, int y, float radiation) {
-    	
-    	RadiationSaveStructure entry = null;
-    	
-    	for(RadiationSaveStructure rad : contamination)
-    		if(rad.chunkX == x && rad.chunkY == y) {
-    			entry = rad;
-    			break;
-    		}
-    	
-    	if(entry == null) {
 
-    		entry = new RadiationSaveStructure(x, y, radiation);
-        	contamination.add(entry);
-    	}
-    	
-    	entry.radiation = radiation;
+    	ChunkCoordIntPair pair = new ChunkCoordIntPair(x, y);
+    	contamination.put(pair, radiation);
         this.markDirty();
     	
     }
     
-    public RadiationSaveStructure getRadFromCoord(int x, int y) {
-    	
-    	for(RadiationSaveStructure rad : contamination)
-    		if(rad.chunkX == x && rad.chunkY == y)
-    			return rad;
-    	
-    	return null;
-    }
-    
     public float getRadNumFromCoord(int x, int y) {
     	
-    	for(RadiationSaveStructure rad : contamination)
-    		if(rad.chunkX == x && rad.chunkY == y)
-    			return rad.radiation;
+    	ChunkCoordIntPair pair = new ChunkCoordIntPair(x, y);
+    	Float rad = contamination.get(pair);
     	
-    	if(worldObj != null && worldObj.provider instanceof WorldProviderHell)
-    		return MainRegistry.hellRad;
-    	
-    	return 0F;
+    	return rad == null ? 0 : rad;
     }
     
     public void updateSystem() {
     	
-    	List<RadiationSaveStructure> tempList = new ArrayList(contamination);
-    	
+    	HashMap<ChunkCoordIntPair, Float> tempList = new HashMap(contamination);
     	contamination.clear();
     	
-    	for(RadiationSaveStructure struct : tempList) {
+    	for(Entry<ChunkCoordIntPair, Float> struct : tempList.entrySet()) {
     		
-    		if(struct.radiation != 0) {
+    		if(struct.getValue() != 0) {
+    			
+    			float rad = struct.getValue();
 
 				//struct.radiation *= 0.999F;
-				struct.radiation *= 0.99F;
-				struct.radiation -= 0.5F;
+    			rad *= 0.99F;
+    			rad -= 0.5F;
 				
-				if(struct.radiation <= 0) {
-					struct.radiation = 0;
+				if(rad <= 0) {
+					rad = 0;
 				}
 				
-				if(struct.radiation > MainRegistry.fogRad && worldObj != null && worldObj.rand.nextInt(MainRegistry.fogCh) == 0 && worldObj.getChunkFromChunkCoords(struct.chunkX, struct.chunkY).isChunkLoaded) {
+				if(rad > MainRegistry.fogRad && worldObj != null && worldObj.rand.nextInt(MainRegistry.fogCh) == 0 && worldObj.getChunkFromChunkCoords(struct.getKey().chunkXPos, struct.getKey().chunkZPos).isChunkLoaded) {
 					
-					int x = struct.chunkX * 16 + worldObj.rand.nextInt(16);
-					int z = struct.chunkY * 16 + worldObj.rand.nextInt(16);
+					int x = struct.getKey().chunkXPos * 16 + worldObj.rand.nextInt(16);
+					int z = struct.getKey().chunkZPos * 16 + worldObj.rand.nextInt(16);
 					int y = worldObj.getHeightValue(x, z) + worldObj.rand.nextInt(5);
 					
-					//EntityFogFX fog = new EntityFogFX(worldObj);
-					//fog.setPosition(x, y, z);
-					//System.out.println(x + " " + y + " " + z);
-					//worldObj.spawnEntityInWorld(fog);
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(x, y, z, 3), new TargetPoint(worldObj.provider.dimensionId, x, y, z, 100));
 				}
     			
-    			if(struct.radiation > 1) {
+    			if(rad > 1) {
     				
     				float[] rads = new float[9];
 
-    				rads[0] = getRadNumFromCoord(struct.chunkX + 1, struct.chunkY + 1);
-    				rads[1] = getRadNumFromCoord(struct.chunkX, struct.chunkY + 1);
-    				rads[2] = getRadNumFromCoord(struct.chunkX - 1, struct.chunkY + 1);
-    				rads[3] = getRadNumFromCoord(struct.chunkX - 1, struct.chunkY);
-    				rads[4] = getRadNumFromCoord(struct.chunkX - 1, struct.chunkY - 1);
-    				rads[5] = getRadNumFromCoord(struct.chunkX, struct.chunkY - 1);
-    				rads[6] = getRadNumFromCoord(struct.chunkX + 1, struct.chunkY - 1);
-    				rads[7] = getRadNumFromCoord(struct.chunkX + 1, struct.chunkY);
-    				rads[8] = getRadNumFromCoord(struct.chunkX, struct.chunkY);
+    				rads[0] = getRadNumFromCoord(struct.getKey().chunkXPos + 1, struct.getKey().chunkZPos + 1);
+    				rads[1] = getRadNumFromCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos + 1);
+    				rads[2] = getRadNumFromCoord(struct.getKey().chunkXPos - 1, struct.getKey().chunkZPos + 1);
+    				rads[3] = getRadNumFromCoord(struct.getKey().chunkXPos - 1, struct.getKey().chunkZPos);
+    				rads[4] = getRadNumFromCoord(struct.getKey().chunkXPos - 1, struct.getKey().chunkZPos - 1);
+    				rads[5] = getRadNumFromCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos - 1);
+    				rads[6] = getRadNumFromCoord(struct.getKey().chunkXPos + 1, struct.getKey().chunkZPos - 1);
+    				rads[7] = getRadNumFromCoord(struct.getKey().chunkXPos + 1, struct.getKey().chunkZPos);
+    				rads[8] = getRadNumFromCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos);
     				
     				float main = 0.6F;
     				float side = 0.075F;
     				float corner = 0.025F;
     				
-    				setRadForCoord(struct.chunkX + 1, struct.chunkY + 1, rads[0] + struct.radiation * corner);
-    				setRadForCoord(struct.chunkX, struct.chunkY + 1, rads[1] + struct.radiation * side);
-    				setRadForCoord(struct.chunkX - 1, struct.chunkY + 1, rads[2] + struct.radiation * corner);
-    				setRadForCoord(struct.chunkX - 1, struct.chunkY, rads[3] + struct.radiation * side);
-    				setRadForCoord(struct.chunkX - 1, struct.chunkY - 1, rads[4] + struct.radiation * corner);
-    				setRadForCoord(struct.chunkX, struct.chunkY - 1, rads[5] + struct.radiation * side);
-    				setRadForCoord(struct.chunkX + 1, struct.chunkY - 1, rads[6] + struct.radiation * corner);
-    				setRadForCoord(struct.chunkX + 1, struct.chunkY, rads[7] + struct.radiation * side);
-    				setRadForCoord(struct.chunkX, struct.chunkY, rads[8] + struct.radiation * main);
+    				setRadForCoord(struct.getKey().chunkXPos + 1, struct.getKey().chunkZPos + 1, rads[0] + rad * corner);
+    				setRadForCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos + 1, rads[1] + rad * side);
+    				setRadForCoord(struct.getKey().chunkXPos - 1, struct.getKey().chunkZPos + 1, rads[2] + rad * corner);
+    				setRadForCoord(struct.getKey().chunkXPos - 1, struct.getKey().chunkZPos, rads[3] + rad * side);
+    				setRadForCoord(struct.getKey().chunkXPos - 1, struct.getKey().chunkZPos - 1, rads[4] + rad * corner);
+    				setRadForCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos - 1, rads[5] + rad * side);
+    				setRadForCoord(struct.getKey().chunkXPos + 1, struct.getKey().chunkZPos - 1, rads[6] + rad * corner);
+    				setRadForCoord(struct.getKey().chunkXPos + 1, struct.getKey().chunkZPos, rads[7] + rad * side);
+    				setRadForCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos, rads[8] + rad * main);
     				
     			} else {
     				
-    				this.setRadForCoord(struct.chunkX, struct.chunkY, getRadNumFromCoord(struct.chunkX, struct.chunkY) + struct.radiation);
+    				this.setRadForCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos, getRadNumFromCoord(struct.getKey().chunkXPos, struct.getKey().chunkZPos) + rad);
     			}
     		}
     	}
@@ -173,10 +127,17 @@ public class RadiationSavedData extends WorldSavedData {
 		int count = nbt.getInteger("radCount");
 		
 		for(int i = 0; i < count; i++) {
-			RadiationSaveStructure struct = new RadiationSaveStructure();
-			struct.readFromNBT(nbt, i);
+
+	    	ChunkCoordIntPair pair = new ChunkCoordIntPair(
+	    			nbt.getInteger("cposX" + i),
+	    			nbt.getInteger("cposZ" + i)
+	    			
+	    	);
 			
-			contamination.add(struct);
+			contamination.put(
+					pair,
+					nbt.getFloat("crad" + i)
+			);
 		}
 	}
 
@@ -184,9 +145,15 @@ public class RadiationSavedData extends WorldSavedData {
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("radCount", contamination.size());
 		
-		for(int i = 0; i < contamination.size(); i++) {
-			contamination.get(i).writeToNBT(nbt, i);
-		}
+		int i = 0;
+
+    	for(Entry<ChunkCoordIntPair, Float> struct : contamination.entrySet()) {
+				nbt.setInteger("cposX" + i, struct.getKey().chunkXPos);
+				nbt.setInteger("cposZ" + i, struct.getKey().chunkZPos);
+				nbt.setFloat("crad" + i, struct.getValue());
+				
+				i++;
+    	}
 	}
 	
 	public static RadiationSavedData getData(World worldObj) {

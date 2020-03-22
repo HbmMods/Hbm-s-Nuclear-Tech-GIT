@@ -3,7 +3,6 @@ package com.hbm.entity.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityBoxcar;
@@ -14,8 +13,6 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.LoopedEntitySoundPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.deco.TileEntityBomber;
-import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

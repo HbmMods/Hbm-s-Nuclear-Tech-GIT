@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Multimap;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityLaser;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -17,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 

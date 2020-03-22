@@ -1,14 +1,11 @@
 package com.hbm.tileentity.conductor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleansForGas;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
-import com.hbm.interfaces.IGasDuct;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPipePacket;

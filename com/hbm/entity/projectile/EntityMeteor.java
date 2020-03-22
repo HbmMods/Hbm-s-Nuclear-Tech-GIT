@@ -1,8 +1,5 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
@@ -13,7 +10,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 

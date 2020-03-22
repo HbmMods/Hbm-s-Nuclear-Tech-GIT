@@ -1,11 +1,8 @@
 package com.hbm.items.weapon;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntitySSmokeFX;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;

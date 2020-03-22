@@ -2,7 +2,6 @@ package com.hbm.creativetabs;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
 

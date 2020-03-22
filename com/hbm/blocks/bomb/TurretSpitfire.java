@@ -1,11 +1,8 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityAAShell;
-import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
-import com.hbm.tileentity.bomb.TileEntityTurretTau;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

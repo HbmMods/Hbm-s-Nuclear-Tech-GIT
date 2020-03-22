@@ -3,9 +3,6 @@ package com.hbm.items.special;
 import java.util.Random;
 
 import com.hbm.blocks.bomb.BlockCrashedBomb;
-import com.hbm.entity.logic.EntityNukeExplosionAdvanced;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
