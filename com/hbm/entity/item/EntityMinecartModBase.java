@@ -403,7 +403,6 @@ public abstract class EntityMinecartModBase extends EntityMinecart
             }
 
             double d0 = 0.4D;
-            double d2 = 0.0078125D;
             Block block = this.worldObj.getBlock(l, i, i1);
 
             if (canUseRail() && BlockRailBase.func_150051_a(block))

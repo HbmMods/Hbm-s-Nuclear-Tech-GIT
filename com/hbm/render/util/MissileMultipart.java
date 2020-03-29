@@ -5,8 +5,6 @@ import com.hbm.items.weapon.ItemMissile.PartType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.item.Item;
 
 @SideOnly(Side.CLIENT)
 public class MissileMultipart {

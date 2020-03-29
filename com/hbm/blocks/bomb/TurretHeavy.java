@@ -1,14 +1,11 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityLaserBeam;
 import com.hbm.tileentity.bomb.TileEntityTurretHeavy;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 

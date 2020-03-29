@@ -1,9 +1,5 @@
 package com.hbm.entity.effect;
 
-import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.explosion.ExplosionChaos;
-
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 

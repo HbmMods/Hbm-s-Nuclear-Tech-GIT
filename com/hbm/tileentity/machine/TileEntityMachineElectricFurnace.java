@@ -270,7 +270,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	
 	@Override
 	public void updateEntity() {
-		boolean flag = this.hasPower();
+		this.hasPower();
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote)

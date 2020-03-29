@@ -30,9 +30,7 @@ public class RenderLaser extends Render {
 		
 		if(player != null) {
 
-			double dX = laser.posX - player.posX;
-			double dY = laser.posY - player.posY;
-			double dZ = laser.posZ - player.posZ;
+			
 			
 			//GL11.glTranslated(x - dX, y - dY, z - dZ);
 			

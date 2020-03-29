@@ -66,9 +66,6 @@ public class EntityBalefire extends Entity {
         speed += 1;	//increase speed to keep up with expansion
         
         boolean flag = false;
-        boolean flag2 = false;
-        boolean flag3 = false;
-        
         for(int i = 0; i < this.speed; i++)
         {
         	flag = exp.update();

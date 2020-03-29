@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.machine.TileEntityMachineSatLinker;
 import com.hbm.tileentity.machine.TileEntityMachineTeleLinker;
 
 import net.minecraft.entity.player.EntityPlayer;

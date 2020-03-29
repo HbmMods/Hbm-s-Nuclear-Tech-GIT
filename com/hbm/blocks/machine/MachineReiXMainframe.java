@@ -60,7 +60,7 @@ public class MachineReiXMainframe extends BlockContainer {
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D);
 		
 		if(itemStack.hasDisplayName())
 		{

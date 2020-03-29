@@ -13,7 +13,6 @@ import com.hbm.items.tool.ItemAssemblyTemplate;
 import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.items.tool.ItemChemistryTemplate;
 import com.hbm.items.tool.ItemFluidIcon;
-import com.hbm.items.tool.ItemSatChip;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.enchantment.Enchantment;
@@ -444,7 +443,7 @@ public class MachineRecipes {
 	@SuppressWarnings("incomplete-switch")
 	public static int getFluidConsumedGasCent(FluidType fluid) {
 		
-		List<GasCentOutput> list = new ArrayList();
+		new ArrayList();
 		
 		switch(fluid) {
 		case LAVA:

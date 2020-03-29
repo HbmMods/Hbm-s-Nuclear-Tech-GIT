@@ -210,7 +210,7 @@ public class EntityRocketHoming extends Entity implements IProjectile
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
             //this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
         }
@@ -470,9 +470,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
                 this.prevRotationYaw += 360.0F;
             }*/
 
-            //this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-            //this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
-            float f3 = 0.99F;
             f1 = 0.05F;
 
             if (this.isInWater())
@@ -482,8 +479,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
                     f4 = 0.25F;
                     this.worldObj.spawnParticle("bubble", this.posX - this.motionX * f4, this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY, this.motionZ);
                 }
-
-                f3 = 0.8F;
             }
 
             if (this.isWet())

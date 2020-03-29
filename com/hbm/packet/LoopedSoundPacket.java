@@ -148,8 +148,6 @@ public class LoopedSoundPacket implements IMessage {
 						flag = false;
 				}
 				
-				int j = te.xCoord + te.zCoord + te.yCoord;
-				
 				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineCentrifuge)te).isProgressing)
 					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopCentrifuge(new ResourceLocation("hbm:block.centrifugeOperate"), te));
 			}
@@ -161,8 +159,6 @@ public class LoopedSoundPacket implements IMessage {
 					if(SoundLoopCentrifuge.list.get(i).getTE() == te && !SoundLoopCentrifuge.list.get(i).isDonePlaying())
 						flag = false;
 				}
-				
-				int j = te.xCoord + te.zCoord + te.yCoord;
 				
 				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineGasCent)te).isProgressing)
 					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopCentrifuge(new ResourceLocation("hbm:block.centrifugeOperate"), te));

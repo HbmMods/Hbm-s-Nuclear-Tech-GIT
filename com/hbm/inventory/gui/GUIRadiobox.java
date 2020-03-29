@@ -5,26 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.container.ContainerMachineReactorSmall;
 import com.hbm.inventory.container.ContainerRadiobox;
-import com.hbm.inventory.gui.GUIScreenTemplateFolder.FolderButton;
-import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemCassette;
-import com.hbm.items.tool.ItemFluidIdentifier;
-import com.hbm.items.tool.ItemCassette.TrackType;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
-import com.hbm.packet.ItemFolderPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityRadiobox;
 
 import net.minecraft.client.Minecraft;
@@ -32,9 +18,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIRadiobox extends GuiInfoContainer {

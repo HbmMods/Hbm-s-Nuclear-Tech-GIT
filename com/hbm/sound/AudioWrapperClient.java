@@ -2,7 +2,6 @@ package com.hbm.sound;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.audio.MovingSound;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)

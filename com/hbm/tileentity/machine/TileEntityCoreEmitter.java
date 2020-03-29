@@ -16,6 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -68,9 +69,12 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 			
 			if(isOn) {
 				
+				//i.e. 50,000,000 HE = 10,000 SPK
+				//1 SPK = 5,000HE
+				
 				if(power >= demand) {
 					power -= demand;
-					long add = watts;
+					long add = watts * 100;
 					joules += add;
 				}
 				prev = joules;
@@ -89,7 +93,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 						
 						if(te instanceof ILaserable) {
 							
-							((ILaserable)te).addEnergy(joules * 98 / 100);
+							((ILaserable)te).addEnergy(joules * 98 / 100, dir);
 							break;
 						}
 						
@@ -119,7 +123,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 					List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(blx, bly, blz, bux, buy, buz));
 					
 					for(Entity e : list) {
-						e.attackEntityFrom(ModDamageSource.amsCore, 5);
+						e.attackEntityFrom(ModDamageSource.amsCore, 50);
 						e.setFire(10);
 					}
 				}
@@ -128,21 +132,23 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 				prev = 0;
 			}
 
-			this.updateGauge((int) power, 0, 50);
-			this.updateGauge(watts, 1, 50);
-			this.updateGauge((int) prev, 2, 50);
-			this.updateGauge(beam, 3, 50);
-			this.updateGauge(isOn ? 1 : 0, 4, 250);
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setInteger("watts", watts);
+			data.setLong("prev", prev);
+			data.setInteger("beam", beam);
+			data.setBoolean("isOn", isOn);
+			this.networkPack(data, 250);
 		}
 	}
 	
-	public void processGauge(int val, int id) {
+	public void networkUnpack(NBTTagCompound data) {
 
-		if(id == 0) power = val;
-		if(id == 1) watts = val;
-		if(id == 2) joules = val;
-		if(id == 3) beam = val;
-		if(id == 4) isOn = val == 1;
+		power = data.getLong("power");
+		watts = data.getInteger("watts");
+		prev = data.getLong("prev");
+		beam = data.getInteger("beam");
+		isOn = data.getBoolean("isOn");
 	}
 	
 	public long getPowerScaled(long i) {
@@ -209,8 +215,11 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 	}
 
 	@Override
-	public void addEnergy(long energy) {
-		joules += energy;
+	public void addEnergy(long energy, ForgeDirection dir) {
+		
+		//do not accept lasers from the front
+		if(dir.getOpposite().ordinal() != this.getBlockMetadata())
+			joules += energy;
 	}
 	
 	@Override

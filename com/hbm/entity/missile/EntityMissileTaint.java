@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
-import com.hbm.explosion.ExplosionThermo;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;

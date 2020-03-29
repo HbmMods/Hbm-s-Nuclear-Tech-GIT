@@ -1,24 +1,12 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.FluidTank;
-import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
-import com.hbm.render.util.MissileMultipart;
-import com.hbm.render.util.MissilePart;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;

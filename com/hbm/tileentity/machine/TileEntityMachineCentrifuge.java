@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -13,10 +12,8 @@ import com.hbm.packet.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -300,7 +297,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	@Override
 	public void updateEntity() {
-		boolean flag = this.hasPower();
+		this.hasPower();
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote) {

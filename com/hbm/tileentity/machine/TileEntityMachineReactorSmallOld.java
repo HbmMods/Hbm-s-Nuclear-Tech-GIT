@@ -21,7 +21,6 @@ import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -425,7 +424,7 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 							&& worldObj.getBlock(xCoord, yCoord + 1, zCoord + 1) != Blocks.air
 							&& worldObj.getBlock(xCoord, yCoord + 1, zCoord - 1) != Blocks.air)) {
 
-				List<Entity> list = (List<Entity>) worldObj.getEntitiesWithinAABBExcludingEntity(null,
+				worldObj.getEntitiesWithinAABBExcludingEntity(null,
 						AxisAlignedBB.getBoundingBox(xCoord + 0.5 - 5, yCoord + 1.5 - 5, zCoord + 0.5 - 5,
 								xCoord + 0.5 + 5, yCoord + 1.5 + 5, zCoord + 0.5 + 5));
 

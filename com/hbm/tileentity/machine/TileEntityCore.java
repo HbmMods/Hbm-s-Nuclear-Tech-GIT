@@ -2,8 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import net.minecraft.tileentity.TileEntity;
-
 public class TileEntityCore extends TileEntityMachineBase {
 
 	public TileEntityCore() {

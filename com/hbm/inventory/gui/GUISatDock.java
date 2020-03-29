@@ -2,10 +2,8 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerNukeN45;
 import com.hbm.inventory.container.ContainerSatDock;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
 
 import net.minecraft.client.Minecraft;

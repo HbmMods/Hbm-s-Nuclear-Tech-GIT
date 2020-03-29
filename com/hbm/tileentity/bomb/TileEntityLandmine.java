@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.Landmine;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.main.ResourceManager;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

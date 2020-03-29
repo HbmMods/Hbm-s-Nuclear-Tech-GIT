@@ -20,7 +20,7 @@ public class TileEntityDecoBlockAltF extends TileEntity {
 	public void updateEntity() {
 		int strength = 4;
 		float f = strength;
-        HashSet hashset = new HashSet();
+        new HashSet();
         int i;
         int j;
         int k;
@@ -28,9 +28,6 @@ public class TileEntityDecoBlockAltF extends TileEntity {
         double d6;
         double d7;
         double wat = 4*2;
-        boolean isOccupied = false;
-        
-
         strength *= 2.0F;
         i = MathHelper.floor_double(this.xCoord - wat - 1.0D);
         j = MathHelper.floor_double(this.xCoord + wat + 1.0D);
@@ -39,7 +36,7 @@ public class TileEntityDecoBlockAltF extends TileEntity {
         int l = MathHelper.floor_double(this.zCoord - wat - 1.0D);
         int j2 = MathHelper.floor_double(this.zCoord + wat + 1.0D);
         List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-        Vec3 vec3 = Vec3.createVectorHelper(this.xCoord, this.yCoord, this.zCoord);
+        Vec3.createVectorHelper(this.xCoord, this.yCoord, this.zCoord);
 
         for (int i1 = 0; i1 < list.size(); ++i1)
         {

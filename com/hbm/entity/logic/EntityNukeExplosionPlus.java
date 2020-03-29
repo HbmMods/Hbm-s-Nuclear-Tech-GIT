@@ -50,14 +50,13 @@ public class EntityNukeExplosionPlus extends Entity {
         speed = 160;
         
         boolean flag = false;
-        boolean flag2 = false;
         boolean flag3 = false;
         
         for(int i = 0; i < this.speed; i++)
         {
         	if(waste) {
         		flag = exp.update();
-        		flag2 = wst.update();
+        		wst.update();
         		flag3 = vap.update();
         		
         		if(flag3) {

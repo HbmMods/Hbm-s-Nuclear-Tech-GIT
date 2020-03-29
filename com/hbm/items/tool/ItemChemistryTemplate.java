@@ -2,7 +2,6 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
 import cpw.mods.fml.relauncher.Side;

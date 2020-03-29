@@ -1,6 +1,5 @@
 package com.hbm.packet;
 
-import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

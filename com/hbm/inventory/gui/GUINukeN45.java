@@ -2,16 +2,10 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerForceField;
 import com.hbm.inventory.container.ContainerNukeN45;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.bomb.TileEntityNukeN45;
-import com.hbm.tileentity.machine.TileEntityForceField;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;

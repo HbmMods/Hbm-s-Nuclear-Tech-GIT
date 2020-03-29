@@ -2,7 +2,6 @@ package com.hbm.items.tool;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.items.ModItems;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 
 import cpw.mods.fml.relauncher.Side;

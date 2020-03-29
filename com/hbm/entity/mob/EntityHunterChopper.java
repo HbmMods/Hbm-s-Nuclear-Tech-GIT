@@ -286,14 +286,7 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 			
 			this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(this.motionY, f3) * 180.0D / Math.PI);
 
-			double d8 = 2.0D;
-			Vec3 vec3 = this.getLook(1.0F);
-			double xStart = this.posX + vec3.xCoord * d8;
-			double yStart = this.posY - 0.5;
-			double zStart = this.posZ + vec3.zCoord * d8;
-			double d5 = this.targetedEntity.posX - xStart;
-			double d6 = this.targetedEntity.boundingBox.minY + this.targetedEntity.height / 2.0F - yStart;
-			double d7 = this.targetedEntity.posZ - zStart;
+			this.getLook(1.0F);
 		}
 
 		if(rotationPitch <= 330 && rotationPitch >= 30)

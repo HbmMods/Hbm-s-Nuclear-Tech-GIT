@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.ItemMissile.PartType;
 
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
 
 public class MissilePronter {
@@ -15,8 +14,6 @@ public class MissilePronter {
 		//	return;
 		
 		GL11.glPushMatrix();
-		
-		double height = 0;
 		
 		if(missile.thruster != null && missile.thruster.type.name().equals(PartType.THRUSTER.name())) {
 			

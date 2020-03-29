@@ -2,17 +2,13 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.container.ContainerMachineMissileAssembly;
-import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.MissileMultipart;
 import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.MissilePronter;
-import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 
 import net.minecraft.client.Minecraft;

@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
 
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,8 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.inventory.FluidTank;
-import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemSatChip;
 
 import net.minecraft.entity.player.EntityPlayer;

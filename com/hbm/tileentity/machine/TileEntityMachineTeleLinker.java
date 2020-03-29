@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.items.tool.ItemSatChip;
 import com.hbm.items.tool.ItemTurretBiometry;
 
 import net.minecraft.entity.player.EntityPlayer;

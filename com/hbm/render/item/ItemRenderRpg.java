@@ -4,11 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelAt4;
 import com.hbm.render.model.ModelGustav;
 import com.hbm.render.model.ModelPanzerschreck;
-import com.hbm.render.model.ModelStinger;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;

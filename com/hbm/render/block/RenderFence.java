@@ -6,7 +6,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
 public class RenderFence implements ISimpleBlockRenderingHandler {
@@ -52,8 +51,6 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 
         f = 0.4375F;
         f1 = 0.5625F;
-        float f2 = 0.75F;
-        float f3 = 0.9375F;
         float f4 = flag3 ? 0.0F : f;
         float f5 = flag4 ? 1.0F : f1;
         float f6 = flag5 ? 0.0F : f;

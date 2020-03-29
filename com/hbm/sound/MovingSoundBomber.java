@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class MovingSoundBomber extends MovingSound {

@@ -2,10 +2,8 @@ package com.hbm.tileentity.bomb;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

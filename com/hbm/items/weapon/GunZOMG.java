@@ -7,8 +7,6 @@ import com.google.common.collect.Multimap;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -42,7 +40,7 @@ public class GunZOMG extends Item {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		ArrowNockEvent event = new ArrowNockEvent(player, stack);
+		new ArrowNockEvent(player, stack);
 		{
 			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 		}
@@ -121,8 +119,7 @@ public class GunZOMG extends Item {
 
 		if (!player.isSneaking()) {
 			if (stack.stackTagCompound.getBoolean("valid")) {
-				boolean flag = player.capabilities.isCreativeMode
-						|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+				EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack);
 				if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.nugget_euphemium)
 						|| player.inventory.hasItem(ModItems.ingot_euphemium)) && count % 1 == 0) {
 					if (!stack.stackTagCompound.getBoolean("superuser")) {

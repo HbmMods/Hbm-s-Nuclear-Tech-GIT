@@ -1,13 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import java.util.Arrays;
-
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemCassette.SoundType;
-import com.hbm.items.tool.ItemCassette.TrackType;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TESirenPacket;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ISidedInventory;

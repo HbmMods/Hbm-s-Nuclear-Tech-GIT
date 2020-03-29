@@ -4,13 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineReactorSmallOld;
-import com.hbm.inventory.container.ContainerMachineSelenium;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmallOld;
-import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;

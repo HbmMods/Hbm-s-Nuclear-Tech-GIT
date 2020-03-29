@@ -4,7 +4,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.IModelCustomLoader;
 import net.minecraftforge.client.model.ModelFormatException;
-import net.minecraftforge.client.model.obj.WavefrontObject;
 
 public class HmfModelLoader implements IModelCustomLoader {
 

@@ -33,9 +33,6 @@ public class RenderHunterChopper extends Render {
 		GL11.glScalef(4F, 4F, 4F);
 		GL11.glRotatef(180, 1, 0, 0);
 		
-		float yaw = rocket.prevRotationYaw + (rocket.rotationYaw - rocket.prevRotationYaw) * p_76986_9_ - 90.0F;
-		float pitch = rocket.prevRotationPitch + (rocket.rotationPitch - rocket.prevRotationPitch) * p_76986_9_;
-
 		GL11.glRotatef(rocket.prevRotationYaw + (rocket.rotationYaw - rocket.prevRotationYaw) * p_76986_9_ - 90.0F, 0, 1.0F, 0);
 		GL11.glRotatef(rocket.prevRotationPitch + (rocket.rotationPitch - rocket.prevRotationPitch) * p_76986_9_, 0, 0, 1.0F);
 		

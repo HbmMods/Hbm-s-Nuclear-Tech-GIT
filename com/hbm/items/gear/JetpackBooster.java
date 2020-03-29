@@ -3,11 +3,7 @@ package com.hbm.items.gear;
 import java.util.List;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.items.ModItems;
-import com.hbm.render.model.ModelGoggles;
 import com.hbm.render.model.ModelJetPack;
-import com.hbm.render.model.ModelOxygenMask;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;

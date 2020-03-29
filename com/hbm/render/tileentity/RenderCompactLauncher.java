@@ -2,19 +2,13 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemMissile;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.util.ErrorPronter;
 import com.hbm.render.util.MissileMultipart;
-import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public class RenderCompactLauncher extends TileEntitySpecialRenderer {
@@ -37,8 +31,6 @@ public class RenderCompactLauncher extends TileEntitySpecialRenderer {
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();
 
-		MissileMultipart missile;
-		
 		if(launcher.load != null) {
 			//ItemStack custom = launcher.getStackInSlot(0);
 			

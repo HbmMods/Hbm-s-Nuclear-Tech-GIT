@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
-import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 
 import net.minecraft.client.renderer.RenderHelper;
@@ -80,7 +79,6 @@ public class RenderAMSLimiter extends TileEntitySpecialRenderer {
         boolean flag = false;
 		double maxSize = 5;
 		double minSize = 0.5;
-        double rad = maxSize;
         if(meta == 2 && tileEntity.getWorldObj().getTileEntity(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord - 6) instanceof TileEntityAMSBase && !limiter.locked) {
         	flag = true;
         	TileEntityAMSBase base = (TileEntityAMSBase)tileEntity.getWorldObj().getTileEntity(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord - 6);

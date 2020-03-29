@@ -1,10 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -232,9 +230,6 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 		if(age == 9 || age == 19)
 			ffgeuaInit();
 
-		boolean flag = this.burnTime > 0;
-		boolean flag1 = false;
-		
 		if(!worldObj.isRemote)
 		{
 		
@@ -255,7 +250,6 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			
 			if(trigger)
             {
-                flag1 = true;
                 MachineCoal.updateBlockState(this.burnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
 			

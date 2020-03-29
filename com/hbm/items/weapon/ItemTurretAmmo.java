@@ -1,6 +1,5 @@
 package com.hbm.items.weapon;
 
-import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
 
 import net.minecraft.block.Block;

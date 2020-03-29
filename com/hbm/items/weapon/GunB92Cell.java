@@ -3,8 +3,6 @@ package com.hbm.items.weapon;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

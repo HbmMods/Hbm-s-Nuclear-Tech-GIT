@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import net.minecraft.entity.player.EntityPlayer;

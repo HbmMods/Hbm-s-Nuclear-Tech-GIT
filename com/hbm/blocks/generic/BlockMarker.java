@@ -115,7 +115,6 @@ public class BlockMarker extends BlockContainer {
     {
         if (this.func_150109_e(p_150108_1_, p_150108_2_, p_150108_3_, p_150108_4_))
         {
-            int l = p_150108_1_.getBlockMetadata(p_150108_2_, p_150108_3_, p_150108_4_);
             boolean flag = false;
 
             if (!this.func_150107_m(p_150108_1_, p_150108_2_, p_150108_3_ - 1, p_150108_4_))
@@ -161,7 +160,6 @@ public class BlockMarker extends BlockContainer {
     @Override
 	public MovingObjectPosition collisionRayTrace(World p_149731_1_, int p_149731_2_, int p_149731_3_, int p_149731_4_, Vec3 p_149731_5_, Vec3 p_149731_6_)
     {
-        int l = p_149731_1_.getBlockMetadata(p_149731_2_, p_149731_3_, p_149731_4_) & 7;
         float f = 0.15F;
         f = 0.1F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);

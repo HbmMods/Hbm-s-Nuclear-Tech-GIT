@@ -1,6 +1,5 @@
 package com.hbm.packet;
 
-import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

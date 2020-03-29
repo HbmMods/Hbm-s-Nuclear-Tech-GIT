@@ -2,23 +2,13 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerSoyuzLauncher;
-import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.util.MissileMultipart;
-import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GUISoyuzLauncher extends GuiInfoContainer {

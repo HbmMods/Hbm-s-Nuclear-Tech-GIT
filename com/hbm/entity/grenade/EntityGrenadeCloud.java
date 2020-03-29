@@ -1,12 +1,8 @@
 package com.hbm.entity.grenade;
 
-import java.util.Random;
-
 import com.hbm.explosion.ExplosionChaos;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityGrenadeCloud extends EntityGrenadeBase {

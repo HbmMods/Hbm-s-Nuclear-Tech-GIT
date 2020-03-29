@@ -315,7 +315,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 	//TODO: fix this punjabi trash
 	@Override
 	public void updateEntity() {
-		boolean flag = this.hasPower();
+		this.hasPower();
 		boolean flag1 = false;
 		
 		if(!worldObj.isRemote)

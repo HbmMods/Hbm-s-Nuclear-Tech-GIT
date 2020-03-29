@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

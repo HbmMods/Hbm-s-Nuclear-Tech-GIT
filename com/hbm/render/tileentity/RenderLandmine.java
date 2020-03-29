@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 

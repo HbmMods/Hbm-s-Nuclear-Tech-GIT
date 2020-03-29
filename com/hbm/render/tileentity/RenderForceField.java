@@ -26,7 +26,7 @@ public class RenderForceField extends TileEntitySpecialRenderer {
 
         GL11.glTranslated(0, 0.5D, 0);
         
-        double rot = (System.currentTimeMillis() / 10D) % 360;
+        System.currentTimeMillis();
 
         generateSphere(8, 16, 10F, 0x0088FF);
         

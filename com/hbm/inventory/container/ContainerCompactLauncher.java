@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 
 import net.minecraft.entity.player.EntityPlayer;

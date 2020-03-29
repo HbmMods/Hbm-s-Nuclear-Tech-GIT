@@ -1,7 +1,5 @@
 package com.hbm.packet;
 
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

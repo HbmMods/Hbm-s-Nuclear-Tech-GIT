@@ -285,7 +285,7 @@ public class TileEntityDiFurnace extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public void updateEntity() {
-		boolean flag = this.hasPower();
+		this.hasPower();
 		boolean flag1 = false;
 		
 		if(hasPower() && isProcessing())

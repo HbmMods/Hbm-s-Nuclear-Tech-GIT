@@ -1,14 +1,10 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.entity.logic.EntityTomBlast;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNukeGeneric;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 

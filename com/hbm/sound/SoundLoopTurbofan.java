@@ -3,8 +3,6 @@ package com.hbm.sound;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.tileentity.machine.TileEntityMachineAssembler;
-import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import net.minecraft.tileentity.TileEntity;

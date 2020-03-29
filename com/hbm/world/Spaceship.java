@@ -44,7 +44,7 @@ public class Spaceship extends WorldGenerator
  {
 
 		Block checkBlock = world.getBlock(x, y - 1, z);
-		Block blockAbove = world.getBlock(x, y , z);
+		world.getBlock(x, y , z);
 		Block blockBelow = world.getBlock(x, y - 2, z);
 
 		for (Block i : GetValidSpawnBlocks())

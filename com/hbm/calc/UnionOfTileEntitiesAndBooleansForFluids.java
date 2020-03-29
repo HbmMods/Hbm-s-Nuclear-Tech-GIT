@@ -1,7 +1,6 @@
 package com.hbm.calc;
 
 import com.hbm.interfaces.IFluidSource;
-import com.hbm.interfaces.IOilSource;
 
 public class UnionOfTileEntitiesAndBooleansForFluids {
 	

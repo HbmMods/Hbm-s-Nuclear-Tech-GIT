@@ -1,7 +1,5 @@
 package com.hbm.inventory;
 
-import java.util.Arrays;
-
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;

@@ -1,7 +1,5 @@
 package com.hbm.entity.particle;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.world.World;
 
 public class EntityFogFX extends EntityModFX {

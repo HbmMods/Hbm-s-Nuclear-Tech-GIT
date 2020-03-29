@@ -1,7 +1,5 @@
 package com.hbm.render.util;
 
-import static net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType.CROSSHAIRS;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -16,7 +14,6 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.GuiIngameForge;
 
 public class RenderScreenOverlay {
 

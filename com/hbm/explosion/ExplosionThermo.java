@@ -408,7 +408,7 @@ public class ExplosionThermo {
 	
 	public static void freezer(World world, int x, int y, int z, int bombStartStrength) {
 				float f = bombStartStrength;
-		        HashSet hashset = new HashSet();
+		        new HashSet();
 		        int i;
 		        int j;
 		        int k;
@@ -416,9 +416,6 @@ public class ExplosionThermo {
 		        double d6;
 		        double d7;
 		        double wat = bombStartStrength;
-		        boolean isOccupied = false;
-		        
-
 		        bombStartStrength *= 2.0F;
 		        i = MathHelper.floor_double(x - wat - 1.0D);
 		        j = MathHelper.floor_double(x + wat + 1.0D);
@@ -427,7 +424,7 @@ public class ExplosionThermo {
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
+		        Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {
@@ -465,7 +462,7 @@ public class ExplosionThermo {
 	
 	public static void setEntitiesOnFire(World world, int x, int y, int z, int bombStartStrength) {
 				float f = bombStartStrength;
-		        HashSet hashset = new HashSet();
+		        new HashSet();
 		        int i;
 		        int j;
 		        int k;
@@ -473,9 +470,6 @@ public class ExplosionThermo {
 		        double d6;
 		        double d7;
 		        double wat = bombStartStrength;
-		        boolean isOccupied = false;
-		        
-
 		        bombStartStrength *= 2.0F;
 		        i = MathHelper.floor_double(x - wat - 1.0D);
 		        j = MathHelper.floor_double(x + wat + 1.0D);
@@ -484,7 +478,7 @@ public class ExplosionThermo {
 		        int l = MathHelper.floor_double(z - wat - 1.0D);
 		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
+		        Vec3.createVectorHelper(x, y, z);
 
 		        for (int i1 = 0; i1 < list.size(); ++i1)
 		        {

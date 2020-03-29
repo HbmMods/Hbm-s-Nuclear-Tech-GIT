@@ -2,6 +2,7 @@ package com.hbm.tileentity;
 
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.packet.AuxGaugePacket;
+import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -144,13 +145,23 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 	@Override
     public abstract void updateEntity();
 	
+	@Deprecated
 	public void updateGauge(int val, int id, int range) {
 
 		if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
-	
+
+	@Deprecated
 	public void processGauge(int val, int id) { }
+	
+	public void networkPack(NBTTagCompound nbt, int range) {
+
+		if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) { }
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

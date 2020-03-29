@@ -1,18 +1,14 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityCelPrime;
 import com.hbm.tileentity.bomb.TileEntityCelPrimeBattery;
 import com.hbm.tileentity.bomb.TileEntityCelPrimePort;
 import com.hbm.tileentity.bomb.TileEntityCelPrimeTanks;
 import com.hbm.tileentity.bomb.TileEntityCelPrimeTerminal;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;

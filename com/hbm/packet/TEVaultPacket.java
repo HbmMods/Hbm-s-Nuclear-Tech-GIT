@@ -1,7 +1,6 @@
 package com.hbm.packet;
 
 import com.hbm.tileentity.machine.TileEntityBlastDoor;
-import com.hbm.tileentity.machine.TileEntityMachineRadar;
 import com.hbm.tileentity.machine.TileEntityVaultDoor;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

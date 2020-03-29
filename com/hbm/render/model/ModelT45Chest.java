@@ -225,8 +225,6 @@ public class ModelT45Chest extends ModelBiped {
 				}
 			}
 		}
-		float s = 1 / 16;
-
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		this.chest.rotationPointX = this.bipedBody.rotationPointX;
 		this.chest.rotationPointY = this.bipedBody.rotationPointY;

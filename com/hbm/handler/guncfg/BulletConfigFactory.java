@@ -1,12 +1,7 @@
 package com.hbm.handler.guncfg;
 
-import java.util.ArrayList;
-
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.ModItems;
-import com.hbm.potion.HbmPotion;
-
-import net.minecraft.potion.PotionEffect;
 
 public class BulletConfigFactory {
 	

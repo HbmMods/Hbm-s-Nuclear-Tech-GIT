@@ -2,12 +2,8 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
-import com.hbm.tileentity.bomb.TileEntityTurretBase;
-
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public abstract class TurretBase extends BlockContainer {

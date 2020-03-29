@@ -1,9 +1,6 @@
 package com.hbm.render.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.main.ResourceManager;

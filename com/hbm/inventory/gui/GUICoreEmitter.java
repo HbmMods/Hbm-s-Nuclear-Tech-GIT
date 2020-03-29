@@ -81,7 +81,7 @@ public class GUICoreEmitter extends GuiInfoContainer {
 		String name = this.emitter.hasCustomInventoryName() ? this.emitter.getInventoryName() : I18n.format(this.emitter.getInventoryName());
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		
-		this.fontRendererObj.drawString("Output: " + Library.getShortNumber(emitter.joules) + "Spk", 50, 30, 0xFF7F7F);
+		this.fontRendererObj.drawString("Output: " + Library.getShortNumber(emitter.prev) + "Spk", 50, 30, 0xFF7F7F);
 		
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}

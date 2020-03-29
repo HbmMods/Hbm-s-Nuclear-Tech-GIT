@@ -232,7 +232,7 @@ public class EntityRainbow extends Entity implements IProjectile
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
             //this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
         }
@@ -242,7 +242,7 @@ public class EntityRainbow extends Entity implements IProjectile
         if (block.getMaterial() != Material.air)
         {
             block.setBlockBoundsBasedOnState(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f); 
-            AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
+            block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
         	if(!worldObj.isRemote)
         		ExplosionChaos.explodeZOMG(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 5);
         }
@@ -406,7 +406,6 @@ public class EntityRainbow extends Entity implements IProjectile
             f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-            float f3 = 0.99F;
             f1 = 0.05F;
 
             if (this.isInWater())
@@ -416,8 +415,6 @@ public class EntityRainbow extends Entity implements IProjectile
                     f4 = 0.25F;
                     this.worldObj.spawnParticle("bubble", this.posX - this.motionX * f4, this.posY - this.motionY * f4, this.posZ - this.motionZ * f4, this.motionX, this.motionY, this.motionZ);
                 }
-
-                f3 = 0.8F;
             }
 
             if (this.isWet())

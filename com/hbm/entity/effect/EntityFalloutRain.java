@@ -1,22 +1,14 @@
 package com.hbm.entity.effect;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
-import com.hbm.explosion.NukeEnvironmentalEffect;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;

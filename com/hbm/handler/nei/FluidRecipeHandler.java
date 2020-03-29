@@ -1,14 +1,11 @@
 package com.hbm.handler.nei;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;

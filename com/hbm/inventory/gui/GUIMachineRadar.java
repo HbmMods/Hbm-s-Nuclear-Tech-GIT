@@ -4,12 +4,9 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.FluidTank;
-import com.hbm.inventory.container.ContainerGenerator;
 import com.hbm.inventory.container.ContainerMachineRadar;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityMachineGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import net.minecraft.client.Minecraft;

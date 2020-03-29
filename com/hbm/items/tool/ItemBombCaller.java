@@ -3,7 +3,6 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.entity.logic.EntityBomber;
-import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;

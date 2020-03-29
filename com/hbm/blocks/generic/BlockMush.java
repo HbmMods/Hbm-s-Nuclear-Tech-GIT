@@ -3,7 +3,6 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
 import com.hbm.world.HugeMush;
 
 import net.minecraft.block.Block;
@@ -48,7 +47,7 @@ public class BlockMush extends Block implements IGrowable {
 
     public boolean func_149884_c(World p_149884_1_, int p_149884_2_, int p_149884_3_, int p_149884_4_, Random p_149884_5_)
     {
-        int l = p_149884_1_.getBlockMetadata(p_149884_2_, p_149884_3_, p_149884_4_);
+        p_149884_1_.getBlockMetadata(p_149884_2_, p_149884_3_, p_149884_4_);
         p_149884_1_.setBlockToAir(p_149884_2_, p_149884_3_, p_149884_4_);
         HugeMush worldgenbigmushroom = null;
 

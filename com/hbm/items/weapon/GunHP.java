@@ -37,7 +37,7 @@ public class GunHP extends Item {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
-		ArrowNockEvent event = new ArrowNockEvent(p_77659_3_, p_77659_1_);
+		new ArrowNockEvent(p_77659_3_, p_77659_1_);
 		{
 			p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 		}

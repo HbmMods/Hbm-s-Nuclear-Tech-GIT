@@ -1,25 +1,7 @@
 package com.hbm.packet;
 
-import org.lwjgl.opengl.GL11;
-
 import com.hbm.entity.logic.EntityBomber;
-import com.hbm.main.ResourceManager;
 import com.hbm.sound.MovingSoundBomber;
-import com.hbm.sound.SoundLoopAssembler;
-import com.hbm.sound.SoundLoopBroadcaster;
-import com.hbm.sound.SoundLoopCentrifuge;
-import com.hbm.sound.SoundLoopChemplant;
-import com.hbm.sound.SoundLoopIGen;
-import com.hbm.sound.SoundLoopMiner;
-import com.hbm.sound.SoundLoopTurbofan;
-import com.hbm.tileentity.machine.TileEntityBroadcaster;
-import com.hbm.tileentity.machine.TileEntityMachineAssembler;
-import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
-import com.hbm.tileentity.machine.TileEntityMachineChemplant;
-import com.hbm.tileentity.machine.TileEntityMachineGasCent;
-import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
-import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
-import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -29,7 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class LoopedEntitySoundPacket implements IMessage {

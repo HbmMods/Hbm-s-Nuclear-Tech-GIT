@@ -3,8 +3,6 @@ package com.hbm.tileentity.bomb;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
-import net.minecraft.tileentity.TileEntity;
-
 public class TileEntityTurretCheapo extends TileEntityTurretBase {
 
 	public int spin;

@@ -3,8 +3,6 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.main.MainRegistry;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockDirt;

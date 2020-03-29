@@ -2,8 +2,6 @@ package com.hbm.items.special;
 
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;

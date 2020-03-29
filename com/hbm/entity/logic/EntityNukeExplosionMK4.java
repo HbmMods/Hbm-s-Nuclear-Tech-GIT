@@ -3,14 +3,12 @@ package com.hbm.entity.logic;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.entity.effect.EntityFalloutRain;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRay;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 

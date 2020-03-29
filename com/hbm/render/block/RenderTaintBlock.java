@@ -1,13 +1,11 @@
 package com.hbm.render.block;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public class RenderTaintBlock implements ISimpleBlockRenderingHandler {
 
@@ -43,7 +41,7 @@ public class RenderTaintBlock implements ISimpleBlockRenderingHandler {
         double d0 = (double)iicon.getMaxU();
         double d1 = (double)iicon.getMaxV();
         double d2 = 0.05000000074505806D;
-        int i1 = renderer.blockAccess.getBlockMetadata(x, y, z);
+        renderer.blockAccess.getBlockMetadata(x, y, z);
 
         if (side2)
         {

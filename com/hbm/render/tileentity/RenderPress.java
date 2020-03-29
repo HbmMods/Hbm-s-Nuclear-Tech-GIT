@@ -2,17 +2,10 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.ModItems;
-import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.ModelRotationTester;
 import com.hbm.render.util.RenderDecoItem;
-import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
-import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -21,7 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderPress extends TileEntitySpecialRenderer {
 	

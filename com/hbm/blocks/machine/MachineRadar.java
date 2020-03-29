@@ -1,10 +1,7 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.machine.TileEntityConverterRfHe;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

@@ -18,8 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
 
@@ -44,7 +42,7 @@ public class GunLacunae extends Item implements IHoldableWeapon {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World world, EntityPlayer player) {
-		ArrowNockEvent event = new ArrowNockEvent(player, p_77659_1_);
+		new ArrowNockEvent(player, p_77659_1_);
 		{
 			player.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 		}

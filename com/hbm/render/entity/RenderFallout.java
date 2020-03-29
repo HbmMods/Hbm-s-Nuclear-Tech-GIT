@@ -123,7 +123,6 @@ public class RenderFallout extends Render {
 				b0 = 10;
 			}
 
-			boolean flag = false;
 			byte b1 = -1;
 			float f5 = this.rendererUpdateCount + p_78474_1_;
 
@@ -132,8 +131,6 @@ public class RenderFallout extends Render {
 			}
 
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			flag = false;
-
 			for (int l = i3 - b0; l <= i3 + b0; ++l) {
 				for (int i1 = k2 - b0; i1 <= k2 + b0; ++i1) {
 					int j1 = (l - i3 + 16) * 32 + i1 - k2 + 16;
@@ -163,7 +160,7 @@ public class RenderFallout extends Render {
 
 						if (l1 != i2) {
 							this.random.setSeed(i1 * i1 * 3121 + i1 * 45238971 ^ l * l * 418711 + l * 13761);
-							float f9 = biomegenbase.getFloatTemperature(i1, l1, l);
+							biomegenbase.getFloatTemperature(i1, l1, l);
 							float f10;
 							double d4;
 

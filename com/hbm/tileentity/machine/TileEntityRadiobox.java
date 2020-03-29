@@ -3,9 +3,6 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEAssemblerPacket;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.tileentity.TileEntity;

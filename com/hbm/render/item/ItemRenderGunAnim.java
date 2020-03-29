@@ -11,25 +11,12 @@ import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelB92;
 import com.hbm.render.model.ModelB93;
 import com.hbm.render.model.ModelBoltAction;
-import com.hbm.render.model.ModelDash;
-import com.hbm.render.model.ModelDefabricator;
-import com.hbm.render.model.ModelEuthanasia;
-import com.hbm.render.model.ModelHP;
-import com.hbm.render.model.ModelJack;
 import com.hbm.render.model.ModelLeverAction;
-import com.hbm.render.model.ModelPip;
-import com.hbm.render.model.ModelSpark;
-import com.hbm.render.model.ModelTwiGun;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
 
 public class ItemRenderGunAnim implements IItemRenderer {
 

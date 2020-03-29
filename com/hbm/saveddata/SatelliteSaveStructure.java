@@ -2,8 +2,6 @@ package com.hbm.saveddata;
 
 import java.util.Arrays;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
-
 import net.minecraft.nbt.NBTTagCompound;
 
 public class SatelliteSaveStructure {

@@ -5,12 +5,9 @@ import java.util.List;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
-import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityMachineTransformer extends TileEntity implements ISource, IConsumer {

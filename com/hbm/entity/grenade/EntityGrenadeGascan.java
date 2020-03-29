@@ -2,7 +2,6 @@ package com.hbm.entity.grenade;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityGrenadeGascan extends EntityGrenadeBase

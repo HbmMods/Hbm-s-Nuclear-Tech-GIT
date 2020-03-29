@@ -1,8 +1,6 @@
 package com.hbm.inventory.inv;
 
 import com.hbm.items.special.ItemRadioactive;
-import com.hbm.items.tool.ItemLeadBox;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

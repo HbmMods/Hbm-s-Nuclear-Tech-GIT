@@ -8,7 +8,6 @@ import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.machine.TileEntityDummy;
-import com.hbm.tileentity.machine.TileEntityVaultDoor;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -77,8 +76,6 @@ public class CompactLauncher extends BlockContainer implements IMultiblock, IBom
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		
-		TileEntityCompactLauncher te = (TileEntityCompactLauncher) world.getTileEntity(x, y, z);
 		
 		if(!(world.getBlock(x + 1, y, z + 1).getMaterial().isReplaceable() &&
 				world.getBlock(x + 1, y, z).getMaterial().isReplaceable() &&

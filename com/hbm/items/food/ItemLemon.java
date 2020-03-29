@@ -213,9 +213,6 @@ public class ItemLemon extends ItemFood {
 		}
 		
 		if(this == ModItems.med_schizophrenia) {
-			int o = 0;
-			
-			int z = 5 / o;
 		}
 		
 		if(this == ModItems.loop_stew) {

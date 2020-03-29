@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 public class TileEntityGeiger extends TileEntity {

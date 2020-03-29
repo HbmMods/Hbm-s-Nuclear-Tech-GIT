@@ -1,9 +1,6 @@
 package com.hbm.items.special;
 
-import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
