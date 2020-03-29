@@ -15,6 +15,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -55,6 +56,10 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISo
 					return;
 				}
 			}
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("joules", joules);
+			this.networkPack(data, 50);
 			
 			joules = 0;
 
@@ -71,6 +76,11 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISo
 					power = 0;
 			}
 		}
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+
+		joules = data.getLong("joules");
 	}
 
 	@Override
@@ -181,5 +191,23 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISo
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		power = nbt.getLong("power");
+		joules = nbt.getLong("joules");
+		tank.readFromNBT(nbt, "tank");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setLong("joules", joules);
+		tank.writeToNBT(nbt, "tank");
 	}
 }

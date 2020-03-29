@@ -555,9 +555,12 @@ tile.ams_base.name=AMS-Basis [WIP]
 container.amsBase=AMS-Basis [WIP]
 
 tile.dfc_emitter.name=DFC-Emitter
+container.dfcEmitter=DFC-Emitter
 tile.dfc_receiver.name=DFC-Receiver
+container.dfcReceiver=DFC-Receiver
 tile.dfc_injector.name=DFC-Brennstoffinjektor
 tile.dfc_core.name=Dunkler Fusionskern
+container.dfcCore.name=Dunkler Fusionskern
 
 item.template_folder.name=Produktionsvorlagen-Zeichenmappe
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung

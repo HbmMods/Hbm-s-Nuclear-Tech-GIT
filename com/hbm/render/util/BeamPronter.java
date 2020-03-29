@@ -20,7 +20,7 @@ public class BeamPronter {
 		LINE
 	}
 	
-	public static void prontHelix(Vec3 skeleton, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
+	public static void prontBeam(Vec3 skeleton, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
 
 		GL11.glPushMatrix();
 		

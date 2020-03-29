@@ -555,9 +555,12 @@ tile.ams_base.name=AMS Base [WIP]
 container.amsBase=AMS Base [WIP]
 
 tile.dfc_emitter.name=DFC Emitter
+container.dfcEmitter=DFC Emitter
 tile.dfc_receiver.name=DFC Receiver
+container.dfcReceiver=DFC Receiver
 tile.dfc_injector.name=DFC Fuel Injector
 tile.dfc_core.name=Dark Fusion Core
+container.dfcCore.name=Dark Fusion Core
 
 item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier

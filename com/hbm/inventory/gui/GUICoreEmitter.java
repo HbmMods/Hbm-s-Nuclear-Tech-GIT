@@ -43,14 +43,13 @@ public class GUICoreEmitter extends GuiInfoContainer {
         this.field.setTextColor(-1);
         this.field.setDisabledTextColour(-1);
         this.field.setEnableBackgroundDrawing(false);
-        this.field.setMaxStringLength(5);
+        this.field.setMaxStringLength(3);
         this.field.setText(String.valueOf(emitter.watts));
 	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
-        this.field.drawTextBox();
 
 		emitter.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 17, 16, 52, emitter.power, emitter.maxPower);
@@ -102,6 +101,8 @@ public class GUICoreEmitter extends GuiInfoContainer {
 		
 		int i = (int) emitter.getPowerScaled(52);
 		drawTexturedModalRect(guiLeft + 26, guiTop + 69 - i, 176, 52 - i, 16, i);
+		
+        this.field.drawTextBox();
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(emitter.tank.getSheet());
 		emitter.tank.renderTank(this, guiLeft + 8, guiTop + 69, emitter.tank.getTankType().textureX() * FluidTank.x, emitter.tank.getTankType().textureY() * FluidTank.y, 16, 52);

@@ -467,8 +467,11 @@ public class ModBlocks {
 	public static Block dfc_emitter;
 	public static final int guiID_dfc_emitter = 87;
 	public static Block dfc_injector;
+	public static final int guiID_dfc_injector = 90;
 	public static Block dfc_receiver;
+	public static final int guiID_dfc_receiver = 88;
 	public static Block dfc_core;
+	public static final int guiID_dfc_core = 89;
 
 	public static Block machine_converter_he_rf;
 	public static final int guiID_converter_he_rf = 28;

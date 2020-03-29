@@ -66,6 +66,12 @@ public class CoreComponent extends BlockContainer {
 			if(this == ModBlocks.dfc_emitter)
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_emitter, world, x, y, z);
 			
+			if(this == ModBlocks.dfc_receiver)
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_receiver, world, x, y, z);
+			
+			if(this == ModBlocks.dfc_injector)
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_injector, world, x, y, z);
+			
 			return true;
 			
 		} else {

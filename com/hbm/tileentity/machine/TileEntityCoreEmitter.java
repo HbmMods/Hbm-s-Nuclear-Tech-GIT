@@ -80,6 +80,9 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 				prev = joules;
 				
 				if(joules > 0) {
+					
+					long out = joules * 98 / 100;
+					
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					for(int i = 1; i <= range; i++) {
 						
@@ -93,8 +96,13 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 						
 						if(te instanceof ILaserable) {
 							
-							((ILaserable)te).addEnergy(joules * 98 / 100, dir);
+							((ILaserable)te).addEnergy(out * 98 / 100, dir);
 							break;
+						}
+						
+						if(te instanceof TileEntityCore) {
+							((TileEntityCore)te).burn(out);
+							continue;
 						}
 						
 						Block b = worldObj.getBlock(x, y, z);
@@ -131,6 +139,8 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 				joules = 0;
 				prev = 0;
 			}
+			
+			this.markDirty();
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
@@ -232,6 +242,30 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		power = nbt.getLong("power");
+		watts = nbt.getInteger("watts");
+		joules = nbt.getLong("joules");
+		prev = nbt.getLong("prev");
+		isOn = nbt.getBoolean("isOn");
+		tank.readFromNBT(nbt, "tank");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		nbt.setInteger("watts", watts);
+		nbt.setLong("joules", joules);
+		nbt.setLong("prev", prev);
+		nbt.setBoolean("isOn", isOn);
+		tank.writeToNBT(nbt, "tank");
 	}
 
 }

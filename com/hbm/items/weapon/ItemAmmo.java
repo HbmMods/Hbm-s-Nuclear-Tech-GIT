@@ -90,7 +90,7 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_44_star) {
 			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
-			list.add(EnumChatFormatting.RED + "- Highly decreased damage");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		
 		//5mm
