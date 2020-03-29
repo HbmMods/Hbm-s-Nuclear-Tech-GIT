@@ -20,8 +20,18 @@ public class BeamPronter {
 		LINE
 	}
 	
-	public static void prontHelix(Vec3 skeleton, double x, double y, double z, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size) {
+	public static void prontHelix(Vec3 skeleton, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
 
+		GL11.glPushMatrix();
+		
+		float sYaw = (float)(Math.atan2(skeleton.xCoord, skeleton.zCoord) * 180F / Math.PI);
+        float sqrt = MathHelper.sqrt_double(skeleton.xCoord * skeleton.xCoord + skeleton.zCoord * skeleton.zCoord);
+		float sPitch = (float)(Math.atan2(skeleton.yCoord, (double)sqrt) * 180F / Math.PI);
+
+		GL11.glRotatef(180, 0, 1F, 0);
+		GL11.glRotatef(sYaw, 0, 1F, 0);
+		GL11.glRotatef(sPitch - 90, 1F, 0, 0);
+		
 		GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_LIGHTING);
@@ -34,18 +44,13 @@ public class BeamPronter {
         
 		Tessellator tessellator = Tessellator.instance;
 
-		Vec3 unit = skeleton.normalize();
+		Vec3 unit = Vec3.createVectorHelper(0, 1, 0);
 		Random rand = new Random(start);
 		double length = skeleton.lengthVector();
 		double segLength = length / segments;
-		
-		float sYaw = (float)(Math.atan2(skeleton.xCoord, skeleton.zCoord));
-        float sqrt = MathHelper.sqrt_double(skeleton.xCoord * skeleton.xCoord + skeleton.zCoord * skeleton.zCoord);
-		float sPitch = (float)(Math.atan2(skeleton.yCoord, (double)sqrt));
-		
-		double lastX = x;
-		double lastY = y;
-		double lastZ = z;
+		double lastX = 0;
+		double lastY = 0;
+		double lastZ = 0;
 		
 		for(int i = 0; i <= segments; i++) {
 			
@@ -58,8 +63,8 @@ public class BeamPronter {
 				spinner.rotateAroundY((float)Math.PI * 2 * rand.nextFloat());
 			}
 			
-			spinner.rotateAroundX(sPitch + (float)Math.PI * 0.5F);
-			spinner.rotateAroundY(sYaw);
+			//spinner.rotateAroundX(sPitch + (float)Math.PI * 0.5F);
+			//spinner.rotateAroundY(sYaw);
 
 			double pX = unit.xCoord * segLength * i + spinner.xCoord;
 			double pY = unit.yCoord * segLength * i + spinner.yCoord;
@@ -69,13 +74,49 @@ public class BeamPronter {
 
 	            tessellator.startDrawing(3);
 	            tessellator.setColorOpaque_I(outerColor);
-	            tessellator.addVertex(pX + x, pY + y, pZ + z);
-	            tessellator.addVertex(lastX + x, lastY + y, lastZ + z);
+	            tessellator.addVertex(pX, pY, pZ);
+	            tessellator.addVertex(lastX, lastY, lastZ);
 	            tessellator.draw();
 			}
 			
 			if(beam == EnumBeamType.SOLID && i > 0) {
 				
+				float radius = thickness / layers;
+
+				for(int j = 1; j <= layers; j++) {
+					
+					float inter = (float)(j - 1) / (float)(layers - 1);
+					int color = (int) (outerColor + (innerColor - outerColor) * inter);
+	
+					tessellator.startDrawingQuads();
+		            tessellator.setColorOpaque_I(color);
+					tessellator.addVertex(lastX + (radius * j), lastY, lastZ + (radius * j));
+					tessellator.addVertex(lastX + (radius * j), lastY, lastZ - (radius * j));
+					tessellator.addVertex(pX + (radius * j), pY, pZ - (radius * j));
+					tessellator.addVertex(pX + (radius * j), pY, pZ + (radius * j));
+					tessellator.draw();
+					tessellator.startDrawingQuads();
+		            tessellator.setColorOpaque_I(color);
+					tessellator.addVertex(lastX - (radius * j), lastY, lastZ + (radius * j));
+					tessellator.addVertex(lastX - (radius * j), lastY, lastZ - (radius * j));
+					tessellator.addVertex(pX - (radius * j), pY, pZ - (radius * j));
+					tessellator.addVertex(pX - (radius * j), pY, pZ + (radius * j));
+					tessellator.draw();
+					tessellator.startDrawingQuads();
+		            tessellator.setColorOpaque_I(color);
+					tessellator.addVertex(lastX + (radius * j), lastY, lastZ + (radius * j));
+					tessellator.addVertex(lastX - (radius * j), lastY, lastZ + (radius * j));
+					tessellator.addVertex(pX - (radius * j), pY, pZ + (radius * j));
+					tessellator.addVertex(pX + (radius * j), pY, pZ + (radius * j));
+					tessellator.draw();
+					tessellator.startDrawingQuads();
+		            tessellator.setColorOpaque_I(color);
+					tessellator.addVertex(lastX + (radius * j), lastY, lastZ - (radius * j));
+					tessellator.addVertex(lastX - (radius * j), lastY, lastZ - (radius * j));
+					tessellator.addVertex(pX - (radius * j), pY, pZ - (radius * j));
+					tessellator.addVertex(pX + (radius * j), pY, pZ - (radius * j));
+					tessellator.draw();
+				}
 			}
 			
 			lastX = pX;
@@ -87,8 +128,8 @@ public class BeamPronter {
 
             tessellator.startDrawing(3);
             tessellator.setColorOpaque_I(innerColor);
-            tessellator.addVertex(x, y, z);
-            tessellator.addVertex(x + skeleton.xCoord, y + skeleton.yCoord, z + skeleton.zCoord);
+            tessellator.addVertex(0, 0, 0);
+            tessellator.addVertex(0, skeleton.lengthVector(), 0);
             tessellator.draw();
 		}
 
@@ -99,6 +140,8 @@ public class BeamPronter {
 		
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glPopMatrix();
+
 		GL11.glPopMatrix();
 	}
 

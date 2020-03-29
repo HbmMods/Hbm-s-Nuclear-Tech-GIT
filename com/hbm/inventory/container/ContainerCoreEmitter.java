@@ -1,6 +1,5 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,9 +14,6 @@ public class ContainerCoreEmitter extends Container {
 	public ContainerCoreEmitter(InventoryPlayer invPlayer, TileEntityCoreEmitter tedf) {
 		
 		nukeBoy = tedf;
-
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 8, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

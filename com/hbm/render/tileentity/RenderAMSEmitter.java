@@ -62,9 +62,9 @@ public class RenderAMSEmitter extends TileEntitySpecialRenderer {
 
 		TileEntityAMSEmitter emitter = (TileEntityAMSEmitter)tileEntity;
 		
-		if(emitter.getWorldObj().getTileEntity(emitter.xCoord, emitter.yCoord - 9, emitter.zCoord) instanceof TileEntityAMSBase && !emitter.locked) {
+		if(emitter.getWorldObj().getTileEntity(emitter.xCoord, emitter.yCoord - 9, emitter.zCoord) instanceof TileEntityAMSBase && !emitter.locked || true) {
 		
-			if(emitter.efficiency > 0) {
+			if(emitter.efficiency > 0 || true) {
 				
 				double lastPosX = 0;
 				double lastPosZ = 0;

@@ -1,5 +1,7 @@
 package com.hbm.entity.projectile;
 
+import java.util.List;
+
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 
@@ -8,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -56,14 +59,15 @@ public class EntityLaser extends Entity {
 			
 			MovingObjectPosition pos = Library.rayTrace(player, range, 1);
 			
-			if(pos.entityHit != null) {
-				pos.entityHit.attackEntityFrom(ModDamageSource.radiation, 2);
-			}
-			
 			//worldObj.createExplosion(this, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 1, false);
 			
 			worldObj.spawnParticle("cloud", pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 0, 0, 0);
 			worldObj.playSound(pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, "random.fizz", 1, 1, true);
+			
+			List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(pos.hitVec.xCoord - 1, pos.hitVec.yCoord - 1, pos.hitVec.zCoord - 1, pos.hitVec.xCoord + 1, pos.hitVec.yCoord + 1, pos.hitVec.zCoord + 1));
+			
+			for(Entity e : list)
+				e.attackEntityFrom(ModDamageSource.radiation, 5);
 		}
 	}
 

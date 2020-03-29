@@ -138,8 +138,6 @@ public class GUIMachineReactorSmall extends GuiInfoContainer {
 		if(diFurnace.tanks[2].getFill() > 0) {
 			int i = diFurnace.getSteamScaled(88);
 			
-			//i = (int) Math.min(i, 160);
-			
 			int offset = 234;
 			
 			switch(diFurnace.tanks[2].getTankType()) {
