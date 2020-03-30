@@ -4,6 +4,8 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class TileEntityCore extends TileEntityMachineBase {
 	
 	public int field;
@@ -26,6 +28,36 @@ public class TileEntityCore extends TileEntityMachineBase {
 	@Override
 	public void updateEntity() {
 		
+		if(!worldObj.isRemote) {
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("tank0", tanks[0].getTankType().ordinal());
+			data.setInteger("tank1", tanks[1].getTankType().ordinal());
+			data.setInteger("fill0", tanks[0].getFill());
+			data.setInteger("fill1", tanks[1].getFill());
+			data.setInteger("field", field);
+			data.setInteger("heat", heat);
+			networkPack(data, 250);
+		}
+		
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+
+		tanks[0].setTankType(FluidType.getEnum(data.getInteger("tank0")));
+		tanks[1].setTankType(FluidType.getEnum(data.getInteger("tank1")));
+		tanks[0].setFill(data.getInteger("fill0"));
+		tanks[1].setFill(data.getInteger("fill1"));
+		field = data.getInteger("field");
+		heat = data.getInteger("heat");
+	}
+	
+	public int getFieldScaled(int i) {
+		return (field * i) / 100;
+	}
+	
+	public int getHeatScaled(int i) {
+		return (heat * i) / 100;
 	}
 	
 	public long burn(long joules) {

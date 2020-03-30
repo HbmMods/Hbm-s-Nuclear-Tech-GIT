@@ -10,6 +10,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -80,6 +81,9 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 					beam = i;
 					break;
 				}
+				
+				if(worldObj.getBlock(x, y, z) != Blocks.air)
+					break;
 			}
 			
 			this.markDirty();

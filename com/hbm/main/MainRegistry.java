@@ -521,6 +521,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCoreEmitter.class, "tileentity_v0_emitter");
 		GameRegistry.registerTileEntity(TileEntityCoreReceiver.class, "tileentity_v0_receiver");
 		GameRegistry.registerTileEntity(TileEntityCoreInjector.class, "tileentity_v0_injector");
+		GameRegistry.registerTileEntity(TileEntityCoreStabilizer.class, "tileentity_v0_stabilizer");
 		GameRegistry.registerTileEntity(TileEntityCore.class, "tileentity_v0");
 		GameRegistry.registerTileEntity(TileEntityMachineArcFurnace.class, "tileentity_arc_furnace");
 		GameRegistry.registerTileEntity(TileEntityMachineAmgen.class, "tileentity_amgen");

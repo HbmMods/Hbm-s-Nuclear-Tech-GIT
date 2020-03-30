@@ -804,6 +804,24 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_dfc_core:
+				{
+					if(entity instanceof TileEntityCore)
+					{
+						return new ContainerCore(player.inventory, (TileEntityCore) entity);
+					}
+					return null;
+				}
+	
+				case ModBlocks.guiID_dfc_stabilizer:
+				{
+					if(entity instanceof TileEntityCoreStabilizer)
+					{
+						return new ContainerCoreStabilizer(player.inventory, (TileEntityCoreStabilizer) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1604,6 +1622,24 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityCoreInjector)
 					{
 						return new GUICoreInjector(player.inventory, (TileEntityCoreInjector) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_dfc_core:
+				{
+					if(entity instanceof TileEntityCore)
+					{
+						return new GUICore(player.inventory, (TileEntityCore) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_dfc_stabilizer:
+				{
+					if(entity instanceof TileEntityCoreStabilizer)
+					{
+						return new GUICoreStabilizer(player.inventory, (TileEntityCoreStabilizer) entity);
 					}
 					return null;
 				}

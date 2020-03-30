@@ -9,6 +9,7 @@ import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreInjector;
 import com.hbm.tileentity.machine.TileEntityCoreReceiver;
+import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -70,11 +71,31 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer {
 	        ResourceManager.dfc_injector.renderAll();
 	        
 	        GL11.glTranslated(0, 0.5, 0);
-	        int range = ((TileEntityCoreInjector)tileEntity).beam;
+	        TileEntityCoreInjector injector = (TileEntityCoreInjector)tileEntity;
+	        int range = injector.beam;
 	        
 	        if(range > 0) {
-		        BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x0000ff, 0x8080ff, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range, 0.0625F, 0, 0);
-		        BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x0000ff, 0x8080ff, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range, 0.0625F, 0, 0);
+	        	
+	        	if(injector.tanks[0].getFill() > 0)
+	        		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, injector.tanks[0].getTankType().getColor(), 0x808080, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range, 0.0625F, 0, 0);
+	        	if(injector.tanks[1].getFill() > 0)
+	        		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, injector.tanks[1].getTankType().getColor(), 0x808080, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range, 0.0625F, 0, 0);
+	        }
+        }
+
+        if(tileEntity instanceof TileEntityCoreStabilizer) {
+	        bindTexture(ResourceManager.dfc_stabilizer_tex);
+	        ResourceManager.dfc_injector.renderAll();
+
+	        
+	        GL11.glTranslated(0, 0.5, 0);
+	        TileEntityCoreStabilizer stabilizer = (TileEntityCoreStabilizer)tileEntity;
+	        int range = stabilizer.beam;
+
+	        if(range > 0) {
+	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -25 % 360, range * 3, 0.125F, 0, 0);
+	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -15 % 360 + 180, range * 3, 0.125F, 0, 0);
+	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -5 % 360 + 180, range * 3, 0.125F, 0, 0);
 	        }
         }
         

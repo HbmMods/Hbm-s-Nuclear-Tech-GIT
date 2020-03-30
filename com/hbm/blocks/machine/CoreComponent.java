@@ -5,6 +5,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreInjector;
 import com.hbm.tileentity.machine.TileEntityCoreReceiver;
+import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.BlockContainer;
@@ -31,6 +32,8 @@ public class CoreComponent extends BlockContainer {
 			return new TileEntityCoreReceiver();
 		if(this == ModBlocks.dfc_injector)
 			return new TileEntityCoreInjector();
+		if(this == ModBlocks.dfc_stabilizer)
+			return new TileEntityCoreStabilizer();
 		
 		return null;
 	}
@@ -71,6 +74,9 @@ public class CoreComponent extends BlockContainer {
 			
 			if(this == ModBlocks.dfc_injector)
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_injector, world, x, y, z);
+			
+			if(this == ModBlocks.dfc_stabilizer)
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_dfc_stabilizer, world, x, y, z);
 			
 			return true;
 			

@@ -4,6 +4,7 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
+import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
@@ -214,6 +215,14 @@ public class AuxButtonPacket implements IMessage {
 					}
 					if(m.id == 1) {
 						core.isOn = !core.isOn;
+					}
+				}
+				
+				if (te instanceof TileEntityCoreStabilizer) {
+					TileEntityCoreStabilizer core = (TileEntityCoreStabilizer)te;
+
+					if(m.id == 0) {
+						core.watts = m.value;
 					}
 				}
 				
