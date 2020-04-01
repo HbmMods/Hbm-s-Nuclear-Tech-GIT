@@ -27,7 +27,11 @@ public class RenderCore extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
         
         TileEntityCore core = (TileEntityCore)tileEntity;
-        renderStandby(x, y, z);
+        
+        if(core.heat == 0)
+        	renderStandby(x, y, z);
+        else
+        	renderOrb(core, x, y, z);
     }
     
     public void renderStandby(double x, double y, double z) {
@@ -59,6 +63,48 @@ public class RenderCore extends TileEntitySpecialRenderer {
 			}
         }
 		
+        GL11.glPopMatrix();
+    }
+    
+    public void renderOrb(TileEntityCore tile, double x, double y, double z) {
+
+        GL11.glPushMatrix();
+        GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+
+        int color = tile.color;
+		GL11.glColor3ub((byte)((color & 0xFF0000) >> 16), (byte)((color & 0x00FF00) >> 8), (byte)((color & 0x0000FF) >> 0));
+		
+		int tot = tile.tanks[0].getMaxFill() + tile.tanks[1].getMaxFill();
+		int fill = tile.tanks[0].getFill() + tile.tanks[1].getFill();
+		
+		float scale = 4.5F * fill / tot + 0.5F;
+		GL11.glScalef(scale, scale, scale);
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		ResourceManager.sphere_ruv.renderAll();
+		GL11.glScalef(2F, 2F, 2F);
+		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+		
+		for(int i = 6; i <= 10; i++) {
+
+	        GL11.glPushMatrix();
+			GL11.glScalef(i * 0.1F, i * 0.1F, i * 0.1F);
+			ResourceManager.sphere_ruv.renderAll();
+	        GL11.glPopMatrix();
+		}
+		
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+		GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glPopMatrix();
     }
     

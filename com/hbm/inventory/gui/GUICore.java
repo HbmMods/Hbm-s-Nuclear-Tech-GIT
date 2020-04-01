@@ -33,7 +33,9 @@ public class GUICore extends GuiInfoContainer {
 		core.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 17, 16, 52);
 
 		String[] text = new String[] { "Restriction Field: " + core.field + "%" };
+		String[] text1 = new String[] { "Heat Saturation: " + core.heat + "%" };
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 8, guiTop + 17, 16, 52, mouseX, mouseY, text);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 152, guiTop + 17, 16, 52, mouseX, mouseY, text1);
 	}
 
 	@Override

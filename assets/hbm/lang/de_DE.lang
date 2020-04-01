@@ -559,8 +559,11 @@ container.dfcEmitter=DFC-Emitter
 tile.dfc_receiver.name=DFC-Receiver
 container.dfcReceiver=DFC-Receiver
 tile.dfc_injector.name=DFC-Brennstoffinjektor
+container.dfcInjector=DFC-Brennstoffinjektor
+tile.dfc_stabilizer.name=DFC-Stabilisator
+container.dfcStabilizer=DFC-Stabilisator
 tile.dfc_core.name=Dunkler Fusionskern
-container.dfcCore.name=Dunkler Fusionskern
+container.dfc_core=Dunkler Fusionskern
 
 item.template_folder.name=Produktionsvorlagen-Zeichenmappe
 item.fluid_identifier.name=Flüssigkeits-Kennzeichnung
@@ -2248,6 +2251,8 @@ item.ams_focus_limiter.name=Beschränkender Stabilisierungsfokus
 item.ams_focus_booster.name=Verstärkender Stabilisierungsfokus
 
 item.ams_muzzle.name=Strahlenemissions-Mündung
+
+item.ams_lens.name=Stabilisierer-Linse
 
 item.ams_core_sing.name=Vibrierende Singularität (AMS-Kern)
 item.ams_core_wormhole.name=Winziges Wurmloch (AMS-Kern)

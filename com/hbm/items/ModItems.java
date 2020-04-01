@@ -536,6 +536,8 @@ public class ModItems {
 
 	public static Item ams_muzzle;
 
+	public static Item ams_lens;
+
 	public static Item ams_core_sing;
 	public static Item ams_core_wormhole;
 	public static Item ams_core_eyeofharmony;
@@ -3065,6 +3067,7 @@ public class ModItems {
 		ams_focus_limiter = new ItemCustomLore().setUnlocalizedName("ams_focus_limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_limiter");
 		ams_focus_booster = new ItemCustomLore().setUnlocalizedName("ams_focus_booster").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_booster");
 		ams_muzzle = new ItemCustomLore().setUnlocalizedName("ams_muzzle").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_muzzle");
+		ams_lens = new ItemLens().setUnlocalizedName("ams_lens").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_lens");
 		ams_core_sing = new ItemAMSCore(1000000000L, 200, 10).setUnlocalizedName("ams_core_sing").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_core_sing");
 		ams_core_wormhole = new ItemAMSCore(1500000000L, 200, 15).setUnlocalizedName("ams_core_wormhole").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_core_wormhole");
 		ams_core_eyeofharmony = new ItemAMSCore(2500000000L, 300, 10).setUnlocalizedName("ams_core_eyeofharmony").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_core_eyeofharmony");
@@ -4226,6 +4229,7 @@ public class ModItems {
 		GameRegistry.registerItem(ams_focus_limiter, ams_focus_limiter.getUnlocalizedName());
 		GameRegistry.registerItem(ams_focus_booster, ams_focus_booster.getUnlocalizedName());
 		GameRegistry.registerItem(ams_muzzle, ams_muzzle.getUnlocalizedName());
+		GameRegistry.registerItem(ams_lens, ams_lens.getUnlocalizedName());
 		GameRegistry.registerItem(ams_core_sing, ams_core_sing.getUnlocalizedName());
 		GameRegistry.registerItem(ams_core_wormhole, ams_core_wormhole.getUnlocalizedName());
 		GameRegistry.registerItem(ams_core_eyeofharmony, ams_core_eyeofharmony.getUnlocalizedName());

@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
+import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemLens;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -40,7 +42,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 			beam = 0;
 			
-			if(power >= demand) {
+			if(power >= demand && slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ItemLens.maxDamage) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 				for(int i = 1; i <= range; i++) {
@@ -57,6 +59,15 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 						core.field = watts;
 						this.power -= demand;
 						beam = i;
+						
+						long dmg = ItemLens.getLensDamage(slots[0]);
+						dmg += watts;
+						
+						if(dmg >= ItemLens.maxDamage)
+							slots[0] = null;
+						else
+							ItemLens.setLensDamage(slots[0], dmg);
+						
 						break;
 					}
 					

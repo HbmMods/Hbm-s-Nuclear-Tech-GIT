@@ -101,7 +101,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 						}
 						
 						if(te instanceof TileEntityCore) {
-							((TileEntityCore)te).burn(out);
+							out = ((TileEntityCore)te).burn(out);
 							continue;
 						}
 						

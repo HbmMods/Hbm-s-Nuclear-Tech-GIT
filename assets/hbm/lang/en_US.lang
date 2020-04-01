@@ -559,8 +559,11 @@ container.dfcEmitter=DFC Emitter
 tile.dfc_receiver.name=DFC Receiver
 container.dfcReceiver=DFC Receiver
 tile.dfc_injector.name=DFC Fuel Injector
+container.dfcInjector=DFC Fuel Injector
+tile.dfc_stabilizer.name=DFC Stabilizer
+container.dfcStabilizer=DFC Stabilizer
 tile.dfc_core.name=Dark Fusion Core
-container.dfcCore.name=Dark Fusion Core
+container.dfcCore=Dark Fusion Core
 
 item.template_folder.name=Machine Template Folder
 item.fluid_identifier.name=Fluid Identifier
@@ -2248,6 +2251,8 @@ item.ams_focus_limiter.name=Limiting Stabilizer Focus
 item.ams_focus_booster.name=Boosting Stabilizer Focus
 
 item.ams_muzzle.name=Ray-Emission Muzzle
+
+item.ams_lens.name=Stabilizer Lens
 
 item.ams_core_sing.name=Vibrant Singularity (AMS Core)
 item.ams_core_wormhole.name=Tiny Wormhole (AMS Core)
