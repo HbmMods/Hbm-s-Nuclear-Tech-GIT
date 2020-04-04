@@ -196,6 +196,7 @@ death.attack.pc=%1$s wurde zu einer Pfütze in der pinken Wolke.
 death.attack.cloud=%1$s schmolz wie ein Eis in der Sonne.
 death.attack.lead=%1$s starb an Bleivergiftung.
 death.attack.taint=%1$s starb an Flux-Tumoren.
+death.attack.electricity=%1$s bekam einen tödlichen Stromschlag.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

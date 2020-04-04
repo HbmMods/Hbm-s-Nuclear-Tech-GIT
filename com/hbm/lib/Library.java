@@ -232,6 +232,55 @@ public class Library {
 		return false;
 	}
 	
+	public static boolean checkForFaraday(EntityPlayer player) {
+		
+		ItemStack[] armor = player.inventory.armorInventory;
+		
+		if(armor[0] == null || armor[1] == null || armor[2] == null || armor[3] == null) return false;
+		
+		if(isFaradayArmor(armor[0].getItem()) &&
+				isFaradayArmor(armor[1].getItem()) &&
+				isFaradayArmor(armor[2].getItem()) &&
+				isFaradayArmor(armor[3].getItem()))
+			return true;
+		
+		return false;
+	}
+	
+	public static final String[] metals = new String[] {
+			"chainmail",
+			"iron",
+			"silver",
+			"gold",
+			"platinum",
+			"tin",
+			"lead",
+			"schrabidium",
+			"euphemium",
+			"steel",
+			"titanium",
+			"alloy",
+			"copper",
+			"bronze",
+			"electrum",
+			"t45",
+			"hazmat", //also count because rubber is insulating
+			"rubber"
+	};
+	
+	public static boolean isFaradayArmor(Item item) {
+		
+		String name = item.getUnlocalizedName();
+		
+		for(String metal : metals) {
+			
+			if(name.toLowerCase().contains(metal))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean checkForGasMask(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))

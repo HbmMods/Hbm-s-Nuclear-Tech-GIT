@@ -42,10 +42,6 @@ public class ModEventHandlerClient {
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-
-		if(player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
-			if(player.ticksExisted > 5 * 60 * 20)
-				Minecraft.getMinecraft().entityRenderer.debugViewDirection = 5;
 		
 		if(event.type == ElementType.HOTBAR && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
 			
@@ -66,7 +62,6 @@ public class ModEventHandlerClient {
 			int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
 			
 			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
-			//RenderScreenOverlay.renderRadCounter(event.resolution, 0, Minecraft.getMinecraft().ingameGUI);
 		}
 		
 		if(event.type == ElementType.HOTBAR) {
@@ -93,14 +88,10 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void preRenderEvent(RenderPlayerEvent.Pre event) {
 		
-		//event.setCanceled(true);
-		
 		RenderPlayer renderer = event.renderer;
 		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
 		
 		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
-		
-		//GL11.glRotated(180, 1, 0, 0);
 		
 		if(cloak != null)
 			player.func_152121_a(Type.CAPE, cloak);
