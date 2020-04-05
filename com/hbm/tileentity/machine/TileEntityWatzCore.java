@@ -574,7 +574,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 			
 			power = Library.chargeItemsFromTE(slots, 37, power, maxPower);
 			
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			tank.unloadTank(36, 39, slots);
 			
 			if(slots[36] != null && slots[36].getItem() == ModItems.titanium_filter && slots[36].getItemDamage() + 100 <= slots[36].getMaxDamage())

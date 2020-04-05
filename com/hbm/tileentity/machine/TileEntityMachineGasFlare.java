@@ -221,7 +221,7 @@ public class TileEntityMachineGasFlare extends TileEntity implements ISidedInven
 		if(!worldObj.isRemote) {
 			
 			tank.loadTank(1, 2, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(tank.getFill() >= 10) {
 				tank.setFill(tank.getFill() - 10);

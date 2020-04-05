@@ -12,6 +12,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -72,9 +73,9 @@ public class FluidTank {
 	}
 	
 	//Called on TE update
-	public void updateTank(int x, int y, int z) {
+	public void updateTank(int x, int y, int z, int dim) {
 
-		PacketDispatcher.wrapper.sendToAll(new TEFluidPacket(x, y, z, fluid, index, type));
+		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, 100));
 	}
 	
 	//Fills tank from canisters

@@ -236,7 +236,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			//Water
 			tank.loadTank(0, 3, slots);
 			
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			//Battery Item
 			power = Library.chargeItemsFromTE(slots, 2, power, maxPower);

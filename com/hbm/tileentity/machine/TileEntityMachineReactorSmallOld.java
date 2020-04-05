@@ -371,7 +371,7 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 			}
 
 			for (int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			// Batteries
 			power = Library.chargeItemsFromTE(slots, 11, power, powerMax);

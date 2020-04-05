@@ -14,8 +14,6 @@ import net.minecraft.util.IIcon;
 
 public class ItemTaintBlock extends ItemBlock
 {
-    private static final String __OBFID = "CL_00000075";
-
     public ItemTaintBlock(Block p_i45358_1_)
     {
         super(p_i45358_1_);
@@ -23,18 +21,12 @@ public class ItemTaintBlock extends ItemBlock
         this.setHasSubtypes(true);
     }
 
-    /**
-     * Gets an icon index based on an item's damage value
-     */
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int p_77617_1_)
     {
         return this.field_150939_a.func_149735_b(2, BlockTaint.func_150032_b(p_77617_1_));
     }
 
-    /**
-     * Returns the metadata of the block which this Item (ItemBlock) can place
-     */
     public int getMetadata(int p_77647_1_)
     {
         return p_77647_1_;

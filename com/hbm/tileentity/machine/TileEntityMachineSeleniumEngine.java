@@ -227,7 +227,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			//Tank Management
 			tank.setType(11, 12, slots);
 			tank.loadTank(9, 10, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			FluidType type = tank.getTankType();
 			if(type.name().equals(FluidType.NITAN.name()))

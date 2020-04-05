@@ -195,6 +195,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		NBTTagList list = new NBTTagList();
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "coolant");
+		tanks[2].writeToNBT(nbt, "steam");
 		nbt.setInteger("type", type.getID());
 
 		for (int i = 0; i < slots.length; i++) {
@@ -525,7 +526,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			}
 
 			for (int i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			if(worldObj.getBlock(xCoord, yCoord, zCoord - 2) == ModBlocks.reactor_ejector && worldObj.getBlockMetadata(xCoord, yCoord, zCoord - 2) == 2)
 				tryEjectInto(xCoord, yCoord, zCoord - 3);

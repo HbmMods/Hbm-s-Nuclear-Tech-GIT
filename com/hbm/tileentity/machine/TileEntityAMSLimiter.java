@@ -219,7 +219,7 @@ public class TileEntityAMSLimiter extends TileEntity implements ISidedInventory,
 			if(!locked) {
 				
 				tank.setType(0, 1, slots);
-				tank.updateTank(xCoord, yCoord, zCoord);
+				tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 				
 				if(power > 0) {
 					//" - (maxHeat / 2)" offsets center to 50% instead of 0%

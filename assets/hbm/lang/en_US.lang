@@ -2255,10 +2255,10 @@ item.ams_muzzle.name=Ray-Emission Muzzle
 
 item.ams_lens.name=Stabilizer Lens
 
-item.ams_core_sing.name=Vibrant Singularity (AMS Core)
-item.ams_core_wormhole.name=Tiny Wormhole (AMS Core)
-item.ams_core_eyeofharmony.name=Eye of Harmony (AMS Core)
-item.ams_core_thingy.name=Thingy (AMS Core)
+item.ams_core_sing.name=Vibrant Singularity (AMS/DFC Core)
+item.ams_core_wormhole.name=Tiny Wormhole (AMS/DFC Core)
+item.ams_core_eyeofharmony.name=Eye of Harmony (AMS/DFC Core)
+item.ams_core_thingy.name=Thingy (AMS/DFC Core)
 
 item.crystal_energy.name=Energy Crystal
 item.pellet_coolant.name=Coolant Cluster

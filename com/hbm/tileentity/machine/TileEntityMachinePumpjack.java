@@ -253,7 +253,7 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 			this.tanks[1].unloadTank(3, 4, slots);
 			
 			for(int i = 0; i < 2; i++) {
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);

@@ -53,7 +53,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 			watts = MathHelper.clamp_int(watts, 1, 100);
 			long demand = maxPower * watts / 2000;
 
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			beam = 0;
 			
@@ -108,6 +108,12 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements ICon
 						Block b = worldObj.getBlock(x, y, z);
 						
 						if(b != Blocks.air) {
+							
+							if(b.getMaterial().isLiquid()) {
+								worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
+								worldObj.setBlockToAir(x, y, z);
+								break;
+							}
 							
 							float hardness = b.getExplosionResistance(null);
 							if(hardness < 6000 && worldObj.rand.nextInt(20) == 0) {

@@ -290,7 +290,7 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 			tanks[1].loadTank(10, 13, slots);
 			
 			for(int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			//Batteries
 			power = Library.chargeItemsFromTE(slots, 11, power, powerMax);

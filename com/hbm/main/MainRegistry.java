@@ -228,10 +228,11 @@ public class MainRegistry
 	public static boolean enableBomberShortMode = false;
 	public static boolean enableVaults = true;
 	public static boolean enableRads = true;
-	public static boolean enableCataclysm = true;
+	public static boolean enableCataclysm = false;
 	public static boolean enableExtendedLogging = false;
 	public static boolean enableHardcoreTaint = false;
 	public static boolean enableGuns = true;
+	public static boolean enableVirus = true;
 
 	public static int uraniumSpawn = 6;
 	public static int thoriumSpawn = 7;
@@ -534,6 +535,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCableSwitch.class, "tileentity_he_switch");
 		GameRegistry.registerTileEntity(TileEntitySoyuzLauncher.class, "tileentity_soyuz_launcher");
 		GameRegistry.registerTileEntity(TileEntityTesla.class, "tileentity_tesla_coil");
+		GameRegistry.registerTileEntity(TileEntityBarrel.class, "tileentity_fluid_barrel");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1541,6 +1543,7 @@ public class MainRegistry
         enableExtendedLogging = config.get(CATEGORY_GENERAL, "1.18_enableExtendedLogging", false).getBoolean(false);
         enableHardcoreTaint = config.get(CATEGORY_GENERAL, "1.19_enableHardcoreTaint", false).getBoolean(false);
         enableGuns = config.get(CATEGORY_GENERAL, "1.20_enableGuns", true).getBoolean(true);
+        enableVirus = config.get(CATEGORY_GENERAL, "1.21_enableVirus", false).getBoolean(false);
 
         final String CATEGORY_OREGEN = "02_ores";
         Property PuraniumSpawn = config.get(CATEGORY_OREGEN, "2.00_uraniumSpawnrate", 6);

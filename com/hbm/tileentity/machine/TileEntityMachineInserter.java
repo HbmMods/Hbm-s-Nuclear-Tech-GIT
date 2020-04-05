@@ -221,9 +221,9 @@ public class TileEntityMachineInserter extends TileEntity implements ISidedInven
 			tanks[0].setType(1, 2, slots);
 			tanks[1].setType(4, 5, slots);
 			tanks[2].setType(7, 8, slots);
-			tanks[0].updateTank(xCoord, yCoord, zCoord);
-			tanks[1].updateTank(xCoord, yCoord, zCoord);
-			tanks[2].updateTank(xCoord, yCoord, zCoord);
+			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			tanks[2].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	

@@ -206,7 +206,7 @@ public class TileEntityMachineFluidTank extends TileEntity implements ISidedInve
 			tank.loadTank(2, 3, slots);
 			tank.setType(0, 1, slots);
 			tank.unloadTank(4, 5, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	

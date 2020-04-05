@@ -167,7 +167,7 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 			tanks[1].loadTank(2, 3, slots);
 
 			for (int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
 			

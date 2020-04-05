@@ -288,7 +288,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			tank.loadTank(2, 5, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			if (canProcess()) {
 				process();

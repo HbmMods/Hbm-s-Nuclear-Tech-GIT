@@ -221,7 +221,7 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 				tanks[1].loadTank(32, 33, slots);
 				
 				for(int i = 0; i < 2; i++)
-					tanks[i].updateTank(xCoord, yCoord, zCoord);
+					tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 				
 				
 				if(hasFuse())

@@ -249,7 +249,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 			tanks[1].unloadTank(5, 6, slots);
 			
 			for(int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(heat > 2000) {
 				heat -= 30;

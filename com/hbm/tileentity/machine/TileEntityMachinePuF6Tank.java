@@ -194,7 +194,7 @@ public class TileEntityMachinePuF6Tank extends TileEntity implements ISidedInven
 		{
 			tank.loadTank(0, 1, slots);
 			tank.unloadTank(2, 3, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	

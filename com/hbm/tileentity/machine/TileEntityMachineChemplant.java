@@ -307,7 +307,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			tanks[3].unloadTank(10, 12, slots);
 			
 			for(int i = 0; i < 4; i++) {
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 
 			FluidStack[] inputs = MachineRecipes.getFluidInputFromTempate(slots[4]);

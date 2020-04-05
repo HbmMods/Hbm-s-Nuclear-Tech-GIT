@@ -283,7 +283,7 @@ public class TileEntityMachineGasCent extends TileEntity implements ISidedInvent
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tank.setType(1, 2, slots);
 			tank.loadTank(3, 4, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(canProcess()) {
 				

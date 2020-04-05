@@ -2255,10 +2255,10 @@ item.ams_muzzle.name=Strahlenemissions-Mündung
 
 item.ams_lens.name=Stabilisierer-Linse
 
-item.ams_core_sing.name=Vibrierende Singularität (AMS-Kern)
-item.ams_core_wormhole.name=Winziges Wurmloch (AMS-Kern)
-item.ams_core_eyeofharmony.name=Auge der Harmonie (AMS-Kern)
-item.ams_core_thingy.name=Dings (AMS-Kern)
+item.ams_core_sing.name=Vibrierende Singularität (AMS/DFC-Kern)
+item.ams_core_wormhole.name=Winziges Wurmloch (AMS/DFC-Kern)
+item.ams_core_eyeofharmony.name=Auge der Harmonie (AMS/DFC-Kern)
+item.ams_core_thingy.name=Dings (AMS/DFC-Kern)
 
 item.crystal_energy.name=Energiekristall
 item.pellet_coolant.name=Kühlcluster

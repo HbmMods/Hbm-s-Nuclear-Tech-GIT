@@ -295,7 +295,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 			tanks[4].unloadTank(9, 10, slots);
 			
 			for(int i = 0; i < 5; i++) {
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			}
 			
 			if(sulfur >= maxSulfur) {

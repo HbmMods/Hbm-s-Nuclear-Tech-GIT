@@ -419,7 +419,7 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			}
 
 			for (int i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, rods, 0));
 			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, retracting ? 1 : 0, 1));

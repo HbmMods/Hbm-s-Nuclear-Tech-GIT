@@ -989,7 +989,7 @@ public class TileEntityFusionMultiblock extends TileEntity implements ISidedInve
 			tanks[2].loadTank(3, 11, slots);
 			
 			for(int i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(slots[2] != null && slots[2].getItem() == ModItems.tritium_deuterium_cake)
 			{

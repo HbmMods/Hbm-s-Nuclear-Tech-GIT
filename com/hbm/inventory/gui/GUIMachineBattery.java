@@ -13,7 +13,7 @@ import com.hbm.tileentity.machine.TileEntityMachineBattery;
 
 public class GUIMachineBattery extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_battery.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/storage/gui_battery.png");
 	private TileEntityMachineBattery diFurnace;
 
 	public GUIMachineBattery(InventoryPlayer invPlayer, TileEntityMachineBattery tedf) {

@@ -3,6 +3,8 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.main.MainRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -20,6 +22,9 @@ public class CheaterVirusSeed extends Block {
 	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
 		
 		super.breakBlock(world, x, y, z, block, i);
+		
+		if(!MainRegistry.enableVirus)
+			return;
 
     	if((world.getBlock(x + 1, y, z) == Blocks.air || world.getBlock(x + 1, y, z) == ModBlocks.cheater_virus || world.getBlock(x + 1, y, z) == ModBlocks.cheater_virus_seed) && 
     			(world.getBlock(x - 1, y, z) == Blocks.air || world.getBlock(x - 1, y, z) == ModBlocks.cheater_virus || world.getBlock(x - 1, y, z) == ModBlocks.cheater_virus_seed) && 
@@ -36,6 +41,9 @@ public class CheaterVirusSeed extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
+		
+		if(!MainRegistry.enableVirus)
+			return;
     	
     	if((world.getBlock(x + 1, y, z) == Blocks.air || world.getBlock(x + 1, y, z) == ModBlocks.cheater_virus || world.getBlock(x + 1, y, z) == ModBlocks.cheater_virus_seed) && 
     			(world.getBlock(x - 1, y, z) == Blocks.air || world.getBlock(x - 1, y, z) == ModBlocks.cheater_virus || world.getBlock(x - 1, y, z) == ModBlocks.cheater_virus_seed) && 

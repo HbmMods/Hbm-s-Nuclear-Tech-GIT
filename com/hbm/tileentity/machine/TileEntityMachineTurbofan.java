@@ -238,7 +238,7 @@ public class TileEntityMachineTurbofan extends TileEntity implements ISidedInven
 
 			//Tank Management
 			tank.loadTank(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			isRunning = false;
 				

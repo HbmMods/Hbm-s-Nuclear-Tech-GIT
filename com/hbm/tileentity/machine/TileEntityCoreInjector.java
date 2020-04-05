@@ -88,8 +88,8 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 			
 			this.markDirty();
 
-			tanks[0].updateTank(xCoord, yCoord, zCoord);
-			tanks[1].updateTank(xCoord, yCoord, zCoord);
+			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("beam", beam);

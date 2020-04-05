@@ -6,6 +6,7 @@ import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.test.*;
 import com.hbm.items.bomb.ItemPrototypeBlock;
+import com.hbm.items.special.ItemBlockLore;
 import com.hbm.items.special.ItemOreBlock;
 import com.hbm.items.special.ItemPlasmaBlock;
 import com.hbm.items.special.ItemSchrabidiumBlock;
@@ -394,6 +395,13 @@ public class ModBlocks {
 	public static Block gas_duct_solid;
 	public static Block gas_duct;
 	public static Block fluid_duct;
+
+	public static Block barrel_plastic;
+	public static Block barrel_corroded;
+	public static Block barrel_iron;
+	public static Block barrel_steel;
+	public static Block barrel_antimatter;
+	public static final int guiID_barrel = 18;
 
 	public static Block machine_transformer;
 	public static Block machine_transformer_20;
@@ -838,7 +846,7 @@ public class ModBlocks {
 		asphalt = new BlockGeneric(Material.rock).setBlockName("asphalt").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":asphalt");
 
 		reinforced_brick = new BlockGeneric(Material.rock).setBlockName("reinforced_brick").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_brick");
-		reinforced_glass = new ReinforcedBlock(Material.glass).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(15.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_glass");
+		reinforced_glass = new ReinforcedBlock(Material.glass).setBlockName("reinforced_glass").setCreativeTab(MainRegistry.blockTab).setLightOpacity(0).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_glass");
 		reinforced_light = new ReinforcedBlock(Material.rock).setBlockName("reinforced_light").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setLightLevel(1.0F).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_light");
 		reinforced_sand = new BlockGeneric(Material.rock).setBlockName("reinforced_sand").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(400.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_sand");
 		reinforced_lamp_off = new ReinforcedLamp(Material.rock, false).setBlockName("reinforced_lamp_off").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_off");
@@ -1018,6 +1026,12 @@ public class ModBlocks {
 		gas_duct_solid = new GasDuctSolid(Material.iron).setBlockName("gas_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_duct_solid");
 		gas_duct = new BlockGasDuct(Material.iron).setBlockName("gas_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_duct_icon");
 		fluid_duct = new BlockFluidDuct(Material.iron).setBlockName("fluid_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_icon");
+
+		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
+		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
+		barrel_iron = new BlockFluidBarrel(Material.iron, 8000).setBlockName("barrel_iron").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_iron");
+		barrel_steel = new BlockFluidBarrel(Material.iron, 16000).setBlockName("barrel_steel").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_steel");
+		barrel_antimatter = new BlockFluidBarrel(Material.iron, 16000).setBlockName("barrel_antimatter").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_antimatter");
 
 		machine_transformer = new MachineTransformer(Material.iron, 10000L, 1).setBlockName("machine_transformer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_transformer_iron");
 		machine_transformer_dnt = new MachineTransformer(Material.iron, 1000000000000000L, 1).setBlockName("machine_transformer_dnt").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_transformer");
@@ -1533,9 +1547,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(det_cord, det_cord.getUnlocalizedName());
 		GameRegistry.registerBlock(det_charge, det_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(det_nuke, det_nuke.getUnlocalizedName());
-		GameRegistry.registerBlock(red_barrel, red_barrel.getUnlocalizedName());
-		GameRegistry.registerBlock(pink_barrel, pink_barrel.getUnlocalizedName());
-		GameRegistry.registerBlock(lox_barrel, lox_barrel.getUnlocalizedName());
+		GameRegistry.registerBlock(red_barrel, ItemBlockLore.class, red_barrel.getUnlocalizedName());
+		GameRegistry.registerBlock(pink_barrel, ItemBlockLore.class, pink_barrel.getUnlocalizedName());
+		GameRegistry.registerBlock(lox_barrel, ItemBlockLore.class, lox_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(taint_barrel, taint_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(yellow_barrel, yellow_barrel.getUnlocalizedName());
 		GameRegistry.registerBlock(vitrified_barrel, vitrified_barrel.getUnlocalizedName());
@@ -1624,6 +1638,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_duct_solid, gas_duct_solid.getUnlocalizedName());
 		GameRegistry.registerBlock(fluid_duct, fluid_duct.getUnlocalizedName());
+		GameRegistry.registerBlock(barrel_plastic, ItemBlockLore.class, barrel_plastic.getUnlocalizedName());
+		GameRegistry.registerBlock(barrel_corroded, ItemBlockLore.class, barrel_corroded.getUnlocalizedName());
+		GameRegistry.registerBlock(barrel_iron, ItemBlockLore.class, barrel_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(barrel_steel, ItemBlockLore.class, barrel_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(barrel_antimatter, ItemBlockLore.class, barrel_antimatter.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_battery_potato, machine_battery_potato.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_battery, machine_battery.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_lithium_battery, machine_lithium_battery.getUnlocalizedName());

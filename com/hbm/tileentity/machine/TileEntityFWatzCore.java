@@ -347,7 +347,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 			tanks[2].loadTank(4, 6, slots);
 			
 			for(int i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord);
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 		
 		if(this.isRunning() && (tanks[1].getFill() <= 0 || tanks[2].getFill() <= 0 || !hasFuse() || getSingularityType() == 0) || cooldown || !this.isStructureValid(worldObj))

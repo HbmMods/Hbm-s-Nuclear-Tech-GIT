@@ -222,7 +222,7 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 			//Tank Management
 			tank.setType(3, 4, slots);
 			tank.loadTank(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			FluidType type = tank.getTankType();
 			if(type.name().equals(FluidType.NITAN.name()))

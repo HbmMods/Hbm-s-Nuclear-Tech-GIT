@@ -43,7 +43,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements ISo
 
 		if (!worldObj.isRemote) {
 			
-			tank.updateTank(xCoord, yCoord, zCoord);
+			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			power += joules * 5000;
 			

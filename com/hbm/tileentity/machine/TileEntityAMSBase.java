@@ -260,7 +260,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				tanks[3].setType(6, 7, slots);
 				
 				for(int i = 0; i < 4; i++)
-					tanks[i].updateTank(xCoord, yCoord, zCoord);
+					tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 				
 				int f1 = 0, f2 = 0, f3 = 0, f4 = 0;
 				int booster = 0;
