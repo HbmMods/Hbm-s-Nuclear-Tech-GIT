@@ -2,64 +2,66 @@ package com.hbm.handler;
 
 import java.util.Arrays;
 
+import com.hbm.render.util.EnumSymbol;
+
 public class FluidTypeHandler {
 	
 	public enum FluidType {
-		NONE			(0x888888,	0,	1,	1, "hbmfluid.none"),
+		NONE			(0x888888,	0,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.none"),
 
-		WATER			(0x3333FF,	1,	1,	1,  "hbmfluid.water"),
-		STEAM			(0xe5e5e5,	9,	2,	1,  "hbmfluid.steam", true, false, false),
-		HOTSTEAM		(0xE7D6D6,	1,	1,	2,  "hbmfluid.hotsteam", true, false, false),
-		SUPERHOTSTEAM	(0xE7B7B7,	2,	1,	2,  "hbmfluid.superhotsteam", true, false, false),
-		COOLANT			(0xd8fcff,	2,	1,	1,  "hbmfluid.coolant"),
+		WATER			(0x3333FF,	1,	1,	1,	0,	0,	0,	EnumSymbol.NONE,		"hbmfluid.water"),
+		STEAM			(0xe5e5e5,	9,	2,	1,	3,	0,	0,	EnumSymbol.NONE,		"hbmfluid.steam", true, false, false),
+		HOTSTEAM		(0xE7D6D6,	1,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.hotsteam", true, false, false),
+		SUPERHOTSTEAM	(0xE7B7B7,	2,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.superhotsteam", true, false, false),
+		COOLANT			(0xd8fcff,	2,	1,	1,	1,	0,	0,	EnumSymbol.NONE,		"hbmfluid.coolant"),
 		
-		LAVA			(0xFF3300,	3,	1,	1,  "hbmfluid.lava", true, false, false),
+		LAVA			(0xFF3300,	3,	1,	1,	4,	0,	0,	EnumSymbol.NOWATER,		"hbmfluid.lava", true, false, false),
 		
-		DEUTERIUM		(0x0000FF,	4,	1,	1,  "hbmfluid.deuterium"),
-		TRITIUM			(0x000099,	5,	1,	1,  "hbmfluid.tritium"),
+		DEUTERIUM		(0x0000FF,	4,	1,	1,	3,	4,	0,	EnumSymbol.NONE,		"hbmfluid.deuterium"),
+		TRITIUM			(0x000099,	5,	1,	1,	3,	4,	0,	EnumSymbol.RADIATION,	"hbmfluid.tritium"),
 
-		OIL				(0x020202,	6,	1,	1,  "hbmfluid.oil"),
-		HOTOIL			(0x300900,	8,	2,	1,  "hbmfluid.hotoil", true, false, false),
+		OIL				(0x020202,	6,	1,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.oil"),
+		HOTOIL			(0x300900,	8,	2,	1,	2,	3,	0,	EnumSymbol.NONE,		"hbmfluid.hotoil", true, false, false),
 		
-		HEAVYOIL		(0x141312,	2,	2,	1,  "hbmfluid.heavyoil"),
-		BITUMEN			(0x1f2426,	3,	2,	1,  "hbmfluid.bitumen"),
-		SMEAR			(0x190f01,	7,	1,	1,  "hbmfluid.smear"),
-		HEATINGOIL		(0x211806,	4,	2,	1,  "hbmfluid.heatingoil"),
+		HEAVYOIL		(0x141312,	2,	2,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.heavyoil"),
+		BITUMEN			(0x1f2426,	3,	2,	1,	2,	0,	0,	EnumSymbol.NONE,		"hbmfluid.bitumen"),
+		SMEAR			(0x190f01,	7,	1,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.smear"),
+		HEATINGOIL		(0x211806,	4,	2,	1,	2,	2,	0,	EnumSymbol.NONE,		"hbmfluid.heatingoil"),
 		
-		RECLAIMED		(0x332b22,	8,	1,	1,  "hbmfluid.reclaimed"),
-		PETROIL			(0x44413d,	9,	1,	1,  "hbmfluid.petroil"),
+		RECLAIMED		(0x332b22,	8,	1,	1,	2,	2,	0,	EnumSymbol.NONE,		"hbmfluid.reclaimed"),
+		PETROIL			(0x44413d,	9,	1,	1,	1,	3,	0,	EnumSymbol.NONE,		"hbmfluid.petroil"),
 		
-		LUBRICANT		(0x606060,	10,	1,	1,  "hbmfluid.lubricant"),
+		LUBRICANT		(0x606060,	10,	1,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.lubricant"),
 		
-		NAPHTHA			(0x595744,	5,	2,	1,  "hbmfluid.naphtha"),
-		DIESEL			(0xf2eed5,	11,	1,	1,  "hbmfluid.diesel"),
+		NAPHTHA			(0x595744,	5,	2,	1,	2,	1,	0,	EnumSymbol.NONE,		"hbmfluid.naphtha"),
+		DIESEL			(0xf2eed5,	11,	1,	1,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.diesel"),
 		
-		LIGHTOIL		(0x8c7451,	6,	2,	1,  "hbmfluid.lightoil"),
-		KEROSENE		(0xffa5d2,	12,	1,	1,  "hbmfluid.kerosene"),
+		LIGHTOIL		(0x8c7451,	6,	2,	1,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.lightoil"),
+		KEROSENE		(0xffa5d2,	12,	1,	1,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.kerosene"),
 		
-		GAS				(0xfffeed,	13,	1,	1,  "hbmfluid.gas"),
-		PETROLEUM		(0x7cb7c9,	7,	2,	1,  "hbmfluid.petroleum"),
+		GAS				(0xfffeed,	13,	1,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.gas"),
+		PETROLEUM		(0x7cb7c9,	7,	2,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.petroleum"),
 		
-		BIOGAS			(0xbfd37c,	12,	2,	1,  "hbmfluid.biogas"),
-		BIOFUEL			(0xeef274,	13,	2,	1,  "hbmfluid.biofuel"),
+		BIOGAS			(0xbfd37c,	12,	2,	1,	1,	4,	1,	EnumSymbol.NONE,		"hbmfluid.biogas"),
+		BIOFUEL			(0xeef274,	13,	2,	1,	1,	2,	0,	EnumSymbol.NONE,		"hbmfluid.biofuel"),
 
-		NITAN			(0x8018ad,	15,	2,	1,  "hbmfluid.nitan"),
+		NITAN			(0x8018ad,	15,	2,	1,	2,	4,	1,	EnumSymbol.NONE,		"hbmfluid.nitan"),
 		
-		UF6				(0xD1CEBE,	14,	1,	1,  "hbmfluid.uf6", false, true, false),
-		PUF6			(0x4C4C4C,	15,	1,	1,  "hbmfluid.puf6", false, true, false),
-		SAS3			(0x4ffffc,	14,	2,	1,  "hbmfluid.sas3", false, true, false),
+		UF6				(0xD1CEBE,	14,	1,	1,	4,	0,	2,	EnumSymbol.RADIATION,	"hbmfluid.uf6", false, true, false),
+		PUF6			(0x4C4C4C,	15,	1,	1,	4,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.puf6", false, true, false),
+		SAS3			(0x4ffffc,	14,	2,	1,	5,	0,	4,	EnumSymbol.RADIATION,	"hbmfluid.sas3", false, true, false),
 		
-		AMAT			(0x010101,	0,	2,	1,  "hbmfluid.amat", false, false, true),
-		ASCHRAB			(0xb50000,	1,	2,	1,  "hbmfluid.aschrab", false, false, true),
+		AMAT			(0x010101,	0,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.amat", false, false, true),
+		ASCHRAB			(0xb50000,	1,	2,	1,	5,	0,	5,	EnumSymbol.ANTIMATTER,	"hbmfluid.aschrab", false, false, true),
 
-		ACID			(0xfff7aa,	10,	2,	1,  "hbmfluid.acid", false, true, false),
-		WATZ			(0x86653E,	11,	2,	1,  "hbmfluid.watz", false, true, false),
-		CRYOGEL			(0x32ffff,	0,	1,	2,  "hbmfluid.cryogel"),
+		ACID			(0xfff7aa,	10,	2,	1,	3,	0,	3,	EnumSymbol.OXIDIZER,	"hbmfluid.acid", false, true, false),
+		WATZ			(0x86653E,	11,	2,	1,	4,	0,	3,	EnumSymbol.ACID,		"hbmfluid.watz", false, true, false),
+		CRYOGEL			(0x32ffff,	0,	1,	2,	2,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.cryogel"),
 		
-		HYDROGEN		(0x4286f4,	3,	1,	2,  "hbmfluid.hydrogen"),
-		OXYGEN			(0x98bdf9,	4,	1,	2,  "hbmfluid.oxygen"),
-		XENON			(0xba45e8,	5,	1,	2,  "hbmfluid.xenon"),
-		BALEFIRE		(0x28e02e,	6,	1,	2,  "hbmfluid.balefire", true, true, false);
+		HYDROGEN		(0x4286f4,	3,	1,	2,	3,	4,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.hydrogen"),
+		OXYGEN			(0x98bdf9,	4,	1,	2,	3,	0,	0,	EnumSymbol.CROYGENIC,	"hbmfluid.oxygen"),
+		XENON			(0xba45e8,	5,	1,	2,	0,	0,	0,	EnumSymbol.ASPHYXIANT,	"hbmfluid.xenon"),
+		BALEFIRE		(0x28e02e,	6,	1,	2,	4,	4,	3,	EnumSymbol.RADIATION,	"hbmfluid.balefire", true, true, false);
 		
 
 		//Approximate HEX Color of the fluid, used for pipe rendering
@@ -79,20 +81,33 @@ public class FluidTypeHandler {
 		//Whether the fluid is antimatter and requires magnetic storage
 		private boolean antimatter;
 		
-		private FluidType(int color, int x, int y, int sheet, String name) {
+		public int poison;
+		public int flammability;
+		public int reactivity;
+		public EnumSymbol symbol;
+		
+		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name) {
 			this.color = color;
 			this.textureX = x;
 			this.textureY = y;
 			this.name = name;
 			this.sheetID = sheet;
+			this.poison = p;
+			this.flammability = f;
+			this.reactivity = r;
+			this.symbol = symbol;
 		}
 		
-		private FluidType(int color, int x, int y, int sheet, String name, boolean hot, boolean corrosive, boolean antimatter) {
+		private FluidType(int color, int x, int y, int sheet, int p, int f, int r, EnumSymbol symbol, String name, boolean hot, boolean corrosive, boolean antimatter) {
 			this.color = color;
 			this.textureX = x;
 			this.textureY = y;
 			this.name = name;
 			this.sheetID = sheet;
+			this.poison = p;
+			this.flammability = f;
+			this.reactivity = r;
+			this.symbol = symbol;
 			this.hot = hot;
 			this.corrosive = corrosive;
 			this.antimatter = antimatter;

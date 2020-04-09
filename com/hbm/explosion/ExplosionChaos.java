@@ -152,7 +152,9 @@ public class ExplosionChaos {
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
-						pDestruction(world, X, Y, Z);
+						
+						if(world.getBlock(X, Y, Z).getExplosionResistance(null) <= 70)
+							pDestruction(world, X, Y, Z);
 					}
 				}
 			}

@@ -469,6 +469,13 @@ container.reactorSmall=Atomreaktor
 tile.machine_controller.name=Reaktorfernsteuerung
 container.reactorControl=Reaktorfernsteuerung
 
+tile.barrel_plastic.name=Sicheres Fass™
+tile.barrel_corroded.name=Verrostetes Fass
+tile.barrel_iron.name=Eisenfass
+tile.barrel_steel.name=Stahlfass
+tile.barrel_antimatter.name=Magnetischer Antimaterie-Behälter
+container.barrel=Fass
+
 tile.broadcaster_pc.name=Korrupter Sender
 
 tile.radiobox.name=Rosenberg Ungeziefervernichter

@@ -401,7 +401,7 @@ public class ModBlocks {
 	public static Block barrel_iron;
 	public static Block barrel_steel;
 	public static Block barrel_antimatter;
-	public static final int guiID_barrel = 18;
+	public static final int guiID_barrel = 92;
 
 	public static Block machine_transformer;
 	public static Block machine_transformer_20;

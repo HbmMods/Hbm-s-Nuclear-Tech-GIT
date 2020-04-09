@@ -469,6 +469,13 @@ container.reactorSmall=Nuclear Reactor
 tile.machine_controller.name=Reactor Remote Control Block
 container.reactorControl=Reactor Remote Control Block
 
+tile.barrel_plastic.name=Safe Barrel™
+tile.barrel_corroded.name=Corroded Barrel
+tile.barrel_iron.name=Iron Barrel
+tile.barrel_steel.name=Steel Barrel
+tile.barrel_antimatter.name=Magnetic Antimatter Container
+container.barrel=Barrel
+
 tile.broadcaster_pc.name=Corrupted Broadcaster
 
 tile.radiobox.name=Rosenberg Pest Control Box

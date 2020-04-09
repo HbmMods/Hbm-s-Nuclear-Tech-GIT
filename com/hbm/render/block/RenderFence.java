@@ -20,12 +20,10 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 		
 		BlockFence fence = (BlockFence) ModBlocks.fence_metal;
 		
-        boolean flag = false;
         float f = 0.375F;
         float f1 = 0.625F;
         renderer.setRenderBounds((double)f, 0.0D, (double)f, (double)f1, 1.0D, (double)f1);
         renderer.renderStandardBlock(fence, x, y, z);
-        flag = true;
         boolean flag1 = false;
         boolean flag2 = false;
 
@@ -61,24 +59,22 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
         {
         	renderer.setRenderBounds((double)f4, (double)0, (double)0.5, (double)f5, (double)1, (double)0.5);
         	renderer.renderStandardBlock(fence, x, y, z);
-            flag = true;
         }
 
         if (flag2)
         {
         	renderer.setRenderBounds((double)0.5, (double)0, (double)f6, (double)0.5, (double)1, (double)f7);
         	renderer.renderStandardBlock(fence, x, y, z);
-            flag = true;
         }
 
         renderer.field_152631_f = false;
         fence.setBlockBoundsBasedOnState(world, x, y, z);
-        return flag;
+        return true;
 	}
 
 	@Override
 	public boolean shouldRender3DInInventory(int modelId) {
-		return false;
+		return true;
 	}
 
 	@Override

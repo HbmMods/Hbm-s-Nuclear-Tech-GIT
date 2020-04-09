@@ -17,6 +17,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockFluidBarrel extends BlockContainer {
@@ -60,6 +62,20 @@ public class BlockFluidBarrel extends BlockContainer {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
+    {
+        float f = 0.0625F;
+        this.setBlockBounds(2*f, 0.0F, 2*f, 14*f, 1.0F, 14*f);
+    }
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+        float f = 0.0625F;
+        this.setBlockBounds(2*f, 0.0F, 2*f, 14*f, 1.0F, 14*f);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 
     private final Random field_149933_a = new Random();

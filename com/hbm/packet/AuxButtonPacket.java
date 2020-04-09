@@ -3,6 +3,7 @@ package com.hbm.packet;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
+import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 import com.hbm.tileentity.machine.TileEntityForceField;
@@ -224,6 +225,13 @@ public class AuxButtonPacket implements IMessage {
 					if(m.id == 0) {
 						core.watts = m.value;
 					}
+				}
+				
+				if (te instanceof TileEntityBarrel) {
+					TileEntityBarrel barrel = (TileEntityBarrel)te;
+
+					barrel.mode = (short) ((barrel.mode + 1) % barrel.modes);
+					barrel.markDirty();
 				}
 				
 			//} catch (Exception x) { }
