@@ -371,15 +371,7 @@ public class ModEventHandler
 		}
 	}
 	
-	String[] hashes = new String[] {
-			"7e6fabead604ce497b32c2ff29148254879980c045b97fa627eb074eb2de81e7",
-			"9031b60664473360593e89c7c9ece297ee3fbee25b0891450d904f15b3255bf6",
-			"d841ef1ebaf7bdb284fc20be3508a8db1dae78f8630bf9d192bb7cd8384458da",
-			"7c78f529c5f4748577bd8922753c04135cd733f525172b5a782894cfb9d544a8"
-
-	};
-	
-	static final String salt = "df5fe65986dc0f145a867ad29aee9bfebc3a1cd5afb05f32";
+	private static final String hash = "a4e6e2d37cc6bae3b19a925569c008d8f98b867e62ecb72398ee6fd5d7ee535a";
 	
 	@SubscribeEvent
 	public void onClickSign(PlayerInteractEvent event) {
@@ -393,18 +385,10 @@ public class ModEventHandler
 			
 			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
 			
-			int correct = 0;
+			String result = smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
+			//System.out.println(result);
 			
-			for(int i = 0; i < 4; i++) {
-				if(hashes[i].equals(getHash(sign.signText[i] + salt))) {
-					sign.signText[i] = "Correct!";
-					sign.markDirty();
-					sign.getWorldObj().markBlockForUpdate(x, y, z);
-					correct++;
-				}
-			}
-			
-			if(correct == 4) {
+			if(result.equals(hash)) {
 				world.func_147480_a(x, y, z, false);
 	            EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
 	            entityitem.delayBeforeCanPickup = 10;
@@ -412,6 +396,43 @@ public class ModEventHandler
 			}
 		}
 		
+	}
+	
+	private String smoosh(String s1, String s2, String s3, String s4) {
+		
+		Random rand = new Random();
+		String s = "";
+
+		byte[] b1 = s1.getBytes();
+		byte[] b2 = s2.getBytes();
+		byte[] b3 = s3.getBytes();
+		byte[] b4 = s4.getBytes();
+		
+		if(b1.length == 0 || b2.length == 0 || b3.length == 0 || b4.length == 0)
+			return "";
+		
+		s += s1;
+		rand.setSeed(b1[0]);
+		s += rand.nextInt(0xffffff);
+		
+		s += s2;
+		rand.setSeed(rand.nextInt(0xffffff) + b2[0]);
+		rand.setSeed(b2[0]);
+		s += rand.nextInt(0xffffff);
+		
+		s += s3;
+		rand.setSeed(rand.nextInt(0xffffff) + b3[0]);
+		rand.setSeed(b3[0]);
+		s += rand.nextInt(0xffffff);
+		
+		s += s4;
+		rand.setSeed(rand.nextInt(0xffffff) + b4[0]);
+		rand.setSeed(b4[0]);
+		s += rand.nextInt(0xffffff);
+		
+		//System.out.println(s);
+		
+		return getHash(s);
 	}
 	
 	private String getHash(String inp) {
@@ -430,11 +451,4 @@ public class ModEventHandler
 		
 		return "";
 	}
-	
-	/*@SubscribeEvent
-	public void itemCollected(PlayerEvent.ItemPickupEvent e) {
-		if(e.pickedUp.getEntityItem().equals(ModItems.nothing)) {
-			//e.player.addStat(MainRegistry.achievementGetAmblygonite, 1);
-		}
-	}*/
 }

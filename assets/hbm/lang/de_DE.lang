@@ -339,6 +339,7 @@ tile.crate_lead.name=Gefahrenstoffkiste
 tile.crate_metal.name=Maschinenkiste
 tile.crate_red.name=Rote Kiste
 tile.crate_can.name=Konservenkiste
+tile.crate_ammo.name=Sternenmetallkiste
 tile.marker_structure.name=Multiblock-Strukturvorlage
 
 tile.struct_launcher.name=Startrampe-Komponentenblock
@@ -478,6 +479,7 @@ container.barrel=Fass
 
 tile.broadcaster_pc.name=Korrupter Sender
 
+tile.tesla.name=Teslaspule
 tile.radiobox.name=Rosenberg Ungeziefervernichter
 tile.radiorec.name=Kaputtes UKW Radio
 container.radiobox=UKW-Sender
@@ -796,6 +798,7 @@ tile.ore_thorium.name=Thoriumerz
 tile.ore_schrabidium.name=Schrabidiumerz
 tile.ore_beryllium.name=Berylliumerz
 tile.ore_lignite.name=Braunkohleerz
+tile.ore_asbestos.name=Asbesterz
 
 tile.ore_nether_uranium.name=Nether-Uranerz
 tile.ore_nether_plutonium.name=Nether-Plutoniumerz

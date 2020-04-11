@@ -339,6 +339,7 @@ tile.crate_lead.name=Hazmat Crate
 tile.crate_metal.name=Machine Crate
 tile.crate_red.name=Red Crate
 tile.crate_can.name=Conserve Crate
+tile.crate_ammo.name=Starmetal Crate
 tile.marker_structure.name=Multiblock Structure Marker
 
 tile.struct_launcher.name=Launch Pad Component Block
@@ -478,6 +479,7 @@ container.barrel=Barrel
 
 tile.broadcaster_pc.name=Corrupted Broadcaster
 
+tile.tesla.name=Tesla Coil
 tile.radiobox.name=Rosenberg Pest Control Box
 tile.radiorec.name=Broken FM Radio
 container.radiobox=FM Transmitter
@@ -796,6 +798,7 @@ tile.ore_thorium.name=Thorium Ore
 tile.ore_schrabidium.name=Schrabidium Ore
 tile.ore_beryllium.name=Beryllium Ore
 tile.ore_lignite.name=Lignite Ore
+tile.ore_asbestos.name=Asbestos Ore
 
 tile.ore_nether_uranium.name=Nether Uranium Ore
 tile.ore_nether_plutonium.name=Nether Plutonium Ore
