@@ -6,11 +6,11 @@ import org.lwjgl.opengl.GL14;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityStructureMarker;
-import com.hbm.world.FWatz;
-import com.hbm.world.FactoryTitanium;
-import com.hbm.world.FusionReactor;
-import com.hbm.world.NuclearReactor;
-import com.hbm.world.Watz;
+import com.hbm.world.machine.FWatz;
+import com.hbm.world.machine.FactoryTitanium;
+import com.hbm.world.machine.FusionReactor;
+import com.hbm.world.machine.NuclearReactor;
+import com.hbm.world.machine.Watz;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;

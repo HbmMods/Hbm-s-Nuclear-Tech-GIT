@@ -69,6 +69,9 @@ public class NBTPacket implements IMessage {
 		@Override
 		public IMessage onMessage(NBTPacket m, MessageContext ctx) {
 			
+			if(Minecraft.getMinecraft().theWorld == null)
+				return null;
+			
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 			
 			if(!(te instanceof TileEntityMachineBase))

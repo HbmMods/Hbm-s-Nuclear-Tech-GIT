@@ -3,12 +3,12 @@ package com.hbm.items.tool;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.world.FWatz;
-import com.hbm.world.FactoryAdvanced;
-import com.hbm.world.FactoryTitanium;
-import com.hbm.world.FusionReactor;
-import com.hbm.world.NuclearReactor;
-import com.hbm.world.Watz;
+import com.hbm.world.machine.FWatz;
+import com.hbm.world.machine.FactoryAdvanced;
+import com.hbm.world.machine.FactoryTitanium;
+import com.hbm.world.machine.FusionReactor;
+import com.hbm.world.machine.NuclearReactor;
+import com.hbm.world.machine.Watz;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

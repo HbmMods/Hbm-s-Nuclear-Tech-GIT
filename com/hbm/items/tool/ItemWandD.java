@@ -2,57 +2,32 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
+import com.hbm.lib.Library;
+import com.hbm.world.generator.CellularDungeonFactory;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {
-	
-	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_)
-    {
-		Block b = world.getBlock(x, y, z);
-
-		if(!world.isRemote)
-		{
-			if (b == ModBlocks.ore_aluminium)
-				MainRegistry.x++;
-			if (b == ModBlocks.block_aluminium)
-				MainRegistry.x--;
-			if (b == ModBlocks.ore_beryllium)
-				MainRegistry.y++;
-			if (b == ModBlocks.block_beryllium)
-				MainRegistry.y--;
-			if (b == ModBlocks.ore_copper)
-				MainRegistry.z++;
-			if (b == ModBlocks.block_copper)
-				MainRegistry.z--;
-			if (b == ModBlocks.red_pylon) {
-				TileEntityPylonRedWire te = (TileEntityPylonRedWire) world.getTileEntity(x, y, z);
-				for(int i = 0; i < te.connected.size(); i++)
-					if(world.isRemote)
-						player.addChatMessage(new ChatComponentText(te.connected.get(i).xCoord + " " + te.connected.get(i).yCoord + " " + te.connected.get(i).zCoord));
-			}
-		}
-		
-		MainRegistry.time = System.currentTimeMillis();
-		
-		return true;
-    }
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if(player.isSneaking())
-		{
-			if(world.isRemote)
-				player.addChatMessage(new ChatComponentText(MainRegistry.x + " " + MainRegistry.y + " " + MainRegistry.z));
+		
+		if(world.isRemote)
+			return stack;
+		
+		MovingObjectPosition pos = Library.rayTrace(player, 500, 1);
+		
+		if(pos != null) {
+			
+			int x = pos.blockX;
+			int y = pos.blockY;
+			int z = pos.blockZ;
+			
+			CellularDungeonFactory.test.generate(world, x, y, z, world.rand);
 		}
 		
 		return stack;

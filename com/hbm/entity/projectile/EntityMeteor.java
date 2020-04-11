@@ -4,7 +4,7 @@ import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
-import com.hbm.world.Meteorite;
+import com.hbm.world.feature.Meteorite;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
