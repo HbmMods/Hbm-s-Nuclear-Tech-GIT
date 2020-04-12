@@ -74,7 +74,7 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public boolean shouldRender3DInInventory(int modelId) {
-		return true;
+		return false;
 	}
 
 	@Override

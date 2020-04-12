@@ -53,7 +53,7 @@ public class EntityDuchessGambit extends EntityThrowable {
     				AxisAlignedBB.getBoundingBox(posX - 5, posY - 2, posZ - 9, posX + 5, posY + 2, posZ + 9));
     			
     		for(Entity e : list) {
-    			e.attackEntityFrom(ModDamageSource.boxcar, 1000);
+    			e.attackEntityFrom(ModDamageSource.boat, 1000);
     		}
     		
     		if(!worldObj.isRemote) {

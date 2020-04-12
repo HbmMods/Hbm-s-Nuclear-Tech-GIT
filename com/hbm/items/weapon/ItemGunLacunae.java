@@ -14,15 +14,18 @@ public class ItemGunLacunae extends ItemGunBase {
 	
 	@Override
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
-
-		setDelay(stack, 20);
-		world.playSoundAtEntity(player, "hbm:weapon.lacunaeSpinup", 1.0F, 1.0F);
+		
+		if(main) {
+			setDelay(stack, 20);
+			world.playSoundAtEntity(player, "hbm:weapon.lacunaeSpinup", 1.0F, 1.0F);
+		}
 	}
 	
 	@Override
 	public void endAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		world.playSoundAtEntity(player, "hbm:weapon.lacunaeSpindown", 1.0F, 1.0F);
+		if(main)
+			world.playSoundAtEntity(player, "hbm:weapon.lacunaeSpindown", 1.0F, 1.0F);
 	}
 	
 	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {

@@ -1,8 +1,9 @@
 package com.hbm.items.weapon;
 
-import java.util.List;
-
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 
@@ -24,6 +25,15 @@ public class ItemGunGauss extends ItemGunBase {
 			world.playSoundAtEntity(player, "hbm:weapon.sparkShoot", 1.0F, 1.0F);
 			setHasShot(stack, false);
 		}
+		
+		if(!main && getStored(stack) > 0) {
+			EntityBulletBase bullet = new EntityBulletBase(world, altConfig.config.get(0), player);
+			bullet.overrideDamage = Math.min(getStored(stack), 13) * 3.5F;
+			world.spawnEntityInWorld(bullet);
+			world.playSoundAtEntity(player, "hbm:weapon.tauShoot", 1.0F, 0.75F);
+			setItemWear(stack, getItemWear(stack) + (getCharge(stack)) * 2);
+			setCharge(stack, 0);
+		}
 	}
 	
 	public void endActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) {
@@ -32,14 +42,16 @@ public class ItemGunGauss extends ItemGunBase {
 			chargeLoop.stopSound();
 			chargeLoop = null;
 		}
-		//setCharge(stack, 0);
+	}
+	
+	protected void altFire(ItemStack stack, World world, EntityPlayer player) {
+		setCharge(stack, 1);
 	}
 	
 	@Override
 	public void startActionClient(ItemStack stack, World world, EntityPlayer player, boolean main) {
 
-		if(!main) {
-			setCharge(stack, 1);
+		if(!main && getItemWear(stack) < mainConfig.durability && player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
 			chargeLoop = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop2", (float)player.posX, (float)player.posY, (float)player.posZ, 1.0F, 0.75F);
 			world.playSoundAtEntity(player, "hbm:weapon.tauChargeLoop2", 1.0F, 0.75F);
 			
@@ -49,28 +61,50 @@ public class ItemGunGauss extends ItemGunBase {
 		}
 	}
 	
+	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
+		
+		super.updateServer(stack, world, player, slot, isCurrentItem);
+		
+		if(getIsAltDown(stack) && getItemWear(stack) < mainConfig.durability) {
+			
+			int c = getCharge(stack);
+			
+			if(c > 200) {
+				setCharge(stack, 0);
+				setItemWear(stack, mainConfig.durability);
+				player.attackEntityFrom(ModDamageSource.tauBlast, 1000);
+				world.newExplosion(player, player.posX, player.posY + player.eyeHeight, player.posZ, 5.0F, true, true);
+				return;
+			}
+			
+			if(c > 0) {
+				setCharge(stack, c + 1);
+				
+				if(c % 10 == 1 && c < 140) {
+					
+					if(player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
+						player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);
+						setStored(stack, getStored(stack) + 1);
+					} else {
+						setCharge(stack, 0);
+						setStored(stack, 0);
+					}
+				}
+			} else {
+				setStored(stack, 0);
+			}
+		} else {
+			setCharge(stack, 0);
+			setStored(stack, 0);
+		}
+	}
+	
 	protected void updateClient(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
 		super.updateClient(stack, world, player, slot, isCurrentItem);
-		
-		/*if(!isCurrentItem) {
-			setCharge(stack, 0);
-			if(chargeLoop != null) {
-				chargeLoop.stopSound();
-				chargeLoop = null;
-			}
-			return;
-		}*/
-		
-		int c = getCharge(stack);
-		
-		if(c > 0) {
-			setCharge(stack, c + 1);
-			System.out.println(c);
-		}
 
 		if(chargeLoop != null) {
 			chargeLoop.updatePosition((float)player.posX, (float)player.posY, (float)player.posZ);
-			chargeLoop.updatePitch(1.0F);
+			chargeLoop.updatePitch(chargeLoop.getPitch() + 0.01F);
 		}
 	}
 	
@@ -97,12 +131,11 @@ public class ItemGunGauss extends ItemGunBase {
 		return readNBT(stack, "gauss_charge");
 	}
 	
-	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-
-		list.add("alt-fire is broken, just yell at me until i fix it ok");
-		list.add("");
-		
-		super.addInformation(stack, player, list, bool);
+	public static void setStored(ItemStack stack, int i) {
+		writeNBT(stack, "gauss_stored", i);
+	}
+	
+	public static int getStored(ItemStack stack) {
+		return readNBT(stack, "gauss_stored");
 	}
 }

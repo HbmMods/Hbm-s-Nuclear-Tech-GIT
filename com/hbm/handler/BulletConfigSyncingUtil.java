@@ -41,6 +41,7 @@ public class BulletConfigSyncingUtil {
 	public static int G20_SLUG = i++;
 	public static int G20_FLECHETTE = i++;
 	public static int G20_FIRE = i++;
+	public static int G20_SHRAPNEL = i++;
 	public static int G20_EXPLOSIVE = i++;
 	public static int G20_CAUSTIC = i++;
 	public static int G20_SHOCK = i++;
@@ -68,6 +69,7 @@ public class BulletConfigSyncingUtil {
 
 	public static int G12_NORMAL = i++;
 	public static int G12_INCENDIARY = i++;
+	public static int G12_SHRAPNEL = i++;
 
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
@@ -112,6 +114,7 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_GAUSS_CHARGED = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
+	public static int G20_SHRAPNEL_FIRE = i++;
 	public static int G20_SLUG_FIRE = i++;
 	public static int G20_FLECHETTE_FIRE = i++;
 	public static int G20_EXPLOSIVE_FIRE = i++;
@@ -143,6 +146,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeSlugConfig(), G20_SLUG));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeFlechetteConfig(), G20_FLECHETTE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeFireConfig(), G20_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeShrapnelConfig(), G20_SHRAPNEL));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeExplosiveConfig(), G20_EXPLOSIVE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeCausticConfig(), G20_CAUSTIC));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeShockConfig(), G20_SHOCK));
@@ -170,6 +174,7 @@ public class BulletConfigSyncingUtil {
 
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeConfig(), G12_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeFireConfig(), G12_INCENDIARY));
+		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeShrapnelConfig(), G12_SHRAPNEL));
 
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRConfig(), LR22_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRAPConfig(), LR22_AP));
@@ -214,6 +219,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(GunGaussFactory.getAltConfig(), SPECIAL_GAUSS_CHARGED));
 
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeConfig().setToFire(3), G20_NORMAL_FIRE));
+		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3), G20_SHRAPNEL_FIRE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeSlugConfig().setToFire(3), G20_SLUG_FIRE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeFlechetteConfig().setToFire(3), G20_FLECHETTE_FIRE));
 		configSet.add(new ConfigKeyPair(Gun20GaugeFactory.get20GaugeExplosiveConfig().setToFire(3), G20_EXPLOSIVE_FIRE));

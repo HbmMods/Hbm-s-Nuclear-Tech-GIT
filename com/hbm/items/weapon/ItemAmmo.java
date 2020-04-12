@@ -19,11 +19,10 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Incendiary");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
-		if(this == ModItems.ammo_20gauge_slug) {
-			list.add(EnumChatFormatting.BLUE + "+ Near-perfect accuracy");
+		if(this == ModItems.ammo_12gauge_shrapnel) {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
-			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
-			list.add(EnumChatFormatting.RED + "- Single projectile");
+			list.add(EnumChatFormatting.YELLOW + "* Extra bouncy");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
 		
 		//20 GAUGE
@@ -32,8 +31,19 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Less bouncy");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
+		if(this == ModItems.ammo_20gauge_slug) {
+			list.add(EnumChatFormatting.BLUE + "+ Near-perfect accuracy");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
 		if(this == ModItems.ammo_20gauge_incendiary) {
 			list.add(EnumChatFormatting.BLUE + "+ Incendiary");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_20gauge_shrapnel) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Extra bouncy");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
 		if(this == ModItems.ammo_20gauge_explosive) {

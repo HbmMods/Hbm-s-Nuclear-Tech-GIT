@@ -211,6 +211,7 @@ public class MainRegistry
 	public static Achievement bobChemistry;
 	public static Achievement bobOil;
 	public static Achievement bobNuclear;
+	public static Achievement bobHidden;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -1021,6 +1022,7 @@ public class MainRegistry
 		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 4, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
 		bobOil = new Achievement("achievement.oil", "oil", 4, 4, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
 		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 4, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
+		bobHidden = new Achievement("achievement.hidden", "hidden", 8, 4, ModItems.gun_dampfmaschine, bobNuclear).initIndependentStat().registerStat();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -1039,7 +1041,8 @@ public class MainRegistry
 				bobAssembly,
 				bobChemistry,
 				bobOil,
-				bobNuclear
+				bobNuclear,
+				bobHidden
 		}));
 
 		//MUST be initialized AFTER achievements!!

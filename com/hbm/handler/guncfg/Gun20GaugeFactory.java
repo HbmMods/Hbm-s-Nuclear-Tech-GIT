@@ -38,6 +38,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
 		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
 		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
@@ -63,6 +64,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
 		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
 		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
@@ -88,6 +90,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_SLUG);
 		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
 		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
@@ -114,6 +117,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
 		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
@@ -140,6 +144,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE);
 		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE);
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
@@ -166,6 +171,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_NORMAL_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK_FIRE);
@@ -222,6 +228,21 @@ public class Gun20GaugeFactory {
 		bullet.dmgMax = 4;
 		bullet.wear = 15;
 		bullet.incendiary = 5;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get20GaugeShrapnelConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge_shrapnel;
+		bullet.wear = 15;
+		bullet.dmgMin = 2;
+		bullet.dmgMax = 6;
+		bullet.ricochetAngle = 15;
+		bullet.HBRC = 80;
+		bullet.LBRC = 95;
 		
 		return bullet;
 	}

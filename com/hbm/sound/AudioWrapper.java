@@ -8,6 +8,10 @@ public class AudioWrapper {
 	
 	public void updatePitch(float pitch) { }
 	
+	public float getVolume() { return 0F; }
+	
+	public float getPitch() { return 0F; }
+	
 	public void setDoesRepeat(boolean repeats) { }
 	
 	public void startSound() { }

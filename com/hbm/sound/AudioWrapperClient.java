@@ -25,6 +25,14 @@ public class AudioWrapperClient extends AudioWrapper {
 		sound.setPitch(pitch);
 	}
 	
+	public float getVolume() {
+		return sound.getVolume();
+	}
+	
+	public float getPitch() {
+		return sound.getPitch();
+	}
+	
 	public void startSound() {
 		sound.start();
 	}

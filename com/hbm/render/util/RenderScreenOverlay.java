@@ -92,6 +92,9 @@ public class RenderScreenOverlay {
 
 	
 	public static void renderCustomCrosshairs(ScaledResolution resolution, Gui gui, Crosshair cross) {
+		
+		if(cross == Crosshair.NONE)
+			return;
 
 		int size = cross.size;
 
@@ -135,7 +138,8 @@ public class RenderScreenOverlay {
 	}
 	
 	public enum Crosshair {
-		
+
+		NONE(0, 0, 0),
 		CROSS(1, 55, 16),
 		CIRCLE(19, 55, 16),
 		SEMI(37, 55, 16),

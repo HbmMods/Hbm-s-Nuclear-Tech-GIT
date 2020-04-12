@@ -55,6 +55,9 @@ public class GunGaussFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_ARROWS;
 		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.SPECIAL_GAUSS_CHARGED);
+		
 		return config;
 	}
 

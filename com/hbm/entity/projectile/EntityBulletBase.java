@@ -46,6 +46,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	
 	private BulletConfiguration config;
 	private EntityLivingBase shooter;
+	public float overrideDamage;
 
 	public EntityBulletBase(World world) {
 		super(world);
@@ -223,6 +224,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
     			}
 				
 				float damage = rand.nextFloat() * (config.dmgMax - config.dmgMin) + config.dmgMin;
+				
+				if(overrideDamage != 0)
+					damage = overrideDamage;
 				
         		if(!victim.attackEntityFrom(damagesource, damage)) {
 
@@ -553,6 +557,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			return;
 		}
 		
+		this.overrideDamage = nbt.getFloat("damage");
+		
 		this.dataWatcher.updateObject(18, cfg);
 		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);
@@ -563,6 +569,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		
 		nbt.setInteger("config", dataWatcher.getWatchableObjectInt(18));
+		
+		nbt.setFloat("damage", this.overrideDamage);
 	}
 
 }

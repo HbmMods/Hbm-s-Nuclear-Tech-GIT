@@ -177,6 +177,7 @@ public class Gun357MagnumFactory {
 		
 		config.durability = 4000;
 		config.firingSound = "hbm:weapon.schrabidiumShoot";
+		config.crosshair = Crosshair.NONE;
 		
 		config.name = "FFI Viper N2";
 		config.manufacturer = "FlimFlam Industries";

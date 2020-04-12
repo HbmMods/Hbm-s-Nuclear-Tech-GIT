@@ -27,6 +27,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
@@ -67,9 +68,12 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onPlayerDeath(LivingDeathEvent event) {
+	public void onEntityDeath(LivingDeathEvent event) {
 		
 		event.entityLiving.getEntityData().setFloat("hfr_radiation", 0);
+		
+		if(event.entity.worldObj.isRemote)
+			return;
 		
 		if(MainRegistry.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
@@ -78,7 +82,18 @@ public class ModEventHandler
 		}
 		
 		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft)) {
+			event.entity.dropItem(ModItems.book_of_, 1);
+		}
+		
+		if(event.entity instanceof EntityEnderman && event.source == ModDamageSource.boxcar) {
 			
+			for(Object o : event.entity.worldObj.playerEntities) {
+				EntityPlayer player = (EntityPlayer)o;
+				
+				if(player.getEntityData().getFloat("hfr_radiation") > 250 && player.isBurning()) {
+					player.triggerAchievement(MainRegistry.bobHidden);
+				}
+			}
 		}
 	}
 	

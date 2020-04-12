@@ -38,6 +38,7 @@ public class Gun12GaugeFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
 		
 		return config;
 	}
@@ -62,6 +63,21 @@ public class Gun12GaugeFactory {
 		bullet.dmgMin = 1;
 		bullet.dmgMax = 4;
 		bullet.incendiary = 5;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get12GaugeShrapnelConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_shrapnel;
+		bullet.wear = 15;
+		bullet.dmgMin = 2;
+		bullet.dmgMax = 6;
+		bullet.ricochetAngle = 15;
+		bullet.HBRC = 80;
+		bullet.LBRC = 95;
 		
 		return bullet;
 	}
