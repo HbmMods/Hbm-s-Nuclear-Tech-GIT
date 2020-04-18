@@ -65,8 +65,6 @@ public class BulletConfiguration {
 	public int chlorine;
 	public int leadChance;
 	public int caustic;
-	public boolean boxcar;
-	public boolean boat;
 	public boolean destroysBlocks;
 	public boolean instakill;
 	public IBulletHurtBehavior bHurt;

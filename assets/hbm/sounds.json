@@ -61,6 +61,7 @@
     "weapon.revolverShootAlt": {"category": "player", "sounds": [{"name": "weapon/revolverShootAlt", "stream": false}]},
 	"weapon.heavyShoot": {"category": "player", "sounds": [{"name": "weapon/heavyShoot", "stream": false}]},
 	"weapon.shotgunShoot": {"category": "player", "sounds": [{"name": "weapon/shotgunShoot", "stream": false}]},
+	"weapon.shottyShoot": {"category": "player", "sounds": [{"name": "weapon/shottyShoot", "stream": false}]},
 	"weapon.schrabidiumShoot": {"category": "player", "sounds": [{"name": "weapon/schrabidiumShoot", "stream": false}]},
 	"weapon.osiprShoot": {"category": "player", "sounds": [{"name": "weapon/osiprShoot", "stream": false}]},
 	"weapon.osiprAltFire": {"category": "player", "sounds": [{"name": "weapon/osiprAltFire", "stream": false}]},
@@ -134,8 +135,9 @@
     "entity.bombWhistle": {"category": "player", "sounds": [{"name": "entity/bombWhistle", "stream": false}]},
     "entity.bomberLoop": {"category": "player", "sounds": [{"name": "entity/bomber1", "stream": false}]},
     "entity.bomberSmallLoop": {"category": "player", "sounds": [{"name": "entity/bomber2", "stream": false}]},
-    "entity.planeCrash": {"category": "player", "sounds": [{"name": "entity/planeCrash", "stream": false}]},
-    "entity.planeShotDown": {"category": "player", "sounds": [{"name": "entity/planeShotDown", "stream": false}]},
+    "entity.planeCrash": {"category": "hostile", "sounds": [{"name": "entity/planeCrash", "stream": false}]},
+    "entity.planeShotDown": {"category": "hostile", "sounds": [{"name": "entity/planeShotDown", "stream": false}]},
+	"entity.cybercrab": {"category": "hostile", "sounds": ["entity/radio_random1", "entity/radio_random2", "entity/radio_random3", "entity/radio_random4", "entity/radio_random5", "entity/radio_random6", "entity/radio_random7", "entity/radio_random8", "entity/radio_random9", "entity/radio_random10", "entity/radio_random11", "entity/radio_random12", "entity/radio_random13", "entity/radio_random14", "entity/radio_random15"]},
     
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     

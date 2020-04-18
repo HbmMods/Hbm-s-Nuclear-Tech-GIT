@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,24 +24,15 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class WasteEarth extends Block {
-
-	private float radIn = 0.0F;
-	private float radMax = 0.0F;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 	@SideOnly(Side.CLIENT)
 	private IIcon iconBottom;
 
-	public WasteEarth(Material mat) {
+	public WasteEarth(Material mat, boolean tick) {
 		super(mat);
-	}
-
-	public WasteEarth(Material mat, float rad, float max) {
-		super(mat);
-	    //this.setTickRandomly(true);
-	    radIn = rad;
-	    radMax = max;
+	    this.setTickRandomly(tick);
 	}
 	
 	@Override
@@ -116,14 +106,7 @@ public class WasteEarth extends Block {
     }
     
     @Override
-    public void updateTick(World world, int x, int y, int z, Random rand)
-    {
-        if(this.radIn > 0) {
-        	
-        	RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
-
-        	world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-        }
+    public void updateTick(World world, int x, int y, int z, Random rand) {
     	
     	if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0)
     	{

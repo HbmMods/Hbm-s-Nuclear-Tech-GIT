@@ -29,23 +29,6 @@ public class ParticleSmokePlume extends EntityFX {
 		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
 		theRenderEngine = p_i1213_1_;
 		maxAge = 100 + rand.nextInt(40);
-		
-		int r = rand.nextInt(4);
-		float veloc = 0.5F;
-		
-		if(r == 1) {
-			motionX = rand.nextGaussian() * veloc + veloc;
-			motionZ = rand.nextGaussian() * 0.05;
-		} else if(r == 2) {
-			motionX = rand.nextGaussian() * veloc - veloc;
-			motionZ = rand.nextGaussian() * 0.05;
-		} else if(r == 3) {
-			motionZ = rand.nextGaussian() * veloc + veloc;
-			motionX = rand.nextGaussian() * 0.05;
-		} else if(r == 0) {
-			motionZ = rand.nextGaussian() * veloc - veloc;
-			motionX = rand.nextGaussian() * 0.05;
-		}
 	}
 
 	public void onUpdate() {

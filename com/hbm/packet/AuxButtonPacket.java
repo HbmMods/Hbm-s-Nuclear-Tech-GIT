@@ -12,6 +12,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
+import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -232,6 +233,15 @@ public class AuxButtonPacket implements IMessage {
 
 					barrel.mode = (short) ((barrel.mode + 1) % barrel.modes);
 					barrel.markDirty();
+				}
+				
+				if (te instanceof TileEntitySoyuzLauncher) {
+					TileEntitySoyuzLauncher launcher = (TileEntitySoyuzLauncher)te;
+
+					if(m.id == 0)
+						launcher.mode = (byte) m.value;
+					if(m.id == 1)
+						launcher.startCountdown();
 				}
 				
 			//} catch (Exception x) { }

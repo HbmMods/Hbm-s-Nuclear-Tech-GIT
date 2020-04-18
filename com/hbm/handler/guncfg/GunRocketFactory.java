@@ -39,6 +39,8 @@ public class GunRocketFactory {
 		
 		config.name = "Carl Gustav Recoilless Rifle M1";
 		config.manufacturer = "Saab Bofors Dynamics";
+		config.comment.add("Fun fact of the day: Recoilless");
+		config.comment.add("rifles don't actually fire rockets.");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
@@ -64,6 +66,7 @@ public class GunRocketFactory {
 		
 		config.name = "M1 Karl-Gerät";
 		config.manufacturer = "???";
+		config.comment.clear();
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
@@ -86,6 +89,8 @@ public class GunRocketFactory {
 		
 		config.name = "Raketenpanzerbüchse 54";
 		config.manufacturer = "Enzinger Union";
+		config.comment.clear();
+		config.comment.add("Panzer-Shrek");
 		
 		config.durability = 260;
 		

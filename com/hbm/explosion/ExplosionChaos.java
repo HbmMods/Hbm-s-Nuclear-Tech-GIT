@@ -1223,9 +1223,9 @@ public class ExplosionChaos {
 			for (int j = z - radius; j <= z + radius; j++) {
 				
 				Block b = world.getBlock(i, y, j);
-				float k = b.getBlockHardness(world, i, y, j);
+				float k = b.getExplosionResistance(null);
 						
-				if(k < 60 && b != Blocks.air) {
+				if(k < 6000 && b != Blocks.air) {
 					
 					EntityRubble rubble = new EntityRubble(world);
 					rubble.posX = i + 0.5F;

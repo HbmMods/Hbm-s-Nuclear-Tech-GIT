@@ -70,6 +70,7 @@ public class BulletConfigSyncingUtil {
 	public static int G12_NORMAL = i++;
 	public static int G12_INCENDIARY = i++;
 	public static int G12_SHRAPNEL = i++;
+	public static int G12_DU = i++;
 
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
@@ -82,6 +83,7 @@ public class BulletConfigSyncingUtil {
 	public static int M44_STAR = i++;
 	public static int M44_PIP = i++;
 	public static int M44_BJ = i++;
+	public static int M44_SILVER = i++;
 	public static int M44_ROCKET = i++;
 
 	public static int P9_NORMAL = i++;
@@ -175,6 +177,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeConfig(), G12_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeFireConfig(), G12_INCENDIARY));
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeShrapnelConfig(), G12_SHRAPNEL));
+		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeDUConfig(), G12_DU));
 
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRConfig(), LR22_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRAPConfig(), LR22_AP));
@@ -187,6 +190,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getNoPipStarConfig(), M44_STAR));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getPipConfig(), M44_PIP));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getBJConfig(), M44_BJ));
+		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getSilverStormConfig(), M44_SILVER));
 		configSet.add(new ConfigKeyPair(Gun44MagnumFactory.getRocketConfig(), M44_ROCKET));
 
 		configSet.add(new ConfigKeyPair(Gun9mmFactory.get9mmConfig(), P9_NORMAL));

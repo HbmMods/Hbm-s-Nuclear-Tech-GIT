@@ -5,7 +5,9 @@ import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -13,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.*;
@@ -26,6 +29,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.items.ModItems;
 import com.hbm.particle.ParticleContrail;
+import com.hbm.particle.ParticleExSmoke;
 import com.hbm.particle.ParticleRadiationFog;
 import com.hbm.particle.ParticleSmokePlume;
 import com.hbm.render.block.*;
@@ -146,6 +150,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_skystinger, new ItemRenderStinger());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hk69, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_supershotgun, new ItemRenderWeaponObj());
 		//MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg_ammo, new ItemRenderRocket());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombMulti.class, new RenderBombMulti());
@@ -261,6 +266,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_pip, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nopip, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_blackjack, new ItemRenderOverkill());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_silver, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_red, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_dampfmaschine, new ItemRenderBullshit());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lever_action, new ItemRenderGunAnim());
@@ -295,6 +301,8 @@ public class ClientProxy extends ServerProxy
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.shimmer_sledge, new ItemRenderShim());
 		MinecraftForgeClient.registerItemRenderer(ModItems.shimmer_axe, new ItemRenderShim());
+		MinecraftForgeClient.registerItemRenderer(ModItems.stopsign, new ItemRenderShim());
+		MinecraftForgeClient.registerItemRenderer(ModItems.sopsign, new ItemRenderShim());
 		
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_brimstone, new ItemRenderObj());
 
@@ -379,6 +387,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMeteor.class, new RenderMeteor());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBoxcar.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDuchessGambit.class, new RenderBoxcar());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityBuilding.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCarrier.class, new RenderCarrierMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBooster.class, new RenderBoosterMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderBomber());
@@ -475,7 +484,8 @@ public class ClientProxy extends ServerProxy
 	public void registerTileEntitySpecialRenderer() {
 		
 	}
-	
+
+	@Deprecated
 	@Override
 	public void particleControl(double x, double y, double z, int type) {
 
@@ -513,6 +523,7 @@ public class ClientProxy extends ServerProxy
 	}
 	
 	//version 2, now with strings!
+	@Deprecated
 	@Override
 	public void spawnParticle(double x, double y, double z, String type, float args[]) {
 
@@ -520,8 +531,11 @@ public class ClientProxy extends ServerProxy
 		World world = Minecraft.getMinecraft().theWorld;
 		TextureManager man = Minecraft.getMinecraft().renderEngine;
 		
-		if("launchsmoke".equals(type)) {
+		if("launchsmoke".equals(type) && args.length == 3) {
 			ParticleSmokePlume contrail = new ParticleSmokePlume(man, world, x, y, z);
+			contrail.motionX = args[0];
+			contrail.motionY = args[1];
+			contrail.motionZ = args[2];
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
 		if("exKerosene".equals(type)) {
@@ -544,6 +558,66 @@ public class ClientProxy extends ServerProxy
 			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
+	}
+	
+	//mk3, only use this one
+	public void effectNT(NBTTagCompound data) {
+		
+		World world = Minecraft.getMinecraft().theWorld;
+		TextureManager man = Minecraft.getMinecraft().renderEngine;
+		Random rand = world.rand;
+		String type = data.getString("type");
+		double x = data.getDouble("posX");
+		double y = data.getDouble("posY");
+		double z = data.getDouble("posZ");
+		
+		if("smoke".equals(type)) {
+			
+			String mode = data.getString("mode");
+			int count = Math.max(1, data.getInteger("count"));
+			
+			if("cloud".equals(mode)) {
+				
+				for(int i = 0; i < count; i++) {
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = rand.nextGaussian() * (1 + (count / 100));
+					fx.motionX = rand.nextGaussian() * (1 + (count / 150));
+					fx.motionZ = rand.nextGaussian() * (1 + (count / 150));
+					if(rand.nextBoolean()) fx.motionY = Math.abs(fx.motionY);
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+
+			if("radial".equals(mode)) {
+
+				for(int i = 0; i < count; i++) {
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = rand.nextGaussian() * (1 + (count / 50));
+					fx.motionX = rand.nextGaussian() * (1 + (count / 50));
+					fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+			
+			if("shock".equals(mode)) {
+				
+				double strength = data.getDouble("strength");
+
+				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+				vec.rotateAroundY(rand.nextInt(360));
+				
+				for(int i = 0; i < count; i++) {
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = 0;
+					fx.motionX = vec.xCoord;
+					fx.motionZ = vec.zCoord;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					
+					vec.rotateAroundY(360 / count);
+				}
+			}
+		}
+		
 	}
 	
 	@Override

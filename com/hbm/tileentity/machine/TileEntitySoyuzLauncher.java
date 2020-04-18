@@ -11,8 +11,6 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +27,12 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public long power;
 	public static final long maxPower = 1000000;
 	public FluidTank[] tanks;
+	//0: sat, 1: cargo
 	public byte mode;
+	public boolean starting;
+	public int countdown;
+	public static final int maxCount = 200;
+	public byte rocketType = -1;
 	
 	public MissileStruct load;
 
@@ -60,18 +63,86 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			for (int i = 0; i < 2; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
-			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
+			power = Library.chargeTEFromItems(slots, 8, power, maxPower);
+			
+			//TODO: stop countdown if launch conditions are not met
+			if(!starting || !canLaunch()) {
+				countdown = maxCount;
+			} else if(countdown > 0) {
+				countdown--;
+			} else {
+				starting = false;
+				//TODO: liftoff!
+			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setByte("mode", mode);
+			data.setBoolean("starting", starting);
+			data.setByte("type", this.getType());
 			networkPack(data, 50);
+		}
+		
+		if(worldObj.isRemote) {
+			if(!starting || !canLaunch()) {
+				countdown = maxCount;
+			} else if(countdown > 0) {
+				countdown--;
+			}
 		}
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
 		power = data.getLong("power");
 		mode = data.getByte("mode");
+		starting = data.getBoolean("starting");
+		rocketType = data.getByte("type");
+	}
+	
+	public void startCountdown() {
+		
+		if(canLaunch())
+			starting = true;
+	}
+	
+	public boolean canLaunch() {
+		
+		if(mode == 0 && slots[2] == null)
+			return false;
+		
+		return hasRocket() && hasFuel() && hasRocket() && hasPower();
+	}
+	
+	public boolean hasFuel() {
+		
+		return tanks[0].getFill() >= getFuelRequired();
+	}
+	
+	public boolean hasOxy() {
+
+		return tanks[1].getFill() >= getFuelRequired();
+	}
+	
+	public int getFuelRequired() {
+		return 128000;
+	}
+	
+	public boolean hasPower() {
+		
+		return power >= getPowerRequired();
+	}
+	
+	public int getPowerRequired() {
+		
+		return (int) (maxPower * 0.75);
+	}
+	
+	private byte getType() {
+		
+		if(!hasRocket())
+			return -1;
+		
+		return (byte) slots[0].getItemDamage();
 	}
 	
 	public long getPowerScaled(long i) {

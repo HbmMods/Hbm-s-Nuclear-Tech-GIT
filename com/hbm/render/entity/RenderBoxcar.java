@@ -3,6 +3,7 @@ package com.hbm.render.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityBuilding;
 import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.main.ResourceManager;
 
@@ -35,6 +36,13 @@ public class RenderBoxcar extends Render {
             
 	        bindTexture(ResourceManager.duchessgambit_tex);
 	        ResourceManager.duchessgambit.renderAll();
+        }
+        
+        if(p_76986_1_ instanceof EntityBuilding) {
+            GL11.glDisable(GL11.GL_CULL_FACE);
+	        bindTexture(ResourceManager.building_tex);
+	        ResourceManager.building.renderAll();
+	        GL11.glEnable(GL11.GL_CULL_FACE);
         }
         
 		GL11.glPopMatrix();

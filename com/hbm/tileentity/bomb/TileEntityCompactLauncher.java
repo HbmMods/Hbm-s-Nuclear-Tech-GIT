@@ -205,8 +205,14 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 				
 				if(e instanceof EntityMissileCustom) {
 					
-					for(int i = 0; i < 15; i++)
-						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", null);
+					for(int i = 0; i < 15; i++) {
+						
+						boolean dir = worldObj.rand.nextBoolean();
+						float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
+						float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
+						
+						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+					}
 					
 					break;
 				}

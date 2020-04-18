@@ -24,9 +24,11 @@ import com.hbm.world.feature.GeyserLarge;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.feature.OilSandBubble;
 import com.hbm.world.feature.Sellafield;
+import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -445,6 +447,16 @@ public class HbmWorldGen implements IWorldGenerator {
 					world.setBlock(x, y - 1, z, ModBlocks.geysir_vapor);
 			}
 
+			if (rand.nextInt(1000) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				
+				for(int k = 0; k < 256; k++) {
+					if(world.getBlock(x, k, z) == Blocks.log && world.getBlockMetadata(x, k, z) == 0)
+						world.setBlock(x, k, z, ModBlocks.pink_log);
+				}
+			}
+
 			if (MainRegistry.enableVaults && rand.nextInt(MainRegistry.vaultfreq) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
@@ -490,6 +502,37 @@ public class HbmWorldGen implements IWorldGenerator {
 						MainRegistry.logger.info("[Debug] Successfully spawned safe at " + x + " " + (y + 1) +" " + z);
 				}
 				
+			}
+
+			if (rand.nextInt(MainRegistry.meteorStructure) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				
+				CellularDungeonFactory.test.generate(world, x, 10, z, rand);
+				
+				if(MainRegistry.enableDebugMode)
+					MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + x + " 10 " + z);
+				
+				int y = world.getHeightValue(x, z);
+				
+				for(int f = 1; f < 4; f++)
+					world.setBlock(x, y + f, z, ModBlocks.meteor_pillar);
+				world.setBlock(x, y + 4, z, ModBlocks.meteor_brick_chiseled);
+				
+				for(int f = 0; f < 10; f++) {
+
+					x = i + rand.nextInt(65) - 32;
+					z = j + rand.nextInt(65) - 32;
+					y = world.getHeightValue(x, z);
+					
+					if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z)) {
+						world.setBlock(x, y + 1, z, Blocks.skull, 1, 2);
+						TileEntitySkull skull = (TileEntitySkull)world.getTileEntity(x, y + 1, z);
+						
+						if(skull != null)
+							skull.func_145903_a(rand.nextInt(16));
+					}
+				}
 			}
 		}
 

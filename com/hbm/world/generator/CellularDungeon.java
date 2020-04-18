@@ -56,6 +56,9 @@ public class CellularDungeon {
 	}
 	
 	public void generate(World world, int x, int y, int z, Random rand) {
+
+		x -= dimX * width / 2;
+		z -= dimZ * width / 2;
 		
 		compose(rand);
 		

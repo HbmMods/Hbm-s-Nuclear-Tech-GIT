@@ -1,7 +1,12 @@
 package com.hbm.entity.mob;
 
 import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
+
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,6 +24,12 @@ import net.minecraft.world.World;
 public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
 	
     private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 0.5D, 60, 80, 15.0F);
+    
+    private static final IEntitySelector selector = new IEntitySelector() {
+		public boolean isEntityApplicable(Entity p_82704_1_) {
+			return !(p_82704_1_ instanceof EntityCyberCrab);
+		}
+	};
 
     public EntityCyberCrab(World p_i1733_1_)
     {
@@ -29,7 +40,8 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
         this.tasks.addTask(1, new EntityAIWander(this, 0.5F));
         //this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityPlayer.class, 3, 0.75D, 1.0D));
         this.tasks.addTask(4, this.aiArrowAttack);
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 3, true));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, true, true, selector));
     }
 
     @Override
@@ -42,6 +54,9 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
     
     @Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+    	
+    	if(ModDamageSource.getIsTau(source))
+    		return false;
     	
     	return super.attackEntityFrom(source, amount);
 	}
@@ -111,7 +126,7 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
     @Override
 	protected String getHurtSound()
     {
-        return "mob.creeper.say";
+        return "hbm:entity.cybercrab";
     }
 
     /**
@@ -120,7 +135,7 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
     @Override
 	protected String getDeathSound()
     {
-        return "mob.creeper.death";
+        return "hbm:entity.cybercrab";
     }
 
     /**
@@ -141,7 +156,7 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
     @Override
 	protected Item getDropItem()
     {
-        return null;
+        return ModItems.wire_gold;
     }
 
 	@Override
@@ -149,7 +164,8 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
 		EntityBullet bullet = new EntityBullet(worldObj, this, entity, 1.6F, 2);
 		bullet.setIsCritical(true);
 		bullet.setTau(true);
-		bullet.damage = 2;
+		bullet.damage = 3;
         this.worldObj.spawnEntityInWorld(bullet);
+        this.playSound("hbm:weapon.sawShoot", 1.0F, 2.0F);
 	}
 }

@@ -23,6 +23,7 @@ import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -122,6 +123,10 @@ public class ModEventHandler
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.geiger_counter, 1));
 			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.steel_pickaxe, 1, world.rand.nextInt(300)));
+			if(rand.nextInt(512) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.stopsign));
+			if(rand.nextInt(512) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.sopsign));
 		}
 		if(entity instanceof EntitySkeleton) {
 			if(rand.nextInt(16) == 0) {
@@ -334,6 +339,13 @@ public class ModEventHandler
 			MainRegistry.logger.error("Ouchie, something has happened in the NTM world tick event.");
 		}*/
 		//////////////////////
+	}
+	
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+		
+		if(!event.player.worldObj.isRemote && event.player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+			event.player.getEntityData().setFloat("hfr_radiation", event.player.getEntityData().getFloat("hfr_radiation" + 0.05F));
 	}
 	
 	@SubscribeEvent

@@ -3,16 +3,19 @@ package com.hbm.explosion;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.entity.particle.EntityDSmokeFX;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -22,43 +25,30 @@ public class ExplosionLarge {
 
 	public static void spawnParticles(World world, double x, double y, double z, int count) {
 		
-		for(int i = 0; i < count; i++) {
-			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
-			//fx.posX = x;
-			//fx.posY = y;
-			//fx.posZ = z;
-			fx.motionY = rand.nextGaussian() * (1 + (count / 50));
-			fx.motionX = rand.nextGaussian() * (1 + (count / 150));
-			fx.motionZ = rand.nextGaussian() * (1 + (count / 150));
-			world.spawnEntityInWorld(fx);
-		}
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "smoke");
+		data.setString("mode", "cloud");
+		data.setInteger("count", count);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),  new TargetPoint(world.provider.dimensionId, x, y, z, 250));
 	}
 
 	public static void spawnParticlesRadial(World world, double x, double y, double z, int count) {
 		
-		for(int i = 0; i < count; i++) {
-			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
-			fx.motionY = rand.nextGaussian() * (1 + (count / 50));
-			fx.motionX = rand.nextGaussian() * (1 + (count / 50));
-			fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
-			world.spawnEntityInWorld(fx);
-		}
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "smoke");
+		data.setString("mode", "radial");
+		data.setInteger("count", count);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),  new TargetPoint(world.provider.dimensionId, x, y, z, 250));
 	}
 
 	public static void spawnShock(World world, double x, double y, double z, int count, double strength) {
 		
-		Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-		vec.rotateAroundY(rand.nextInt(360));
-		
-		for(int i = 0; i < count; i++) {
-			EntityDSmokeFX fx = new EntityDSmokeFX(world, x, y, z, 0.0, 0.0, 0.0);
-			fx.motionY = 0;
-			fx.motionX = vec.xCoord;
-			fx.motionZ = vec.zCoord;
-			world.spawnEntityInWorld(fx);
-			
-			vec.rotateAroundY(360 / count);
-		}
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "smoke");
+		data.setString("mode", "shock");
+		data.setInteger("count", count);
+		data.setDouble("strength", strength);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y + 0.5, z),  new TargetPoint(world.provider.dimensionId, x, y, z, 250));
 	}
 
 	public static void spawnBurst(World world, double x, double y, double z, int count, double strength) {
@@ -265,7 +255,7 @@ public class ExplosionLarge {
 	
 	public static int cloudFunction(int i) {
 		//return (int)(345 * (1 - Math.pow(Math.E, -i/15)) + 15);
-		return (int)(545 * (1 - Math.pow(Math.E, -i/15)) + 15);
+		return (int)(850 * (1 - Math.pow(Math.E, -i/15)) + 15);
 	}
 	
 	public static int rubbleFunction(int i) {

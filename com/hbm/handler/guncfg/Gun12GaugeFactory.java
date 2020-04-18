@@ -39,6 +39,43 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getShottyConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 20;
+		config.roundsPerCycle = 2;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.hasReloadAnim = false;
+		config.hasFiringAnim = false;
+		config.hasSpinup = false;
+		config.hasSpindown = false;
+		config.reloadDuration = 10;
+		config.firingDuration = 0;
+		config.ammoCap = 0;
+		config.durability = 3000;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCLE;
+		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
+		config.firingSound = "hbm:weapon.shottyShoot";
+		
+		config.name = "???";
+		config.manufacturer = "???";
+		config.comment.add("but bOB WhY iS TExtURE no woRk");
+		config.comment.add("hoW do I cRAFT PleasE HElp");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G12_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G12_DU);
 		
 		return config;
 	}
@@ -78,6 +115,20 @@ public class Gun12GaugeFactory {
 		bullet.ricochetAngle = 15;
 		bullet.HBRC = 80;
 		bullet.LBRC = 95;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get12GaugeDUConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_du;
+		bullet.wear = 20;
+		bullet.dmgMin = 3;
+		bullet.dmgMax = 8;
+		bullet.doesPenetrate = true;
+		bullet.leadChance = 50;
 		
 		return bullet;
 	}

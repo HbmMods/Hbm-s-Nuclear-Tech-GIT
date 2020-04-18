@@ -482,7 +482,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			list.add("");
 			for(String s : mainConfig.comment)
 				list.add(EnumChatFormatting.ITALIC + s);
-			list.add("");
 		}
 		
 		if(MainRegistry.enableExtendedLogging) {

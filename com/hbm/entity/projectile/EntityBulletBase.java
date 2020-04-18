@@ -10,7 +10,6 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -477,40 +476,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.bHit != null)
 			config.bHit.behaveEntityHit(this, e);
-		
-		if(config.boxcar && !worldObj.isRemote) {
-			EntityBoxcar pippo = new EntityBoxcar(worldObj);
-			pippo.posX = e.posX;
-			pippo.posY = e.posY + 50;
-			pippo.posZ = e.posZ;
-			
-			for(int j = 0; j < 50; j++) {
-				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
-				worldObj.spawnEntityInWorld(fx);
-			}
-			worldObj.spawnEntityInWorld(pippo);
-			
-			worldObj.playSoundEffect(pippo.posX, 
-					pippo.posY + 50, 
-					pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
-		}
-		
-		if(config.boat && !worldObj.isRemote) {
-			EntityDuchessGambit pippo = new EntityDuchessGambit(worldObj);
-			pippo.posX = e.posX;
-			pippo.posY = e.posY + 50;
-			pippo.posZ = e.posZ;
-			
-			for(int j = 0; j < 150; j++) {
-				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 7, pippo.posY + (rand.nextDouble() - 0.5) * 8, pippo.posZ + (rand.nextDouble() - 0.5) * 18, 0, 0, 0);
-				worldObj.spawnEntityInWorld(fx);
-			}
-			worldObj.spawnEntityInWorld(pippo);
-			
-			worldObj.playSoundEffect(pippo.posX, 
-					pippo.posY + 50, 
-					pippo.posZ, "hbm:weapon.boat", 100F, 1F);
-		}
 	}
 	
 	//for when a bullet hurts an entity, not necessarily dying

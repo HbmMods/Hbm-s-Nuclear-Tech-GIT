@@ -152,7 +152,7 @@ public class WeaponSpecial extends ItemSword {
     {
 
 		if(this == ModItems.shimmer_sledge) {
-			if(world.getBlock(x, y, z) != Blocks.air) {
+			if(world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z).getExplosionResistance(null) < 6000) {
 				
 				EntityRubble rubble = new EntityRubble(world);
 				rubble.posX = x + 0.5F;
@@ -185,13 +185,13 @@ public class WeaponSpecial extends ItemSword {
         	world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:weapon.kapeng", 3.0F, 1.0F);
 
         	if(!world.isRemote) {
-				if(world.getBlock(x, y, z) != Blocks.air) {
+				if(world.getBlock(x, y, z) != Blocks.air && world.getBlock(x, y, z).getExplosionResistance(null) < 6000) {
 					world.func_147480_a(x, y, z, false);
 				}
-				if(world.getBlock(x, y + 1, z) != Blocks.air) {
+				if(world.getBlock(x, y + 1, z) != Blocks.air && world.getBlock(x, y + 1, z).getExplosionResistance(null) < 6000) {
 					world.func_147480_a(x, y + 1, z, false);
 				}
-				if(world.getBlock(x, y - 1, z) != Blocks.air) {
+				if(world.getBlock(x, y - 1, z) != Blocks.air && world.getBlock(x, y - 1, z).getExplosionResistance(null) < 6000) {
 					world.func_147480_a(x, y - 1, z, false);
 				}
         	}

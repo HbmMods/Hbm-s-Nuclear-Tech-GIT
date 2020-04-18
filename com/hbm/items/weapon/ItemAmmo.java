@@ -24,6 +24,12 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Extra bouncy");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
+		if(this == ModItems.ammo_12gauge_du) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Penetrating");
+			list.add(EnumChatFormatting.YELLOW + "* Heavy Metal");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
 		
 		//20 GAUGE
 		if(this == ModItems.ammo_20gauge_flechette) {
@@ -91,6 +97,10 @@ public class ItemAmmo extends Item {
 		}
 		if(this == ModItems.ammo_44_bj) {
 			list.add(EnumChatFormatting.BLUE + "+ Boat");
+			list.add(EnumChatFormatting.RED + "- Highly decreased damage");
+		}
+		if(this == ModItems.ammo_44_silver) {
+			list.add(EnumChatFormatting.BLUE + "+ Building");
 			list.add(EnumChatFormatting.RED + "- Highly decreased damage");
 		}
 		if(this == ModItems.ammo_44_rocket) {
