@@ -681,11 +681,6 @@ public class ItemCustomLore extends Item {
 			}
 		}
 		
-		if(this == ModItems.book_of_)
-		{
-			list.add("Edition 4, gold lined pages");
-		}
-		
 		if(this == ModItems.missile_skin_camo)
 		{
 			list.add("I can't find my missile anymore!");

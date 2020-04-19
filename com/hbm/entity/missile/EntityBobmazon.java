@@ -50,7 +50,7 @@ public class EntityBobmazon extends Entity {
 	            this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 				
 				if(payload != null)
-					worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, payload));
+					worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY + 2, posZ, payload));
 				
 				break;
 			}

@@ -7,6 +7,8 @@ import com.hbm.items.weapon.ItemMissile.FuelType;
 import com.hbm.items.weapon.ItemMissile.PartType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -176,7 +178,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 			
 			MissileStruct multipart = new MissileStruct(slots[1], slots[2], slots[3], slots[4]);
 			
-			PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
+			PacketDispatcher.wrapper.sendToAllAround(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 		}
 	}
 	

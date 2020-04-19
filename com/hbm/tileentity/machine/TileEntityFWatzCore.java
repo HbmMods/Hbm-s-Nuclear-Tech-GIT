@@ -17,6 +17,7 @@ import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.world.machine.FWatz;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -356,7 +357,7 @@ public class TileEntityFWatzCore extends TileEntity implements ISidedInventory, 
 		if(!this.isRunning() && tanks[1].getFill() >= 100 && tanks[2].getFill() >= 100 && hasFuse() && getSingularityType() > 0 && !cooldown && this.isStructureValid(worldObj))
 			this.fillPlasma();
 
-		PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+		PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 	}
 	
 	public void fillPlasma() {

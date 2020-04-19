@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEStructurePacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -24,7 +25,7 @@ public class TileEntityStructureMarker extends TileEntity {
 			type -= 7;
 
 		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new TEStructurePacket(xCoord, yCoord, zCoord, type));
+			PacketDispatcher.wrapper.sendToAllAround(new TEStructurePacket(xCoord, yCoord, zCoord, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 	}
 	
 	@Override

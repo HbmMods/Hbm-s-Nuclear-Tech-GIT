@@ -5,6 +5,7 @@ import com.hbm.items.special.ItemBlades;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -277,7 +278,7 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 				progress = 0;
 			}
 			
-			PacketDispatcher.wrapper.sendToAll(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress));
+			PacketDispatcher.wrapper.sendToAllAround(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}
 	}
 

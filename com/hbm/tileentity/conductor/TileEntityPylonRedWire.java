@@ -10,6 +10,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPylonDestructorPacket;
 import com.hbm.packet.TEPylonSenderPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,13 +44,14 @@ public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 			this.connected = TileEntityPylonRedWire.convertArrayToList(this.scheduleBuffer, worldObj);
 		}
 		
+		//TODO: use serialized NBT packets for this trash
 		if(!worldObj.isRemote)
 			if(!connected.isEmpty()) {
-				PacketDispatcher.wrapper.sendToAll(new TEPylonDestructorPacket(xCoord, yCoord, zCoord));
+				PacketDispatcher.wrapper.sendToAllAround(new TEPylonDestructorPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 				
 				for(TileEntityPylonRedWire wire : connected)
-					PacketDispatcher.wrapper.sendToAll(new TEPylonSenderPacket(xCoord, yCoord, zCoord,
-						wire.xCoord, wire.yCoord, wire.zCoord));
+					PacketDispatcher.wrapper.sendToAllAround(new TEPylonSenderPacket(xCoord, yCoord, zCoord,
+						wire.xCoord, wire.yCoord, wire.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			}
 	}
 	

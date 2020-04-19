@@ -51,6 +51,7 @@ public class Gun44MagnumFactory {
 		
 		config.name = "IF-18 Horseshoe";
 		config.manufacturer = "Ironshod Firearms";
+		config.comment.add("Fallout New Vegas wasn't THAT good.");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);

@@ -9,6 +9,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.ParticleBurstPacket;
 
 import cofh.api.energy.IEnergyProvider;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -119,7 +120,7 @@ public class EntityEMP extends Entity {
 		
 		if(flag && rand.nextInt(20) == 0) {
 			
-			PacketDispatcher.wrapper.sendToAll(new ParticleBurstPacket(x, y, z, Block.getIdFromBlock(Blocks.stained_glass), 3));
+			PacketDispatcher.wrapper.sendToAllAround(new ParticleBurstPacket(x, y, z, Block.getIdFromBlock(Blocks.stained_glass), 3), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 50));
 	        
 		}
 		

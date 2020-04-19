@@ -14,6 +14,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.LoopedEntitySoundPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -94,7 +95,7 @@ public class EntityBomber extends Entity implements IChunkLoader {
 			this.dataWatcher.updateObject(17, health);
 			
 			if(health > 0)
-				PacketDispatcher.wrapper.sendToAll(new LoopedEntitySoundPacket(this.getEntityId()));
+				PacketDispatcher.wrapper.sendToAllAround(new LoopedEntitySoundPacket(this.getEntityId()), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 250));
 		} else {
 			health = this.dataWatcher.getWatchableObjectInt(17);
 		}

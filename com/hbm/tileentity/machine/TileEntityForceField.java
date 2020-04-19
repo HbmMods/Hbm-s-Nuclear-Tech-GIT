@@ -10,6 +10,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFFPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -285,7 +286,7 @@ public class TileEntityForceField extends TileEntity implements ISidedInventory,
 		}
 		
 		if(!worldObj.isRemote) {
-			PacketDispatcher.wrapper.sendToAll(new TEFFPacket(xCoord, yCoord, zCoord, radius, health, maxHealth, (int) power, isOn, color, cooldown));
+			PacketDispatcher.wrapper.sendToAllAround(new TEFFPacket(xCoord, yCoord, zCoord, radius, health, maxHealth, (int) power, isOn, color, cooldown), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 500));
 		}
 	}
 	

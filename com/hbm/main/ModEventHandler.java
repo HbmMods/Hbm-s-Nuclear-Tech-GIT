@@ -223,6 +223,9 @@ public class ModEventHandler
 							Chunk chunk = entity.worldObj.getChunkFromBlockCoords((int)entity.posX, (int)entity.posZ);
 							float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
 							
+							if(event.world.provider.isHellWorld && MainRegistry.hellRad > 0 && rad < MainRegistry.hellRad)
+								rad = MainRegistry.hellRad;
+							
 							if(rad > 0) {
 								//eData.increaseRad(entity, rad / 2);
 								

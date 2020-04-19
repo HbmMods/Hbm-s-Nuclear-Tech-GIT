@@ -14,6 +14,7 @@ import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,7 +28,7 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
     
     private static final IEntitySelector selector = new IEntitySelector() {
 		public boolean isEntityApplicable(Entity p_82704_1_) {
-			return !(p_82704_1_ instanceof EntityCyberCrab);
+			return !(p_82704_1_ instanceof EntityCyberCrab || p_82704_1_ instanceof EntityCreeper);
 		}
 	};
 

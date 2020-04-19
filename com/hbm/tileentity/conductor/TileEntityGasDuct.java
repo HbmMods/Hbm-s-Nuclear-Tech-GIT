@@ -7,8 +7,6 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEFluidPipePacket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,8 +27,8 @@ public class TileEntityGasDuct extends TileEntity implements IFluidDuct {
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new TEFluidPipePacket(xCoord, yCoord, zCoord, type));
+		//if(!worldObj.isRemote)
+		//	PacketDispatcher.wrapper.sendToAll(new TEFluidPipePacket(xCoord, yCoord, zCoord, type));
 		
 		this.updateConnections();
 	}

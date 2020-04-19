@@ -22,6 +22,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -179,16 +180,16 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 				solid += 250;
 			}
 			
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, padSize.ordinal(), 1));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, padSize.ordinal(), 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			
 			MissileStruct multipart = getStruct(slots[0]);
 			
 			if(multipart != null)
-				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
+				PacketDispatcher.wrapper.sendToAllAround(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			else
-				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()));
+				PacketDispatcher.wrapper.sendToAllAround(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 
 			outer:
 			for(int x = -4; x <= 4; x++) {

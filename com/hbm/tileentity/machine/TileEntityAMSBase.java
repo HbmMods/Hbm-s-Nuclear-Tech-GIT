@@ -23,6 +23,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
 import com.hbm.saveddata.SatelliteSavedData;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -403,11 +404,11 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				warning = 3;
 			}
 
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, color, 1));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 2));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, field, 3));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, color, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 2), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, field, 3), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}
 	}
 	

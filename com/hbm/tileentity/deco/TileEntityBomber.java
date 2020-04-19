@@ -3,6 +3,7 @@ package com.hbm.tileentity.deco;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -16,9 +17,9 @@ public class TileEntityBomber extends TileEntity {
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, yaw, 0));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, pitch, 1));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, type, 2));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, yaw, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, pitch, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, type, 2), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}
 	}
 

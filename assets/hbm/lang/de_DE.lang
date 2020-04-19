@@ -53,6 +53,7 @@ potion.hbm_bang=! ! !
 potion.hbm_radx=Rad-X
 potion.hbm_lead=Bleivergiftung
 potion.hbm_radaway=Radaway
+potion.hbm_telekinesis=! ! !
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser

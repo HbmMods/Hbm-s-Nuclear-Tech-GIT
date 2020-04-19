@@ -8,6 +8,7 @@ import com.hbm.saveddata.SatelliteSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -25,14 +26,15 @@ public class ItemSatInterface extends ItemSatChip {
 		return stack;
 	}
 	
+	//TODO: fix this shit
     public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
 
-		if(!world.isRemote) {
+		if(!world.isRemote && entity instanceof EntityPlayerMP) {
 		    SatelliteSavedData data = (SatelliteSavedData)entity.worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 			
 		    if(data != null) {
 			    for(int j = 0; j < data.satellites.size(); j++) {
-			    	PacketDispatcher.wrapper.sendToAll(new SatPanelPacket(data.satellites.get(j)));
+			    	PacketDispatcher.wrapper.sendTo(new SatPanelPacket(data.satellites.get(j)), (EntityPlayerMP) entity);
 			    }
 		    }
 		}

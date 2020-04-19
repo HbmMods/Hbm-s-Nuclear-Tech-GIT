@@ -325,6 +325,7 @@ public class MainRegistry
 	public static int radxID = 66;
 	public static int leadID = 67;
 	public static int radawayID = 68;
+	public static int telekinesisID = 69;
 
 	public static int x;
 	public static int y;
@@ -1773,6 +1774,7 @@ public class MainRegistry
         radxID = createConfigInt(config, CATEGORY_POTION, "8.04_radxPotionID", "What potion ID the Rad-X effect will have", 66);
         leadID = createConfigInt(config, CATEGORY_POTION, "8.05_leadPotionID", "What potion ID the lead poisoning effect will have", 67);
         radawayID = createConfigInt(config, CATEGORY_POTION, "8.06_radawayPotionID", "What potion ID the radaway effect will have", 68);
+        telekinesisID = createConfigInt(config, CATEGORY_POTION, "8.07_telekinesisPotionID", "What potion ID the telekinesis effect will have", 69);
 
         final String CATEGORY_MACHINE = "09_machines";
         templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));
@@ -1808,6 +1810,7 @@ public class MainRegistry
         vaultfreq = setDef(vaultfreq, 1000);
         meteorStrikeChance = setDef(meteorStrikeChance, 1000);
         meteorShowerChance = setDef(meteorShowerChance, 1000);
+        meteorStructure = setDef(meteorStructure, 15000);
         fogCh = setDef(fogCh, 20);
 	}
 	

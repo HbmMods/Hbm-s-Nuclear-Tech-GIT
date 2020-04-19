@@ -28,6 +28,7 @@ public class HbmPotion extends Potion {
 	public static HbmPotion radx;
 	public static HbmPotion lead;
 	public static HbmPotion radaway;
+	public static HbmPotion telekinesis;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -41,6 +42,7 @@ public class HbmPotion extends Potion {
 		radx = registerPotion(MainRegistry.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
 		lead = registerPotion(MainRegistry.leadID, true, 0x767682, "potion.hbm_lead", 6, 0);
 		radaway = registerPotion(MainRegistry.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
+		telekinesis = registerPotion(MainRegistry.telekinesisID, true, 0x00F3FF, "potion.hbm_telekinesis", 0, 1);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -129,6 +131,17 @@ public class HbmPotion extends Potion {
 			
 			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
 		}
+		if(this == telekinesis) {
+			
+			int remaining = entity.getActivePotionEffect(this).getDuration();
+			
+			if(remaining > 1) {
+				entity.motionY = 0.5;
+			} else {
+				entity.motionY = -2;
+				entity.fallDistance = 50;
+			}
+		}
 	}
 
 	public boolean isReady(int par1, int par2) {
@@ -137,7 +150,7 @@ public class HbmPotion extends Potion {
 
 	        return par1 % 2 == 0;
 		}
-		if(this == radiation || this == radaway) {
+		if(this == radiation || this == radaway || this == telekinesis) {
 			
 			return true;
 		}
