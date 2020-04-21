@@ -7,7 +7,7 @@ itemGroup.tabMachine=NTM 机器
 itemGroup.tabNuke=NTM 炸弹
 itemGroup.tabMissile=NTM 导弹和卫星
 itemGroup.tabWeapon=NTM 武器和炮塔
-itemGroup.tabConsumable=NTM 耗材和装备
+itemGroup.tabConsumable=NTM 食物和装备
 
 achievement.sacrifice=牺牲
 achievement.sacrifice.desc=直面火海并存活
@@ -43,6 +43,8 @@ achievement.oil=石油
 achievement.oil.desc=Bobmazon 4级 (电锅炉)
 achievement.nuclear=原子科学
 achievement.nuclear.desc=Bobmazon 5级 (铀燃料)
+achievement.hidden=隐藏目录
+achievement.hidden.desc=当你身上着火且辐射吸收量大于250RAD时使用一节坠落的车厢杀死一只末影人
 
 potion.hbm_taint=污染
 potion.hbm_mutation=变异
@@ -51,6 +53,7 @@ potion.hbm_bang=! ! !
 potion.hbm_radx=抗辐射
 potion.hbm_lead=铅中毒
 potion.hbm_radaway=消辐宁
+potion.hbm_telekinesis=! ! !
 
 hbmfluid.none=无
 hbmfluid.water=水
@@ -196,6 +199,7 @@ death.attack.pc=%1$s 在粉红色的云中变成了一个水坑
 death.attack.cloud=%1$s 像冰棒一样在太阳下融化
 death.attack.lead=%1$s 死于铅中毒
 death.attack.taint=%1$s 死于恶性肿瘤
+death.attack.electricity=%1$s 被电死
 
 item.redstone_sword.name=红石剑
 item.big_sword.name=大剑
@@ -338,6 +342,7 @@ tile.crate_lead.name=危险品补给箱
 tile.crate_metal.name=机器补给箱
 tile.crate_red.name=红色补给箱
 tile.crate_can.name=罐头补给箱
+tile.crate_ammo.name=星辉补给箱
 tile.marker_structure.name=多方块结构信标
 
 tile.struct_launcher.name=发射台部件
@@ -468,8 +473,16 @@ container.reactorSmall=核反应堆
 tile.machine_controller.name=反应堆遥控模块
 container.reactorControl=反应堆遥控模块
 
+tile.barrel_plastic.name=安全桶™
+tile.barrel_corroded.name=被腐蚀的桶
+tile.barrel_iron.name=铁桶
+tile.barrel_steel.name=钢桶
+tile.barrel_antimatter.name=磁约束反物质容器
+container.barrel=桶
+
 tile.broadcaster_pc.name=腐败广播
 
+tile.tesla.name=特斯拉线圈
 tile.radiobox.name=无线怪物清除箱
 tile.radiorec.name=坏掉的收音机
 container.radiobox=FM发射机
@@ -788,6 +801,7 @@ tile.ore_thorium.name=钍矿石
 tile.ore_schrabidium.name=Sa326矿石
 tile.ore_beryllium.name=铍矿石
 tile.ore_lignite.name=褐煤矿石
+tile.ore_asbestos.name=石棉矿
 
 tile.ore_nether_uranium.name=下界铀矿石
 tile.ore_nether_plutonium.name=下界钚矿石
@@ -807,7 +821,7 @@ tile.ore_meteor_lead.name=铅矿陨石
 tile.ore_meteor_lithium.name=锂矿陨石
 tile.ore_meteor_starmetal.name=星辉矿陨石
 
-tile.ore_tikite.name=Trixite
+tile.ore_tikite.name=赛瑞克矿石
 
 tile.ore_australium.name=奥斯矿石
 tile.ore_weidanium.name=魏丹矿石
@@ -1385,6 +1399,7 @@ item.gun_revolver_nightmare2.name=梦魇左轮手枪[黑暗]
 item.gun_revolver_pip.name=小矮人
 item.gun_revolver_nopip.name=Novac
 item.gun_revolver_blackjack.name=黑杰克五发装左轮枪
+item.gun_revolver_silver.name=银质左轮手枪
 item.gun_revolver_red.name=红钥匙左轮手枪
 item.gun_deagle.name=大手枪
 item.gun_calamity.name=灾难
@@ -1465,10 +1480,13 @@ item.gun_defabricator_ammo.name=毁灭者能量电池
 
 item.ammo_12gauge.name=12号鹿弹
 item.ammo_12gauge_incendiary.name=12号鹿弹[燃烧]
+item.ammo_12gauge_shrapnel.name=12号鹿弹[榴霰弹]
+item.ammo_12gauge_du.name=12号鹿弹[铀涂层]
 item.ammo_20gauge.name=20号鹿弹
 item.ammo_20gauge_slug.name=20号独头弹
 item.ammo_20gauge_flechette.name=20号箭霰弹
 item.ammo_20gauge_incendiary.name=20号鹿弹[燃烧]
+item.ammo_20gauge_shrapnel.name=20号鹿弹[榴霰弹]
 item.ammo_20gauge_shock.name=20号鹿弹[震荡]
 item.ammo_20gauge_caustic.name=20号鹿弹[腐蚀]
 item.ammo_20gauge_explosive.name=20号鹿弹[高爆]
@@ -1502,6 +1520,7 @@ item.ammo_44_du.name=.44马格南子弹[贫铀]
 item.ammo_44_star.name=.44马格南子弹[星辉]
 item.ammo_44_pip.name=.44马格南子弹[车厢]
 item.ammo_44_bj.name=.44马格南子弹[船]
+item.ammo_44_silver.name=.44马格南子弹[建筑]
 item.ammo_44_rocket.name=.44马格南火箭
 item.ammo_rocket.name=84mm火箭弹
 item.ammo_rocket_he.name=84mm火箭弹[HE]
@@ -1669,7 +1688,7 @@ item.schrabidium_hoe.name=Sa326锄
 
 item.jetpack_boost.name=弹跳背包
 item.jetpack_fly.name=喷气背包
-item.jetpack_break.name=Break背包
+item.jetpack_break.name=缓降背包
 item.jetpack_vector.name=矢量喷气背包
 item.jetpack_tank.name=喷气背包备用燃料罐
 
@@ -1930,7 +1949,7 @@ tile.sellafield_1.name=热Sellafite
 tile.sellafield_2.name=沸腾的Sellafite
 tile.sellafield_3.name=灼热的Sellafite
 tile.sellafield_4.name=地狱的Sellafite
-tile.sellafield_core.name=Sellafite真皮
+tile.sellafield_core.name=Sellafite核心
 
 item.warhead_generic_small.name=小型弹头
 item.warhead_generic_medium.name=中型弹头
@@ -2022,6 +2041,12 @@ tile.block_meteor_broken.name=破碎的陨石块
 tile.block_meteor_cobble.name=陨石
 tile.block_meteor_molten.name=高温陨石
 tile.block_meteor_treasure.name=宝藏陨石块
+tile.meteor_polished.name=平滑陨石块
+tile.meteor_brick.name=陨石砖
+tile.meteor_brick_mossy.name=苔藓陨石砖
+tile.meteor_brick_cracked.name=裂纹陨石砖
+tile.meteor_brick_chiseled.name=錾制陨石砖
+tile.meteor_pillar.name=竖纹陨石砖
 
 item.cape_radiation.name=披风[辐射]
 item.cape_gasmask.name=披风[防毒面具]
@@ -2048,10 +2073,10 @@ tile.vent_chlorine_seal.name=氯气容器
 tile.chlorine_gas.name=氯气
 item.chlorine_pinwheel.name=氯气转轮
 
-tile.sugger.name=辐射吸收器
-tile.abstrator_red.name=增强型辐射吸收器
-tile.abstrator_green.name=高级辐射吸收器
-tile.abstrator_pink.name=精英辐射吸收器
+tile.absorber.name=辐射吸收器
+tile.absorber_red.name=增强型辐射吸收器
+tile.absorber_green.name=高级辐射吸收器
+tile.absorber_pink.name=精英辐射吸收器
 tile.decon.name=玩家去污器
 tile.machine_amgen.name=环境辐射发电机
 tile.machine_geo.name=地热发电机
@@ -2171,7 +2196,7 @@ item.canned_diesel.name=柴油
 item.canned_kerosene.name=煤油
 item.canned_recursion.name=循环罐头
 item.canned_bark.name=松树皮罐头
-item.can_key.name=罐头盖
+item.can_key.name=罐头拉环
 
 item.canteen_13.name=Vault13水壶
 item.canteen_vodka.name=伏特加
@@ -2254,10 +2279,10 @@ item.ams_muzzle.name=激活射线发射极
 
 item.ams_lens.name=稳定透镜
 
-item.ams_core_sing.name=活跃奇点[AMS核心]
-item.ams_core_wormhole.name=微型虫洞[AMS核心]
-item.ams_core_eyeofharmony.name=和谐之眼[AMS核心]
-item.ams_core_thingy.name=Thingy[AMS核心]
+item.ams_core_sing.name=活跃奇点[AMS/DFC核心]
+item.ams_core_wormhole.name=微型虫洞[AMS/DFC核心]
+item.ams_core_eyeofharmony.name=和谐之眼[AMS/DFC核心]
+item.ams_core_thingy.name=Thingy[AMS/DFC核心]
 
 item.crystal_energy.name=能量晶体
 item.pellet_coolant.name=冷却液组
@@ -2294,6 +2319,8 @@ item.weapon_golf_club.name=黑手党快乐杆
 item.weapon_pipe_rusty.name=姿态调节器
 item.weapon_pipe_lead.name=手动覆盖控制
 item.reer_graar.name=The Reer Graar
+item.stopsign.name=停车标志战斧
+item.sopsign.name=Sop标志战斧
 
 item.letter.name=快捷邮件
 item.polaroid.name=偏光片
