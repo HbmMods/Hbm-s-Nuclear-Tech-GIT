@@ -14,7 +14,7 @@ compile files('lib/CodeChickenCore-1.7.10-1.0.4.29-dev.jar')
 compile files('lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
 compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
 ```
-6. Download these exact versions of NEI and it's core mods and insert them into the lib folder (if there is none, create one in the dev environment's main directory, I forgot)
+6. Download these exact versions of NEI and it's core mods, and then create a folder named "lib" inside the root of the project (IE wheverer you downloaded forge), and place them inside that folder
 7. Open up the CMD in the main directory and run `gradlew build` on windows or `./gradlew build` on linux
 8. Head to `build/libs` and get the jar
 9. Open the jar with an archieve manager of your choice and insert the mod's asset folder into the jar's main directory
