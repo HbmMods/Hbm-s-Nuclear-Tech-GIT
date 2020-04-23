@@ -542,6 +542,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntitySoyuzLauncher.class, "tileentity_soyuz_launcher");
 		GameRegistry.registerTileEntity(TileEntityTesla.class, "tileentity_tesla_coil");
 		GameRegistry.registerTileEntity(TileEntityBarrel.class, "tileentity_fluid_barrel");
+		GameRegistry.registerTileEntity(TileEntityCyberCrab.class, "tileentity_crabs");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

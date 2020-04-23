@@ -46,6 +46,10 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Can store corrosive fluids");
 			list.add("Can store antimatter");
 		}
+		
+		if(this.field_150939_a == ModBlocks.meteor_battery) {
+			list.add("Provides infinite charge to tesla coils");
+		}
 	}
 
 }

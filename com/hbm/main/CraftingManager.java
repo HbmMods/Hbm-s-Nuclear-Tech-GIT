@@ -738,6 +738,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.meteor_brick, 4), new Object[] { "CC", "CC", 'C', ModBlocks.meteor_polished });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.meteor_brick_mossy, 8), new Object[] { "CCC", "CVC", "CCC", 'C', ModBlocks.meteor_brick, 'V', Blocks.vine });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.meteor_brick_cracked, 6), new Object[] { " C " , "C C", " C ", 'C', ModBlocks.meteor_brick });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.meteor_battery, 1), new Object[] { "MSM", "MWM", "MSM", 'M', ModBlocks.meteor_polished, 'S', ModBlocks.block_starmetal, 'W', ModItems.wire_schrabidium });
 		//GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.cmb_brick), 4), new Object[] { "PPP", "PIP", "PPP", 'P', ModItems.plate_combine_steel, 'I', ModItems.ingot_combine_steel });
 		//GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.cmb_brick_reinforced), 8), new Object[] { "TBT", "BCB", "TBT", 'T', ModBlocks.block_magnetized_tungsten, 'B', ModBlocks.brick_concrete, 'C', ModBlocks.cmb_brick });
 
@@ -922,7 +923,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_44_star, 4), new Object[] { " B ", "BAB", " B ", 'B', ModItems.ammo_44_du, 'A', ModItems.ingot_starmetal });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_44_pip, 1), new Object[] { " B ", "BAB", " B ", 'A', ModItems.ammo_44, 'B', ModItems.powder_magic });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.ammo_44_bj, 1), new Object[] { " C ", "BAB", " C ", 'A', ModItems.ammo_44, 'B', ModItems.powder_magic, 'C', "dustDesh" }));
-		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_44_bj, 1), new Object[] { " C ", "BAB", " C ", 'A', ModItems.ammo_44, 'B', ModItems.powder_magic, 'C', ModItems.ingot_starmetal });
+		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_44_silver, 1), new Object[] { " C ", "BAB", " C ", 'A', ModItems.ammo_44, 'B', ModItems.powder_magic, 'C', ModItems.ingot_starmetal });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_5mm_explosive, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_5mm, 'A', Blocks.tnt });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_5mm_du, 8), new Object[] { "BBB", "BAB", "BBB", 'B', ModItems.ammo_5mm, 'A', ModItems.ingot_u238 });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ammo_5mm_star, 4), new Object[] { " B ", "BAB", " B ", 'B', ModItems.ammo_5mm_du, 'A', ModItems.ingot_starmetal });

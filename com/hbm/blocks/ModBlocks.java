@@ -173,6 +173,8 @@ public class ModBlocks {
 	public static Block meteor_brick_cracked;
 	public static Block meteor_brick_chiseled;
 	public static Block meteor_pillar;
+	public static Block meteor_spawner;
+	public static Block meteor_battery;
 
 	public static Block tape_recorder;
 	public static Block steel_poles;
@@ -883,6 +885,8 @@ public class ModBlocks {
 		meteor_brick_cracked = new BlockGeneric(Material.rock).setBlockName("meteor_brick_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_brick_cracked");
 		meteor_brick_chiseled = new BlockGeneric(Material.rock).setBlockName("meteor_brick_chiseled").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_brick_chiseled");
 		meteor_pillar = new BlockGenericPillar(Material.rock).setBlockName("meteor_pillar").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F);
+		meteor_spawner = new BlockCybercrab(Material.rock).setBlockName("meteor_spawner").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F);
+		meteor_battery = new BlockReactor(Material.rock).setBlockName("meteor_battery").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F);
 		
 		tape_recorder = new DecoTapeRecorder(Material.rock).setBlockName("tape_recorder").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_tape_recorder");
 		steel_poles = new DecoSteelPoles(Material.rock).setBlockName("steel_poles").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":steel_beam");
@@ -1477,6 +1481,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(meteor_brick_cracked, meteor_brick_cracked.getUnlocalizedName());
 		GameRegistry.registerBlock(meteor_brick_chiseled, meteor_brick_chiseled.getUnlocalizedName());
 		GameRegistry.registerBlock(meteor_pillar, meteor_pillar.getUnlocalizedName());
+		GameRegistry.registerBlock(meteor_spawner, meteor_spawner.getUnlocalizedName());
+		GameRegistry.registerBlock(meteor_battery, ItemBlockLore.class, meteor_battery.getUnlocalizedName());
 		GameRegistry.registerBlock(tape_recorder, tape_recorder.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_poles, steel_poles.getUnlocalizedName());
 		GameRegistry.registerBlock(pole_top, pole_top.getUnlocalizedName());

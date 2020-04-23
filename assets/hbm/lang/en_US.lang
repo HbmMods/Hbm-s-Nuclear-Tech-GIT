@@ -2048,6 +2048,8 @@ tile.meteor_brick_mossy.name=Mossy Meteor Brick
 tile.meteor_brick_cracked.name=Cracked Meteor Brick
 tile.meteor_brick_chiseled.name=Chiseled Meteor Brick
 tile.meteor_pillar.name=Meteor Pillar
+tile.meteor_spawner.name=Cyber Crab Assembler
+tile.meteor_battery.name=Starmetal Static Electricity Generator
 
 item.cape_radiation.name=Cape (Radiation)
 item.cape_gasmask.name=Cape (Gas Mask)

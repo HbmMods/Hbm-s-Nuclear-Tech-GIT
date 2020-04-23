@@ -18,7 +18,8 @@ compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
 7. Open up the CMD in the main directory and run `gradlew build` on windows or `./gradlew build` on linux
 8. Head to `build/libs` and get the jar
 9. Open the jar with an archieve manager of your choice and insert the mod's asset folder into the jar's main directory
-10. The jar is now done, ready for use!
+10. Due to a *tiny* fuckup on my side (i.e. only using the `/main/java` folder in this repository and omitting `/main/resources`) the code in this repo does not include a `mcmod.info` file *which is mandatory, not including it will cause funny things to happen.* In order to fix this, either insert the file from one of my releases into your jar or write your own file, the most important part is including the `modid` kay-value pair (or at least from what i can tell).
+11. The jar is now done, ready for use!
 
 If you want to do some changes in the code yourself, start here after 6. and continue with 7. once you are done:
 1) Get the IDE of your choice and prepare the workspace (for eclipse, it's `gradlew eclipse` or `./gradlew eclipse`, then use the eclipse folder as workspace directory in eclipse)

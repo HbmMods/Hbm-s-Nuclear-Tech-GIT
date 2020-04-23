@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -45,6 +46,9 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 			
 			this.targets.clear();
 			
+			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.meteor_battery)
+				power = maxPower;
+			
 			if(power >= 5000) {
 				power -= 5000;
 
@@ -62,6 +66,9 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 					Vec3 vec = Vec3.createVectorHelper(e.posX - dx, e.posY + e.height / 2 - dy, e.posZ - dz);
 					
 					if(vec.lengthVector() > range)
+						continue;
+
+					if(Library.isObstructed(worldObj, xCoord + 0.5, yCoord + offset, zCoord + 0.5, e.posX, e.posY + e.height / 2, e.posZ))
 						continue;
 					
 					if(!(e instanceof EntityPlayer && Library.checkForFaraday((EntityPlayer)e)))

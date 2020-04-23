@@ -2048,6 +2048,8 @@ tile.meteor_brick_mossy.name=Bemooster Meteoritenziegel
 tile.meteor_brick_cracked.name=Rissiger Meteoritenziegel
 tile.meteor_brick_chiseled.name=Gemeißelter Meteoritenziegel
 tile.meteor_pillar.name=Meteoritensäule
+tile.meteor_spawner.name=Cyber-Krabben-Konstukteur
+tile.meteor_battery.name=Stermenmetall-Elektrostatikgenerator
 
 item.cape_radiation.name=Cape (Radioaktiv)
 item.cape_gasmask.name=Cape (Gasmaske)

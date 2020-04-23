@@ -38,7 +38,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -1300,16 +1299,9 @@ public class Library {
 	
 	public static boolean isObstructed(World world, double x, double y, double z, double a, double b, double c) {
 		
-		Vec3 vector = Vec3.createVectorHelper(a - x, b - y, c - z);
-		double length = vector.lengthVector();
-		Vec3 nVec = vector.normalize();
+		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));
 		
-		for(float i = 0; i < length; i += 0.25F)
-			if(world.getBlock((int) Math.round(x + (nVec.xCoord * i)), (int) Math.round(y + (nVec.yCoord * i)), (int) Math.round(z + (nVec.zCoord * i))) != Blocks.air && 
-					world.getBlock((int) Math.round(x + (nVec.xCoord * i)), (int) Math.round(y + (nVec.yCoord * i)), (int) Math.round(z + (nVec.zCoord * i))).isNormalCube())
-				return true;
-		
-		return false;
+		return pos != null;
 	}
 	
 	public static int getFirstNullIndex(int start, Object[] array) {

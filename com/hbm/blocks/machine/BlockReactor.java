@@ -105,6 +105,11 @@ public class BlockReactor extends Block {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":block_fiberglass_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":block_fiberglass_side");
 		}
+		if(this == ModBlocks.meteor_battery)
+		{
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":meteor_power");
+			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":meteor_spawner_side");
+		}
 	}
 
 	@Override
