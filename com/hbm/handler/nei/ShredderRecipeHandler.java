@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.MachineRecipes.StackWrapper;
 import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.lib.RefStrings;
 
@@ -83,7 +84,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		if ((outputId.equals("shredding")) && getClass() == ShredderRecipeHandler.class) {
 			Map<Object, Object> recipes = MachineRecipes.instance().getShredderRecipes();
 			for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));
+				this.arecipes.add(new SmeltingSet(((StackWrapper)recipe.getKey()).getStack(), (ItemStack)recipe.getValue()));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -95,7 +96,7 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 		Map<Object, Object> recipes = MachineRecipes.instance().getShredderRecipes();
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue(), result))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));
+				this.arecipes.add(new SmeltingSet(((StackWrapper)recipe.getKey()).getStack(), (ItemStack)recipe.getValue()));
 		}
 	}
 
@@ -112,8 +113,8 @@ public class ShredderRecipeHandler extends TemplateRecipeHandler {
 	public void loadUsageRecipes(ItemStack ingredient) {
 		Map<Object, Object> recipes = MachineRecipes.instance().getShredderRecipes();
 		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));				
+			if (NEIServerUtils.areStacksSameType(ingredient, ((StackWrapper)recipe.getKey()).getStack()))
+				this.arecipes.add(new SmeltingSet(((StackWrapper)recipe.getKey()).getStack(), (ItemStack)recipe.getValue()));				
 		}
 	}
 
