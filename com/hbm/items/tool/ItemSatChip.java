@@ -29,7 +29,7 @@ public class ItemSatChip extends Item {
 			list.add("Displays currently loaded chunks.");
 		
 		if(this == ModItems.sat_miner)
-			list.add("Will deliver ore powders to a caargo landing pad.");
+			list.add("Will deliver ore powders to a cargo landing pad.");
 		
 		if(this == ModItems.sat_radar)
 			list.add("Shows a map of active entities.");

@@ -52,8 +52,10 @@ public class ContainerCoreInjector extends Container {
 				{
 					return null;
 				}
+			} else {
+				return null;
 			}
-			
+            
 			if (var5.stackSize == 0)
 			{
 				var4.putStack((ItemStack) null);

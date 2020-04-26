@@ -32,6 +32,7 @@
     "block.missileAssembly2": {"category": "block", "sounds": [{"name": "block/missileAssembly2", "stream": false}]},
 	"block.openDoor": {"category": "block", "sounds": ["block/door_open_1", "block/door_open_2"]},
 	"block.closeDoor": {"category": "block", "sounds": ["block/door_close_1", "block/door_close_2"]},
+    "block.soyuzReady": {"category": "block", "sounds": [{"name": "block/soyuzReady", "stream": false}]},
 
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},

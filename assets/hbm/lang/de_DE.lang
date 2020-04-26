@@ -1887,6 +1887,8 @@ item.missile_skin_metal.name=Raketenskin: Metall
 item.missile_custom.name=Spezialgefertigte Rakete
 
 item.missile_carrier.name=HTR-01 Trägerrakete
+item.missile_soyuz.name=Soyuz-FG
+item.missile_soyuz_lander.name=Soyuz-Orbitalmodul
 item.sat_mapper.name=Oberflächen-Abtastungssatellit
 item.sat_scanner.name=Satellit mit Tiefenscanning-Modul
 item.sat_radar.name=Radar-Überwachungssatellit

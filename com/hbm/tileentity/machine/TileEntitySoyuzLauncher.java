@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.MissileStruct;
+import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -11,6 +12,8 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -21,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 
 public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IConsumer, IFluidContainer, IFluidAcceptor {
 
@@ -31,8 +35,10 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public byte mode;
 	public boolean starting;
 	public int countdown;
-	public static final int maxCount = 200;
+	public static final int maxCount = 600;
 	public byte rocketType = -1;
+	
+	private AudioWrapper audio;
 	
 	public MissileStruct load;
 
@@ -44,7 +50,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		super(27);
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.KEROSENE, 128000, 0);
-		tanks[1] = new FluidTank(FluidType.ACID, 128000, 1);
+		tanks[1] = new FluidTank(FluidType.OXYGEN, 128000, 1);
 	}
 
 	@Override
@@ -65,14 +71,17 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			
 			power = Library.chargeTEFromItems(slots, 8, power, maxPower);
 			
-			//TODO: stop countdown if launch conditions are not met
 			if(!starting || !canLaunch()) {
 				countdown = maxCount;
-			} else if(countdown > 0) {
-				countdown--;
-			} else {
 				starting = false;
-				//TODO: liftoff!
+			} else if(countdown > 0) {
+				countdown --;
+				
+				if(countdown % 100 == 0 && countdown > 0)
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.hatch", 100F, 1.1F);
+				
+			} else {
+				liftOff();
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -80,17 +89,64 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			data.setByte("mode", mode);
 			data.setBoolean("starting", starting);
 			data.setByte("type", this.getType());
-			networkPack(data, 50);
+			networkPack(data, 250);
 		}
 		
 		if(worldObj.isRemote) {
 			if(!starting || !canLaunch()) {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+				
 				countdown = maxCount;
+				
 			} else if(countdown > 0) {
+
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio.updateVolume(100);
+					audio.startSound();
+				}
+				
 				countdown--;
+			}
+			
+			List<EntitySoyuz> entities = worldObj.getEntitiesWithinAABB(EntitySoyuz.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
+			
+			if(!entities.isEmpty()) {
+				
+				//for(int i = 0; i < 35; i++) {
+
+					//Vec3 vec = Vec3.createVectorHelper(worldObj.rand.nextGaussian() * 0.5 + 1, 0, 0);
+					//vec.rotateAroundY(worldObj.rand.nextFloat() * (float) (Math.PI * 2));
+					
+					//MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25 + worldObj.rand.nextFloat() * 3, zCoord + 0.5, "launchsmoke", new float[] {(float) vec.xCoord, 0, (float) vec.zCoord});
+
+				//}
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "smoke");
+				data.setString("mode", "shockRand");
+				data.setInteger("count", 35);
+				data.setDouble("strength", worldObj.rand.nextGaussian() * 3 + 6);
+				data.setDouble("posX", xCoord + 0.5);
+				data.setDouble("posY", yCoord + 1);
+				data.setDouble("posZ", zCoord + 0.5);
+				
+				MainRegistry.proxy.effectNT(data);
 			}
 		}
 	}
+	
+    public void onChunkUnload() {
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
 	
 	public void networkUnpack(NBTTagCompound data) {
 		power = data.getLong("power");
@@ -105,12 +161,47 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			starting = true;
 	}
 	
+	public void liftOff() {
+		
+		this.starting = false;
+		
+		int req = this.getFuelRequired();
+		int pow = this.getPowerRequired();
+		
+		EntitySoyuz soyuz = new EntitySoyuz(worldObj);
+		soyuz.setSkin(this.getType());
+		soyuz.setLocationAndAngles(xCoord + 0.5, yCoord + 5, zCoord + 0.5, 0, 0);
+		worldObj.spawnEntityInWorld(soyuz);
+
+		tanks[0].setFill(tanks[0].getFill() - req);
+		tanks[1].setFill(tanks[1].getFill() - req);
+		power -= pow;
+		
+		if(mode == 0) {
+			soyuz.setSat(slots[2]);
+			slots[2] = null;
+		}
+		
+		if(mode == 1) {
+			List<ItemStack> payload = new ArrayList();
+			
+			for(int i = 9; i < 27; i++) {
+				payload.add(slots[i]);
+				slots[i] = null;
+			}
+			
+			soyuz.setPayload(payload);
+		}
+		
+		slots[0] = null;
+	}
+	
 	public boolean canLaunch() {
 		
 		if(mode == 0 && slots[2] == null)
 			return false;
 		
-		return hasRocket() && hasFuel() && hasRocket() && hasPower();
+		return hasRocket() && hasFuel() && hasRocket() && hasPower() && (designator() == 0 || designator() == 2);
 	}
 	
 	public boolean hasFuel() {
@@ -124,7 +215,23 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 	
 	public int getFuelRequired() {
+		
+		if(mode == 1)
+			return 20000 + getDist();
+		
 		return 128000;
+	}
+	
+	public int getDist() {
+		
+		if(designator() == 2) {
+			int x = slots[1].stackTagCompound.getInteger("xCoord");
+			int z = slots[1].stackTagCompound.getInteger("zCoord");
+			
+			return (int) Vec3.createVectorHelper(xCoord - x, 0, zCoord - z).lengthVector();
+		}
+			
+		return 0;
 	}
 	
 	public boolean hasPower() {

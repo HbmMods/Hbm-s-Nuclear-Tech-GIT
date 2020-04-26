@@ -2104,10 +2104,10 @@ public class MachineRecipes {
 		
 		ItemStack sta = shredderRecipes.get(new StackWrapper(stack));
 		
-		if(sta != null)
+		/*if(sta != null)
 			System.out.println(stack.getDisplayName() + " resulted " + sta.getDisplayName());
 		else
-			System.out.println(stack.getDisplayName() + " resulted null");
+			System.out.println(stack.getDisplayName() + " resulted null");*/
 		
 		return sta == null ? new ItemStack(ModItems.scrap) : sta;
 	}
@@ -2743,7 +2743,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_iron, 2));
 			break;
 		case W_A:
-			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 5));
+			list.add(new ItemStack(ModItems.ingot_desh, 5));
 			list.add(new ItemStack(ModItems.plate_iron, 2));
 			break;
 		case UPGRADE_TEMPLATE:

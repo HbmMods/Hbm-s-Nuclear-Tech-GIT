@@ -25,7 +25,6 @@ import com.hbm.packet.TEMissileMultipartPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -203,22 +202,16 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 			}
 		} else {
 			
-			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
+			List<EntityMissileCustom> entities = worldObj.getEntitiesWithinAABB(EntityMissileCustom.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
 			
-			for(Entity e : entities) {
-				
-				if(e instanceof EntityMissileCustom) {
-					
-					for(int i = 0; i < 15; i++) {
+			if(!entities.isEmpty()) {
+				for(int i = 0; i < 15; i++) {
 
-						boolean dir = worldObj.rand.nextBoolean();
-						float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
-						float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
-						
-						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
-					}
+					boolean dir = worldObj.rand.nextBoolean();
+					float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
+					float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
 					
-					break;
+					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
 				}
 			}
 		}
