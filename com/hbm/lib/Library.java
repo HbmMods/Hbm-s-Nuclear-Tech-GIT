@@ -67,6 +67,8 @@ public class Library {
 	public static String Hoboy03new = "d7f29d9c-5103-4f6f-88e1-2632ff95973f";
 	public static String Dragon59MC = "dc23a304-0f84-4e2d-b47d-84c8d3bfbcdb";
 	public static String Steelcourage = "ac49720b-4a9a-4459-a26f-bee92160287a";
+	public static String GOD___TM = "57146e3f-16b5-4e9f-b0b8-139bec2ca2cb";
+	public static String ZippySqrl = "03c20435-a229-489a-a1a1-671b803f7017";
 	
 	public static List<String> superuser = new ArrayList<String>();
 	

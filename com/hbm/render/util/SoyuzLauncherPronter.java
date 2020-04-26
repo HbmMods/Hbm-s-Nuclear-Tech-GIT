@@ -10,12 +10,10 @@ import net.minecraft.client.renderer.texture.TextureManager;
 public class SoyuzLauncherPronter {
 
 	
-	public static void prontLauncher() {
-		
-		int rot = 0;//(int) (System.currentTimeMillis() / 20 % 45);
+	public static void prontLauncher(double rot) {
 
 		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		TextureManager tex = Minecraft.getMinecraft().getTextureManager();
 
 		tex.bindTexture(ResourceManager.soyuz_launcher_legs_tex);
@@ -45,6 +43,7 @@ public class SoyuzLauncherPronter {
 			GL11.glTranslated(0, -5.5, 6.5);
 			ResourceManager.soyuz_launcher_support.renderAll();
 		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		GL11.glPopMatrix();
 	}
