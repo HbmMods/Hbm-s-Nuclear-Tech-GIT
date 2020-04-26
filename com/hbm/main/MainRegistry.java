@@ -402,7 +402,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityRotationTester.class, "tilentity_rotationtester");
 		GameRegistry.registerTileEntity(TileEntityTestRender.class, "tilentity_testrenderer");
 		GameRegistry.registerTileEntity(TileEntityTestContainer.class, "tilentity_testcontainer");
-		GameRegistry.registerTileEntity(TileEntityObjTester.class, "tilentity_objtester");
+		//GameRegistry.registerTileEntity(TileEntityObjTester.class, "tilentity_objtester");
 		GameRegistry.registerTileEntity(TileEntityNukeGadget.class, "tilentity_nukegadget");
 		GameRegistry.registerTileEntity(TileEntityNukeBoy.class, "tilentity_nukeboy");
 		GameRegistry.registerTileEntity(TileEntityMachineCentrifuge.class, "tileentity_centrifuge");
@@ -675,7 +675,9 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityGrenadeIFHopwire.class, "entity_grenade_ironshod", 128, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityGrenadeIFNull.class, "entity_grenade_ironshod", 129, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityFallingNuke.class, "entity_falling_bomb", 130, this, 1000, 1, true);
+	    
 	    EntityRegistry.registerModEntity(EntityBulletBase.class, "entity_bullet_mk2", 131, this, 250, 1, true);
+	    
 	    EntityRegistry.registerModEntity(EntityMinerRocket.class, "entity_miner_lander", 132, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityFogFX.class, "entity_nuclear_fog", 133, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityDuchessGambit.class, "entity_duchessgambit", 134, this, 1000, 1, true);
@@ -688,12 +690,14 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityTom.class, "entity_tom_the_moonstone", 141, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityTomBlast.class, "entity_tom_bust", 142, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBuilding.class, "entity_falling_building", 143, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityCloudCustom.class, "entity_cloud_custom", 144, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBulletLaser.class, "entity_bullet_laser", 145, this, 1000, 1, true); 
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
-	
+	    
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
 	        @Override

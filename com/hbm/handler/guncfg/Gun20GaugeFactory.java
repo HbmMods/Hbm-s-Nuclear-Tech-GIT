@@ -180,6 +180,37 @@ public class Gun20GaugeFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getJackConfig() {
+		GunConfiguration config = getShotgunConfig();
+		
+		config.ammoCap = 32;
+		config.rateOfFire = 8;
+		config.durability = 25000;
+		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.firingSound = "hbm:weapon.shotgunShoot";
+		config.firingPitch = 1.0F;
+		
+		config.name = "Jackhammer";
+		config.manufacturer = "Winchester Repeating Arms Company?";
+		
+		config.roundsPerCycle = 4;
+		config.shellsPerReload = 4;
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.G20_SLUG_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_NORMAL_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_FLECHETTE_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHRAPNEL);
+		config.config.add(BulletConfigSyncingUtil.G20_EXPLOSIVE_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SHOCK_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_WITHER_FIRE);
+				
+		return config;
+	}
+	
 	public static BulletConfiguration get20GaugeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();

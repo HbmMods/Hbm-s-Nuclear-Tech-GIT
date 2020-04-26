@@ -43,13 +43,16 @@ import net.minecraft.world.World;
 
 public class EntityBulletBase extends Entity implements IProjectile {
 	
-	private BulletConfiguration config;
-	private EntityLivingBase shooter;
+	protected BulletConfiguration config;
+	public EntityLivingBase shooter;
 	public float overrideDamage;
+	public float powerMultiplier;
+	public int penetratedBlocks;
 
 	public EntityBulletBase(World world) {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
+		this.powerMultiplier = 1.0F;
 		this.setSize(0.5F, 0.5F);
 	}
 
@@ -58,6 +61,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.config = BulletConfigSyncingUtil.pullConfig(config);
 		this.dataWatcher.updateObject(18, config);
 		this.renderDistanceWeight = 10.0D;
+		this.powerMultiplier = 1.0F;
 		this.setSize(0.5F, 0.5F);
 	}
 	
@@ -66,7 +70,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.config = BulletConfigSyncingUtil.pullConfig(config);
 		this.dataWatcher.updateObject(18, config);
 		shooter = entity;
-
+		
 		this.setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 		
 		this.posX -= MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * 0.16F;
@@ -79,6 +83,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 
 		this.renderDistanceWeight = 10.0D;
+		this.powerMultiplier = 1.0F;
 		this.setSize(0.5F, 0.5F);
 
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread);
@@ -89,7 +94,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
 
 	@Override
 	public void setThrowableHeading(double moX, double moY, double moZ, float mult1, float mult2) {
-		
 		float f2 = MathHelper.sqrt_double(moX * moX + moY * moY + moZ * moZ);
 		moX /= f2;
 		moY /= f2;
@@ -360,14 +364,17 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		//this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 	}
 	
-	//for when a bullet dies by hitting a block
-	private void onBlockImpact(int bX, int bY, int bZ) {
+	//for when a bullet hits a block
+	protected void onBlockImpact(int bX, int bY, int bZ) {
 		
 		if(config.bImpact != null)
-			config.bImpact.behaveBlockHit(this, bX, bY, bZ);
-		
-		if(!worldObj.isRemote)
+			if (!this.worldObj.isRemote)
+				config.bImpact.behaveBlockHit(this, bX, bY, bZ);
+	
+		boolean canPenetrateBlocks = config.maximumPenetratedBlocks == -1 || (config.maximumPenetratedBlocks > 0 && penetratedBlocks < config.maximumPenetratedBlocks);
+		if(!worldObj.isRemote && !canPenetrateBlocks || worldObj.getBlock(bX, bY, bZ).getBlockHardness(worldObj, bX, bY, bZ) < 0) {
 			this.setDead();
+		}
 		
 		if(config.incendiary > 0 && !this.worldObj.isRemote) {
 			if(worldObj.rand.nextInt(3) == 0 && worldObj.getBlock((int)posX, (int)posY, (int)posZ) == Blocks.air) worldObj.setBlock((int)posX, (int)posY, (int)posZ, Blocks.fire);
@@ -380,12 +387,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 
 		if(config.emp > 0)
-			ExplosionNukeGeneric.empBlast(this.worldObj, (int)(this.posX + 0.5D), (int)(this.posY + 0.5D), (int)(this.posZ + 0.5D), config.emp);
+			ExplosionNukeGeneric.empBlast(this.worldObj, (int)(this.posX + 0.5D), (int)(this.posY + 0.5D), (int)(this.posZ + 0.5D), (int)Math.round(config.emp * powerMultiplier));
 		
 		if(config.emp > 3) {
 			if (!this.worldObj.isRemote) {
 				
-	    		EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
+	    		EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, (int)Math.round(config.emp * powerMultiplier));
 	    		cloud.posX = this.posX;
 	    		cloud.posY = this.posY + 0.5F;
 	    		cloud.posZ = this.posZ;
@@ -395,16 +402,16 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.jolt > 0 && !worldObj.isRemote)
-    		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
+    		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt * powerMultiplier, 150, 0.25);
 		
 		if(config.explosive > 0 && !worldObj.isRemote)
-			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
+			worldObj.newExplosion(this, posX, posY, posZ, config.explosive * powerMultiplier, config.incendiary > 0, config.blockDamage);
 		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
-			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);
+			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, (int)Math.round(config.shrapnel * powerMultiplier));
 		
 		if(config.chlorine > 0 && !worldObj.isRemote) {
-			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
+			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, (int)Math.round(config.chlorine * powerMultiplier), 1.5, 0);
         	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 		}
 		
@@ -415,14 +422,14 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			entity.posX = this.posX;
 			entity.posY = this.posY;
 			entity.posZ = this.posZ;
-			entity.destructionRange = config.rainbow;
+			entity.destructionRange = (int)Math.round(config.rainbow * powerMultiplier);
 			entity.speed = 25;
 			entity.coefficient = 1.0F;
 			entity.waste = false;
 
 			this.worldObj.spawnEntityInWorld(entity);
 	    		
-	    	EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, config.rainbow);
+	    	EntityCloudFleijaRainbow cloud = new EntityCloudFleijaRainbow(this.worldObj, (int)Math.round(config.rainbow * powerMultiplier));
 	    	cloud.posX = this.posX;
 	    	cloud.posY = this.posY;
 	    	cloud.posZ = this.posZ;
@@ -430,7 +437,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
-	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ));
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)Math.round(config.nuke * powerMultiplier), posX, posY, posZ));
 	    	
     	    if(MainRegistry.polaroidID == 11) {
     	    	if(rand.nextInt(100) >= 0) {
@@ -447,10 +454,15 @@ public class EntityBulletBase extends Entity implements IProjectile {
     	    }
 		}
 		
+		if (config.clearOutStrength != 0) {
+			ExplosionChaos.explodeZOMG(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, config.clearOutStrength);
+		}
+		
 		if(config.destroysBlocks && !worldObj.isRemote) {
-			if(worldObj.getBlock(bX, bY, bZ).getBlockHardness(worldObj, bX, bY, bZ) <= 120)
+			// If hardness is lower then 0 it's invincible, things like bedrock have a hardness of -1.
+			if(!(worldObj.getBlock(bX, bY, bZ).getBlockHardness(worldObj, bX, bY, bZ) < 0) && (worldObj.getBlock(bX, bY, bZ).getBlockHardness(worldObj, bX, bY, bZ) <= config.maximumBlockHardness || config.maximumBlockHardness == -1))
     			worldObj.func_147480_a(bX, bY, bZ, false);
-		} else if(config.doesBreakGlass && !worldObj.isRemote) {
+		} else if (config.doesBreakGlass && !worldObj.isRemote) {
 			if(worldObj.getBlock(bX, bY, bZ) == Blocks.glass || 
 					worldObj.getBlock(bX, bY, bZ) == Blocks.glass_pane || 
 					worldObj.getBlock(bX, bY, bZ) == Blocks.stained_glass || 
@@ -460,6 +472,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			if(worldObj.getBlock(bX, bY, bZ) == ModBlocks.red_barrel)
 				((RedBarrel) ModBlocks.red_barrel).explode(worldObj, bX, bY, bZ);
 		}
+		penetratedBlocks++;
 	}
 	
 	//for when a bullet dies by hitting a block
@@ -473,6 +486,15 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	private void onEntityImpact(Entity e) {
 		onEntityHurt(e);
 		onBlockImpact(-1, -1, -1);
+		
+		/*if (config.alwaysApplyEffects) {
+			if (e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
+				for(PotionEffect effect : config.effects) {
+					System.out.println(effect.getEffectName());
+					((EntityLivingBase)e).addPotionEffect(effect);
+				}
+			}
+		}*/
 		
 		if(config.bHit != null)
 			config.bHit.behaveEntityHit(this, e);
@@ -492,18 +514,19 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			((EntityLivingBase)e).addPotionEffect(new PotionEffect(HbmPotion.lead.id, 10 * 20, 0));
 		}
 		
-		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
-			
+		if (e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
+			System.out.println("Applying effects");
 			for(PotionEffect effect : config.effects) {
+				System.out.println(effect.getEffectName());
 				((EntityLivingBase)e).addPotionEffect(effect);
 			}
 		}
 		
-		if(config.instakill && e instanceof EntityLivingBase && !worldObj.isRemote) {
+		if (config.instakill && e instanceof EntityLivingBase && !worldObj.isRemote) {
 			((EntityLivingBase)e).setHealth(0.0F);
 		}
 		
-		if(config.caustic > 0 && e instanceof EntityPlayer){
+		if(config.caustic > 0 && e instanceof EntityPlayer) {
 			Library.damageSuit((EntityPlayer)e, 0, config.caustic);
 			Library.damageSuit((EntityPlayer)e, 1, config.caustic);
 			Library.damageSuit((EntityPlayer)e, 2, config.caustic);
@@ -523,6 +546,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		this.overrideDamage = nbt.getFloat("damage");
+		this.penetratedBlocks = nbt.getInteger("penetratedBlocks");
 		
 		this.dataWatcher.updateObject(18, cfg);
 		
@@ -536,6 +560,8 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		nbt.setInteger("config", dataWatcher.getWatchableObjectInt(18));
 		
 		nbt.setFloat("damage", this.overrideDamage);
+		
+		nbt.setInteger("penetratedBlocks", this.penetratedBlocks);
 	}
 
 }

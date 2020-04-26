@@ -164,5 +164,28 @@ public class BulletConfigFactory {
 		
 		return bullet;
 	}
-
+	
+	public static BulletConfiguration standardEnergyPistolConfig() {
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 3.0F;
+		bullet.spread = 0F;
+		bullet.wear = 1;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 1000;
+		bullet.gravity = 0D;
+		bullet.maxAge = 300;
+		bullet.doesRicochet = false;
+		bullet.ricochetAngle = 0;
+		bullet.HBRC = 0;
+		bullet.LBRC = 0;
+		bullet.bounceMod = 1.0;
+		bullet.rainbow = 5;
+		bullet.doesPenetrate = true;
+		bullet.doesBreakGlass = true;
+		
+		return bullet;
+	}
 }

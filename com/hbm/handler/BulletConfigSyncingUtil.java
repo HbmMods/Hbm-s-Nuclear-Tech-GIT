@@ -22,7 +22,7 @@ public class BulletConfigSyncingUtil {
 		}
 	}
 	
-	static int i = 0;
+	static int i = 1;
 	
 	/// duplicate ids will cause wrong configs to be loaded ///
 	public static int TEST_CONFIG = i++;
@@ -129,6 +129,16 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_AMAT = i++;
 	public static int NUKE_PROTO = i++;
 	
+	public static int ENERGYPISTOL_B92 = i++;
+	public static int ENERGYPISTOL_B93 = i++;
+	
+	public static int SPARK_PLUG = i++;
+	
+	public static int ZOMG_CANNON = i++;
+	public static int ZOMG_SUPERUSER = i++;
+	
+	public static int BRIMSTONE = i++;
+		
 	public static void loadConfigsForSync() {
 		
 		configSet.add(new ConfigKeyPair(BulletConfigFactory.getTestConfig(), TEST_CONFIG));
@@ -234,6 +244,16 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(GunFatmanFactory.getNukeConfig(), NUKE_NORMAL));
 		configSet.add(new ConfigKeyPair(GunFatmanFactory.getNukeProtoConfig(), NUKE_PROTO));
 		configSet.add(new ConfigKeyPair(GunFatmanFactory.getBalefireConfig(), NUKE_AMAT));
+		
+		configSet.add(new ConfigKeyPair(GunEnergyPistolFactory.getLaserConfig(), ENERGYPISTOL_B92));
+		configSet.add(new ConfigKeyPair(GunEnergyPistolFactory.getModConfig(), ENERGYPISTOL_B93));
+		
+		configSet.add(new ConfigKeyPair(GunSparkFactory.getElectroMagnetConfig(), SPARK_PLUG));
+		
+		configSet.add(new ConfigKeyPair(GunAnnihilationFactory.getZOMGShotConfig(), ZOMG_CANNON));
+		configSet.add(new ConfigKeyPair(GunAnnihilationFactory.getAnnihilationLaserConfig(), ZOMG_SUPERUSER));
+	
+		configSet.add(new ConfigKeyPair(GunAnnihilationFactory.getBrimstoneLaserConfig(), BRIMSTONE));	
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

@@ -20,11 +20,11 @@ public class GunB92Cell extends Item {
 			
 			for(int j = 0; j < player.inventory.mainInventory.length; j++) {
 				if(player.inventory.mainInventory[j] != null && player.inventory.mainInventory[j].getItem() == ModItems.gun_b92) {
-					int p = getPower(player.inventory.mainInventory[j]);
-					if(p > 1) {
-						setPower(player.inventory.mainInventory[j], p - 1);
-						setPower(stack, getPower(stack) + 1);
-						if(getPower(stack) == 25)
+					int p = ItemGunEnergyPistol.getCharge(player.inventory.mainInventory[j]);
+					if(p > 0) {
+						ItemGunEnergyPistol.setCharge(player.inventory.mainInventory[j], p - 1);
+						setPower(stack, getPower(stack) + p);
+						if(getPower(stack) >= 25)
 							stack.setItemDamage(1);
 						return;
 					}
@@ -42,20 +42,20 @@ public class GunB92Cell extends Item {
 		list.add("it is not meant to be used as a battery enhancement");
 		list.add("for the B92, but rather as a bomb.");
 		list.add("");
+		System.out.println(getPower(itemstack));
 		list.add("Charges: " + getPower(itemstack) + " / 25");
 	}
 
-	private static int getPower(ItemStack stack) {
+	protected static int getPower(ItemStack stack) {
 		if (stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
 			return 0;
 		}
 
 		return stack.stackTagCompound.getInteger("energy");
-
 	}
 
-	private static void setPower(ItemStack stack, int i) {
+	protected static void setPower(ItemStack stack, int i) {
 		if (stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
 		}

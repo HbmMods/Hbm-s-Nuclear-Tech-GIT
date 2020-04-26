@@ -25,6 +25,8 @@ public class GunConfiguration {
 	public int firingMode;
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
+	//weapon does not break
+	public boolean unbreakable;
 	
 	//whether or not there is a reload delay animation
 	public boolean hasReloadAnim;
@@ -34,7 +36,7 @@ public class GunConfiguration {
 	public boolean hasSpinup;
 	//whether there is a cooldown duration for spindown
 	public boolean hasSpindown;
-	//whether ot not to disable crosshais when sneaking
+	//whether or not to disable crosshairs when sneaking
 	public boolean hasSights;
 	
 	//how long the reload animation will play
@@ -54,8 +56,20 @@ public class GunConfiguration {
 	public int ammoCap;
 	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
 	public int reloadType;
+	//determines the number of shells loaded each time a single bullet is loaded in
+	public int shellsPerReload = 1;
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
+	//indicates the gun doesn't use ammo (IE energy pistol)
+	public boolean ammoless;
+	//indicates the type of ammo to use for ammoless guns
+	public Integer ammoType;
+	//indicates the NBT tag to use for the left side of the ammo display
+	public String ammoDisplayTag;
+	//indicated the value to display on the right side of the ammo display
+	public String ammoMaxValue;
+	//what to call ammo in the tooltip
+	public String ammoName;
 	
 	public String name = "";
 	public String manufacturer = "";

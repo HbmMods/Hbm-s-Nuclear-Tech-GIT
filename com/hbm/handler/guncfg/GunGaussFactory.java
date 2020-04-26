@@ -77,7 +77,6 @@ public class GunGaussFactory {
 	}
 	
 	public static BulletConfiguration getAltConfig() {
-		
 		BulletConfiguration bullet = getGaussConfig();
 		
 		bullet.vPFX = "reddust";

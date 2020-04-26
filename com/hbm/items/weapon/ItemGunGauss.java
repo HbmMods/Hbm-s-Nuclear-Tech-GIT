@@ -109,7 +109,6 @@ public class ItemGunGauss extends ItemGunBase {
 	}
 	
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		
 		super.spawnProjectile(world, player, stack, config);
 		setHasShot(stack, true);
 	}

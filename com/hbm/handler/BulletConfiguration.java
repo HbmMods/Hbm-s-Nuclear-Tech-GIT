@@ -24,6 +24,8 @@ public class BulletConfiguration {
 	public int bulletsMin;
 	//least amount of pellets created each shot
 	public int bulletsMax;
+	//the number of shots each piece of ammo gives
+	public int ammoMultiplier = 1;
 	
 	//damage bounds
 	public float dmgMin;
@@ -54,6 +56,7 @@ public class BulletConfiguration {
 	
 	//bullet effects
 	public List<PotionEffect> effects;
+	public boolean alwaysApplyEffects;
 	public int incendiary;
 	public int emp;
 	public boolean blockDamage = true;
@@ -66,6 +69,9 @@ public class BulletConfiguration {
 	public int leadChance;
 	public int caustic;
 	public boolean destroysBlocks;
+	public int maximumBlockHardness = 120;
+	public int maximumPenetratedBlocks = 1;
+	public int clearOutStrength = 0;
 	public boolean instakill;
 	public IBulletHurtBehavior bHurt;
 	public IBulletHitBehavior bHit;
@@ -102,6 +108,10 @@ public class BulletConfiguration {
 	public static final int BOLT_LACUNAE = 0;
 	public static final int BOLT_NIGHTMARE = 1;
 	public static final int BOLT_LASER = 2;
+	public static final int BOLT_B92 = 3;
+	public static final int BOLT_B93 = 4;
+	public static final int BOLT_SPARK = 5;
+	public static final int BOLT_RAINBOW = 6;
 	
 	public BulletConfiguration setToBolt(int trail) {
 		

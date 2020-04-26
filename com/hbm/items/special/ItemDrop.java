@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.effect.EntityCloudCustom;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.entity.effect.EntityVortex;
@@ -100,8 +101,9 @@ public class ItemDrop extends Item {
 
 						entityItem.worldObj.spawnEntityInWorld(entity);
 			    		
-			    		EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, MainRegistry.aSchrabRadius);
-			    		cloud.posX = entityItem.posX;
+			    		//EntityCloudFleija cloud = new EntityCloudFleija(entityItem.worldObj, MainRegistry.aSchrabRadius);
+			    		EntityCloudCustom cloud = new EntityCloudCustom(entityItem.worldObj, 255, 0, 0, MainRegistry.aSchrabRadius);
+						cloud.posX = entityItem.posX;
 			    		cloud.posY = entityItem.posY;
 			    		cloud.posZ = entityItem.posZ;
 			    		entityItem.worldObj.spawnEntityInWorld(cloud);

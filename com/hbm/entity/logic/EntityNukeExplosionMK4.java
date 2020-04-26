@@ -40,7 +40,6 @@ public class EntityNukeExplosionMK4 extends Entity {
 	
 	@Override
 	public void onUpdate() {
-		
 		if(strength == 0) {
 			this.setDead();
 			return;

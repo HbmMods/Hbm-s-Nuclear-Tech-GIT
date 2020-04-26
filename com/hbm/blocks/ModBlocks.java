@@ -752,7 +752,7 @@ public class ModBlocks {
 		test_nuke = new TestNuke(Material.iron).setBlockName("test_nuke").setCreativeTab(null).setHardness(2.5F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":test_nuke");
 		event_tester = new TestEventTester(Material.iron).setBlockName("event_tester").setCreativeTab(null).setHardness(2.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":event_tester");
 		rotation_tester = new TestRotationTester(Material.iron).setBlockName("rotation_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
-		obj_tester = new TestObjTester(Material.iron).setBlockName("obj_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
+		//obj_tester = new TestObjTester(Material.iron).setBlockName("obj_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
 		
 		test_ticker = new TestTicker(Material.iron).setBlockName("test_ticker").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ticker");
 		
@@ -1332,7 +1332,7 @@ public class ModBlocks {
 		
 		GameRegistry.registerBlock(event_tester, event_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(rotation_tester, rotation_tester.getUnlocalizedName());
-		GameRegistry.registerBlock(obj_tester, obj_tester.getUnlocalizedName());
+		//GameRegistry.registerBlock(obj_tester, obj_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(test_ticker, test_ticker.getUnlocalizedName());
 		GameRegistry.registerBlock(test_missile, test_missile.getUnlocalizedName());
 

@@ -39,6 +39,7 @@ public class RenderCloudFleija extends Render {
         GL11.glScalef(cloud.age, cloud.age, cloud.age);
         
         bindTexture(blastTexture);
+        
         blastModel.renderAll();
         GL11.glPopMatrix();
 	}

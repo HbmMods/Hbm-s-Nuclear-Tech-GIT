@@ -44,24 +44,73 @@ public class ModEventHandlerClient {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
 		if(event.type == ElementType.HOTBAR && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
-			
+			// Get gun data
 			ItemGunBase gun = ((ItemGunBase)player.getHeldItem().getItem());
 			GunConfiguration gcfg = gun.mainConfig;
-			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(player.getHeldItem())));
-			
-			Item ammo = bcfg.ammo;
-			int count = ItemGunBase.getMag(player.getHeldItem());
-			int max = gcfg.ammoCap;
-			
-			if(gcfg.reloadType == gcfg.RELOAD_NONE) {
-				ammo = ItemGunBase.getBeltType(player, player.getHeldItem());
-				count = ItemGunBase.getBeltSize(player, ammo);
-				max = -1;
+			// Create variables for the returned values
+			Item ammo = null;
+			String count = null;
+			String max = null;
+			int durability = ItemGunBase.getItemWear(player.getHeldItem()) * 50;
+			// Figure out what to use for bullet configuration
+			BulletConfiguration bcfg;
+			if (!gcfg.ammoless) {
+				bcfg = BulletConfigSyncingUtil.pullConfig(gcfg.config.get(ItemGunBase.getMagType(player.getHeldItem(), gcfg)));
+				if (gcfg.reloadType == gcfg.RELOAD_NONE) {
+					ammo = ItemGunBase.getBeltType(player, player.getHeldItem());
+				} else {
+					ammo = bcfg.ammo;
+				}
+			} else {
+				bcfg = BulletConfigSyncingUtil.pullConfig(gcfg.ammoType);
 			}
+			// Figure out what to display for "max"
+			if (gcfg.ammoMaxValue != null) {
+				max = gcfg.ammoMaxValue;
+			} else {
+				if (gcfg.reloadType == gcfg.RELOAD_NONE) {
+					// TODO: MAKE THIS DISPLAY AS INFINITY
+					max = "inf";
+				} else {
+					max = Integer.toString(gcfg.ammoCap);
+				}
+			}
+			// Next figure out what kind of value to display for the actual ammo value
+			if (gcfg.ammoDisplayTag != null) {
+				count = Integer.toString(ItemGunBase.readNBT(player.getHeldItem(), gcfg.ammoDisplayTag));
+			} else {
+				if (gcfg.reloadType == gcfg.RELOAD_NONE) {
+					if (gcfg.ammoless) {
+						count = "inf";
+					} else {
+						count = Integer.toString(ItemGunBase.getBeltSize(player, ammo));
+					}
+				} else {
+					count = Integer.toString(ItemGunBase.getMag(player.getHeldItem()));
+				}
+			}
+			// Display the actual values
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, durability);
+			/*
+			if (!gcfg.ammoless) {
+				BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gcfg.config.get(ItemGunBase.getMagType(player.getHeldItem(), gcfg)));
 			
-			int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
+				Item ammo = bcfg.ammo;
+				int count = ItemGunBase.getMag(player.getHeldItem());
+				int max = gcfg.ammoCap;
 			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
+				if(gcfg.reloadType == gcfg.RELOAD_NONE) {
+					ammo = ItemGunBase.getBeltType(player, player.getHeldItem());
+					count = ItemGunBase.getBeltSize(player, ammo);
+					max = -1;
+				}
+			
+				int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
+			
+				RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
+			} else {
+				// Maybe render something later
+			}*/
 		}
 		
 		if(event.type == ElementType.HOTBAR) {

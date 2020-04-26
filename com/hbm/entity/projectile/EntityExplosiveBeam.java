@@ -65,7 +65,7 @@ public class EntityExplosiveBeam extends Entity implements IProjectile
         super(p_i1755_1_);
         this.renderDistanceWeight = 10.0D;
         this.shootingEntity = p_i1755_2_;
-
+        
         if (p_i1755_2_ instanceof EntityPlayer)
         {
             this.canBePickedUp = 1;

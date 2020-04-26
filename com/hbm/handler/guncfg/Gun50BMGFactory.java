@@ -80,6 +80,40 @@ public class Gun50BMGFactory {
 		
 		return config;
 	}
+	
+	public static GunConfiguration getPacifistsConfig() {
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 5;
+		config.roundsPerCycle = 4;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.hasReloadAnim = false;
+		config.hasFiringAnim = false;
+		config.hasSpinup = false;
+		config.hasSpindown = false;
+		config.reloadDuration = 5;
+		config.ammoCap = 64;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.CIRCLE;
+		config.durability = 100000;
+		config.unbreakable = true;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.calShoot";
+		
+		config.name = "Pacifist's Machine Gun";
+		config.manufacturer = "United Pacifist's Inc.";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
+		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
+		
+		return config;
+	}
 
 	static float inaccuracy = 2.5F;
 	public static BulletConfiguration get50BMGConfig() {

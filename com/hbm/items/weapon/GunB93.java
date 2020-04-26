@@ -210,7 +210,7 @@ public class GunB93 extends Item {
 			stack.stackTagCompound = new NBTTagCompound();
 			return 0;
 		}
-
+		
 		return stack.stackTagCompound.getInteger("energy");
 
 	}

@@ -35,7 +35,7 @@ public class RenderRainbow extends Render {
 		boolean red = false;
 		boolean green = false;
 		boolean blue = false;
-		
+				
 		if(rocket instanceof EntityRainbow && ((EntityRainbow)rocket).getDataWatcher() != null)
 		{
 			red = ((EntityRainbow)rocket).getDataWatcher().getWatchableObjectByte(20) == 1;

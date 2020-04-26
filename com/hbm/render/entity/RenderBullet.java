@@ -3,8 +3,10 @@ package com.hbm.render.entity;
 import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelBaleflare;
@@ -18,7 +20,11 @@ import com.hbm.render.model.ModelRocket;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 public class RenderBullet extends Render {
 
@@ -29,6 +35,8 @@ public class RenderBullet extends Render {
 	private ModelMiniNuke nuke;
 	private ModelMIRV mirv;
 	private ModelBaleflare bf;
+	
+	private World currentWorld;
 
 	public RenderBullet() {
 		bullet = new ModelBullet();
@@ -56,6 +64,8 @@ public class RenderBullet extends Render {
 		int style = bullet.getDataWatcher().getWatchableObjectByte(16);
 		int trail = bullet.getDataWatcher().getWatchableObjectByte(17);
 		
+		// We need this data now because some of the rendering values are dependent on it
+		currentWorld = bullet.worldObj;
 		switch(style) {
 			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
 			case BulletConfiguration.STYLE_BOLT: renderDart(trail); break;
@@ -67,6 +77,7 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_NUKE: renderNuke(0); break;
 			case BulletConfiguration.STYLE_MIRV: renderNuke(1); break;
 			case BulletConfiguration.STYLE_BF: renderNuke(2); break;
+			//case BulletConfiguration.STYLE_EMP: renderIcon(ModItems.discharge, ":textures/items/discharge.png"); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -243,16 +254,25 @@ public class RenderBullet extends Render {
 		GL11.glPopMatrix();
 	}
 	
+	Random dartRandom = new Random();
 	private void renderDart(int style) {
-		
 		float red = 1F;
 		float green = 1F;
 		float blue = 1F;
 		
+		float radius = 0.12F;
+		float distance = 2F;
+		
+		boolean beamMode = false;
+		
 		switch(style) {
-		case BulletConfiguration.BOLT_LASER: red = 1F; green = 0F; blue = 0F; break;
-		case BulletConfiguration.BOLT_NIGHTMARE: red = 1F; green = 1F; blue = 0F; break;
-		case BulletConfiguration.BOLT_LACUNAE: red = 0.25F; green = 0F; blue = 0.75F; break;
+			case BulletConfiguration.BOLT_RAINBOW: red = dartRandom.nextFloat(); green = dartRandom.nextFloat(); blue = dartRandom.nextFloat(); beamMode = true; break;
+			case BulletConfiguration.BOLT_SPARK: red = 0.55f; green = 0.55F; blue = 0F; beamMode = true; break;
+			case BulletConfiguration.BOLT_B93: red = 1F; green = 0F; blue = 0F; beamMode = true; break;
+			case BulletConfiguration.BOLT_B92: red = 0F; green = 0F; blue = 1F; beamMode = true; break;
+			case BulletConfiguration.BOLT_LASER: red = 1F; green = 0F; blue = 0F; break;
+			case BulletConfiguration.BOLT_NIGHTMARE: red = 1F; green = 1F; blue = 0F; break;
+			case BulletConfiguration.BOLT_LACUNAE: red = 0.25F; green = 0F; blue = 0.75F; break;
 		}
 		
 		GL11.glPushMatrix();
@@ -260,9 +280,9 @@ public class RenderBullet extends Render {
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glDepthMask(false);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        GL11.glDepthMask(false);
 
         GL11.glScalef(1F/4F, 1F/8F, 1F/8F);
         GL11.glScalef(-1, 1, 1);
@@ -271,107 +291,150 @@ public class RenderBullet extends Render {
         
 		Tessellator tess = Tessellator.instance;
 		
-		//front
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(6, 0, 0);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, -1, -1);
-		tess.addVertex(3, 1, -1);
-		tess.draw();
+		if (!beamMode) {
+			//front
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(6, 0, 0);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, -1, -1);
+			tess.addVertex(3, 1, -1);
+			tess.draw();
 
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, -1, 1);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(6, 0, 0);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, 1, 1);
-		tess.draw();
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, -1, 1);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(6, 0, 0);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, 1, 1);
+			tess.draw();
 
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, -1, -1);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(6, 0, 0);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, -1, 1);
-		tess.draw();
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, -1, -1);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(6, 0, 0);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, -1, 1);
+			tess.draw();
 
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(6, 0, 0);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, 1, -1);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(3, 1, 1);
-		tess.draw();
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(6, 0, 0);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, 1, -1);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(3, 1, 1);
+			tess.draw();
 		
-		//mid
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(6, 0, 0);
-		tess.addVertex(4, -0.5, -0.5);
-		tess.addVertex(4, 0.5, -0.5);
-		tess.draw();
+			//mid
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(6, 0, 0);
+			tess.addVertex(4, -0.5, -0.5);
+			tess.addVertex(4, 0.5, -0.5);
+			tess.draw();
 
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(4, -0.5, 0.5);
-		tess.addVertex(6, 0, 0);
-		tess.addVertex(4, 0.5, 0.5);
-		tess.draw();
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(4, -0.5, 0.5);
+			tess.addVertex(6, 0, 0);
+			tess.addVertex(4, 0.5, 0.5);
+			tess.draw();
 
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(4, -0.5, -0.5);
-		tess.addVertex(6, 0, 0);
-		tess.addVertex(4, -0.5, 0.5);
-		tess.draw();
-
-		tess.startDrawing(4);
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(6, 0, 0);
-		tess.addVertex(4, 0.5, -0.5);
-		tess.addVertex(4, 0.5, 0.5);
-		tess.draw();
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(4, -0.5, -0.5);
+			tess.addVertex(6, 0, 0);
+			tess.addVertex(4, -0.5, 0.5);
+			tess.draw();
 		
-		//tail
-		tess.startDrawingQuads();
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(4, 0.5, -0.5);
-		tess.addVertex(4, 0.5, 0.5);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(0, 0.5, 0.5);
-		tess.addVertex(0, 0.5, -0.5);
-		tess.draw();
+			tess.startDrawing(4);
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(6, 0, 0);
+			tess.addVertex(4, 0.5, -0.5);
+			tess.addVertex(4, 0.5, 0.5);
+			tess.draw();
+		
+			//tail
+			tess.startDrawingQuads();
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(4, 0.5, -0.5);
+			tess.addVertex(4, 0.5, 0.5);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(0, 0.5, 0.5);
+			tess.addVertex(0, 0.5, -0.5);
+			tess.draw();
 
-		tess.startDrawingQuads();
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(4, -0.5, -0.5);
-		tess.addVertex(4, -0.5, 0.5);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(0, -0.5, 0.5);
-		tess.addVertex(0, -0.5, -0.5);
-		tess.draw();
+			tess.startDrawingQuads();
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(4, -0.5, -0.5);
+			tess.addVertex(4, -0.5, 0.5);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(0, -0.5, 0.5);
+			tess.addVertex(0, -0.5, -0.5);
+			tess.draw();
+		
+			tess.startDrawingQuads();
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(4, -0.5, 0.5);
+			tess.addVertex(4, 0.5, 0.5);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(0, 0.5, 0.5);
+			tess.addVertex(0, -0.5, 0.5);
+			tess.draw();
 
-		tess.startDrawingQuads();
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(4, -0.5, 0.5);
-		tess.addVertex(4, 0.5, 0.5);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(0, 0.5, 0.5);
-		tess.addVertex(0, -0.5, 0.5);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.setColorRGBA_F(red, green, blue, 1);
-		tess.addVertex(4, -0.5, -0.5);
-		tess.addVertex(4, 0.5, -0.5);
-		tess.setColorRGBA_F(red, green, blue, 0);
-		tess.addVertex(0, 0.5, -0.5);
-		tess.addVertex(0, -0.5, -0.5);
-		tess.draw();
+			tess.startDrawingQuads();
+			tess.setColorRGBA_F(red, green, blue, 1);
+			tess.addVertex(4, -0.5, -0.5);
+			tess.addVertex(4, 0.5, -0.5);
+			tess.setColorRGBA_F(red, green, blue, 0);
+			tess.addVertex(0, 0.5, -0.5);
+			tess.addVertex(0, -0.5, -0.5);
+			tess.draw();
+		} else {
+			for (float o = 0; o <= radius; o += radius / 8) {
+				float r = (red != 0F) ? red : (1f - (o * 8.33333F));
+				if (r < 0) {
+					r = 0;
+				}
+				float g = (green != 0F) ? green : (1f - (o * 8.33333F));
+				if (g < 0) {
+					g = 0;
+				}
+				float b = (blue != 0F) ? blue : (1f - (o * 8.33333F));
+				if (b < 0) {
+					b = 0;
+				}
+				
+				tess.startDrawingQuads();
+				tess.setColorRGBA_F(r, g, b, 1f);
+				tess.addVertex(0, 0 + o, 0 - o);
+				tess.addVertex(0, 0 + o, 0 + o);
+				tess.addVertex(0 + distance, 0 + o, 0 + o);
+				tess.addVertex(0 + distance, 0 + o, 0 - o);
+				tess.draw();
+				tess.startDrawingQuads();
+				tess.addVertex(0, 0 - o, 0 - o);
+				tess.addVertex(0, 0 + o, 0 - o);
+				tess.addVertex(0 + distance, 0 + o, 0 - o);
+				tess.addVertex(0 + distance, 0 - o, 0 - o);
+				tess.draw();
+				tess.startDrawingQuads();
+				tess.addVertex(0, 0 - o, 0 + o);
+				tess.addVertex(0, 0 - o, 0 - o);
+				tess.addVertex(0 + distance, 0 - o, 0 - o);
+				tess.addVertex(0 + distance, 0 - o, 0 + o);
+				tess.draw();
+				tess.startDrawingQuads();
+				tess.addVertex(0, 0 + o, 0 + o);
+				tess.addVertex(0, 0 - o, 0 + o);
+				tess.addVertex(0 + distance, 0 - o, 0 + o);
+				tess.addVertex(0 + distance, 0 + o, 0 + o);
+				tess.draw();
+			}
+		}
 		
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);

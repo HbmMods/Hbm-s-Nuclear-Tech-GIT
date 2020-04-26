@@ -109,29 +109,31 @@ public class RenderScreenOverlay {
 		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
 	}
 	
-	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, int count, int max, int dura) {
+	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, String count, String max, int dura) {
 		
 		GL11.glPushMatrix();
         
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		int pX = resolution.getScaledWidth() / 2 + 62 + 36;
+		int pX = resolution.getScaledWidth() / 2 + 62 + 42;
 		int pZ = resolution.getScaledHeight() - 21;
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
         gui.drawTexturedModalRect(pX, pZ + 16, 94, 0, 52, 3);
         gui.drawTexturedModalRect(pX + 1, pZ + 16, 95, 3, 50 - dura, 3);
 		
-		String cap = max == -1 ? ("∞") : ("" + max);
+		//String cap = max == -1 ? ("∞") : ("" + max);
 		
-		Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + cap, pX + 16, pZ + 6, 0xFFFFFF);
+		Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + max, pX + ((ammo != null) ? 16 : 0), pZ + 6, 0xFFFFFF);
 
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.enableGUIStandardItemLighting();
+		if (ammo != null) {
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        	RenderHelper.enableGUIStandardItemLighting();
         	itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), new ItemStack(ammo), pX, pZ);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        	RenderHelper.disableStandardItemLighting();
+        	GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		}
         
         GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(hud);

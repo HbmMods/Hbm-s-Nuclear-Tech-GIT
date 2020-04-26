@@ -8,12 +8,14 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -129,10 +131,10 @@ public class ExplosionNukeGeneric {
 		int i2 = MathHelper.floor_double(y + wat + 1.0D);
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+		List<Entity> list = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
 
 		for (int i1 = 0; i1 < list.size(); ++i1) {
-			Entity entity = (Entity) list.get(i1);
+			Entity entity = list.get(i1);
 			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
 
 			if (d4 <= 1.0D) {
@@ -163,6 +165,79 @@ public class ExplosionNukeGeneric {
 						double damage = entity.getDistance(x, y, z) / bombStartStrength * 250;
 						entity.attackEntityFrom(ModDamageSource.nuclearBlast, (float)damage);
 						entity.setFire(5);
+						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
+						entity.motionX += d5 * d8 * 0.2D;
+						entity.motionY += d6 * d8 * 0.2D;
+						entity.motionZ += d7 * d8 * 0.2D;
+					}
+				}
+			}
+		}
+
+		bombStartStrength = (int) f;
+	}
+	
+	public static void applyPotionEffects(World world, int x, int y, int z, int bombStartStrength, List<PotionEffect> effects) {
+		float f = bombStartStrength;
+		int i;
+		int j;
+		int k;
+		double d5;
+		double d6;
+		double d7;
+		double wat = bombStartStrength/** 2 */
+		;
+
+		// bombStartStrength *= 2.0F;
+		i = MathHelper.floor_double(x - wat - 1.0D);
+		j = MathHelper.floor_double(x + wat + 1.0D);
+		k = MathHelper.floor_double(y - wat - 1.0D);
+		int i2 = MathHelper.floor_double(y + wat + 1.0D);
+		int l = MathHelper.floor_double(z - wat - 1.0D);
+		int j2 = MathHelper.floor_double(z + wat + 1.0D);
+		List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
+
+		for (int i1 = 0; i1 < list.size(); ++i1) {
+			Entity entity = list.get(i1);
+			EntityLivingBase living = list.get(i1);
+			double d4 = entity.getDistance(x, y, z) / bombStartStrength;
+
+			if (d4 <= 1.0D) {
+				d5 = entity.posX - x;
+				d6 = entity.posY + entity.getEyeHeight() - y;
+				d7 = entity.posZ - z;
+				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
+				if(!Library.isObstructed(world, x, y, z, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ))
+				if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall)
+						&& !(entity instanceof EntityMIRV) && !(entity instanceof EntityMiniNuke)
+						&& !(entity instanceof EntityMiniMIRV) && !(entity instanceof EntityGrenadeASchrab)
+						&& !(entity instanceof EntityGrenadeNuclear) && !(entity instanceof EntityExplosiveBeam)
+						&& !(entity instanceof EntityBulletBase) && !(entity instanceof EntityPlayer
+								&& Library.checkArmor((EntityPlayer) entity, ModItems.euphemium_helmet,
+										ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))) {
+					d5 /= d9;
+					d6 /= d9;
+					d7 /= d9;
+					// double d10 = (double)world.getBlockDensity(vec3,
+					// entity.boundingBox);
+					// if(d10 > 0) isOccupied = true;
+					double d11 = (1.0D - d4);// * d10;
+					if (!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP
+							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() != GameType.CREATIVE)) {
+						// entity.attackEntityFrom(DamageSource.generic,
+						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
+						// bombStartStrength + 1.0D)));
+						//double damage = entity.getDistance(x, y, z) / bombStartStrength * 250;
+						//entity.attackEntityFrom(ModDamageSource.nuclearBlast, (float)damage);
+						//entity.setFire(5);
+						/*if (entity instanceof EntityLiving) {
+							for (PotionEffect effect : effects) {
+								((EntityLiving)entity).addPotionEffect(effect);
+							}
+						}*/
+						for (PotionEffect effect : effects) {
+							living.addPotionEffect(effect);
+						}
 						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
 						entity.motionX += d5 * d8 * 0.2D;
 						entity.motionY += d6 * d8 * 0.2D;

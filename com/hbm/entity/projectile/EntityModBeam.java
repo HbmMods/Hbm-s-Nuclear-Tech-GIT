@@ -275,8 +275,9 @@ public class EntityModBeam extends Entity implements IProjectile
             {
                 Entity entity1 = (Entity)list.get(i);
 
-                if (entity1.canBeCollidedWith() && (entity1 != this.shootingEntity || this.ticksInAir >= 5))
+                if (entity1.canBeCollidedWith() && this.shootingEntity != null && entity1 != this.shootingEntity)
                 {
+                	System.out.println(entity1);
                     f1 = 0.3F;
                     AxisAlignedBB axisalignedbb1 = entity1.boundingBox.expand(f1, f1, f1);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(vec31, vec3);
@@ -327,7 +328,6 @@ public class EntityModBeam extends Entity implements IProjectile
                     } else {
                     	explode();
                     }
-                    
                 	this.setDead();
                 }
                 else
