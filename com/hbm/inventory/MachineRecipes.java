@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.items.tool.ItemAssemblyTemplate;
@@ -1764,82 +1765,18 @@ public class MachineRecipes {
 		return fuels;
 	}
 
-	public class ShredderRecipe {
+	//keep this
+	//like in a museum or something
+	//this is a testament of my incompetence
+	//look at it
+	//look at how horrifying it is
+	//children, never do this
+	/*public class ShredderRecipe {
 
 		public ItemStack input;
 		public ItemStack output;
 
 		public void registerEverythingImSrs() {
-			
-			//Makes the OreDict easily accessible. Neat.
-			
-			//You see that guy up there? He's a liar. "easily accessible" may be true, but the detection is bullshit.
-
-			/*System.out.println("Loading all items and blocks, please wait...");
-			System.out.println("This process normally takes very long due to the incompetence of other modders I have to compensate for. Sorry for the inconvenience.");
-
-			for (Object item : GameData.getItemRegistry()) {
-
-				List<String> list = new ArrayList<String>();
-				int[] array;
-
-				if (item instanceof Item) {
-					
-					int x = 1;
-					//if(((Item)item).getHasSubtypes())
-					//	x = 126;
-
-					for(int j = 0; j < x; j++)
-					{
-						ItemStack stack = new ItemStack((Item) item, 1, j);
-						array = OreDictionary.getOreIDs(stack);
-
-						for (int i = 0; i < array.length; i++) {
-							// if
-							// (!OreDictionary.getOreName(array[i]).equals("Unknown"))
-							// {
-							list.add(OreDictionary.getOreName(array[i]));
-							// }
-						}
-						// if(list.size() > 0)
-						theWholeThing.add(new DictCouple(stack, list));
-					}
-				}
-			}
-
-			for (Object block : GameData.getBlockRegistry()) {
-
-				List<String> list = new ArrayList<String>();
-				int[] array;
-
-				if (block instanceof Block) {
-					Item item = Item.getItemFromBlock((Block)block);
-					
-					int x = 1;
-					//if(item != null && item.getHasSubtypes())
-					//	x = 16;
-					
-					for(int j = 0; j < x; j++)
-					{
-						ItemStack stack = new ItemStack((Block) block, 1, j);
-						array = OreDictionary.getOreIDs(stack);
-
-						for (int i = 0; i < array.length; i++) {
-							// if
-							// (!OreDictionary.getOreName(array[i]).equals("Unknown"))
-							// {
-							list.add(OreDictionary.getOreName(array[i]));
-							// }
-						}
-
-						// if(list.size() > 0)
-						if(!doesExist(stack))
-							theWholeThing.add(new DictCouple(stack, list));
-					}
-				}
-			}
-			
-			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");*/
 			
 			String[] names = OreDictionary.getOreNames();
 			List<ItemStack> stacks = new ArrayList<ItemStack>();
@@ -1899,13 +1836,6 @@ public class MachineRecipes {
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
-					/*} else if (s.length() > 3 && s.substring(0, 3).equals("rod")) {
-						ItemStack stack = canFindDustByName(s.substring(3));
-						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2, stack.getItemDamage()));
-						} else {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}*/
 					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
 						ItemStack stack = canFindDustByName(s.substring(5));
 						if (stack != null) {
@@ -2018,28 +1948,6 @@ public class MachineRecipes {
 		}
 		
 		public void PrintRecipes() {
-			/*for(int i = 0; i < recipes.size(); i++) {
-				System.out.println("Recipe #" + i + ", " + recipes.get(i).input + " - " + recipes.get(i).output);
-			}*/
-			/*for(int i = 0; i < theWholeThing.size(); i++) {
-			System.out.println(theWholeThing.get(i).item);
-			}*/
-			/*for(int i = 0; i < theWholeThing.size(); i++) {
-				//for(int j = 0; j < theWholeThing.get(i).list.size(); j++)
-				{
-					//System.out.println(theWholeThing.get(i).item + " | " + getShredderResult(theWholeThing.get(i).item));
-				}
-				
-				
-			}*/
-
-			/*for (int j = 0; j < recipes.size(); j++) {
-				if (recipes.get(j) != null && recipes.get(j).input != null && recipes.get(j).output != null &&
-						recipes.get(j).input.getItem() != null && recipes.get(j).output.getItem() != null)
-					System.out.println(recipes.get(j).input + " | " + recipes.get(j).output);
-				else
-					System.out.println(recipes.get(j));
-			}*/
 
 			MainRegistry.logger.debug("TWT: " + theWholeThing.size() + ", REC: " + recipesShredder.size());
 		}
@@ -2090,6 +1998,118 @@ public class MachineRecipes {
 		}
 		
 		return recipes;
+	}*/
+	
+	//new and improved
+	public static HashMap<StackWrapper, ItemStack> shredderRecipes = new HashMap();
+	public static HashMap<Object, Object> neiShredderRecipes;
+	
+	public static void registerShredder() {
+		
+		String[] names = OreDictionary.getOreNames();
+		
+		for(int i = 0; i < names.length; i++) {
+			
+			String name = names[i];
+			
+			//if the dict contains invalid names, skip
+			if(name == null || name.isEmpty())
+				continue;
+			
+			List<ItemStack> matches = OreDictionary.getOres(name);
+			
+			//if the name isn't assigned to an ore, also skip
+			if(matches == null || matches.isEmpty())
+				continue;
+
+			if(name.length() > 5 && name.substring(0, 5).equals("ingot")) {
+				ItemStack dust = getDustByName(name.substring(5));
+				
+				if(dust != null) {
+
+					for(ItemStack stack : matches) {
+						System.out.println("INGOT Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 3 && name.substring(0, 3).equals("ore")) {
+				ItemStack dust = getDustByName(name.substring(3));
+				
+				if(dust != null) {
+					
+					dust.stackSize = 2;
+
+					for(ItemStack stack : matches) {
+						System.out.println("ORE Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 5 && name.substring(0, 5).equals("block")) {
+				ItemStack dust = getDustByName(name.substring(5));
+				
+				if(dust != null) {
+					
+					dust.stackSize = 9;
+
+					for(ItemStack stack : matches) {
+						System.out.println("BLOCK Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 3 && name.substring(0, 3).equals("gem")) {
+				ItemStack dust = getDustByName(name.substring(3));
+				
+				if(dust != null) {
+
+					for(ItemStack stack : matches) {
+						System.out.println("GEM Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
+
+				for(ItemStack stack : matches) {
+					System.out.println("DUST Added " + stack.getDisplayName() + " to dust");
+					shredderRecipes.put(new StackWrapper(stack), new ItemStack(ModItems.dust));
+				}
+			}
+		}
+	}
+	
+	public static ItemStack getDustByName(String name) {
+		
+		List<ItemStack> matches = OreDictionary.getOres("dust" + name);
+		
+		if(matches != null && !matches.isEmpty())
+			return matches.get(0).copy();
+		
+		return new ItemStack(ModItems.scrap);
+	}
+	
+	public static void overridePreSetRecipe(ItemStack in, ItemStack out) {
+		
+		shredderRecipes.put(new StackWrapper(in), out);
+	}
+	
+	public Map<Object, Object> getShredderRecipes() {
+		
+		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
+		if(neiShredderRecipes == null)
+			neiShredderRecipes = new HashMap(shredderRecipes);
+		
+		return neiShredderRecipes;
+	}
+	
+	public static ItemStack getShredderResult(ItemStack stack) {
+		
+		ItemStack sta = shredderRecipes.get(new StackWrapper(stack));
+		
+		if(sta != null)
+			System.out.println(stack.getDisplayName() + " resulted " + sta.getDisplayName());
+		else
+			System.out.println(stack.getDisplayName() + " resulted null");
+		
+		return sta == null ? new ItemStack(ModItems.scrap) : sta;
 	}
 
 	public Map<Object[], Object> getCMBRecipes() {
@@ -2184,6 +2204,7 @@ public class MachineRecipes {
 		return false;
 	}
 	
+	@Spaghetti("jesus christ")
 	public static List<ItemStack> getRecipeFromTempate(ItemStack stack) {
 		
 		if(stack == null || !(stack.getItem() instanceof ItemAssemblyTemplate))
@@ -5678,5 +5699,58 @@ public class MachineRecipes {
 		}
 		
 		return map;
+	}
+	
+	public static class StackWrapper {
+
+		public Item item;
+		public int damage;
+		
+		public StackWrapper(ItemStack item) {
+			this.item = item.getItem();
+			this.damage = item.getItemDamage();
+		}
+		
+		public StackWrapper(Item item) {
+			this.item = item;
+			this.damage = 0;
+		}
+		
+		public StackWrapper(Item item, int meta) {
+			this.item = item;
+			this.damage = meta;
+		}
+		
+		public ItemStack getStack() {
+			return new ItemStack(item, 1, damage);
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + damage;
+			result = prime * result + ((item == null) ? 0 : item.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			StackWrapper other = (StackWrapper) obj;
+			if (damage != other.damage)
+				return false;
+			if (item == null) {
+				if (other.item != null)
+					return false;
+			} else if (!item.equals(other.item))
+				return false;
+			return true;
+		}
 	}
 }

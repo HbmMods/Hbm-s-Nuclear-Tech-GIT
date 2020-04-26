@@ -50,7 +50,6 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.*;
-import com.hbm.inventory.MachineRecipes.ShredderRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
@@ -1290,64 +1289,56 @@ public class MainRegistry
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent)
 	{
-		ShredderRecipe recipes = new MachineRecipes().new ShredderRecipe();
-		
-		recipes.registerEverythingImSrs();
-		
-		recipes.addRecipes();
-		
-		recipes.removeDuplicates();
+		MachineRecipes.registerShredder();
 
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 2), new ItemStack(ModItems.powder_quartz, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_stairs), new ItemStack(ModItems.powder_quartz, 3));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
-		recipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.packed_ice), new ItemStack(ModItems.powder_ice, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stonebrick), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.sand), new ItemStack(ModItems.dust, 2));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_block), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_stairs), new ItemStack(Items.clay_ball, 3));
-		recipes.overridePreSetRecipe(new ItemStack(Items.flower_pot), new ItemStack(Items.clay_ball, 3));
-		recipes.overridePreSetRecipe(new ItemStack(Items.brick), new ItemStack(Items.clay_ball, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone), new ItemStack(Blocks.sand, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone_stairs), new ItemStack(Blocks.sand, 6));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.hardened_clay), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_neodymium), new ItemStack(ModItems.powder_neodymium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cobalt), new ItemStack(ModItems.powder_cobalt_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_niobium), new ItemStack(ModItems.powder_niobium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
-		recipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_burnt), new ItemStack(ModItems.powder_coal, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_desh), new ItemStack(ModItems.powder_desh, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 2), new ItemStack(ModItems.powder_quartz, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_stairs), new ItemStack(ModItems.powder_quartz, 3));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.packed_ice), new ItemStack(ModItems.powder_ice, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stonebrick), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.sand), new ItemStack(ModItems.dust, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.brick_block), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.brick_stairs), new ItemStack(Items.clay_ball, 3));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.flower_pot), new ItemStack(Items.clay_ball, 3));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.brick), new ItemStack(Items.clay_ball, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone), new ItemStack(Blocks.sand, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone_stairs), new ItemStack(Blocks.sand, 6));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.hardened_clay), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_neodymium), new ItemStack(ModItems.powder_neodymium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cobalt), new ItemStack(ModItems.powder_cobalt_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_niobium), new ItemStack(ModItems.powder_niobium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_burnt), new ItemStack(ModItems.powder_coal, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_desh), new ItemStack(ModItems.powder_desh, 2));
 
 		for(int i = 0; i < 16; i++) {
-			recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
-			recipes.overridePreSetRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
+			MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
+			MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
 		}
-		
-		recipes.PrintRecipes();
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), FluidType.WATER, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), FluidType.LAVA, 1000));
