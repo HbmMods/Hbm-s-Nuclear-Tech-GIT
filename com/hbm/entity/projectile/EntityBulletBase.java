@@ -149,9 +149,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 	
 	@Override
 	public void onUpdate() {
-		
 		super.onUpdate();
-		
 		if(config == null)
 			config = BulletConfigSyncingUtil.pullConfig(dataWatcher.getWatchableObjectInt(18));
 		

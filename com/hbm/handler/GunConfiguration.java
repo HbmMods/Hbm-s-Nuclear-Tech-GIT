@@ -71,6 +71,13 @@ public class GunConfiguration {
 	//what to call ammo in the tooltip
 	public String ammoName;
 	
+	//how much power the gun can store at max
+	public long maxCharge;
+	//what the charge rate for the gun is
+	public long chargeRate;
+	//how much power is used per shot
+	public long shotCharge;
+	
 	public String name = "";
 	public String manufacturer = "";
 	public List<String> comment = new ArrayList();
@@ -91,7 +98,7 @@ public class GunConfiguration {
 	public static final int RELOAD_NONE = 0;
 	public static final int RELOAD_FULL = 1;
 	public static final int RELOAD_SINGLE = 2;
-
+	
 	public static final String RSOUND_REVOLVER = "hbm:weapon.revolverReload";
 	public static final String RSOUND_RIFLE = "";
 	public static final String RSOUND_MAG = "hbm:weapon.magReload";
@@ -104,5 +111,4 @@ public class GunConfiguration {
 		this.firingSound = "hbm:weapon.silencerShoot";
 		return this;
 	}
-
 }

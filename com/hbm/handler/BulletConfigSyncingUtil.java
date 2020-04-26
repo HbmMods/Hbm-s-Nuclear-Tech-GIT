@@ -138,6 +138,10 @@ public class BulletConfigSyncingUtil {
 	public static int ZOMG_SUPERUSER = i++;
 	
 	public static int BRIMSTONE = i++;
+	
+	public static int DEFABRICATOR = i++;
+	
+	public static int HP = i++;
 		
 	public static void loadConfigsForSync() {
 		
@@ -249,6 +253,10 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(GunEnergyPistolFactory.getModConfig(), ENERGYPISTOL_B93));
 		
 		configSet.add(new ConfigKeyPair(GunSparkFactory.getElectroMagnetConfig(), SPARK_PLUG));
+		
+		configSet.add(new ConfigKeyPair(GunSparkFactory.getEnergyCellConfig(), DEFABRICATOR));
+		
+		configSet.add(new ConfigKeyPair(GunSparkFactory.getHPCartridgeConfig(), HP));
 		
 		configSet.add(new ConfigKeyPair(GunAnnihilationFactory.getZOMGShotConfig(), ZOMG_CANNON));
 		configSet.add(new ConfigKeyPair(GunAnnihilationFactory.getAnnihilationLaserConfig(), ZOMG_SUPERUSER));

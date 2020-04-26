@@ -177,7 +177,7 @@ public class ExplosionNukeGeneric {
 		bombStartStrength = (int) f;
 	}
 	
-	public static void applyPotionEffects(World world, int x, int y, int z, int bombStartStrength, List<PotionEffect> effects) {
+	public static void applyPotionEffects(World world, int x, int y, int z, int bombStartStrength, List<PotionEffect> effects, boolean affectedByWalls) {
 		float f = bombStartStrength;
 		int i;
 		int j;
@@ -185,8 +185,7 @@ public class ExplosionNukeGeneric {
 		double d5;
 		double d6;
 		double d7;
-		double wat = bombStartStrength/** 2 */
-		;
+		double wat = bombStartStrength/** 2 */;
 
 		// bombStartStrength *= 2.0F;
 		i = MathHelper.floor_double(x - wat - 1.0D);
@@ -196,7 +195,7 @@ public class ExplosionNukeGeneric {
 		int l = MathHelper.floor_double(z - wat - 1.0D);
 		int j2 = MathHelper.floor_double(z + wat + 1.0D);
 		List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-
+		
 		for (int i1 = 0; i1 < list.size(); ++i1) {
 			Entity entity = list.get(i1);
 			EntityLivingBase living = list.get(i1);
@@ -207,7 +206,9 @@ public class ExplosionNukeGeneric {
 				d6 = entity.posY + entity.getEyeHeight() - y;
 				d7 = entity.posZ - z;
 				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-				if(!Library.isObstructed(world, x, y, z, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ))
+				System.out.println(d9 < wat);
+				System.out.println(!Library.isObstructed(world, x, y, z, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ));
+				if(!affectedByWalls || !Library.isObstructed(world, x, y, z, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ))
 				if (d9 < wat && !(entity instanceof EntityOcelot) && !(entity instanceof EntityNukeCloudSmall)
 						&& !(entity instanceof EntityMIRV) && !(entity instanceof EntityMiniNuke)
 						&& !(entity instanceof EntityMiniMIRV) && !(entity instanceof EntityGrenadeASchrab)
@@ -224,24 +225,13 @@ public class ExplosionNukeGeneric {
 					double d11 = (1.0D - d4);// * d10;
 					if (!(entity instanceof EntityPlayerMP) || (entity instanceof EntityPlayerMP
 							&& ((EntityPlayerMP) entity).theItemInWorldManager.getGameType() != GameType.CREATIVE)) {
-						// entity.attackEntityFrom(DamageSource.generic,
-						// ((int)((d11 * d11 + d11) / 2.0D * 8.0D *
-						// bombStartStrength + 1.0D)));
-						//double damage = entity.getDistance(x, y, z) / bombStartStrength * 250;
-						//entity.attackEntityFrom(ModDamageSource.nuclearBlast, (float)damage);
-						//entity.setFire(5);
-						/*if (entity instanceof EntityLiving) {
-							for (PotionEffect effect : effects) {
-								((EntityLiving)entity).addPotionEffect(effect);
-							}
-						}*/
 						for (PotionEffect effect : effects) {
 							living.addPotionEffect(effect);
 						}
-						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-						entity.motionX += d5 * d8 * 0.2D;
-						entity.motionY += d6 * d8 * 0.2D;
-						entity.motionZ += d7 * d8 * 0.2D;
+						//double d8 = EnchantmentProtection.func_92092_a(entity, d11);
+						//entity.motionX += d5 * d8 * 0.2D;
+						//entity.motionY += d6 * d8 * 0.2D;
+						//entity.motionZ += d7 * d8 * 0.2D;
 					}
 				}
 			}

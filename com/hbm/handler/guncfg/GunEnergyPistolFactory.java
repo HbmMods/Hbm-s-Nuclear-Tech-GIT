@@ -28,6 +28,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.potion.PotionEffect;
 
 
@@ -39,7 +40,7 @@ public class GunEnergyPistolFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		// TODO: ADD THAT
+		// TODO: ADD ANIMATIONS
 		config.hasReloadAnim = false;
 		config.hasFiringAnim = false;
 		config.hasSpinup = false;
@@ -51,15 +52,12 @@ public class GunEnergyPistolFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.KRUCK;
 		config.firingSound = "hbm:weapon.sparkShoot";
-		// TODO: CHANGE TO CORRECT SOUND
-		config.reloadSound = GunConfiguration.RSOUND_FATMAN;
-		config.reloadSoundEnd = false;
 		
 		config.name = "Generic Energy Pistol";
 		config.manufacturer = "NXT Technologies";
 		
 		config.ammoless = true;
-		config.durability = 100000;
+		config.unbreakable = true;
 		
 		config.ammoDisplayTag = "energypistol_charge";
 		config.ammoMaxValue = "10";
@@ -208,13 +206,27 @@ public class GunEnergyPistolFactory {
 					exp.posX = x;
 					exp.posY = y;
 					exp.posZ = z;
-					exp.destructionRange = 50;
+					if (bullet.worldObj.getBlock(x + 1, y, z) == Blocks.air) {
+						exp.posX++;
+					} else if (bullet.worldObj.getBlock(x - 1, y, z) == Blocks.air) {
+						exp.posX--;
+					} else if (bullet.worldObj.getBlock(x, y + 1, z) == Blocks.air) {
+						exp.posY++;
+					} else if (bullet.worldObj.getBlock(x, y - 1, z) == Blocks.air) {
+						exp.posY--;
+					} else if (bullet.worldObj.getBlock(x, y, z + 1) == Blocks.air) {
+						exp.posZ++;
+					} else if (bullet.worldObj.getBlock(x, y, z - 1) == Blocks.air) {
+						exp.posZ--;
+					}
+					exp.destructionRange = 100;
 					exp.speed = 50;
 					exp.coefficient = 1.0F;
 					exp.waste = false;
 					exp.destructive = false;
+					exp.affectedByWalls = false;
 					exp.effects = new ArrayList<PotionEffect>();
-					exp.effects.add(new PotionEffect(HbmPotion.bang.id, 60, 0));
+					exp.effects.add(new PotionEffect(HbmPotion.bang.id, 200, 0));
 										
 					bullet.worldObj.spawnEntityInWorld(exp);
 					EntityCloudCustom cloud = new EntityCloudCustom(bullet.worldObj, 128, 0, 0, 100);

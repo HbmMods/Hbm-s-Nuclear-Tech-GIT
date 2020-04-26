@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;

@@ -35,6 +35,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 	public boolean did2 = false;
 	public boolean waste = true;
 	public boolean destructive = true;
+	public boolean affectedByWalls = true;
 	//Extended Type
 	public int extType = 0;
 	// Effects applied
@@ -58,6 +59,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 			this.setDead();
 		
 		destructive = nbt.getBoolean("destructive");
+		affectedByWalls = nbt.getBoolean("affectedByWalls");
 		if (this.destructive) { 
 			if(this.waste)
 			{
@@ -98,6 +100,7 @@ public class EntityNukeExplosionMK3 extends Entity {
 		nbt.setLong("milliTime", System.currentTimeMillis());
 		
 		nbt.setBoolean("destructive", destructive);
+		nbt.setBoolean("affectedByWalls", affectedByWalls);
     	
 		if(exp != null)
 			exp.saveToNbt(nbt, "exp_");
@@ -147,23 +150,29 @@ public class EntityNukeExplosionMK3 extends Entity {
         boolean flag = false;
         boolean flag3 = false;
         
-        for(int i = 0; i < this.speed; i++)
-        {
-        	if(waste) {
-        		flag = exp.update();
-        		wst.update();
-        		flag3 = vap.update();
+        if (this.destructive) { 
+        	for(int i = 0; i < this.speed; i++)
+        	{
+        		if(waste) {
+        			flag = exp.update();
+        			wst.update();
+        			flag3 = vap.update();
         		
-        		if(flag3) {
-        			this.setDead();
+        			if(flag3) {
+        				this.setDead();
+        			}
+        		} else {
+        			if(extType == 0)
+        				if(expl.update())
+        					this.setDead();
+        			if(extType == 1)
+        				if(sol.update())
+        					this.setDead();
         		}
-        	} else {
-        		if(extType == 0)
-        			if(expl.update())
-        				this.setDead();
-        		if(extType == 1)
-        			if(sol.update())
-        				this.setDead();
+        	}
+        } else {
+        	if (this.age > this.destructionRange) {
+        		this.setDead();
         	}
         }
         	
@@ -174,7 +183,7 @@ public class EntityNukeExplosionMK3 extends Entity {
         		ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
         	}
         	if (effects != null && effects.size() != 0) {
-        		ExplosionNukeGeneric.applyPotionEffects(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2, effects);
+        		ExplosionNukeGeneric.applyPotionEffects(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2, effects, affectedByWalls);
         	}
         } else {
 			if (!did2 && waste) {

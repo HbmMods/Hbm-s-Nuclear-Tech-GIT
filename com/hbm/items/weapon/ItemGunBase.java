@@ -10,6 +10,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -146,10 +147,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			setDelay(stack, getDelay(stack) - 1);
 				
 		if(MainRegistry.enableGuns && mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
-			fire(stack, world, player);
+			int totalShots = fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			//setMag(stack, getMag(stack) - 1);
-			useUpAmmo(player, stack);
+			useUpAmmo(player, stack, totalShots);
 		}
 		
 		if(getIsReloading(stack) && isCurrentItem) {
@@ -160,15 +161,16 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//whether or not the gun can shoot in its current state
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		if(main && getDelay(stack) == 0 && !getIsReloading(stack) && (mainConfig.unbreakable || getItemWear(stack) < mainConfig.durability)) {
-			
-			if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
-				if (!mainConfig.ammoless) {
-					return getBeltSize(player, getBeltType(player, stack)) > 0 && canShoot(stack, world, player, main);
+			if (isPowered() || (!isPowered() && getPower(stack) >= mainConfig.shotCharge)) {
+				if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+					if (!mainConfig.ammoless) {
+						return getBeltSize(stack, player, getBeltCfg(player, stack)) > 0 && canShoot(stack, world, player, main);
+					} else {
+						return canShoot(stack, world, player, main);
+					}
 				} else {
-					return canShoot(stack, world, player, main);
+					return getMag(stack) > 0 && canShoot(stack, world, player, main);
 				}
-			} else {
-				return getMag(stack) > 0 && canShoot(stack, world, player, main);
 			}
 		}
 		
@@ -187,35 +189,54 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	
 	//called every time the gun shoots successfully, calls spawnProjectile(), sets item wear
-	protected void fire(ItemStack stack, World world, EntityPlayer player) {
-
-		BulletConfiguration config = null;
+	protected int fire(ItemStack stack, World world, EntityPlayer player) {
+		BulletConfiguration bcfg = null;
 		
+		// Make sure not to use up too much ammo
+		int totalShots = mainConfig.roundsPerCycle;
 		if (!mainConfig.ammoless) { 
 			if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
-				config = getBeltCfg(player, stack);
+				bcfg = getBeltCfg(player, stack);
+				if (getBeltSize(stack, player, bcfg) < totalShots) {
+					totalShots = getBeltSize(stack, player, bcfg);
+				}
 			} else {
-				config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack, mainConfig)));
+				bcfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack, mainConfig)));
+				if (getMag(stack) < totalShots) {
+					totalShots = getMag(stack);
+				}
 			}
 		} else {
-			config = BulletConfigSyncingUtil.pullConfig(getMagType(stack, mainConfig));
-		}
-		
-		int bullets = config.bulletsMin;
-		
-		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
-			if(config.bulletsMax > config.bulletsMin)
-				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
-			
-			for(int i = 0; i < bullets; i++) {
-				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
-			}
-			
-			if (!mainConfig.unbreakable) { 
-				setItemWear(stack, getItemWear(stack) + config.wear);
+			bcfg = BulletConfigSyncingUtil.pullConfig(getMagType(stack, mainConfig));
+			if (mainConfig.reloadType != mainConfig.RELOAD_NONE && getMag(stack) < totalShots) {
+				totalShots = getMag(stack);
 			}
 		}
-		world.playSoundAtEntity(player, firingSound, 1.0F, mainConfig.firingPitch);
+		
+		if (isPowered()) {
+			int maximumShotCount = (int)Math.floor(getPower(stack) / mainConfig.shotCharge);
+			if (maximumShotCount < totalShots) {
+				totalShots = maximumShotCount;
+			}
+		}
+		
+		if (totalShots > 0) {
+			int bullets = bcfg.bulletsMin;
+			for(int k = 0; k < totalShots; k++) {
+				if(bcfg.bulletsMax > bcfg.bulletsMin)
+					bullets = bcfg.bulletsMin + world.rand.nextInt(bcfg.bulletsMax - bcfg.bulletsMin);
+				
+				for(int i = 0; i < bullets; i++) {
+					spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(bcfg));
+				}
+			
+				if (!mainConfig.unbreakable) { 
+					setItemWear(stack, getItemWear(stack) + bcfg.wear);
+				}
+			}
+			world.playSoundAtEntity(player, firingSound, 1.0F, mainConfig.firingPitch);
+		}
+		return totalShots;
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
@@ -229,16 +250,18 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	//spawns the actual projectile, can be overridden to change projectile entity
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		EntityBulletBase bullet = new EntityBulletBase(world, config, player);
+		System.out.println("Spawned bullet: " + bullet);
 		world.spawnEntityInWorld(bullet);
 	}
 	
 	//called on click (server side, called by mouse packet) for semi-automatics and specific events
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
-			fire(stack, world, player);
+			int totalShots = fire(stack, world, player);
+			System.out.println(totalShots);
 			setDelay(stack, mainConfig.rateOfFire);
 			//setMag(stack, getMag(stack) - 1);
-			useUpAmmo(player, stack);
+			useUpAmmo(player, stack, totalShots);
 		}
 		
 		if(!main && canShoot(stack, world, player, main)) {
@@ -511,7 +534,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			}
 		} else {
 			if (getMagType(stack, mainConfig) == 0) {
-				System.out.println("Ammo type set");
 				setMagType(stack, mainConfig.ammoType);
 			}
 		}
@@ -566,6 +588,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		if (ammoType != null) {
 			list.add("Ammo type: " + ammoType);
 		}
+		// Display power data
+		if (isPowered()) {
+			list.add("Energy stored: " + Library.getShortNumber(getPower(stack) * 100) + " / " + Library.getShortNumber(getMaxCharge() * 100) + "HE");
+		}
 		/*if (!mainConfig.ammoless) {
 			Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack, mainConfig))).ammo;
 		
@@ -609,14 +635,22 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			list.add("Reload Cycle: " + getReloadCycle(stack));
 			list.add("RoF Cooldown: " + getDelay(stack));
 			list.add("Uses ammo: " + !mainConfig.ammoless);
+			if (isPowered()) {
+				list.add("Charge rate: " + getChargeRate());
+			}
 		}
+	}
+	
+	//returns the number of rounds an ItemStack provides
+	public static int getStackAmmoCount(ItemStack stack, BulletConfiguration bcfg) {
+		return stack.stackSize * bcfg.ammoMultiplier;
 	}
 	
 	//returns ammo item of belt-weapons
 	public static Item getBeltType(EntityPlayer player, ItemStack stack) {
 		ItemGunBase gun = (ItemGunBase)stack.getItem();
 		Item ammo = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(0)).ammo;
-
+		
 		for(Integer config : gun.mainConfig.config) {
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
@@ -647,33 +681,39 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 
 	//returns ammo capacity of belt-weapons for current ammo
-	public static int getBeltSize(EntityPlayer player, Item ammo) {
-		
+	public static int getBeltSize(ItemStack stack, EntityPlayer player, BulletConfiguration bcfg) {
 		int amount = 0;
 		
-		for(ItemStack stack : player.inventory.mainInventory) {
-			if(stack != null && stack.getItem() == ammo)
-				amount += stack.stackSize;
+		for(ItemStack inventoryStack : player.inventory.mainInventory) {
+			if(inventoryStack != null && inventoryStack.getItem() == bcfg.ammo) {
+				amount += getStackAmmoCount(inventoryStack, bcfg);
+			}
 		}
 		
-		return amount;
+		return amount - getAmmoShots(stack);
 	}
 	
 	//reduces ammo count for mag and belt-based weapons, should be called AFTER firing
-	public void useUpAmmo(EntityPlayer player, ItemStack stack) {
-		
-		if(mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
+	public void useUpAmmo(EntityPlayer player, ItemStack stack, int totalShots) {
+		if((mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0))
 			return;
-
-		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
-			if(mainConfig.reloadType != mainConfig.RELOAD_NONE) {
-				setMag(stack, getMag(stack) - 1);
-			} else {
-				if (!mainConfig.ammoless) {
-					player.inventory.consumeInventoryItem(getBeltType(player, stack));
+		
+		if (totalShots > 0) {
+			for(int k = 0; k < totalShots; k++) {
+				if(mainConfig.reloadType != mainConfig.RELOAD_NONE) {
+					setMag(stack, getMag(stack) - 1);
 				} else {
-					// Literally ammoless
-					return;
+					if (!mainConfig.ammoless) { 
+						setAmmoShots(stack, getAmmoShots(stack) + 1);
+						BulletConfiguration bcfg = getBeltCfg(player, stack);
+						if (getAmmoShots(stack) >= bcfg.ammoMultiplier) {
+							setAmmoShots(stack, 0);
+							player.inventory.consumeInventoryItem(getBeltType(player, stack));
+						}
+					}
+				}
+				if (isPowered()) {
+					setPower(stack, getPower(stack) - mainConfig.shotCharge);
 				}
 			}
 		}
@@ -730,6 +770,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		return readNBT(stack, "dlay");
 	}
 	
+	// Shots before ammo expended ///
+	public static void setAmmoShots(ItemStack stack, int i) {
+		writeNBT(stack, "expndShots", i);
+	}
+	
+	public static int getAmmoShots(ItemStack stack) {
+		return readNBT(stack, "expndShots");
+	}
+	
 	/// Gun wear ///
 	public static void setItemWear(ItemStack stack, int i) {
 		writeNBT(stack, "wear", i);
@@ -773,6 +822,40 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	public static int getMagType(ItemStack stack, GunConfiguration config) {
 		return readNBT(stack, "magazineType");
+	}
+	
+	// gun electricity ///
+	public long getChargeRate() {
+		return mainConfig.chargeRate;
+	}
+	
+	public long getMaxCharge() {
+		return mainConfig.maxCharge;
+	}
+	
+	public boolean isPowered() {
+		return mainConfig.chargeRate != 0 && mainConfig.maxCharge != 0;
+	}
+	
+	public void chargeGun(ItemStack stack, long i) {
+		if (!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
+	}
+	
+	public static void setPower(ItemStack stack, long i) {
+		if (!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		stack.stackTagCompound.setLong("charge", i);
+	}
+	
+	public static long getPower(ItemStack stack) {
+		if (!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		return stack.stackTagCompound.getLong("charge");
 	}
 	
 	/// NBT utility ///

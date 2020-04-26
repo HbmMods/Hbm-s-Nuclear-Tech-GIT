@@ -22,6 +22,10 @@ public class GunAnnihilationFactory {
 		config.firingDuration = 1;
 		config.unbreakable = true;
 		
+		config.maxCharge = 1000000000L;
+		config.chargeRate = 100000000L;
+		config.shotCharge = 10000000L;
+		
 		config.name = "ZOMG Cannon";
 		config.manufacturer = "NXT Technologies";
 		
@@ -42,7 +46,7 @@ public class GunAnnihilationFactory {
 		config.firingDuration = 1;
 		config.unbreakable = true;
 		
-		config.name = "B.R.I.M.S.T.O.N.E";
+		config.name = "BRIMSTONE";
 		config.manufacturer = "NXT Technologies?";
 		
 		config.ammoType = BulletConfigSyncingUtil.BRIMSTONE;

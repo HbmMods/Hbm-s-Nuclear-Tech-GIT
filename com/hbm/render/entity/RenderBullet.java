@@ -66,6 +66,7 @@ public class RenderBullet extends Render {
 		
 		// We need this data now because some of the rendering values are dependent on it
 		currentWorld = bullet.worldObj;
+		System.out.println("Drawing bullet");
 		switch(style) {
 			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
 			case BulletConfiguration.STYLE_BOLT: renderDart(trail); break;

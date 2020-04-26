@@ -83,7 +83,7 @@ public class ModEventHandlerClient {
 					if (gcfg.ammoless) {
 						count = "inf";
 					} else {
-						count = Integer.toString(ItemGunBase.getBeltSize(player, ammo));
+						count = Integer.toString(ItemGunBase.getBeltSize(player.getHeldItem(), player, bcfg));
 					}
 				} else {
 					count = Integer.toString(ItemGunBase.getMag(player.getHeldItem()));

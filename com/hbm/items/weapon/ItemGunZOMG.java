@@ -73,6 +73,7 @@ public class ItemGunZOMG extends ItemGunBase {
 	
 	@Override
 	protected void altFire(ItemStack stack, World world, EntityPlayer player) {
+		System.out.println("Updating weaponry stuff");
 		updateValidation(stack, player);
 	}
 	

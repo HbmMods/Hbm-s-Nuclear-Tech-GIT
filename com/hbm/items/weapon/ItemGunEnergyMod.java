@@ -28,8 +28,8 @@ public class ItemGunEnergyMod extends ItemGunEnergyPistol {
 	@Override
 	protected void explode(World world, EntityPlayer player) {
 		world.playSoundEffect(player.posX, player.posY, player.posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
-		
 		ExplosionLarge.explode(world, player.posX, player.posY, player.posZ, 10, true, false, false);
+		// Kill the player no matter what, and have a very anticlimactic explosion
 		player.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 60, 0));
 	}
 	

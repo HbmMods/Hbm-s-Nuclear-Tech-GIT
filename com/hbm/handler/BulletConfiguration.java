@@ -112,6 +112,7 @@ public class BulletConfiguration {
 	public static final int BOLT_B93 = 4;
 	public static final int BOLT_SPARK = 5;
 	public static final int BOLT_RAINBOW = 6;
+	public static final int BOLT_PLASMA = 7;
 	
 	public BulletConfiguration setToBolt(int trail) {
 		
