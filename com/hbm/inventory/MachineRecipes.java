@@ -2028,7 +2028,6 @@ public class MachineRecipes {
 				if(dust != null) {
 
 					for(ItemStack stack : matches) {
-						System.out.println("INGOT Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
 						shredderRecipes.put(new StackWrapper(stack), dust);
 					}
 				}
@@ -2040,7 +2039,6 @@ public class MachineRecipes {
 					dust.stackSize = 2;
 
 					for(ItemStack stack : matches) {
-						System.out.println("ORE Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
 						shredderRecipes.put(new StackWrapper(stack), dust);
 					}
 				}
@@ -2052,7 +2050,6 @@ public class MachineRecipes {
 					dust.stackSize = 9;
 
 					for(ItemStack stack : matches) {
-						System.out.println("BLOCK Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
 						shredderRecipes.put(new StackWrapper(stack), dust);
 					}
 				}
@@ -2062,7 +2059,6 @@ public class MachineRecipes {
 				if(dust != null) {
 
 					for(ItemStack stack : matches) {
-						System.out.println("GEM Added " + stack.getDisplayName() + " to " + dust.getDisplayName() + " (" + dust.stackSize + ")");
 						shredderRecipes.put(new StackWrapper(stack), dust);
 					}
 				}

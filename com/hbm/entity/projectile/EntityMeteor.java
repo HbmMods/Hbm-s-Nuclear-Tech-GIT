@@ -1,7 +1,5 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.Meteorite;

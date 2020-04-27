@@ -61,8 +61,8 @@ public class EntitySoyuz extends Entity {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "exhaust");
 		data.setString("mode", "soyuz");
-		data.setInteger("count", 2);
-		data.setDouble("width", worldObj.rand.nextDouble() * 0.35 - 0.7);
+		data.setInteger("count", 1);
+		data.setDouble("width", worldObj.rand.nextDouble() * 0.25 - 0.5);
 		data.setDouble("posX", x);
 		data.setDouble("posY", y);
 		data.setDouble("posZ", z);
