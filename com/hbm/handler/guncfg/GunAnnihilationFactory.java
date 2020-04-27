@@ -24,7 +24,7 @@ public class GunAnnihilationFactory {
 		
 		config.maxCharge = 1000000000L;
 		config.chargeRate = 100000000L;
-		config.shotCharge = 10000000L;
+		config.shotCharge = 1000000L;
 		
 		config.name = "ZOMG Cannon";
 		config.manufacturer = "NXT Technologies";

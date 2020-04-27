@@ -268,6 +268,7 @@ public class RenderBullet extends Render {
 		
 		switch(style) {
 			case BulletConfiguration.BOLT_RAINBOW: red = dartRandom.nextFloat(); green = dartRandom.nextFloat(); blue = dartRandom.nextFloat(); beamMode = true; break;
+			case BulletConfiguration.BOLT_PLASMA: red = 0F; green = 1F; blue = 0F; beamMode = true; break;
 			case BulletConfiguration.BOLT_SPARK: red = 0.55f; green = 0.55F; blue = 0F; beamMode = true; break;
 			case BulletConfiguration.BOLT_B93: red = 1F; green = 0F; blue = 0F; beamMode = true; break;
 			case BulletConfiguration.BOLT_B92: red = 0F; green = 0F; blue = 1F; beamMode = true; break;

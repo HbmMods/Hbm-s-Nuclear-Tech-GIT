@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-
 public class ItemGunEnergyPistol extends ItemGunBase {
 	public int maximumCharges;
 	public ItemGunEnergyPistol(GunConfiguration config) {
