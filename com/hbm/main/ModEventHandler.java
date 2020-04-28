@@ -283,8 +283,11 @@ public class ModEventHandler
 						if(eRad < 200 || entity instanceof EntityNuclearCreeper || entity instanceof EntityMooshroom || entity instanceof EntityZombie || entity instanceof EntitySkeleton)
 							continue;
 						
+						if(eRad > 2500)
+							entity.getEntityData().setFloat("hfr_radiation", 2500);
+						
 						if(eRad >= 1000) {
-							if(entity.attackEntityFrom(ModDamageSource.radiation, 1000))
+							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100))
 								entity.getEntityData().setFloat("hfr_radiation", 0);
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)

@@ -1,10 +1,10 @@
 package com.hbm.entity.missile;
 
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.packet.AuxParticlePacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.main.MainRegistry;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -40,17 +40,22 @@ public class EntityBobmazon extends Entity {
 		
 		for(int i = 0; i < 4; i++) {
 			
-			if(!this.worldObj.isRemote && i % 2 == 0)
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY + 1, posZ, 2), new TargetPoint(worldObj.provider.dimensionId, posX, posY + 1, posZ, 300));
-			
 			if(worldObj.getBlock((int)(posX - 0.5), (int)(posY + 1), (int)(posZ - 0.5)).getMaterial() != Material.air && !worldObj.isRemote && dataWatcher.getWatchableObjectInt(16) != 1) {
-				this.setDead();
-				ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 50);
+				ExplosionLarge.spawnParticles(worldObj, posX, posY + 1, posZ, 50);
 
 	            this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "hbm:entity.oldExplosion", 10.0F, 0.5F + this.rand.nextFloat() * 0.1F);
 				
-				if(payload != null)
-					worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY + 2, posZ, payload));
+				if(payload != null) {
+					EntityItem pack = new EntityItem(worldObj, posX, posY + 2, posZ, payload);
+					pack.motionX = 0;
+					pack.motionZ = 0;
+					if(!worldObj.spawnEntityInWorld(pack))
+						System.out.println("BBBBBBBBBBB");
+				} else {
+					System.out.println("AAAAAAAAAAAA");
+				}
+				
+				this.setDead();
 				
 				break;
 			}
@@ -59,12 +64,43 @@ public class EntityBobmazon extends Entity {
 			this.posY += this.motionY;
 			this.posZ += this.motionZ;
 		}
+		
+		if(worldObj.isRemote) {
+
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "exhaust");
+			data.setString("mode", "meteor");
+			data.setInteger("count", 1);
+			data.setDouble("width", 0);
+			data.setDouble("posX", posX);
+			data.setDouble("posY", posY + 1);
+			data.setDouble("posZ", posZ);
+			
+			MainRegistry.proxy.effectNT(data);
+		}
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt) { }
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+
+		NBTTagCompound nbt1 = (NBTTagCompound)nbt.getTag("payload");
+		this.payload = ItemStack.loadItemStackFromNBT(nbt1);
+	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt) { }
+	protected void writeEntityToNBT(NBTTagCompound nbt) {
+
+		NBTTagCompound nbt1 = new NBTTagCompound();
+		payload.writeToNBT(nbt1);
+		nbt.setTag("payload", nbt1);
+	}
+	
+    @Override
+	@SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance)
+    {
+        return distance < 500000;
+    }
 
 }

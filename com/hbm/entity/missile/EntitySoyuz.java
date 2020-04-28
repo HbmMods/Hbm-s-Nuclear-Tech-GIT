@@ -11,11 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
 
 public class EntitySoyuz extends Entity {
 
 	double acceleration = 0.00D;
 	public int mode;
+	public int targetX;
+	public int targetZ;
 
 	private ItemStack[] payload;
 
@@ -76,6 +79,23 @@ public class EntitySoyuz extends Entity {
 			
 		}
 		
+		if(mode == 1) {
+			
+			EntitySoyuzCapsule capsule = new EntitySoyuzCapsule(worldObj);
+			capsule.payload = this.payload;
+			capsule.soyuz = this.getSkin();
+			capsule.setPosition(targetX + 0.5, 600, targetZ + 0.5);
+			System.out.println(capsule.posX + " " + capsule.posZ);
+			
+			IChunkProvider provider = worldObj.getChunkProvider();
+			provider.loadChunk(targetX >> 4, targetZ >> 4);
+			
+			if(worldObj.spawnEntityInWorld(capsule))
+				System.out.println("Success!");
+			else
+				System.out.println("Crap.");
+		}
+		
 		this.setDead();
 	}
 
@@ -114,6 +134,11 @@ public class EntitySoyuz extends Entity {
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 
 		NBTTagList list = nbt.getTagList("items", 10);
+		
+		this.setSkin(nbt.getInteger("skin"));
+		targetX = nbt.getInteger("targetX");
+		targetZ = nbt.getInteger("targetZ");
+		mode = nbt.getInteger("mode");
 
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -128,6 +153,11 @@ public class EntitySoyuz extends Entity {
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 
 		NBTTagList list = new NBTTagList();
+
+		nbt.setInteger("skin", this.getSkin());
+		nbt.setInteger("targetX", targetX);
+		nbt.setInteger("targetZ", targetZ);
+		nbt.setInteger("mode", mode);
 
 		for (int i = 0; i < payload.length; i++) {
 			if (payload[i] != null) {

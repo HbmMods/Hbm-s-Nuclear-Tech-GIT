@@ -831,6 +831,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_capsule:
+				{
+					if(entity instanceof TileEntitySoyuzCapsule)
+					{
+						return new ContainerSoyuzCapsule(player.inventory, (TileEntitySoyuzCapsule) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1658,6 +1667,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityBarrel)
 					{
 						return new GUIBarrel(player.inventory, (TileEntityBarrel) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_capsule:
+				{
+					if(entity instanceof TileEntitySoyuzCapsule)
+					{
+						return new GUISoyuzCapsule(player.inventory, (TileEntitySoyuzCapsule) entity);
 					}
 					return null;
 				}

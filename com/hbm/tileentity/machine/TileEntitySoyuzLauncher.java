@@ -117,15 +117,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			
 			if(!entities.isEmpty()) {
 				
-				//for(int i = 0; i < 35; i++) {
-
-					//Vec3 vec = Vec3.createVectorHelper(worldObj.rand.nextGaussian() * 0.5 + 1, 0, 0);
-					//vec.rotateAroundY(worldObj.rand.nextFloat() * (float) (Math.PI * 2));
-					
-					//MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25 + worldObj.rand.nextFloat() * 3, zCoord + 0.5, "launchsmoke", new float[] {(float) vec.xCoord, 0, (float) vec.zCoord});
-
-				//}
-				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "smoke");
 				data.setString("mode", "shockRand");
@@ -170,6 +161,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		
 		EntitySoyuz soyuz = new EntitySoyuz(worldObj);
 		soyuz.setSkin(this.getType());
+		soyuz.mode = this.mode;
 		soyuz.setLocationAndAngles(xCoord + 0.5, yCoord + 5, zCoord + 0.5, 0, 0);
 		worldObj.spawnEntityInWorld(soyuz);
 
@@ -189,7 +181,9 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				payload.add(slots[i]);
 				slots[i] = null;
 			}
-			
+
+			soyuz.targetX = slots[1].stackTagCompound.getInteger("xCoord");
+			soyuz.targetZ = slots[1].stackTagCompound.getInteger("zCoord");
 			soyuz.setPayload(payload);
 		}
 		

@@ -542,6 +542,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityTesla.class, "tileentity_tesla_coil");
 		GameRegistry.registerTileEntity(TileEntityBarrel.class, "tileentity_fluid_barrel");
 		GameRegistry.registerTileEntity(TileEntityCyberCrab.class, "tileentity_crabs");
+		GameRegistry.registerTileEntity(TileEntitySoyuzCapsule.class, "tileentity_soyuz_capsule");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -688,6 +689,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityTomBlast.class, "entity_tom_bust", 142, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityBuilding.class, "entity_falling_building", 143, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntitySoyuz.class, "entity_soyuz", 144, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 145, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

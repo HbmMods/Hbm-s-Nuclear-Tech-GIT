@@ -102,6 +102,7 @@ import com.hbm.render.entity.rocket.RenderMissileStrong;
 import com.hbm.render.entity.rocket.RenderMissileTaint;
 import com.hbm.render.entity.rocket.RenderMissileThermo;
 import com.hbm.render.entity.rocket.RenderSoyuz;
+import com.hbm.render.entity.rocket.RenderSoyuzCapsule;
 import com.hbm.render.item.*;
 import com.hbm.render.loader.HmfModelLoader;
 import com.hbm.render.tileentity.*;
@@ -405,6 +406,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCompactLauncher.class, new RenderCompactLauncher());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchTable.class, new RenderLaunchTable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzLauncher.class, new RenderSoyuzLauncher());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzCapsule.class, new RenderCapsule());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOilDuct.class, new RenderOilDuct());
@@ -459,6 +461,7 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCarrier.class, new RenderCarrierMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBooster.class, new RenderBoosterMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySoyuz.class, new RenderSoyuz());
+	    RenderingRegistry.registerEntityRenderingHandler(EntitySoyuzCapsule.class, new RenderSoyuzCapsule());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderBomber());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBurningFOEQ.class, new RenderFOEQ());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFallingNuke.class, new RenderFallingNuke());

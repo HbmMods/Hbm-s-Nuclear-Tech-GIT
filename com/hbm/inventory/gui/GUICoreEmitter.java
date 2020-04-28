@@ -77,7 +77,7 @@ public class GUICoreEmitter extends GuiInfoContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer( int i, int j) {
-		String name = this.emitter.hasCustomInventoryName() ? this.emitter.getInventoryName() : I18n.format(this.emitter.getInventoryName());
+		String name = I18n.format(this.emitter.getInventoryName());
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		
 		this.fontRendererObj.drawString("Output: " + Library.getShortNumber(emitter.prev) + "Spk", 50, 30, 0xFF7F7F);
