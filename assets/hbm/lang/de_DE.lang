@@ -201,6 +201,7 @@ death.attack.cloud=%1$s schmolz wie ein Eis in der Sonne.
 death.attack.lead=%1$s starb an Bleivergiftung.
 death.attack.taint=%1$s starb an Flux-Tumoren.
 death.attack.electricity=%1$s bekam einen tödlichen Stromschlag.
+death.attack.exhaust=%1$s wurde von einer startenden Rakete verbrutzelt.
 
 item.redstone_sword.name=Redstoneschwert
 item.big_sword.name=Großes Schwert

@@ -2,6 +2,7 @@ package com.hbm.entity.missile;
 
 import java.util.List;
 
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -41,9 +43,12 @@ public class EntitySoyuz extends Entity {
 		
 		if(!worldObj.isRemote) {
 			
-			//if(this.ticksExisted < 20) {
-			//	ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 13 + rand.nextInt(3), 4 + rand.nextGaussian() * 2);
-			//}
+			List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox(posX - 5, posY - 15, posZ - 5, posX + 5, posY, posZ + 5));
+			
+			for(Entity e : list) {
+				e.setFire(15);
+				e.attackEntityFrom(ModDamageSource.exhaust, 100.0F);
+			}
 		}
 		
 		if(worldObj.isRemote) {

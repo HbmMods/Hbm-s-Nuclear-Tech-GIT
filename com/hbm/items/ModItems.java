@@ -4271,13 +4271,13 @@ public class ModItems {
 		GameRegistry.registerItem(rod_dual_th232, rod_dual_th232.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_th232, rod_quad_th232.getUnlocalizedName());
 		
-		GameRegistry.registerItem(rod_u235, rod_u235.getUnlocalizedName());
-		GameRegistry.registerItem(rod_dual_u235, rod_dual_u235.getUnlocalizedName());
-		GameRegistry.registerItem(rod_quad_u235, rod_quad_u235.getUnlocalizedName());
-		
 		GameRegistry.registerItem(rod_u233, rod_u233.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_u233, rod_dual_u233.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_u233, rod_quad_u233.getUnlocalizedName());
+		
+		GameRegistry.registerItem(rod_u235, rod_u235.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_u235, rod_dual_u235.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_u235, rod_quad_u235.getUnlocalizedName());
 		
 		GameRegistry.registerItem(rod_u238, rod_u238.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_u238, rod_dual_u238.getUnlocalizedName());

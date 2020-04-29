@@ -25,6 +25,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation god_tm = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeGodTM.png");
 	private static ResourceLocation zippy = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeZippySqrl.png");
 	private static ResourceLocation test = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeTest.png");
+	private static ResourceLocation schrabby = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeSchrabbyAlt.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -77,6 +78,9 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.ZippySqrl)) {
 			return zippy;
+		}
+		if(uuid.equals(Library.Schrabby)) {
+			return schrabby;
 		}
 		if(name.startsWith("Player")) {
 			return test;

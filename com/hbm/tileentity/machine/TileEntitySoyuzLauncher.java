@@ -139,6 +139,16 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
     	}
     }
 	
+    public void invalidate() {
+    	
+    	super.invalidate();
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
+	
 	public void networkUnpack(NBTTagCompound data) {
 		power = data.getLong("power");
 		mode = data.getByte("mode");
