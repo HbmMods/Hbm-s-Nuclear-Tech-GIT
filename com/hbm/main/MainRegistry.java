@@ -56,6 +56,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -211,6 +212,9 @@ public class MainRegistry
 	public static Achievement bobOil;
 	public static Achievement bobNuclear;
 	public static Achievement bobHidden;
+	public static Achievement horizonsStart;
+	public static Achievement horizonsEnd;
+	public static Achievement horizonsBonus;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -358,6 +362,7 @@ public class MainRegistry
 		HbmPotion.init();
 		BulletConfigSyncingUtil.loadConfigsForSync();
 		CellularDungeonFactory.init();
+		Satellite.register();
 		
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -1030,6 +1035,10 @@ public class MainRegistry
 		bobOil = new Achievement("achievement.oil", "oil", 4, 4, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
 		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 4, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
 		bobHidden = new Achievement("achievement.hidden", "hidden", 8, 4, ModItems.gun_dampfmaschine, bobNuclear).initIndependentStat().registerStat();
+
+		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -2, 6, ModItems.sat_gerald, null).initIndependentStat().registerStat();
+		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", 0, 6, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
+		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", 2, 6, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -1049,7 +1058,10 @@ public class MainRegistry
 				bobChemistry,
 				bobOil,
 				bobNuclear,
-				bobHidden
+				bobHidden,
+				horizonsStart,
+				horizonsEnd,
+				horizonsBonus
 		}));
 
 		//MUST be initialized AFTER achievements!!

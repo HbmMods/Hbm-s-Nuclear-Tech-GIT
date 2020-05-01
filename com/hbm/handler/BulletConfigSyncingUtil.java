@@ -71,6 +71,7 @@ public class BulletConfigSyncingUtil {
 	public static int G12_INCENDIARY = i++;
 	public static int G12_SHRAPNEL = i++;
 	public static int G12_DU = i++;
+	public static int G12_AM = i++;
 
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
@@ -178,6 +179,7 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeFireConfig(), G12_INCENDIARY));
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeShrapnelConfig(), G12_SHRAPNEL));
 		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeDUConfig(), G12_DU));
+		configSet.add(new ConfigKeyPair(Gun12GaugeFactory.get12GaugeAMConfig(), G12_AM));
 
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRConfig(), LR22_NORMAL));
 		configSet.add(new ConfigKeyPair(Gun22LRFactory.get22LRAPConfig(), LR22_AP));

@@ -132,6 +132,7 @@
 	"entity.chopperCrashingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperCrashingLoop", "stream": true}]},
     "entity.oldExplosion": {"category": "ambient", "sounds": [{"name": "entity/oldExplosion", "stream": false}]},
     "entity.rocketTakeoff": {"category": "player", "sounds": [{"name": "entity/rocketTakeoff", "stream": false}]},
+    "entity.soyuzTakeoff": {"category": "player", "sounds": [{"name": "entity/soyuzTakeoff", "stream": false}]},
     "entity.bombDet": {"category": "player", "sounds": ["entity/bombDet1", "entity/bombDet2", "entity/bombDet3"]},
     "entity.bombWhistle": {"category": "player", "sounds": [{"name": "entity/bombWhistle", "stream": false}]},
     "entity.bomberLoop": {"category": "player", "sounds": [{"name": "entity/bomber1", "stream": false}]},
@@ -167,5 +168,6 @@
     "alarm.easAlarm": {"category": "record", "sounds": [{"name": "alarm/easAlarm", "stream": false}]},
     "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]},
     "alarm.classic": {"category": "record", "sounds": [{"name": "alarm/classicSiren", "stream": false}]},
-    "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]}
+    "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]},
+    "alarm.soyuzed": {"category": "record", "sounds": [{"name": "alarm/soyuzed", "stream": false}]}
 }

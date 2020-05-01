@@ -1037,11 +1037,13 @@ public class ModItems {
 	public static Item sat_gerald;
 	public static Item sat_chip;
 	public static Item sat_interface;
+	public static Item sat_coord;
 
 	public static Item ammo_12gauge;
 	public static Item ammo_12gauge_incendiary;
 	public static Item ammo_12gauge_shrapnel;
 	public static Item ammo_12gauge_du;
+	public static Item ammo_12gauge_marauder;
 	public static Item ammo_20gauge;
 	public static Item ammo_20gauge_slug;
 	public static Item ammo_20gauge_flechette;
@@ -1806,6 +1808,7 @@ public class ModItems {
 	public static final int guiID_item_sat_interface = 101;
 	public static final int guiID_item_box = 102;
 	public static final int guiID_item_bobmazon = 103;
+	public static final int guiID_item_sat_coord = 104;
 
 	public static Item mysteryshovel;
 	public static Item memory;
@@ -2581,7 +2584,7 @@ public class ModItems {
 		missile_emp = new Item().setUnlocalizedName("missile_emp").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_emp");
 		missile_carrier = new Item().setUnlocalizedName("missile_carrier").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_carrier");
 		missile_soyuz = new ItemSoyuz().setUnlocalizedName("missile_soyuz").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz");
-		missile_soyuz_lander = new Item().setUnlocalizedName("missile_soyuz_lander").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz_lander");
+		missile_soyuz_lander = new ItemCustomLore().setUnlocalizedName("missile_soyuz_lander").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":soyuz_lander");
 		missile_custom = new ItemCustomMissile().setUnlocalizedName("missile_custom").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":missile_custom");
 		sat_mapper = new ItemSatChip().setUnlocalizedName("sat_mapper").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_mapper");
 		sat_scanner = new ItemSatChip().setUnlocalizedName("sat_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_scanner");
@@ -2593,6 +2596,7 @@ public class ModItems {
 		sat_gerald = new ItemSatChip().setUnlocalizedName("sat_gerald").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_gerald");
 		sat_chip = new ItemSatChip().setUnlocalizedName("sat_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_chip");
 		sat_interface = new ItemSatInterface().setUnlocalizedName("sat_interface").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_interface");
+		sat_coord = new ItemSatInterface().setUnlocalizedName("sat_coord").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_coord");
 
 		mp_thruster_10_kerosene = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10).setHealth(10F)					.setUnlocalizedName("mp_thruster_10_kerosene");
 		mp_thruster_10_kerosene_tec = new ItemMissile().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10).setHealth(15F).setRarity(Rarity.COMMON).setUnlocalizedName("mp_thruster_10_kerosene_tec");
@@ -2747,6 +2751,7 @@ public class ModItems {
 		ammo_12gauge_incendiary = new ItemAmmo().setUnlocalizedName("ammo_12gauge_incendiary").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge_incendiary");
 		ammo_12gauge_shrapnel = new ItemAmmo().setUnlocalizedName("ammo_12gauge_shrapnel").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge_shrapnel");
 		ammo_12gauge_du = new ItemAmmo().setUnlocalizedName("ammo_12gauge_du").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge_du");
+		ammo_12gauge_marauder = new ItemAmmo().setUnlocalizedName("ammo_12gauge_marauder").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_12gauge_marauder");
 		ammo_20gauge = new ItemAmmo().setUnlocalizedName("ammo_20gauge").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_20gauge");
 		ammo_20gauge_slug = new ItemAmmo().setUnlocalizedName("ammo_20gauge_slug").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_20gauge_slug");
 		ammo_20gauge_flechette = new ItemAmmo().setUnlocalizedName("ammo_20gauge_flechette").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_20gauge_flechette");
@@ -4605,6 +4610,7 @@ public class ModItems {
 		GameRegistry.registerItem(sat_gerald, sat_gerald.getUnlocalizedName());
 		GameRegistry.registerItem(sat_chip, sat_chip.getUnlocalizedName());
 		GameRegistry.registerItem(sat_interface, sat_interface.getUnlocalizedName());
+		GameRegistry.registerItem(sat_coord, sat_coord.getUnlocalizedName());
 		
 		//Guns
 		GameRegistry.registerItem(gun_revolver_iron, gun_revolver_iron.getUnlocalizedName());
@@ -4715,6 +4721,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_12gauge_incendiary, ammo_12gauge_incendiary.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_12gauge_shrapnel, ammo_12gauge_shrapnel.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_12gauge_du, ammo_12gauge_du.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_12gauge_marauder, ammo_12gauge_marauder.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_20gauge, ammo_20gauge.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_20gauge_slug, ammo_20gauge_slug.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_20gauge_flechette, ammo_20gauge_flechette.getUnlocalizedName());

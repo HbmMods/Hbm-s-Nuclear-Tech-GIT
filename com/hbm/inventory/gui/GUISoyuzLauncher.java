@@ -36,8 +36,12 @@ public class GUISoyuzLauncher extends GuiInfoContainer {
 		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 36, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 49, guiTop + 72, 6, 34, launcher.power, launcher.maxPower);
 
-		//this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 17, 18, 18, mouseX, mouseY, new String[]{"The Soyuz goes here"} );
-		//this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 35, 18, 18, mouseX, mouseY, new String[]{"Designator for cargo mode"} );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 17, 18, 18, mouseX, mouseY, new String[]{"The Soyuz goes here"} );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 43, guiTop + 35, 18, 18, mouseX, mouseY, new String[]{"Designator only for CARGO MODE"} );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 17, 18, 18, mouseX, mouseY, new String[]{"The payload for SATELLITE MODE"} );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 133, guiTop + 35, 18, 18, mouseX, mouseY, new String[]{"The orbital module for special payloads"} );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 88, guiTop + 17, 18, 18, mouseX, mouseY, new String[]{"SATELLITE MODE"} );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 88, guiTop + 35, 18, 18, mouseX, mouseY, new String[]{"CARGO MODE"} );
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -99,6 +103,16 @@ public class GUISoyuzLauncher extends GuiInfoContainer {
 		
 		int k = launcher.mode;
 		drawTexturedModalRect(guiLeft + 88, guiTop + 17 + k * 18, 176, 18 + k * 18, 18, 18);
+		
+		int l = launcher.orbital();
+		
+		if(l > 0)
+			drawTexturedModalRect(guiLeft + 115, guiTop + 35, 176 + (l - 1) * 18, 0, 18, 18);
+		
+		int m = launcher.satellite();
+		
+		if(m > 0)
+			drawTexturedModalRect(guiLeft + 115, guiTop + 17, 176 + (m - 1) * 18, 0, 18, 18);
 		
 		if(launcher.starting)
 			drawTexturedModalRect(guiLeft + 151, guiTop + 17, 176, 54, 18, 18);

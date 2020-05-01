@@ -20,8 +20,8 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.SatelliteResonator;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -551,7 +551,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		    int i3 = ItemSatChip.getFreq(slots[15]);
 		    
 		    if(data.getSatFromFreq(i1) != null && data.getSatFromFreq(i2) != null && data.getSatFromFreq(i3) != null &&
-		    		data.getSatFromFreq(i1).satelliteType.getID() == SatelliteType.RESONATOR.getID() && data.getSatFromFreq(i2).satelliteType.getID() == SatelliteType.RESONATOR.getID() && data.getSatFromFreq(i3).satelliteType.getID() == SatelliteType.RESONATOR.getID() &&
+		    		data.getSatFromFreq(i1) instanceof SatelliteResonator && data.getSatFromFreq(i2) instanceof SatelliteResonator && data.getSatFromFreq(i3) instanceof SatelliteResonator &&
 		    		i1 != i2 && i1 != i3 && i2 != i3)
 		    	return true;
 			

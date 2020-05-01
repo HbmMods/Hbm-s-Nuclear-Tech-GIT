@@ -2,16 +2,23 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.lib.RefStrings;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 
 public class ItemSoyuz extends Item {
+	
+	IIcon[] icons = new IIcon[3];
 	
 	public ItemSoyuz() {
         this.setHasSubtypes(true);
@@ -20,9 +27,9 @@ public class ItemSoyuz extends Item {
     @Override
 	@SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list) {
-    	list.add(new ItemStack(item, 1, 0));
-    	list.add(new ItemStack(item, 1, 1));
-    	list.add(new ItemStack(item, 1, 2));
+    	
+    	for(int i = 0; i < icons.length; i++)
+    		list.add(new ItemStack(item, 1, i));
     }
     
     @Override
@@ -51,5 +58,20 @@ public class ItemSoyuz extends Item {
 		case 2: list.add(EnumChatFormatting.GREEN + "Post War"); break;
 		}
 	}
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg)
+    {
+    	for(int i = 0; i < icons.length; i++) {
+    		icons[i] = reg.registerIcon(RefStrings.MODID + ":soyuz_" + i);
+    	}
+    }
+	
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta)
+    {
+        int j = MathHelper.clamp_int(meta, 0, icons.length - 1);
+        return icons[j];
+    }
 
 }

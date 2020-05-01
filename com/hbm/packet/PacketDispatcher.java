@@ -61,7 +61,7 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TERadarPacket.Handler.class, TERadarPacket.class, i++, Side.CLIENT);
 		//Siren packet for looped sounds
 		wrapper.registerMessage(TERadarDestructorPacket.Handler.class, TERadarDestructorPacket.class, i++, Side.CLIENT);
-		//Signals server to perform orbital strike
+		//Signals server to perform orbital strike, among other things
 		wrapper.registerMessage(SatLaserPacket.Handler.class, SatLaserPacket.class, i++, Side.SERVER);
 		//Universal package for sending small info packs back to server
 		wrapper.registerMessage(AuxButtonPacket.Handler.class, AuxButtonPacket.class, i++, Side.SERVER);
@@ -91,6 +91,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(NBTPacket.Handler.class, NBTPacket.class, i++, Side.CLIENT);
 		//Aux Particle Packet, New Technology: like the APP but with NBT
 		wrapper.registerMessage(AuxParticlePacketNT.Handler.class, AuxParticlePacketNT.class, i++, Side.CLIENT);
+		//Signals server to do coord based satellite stuff
+		wrapper.registerMessage(SatCoordPacket.Handler.class, SatCoordPacket.class, i++, Side.SERVER);
 	}
 	
 }

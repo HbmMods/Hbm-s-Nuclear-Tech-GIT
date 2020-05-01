@@ -2025,7 +2025,7 @@ public class MachineRecipes {
 			if(name.length() > 5 && name.substring(0, 5).equals("ingot")) {
 				ItemStack dust = getDustByName(name.substring(5));
 				
-				if(dust != null) {
+				if(dust != null && dust.getItem() != ModItems.scrap) {
 
 					for(ItemStack stack : matches) {
 						shredderRecipes.put(new StackWrapper(stack), dust);
@@ -2034,7 +2034,7 @@ public class MachineRecipes {
 			} else if(name.length() > 3 && name.substring(0, 3).equals("ore")) {
 				ItemStack dust = getDustByName(name.substring(3));
 				
-				if(dust != null) {
+				if(dust != null && dust.getItem() != ModItems.scrap) {
 					
 					dust.stackSize = 2;
 
@@ -2045,7 +2045,7 @@ public class MachineRecipes {
 			} else if(name.length() > 5 && name.substring(0, 5).equals("block")) {
 				ItemStack dust = getDustByName(name.substring(5));
 				
-				if(dust != null) {
+				if(dust != null && dust.getItem() != ModItems.scrap) {
 					
 					dust.stackSize = 9;
 
@@ -2056,7 +2056,7 @@ public class MachineRecipes {
 			} else if(name.length() > 3 && name.substring(0, 3).equals("gem")) {
 				ItemStack dust = getDustByName(name.substring(3));
 				
-				if(dust != null) {
+				if(dust != null && dust.getItem() != ModItems.scrap) {
 
 					for(ItemStack stack : matches) {
 						shredderRecipes.put(new StackWrapper(stack), dust);
@@ -2065,7 +2065,6 @@ public class MachineRecipes {
 			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 
 				for(ItemStack stack : matches) {
-					System.out.println("DUST Added " + stack.getDisplayName() + " to dust");
 					shredderRecipes.put(new StackWrapper(stack), new ItemStack(ModItems.dust));
 				}
 			}

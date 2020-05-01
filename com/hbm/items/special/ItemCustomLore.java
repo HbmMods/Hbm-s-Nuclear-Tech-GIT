@@ -736,6 +736,11 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("High in fiber, high in glass. Everything the body needs.");
 		}
+		
+		if(this == ModItems.missile_soyuz_lander)
+		{
+			list.add("Doubles as a crappy lander!");
+		}
 	}
 
     @Override

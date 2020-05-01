@@ -10,23 +10,22 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class SatLaserPacket implements IMessage {
+public class SatCoordPacket implements IMessage {
 
-	//0: Add
-	//1: Subtract
-	//2: Set
 	int x;
+	int y;
 	int z;
 	int freq;
 
-	public SatLaserPacket()
+	public SatCoordPacket()
 	{
 		
 	}
 
-	public SatLaserPacket(int x, int z, int freq)
+	public SatCoordPacket(int x, int y, int z, int freq)
 	{
 		this.x = x;
+		this.y = y;
 		this.z = z;
 		this.freq = freq;
 	}
@@ -34,6 +33,7 @@ public class SatLaserPacket implements IMessage {
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		x = buf.readInt();
+		y = buf.readInt();
 		z = buf.readInt();
 		freq = buf.readInt();
 	}
@@ -41,14 +41,15 @@ public class SatLaserPacket implements IMessage {
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeInt(x);
+		buf.writeInt(y);
 		buf.writeInt(z);
 		buf.writeInt(freq);
 	}
 
-	public static class Handler implements IMessageHandler<SatLaserPacket, IMessage> {
+	public static class Handler implements IMessageHandler<SatCoordPacket, IMessage> {
 		
 		@Override
-		public IMessage onMessage(SatLaserPacket m, MessageContext ctx) {
+		public IMessage onMessage(SatCoordPacket m, MessageContext ctx) {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
 			
@@ -60,7 +61,7 @@ public class SatLaserPacket implements IMessage {
 				    Satellite sat = SatelliteSavedData.getData(p.worldObj).getSatFromFreq(m.freq);
 				    
 				    if(sat != null)
-				    	sat.onClick(p.worldObj, m.x, m.z);
+				    	sat.onCoordAction(p.worldObj, m.x, m.y, m.z);
 				}
 			}
 			

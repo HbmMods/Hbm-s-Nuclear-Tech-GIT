@@ -2,11 +2,18 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.PotionEffect;
 
 public class Gun12GaugeFactory {
 	
@@ -40,6 +47,7 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
 		
 		return config;
 	}
@@ -76,6 +84,7 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
+		config.config.add(BulletConfigSyncingUtil.G12_AM);
 		
 		return config;
 	}
@@ -129,6 +138,30 @@ public class Gun12GaugeFactory {
 		bullet.dmgMax = 8;
 		bullet.doesPenetrate = true;
 		bullet.leadChance = 50;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get12GaugeAMConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_marauder;
+		bullet.wear = 20;
+		bullet.dmgMin = 100;
+		bullet.dmgMax = 500;
+		bullet.leadChance = 50;
+		
+		bullet.bHurt = new IBulletHurtBehavior() {
+
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+				
+				if(hit instanceof EntityLivingBase)
+					((EntityLivingBase)hit).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 20, 0));
+			}
+			
+		};
 		
 		return bullet;
 	}

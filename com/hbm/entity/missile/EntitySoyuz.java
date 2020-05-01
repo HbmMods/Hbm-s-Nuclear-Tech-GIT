@@ -2,12 +2,17 @@ package com.hbm.entity.missile;
 
 import java.util.List;
 
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemSatChip;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.satellites.Satellite;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,6 +26,7 @@ public class EntitySoyuz extends Entity {
 	public int mode;
 	public int targetX;
 	public int targetZ;
+	boolean memed = false;
 
 	private ItemStack[] payload;
 
@@ -48,6 +54,11 @@ public class EntitySoyuz extends Entity {
 			for(Entity e : list) {
 				e.setFire(15);
 				e.attackEntityFrom(ModDamageSource.exhaust, 100.0F);
+				
+				if(!memed && e instanceof EntityPlayer) {
+					memed = true;
+					worldObj.playSoundEffect(posX, posY, posZ, "hbm:alarm.soyuzed", 100, 1.0F);
+				}
 			}
 		}
 		
@@ -81,7 +92,29 @@ public class EntitySoyuz extends Entity {
 	private void deployPayload() {
 
 		if(mode == 0 && payload != null) {
-			
+
+			if(payload[0] != null) {
+				
+				ItemStack load = payload[0];
+				
+				if(load.getItem() == ModItems.flame_pony) {
+					ExplosionLarge.spawnTracers(worldObj, posX, posY, posZ, 25);
+					for(Object p : worldObj.playerEntities)
+						((EntityPlayer)p).triggerAchievement(MainRegistry.achSpace);
+				}
+				
+				if(load.getItem() == ModItems.sat_foeq) {
+					for(Object p : worldObj.playerEntities)
+						((EntityPlayer)p).triggerAchievement(MainRegistry.achFOEQ);
+				}
+				
+				if(load.getItem() instanceof ItemSatChip) {
+					
+				    int freq = ItemSatChip.getFreq(load);
+			    	
+			    	Satellite.orbit(worldObj, Satellite.getIDFromItem(load.getItem()), freq, posX, posY, posZ);
+				}
+			}
 		}
 		
 		if(mode == 1) {

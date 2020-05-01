@@ -75,7 +75,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 				countdown = maxCount;
 				starting = false;
 			} else if(countdown > 0) {
-				countdown--;
+				countdown-=30; //TODO: remove speedy countdown
 				
 				if(countdown % 100 == 0 && countdown > 0)
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:alarm.hatch", 100F, 1.1F);
@@ -175,12 +175,18 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		soyuz.setLocationAndAngles(xCoord + 0.5, yCoord + 5, zCoord + 0.5, 0, 0);
 		worldObj.spawnEntityInWorld(soyuz);
 
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:entity.soyuzTakeoff", 100F, 1.1F);
+
 		tanks[0].setFill(tanks[0].getFill() - req);
 		tanks[1].setFill(tanks[1].getFill() - req);
 		power -= pow;
 		
 		if(mode == 0) {
 			soyuz.setSat(slots[2]);
+			
+			if(this.orbital() == 2)
+				slots[3] = null;
+			
 			slots[2] = null;
 		}
 		
@@ -202,10 +208,7 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	
 	public boolean canLaunch() {
 		
-		if(mode == 0 && slots[2] == null)
-			return false;
-		
-		return hasRocket() && hasFuel() && hasRocket() && hasPower() && (designator() == 0 || designator() == 2);
+		return hasRocket() && hasFuel() && hasRocket() && hasPower() && designator() != 1 && orbital() != 1 && satellite() != 1;
 	}
 	
 	public boolean hasFuel() {
@@ -264,6 +267,9 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		return slots[0] != null && slots[0].getItem() == ModItems.missile_soyuz;
 	}
 	
+	//0: designator not required
+	//1: designator required but not present
+	//2: designator present
 	public int designator() {
 		
 		if(mode == 0)
@@ -271,6 +277,36 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		if(slots[1] != null && (slots[1].getItem() == ModItems.designator || slots[1].getItem() == ModItems.designator_range || slots[1].getItem() == ModItems.designator_manual) && slots[1].hasTagCompound())
 			return 2;
 		return 1;
+	}
+	
+	//0: sat not required
+	//1: sat required but not present
+	//2: sat present
+	public int satellite() {
+		
+		if(mode == 1)
+			return 0;
+		
+		if(slots[2] != null) {
+			return 2;
+		}
+		return 1;
+	}
+
+	//0: module not required
+	//1: module required but not present
+	//2: module present
+	public int orbital() {
+		
+		if(mode == 1)
+			return 0;
+		
+		if(slots[2] != null && slots[2].getItem() == ModItems.sat_gerald) {
+			if(slots[3] != null && slots[3].getItem() == ModItems.missile_soyuz_lander)
+				return 2;
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override

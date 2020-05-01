@@ -30,6 +30,10 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Heavy Metal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_12gauge_marauder) {
+			list.add(EnumChatFormatting.BLUE + "+ Instantly removes annoying and unbalanced enemies");
+			list.add(EnumChatFormatting.YELLOW + "* No drawbacks lole");
+		}
 		
 		//20 GAUGE
 		if(this == ModItems.ammo_20gauge_flechette) {

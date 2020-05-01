@@ -189,8 +189,6 @@ public class GUIRadiobox extends GuiInfoContainer {
     protected void save() {
     	
     	rectify();
-    	
-    	//TODO: send packet here
     }
     
     

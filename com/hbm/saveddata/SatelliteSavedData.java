@@ -1,7 +1,9 @@
 package com.hbm.saveddata;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import com.hbm.saveddata.satellites.Satellite;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -9,9 +11,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class SatelliteSavedData extends WorldSavedData {
 	
-	public int satCount;
-	
-	public List<SatelliteSaveStructure> satellites = new ArrayList();
+	public HashMap<Integer, Satellite> sats = new HashMap();
 	
     private World worldObj;
 
@@ -31,34 +31,60 @@ public class SatelliteSavedData extends WorldSavedData {
     	return getSatFromFreq(freq) != null;
     }
     
-    public SatelliteSaveStructure getSatFromFreq(int freq) {
+    public Satellite getSatFromFreq(int freq) {
     	
-    	for(SatelliteSaveStructure sat : satellites)
-    		if(sat.satelliteID == freq)
-    			return sat;
-    	
-    	return null;
+    	return sats.get(freq);
     }
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		satCount = nbt.getInteger("satCount");
+		int satCount = nbt.getInteger("satCount");
 		
 		for(int i = 0; i < satCount; i++) {
-			SatelliteSaveStructure struct = new SatelliteSaveStructure();
-			struct.readFromNBT(nbt, i);
 			
-			satellites.add(struct);
+			Satellite sat = Satellite.create(nbt.getInteger("sat_id_" + i));
+			sat.readFromNBT((NBTTagCompound) nbt.getTag("sat_data_" + i));
+			
+			int freq = nbt.getInteger("sat_freq_" + i);
+			
+			sats.put(freq, sat);
+			
+			System.out.println("Loaded sat" + i + " " + sat.getClass().getSimpleName());
 		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setInteger("satCount", satellites.size());
+		nbt.setInteger("satCount", sats.size());
 		
-		for(int i = 0; i < satellites.size(); i++) {
-			satellites.get(i).writeToNBT(nbt, i);
-		}
+		int i = 0;
+
+    	for(Entry<Integer, Satellite> struct : sats.entrySet()) {
+
+    		NBTTagCompound data = new NBTTagCompound();
+    		struct.getValue().writeToNBT(data);
+    		
+    		nbt.setInteger("sat_id_" + i, struct.getValue().getID());
+    		nbt.setTag("sat_data_" + i, data);
+    		nbt.setInteger("sat_freq_" + i, struct.getKey());
+			i++;
+			
+			System.out.println("Saved sat" + i + " " + struct.getValue().getClass().getSimpleName());
+    	}
+	}
+	
+	public static SatelliteSavedData getData(World worldObj) {
+
+		SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+	    if(data == null) {
+	        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+	        
+	        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
+	    }
+	    
+	    data.worldObj = worldObj;
+	    
+	    return data;
 	}
 
 }
