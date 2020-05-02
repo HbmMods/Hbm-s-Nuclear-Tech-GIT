@@ -30,9 +30,9 @@ public class ItemAppleEuphemium extends ItemFood {
     {
         if (!p_77849_2_.isRemote)
         {
-            p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 2147483647, 127));
+            p_77849_3_.addPotionEffect(new PotionEffect(Potion.resistance.id, 2147483647, 120));
             p_77849_3_.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 2147483647, 0));
-            p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 2147483647, 127));
+            p_77849_3_.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 2147483647, 120));
         }
     }
     

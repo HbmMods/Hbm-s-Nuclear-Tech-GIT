@@ -19,8 +19,11 @@ public class ItemSatChip extends Item {
 		if(this == ModItems.sat_foeq)
 			list.add("Gives you an achievement. That's it.");
 		
-		if(this == ModItems.sat_gerald)
-			list.add("Unused (for now)");
+		if(this == ModItems.sat_gerald) {
+			list.add("Single use.");
+			list.add("Requires orbital module.");
+			list.add("Melter of CPUs, bane of every server owner.");
+		}
 		
 		if(this == ModItems.sat_laser)
 			list.add("Allows to summon lasers with a 15 second cooldown.");
@@ -35,7 +38,7 @@ public class ItemSatChip extends Item {
 			list.add("Shows a map of active entities.");
 		
 		if(this == ModItems.sat_resonator)
-			list.add("Unused");
+			list.add("Allows for teleportation with no cooldown.");
 		
 		if(this == ModItems.sat_scanner)
 			list.add("Creates a topdown map of underground ores.");

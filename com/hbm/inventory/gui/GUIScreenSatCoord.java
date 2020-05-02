@@ -1,17 +1,14 @@
 package com.hbm.inventory.gui;
 
-import java.util.Arrays;
-
+import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.gui.GUIRadioRec.RadioButton;
 import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.SatLaserPacket;
+import com.hbm.packet.SatCoordPacket;
 import com.hbm.saveddata.satellites.Satellite.CoordActions;
-import com.hbm.saveddata.satellites.Satellite.InterfaceActions;
 import com.hbm.saveddata.satellites.Satellite.Interfaces;
 
 import net.minecraft.client.Minecraft;
@@ -29,8 +26,6 @@ public class GUIScreenSatCoord extends GuiScreen {
     protected int guiLeft;
     protected int guiTop;
     private final EntityPlayer player;
-    int x;
-    int z;
 
     private GuiTextField xField;
     private GuiTextField yField;
@@ -68,20 +63,51 @@ public class GUIScreenSatCoord extends GuiScreen {
     protected void mouseClicked(int i, int j, int k)
     {
         super.mouseClicked(i, j, k);
+    	
+    	if(ItemSatInterface.currentSat == null)
+    		return;
+    	
         this.xField.mouseClicked(i, j, k);
         if(ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y)) this.yField.mouseClicked(i, j, k);
         this.zField.mouseClicked(i, j, k);
 
     	if(i >= this.guiLeft + 133 && i < this.guiLeft + 133 + 18 && j >= this.guiTop + 52 && j < this.guiTop + 52 + 18 && player != null) {
     		
-    		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
-    		
-    		PacketDispatcher.wrapper.sendToServer(new SatLaserPacket(x, z, ItemSatInterface.getFreq(player.getHeldItem())));
+    		if(NumberUtils.isNumber(xField.getText()) && NumberUtils.isNumber(zField.getText())) {
+
+    			if(ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y)) {
+    				
+    				if(NumberUtils.isNumber(yField.getText())) {
+    					
+        	    		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
+        	    		PacketDispatcher.wrapper.sendToServer(
+        	    				new SatCoordPacket(
+        	    						(int)Double.parseDouble(xField.getText()),
+        	    						(int)Double.parseDouble(yField.getText()),
+        	    						(int)Double.parseDouble(zField.getText()),
+        	    						ItemSatInterface.getFreq(player.getHeldItem())));
+        	    		
+        	            this.mc.thePlayer.closeScreen();
+    				}
+    				
+    			} else {
+    	    		
+    	    		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:item.techBleep"), 1.0F));
+    	    		PacketDispatcher.wrapper.sendToServer(
+    	    				new SatCoordPacket(
+    	    						(int)Double.parseDouble(xField.getText()),
+    	    						0,
+    	    						(int)Double.parseDouble(zField.getText()),
+    	    						ItemSatInterface.getFreq(player.getHeldItem())));
+    	    		
+    	            this.mc.thePlayer.closeScreen();
+    			}
+    		}
     	}
     }
     
-    public void drawScreen(int mouseX, int mouseY, float f)
-    {
+    public void drawScreen(int mouseX, int mouseY, float f) {
+    	
         this.drawDefaultBackground();
         this.drawGuiContainerBackgroundLayer(f, mouseX, mouseY);
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -98,7 +124,7 @@ public class GUIScreenSatCoord extends GuiScreen {
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 
         this.xField.drawTextBox();
-        if(ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y)) this.yField.drawTextBox();
+        if(ItemSatInterface.currentSat != null && ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y)) this.yField.drawTextBox();
         this.zField.drawTextBox();
 	}
 
@@ -106,8 +132,20 @@ public class GUIScreenSatCoord extends GuiScreen {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		if(xField.isFocused())
+			drawTexturedModalRect(guiLeft + 61, guiTop + 16, 0, 126, 54, 18);
+
+		if(yField.isFocused())
+			drawTexturedModalRect(guiLeft + 61, guiTop + 52, 0, 126, 54, 18);
+
+		if(zField.isFocused())
+			drawTexturedModalRect(guiLeft + 61, guiTop + 88, 0, 126, 54, 18);
 		
 		if(ItemSatInterface.currentSat != null) {
+			
+			if(!ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y))
+				drawTexturedModalRect(guiLeft + 61, guiTop + 52, 0, 144, 54, 18);
 			
 			drawTexturedModalRect(guiLeft + 120, guiTop + 17, 194, 0, 7, 7);
 			
@@ -122,7 +160,7 @@ public class GUIScreenSatCoord extends GuiScreen {
     	
 
         if (this.xField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
-        } else if (ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y) && this.yField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
+        } else if (ItemSatInterface.currentSat != null && ItemSatInterface.currentSat.coordAcs.contains(CoordActions.HAS_Y) && this.yField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
         } else if (this.zField.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
         } else {
         	

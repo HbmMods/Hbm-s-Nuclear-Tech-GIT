@@ -1607,6 +1607,9 @@ item.clip_defabricator.name=Gürtel mit Defabrikator-Energiezellen
 item.ammo_container.name=Munitionsbehälter
 
 tile.block_schrabidium.name=Schrabidiumblock
+tile.block_euphemium.name=Euphemiumblock
+tile.block_schrabidium_cluster.name=Schrabidium-Cluster
+tile.block_euphemium_cluster.name=Euphemiumgeätzter Schrabidium-Cluster
 item.plate_gold.name=Goldplatte
 
 item.syringe_empty.name=Leere Spritze

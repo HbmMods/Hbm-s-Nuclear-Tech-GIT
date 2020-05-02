@@ -1,4 +1,4 @@
-package com.hbm.items.special;
+package com.hbm.items.block;
 
 import java.util.List;
 

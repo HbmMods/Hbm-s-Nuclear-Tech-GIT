@@ -215,6 +215,10 @@ public class MachineRecipes {
 		ItemStack[] starmetal = new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3),
 				new ItemStack(ModItems.powder_astatine, 1), new ItemStack(ModItems.powder_cobalt, 2),
 				new ItemStack(Blocks.gravel, 1) };
+		
+		ItemStack[] euphCluster = new ItemStack[] { new ItemStack(ModItems.nugget_euphemium, 7),
+				new ItemStack(ModItems.powder_schrabidium, 4), new ItemStack(ModItems.ingot_starmetal, 2),
+				new ItemStack(ModItems.nugget_solinium, 2) };
 
 		if (MainRegistry.enableDebugMode) {
 			if (item.getItem() == Item.getItemFromBlock(ModBlocks.test_render)) {
@@ -364,6 +368,10 @@ public class MachineRecipes {
 
 		if (mODE(item, "oreStarmetal")) {
 			return starmetal;
+		}
+
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_euphemium_cluster)) {
+			return euphCluster;
 		}
 
 		return null;
@@ -1316,6 +1324,8 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_lignite)));
 		recipes.put(new ItemStack(ModBlocks.ore_meteor_starmetal),
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_meteor_starmetal)));
+		recipes.put(new ItemStack(ModBlocks.block_euphemium_cluster),
+				getCentrifugeOutput(new ItemStack(ModBlocks.block_euphemium_cluster)));
 		return recipes;
 	}
 
@@ -5031,6 +5041,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.dynosphere_schrabidium_charged, 1));
 			list.add(new ItemStack(ModItems.ingot_plutonium, 1));
 			list.add(new ItemStack(ModItems.catalyst_clay, 16));
+			list.add(new ItemStack(ModItems.ingot_euphemium, 1));
 			break;
         case DYN_DNT:
 			list.add(new ItemStack(ModItems.dynosphere_euphemium_charged, 2));
@@ -5352,7 +5363,7 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.ingot_schrabidium, 1);
         	break;
         case DYN_EUPH:
-			output[0] = new ItemStack(ModItems.ingot_euphemium, 1);
+			output[0] = new ItemStack(ModItems.nugget_euphemium, 12);
         	break;
         case DYN_DNT:
 			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);

@@ -169,5 +169,6 @@
     "alarm.airRaid": {"category": "record", "sounds": [{"name": "alarm/airRaid", "stream": true}]},
     "alarm.classic": {"category": "record", "sounds": [{"name": "alarm/classicSiren", "stream": false}]},
     "alarm.gambit": {"category": "record", "sounds": [{"name": "alarm/gambit", "stream": true}]},
-    "alarm.soyuzed": {"category": "record", "sounds": [{"name": "alarm/soyuzed", "stream": false}]}
+    "alarm.soyuzed": {"category": "record", "sounds": [{"name": "alarm/soyuzed", "stream": false}]},
+    "alarm.chime": {"category": "record", "sounds": [{"name": "alarm/chime", "stream": false}]}
 }

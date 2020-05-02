@@ -14,7 +14,7 @@ public class RenderTom extends Render {
 	public void doRender(Entity entity, double x, double y, double z, float f0, float f1) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x, y, z);
+		GL11.glTranslated(x, y - 50, z);
 		
 		TomPronter.prontTom();
 		GL11.glPopMatrix();

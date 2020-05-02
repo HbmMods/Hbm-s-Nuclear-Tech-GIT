@@ -61,7 +61,7 @@ public class SatCoordPacket implements IMessage {
 				    Satellite sat = SatelliteSavedData.getData(p.worldObj).getSatFromFreq(m.freq);
 				    
 				    if(sat != null)
-				    	sat.onCoordAction(p.worldObj, m.x, m.y, m.z);
+				    	sat.onCoordAction(p.worldObj, p, m.x, m.y, m.z);
 				}
 			}
 			

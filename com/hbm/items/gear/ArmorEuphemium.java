@@ -1,23 +1,20 @@
 package com.hbm.items.gear;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ISpecialArmor;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 
-public class ArmorEuphemium extends ItemArmor implements ISpecialArmor {
+public class ArmorEuphemium extends ItemArmor {
+	
 	private String [] armourTypes = new String [] {"euphemium_helmet", "euphemium_chest", "euphemium_legs", "euphemium_boots"};
 	
 	public ArmorEuphemium(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
@@ -35,42 +32,6 @@ public class ArmorEuphemium extends ItemArmor implements ISpecialArmor {
 		}
 		
 		else return null;
-	}
-	
-	@Override
-	public ArmorProperties getProperties(EntityLivingBase player, ItemStack armor, DamageSource source, double damage, int slot) {
-		if(player instanceof EntityPlayer && Library.checkArmor((EntityPlayer)player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
-		{
-			return new ArmorProperties(1, 1, MathHelper.floor_double(999999999));
-		}
-		return new ArmorProperties(0, 0, 0);
-	}
-
-	@Override
-	public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
-		if(slot == 0)
-		{
-			return 3;
-		}
-		if(slot == 1)
-		{
-			return 8;
-		}
-		if(slot == 2)
-		{
-			return 6;
-		}
-		if(slot == 3)
-		{
-			return 3;
-		}
-		return 0;
-	}
-
-
-	@Override
-	public void damageArmor(EntityLivingBase entity, ItemStack stack, DamageSource source, int damage, int slot) {
-			stack.damageItem(damage * 0, entity);
 	}
 	
 	@Override
@@ -96,5 +57,9 @@ public class ArmorEuphemium extends ItemArmor implements ISpecialArmor {
     	
 		return EnumRarity.epic;
     }
+    
+    //do literally nothing lole
+    @Override
+    public void setDamage(ItemStack stack, int damage) {  }
 
 }

@@ -24,13 +24,9 @@ public class EntityTom extends EntityThrowable {
 		this.lastTickPosZ = this.prevPosZ = posZ;
 		this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
 		
-		/*this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-		
-		this.posX += this.motionX;
-		this.posY += this.motionY;
-		this.posZ += this.motionZ;*/
+		if(this.ticksExisted % 100 == 0) {
+			worldObj.playSoundEffect(posX, posY, posZ, "hbm:alarm.chime", 10000, 1.0F);
+		}
         
 		motionY = -0.5;
         

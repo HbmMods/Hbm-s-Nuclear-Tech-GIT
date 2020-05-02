@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.SatelliteSavedData;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -119,5 +120,5 @@ public abstract class Satellite {
 	 * @param y ditto
 	 * @param z ditto
 	 */
-	public void onCoordAction(World world, int x, int y, int z) { }
+	public void onCoordAction(World world, EntityPlayer player, int x, int y, int z) { }
 }

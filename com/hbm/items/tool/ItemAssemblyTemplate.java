@@ -602,7 +602,23 @@ public class ItemAssemblyTemplate extends Item {
 				new ItemStack(Blocks.redstone_block, 12),
 				new ItemStack(ModItems.powder_magnetized_tungsten, 6),
 				new ItemStack(ModItems.circuit_targeting_tier4, 1)),
-				new ItemStack(ModItems.mp_warhead_15_n2));
+				new ItemStack(ModItems.mp_warhead_15_n2)),
+		
+		GERALD(1200, Arrays.asList(
+				new ItemStack(ModItems.cap_star, 1),
+				new ItemStack(ModItems.chlorine_pinwheel, 1),
+				new ItemStack(ModItems.burnt_bark, 1),
+				new ItemStack(ModItems.combine_scrap, 1),
+				new ItemStack(ModBlocks.block_euphemium_cluster, 1),
+				new ItemStack(ModItems.crystal_horn, 1),
+				new ItemStack(ModItems.crystal_charred, 1),
+				new ItemStack(ModBlocks.pink_log, 1),
+				new ItemStack(ModItems.mp_warhead_15_balefire, 1),
+				new ItemStack(ModBlocks.crate_red, 1),
+				new ItemStack(ModBlocks.det_nuke, 16),
+				new ItemStack(ModItems.ingot_starmetal, 32)),
+				
+				new ItemStack(ModItems.sat_gerald));
 
 		private EnumAssemblyTemplate() { }
 		

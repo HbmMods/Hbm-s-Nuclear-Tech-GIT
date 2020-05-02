@@ -48,8 +48,6 @@ public class SatelliteSavedData extends WorldSavedData {
 			int freq = nbt.getInteger("sat_freq_" + i);
 			
 			sats.put(freq, sat);
-			
-			System.out.println("Loaded sat" + i + " " + sat.getClass().getSimpleName());
 		}
 	}
 
@@ -68,8 +66,6 @@ public class SatelliteSavedData extends WorldSavedData {
     		nbt.setTag("sat_data_" + i, data);
     		nbt.setInteger("sat_freq_" + i, struct.getKey());
 			i++;
-			
-			System.out.println("Saved sat" + i + " " + struct.getValue().getClass().getSimpleName());
     	}
 	}
 	

@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -21,8 +22,18 @@ public class BlockGenericPillar extends BlockRotatedPillar {
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister reg)
     {
-        this.field_150164_N = reg.registerIcon(RefStrings.MODID + ":meteor_pillar_top");
-        this.iconSide = reg.registerIcon(RefStrings.MODID + ":meteor_pillar");
+    	if(this == ModBlocks.meteor_pillar) {
+	        this.field_150164_N = reg.registerIcon(RefStrings.MODID + ":meteor_pillar_top");
+	        this.iconSide = reg.registerIcon(RefStrings.MODID + ":meteor_pillar");
+    	}
+    	if(this == ModBlocks.block_schrabidium_cluster) {
+	        this.field_150164_N = reg.registerIcon(RefStrings.MODID + ":block_schrabidium_cluster_top");
+	        this.iconSide = reg.registerIcon(RefStrings.MODID + ":block_schrabidium_cluster_side");
+    	}
+    	if(this == ModBlocks.block_euphemium_cluster) {
+	        this.field_150164_N = reg.registerIcon(RefStrings.MODID + ":block_euphemium_cluster_top");
+	        this.iconSide = reg.registerIcon(RefStrings.MODID + ":block_euphemium_cluster_side");
+    	}
     }
 
 	@Override

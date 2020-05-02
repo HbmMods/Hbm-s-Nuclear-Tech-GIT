@@ -1607,6 +1607,9 @@ item.clip_defabricator.name=Belt with Defabricator Energy Cells
 item.ammo_container.name=Ammo Container
 
 tile.block_schrabidium.name=Block of Schrabidium
+tile.block_euphemium.name=Block of Euphemium
+tile.block_schrabidium_cluster.name=Schrabidium Cluster
+tile.block_euphemium_cluster.name=Euphemium-Etched Schrabidium Cluster
 item.plate_gold.name=Gold Plate
 
 item.syringe_empty.name=Empty Syringe

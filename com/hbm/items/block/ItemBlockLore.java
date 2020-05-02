@@ -1,4 +1,4 @@
-package com.hbm.items.special;
+package com.hbm.items.block;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import com.hbm.blocks.generic.RedBarrel;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
@@ -51,5 +52,19 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("Provides infinite charge to tesla coils");
 		}
 	}
+
+    @Override
+	public EnumRarity getRarity(ItemStack stack) {
+
+		if(this.field_150939_a == ModBlocks.ore_schrabidium || this.field_150939_a == ModBlocks.ore_nether_schrabidium ||
+				this.field_150939_a == ModBlocks.block_schrabidium || this.field_150939_a == ModBlocks.block_schrabidium_cluster)
+			return EnumRarity.rare;
+		
+		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||
+				this.field_150939_a == ModBlocks.plasma || this.field_150939_a == ModBlocks.fwatz_plasma)
+			return EnumRarity.epic;
+    	
+    	return EnumRarity.common;
+    }
 
 }

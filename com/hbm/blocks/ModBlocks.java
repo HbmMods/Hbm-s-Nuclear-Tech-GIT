@@ -5,12 +5,10 @@ import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.test.*;
+import com.hbm.items.block.ItemBlockLore;
+import com.hbm.items.block.ItemTaintBlock;
 import com.hbm.items.bomb.ItemPrototypeBlock;
-import com.hbm.items.special.ItemBlockLore;
 import com.hbm.items.special.ItemOreBlock;
-import com.hbm.items.special.ItemPlasmaBlock;
-import com.hbm.items.special.ItemSchrabidiumBlock;
-import com.hbm.items.special.ItemTaintBlock;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -111,6 +109,9 @@ public class ModBlocks {
 	public static Block block_electrical_scrap;
 	public static Block block_beryllium;
 	public static Block block_schrabidium;
+	public static Block block_euphemium;
+	public static Block block_schrabidium_cluster;
+	public static Block block_euphemium_cluster;
 	public static Block block_advanced_alloy;
 	public static Block block_magnetized_tungsten;
 	public static Block block_combine_steel;
@@ -827,6 +828,9 @@ public class ModBlocks {
 		block_electrical_scrap = new BlockFalling(Material.iron).setBlockName("block_electrical_scrap").setCreativeTab(MainRegistry.blockTab).setHardness(2.5F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setBlockTextureName(RefStrings.MODID + ":electrical_scrap_alt2");
 		block_beryllium = new BlockGeneric(Material.iron).setBlockName("block_beryllium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_beryllium");
 		block_schrabidium = new BlockGeneric(Material.iron).setBlockName("block_schrabidium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_schrabidium");
+		block_euphemium = new BlockGeneric(Material.iron).setBlockName("block_euphemium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(60000.0F).setBlockTextureName(RefStrings.MODID + ":block_euphemium");
+		block_schrabidium_cluster = new BlockGenericPillar(Material.rock).setBlockName("block_schrabidium_cluster").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(60000.0F);
+		block_euphemium_cluster = new BlockGenericPillar(Material.rock).setBlockName("block_euphemium_cluster").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(60000.0F);
 		block_advanced_alloy = new BlockGeneric(Material.iron).setBlockName("block_advanced_alloy").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_advanced_alloy");
 		block_magnetized_tungsten = new BlockGeneric(Material.iron).setBlockName("block_magnetized_tungsten").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(35.0F).setBlockTextureName(RefStrings.MODID + ":block_magnetized_tungsten");
 		block_combine_steel = new BlockGeneric(Material.iron).setBlockName("block_combine_steel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_combine_steel");
@@ -1357,7 +1361,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_oil_sand, ore_oil_sand.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_lignite, ore_lignite.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_asbestos, ore_asbestos.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_schrabidium, ItemSchrabidiumBlock.class, ore_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_schrabidium, ItemBlockLore.class, ore_schrabidium.getUnlocalizedName());
 		
 		//Rare Minerals
 		GameRegistry.registerBlock(ore_australium, ItemOreBlock.class, ore_australium.getUnlocalizedName());
@@ -1374,7 +1378,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_nether_tungsten, ore_nether_tungsten.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_nether_sulfur, ore_nether_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_nether_fire, ore_nether_fire.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_nether_schrabidium, ItemSchrabidiumBlock.class, ore_nether_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nether_schrabidium, ItemBlockLore.class, ore_nether_schrabidium.getUnlocalizedName());
 		
 		//Meteor Ores
 		GameRegistry.registerBlock(ore_meteor_uranium, ore_meteor_uranium.getUnlocalizedName());
@@ -1413,7 +1417,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_asbestos, block_asbestos.getUnlocalizedName());
 		GameRegistry.registerBlock(block_trinitite, block_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste, block_waste.getUnlocalizedName());
-		GameRegistry.registerBlock(block_schrabidium, ItemSchrabidiumBlock.class, block_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidium, ItemBlockLore.class, block_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_euphemium, ItemBlockLore.class, block_euphemium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidium_cluster, ItemBlockLore.class, block_schrabidium_cluster.getUnlocalizedName());
+		GameRegistry.registerBlock(block_euphemium_cluster, ItemBlockLore.class, block_euphemium_cluster.getUnlocalizedName());
 		GameRegistry.registerBlock(block_magnetized_tungsten, block_magnetized_tungsten.getUnlocalizedName());
 		GameRegistry.registerBlock(block_combine_steel, block_combine_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_desh, block_desh.getUnlocalizedName());
@@ -1763,7 +1770,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fusion_heater, fusion_heater.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_hatch, fusion_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_core, fusion_core.getUnlocalizedName());
-		GameRegistry.registerBlock(plasma, ItemPlasmaBlock.class, plasma.getUnlocalizedName());
+		GameRegistry.registerBlock(plasma, ItemBlockLore.class, plasma.getUnlocalizedName());
 
 		GameRegistry.registerBlock(watz_element, watz_element.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_control, watz_control.getUnlocalizedName());

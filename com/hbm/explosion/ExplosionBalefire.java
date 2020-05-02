@@ -93,8 +93,12 @@ public class ExplosionBalefire
 			while(y > 0) {
 				
 				if(strength <= 10) {
-					if(worldObj.rand.nextInt(10) == 0)
+					if(worldObj.rand.nextInt(10) == 0) {
 						worldObj.setBlock(pX, y + 1, pZ, ModBlocks.balefire);
+						
+						if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster)
+							worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
+					}
 
 					if(worldObj.getBlock(pX, y, pZ) == Blocks.stone)
 						worldObj.setBlock(pX, y, pZ, ModBlocks.sellafield_slaked);
