@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.EntityCyberCrab;
+import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityTaintCrab;
+import com.hbm.entity.mob.EntityTeslaCrab;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -11,7 +15,9 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +25,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class TileEntityTesla extends TileEntityMachineBase implements IConsumer {
 	
@@ -56,27 +63,7 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 				double dy = yCoord + offset;
 				double dz = zCoord + 0.5;
 				
-				List<EntityLivingBase> targets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(dx - range, dy - range, dz - range, dx + range, dy + range, dz + range));
-				
-				for(EntityLivingBase e : targets) {
-					
-					if(e instanceof EntityOcelot)
-						continue;
-					
-					Vec3 vec = Vec3.createVectorHelper(e.posX - dx, e.posY + e.height / 2 - dy, e.posZ - dz);
-					
-					if(vec.lengthVector() > range)
-						continue;
-
-					if(Library.isObstructed(worldObj, xCoord + 0.5, yCoord + offset, zCoord + 0.5, e.posX, e.posY + e.height / 2, e.posZ))
-						continue;
-					
-					if(!(e instanceof EntityPlayer && Library.checkForFaraday((EntityPlayer)e)))
-						if(e.attackEntityFrom(ModDamageSource.electricity, MathHelper.clamp_float(e.getMaxHealth() * 0.5F, 3, 20) / (float)targets.size()))
-							worldObj.playSoundAtEntity(e, "hbm:weapon.tesla", 1.0F, 1.0F);
-					
-					this.targets.add(new double[] {e.posX, e.posY + e.height / 2, e.posZ});
-				}
+				this.targets = zap(worldObj, dx, dy, dz, range, null);
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -91,6 +78,65 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 			
 			this.networkPack(data, 100);
 		}
+	}
+	
+	public static List<double[]> zap(World worldObj, double x, double y, double z, double radius, Entity source) {
+
+		List<double[]> ret = new ArrayList();
+		
+		List<EntityLivingBase> targets = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
+		
+		for(EntityLivingBase e : targets) {
+			
+			if(e instanceof EntityOcelot || e == source)
+				continue;
+			
+			Vec3 vec = Vec3.createVectorHelper(e.posX - x, e.posY + e.height / 2 - y, e.posZ - z);
+			
+			if(vec.lengthVector() > range)
+				continue;
+
+			if(Library.isObstructed(worldObj, x, y, z, e.posX, e.posY + e.height / 2, e.posZ))
+				continue;
+			
+			if(e instanceof EntityTaintCrab) {
+				ret.add(new double[] {e.posX, e.posY + 1.25, e.posZ});
+				e.heal(15F);
+				continue;
+			}
+			
+			if(e instanceof EntityTeslaCrab) {
+				ret.add(new double[] {e.posX, e.posY + 1, e.posZ});
+				e.heal(10F);
+				continue;
+			}
+			
+			if(e instanceof EntityCyberCrab) {
+				ret.add(new double[] {e.posX, e.posY + e.height / 2, e.posZ});
+				continue;
+			}
+			
+			if(!(e instanceof EntityPlayer && Library.checkForFaraday((EntityPlayer)e)))
+				if(e.attackEntityFrom(ModDamageSource.electricity, MathHelper.clamp_float(e.getMaxHealth() * 0.5F, 3, 20) / (float)targets.size()))
+					worldObj.playSoundAtEntity(e, "hbm:weapon.tesla", 1.0F, 1.0F);
+			
+			if(e instanceof EntityCreeper) {
+				((EntityCreeper)e).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+			}
+			
+			if(e instanceof EntityNuclearCreeper) {
+				((EntityNuclearCreeper)e).getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+			}
+			
+			double offset = 0;
+			
+			if(source != null && e instanceof EntityPlayer && worldObj.isRemote)
+				offset = e.height;
+			
+			ret.add(new double[] {e.posX, e.posY + e.height / 2 - offset, e.posZ});
+		}
+		
+		return ret;
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {

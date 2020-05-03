@@ -5,45 +5,34 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
-import com.hbm.lib.RefStrings;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class BlockCanCrate extends Block {
-
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconBottom;
 
 	public BlockCanCrate(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":crate_can_top");
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":crate_can_bottom");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":crate_can_side");
+	public int getRenderType(){
+		return 334085;
 	}
-
+	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.blockIcon);
+	public boolean isOpaqueCube() {
+		return false;
 	}
-
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
 
     @Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {

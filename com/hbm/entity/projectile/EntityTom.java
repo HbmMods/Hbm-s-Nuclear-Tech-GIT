@@ -52,7 +52,7 @@ public class EntityTom extends EntityThrowable {
 	@SideOnly(Side.CLIENT)
     public boolean isInRangeToRenderDist(double distance)
     {
-        return distance < 100000;
+        return distance < 500000;
     }
 
     @Override

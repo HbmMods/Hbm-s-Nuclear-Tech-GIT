@@ -695,6 +695,7 @@ item.ingot_saturnite.name=Saturnite Ingot
 item.plate_saturnite.name=Saturnite Plate
 item.ingot_fiberglass.name=Fiberglass Bar
 item.ingot_asbestos.name=Asbestos Sheet
+item.ingot_electronium.name=Electronium Ingot
 
 item.solid_fuel.name=Solid Fuel
 item.rocket_fuel.name=Solid Fuel (Rocket Propellant)
@@ -1643,6 +1644,8 @@ entity.entity_mob_nuclear_creeper.name=Nuclear Creeper
 entity.entity_mob_tainted_creeper.name=Tainted Creeper
 entity.entity_mob_hunter_chopper.name=Hunter Chopper
 entity.entity_cyber_crab.name=Cyber Crab
+entity.entity_tesla_crab.name=Tesla Crab
+entity.entity_taint_crab.name=Taint Crab
 
 item.cap_aluminium.name=Aluminium Cap
 item.hull_small_steel.name=Small Steel Shell
@@ -1912,6 +1915,7 @@ item.sat_miner.name=Asteroid Mining Ship
 item.sat_gerald.name=Gerald The Construction Android
 item.sat_chip.name=Satellite ID-Chip
 item.sat_interface.name=Satellite Control Interface
+item.sat_coord.name=Satellite Designator
 tile.sat_mapper.name=Surface Mapping Satellite (Deco Block)
 tile.sat_scanner.name=Satellite with Depth-Resource Scanning Module (Deco Block)
 tile.sat_radar.name=Radar Survey Satellite (Deco Block)

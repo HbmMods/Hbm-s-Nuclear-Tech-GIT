@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.Library;
@@ -86,7 +87,7 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 			
-			if(!(entity instanceof EntityTaintedCreeper) && entity.worldObj.rand.nextInt(80) == 0)
+			if(!(entity instanceof EntityTaintedCreeper) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 			
 			if(MainRegistry.enableHardcoreTaint && !entity.worldObj.isRemote) {

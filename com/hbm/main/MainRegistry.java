@@ -700,6 +700,8 @@ public class MainRegistry
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
+	    EntityRegistry.registerGlobalEntityID(EntityTeslaCrab.class, "entity_tesla_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x440000);
+	    EntityRegistry.registerGlobalEntityID(EntityTaintCrab.class, "entity_taint_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xFF00FF);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			

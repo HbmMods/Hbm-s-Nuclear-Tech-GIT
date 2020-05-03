@@ -23,12 +23,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
-	
-    private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 0.5D, 60, 80, 15.0F);
     
     private static final IEntitySelector selector = new IEntitySelector() {
 		public boolean isEntityApplicable(Entity p_82704_1_) {
-			return !(p_82704_1_ instanceof EntityCyberCrab || p_82704_1_ instanceof EntityCreeper);
+			return !(p_82704_1_ instanceof EntityCyberCrab || p_82704_1_ instanceof EntityCreeper || p_82704_1_ instanceof EntityNuclearCreeper);
 		}
 	};
 
@@ -37,12 +35,18 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
         super(p_i1733_1_);
         this.setSize(0.75F, 0.35F);
         this.getNavigator().setAvoidsWater(true);
-        this.tasks.addTask(0, new EntityAIPanic(this, 0.75D));
+        
+        if(!(this instanceof EntityTaintCrab))
+        	this.tasks.addTask(0, new EntityAIPanic(this, 0.75D));
+        
         this.tasks.addTask(1, new EntityAIWander(this, 0.5F));
-        //this.tasks.addTask(2, new EntityAIAvoidEntity(this, EntityPlayer.class, 3, 0.75D, 1.0D));
-        this.tasks.addTask(4, this.aiArrowAttack);
+        this.tasks.addTask(4, arrowAI());
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, true, true, selector));
+    }
+    
+    protected EntityAIArrowAttack arrowAI() {
+    	return new EntityAIArrowAttack(this, 0.5D, 60, 80, 15.0F);
     }
 
     @Override
@@ -50,7 +54,7 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5F);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.75F);
     }
     
     @Override
@@ -117,7 +121,11 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
         
         if(this.getHealth() <= 0) {
         	this.setDead();
-        	worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 0.1F, true);
+
+            if(this instanceof EntityTaintCrab)
+            	worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 3F, false);
+            else
+            	worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 0.1F, false);
         }
     }
 
@@ -158,6 +166,10 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob {
 	protected Item getDropItem()
     {
         return ModItems.wire_gold;
+    }
+
+    protected void dropRareDrop(int p_70600_1_) {
+    	this.dropItem(ModItems.wire_magnetized_tungsten, 1);
     }
 
 	@Override

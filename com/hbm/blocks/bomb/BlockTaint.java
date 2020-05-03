@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
+import com.hbm.entity.mob.EntityTeslaCrab;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
@@ -187,6 +189,16 @@ public class BlockTaint extends Block/*Container*/ {
     		if(!world.isRemote) {
     			entity.setDead();
     			world.spawnEntityInWorld(creep);
+    		}
+    	}
+    	
+    	if(entity instanceof EntityTeslaCrab) {
+    		EntityTaintCrab crab = new EntityTaintCrab(world);
+    		crab.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+
+    		if(!world.isRemote) {
+    			entity.setDead();
+    			world.spawnEntityInWorld(crab);
     		}
     	}
 	}

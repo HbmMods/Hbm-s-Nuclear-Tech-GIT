@@ -61,7 +61,9 @@ import com.hbm.render.entity.item.RenderMinecartTest;
 import com.hbm.render.entity.mob.RenderCyberCrab;
 import com.hbm.render.entity.mob.RenderHunterChopper;
 import com.hbm.render.entity.mob.RenderNuclearCreeper;
+import com.hbm.render.entity.mob.RenderTaintCrab;
 import com.hbm.render.entity.mob.RenderTaintedCreeper;
+import com.hbm.render.entity.mob.RenderTeslaCrab;
 import com.hbm.render.entity.projectile.RenderBaleflare;
 import com.hbm.render.entity.projectile.RenderBeam;
 import com.hbm.render.entity.projectile.RenderBeam2;
@@ -134,6 +136,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerBlockHandler(new RenderFence());
 		RenderingRegistry.registerBlockHandler(new RenderBarbedWire());
 		RenderingRegistry.registerBlockHandler(new RenderAntennaTop());
+		RenderingRegistry.registerBlockHandler(new RenderConserve());
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.assembly_template, new ItemRenderTemplate());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chemistry_template, new ItemRenderTemplate());
@@ -503,6 +506,8 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintedCreeper.class, new RenderTaintedCreeper());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityHunterChopper.class, new RenderHunterChopper());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCyberCrab.class, new RenderCyberCrab());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityTeslaCrab.class, new RenderTeslaCrab());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintCrab.class, new RenderTaintCrab());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRubble.class, new RenderRubble());
@@ -745,6 +750,14 @@ public class ClientProxy extends ServerProxy
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}
+		}
+		
+		if("vanilla".equals(type)) {
+
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			world.spawnParticle(data.getString("mode"), x, y, z, mX, mY, mZ);
 		}
 	}
 	
