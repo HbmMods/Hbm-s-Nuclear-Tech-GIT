@@ -45,6 +45,12 @@ achievement.nuclear=原子科学
 achievement.nuclear.desc=Bobmazon 5级 (铀燃料)
 achievement.hidden=隐藏目录
 achievement.hidden.desc=当你身上着火且辐射吸收量大于250RAD时使用一节坠落的车厢杀死一只末影人
+achievement.horizonsStart=地平线？
+achievement.horizonsStart.desc=将一个小伙子送上月球
+achievement.horizonsEnd=地平线.
+achievement.horizonsEnd.desc=送他回家
+achievement.horizonsBonus=地平线！
+achievement.horizonsBonus.desc=oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap oh poop oh crap
 
 potion.hbm_taint=污染
 potion.hbm_mutation=变异
@@ -191,6 +197,7 @@ death.attack.blender=%1$s 被切成小块
 death.attack.meteorite=%1$s 被来自外太空的陨石击中
 death.attack.boxcar=%1$s 被一节坠落的车厢撞死了...好吧
 death.attack.boat=%1$s 被船撞了
+death.attack.building=%1$s 被从天而降的建筑砸中了
 death.attack.broadcast=%1$s 的大脑融化了
 death.attack.ams=%1$s 沐浴在尚未被人类科学命名的致命粒子中
 death.attack.amsCore=%1$s 在奇点之火中蒸发
@@ -200,6 +207,7 @@ death.attack.cloud=%1$s 像冰棒一样在太阳下融化
 death.attack.lead=%1$s 死于铅中毒
 death.attack.taint=%1$s 死于恶性肿瘤
 death.attack.electricity=%1$s 被电死
+death.attack.exhaust=%1$s 被火箭烤成了羊肉串
 
 item.redstone_sword.name=红石剑
 item.big_sword.name=大剑
@@ -472,6 +480,8 @@ tile.machine_reactor_small.name=核反应堆
 container.reactorSmall=核反应堆
 tile.machine_controller.name=反应堆遥控模块
 container.reactorControl=反应堆遥控模块
+tile.soyuz_capsule.name=货物着陆舱
+container.soyuzCapsule=货物着陆舱
 
 tile.barrel_plastic.name=安全桶™
 tile.barrel_corroded.name=被腐蚀的桶
@@ -685,6 +695,7 @@ item.ingot_saturnite.name=土星锭
 item.plate_saturnite.name=土星板
 item.ingot_fiberglass.name=玻璃纤维
 item.ingot_asbestos.name=石棉板
+item.ingot_electronium.name=电素锭
 
 item.solid_fuel.name=固体燃料
 item.rocket_fuel.name=固体燃料[火箭推进剂]
@@ -1482,7 +1493,8 @@ item.ammo_12gauge.name=12号鹿弹
 item.ammo_12gauge_incendiary.name=12号鹿弹[燃烧]
 item.ammo_12gauge_shrapnel.name=12号鹿弹[榴霰弹]
 item.ammo_12gauge_du.name=12号鹿弹[铀涂层]
-item.ammo_20gauge.name=20号鹿弹
+item.ammo_12gauge_marauder.name=12号战术反掠夺鹿弹
+tem.ammo_20gauge.name=20号鹿弹
 item.ammo_20gauge_slug.name=20号独头弹
 item.ammo_20gauge_flechette.name=20号箭霰弹
 item.ammo_20gauge_incendiary.name=20号鹿弹[燃烧]
@@ -1596,6 +1608,9 @@ item.clip_defabricator.name=毁灭者能量电池弹药带
 item.ammo_container.name=万能弹药盒
 
 tile.block_schrabidium.name=Sa326块
+tile.block_euphemium.name=Ep块
+tile.block_schrabidium_cluster.name=Sa326团
+tile.block_euphemium_cluster.name=Ep刻蚀Sa326团
 item.plate_gold.name=金板
 
 item.syringe_empty.name=空注射器
@@ -1629,6 +1644,8 @@ entity.entity_mob_nuclear_creeper.name=核爆爬行者
 entity.entity_mob_tainted_creeper.name=污染爬行者
 entity.entity_mob_hunter_chopper.name=猎人直升机
 entity.entity_cyber_crab.name=赛博螃蟹
+entity.entity_tesla_crab.name=磁暴螃蟹
+entity.entity_taint_crab.name=污染螃蟹
 
 item.cap_aluminium.name=铝盖
 item.hull_small_steel.name=小型钢壳
@@ -1886,6 +1903,8 @@ item.missile_skin_metal.name=导弹外壳:全金属外壳
 item.missile_custom.name=定制导弹
 
 item.missile_carrier.name=HTR-01运载火箭
+item.missile_soyuz.name=联盟-FG运载火箭
+item.missile_soyuz_lander.name=联盟号轨道舱
 item.sat_mapper.name=地表测绘卫星
 item.sat_scanner.name=绘测和资源探测卫星
 item.sat_radar.name=雷达探测卫星
@@ -1896,6 +1915,7 @@ item.sat_miner.name=小行星采矿飞船
 item.sat_gerald.name=Gerald建筑机器人
 item.sat_chip.name=卫星ID芯片
 item.sat_interface.name=卫星操作接口
+item.sat_coord.name=卫星指示器
 tile.sat_mapper.name=地表测绘卫星[装饰块]
 tile.sat_scanner.name=绘测和资源探测卫星[装饰块]
 tile.sat_radar.name=雷达探测卫星[装饰块]
@@ -2047,6 +2067,8 @@ tile.meteor_brick_mossy.name=苔藓陨石砖
 tile.meteor_brick_cracked.name=裂纹陨石砖
 tile.meteor_brick_chiseled.name=錾制陨石砖
 tile.meteor_pillar.name=竖纹陨石砖
+tile.meteor_spawner.name=赛博螃蟹组装机
+tile.meteor_battery.name=星辉静电发生器
 
 item.cape_radiation.name=披风[辐射]
 item.cape_gasmask.name=披风[防毒面具]
@@ -2357,5 +2379,5 @@ tile.cheater_virus.name=冻结Ep
 tile.cheater_virus_seed.name=不稳定Ep Schrabide块
 
 item.mysteryshovel.name=易碎锹
-tile.ntm_dirt.name=污垢
+tile.ntm_dirt.name=泥土
 item.memory.name=item.null.name
