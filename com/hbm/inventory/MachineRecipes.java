@@ -811,7 +811,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_plutonium) {
-			return new ItemStack(ModItems.rod_lead, 1);
+			return new ItemStack(ModItems.rod_waste, 1);
 		}
 
 		if (item == ModItems.rod_pu238) {
@@ -823,7 +823,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_pu240) {
-			return new ItemStack(ModItems.rod_lead, 1);
+			return new ItemStack(ModItems.rod_waste, 1);
 		}
 
 		if (item == ModItems.rod_schrabidium) {
@@ -855,7 +855,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_dual_plutonium) {
-			return new ItemStack(ModItems.rod_dual_lead, 1);
+			return new ItemStack(ModItems.rod_dual_waste, 1);
 		}
 
 		if (item == ModItems.rod_dual_pu238) {
@@ -867,7 +867,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_dual_pu240) {
-			return new ItemStack(ModItems.rod_dual_lead, 1);
+			return new ItemStack(ModItems.rod_dual_waste, 1);
 		}
 
 		if (item == ModItems.rod_dual_schrabidium) {
@@ -899,7 +899,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_quad_plutonium) {
-			return new ItemStack(ModItems.rod_quad_lead, 1);
+			return new ItemStack(ModItems.rod_quad_waste, 1);
 		}
 
 		if (item == ModItems.rod_quad_pu238) {
@@ -911,7 +911,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_quad_pu240) {
-			return new ItemStack(ModItems.rod_quad_lead, 1);
+			return new ItemStack(ModItems.rod_quad_waste, 1);
 		}
 
 		if (item == ModItems.rod_quad_schrabidium) {

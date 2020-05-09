@@ -79,6 +79,21 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Withering");
 		}
 		
+		//23mm
+		if(this == ModItems.ammo_4gauge_slug) {
+			list.add(EnumChatFormatting.BLUE + "+ Near-perfect accuracy");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
+		if(this == ModItems.ammo_4gauge_explosive) {
+			list.add(EnumChatFormatting.BLUE + "+ Explosive");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* It's a 40mm grenade that we squeezed to fit the barrel!");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
+		
 		//.357 MAGNUM
 		if(this == ModItems.ammo_357_desh) {
 			list.add(EnumChatFormatting.BLUE + "+ Fits every .357 model");

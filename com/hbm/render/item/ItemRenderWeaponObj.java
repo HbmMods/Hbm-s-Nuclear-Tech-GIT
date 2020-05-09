@@ -20,6 +20,8 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		case EQUIPPED_FIRST_PERSON:
 		case ENTITY:
 			return true;
+		case INVENTORY:
+			return item.getItem() == ModItems.gun_ks23 || item.getItem() == ModItems.gun_hk69;
 		default: return false;
 		}
 	}
@@ -46,6 +48,9 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 
 		if(item.getItem() == ModItems.gun_supershotgun)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.turbofan_blades_tex);
+
+		if(item.getItem() == ModItems.gun_ks23)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ks23_tex);
 		
 		switch(type) {
 		
@@ -88,6 +93,19 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 					GL11.glRotatef(-5F, 0.0F, 1.0F, 0.0F);
 				}
 			}
+
+			if(item.getItem() == ModItems.gun_ks23) {
+				GL11.glTranslatef(1.0F, 0.85F, -0.25F);
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(-25F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
+				GL11.glScaled(1.25, 1.25, 1.25);
+				
+				if(player.isSneaking()) {
+					GL11.glRotatef(4.5F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(0.51F, 0.2F, 0.3F);
+				}
+			}
 			
 			break;
 			
@@ -113,6 +131,13 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glTranslatef(-0.5F, -0.3F, -0.5F);
 				GL11.glScaled(1.5, 1.5, 1.5);
 			}
+
+			if(item.getItem() == ModItems.gun_ks23) {
+				GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
+				GL11.glRotatef(10F, 0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(0.4F, 0.2F, 1.2F);
+				GL11.glScaled(1.25, 1.25, 1.25);
+			}
 			
 			break;
 			
@@ -131,6 +156,34 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 
 			if(item.getItem() == ModItems.gun_supershotgun) {
 				GL11.glTranslatef(-1.0F, -0.2F, 0.0F);
+			}
+			
+			if(item.getItem() == ModItems.gun_ks23) {
+				GL11.glTranslatef(0.5F, 0.2F, 0.0F);
+				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+				GL11.glScaled(0.75, 0.75, 0.75);
+			}
+			
+			break;
+			
+		case INVENTORY:
+
+			GL11.glEnable(GL11.GL_LIGHTING);
+			
+			if(item.getItem() == ModItems.gun_hk69) {
+				GL11.glScaled(7.5, 7.5, -7.5);
+				GL11.glTranslatef(0.85F, 1.2F, 0.0F);
+				GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(-45F, 1.0F, 0.0F, 0.0F);
+			}
+			
+			if(item.getItem() == ModItems.gun_ks23) {
+				GL11.glScaled(7.5, 7.5, -7.5);
+				GL11.glTranslatef(0.65F, 0.4F, 0.0F);
+				GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(-45F, 1.0F, 0.0F, 0.0F);
 			}
 			
 			break;
@@ -153,6 +206,12 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		if(item.getItem() == ModItems.gun_supershotgun) {
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.shotty.renderAll();
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
+
+		if(item.getItem() == ModItems.gun_ks23) {
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			ResourceManager.ks23.renderAll();
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}
 		

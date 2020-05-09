@@ -119,7 +119,8 @@ public class ItemRadioactive extends ItemCustomLore {
 					this == ModItems.rod_uranium_fuel_depleted || 
 					this == ModItems.rod_plutonium_fuel_depleted || 
 					this == ModItems.rod_mox_fuel_depleted || 
-					this == ModItems.ingot_thorium_fuel) {
+					this == ModItems.ingot_thorium_fuel || 
+					this == ModItems.nuclear_waste_tiny) {
         		//Library.applyRadiation(living, 45, 19, 30, 14);
 				Library.applyRadData(living, 3.5F/20F * mod);
 			}

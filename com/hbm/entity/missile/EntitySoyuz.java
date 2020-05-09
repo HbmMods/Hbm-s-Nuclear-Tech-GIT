@@ -55,9 +55,13 @@ public class EntitySoyuz extends Entity {
 				e.setFire(15);
 				e.attackEntityFrom(ModDamageSource.exhaust, 100.0F);
 				
-				if(!memed && e instanceof EntityPlayer) {
-					memed = true;
-					worldObj.playSoundEffect(posX, posY, posZ, "hbm:alarm.soyuzed", 100, 1.0F);
+				if(e instanceof EntityPlayer) {
+					if(!memed) {
+						memed = true;
+						worldObj.playSoundEffect(posX, posY, posZ, "hbm:alarm.soyuzed", 100, 1.0F);
+					}
+					
+					((EntityPlayer)e).triggerAchievement(MainRegistry.achSoyuz);
 				}
 			}
 		}

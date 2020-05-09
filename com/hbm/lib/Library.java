@@ -260,6 +260,7 @@ public class Library {
 			"schrabidium",
 			"euphemium",
 			"steel",
+			"cmb",
 			"titanium",
 			"alloy",
 			"copper",

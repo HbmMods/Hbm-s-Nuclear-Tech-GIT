@@ -203,58 +203,60 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 		{
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			if(power >= 100) {
-
-				int speed = 25;
-				
-				if(slots[1] != null && slots[2] != null) {
-					ItemStack stack = MachineRecipes.getPressResult(slots[2].copy(), slots[1].copy());
-					if(stack != null &&
-							(slots[3] == null ||
-							(slots[3].getItem() == stack.getItem() &&
-							slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize()))) {
-						
-						power -= 100;
-						
-						if(progress >= maxProgress) {
+			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+				if(power >= 100) {
+	
+					int speed = 25;
+					
+					if(slots[1] != null && slots[2] != null) {
+						ItemStack stack = MachineRecipes.getPressResult(slots[2].copy(), slots[1].copy());
+						if(stack != null &&
+								(slots[3] == null ||
+								(slots[3].getItem() == stack.getItem() &&
+								slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize()))) {
 							
+							power -= 100;
+							
+							if(progress >= maxProgress) {
+								
+								isRetracting = true;
+								
+								if(slots[3] == null)
+									slots[3] = stack.copy();
+								else
+									slots[3].stackSize += stack.stackSize;
+								
+								slots[2].stackSize--;
+								if(slots[2].stackSize <= 0)
+									slots[2] = null;
+								
+								slots[1].setItemDamage(slots[1].getItemDamage() + 1);
+								if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
+									slots[1] = null;
+	
+						        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+							}
+							
+							if(!isRetracting)
+								progress += speed;
+							
+						} else {
 							isRetracting = true;
-							
-							if(slots[3] == null)
-								slots[3] = stack.copy();
-							else
-								slots[3].stackSize += stack.stackSize;
-							
-							slots[2].stackSize--;
-							if(slots[2].stackSize <= 0)
-								slots[2] = null;
-							
-							slots[1].setItemDamage(slots[1].getItemDamage() + 1);
-							if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
-								slots[1] = null;
-
-					        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
 						}
-						
-						if(!isRetracting)
-							progress += speed;
-						
 					} else {
 						isRetracting = true;
 					}
+	
+					if(isRetracting)
+						progress -= speed;
 				} else {
 					isRetracting = true;
 				}
-
-				if(isRetracting)
-					progress -= speed;
-			} else {
-				isRetracting = true;
-			}
-			
-			if(progress <= 0) {
-				isRetracting = false;
-				progress = 0;
+				
+				if(progress <= 0) {
+					isRetracting = false;
+					progress = 0;
+				}
 			}
 
 			PacketDispatcher.wrapper.sendToAllAround(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));

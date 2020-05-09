@@ -46,6 +46,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -55,18 +56,14 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
 public class ModEventHandler
 {	
-	public static boolean showMessage = true;
 	public static int meteorShower = 0;
 	static Random rand = new Random();
 	
 	@SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        if(showMessage)
-        {
+		
+        if(event.player.worldObj.isRemote)
         	event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
-        }
-        
-        showMessage = !showMessage;
 	}
 	
 	@SubscribeEvent
@@ -288,8 +285,13 @@ public class ModEventHandler
 							entity.getEntityData().setFloat("hfr_radiation", 2500);
 						
 						if(eRad >= 1000) {
-							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100))
+							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100)) {
 								entity.getEntityData().setFloat("hfr_radiation", 0);
+
+					        	if(entity instanceof EntityPlayer)
+					        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadDeath);
+							}
+				        	
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
@@ -333,6 +335,9 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
 				        	if(event.world.rand.nextInt(700) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 2));
+				        	
+				        	if(entity instanceof EntityPlayer)
+				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
 						}
 					}
 				}
@@ -495,5 +500,52 @@ public class ModEventHandler
 		} catch (NoSuchAlgorithmException e) { }
 		
 		return "";
+	}
+	
+	@SubscribeEvent
+	public void chatEvent(ServerChatEvent event) {
+		
+		EntityPlayerMP player = event.player;
+		String message = event.message;
+		
+		if(!player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && message.startsWith("!")) {
+			
+			String m = message.substring(1, message.length()).toLowerCase();
+			
+			if("dagoth".equals(m)) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_kit));
+			}
+			
+			if("pow".equals(m)) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_kit));
+			}
+			
+			if("ascend".equals(m)) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.jetpack_vector));
+				for(int i = 0 ; i < 10; i++)
+					player.inventory.addItemStackToInventory(new ItemStack(ModItems.jetpack_tank));
+			}
+			
+			if("animalcrossing".equals(m)) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_supershotgun));
+				for(int i = 0 ; i < 5; i++)
+					player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_12gauge_du, 64));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_kit_2, 16));
+			}
+			
+			if("tom".equals(m)) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.soyuz_launcher));
+				player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_satlinker));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_soyuz, 1, 2));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.sat_gerald));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_soyuz_lander));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.sat_coord));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_infinite));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_creative));
+			}
+			
+			player.inventoryContainer.detectAndSendChanges();
+			event.setCanceled(true);
+		}
 	}
 }

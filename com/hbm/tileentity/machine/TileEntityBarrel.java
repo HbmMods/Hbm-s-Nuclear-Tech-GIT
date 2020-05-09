@@ -47,6 +47,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
 			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
+			System.out.println(tank.getMaxFill());
 
 			age++;
 			if(age >= 20)

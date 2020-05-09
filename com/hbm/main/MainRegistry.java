@@ -112,7 +112,7 @@ public class MainRegistry
 	//Armor Materials
 	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
 	public static ArmorMaterial enumArmorMaterialSchrabidium = EnumHelper.addArmorMaterial("SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
-	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 150000000, new int[] {3, 8, 6, 3}, 100);
+	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 15000000, new int[] {3, 8, 6, 3}, 100);
 	public static ArmorMaterial enumArmorMaterialHazmat = EnumHelper.addArmorMaterial("HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialHazmat2 = EnumHelper.addArmorMaterial("HAZMAT2", 60, new int[] {2, 5, 4, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialHazmat3 = EnumHelper.addArmorMaterial("HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
@@ -206,6 +206,9 @@ public class MainRegistry
 	public static Achievement achFOEQ;
 	public static Achievement achFiend;
 	public static Achievement achFiend2;
+	public static Achievement achSoyuz;
+	public static Achievement achRadPoison;
+	public static Achievement achRadDeath;
 	public static Achievement bobMetalworks;
 	public static Achievement bobAssembly;
 	public static Achievement bobChemistry;
@@ -1018,29 +1021,33 @@ public class MainRegistry
 				achievementCraftBreedingReactor,
 				achievementCraftCentrifuge
 		}));*/
-		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, 0, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
-		achImpossible = new Achievement("achievement.impossible", "impossible", 2, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
-		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 2, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
-		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -2, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
-		achSelenium = new Achievement("achievement.selenium", "selenium", -2, -2, ModItems.ingot_starmetal, null).initIndependentStat().setSpecial().registerStat();
-		achPotato = new Achievement("achievement.potato", "potato", -2, 0, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
-		achC44 = new Achievement("achievement.c44", "c44", 2, -2, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
-		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -2, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
-		achSpace = new Achievement("achievement.space", "space", 4, 0, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
-		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 2, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
-		achFiend = new Achievement("achievement.fiend", "fiend", 6, 0, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
-		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 2, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
+		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, -2, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
+		achImpossible = new Achievement("achievement.impossible", "impossible", 2, -2, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
+		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 0, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
+		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -4, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
+		achSelenium = new Achievement("achievement.selenium", "selenium", -2, -4, ModItems.ingot_starmetal, null).initIndependentStat().setSpecial().registerStat();
+		achPotato = new Achievement("achievement.potato", "potato", -2, -2, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
+		achC44 = new Achievement("achievement.c44", "c44", 2, -4, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
+		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
+		achSpace = new Achievement("achievement.space", "space", 4, -2, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
+		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 0, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
+		achFiend = new Achievement("achievement.fiend", "fiend", 6, -2, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
+		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 0, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
+		achSoyuz = new Achievement("achievement.soyuz", "soyuz", -2, 0, Items.baked_potato, null).initIndependentStat().setSpecial().registerStat();
 
-		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 4, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
-		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 4, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
-		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 4, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
-		bobOil = new Achievement("achievement.oil", "oil", 4, 4, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
-		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 4, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
-		bobHidden = new Achievement("achievement.hidden", "hidden", 8, 4, ModItems.gun_dampfmaschine, bobNuclear).initIndependentStat().registerStat();
+		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 2, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
+		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 2, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
+		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 2, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
+		bobOil = new Achievement("achievement.oil", "oil", 4, 2, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
+		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 2, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
+		bobHidden = new Achievement("achievement.hidden", "hidden", 8, 2, ModItems.gun_dampfmaschine, bobNuclear).initIndependentStat().registerStat();
 
-		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -2, 6, ModItems.sat_gerald, null).initIndependentStat().registerStat();
-		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", 0, 6, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
-		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", 2, 6, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
+		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -2, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
+		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", 0, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
+		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", 2, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
+
+		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
+		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -1055,6 +1062,7 @@ public class MainRegistry
 				achFOEQ,
 				achFiend,
 				achFiend2,
+				achSoyuz,
 				bobMetalworks,
 				bobAssembly,
 				bobChemistry,
@@ -1063,7 +1071,9 @@ public class MainRegistry
 				bobHidden,
 				horizonsStart,
 				horizonsEnd,
-				horizonsBonus
+				horizonsBonus,
+				achRadPoison,
+				achRadDeath
 		}));
 
 		//MUST be initialized AFTER achievements!!
@@ -1397,7 +1407,7 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_anti_schrabidium), new ItemStack(ModItems.cell_empty), FluidType.ASCHRAB, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_sas3), new ItemStack(ModItems.cell_empty), FluidType.SAS3, 1000));
 
-		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 250));
+		//FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 250));
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 1), new ItemStack(ModItems.tank_waste, 1, 0), FluidType.WATZ, 8000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 2), new ItemStack(ModItems.tank_waste, 1, 1), FluidType.WATZ, 8000));
@@ -1449,6 +1459,11 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.steel_legs, 0.06F);
 		HazmatRegistry.instance.registerHazmat(ModItems.steel_boots, 0.02F);
 		
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_helmet, 0.06F);
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_plate, 0.12F);
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_legs, 0.1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_boots, 0.03F);
+		
 		HazmatRegistry.instance.registerHazmat(Items.iron_helmet, 0.04F);
 		HazmatRegistry.instance.registerHazmat(Items.iron_chestplate, 0.08F);
 		HazmatRegistry.instance.registerHazmat(Items.iron_leggings, 0.06F);
@@ -1459,10 +1474,20 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(Items.golden_leggings, 0.06F);
 		HazmatRegistry.instance.registerHazmat(Items.golden_boots, 0.02F);
 		
+		HazmatRegistry.instance.registerHazmat(Items.diamond_helmet, 0.05F);
+		HazmatRegistry.instance.registerHazmat(Items.diamond_chestplate, 0.09F);
+		HazmatRegistry.instance.registerHazmat(Items.diamond_leggings, 0.07F);
+		HazmatRegistry.instance.registerHazmat(Items.diamond_boots, 0.03F);
+		
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_helmet, 0.08F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_plate, 0.16F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_legs, 0.12F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_boots, 0.04F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_helmet, 1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_plate, 2.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_legs, 1.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_boots, 0.5F);
 		
 		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_helmet, 1.2F);
 		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_plate, 2.4F);

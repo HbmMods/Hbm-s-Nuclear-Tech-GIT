@@ -112,6 +112,10 @@ public class BulletConfigSyncingUtil {
 	public static int AE50_DU = i++;
 	public static int AE50_STAR = i++;
 
+	public static int G4_NORMAL = i++;
+	public static int G4_SLUG = i++;
+	public static int G4_EXPLOSIVE = i++;
+
 	public static int SPECIAL_OSIPR = i++;
 	public static int SPECIAL_GAUSS = i++;
 	public static int SPECIAL_GAUSS_CHARGED = i++;
@@ -219,6 +223,10 @@ public class BulletConfigSyncingUtil {
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50APConfig(), AE50_AP));
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50DUConfig(), AE50_DU));
 		configSet.add(new ConfigKeyPair(Gun50AEFactory.get50StarConfig(), AE50_STAR));
+
+		configSet.add(new ConfigKeyPair(Gun4GaugeFactory.get4GaugeConfig(), G4_NORMAL));
+		configSet.add(new ConfigKeyPair(Gun4GaugeFactory.get4GaugeSlugConfig(), G4_SLUG));
+		configSet.add(new ConfigKeyPair(Gun4GaugeFactory.get4GaugeExplosiveConfig(), G4_EXPLOSIVE));
 
 		configSet.add(new ConfigKeyPair(GunOSIPRFactory.getPulseConfig(), SPECIAL_OSIPR));
 		configSet.add(new ConfigKeyPair(GunGaussFactory.getGaussConfig(), SPECIAL_GAUSS));

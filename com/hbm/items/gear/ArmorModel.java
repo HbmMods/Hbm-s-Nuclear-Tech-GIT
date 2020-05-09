@@ -184,39 +184,16 @@ public class ArmorModel extends ItemArmor {
 			return "hbm:textures/models/TestCape.png";
 		}
 		if (stack.getItem() == ModItems.cape_radiation) {
-			return "hbm:textures/models/CapeRadiation.png";
+			return "hbm:textures/models/capes/CapeRadiation.png";
 		}
 		if (stack.getItem() == ModItems.cape_gasmask) {
-			return "hbm:textures/models/CapeGasMask.png";
+			return "hbm:textures/models/capes/CapeGasMask.png";
 		}
 		if (stack.getItem() == ModItems.cape_schrabidium) {
-			return "hbm:textures/models/CapeSchrabidium.png";
+			return "hbm:textures/models/capes/CapeSchrabidium.png";
 		}
-		/*if (stack.getItem() == ModItems.cape_hbm && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.HbMinecraft)) {
-			if(MainRegistry.polaroidID == 11)
-				return "hbm:textures/models/CapeHbm.png";
-			else
-				return "hbm:textures/models/CapeHbm2.png";
-		}
-		if (stack.getItem() == ModItems.cape_dafnik && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.Dafnik)) {
-			return "hbm:textures/models/CapeDafnik.png";
-		}
-		if (stack.getItem() == ModItems.cape_lpkukin && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.LPkukin)) {
-			return "hbm:textures/models/CapeShield.png";
-		}
-		if (stack.getItem() == ModItems.cape_vertice && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.LordVertice)) {
-			return "hbm:textures/models/CapeVertice_2.png";
-		}
-		if (stack.getItem() == ModItems.cape_codered_ && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.CodeRed_)) {
-			return "hbm:textures/models/CapeRed.png";
-		}
-		if (stack.getItem() == ModItems.cape_ayy && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.dxmaster769)) {
-			return "hbm:textures/models/CapeAyy.png";
-		}
-		if (stack.getItem() == ModItems.cape_nostalgia && entity instanceof EntityPlayer && ((EntityPlayer)entity).getUniqueID().toString().equals(Library.nostalgia)) {
-			return "hbm:textures/models/CapeNostalgia.png";
-		}*/
-		return "hbm:textures/models/CapeUnknown.png";
+		
+		return "hbm:textures/models/capes/CapeUnknown.png";
 	}
 	
     @SideOnly(Side.CLIENT)

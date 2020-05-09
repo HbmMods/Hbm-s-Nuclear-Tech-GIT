@@ -232,13 +232,16 @@ public class FluidTank {
 	//Called by TE to save fillstate
 	public void writeToNBT(NBTTagCompound nbt, String s) {
 		nbt.setInteger(s, fluid);
-		//nbt.setInteger(s + "_type", Arrays.asList(FluidType.values()).indexOf(type));
+		nbt.setInteger(s + "_max", maxFluid);
 		nbt.setString(s + "_type", type.getName());
 	}
 	
 	//Called by TE to load fillstate
 	public void readFromNBT(NBTTagCompound nbt, String s) {
 		fluid = nbt.getInteger(s);
+		int max = nbt.getInteger(s + "_max");
+		if(max > 0)
+			maxFluid = nbt.getInteger(s + "_max");
 		type = FluidType.getEnum(nbt.getInteger(s + "_type"));
 		if(type.name().equals(FluidType.NONE.name()))
 			type = FluidType.getEnumFromName(nbt.getString(s + "_type"));

@@ -92,7 +92,18 @@ public class ModBlocks {
 	public static Block ore_tikite;
 
 	public static Block block_thorium;
+	public static Block block_thorium_fuel;
 	public static Block block_uranium;
+	public static Block block_u233;
+	public static Block block_u235;
+	public static Block block_u238;
+	public static Block block_uranium_fuel;
+	public static Block block_neptunium;
+	public static Block block_plutonium;
+	public static Block block_pu238;
+	public static Block block_pu239;
+	public static Block block_pu240;
+	public static Block block_plutonium_fuel;
 	public static Block block_titanium;
 	public static Block block_sulfur;
 	public static Block block_niter;
@@ -109,6 +120,8 @@ public class ModBlocks {
 	public static Block block_electrical_scrap;
 	public static Block block_beryllium;
 	public static Block block_schrabidium;
+	public static Block block_solinium;
+	public static Block block_schrabidium_fuel;
 	public static Block block_euphemium;
 	public static Block block_schrabidium_cluster;
 	public static Block block_euphemium_cluster;
@@ -811,7 +824,18 @@ public class ModBlocks {
 		ore_tikite = new BlockGeneric(Material.rock).setBlockName("ore_tikite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tikite_alt");
 		
 		block_uranium = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_uranium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_uranium");
+		block_u233 = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_u233").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_u233");
+		block_u235 = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_u235").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_u235");
+		block_u238 = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_u238").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_u238");
+		block_uranium_fuel = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_uranium_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_uranium_fuel");
 		block_thorium = new BlockGeneric(Material.iron).setBlockName("block_thorium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_thorium");
+		block_thorium_fuel = new BlockGeneric(Material.iron).setBlockName("block_thorium_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_thorium_fuel");
+		block_neptunium = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_neptunium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_neptunium");
+		block_plutonium = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_plutonium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_plutonium");
+		block_pu238 = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_pu238").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pu238");
+		block_pu239 = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_pu239").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pu239");
+		block_pu240 = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_pu240").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pu240");
+		block_plutonium_fuel = new BlockOre(Material.iron, 0.1F, 1.5F).setBlockName("block_plutonium_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_plutonium_fuel");
 		block_titanium = new BlockGeneric(Material.iron).setBlockName("block_titanium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_titanium");
 		block_sulfur = new BlockGeneric(Material.iron).setBlockName("block_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_sulfur");
 		block_niter = new BlockGeneric(Material.iron).setBlockName("block_niter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_niter");
@@ -828,6 +852,8 @@ public class ModBlocks {
 		block_electrical_scrap = new BlockFalling(Material.iron).setBlockName("block_electrical_scrap").setCreativeTab(MainRegistry.blockTab).setHardness(2.5F).setResistance(5.0F).setStepSound(Block.soundTypeMetal).setBlockTextureName(RefStrings.MODID + ":electrical_scrap_alt2");
 		block_beryllium = new BlockGeneric(Material.iron).setBlockName("block_beryllium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_beryllium");
 		block_schrabidium = new BlockGeneric(Material.iron).setBlockName("block_schrabidium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_schrabidium");
+		block_solinium = new BlockGeneric(Material.iron).setBlockName("block_solinium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_solinium");
+		block_schrabidium_fuel = new BlockGeneric(Material.iron).setBlockName("block_schrabidium_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_schrabidium_fuel");
 		block_euphemium = new BlockGeneric(Material.iron).setBlockName("block_euphemium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(60000.0F).setBlockTextureName(RefStrings.MODID + ":block_euphemium");
 		block_schrabidium_cluster = new BlockGenericPillar(Material.rock).setBlockName("block_schrabidium_cluster").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(60000.0F);
 		block_euphemium_cluster = new BlockGenericPillar(Material.rock).setBlockName("block_euphemium_cluster").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(60000.0F);
@@ -1356,7 +1382,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_fluorite, ore_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_beryllium, ore_beryllium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_lead, ore_lead.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_oil, ore_oil.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_oil, ItemBlockLore.class, ore_oil.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil_empty, ore_oil_empty.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil_sand, ore_oil_sand.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_lignite, ore_lignite.getUnlocalizedName());
@@ -1397,7 +1423,18 @@ public class ModBlocks {
 		
 		//Blocks
 		GameRegistry.registerBlock(block_uranium, block_uranium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_u233, block_u233.getUnlocalizedName());
+		GameRegistry.registerBlock(block_u235, block_u235.getUnlocalizedName());
+		GameRegistry.registerBlock(block_u238, block_u238.getUnlocalizedName());
+		GameRegistry.registerBlock(block_uranium_fuel, block_uranium_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_neptunium, block_neptunium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_plutonium, block_plutonium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pu238, block_pu238.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pu239, block_pu239.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pu240, block_pu240.getUnlocalizedName());
+		GameRegistry.registerBlock(block_plutonium_fuel, block_plutonium_fuel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_thorium, block_thorium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_thorium_fuel, block_thorium_fuel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_titanium, block_titanium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_sulfur, block_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(block_niter, block_niter.getUnlocalizedName());
@@ -1418,6 +1455,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_trinitite, block_trinitite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_waste, block_waste.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidium, ItemBlockLore.class, block_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_solinium, ItemBlockLore.class, block_solinium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_schrabidium_fuel, ItemBlockLore.class, block_schrabidium_fuel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_euphemium, ItemBlockLore.class, block_euphemium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_schrabidium_cluster, ItemBlockLore.class, block_schrabidium_cluster.getUnlocalizedName());
 		GameRegistry.registerBlock(block_euphemium_cluster, ItemBlockLore.class, block_euphemium_cluster.getUnlocalizedName());

@@ -70,6 +70,7 @@ public class Gun12GaugeFactory {
 		config.durability = 3000;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
+		config.hasSights = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.shottyShoot";

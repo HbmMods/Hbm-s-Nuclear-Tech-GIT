@@ -51,13 +51,19 @@ public class ItemBlockLore extends ItemBlock {
 		if(this.field_150939_a == ModBlocks.meteor_battery) {
 			list.add("Provides infinite charge to tesla coils");
 		}
+		
+		if(this.field_150939_a == ModBlocks.ore_oil) {
+			list.add("You weren't supposed to mine that.");
+			list.add("Come on, get a derrick you doofus.");
+		}
 	}
 
     @Override
 	public EnumRarity getRarity(ItemStack stack) {
 
 		if(this.field_150939_a == ModBlocks.ore_schrabidium || this.field_150939_a == ModBlocks.ore_nether_schrabidium ||
-				this.field_150939_a == ModBlocks.block_schrabidium || this.field_150939_a == ModBlocks.block_schrabidium_cluster)
+				this.field_150939_a == ModBlocks.block_schrabidium || this.field_150939_a == ModBlocks.block_schrabidium_cluster ||
+				this.field_150939_a == ModBlocks.block_schrabidium_fuel || this.field_150939_a == ModBlocks.block_solinium)
 			return EnumRarity.rare;
 		
 		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||
