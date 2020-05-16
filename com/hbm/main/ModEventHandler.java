@@ -12,6 +12,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.items.ModItems;
+import com.hbm.items.gear.ArmorFSB;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -50,6 +51,7 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
@@ -354,7 +356,7 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onEntityHurt(LivingAttackEvent event) {
+	public void onEntityAttacked(LivingAttackEvent event) {
 		
 		EntityLivingBase e = event.entityLiving;
 
@@ -362,13 +364,108 @@ public class ModEventHandler
 			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 			event.setCanceled(true);
 		}
+		
+		if(e instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)e;
+
+			ItemStack helmet = player.inventory.armorInventory[3];
+			ItemStack plate = player.inventory.armorInventory[2];
+			ItemStack legs = player.inventory.armorInventory[1];
+			ItemStack boots = player.inventory.armorInventory[0];
+			
+			if(helmet != null && plate != null && legs != null && boots != null) {
+				
+				if(plate.getItem() instanceof ArmorFSB &&
+						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)plate.getItem()).getArmorMaterial() &&
+						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
+						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+					
+					ArmorFSB armor = (ArmorFSB)plate.getItem();
+					
+					if(armor.fireproof && event.source.isFireDamage()) {
+						player.extinguish();
+						event.setCanceled(true);
+					}
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityDamaged(LivingHurtEvent event) {
+		
+		EntityLivingBase e = event.entityLiving;
+		
+		if(e instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer)e;
+
+			ItemStack helmet = player.inventory.armorInventory[3];
+			ItemStack plate = player.inventory.armorInventory[2];
+			ItemStack legs = player.inventory.armorInventory[1];
+			ItemStack boots = player.inventory.armorInventory[0];
+			
+			if(helmet != null && plate != null && legs != null && boots != null) {
+				
+				if(plate.getItem() instanceof ArmorFSB &&
+						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)plate.getItem()).getArmorMaterial() &&
+						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
+						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+					
+					ArmorFSB armor = (ArmorFSB)plate.getItem();
+					
+					if(armor.damageMod != -1) {
+						event.ammount *= armor.damageMod;
+					}
+					
+					if(armor.resistance.get(event.source.getDamageType()) != null) {
+						event.ammount *= armor.resistance.get(event.source);
+					}
+					
+					if(armor.blastProtection != -1 && event.source.isExplosion()) {
+						event.ammount *= armor.blastProtection;
+					}
+					
+					if(armor.damageCap != -1) {
+						event.ammount = Math.min(event.ammount, armor.damageCap);
+					}
+				}
+			}
+		}
 	}
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
-		if(!event.player.worldObj.isRemote && event.player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
-			event.player.getEntityData().setFloat("hfr_radiation", event.player.getEntityData().getFloat("hfr_radiation" + 0.05F));
+		EntityPlayer player = event.player;
+		
+		if(!player.worldObj.isRemote && player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+			player.getEntityData().setFloat("hfr_radiation", player.getEntityData().getFloat("hfr_radiation" + 0.05F));
+		
+		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
+
+			ItemStack helmet = player.inventory.armorInventory[3];
+			ItemStack plate = player.inventory.armorInventory[2];
+			ItemStack legs = player.inventory.armorInventory[1];
+			ItemStack boots = player.inventory.armorInventory[0];
+
+			if (helmet != null && plate != null && legs != null && boots != null) {
+
+				if (plate.getItem() instanceof ArmorFSB
+						&& ((ArmorFSB) helmet.getItem()).getArmorMaterial() == ((ArmorFSB) plate.getItem()).getArmorMaterial()
+						&& ((ArmorFSB) helmet.getItem()).getArmorMaterial() == ((ArmorFSB) legs.getItem()).getArmorMaterial()
+						&& ((ArmorFSB) helmet.getItem()).getArmorMaterial() == ((ArmorFSB) boots.getItem()).getArmorMaterial()) {
+					
+					ArmorFSB armor = (ArmorFSB)plate.getItem();
+					
+					if(!armor.effects.isEmpty()) {
+						
+						for(PotionEffect i : armor.effects) {
+							player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	@SubscribeEvent

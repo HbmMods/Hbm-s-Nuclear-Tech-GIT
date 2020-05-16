@@ -11,10 +11,17 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHitBehavior;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 
 public class Gun44MagnumFactory {
 	
@@ -57,6 +64,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
@@ -78,6 +86,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
@@ -100,6 +109,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
@@ -123,6 +133,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_ROCKET);
 		
@@ -145,6 +156,7 @@ public class Gun44MagnumFactory {
 		config.config.add(BulletConfigSyncingUtil.M44_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.M44_AP);
 		config.config.add(BulletConfigSyncingUtil.M44_DU);
+		config.config.add(BulletConfigSyncingUtil.M44_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.M44_STAR);
 		config.config.add(BulletConfigSyncingUtil.M44_PIP);
 		config.config.add(BulletConfigSyncingUtil.M44_BJ);
@@ -187,6 +199,40 @@ public class Gun44MagnumFactory {
 		bullet.dmgMax = 10;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getPhosphorusConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_44_phosphorus;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 7;
+		bullet.wear = 15;
+		bullet.incendiary = 5;
+		bullet.doesPenetrate = false;
+		
+		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
+		eff.getCurativeItems().clear();
+		bullet.effects = new ArrayList();
+		bullet.effects.add(new PotionEffect(eff));
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaburst");
+				data.setString("mode", "flame");
+				data.setInteger("count", 15);
+				data.setDouble("motion", 0.05D);
+				
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+			}
+		};
 		
 		return bullet;
 	}

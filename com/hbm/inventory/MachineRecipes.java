@@ -204,13 +204,13 @@ public class MachineRecipes {
 				new ItemStack(ModItems.powder_beryllium, 1), new ItemStack(ModItems.powder_emerald, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] redstone = new ItemStack[] { new ItemStack(Items.redstone, 3),
-				new ItemStack(Items.redstone, 3), new ItemStack(ModItems.powder_lithium_tiny, 1),
+				new ItemStack(Items.redstone, 3), new ItemStack(ModItems.nugget_mercury, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] tikite = new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 2),
 				new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_nitan_mix, 1),
 				new ItemStack(Blocks.end_stone, 1) };
 		ItemStack[] lapis = new ItemStack[] { new ItemStack(ModItems.powder_lapis, 3),
-				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt, 1),
+				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt_tiny, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] starmetal = new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3),
 				new ItemStack(ModItems.powder_astatine, 1), new ItemStack(ModItems.powder_cobalt, 2),
@@ -372,6 +372,15 @@ public class MachineRecipes {
 
 		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_euphemium_cluster)) {
 			return euphCluster;
+		}
+
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_fire)) {
+			return new ItemStack[] {
+					new ItemStack(Items.blaze_powder),
+					new ItemStack(Items.blaze_powder),
+					new ItemStack(ModItems.ingot_phosphorus),
+					new ItemStack(Blocks.netherrack),
+			};
 		}
 
 		return null;
@@ -1236,6 +1245,7 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.powder_lignite));
 		fuels.add(new ItemStack(ModItems.briquette_lignite));
 		fuels.add(new ItemStack(ModItems.coke));
+		fuels.add(new ItemStack(ModItems.solid_fuel));
 		fuels.add(new ItemStack(ModItems.powder_coal));
 		return fuels;
 	}
@@ -1246,30 +1256,6 @@ public class MachineRecipes {
 			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)),
 					getCentrifugeOutput(new ItemStack(ModBlocks.test_render)));
 		}
-		//recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_uranium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_plutonium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_plutonium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_mox_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_mox_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_mox_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_mox_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_mox_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_mox_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_schrabidium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.powder_cloud),
 				getCentrifugeOutput(new ItemStack(ModItems.powder_cloud)));
 		recipes.put(new ItemStack(Blocks.coal_ore),
@@ -1326,6 +1312,8 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_meteor_starmetal)));
 		recipes.put(new ItemStack(ModBlocks.block_euphemium_cluster),
 				getCentrifugeOutput(new ItemStack(ModBlocks.block_euphemium_cluster)));
+		recipes.put(new ItemStack(ModBlocks.ore_nether_fire),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_fire)));
 		return recipes;
 	}
 

@@ -118,6 +118,7 @@ public class MainRegistry
 	public static ArmorMaterial enumArmorMaterialHazmat3 = EnumHelper.addArmorMaterial("HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
 	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
+	public static ArmorMaterial enumArmorMaterialAsbestos = EnumHelper.addArmorMaterial("ASBESTOS", 20, new int[] {1, 4, 3, 1}, 5);
 	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
 	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
 	public static ArmorMaterial enumArmorMaterialPaa = EnumHelper.addArmorMaterial("PAA", 75, new int[] {3, 8, 6, 3}, 25);
@@ -332,6 +333,7 @@ public class MainRegistry
 	public static int leadID = 67;
 	public static int radawayID = 68;
 	public static int telekinesisID = 69;
+	public static int phosphorusID = 70;
 
 	public static int x;
 	public static int y;
@@ -385,6 +387,7 @@ public class MainRegistry
 		enumArmorMaterialT45.customCraftingMaterial = ModItems.plate_titanium;
 		enumArmorMaterialTitanium.customCraftingMaterial = ModItems.ingot_titanium;
 		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
+		enumArmorMaterialAsbestos.customCraftingMaterial = ModItems.asbestos_cloth;
 		enumArmorMaterialAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
 		enumArmorMaterialPaa.customCraftingMaterial = ModItems.plate_paa;
 		enumArmorMaterialCmb.customCraftingMaterial = ModItems.ingot_combine_steel;
@@ -1112,6 +1115,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
 		OreDictionary.registerOre("ingotAluminum", ModItems.ingot_aluminium);
 		OreDictionary.registerOre("ingotBeryllium", ModItems.ingot_beryllium);
+		OreDictionary.registerOre("ingotCobalt", ModItems.ingot_cobalt);
 		OreDictionary.registerOre("ingotNeptunium", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotLead", ModItems.ingot_lead);
 		OreDictionary.registerOre("ingotLithium", ModItems.lithium);
@@ -1443,10 +1447,19 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_legs, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_boots, 0.2F);
 		
+		HazmatRegistry.instance.registerHazmat(ModItems.paa_plate, 0.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.paa_legs, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.paa_boots, 0.2F);
+		
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_helmet, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_plate, 1.2F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_legs, 0.9F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_boots, 0.3F);
+
+		HazmatRegistry.instance.registerHazmat(ModItems.security_helmet, 0.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.security_plate, 0.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.security_legs, 0.3F);
+		HazmatRegistry.instance.registerHazmat(ModItems.security_boots, 0.1F);
 
 		HazmatRegistry.instance.registerHazmat(ModItems.jackt, 0.3F);
 		HazmatRegistry.instance.registerHazmat(ModItems.jackt2, 0.3F);
@@ -1809,6 +1822,7 @@ public class MainRegistry
         leadID = createConfigInt(config, CATEGORY_POTION, "8.05_leadPotionID", "What potion ID the lead poisoning effect will have", 67);
         radawayID = createConfigInt(config, CATEGORY_POTION, "8.06_radawayPotionID", "What potion ID the radaway effect will have", 68);
         telekinesisID = createConfigInt(config, CATEGORY_POTION, "8.07_telekinesisPotionID", "What potion ID the telekinesis effect will have", 69);
+        phosphorusID = createConfigInt(config, CATEGORY_POTION, "8.08_phosphorusPotionID", "What potion ID the phosphorus effect will have", 70);
 
         final String CATEGORY_MACHINE = "09_machines";
         templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));

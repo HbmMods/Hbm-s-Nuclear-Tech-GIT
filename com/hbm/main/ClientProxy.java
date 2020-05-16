@@ -2,6 +2,7 @@
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityCloudFX;
+import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -748,6 +749,23 @@ public class ClientProxy extends ServerProxy
 				for(int i = 0; i < count; i++) {
 					
 					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+		}
+		
+		if("vanillaburst".equals(type)) {
+			
+			double motion = data.getDouble("motion");
+			
+			for(int i = 0; i < data.getInteger("count"); i++) {
+
+				double mX = rand.nextGaussian() * motion;
+				double mY = rand.nextGaussian() * motion;
+				double mZ = rand.nextGaussian() * motion;
+				
+				if("flame".equals(data.getString("mode"))) {
+					EntityFlameFX fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
 			}

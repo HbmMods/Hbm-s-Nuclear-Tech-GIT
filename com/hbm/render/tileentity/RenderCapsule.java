@@ -20,9 +20,13 @@ public class RenderCapsule extends TileEntitySpecialRenderer {
         GL11.glRotatef(-25, 0, 1, 0);
         GL11.glRotatef(15, 0, 0, 1);
         
+        if(te.getBlockMetadata() == 3)
+        	bindTexture(ResourceManager.soyuz_lander_rust_tex);
+        else
+        	bindTexture(ResourceManager.soyuz_lander_tex);
+        
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glShadeModel(GL11.GL_SMOOTH);
-        bindTexture(ResourceManager.soyuz_lander_tex);
         ResourceManager.soyuz_lander.renderPart("Capsule");
         GL11.glShadeModel(GL11.GL_FLAT);
         

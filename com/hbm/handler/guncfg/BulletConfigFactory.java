@@ -1,7 +1,22 @@
 package com.hbm.handler.guncfg;
 
+import java.util.List;
+
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 
 public class BulletConfigFactory {
 	
@@ -163,6 +178,42 @@ public class BulletConfigFactory {
 		bullet.plink = BulletConfiguration.PLINK_GRENADE;
 		
 		return bullet;
+	}
+	
+	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration) {
+		
+		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
+				
+				for(Entity e : hit) {
+					
+					if(!Library.isObstructed(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+						e.setFire(5);
+						
+						if(e instanceof EntityLivingBase) {
+							
+							PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, duration, 0, true);
+							eff.getCurativeItems().clear();
+							((EntityLivingBase)e).addPotionEffect(eff);
+						}
+					}
+				}
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaburst");
+				data.setString("mode", "flame");
+				data.setInteger("count", 100);
+				data.setDouble("motion", 0.5D);
+				
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+			}
+		};
+		
+		return impact;
 	}
 
 }

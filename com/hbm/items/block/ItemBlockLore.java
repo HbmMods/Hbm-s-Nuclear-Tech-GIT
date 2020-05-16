@@ -56,6 +56,11 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("You weren't supposed to mine that.");
 			list.add("Come on, get a derrick you doofus.");
 		}
+		
+		if(this.field_150939_a == ModBlocks.block_lithium) {
+			list.add("It's not my fault you didn't pay");
+			list.add("attention in chemistry class.");
+		}
 	}
 
     @Override

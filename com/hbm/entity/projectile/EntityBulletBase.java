@@ -495,7 +495,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
 			
 			for(PotionEffect effect : config.effects) {
-				((EntityLivingBase)e).addPotionEffect(effect);
+				((EntityLivingBase)e).addPotionEffect(new PotionEffect(effect));
 			}
 		}
 		

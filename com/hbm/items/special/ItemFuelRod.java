@@ -11,7 +11,8 @@ public class ItemFuelRod extends ItemRadioactive {
 	public int lifeTime;
 	public int heat;
 	
-	public ItemFuelRod(int life, int heat) {
+	public ItemFuelRod(float radiation, boolean blinding, int life, int heat) {
+		super(radiation, false, blinding);
 		this.lifeTime = life;
 		this.heat = heat;
 		this.setMaxDamage(100);

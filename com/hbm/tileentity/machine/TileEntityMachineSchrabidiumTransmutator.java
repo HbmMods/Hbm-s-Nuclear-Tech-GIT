@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.Random;
 
 import com.hbm.interfaces.IConsumer;
+import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBattery;
 import com.hbm.lib.Library;
@@ -107,7 +108,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		switch (i) {
 		case 0:
-			if (stack.getItem() == ModItems.ingot_uranium)
+			if (MachineRecipes.mODE(stack, "ingotUranium"))
 				return true;
 			break;
 		case 2:
@@ -215,7 +216,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	}
 
 	public boolean canProcess() {
-		if (power >= 4990000 && slots[0] != null && slots[0].getItem() == ModItems.ingot_uranium && slots[2] != null
+		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
 				&& slots[2].getItem() == ModItems.redcoil_capacitor
 				&& slots[2].getItemDamage() < slots[2].getMaxDamage()
 				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == ModItems.ingot_schrabidium

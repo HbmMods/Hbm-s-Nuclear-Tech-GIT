@@ -46,6 +46,7 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
@@ -260,6 +261,23 @@ public class GunRocketFactory {
 					worldObj.func_147480_a(bX, bY, bZ, false);}
 			
 		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketPhosphorusConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_phosphorus;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 15;
+		bullet.explosive = 4F;
+		bullet.incendiary = 5;
+		bullet.trail = 9;
+		
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20);
 		
 		return bullet;
 	}

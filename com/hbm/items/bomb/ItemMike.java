@@ -9,6 +9,11 @@ import net.minecraft.item.ItemStack;
 
 public class ItemMike extends ItemRadioactive {
 	
+	public ItemMike(float radiation) {
+		super(radiation);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{

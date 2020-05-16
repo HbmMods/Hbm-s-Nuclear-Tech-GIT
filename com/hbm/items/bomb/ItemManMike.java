@@ -9,6 +9,10 @@ import net.minecraft.item.ItemStack;
 
 public class ItemManMike extends ItemRadioactive {
 	
+	public ItemManMike(float radiation) {
+		super(radiation);
+	}
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
@@ -16,6 +20,7 @@ public class ItemManMike extends ItemRadioactive {
 		list.add("Fat Man");
 		list.add("Ivy Mike");
 		list.add("Tsar Bomba");
+		super.addInformation(itemstack, player, list, bool);
 	}
 
 }

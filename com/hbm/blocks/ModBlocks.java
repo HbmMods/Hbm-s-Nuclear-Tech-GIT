@@ -133,6 +133,8 @@ public class ModBlocks {
 	public static Block block_yellowcake;
 	public static Block block_fiberglass;
 	public static Block block_asbestos;
+	public static Block block_cobalt;
+	public static Block block_lithium;
 
 	public static Block block_australium;
 	public static Block block_weidanium;
@@ -865,6 +867,8 @@ public class ModBlocks {
 		block_yellowcake = new BlockFallingRad(Material.sand, 0.5F, 3F).setBlockName("block_yellowcake").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(5.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":block_yellowcake");
 		block_fiberglass = new BlockReactor(Material.cloth).setBlockName("block_fiberglass").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F);
 		block_asbestos = new BlockGeneric(Material.cloth).setBlockName("block_asbestos").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_asbestos");
+		block_cobalt = new BlockGeneric(Material.iron).setBlockName("block_cobalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_cobalt");
+		block_lithium = new BlockLithium(Material.iron).setBlockName("block_lithium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lithium");
 
 		block_australium = new BlockGeneric(Material.iron).setBlockName("block_australium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_australium");
 		block_weidanium = new BlockGeneric(Material.iron).setBlockName("block_weidanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_weidanium");
@@ -1445,8 +1449,10 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_aluminium, block_aluminium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_fluorite, block_fluorite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_beryllium, block_beryllium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_cobalt, block_cobalt.getUnlocalizedName());
 		GameRegistry.registerBlock(block_steel, block_steel.getUnlocalizedName());
 		GameRegistry.registerBlock(block_lead, block_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(block_lithium, ItemBlockLore.class, block_lithium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_yellowcake, block_yellowcake.getUnlocalizedName());
 		GameRegistry.registerBlock(block_scrap, block_scrap.getUnlocalizedName());
 		GameRegistry.registerBlock(block_electrical_scrap, block_electrical_scrap.getUnlocalizedName());

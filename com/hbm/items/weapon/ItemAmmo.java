@@ -110,6 +110,12 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_44_phosphorus) {
+			list.add(EnumChatFormatting.BLUE + "+ Induces phosphorus burns");
+			list.add(EnumChatFormatting.YELLOW + "* Technically a warcrime");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
+		}
 		if(this == ModItems.ammo_44_pip) {
 			list.add(EnumChatFormatting.BLUE + "+ Boxcar");
 			list.add(EnumChatFormatting.RED + "- Highly decreased damage");
@@ -171,9 +177,20 @@ public class ItemAmmo extends Item {
 		}
 		
 		//.50 BMG
+		if(this == ModItems.ammo_50bmg) {
+			list.add(EnumChatFormatting.YELLOW + "12.7mm anti-materiel round");
+			list.add(EnumChatFormatting.YELLOW + "You shoot down planes with these, using");
+			list.add(EnumChatFormatting.YELLOW + "them against people would be nasty.");
+		}
 		if(this == ModItems.ammo_50bmg_incendiary) {
 			list.add(EnumChatFormatting.BLUE + "+ Incendiary");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_50bmg_phosphorus) {
+			list.add(EnumChatFormatting.BLUE + "+ Induces phosphorus burns");
+			list.add(EnumChatFormatting.YELLOW + "* Technically a warcrime");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
 		if(this == ModItems.ammo_50bmg_explosive) {
 			list.add(EnumChatFormatting.BLUE + "+ Explosive");
@@ -214,6 +231,11 @@ public class ItemAmmo extends Item {
 		}
 		if(this == ModItems.ammo_rocket_incendiary) {
 			list.add(EnumChatFormatting.BLUE + "+ Incendiary explosion");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_rocket_phosphorus) {
+			list.add(EnumChatFormatting.BLUE + "+ Phosphorus splash");
+			list.add(EnumChatFormatting.YELLOW + "* Technically a warcrime");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
 		if(this == ModItems.ammo_rocket_shrapnel) {
@@ -259,6 +281,11 @@ public class ItemAmmo extends Item {
 		}
 		if(this == ModItems.ammo_grenade_incendiary) {
 			list.add(EnumChatFormatting.BLUE + "+ Incendiary explosion");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_grenade_phosphorus) {
+			list.add(EnumChatFormatting.BLUE + "+ Phosphorus splash");
+			list.add(EnumChatFormatting.YELLOW + "* Technically a warcrime");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
 		}
 		if(this == ModItems.ammo_grenade_toxic) {
