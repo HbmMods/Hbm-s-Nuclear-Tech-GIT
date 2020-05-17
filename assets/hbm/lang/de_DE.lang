@@ -171,6 +171,7 @@ chem.XENON=Lindeverfahren (Xenon)
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
 item.record.vc.desc=Valve - Vortal Combat
+item.record.glass.desc=? ? ?
 
 death.attack.nuclearBlast=%1$s wurde von einer Atomexplosion weggeblasen.
 death.attack.revolverBullet=%1$s wurde von %2$s in den Kopf geschossen.

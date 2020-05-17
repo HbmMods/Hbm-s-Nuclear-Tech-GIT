@@ -110,23 +110,23 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F, 25);
 	
 	//Armor Materials
-	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
-	public static ArmorMaterial enumArmorMaterialSchrabidium = EnumHelper.addArmorMaterial("SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
-	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 15000000, new int[] {3, 8, 6, 3}, 100);
-	public static ArmorMaterial enumArmorMaterialHazmat = EnumHelper.addArmorMaterial("HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialHazmat2 = EnumHelper.addArmorMaterial("HAZMAT2", 60, new int[] {2, 5, 4, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialHazmat3 = EnumHelper.addArmorMaterial("HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
-	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
-	public static ArmorMaterial enumArmorMaterialAsbestos = EnumHelper.addArmorMaterial("ASBESTOS", 20, new int[] {1, 4, 3, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
-	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
-	public static ArmorMaterial enumArmorMaterialPaa = EnumHelper.addArmorMaterial("PAA", 75, new int[] {3, 8, 6, 3}, 25);
-	public static ArmorMaterial enumArmorMaterialCmb = EnumHelper.addArmorMaterial("CMB", 60, new int[] {3, 8, 6, 3}, 50);
-	public static ArmorMaterial enumArmorMaterialAusIII = EnumHelper.addArmorMaterial("AUSIII", 375, new int[] {2, 6, 5, 2}, 0);
-	public static ArmorMaterial enumArmorMaterialAusIV = EnumHelper.addArmorMaterial("AUSIV", 375, new int[] {2, 6, 5, 2}, 0);
-	public static ArmorMaterial enumArmorMaterialAusV = EnumHelper.addArmorMaterial("AUSV", 375, new int[] {2, 6, 5, 2}, 0);
-	public static ArmorMaterial enumArmorMaterialSecurity = EnumHelper.addArmorMaterial("SECURITY", 100, new int[] {3, 8, 6, 3}, 15);
+	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("HBM_TEST", 2500, new int[] {3, 8, 6, 3}, 30);
+	public static ArmorMaterial aMatSchrab = EnumHelper.addArmorMaterial("HBM_SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
+	public static ArmorMaterial aMatEuph = EnumHelper.addArmorMaterial("HBM_EUPHEMIUM", 15000000, new int[] {3, 8, 6, 3}, 100);
+	public static ArmorMaterial aMatHaz = EnumHelper.addArmorMaterial("HBM_HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial aMatHaz2 = EnumHelper.addArmorMaterial("HBM_HAZMAT2", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial aMatHaz3 = EnumHelper.addArmorMaterial("HBM_HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial aMatT45 = EnumHelper.addArmorMaterial("HBM_T45", 1000, new int[] {2, 5, 4, 1}, 0);
+	public static ArmorMaterial aMatSteel = EnumHelper.addArmorMaterial("HBM_STEEL", 20, new int[] {2, 6, 5, 2}, 5);
+	public static ArmorMaterial aMatAsbestos = EnumHelper.addArmorMaterial("HBM_ASBESTOS", 20, new int[] {1, 4, 3, 1}, 5);
+	public static ArmorMaterial aMatTitan = EnumHelper.addArmorMaterial("HBM_TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
+	public static ArmorMaterial aMatAlloy = EnumHelper.addArmorMaterial("HBM_ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
+	public static ArmorMaterial aMatPaa = EnumHelper.addArmorMaterial("HBM_PAA", 75, new int[] {3, 8, 6, 3}, 25);
+	public static ArmorMaterial aMatCMB = EnumHelper.addArmorMaterial("HBM_CMB", 60, new int[] {3, 8, 6, 3}, 50);
+	public static ArmorMaterial aMatAus3 = EnumHelper.addArmorMaterial("HBM_AUSIII", 375, new int[] {2, 6, 5, 2}, 0);
+	public static ArmorMaterial aMatSecurity = EnumHelper.addArmorMaterial("HBM_SECURITY", 100, new int[] {3, 8, 6, 3}, 15);
+	public static ArmorMaterial aMatCobalt = EnumHelper.addArmorMaterial("HBM_COBALT", 70, new int[] {3, 8, 6, 3}, 25);
+	public static ArmorMaterial aMatStarmetal = EnumHelper.addArmorMaterial("HBM_STARMETAL", 150, new int[] {3, 8, 6, 3}, 100);
 	
 	//Creative Tabs
 	//ingots, nuggets, wires, machine parts
@@ -294,6 +294,7 @@ public class MainRegistry
 	public static int geyserChlorine = 3000;
 	public static int geyserVapor = 500;
 	public static int meteorStructure = 15000;
+	public static int capsuleStructure = 100;
 	
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
@@ -380,21 +381,21 @@ public class MainRegistry
 		
 		Library.initBooks();
 
-		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
-		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
-		enumArmorMaterialHazmat2.customCraftingMaterial = ModItems.hazmat_cloth_red;
-		enumArmorMaterialHazmat3.customCraftingMaterial = ModItems.hazmat_cloth_grey;
-		enumArmorMaterialT45.customCraftingMaterial = ModItems.plate_titanium;
-		enumArmorMaterialTitanium.customCraftingMaterial = ModItems.ingot_titanium;
-		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
-		enumArmorMaterialAsbestos.customCraftingMaterial = ModItems.asbestos_cloth;
-		enumArmorMaterialAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
-		enumArmorMaterialPaa.customCraftingMaterial = ModItems.plate_paa;
-		enumArmorMaterialCmb.customCraftingMaterial = ModItems.ingot_combine_steel;
-		enumArmorMaterialAusIII.customCraftingMaterial = ModItems.ingot_australium;
-		enumArmorMaterialAusIV.customCraftingMaterial = ModItems.rod_australium;
-		enumArmorMaterialAusV.customCraftingMaterial = ModItems.nugget_australium;
-		enumArmorMaterialSecurity.customCraftingMaterial = ModItems.plate_kevlar;
+		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
+		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;
+		aMatHaz2.customCraftingMaterial = ModItems.hazmat_cloth_red;
+		aMatHaz3.customCraftingMaterial = ModItems.hazmat_cloth_grey;
+		aMatT45.customCraftingMaterial = ModItems.plate_titanium;
+		aMatTitan.customCraftingMaterial = ModItems.ingot_titanium;
+		aMatSteel.customCraftingMaterial = ModItems.ingot_steel;
+		aMatAsbestos.customCraftingMaterial = ModItems.asbestos_cloth;
+		aMatAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
+		aMatPaa.customCraftingMaterial = ModItems.plate_paa;
+		aMatCMB.customCraftingMaterial = ModItems.ingot_combine_steel;
+		aMatAus3.customCraftingMaterial = ModItems.ingot_australium;
+		aMatSecurity.customCraftingMaterial = ModItems.plate_kevlar;
+		aMatCobalt.customCraftingMaterial = ModItems.ingot_cobalt;
+		aMatStarmetal.customCraftingMaterial = ModItems.ingot_starmetal;
 		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		enumToolMaterialHammer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
@@ -1745,7 +1746,8 @@ public class MainRegistry
         Property pGV = config.get(CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", 500);
         pGV.comment = "Spawn vapor geyser on every nTH chunk";
         geyserVapor = pGV.getInt();
-        meteorStructure = createConfigInt(config, CATEGORY_DUNGEON, "meteorStructure", "Spawn meteor dungeon on every nTH chunk", 15000);
+        meteorStructure = createConfigInt(config, CATEGORY_DUNGEON, "4.20_meteorSpawn", "Spawn meteor dungeon on every nTH chunk", 15000);
+        capsuleStructure = createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
 
         final String CATEGORY_METEOR = "05_meteors";
         Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);
@@ -1859,6 +1861,7 @@ public class MainRegistry
         meteorStrikeChance = setDef(meteorStrikeChance, 1000);
         meteorShowerChance = setDef(meteorShowerChance, 1000);
         meteorStructure = setDef(meteorStructure, 15000);
+        capsuleStructure = setDef(capsuleStructure, 100);
         fogCh = setDef(fogCh, 20);
 	}
 	

@@ -373,18 +373,22 @@ public class ModEventHandler
 			ItemStack legs = player.inventory.armorInventory[1];
 			ItemStack boots = player.inventory.armorInventory[0];
 			
-			if(helmet != null && plate != null && legs != null && boots != null) {
+			if(plate != null && plate.getItem() instanceof ArmorFSB) {
 				
-				if(plate.getItem() instanceof ArmorFSB &&
-						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)plate.getItem()).getArmorMaterial() &&
-						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
-						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+				
+				boolean noHelmet = chestplate.noHelmet;
+			
+				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
 					
-					ArmorFSB armor = (ArmorFSB)plate.getItem();
-					
-					if(armor.fireproof && event.source.isFireDamage()) {
-						player.extinguish();
-						event.setCanceled(true);
+					if((noHelmet || chestplate.getArmorMaterial() == ((ArmorFSB)helmet.getItem()).getArmorMaterial()) &&
+						chestplate.getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
+						chestplate.getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+						
+						if(chestplate.fireproof && event.source.isFireDamage()) {
+							player.extinguish();
+							event.setCanceled(true);
+						}
 					}
 				}
 			}
@@ -404,29 +408,33 @@ public class ModEventHandler
 			ItemStack legs = player.inventory.armorInventory[1];
 			ItemStack boots = player.inventory.armorInventory[0];
 			
-			if(helmet != null && plate != null && legs != null && boots != null) {
+			if(plate != null && plate.getItem() instanceof ArmorFSB) {
 				
-				if(plate.getItem() instanceof ArmorFSB &&
-						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)plate.getItem()).getArmorMaterial() &&
-						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
-						((ArmorFSB)helmet.getItem()).getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+				
+				boolean noHelmet = chestplate.noHelmet;
+			
+				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
 					
-					ArmorFSB armor = (ArmorFSB)plate.getItem();
-					
-					if(armor.damageMod != -1) {
-						event.ammount *= armor.damageMod;
-					}
-					
-					if(armor.resistance.get(event.source.getDamageType()) != null) {
-						event.ammount *= armor.resistance.get(event.source);
-					}
-					
-					if(armor.blastProtection != -1 && event.source.isExplosion()) {
-						event.ammount *= armor.blastProtection;
-					}
-					
-					if(armor.damageCap != -1) {
-						event.ammount = Math.min(event.ammount, armor.damageCap);
+					if((noHelmet || chestplate.getArmorMaterial() == ((ArmorFSB)helmet.getItem()).getArmorMaterial()) &&
+						chestplate.getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
+						chestplate.getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+						
+						if(chestplate.damageMod != -1) {
+							event.ammount *= chestplate.damageMod;
+						}
+						
+						if(chestplate.resistance.get(event.source.getDamageType()) != null) {
+							event.ammount *= chestplate.resistance.get(event.source);
+						}
+						
+						if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
+							event.ammount *= chestplate.blastProtection;
+						}
+						
+						if(chestplate.damageCap != -1) {
+							event.ammount = Math.min(event.ammount, chestplate.damageCap);
+						}
 					}
 				}
 			}
@@ -447,20 +455,24 @@ public class ModEventHandler
 			ItemStack plate = player.inventory.armorInventory[2];
 			ItemStack legs = player.inventory.armorInventory[1];
 			ItemStack boots = player.inventory.armorInventory[0];
-
-			if (helmet != null && plate != null && legs != null && boots != null) {
-
-				if (plate.getItem() instanceof ArmorFSB
-						&& ((ArmorFSB) helmet.getItem()).getArmorMaterial() == ((ArmorFSB) plate.getItem()).getArmorMaterial()
-						&& ((ArmorFSB) helmet.getItem()).getArmorMaterial() == ((ArmorFSB) legs.getItem()).getArmorMaterial()
-						&& ((ArmorFSB) helmet.getItem()).getArmorMaterial() == ((ArmorFSB) boots.getItem()).getArmorMaterial()) {
+			
+			if(plate != null && plate.getItem() instanceof ArmorFSB) {
+				
+				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+				
+				boolean noHelmet = chestplate.noHelmet;
+			
+				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
 					
-					ArmorFSB armor = (ArmorFSB)plate.getItem();
-					
-					if(!armor.effects.isEmpty()) {
+					if((noHelmet || chestplate.getArmorMaterial() == ((ArmorFSB)helmet.getItem()).getArmorMaterial()) &&
+						chestplate.getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
+						chestplate.getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
 						
-						for(PotionEffect i : armor.effects) {
-							player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
+						if(!chestplate.effects.isEmpty()) {
+							
+							for(PotionEffect i : chestplate.effects) {
+								player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
+							}
 						}
 					}
 				}

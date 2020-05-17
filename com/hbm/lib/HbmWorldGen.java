@@ -3,8 +3,10 @@ package com.hbm.lib;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntitySafe;
+import com.hbm.tileentity.machine.TileEntitySoyuzCapsule;
 import com.hbm.world.dungeon.Antenna;
 import com.hbm.world.dungeon.Barrel;
 import com.hbm.world.dungeon.Bunker;
@@ -27,6 +29,7 @@ import com.hbm.world.feature.Sellafield;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -382,11 +385,12 @@ public class HbmWorldGen implements IWorldGenerator {
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
-				if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z))
+				if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z)) {
 					world.setBlock(x, y + 1, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
-				
-				if(MainRegistry.enableDebugMode)
-					MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + (y + 1) +" " + z);
+					
+					if(MainRegistry.enableDebugMode)
+						MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + (y + 1) +" " + z);
+				}
 			}
 
 			if (MainRegistry.enableMines && rand.nextInt(MainRegistry.minefreq) == 0) {
@@ -438,6 +442,26 @@ public class HbmWorldGen implements IWorldGenerator {
 					new GeyserLarge().generate(world, rand, x, y, z);
 			}
 
+			if (biome == BiomeGenBase.beach && rand.nextInt(MainRegistry.capsuleStructure) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z) - 4;
+				
+				if(world.getBlock(x, y + 1, z).canPlaceTorchOnTop(world, x, y + 1, z)) {
+					
+					world.setBlock(x, y, z, ModBlocks.soyuz_capsule, 3, 2);
+					
+					TileEntitySoyuzCapsule cap = (TileEntitySoyuzCapsule)world.getTileEntity(x, y, z);
+					
+					if(cap != null) {
+						cap.setInventorySlotContents(rand.nextInt(cap.getSizeInventory()), new ItemStack(ModItems.record_glass));
+					}
+	
+					if(MainRegistry.enableDebugMode)
+						MainRegistry.logger.info("[Debug] Successfully spawned capsule at " + x + " " + z);
+				}
+			}
+
 			if (rand.nextInt(MainRegistry.geyserVapor) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
@@ -451,10 +475,17 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				
+				boolean done = false;
+				
 				for(int k = 0; k < 256; k++) {
-					if(world.getBlock(x, k, z) == Blocks.log && world.getBlockMetadata(x, k, z) == 0)
+					if(world.getBlock(x, k, z) == Blocks.log && world.getBlockMetadata(x, k, z) == 0) {
 						world.setBlock(x, k, z, ModBlocks.pink_log);
+						done = true;
+					}
 				}
+
+				if(MainRegistry.enableDebugMode && done)
+					MainRegistry.logger.info("[Debug] Successfully spawned pink tree at " + x + " " + z);
 			}
 
 			if (MainRegistry.enableVaults && rand.nextInt(MainRegistry.vaultfreq) == 0) {
@@ -515,9 +546,9 @@ public class HbmWorldGen implements IWorldGenerator {
 				
 				int y = world.getHeightValue(x, z);
 				
-				for(int f = 1; f < 4; f++)
+				for(int f = 0; f < 3; f++)
 					world.setBlock(x, y + f, z, ModBlocks.meteor_pillar);
-				world.setBlock(x, y + 4, z, ModBlocks.meteor_brick_chiseled);
+				world.setBlock(x, y + 3, z, ModBlocks.meteor_brick_chiseled);
 				
 				for(int f = 0; f < 10; f++) {
 

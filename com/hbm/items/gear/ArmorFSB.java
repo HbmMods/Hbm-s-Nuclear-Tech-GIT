@@ -34,6 +34,7 @@ public class ArmorFSB extends ItemArmor {
 	public float damageCap = -1;
 	public float damageMod = -1;
 	public boolean fireproof = false;
+	public boolean noHelmet = false;
 
 	public ArmorFSB(ArmorMaterial material, int layer, int slot, String texture) {
 		super(material, layer, slot);
@@ -65,6 +66,11 @@ public class ArmorFSB extends ItemArmor {
 		return this;
 	}
 	
+	public ArmorFSB setNoHelmet(boolean noHelmet) {
+		this.noHelmet = noHelmet;
+		return this;
+	}
+	
 	public ArmorFSB setOverlay(String path) {
 		this.overlay = new ResourceLocation(path);
 		return this;
@@ -78,6 +84,7 @@ public class ArmorFSB extends ItemArmor {
 		this.damageCap = original.damageCap;
 		this.damageMod = original.damageMod;
 		this.fireproof = original.fireproof;
+		this.noHelmet = original.noHelmet;
 		//overlay doesn't need to be copied because it's helmet exclusive
 		return this;
 	}

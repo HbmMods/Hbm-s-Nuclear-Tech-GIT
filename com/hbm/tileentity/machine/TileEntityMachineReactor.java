@@ -20,7 +20,6 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 	public int dualPower;
 	public static final int maxPower = 1000;
 	public static final int processingSpeed = 1000;
-	public boolean runsOnRtg = false;
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -113,7 +112,9 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 			return 0;
 		}else{
 		Item item = itemStack.getItem();
-		
+
+		if(item == ModItems.pellet_rtg_weak) return 1;
+		if(item == ModItems.pellet_rtg) return 2;
 		if(item == ModItems.rod_u238) return 1;
 		if(item == ModItems.rod_dual_u238) return 2;
 		if(item == ModItems.rod_quad_u238) return 4;
@@ -172,7 +173,6 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 		
 		dualPower = nbt.getShort("powerTime");
 		dualCookTime = nbt.getShort("CookTime");
-		runsOnRtg = nbt.getBoolean("runsOnRtg");
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -191,7 +191,6 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 		super.writeToNBT(nbt);
 		nbt.setShort("powerTime", (short) dualPower);
 		nbt.setShort("cookTime", (short) dualCookTime);
-		nbt.setBoolean("runsOnRtg", runsOnRtg);
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -292,11 +291,6 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 					slots[i] = null;
 				}
 			}
-			
-			if(!runsOnRtg)
-			{
-				dualPower--;
-			}
 		}
 	}
 	
@@ -327,19 +321,6 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 						this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
 					}
 				}
-			}
-			
-			if(this.slots[0] != null && this.slots[0].getItem() == ModItems.pellet_rtg && this.dualPower == 0)
-			{
-				this.slots[0].stackSize--;
-				if(this.slots[0].stackSize == 0)
-				{
-					this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-				}
-				
-				this.runsOnRtg = true;
-				
-				this.dualPower = 1;
 			}
 			
 			if(hasPower() && canProcess())

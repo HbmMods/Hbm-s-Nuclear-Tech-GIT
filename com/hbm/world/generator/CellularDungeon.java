@@ -115,31 +115,19 @@ public class CellularDungeon {
 			return false;
 		}
 		
-		//CellularDungeonRoom next = DungeonToolbox.getRandom(rooms, rand);
-		
 		if(room.daisyChain == null || addRoom(x + room.daisyDirection.offsetX, z + room.daisyDirection.offsetZ, rand, ForgeDirection.UNKNOWN, room.daisyChain)) {
 			cells[x][z] = room;
 			doors[x][z] = door;
 			order.add(new int[] { x, z });
 		}
 		
-		//if(room.daisyChain == null)
-			for(int i = 0; i < 3; i++) {
-				ForgeDirection dir = getRandomDir(rand);
-				addRoom(x + dir.offsetX, z + dir.offsetZ, rand, dir.getOpposite(), DungeonToolbox.getRandom(rooms, rand));
-			}
+		for(int i = 0; i < 3; i++) {
+			ForgeDirection dir = getRandomDir(rand);
+			addRoom(x + dir.offsetX, z + dir.offsetZ, rand, dir.getOpposite(), DungeonToolbox.getRandom(rooms, rand));
+		}
 		
 		return true;
 	}
-	
-	/*public boolean addDaisychain(int x, int z, Random rand, ForgeDirection door, CellularDungeonRoom room) {
-
-		if(x < 0 || z < 0 || x >= dimX || z >= dimZ)
-			return false;
-		
-		if(cells[x][z] != null)
-			return false;
-	}*/
 	
 	public static ForgeDirection getRandomDir(Random rand) {
 		

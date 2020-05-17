@@ -3,6 +3,9 @@
 https://minecraft.curseforge.com/projects/hbms-nuclear-tech-mod?gameCategorySlug=mc-mods&projectID=235439
 
 ## Installation Instructions
+
+### Important note: Forge has since dropped support for 1.7.10, quite a few things are not going to work from the getgo. THIS IS NOT MY FAULT, so please, instead of opening an issue on this repository and making it my problem too, use this handy thing called "google" for instructions on how to fix 1.7.10 workspaces. The dependencies are also no longer available on the official forge site, you might have to resort to different versions of the CodeChicken mods, simply change the build.gradle file accordingly and check the code for any errors.
+
 Tired of waiting until the next version comes out? Here is a tutorial on how to compile the very newest version yourself:
 1. Download minecraft forge 1.7.10 src
 2. Unpack it somewhere
