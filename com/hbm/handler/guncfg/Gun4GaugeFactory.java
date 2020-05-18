@@ -74,8 +74,6 @@ public class Gun4GaugeFactory {
 		bullet.ammo = ModItems.ammo_4gauge_slug;
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 20;
-		bullet.bulletsMin *= 2;
-		bullet.bulletsMax *= 2;
 		bullet.wear = 7;
 		bullet.style = BulletConfiguration.STYLE_NORMAL;
 		

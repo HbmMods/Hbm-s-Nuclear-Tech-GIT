@@ -120,6 +120,7 @@
     "weapon.hkReload": {"category": "player", "sounds": [{"name": "weapon/hkReload", "stream": false}]},
     "weapon.deagleShoot": {"category": "player", "sounds": [{"name": "weapon/deagleShoot", "stream": false}]},
 	"weapon.tesla": {"category": "block", "sounds": ["weapon/tesla1", "weapon/tesla2", "weapon/tesla3", "weapon/tesla4"]},
+    "weapon.teslaShoot": {"category": "player", "sounds": [{"name": "weapon/teslaShoot", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

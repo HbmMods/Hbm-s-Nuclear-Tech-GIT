@@ -99,7 +99,7 @@ public class TileEntityMachineReactor extends TileEntity implements ISidedInvent
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i == 2 ? false : (i == 1 ? hasItemPower(itemStack) : true);
+		return i == 2 ? false : (i == 0 ? hasItemPower(itemStack) : true);
 	}
 	
 	public boolean hasItemPower(ItemStack itemStack) {

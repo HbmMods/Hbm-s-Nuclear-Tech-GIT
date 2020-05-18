@@ -14,6 +14,7 @@ import com.hbm.render.model.ModelGrenade;
 import com.hbm.render.model.ModelMIRV;
 import com.hbm.render.model.ModelMiniNuke;
 import com.hbm.render.model.ModelRocket;
+import com.hbm.render.util.RenderSparks;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -67,6 +68,7 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_NUKE: renderNuke(0); break;
 			case BulletConfiguration.STYLE_MIRV: renderNuke(1); break;
 			case BulletConfiguration.STYLE_BF: renderNuke(2); break;
+			case BulletConfiguration.STYLE_ORB: renderOrb(trail); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -163,6 +165,33 @@ public class RenderBullet extends Render {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/BaleFlare.png"));
 			bf.renderAll(0.0625F); break;
 		}
+
+	}
+	
+	private void renderOrb(int type) {
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GL11.glDepthMask(false);
+		
+		switch(type) {
+		case 0:
+			bindTexture(ResourceManager.tom_flame_tex);
+			ResourceManager.sphere_uv_anim.renderAll();
+			GL11.glScalef(0.3F, 0.3F, 0.3F);
+			ResourceManager.sphere_uv_anim.renderAll();
+			GL11.glScalef(1F/0.3F, 1F/0.3F, 1F/0.3F);
+			for(int i = 0; i < 5; i++)
+				RenderSparks.renderSpark((int) (System.currentTimeMillis() / 100 + 100 * i), 0, 0, 0, 0.5F, 2, 2, 0x8080FF, 0xFFFFFF);
+			break;
+		}
+		
+		GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(true);
 
 	}
 	

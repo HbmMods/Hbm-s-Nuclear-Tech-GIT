@@ -110,6 +110,7 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_OSIPR = i++;
 	public static int SPECIAL_GAUSS = i++;
 	public static int SPECIAL_GAUSS_CHARGED = i++;
+	public static int SPECIAL_EMP = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
 	public static int G20_SHRAPNEL_FIRE = i++;
@@ -226,6 +227,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
 		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
+		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
         
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
 		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));
