@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.special.ItemBlades;
+import com.hbm.items.machine.ItemBlades;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -213,71 +214,73 @@ public class TileEntityMachinePress extends TileEntity implements ISidedInventor
 					power--;
 			}
 			
-			if(slots[0] != null && this.burnTime == 0 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) {
-				this.maxBurn = this.burnTime = TileEntityFurnace.getItemBurnTime(slots[0]) / 8;
-				slots[0].stackSize--;
-				if(slots[0].stackSize <= 0) {
-					
-					if(slots[0].getItem().getContainerItem() != null)
-						slots[0] = new ItemStack(slots[0].getItem().getContainerItem());
-					else
-						slots[0] = null;
+			if(!worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+				if(slots[0] != null && this.burnTime == 0 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) {
+					this.maxBurn = this.burnTime = TileEntityFurnace.getItemBurnTime(slots[0]) / 8;
+					slots[0].stackSize--;
+					if(slots[0].stackSize <= 0) {
+						
+						if(slots[0].getItem().getContainerItem() != null)
+							slots[0] = new ItemStack(slots[0].getItem().getContainerItem());
+						else
+							slots[0] = null;
+					}
 				}
-			}
-			
-			if(power >= maxPower / 3) {
-
-				int speed = power * 25 / maxPower;
 				
-				if(slots[1] != null && slots[2] != null) {
-					ItemStack stack = MachineRecipes.getPressResult(slots[2].copy(), slots[1].copy());
-					if(stack != null &&
-							(slots[3] == null ||
-							(slots[3].getItem() == stack.getItem() &&
-							slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize()))) {
-						
-						if(progress >= maxProgress) {
+				if(power >= maxPower / 3) {
+	
+					int speed = power * 25 / maxPower;
+					
+					if(slots[1] != null && slots[2] != null) {
+						ItemStack stack = MachineRecipes.getPressResult(slots[2].copy(), slots[1].copy());
+						if(stack != null &&
+								(slots[3] == null ||
+								(slots[3].getItem() == stack.getItem() &&
+								slots[3].stackSize + stack.stackSize <= slots[3].getMaxStackSize()))) {
 							
+							if(progress >= maxProgress) {
+								
+								isRetracting = true;
+								
+								if(slots[3] == null)
+									slots[3] = stack.copy();
+								else
+									slots[3].stackSize += stack.stackSize;
+								
+								slots[2].stackSize--;
+								if(slots[2].stackSize <= 0)
+									slots[2] = null;
+								
+								slots[1].setItemDamage(slots[1].getItemDamage() + 1);
+								if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
+									slots[1] = null;
+	
+						        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+							}
+							
+							if(!isRetracting)
+								progress += speed;
+							
+						} else {
 							isRetracting = true;
-							
-							if(slots[3] == null)
-								slots[3] = stack.copy();
-							else
-								slots[3].stackSize += stack.stackSize;
-							
-							slots[2].stackSize--;
-							if(slots[2].stackSize <= 0)
-								slots[2] = null;
-							
-							slots[1].setItemDamage(slots[1].getItemDamage() + 1);
-							if(slots[1].getItemDamage() >= slots[1].getMaxDamage())
-								slots[1] = null;
-
-					        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
 						}
-						
-						if(!isRetracting)
-							progress += speed;
-						
 					} else {
 						isRetracting = true;
 					}
+	
+					if(isRetracting)
+						progress -= speed;
 				} else {
 					isRetracting = true;
 				}
-
-				if(isRetracting)
-					progress -= speed;
-			} else {
-				isRetracting = true;
+				
+				if(progress <= 0) {
+					isRetracting = false;
+					progress = 0;
+				}
 			}
 			
-			if(progress <= 0) {
-				isRetracting = false;
-				progress = 0;
-			}
-			
-			PacketDispatcher.wrapper.sendToAll(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress));
+			PacketDispatcher.wrapper.sendToAllAround(new TEPressPacket(xCoord, yCoord, zCoord, slots[2], progress), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}
 	}
 

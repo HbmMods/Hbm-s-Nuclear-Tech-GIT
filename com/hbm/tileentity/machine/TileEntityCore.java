@@ -1,14 +1,22 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemCatalyst;
+import com.hbm.items.machine.ItemCatalyst;
+import com.hbm.lib.Library;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityCore extends TileEntityMachineBase {
 	
@@ -72,6 +80,9 @@ public class TileEntityCore extends TileEntityMachineBase {
 			else
 				color = 0;
 			
+			if(heat > 0)
+				radiation();
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("tank0", tanks[0].getTankType().ordinal());
 			data.setInteger("tank1", tanks[1].getTankType().ordinal());
@@ -101,6 +112,28 @@ public class TileEntityCore extends TileEntityMachineBase {
 		field = data.getInteger("field");
 		heat = data.getInteger("heat");
 		color = data.getInteger("color");
+	}
+	
+	private void radiation() {
+		
+		double scale = 2;
+		
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
+		
+		for(Entity e : list) {
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer)e)))
+				if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+					e.attackEntityFrom(ModDamageSource.ams, 1000);
+					e.setFire(3);
+				}
+		}
+
+		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
+		
+		for(Entity e : list2) {
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHaz2((EntityPlayer)e)))
+					e.attackEntityFrom(ModDamageSource.amsCore, 10000);
+		}
 	}
 	
 	public int getFieldScaled(int i) {

@@ -12,6 +12,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TERadarDestructorPacket;
 import com.hbm.packet.TERadarPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -68,7 +69,7 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 		
 		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		
 		pingTimer++;
 		
@@ -148,10 +149,10 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 	
 	private void sendMissileData() {
 		
-		PacketDispatcher.wrapper.sendToAll(new TERadarDestructorPacket(xCoord, yCoord, zCoord));
+		PacketDispatcher.wrapper.sendToAllAround(new TERadarDestructorPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		
 		for(int[] e : this.nearbyMissiles) {
-			PacketDispatcher.wrapper.sendToAll(new TERadarPacket(xCoord, yCoord, zCoord, e[0], e[1], e[2], e[3]));
+			PacketDispatcher.wrapper.sendToAllAround(new TERadarPacket(xCoord, yCoord, zCoord, e[0], e[1], e[2], e[3]), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 	

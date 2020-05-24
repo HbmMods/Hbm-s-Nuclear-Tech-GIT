@@ -3,11 +3,9 @@ package com.hbm.entity.missile;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemSatChip;
+import com.hbm.items.machine.ItemSatChip;
 import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.SatelliteSaveStructure;
-import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
-import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.Satellite;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -118,33 +116,10 @@ public class EntityCarrier extends EntityThrowable {
 			}
 			
 			if(payload.getItem() instanceof ItemSatChip) {
-			    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			    if(data == null) {
-			        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
-			        
-			        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-			    }
-
+				
 			    int freq = ItemSatChip.getFreq(payload);
-			    
-			    if(!data.isFreqTaken(freq)) {
-				    if(payload.getItem() == ModItems.sat_mapper)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.MAPPER, this.dimension));
-				    if(payload.getItem() == ModItems.sat_scanner)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.SCANNER, this.dimension));
-				    if(payload.getItem() == ModItems.sat_radar)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RADAR, this.dimension));
-				    if(payload.getItem() == ModItems.sat_laser)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.LASER, this.dimension));
-				    if(payload.getItem() == ModItems.sat_foeq)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RELAY, this.dimension));
-				    if(payload.getItem() == ModItems.sat_resonator)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.RESONATOR, this.dimension));
-				    if(payload.getItem() == ModItems.sat_miner)
-					    data.satellites.add(new SatelliteSaveStructure(freq, SatelliteType.MINER, this.dimension));
-
-				    data.markDirty();
-			    }
+		    	
+		    	Satellite.orbit(worldObj, Satellite.getIDFromItem(payload.getItem()), freq, posX, posY, posZ);
 			}
 		}
 		

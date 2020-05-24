@@ -40,6 +40,7 @@ public class GunGrenadeFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_HE);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_CHEMICAL);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_CONCUSSION);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
@@ -90,6 +91,23 @@ public class GunGrenadeFactory {
 		bullet.wear = 15;
 		bullet.trail = 0;
 		bullet.incendiary = 2;
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getGrenadePhosphorusConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_phosphorus;
+		bullet.velocity = 2.0F;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 15;
+		bullet.wear = 15;
+		bullet.trail = 0;
+		bullet.incendiary = 2;
+		
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D);
 		
 		return bullet;
 	}

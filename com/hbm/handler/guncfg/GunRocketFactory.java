@@ -39,11 +39,14 @@ public class GunRocketFactory {
 		
 		config.name = "Carl Gustav Recoilless Rifle M1";
 		config.manufacturer = "Saab Bofors Dynamics";
+		config.comment.add("Fun fact of the day: Recoilless");
+		config.comment.add("rifles don't actually fire rockets.");
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE);
@@ -64,6 +67,7 @@ public class GunRocketFactory {
 		
 		config.name = "M1 Karl-Gerät";
 		config.manufacturer = "???";
+		config.comment.clear();
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.ROCKET_HE);
@@ -86,6 +90,8 @@ public class GunRocketFactory {
 		
 		config.name = "Raketenpanzerbüchse 54";
 		config.manufacturer = "Enzinger Union";
+		config.comment.clear();
+		config.comment.add("Panzer-Shrek");
 		
 		config.durability = 260;
 		
@@ -255,6 +261,23 @@ public class GunRocketFactory {
 					worldObj.func_147480_a(bX, bY, bZ, false);}
 			
 		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getRocketPhosphorusConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_rocket_phosphorus;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 15;
+		bullet.explosive = 4F;
+		bullet.incendiary = 5;
+		bullet.trail = 9;
+		
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D);
 		
 		return bullet;
 	}

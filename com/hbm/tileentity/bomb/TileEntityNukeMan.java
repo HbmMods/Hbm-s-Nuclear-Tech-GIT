@@ -121,7 +121,7 @@ public class TileEntityNukeMan extends TileEntity implements ISidedInventory {
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return null;
+		return new int[0];
 	}
 
 	@Override

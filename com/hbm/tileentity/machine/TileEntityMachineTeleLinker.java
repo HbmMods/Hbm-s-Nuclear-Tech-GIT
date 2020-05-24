@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.items.tool.ItemTurretBiometry;
+import com.hbm.items.machine.ItemTurretBiometry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;

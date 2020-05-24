@@ -1,8 +1,8 @@
 package com.hbm.packet;
 
-import com.hbm.entity.logic.EntityDeathBlast;
-import com.hbm.saveddata.SatelliteSaveStructure;
+import com.hbm.items.tool.ItemSatInterface;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.Satellite;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -51,31 +51,18 @@ public class SatLaserPacket implements IMessage {
 		public IMessage onMessage(SatLaserPacket m, MessageContext ctx) {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
-
-		    SatelliteSavedData data = (SatelliteSavedData)p.worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-		    if(data == null) {
-		    	p.worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(p.worldObj));
-		        
-		        data = (SatelliteSavedData)p.worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
-		    }
-		    
-		    SatelliteSaveStructure sat = data.getSatFromFreq(m.freq);
-		    
-		    if(sat != null) {
-		    	if(sat.lastOp + 10000 < System.currentTimeMillis()) {
-		    		sat.lastOp = System.currentTimeMillis();
-		    		
-		    		int y = p.worldObj.getHeightValue(m.x, m.z);
-		    		
-		    		//ExplosionLarge.explodeFire(p.worldObj, m.x, y, m.z, 50, true, true, true);
-		    		EntityDeathBlast blast = new EntityDeathBlast(p.worldObj);
-		    		blast.posX = m.x;
-		    		blast.posY = y;
-		    		blast.posZ = m.z;
-		    		
-		    		p.worldObj.spawnEntityInWorld(blast);
-		    	}
-		    }
+			
+			if(p.getHeldItem() != null && p.getHeldItem().getItem() instanceof ItemSatInterface) {
+				
+				int freq = ItemSatInterface.getFreq(p.getHeldItem());
+				
+				if(freq == m.freq) {
+				    Satellite sat = SatelliteSavedData.getData(p.worldObj).getSatFromFreq(m.freq);
+				    
+				    if(sat != null)
+				    	sat.onClick(p.worldObj, m.x, m.z);
+				}
+			}
 			
 			return null;
 		}

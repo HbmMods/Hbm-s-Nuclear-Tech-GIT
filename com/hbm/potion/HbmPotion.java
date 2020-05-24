@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.Library;
@@ -28,6 +29,8 @@ public class HbmPotion extends Potion {
 	public static HbmPotion radx;
 	public static HbmPotion lead;
 	public static HbmPotion radaway;
+	public static HbmPotion telekinesis;
+	public static HbmPotion phosphorus;
 
 	public HbmPotion(int id, boolean isBad, int color) {
 		super(id, isBad, color);
@@ -41,6 +44,8 @@ public class HbmPotion extends Potion {
 		radx = registerPotion(MainRegistry.radxID, false, 0xBB4B00, "potion.hbm_radx", 5, 0);
 		lead = registerPotion(MainRegistry.leadID, true, 0x767682, "potion.hbm_lead", 6, 0);
 		radaway = registerPotion(MainRegistry.radawayID, false, 0xBB4B00, "potion.hbm_radaway", 7, 0);
+		telekinesis = registerPotion(MainRegistry.telekinesisID, true, 0x00F3FF, "potion.hbm_telekinesis", 0, 1);
+		phosphorus = registerPotion(MainRegistry.phosphorusID, true, 0xFFFF00, "potion.hbm_phosphorus", 1, 1);
 	}
 
 	public static HbmPotion registerPotion(int id, boolean isBad, int color, String name, int x, int y) {
@@ -84,7 +89,7 @@ public class HbmPotion extends Potion {
 
 		if(this == taint) {
 			
-			if(!(entity instanceof EntityTaintedCreeper) && entity.worldObj.rand.nextInt(80) == 0)
+			if(!(entity instanceof EntityTaintedCreeper) && !(entity instanceof EntityTaintCrab) && entity.worldObj.rand.nextInt(40) == 0)
 				entity.attackEntityFrom(ModDamageSource.taint, (level + 1));
 			
 			if(MainRegistry.enableHardcoreTaint && !entity.worldObj.isRemote) {
@@ -129,6 +134,21 @@ public class HbmPotion extends Potion {
 			
 			entity.attackEntityFrom(ModDamageSource.lead, (level + 1));
 		}
+		if(this == telekinesis) {
+			
+			int remaining = entity.getActivePotionEffect(this).getDuration();
+			
+			if(remaining > 1) {
+				entity.motionY = 0.5;
+			} else {
+				entity.motionY = -2;
+				entity.fallDistance = 50;
+			}
+		}
+		if(this == phosphorus && !entity.worldObj.isRemote) {
+			
+			entity.setFire(1);
+		}
 	}
 
 	public boolean isReady(int par1, int par2) {
@@ -137,7 +157,7 @@ public class HbmPotion extends Potion {
 
 	        return par1 % 2 == 0;
 		}
-		if(this == radiation || this == radaway) {
+		if(this == radiation || this == radaway || this == telekinesis || this == phosphorus) {
 			
 			return true;
 		}

@@ -50,13 +50,13 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.*;
-import com.hbm.inventory.MachineRecipes.ShredderRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -90,12 +90,13 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
 	public static ToolMaterial enumToolMaterialHammer = EnumHelper.addToolMaterial("SCHRABIDIUMHAMMER", 3, 0, 50.0F, 999999996F, 200);
 	public static ToolMaterial enumToolMaterialChainsaw = EnumHelper.addToolMaterial("CHAINSAW", 3, 1500, 50.0F, 22.0F, 0);
-	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("STEEL", 2, 500, 7.5F, 2.0F, 10);
-	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
-	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
+	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("HBM_STEEL", 2, 500, 7.5F, 2.0F, 10);
+	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("HBM_TITANIUM", 3, 750, 9.0F, 2.5F, 15);
+	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("HBM_ALLOY", 3, 2000, 15.0F, 5.0F, 5);
 	public static ToolMaterial enumToolMaterialCmb = EnumHelper.addToolMaterial("CMB", 3, 8500, 40.0F, 55F, 100);
-	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 4700, 30.0F, 12.0F, 2);
+	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 0, 30.0F, 12.0F, 2);
 	public static ToolMaterial enumToolMaterialDesh = EnumHelper.addToolMaterial("DESH", 2, 0, 7.5F, 2.0F, 10);
+	public static ToolMaterial enumToolMaterialCobalt = EnumHelper.addToolMaterial("HBM_COBALT", 3, 750, 9.0F, 2.5F, 15);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
@@ -110,22 +111,23 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F, 25);
 	
 	//Armor Materials
-	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("TEST", 2500, new int[] {3, 8, 6, 3}, 30);
-	public static ArmorMaterial enumArmorMaterialSchrabidium = EnumHelper.addArmorMaterial("SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
-	public static ArmorMaterial enumArmorMaterialEuphemium = EnumHelper.addArmorMaterial("EUPHEMIUM", 150000000, new int[] {3, 8, 6, 3}, 100);
-	public static ArmorMaterial enumArmorMaterialHazmat = EnumHelper.addArmorMaterial("HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialHazmat2 = EnumHelper.addArmorMaterial("HAZMAT2", 60, new int[] {2, 5, 4, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialHazmat3 = EnumHelper.addArmorMaterial("HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
-	public static ArmorMaterial enumArmorMaterialT45 = EnumHelper.addArmorMaterial("T45", 1000, new int[] {2, 5, 4, 1}, 0);
-	public static ArmorMaterial enumArmorMaterialSteel = EnumHelper.addArmorMaterial("STEEL", 20, new int[] {2, 6, 5, 2}, 5);
-	public static ArmorMaterial enumArmorMaterialTitanium = EnumHelper.addArmorMaterial("TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
-	public static ArmorMaterial enumArmorMaterialAlloy = EnumHelper.addArmorMaterial("ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
-	public static ArmorMaterial enumArmorMaterialPaa = EnumHelper.addArmorMaterial("PAA", 75, new int[] {3, 8, 6, 3}, 25);
-	public static ArmorMaterial enumArmorMaterialCmb = EnumHelper.addArmorMaterial("CMB", 60, new int[] {3, 8, 6, 3}, 50);
-	public static ArmorMaterial enumArmorMaterialAusIII = EnumHelper.addArmorMaterial("AUSIII", 375, new int[] {2, 6, 5, 2}, 0);
-	public static ArmorMaterial enumArmorMaterialAusIV = EnumHelper.addArmorMaterial("AUSIV", 375, new int[] {2, 6, 5, 2}, 0);
-	public static ArmorMaterial enumArmorMaterialAusV = EnumHelper.addArmorMaterial("AUSV", 375, new int[] {2, 6, 5, 2}, 0);
-	public static ArmorMaterial enumArmorMaterialSecurity = EnumHelper.addArmorMaterial("SECURITY", 100, new int[] {3, 8, 6, 3}, 15);
+	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("HBM_TEST", 2500, new int[] {3, 8, 6, 3}, 30);
+	public static ArmorMaterial aMatSchrab = EnumHelper.addArmorMaterial("HBM_SCHRABIDIUM", 100, new int[] {3, 8, 6, 3}, 50);
+	public static ArmorMaterial aMatEuph = EnumHelper.addArmorMaterial("HBM_EUPHEMIUM", 15000000, new int[] {3, 8, 6, 3}, 100);
+	public static ArmorMaterial aMatHaz = EnumHelper.addArmorMaterial("HBM_HAZMAT", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial aMatHaz2 = EnumHelper.addArmorMaterial("HBM_HAZMAT2", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial aMatHaz3 = EnumHelper.addArmorMaterial("HBM_HAZMAT3", 60, new int[] {2, 5, 4, 1}, 5);
+	public static ArmorMaterial aMatT45 = EnumHelper.addArmorMaterial("HBM_T45", 1000, new int[] {2, 5, 4, 1}, 0);
+	public static ArmorMaterial aMatSteel = EnumHelper.addArmorMaterial("HBM_STEEL", 20, new int[] {2, 6, 5, 2}, 5);
+	public static ArmorMaterial aMatAsbestos = EnumHelper.addArmorMaterial("HBM_ASBESTOS", 20, new int[] {1, 4, 3, 1}, 5);
+	public static ArmorMaterial aMatTitan = EnumHelper.addArmorMaterial("HBM_TITANIUM", 25, new int[] {3, 8, 6, 3}, 9);
+	public static ArmorMaterial aMatAlloy = EnumHelper.addArmorMaterial("HBM_ALLOY", 40, new int[] {3, 8, 6, 3}, 12);
+	public static ArmorMaterial aMatPaa = EnumHelper.addArmorMaterial("HBM_PAA", 75, new int[] {3, 8, 6, 3}, 25);
+	public static ArmorMaterial aMatCMB = EnumHelper.addArmorMaterial("HBM_CMB", 60, new int[] {3, 8, 6, 3}, 50);
+	public static ArmorMaterial aMatAus3 = EnumHelper.addArmorMaterial("HBM_AUSIII", 375, new int[] {2, 6, 5, 2}, 0);
+	public static ArmorMaterial aMatSecurity = EnumHelper.addArmorMaterial("HBM_SECURITY", 100, new int[] {3, 8, 6, 3}, 15);
+	public static ArmorMaterial aMatCobalt = EnumHelper.addArmorMaterial("HBM_COBALT", 70, new int[] {3, 8, 6, 3}, 25);
+	public static ArmorMaterial aMatStarmetal = EnumHelper.addArmorMaterial("HBM_STARMETAL", 150, new int[] {3, 8, 6, 3}, 100);
 	
 	//Creative Tabs
 	//ingots, nuggets, wires, machine parts
@@ -206,12 +208,18 @@ public class MainRegistry
 	public static Achievement achFOEQ;
 	public static Achievement achFiend;
 	public static Achievement achFiend2;
+	public static Achievement achSoyuz;
+	public static Achievement achRadPoison;
+	public static Achievement achRadDeath;
 	public static Achievement bobMetalworks;
 	public static Achievement bobAssembly;
 	public static Achievement bobChemistry;
 	public static Achievement bobOil;
 	public static Achievement bobNuclear;
 	public static Achievement bobHidden;
+	public static Achievement horizonsStart;
+	public static Achievement horizonsEnd;
+	public static Achievement horizonsBonus;
 	
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
@@ -235,6 +243,7 @@ public class MainRegistry
 	public static boolean enableHardcoreTaint = false;
 	public static boolean enableGuns = true;
 	public static boolean enableVirus = true;
+	public static boolean enableCrosshairs = true;
 
 	public static int uraniumSpawn = 6;
 	public static int thoriumSpawn = 7;
@@ -285,6 +294,8 @@ public class MainRegistry
 	public static int geyserWater = 3000;
 	public static int geyserChlorine = 3000;
 	public static int geyserVapor = 500;
+	public static int meteorStructure = 15000;
+	public static int capsuleStructure = 100;
 	
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
@@ -323,6 +334,8 @@ public class MainRegistry
 	public static int radxID = 66;
 	public static int leadID = 67;
 	public static int radawayID = 68;
+	public static int telekinesisID = 69;
+	public static int phosphorusID = 70;
 
 	public static int x;
 	public static int y;
@@ -356,6 +369,7 @@ public class MainRegistry
 		HbmPotion.init();
 		BulletConfigSyncingUtil.loadConfigsForSync();
 		CellularDungeonFactory.init();
+		Satellite.register();
 		
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -368,20 +382,21 @@ public class MainRegistry
 		
 		Library.initBooks();
 
-		enumArmorMaterialSchrabidium.customCraftingMaterial = ModItems.ingot_schrabidium;
-		enumArmorMaterialHazmat.customCraftingMaterial = ModItems.hazmat_cloth;
-		enumArmorMaterialHazmat2.customCraftingMaterial = ModItems.hazmat_cloth_red;
-		enumArmorMaterialHazmat3.customCraftingMaterial = ModItems.hazmat_cloth_grey;
-		enumArmorMaterialT45.customCraftingMaterial = ModItems.plate_titanium;
-		enumArmorMaterialTitanium.customCraftingMaterial = ModItems.ingot_titanium;
-		enumArmorMaterialSteel.customCraftingMaterial = ModItems.ingot_steel;
-		enumArmorMaterialAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
-		enumArmorMaterialPaa.customCraftingMaterial = ModItems.plate_paa;
-		enumArmorMaterialCmb.customCraftingMaterial = ModItems.ingot_combine_steel;
-		enumArmorMaterialAusIII.customCraftingMaterial = ModItems.ingot_australium;
-		enumArmorMaterialAusIV.customCraftingMaterial = ModItems.rod_australium;
-		enumArmorMaterialAusV.customCraftingMaterial = ModItems.nugget_australium;
-		enumArmorMaterialSecurity.customCraftingMaterial = ModItems.plate_kevlar;
+		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
+		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;
+		aMatHaz2.customCraftingMaterial = ModItems.hazmat_cloth_red;
+		aMatHaz3.customCraftingMaterial = ModItems.hazmat_cloth_grey;
+		aMatT45.customCraftingMaterial = ModItems.plate_titanium;
+		aMatTitan.customCraftingMaterial = ModItems.ingot_titanium;
+		aMatSteel.customCraftingMaterial = ModItems.ingot_steel;
+		aMatAsbestos.customCraftingMaterial = ModItems.asbestos_cloth;
+		aMatAlloy.customCraftingMaterial = ModItems.ingot_advanced_alloy;
+		aMatPaa.customCraftingMaterial = ModItems.plate_paa;
+		aMatCMB.customCraftingMaterial = ModItems.ingot_combine_steel;
+		aMatAus3.customCraftingMaterial = ModItems.ingot_australium;
+		aMatSecurity.customCraftingMaterial = ModItems.plate_kevlar;
+		aMatCobalt.customCraftingMaterial = ModItems.ingot_cobalt;
+		aMatStarmetal.customCraftingMaterial = ModItems.ingot_starmetal;
 		enumToolMaterialSchrabidium.setRepairItem(new ItemStack(ModItems.ingot_schrabidium));
 		enumToolMaterialHammer.setRepairItem(new ItemStack(Item.getItemFromBlock(ModBlocks.block_schrabidium)));
 		enumToolMaterialChainsaw.setRepairItem(new ItemStack(ModItems.ingot_steel));
@@ -539,6 +554,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntitySoyuzLauncher.class, "tileentity_soyuz_launcher");
 		GameRegistry.registerTileEntity(TileEntityTesla.class, "tileentity_tesla_coil");
 		GameRegistry.registerTileEntity(TileEntityBarrel.class, "tileentity_fluid_barrel");
+		GameRegistry.registerTileEntity(TileEntityCyberCrab.class, "tileentity_crabs");
+		GameRegistry.registerTileEntity(TileEntitySoyuzCapsule.class, "tileentity_soyuz_capsule");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -683,11 +700,16 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBalefire.class, "entity_balefire", 140, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityTom.class, "entity_tom_the_moonstone", 141, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntityTomBlast.class, "entity_tom_bust", 142, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityBuilding.class, "entity_falling_building", 143, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntitySoyuz.class, "entity_soyuz", 144, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 145, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
 	    EntityRegistry.registerGlobalEntityID(EntityHunterChopper.class, "entity_mob_hunter_chopper", EntityRegistry.findGlobalUniqueEntityId(), 0x000020, 0x2D2D72);
 	    EntityRegistry.registerGlobalEntityID(EntityCyberCrab.class, "entity_cyber_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x444444);
+	    EntityRegistry.registerGlobalEntityID(EntityTeslaCrab.class, "entity_tesla_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x440000);
+	    EntityRegistry.registerGlobalEntityID(EntityTaintCrab.class, "entity_taint_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xFF00FF);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			
@@ -1004,25 +1026,33 @@ public class MainRegistry
 				achievementCraftBreedingReactor,
 				achievementCraftCentrifuge
 		}));*/
-		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, 0, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
-		achImpossible = new Achievement("achievement.impossible", "impossible", 2, 0, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
-		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 2, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
-		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -2, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
-		achSelenium = new Achievement("achievement.selenium", "selenium", -2, -2, ModItems.ingot_starmetal, null).initIndependentStat().setSpecial().registerStat();
-		achPotato = new Achievement("achievement.potato", "potato", -2, 0, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
-		achC44 = new Achievement("achievement.c44", "c44", 2, -2, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
-		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -2, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
-		achSpace = new Achievement("achievement.space", "space", 4, 0, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
-		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 2, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
-		achFiend = new Achievement("achievement.fiend", "fiend", 6, 0, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
-		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 2, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
+		achSacrifice = new Achievement("achievement.sacrifice", "sacrifice", 0, -2, ModItems.burnt_bark, null).initIndependentStat().setSpecial().registerStat();
+		achImpossible = new Achievement("achievement.impossible", "impossible", 2, -2, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
+		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 0, 0, new ItemStack(ModItems.fluid_icon, 1, FluidType.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
+		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -4, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
+		achSelenium = new Achievement("achievement.selenium", "selenium", -2, -4, ModItems.ingot_starmetal, null).initIndependentStat().setSpecial().registerStat();
+		achPotato = new Achievement("achievement.potato", "potato", -2, -2, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
+		achC44 = new Achievement("achievement.c44", "c44", 2, -4, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
+		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 4, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().setSpecial().registerStat();
+		achSpace = new Achievement("achievement.space", "space", 4, -2, ModItems.missile_carrier, null).initIndependentStat().setSpecial().registerStat();
+		achFOEQ = new Achievement("achievement.FOEQ", "FOEQ", 4, 0, ModItems.sat_foeq, null).initIndependentStat().setSpecial().registerStat();
+		achFiend = new Achievement("achievement.fiend", "fiend", 6, -2, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
+		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 0, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
+		achSoyuz = new Achievement("achievement.soyuz", "soyuz", -2, 0, Items.baked_potato, null).initIndependentStat().setSpecial().registerStat();
 
-		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 4, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
-		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 4, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
-		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 4, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
-		bobOil = new Achievement("achievement.oil", "oil", 4, 4, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
-		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 4, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
-		bobHidden = new Achievement("achievement.hidden", "hidden", 8, 4, ModItems.gun_dampfmaschine, bobNuclear).initIndependentStat().registerStat();
+		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 2, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
+		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 2, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
+		bobChemistry = new Achievement("achievement.chemistry", "chemistry", 2, 2, ModItems.bob_chemistry, bobAssembly).initIndependentStat().registerStat();
+		bobOil = new Achievement("achievement.oil", "oil", 4, 2, ModItems.bob_oil, bobChemistry).initIndependentStat().registerStat();
+		bobNuclear = new Achievement("achievement.nuclear", "nuclear", 6, 2, ModItems.bob_nuclear, bobOil).initIndependentStat().registerStat();
+		bobHidden = new Achievement("achievement.hidden", "hidden", 8, 2, ModItems.gun_dampfmaschine, bobNuclear).initIndependentStat().registerStat();
+
+		horizonsStart = new Achievement("achievement.horizonsStart", "horizonsStart", -2, 4, ModItems.sat_gerald, null).initIndependentStat().registerStat();
+		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", 0, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
+		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", 2, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
+
+		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
+		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
 		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[]{ 
 				achSacrifice,
@@ -1037,12 +1067,18 @@ public class MainRegistry
 				achFOEQ,
 				achFiend,
 				achFiend2,
+				achSoyuz,
 				bobMetalworks,
 				bobAssembly,
 				bobChemistry,
 				bobOil,
 				bobNuclear,
-				bobHidden
+				bobHidden,
+				horizonsStart,
+				horizonsEnd,
+				horizonsBonus,
+				achRadPoison,
+				achRadDeath
 		}));
 
 		//MUST be initialized AFTER achievements!!
@@ -1081,6 +1117,7 @@ public class MainRegistry
 		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
 		OreDictionary.registerOre("ingotAluminum", ModItems.ingot_aluminium);
 		OreDictionary.registerOre("ingotBeryllium", ModItems.ingot_beryllium);
+		OreDictionary.registerOre("ingotCobalt", ModItems.ingot_cobalt);
 		OreDictionary.registerOre("ingotNeptunium", ModItems.ingot_neptunium);
 		OreDictionary.registerOre("ingotLead", ModItems.ingot_lead);
 		OreDictionary.registerOre("ingotLithium", ModItems.lithium);
@@ -1141,10 +1178,7 @@ public class MainRegistry
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
-		OreDictionary.registerOre("plateDesh", ModItems.plate_desh);
 		OreDictionary.registerOre("plateSaturnite", ModItems.plate_saturnite);
-		OreDictionary.registerOre("plateEuphemium", ModItems.plate_euphemium);
-		OreDictionary.registerOre("plateDineutronium", ModItems.plate_dineutronium);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
 		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
@@ -1281,64 +1315,56 @@ public class MainRegistry
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent)
 	{
-		ShredderRecipe recipes = new MachineRecipes().new ShredderRecipe();
-		
-		recipes.registerEverythingImSrs();
-		
-		recipes.addRecipes();
-		
-		recipes.removeDuplicates();
+		MachineRecipes.registerShredder();
 
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 2), new ItemStack(ModItems.powder_quartz, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_stairs), new ItemStack(ModItems.powder_quartz, 3));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
-		recipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.packed_ice), new ItemStack(ModItems.powder_ice, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.stonebrick), new ItemStack(Blocks.gravel, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.sand), new ItemStack(ModItems.dust, 2));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_block), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.brick_stairs), new ItemStack(Items.clay_ball, 3));
-		recipes.overridePreSetRecipe(new ItemStack(Items.flower_pot), new ItemStack(Items.clay_ball, 3));
-		recipes.overridePreSetRecipe(new ItemStack(Items.brick), new ItemStack(Items.clay_ball, 1));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone), new ItemStack(Blocks.sand, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone_stairs), new ItemStack(Blocks.sand, 6));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.hardened_clay), new ItemStack(Items.clay_ball, 4));
-		recipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_neodymium), new ItemStack(ModItems.powder_neodymium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cobalt), new ItemStack(ModItems.powder_cobalt_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_niobium), new ItemStack(ModItems.powder_niobium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
-		recipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_burnt), new ItemStack(ModItems.powder_coal, 1));
-		recipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_desh), new ItemStack(ModItems.powder_desh, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.glowstone), new ItemStack(Items.glowstone_dust, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_block, 1, 2), new ItemStack(ModItems.powder_quartz, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_stairs), new ItemStack(ModItems.powder_quartz, 3));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.quartz), new ItemStack(ModItems.powder_quartz));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.quartz_ore), new ItemStack(ModItems.powder_quartz, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.packed_ice), new ItemStack(ModItems.powder_ice, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.cobblestone), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stonebrick), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.gravel), new ItemStack(Blocks.sand, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.sand), new ItemStack(ModItems.dust, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.brick_block), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.brick_stairs), new ItemStack(Items.clay_ball, 3));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.flower_pot), new ItemStack(Items.clay_ball, 3));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.brick), new ItemStack(Items.clay_ball, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone), new ItemStack(Blocks.sand, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.sandstone_stairs), new ItemStack(Blocks.sand, 6));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.clay), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.hardened_clay), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.tnt), new ItemStack(Items.gunpowder, 5));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.powder_quartz), new ItemStack(ModItems.powder_lithium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.powder_lapis), new ItemStack(ModItems.powder_cobalt_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_neodymium), new ItemStack(ModItems.powder_neodymium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cobalt), new ItemStack(ModItems.powder_cobalt_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_niobium), new ItemStack(ModItems.powder_niobium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_cerium), new ItemStack(ModItems.powder_cerium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_lanthanium), new ItemStack(ModItems.powder_lanthanium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_actinium), new ItemStack(ModItems.powder_actinium_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.fragment_meteorite), new ItemStack(ModItems.powder_meteorite_tiny, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.block_meteor), new ItemStack(ModItems.powder_meteorite, 10));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_burnt), new ItemStack(ModItems.powder_coal, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_desh), new ItemStack(ModItems.powder_desh, 2));
 
 		for(int i = 0; i < 16; i++) {
-			recipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
-			recipes.overridePreSetRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
+			MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
+			MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));
 		}
-		
-		recipes.PrintRecipes();
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), FluidType.WATER, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), FluidType.LAVA, 1000));
@@ -1376,15 +1402,14 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_deuterium), new ItemStack(ModItems.cell_empty), FluidType.DEUTERIUM, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_tritium), new ItemStack(ModItems.cell_empty), FluidType.TRITIUM, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_tritium), new ItemStack(ModItems.rod_empty), FluidType.TRITIUM, 1000));
-		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_dual_tritium), new ItemStack(ModItems.rod_dual_empty), FluidType.TRITIUM, 1000));
-		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_quad_tritium), new ItemStack(ModItems.rod_quad_empty), FluidType.TRITIUM, 1000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_dual_tritium), new ItemStack(ModItems.rod_dual_empty), FluidType.TRITIUM, 2000));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.rod_quad_tritium), new ItemStack(ModItems.rod_quad_empty), FluidType.TRITIUM, 4000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_uf6), new ItemStack(ModItems.cell_empty), FluidType.UF6, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_puf6), new ItemStack(ModItems.cell_empty), FluidType.PUF6, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_empty), FluidType.AMAT, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_anti_schrabidium), new ItemStack(ModItems.cell_empty), FluidType.ASCHRAB, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_sas3), new ItemStack(ModItems.cell_empty), FluidType.SAS3, 1000));
-
-		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 250));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.bottle_mercury), new ItemStack(Items.glass_bottle), FluidType.MERCURY, 1000));
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 1), new ItemStack(ModItems.tank_waste, 1, 0), FluidType.WATZ, 8000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 2), new ItemStack(ModItems.tank_waste, 1, 1), FluidType.WATZ, 8000));
@@ -1420,10 +1445,24 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_legs, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_boots, 0.2F);
 		
+		HazmatRegistry.instance.registerHazmat(ModItems.paa_plate, 0.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.paa_legs, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.paa_boots, 0.2F);
+		
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_helmet, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_plate, 1.2F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_legs, 0.9F);
 		HazmatRegistry.instance.registerHazmat(ModItems.hazmat_paa_boots, 0.3F);
+
+		HazmatRegistry.instance.registerHazmat(ModItems.security_helmet, 0.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.security_plate, 0.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.security_legs, 0.3F);
+		HazmatRegistry.instance.registerHazmat(ModItems.security_boots, 0.1F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_helmet, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_plate, 1.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_legs, 0.9F);
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_boots, 0.3F);
 
 		HazmatRegistry.instance.registerHazmat(ModItems.jackt, 0.3F);
 		HazmatRegistry.instance.registerHazmat(ModItems.jackt2, 0.3F);
@@ -1436,6 +1475,16 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.steel_legs, 0.06F);
 		HazmatRegistry.instance.registerHazmat(ModItems.steel_boots, 0.02F);
 		
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_helmet, 0.06F);
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_plate, 0.12F);
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_legs, 0.1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.titanium_boots, 0.03F);
+
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_helmet, 0.1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_plate, 0.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_legs, 0.15F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_boots, 0.05F);
+		
 		HazmatRegistry.instance.registerHazmat(Items.iron_helmet, 0.04F);
 		HazmatRegistry.instance.registerHazmat(Items.iron_chestplate, 0.08F);
 		HazmatRegistry.instance.registerHazmat(Items.iron_leggings, 0.06F);
@@ -1446,10 +1495,20 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(Items.golden_leggings, 0.06F);
 		HazmatRegistry.instance.registerHazmat(Items.golden_boots, 0.02F);
 		
+		HazmatRegistry.instance.registerHazmat(Items.diamond_helmet, 0.05F);
+		HazmatRegistry.instance.registerHazmat(Items.diamond_chestplate, 0.09F);
+		HazmatRegistry.instance.registerHazmat(Items.diamond_leggings, 0.07F);
+		HazmatRegistry.instance.registerHazmat(Items.diamond_boots, 0.03F);
+		
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_helmet, 0.08F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_plate, 0.16F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_legs, 0.12F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_boots, 0.04F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_helmet, 1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_plate, 2.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_legs, 1.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_boots, 0.5F);
 		
 		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_helmet, 1.2F);
 		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_plate, 2.4F);
@@ -1549,6 +1608,7 @@ public class MainRegistry
         enableHardcoreTaint = config.get(CATEGORY_GENERAL, "1.19_enableHardcoreTaint", false).getBoolean(false);
         enableGuns = config.get(CATEGORY_GENERAL, "1.20_enableGuns", true).getBoolean(true);
         enableVirus = config.get(CATEGORY_GENERAL, "1.21_enableVirus", false).getBoolean(false);
+        enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true).getBoolean(true);
 
         final String CATEGORY_OREGEN = "02_ores";
         Property PuraniumSpawn = config.get(CATEGORY_OREGEN, "2.00_uraniumSpawnrate", 6);
@@ -1693,6 +1753,8 @@ public class MainRegistry
         Property pGV = config.get(CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", 500);
         pGV.comment = "Spawn vapor geyser on every nTH chunk";
         geyserVapor = pGV.getInt();
+        meteorStructure = createConfigInt(config, CATEGORY_DUNGEON, "4.20_meteorSpawn", "Spawn meteor dungeon on every nTH chunk", 15000);
+        capsuleStructure = createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
 
         final String CATEGORY_METEOR = "05_meteors";
         Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);
@@ -1768,6 +1830,8 @@ public class MainRegistry
         radxID = createConfigInt(config, CATEGORY_POTION, "8.04_radxPotionID", "What potion ID the Rad-X effect will have", 66);
         leadID = createConfigInt(config, CATEGORY_POTION, "8.05_leadPotionID", "What potion ID the lead poisoning effect will have", 67);
         radawayID = createConfigInt(config, CATEGORY_POTION, "8.06_radawayPotionID", "What potion ID the radaway effect will have", 68);
+        telekinesisID = createConfigInt(config, CATEGORY_POTION, "8.07_telekinesisPotionID", "What potion ID the telekinesis effect will have", 69);
+        phosphorusID = createConfigInt(config, CATEGORY_POTION, "8.08_phosphorusPotionID", "What potion ID the phosphorus effect will have", 70);
 
         final String CATEGORY_MACHINE = "09_machines";
         templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));
@@ -1803,6 +1867,8 @@ public class MainRegistry
         vaultfreq = setDef(vaultfreq, 1000);
         meteorStrikeChance = setDef(meteorStrikeChance, 1000);
         meteorShowerChance = setDef(meteorShowerChance, 1000);
+        meteorStructure = setDef(meteorStructure, 15000);
+        capsuleStructure = setDef(capsuleStructure, 100);
         fogCh = setDef(fogCh, 20);
 	}
 	

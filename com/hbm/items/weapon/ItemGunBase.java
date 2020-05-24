@@ -248,7 +248,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			//if the mag has bullet in them -> load only the same type
 			if(getMag(stack) > 0) {
 				
-				Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
+				BulletConfiguration bulletCfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
+				Item ammo = bulletCfg.ammo;
 				
 				//how many bullets to load
 				int count = 1;
@@ -267,7 +268,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 						
 						if(player.inventory.hasItem(ammo)) {
 							player.inventory.consumeInventoryItem(ammo);
-							setMag(stack, getMag(stack) + 1);
+							setMag(stack, Math.min(getMag(stack) + bulletCfg.ammoCount, mainConfig.ammoCap));
 						} else {
 							setIsReloading(stack, false);
 							world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
@@ -287,7 +288,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			//if the mag has no bullets in them -> load new type
 			} else {
 				
-				Item ammo = null;
+				BulletConfiguration bulletCfg = null;
 				
 				//determine new type
 				for(Integer config : mainConfig.config) {
@@ -295,14 +296,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 					
 					if(player.inventory.hasItem(cfg.ammo)) {
-						ammo = cfg.ammo;
+						bulletCfg = cfg;
 						setMagType(stack, mainConfig.config.indexOf(config));
 						break;
 					}
 				}
 				
 				//load new type if bullets are present
-				if(ammo != null) {
+				if(bulletCfg != null) {
 					
 					int count = 1;
 					
@@ -315,9 +316,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 						
 						if(getMag(stack) < mainConfig.ammoCap) {
 							
-							if(player.inventory.hasItem(ammo)) {
-								player.inventory.consumeInventoryItem(ammo);
-								setMag(stack, getMag(stack) + 1);
+							if(player.inventory.hasItem(bulletCfg.ammo)) {
+								player.inventory.consumeInventoryItem(bulletCfg.ammo);
+								setMag(stack, Math.min(getMag(stack) + bulletCfg.ammoCount, mainConfig.ammoCap));
 							} else {
 								setIsReloading(stack, false);
 								world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
@@ -369,13 +370,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			}
 			
 			boolean hasLoaded = false;
-			Item ammo = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack))).ammo;
+			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
+			Item ammo = cfg.ammo;
 			
 			for(int i = 0; i < count; i++) {
 
-				if(player.inventory.hasItem(ammo)) {
+				if(player.inventory.hasItem(ammo) && getMag(stack) < mainConfig.ammoCap) {
 					player.inventory.consumeInventoryItem(ammo);
-					setMag(stack, getMag(stack) + 1);
+					setMag(stack, Math.min(getMag(stack) + cfg.ammoCount, mainConfig.ammoCap));
 					hasLoaded = true;
 				} else {
 					setIsReloading(stack, false);
@@ -482,7 +484,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			list.add("");
 			for(String s : mainConfig.comment)
 				list.add(EnumChatFormatting.ITALIC + s);
-			list.add("");
 		}
 		
 		if(MainRegistry.enableExtendedLogging) {

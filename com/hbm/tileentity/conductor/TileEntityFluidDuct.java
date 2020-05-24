@@ -10,6 +10,8 @@ import com.hbm.interfaces.IFluidDuct;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPipePacket;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,7 +32,7 @@ public class TileEntityFluidDuct extends TileEntity implements IFluidDuct {
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new TEFluidPipePacket(xCoord, yCoord, zCoord, type));
+			PacketDispatcher.wrapper.sendToAllAround(new TEFluidPipePacket(xCoord, yCoord, zCoord, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
 		
 		this.updateConnections();
 	}

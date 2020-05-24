@@ -74,7 +74,7 @@ public class BlockOre extends Block {
 		}
 		if(this == ModBlocks.ore_nether_fire)
 		{
-			return rand.nextInt(2) == 0 ? ModItems.powder_fire : Items.blaze_powder;
+			return rand.nextInt(10) == 0 ? ModItems.ingot_phosphorus : ModItems.powder_fire;
 		}
 		if(this == ModBlocks.block_meteor)
 		{
@@ -192,10 +192,6 @@ public class BlockOre extends Block {
 			return 2 + p_149745_1_.nextInt(3);
 		}
 		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur)
-		{
-			return 2 + p_149745_1_.nextInt(3);
-		}
-		if(this == ModBlocks.ore_nether_fire)
 		{
 			return 2 + p_149745_1_.nextInt(3);
 		}

@@ -27,7 +27,7 @@ public class TestDungeonRoom3 extends CellularDungeonRoom {
 
         if (tileentitymobspawner2 != null)
         {
-            tileentitymobspawner2.func_145881_a().setEntityName("Creeper");
+            tileentitymobspawner2.func_145881_a().setEntityName("entity_cyber_crab");
         }
 	}
 }

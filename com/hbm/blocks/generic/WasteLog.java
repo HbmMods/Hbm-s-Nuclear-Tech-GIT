@@ -1,8 +1,10 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -12,7 +14,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 public class WasteLog extends Block {
 	
@@ -37,7 +41,7 @@ public class WasteLog extends Block {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	public Item getItemDropped(int i, Random rand, int j)
     {
 		if(this == ModBlocks.waste_log)
 		{
@@ -49,6 +53,17 @@ public class WasteLog extends Block {
 		}
 		
 		return null;
+    }
+
+    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    	
+    	if(this == ModBlocks.waste_log && world.rand.nextInt(1000) == 0) {
+	        ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+	        ret.add(new ItemStack(ModItems.burnt_bark));
+	        return ret;
+    	}
+    	
+    	return super.getDrops(world, x, y, z, metadata, fortune);
     }
     
     @Override

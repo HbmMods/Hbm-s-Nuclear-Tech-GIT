@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIBombMulti extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/bombGeneric.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/bombGeneric.png");
 	private TileEntityBombMulti testNuke;
 	
 	public GUIBombMulti(InventoryPlayer invPlayer, TileEntityBombMulti tedf) {

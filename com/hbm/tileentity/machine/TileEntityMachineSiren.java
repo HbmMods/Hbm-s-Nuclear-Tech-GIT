@@ -1,12 +1,14 @@
 package com.hbm.tileentity.machine;
 
 import java.util.Arrays;
-import com.hbm.items.tool.ItemCassette;
-import com.hbm.items.tool.ItemCassette.SoundType;
-import com.hbm.items.tool.ItemCassette.TrackType;
+
+import com.hbm.items.machine.ItemCassette;
+import com.hbm.items.machine.ItemCassette.SoundType;
+import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TESirenPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -184,7 +186,7 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			int id = Arrays.asList(TrackType.values()).indexOf(getCurrentType());
 			
 			if(getCurrentType().name().equals(TrackType.NULL.name())) {
-				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false));
+				PacketDispatcher.wrapper.sendToAllAround(new TESirenPacket(xCoord, yCoord, zCoord, id, false), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 1500));
 				return;
 			}
 			
@@ -192,13 +194,13 @@ public class TileEntityMachineSiren extends TileEntity implements ISidedInventor
 			
 			if(getCurrentType().getType().name().equals(SoundType.LOOP.name())) {
 				
-				PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, active));
+				PacketDispatcher.wrapper.sendToAllAround(new TESirenPacket(xCoord, yCoord, zCoord, id, active), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 1500));
 			} else {
 				
 				if(!lock && active) {
 					lock = true;
-					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, false));
-					PacketDispatcher.wrapper.sendToAll(new TESirenPacket(xCoord, yCoord, zCoord, id, true));
+					PacketDispatcher.wrapper.sendToAllAround(new TESirenPacket(xCoord, yCoord, zCoord, id, false), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 1500));
+					PacketDispatcher.wrapper.sendToAllAround(new TESirenPacket(xCoord, yCoord, zCoord, id, true), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 1500));
 				}
 				
 				if(lock && !active) {

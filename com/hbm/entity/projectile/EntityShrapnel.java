@@ -1,6 +1,5 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.lib.ModDamageSource;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -32,11 +31,9 @@ public class EntityShrapnel extends EntityThrowable {
     @Override
     public void onUpdate() {
     	super.onUpdate();
-    	if(!worldObj.isRemote)
-    		if(this.dataWatcher.getWatchableObjectByte(16) == 1) {
-    			worldObj.spawnEntityInWorld(new EntitySSmokeFX(worldObj, this.posX, this.posY - 0.5, this.posZ, 0.0, 0.0, 0.0));
-    			worldObj.spawnEntityInWorld(new EntitySSmokeFX(worldObj, this.posX - this.motionX, this.posY - 0.5 - this.motionY, this.posZ - this.motionZ, 0.0, 0.0, 0.0));
-    		}
+    	
+    	if(worldObj.isRemote && this.dataWatcher.getWatchableObjectByte(16) == 1)
+    		worldObj.spawnParticle("flame", posX, posY, posZ, 0.0, 0.0, 0.0);
     }
 
     @Override

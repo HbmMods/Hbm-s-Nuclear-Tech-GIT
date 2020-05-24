@@ -3,8 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
-import com.hbm.render.util.DiamondPronter;
-import com.hbm.render.util.EnumSymbol;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -30,7 +29,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+        GL11.glTranslated(x + 0.5, y, z + 0.5);
         GL11.glEnable(GL11.GL_LIGHTING);
 		/*switch(tileEntity.getBlockMetadata())
 		{
@@ -105,13 +104,35 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/ModelCalStock.png"));*/
         //stock.renderAll(1F/16F);
         
-        //SoyuzPronter.prontSoyuz();
+        //SoyuzPronter.prontSoyuz(2);
         //TomPronter.prontTom();
         //BeamPronter.prontBeam(Vec3.createVectorHelper(5, 5, 5), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xff8000, 0xff8000, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25, 25, 0.1F, 4, 0.05F);
         //BeamPronter.prontBeam(Vec3.createVectorHelper(5, 5, 5), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xffff00, 0xffff00, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25, 1, 0F, 4, 0.05F);
         //BeamPronter.prontHelix(Vec3.createVectorHelper(0, 5, 0), 0.5, 0.5, 0.5, EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0xffff00, (int)tileEntity.getWorldObj().getTotalWorldTime() % 360 * 25 + 180, 25, 0.25F);
 
-        DiamondPronter.pront(1, 2, 3, EnumSymbol.OXIDIZER);
+        //DiamondPronter.pront(1, 2, 3, EnumSymbol.OXIDIZER);
+
+        //GL11.glTranslatef(0.0F, -0.25F, 0.0F);
+        //GL11.glRotatef(-25, 0, 1, 0);
+        //GL11.glRotatef(15, 0, 0, 1);
+        
+        long time = tileEntity.getWorldObj().getTotalWorldTime();
+        double sine = Math.sin(time * 0.05) * 5;
+        double sin3 = Math.sin(time * 0.05 + Math.PI * 0.5) * 5;
+        double sin2 = Math.sin(time * 0.05 + Math.PI);
+        int height = 7;
+        GL11.glTranslated(0.0F, height + sin2, 0.0F);
+        GL11.glRotated(sine, 0, 0, 1);
+        GL11.glRotated(sin3, 1, 0, 0);
+        GL11.glTranslated(0.0F, -height, 0.0F);
+        
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        bindTexture(ResourceManager.soyuz_lander_tex);
+        ResourceManager.soyuz_lander.renderPart("Capsule");
+        bindTexture(ResourceManager.soyuz_chute_tex);
+        ResourceManager.soyuz_lander.renderPart("Chute");
+        GL11.glShadeModel(GL11.GL_FLAT);
         
         GL11.glPopMatrix();
     }

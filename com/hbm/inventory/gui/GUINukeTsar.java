@@ -14,7 +14,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeTsar;
 
 public class GUINukeTsar extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/tsarBombaSchematic.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/tsarBombaSchematic.png");
 	private TileEntityNukeTsar testNuke;
 	
 	public GUINukeTsar(InventoryPlayer invPlayer, TileEntityNukeTsar tedf) {

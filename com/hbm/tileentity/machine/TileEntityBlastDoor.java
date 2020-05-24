@@ -5,6 +5,7 @@ import com.hbm.blocks.machine.DummyBlockBlast;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEVaultPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -97,13 +98,13 @@ public class TileEntityBlastDoor extends TileEntityLockableBase {
 	    		}
 	    	}
 	    	
-	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 0, 0));
+	    	PacketDispatcher.wrapper.sendToAllAround(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 0, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 		}
     }
 	
 	public void open() {
 		if(state == 0) {
-	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, 0));
+	    	PacketDispatcher.wrapper.sendToAllAround(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			isOpening = true;
 			state = 1;
 

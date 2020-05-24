@@ -35,8 +35,8 @@ import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -109,7 +109,7 @@ public class EntityBullet extends Entity implements IProjectile {
 			double d5 = d2 / d3;
 			this.setLocationAndAngles(p_i1755_2_.posX + d4, this.posY, p_i1755_2_.posZ + d5, f2, f3);
 			this.yOffset = 0.0F;
-			float f4 = (float) d3 * 0.2F;
+			float f4 = 0;//(float) d3 * 0.2F;
 			this.setThrowableHeading(d0, d1 + f4, d2, p_i1755_4_, p_i1755_5_);
 		}
 	}
@@ -497,7 +497,7 @@ public class EntityBullet extends Entity implements IProjectile {
 
 								if (rad) {
 									if (entitylivingbase instanceof EntityPlayer
-											&& Library.checkForHazmat((EntityPlayer) entitylivingbase)) {
+											&& ArmorUtil.checkForHazmat((EntityPlayer) entitylivingbase)) {
 									} else if (entitylivingbase instanceof EntityCreeper) {
 										EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
 										creep.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ,

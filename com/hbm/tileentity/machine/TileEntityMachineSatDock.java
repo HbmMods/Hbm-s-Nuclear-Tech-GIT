@@ -5,10 +5,10 @@ import java.util.Random;
 
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemSatChip;
-import com.hbm.saveddata.SatelliteSaveStructure;
-import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
+import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.SatelliteMiner;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -204,19 +204,22 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		    if(data != null && slots[15] != null) {
 			    int freq = ItemSatChip.getFreq(slots[15]);
 			    
-			    SatelliteSaveStructure sat = data.getSatFromFreq(freq);
+			    Satellite sat = data.getSatFromFreq(freq);
 			    
 			    int delay = 10 * 60 * 1000;
 			    
-			    if(sat != null && sat.satelliteID == freq && sat.satelliteType.name().equals(SatelliteType.MINER.name())) {
-			    	if(sat.lastOp + delay < System.currentTimeMillis()) {
+			    if(sat != null && sat instanceof SatelliteMiner) {
+			    	
+			    	SatelliteMiner miner = (SatelliteMiner)sat;
+			    	
+			    	if(miner.lastOp + delay < System.currentTimeMillis()) {
 			    		
 			        	EntityMinerRocket rocket = new EntityMinerRocket(worldObj);
 			        	rocket.posX = xCoord + 0.5;
 			        	rocket.posY = 300;
 			        	rocket.posZ = zCoord + 0.5;
 			        	worldObj.spawnEntityInWorld(rocket);
-			        	sat.lastOp = System.currentTimeMillis();
+			        	miner.lastOp = System.currentTimeMillis();
 			        	data.markDirty();
 			    	}
 			    }

@@ -7,7 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Offer;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Requirement;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
+import com.hbm.items.machine.ItemBattery;
 
 import net.minecraft.item.ItemStack;
 
@@ -198,6 +198,9 @@ public class BobmazonOfferFactory {
 		special.add(new Offer(new ItemStack(ModItems.loot_misc, 1), Requirement.HIDDEN, 2));
 		special.add(new Offer(new ItemStack(ModBlocks.crate_can, 1), Requirement.HIDDEN, 1));
 		special.add(new Offer(new ItemStack(ModBlocks.crate_ammo, 1), Requirement.HIDDEN, 15));
+		special.add(new Offer(new ItemStack(ModItems.book_of_, 1), Requirement.HIDDEN, 100));
+		special.add(new Offer(new ItemStack(ModItems.mysteryshovel, 1), Requirement.HIDDEN, 100));
+		special.add(new Offer(new ItemStack(ModBlocks.ntm_dirt, 1), Requirement.HIDDEN, 2240));
 	}
 	
 	public static List<Offer> getOffers(ItemStack stack) {

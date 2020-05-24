@@ -15,6 +15,9 @@ public class CellularDungeonFactory {
 		test.rooms.add(new TestDungeonRoom2(test));
 		test.rooms.add(new TestDungeonRoom3(test));
 		test.rooms.add(new TestDungeonRoom4(test, new TestDungeonRoom5(test), ForgeDirection.NORTH));
+		test.rooms.add(new TestDungeonRoom6(test));
+		test.rooms.add(new TestDungeonRoom7(test));
+		test.rooms.add(new TestDungeonRoom8(test));
 	}
 
 }

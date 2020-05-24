@@ -1,11 +1,14 @@
 package com.hbm.items.special;
 
+import java.util.List;
+
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.lib.ModDamageSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,6 +29,12 @@ public class ItemUnstable extends Item {
 		this.radius = radius;
 		this.timer = timer;
         this.setHasSubtypes(true);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
+		list.add("Decay: " + (getTimer(stack) * 100 / timer) + "%");
 	}
 	
     public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {

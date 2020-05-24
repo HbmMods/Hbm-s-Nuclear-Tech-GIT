@@ -20,7 +20,7 @@ import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
-import com.hbm.lib.Library;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 
@@ -636,8 +636,8 @@ public class ExplosionChaos {
 				d7 = entity.posZ - z;
 				double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
 				if (d9 < wat) {
-					if (entity instanceof EntityPlayer && Library.checkForGasMask((EntityPlayer) entity)) {
-						Library.damageSuit((EntityPlayer)entity, 3, rand.nextInt(2));
+					if (entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)) {
+						ArmorUtil.damageSuit((EntityPlayer)entity, 3, rand.nextInt(2));
 
 					} else if (entity instanceof EntityLivingBase) {
 						((EntityLivingBase) entity)
@@ -690,10 +690,10 @@ public class ExplosionChaos {
 					
 					if (entity instanceof EntityPlayer) {
 						
-						Library.damageSuit((EntityPlayer)entity, 0, 25);
-						Library.damageSuit((EntityPlayer)entity, 1, 25);
-						Library.damageSuit((EntityPlayer)entity, 2, 25);
-						Library.damageSuit((EntityPlayer)entity, 3, 25);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 0, 25);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 1, 25);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 2, 25);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 3, 25);
 						
 					}
 					
@@ -737,14 +737,14 @@ public class ExplosionChaos {
 					
 					if (entity instanceof EntityPlayer) {
 						
-						Library.damageSuit((EntityPlayer)entity, 0, 5);
-						Library.damageSuit((EntityPlayer)entity, 1, 5);
-						Library.damageSuit((EntityPlayer)entity, 2, 5);
-						Library.damageSuit((EntityPlayer)entity, 3, 5);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 0, 5);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 1, 5);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 2, 5);
+						ArmorUtil.damageSuit((EntityPlayer)entity, 3, 5);
 						
 					}
 					
-					if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) { } else {
+					if (entity instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer) entity)) { } else {
 						
 						if(entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPotionActive(HbmPotion.taint.id)) {
 							((EntityLivingBase)entity).removePotionEffect(HbmPotion.taint.id);
@@ -1223,9 +1223,9 @@ public class ExplosionChaos {
 			for (int j = z - radius; j <= z + radius; j++) {
 				
 				Block b = world.getBlock(i, y, j);
-				float k = b.getBlockHardness(world, i, y, j);
+				float k = b.getExplosionResistance(null);
 						
-				if(k < 60 && b != Blocks.air) {
+				if(k < 6000 && b != Blocks.air) {
 					
 					EntityRubble rubble = new EntityRubble(world);
 					rubble.posX = i + 0.5F;

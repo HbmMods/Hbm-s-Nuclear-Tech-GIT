@@ -831,6 +831,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_capsule:
+				{
+					if(entity instanceof TileEntitySoyuzCapsule)
+					{
+						return new ContainerSoyuzCapsule(player.inventory, (TileEntitySoyuzCapsule) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1661,6 +1670,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+				
+				case ModBlocks.guiID_capsule:
+				{
+					if(entity instanceof TileEntitySoyuzCapsule)
+					{
+						return new GUISoyuzCapsule(player.inventory, (TileEntitySoyuzCapsule) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//CLIENTONLY GUIS
@@ -1673,6 +1691,8 @@ public class GUIHandler implements IGuiHandler {
 				return new GUIScreenDesignator(player);
 			case ModItems.guiID_item_sat_interface:
 				return new GUIScreenSatInterface(player);
+			case ModItems.guiID_item_sat_coord:
+				return new GUIScreenSatCoord(player);
 			case ModItems.guiID_item_box:
 				return new GUILeadBox(new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem())));
 			case ModItems.guiID_item_bobmazon:

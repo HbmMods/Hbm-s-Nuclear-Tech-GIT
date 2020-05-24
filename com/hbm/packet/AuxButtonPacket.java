@@ -7,11 +7,13 @@ import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 import com.hbm.tileentity.machine.TileEntityForceField;
+import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
 import com.hbm.tileentity.machine.TileEntityRadioRec;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
+import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -232,6 +234,29 @@ public class AuxButtonPacket implements IMessage {
 
 					barrel.mode = (short) ((barrel.mode + 1) % barrel.modes);
 					barrel.markDirty();
+				}
+				
+				if (te instanceof TileEntityMachineBattery) {
+					TileEntityMachineBattery bat = (TileEntityMachineBattery)te;
+
+					if(m.id == 0) {
+						bat.redLow = (short) ((bat.redLow + 1) % 4);
+						bat.markDirty();
+					}
+
+					if(m.id == 1) {
+						bat.redHigh = (short) ((bat.redHigh + 1) % 4);
+						bat.markDirty();
+					}
+				}
+				
+				if (te instanceof TileEntitySoyuzLauncher) {
+					TileEntitySoyuzLauncher launcher = (TileEntitySoyuzLauncher)te;
+
+					if(m.id == 0)
+						launcher.mode = (byte) m.value;
+					if(m.id == 1)
+						launcher.startCountdown();
 				}
 				
 			//} catch (Exception x) { }

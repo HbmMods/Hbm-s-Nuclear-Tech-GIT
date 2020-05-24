@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUICelPrime extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/celprime_cmd_alt_thirdslot.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/celprime_cmd_alt_thirdslot.png");
 	private TileEntityCelPrime testNuke;
 	
 	public GUICelPrime(InventoryPlayer invPlayer, TileEntityCelPrime tedf) {

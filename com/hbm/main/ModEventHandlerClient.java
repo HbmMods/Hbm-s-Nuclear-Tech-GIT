@@ -1,15 +1,19 @@
 package com.hbm.main;
 
+import java.util.List;
+
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
+import com.hbm.lib.RefStrings;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderAccessoryUtility;
@@ -29,12 +33,17 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
 	
@@ -76,7 +85,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon) {
+		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon && MainRegistry.enableCrosshairs) {
 			event.setCanceled(true);
 			
 			if(!(player.getHeldItem().getItem() instanceof ItemGunBase && ((ItemGunBase)player.getHeldItem().getItem()).mainConfig.hasSights && player.isSneaking()))
@@ -192,5 +201,28 @@ public class ModEventHandlerClient {
 				Minecraft.getMinecraft().getSoundHandler().playSound(sounds);
 			}
 		}
+	}
+	
+	@SubscribeEvent
+    public void drawTooltip(ItemTooltipEvent event) {
+		
+		ItemStack stack = event.itemStack;
+		List<String> list = event.toolTip;
+		
+		float rad = HazmatRegistry.instance.getResistance(stack);
+		
+		rad = ((int)(rad * 100)) / 100F;
+		
+		if(rad > 0)
+			list.add(EnumChatFormatting.YELLOW + "Radiation resistance: " + rad);
+    }
+	
+	public static IIcon particleBase;
+
+	@SubscribeEvent
+	public void onTextureStitch(TextureStitchEvent.Pre event) {
+		
+		if(event.map.getTextureType() == 0)
+			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 	}
 }

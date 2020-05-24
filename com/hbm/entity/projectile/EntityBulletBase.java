@@ -10,16 +10,15 @@ import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
@@ -352,8 +351,18 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			this.setDead();
 		
 		if(worldObj.isRemote && !config.vPFX.isEmpty()) {
-			for (i = 0; i < 8; ++i) {
-				this.worldObj.spawnParticle(config.vPFX, this.posX - this.motionX * i / 1.0D, this.posY - this.motionY * i / 1.0D, this.posZ - this.motionZ * i / 1.0D, 0, 0, 0);
+			
+			double motion = Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector();
+			
+			for (i = 0; i < motion * 2; ++i) {
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vanillaExt");
+				nbt.setString("mode", config.vPFX);
+				nbt.setDouble("posX", this.posX - this.motionX * i / 1.0D);
+				nbt.setDouble("posY", this.posY - this.motionY * i / 1.0D);
+				nbt.setDouble("posZ", this.posZ - this.motionZ * i / 1.0D);
+				MainRegistry.proxy.effectNT(nbt);
 			}
 		}
 
@@ -477,40 +486,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config.bHit != null)
 			config.bHit.behaveEntityHit(this, e);
-		
-		if(config.boxcar && !worldObj.isRemote) {
-			EntityBoxcar pippo = new EntityBoxcar(worldObj);
-			pippo.posX = e.posX;
-			pippo.posY = e.posY + 50;
-			pippo.posZ = e.posZ;
-			
-			for(int j = 0; j < 50; j++) {
-				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
-				worldObj.spawnEntityInWorld(fx);
-			}
-			worldObj.spawnEntityInWorld(pippo);
-			
-			worldObj.playSoundEffect(pippo.posX, 
-					pippo.posY + 50, 
-					pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
-		}
-		
-		if(config.boat && !worldObj.isRemote) {
-			EntityDuchessGambit pippo = new EntityDuchessGambit(worldObj);
-			pippo.posX = e.posX;
-			pippo.posY = e.posY + 50;
-			pippo.posZ = e.posZ;
-			
-			for(int j = 0; j < 150; j++) {
-				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 7, pippo.posY + (rand.nextDouble() - 0.5) * 8, pippo.posZ + (rand.nextDouble() - 0.5) * 18, 0, 0, 0);
-				worldObj.spawnEntityInWorld(fx);
-			}
-			worldObj.spawnEntityInWorld(pippo);
-			
-			worldObj.playSoundEffect(pippo.posX, 
-					pippo.posY + 50, 
-					pippo.posZ, "hbm:weapon.boat", 100F, 1F);
-		}
 	}
 	
 	//for when a bullet hurts an entity, not necessarily dying
@@ -530,7 +505,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(e instanceof EntityLivingBase && config.effects != null && !config.effects.isEmpty() && !worldObj.isRemote) {
 			
 			for(PotionEffect effect : config.effects) {
-				((EntityLivingBase)e).addPotionEffect(effect);
+				((EntityLivingBase)e).addPotionEffect(new PotionEffect(effect));
 			}
 		}
 		
@@ -539,10 +514,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.caustic > 0 && e instanceof EntityPlayer){
-			Library.damageSuit((EntityPlayer)e, 0, config.caustic);
-			Library.damageSuit((EntityPlayer)e, 1, config.caustic);
-			Library.damageSuit((EntityPlayer)e, 2, config.caustic);
-			Library.damageSuit((EntityPlayer)e, 3, config.caustic);
+			ArmorUtil.damageSuit((EntityPlayer)e, 0, config.caustic);
+			ArmorUtil.damageSuit((EntityPlayer)e, 1, config.caustic);
+			ArmorUtil.damageSuit((EntityPlayer)e, 2, config.caustic);
+			ArmorUtil.damageSuit((EntityPlayer)e, 3, config.caustic);
 		}
 	}
 

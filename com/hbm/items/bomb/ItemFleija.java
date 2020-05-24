@@ -11,11 +11,16 @@ import net.minecraft.item.ItemStack;
 
 public class ItemFleija extends ItemRadioactive {
 	
+	public ItemFleija(float radiation, boolean blinding) {
+		super(radiation, false, blinding);
+	}
+
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Used in:");
 		list.add("F.L.E.I.J.A.");
+		super.addInformation(itemstack, player, list, bool);
 	}
 
     @Override

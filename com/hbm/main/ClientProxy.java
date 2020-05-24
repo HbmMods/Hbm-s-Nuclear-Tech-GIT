@@ -2,10 +2,15 @@
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityCloudFX;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
@@ -13,6 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.*;
@@ -26,10 +32,81 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.items.ModItems;
 import com.hbm.particle.ParticleContrail;
+import com.hbm.particle.ParticleExSmoke;
 import com.hbm.particle.ParticleRadiationFog;
+import com.hbm.particle.ParticleRocketFlame;
 import com.hbm.particle.ParticleSmokePlume;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
+import com.hbm.render.entity.effect.ElectricityRenderer;
+import com.hbm.render.entity.effect.FogRenderer;
+import com.hbm.render.entity.effect.GasFlameRenderer;
+import com.hbm.render.entity.effect.GasRenderer;
+import com.hbm.render.entity.effect.MultiCloudRenderer;
+import com.hbm.render.entity.effect.RenderBigNuke;
+import com.hbm.render.entity.effect.RenderBlackHole;
+import com.hbm.render.entity.effect.RenderCloudFleija;
+import com.hbm.render.entity.effect.RenderCloudRainbow;
+import com.hbm.render.entity.effect.RenderCloudSolinium;
+import com.hbm.render.entity.effect.RenderDeathBlast;
+import com.hbm.render.entity.effect.RenderEMPBlast;
+import com.hbm.render.entity.effect.RenderFallout;
+import com.hbm.render.entity.effect.RenderFireball;
+import com.hbm.render.entity.effect.RenderFlare;
+import com.hbm.render.entity.effect.RenderNoCloud;
+import com.hbm.render.entity.effect.RenderSmallNukeMK3;
+import com.hbm.render.entity.effect.SSmokeRenderer;
+import com.hbm.render.entity.effect.SpillRenderer;
+import com.hbm.render.entity.effect.TSmokeRenderer;
+import com.hbm.render.entity.item.RenderBomber;
+import com.hbm.render.entity.item.RenderMinecartTest;
+import com.hbm.render.entity.mob.RenderCyberCrab;
+import com.hbm.render.entity.mob.RenderHunterChopper;
+import com.hbm.render.entity.mob.RenderNuclearCreeper;
+import com.hbm.render.entity.mob.RenderTaintCrab;
+import com.hbm.render.entity.mob.RenderTaintedCreeper;
+import com.hbm.render.entity.mob.RenderTeslaCrab;
+import com.hbm.render.entity.projectile.RenderBaleflare;
+import com.hbm.render.entity.projectile.RenderBeam;
+import com.hbm.render.entity.projectile.RenderBeam2;
+import com.hbm.render.entity.projectile.RenderBeam3;
+import com.hbm.render.entity.projectile.RenderBeam4;
+import com.hbm.render.entity.projectile.RenderBeam5;
+import com.hbm.render.entity.projectile.RenderBeam6;
+import com.hbm.render.entity.projectile.RenderBombletSelena;
+import com.hbm.render.entity.projectile.RenderBombletTheta;
+import com.hbm.render.entity.projectile.RenderBoxcar;
+import com.hbm.render.entity.projectile.RenderBullet;
+import com.hbm.render.entity.projectile.RenderChopperMine;
+import com.hbm.render.entity.projectile.RenderFOEQ;
+import com.hbm.render.entity.projectile.RenderFallingNuke;
+import com.hbm.render.entity.projectile.RenderLN2;
+import com.hbm.render.entity.projectile.RenderLaser;
+import com.hbm.render.entity.projectile.RenderMeteor;
+import com.hbm.render.entity.projectile.RenderMiniMIRV;
+import com.hbm.render.entity.projectile.RenderMiniNuke;
+import com.hbm.render.entity.projectile.RenderMirv;
+import com.hbm.render.entity.projectile.RenderOminousBullet;
+import com.hbm.render.entity.projectile.RenderRainbow;
+import com.hbm.render.entity.projectile.RenderRocket;
+import com.hbm.render.entity.projectile.RenderRubble;
+import com.hbm.render.entity.projectile.RenderSRocket;
+import com.hbm.render.entity.projectile.RenderShrapnel;
+import com.hbm.render.entity.projectile.RenderTom;
+import com.hbm.render.entity.rocket.RenderBoosterMissile;
+import com.hbm.render.entity.rocket.RenderCarrierMissile;
+import com.hbm.render.entity.rocket.RenderMinerRocket;
+import com.hbm.render.entity.rocket.RenderMissileCustom;
+import com.hbm.render.entity.rocket.RenderMissileDoomsday;
+import com.hbm.render.entity.rocket.RenderMissileGeneric;
+import com.hbm.render.entity.rocket.RenderMissileHuge;
+import com.hbm.render.entity.rocket.RenderMissileMirv;
+import com.hbm.render.entity.rocket.RenderMissileNuclear;
+import com.hbm.render.entity.rocket.RenderMissileStrong;
+import com.hbm.render.entity.rocket.RenderMissileTaint;
+import com.hbm.render.entity.rocket.RenderMissileThermo;
+import com.hbm.render.entity.rocket.RenderSoyuz;
+import com.hbm.render.entity.rocket.RenderSoyuzCapsule;
 import com.hbm.render.item.*;
 import com.hbm.render.loader.HmfModelLoader;
 import com.hbm.render.tileentity.*;
@@ -61,6 +138,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerBlockHandler(new RenderFence());
 		RenderingRegistry.registerBlockHandler(new RenderBarbedWire());
 		RenderingRegistry.registerBlockHandler(new RenderAntennaTop());
+		RenderingRegistry.registerBlockHandler(new RenderConserve());
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.assembly_template, new ItemRenderTemplate());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chemistry_template, new ItemRenderTemplate());
@@ -146,7 +224,9 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_skystinger, new ItemRenderStinger());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hk69, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());
-		//MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg_ammo, new ItemRenderRocket());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_supershotgun, new ItemRenderWeaponObj());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ks23, new ItemRenderWeaponObj());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer, new ItemRenderWeaponObj());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombMulti.class, new RenderBombMulti());
 
@@ -261,6 +341,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_pip, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nopip, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_blackjack, new ItemRenderOverkill());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_silver, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_red, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_dampfmaschine, new ItemRenderBullshit());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lever_action, new ItemRenderGunAnim());
@@ -295,6 +376,8 @@ public class ClientProxy extends ServerProxy
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.shimmer_sledge, new ItemRenderShim());
 		MinecraftForgeClient.registerItemRenderer(ModItems.shimmer_axe, new ItemRenderShim());
+		MinecraftForgeClient.registerItemRenderer(ModItems.stopsign, new ItemRenderShim());
+		MinecraftForgeClient.registerItemRenderer(ModItems.sopsign, new ItemRenderShim());
 		
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_brimstone, new ItemRenderObj());
 
@@ -329,6 +412,7 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCompactLauncher.class, new RenderCompactLauncher());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchTable.class, new RenderLaunchTable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzLauncher.class, new RenderSoyuzLauncher());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzCapsule.class, new RenderCapsule());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCable.class, new RenderCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOilDuct.class, new RenderOilDuct());
@@ -379,8 +463,11 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMeteor.class, new RenderMeteor());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBoxcar.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDuchessGambit.class, new RenderBoxcar());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityBuilding.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCarrier.class, new RenderCarrierMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBooster.class, new RenderBoosterMissile());
+	    RenderingRegistry.registerEntityRenderingHandler(EntitySoyuz.class, new RenderSoyuz());
+	    RenderingRegistry.registerEntityRenderingHandler(EntitySoyuzCapsule.class, new RenderSoyuzCapsule());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderBomber());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBurningFOEQ.class, new RenderFOEQ());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFallingNuke.class, new RenderFallingNuke());
@@ -422,6 +509,8 @@ public class ClientProxy extends ServerProxy
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintedCreeper.class, new RenderTaintedCreeper());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityHunterChopper.class, new RenderHunterChopper());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCyberCrab.class, new RenderCyberCrab());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityTeslaCrab.class, new RenderTeslaCrab());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintCrab.class, new RenderTaintCrab());
 
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRubble.class, new RenderRubble());
@@ -475,7 +564,8 @@ public class ClientProxy extends ServerProxy
 	public void registerTileEntitySpecialRenderer() {
 		
 	}
-	
+
+	@Deprecated
 	@Override
 	public void particleControl(double x, double y, double z, int type) {
 
@@ -513,6 +603,7 @@ public class ClientProxy extends ServerProxy
 	}
 	
 	//version 2, now with strings!
+	@Deprecated
 	@Override
 	public void spawnParticle(double x, double y, double z, String type, float args[]) {
 
@@ -520,8 +611,11 @@ public class ClientProxy extends ServerProxy
 		World world = Minecraft.getMinecraft().theWorld;
 		TextureManager man = Minecraft.getMinecraft().renderEngine;
 		
-		if("launchsmoke".equals(type)) {
+		if("launchsmoke".equals(type) && args.length == 3) {
 			ParticleSmokePlume contrail = new ParticleSmokePlume(man, world, x, y, z);
+			contrail.motionX = args[0];
+			contrail.motionY = args[1];
+			contrail.motionZ = args[2];
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
 		}
 		if("exKerosene".equals(type)) {
@@ -543,6 +637,179 @@ public class ClientProxy extends ServerProxy
 		if("radSmoke".equals(type)) {
 			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
 			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+	}
+	
+	//mk3, only use this one
+	public void effectNT(NBTTagCompound data) {
+		
+		World world = Minecraft.getMinecraft().theWorld;
+		TextureManager man = Minecraft.getMinecraft().renderEngine;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		Random rand = world.rand;
+		String type = data.getString("type");
+		double x = data.getDouble("posX");
+		double y = data.getDouble("posY");
+		double z = data.getDouble("posZ");
+		
+		if("smoke".equals(type)) {
+			
+			String mode = data.getString("mode");
+			int count = Math.max(1, data.getInteger("count"));
+			
+			if("cloud".equals(mode)) {
+				
+				for(int i = 0; i < count; i++) {
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = rand.nextGaussian() * (1 + (count / 100));
+					fx.motionX = rand.nextGaussian() * (1 + (count / 150));
+					fx.motionZ = rand.nextGaussian() * (1 + (count / 150));
+					if(rand.nextBoolean()) fx.motionY = Math.abs(fx.motionY);
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+
+			if("radial".equals(mode)) {
+
+				for(int i = 0; i < count; i++) {
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = rand.nextGaussian() * (1 + (count / 50));
+					fx.motionX = rand.nextGaussian() * (1 + (count / 50));
+					fx.motionZ = rand.nextGaussian() * (1 + (count / 50));
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+			
+			if("shock".equals(mode)) {
+				
+				double strength = data.getDouble("strength");
+
+				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+				vec.rotateAroundY(rand.nextInt(360));
+				
+				for(int i = 0; i < count; i++) {
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = 0;
+					fx.motionX = vec.xCoord;
+					fx.motionZ = vec.zCoord;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					
+					vec.rotateAroundY(360 / count);
+				}
+			}
+			
+			if("shockRand".equals(mode)) {
+				
+				double strength = data.getDouble("strength");
+
+				Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+				vec.rotateAroundY(rand.nextInt(360));
+				double r;
+				
+				for(int i = 0; i < count; i++) {
+					r = rand.nextDouble();
+					ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+					fx.motionY = 0;
+					fx.motionX = vec.xCoord * r;
+					fx.motionZ = vec.zCoord * r;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					
+					vec.rotateAroundY(360 / count);
+				}
+			}
+		}
+		
+		if("exhaust".equals(type)) {
+
+			String mode = data.getString("mode");
+			
+			if("soyuz".equals(mode)) {
+				
+				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
+					return;
+	
+				int count = Math.max(1, data.getInteger("count"));
+				double width = data.getDouble("width");
+				
+				for(int i = 0; i < count; i++) {
+					
+					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
+					fx.motionY = -0.75 + rand.nextDouble() * 0.5;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+			
+			if("meteor".equals(mode)) {
+				
+				if(Vec3.createVectorHelper(player.posX - x, player.posY - y, player.posZ - z).lengthVector() > 350)
+					return;
+	
+				int count = Math.max(1, data.getInteger("count"));
+				double width = data.getDouble("width");
+				
+				for(int i = 0; i < count; i++) {
+					
+					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+		}
+		
+		if("vanillaburst".equals(type)) {
+			
+			double motion = data.getDouble("motion");
+			
+			for(int i = 0; i < data.getInteger("count"); i++) {
+
+				double mX = rand.nextGaussian() * motion;
+				double mY = rand.nextGaussian() * motion;
+				double mZ = rand.nextGaussian() * motion;
+				
+				EntityFX fx = null;
+
+				if("flame".equals(data.getString("mode"))) {
+					fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
+				}
+
+				if("cloud".equals(data.getString("mode"))) {
+					fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+				}
+				
+				if(fx != null)
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
+		}
+		
+		if("vanillaExt".equals(type)) {
+
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			
+			EntityFX fx = null;
+
+			if("flame".equals(data.getString("mode"))) {
+				fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
+			}
+
+			if("smoke".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntitySmokeFX(world, x, y, z, mX, mY, mZ);
+			}
+
+			if("cloud".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+			}
+			
+			if(fx != null)
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+		}
+		
+		if("vanilla".equals(type)) {
+
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			world.spawnParticle(data.getString("mode"), x, y, z, mX, mY, mZ);
 		}
 	}
 	

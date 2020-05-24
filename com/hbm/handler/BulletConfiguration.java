@@ -14,6 +14,8 @@ public class BulletConfiguration {
 	
 	//what item this specific configuration consumes
 	public Item ammo;
+	//how many ammo units one item restores
+	public int ammoCount = 1;
 	//how fast the bullet is (in sanics per second, or sps)
 	public float velocity;
 	//spread of bullets in gaussian range
@@ -65,8 +67,6 @@ public class BulletConfiguration {
 	public int chlorine;
 	public int leadChance;
 	public int caustic;
-	public boolean boxcar;
-	public boolean boat;
 	public boolean destroysBlocks;
 	public boolean instakill;
 	public IBulletHurtBehavior bHurt;
@@ -83,6 +83,7 @@ public class BulletConfiguration {
 	//vanilla particle FX
 	public String vPFX = "";
 
+	public static final int STYLE_NONE = -1;
 	public static final int STYLE_NORMAL = 0;
 	public static final int STYLE_FLECHETTE = 1;
 	public static final int STYLE_PELLET = 2;
@@ -94,6 +95,7 @@ public class BulletConfiguration {
 	public static final int STYLE_MIRV = 8;
 	public static final int STYLE_GRENADE = 9;
 	public static final int STYLE_BF = 10;
+	public static final int STYLE_ORB = 11;
 
 	public static final int PLINK_NONE = 0;
 	public static final int PLINK_BULLET = 1;

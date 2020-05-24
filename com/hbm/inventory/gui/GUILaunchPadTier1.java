@@ -13,7 +13,7 @@ import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 
 public class GUILaunchPadTier1 extends GuiInfoContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_launch_pad.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_launch_pad.png");
 	private TileEntityLaunchPad diFurnace;
 
 	public GUILaunchPadTier1(InventoryPlayer invPlayer, TileEntityLaunchPad tedf) {

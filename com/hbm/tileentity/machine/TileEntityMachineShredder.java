@@ -2,12 +2,13 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.special.ItemBattery;
-import com.hbm.items.special.ItemBlades;
+import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -252,7 +253,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 			
 			power = Library.chargeTEFromItems(slots, 29, power, maxPower);
 			
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
 		if(flag1)

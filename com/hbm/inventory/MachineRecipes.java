@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
-import com.hbm.items.tool.ItemAssemblyTemplate;
-import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
-import com.hbm.items.tool.ItemChemistryTemplate;
-import com.hbm.items.tool.ItemFluidIcon;
+import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.machine.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.enchantment.Enchantment;
@@ -23,6 +24,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
+//TODO: clean this shit up
+@Spaghetti("everything")
 public class MachineRecipes {
 
 	public MachineRecipes() {
@@ -99,19 +102,14 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
-		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && item2.getItem() == ModItems.powder_cobalt
-				|| item.getItem() == ModItems.powder_cobalt && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
+		if (mODE(item, new String[] {"ingotSteel", "dustSteel"}) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
+				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && mODE(item2, new String[] {"ingotSteel", "dustSteel"})) {
 			return new ItemStack(ModItems.ingot_dura_steel, 2);
 		}
 
-		if (mODE(item, new String[] {"ingotDuraSteel", "dustDuraSteel"}) && item2.getItem() == ModItems.powder_meteorite
-				|| item.getItem() == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotDuraSteel", "dustDuraSteel"})) {
+		if (mODE(item, new String[] {"ingotSaturnite", "dustSaturnite"}) && item2.getItem() == ModItems.powder_meteorite
+				|| item.getItem() == ModItems.powder_meteorite && mODE(item2, new String[] {"ingotSaturnite", "dustSaturnite"})) {
 			return new ItemStack(ModItems.ingot_starmetal, 2);
-		}
-
-		if (mODE(item, new String[] {"dustCobalt"}) && item2.getItem() == ModItems.ingot_starmetal
-				|| item.getItem() == ModItems.ingot_starmetal && mODE(item2, new String[] {"dustCobalt"})) {
-			return new ItemStack(ModItems.ingot_saturnite, 2);
 		}
 
 		return null;
@@ -203,17 +201,21 @@ public class MachineRecipes {
 				new ItemStack(ModItems.powder_beryllium, 1), new ItemStack(ModItems.powder_emerald, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] redstone = new ItemStack[] { new ItemStack(Items.redstone, 3),
-				new ItemStack(Items.redstone, 3), new ItemStack(ModItems.powder_lithium_tiny, 1),
+				new ItemStack(Items.redstone, 3), new ItemStack(ModItems.nugget_mercury, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] tikite = new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 2),
 				new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_nitan_mix, 1),
 				new ItemStack(Blocks.end_stone, 1) };
 		ItemStack[] lapis = new ItemStack[] { new ItemStack(ModItems.powder_lapis, 3),
-				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt, 1),
+				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt_tiny, 1),
 				new ItemStack(Blocks.gravel, 1) };
 		ItemStack[] starmetal = new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3),
 				new ItemStack(ModItems.powder_astatine, 1), new ItemStack(ModItems.powder_cobalt, 2),
 				new ItemStack(Blocks.gravel, 1) };
+		
+		ItemStack[] euphCluster = new ItemStack[] { new ItemStack(ModItems.nugget_euphemium, 7),
+				new ItemStack(ModItems.powder_schrabidium, 4), new ItemStack(ModItems.ingot_starmetal, 2),
+				new ItemStack(ModItems.nugget_solinium, 2) };
 
 		if (MainRegistry.enableDebugMode) {
 			if (item.getItem() == Item.getItemFromBlock(ModBlocks.test_render)) {
@@ -241,37 +243,13 @@ public class MachineRecipes {
 			return plutoniumF;
 		}
 
-		/*if (item.getItem() == ModItems.rod_dual_plutonium_fuel_depleted) {
-			return plutonium2;
-		}
-
-		if (item.getItem() == ModItems.rod_quad_plutonium_fuel_depleted) {
-			return plutonium3;
-		}*/
-
 		if (item.getItem() == ModItems.waste_mox) {
 			return moxF;
 		}
 
-		/*if (item.getItem() == ModItems.rod_dual_mox_fuel_depleted) {
-			return mox2;
-		}
-
-		if (item.getItem() == ModItems.rod_quad_mox_fuel_depleted) {
-			return mox3;
-		}*/
-
 		if (item.getItem() == ModItems.waste_schrabidium) {
 			return schrabidiumF;
 		}
-
-		/*if (item.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted) {
-			return schrabidium2;
-		}
-
-		if (item.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted) {
-			return schrabidium3;
-		}*/
 
 		if (item.getItem() == ModItems.powder_cloud) {
 			return cloud;
@@ -363,6 +341,28 @@ public class MachineRecipes {
 
 		if (mODE(item, "oreStarmetal")) {
 			return starmetal;
+		}
+
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_euphemium_cluster)) {
+			return euphCluster;
+		}
+
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_fire)) {
+			return new ItemStack[] {
+					new ItemStack(Items.blaze_powder, 2),
+					new ItemStack(ModItems.powder_fire, 2),
+					new ItemStack(ModItems.ingot_phosphorus),
+					new ItemStack(Blocks.netherrack)
+			};
+		}
+
+		if (item.getItem() == Items.blaze_rod) {
+			return new ItemStack[] {
+					new ItemStack(Items.blaze_powder, 1),
+					new ItemStack(Items.blaze_powder, 1),
+					new ItemStack(ModItems.powder_fire, 1),
+					new ItemStack(ModItems.powder_fire, 1)
+			};
 		}
 
 		return null;
@@ -658,9 +658,6 @@ public class MachineRecipes {
 
 			if(input.getItem() == ModItems.assembly_nopip)
 				return new ItemStack(ModItems.ammo_44);
-			
-			//if(input.getItem() == ModItems.ammo_rocket)
-			//	return new ItemStack(ModItems.ammo_44_rocket);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_9) {
@@ -673,9 +670,6 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.gun_mp_ammo);
 			if(input.getItem() == ModItems.assembly_lacunae)
 				return new ItemStack(ModItems.ammo_5mm);
-			
-			//if(input.getItem() == ModItems.ammo_rocket)
-			//	return new ItemStack(ModItems.ammo_9mm_rocket);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_50) {
@@ -802,7 +796,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_plutonium) {
-			return new ItemStack(ModItems.rod_lead, 1);
+			return new ItemStack(ModItems.rod_waste, 1);
 		}
 
 		if (item == ModItems.rod_pu238) {
@@ -814,7 +808,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_pu240) {
-			return new ItemStack(ModItems.rod_lead, 1);
+			return new ItemStack(ModItems.rod_waste, 1);
 		}
 
 		if (item == ModItems.rod_schrabidium) {
@@ -846,7 +840,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_dual_plutonium) {
-			return new ItemStack(ModItems.rod_dual_lead, 1);
+			return new ItemStack(ModItems.rod_dual_waste, 1);
 		}
 
 		if (item == ModItems.rod_dual_pu238) {
@@ -858,7 +852,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_dual_pu240) {
-			return new ItemStack(ModItems.rod_dual_lead, 1);
+			return new ItemStack(ModItems.rod_dual_waste, 1);
 		}
 
 		if (item == ModItems.rod_dual_schrabidium) {
@@ -890,7 +884,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_quad_plutonium) {
-			return new ItemStack(ModItems.rod_quad_lead, 1);
+			return new ItemStack(ModItems.rod_quad_waste, 1);
 		}
 
 		if (item == ModItems.rod_quad_pu238) {
@@ -902,7 +896,7 @@ public class MachineRecipes {
 		}
 
 		if (item == ModItems.rod_quad_pu240) {
-			return new ItemStack(ModItems.rod_quad_lead, 1);
+			return new ItemStack(ModItems.rod_quad_waste, 1);
 		}
 
 		if (item == ModItems.rod_quad_schrabidium) {
@@ -1204,12 +1198,10 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.plate_mixed), new ItemStack(ModItems.plate_gold)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_tungsten)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.powder_cobalt)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_dura_steel), new ItemStack(ModItems.powder_meteorite) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_dura_steel), new ItemStack(ModItems.powder_meteorite)).copy());
-			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_starmetal), new ItemStack(ModItems.powder_cobalt) },
-					getFurnaceOutput(new ItemStack(ModItems.ingot_starmetal), new ItemStack(ModItems.powder_cobalt)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_cobalt) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_cobalt)).copy());
+			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite) },
+					getFurnaceOutput(new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite)).copy());
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}
@@ -1227,6 +1219,7 @@ public class MachineRecipes {
 		fuels.add(new ItemStack(ModItems.powder_lignite));
 		fuels.add(new ItemStack(ModItems.briquette_lignite));
 		fuels.add(new ItemStack(ModItems.coke));
+		fuels.add(new ItemStack(ModItems.solid_fuel));
 		fuels.add(new ItemStack(ModItems.powder_coal));
 		return fuels;
 	}
@@ -1237,30 +1230,6 @@ public class MachineRecipes {
 			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)),
 					getCentrifugeOutput(new ItemStack(ModBlocks.test_render)));
 		}
-		//recipes.put(new ItemStack(ModItems.rod_uranium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_uranium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_uranium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_uranium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_plutonium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_plutonium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_plutonium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_plutonium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_mox_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_mox_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_mox_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_mox_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_mox_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_mox_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_schrabidium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_schrabidium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_dual_schrabidium_fuel_depleted)));
-		//recipes.put(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted),
-		//		getCentrifugeOutput(new ItemStack(ModItems.rod_quad_schrabidium_fuel_depleted)));
 		recipes.put(new ItemStack(ModItems.powder_cloud),
 				getCentrifugeOutput(new ItemStack(ModItems.powder_cloud)));
 		recipes.put(new ItemStack(Blocks.coal_ore),
@@ -1315,6 +1284,12 @@ public class MachineRecipes {
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_lignite)));
 		recipes.put(new ItemStack(ModBlocks.ore_meteor_starmetal),
 				getCentrifugeOutput(new ItemStack(ModBlocks.ore_meteor_starmetal)));
+		recipes.put(new ItemStack(ModBlocks.block_euphemium_cluster),
+				getCentrifugeOutput(new ItemStack(ModBlocks.block_euphemium_cluster)));
+		recipes.put(new ItemStack(ModBlocks.ore_nether_fire),
+				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_fire)));
+		recipes.put(new ItemStack(Items.blaze_rod),
+				getCentrifugeOutput(new ItemStack(Items.blaze_rod)));
 		return recipes;
 	}
 
@@ -1764,82 +1739,18 @@ public class MachineRecipes {
 		return fuels;
 	}
 
-	public class ShredderRecipe {
+	//keep this
+	//like in a museum or something
+	//this is a testament of my incompetence
+	//look at it
+	//look at how horrifying it is
+	//children, never do this
+	/*public class ShredderRecipe {
 
 		public ItemStack input;
 		public ItemStack output;
 
 		public void registerEverythingImSrs() {
-			
-			//Makes the OreDict easily accessible. Neat.
-			
-			//You see that guy up there? He's a liar. "easily accessible" may be true, but the detection is bullshit.
-
-			/*System.out.println("Loading all items and blocks, please wait...");
-			System.out.println("This process normally takes very long due to the incompetence of other modders I have to compensate for. Sorry for the inconvenience.");
-
-			for (Object item : GameData.getItemRegistry()) {
-
-				List<String> list = new ArrayList<String>();
-				int[] array;
-
-				if (item instanceof Item) {
-					
-					int x = 1;
-					//if(((Item)item).getHasSubtypes())
-					//	x = 126;
-
-					for(int j = 0; j < x; j++)
-					{
-						ItemStack stack = new ItemStack((Item) item, 1, j);
-						array = OreDictionary.getOreIDs(stack);
-
-						for (int i = 0; i < array.length; i++) {
-							// if
-							// (!OreDictionary.getOreName(array[i]).equals("Unknown"))
-							// {
-							list.add(OreDictionary.getOreName(array[i]));
-							// }
-						}
-						// if(list.size() > 0)
-						theWholeThing.add(new DictCouple(stack, list));
-					}
-				}
-			}
-
-			for (Object block : GameData.getBlockRegistry()) {
-
-				List<String> list = new ArrayList<String>();
-				int[] array;
-
-				if (block instanceof Block) {
-					Item item = Item.getItemFromBlock((Block)block);
-					
-					int x = 1;
-					//if(item != null && item.getHasSubtypes())
-					//	x = 16;
-					
-					for(int j = 0; j < x; j++)
-					{
-						ItemStack stack = new ItemStack((Block) block, 1, j);
-						array = OreDictionary.getOreIDs(stack);
-
-						for (int i = 0; i < array.length; i++) {
-							// if
-							// (!OreDictionary.getOreName(array[i]).equals("Unknown"))
-							// {
-							list.add(OreDictionary.getOreName(array[i]));
-							// }
-						}
-
-						// if(list.size() > 0)
-						if(!doesExist(stack))
-							theWholeThing.add(new DictCouple(stack, list));
-					}
-				}
-			}
-			
-			System.out.println("Added " + theWholeThing.size() + " elements from the Ore Dict!");*/
 			
 			String[] names = OreDictionary.getOreNames();
 			List<ItemStack> stacks = new ArrayList<ItemStack>();
@@ -1899,13 +1810,6 @@ public class MachineRecipes {
 						} else {
 							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
 						}
-					/*} else if (s.length() > 3 && s.substring(0, 3).equals("rod")) {
-						ItemStack stack = canFindDustByName(s.substring(3));
-						if (stack != null) {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(stack.getItem(), 2, stack.getItemDamage()));
-						} else {
-							setRecipe(theWholeThing.get(i).item, new ItemStack(ModItems.scrap));
-						}*/
 					} else if (s.length() > 5 && s.substring(0, 5).equals("block")) {
 						ItemStack stack = canFindDustByName(s.substring(5));
 						if (stack != null) {
@@ -2018,28 +1922,6 @@ public class MachineRecipes {
 		}
 		
 		public void PrintRecipes() {
-			/*for(int i = 0; i < recipes.size(); i++) {
-				System.out.println("Recipe #" + i + ", " + recipes.get(i).input + " - " + recipes.get(i).output);
-			}*/
-			/*for(int i = 0; i < theWholeThing.size(); i++) {
-			System.out.println(theWholeThing.get(i).item);
-			}*/
-			/*for(int i = 0; i < theWholeThing.size(); i++) {
-				//for(int j = 0; j < theWholeThing.get(i).list.size(); j++)
-				{
-					//System.out.println(theWholeThing.get(i).item + " | " + getShredderResult(theWholeThing.get(i).item));
-				}
-				
-				
-			}*/
-
-			/*for (int j = 0; j < recipes.size(); j++) {
-				if (recipes.get(j) != null && recipes.get(j).input != null && recipes.get(j).output != null &&
-						recipes.get(j).input.getItem() != null && recipes.get(j).output.getItem() != null)
-					System.out.println(recipes.get(j).input + " | " + recipes.get(j).output);
-				else
-					System.out.println(recipes.get(j));
-			}*/
 
 			MainRegistry.logger.debug("TWT: " + theWholeThing.size() + ", REC: " + recipesShredder.size());
 		}
@@ -2090,6 +1972,113 @@ public class MachineRecipes {
 		}
 		
 		return recipes;
+	}*/
+	
+	//new and improved
+	public static HashMap<StackWrapper, ItemStack> shredderRecipes = new HashMap();
+	public static HashMap<Object, Object> neiShredderRecipes;
+	
+	public static void registerShredder() {
+		
+		String[] names = OreDictionary.getOreNames();
+		
+		for(int i = 0; i < names.length; i++) {
+			
+			String name = names[i];
+			
+			//if the dict contains invalid names, skip
+			if(name == null || name.isEmpty())
+				continue;
+			
+			List<ItemStack> matches = OreDictionary.getOres(name);
+			
+			//if the name isn't assigned to an ore, also skip
+			if(matches == null || matches.isEmpty())
+				continue;
+
+			if(name.length() > 5 && name.substring(0, 5).equals("ingot")) {
+				ItemStack dust = getDustByName(name.substring(5));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+
+					for(ItemStack stack : matches) {
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 3 && name.substring(0, 3).equals("ore")) {
+				ItemStack dust = getDustByName(name.substring(3));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+					
+					dust.stackSize = 2;
+
+					for(ItemStack stack : matches) {
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 5 && name.substring(0, 5).equals("block")) {
+				ItemStack dust = getDustByName(name.substring(5));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+					
+					dust.stackSize = 9;
+
+					for(ItemStack stack : matches) {
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 3 && name.substring(0, 3).equals("gem")) {
+				ItemStack dust = getDustByName(name.substring(3));
+				
+				if(dust != null && dust.getItem() != ModItems.scrap) {
+
+					for(ItemStack stack : matches) {
+						shredderRecipes.put(new StackWrapper(stack), dust);
+					}
+				}
+			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
+
+				for(ItemStack stack : matches) {
+					shredderRecipes.put(new StackWrapper(stack), new ItemStack(ModItems.dust));
+				}
+			}
+		}
+	}
+	
+	public static ItemStack getDustByName(String name) {
+		
+		List<ItemStack> matches = OreDictionary.getOres("dust" + name);
+		
+		if(matches != null && !matches.isEmpty())
+			return matches.get(0).copy();
+		
+		return new ItemStack(ModItems.scrap);
+	}
+	
+	public static void overridePreSetRecipe(ItemStack in, ItemStack out) {
+		
+		shredderRecipes.put(new StackWrapper(in), out);
+	}
+	
+	public Map<Object, Object> getShredderRecipes() {
+		
+		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
+		if(neiShredderRecipes == null)
+			neiShredderRecipes = new HashMap(shredderRecipes);
+		
+		return neiShredderRecipes;
+	}
+	
+	public static ItemStack getShredderResult(ItemStack stack) {
+		
+		ItemStack sta = shredderRecipes.get(new StackWrapper(stack));
+		
+		/*if(sta != null)
+			System.out.println(stack.getDisplayName() + " resulted " + sta.getDisplayName());
+		else
+			System.out.println(stack.getDisplayName() + " resulted null");*/
+		
+		return sta == null ? new ItemStack(ModItems.scrap) : sta;
 	}
 
 	public Map<Object[], Object> getCMBRecipes() {
@@ -2184,6 +2173,7 @@ public class MachineRecipes {
 		return false;
 	}
 	
+	@Spaghetti("jesus christ")
 	public static List<ItemStack> getRecipeFromTempate(ItemStack stack) {
 		
 		if(stack == null || !(stack.getItem() instanceof ItemAssemblyTemplate))
@@ -2722,7 +2712,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.plate_iron, 2));
 			break;
 		case W_A:
-			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 5));
+			list.add(new ItemStack(ModItems.ingot_desh, 5));
 			list.add(new ItemStack(ModItems.plate_iron, 2));
 			break;
 		case UPGRADE_TEMPLATE:
@@ -5015,6 +5005,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.dynosphere_schrabidium_charged, 1));
 			list.add(new ItemStack(ModItems.ingot_plutonium, 1));
 			list.add(new ItemStack(ModItems.catalyst_clay, 16));
+			list.add(new ItemStack(ModItems.ingot_euphemium, 1));
 			break;
         case DYN_DNT:
 			list.add(new ItemStack(ModItems.dynosphere_euphemium_charged, 2));
@@ -5036,6 +5027,10 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.solid_fuel, 2));
 			list.add(new ItemStack(ModItems.niter, 1));
 			list.add(new ItemStack(Items.redstone, 1));
+			break;
+        case SATURN:
+			list.add(new ItemStack(ModItems.powder_dura_steel, 1));
+			list.add(new ItemStack(ModItems.powder_fire, 1));
 			break;
 		default:
 			break;
@@ -5230,6 +5225,10 @@ public class MachineRecipes {
     	case XENON:
 			input[0] = new FluidStack(0, FluidType.NONE);
         	break;
+    	case SATURN:
+			input[0] = new FluidStack(100, FluidType.ACID);
+			input[1] = new FluidStack(200, FluidType.MERCURY);
+        	break;
 		default:
 			break;
 		}
@@ -5334,12 +5333,18 @@ public class MachineRecipes {
         	break;
         case DYN_SCHRAB:
 			output[0] = new ItemStack(ModItems.ingot_schrabidium, 1);
+			output[1] = new ItemStack(ModItems.powder_desh, 12);
+			output[2] = new ItemStack(ModItems.powder_desh_mix, 12);
         	break;
         case DYN_EUPH:
-			output[0] = new ItemStack(ModItems.ingot_euphemium, 1);
+			output[0] = new ItemStack(ModItems.nugget_euphemium, 12);
+			output[1] = new ItemStack(ModItems.powder_schrabidium, 4);
+			output[2] = new ItemStack(ModItems.powder_power, 4);
         	break;
         case DYN_DNT:
 			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);
+			output[1] = new ItemStack(ModItems.powder_euphemium, 8);
+			output[2] = new ItemStack(ModItems.powder_nitan_mix, 8);
         	break;
         case CORDITE:
 			output[0] = new ItemStack(ModItems.cordite, 4);
@@ -5349,6 +5354,9 @@ public class MachineRecipes {
         	break;
         case SOLID_FUEL:
 			output[0] = new ItemStack(ModItems.rocket_fuel, 1);
+        	break;
+        case SATURN:
+			output[0] = new ItemStack(ModItems.ingot_saturnite, 1);
         	break;
 		default:
 			break;
@@ -5477,194 +5485,6 @@ public class MachineRecipes {
 		return output;
 	}
 	
-	public String[] getInfoFromItem(ItemStack stack) {
-		stack.stackSize = 1;
-
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.asphalt))
-			return new String[] { "Explosion resisant block", "Made from bitumen" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_uranium))
-			return new String[] { "Block of uranium ore", "Found below Y:25" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_titanium))
-			return new String[] { "Block of titanium ore", "Found below Y:35" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_sulfur))
-			return new String[] { "Block of sulfur ore", "Found below Y:35", "Drops as sulfur dust" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_niter))
-			return new String[] { "Block of niter ore", "Found below Y:35", "Drops as niter dust" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_copper))
-			return new String[] { "Block of copper ore", "Found below Y:50" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_tungsten))
-			return new String[] { "Block of tungsten ore", "Found below Y:35" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_aluminium))
-			return new String[] { "Block of aluminium ore", "Found below Y:45" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_fluorite))
-			return new String[] { "Block of fluorite ore", "Found below Y:40" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_beryllium))
-			return new String[] { "Block of beryllium ore", "Found below Y:35" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_lead))
-			return new String[] { "Block of lead ore", "Found below Y:35" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_oil))
-			return new String[] { "Block of oil deposit", "Found below Y:25", "Spawns in large bubbles", "Exctractable via oil derrick" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_schrabidium))
-			return new String[] { "Block of schrabidium ore", "Does not spawn naturally", "Created by nukes near uranium" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_australium))
-			return new String[] { "Block of australium ore", "Found between Y:15 and Y:30", "Deposit location: X:-400, Z:-400" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_weidanium))
-			return new String[] { "Block of weidanium ore", "Found below Y:25", "Deposit location: X:0, Z:300" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_reiium))
-			return new String[] { "Block of reiium ore", "Found below Y:35", "Deposit location: X:0, Z:0" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_unobtainium))
-			return new String[] { "Block of unobtainium ore", "Found below Y:128", "Deposit location: X:200, Z:200" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_daffergon))
-			return new String[] { "Block of daffergon ore", "Found below Y:10", "Deposit location: X:400, Z:-200" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_verticium))
-			return new String[] { "Block of verticium ore", "Found between Y:25 and Y:50", "Deposit location: X:-300, Z:200" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_uranium))
-			return new String[] { "Block of uranium ore", "Only found in the nether" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_plutonium))
-			return new String[] { "Block of plutonium ore", "Only found in the nether", "Disabled in config by default" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_tungsten))
-			return new String[] { "Block of tungsten ore", "Only found in the nether" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_sulfur))
-			return new String[] { "Block of sulfur ore", "Only found in the nether" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_fire))
-			return new String[] { "Block of fire ore", "Only found in the nether", "Drops blaze or fire powder" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_schrabidium))
-			return new String[] { "Block of schrabidium ore", "Does not spawn naturally" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.reinforced_brick))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.reinforced_glass))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.reinforced_light))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.reinforced_sand))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.reinforced_lamp_off))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.brick_concrete))
-			return new String[] { "Reinforced block", "Mostly withstands nukes" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.brick_obsidian))
-			return new String[] { "Reinforced block", "Greatly withstands nukes" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.brick_light))
-			return new String[] { "Reinforced block", "Barely withstands nukes" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.cmb_brick))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.cmb_brick_reinforced))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.cmb_brick_reinforced))
-			return new String[] { "Reinforced block", "Withstands nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor))
-			return new String[] { "Only found on space ships", "Used for late-game reactors", "Sometimes drops angry metal" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.tape_recorder))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.steel_poles))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.pole_top))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.pole_satellite_receiver))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.steel_wall))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.steel_corner))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.steel_roof))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.steel_beam))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.steel_scaffold))
-			return new String[] { "Decorative block" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.mush))
-			return new String[] { "Only grows on dead grass", "or on glowing mycelium", "Spreads" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.waste_earth))
-			return new String[] { "Radioactive grass", "Created by nuclear explosions" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.waste_mycelium))
-			return new String[] { "Radioactive mycelium", "Spreads onto dirt blocks", "Spread disabled by default" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.waste_trinitite))
-			return new String[] { "Radioactive sand ore", "Created by nuclear explosions", "Drops trinitite" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.waste_trinitite_red))
-			return new String[] { "Radioactive sand ore", "Created by nuclear explosions", "Drops trinitite" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.waste_log))
-			return new String[] { "Burnt log block", "Created by nuclear explosions", "Drops charcoal" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.waste_planks))
-			return new String[] { "Burnt planks block", "Created by nuclear explosions", "Drops charcoal" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.frozen_grass))
-			return new String[] { "Frozen grass block", "Drops snowballs" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.frozen_dirt))
-			return new String[] { "Frozen dirt block", "Drops snowballs" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.frozen_log))
-			return new String[] { "Frozen log block", "Drops snowballs" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.frozen_planks))
-			return new String[] { "Frozen planks block", "Drops snowballs" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.seal_frame))
-			return new String[] { "Silo hatch frame piece", "Instructions:", "Build square from frame blocks", "Possible sizes: 3x3 - 11x11", "Add controller to any side" };
-		if(stack.getItem() == Item.getItemFromBlock(ModBlocks.seal_controller))
-			return new String[] { "Silo hatch controller", "Instructions:", "Build square from frame blocks", "Possible sizes: 3x3 - 11x11", "Add controller to any side" };
-		
-		return new String[] { "xxx", "xxx" };
-	}
-	
-	public Map<Object, Object[]> getItemInfo() {
-		Map<Object, Object[]> map = new HashMap<Object, Object[]>();
-		map.put(new ItemStack(ModBlocks.asphalt), getInfoFromItem(new ItemStack(ModBlocks.asphalt)));
-		map.put(new ItemStack(ModBlocks.ore_uranium), getInfoFromItem(new ItemStack(ModBlocks.ore_uranium)));
-		map.put(new ItemStack(ModBlocks.ore_titanium), getInfoFromItem(new ItemStack(ModBlocks.ore_titanium)));
-		map.put(new ItemStack(ModBlocks.ore_sulfur), getInfoFromItem(new ItemStack(ModBlocks.ore_sulfur)));
-		map.put(new ItemStack(ModBlocks.ore_niter), getInfoFromItem(new ItemStack(ModBlocks.ore_niter)));
-		map.put(new ItemStack(ModBlocks.ore_copper), getInfoFromItem(new ItemStack(ModBlocks.ore_copper)));
-		map.put(new ItemStack(ModBlocks.ore_tungsten), getInfoFromItem(new ItemStack(ModBlocks.ore_tungsten)));
-		map.put(new ItemStack(ModBlocks.ore_aluminium), getInfoFromItem(new ItemStack(ModBlocks.ore_aluminium)));
-		map.put(new ItemStack(ModBlocks.ore_fluorite), getInfoFromItem(new ItemStack(ModBlocks.ore_fluorite)));
-		map.put(new ItemStack(ModBlocks.ore_beryllium), getInfoFromItem(new ItemStack(ModBlocks.ore_beryllium)));
-		map.put(new ItemStack(ModBlocks.ore_lead), getInfoFromItem(new ItemStack(ModBlocks.ore_lead)));
-		map.put(new ItemStack(ModBlocks.ore_oil), getInfoFromItem(new ItemStack(ModBlocks.ore_oil)));
-		map.put(new ItemStack(ModBlocks.ore_schrabidium), getInfoFromItem(new ItemStack(ModBlocks.ore_schrabidium)));
-		map.put(new ItemStack(ModBlocks.ore_australium), getInfoFromItem(new ItemStack(ModBlocks.ore_australium)));
-		map.put(new ItemStack(ModBlocks.ore_weidanium), getInfoFromItem(new ItemStack(ModBlocks.ore_weidanium)));
-		map.put(new ItemStack(ModBlocks.ore_reiium), getInfoFromItem(new ItemStack(ModBlocks.ore_reiium)));
-		map.put(new ItemStack(ModBlocks.ore_unobtainium), getInfoFromItem(new ItemStack(ModBlocks.ore_unobtainium)));
-		map.put(new ItemStack(ModBlocks.ore_daffergon), getInfoFromItem(new ItemStack(ModBlocks.ore_daffergon)));
-		map.put(new ItemStack(ModBlocks.ore_verticium), getInfoFromItem(new ItemStack(ModBlocks.ore_verticium)));
-		map.put(new ItemStack(ModBlocks.ore_nether_uranium), getInfoFromItem(new ItemStack(ModBlocks.ore_nether_uranium)));
-		map.put(new ItemStack(ModBlocks.ore_nether_plutonium), getInfoFromItem(new ItemStack(ModBlocks.ore_nether_plutonium)));
-		map.put(new ItemStack(ModBlocks.ore_nether_tungsten), getInfoFromItem(new ItemStack(ModBlocks.ore_nether_tungsten)));
-		map.put(new ItemStack(ModBlocks.ore_nether_sulfur), getInfoFromItem(new ItemStack(ModBlocks.ore_nether_sulfur)));
-		map.put(new ItemStack(ModBlocks.ore_nether_fire), getInfoFromItem(new ItemStack(ModBlocks.ore_nether_fire)));
-		map.put(new ItemStack(ModBlocks.ore_nether_schrabidium), getInfoFromItem(new ItemStack(ModBlocks.ore_nether_schrabidium)));
-		map.put(new ItemStack(ModBlocks.reinforced_brick), getInfoFromItem(new ItemStack(ModBlocks.reinforced_brick)));
-		map.put(new ItemStack(ModBlocks.reinforced_glass), getInfoFromItem(new ItemStack(ModBlocks.reinforced_glass)));
-		map.put(new ItemStack(ModBlocks.reinforced_light), getInfoFromItem(new ItemStack(ModBlocks.reinforced_light)));
-		map.put(new ItemStack(ModBlocks.reinforced_lamp_off), getInfoFromItem(new ItemStack(ModBlocks.reinforced_lamp_off)));
-		map.put(new ItemStack(ModBlocks.reinforced_sand), getInfoFromItem(new ItemStack(ModBlocks.reinforced_sand)));
-		map.put(new ItemStack(ModBlocks.brick_concrete), getInfoFromItem(new ItemStack(ModBlocks.brick_concrete)));
-		map.put(new ItemStack(ModBlocks.brick_obsidian), getInfoFromItem(new ItemStack(ModBlocks.brick_obsidian)));
-		map.put(new ItemStack(ModBlocks.brick_light), getInfoFromItem(new ItemStack(ModBlocks.brick_light)));
-		map.put(new ItemStack(ModBlocks.cmb_brick), getInfoFromItem(new ItemStack(ModBlocks.cmb_brick)));
-		map.put(new ItemStack(ModBlocks.cmb_brick_reinforced), getInfoFromItem(new ItemStack(ModBlocks.cmb_brick_reinforced)));
-		map.put(new ItemStack(ModBlocks.block_meteor), getInfoFromItem(new ItemStack(ModBlocks.block_meteor)));
-		map.put(new ItemStack(ModBlocks.tape_recorder), getInfoFromItem(new ItemStack(ModBlocks.tape_recorder)));
-		map.put(new ItemStack(ModBlocks.steel_poles), getInfoFromItem(new ItemStack(ModBlocks.steel_poles)));
-		map.put(new ItemStack(ModBlocks.pole_top), getInfoFromItem(new ItemStack(ModBlocks.pole_top)));
-		map.put(new ItemStack(ModBlocks.pole_satellite_receiver), getInfoFromItem(new ItemStack(ModBlocks.pole_satellite_receiver)));
-		map.put(new ItemStack(ModBlocks.steel_wall), getInfoFromItem(new ItemStack(ModBlocks.steel_wall)));
-		map.put(new ItemStack(ModBlocks.steel_corner), getInfoFromItem(new ItemStack(ModBlocks.steel_corner)));
-		map.put(new ItemStack(ModBlocks.steel_roof), getInfoFromItem(new ItemStack(ModBlocks.steel_roof)));
-		map.put(new ItemStack(ModBlocks.steel_beam), getInfoFromItem(new ItemStack(ModBlocks.steel_beam)));
-		map.put(new ItemStack(ModBlocks.mush), getInfoFromItem(new ItemStack(ModBlocks.mush)));
-		map.put(new ItemStack(ModBlocks.waste_earth), getInfoFromItem(new ItemStack(ModBlocks.waste_earth)));
-		map.put(new ItemStack(ModBlocks.waste_mycelium), getInfoFromItem(new ItemStack(ModBlocks.waste_mycelium)));
-		map.put(new ItemStack(ModBlocks.waste_trinitite), getInfoFromItem(new ItemStack(ModBlocks.waste_trinitite)));
-		map.put(new ItemStack(ModBlocks.waste_trinitite_red), getInfoFromItem(new ItemStack(ModBlocks.waste_trinitite_red)));
-		map.put(new ItemStack(ModBlocks.waste_log), getInfoFromItem(new ItemStack(ModBlocks.waste_log)));
-		map.put(new ItemStack(ModBlocks.waste_planks), getInfoFromItem(new ItemStack(ModBlocks.waste_planks)));
-		map.put(new ItemStack(ModBlocks.frozen_grass), getInfoFromItem(new ItemStack(ModBlocks.frozen_grass)));
-		map.put(new ItemStack(ModBlocks.frozen_dirt), getInfoFromItem(new ItemStack(ModBlocks.frozen_dirt)));
-		map.put(new ItemStack(ModBlocks.frozen_log), getInfoFromItem(new ItemStack(ModBlocks.frozen_log)));
-		map.put(new ItemStack(ModBlocks.frozen_planks), getInfoFromItem(new ItemStack(ModBlocks.frozen_planks)));
-		map.put(new ItemStack(ModBlocks.seal_frame), getInfoFromItem(new ItemStack(ModBlocks.seal_frame)));
-		map.put(new ItemStack(ModBlocks.seal_controller), getInfoFromItem(new ItemStack(ModBlocks.seal_controller)));
-		
-		return map;
-	}
-	
 	public Map<Object, Object> getFluidContainers() {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		
@@ -5678,5 +5498,58 @@ public class MachineRecipes {
 		}
 		
 		return map;
+	}
+	
+	public static class StackWrapper {
+
+		public Item item;
+		public int damage;
+		
+		public StackWrapper(ItemStack item) {
+			this.item = item.getItem();
+			this.damage = item.getItemDamage();
+		}
+		
+		public StackWrapper(Item item) {
+			this.item = item;
+			this.damage = 0;
+		}
+		
+		public StackWrapper(Item item, int meta) {
+			this.item = item;
+			this.damage = meta;
+		}
+		
+		public ItemStack getStack() {
+			return new ItemStack(item, 1, damage);
+		}
+		
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + damage;
+			result = prime * result + ((item == null) ? 0 : item.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			StackWrapper other = (StackWrapper) obj;
+			if (damage != other.damage)
+				return false;
+			if (item == null) {
+				if (other.item != null)
+					return false;
+			} else if (!item.equals(other.item))
+				return false;
+			return true;
+		}
 	}
 }

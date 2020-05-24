@@ -9,6 +9,7 @@ import com.hbm.lib.Library;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -22,44 +23,16 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 	
 	@Override
 	public void updateEntity() {
+		
 		if (!worldObj.isRemote) {
+			
+			long convert = Math.min(storage.getEnergyStored(), (maxPower - power) * 4);
 
-			for(int i = 0; i < 9; i++)
-			if(storage.getEnergyStored() >= 400000 && power + 100000 <= maxPower)
-			{
-				storage.setEnergyStored(storage.getEnergyStored() - 400000);
-				power += 100000;
-			}
-			for(int i = 0; i < 9; i++)
-			if(storage.getEnergyStored() >= 40000 && power + 10000 <= maxPower)
-			{
-				storage.setEnergyStored(storage.getEnergyStored() - 40000);
-				power += 10000;
-			}
-			for(int i = 0; i < 9; i++)
-			if(storage.getEnergyStored() >= 4000 && power + 1000 <= maxPower)
-			{
-				storage.setEnergyStored(storage.getEnergyStored() - 4000);
-				power += 1000;
-			}
-			for(int i = 0; i < 9; i++)
-			if(storage.getEnergyStored() >= 400 && power + 100 <= maxPower)
-			{
-				storage.setEnergyStored(storage.getEnergyStored() - 400);
-				power += 100;
-			}
-			for(int i = 0; i < 9; i++)
-			if(storage.getEnergyStored() >= 40 && power + 10 <= maxPower)
-			{
-				storage.setEnergyStored(storage.getEnergyStored() - 40);
-				power += 10;
-			}
-			for(int i = 0; i < 10; i++)
-			if(storage.getEnergyStored() >= 4 && power + 1 <= maxPower)
-			{
-				storage.setEnergyStored(storage.getEnergyStored() - 4);
-				power += 1;
-			}
+			storage.setEnergyStored((int) (storage.getEnergyStored() - convert));
+			power += convert / 4;
+			
+			if(convert > 0)
+				this.markDirty();
 		}
 			
 		age++;
@@ -144,6 +117,22 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 	@Override
 	public void clearList() {
 		this.list.clear();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		storage.readFromNBT(nbt);
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", power);
+		storage.writeToNBT(nbt);
 	}
 
 }

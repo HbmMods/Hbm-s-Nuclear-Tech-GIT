@@ -5,6 +5,7 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEControlPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.entity.player.EntityPlayer;
@@ -277,7 +278,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         		
         		hullHeat = reactor.hullHeat;
         		coreHeat = reactor.coreHeat;
-        		fuel = reactor.fuel * 100 / reactor.maxFuel;
+        		fuel = reactor.fuel * 100 / Math.min(1, reactor.maxFuel);
         		water = reactor.tanks[0].getFill();
         		cool = reactor.tanks[1].getFill();
         		steam = reactor.tanks[2].getFill();
@@ -350,7 +351,7 @@ public class TileEntityReactorControl extends TileEntity implements ISidedInvent
         		worldObj.scheduleBlockUpdate(xCoord - 1, yCoord, zCoord, worldObj.getBlock(xCoord - 1, yCoord, zCoord), 1);
         	}
         	
-        	PacketDispatcher.wrapper.sendToAll(new TEControlPacket(xCoord, yCoord, zCoord, hullHeat, coreHeat, fuel, water, cool, steam, maxWater, maxCool, maxSteam, compression, rods, maxRods, isOn, auto, isLinked));
+        	PacketDispatcher.wrapper.sendToAllAround(new TEControlPacket(xCoord, yCoord, zCoord, hullHeat, coreHeat, fuel, water, cool, steam, maxWater, maxCool, maxSteam, compression, rods, maxRods, isOn, auto, isLinked), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 30));
 		}
 	}
 }

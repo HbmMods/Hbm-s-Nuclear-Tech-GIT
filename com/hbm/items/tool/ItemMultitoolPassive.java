@@ -126,7 +126,7 @@ public class ItemMultitoolPassive extends Item {
 			if(s != null) {
 				ItemStack t = s.copy();
 				if(!world.isRemote)
-					world.setBlock(x, y, z, Blocks.air);
+					world.setBlock(x, y, z, Blocks.air, 0, 3);
 				
 	            if(!player.inventory.addItemStackToInventory(t))
 	            	player.dropPlayerItemWithRandomChoice(t, false);
@@ -175,9 +175,9 @@ public class ItemMultitoolPassive extends Item {
 					int w1 = list.get(j)[3];
 					
 					Block b = world.getBlock(x1, y1, z1);
-					float k = b.getBlockHardness(world, x1, y1, z1);
+					float k = b.getExplosionResistance(null);
 							
-					if(k < 60 && b != Blocks.air) {
+					if(k < 6000 && b != Blocks.air) {
 						
 						EntityRubble rubble = new EntityRubble(world);
 						rubble.posX = x1 + 0.5F;

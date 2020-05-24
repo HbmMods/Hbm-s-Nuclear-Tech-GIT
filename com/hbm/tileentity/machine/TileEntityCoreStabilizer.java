@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemLens;
+import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;

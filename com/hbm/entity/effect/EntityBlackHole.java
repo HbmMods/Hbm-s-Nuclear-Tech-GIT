@@ -74,7 +74,7 @@ public class EntityBlackHole extends Entity {
 
 		ExplosionNukeGeneric.succ(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 15));
 		
-		if(ExplosionNukeGeneric.dedify(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 2))) {
+		if(!worldObj.isRemote && ExplosionNukeGeneric.dedify(worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, (int)Math.ceil(size * 2))) {
 			this.setDead();
 			int r = (int)Math.ceil(size);
 			int r2 = r * r;

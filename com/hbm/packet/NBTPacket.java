@@ -3,6 +3,7 @@ package com.hbm.packet;
 import java.io.IOException;
 
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityTickingBase;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -74,17 +75,16 @@ public class NBTPacket implements IMessage {
 			
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 			
-			if(!(te instanceof TileEntityMachineBase))
-				return null;
-			
-			TileEntityMachineBase base = (TileEntityMachineBase)te;
-			
 			try {
 				
 				NBTTagCompound nbt = m.buffer.readNBTTagCompoundFromBuffer();
 				
-				if(nbt != null)
-					base.networkUnpack(nbt);
+				if(nbt != null) {
+					if(te instanceof TileEntityMachineBase)
+						((TileEntityMachineBase) te).networkUnpack(nbt);
+					if(te instanceof TileEntityTickingBase)
+						((TileEntityTickingBase) te).networkUnpack(nbt);
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();

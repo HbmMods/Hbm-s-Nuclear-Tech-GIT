@@ -68,8 +68,8 @@ public class ContainerSoyuzLauncher extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 1) {
-				if (!this.mergeItemStack(var5, 2, this.inventorySlots.size(), true))
+            if (par2 <= 27) {
+				if (!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true))
 				{
 					return null;
 				}

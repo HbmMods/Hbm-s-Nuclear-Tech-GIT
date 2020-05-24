@@ -5,6 +5,7 @@ import com.hbm.blocks.machine.DummyBlockVault;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEVaultPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.init.Blocks;
@@ -144,13 +145,13 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	    		}
 	    	}
 	    	
-	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 0, type));
+	    	PacketDispatcher.wrapper.sendToAllAround(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 0, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 		}
     }
 	
 	public void open() {
 		if(state == 0) {
-	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, type));
+	    	PacketDispatcher.wrapper.sendToAllAround(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			isOpening = true;
 			state = 1;
 			
@@ -164,7 +165,7 @@ public class TileEntityVaultDoor extends TileEntityLockableBase {
 	
 	public void close() {
 		if(state == 2) {
-	    	PacketDispatcher.wrapper.sendToAll(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, type));
+	    	PacketDispatcher.wrapper.sendToAllAround(new TEVaultPacket(xCoord, yCoord, zCoord, isOpening, state, 1, type), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			isOpening = false;
 			state = 1;
 			

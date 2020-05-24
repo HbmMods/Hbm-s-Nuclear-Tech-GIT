@@ -22,6 +22,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -177,15 +178,15 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 				solid += 250;
 			}
 			
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			
 			MissileStruct multipart = getStruct(slots[0]);
 			
 			if(multipart != null)
-				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart));
+				PacketDispatcher.wrapper.sendToAllAround(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			else
-				PacketDispatcher.wrapper.sendToAll(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()));
+				PacketDispatcher.wrapper.sendToAllAround(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, new MissileStruct()), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 
 			outer:
 			for(int x = -1; x <= 1; x++) {
@@ -205,8 +206,14 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 				
 				if(e instanceof EntityMissileCustom) {
 					
-					for(int i = 0; i < 15; i++)
-						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", null);
+					for(int i = 0; i < 15; i++) {
+						
+						boolean dir = worldObj.rand.nextBoolean();
+						float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
+						float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
+						
+						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+					}
 					
 					break;
 				}

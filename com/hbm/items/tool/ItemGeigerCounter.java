@@ -91,6 +91,7 @@ public class ItemGeigerCounter extends Item {
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
     {
     	if(world.getBlock(x, y, z) == ModBlocks.block_red_copper) {
+    		world.func_147480_a(x, y, z, false);
     		player.inventory.consumeInventoryItem(ModItems.geiger_counter);
     		player.inventory.addItemStackToInventory(new ItemStack(ModItems.survey_scanner));
     		return true;
@@ -105,11 +106,11 @@ public class ItemGeigerCounter extends Item {
 		if(!world.isRemote) {
 	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
 
-			int eRad = (int)player.getEntityData().getFloat("hfr_radiation");
+			double eRad = ((int)(player.getEntityData().getFloat("hfr_radiation") * 10)) / 10D;
 
 			RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
 			Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-			int rads = (int)Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
+			double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
 
 			player.addChatMessage(new ChatComponentText("Current chunk radiation: " + rads + " RAD/s"));
 			player.addChatMessage(new ChatComponentText("Player contamination: " + eRad + " RAD"));

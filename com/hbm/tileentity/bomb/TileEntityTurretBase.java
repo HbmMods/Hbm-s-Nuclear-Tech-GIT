@@ -11,6 +11,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TETurretPacket;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -95,7 +96,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		}
 		
 		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAll(new TETurretPacket(xCoord, yCoord, zCoord, rotationYaw, rotationPitch));
+			PacketDispatcher.wrapper.sendToAllAround(new TETurretPacket(xCoord, yCoord, zCoord, rotationYaw, rotationPitch), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 	}
 	
 	private boolean isInSight(Entity e) {

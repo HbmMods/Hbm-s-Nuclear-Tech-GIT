@@ -3,11 +3,11 @@ package com.hbm.inventory;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
-import com.hbm.items.gear.JetpackBooster;
-import com.hbm.items.gear.JetpackBreak;
-import com.hbm.items.gear.JetpackRegular;
-import com.hbm.items.gear.JetpackVectorized;
-import com.hbm.items.tool.ItemFluidIdentifier;
+import com.hbm.items.armor.JetpackBooster;
+import com.hbm.items.armor.JetpackBreak;
+import com.hbm.items.armor.JetpackRegular;
+import com.hbm.items.armor.JetpackVectorized;
+import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
@@ -232,13 +232,16 @@ public class FluidTank {
 	//Called by TE to save fillstate
 	public void writeToNBT(NBTTagCompound nbt, String s) {
 		nbt.setInteger(s, fluid);
-		//nbt.setInteger(s + "_type", Arrays.asList(FluidType.values()).indexOf(type));
+		nbt.setInteger(s + "_max", maxFluid);
 		nbt.setString(s + "_type", type.getName());
 	}
 	
 	//Called by TE to load fillstate
 	public void readFromNBT(NBTTagCompound nbt, String s) {
 		fluid = nbt.getInteger(s);
+		int max = nbt.getInteger(s + "_max");
+		if(max > 0)
+			maxFluid = nbt.getInteger(s + "_max");
 		type = FluidType.getEnum(nbt.getInteger(s + "_type"));
 		if(type.name().equals(FluidType.NONE.name()))
 			type = FluidType.getEnumFromName(nbt.getString(s + "_type"));

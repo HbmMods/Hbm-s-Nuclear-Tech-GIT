@@ -53,5 +53,19 @@ public class TileEntityVent extends TileEntity {
 				//}
 			}
 		}
+		
+		/*if(worldObj.isRemote) {
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "exhaust");
+			data.setString("mode", "soyuz");
+			data.setInteger("count", 1);
+			data.setDouble("width", 0);
+			data.setDouble("posX", xCoord + 0.5);
+			data.setDouble("posY", yCoord - 1);
+			data.setDouble("posZ", zCoord + 0.5);
+			
+			MainRegistry.proxy.effectNT(data);
+		}*/
 	}
 }

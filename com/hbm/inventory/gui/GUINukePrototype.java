@@ -14,7 +14,7 @@ import com.hbm.tileentity.bomb.TileEntityNukePrototype;
 
 public class GUINukePrototype extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_prototype.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_prototype.png");
 	private TileEntityNukePrototype testNuke;
 	
 	public GUINukePrototype(InventoryPlayer invPlayer, TileEntityNukePrototype tedf) {

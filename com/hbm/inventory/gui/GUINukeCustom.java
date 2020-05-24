@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUINukeCustom extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gunBombSchematic.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gunBombSchematic.png");
 	private TileEntityNukeCustom testNuke;
 	
 	public GUINukeCustom(InventoryPlayer invPlayer, TileEntityNukeCustom tedf) {

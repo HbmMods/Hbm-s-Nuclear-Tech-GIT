@@ -13,6 +13,7 @@ public class ItemMan extends Item {
 	{
 		list.add("Used in:");
 		list.add("Fat Man");
+		super.addInformation(itemstack, player, list, bool);
 	}
 
 }

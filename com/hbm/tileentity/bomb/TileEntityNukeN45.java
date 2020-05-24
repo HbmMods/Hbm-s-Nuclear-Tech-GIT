@@ -11,6 +11,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -137,7 +138,7 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return null;
+		return new int[0];
 	}
 
 	@Override
@@ -194,7 +195,7 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 		
 		if(!worldObj.isRemote) {
 			
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, primed ? 1 : 0, 0));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, primed ? 1 : 0, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			
 			if(primed) {
 				

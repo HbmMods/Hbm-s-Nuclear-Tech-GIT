@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -12,17 +13,18 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCatalyst;
+import com.hbm.items.machine.ItemSatChip;
 import com.hbm.items.special.ItemAMSCore;
-import com.hbm.items.special.ItemCatalyst;
-import com.hbm.items.tool.ItemSatChip;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.saveddata.SatelliteSaveStructure.SatelliteType;
 import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.SatelliteResonator;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -403,11 +405,11 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 				warning = 3;
 			}
 
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, color, 1));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 2));
-			PacketDispatcher.wrapper.sendToAll(new AuxGaugePacket(xCoord, yCoord, zCoord, field, 3));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, locked ? 1 : 0, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, color, 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, efficiency, 2), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, field, 3), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 		}
 	}
 	
@@ -423,7 +425,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
 		
 		for(Entity e : list) {
-			if(!(e instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)e)))
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer)e)))
 				if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
 					e.attackEntityFrom(ModDamageSource.ams, 1000);
 					e.setFire(3);
@@ -433,7 +435,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
 		
 		for(Entity e : list2) {
-			if(!(e instanceof EntityPlayer && Library.checkForHaz2((EntityPlayer)e)))
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHaz2((EntityPlayer)e)))
 					e.attackEntityFrom(ModDamageSource.amsCore, 10000);
 		}
 	}
@@ -550,7 +552,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		    int i3 = ItemSatChip.getFreq(slots[15]);
 		    
 		    if(data.getSatFromFreq(i1) != null && data.getSatFromFreq(i2) != null && data.getSatFromFreq(i3) != null &&
-		    		data.getSatFromFreq(i1).satelliteType.getID() == SatelliteType.RESONATOR.getID() && data.getSatFromFreq(i2).satelliteType.getID() == SatelliteType.RESONATOR.getID() && data.getSatFromFreq(i3).satelliteType.getID() == SatelliteType.RESONATOR.getID() &&
+		    		data.getSatFromFreq(i1) instanceof SatelliteResonator && data.getSatFromFreq(i2) instanceof SatelliteResonator && data.getSatFromFreq(i3) instanceof SatelliteResonator &&
 		    		i1 != i2 && i1 != i3 && i2 != i3)
 		    	return true;
 			

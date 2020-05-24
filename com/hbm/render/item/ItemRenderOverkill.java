@@ -108,6 +108,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipNoScope.png"));
 				if(item.getItem() == ModItems.gun_revolver_blackjack)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipGrey.png"));
+				if(item.getItem() == ModItems.gun_revolver_silver)
+					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipSilver.png"));
 				if(item.getItem() == ModItems.gun_revolver_red)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipRed.png"));
 				if(item.getItem() == ModItems.gun_minigun)
@@ -132,6 +134,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_revolver_pip ||
 						item.getItem() == ModItems.gun_revolver_nopip ||
 						item.getItem() == ModItems.gun_revolver_blackjack ||
+						item.getItem() == ModItems.gun_revolver_silver ||
 						item.getItem() == ModItems.gun_revolver_red) {
 					GL11.glScalef(0.60F, 0.60F, 0.60F);
 					GL11.glTranslatef(0.0F, 0.0F, -0.1F);
@@ -171,6 +174,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_revolver_pip ||
 						item.getItem() == ModItems.gun_revolver_nopip ||
 						item.getItem() == ModItems.gun_revolver_blackjack ||
+						item.getItem() == ModItems.gun_revolver_silver ||
 						item.getItem() == ModItems.gun_revolver_red)
 					pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
@@ -234,6 +238,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipNoScope.png"));
 			if(item.getItem() == ModItems.gun_revolver_blackjack)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipGrey.png"));
+			if(item.getItem() == ModItems.gun_revolver_silver)
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipSilver.png"));
 			if(item.getItem() == ModItems.gun_revolver_red)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipRed.png"));
 			if(item.getItem() == ModItems.gun_minigun)
@@ -265,6 +271,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_revolver_pip ||
 					item.getItem() == ModItems.gun_revolver_nopip ||
 					item.getItem() == ModItems.gun_revolver_blackjack ||
+					item.getItem() == ModItems.gun_revolver_silver ||
 					item.getItem() == ModItems.gun_revolver_red) {
 				GL11.glScalef(0.60F, 0.60F, 0.60F);
 				GL11.glTranslatef(0.7F, 0.3F, 0.0F);
@@ -305,6 +312,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_revolver_pip ||
 					item.getItem() == ModItems.gun_revolver_nopip ||
 					item.getItem() == ModItems.gun_revolver_blackjack ||
+					item.getItem() == ModItems.gun_revolver_silver ||
 					item.getItem() == ModItems.gun_revolver_red)
 				pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			
@@ -359,6 +367,8 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipNoScope.png"));
 			if(item.getItem() == ModItems.gun_revolver_blackjack)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipGrey.png"));
+			if(item.getItem() == ModItems.gun_revolver_silver)
+				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipSilver.png"));
 			if(item.getItem() == ModItems.gun_revolver_red)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipRed.png"));
 			if(item.getItem() == ModItems.gun_minigun)
@@ -376,6 +386,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_revolver_pip ||
 					item.getItem() == ModItems.gun_revolver_nopip ||
 					item.getItem() == ModItems.gun_revolver_blackjack ||
+					item.getItem() == ModItems.gun_revolver_silver ||
 					item.getItem() == ModItems.gun_revolver_red) {
 				GL11.glScalef(0.60F, 0.60F, 0.60F);
 			}
@@ -409,6 +420,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_revolver_pip ||
 					item.getItem() == ModItems.gun_revolver_nopip ||
 					item.getItem() == ModItems.gun_revolver_blackjack ||
+					item.getItem() == ModItems.gun_revolver_silver ||
 					item.getItem() == ModItems.gun_revolver_red)
 				pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			

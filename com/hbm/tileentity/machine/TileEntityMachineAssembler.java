@@ -7,13 +7,15 @@ import java.util.Random;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
-import com.hbm.items.tool.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEAssemblerPacket;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
@@ -286,95 +288,157 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 				progress = 0;
 			
 			int meta = worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord);
-			TileEntity te = null;
+			
+			TileEntity te1 = null;
+			TileEntity te2 = null;
+			
 			if(meta == 2) {
-				te = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
+				te1 = worldObj.getTileEntity(xCoord - 2, yCoord, zCoord);
+				te2 = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
 			}
 			if(meta == 3) {
-				te = worldObj.getTileEntity(xCoord + 2, yCoord, zCoord);
+				te1 = worldObj.getTileEntity(xCoord + 2, yCoord, zCoord);
+				te2 = worldObj.getTileEntity(xCoord - 3, yCoord, zCoord + 1);
 			}
 			if(meta == 4) {
-				te = worldObj.getTileEntity(xCoord, yCoord, zCoord + 2);
+				te1 = worldObj.getTileEntity(xCoord, yCoord, zCoord + 2);
+				te2 = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord - 3);
 			}
 			if(meta == 5) {
-				te = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
+				te1 = worldObj.getTileEntity(xCoord, yCoord, zCoord - 2);
+				te2 = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 3);
 			}
 			
-			if(te != null && te instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te;
+			tryExchangeTemplates(te1, te2);
+			
+			//OUTPUT
+			if(te1 instanceof TileEntityChest) {
+				TileEntityChest chest = (TileEntityChest)te1;
 				
 				tryFillContainer(chest, 5);
 			}
 			
-			if(te != null && te instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te;
+			if(te1 instanceof TileEntityHopper) {
+				TileEntityHopper hopper = (TileEntityHopper)te1;
 
 				tryFillContainer(hopper, 5);
 			}
 			
-			if(te != null && te instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+			if(te1 instanceof TileEntityCrateIron) {
+				TileEntityCrateIron hopper = (TileEntityCrateIron)te1;
 
 				tryFillContainer(hopper, 5);
 			}
 			
-			if(te != null && te instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+			if(te1 instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te1;
 
 				tryFillContainer(hopper, 5);
 			}
 			
-			te = null;
-			if(meta == 2) {
-				te = worldObj.getTileEntity(xCoord + 3, yCoord, zCoord - 1);
-			}
-			if(meta == 3) {
-				te = worldObj.getTileEntity(xCoord - 3, yCoord, zCoord + 1);
-			}
-			if(meta == 4) {
-				te = worldObj.getTileEntity(xCoord - 1, yCoord, zCoord - 3);
-			}
-			if(meta == 5) {
-				te = worldObj.getTileEntity(xCoord + 1, yCoord, zCoord + 3);
-			}
-			
-			if(te != null && te instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te;
+			//INPUT
+			if(te2 instanceof TileEntityChest) {
+				TileEntityChest chest = (TileEntityChest)te2;
 				
 				for(int i = 0; i < chest.getSizeInventory(); i++)
 					if(tryFillAssembler(chest, i))
 						break;
 			}
 			
-			if(te != null && te instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te;
+			if(te2 instanceof TileEntityHopper) {
+				TileEntityHopper hopper = (TileEntityHopper)te2;
 
 				for(int i = 0; i < hopper.getSizeInventory(); i++)
 					if(tryFillAssembler(hopper, i))
 						break;
 			}
 			
-			if(te != null && te instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te;
+			if(te2 instanceof TileEntityCrateIron) {
+				TileEntityCrateIron hopper = (TileEntityCrateIron)te2;
 
 				for(int i = 0; i < hopper.getSizeInventory(); i++)
 					if(tryFillAssembler(hopper, i))
 						break;
 			}
 			
-			if(te != null && te instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te;
+			if(te2 instanceof TileEntityCrateSteel) {
+				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te2;
 
 				for(int i = 0; i < hopper.getSizeInventory(); i++)
 					if(tryFillAssembler(hopper, i))
 						break;
 			}
 
-			PacketDispatcher.wrapper.sendToAll(new TEAssemblerPacket(xCoord, yCoord, zCoord, isProgressing));
-			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(xCoord, yCoord, zCoord));
-			PacketDispatcher.wrapper.sendToAll(new AuxElectricityPacket(xCoord, yCoord, zCoord, power));
+
+			PacketDispatcher.wrapper.sendToAllAround(new TEAssemblerPacket(xCoord, yCoord, zCoord, isProgressing), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
+	}
+	
+	public boolean tryExchangeTemplates(TileEntity te1, TileEntity te2) {
+		//validateTe sees if it's a valid inventory tile entity
+		boolean te1Valid = validateTe(te1);
+		boolean te2Valid = validateTe(te2);
+		
+		if(te1Valid && te2Valid){
+			IInventory iTe1 = (IInventory)te1;
+			IInventory iTe2 = (IInventory)te2;
+			boolean openSlot = false;
+			boolean existingTemplate = false;
+			boolean filledContainer = false;
+			//Check if there's an existing template and an open slot
+			for(int i = 0; i < iTe1.getSizeInventory(); i++){
+				if(iTe1.getStackInSlot(i) == null){
+					openSlot = true;
+					
+				}
+				
+			}
+			if(this.slots[4] != null){
+				existingTemplate = true;
+			}
+			//Check if there's a template in input
+			for(int i = 0; i < iTe2.getSizeInventory(); i++){
+				if(iTe2.getStackInSlot(i) != null && iTe2.getStackInSlot(i).getItem() instanceof ItemAssemblyTemplate){
+					if(openSlot && existingTemplate){
+						filledContainer = tryFillContainer(iTe1, 4);
+						
+					}
+					if(filledContainer){
+					ItemStack copy = iTe2.getStackInSlot(i).copy();
+					iTe2.setInventorySlotContents(i, null);
+					this.slots[4] = copy;
+					}
+				}
+				
+			}
+			
+		
+		}
+		return false;
+		
+	}
+	
+	private boolean validateTe(TileEntity te) {
+		if(te instanceof TileEntityChest) {
+			return true;
+		}
+		
+		if(te instanceof TileEntityHopper) {
+			return true;
+		}
+		
+		if(te instanceof TileEntityCrateIron) {
+			return true;
+		}
+		
+		if(te instanceof TileEntityCrateSteel) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	//I can't believe that worked.
@@ -465,7 +529,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			boolean flag = false;
 			
 			for(int i = 0; i < list.size(); i++)
-				if(ItemStack.areItemStacksEqual(stack, list.get(i)) && ItemStack.areItemStackTagsEqual(stack, list.get(i)))
+				if(isItemAcceptible(stack, list.get(i)))
 					flag = true;
 			
 			if(!flag)
@@ -483,7 +547,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					sta1.stackSize = 1;
 					sta2.stackSize = 1;
 			
-					if(ItemStack.areItemStacksEqual(sta1, sta2) && ItemStack.areItemStackTagsEqual(sta1, sta2) && slots[i].stackSize < slots[i].getMaxStackSize()) {
+					if(isItemAcceptible(sta1, sta2) && slots[i].stackSize < slots[i].getMaxStackSize()) {
 						ItemStack sta3 = inventory.getStackInSlot(slot).copy();
 						sta3.stackSize--;
 						if(sta3.stackSize <= 0)

@@ -7,8 +7,6 @@ import com.hbm.render.model.ModelEMPRay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -39,11 +37,9 @@ public class ItemRenderEMPRay implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		
 		float f = 0;
-
-		if((Entity)data[1] instanceof EntityPlayer)
-			//f = ((EntityPlayer)data[1]).getItemInUseCount() > 0 && ((Entity)data[1]).isSneaking() ? 0.05F : 0;
-			f = (((EntityPlayer)data[1]).getItemInUse() != null &&((EntityPlayer)data[1]).getItemInUse().getItemUseAction() == EnumAction.bow) ? 0.15F : 0;
+		
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:
 			GL11.glPushMatrix();
@@ -51,11 +47,10 @@ public class ItemRenderEMPRay implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEMPRay.png"));
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
-				//GL11.glScalef(2.0F, 2.0F, 2.0F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				//GL11.glTranslatef(-0.4F, -0.1F, 0.1F);
 				GL11.glTranslatef(-0.8F, -0.2F, 0.0F);
+				GL11.glRotatef(-15.0F, 0.0F, 0.0F, 1.0F);
 				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 			GL11.glPopMatrix();
 			break;

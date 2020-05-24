@@ -2,8 +2,8 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -666,7 +666,7 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("Can be used with a screwdriver to pick locks.");
 			
-			if(Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2))
+			if(ArmorUtil.checkArmorPiece(player, ModItems.jackt, 2) || ArmorUtil.checkArmorPiece(player, ModItems.jackt2, 2))
 				list.add("Success rate of picking standard lock is 100%!");
 			else
 				list.add("Success rate of picking standard lock is ~10%");
@@ -679,11 +679,6 @@ public class ItemCustomLore extends Item {
 			} else {
 				list.add("Explore the other side.");
 			}
-		}
-		
-		if(this == ModItems.book_of_)
-		{
-			list.add("Edition 4, gold lined pages");
 		}
 		
 		if(this == ModItems.missile_skin_camo)
@@ -740,6 +735,11 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.ingot_fiberglass)
 		{
 			list.add("High in fiber, high in glass. Everything the body needs.");
+		}
+		
+		if(this == ModItems.missile_soyuz_lander)
+		{
+			list.add("Doubles as a crappy lander!");
 		}
 	}
 
