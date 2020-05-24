@@ -1,8 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKey;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -106,7 +106,7 @@ public abstract class TileEntityLockableBase extends TileEntity {
 		
 		if(canPick) {
 			
-			if(Library.checkArmorPiece(player, ModItems.jackt, 2) || Library.checkArmorPiece(player, ModItems.jackt2, 2))
+			if(ArmorUtil.checkArmorPiece(player, ModItems.jackt, 2) || ArmorUtil.checkArmorPiece(player, ModItems.jackt2, 2))
 				chanceOfSuccess *= 100D;
 			
 			double rand = player.worldObj.rand.nextDouble() * 100;

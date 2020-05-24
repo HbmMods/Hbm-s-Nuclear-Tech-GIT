@@ -3,7 +3,7 @@ package com.hbm.blocks.fluid;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.Library;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import cpw.mods.fml.relauncher.Side;
@@ -73,19 +73,8 @@ public class MudBlock extends BlockFluidClassic {
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		entity.setInWeb();
-		// if(entity instanceof EntityLivingBase)
-		// {
-		// entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
-		// }
-		if (entity instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer) entity)) {
-			/*
-			 * Library.damageSuit(((EntityPlayer)entity), 0);
-			 * Library.damageSuit(((EntityPlayer)entity), 1);
-			 * Library.damageSuit(((EntityPlayer)entity), 2);
-			 * Library.damageSuit(((EntityPlayer)entity), 3);
-			 */
-
-		} else {
+		
+		if (entity instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer) entity)) { } else {
 			entity.attackEntityFrom(ModDamageSource.mudPoisoning, 8);
 		}
 	}

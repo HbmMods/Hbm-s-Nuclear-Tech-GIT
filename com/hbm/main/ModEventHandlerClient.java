@@ -13,6 +13,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
+import com.hbm.lib.RefStrings;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderAccessoryUtility;
@@ -34,11 +35,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
@@ -213,4 +216,13 @@ public class ModEventHandlerClient {
 		if(rad > 0)
 			list.add(EnumChatFormatting.YELLOW + "Radiation resistance: " + rad);
     }
+	
+	public static IIcon particleBase;
+
+	@SubscribeEvent
+	public void onTextureStitch(TextureStitchEvent.Pre event) {
+		
+		if(event.map.getTextureType() == 0)
+			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+	}
 }

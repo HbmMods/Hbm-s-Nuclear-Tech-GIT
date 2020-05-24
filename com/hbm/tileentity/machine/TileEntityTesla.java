@@ -8,6 +8,7 @@ import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTeslaCrab;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -116,7 +117,7 @@ public class TileEntityTesla extends TileEntityMachineBase implements IConsumer 
 				continue;
 			}
 			
-			if(!(e instanceof EntityPlayer && Library.checkForFaraday((EntityPlayer)e)))
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForFaraday((EntityPlayer)e)))
 				if(e.attackEntityFrom(ModDamageSource.electricity, MathHelper.clamp_float(e.getMaxHealth() * 0.5F, 3, 20) / (float)targets.size()))
 					worldObj.playSoundAtEntity(e, "hbm:weapon.tesla", 1.0F, 1.0F);
 			

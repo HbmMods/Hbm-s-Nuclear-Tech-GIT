@@ -3,7 +3,7 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineSiren;
-import com.hbm.items.tool.ItemCassette.TrackType;
+import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
 

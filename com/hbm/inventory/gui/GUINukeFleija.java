@@ -15,7 +15,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeFleija;
 
 public class GUINukeFleija extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fleijaSchematic.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/fleijaSchematic.png");
 	private TileEntityNukeFleija testNuke;
 	
 	public GUINukeFleija(InventoryPlayer invPlayer, TileEntityNukeFleija tedf) {

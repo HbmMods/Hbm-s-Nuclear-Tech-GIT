@@ -14,7 +14,7 @@ import com.hbm.tileentity.bomb.TileEntityTestNuke;
 
 public class GUITestNuke extends GuiContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gunBombSchematicSmall.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gunBombSchematicSmall.png");
 	private TileEntityTestNuke testNuke;
 	
 	public GUITestNuke(InventoryPlayer invPlayer, TileEntityTestNuke tedf) {

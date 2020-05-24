@@ -3,7 +3,7 @@ package com.hbm.sound;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.items.tool.ItemCassette.SoundType;
+import com.hbm.items.machine.ItemCassette.SoundType;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
 
 import net.minecraft.client.Minecraft;

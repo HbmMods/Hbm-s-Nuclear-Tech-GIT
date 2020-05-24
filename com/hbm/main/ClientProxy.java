@@ -2,6 +2,7 @@
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityCloudFX;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -225,7 +226,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_supershotgun, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ks23, new ItemRenderWeaponObj());
-		//MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg_ammo, new ItemRenderRocket());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer, new ItemRenderWeaponObj());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombMulti.class, new RenderBombMulti());
 
@@ -764,11 +765,43 @@ public class ClientProxy extends ServerProxy
 				double mY = rand.nextGaussian() * motion;
 				double mZ = rand.nextGaussian() * motion;
 				
+				EntityFX fx = null;
+
 				if("flame".equals(data.getString("mode"))) {
-					EntityFlameFX fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+					fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
 				}
+
+				if("cloud".equals(data.getString("mode"))) {
+					fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+				}
+				
+				if(fx != null)
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 			}
+		}
+		
+		if("vanillaExt".equals(type)) {
+
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			
+			EntityFX fx = null;
+
+			if("flame".equals(data.getString("mode"))) {
+				fx = new EntityFlameFX(world, x, y, z, mX, mY, mZ);
+			}
+
+			if("smoke".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntitySmokeFX(world, x, y, z, mX, mY, mZ);
+			}
+
+			if("cloud".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+			}
+			
+			if(fx != null)
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 		}
 		
 		if("vanilla".equals(type)) {

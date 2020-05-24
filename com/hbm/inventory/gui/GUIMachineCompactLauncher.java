@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineCompactLauncher extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_launch_table_small.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_launch_table_small.png");
 	private TileEntityCompactLauncher launcher;
 	
 	public GUIMachineCompactLauncher(InventoryPlayer invPlayer, TileEntityCompactLauncher tedf) {

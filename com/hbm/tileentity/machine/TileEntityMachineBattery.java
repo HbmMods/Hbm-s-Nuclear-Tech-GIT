@@ -6,25 +6,25 @@ import java.util.List;
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
-import com.hbm.items.special.ItemBattery;
+import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityMachineBase;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineBattery extends TileEntity implements ISidedInventory, IConsumer, ISource {
-
-	private ItemStack slots[];
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IConsumer, ISource {
 	
 	public long power = 0;
 	public long maxPower = 1000000;
+	
+	//0: input only
+	//1: buffer
+	//2: output only
+	//3: nothing
+	public short redLow = 0;
+	public short redHigh = 2;
 	
 	public boolean conducts = false;
 	
@@ -37,48 +37,24 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	private String customName;
 	
 	public TileEntityMachineBattery() {
+		super(2);
 		slots = new ItemStack[2];
 	}
 	
 	public TileEntityMachineBattery(long maxPower) {
+		super(2);
 		slots = new ItemStack[2];
 		this.maxPower = maxPower;
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-		return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
-			itemStack.stackSize = getInventoryStackLimit();
-		}
+	public String getName() {
+		return "container.battery";
 	}
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.battery";
+		return this.hasCustomInventoryName() ? this.customName : getName();
 	}
 
 	@Override
@@ -89,26 +65,6 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
-			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
-		}
-	}
-	
-	@Override
-	public void openInventory() {}
-	@Override
-	public void closeInventory() {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
@@ -128,34 +84,14 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	}
 	
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
-				slots[i] = null;
-			}
-			
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-	
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getLong("power");
-		this.conducts = nbt.getBoolean("conducts");
+		this.redLow = nbt.getShort("redLow");
+		this.redHigh = nbt.getShort("redHigh");
+		
 		slots = new ItemStack[getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++)
@@ -172,8 +108,11 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
 		nbt.setLong("power", power);
-		nbt.setBoolean("conducts", conducts);
+		nbt.setShort("redLow", redLow);
+		nbt.setShort("redHigh", redHigh);
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -223,11 +162,12 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 	public void updateEntity() {
 		
 		if(worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery && !worldObj.isRemote) {
-			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 			
-			conducts = worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
+			this.maxPower = ((MachineBattery)worldObj.getBlock(xCoord, yCoord, zCoord)).maxPower;
 		
-			if(this.conducts)
+			short mode = (short) this.getRelevantMode();
+			
+			if(mode == 1 || mode == 2)
 			{
 				age++;
 				if(age >= 20)
@@ -242,127 +182,38 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			power = Library.chargeItemsFromTE(slots, 1, power, maxPower);
 			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setLong("power", power);
+			nbt.setLong("maxPower", maxPower);
+			nbt.setShort("redLow", redLow);
+			nbt.setShort("redHigh", redHigh);
+			this.networkPack(nbt, 20);
 		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) { 
+
+		this.power = nbt.getLong("power");
+		this.maxPower = nbt.getLong("maxPower");
+		this.redLow = nbt.getShort("redLow");
+		this.redHigh = nbt.getShort("redHigh");
 	}
 
 	@Override
 	public void setPower(long i) {
 		power = i;
-		
 	}
 
 	@Override
 	public long getPower() {
 		return power;
-		
 	}
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
 		
 		Library.ffgeua(x, y, z, newTact, this, worldObj);
-		
-		/*Block block = this.worldObj.getBlock(x, y, z);
-		TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
-
-		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
-		}
-		if(block == ModBlocks.factory_titanium_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_titanium_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
-		}
-		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_advanced_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y + 1, z);
-		}
-		if(block == ModBlocks.factory_advanced_conductor && this.worldObj.getBlock(x, y - 1, z) == ModBlocks.factory_advanced_core)
-		{
-			tileentity = this.worldObj.getTileEntity(x, y - 1, z);
-		}
-		
-		if(tileentity instanceof IConductor)
-		{
-			if(tileentity instanceof TileEntityCable)
-			{
-				if(Library.checkUnionList(((TileEntityCable)tileentity).uoteab, this))
-				{
-					for(int i = 0; i < ((TileEntityCable)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityCable)tileentity).uoteab.get(i).source == this)
-						{
-							if(((TileEntityCable)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityCable)tileentity).uoteab.get(i).ticked = newTact;
-								ffgeua(x, y + 1, z, getTact());
-								ffgeua(x, y - 1, z, getTact());
-								ffgeua(x - 1, y, z, getTact());
-								ffgeua(x + 1, y, z, getTact());
-								ffgeua(x, y, z - 1, getTact());
-								ffgeua(x, y, z + 1, getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityCable)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
-				}
-			}
-			if(tileentity instanceof TileEntityWireCoated)
-			{
-				if(Library.checkUnionList(((TileEntityWireCoated)tileentity).uoteab, this))
-				{
-					for(int i = 0; i < ((TileEntityWireCoated)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityWireCoated)tileentity).uoteab.get(i).source == this)
-						{
-							if(((TileEntityWireCoated)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityWireCoated)tileentity).uoteab.get(i).ticked = newTact;
-								ffgeua(x, y + 1, z, getTact());
-								ffgeua(x, y - 1, z, getTact());
-								ffgeua(x - 1, y, z, getTact());
-								ffgeua(x + 1, y, z, getTact());
-								ffgeua(x, y, z - 1, getTact());
-								ffgeua(x, y, z + 1, getTact());
-							}
-						}
-					}
-				} else {
-					((TileEntityWireCoated)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleans(this, newTact));
-				}
-			}
-		}
-		
-		if(tileentity instanceof IConsumer && newTact && !(tileentity instanceof TileEntityMachineBattery && ((TileEntityMachineBattery)tileentity).conducts))
-		{
-			list.add((IConsumer)tileentity);
-		}
-		
-		if(!newTact)
-		{
-			int size = list.size();
-			if(size > 0)
-			{
-				int part = this.power / size;
-				for(IConsumer consume : list)
-				{
-					if(consume.getPower() < consume.getMaxPower())
-					{
-						if(consume.getMaxPower() - consume.getPower() >= part)
-						{
-							this.power -= part;
-							consume.setPower(consume.getPower() + part);
-						} else {
-							this.power -= consume.getMaxPower() - consume.getPower();
-							consume.setPower(consume.getMaxPower());
-						}
-					}
-				}
-			}
-			list.clear();
-		}*/
 	}
 
 	@Override
@@ -384,9 +235,22 @@ public class TileEntityMachineBattery extends TileEntity implements ISidedInvent
 		
 		return false;
 	}
+	
+	public short getRelevantMode() {
+		
+		if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+			return this.redHigh;
+		} else {
+			return this.redLow;
+		}
+	}
 
 	@Override
 	public long getMaxPower() {
+		
+		if(!worldObj.isRemote && getRelevantMode() >= 2)
+			return 0;
+		
 		return maxPower;
 	}
 

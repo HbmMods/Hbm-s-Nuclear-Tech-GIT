@@ -112,6 +112,11 @@ public class BulletConfigSyncingUtil {
 	public static int SPECIAL_GAUSS_CHARGED = i++;
 	public static int SPECIAL_EMP = i++;
 
+	public static int FLAMER_NORMAL = i++;
+	public static int FLAMER_NAPALM = i++;
+	public static int FLAMER_WP = i++;
+	public static int FLAMER_GAS = i++;
+
 	public static int G20_NORMAL_FIRE = i++;
 	public static int G20_SHRAPNEL_FIRE = i++;
 	public static int G20_SLUG_FIRE = i++;
@@ -228,6 +233,11 @@ public class BulletConfigSyncingUtil {
 		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
+
+		configSet.put(FLAMER_NORMAL, GunEnergyFactory.getFlameConfig());
+		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
+		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
+		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
         
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
 		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));

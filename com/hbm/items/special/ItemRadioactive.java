@@ -2,6 +2,7 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.handler.ArmorUtil;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.Entity;
@@ -50,6 +51,7 @@ public class ItemRadioactive extends ItemCustomLore {
 			if(this.fire)
 				entity.setFire(5);
 			
+			if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGoggles((EntityPlayer)entity)))
 			if(this.blinding)
 				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
 		}

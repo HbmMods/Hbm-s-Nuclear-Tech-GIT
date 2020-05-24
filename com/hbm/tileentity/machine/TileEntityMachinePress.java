@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.special.ItemBlades;
+import com.hbm.items.machine.ItemBlades;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPressPacket;
 

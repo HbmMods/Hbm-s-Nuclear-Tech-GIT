@@ -310,6 +310,28 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
 		
+		//FUEL
+		if(this == ModItems.ammo_fuel_napalm) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Increased range");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		if(this == ModItems.ammo_fuel_phosphorus) {
+			list.add(EnumChatFormatting.BLUE + "+ Phosphorus splash");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Increased range");
+			list.add(EnumChatFormatting.BLUE + "+ Increased accuracy");
+			list.add(EnumChatFormatting.YELLOW + "* Technically a warcrime");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		if(this == ModItems.ammo_fuel_gas) {
+			list.add(EnumChatFormatting.BLUE + "+ No gravity");
+			list.add(EnumChatFormatting.BLUE + "+ Poison splash");
+			list.add(EnumChatFormatting.RED + "- No damage");
+			list.add(EnumChatFormatting.RED + "- Not incendiary");
+		}
+		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {
 			list.add(EnumChatFormatting.BLUE + "+ Focused starmetal reaction blast");

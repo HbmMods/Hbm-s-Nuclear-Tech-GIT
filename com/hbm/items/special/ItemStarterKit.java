@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;

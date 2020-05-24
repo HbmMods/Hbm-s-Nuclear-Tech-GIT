@@ -3,6 +3,7 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
@@ -14,7 +15,9 @@ import com.hbm.potion.HbmPotion;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -180,7 +183,7 @@ public class BulletConfigFactory {
 		return bullet;
 	}
 	
-	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration) {
+	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion) {
 		
 		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
 
@@ -206,8 +209,52 @@ public class BulletConfigFactory {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "vanillaburst");
 				data.setString("mode", "flame");
-				data.setInteger("count", 100);
-				data.setDouble("motion", 0.5D);
+				data.setInteger("count", count);
+				data.setDouble("motion", motion);
+				
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+			}
+		};
+		
+		return impact;
+	}
+	
+	public static IBulletImpactBehavior getGasEffect(final int radius, final int duration) {
+		
+		IBulletImpactBehavior impact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				List<Entity> hit = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX - radius, bullet.posY - radius, bullet.posZ - radius, bullet.posX + radius, bullet.posY + radius, bullet.posZ + radius));
+				
+				for(Entity e : hit) {
+					
+					if(!Library.isObstructed(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
+						
+						if(e instanceof EntityLivingBase) {
+							
+							if(e instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) e))
+								continue;
+
+							PotionEffect eff0 = new PotionEffect(Potion.poison.id, duration, 2, true);
+							PotionEffect eff1 = new PotionEffect(Potion.digSlowdown.id, duration, 2, true);
+							PotionEffect eff2 = new PotionEffect(Potion.weakness.id, duration, 4, true);
+							eff0.getCurativeItems().clear();
+							eff1.getCurativeItems().clear();
+							eff2.getCurativeItems().clear();
+							((EntityLivingBase)e).addPotionEffect(eff0);
+							((EntityLivingBase)e).addPotionEffect(eff1);
+							((EntityLivingBase)e).addPotionEffect(eff2);
+						}
+					}
+				}
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaburst");
+				data.setString("mode", "cloud");
+				data.setInteger("count", 15);
+				data.setDouble("motion", 0.1D);
 				
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
 			}

@@ -1,5 +1,7 @@
 package com.hbm.items.special;
 
+import com.hbm.items.machine.ItemBattery;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

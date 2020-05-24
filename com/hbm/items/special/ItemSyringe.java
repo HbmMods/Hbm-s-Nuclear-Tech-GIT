@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.gear.JetpackBooster;
-import com.hbm.items.gear.JetpackBreak;
-import com.hbm.items.gear.JetpackRegular;
-import com.hbm.items.gear.JetpackVectorized;
+import com.hbm.items.armor.JetpackBooster;
+import com.hbm.items.armor.JetpackBreak;
+import com.hbm.items.armor.JetpackRegular;
+import com.hbm.items.armor.JetpackVectorized;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;

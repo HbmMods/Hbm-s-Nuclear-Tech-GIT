@@ -1,7 +1,7 @@
 package com.hbm.packet;
 
-import com.hbm.items.tool.ItemCassette.SoundType;
-import com.hbm.items.tool.ItemCassette.TrackType;
+import com.hbm.items.machine.ItemCassette.SoundType;
+import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.sound.SoundLoopSiren;
 import com.hbm.tileentity.machine.TileEntityMachineSiren;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

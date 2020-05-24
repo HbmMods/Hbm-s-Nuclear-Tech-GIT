@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemSatChip;
+import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteMiner;

@@ -2,12 +2,12 @@ package com.hbm.packet;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemAssemblyTemplate;
-import com.hbm.items.tool.ItemAssemblyTemplate.EnumAssemblyTemplate;
-import com.hbm.items.tool.ItemCassette;
-import com.hbm.items.tool.ItemChemistryTemplate;
-import com.hbm.items.tool.ItemChemistryTemplate.EnumChemistryTemplate;
-import com.hbm.items.tool.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemCassette;
+import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemFluidIdentifier;
+import com.hbm.items.machine.ItemAssemblyTemplate.EnumAssemblyTemplate;
+import com.hbm.items.machine.ItemChemistryTemplate.EnumChemistryTemplate;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

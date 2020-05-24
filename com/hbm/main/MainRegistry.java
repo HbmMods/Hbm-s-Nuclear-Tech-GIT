@@ -94,7 +94,7 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
 	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
 	public static ToolMaterial enumToolMaterialCmb = EnumHelper.addToolMaterial("CMB", 3, 8500, 40.0F, 55F, 100);
-	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 4700, 30.0F, 12.0F, 2);
+	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 0, 30.0F, 12.0F, 2);
 	public static ToolMaterial enumToolMaterialDesh = EnumHelper.addToolMaterial("DESH", 2, 0, 7.5F, 2.0F, 10);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
@@ -1177,10 +1177,7 @@ public class MainRegistry
 		OreDictionary.registerOre("plateAdvanced", ModItems.plate_advanced_alloy);
 		OreDictionary.registerOre("plateSchrabidium", ModItems.plate_schrabidium);
 		OreDictionary.registerOre("plateCMBSteel", ModItems.plate_combine_steel);
-		OreDictionary.registerOre("plateDesh", ModItems.plate_desh);
 		OreDictionary.registerOre("plateSaturnite", ModItems.plate_saturnite);
-		OreDictionary.registerOre("plateEuphemium", ModItems.plate_euphemium);
-		OreDictionary.registerOre("plateDineutronium", ModItems.plate_dineutronium);
 		OreDictionary.registerOre("dustIron", ModItems.powder_iron);
 		OreDictionary.registerOre("dustGold", ModItems.powder_gold);
 		OreDictionary.registerOre("dustUranium", ModItems.powder_uranium);
@@ -1411,8 +1408,7 @@ public class MainRegistry
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_empty), FluidType.AMAT, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_anti_schrabidium), new ItemStack(ModItems.cell_empty), FluidType.ASCHRAB, 1000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_sas3), new ItemStack(ModItems.cell_empty), FluidType.SAS3, 1000));
-
-		//FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), new ItemStack(ModBlocks.ore_oil_empty), FluidType.OIL, 250));
+		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.bottle_mercury), new ItemStack(Items.glass_bottle), FluidType.MERCURY, 1000));
 
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 1), new ItemStack(ModItems.tank_waste, 1, 0), FluidType.WATZ, 8000));
 		FluidContainerRegistry.instance.registerContainer(new FluidContainer(new ItemStack(ModItems.tank_waste, 1, 2), new ItemStack(ModItems.tank_waste, 1, 1), FluidType.WATZ, 8000));
@@ -1477,6 +1473,11 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.titanium_plate, 0.12F);
 		HazmatRegistry.instance.registerHazmat(ModItems.titanium_legs, 0.1F);
 		HazmatRegistry.instance.registerHazmat(ModItems.titanium_boots, 0.03F);
+
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_helmet, 0.1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_plate, 0.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_legs, 0.15F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cobalt_boots, 0.05F);
 		
 		HazmatRegistry.instance.registerHazmat(Items.iron_helmet, 0.04F);
 		HazmatRegistry.instance.registerHazmat(Items.iron_chestplate, 0.08F);

@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUINukeSolinium extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/soliniumSchematic.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/soliniumSchematic.png");
 	private TileEntityNukeSolinium testNuke;
 	
 	public GUINukeSolinium(InventoryPlayer invPlayer, TileEntityNukeSolinium tedf) {

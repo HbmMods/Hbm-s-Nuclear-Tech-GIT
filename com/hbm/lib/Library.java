@@ -17,8 +17,10 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidDuct;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.ItemBattery;
+import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.tool.ItemToolAbilityPower;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityCableSwitch;
@@ -45,6 +47,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+@Spaghetti("this whole class")
 public class Library {
 	
 	static Random rand = new Random();
@@ -76,91 +79,6 @@ public class Library {
 	public static void initBooks() {
 		
 	}
-	
-	public static boolean checkArmor(EntityPlayer player, Item helmet, Item plate, Item legs, Item boots) {
-		
-		if(player.inventory.armorInventory[0] != null && 
-				player.inventory.armorInventory[0].getItem() == boots && 
-				player.inventory.armorInventory[1] != null && 
-				player.inventory.armorInventory[1].getItem() == legs && 
-				player.inventory.armorInventory[2] != null && 
-				player.inventory.armorInventory[2].getItem() == plate && 
-				player.inventory.armorInventory[3] != null && 
-				player.inventory.armorInventory[3].getItem() == helmet)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkArmorPiece(EntityPlayer player, Item armor, int slot)
-	{
-		if(player.inventory.armorInventory[slot] != null &&
-				player.inventory.armorInventory[slot].getItem() == armor) 
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkArmorNull(EntityPlayer player, int slot)
-	{
-		if(player.inventory.armorInventory[slot] == null) 
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static void damageSuit(EntityPlayer player, int slot, int amount) {
-		
-		if(player.inventory.armorInventory[slot] == null)
-			return;
-		
-		int j = player.inventory.armorInventory[slot].getItemDamage();
-		player.inventory.armorInventory[slot].setItemDamage(j += amount);
-
-		if(player.inventory.armorInventory[slot].getItemDamage() >= player.inventory.armorInventory[slot].getMaxDamage())
-		{
-			player.inventory.armorInventory[slot] = null;
-		}
-	}
-	
-	//radDura: Radiation duration in seconds
-	//radLevel: Radiation level (0 = I)
-	//maskDura: Radiation duration when wearing gasmask
-	//maskLevel: Radiation level when wearing gasmask
-	/*public static void applyRadiation(Entity e, int radDura, int radLevel, int maskDura, int maskLevel) {
-		
-		if(!(e instanceof EntityLivingBase))
-			return;
-		
-		if(radDura == 0)
-			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-		
-		if(entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)entity;
-			
-			if(checkForHazmat(player))
-				return;
-			
-			if(checkForGasMask(player)) {
-				
-				if(maskDura == 0)
-					return;
-				
-				entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, maskDura * 20, maskLevel));
-				return;
-			}
-		}
-		
-		entity.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, radDura * 20, radLevel));
-	}*/
 	
 	public static void applyRadData(Entity e, float f) {
 
@@ -195,156 +113,12 @@ public class Library {
 		e.getEntityData().setFloat("hfr_radiation", rad + f);
 	}
 	
-	public static boolean checkForHazmat(EntityPlayer player) {
-		
-		if(checkArmor(player, ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots) || 
-				checkArmor(player, ModItems.hazmat_helmet_red, ModItems.hazmat_plate_red, ModItems.hazmat_legs_red, ModItems.hazmat_boots_red) || 
-				checkArmor(player, ModItems.hazmat_helmet_grey, ModItems.hazmat_plate_grey, ModItems.hazmat_legs_grey, ModItems.hazmat_boots_grey) || 
-				checkArmor(player, ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots) || 
-				checkArmor(player, ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots) || 
-				checkForHaz2(player)) {
-			
-			return true;
-		}
-		
-		if(player.isPotionActive(HbmPotion.mutation))
-			return true;
-		
-		return false;
-	}
-	
-	public static boolean checkForHaz2(EntityPlayer player) {
-		
-		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots) || 
-				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkForAsbestos(EntityPlayer player) {
-		
-		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkForFaraday(EntityPlayer player) {
-		
-		ItemStack[] armor = player.inventory.armorInventory;
-		
-		if(armor[0] == null || armor[1] == null || armor[2] == null || armor[3] == null) return false;
-		
-		if(isFaradayArmor(armor[0].getItem()) &&
-				isFaradayArmor(armor[1].getItem()) &&
-				isFaradayArmor(armor[2].getItem()) &&
-				isFaradayArmor(armor[3].getItem()))
-			return true;
-		
-		return false;
-	}
-	
-	public static final String[] metals = new String[] {
-			"chainmail",
-			"iron",
-			"silver",
-			"gold",
-			"platinum",
-			"tin",
-			"lead",
-			"schrabidium",
-			"euphemium",
-			"steel",
-			"cmb",
-			"titanium",
-			"alloy",
-			"copper",
-			"bronze",
-			"electrum",
-			"t45",
-			"hazmat", //also count because rubber is insulating
-			"rubber"
-	};
-	
-	public static boolean isFaradayArmor(Item item) {
-		
-		String name = item.getUnlocalizedName();
-		
-		for(String metal : metals) {
-			
-			if(name.toLowerCase().contains(metal))
-				return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean checkForGasMask(EntityPlayer player) {
-
-		if(checkArmorPiece(player, ModItems.hazmat_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.hazmat_paa_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.gas_mask, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.gas_mask_m65, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3))
-		{
-			return true;
-		}
-		if(checkArmorPiece(player, ModItems.euphemium_helmet, 3))
-		{
-			return true;
-		}
-		
-		if(player.isPotionActive(HbmPotion.mutation))
-			return true;
-		
-		return false;
-	}
-	
 	public static boolean checkForHeld(EntityPlayer player, Item item) {
 		
 		if(player.getHeldItem() == null)
 			return false;
 		
 		return player.getHeldItem().getItem() == item;
-	}
-	
-	public static boolean checkForFiend(EntityPlayer player) {
-		
-		return checkArmorPiece(player, ModItems.jackt, 2) && checkForHeld(player, ModItems.shimmer_sledge);
-	}
-	
-	public static boolean checkForFiend2(EntityPlayer player) {
-		
-		return checkArmorPiece(player, ModItems.jackt2, 2) && checkForHeld(player, ModItems.shimmer_axe);
 	}
 	
 	public static boolean checkCableConnectables(World world, int x, int y, int z)
@@ -436,12 +210,6 @@ public class Library {
 		
 		return false;
 	}
-	
-	//////  //////  //////  //////  //////  ////        //////  //////  //////
-	//      //  //  //        //    //      //  //      //      //      //    
-	////    //////  /////     //    ////    ////        ////    //  //  //  //
-	//      //  //     //     //    //      //  //      //      //  //  //  //
-	//////  //  //  /////     //    //////  //  //      //////  //////  //////
 
 	public static EntityLivingBase getClosestEntityForChopper(World world, double x, double y, double z, double radius) {
 		double d4 = -1.0D;
@@ -468,20 +236,6 @@ public class Library {
 		}
 
 		return entityplayer;
-	}
-
-	public static Item getItemByCode(int i) {
-		
-		if(i == 1337)
-			return ModItems.schrabidium_hammer;
-		if(i == 234)
-			return ModItems.euphemium_kit;
-		if(i == 69)
-			return ModItems.nuke_advanced_kit;
-		if(i == 34)
-			return ModItems.t45_kit;
-		
-		return null;
 	}
 
 	public static EntityPlayer getClosestPlayerForSound(World world, double x, double y, double z, double radius) {
@@ -615,52 +369,21 @@ public class Library {
 		return Long.toString(l);
 	}
 	
+	//not great either but certainly better
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
-			
-			long dR = ((ItemBattery)slots[index].getItem()).getChargeRate();
 
-			while(dR >= 1000000000000L) {
-				if(power - 100000000000000L >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
-				{
-					power -= 100000000000000L;
-					dR -= 1000000000000L;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000000000000L);
-				} else break;
-			}
-			while(dR >= 1000000000) {
-				if(power - 100000000000L >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
-				{
-					power -= 100000000000L;
-					dR -= 1000000000;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000000000);
-				} else break;
-			}
-			while(dR >= 1000000) {
-				if(power - 100000000 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
-				{
-					power -= 100000000;
-					dR -= 1000000;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000000);
-				} else break;
-			}
-			while(dR >= 1000) {
-				if(power - 100000 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
-				{
-					power -= 100000;
-					dR -= 1000;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1000);
-				} else break;
-			}
-			while(dR >= 1) {
-				if(power - 100 >= 0 && ItemBattery.getCharge(slots[index]) < ((ItemBattery)slots[index].getItem()).getMaxCharge())
-				{
-					power -= 100;
-					dR -= 1;
-					((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], 1);
-				} else break;
-			}
+			long batMax = ItemBattery.getMaxChargeStatic(slots[index]);
+			long batCharge = ItemBattery.getCharge(slots[index]);
+			long batRate = ((ItemBattery)slots[index].getItem()).getChargeRate();
+			
+			//in hHE
+			long toCharge = Math.min(Math.min(power / 100, batRate), batMax - batCharge);
+			
+			power -= toCharge * 100;
+			
+			((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], toCharge);
 
 			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
 				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
@@ -671,34 +394,21 @@ public class Library {
 			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
 				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
-		
-		for(int i = 0; i < 50; i++)
-			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_sword && slots[index].getItemDamage() > 0)
-			{
-				power -= 10;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-			} else break;
-	
-		for(int i = 0; i < 50; i++)
-			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_pickaxe && slots[index].getItemDamage() > 0)
-			{
-				power -= 10;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-			} else break;
-	
-		for(int i = 0; i < 50; i++)
-			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_axe && slots[index].getItemDamage() > 0)
-			{
-				power -= 10;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-			} else break;
-	
-		for(int i = 0; i < 50; i++)
-			if(power - 10 >= 0 && slots[index] != null && slots[index].getItem() == ModItems.elec_shovel && slots[index].getItemDamage() > 0)
-			{
-				power -= 10;
-				slots[index].setItemDamage(slots[index].getItemDamage() - 1);
-			} else break;
+
+		if(slots[index] != null && slots[index].getItem() instanceof ItemToolAbilityPower) {
+
+			long batMax = ItemToolAbilityPower.getMaxChargeStatic(slots[index]);
+			long batCharge = ItemToolAbilityPower.getCharge(slots[index]);
+			long batRate = ((ItemToolAbilityPower)slots[index].getItem()).getChargeRate();
+			
+			//in hHE
+			long toCharge = Math.min(Math.min(power / 100, batRate), batMax - batCharge);
+			
+			power -= toCharge * 100;
+			
+			((ItemToolAbilityPower)slots[index].getItem()).chargeBattery(slots[index], toCharge);
+			
+		}
 		
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
 			ItemBattery.updateDamage(slots[index]);
@@ -706,7 +416,8 @@ public class Library {
 		
 		return power;
 	}
-	
+
+	//TODO: rewrite this shit
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
 		
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)
@@ -720,58 +431,23 @@ public class Library {
 		}
 		
 		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
-			ItemBattery.updateDamage(slots[index]);
-		}
-		
-		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
-			
-			long dR = ((ItemBattery)slots[index].getItem()).getDischargeRate();
 
-			while(dR >= 1000000000000L) {
-				if(power + 100000000000000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
-				{
-					power += 100000000000000L;
-					dR -= 1000000000000L;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000000000000L);
-				} else break;
-			}
-			while(dR >= 1000000000) {
-				if(power + 100000000000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
-				{
-					power += 100000000000L;
-					dR -= 1000000000L;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000000000);
-				} else break;
-			}
-			while(dR >= 1000000) {
-				if(power + 100000000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
-				{
-					power += 100000000L;
-					dR -= 1000000;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000000);
-				} else break;
-			}
-			while(dR >= 1000) {
-				if(power + 100000L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
-				{
-					power += 100000L;
-					dR -= 1000;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1000);
-				} else break;
-			}
-			while(dR >= 1) {
-				if(power + 100L <= maxPower && ItemBattery.getCharge(slots[index]) > 0)
-				{
-					power += 100L;
-					dR -= 1;
-					((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], 1);
-				} else break;
-			}
+			long batCharge = ItemBattery.getCharge(slots[index]);
+			long batRate = ((ItemBattery)slots[index].getItem()).getDischargeRate();
+			
+			//in hHe
+			long toDischarge = Math.min(Math.min((maxPower - power) / 100, batRate), batCharge);
+			
+			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], toDischarge);
+			power += toDischarge * 100;
+			
+			ItemBattery.updateDamage(slots[index]);
 		}
 		
 		return power;
 	}
 	
+	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
 	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {

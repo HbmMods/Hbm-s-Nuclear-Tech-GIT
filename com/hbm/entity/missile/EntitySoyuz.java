@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemSatChip;
+import com.hbm.items.machine.ItemSatChip;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.satellites.Satellite;

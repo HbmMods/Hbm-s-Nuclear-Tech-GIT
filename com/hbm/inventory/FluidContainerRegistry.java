@@ -11,26 +11,12 @@ public class FluidContainerRegistry {
 	
 	public static final FluidContainerRegistry instance = new FluidContainerRegistry();
 	
+	//TODO: somehow incorporate hashmaps into this
 	List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
 	
 	public void registerContainer(FluidContainer con) {
 		allContainers.add(con);
 	}
-	
-	/*public static boolean containsFluid(ItemStack stack, FluidType type) {
-		if(stack == null)
-			return false;
-
-		ItemStack sta = stack.copy();
-		sta.stackSize = 1;
-		
-		for(FluidContainer container : instance.allContainers) {
-			if(container.type == type && getEmptyContainer(sta) != null)
-				return container.content > 0;
-		}
-		
-		return false;
-	}*/
 	
 	public static int getFluidContent(ItemStack stack, FluidType type) {
 		

@@ -58,6 +58,7 @@ public class RenderBullet extends Render {
 		int trail = bullet.getDataWatcher().getWatchableObjectByte(17);
 		
 		switch(style) {
+			case BulletConfiguration.STYLE_NONE: break;
 			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
 			case BulletConfiguration.STYLE_BOLT: renderDart(trail); break;
 			case BulletConfiguration.STYLE_FLECHETTE: renderFlechette(); break;

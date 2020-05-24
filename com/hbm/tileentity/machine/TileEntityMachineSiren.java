@@ -1,9 +1,10 @@
 package com.hbm.tileentity.machine;
 
 import java.util.Arrays;
-import com.hbm.items.tool.ItemCassette;
-import com.hbm.items.tool.ItemCassette.SoundType;
-import com.hbm.items.tool.ItemCassette.TrackType;
+
+import com.hbm.items.machine.ItemCassette;
+import com.hbm.items.machine.ItemCassette.SoundType;
+import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TESirenPacket;
 

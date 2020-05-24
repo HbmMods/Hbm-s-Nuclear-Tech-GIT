@@ -35,8 +35,8 @@ import com.hbm.blocks.generic.RedBarrel;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.particle.EntityBSmokeFX;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -497,7 +497,7 @@ public class EntityBullet extends Entity implements IProjectile {
 
 								if (rad) {
 									if (entitylivingbase instanceof EntityPlayer
-											&& Library.checkForHazmat((EntityPlayer) entitylivingbase)) {
+											&& ArmorUtil.checkForHazmat((EntityPlayer) entitylivingbase)) {
 									} else if (entitylivingbase instanceof EntityCreeper) {
 										EntityNuclearCreeper creep = new EntityNuclearCreeper(this.worldObj);
 										creep.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ,

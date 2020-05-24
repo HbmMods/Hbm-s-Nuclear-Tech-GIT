@@ -4,8 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.Library;
-
+import com.hbm.handler.ArmorUtil;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -494,7 +493,7 @@ public class ExplosionThermo {
 		                if (d9 < wat && !(entity instanceof EntityOcelot) && entity instanceof EntityLivingBase)
 		                {
 
-	                    	if(!(entity instanceof EntityPlayer && Library.checkForAsbestos((EntityPlayer) entity))) {
+	                    	if(!(entity instanceof EntityPlayer && ArmorUtil.checkForAsbestos((EntityPlayer) entity))) {
 	                    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 15 * 20, 4));
 	                    		entity.setFire(10);
 	                    	}

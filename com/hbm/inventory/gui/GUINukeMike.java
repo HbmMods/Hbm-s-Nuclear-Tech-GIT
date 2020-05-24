@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUINukeMike extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/ivyMikeSchematic.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/ivyMikeSchematic.png");
 	private TileEntityNukeMike testNuke;
 	
 	public GUINukeMike(InventoryPlayer invPlayer, TileEntityNukeMike tedf) {

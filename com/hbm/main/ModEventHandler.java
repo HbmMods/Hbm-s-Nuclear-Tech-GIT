@@ -11,14 +11,14 @@ import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
-import com.hbm.items.gear.ArmorFSB;
+import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.RadSurveyPacket;
-import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -201,8 +201,10 @@ public class ModEventHandler
 				
 				for(Object o : event.world.playerEntities) {
 					
-					EntityPlayer player = (EntityPlayer)o;
-					PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(player.getEntityData().getFloat("hfr_radiation")), (EntityPlayerMP) player);
+					if(o instanceof EntityPlayerMP) {
+						EntityPlayerMP player = (EntityPlayerMP)o;
+						PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(player.getEntityData().getFloat("hfr_radiation")), player);
+					}
 				}
 				
 				if(event.world.getTotalWorldTime() % 20 == 0) {
@@ -227,18 +229,13 @@ public class ModEventHandler
 								rad = MainRegistry.hellRad;
 							
 							if(rad > 0) {
-								//eData.increaseRad(entity, rad / 2);
-								
-								if(!entity.isPotionActive(HbmPotion.mutation))
-									Library.applyRadData(entity, rad / 2);
+								Library.applyRadData(entity, rad / 2);
 							}
 							
 							if(entity.worldObj.isRaining() && MainRegistry.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 &&
 									entity.worldObj.canBlockSeeTheSky(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))) {
 
-								if(!entity.isPotionActive(HbmPotion.mutation)) {
-									Library.applyRadData(entity, MainRegistry.cont * 0.005F);
-								}
+								Library.applyRadData(entity, MainRegistry.cont * 0.005F);
 							}
 						}
 						
@@ -293,6 +290,11 @@ public class ModEventHandler
 					        	if(entity instanceof EntityPlayer)
 					        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadDeath);
 							}
+							
+							//.attackEntityFrom ensures the recentlyHit var is set to enable drops.
+							//if the attack is canceled, then nothing will drop.
+							//that's what you get for trying to cheat death
+							entity.setHealth(0);
 				        	
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -360,7 +362,7 @@ public class ModEventHandler
 		
 		EntityLivingBase e = event.entityLiving;
 
-		if(e instanceof EntityPlayer && Library.checkArmor((EntityPlayer)e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
+		if(e instanceof EntityPlayer && ArmorUtil.checkArmor((EntityPlayer)e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
 			e.worldObj.playSoundAtEntity(e, "random.break", 5F, 1.0F + e.getRNG().nextFloat() * 0.5F);
 			event.setCanceled(true);
 		}
@@ -617,7 +619,7 @@ public class ModEventHandler
 		EntityPlayerMP player = event.player;
 		String message = event.message;
 		
-		if(!player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && message.startsWith("!")) {
+		if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && message.startsWith("!")) {
 			
 			String m = message.substring(1, message.length()).toLowerCase();
 			
@@ -640,6 +642,10 @@ public class ModEventHandler
 				for(int i = 0 ; i < 5; i++)
 					player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_12gauge_du, 64));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_kit_2, 16));
+			}
+			
+			if("pew".equals(m)) {
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_b92).setStackDisplayName("Meme Machine"));
 			}
 			
 			if("tom".equals(m)) {

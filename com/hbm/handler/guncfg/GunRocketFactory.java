@@ -277,7 +277,7 @@ public class GunRocketFactory {
 		bullet.incendiary = 5;
 		bullet.trail = 9;
 		
-		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20);
+		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(10, 60 * 20, 100, 0.5D);
 		
 		return bullet;
 	}

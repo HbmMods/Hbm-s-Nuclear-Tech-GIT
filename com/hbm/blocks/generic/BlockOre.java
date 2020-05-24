@@ -74,7 +74,7 @@ public class BlockOre extends Block {
 		}
 		if(this == ModBlocks.ore_nether_fire)
 		{
-			return rand.nextInt(3) == 0 ? ModItems.ingot_phosphorus : Items.blaze_powder;
+			return rand.nextInt(10) == 0 ? ModItems.ingot_phosphorus : ModItems.powder_fire;
 		}
 		if(this == ModBlocks.block_meteor)
 		{

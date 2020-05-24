@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -12,9 +13,9 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCatalyst;
+import com.hbm.items.machine.ItemSatChip;
 import com.hbm.items.special.ItemAMSCore;
-import com.hbm.items.special.ItemCatalyst;
-import com.hbm.items.tool.ItemSatChip;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxElectricityPacket;
@@ -424,7 +425,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 10 + 0.5, yCoord - 10 + 0.5 + 6, zCoord - 10 + 0.5, xCoord + 10 + 0.5, yCoord + 10 + 0.5 + 6, zCoord + 10 + 0.5));
 		
 		for(Entity e : list) {
-			if(!(e instanceof EntityPlayer && Library.checkForHazmat((EntityPlayer)e)))
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHazmat((EntityPlayer)e)))
 				if(!Library.isObstructed(worldObj, xCoord + 0.5, yCoord + 0.5 + 6, zCoord + 0.5, e.posX, e.posY + e.getEyeHeight(), e.posZ)) {
 					e.attackEntityFrom(ModDamageSource.ams, 1000);
 					e.setFire(3);
@@ -434,7 +435,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 		List<Entity> list2 = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - scale + 0.5, yCoord - scale + 0.5 + 6, zCoord - scale + 0.5, xCoord + scale + 0.5, yCoord + scale + 0.5 + 6, zCoord + scale + 0.5));
 		
 		for(Entity e : list2) {
-			if(!(e instanceof EntityPlayer && Library.checkForHaz2((EntityPlayer)e)))
+			if(!(e instanceof EntityPlayer && ArmorUtil.checkForHaz2((EntityPlayer)e)))
 					e.attackEntityFrom(ModDamageSource.amsCore, 10000);
 		}
 	}
