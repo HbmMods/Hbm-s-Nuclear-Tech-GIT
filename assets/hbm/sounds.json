@@ -55,7 +55,7 @@
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},
 	"music.recordVortalCombat": {"category": "record", "sounds": [{"name": "music/recordVortalCombat", "stream": true}]},
-	"music.transmission": {"category": "record", "sounds": [{"name": "music/transmission", "stream": true}]},
+	"music.transmission": {"category": "record", "sounds": [{"name": "music/recordGlass", "stream": true}]},
 
 	"weapon.tauShoot": {"category": "player", "sounds": [{"name": "weapon/tauShoot", "stream": false}]},
 	"weapon.tauChargeLoop2": {"category": "player", "sounds": [{"name": "weapon/tauChargeLoop2", "stream": true}]},
@@ -122,6 +122,7 @@
 	"weapon.tesla": {"category": "block", "sounds": ["weapon/tesla1", "weapon/tesla2", "weapon/tesla3", "weapon/tesla4"]},
     "weapon.teslaShoot": {"category": "player", "sounds": [{"name": "weapon/teslaShoot", "stream": false}]},
     "weapon.flamerReload": {"category": "player", "sounds": [{"name": "weapon/flamerReload", "stream": false}]},
+	"weapon.stop": {"category": "player", "sounds": ["weapon/stop1", "weapon/stop2"]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

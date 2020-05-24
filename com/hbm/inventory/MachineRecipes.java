@@ -5333,12 +5333,18 @@ public class MachineRecipes {
         	break;
         case DYN_SCHRAB:
 			output[0] = new ItemStack(ModItems.ingot_schrabidium, 1);
+			output[1] = new ItemStack(ModItems.powder_desh, 12);
+			output[2] = new ItemStack(ModItems.powder_desh_mix, 12);
         	break;
         case DYN_EUPH:
 			output[0] = new ItemStack(ModItems.nugget_euphemium, 12);
+			output[1] = new ItemStack(ModItems.powder_schrabidium, 4);
+			output[2] = new ItemStack(ModItems.powder_power, 4);
         	break;
         case DYN_DNT:
 			output[0] = new ItemStack(ModItems.ingot_dineutronium, 1);
+			output[1] = new ItemStack(ModItems.powder_euphemium, 8);
+			output[2] = new ItemStack(ModItems.powder_nitan_mix, 8);
         	break;
         case CORDITE:
 			output[0] = new ItemStack(ModItems.cordite, 4);

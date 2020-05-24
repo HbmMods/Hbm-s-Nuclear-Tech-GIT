@@ -73,6 +73,9 @@ tool.ability.hammer=AoE
 tool.ability.smelter=Auto-Smelter
 tool.ability.shredder=Auto-Shredder
 tool.ability.centrifuge=Auto-Centrifuge
+weapon.ability.radiation=Radioactive Blade
+weapon.ability.vampire=Vampire
+weapon.ability.stun=Stunning
 
 hbmfluid.none=None
 hbmfluid.water=Water
@@ -2118,6 +2121,11 @@ item.desh_pickaxe.name=Worker's Alloy Pickaxe
 item.desh_axe.name=Worker's Alloy Axe
 item.desh_shovel.name=Worker's Alloy Shovel
 item.desh_hoe.name=Worker's Alloy Hoe
+item.cobalt_sword.name=Cobalt Sword
+item.cobalt_pickaxe.name=Cobalt Pickaxe
+item.cobalt_axe.name=Cobalt Axe
+item.cobalt_shovel.name=Cobalt Shovel
+item.cobalt_hoe.name=Cobalt Hoe
 
 tile.red_cable.name=Red Copper Cable
 

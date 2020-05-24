@@ -143,6 +143,9 @@ public class WeaponSpecial extends ItemSword {
 				}
 			}
 		}
+
+		if(this == ModItems.stopsign || this == ModItems.sopsign)
+        	world.playSoundAtEntity(entity, "hbm:weapon.stop", 1.0F, 1.0F);
 		
 		return false;
     }

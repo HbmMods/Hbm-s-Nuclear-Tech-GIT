@@ -90,12 +90,13 @@ public class MainRegistry
 	public static ToolMaterial enumToolMaterialSchrabidium = EnumHelper.addToolMaterial("SCHRABIDIUM", 3, 10000, 50.0F, 100.0F, 200);
 	public static ToolMaterial enumToolMaterialHammer = EnumHelper.addToolMaterial("SCHRABIDIUMHAMMER", 3, 0, 50.0F, 999999996F, 200);
 	public static ToolMaterial enumToolMaterialChainsaw = EnumHelper.addToolMaterial("CHAINSAW", 3, 1500, 50.0F, 22.0F, 0);
-	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("STEEL", 2, 500, 7.5F, 2.0F, 10);
-	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("TITANIUM", 3, 750, 9.0F, 2.5F, 15);
-	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("ALLOY", 3, 2000, 15.0F, 5.0F, 5);
+	public static ToolMaterial enumToolMaterialSteel = EnumHelper.addToolMaterial("HBM_STEEL", 2, 500, 7.5F, 2.0F, 10);
+	public static ToolMaterial enumToolMaterialTitanium = EnumHelper.addToolMaterial("HBM_TITANIUM", 3, 750, 9.0F, 2.5F, 15);
+	public static ToolMaterial enumToolMaterialAlloy= EnumHelper.addToolMaterial("HBM_ALLOY", 3, 2000, 15.0F, 5.0F, 5);
 	public static ToolMaterial enumToolMaterialCmb = EnumHelper.addToolMaterial("CMB", 3, 8500, 40.0F, 55F, 100);
 	public static ToolMaterial enumToolMaterialElec = EnumHelper.addToolMaterial("ELEC", 3, 0, 30.0F, 12.0F, 2);
 	public static ToolMaterial enumToolMaterialDesh = EnumHelper.addToolMaterial("DESH", 2, 0, 7.5F, 2.0F, 10);
+	public static ToolMaterial enumToolMaterialCobalt = EnumHelper.addToolMaterial("HBM_COBALT", 3, 750, 9.0F, 2.5F, 15);
 
 	public static ToolMaterial enumToolMaterialSaw = EnumHelper.addToolMaterial("SAW", 2, 750, 2.0F, 3.5F, 25);
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
@@ -1457,6 +1458,11 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.security_plate, 0.4F);
 		HazmatRegistry.instance.registerHazmat(ModItems.security_legs, 0.3F);
 		HazmatRegistry.instance.registerHazmat(ModItems.security_boots, 0.1F);
+		
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_helmet, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_plate, 1.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_legs, 0.9F);
+		HazmatRegistry.instance.registerHazmat(ModItems.starmetal_boots, 0.3F);
 
 		HazmatRegistry.instance.registerHazmat(ModItems.jackt, 0.3F);
 		HazmatRegistry.instance.registerHazmat(ModItems.jackt2, 0.3F);

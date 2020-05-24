@@ -73,6 +73,9 @@ tool.ability.hammer=AoE
 tool.ability.smelter=Auto-Ofen
 tool.ability.shredder=Auto-Brecher
 tool.ability.cnetrifuge=Auto-Zentrifuge
+weapon.ability.radiation=Radioaktive Schneide
+weapon.ability.vampire=Vampir
+weapon.ability.stun=Betäubend
 
 hbmfluid.none=Nichts
 hbmfluid.water=Wasser
@@ -2118,6 +2121,11 @@ item.desh_pickaxe.name=Arbeitslegierungsspitzhacke
 item.desh_axe.name=Arbeitslegierungsaxt
 item.desh_shovel.name=Arbeitslegierungsschaufel
 item.desh_hoe.name=Arbeitslegierungsfeldhacke
+item.cobalt_sword.name=Kobaltschwert
+item.cobalt_pickaxe.name=Kobaltspitzhacke
+item.cobalt_axe.name=Kobaltaxt
+item.cobalt_shovel.name=Kobaltschaufel
+item.cobalt_hoe.name=Kobaltfeldhacke
 
 tile.red_cable.name=Rotes Kupferkabel
 

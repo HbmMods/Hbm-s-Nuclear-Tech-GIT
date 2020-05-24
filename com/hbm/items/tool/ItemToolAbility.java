@@ -9,17 +9,21 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.hbm.handler.ToolAbility;
+import com.hbm.handler.WeaponAbility;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,10 +38,12 @@ import net.minecraftforge.event.world.BlockEvent;
 public class ItemToolAbility extends ItemTool {
 	
 	private EnumToolType toolType;
+	private EnumRarity rarity = EnumRarity.common;
 	//was there a reason for this to be private?
     protected float damage;
     protected double movement;
     private List<ToolAbility> breakAbility = new ArrayList() {{ add(null); }};
+    private List<WeaponAbility> hitAbility = new ArrayList();
 	
 	public static enum EnumToolType {
 		
@@ -79,6 +85,38 @@ public class ItemToolAbility extends ItemTool {
 		this.breakAbility.add(breakAbility);
 		return this;
 	}
+	
+	public ItemToolAbility addHitAbility(WeaponAbility weaponAbility) {
+		this.hitAbility.add(weaponAbility);
+		return this;
+	}
+	
+	//<insert obvious Rarity joke here>
+	public ItemToolAbility setRarity(EnumRarity rarity) {
+		this.rarity = rarity;
+		return this;
+	}
+	
+    public EnumRarity getRarity(ItemStack stack) {
+        return this.rarity != EnumRarity.common ? this.rarity : super.getRarity(stack);
+    }
+    
+    public boolean hitEntity(ItemStack stack, EntityLivingBase victim, EntityLivingBase attacker) {
+
+    	if(!attacker.worldObj.isRemote && !this.hitAbility.isEmpty() && attacker instanceof EntityPlayer && canOperate(stack)) {
+    		
+    		for(WeaponAbility ability : this.hitAbility) {
+				ability.onHit(attacker.worldObj, (EntityPlayer) attacker, victim, this);
+    		}
+    	}
+    	
+    	if(this.toolType == EnumToolType.SWORD)
+    		stack.damageItem(1, attacker);
+    	else
+    		stack.damageItem(2, attacker);
+        
+        return true;
+    }
 
     @Override
     public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
@@ -228,12 +266,24 @@ public class ItemToolAbility extends ItemTool {
     		list.add("Right click to cycle through abilities!");
     		list.add("Sneak-click to turn abilitty off!");
     	}
+    	
+    	if(!this.hitAbility.isEmpty()) {
+    		
+    		list.add("Weapon modifiers: ");
+    		
+    		for(WeaponAbility ability : this.hitAbility) {
+				list.add("  " + EnumChatFormatting.RED + ability.getFullName());
+    		}
+    	}
     }
     
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
     	
-    	if(world.isRemote || this.breakAbility.isEmpty() || !canOperate(stack))
-    		return stack;
+    	if(this.toolType == EnumToolType.SWORD)
+    		player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+    	
+    	if(world.isRemote || this.breakAbility.size() < 2 || !canOperate(stack))
+    		return super.onItemRightClick(stack, world, player);
     	
     	int i = getAbility(stack);
     	i++;
@@ -252,6 +302,20 @@ public class ItemToolAbility extends ItemTool {
         world.playSoundAtEntity(player, "random.orb", 0.25F, getCurrentAbility(stack) == null ? 0.75F : 1.25F);
     	
     	return stack;
+    }
+    
+    public int getMaxItemUseDuration(ItemStack stack) {
+    	if(this.toolType == EnumToolType.SWORD)
+    		return 72000;
+    	else
+    		return super.getMaxItemUseDuration(stack);
+    }
+    
+    public EnumAction getItemUseAction(ItemStack stack) {
+    	if(this.toolType == EnumToolType.SWORD)
+    		return EnumAction.block;
+    	else
+    		return super.getItemUseAction(stack);
     }
     
     private ToolAbility getCurrentAbility(ItemStack stack) {
