@@ -48,8 +48,7 @@ public class ItemToolAbility extends ItemTool {
 	public static enum EnumToolType {
 		
 		SWORD(
-				Sets.newHashSet(new Material[] { Material.plants, Material.vine, Material.coral, Material.leaves, Material.gourd }),
-				Sets.newHashSet(new Block[] { Blocks.web })
+				Sets.newHashSet(new Material[] { Material.plants, Material.vine, Material.coral, Material.leaves, Material.gourd , Material.web })
 		),
 		PICKAXE(
 				Sets.newHashSet(new Material[] { Material.iron, Material.anvil, Material.rock }),
@@ -62,7 +61,14 @@ public class ItemToolAbility extends ItemTool {
 		SHOVEL(
 				Sets.newHashSet(new Material[] { Material.clay, Material.sand, Material.ground, Material.snow, Material.craftedSnow }),
 				Sets.newHashSet(new Block[] { Blocks.grass, Blocks.dirt, Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow, Blocks.clay, Blocks.farmland, Blocks.soul_sand, Blocks.mycelium })
+		),
+		MINER(
+				Sets.newHashSet(new Material[] { Material.iron, Material.anvil, Material.rock, Material.clay, Material.sand, Material.ground, Material.snow, Material.craftedSnow })
 		);
+		
+		private EnumToolType(Set<Material> materials) {
+			this.materials = materials;
+		}
 		
 		private EnumToolType(Set<Material> materials, Set<Block> blocks) {
 			this.materials = materials;

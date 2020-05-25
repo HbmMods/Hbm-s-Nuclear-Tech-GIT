@@ -283,7 +283,7 @@ public class ModEventHandler
 						if(eRad > 2500)
 							entity.getEntityData().setFloat("hfr_radiation", 2500);
 						
-						if(eRad >= 1000) {
+						if(eRad >= 1000 && !(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)) {
 							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100)) {
 								entity.getEntityData().setFloat("hfr_radiation", 0);
 
@@ -294,7 +294,7 @@ public class ModEventHandler
 							//.attackEntityFrom ensures the recentlyHit var is set to enable drops.
 							//if the attack is canceled, then nothing will drop.
 							//that's what you get for trying to cheat death
-							entity.setHealth(0);
+				        	entity.setHealth(0);
 				        	
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)

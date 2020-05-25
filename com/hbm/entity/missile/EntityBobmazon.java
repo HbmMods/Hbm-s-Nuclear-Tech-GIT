@@ -49,10 +49,7 @@ public class EntityBobmazon extends Entity {
 					EntityItem pack = new EntityItem(worldObj, posX, posY + 2, posZ, payload);
 					pack.motionX = 0;
 					pack.motionZ = 0;
-					if(!worldObj.spawnEntityInWorld(pack))
-						System.out.println("BBBBBBBBBBB");
-				} else {
-					System.out.println("AAAAAAAAAAAA");
+					worldObj.spawnEntityInWorld(pack);
 				}
 				
 				this.setDead();

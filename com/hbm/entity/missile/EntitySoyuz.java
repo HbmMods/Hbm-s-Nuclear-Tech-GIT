@@ -127,15 +127,11 @@ public class EntitySoyuz extends Entity {
 			capsule.payload = this.payload;
 			capsule.soyuz = this.getSkin();
 			capsule.setPosition(targetX + 0.5, 600, targetZ + 0.5);
-			System.out.println(capsule.posX + " " + capsule.posZ);
 			
 			IChunkProvider provider = worldObj.getChunkProvider();
 			provider.loadChunk(targetX >> 4, targetZ >> 4);
 			
-			if(worldObj.spawnEntityInWorld(capsule))
-				System.out.println("Success!");
-			else
-				System.out.println("Crap.");
+			worldObj.spawnEntityInWorld(capsule);
 		}
 		
 		this.setDead();

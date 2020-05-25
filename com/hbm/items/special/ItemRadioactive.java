@@ -46,7 +46,7 @@ public class ItemRadioactive extends ItemCustomLore {
 		if (entity instanceof EntityLivingBase) {
 			
 			if(this.radiation > 0)
-				Library.applyRadData(entity, this.radiation / 20F);
+				Library.applyRadData(entity, this.radiation * mod / 20F);
 			
 			if(this.fire)
 				entity.setFire(5);

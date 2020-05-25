@@ -123,6 +123,7 @@
     "weapon.teslaShoot": {"category": "player", "sounds": [{"name": "weapon/teslaShoot", "stream": false}]},
     "weapon.flamerReload": {"category": "player", "sounds": [{"name": "weapon/flamerReload", "stream": false}]},
 	"weapon.stop": {"category": "player", "sounds": ["weapon/stop1", "weapon/stop2"]},
+    "weapon.bonk": {"category": "player", "sounds": [{"name": "weapon/bonk", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

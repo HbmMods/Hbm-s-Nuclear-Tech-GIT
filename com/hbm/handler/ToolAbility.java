@@ -1,5 +1,6 @@
 package com.hbm.handler;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 public abstract class ToolAbility {
 	

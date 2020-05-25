@@ -132,7 +132,6 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
         this.dataWatcher.addObject(8, Integer.valueOf(this.health));
 
         if(template != null) {
-	        System.out.println("yeah");
 	        this.dataWatcher.addObject(9, Integer.valueOf(Item.getIdFromItem(template.warhead)));
 	        this.dataWatcher.addObject(10, Integer.valueOf(Item.getIdFromItem(template.fuselage)));
 	        

@@ -497,8 +497,6 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 	// itemstack in slots[id] has to contain ItemFuelRod item
 	private void onRunOut(int id) {
 
-		System.out.println("aaa");
-
 		Item item = slots[id].getItem();
 
 		if (item == ModItems.rod_uranium_fuel) {

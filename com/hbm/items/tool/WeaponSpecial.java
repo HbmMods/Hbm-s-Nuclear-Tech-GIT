@@ -60,7 +60,7 @@ public class WeaponSpecial extends ItemSword {
         	{
         		entity.setHealth(0.0F);
         	}
-        	world.playSoundAtEntity(entity, "random.anvil_land", 3.0F, 0.1F);
+        	world.playSoundAtEntity(entity, "hbm:weapon.bonk", 3.0F, 1.0F);
 		}
 
 		if(this == ModItems.bottle_opener) {
