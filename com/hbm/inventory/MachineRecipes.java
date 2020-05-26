@@ -122,6 +122,9 @@ public class MachineRecipes {
 	}
 
 	public static ItemStack[] getCentrifugeOutput(ItemStack item) {
+		
+		if(item == null || item.getItem() == null)
+			return null;
 
 		ItemStack[] test = new ItemStack[] { new ItemStack(Items.apple, 3), new ItemStack(Items.leather, 1),
 				new ItemStack(Items.sugar, 3), new ItemStack(Items.blaze_powder, 2) };
@@ -327,7 +330,7 @@ public class MachineRecipes {
 			return copper;
 		}
 
-		if (mODE(item, "oreRedstone")) {
+		if (mODE(item, "oreRedstone") || item.getItem() == Item.getItemFromBlock(Blocks.lit_redstone_ore)) {
 			return redstone;
 		}
 
@@ -2070,6 +2073,9 @@ public class MachineRecipes {
 	}
 	
 	public static ItemStack getShredderResult(ItemStack stack) {
+		
+		if(stack == null || stack.getItem() == null)
+			return new ItemStack(ModItems.scrap);
 		
 		ItemStack sta = shredderRecipes.get(new StackWrapper(stack));
 		

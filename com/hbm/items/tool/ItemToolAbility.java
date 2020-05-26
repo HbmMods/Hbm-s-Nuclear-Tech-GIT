@@ -30,6 +30,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -300,7 +301,10 @@ public class ItemToolAbility extends ItemTool {
     	setAbility(stack, i % this.breakAbility.size());
     	
     	if(getCurrentAbility(stack) != null) {
-    		player.addChatComponentMessage(new ChatComponentText("[Enabled " + getCurrentAbility(stack).getFullName() + "]"));
+    		player.addChatComponentMessage(
+    				new ChatComponentText("[Enabled ")
+    				.appendSibling(new ChatComponentTranslation(getCurrentAbility(stack).getName(), new Object[0]))
+    				.appendSibling(new ChatComponentText("]")));
     	} else {
     		player.addChatComponentMessage(new ChatComponentText("[Tool ability deactivated]"));
     	}

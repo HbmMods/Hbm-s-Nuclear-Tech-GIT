@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
@@ -152,6 +153,10 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
 			
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
+			
 			ItemStack stack = new ItemStack(block, 1, meta);
 			ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(stack);
 			
@@ -177,6 +182,10 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
 			
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
+			
 			ItemStack stack = new ItemStack(block, 1, meta);
 			ItemStack result = MachineRecipes.getShredderResult(stack);
 			
@@ -201,6 +210,10 @@ public abstract class ToolAbility {
 
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+			
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
 			
 			ItemStack stack = new ItemStack(block, 1, meta);
 			ItemStack[] result = MachineRecipes.getCentrifugeProcessingResult(stack);

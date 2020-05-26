@@ -1330,7 +1330,12 @@ public class MainRegistry
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.powder_fire, 6));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.packed_ice), new ItemStack(ModItems.powder_ice, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_light), new ItemStack(Items.clay_ball, 4));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.concrete), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.concrete_smooth), new ItemStack(Blocks.gravel, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete_mossy), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete_cracked), new ItemStack(Blocks.gravel, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_concrete_broken), new ItemStack(Blocks.gravel, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.brick_obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.obsidian), new ItemStack(ModBlocks.gravel_obsidian, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stone), new ItemStack(Blocks.gravel, 1));
@@ -1360,6 +1365,12 @@ public class MainRegistry
 		MachineRecipes.overridePreSetRecipe(new ItemStack(Items.enchanted_book), new ItemStack(ModItems.powder_magic, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_burnt), new ItemStack(ModItems.powder_coal, 1));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.arc_electrode_desh), new ItemStack(ModItems.powder_desh, 2));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.meteor_polished), new ItemStack(ModItems.powder_meteorite, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.meteor_brick), new ItemStack(ModItems.powder_meteorite, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.meteor_brick_mossy), new ItemStack(ModItems.powder_meteorite, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.meteor_brick_cracked), new ItemStack(ModItems.powder_meteorite, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.meteor_brick_chiseled), new ItemStack(ModItems.powder_meteorite, 1));
+		MachineRecipes.overridePreSetRecipe(new ItemStack(ModBlocks.meteor_pillar), new ItemStack(ModItems.powder_meteorite, 1));
 
 		for(int i = 0; i < 16; i++) {
 			MachineRecipes.overridePreSetRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
