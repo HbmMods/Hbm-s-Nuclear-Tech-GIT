@@ -45,11 +45,15 @@ public class ContainerCore extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 2) {
-				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true))
+            if (par2 <= nukeBoy.getSizeInventory() - 1) {
+				if (!this.mergeItemStack(var5, nukeBoy.getSizeInventory(), this.inventorySlots.size(), true))
 				{
 					return null;
 				}
+			}
+			else if (!this.mergeItemStack(var5, 0, nukeBoy.getSizeInventory(), false))
+			{
+					return null;
 			}
 			
 			if (var5.stackSize == 0)

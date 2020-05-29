@@ -75,8 +75,6 @@ public class GunButtonPacket implements IMessage {
 				}
 			}
 			
-			//System.out.println(m.button + ": " + m.state);
-			
 			return null;
 		}
 	}

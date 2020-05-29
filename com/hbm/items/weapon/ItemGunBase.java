@@ -62,7 +62,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			
 			if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && world.isRemote) {
 				updateClient(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
-			} else if(isCurrentItem) {
+			} else {
 				updateServer(stack, world, (EntityPlayer)entity, slot, isCurrentItem);
 			}
 		}
@@ -124,7 +124,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			}
 		} else {
 
-			if(left) {
+			/*if(left) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
 				m1 = false;
 				endActionClient(stack, world, entity, true);
@@ -133,7 +133,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
 				m2 = false;
 				endActionClient(stack, world, entity, false);
-			}
+			}*/
 		}
 	}
 	
@@ -141,12 +141,19 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		if(getDelay(stack) > 0 && isCurrentItem)
 			setDelay(stack, getDelay(stack) - 1);
+
+		if(getIsMouseDown(stack) && !(player.getHeldItem() == stack)) {
+			setIsMouseDown(stack, false);
+		}
+		
+		if(getIsAltDown(stack) && !isCurrentItem) {
+			setIsAltDown(stack, false);
+		}
 			
 		if(MainRegistry.enableGuns && mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
 			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
-			//setMag(stack, getMag(stack) - 1);
 			useUpAmmo(player, stack);
 		}
 		

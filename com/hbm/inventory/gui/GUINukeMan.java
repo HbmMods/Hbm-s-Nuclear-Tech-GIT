@@ -14,7 +14,7 @@ import com.hbm.tileentity.bomb.TileEntityNukeMan;
 
 public class GUINukeMan extends GuiContainer {
 	
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fatManSchematic.png");
+	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/fatManSchematic.png");
 	private TileEntityNukeMan testNuke;
 	
 	public GUINukeMan(InventoryPlayer invPlayer, TileEntityNukeMan tedf) {

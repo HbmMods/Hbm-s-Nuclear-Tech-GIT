@@ -170,8 +170,6 @@ public class ItemToolAbility extends ItemTool {
         return multimap;
     }
     
-    //that's slimelad's code
-    //creative commons 3 and all that jazz
     public void breakExtraBlock(World world, int x, int y, int z, EntityPlayer playerEntity, int refX, int refY, int refZ) {
     	
         if (world.isAirBlock(x, y, z))

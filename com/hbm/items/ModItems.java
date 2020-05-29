@@ -56,6 +56,7 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -2599,9 +2600,9 @@ public class ModItems {
 		rod_schrabidium_fuel_depleted = new ItemRadioactive(40F, true).setUnlocalizedName("rod_schrabidium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_schrabidium_fuel_depleted");
 		rod_dual_schrabidium_fuel_depleted = new ItemRadioactive(80F, true).setUnlocalizedName("rod_dual_schrabidium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_schrabidium_fuel_depleted");
 		rod_quad_schrabidium_fuel_depleted = new ItemRadioactive(160F, true).setUnlocalizedName("rod_quad_schrabidium_fuel_depleted").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_schrabidium_fuel_depleted");
-		rod_waste = new ItemRadioactive(15F).setUnlocalizedName("rod_waste").setMaxStackSize(1).setCreativeTab(null).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_waste");
-		rod_dual_waste = new ItemRadioactive(30F).setUnlocalizedName("rod_dual_waste").setMaxStackSize(1).setCreativeTab(null).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_waste");
-		rod_quad_waste = new ItemRadioactive(60F).setUnlocalizedName("rod_quad_waste").setMaxStackSize(1).setCreativeTab(null).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_waste");
+		rod_waste = new ItemRadioactive(15F).setUnlocalizedName("rod_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_waste");
+		rod_dual_waste = new ItemRadioactive(30F).setUnlocalizedName("rod_dual_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_waste");
+		rod_quad_waste = new ItemRadioactive(60F).setUnlocalizedName("rod_quad_waste").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_waste");
 
 		pellet_cluster = new ItemCustomLore().setUnlocalizedName("pellet_cluster").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_cluster");
 		powder_fire = new ItemCustomLore().setUnlocalizedName("powder_fire").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_red_phosphorus");
@@ -3401,28 +3402,32 @@ public class ModItems {
 		
 		schrabidium_sword = new ItemToolAbility(150, 0, MainRegistry.tMatSchrab, EnumToolType.SWORD)
 				.addHitAbility(new WeaponAbility.RadiationAbility(50F))
-				.addHitAbility(new WeaponAbility.VampireAbility(2F)).setUnlocalizedName("schrabidium_sword").setTextureName(RefStrings.MODID + ":schrabidium_sword");
+				.addHitAbility(new WeaponAbility.VampireAbility(2F))
+				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_sword").setTextureName(RefStrings.MODID + ":schrabidium_sword");
 		
 		schrabidium_pickaxe = new ItemToolAbility(20, 0, MainRegistry.tMatSchrab, EnumToolType.PICKAXE)
 				.addHitAbility(new WeaponAbility.RadiationAbility(15F))
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(10))
 				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility()).setUnlocalizedName("schrabidium_pickaxe").setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
+				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_pickaxe").setTextureName(RefStrings.MODID + ":schrabidium_pickaxe");
 		
 		schrabidium_axe = new ItemToolAbility(25, 0, MainRegistry.tMatSchrab, EnumToolType.AXE)
 				.addHitAbility(new WeaponAbility.RadiationAbility(15F))
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(10))
 				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility()).setUnlocalizedName("schrabidium_axe").setTextureName(RefStrings.MODID + ":schrabidium_axe");
+				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_axe").setTextureName(RefStrings.MODID + ":schrabidium_axe");
 		
 		schrabidium_shovel = new ItemToolAbility(15, 0, MainRegistry.tMatSchrab, EnumToolType.SHOVEL)
 				.addHitAbility(new WeaponAbility.RadiationAbility(15F))
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(10))
 				.addBreakAbility(new ToolAbility.SmelterAbility())
-				.addBreakAbility(new ToolAbility.ShredderAbility()).setUnlocalizedName("schrabidium_shovel").setTextureName(RefStrings.MODID + ":schrabidium_shovel");
+				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_shovel").setTextureName(RefStrings.MODID + ":schrabidium_shovel");
 		
 		schrabidium_hoe = new HoeSchrabidium(MainRegistry.tMatSchrab).setUnlocalizedName("schrabidium_hoe").setTextureName(RefStrings.MODID + ":schrabidium_hoe");
 		
