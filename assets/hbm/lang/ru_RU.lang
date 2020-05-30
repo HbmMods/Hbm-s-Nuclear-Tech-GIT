@@ -75,6 +75,9 @@ tool.ability.hammer=AoE
 tool.ability.smelter=Авто-плавка
 tool.ability.shredder=Авто-измельчитель
 tool.ability.centrifuge=Авто-центрифуга
+weapon.ability.radiation=Радиоактивные Лезвия
+weapon.ability.vampire=Вампир
+weapon.ability.stun=Оглушение
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -816,7 +819,7 @@ tile.block_daffergon.name=Блок Даффергона
 tile.block_verticium.name=Блок Вертициума
 tile.block_desh.name=Усиленный Блок Деша
 tile.block_yellowcake.name=Блок Йеллоукейка
-tile.block_starmetal.name=Блок §9Звёздного Металла§r
+tile.block_starmetal.name=§9Блок Звёздного Металла§r
 tile.block_insulator.name=Рулон Изолятора
 tile.block_fiberglass.name=Рулон Стекловолокна
 tile.block_asbestos.name=Блок Асбестоса
@@ -2127,6 +2130,12 @@ item.desh_pickaxe.name=Кирка из Рабочего Сплава
 item.desh_axe.name=Топор из Рабочего Сплава
 item.desh_shovel.name=Лопата из Рабочего Сплава
 item.desh_hoe.name=Мотыга из Рабочего Сплава
+item.cobalt_sword.name=Кобальтовый Меч
+item.cobalt_pickaxe.name=Кобальтовая Кирка
+item.cobalt_axe.name=Кобальтовый Топор
+item.cobalt_shovel.name=Кобальтовая Лопата
+item.cobalt_hoe.name=Кобальтовая Мотыга
+item.centri_stick.name=Центрифуга на палке
 
 tile.red_cable.name=Кабель из Красной Меди
 
