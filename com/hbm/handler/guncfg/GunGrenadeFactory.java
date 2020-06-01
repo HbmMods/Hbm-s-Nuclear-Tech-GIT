@@ -46,7 +46,9 @@ public class GunGrenadeFactory {
 		config.config.add(BulletConfigSyncingUtil.GRENADE_FINNED);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.GRENADE_NUCLEAR);
-		config.durability = 140;
+		config.config.add(BulletConfigSyncingUtil.GRENADE_TRACER);
+		config.config.add(BulletConfigSyncingUtil.GRENADE_KAMPF);
+		config.durability = 300;
 		
 		return config;
 	}
@@ -166,6 +168,7 @@ public class GunGrenadeFactory {
 		bullet.ammo = ModItems.ammo_grenade_finned;
 		bullet.gravity = 0.02;
 		bullet.explosive = 1.5F;
+		bullet.trail = 5;
 		
 		return bullet;
 	}
@@ -178,6 +181,36 @@ public class GunGrenadeFactory {
 		bullet.velocity = 4;
 		bullet.explosive = 0.0F;
 		bullet.nuke = 15;
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getGrenadeTracerConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_tracer;
+		bullet.velocity = 2.0F;
+		bullet.wear = 10;
+		bullet.explosive = 0F;
+		bullet.trail = 5;
+		bullet.vPFX = "bluedust";
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getGrenadeKampfConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_grenade_kampf;
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.0D;
+		bullet.wear = 15;
+		bullet.explosive = 3.5F;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.trail = 4;
+		bullet.vPFX = "smoke";
 		
 		return bullet;
 	}

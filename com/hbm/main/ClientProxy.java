@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
@@ -60,6 +60,7 @@ import com.hbm.render.entity.effect.SpillRenderer;
 import com.hbm.render.entity.effect.TSmokeRenderer;
 import com.hbm.render.entity.item.RenderBomber;
 import com.hbm.render.entity.item.RenderMinecartTest;
+import com.hbm.render.entity.item.RenderMovingItem;
 import com.hbm.render.entity.mob.RenderCyberCrab;
 import com.hbm.render.entity.mob.RenderHunterChopper;
 import com.hbm.render.entity.mob.RenderNuclearCreeper;
@@ -139,6 +140,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerBlockHandler(new RenderBarbedWire());
 		RenderingRegistry.registerBlockHandler(new RenderAntennaTop());
 		RenderingRegistry.registerBlockHandler(new RenderConserve());
+		RenderingRegistry.registerBlockHandler(new RenderConveyor());
 
 		MinecraftForgeClient.registerItemRenderer(ModItems.assembly_template, new ItemRenderTemplate());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chemistry_template, new ItemRenderTemplate());
@@ -227,6 +229,7 @@ public class ClientProxy extends ServerProxy
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_supershotgun, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ks23, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer, new ItemRenderWeaponObj());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flechette, new ItemRenderWeaponObj());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBombMulti.class, new RenderBombMulti());
 
@@ -404,6 +407,8 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeExplosionAdvanced.class, new RenderSnowball(ModItems.energy_ball));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartTest.class, new RenderMinecartTest());
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityMovingItem.class, new RenderMovingItem());
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNukePrototype.class, new RenderNukePrototype());
 
@@ -798,6 +803,14 @@ public class ClientProxy extends ServerProxy
 
 			if("cloud".equals(data.getString("mode"))) {
 				fx = new net.minecraft.client.particle.EntityCloudFX(world, x, y, z, mX, mY, mZ);
+			}
+
+			if("reddust".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, (float)mX, (float)mY, (float)mZ);
+			}
+
+			if("bluedust".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F);
 			}
 			
 			if(fx != null)

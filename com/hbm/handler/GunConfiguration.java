@@ -62,7 +62,7 @@ public class GunConfiguration {
 	public List<String> comment = new ArrayList();
 
 	//bullet configs for main and alt fire
-	public List<Integer> config;
+	public List<Integer> config = new ArrayList();
 
 	//crosshair
 	public Crosshair crosshair;

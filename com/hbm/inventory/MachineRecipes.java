@@ -670,9 +670,11 @@ public class MachineRecipes {
 			if(input.getItem() == ModItems.assembly_uzi)
 				return new ItemStack(ModItems.ammo_22lr);
 			if(mODE(input, "ingotGold"))
-				return new ItemStack(ModItems.gun_mp_ammo);
+				return new ItemStack(ModItems.ammo_566_gold);
 			if(input.getItem() == ModItems.assembly_lacunae)
 				return new ItemStack(ModItems.ammo_5mm);
+			if(input.getItem() == ModItems.assembly_556)
+				return new ItemStack(ModItems.ammo_556);
 		}
 		
 		if(stamp.getItem() == ModItems.stamp_50) {
@@ -753,14 +755,12 @@ public class MachineRecipes {
 		recipes.put(new Object[] { i_stamps_357, new ItemStack(ModItems.assembly_desh) }, getPressResultNN(i_stamps_357.get(0).getItem(), ModItems.assembly_desh));
 
 		recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_nopip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_nopip));
-		//recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.assembly_pip) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.assembly_pip));
-		//recipes.put(new Object[] { i_stamps_44, new ItemStack(ModItems.ammo_rocket) }, getPressResultNN(i_stamps_44.get(0).getItem(), ModItems.ammo_rocket));
 
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_smg) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_smg));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_uzi) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_uzi));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_lacunae) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_lacunae));
 		recipes.put(new Object[] { i_stamps_9, new ItemStack(Items.gold_ingot) }, getPressResultNN(i_stamps_9.get(0).getItem(), Items.gold_ingot));
-		//recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.ammo_rocket) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.ammo_rocket));
+		recipes.put(new Object[] { i_stamps_9, new ItemStack(ModItems.assembly_556) }, getPressResultNN(i_stamps_9.get(0).getItem(), ModItems.assembly_556));
 		
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_actionexpress) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_actionexpress));
 		recipes.put(new Object[] { i_stamps_50, new ItemStack(ModItems.assembly_calamity) }, getPressResultNN(i_stamps_50.get(0).getItem(), ModItems.assembly_calamity));

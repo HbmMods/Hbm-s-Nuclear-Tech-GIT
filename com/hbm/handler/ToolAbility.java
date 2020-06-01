@@ -9,6 +9,7 @@ import java.util.Set;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemToolAbility;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -39,6 +40,13 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
 			
+			Block b = world.getBlock(x, y, z);
+
+			if(b == Blocks.stone && !MainRegistry.recursiveStone)
+				return;
+			if(b == Blocks.netherrack && !MainRegistry.recursiveNetherrack)
+				return;
+			
 			List<Integer> indices = Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5});
 			Collections.shuffle(indices);
 			
@@ -46,19 +54,24 @@ public abstract class ToolAbility {
 			
 			for(Integer i : indices) {
 				switch(i) {
-				case 0: breakExtra(world, x + 1, y, z, x, y, z, player, tool); break;
-				case 1: breakExtra(world, x - 1, y, z, x, y, z, player, tool); break;
-				case 2: breakExtra(world, x, y + 1, z, x, y, z, player, tool); break;
-				case 3: breakExtra(world, x, y - 1, z, x, y, z, player, tool); break;
-				case 4: breakExtra(world, x, y, z + 1, x, y, z, player, tool); break;
-				case 5: breakExtra(world, x, y, z - 1, x, y, z, player, tool); break;
+				case 0: breakExtra(world, x + 1, y, z, x, y, z, player, tool, 0); break;
+				case 1: breakExtra(world, x - 1, y, z, x, y, z, player, tool, 0); break;
+				case 2: breakExtra(world, x, y + 1, z, x, y, z, player, tool, 0); break;
+				case 3: breakExtra(world, x, y - 1, z, x, y, z, player, tool, 0); break;
+				case 4: breakExtra(world, x, y, z + 1, x, y, z, player, tool, 0); break;
+				case 5: breakExtra(world, x, y, z - 1, x, y, z, player, tool, 0); break;
 				}
 			}
 		}
 		
-		private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool) {
+		private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth) {
 			
 			if(pos.contains(new ThreeInts(x, y, z)))
+				return;
+			
+			depth += 1;
+			
+			if(depth > MainRegistry.recursionDepth)
 				return;
 			
 			pos.add(new ThreeInts(x, y, z));
@@ -91,12 +104,12 @@ public abstract class ToolAbility {
 			
 			for(Integer i : indices) {
 				switch(i) {
-				case 0: breakExtra(world, x + 1, y, z, refX, refY, refZ, player, tool); break;
-				case 1: breakExtra(world, x - 1, y, z, refX, refY, refZ, player, tool); break;
-				case 2: breakExtra(world, x, y + 1, z, refX, refY, refZ, player, tool); break;
-				case 3: breakExtra(world, x, y - 1, z, refX, refY, refZ, player, tool); break;
-				case 4: breakExtra(world, x, y, z + 1, refX, refY, refZ, player, tool); break;
-				case 5: breakExtra(world, x, y, z - 1, refX, refY, refZ, player, tool); break;
+				case 0: breakExtra(world, x + 1, y, z, refX, refY, refZ, player, tool, depth); break;
+				case 1: breakExtra(world, x - 1, y, z, refX, refY, refZ, player, tool, depth); break;
+				case 2: breakExtra(world, x, y + 1, z, refX, refY, refZ, player, tool, depth); break;
+				case 3: breakExtra(world, x, y - 1, z, refX, refY, refZ, player, tool, depth); break;
+				case 4: breakExtra(world, x, y, z + 1, refX, refY, refZ, player, tool, depth); break;
+				case 5: breakExtra(world, x, y, z - 1, refX, refY, refZ, player, tool, depth); break;
 				}
 			}
 		}

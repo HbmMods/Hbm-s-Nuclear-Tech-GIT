@@ -4,6 +4,13 @@ import com.hbm.blocks.generic.*;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.machine.*;
+import com.hbm.blocks.network.BlockCable;
+import com.hbm.blocks.network.BlockConveyor;
+import com.hbm.blocks.network.BlockFluidDuct;
+import com.hbm.blocks.network.BlockGasDuct;
+import com.hbm.blocks.network.BlockOilDuct;
+import com.hbm.blocks.network.BlockRFCable;
+import com.hbm.blocks.network.CableSwitch;
 import com.hbm.blocks.test.*;
 import com.hbm.items.block.ItemBlockLore;
 import com.hbm.items.block.ItemTaintBlock;
@@ -427,6 +434,8 @@ public class ModBlocks {
 	public static Block gas_duct_solid;
 	public static Block gas_duct;
 	public static Block fluid_duct;
+
+	public static Block conveyor;
 
 	public static Block barrel_plastic;
 	public static Block barrel_corroded;
@@ -1088,6 +1097,7 @@ public class ModBlocks {
 		gas_duct_solid = new GasDuctSolid(Material.iron).setBlockName("gas_duct_solid").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_duct_solid");
 		gas_duct = new BlockGasDuct(Material.iron).setBlockName("gas_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_duct_icon");
 		fluid_duct = new BlockFluidDuct(Material.iron).setBlockName("fluid_duct").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fluid_duct_icon");
+		conveyor = new BlockConveyor(Material.iron).setBlockName("conveyor").setHardness(0.0F).setResistance(2.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_reiium");
 
 		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
 		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
@@ -1715,13 +1725,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_minirtg, machine_minirtg.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_red, machine_rtg_red.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_orange, machine_rtg_orange.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_yellow, machine_rtg_yellow.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_green, machine_rtg_green.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_cyan, machine_rtg_cyan.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_blue, machine_rtg_blue.getUnlocalizedName());
-		//GameRegistry.registerBlock(machine_rtg_purple, machine_rtg_purple.getUnlocalizedName());
+		
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());
 		GameRegistry.registerBlock(red_pylon, red_pylon.getUnlocalizedName());
@@ -1732,6 +1736,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_duct, gas_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(gas_duct_solid, gas_duct_solid.getUnlocalizedName());
 		GameRegistry.registerBlock(fluid_duct, fluid_duct.getUnlocalizedName());
+		GameRegistry.registerBlock(conveyor, conveyor.getUnlocalizedName());
+		
 		GameRegistry.registerBlock(barrel_plastic, ItemBlockLore.class, barrel_plastic.getUnlocalizedName());
 		GameRegistry.registerBlock(barrel_corroded, ItemBlockLore.class, barrel_corroded.getUnlocalizedName());
 		GameRegistry.registerBlock(barrel_iron, ItemBlockLore.class, barrel_iron.getUnlocalizedName());

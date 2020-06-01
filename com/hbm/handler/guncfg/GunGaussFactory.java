@@ -47,11 +47,10 @@ public class GunGaussFactory {
 		config.rateOfFire = 10;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
-		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.reloadDuration = 20;
+		config.reloadDuration = 1;
 		config.firingDuration = 0;
-		config.ammoCap = 30;
-		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.ammoCap = 0;
+		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_ARROWS;
 		

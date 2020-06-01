@@ -108,7 +108,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_mp)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mp_ammo, 30)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_566_gold, 30)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp_ammo, 30), false);
         	}
@@ -366,7 +366,7 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_cryolator))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_cryolator_ammo, 40));
 			if(player.inventory.hasItem(ModItems.gun_mp))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mp_ammo, 34));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_566_gold, 34));
 			if(player.inventory.hasItem(ModItems.gun_zomg))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.nugget_euphemium, 1));
 			if(player.inventory.hasItem(ModItems.gun_emp))

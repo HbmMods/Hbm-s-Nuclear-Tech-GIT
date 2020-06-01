@@ -1,6 +1,6 @@
-package com.hbm.blocks.machine;
+package com.hbm.blocks.network;
 
-import com.hbm.tileentity.conductor.TileEntityOilDuct;
+import com.hbm.tileentity.conductor.TileEntityRFDuct;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -9,9 +9,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockOilDuct extends BlockContainer {
+public class BlockRFCable extends BlockContainer {
 
-	public BlockOilDuct(Material p_i45386_1_) {
+	public BlockRFCable(Material p_i45386_1_) {
 		super(p_i45386_1_);
 		float p = 1F/16F;
 		this.setBlockBounds(11 * p / 2, 11 * p / 2, 11 * p / 2, 1 - 11 * p / 2, 1 - 11 * p / 2, 1 - 11 * p / 2);
@@ -20,8 +20,8 @@ public class BlockOilDuct extends BlockContainer {
 	
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-		if(world.getTileEntity(x, y, z) instanceof TileEntityOilDuct) {
-		TileEntityOilDuct cable = (TileEntityOilDuct)world.getTileEntity(x, y, z);
+		if(world.getTileEntity(x, y, z) instanceof TileEntityRFDuct) {
+			TileEntityRFDuct cable = (TileEntityRFDuct)world.getTileEntity(x, y, z);
 
 		if(cable != null)
 		{
@@ -41,8 +41,8 @@ public class BlockOilDuct extends BlockContainer {
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-		if(world.getTileEntity(x, y, z) instanceof TileEntityOilDuct) {
-		TileEntityOilDuct cable = (TileEntityOilDuct)world.getTileEntity(x, y, z);
+		if(world.getTileEntity(x, y, z) instanceof TileEntityRFDuct) {
+			TileEntityRFDuct cable = (TileEntityRFDuct)world.getTileEntity(x, y, z);
 
 		if(cable != null)
 		{
@@ -61,7 +61,7 @@ public class BlockOilDuct extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityOilDuct();
+		return new TileEntityRFDuct(10000);
 	}
 	
 	@Override

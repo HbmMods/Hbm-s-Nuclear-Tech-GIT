@@ -52,7 +52,7 @@ public class GunMP extends Item {
 
 		boolean flag = player.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
-		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.gun_mp_ammo)) && count % 3 == 0) {
+		if ((player.capabilities.isCreativeMode || player.inventory.hasItem(ModItems.ammo_566_gold)) && count % 3 == 0) {
 			EntityBullet entityarrow = new EntityBullet(world, player, 3.0F, 100, 150, false, false);
 			entityarrow.setDamage(100 + rand.nextInt(50));
 
@@ -63,7 +63,7 @@ public class GunMP extends Item {
 			if (flag) {
 				entityarrow.canBePickedUp = 2;
 			} else {
-				player.inventory.consumeInventoryItem(ModItems.gun_mp_ammo);
+				player.inventory.consumeInventoryItem(ModItems.ammo_566_gold);
 			}
 
 			if (!world.isRemote) {

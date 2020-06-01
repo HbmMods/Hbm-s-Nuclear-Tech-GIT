@@ -53,9 +53,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	@Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isCurrentItem) {
 		
-		//if(!isCurrentItem)
-		//	return;
-		
 		if(entity instanceof EntityPlayer) {
 			
 			isCurrentItem = ((EntityPlayer)entity).getHeldItem() == stack;
@@ -81,35 +78,18 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			if(left && right) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
-				//setIsMouseDown(stack, false);
-				//setIsAltDown(stack, false);
 				m1 = false;
 				m2 = false;
 			}
 			
-			/// HANDLED IN MODEVENTHANDLERCLIENT.JAVA ///
-			/*if(!left && !right) {
-				if(clickLeft) {
-					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 0));
-					//setIsMouseDown(stack, true);
-					m1 = true;
-				} else if(clickRight) {
-					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
-					//setIsAltDown(stack, true);
-					m2 = true;
-				}
-			}*/
-			
 			if(left && !clickLeft) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
-				//setIsMouseDown(stack, false);
 				m1 = false;
 				endActionClient(stack, world, entity, true);
 			}
 			
 			if(right && !clickRight) {
 				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
-				//setIsAltDown(stack, false);
 				m2 = false;
 				endActionClient(stack, world, entity, false);
 			}
@@ -122,18 +102,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 					resetReloadCycle(stack);
 				}
 			}
-		} else {
-
-			/*if(left) {
-				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 0));
-				m1 = false;
-				endActionClient(stack, world, entity, true);
-			}
-			if(right) {
-				PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(false, (byte) 1));
-				m2 = false;
-				endActionClient(stack, world, entity, false);
-			}*/
 		}
 	}
 	
@@ -154,7 +122,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
-			useUpAmmo(player, stack);
+			useUpAmmo(player, stack, true);
 		}
 		
 		if(getIsReloading(stack) && isCurrentItem) {
@@ -168,17 +136,21 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		if(main && getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
 			
 			if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
-				return getBeltSize(player, getBeltType(player, stack)) > 0;
+				return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 				
 			} else {
 				return getMag(stack) > 0;
 			}
 		}
 		
-		if(!main && getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
-			
-			//no extra conditions, alt fire has to be handled by every weapon individually in the altFire() method
-			return true;
+		if(!main && altConfig != null && getDelay(stack) == 0 && !getIsReloading(stack) && getItemWear(stack) < mainConfig.durability) {
+
+			if(altConfig.reloadType == mainConfig.RELOAD_NONE) {
+				return getBeltSize(player, getBeltType(player, stack, main)) > 0;
+				
+			} else {
+				return getMag(stack) > 0;
+			}
 		}
 		
 		return false;
@@ -190,7 +162,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		BulletConfiguration config = null;
 		
 		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
-			config = getBeltCfg(player, stack);
+			config = getBeltCfg(player, stack, true);
 		} else {
 			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 		}
@@ -212,9 +184,26 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile
 	protected void altFire(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(altConfig == null)
+			return;
 
-		if(!altConfig.firingSound.isEmpty())
-			world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
+		BulletConfiguration config = getBeltCfg(player, stack, false);
+		
+		int bullets = config.bulletsMin;
+		
+		for(int k = 0; k < altConfig.roundsPerCycle; k++) {
+			if(config.bulletsMax > config.bulletsMin)
+				bullets += world.rand.nextInt(config.bulletsMax - config.bulletsMin);
+			
+			for(int i = 0; i < bullets; i++) {
+				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
+			}
+			
+			setItemWear(stack, getItemWear(stack) + config.wear);
+		}
+		
+		world.playSoundAtEntity(player, altConfig.firingSound, 1.0F, altConfig.firingPitch);
 	}
 	
 	//spawns the actual projectile, can be overridden to change projectile entity
@@ -231,11 +220,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			//setMag(stack, getMag(stack) - 1);
-			useUpAmmo(player, stack);
+			useUpAmmo(player, stack, main);
 		}
 		
-		if(!main && altConfig != null)
+		if(!main && altConfig != null && tryShoot(stack, world, player, main)) {
 			altFire(stack, world, player);
+			setDelay(stack, altConfig.rateOfFire);
+			useUpAmmo(player, stack, main);
+		}
 	}
 	
 	//called on click (client side, called by update cylce)
@@ -474,6 +466,12 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		list.add("Ammo Type: " + I18n.format(ammo.getUnlocalizedName() + ".name"));
 		
+		if(altConfig != null && altConfig.ammoCap == 0) {
+			Item ammo2 = BulletConfigSyncingUtil.pullConfig(altConfig.config.get(0)).ammo;
+			if(ammo != ammo2)
+				list.add("Secondary Ammo: " + I18n.format(ammo2.getUnlocalizedName() + ".name"));
+		}
+		
 		int dura = mainConfig.durability - getItemWear(stack);
 		
 		if(dura < 0)
@@ -503,12 +501,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 	
 	//returns ammo item of belt-weapons
-	public static Item getBeltType(EntityPlayer player, ItemStack stack) {
+	public static Item getBeltType(EntityPlayer player, ItemStack stack, boolean main) {
 		
 		ItemGunBase gun = (ItemGunBase)stack.getItem();
-		Item ammo = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(0)).ammo;
+		GunConfiguration guncfg = main ? gun.mainConfig : (gun.altConfig != null ? gun.altConfig : gun.mainConfig);
+		Item ammo = BulletConfigSyncingUtil.pullConfig(guncfg.config.get(0)).ammo;
 
-		for(Integer config : gun.mainConfig.config) {
+		for(Integer config : guncfg.config) {
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 			
@@ -522,12 +521,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 	
 	//returns BCFG of belt-weapons
-	public static BulletConfiguration getBeltCfg(EntityPlayer player, ItemStack stack) {
+	public static BulletConfiguration getBeltCfg(EntityPlayer player, ItemStack stack, boolean main) {
 		
 		ItemGunBase gun = (ItemGunBase)stack.getItem();
-		getBeltType(player, stack);
+		GunConfiguration guncfg = main ? gun.mainConfig : (gun.altConfig != null ? gun.altConfig : gun.mainConfig);
+		getBeltType(player, stack, main);
 
-		for(Integer config : gun.mainConfig.config) {
+		for(Integer config : guncfg.config) {
 			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
 			
@@ -536,7 +536,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			}
 		}
 
-		return BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(0));
+		return BulletConfigSyncingUtil.pullConfig(guncfg.config.get(0));
 	}
 
 	//returns ammo capacity of belt-weapons for current ammo
@@ -553,16 +553,26 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 	
 	//reduces ammo count for mag and belt-based weapons, should be called AFTER firing
-	public void useUpAmmo(EntityPlayer player, ItemStack stack) {
+	public void useUpAmmo(EntityPlayer player, ItemStack stack, boolean main) {
 		
-		if(mainConfig.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
+		if(!main && altConfig == null)
+			return;
+		
+		GunConfiguration config = mainConfig;
+		
+		if(!main)
+			config = altConfig;
+		
+		if(config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
 			return;
 
-		for(int k = 0; k < mainConfig.roundsPerCycle; k++) {
-			if(mainConfig.reloadType != mainConfig.RELOAD_NONE)
+		for(int k = 0; k < config.roundsPerCycle; k++) {
+			if(config.reloadType != mainConfig.RELOAD_NONE) {
 				setMag(stack, getMag(stack) - 1);
-			else
-				player.inventory.consumeInventoryItem(getBeltType(player, stack));
+			} else {
+				player.inventory.consumeInventoryItem(getBeltType(player, stack, main));
+				player.inventoryContainer.detectAndSendChanges();
+			}
 		}
 	}
 	

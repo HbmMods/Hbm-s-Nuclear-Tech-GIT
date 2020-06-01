@@ -55,6 +55,8 @@ public class BulletConfigSyncingUtil {
 	public static int GRENADE_FINNED = i++;
 	public static int GRENADE_NUCLEAR = i++;
 	public static int GRENADE_PHOSPHORUS = i++;
+	public static int GRENADE_TRACER = i++;
+	public static int GRENADE_KAMPF = i++;
 
 	public static int G12_NORMAL = i++;
 	public static int G12_INCENDIARY = i++;
@@ -85,6 +87,7 @@ public class BulletConfigSyncingUtil {
 	public static int BMG50_NORMAL = i++;
 	public static int BMG50_INCENDIARY = i++;
 	public static int BMG50_EXPLOSIVE = i++;
+	public static int BMG50_AP = i++;
 	public static int BMG50_DU = i++;
 	public static int BMG50_STAR = i++;
 	public static int BMG50_PHOSPHORUS = i++;
@@ -108,6 +111,7 @@ public class BulletConfigSyncingUtil {
 	public static int G4_EXPLOSIVE = i++;
 
 	public static int SPECIAL_OSIPR = i++;
+	public static int SPECIAL_OSIPR_CHARGED = i++;
 	public static int SPECIAL_GAUSS = i++;
 	public static int SPECIAL_GAUSS_CHARGED = i++;
 	public static int SPECIAL_EMP = i++;
@@ -116,6 +120,19 @@ public class BulletConfigSyncingUtil {
 	public static int FLAMER_NAPALM = i++;
 	public static int FLAMER_WP = i++;
 	public static int FLAMER_GAS = i++;
+
+	public static int R556_NORMAL = i++;
+	public static int R556_GOLD = i++;
+	public static int R556_PHOSPHORUS = i++;
+	public static int R556_AP = i++;
+	public static int R556_DU = i++;
+	public static int R556_STAR = i++;
+	public static int R556_TRACER = i++;
+	public static int R556_FLECHETTE = i++;
+	public static int R556_FLECHETTE_INCENDIARY = i++;
+	public static int R556_FLECHETTE_PHOSPHORUS = i++;
+	public static int R556_FLECHETTE_DU = i++;
+	public static int R556_K = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
 	public static int G20_SHRAPNEL_FIRE = i++;
@@ -177,6 +194,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(GRENADE_CONCUSSION, GunGrenadeFactory.getGrenadeConcussionConfig());
 		configSet.put(GRENADE_FINNED, GunGrenadeFactory.getGrenadeFinnedConfig());
 		configSet.put(GRENADE_NUCLEAR, GunGrenadeFactory.getGrenadeNuclearConfig());
+		configSet.put(GRENADE_TRACER, GunGrenadeFactory.getGrenadeTracerConfig());
+		configSet.put(GRENADE_KAMPF, GunGrenadeFactory.getGrenadeKampfConfig());
         
 		configSet.put(G12_NORMAL, Gun12GaugeFactory.get12GaugeConfig());
 		configSet.put(G12_INCENDIARY, Gun12GaugeFactory.get12GaugeFireConfig());
@@ -208,6 +227,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(BMG50_INCENDIARY, Gun50BMGFactory.get50BMGFireConfig());
 		configSet.put(BMG50_PHOSPHORUS, Gun50BMGFactory.get50BMGPhosphorusConfig());
 		configSet.put(BMG50_EXPLOSIVE, Gun50BMGFactory.get50BMGExplosiveConfig());
+		configSet.put(BMG50_AP, Gun50BMGFactory.get50BMGAPConfig());
 		configSet.put(BMG50_DU, Gun50BMGFactory.get50BMGDUConfig());
 		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
         
@@ -230,6 +250,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_EXPLOSIVE, Gun4GaugeFactory.get4GaugeExplosiveConfig());
         
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
+		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());
 		configSet.put(SPECIAL_GAUSS, GunGaussFactory.getGaussConfig());
 		configSet.put(SPECIAL_GAUSS_CHARGED, GunGaussFactory.getAltConfig());
 		configSet.put(SPECIAL_EMP, GunEnergyFactory.getOrbusConfig());
@@ -238,6 +259,19 @@ public class BulletConfigSyncingUtil {
 		configSet.put(FLAMER_NAPALM, GunEnergyFactory.getNapalmConfig());
 		configSet.put(FLAMER_WP, GunEnergyFactory.getPhosphorusConfig());
 		configSet.put(FLAMER_GAS, GunEnergyFactory.getGasConfig());
+
+		configSet.put(R556_NORMAL, Gun556mmFactory.get556Config());
+		configSet.put(R556_GOLD, Gun556mmFactory.get556GoldConfig());
+		configSet.put(R556_PHOSPHORUS, Gun556mmFactory.get556PhosphorusConfig());
+		configSet.put(R556_AP, Gun556mmFactory.get556APConfig());
+		configSet.put(R556_DU, Gun556mmFactory.get556DUConfig());
+		configSet.put(R556_STAR, Gun556mmFactory.get556StarConfig());
+		configSet.put(R556_TRACER, Gun556mmFactory.get556TracerConfig());
+		configSet.put(R556_FLECHETTE, Gun556mmFactory.get556FlechetteConfig());
+		configSet.put(R556_FLECHETTE_INCENDIARY, Gun556mmFactory.get556FlechetteIncendiaryConfig());
+		configSet.put(R556_FLECHETTE_PHOSPHORUS, Gun556mmFactory.get556FlechettePhosphorusConfig());
+		configSet.put(R556_FLECHETTE_DU, Gun556mmFactory.get556FlechetteDUConfig());
+		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
         
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
 		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));

@@ -365,26 +365,30 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 			//OUTPUT
 			if(te1 instanceof TileEntityChest) {
 				TileEntityChest chest = (TileEntityChest)te1;
-				
-				tryFillContainer(chest, 5);
+
+				for(int i = 5; i < 9; i++)
+					tryFillContainer(chest, i);
 			}
 			
 			if(te1 instanceof TileEntityHopper) {
 				TileEntityHopper hopper = (TileEntityHopper)te1;
 
-				tryFillContainer(hopper, 5);
+				for(int i = 5; i < 9; i++)
+					tryFillContainer(hopper, i);
 			}
 			
 			if(te1 instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te1;
+				TileEntityCrateIron crate = (TileEntityCrateIron)te1;
 
-				tryFillContainer(hopper, 5);
+				for(int i = 5; i < 9; i++)
+					tryFillContainer(crate, i);
 			}
 			
 			if(te1 instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te1;
+				TileEntityCrateSteel crate = (TileEntityCrateSteel)te1;
 
-				tryFillContainer(hopper, 5);
+				for(int i = 5; i < 9; i++)
+					tryFillContainer(crate, i);
 			}
 			
 			//INPUT

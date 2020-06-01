@@ -62,8 +62,8 @@ public class ModEventHandlerClient {
 			int count = ItemGunBase.getMag(player.getHeldItem());
 			int max = gcfg.ammoCap;
 			
-			if(gcfg.reloadType == gcfg.RELOAD_NONE) {
-				ammo = ItemGunBase.getBeltType(player, player.getHeldItem());
+			if(gcfg.reloadType == GunConfiguration.RELOAD_NONE) {
+				ammo = ItemGunBase.getBeltType(player, player.getHeldItem(), true);
 				count = ItemGunBase.getBeltSize(player, ammo);
 				max = -1;
 			}
@@ -71,6 +71,16 @@ public class ModEventHandlerClient {
 			int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
 			
 			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
+			
+			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
+				Item oldAmmo = ammo;
+				ammo = ItemGunBase.getBeltType(player, player.getHeldItem(), false);
+				
+				if(ammo != oldAmmo) {
+					count = ItemGunBase.getBeltSize(player, ammo);
+					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
+				}
+			}
 		}
 		
 		if(event.type == ElementType.HOTBAR) {

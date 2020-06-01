@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.tileentity.machine.TileEntityGeiger;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

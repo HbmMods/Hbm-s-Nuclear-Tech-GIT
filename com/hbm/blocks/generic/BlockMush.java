@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.main.MainRegistry;
 import com.hbm.world.feature.HugeMush;
 
 import net.minecraft.block.Block;
@@ -124,7 +125,7 @@ public class BlockMush extends Block implements IGrowable {
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
         this.checkAndDropBlock(world, x, y, z);
-    	if(world.getBlock(x, y - 1, z) == ModBlocks.waste_earth && rand.nextInt(5) == 0)
+    	if(MainRegistry.enableMycelium && world.getBlock(x, y - 1, z) == ModBlocks.waste_earth && rand.nextInt(5) == 0)
     	{
     		world.setBlock(x, y - 1, z, ModBlocks.waste_mycelium);
     	}

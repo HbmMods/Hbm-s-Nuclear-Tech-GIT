@@ -146,6 +146,8 @@ public class RenderBullet extends Render {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeToxic.png")); break;
 		case 4:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeSleek.png")); break;
+		case 5:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeTraining.png")); break;
 		}
 		
 		grenade.renderAll(0.0625F);

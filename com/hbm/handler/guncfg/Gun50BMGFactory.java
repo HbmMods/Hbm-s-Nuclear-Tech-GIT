@@ -50,6 +50,7 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
 		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
 		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
 		
@@ -86,6 +87,7 @@ public class Gun50BMGFactory {
 		config.config.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.BMG50_AP);
 		config.config.add(BulletConfigSyncingUtil.BMG50_DU);
 		config.config.add(BulletConfigSyncingUtil.BMG50_STAR);
 		
@@ -168,14 +170,28 @@ public class Gun50BMGFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration get50BMGAPConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_50bmg_ap;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 30;
+		bullet.dmgMax = 25;
+		bullet.wear = 15;
+		bullet.leadChance = 10;
+		
+		return bullet;
+	}
+
 	public static BulletConfiguration get50BMGDUConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
 		
 		bullet.ammo = ModItems.ammo_50bmg_du;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 25;
-		bullet.dmgMax = 35;
+		bullet.dmgMin = 40;
+		bullet.dmgMax = 45;
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		

@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -106,13 +105,13 @@ public class RenderEPress extends TileEntitySpecialRenderer {
 			TileEntityMachineEPress press = (TileEntityMachineEPress)tileentity;
 			ItemStack stack = new ItemStack(Item.getItemById(press.item), 1, press.meta);
 			
-			if(!(stack.getItem() instanceof ItemBlock)) {
-				EntityItem item = new EntityItem(null, 0.0D, 0.0D, 0.0D, stack);
-			
-				RenderItem.renderInFrame = true;
-				this.itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
-				RenderItem.renderInFrame = false;
-			}
+			EntityItem item = new EntityItem(null, 0.0D, 0.0D, 0.0D, stack);
+			item.getEntityItem().stackSize = 1;
+			item.hoverStart = 0.0F;
+						
+			RenderItem.renderInFrame = true;
+			this.itemRenderer.doRender(item, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+			RenderItem.renderInFrame = false;
 			
 		GL11.glPopMatrix();
     }

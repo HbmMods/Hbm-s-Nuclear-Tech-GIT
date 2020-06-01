@@ -80,7 +80,7 @@ public class ItemGunGauss extends ItemGunBase {
 			if(c > 0) {
 				setCharge(stack, c + 1);
 				
-				if(c % 10 == 1 && c < 140) {
+				if(c % 10 == 1 && c < 140 && c > 2) {
 					
 					if(player.inventory.hasItem(ModItems.gun_xvl1456_ammo)) {
 						player.inventory.consumeInventoryItem(ModItems.gun_xvl1456_ammo);

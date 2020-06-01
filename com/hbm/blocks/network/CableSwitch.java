@@ -1,4 +1,4 @@
-package com.hbm.blocks.machine;
+package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.conductor.TileEntityCableSwitch;

@@ -771,7 +771,7 @@ public class ItemCustomLore extends Item {
     	}
     	
     	if(this == ModItems.gun_revolver_cursed_ammo || this == ModItems.plate_paa || 
-    			this == ModItems.gun_mp_ammo || this == ModItems.powder_power || 
+    			this == ModItems.ammo_566_gold || this == ModItems.powder_power || 
     			this == ModItems.ingot_australium || this == ModItems.ingot_weidanium || 
     			this == ModItems.ingot_reiium || this == ModItems.ingot_unobtainium || 
     			this == ModItems.ingot_daffergon || this == ModItems.ingot_verticium || 

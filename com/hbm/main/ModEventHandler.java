@@ -283,10 +283,13 @@ public class ModEventHandler
 						if(eRad < 200 || entity instanceof EntityNuclearCreeper || entity instanceof EntityMooshroom || entity instanceof EntityZombie || entity instanceof EntitySkeleton)
 							continue;
 						
+						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
+							continue;
+						
 						if(eRad > 2500)
 							entity.getEntityData().setFloat("hfr_radiation", 2500);
 						
-						if(eRad >= 1000 && !(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)) {
+						if(eRad >= 1000) {
 							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100)) {
 								entity.getEntityData().setFloat("hfr_radiation", 0);
 
@@ -351,13 +354,6 @@ public class ModEventHandler
 			}
 		}
 		/// RADIATION STUFF END ///
-		
-		//////////////////////
-		/*} catch(Exception x) {
-			
-			MainRegistry.logger.error("Ouchie, something has happened in the NTM world tick event.");
-		}*/
-		//////////////////////
 	}
 	
 	@SubscribeEvent
@@ -386,9 +382,9 @@ public class ModEventHandler
 			
 				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
 					
-					if((noHelmet || chestplate.getArmorMaterial() == ((ArmorFSB)helmet.getItem()).getArmorMaterial()) &&
-						chestplate.getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
-						chestplate.getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+					if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
+						chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
+						chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
 						
 						if(chestplate.fireproof && event.source.isFireDamage()) {
 							player.extinguish();
@@ -421,9 +417,9 @@ public class ModEventHandler
 			
 				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
 					
-					if((noHelmet || chestplate.getArmorMaterial() == ((ArmorFSB)helmet.getItem()).getArmorMaterial()) &&
-						chestplate.getArmorMaterial() == ((ArmorFSB)legs.getItem()).getArmorMaterial() &&
-						chestplate.getArmorMaterial() == ((ArmorFSB)boots.getItem()).getArmorMaterial()) {
+					if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
+						chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
+						chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
 						
 						if(chestplate.damageMod != -1) {
 							event.ammount *= chestplate.damageMod;

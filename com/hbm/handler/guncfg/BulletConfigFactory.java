@@ -152,6 +152,7 @@ public class BulletConfigFactory {
 		bullet.explosive = 2.5F;
 		bullet.style = BulletConfiguration.STYLE_GRENADE;
 		bullet.plink = BulletConfiguration.PLINK_GRENADE;
+		bullet.vPFX = "smoke";
 		
 		return bullet;
 	}

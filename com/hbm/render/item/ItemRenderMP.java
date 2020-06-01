@@ -32,40 +32,42 @@ public class ItemRenderMP implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		return false;
+		return type == ItemRenderType.ENTITY && (helper == ItemRendererHelper.ENTITY_ROTATION || helper == ItemRendererHelper.ENTITY_BOBBING);
 	}
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+
+		GL11.glPushMatrix();
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelMP.png"));
+		
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:
-			GL11.glPushMatrix();
-				GL11.glEnable(GL11.GL_CULL_FACE);
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelMP.png"));
-				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
-				GL11.glTranslatef(-0.5F, 0.0F, -0.2F);
-				//GL11.glScalef(2.0F, 2.0F, 2.0F);
-				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				GL11.glTranslatef(-0.4F, -0.1F, 0.1F);
-				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			GL11.glPopMatrix();
+			GL11.glTranslatef(1.0F, 0.75F, 0.0F);
+			GL11.glRotatef(150F, 0.0F, 0.0F, -1.0F);
+			GL11.glScalef(0.75F, 0.75F, 0.75F);
+			swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			break;
+			
 		case EQUIPPED:
+			GL11.glTranslatef(0.35F, 0.5F, 0.0F);
+			GL11.glRotatef(100F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(170F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(15F, 0.0F, 0.0F, -1.0F);
+			GL11.glScalef(0.75F, 0.75F, 0.75F);
+			swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			break;
+			
 		case ENTITY:
-			GL11.glPushMatrix();
-				GL11.glEnable(GL11.GL_CULL_FACE);
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelMP.png"));
-				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
-				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
-				GL11.glTranslatef(0.0F, -0.2F, -0.5F);
-				GL11.glRotatef(-5.0F, 0.0F, 0.0F, 1.0F);
-				GL11.glTranslatef(0.5F, -0.2F, 0.0F);
-				GL11.glScalef(0.75F, 0.75F, 0.75F);
-				GL11.glTranslatef(-0.8F, -0.1F, 0.0F);
-				swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			GL11.glPopMatrix();
+			GL11.glTranslatef(0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
+			GL11.glScalef(0.75F, 0.75F, 0.75F);
+			swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+			break;
+			
 		default: break;
 		}
+		
+		GL11.glPopMatrix();
 	}
 }

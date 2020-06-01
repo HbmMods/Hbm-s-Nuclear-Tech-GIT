@@ -124,6 +124,8 @@
     "weapon.flamerReload": {"category": "player", "sounds": [{"name": "weapon/flamerReload", "stream": false}]},
 	"weapon.stop": {"category": "player", "sounds": ["weapon/stop1", "weapon/stop2"]},
     "weapon.bonk": {"category": "player", "sounds": [{"name": "weapon/bonk", "stream": false}]},
+	"weapon.hksShoot": {"category": "player", "sounds": ["weapon/hksShoot1", "weapon/hksShoot2", "weapon/hksShoot3"]},
+	"weapon.glauncher": {"category": "player", "sounds": ["weapon/glauncher1", "weapon/glauncher2"]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

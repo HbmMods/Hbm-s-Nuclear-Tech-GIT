@@ -151,6 +151,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(config == null)
 			config = BulletConfigSyncingUtil.pullConfig(dataWatcher.getWatchableObjectInt(18));
 		
+		if(config.maxAge == 0) {
+			this.setDead();
+			return;
+		}
+		
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 			this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);

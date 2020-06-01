@@ -37,11 +37,11 @@ import java.util.Random;
 import org.apache.logging.log4j.Logger;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.*;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
 import com.hbm.entity.item.EntityMinecartTest;
+import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
@@ -326,6 +326,10 @@ public class MainRegistry
 	public static boolean dropStar = true;
 	public static boolean dropCrys = true;
 	public static boolean dropDead = true;
+	
+	public static int recursionDepth = 500;
+	public static boolean recursiveStone = true;
+	public static boolean recursiveNetherrack = true;
 
 	public static int taintID = 62;
 	public static int radiationID = 63;
@@ -703,6 +707,7 @@ public class MainRegistry
 	    EntityRegistry.registerModEntity(EntityBuilding.class, "entity_falling_building", 143, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntitySoyuz.class, "entity_soyuz", 144, this, 1000, 1, true);
 	    EntityRegistry.registerModEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 145, this, 1000, 1, true);
+	    EntityRegistry.registerModEntity(EntityMovingItem.class, "entity_c_item", 146, this, 1000, 1, true);
 	    
 	    EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -1853,6 +1858,11 @@ public class MainRegistry
         dropStar = createConfigBool(config, CATEGORY_DROPS, "10.02_dropStar", "Whether rigged star blaster cells should explode when dropped", true);
         dropCrys = createConfigBool(config, CATEGORY_DROPS, "10.04_dropCrys", "Whether xen crystals should move blocks when dropped", true);
         dropDead = createConfigBool(config, CATEGORY_DROPS, "10.05_dropDead", "Whether dead man's explosives should explode when dropped", true);
+
+        final String CATEGORY_TOOLS = "11_tools";
+        recursionDepth = createConfigInt(config, CATEGORY_TOOLS, "11.00_recursionDepth", "Limits veinminer's recursive function. Usually not an issue, unless you're using bukkit which is especially sensitive for some reason.", 1000);
+        recursiveStone = createConfigBool(config, CATEGORY_TOOLS, "11.01_recursionDepth", "Determines whether veinminer can break stone", true);
+        recursiveNetherrack = createConfigBool(config, CATEGORY_TOOLS, "11.02_recursionDepth", "Determines whether veinminer can break netherrack", true);
         
         config.save();
         
