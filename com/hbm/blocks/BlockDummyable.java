@@ -147,7 +147,7 @@ public abstract class BlockDummyable extends BlockContainer {
 			dir = ForgeDirection.getOrientation(4);
 		}
 		
-		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir)) {
+		if(!checkRequirement(world, x, y, z, dir, o)) {
 			world.setBlockToAir(x, y, z);
 			
 			if(!pl.capabilities.isCreativeMode) {
@@ -169,11 +169,20 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 		
 		world.setBlock(x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
-		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
+		fillSpace(world, x, y, z, dir, o);
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);
 
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
+	}
+	
+	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		return MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), x, y, z, dir);
+	}
+	
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
 	}
 	
 	//"upgrades" regular dummy blocks to ones with the extra flag

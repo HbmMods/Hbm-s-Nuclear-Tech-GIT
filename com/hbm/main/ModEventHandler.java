@@ -447,7 +447,8 @@ public class ModEventHandler
 		
 		EntityPlayer player = event.player;
 		
-		if(!player.worldObj.isRemote && player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1"))
+		if(!player.worldObj.isRemote && (player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1") ||
+				player.getUniqueID().toString().equals("6a058220-7d86-4f29-817b-418eb98bd842")))
 			player.getEntityData().setFloat("hfr_radiation", player.getEntityData().getFloat("hfr_radiation" + 0.05F));
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
