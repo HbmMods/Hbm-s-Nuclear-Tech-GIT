@@ -618,51 +618,8 @@ public class ModEventHandler
 		EntityPlayerMP player = event.player;
 		String message = event.message;
 		
-		if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && message.startsWith("!")) {
-			
-			String m = message.substring(1, message.length()).toLowerCase();
-			
-			if("dagoth".equals(m)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_kit));
-			}
-			
-			if("pow".equals(m)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.grenade_kit));
-			}
-			
-			if("ascend".equals(m)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.jetpack_vector));
-				for(int i = 0 ; i < 10; i++)
-					player.inventory.addItemStackToInventory(new ItemStack(ModItems.jetpack_tank));
-			}
-			
-			if("animalcrossing".equals(m)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_supershotgun));
-				for(int i = 0 ; i < 5; i++)
-					player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_12gauge_du, 64));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_kit_2, 16));
-			}
-			
-			if("pew".equals(m)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_b92).setStackDisplayName("Meme Machine"));
-			}
-			
-			if("tom".equals(m)) {
-				player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.soyuz_launcher));
-				player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_satlinker));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_soyuz, 1, 2));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.sat_gerald));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_soyuz_lander));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.sat_coord));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.fluid_barrel_infinite));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_creative));
-			}
-			
-			player.inventoryContainer.detectAndSendChanges();
-			event.setCanceled(true);
-		}
-		
-		if(player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
+		//only if debug mode is enabled, which it is not by default
+		if(MainRegistry.enableDebugMode && player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
 			
 			String[] msg = message.split(" ");
 			
