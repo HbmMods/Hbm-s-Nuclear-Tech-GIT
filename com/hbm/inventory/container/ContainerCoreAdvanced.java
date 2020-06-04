@@ -34,26 +34,26 @@ public class ContainerCoreAdvanced extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 8, 54));
 		this.addSlotToContainer(new Slot(tedf, 10, 8, 72));
 		//Outputs
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 134, 54));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 134, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 134, 54));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 134, 72));
 		//Output Storage
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 8, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 14, 26, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 15, 44, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 16, 62, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 17, 80, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 18, 98, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 19, 116, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 20, 134, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 21, 152, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 13, 8, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 14, 26, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 15, 44, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 16, 62, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 17, 80, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 18, 98, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 19, 116, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 20, 134, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 21, 152, 108));
 		//Power Cell
 		this.addSlotToContainer(new Slot(tedf, 22, 44, 72));
 		//More Inputs
 		this.addSlotToContainer(new Slot(tedf, 23, 26, 54));
 		this.addSlotToContainer(new Slot(tedf, 24, 26, 72));
 		//More Outputs
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 25, 152, 54));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 26, 152, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 25, 152, 54));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 26, 152, 72));
 		
 		for(int i = 0; i < 3; i++)
 		{

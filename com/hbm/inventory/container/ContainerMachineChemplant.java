@@ -30,16 +30,16 @@ private TileEntityMachineChemplant nukeBoy;
 		//Schematic
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 54));
 		//Outputs
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 134, 90));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 6, 152, 90));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 7, 134, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 8, 152, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 134, 90));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 152, 90));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 7, 134, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 152, 108));
 		//Fluid Output In
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 54));
 		this.addSlotToContainer(new Slot(tedf, 10, 152, 54));
 		//Fluid Outputs Out
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 134, 72));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 152, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 134, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 152, 72));
 		//Input
 		this.addSlotToContainer(new Slot(tedf, 13, 8, 90));
 		this.addSlotToContainer(new Slot(tedf, 14, 26, 90));
@@ -49,8 +49,8 @@ private TileEntityMachineChemplant nukeBoy;
 		this.addSlotToContainer(new Slot(tedf, 17, 8, 54));
 		this.addSlotToContainer(new Slot(tedf, 18, 26, 54));
 		//Fluid Input Out
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 19, 8, 72));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 20, 26, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 19, 8, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 20, 26, 72));
 		
 		for(int i = 0; i < 3; i++)
 		{

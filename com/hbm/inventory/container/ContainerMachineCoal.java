@@ -20,7 +20,7 @@ public class ContainerMachineCoal extends Container {
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 53 - 36));
 		this.addSlotToContainer(new Slot(tedf, 1, 80, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 116, 53));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 44, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 44, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

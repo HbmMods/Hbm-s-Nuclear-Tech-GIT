@@ -17,13 +17,13 @@ public class ContainerMachineInserter extends Container {
 
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));
 		this.addSlotToContainer(new Slot(tedf, 1, 26, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 26, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 26, 53));
 		this.addSlotToContainer(new Slot(tedf, 3, 62, 17));
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 80, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 80, 53));
 		this.addSlotToContainer(new Slot(tedf, 6, 116, 17));
 		this.addSlotToContainer(new Slot(tedf, 7, 134, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 8, 134, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 134, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

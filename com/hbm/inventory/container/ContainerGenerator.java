@@ -32,8 +32,8 @@ public class ContainerGenerator extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 8, 90));
 		this.addSlotToContainer(new Slot(tedf, 10, 26, 90));
 		this.addSlotToContainer(new Slot(tedf, 11, 62, 90));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 8, 90 + 18));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 26, 90 + 18));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 8, 90 + 18));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 13, 26, 90 + 18));
 		
 		for(int i = 0; i < 3; i++)
 		{

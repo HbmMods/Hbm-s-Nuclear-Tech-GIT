@@ -22,7 +22,7 @@ public class ContainerMachineMissileAssembly extends Container {
 		this.addSlotToContainer(new Slot(tedf, 2, 44, 36));
 		this.addSlotToContainer(new Slot(tedf, 3, 62, 36));
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 36));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 152, 36));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 152, 36));
 		
 		for(int i = 0; i < 3; i++)
 		{

@@ -1,34 +1,25 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.TileEntityMachineTurbine;
+import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMachineTurbine extends Container {
+public class ContainerCrystallizer extends Container {
 	
-	private TileEntityMachineTurbine diFurnace;
+	private TileEntityMachineCrystallizer diFurnace;
 	
-	public ContainerMachineTurbine(InventoryPlayer invPlayer, TileEntityMachineTurbine tedf) {
-		
+	public ContainerCrystallizer(InventoryPlayer invPlayer, TileEntityMachineCrystallizer tedf) {
 		diFurnace = tedf;
 
-		//Fluid ID
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 8, 53));
-		//Input IO
-		this.addSlotToContainer(new Slot(tedf, 2, 44, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 44, 53));
-		//Battery
-		this.addSlotToContainer(new Slot(tedf, 4, 98, 53));
-		//Output IO
-		this.addSlotToContainer(new Slot(tedf, 5, 152, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 152, 53));
+
+		this.addSlotToContainer(new Slot(tedf, 0, 80, 35));
+		this.addSlotToContainer(new Slot(tedf, 1, 8, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 140, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -45,11 +36,6 @@ public class ContainerMachineTurbine extends Container {
 	}
 	
 	@Override
-	public void addCraftingToCrafters(ICrafting crafting) {
-		super.addCraftingToCrafters(crafting);
-	}
-	
-	@Override
     public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
     {
 		ItemStack var3 = null;
@@ -60,18 +46,15 @@ public class ContainerMachineTurbine extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 6) {
-				if (!this.mergeItemStack(var5, 7, this.inventorySlots.size(), true))
+            if (par2 <= diFurnace.getSizeInventory() - 1) {
+				if (!this.mergeItemStack(var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 4, 5, false))
+			else if (!this.mergeItemStack(var5, 0, diFurnace.getSizeInventory(), false))
 			{
-				if (!this.mergeItemStack(var5, 2, 3, false))
-					if (!this.mergeItemStack(var5, 5, 6, false))
-						if (!this.mergeItemStack(var5, 0, 1, false))
-							return null;
+					return null;
 			}
 			
 			if (var5.stackSize == 0)

@@ -23,25 +23,25 @@ public class ContainerMachineRefinery extends Container {
 		//Canister Input
 		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 35, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 35, 108));
 		//Heavy Oil Input
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 80, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 80, 108));
 		//Nahptha Input
 		this.addSlotToContainer(new Slot(tedf, 5, 98, 90));
 		//Nahptha Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 6, 98, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 98, 108));
 		//Light Oil Input
 		this.addSlotToContainer(new Slot(tedf, 7, 116, 90));
 		//Light Oil Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 8, 116, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 8, 116, 108));
 		//Petroleum Input
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
 		//Petroleum Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 10, 134, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 10, 134, 108));
 		//Sulfur Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 152, 36));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 152, 36));
 		
 		for(int i = 0; i < 3; i++)
 		{

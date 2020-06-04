@@ -19,10 +19,10 @@ public class ContainerCentrifuge extends Container {
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 26, 17));
 		this.addSlotToContainer(new Slot(tedf, 1, 26, 53));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 134, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 152, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 134, 53));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 152, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 134, 17));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 152, 17));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 134, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 152, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

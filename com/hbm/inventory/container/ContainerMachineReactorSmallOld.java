@@ -33,9 +33,9 @@ private TileEntityMachineReactorSmallOld seleniumEngine;
 		
 		//Fluid IO
 		this.addSlotToContainer(new Slot(tedf, 12, 8, 90));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 8, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 13, 8, 108));
 		this.addSlotToContainer(new Slot(tedf, 14, 26, 90));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 15, 26, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 15, 26, 108));
 		
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 16, 62, 108));

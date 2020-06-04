@@ -20,15 +20,15 @@ public class ContainerMachineBoilerElectric extends Container {
 
 		//Fluid ID
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 8, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 8, 53));
 		//Input IO
 		this.addSlotToContainer(new Slot(tedf, 2, 44, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 44, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 44, 53));
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 4, 98, 53));
 		//Output IO
 		this.addSlotToContainer(new Slot(tedf, 5, 152, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 6, 152, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 6, 152, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{

@@ -30,7 +30,7 @@ private TileEntityMachineAssembler nukeBoy;
 		//Schematic
 		this.addSlotToContainer(new Slot(tedf, 4, 80, 54));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 5, 134, 90));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 5, 134, 90));
 		//Input
 		this.addSlotToContainer(new Slot(tedf, 6, 8, 18));
 		this.addSlotToContainer(new Slot(tedf, 7, 26, 18));

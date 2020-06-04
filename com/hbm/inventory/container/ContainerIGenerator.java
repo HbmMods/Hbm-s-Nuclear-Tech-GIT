@@ -43,7 +43,7 @@ public class ContainerIGenerator extends Container {
 		//Fluid Slot
 		this.addSlotToContainer(new Slot(tedf, 13, 98, 108));
 		//Container Slot
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 14, 98, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 14, 98, 72));
 		//Battery Slot
 		this.addSlotToContainer(new Slot(tedf, 15, 152, 108));
 		

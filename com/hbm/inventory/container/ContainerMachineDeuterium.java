@@ -27,7 +27,7 @@ private TileEntityMachineDeuterium nukeBoy;
 		this.addSlotToContainer(new Slot(tedf, 1, 26, 90));
 		this.addSlotToContainer(new Slot(tedf, 2, 44, 90));
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 54));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 140, 54));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 140, 54));
 		
 		for(int i = 0; i < 3; i++)
 		{

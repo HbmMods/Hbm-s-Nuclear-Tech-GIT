@@ -23,7 +23,7 @@ private TileEntityMachineSchrabidiumTransmutator nukeBoy;
 		nukeBoy = tedf;
 
 		this.addSlotToContainer(new Slot(tedf, 0, 44, 63));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 134, 63));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 134, 63));
 		this.addSlotToContainer(new Slot(tedf, 2, 26, 18));
 		this.addSlotToContainer(new Slot(tedf, 3, 8, 108));
 		

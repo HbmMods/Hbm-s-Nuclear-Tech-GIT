@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.*;
 import com.hbm.inventory.gui.*;
 import com.hbm.inventory.inv.InventoryLeadBox;
@@ -13,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
+@Spaghetti("ew")
 public class GUIHandler implements IGuiHandler {
 
 	@Override
@@ -837,6 +839,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntitySoyuzCapsule)
 					{
 						return new ContainerSoyuzCapsule(player.inventory, (TileEntitySoyuzCapsule) entity);
+					}
+					return null;
+				}
+	
+				case ModBlocks.guiID_crystallizer:
+				{
+					if(entity instanceof TileEntityMachineCrystallizer)
+					{
+						return new ContainerCrystallizer(player.inventory, (TileEntityMachineCrystallizer) entity);
 					}
 					return null;
 				}
@@ -1676,6 +1687,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntitySoyuzCapsule)
 					{
 						return new GUISoyuzCapsule(player.inventory, (TileEntitySoyuzCapsule) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_crystallizer:
+				{
+					if(entity instanceof TileEntityMachineCrystallizer)
+					{
+						return new GUICrystallizer(player.inventory, (TileEntityMachineCrystallizer) entity);
 					}
 					return null;
 				}

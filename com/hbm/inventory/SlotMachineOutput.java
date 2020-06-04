@@ -1,13 +1,12 @@
 package com.hbm.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class SlotMachineOutput extends Slot {
 
-	public SlotMachineOutput(EntityPlayer player, IInventory inventory, int i, int j, int k) {
+	public SlotMachineOutput(IInventory inventory, int i, int j, int k) {
 		super(inventory, i, j, k);
 	}
 	

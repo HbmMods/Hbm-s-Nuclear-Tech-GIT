@@ -560,6 +560,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityBarrel.class, "tileentity_fluid_barrel");
 		GameRegistry.registerTileEntity(TileEntityCyberCrab.class, "tileentity_crabs");
 		GameRegistry.registerTileEntity(TileEntitySoyuzCapsule.class, "tileentity_soyuz_capsule");
+		GameRegistry.registerTileEntity(TileEntityMachineCrystallizer.class, "tileentity_acidomatic");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1321,6 +1322,7 @@ public class MainRegistry
 	public static void PostLoad(FMLPostInitializationEvent PostEvent)
 	{
 		MachineRecipes.registerShredder();
+		CrystallizerRecipes.register();
 
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.scrap), new ItemStack(ModItems.dust));
 		MachineRecipes.overridePreSetRecipe(new ItemStack(ModItems.dust), new ItemStack(ModItems.dust));

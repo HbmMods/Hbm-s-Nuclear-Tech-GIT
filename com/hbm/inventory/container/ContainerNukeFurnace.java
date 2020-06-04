@@ -26,7 +26,7 @@ public class ContainerNukeFurnace extends Container {
 		
 		this.addSlotToContainer(new Slot(tedf, 0, 56, 53));
 		this.addSlotToContainer(new Slot(tedf, 1, 56, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 116, 35));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 116, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{

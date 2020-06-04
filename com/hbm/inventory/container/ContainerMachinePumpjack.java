@@ -27,11 +27,11 @@ public class ContainerMachinePumpjack extends Container {
 		//Canister Input
 		this.addSlotToContainer(new Slot(tedf, 1, 134, 18));
 		//Canister Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 2, 134, 54));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 134, 54));
 		//Gas Input
 		this.addSlotToContainer(new Slot(tedf, 3, 134, 72));
 		//Gas Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 4, 134, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 134, 108));
 		//Chip
 		this.addSlotToContainer(new Slot(tedf, 5, 8, 90));
 		

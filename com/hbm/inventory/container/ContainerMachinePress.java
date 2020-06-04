@@ -30,7 +30,7 @@ private TileEntityMachinePress nukeBoy;
 		//Input
 		this.addSlotToContainer(new Slot(tedf, 2, 80, 53));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 140, 35));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 140, 35));
 		
 		for(int i = 0; i < 3; i++)
 		{

@@ -34,18 +34,18 @@ public class ContainerCoreTitanium extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 8, 54));
 		this.addSlotToContainer(new Slot(tedf, 10, 8, 72));
 		//Outputs
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 11, 152, 54));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 12, 152, 72));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 152, 54));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 152, 72));
 		//Output Storage
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 13, 8, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 14, 26, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 15, 44, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 16, 62, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 17, 80, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 18, 98, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 19, 116, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 20, 134, 108));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 21, 152, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 13, 8, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 14, 26, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 15, 44, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 16, 62, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 17, 80, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 18, 98, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 19, 116, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 20, 134, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 21, 152, 108));
 		//Power Cell
 		this.addSlotToContainer(new Slot(tedf, 22, 44, 72));
 		

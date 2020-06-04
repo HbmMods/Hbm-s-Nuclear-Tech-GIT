@@ -375,6 +375,9 @@ public class ModBlocks {
 	public static Block machine_gascent;
 	public static final int guiID_gascent = 71;
 	
+	public static Block machine_crystallizer;
+	public static final int guiID_crystallizer = 94;
+	
 	public static Block machine_uf6_tank;
 	public static final int guiID_uf6_tank = 7;
 	
@@ -1031,6 +1034,7 @@ public class ModBlocks {
 		
 		machine_centrifuge = new MachineCentrifuge(Material.iron).setBlockName("machine_centrifuge").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_gascent = new MachineGasCent(Material.iron).setBlockName("machine_gascent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_crystallizer = new MachineCrystallizer(Material.iron).setBlockName("machine_crystallizer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		machine_uf6_tank = new MachineUF6Tank(Material.iron).setBlockName("machine_uf6_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
@@ -1701,6 +1705,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_difurnace_on, machine_difurnace_on.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_centrifuge, machine_centrifuge.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_gascent, machine_gascent.getUnlocalizedName());
+		GameRegistry.registerBlock(machine_crystallizer, machine_crystallizer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_uf6_tank, machine_uf6_tank.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_puf6_tank, machine_puf6_tank.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_reactor, machine_reactor.getUnlocalizedName());

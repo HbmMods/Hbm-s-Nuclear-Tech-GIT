@@ -18,9 +18,9 @@ public class ContainerCoreInjector extends Container {
 		nukeBoy = tedf;
 
 		this.addSlotToContainer(new Slot(tedf, 0, 26, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 1, 26, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 26, 53));
 		this.addSlotToContainer(new Slot(tedf, 2, 134, 17));
-		this.addSlotToContainer(new SlotMachineOutput(invPlayer.player, tedf, 3, 134, 53));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 134, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
