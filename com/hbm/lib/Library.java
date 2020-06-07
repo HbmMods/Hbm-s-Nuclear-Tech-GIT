@@ -52,12 +52,8 @@ public class Library {
 	
 	static Random rand = new Random();
 
-	public static List<String> book1 = new ArrayList<String>();
-	public static List<String> book2 = new ArrayList<String>();
-	public static List<String> book3 = new ArrayList<String>();
-	public static List<String> book4 = new ArrayList<String>();
-	public static List<String> book5 = new ArrayList<String>();
-
+	//this is a list of UUIDs used for various things, primarily for accessories.
+	//for a comprehensive list, check RenderAccessoryUtility.java
 	public static String HbMinecraft = "192af5d7-ed0f-48d8-bd89-9d41af8524f8";
 	public static String LPkukin = "937c9804-e11f-4ad2-a5b1-42e62ac73077";
 	public static String Dafnik = "3af1c262-61c0-4b12-a4cb-424cc3a9c8c0";
@@ -74,11 +70,9 @@ public class Library {
 	public static String ZippySqrl = "03c20435-a229-489a-a1a1-671b803f7017";
 	public static String Schrabby = "3a4a1944-5154-4e67-b80a-b6561e8630b7";
 	
+	//the old list that allowed superuser mode for the ZOMG
+	//currently unused
 	public static List<String> superuser = new ArrayList<String>();
-	
-	public static void initBooks() {
-		
-	}
 	
 	public static void applyRadData(Entity e, float f) {
 

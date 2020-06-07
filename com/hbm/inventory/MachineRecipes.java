@@ -115,262 +115,6 @@ public class MachineRecipes {
 		return null;
 	}
 
-	// Arrays!
-
-	public static ItemStack[] getCentrifugeProcessingResult(ItemStack item) {
-		return getCentrifugeOutput(item);
-	}
-
-	public static ItemStack[] getCentrifugeOutput(ItemStack item) {
-		
-		if(item == null || item.getItem() == null)
-			return null;
-
-		ItemStack[] test = new ItemStack[] { new ItemStack(Items.apple, 3), new ItemStack(Items.leather, 1),
-				new ItemStack(Items.sugar, 3), new ItemStack(Items.blaze_powder, 2) };
-
-		ItemStack[] uranF = new ItemStack[] { new ItemStack(ModItems.nugget_u235, 1),
-				new ItemStack(ModItems.nugget_u238, 2), new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2) };
-		ItemStack[] plutoniumF = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nugget_pu240, 1), new ItemStack(ModItems.nugget_lead, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) };
-		ItemStack[] moxF = new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nugget_neptunium, 1), new ItemStack(ModItems.nugget_u238, 2),
-				new ItemStack(ModItems.nuclear_waste_tiny, 2) };
-		ItemStack[] schrabidiumF = new ItemStack[] { new ItemStack(ModItems.nugget_beryllium, 1),
-				new ItemStack(ModItems.nugget_lead, 1), new ItemStack(ModItems.nugget_solinium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) };
-		ItemStack[] thoriumF = new ItemStack[] { new ItemStack(ModItems.nugget_u238, 1),
-				new ItemStack(ModItems.nugget_th232, 1), new ItemStack(ModItems.nugget_u233, 3),
-				new ItemStack(ModItems.nuclear_waste_tiny, 1) };
-		
-		ItemStack[] cloud = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
-				new ItemStack(ModItems.sulfur, 1), new ItemStack(ModItems.dust, 1),
-				new ItemStack(ModItems.dust, 1) };
-
-		ItemStack[] coal = new ItemStack[] { new ItemStack(ModItems.powder_coal, 2),
-				new ItemStack(ModItems.powder_coal, 2), new ItemStack(ModItems.powder_coal, 2),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] lignite = new ItemStack[] { new ItemStack(ModItems.powder_lignite, 2),
-				new ItemStack(ModItems.powder_lignite, 2), new ItemStack(ModItems.powder_lignite, 2),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] iron = new ItemStack[] { new ItemStack(ModItems.powder_iron, 1),
-				new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.powder_iron, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] gold = new ItemStack[] { new ItemStack(ModItems.powder_gold, 1),
-				new ItemStack(ModItems.powder_gold, 1), new ItemStack(ModItems.powder_gold, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] diamond = new ItemStack[] { new ItemStack(ModItems.powder_diamond, 1),
-				new ItemStack(ModItems.powder_diamond, 1), new ItemStack(ModItems.powder_diamond, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] emerald = new ItemStack[] { new ItemStack(ModItems.powder_emerald, 1),
-				new ItemStack(ModItems.powder_emerald, 1), new ItemStack(ModItems.powder_emerald, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] titanium = new ItemStack[] { new ItemStack(ModItems.powder_titanium, 1),
-				new ItemStack(ModItems.powder_titanium, 1), new ItemStack(ModItems.powder_iron, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] quartz = new ItemStack[] { new ItemStack(ModItems.powder_quartz, 1),
-				new ItemStack(ModItems.powder_quartz, 1), new ItemStack(ModItems.powder_lithium_tiny, 1),
-				new ItemStack(Blocks.netherrack, 1) };
-		ItemStack[] tungsten = new ItemStack[] { new ItemStack(ModItems.powder_tungsten, 1),
-				new ItemStack(ModItems.powder_tungsten, 1), new ItemStack(ModItems.powder_iron, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] copper = new ItemStack[] { new ItemStack(ModItems.powder_copper, 1),
-				new ItemStack(ModItems.powder_copper, 1), new ItemStack(ModItems.powder_gold, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] aluminium = new ItemStack[] { new ItemStack(ModItems.powder_aluminium, 1),
-				new ItemStack(ModItems.powder_aluminium, 1), new ItemStack(ModItems.powder_iron, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] lead = new ItemStack[] { new ItemStack(ModItems.powder_lead, 1),
-				new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.powder_gold, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] schrabidium = new ItemStack[] { new ItemStack(ModItems.powder_schrabidium, 1),
-				new ItemStack(ModItems.powder_schrabidium, 1), new ItemStack(ModItems.nugget_solinium, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] rare = new ItemStack[] { new ItemStack(ModItems.powder_desh_mix, 1),
-				new ItemStack(ModItems.powder_actinium_tiny, 1), new ItemStack(ModItems.powder_lanthanium_tiny, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] plutonium = new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 1),
-				new ItemStack(ModItems.powder_plutonium, 1), new ItemStack(ModItems.powder_uranium, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] uranium = new ItemStack[] { new ItemStack(ModItems.powder_uranium, 1),
-				new ItemStack(ModItems.powder_uranium, 1), new ItemStack(ModItems.powder_thorium, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] thorium = new ItemStack[] { new ItemStack(ModItems.powder_thorium, 1),
-				new ItemStack(ModItems.powder_thorium, 1), new ItemStack(ModItems.powder_uranium, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] beryllium = new ItemStack[] { new ItemStack(ModItems.powder_beryllium, 1),
-				new ItemStack(ModItems.powder_beryllium, 1), new ItemStack(ModItems.powder_emerald, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] redstone = new ItemStack[] { new ItemStack(Items.redstone, 3),
-				new ItemStack(Items.redstone, 3), new ItemStack(ModItems.nugget_mercury, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] tikite = new ItemStack[] { new ItemStack(ModItems.powder_plutonium, 2),
-				new ItemStack(ModItems.powder_cobalt, 2), new ItemStack(ModItems.powder_nitan_mix, 1),
-				new ItemStack(Blocks.end_stone, 1) };
-		ItemStack[] lapis = new ItemStack[] { new ItemStack(ModItems.powder_lapis, 3),
-				new ItemStack(ModItems.powder_lapis, 3), new ItemStack(ModItems.powder_cobalt_tiny, 1),
-				new ItemStack(Blocks.gravel, 1) };
-		ItemStack[] starmetal = new ItemStack[] { new ItemStack(ModItems.powder_dura_steel, 3),
-				new ItemStack(ModItems.powder_astatine, 1), new ItemStack(ModItems.powder_cobalt, 2),
-				new ItemStack(Blocks.gravel, 1) };
-		
-		ItemStack[] euphCluster = new ItemStack[] { new ItemStack(ModItems.nugget_euphemium, 7),
-				new ItemStack(ModItems.powder_schrabidium, 4), new ItemStack(ModItems.ingot_starmetal, 2),
-				new ItemStack(ModItems.nugget_solinium, 2) };
-
-		if (MainRegistry.enableDebugMode) {
-			if (item.getItem() == Item.getItemFromBlock(ModBlocks.test_render)) {
-				return test;
-			}
-		}
-
-		if (item.getItem() == ModItems.waste_uranium) {
-			return uranF;
-		}
-
-		if (item.getItem() == ModItems.waste_thorium) {
-			return thoriumF;
-		}
-
-		/*if (item.getItem() == ModItems.rod_dual_uranium_fuel_depleted) {
-			return uran2;
-		}
-
-		if (item.getItem() == ModItems.rod_quad_uranium_fuel_depleted) {
-			return uran3;
-		}*/
-
-		if (item.getItem() == ModItems.waste_plutonium) {
-			return plutoniumF;
-		}
-
-		if (item.getItem() == ModItems.waste_mox) {
-			return moxF;
-		}
-
-		if (item.getItem() == ModItems.waste_schrabidium) {
-			return schrabidiumF;
-		}
-
-		if (item.getItem() == ModItems.powder_cloud) {
-			return cloud;
-		}
-
-		if (mODE(item, "oreCoal")) {
-			return coal;
-		}
-
-		if (mODE(item, "oreLignite")) {
-			return lignite;
-		}
-
-		if (mODE(item, "oreIron")) {
-			return iron;
-		}
-
-		if (mODE(item, "oreGold")) {
-			return gold;
-		}
-
-		if (mODE(item, "oreDiamond")) {
-			return diamond;
-		}
-
-		if (mODE(item, "oreEmerald")) {
-			return emerald;
-		}
-
-		if (mODE(item, "oreUranium")) {
-			return uranium;
-		}
-
-		if (mODE(item, "oreThorium")) {
-			return thorium;
-		}
-
-		if (mODE(item, "orePlutonium")) {
-			return plutonium;
-		}
-
-		if (mODE(item, "oreTitanium")) {
-			return titanium;
-		}
-
-		if (mODE(item, "oreTungsten")) {
-			return tungsten;
-		}
-
-		if (mODE(item, "oreLead")) {
-			return lead;
-		}
-
-		if (mODE(item, "oreBeryllium")) {
-			return beryllium;
-		}
-
-		if (mODE(item, "oreAluminum")) {
-			return aluminium;
-		}
-
-		if (mODE(item, "oreSchrabidium")) {
-			return schrabidium;
-		}
-
-		if (mODE(item, "oreQuartz") || mODE(item, "oreNetherQuartz")) {
-			return quartz;
-		}
-
-		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_rare)) {
-			return rare;
-		}
-
-		if (mODE(item, "oreCopper")) {
-			return copper;
-		}
-
-		if (mODE(item, "oreRedstone") || item.getItem() == Item.getItemFromBlock(Blocks.lit_redstone_ore)) {
-			return redstone;
-		}
-
-		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_tikite)) {
-			return tikite;
-		}
-
-		if (mODE(item, "oreLapis")) {
-			return lapis;
-		}
-
-		if (mODE(item, "oreStarmetal")) {
-			return starmetal;
-		}
-
-		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_euphemium_cluster)) {
-			return euphCluster;
-		}
-
-		if (item.getItem() == Item.getItemFromBlock(ModBlocks.ore_nether_fire)) {
-			return new ItemStack[] {
-					new ItemStack(Items.blaze_powder, 2),
-					new ItemStack(ModItems.powder_fire, 2),
-					new ItemStack(ModItems.ingot_phosphorus),
-					new ItemStack(Blocks.netherrack)
-			};
-		}
-
-		if (item.getItem() == Items.blaze_rod) {
-			return new ItemStack[] {
-					new ItemStack(Items.blaze_powder, 1),
-					new ItemStack(Items.blaze_powder, 1),
-					new ItemStack(ModItems.powder_fire, 1),
-					new ItemStack(ModItems.powder_fire, 1)
-			};
-		}
-
-		return null;
-	}
-
 	//bro, i don't care
 	@SuppressWarnings("incomplete-switch")
 	public static List<GasCentOutput> getGasCentOutput(FluidType fluid) {
@@ -1227,75 +971,6 @@ public class MachineRecipes {
 		return fuels;
 	}
 
-	public Map<Object, Object[]> getCentrifugeRecipes() {
-		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
-		if (MainRegistry.enableDebugMode) {
-			recipes.put(new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)),
-					getCentrifugeOutput(new ItemStack(ModBlocks.test_render)));
-		}
-		recipes.put(new ItemStack(ModItems.powder_cloud),
-				getCentrifugeOutput(new ItemStack(ModItems.powder_cloud)));
-		recipes.put(new ItemStack(Blocks.coal_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.coal_ore)));
-		recipes.put(new ItemStack(Blocks.iron_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.iron_ore)));
-		recipes.put(new ItemStack(Blocks.gold_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.gold_ore)));
-		recipes.put(new ItemStack(Blocks.diamond_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.diamond_ore)));
-		recipes.put(new ItemStack(Blocks.emerald_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.emerald_ore)));
-		recipes.put(new ItemStack(ModBlocks.ore_uranium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_uranium)));
-		recipes.put(new ItemStack(ModBlocks.ore_thorium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_thorium)));
-		recipes.put(new ItemStack(ModBlocks.ore_titanium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_titanium)));
-		recipes.put(new ItemStack(ModBlocks.ore_tungsten),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_tungsten)));
-		recipes.put(new ItemStack(ModBlocks.ore_aluminium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_aluminium)));
-		recipes.put(new ItemStack(ModBlocks.ore_beryllium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_beryllium)));
-		recipes.put(new ItemStack(ModBlocks.ore_copper),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_copper)));
-		recipes.put(new ItemStack(ModBlocks.ore_lead),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_lead)));
-		recipes.put(new ItemStack(ModBlocks.ore_rare),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_rare)));
-		recipes.put(new ItemStack(ModBlocks.ore_schrabidium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_schrabidium)));
-		recipes.put(new ItemStack(ModBlocks.ore_tikite),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_tikite)));
-		recipes.put(new ItemStack(Blocks.redstone_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.redstone_ore)));
-		recipes.put(new ItemStack(Blocks.lapis_ore),
-				getCentrifugeOutput(new ItemStack(Blocks.lapis_ore)));
-		recipes.put(new ItemStack(ModBlocks.ore_nether_plutonium),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_plutonium)));
-		recipes.put(new ItemStack(ModItems.waste_uranium),
-				getCentrifugeOutput(new ItemStack(ModItems.waste_uranium)));
-		recipes.put(new ItemStack(ModItems.waste_thorium),
-				getCentrifugeOutput(new ItemStack(ModItems.waste_thorium)));
-		recipes.put(new ItemStack(ModItems.waste_plutonium),
-				getCentrifugeOutput(new ItemStack(ModItems.waste_plutonium)));
-		recipes.put(new ItemStack(ModItems.waste_mox),
-				getCentrifugeOutput(new ItemStack(ModItems.waste_mox)));
-		recipes.put(new ItemStack(ModItems.waste_schrabidium),
-				getCentrifugeOutput(new ItemStack(ModItems.waste_schrabidium)));
-		recipes.put(new ItemStack(ModBlocks.ore_lignite),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_lignite)));
-		recipes.put(new ItemStack(ModBlocks.ore_meteor_starmetal),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_meteor_starmetal)));
-		recipes.put(new ItemStack(ModBlocks.block_euphemium_cluster),
-				getCentrifugeOutput(new ItemStack(ModBlocks.block_euphemium_cluster)));
-		recipes.put(new ItemStack(ModBlocks.ore_nether_fire),
-				getCentrifugeOutput(new ItemStack(ModBlocks.ore_nether_fire)));
-		recipes.put(new ItemStack(Items.blaze_rod),
-				getCentrifugeOutput(new ItemStack(Items.blaze_rod)));
-		return recipes;
-	}
-
 	public Map<Object, Object[]> getGasCentrifugeRecipes() {
 		Map<Object, Object[]> recipes = new HashMap<Object, Object[]>();
 
@@ -1976,116 +1651,6 @@ public class MachineRecipes {
 		
 		return recipes;
 	}*/
-	
-	//new and improved
-	public static HashMap<StackWrapper, ItemStack> shredderRecipes = new HashMap();
-	public static HashMap<Object, Object> neiShredderRecipes;
-	
-	public static void registerShredder() {
-		
-		String[] names = OreDictionary.getOreNames();
-		
-		for(int i = 0; i < names.length; i++) {
-			
-			String name = names[i];
-			
-			//if the dict contains invalid names, skip
-			if(name == null || name.isEmpty())
-				continue;
-			
-			List<ItemStack> matches = OreDictionary.getOres(name);
-			
-			//if the name isn't assigned to an ore, also skip
-			if(matches == null || matches.isEmpty())
-				continue;
-
-			if(name.length() > 5 && name.substring(0, 5).equals("ingot")) {
-				ItemStack dust = getDustByName(name.substring(5));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-
-					for(ItemStack stack : matches) {
-						shredderRecipes.put(new StackWrapper(stack), dust);
-					}
-				}
-			} else if(name.length() > 3 && name.substring(0, 3).equals("ore")) {
-				ItemStack dust = getDustByName(name.substring(3));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-					
-					dust.stackSize = 2;
-
-					for(ItemStack stack : matches) {
-						shredderRecipes.put(new StackWrapper(stack), dust);
-					}
-				}
-			} else if(name.length() > 5 && name.substring(0, 5).equals("block")) {
-				ItemStack dust = getDustByName(name.substring(5));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-					
-					dust.stackSize = 9;
-
-					for(ItemStack stack : matches) {
-						shredderRecipes.put(new StackWrapper(stack), dust);
-					}
-				}
-			} else if(name.length() > 3 && name.substring(0, 3).equals("gem")) {
-				ItemStack dust = getDustByName(name.substring(3));
-				
-				if(dust != null && dust.getItem() != ModItems.scrap) {
-
-					for(ItemStack stack : matches) {
-						shredderRecipes.put(new StackWrapper(stack), dust);
-					}
-				}
-			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
-
-				for(ItemStack stack : matches) {
-					shredderRecipes.put(new StackWrapper(stack), new ItemStack(ModItems.dust));
-				}
-			}
-		}
-	}
-	
-	public static ItemStack getDustByName(String name) {
-		
-		List<ItemStack> matches = OreDictionary.getOres("dust" + name);
-		
-		if(matches != null && !matches.isEmpty())
-			return matches.get(0).copy();
-		
-		return new ItemStack(ModItems.scrap);
-	}
-	
-	public static void overridePreSetRecipe(ItemStack in, ItemStack out) {
-		
-		shredderRecipes.put(new StackWrapper(in), out);
-	}
-	
-	public Map<Object, Object> getShredderRecipes() {
-		
-		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
-		if(neiShredderRecipes == null)
-			neiShredderRecipes = new HashMap(shredderRecipes);
-		
-		return neiShredderRecipes;
-	}
-	
-	public static ItemStack getShredderResult(ItemStack stack) {
-		
-		if(stack == null || stack.getItem() == null)
-			return new ItemStack(ModItems.scrap);
-		
-		ItemStack sta = shredderRecipes.get(new StackWrapper(stack));
-		
-		/*if(sta != null)
-			System.out.println(stack.getDisplayName() + " resulted " + sta.getDisplayName());
-		else
-			System.out.println(stack.getDisplayName() + " resulted null");*/
-		
-		return sta == null ? new ItemStack(ModItems.scrap) : sta;
-	}
 
 	public Map<Object[], Object> getCMBRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
@@ -5128,7 +4693,7 @@ public class MachineRecipes {
 			input[0] = new FluidStack(1800, FluidType.COOLANT);
 			break;
         case DESH:
-			input[0] = new FluidStack(800, FluidType.ACID);
+			input[0] = new FluidStack(200, FluidType.MERCURY);
 			input[1] = new FluidStack(200, FluidType.LIGHTOIL);
 			break;
         case PEROXIDE:
@@ -5136,10 +4701,11 @@ public class MachineRecipes {
         	break;
         case CIRCUIT_4:
 			input[0] = new FluidStack(400, FluidType.ACID);
+			input[1] = new FluidStack(200, FluidType.PETROLEUM);
         	break;
         case CIRCUIT_5:
 			input[0] = new FluidStack(800, FluidType.ACID);
-			input[1] = new FluidStack(400, FluidType.PETROLEUM);
+			input[1] = new FluidStack(200, FluidType.MERCURY);
         	break;
         case SF_OIL:
 			input[0] = new FluidStack(350, FluidType.OIL);
@@ -5212,6 +4778,7 @@ public class MachineRecipes {
         	break;
         case NITAN:
 			input[0] = new FluidStack(600, FluidType.KEROSENE);
+			input[1] = new FluidStack(200, FluidType.MERCURY);
         	break;
         case OIL_SAND:
 			input[0] = new FluidStack(400, FluidType.BITUMEN);
@@ -5506,7 +5073,7 @@ public class MachineRecipes {
 		return map;
 	}
 	
-	public static class StackWrapper {
+	/*public static class StackWrapper {
 
 		public Item item;
 		public int damage;
@@ -5557,5 +5124,5 @@ public class MachineRecipes {
 				return false;
 			return true;
 		}
-	}
+	}*/
 }

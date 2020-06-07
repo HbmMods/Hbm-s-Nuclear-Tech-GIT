@@ -226,6 +226,28 @@ public class ModItems {
 	public static Item solid_fuel;
 	public static Item rocket_fuel;
 
+	public static Item crystal_iron;
+	public static Item crystal_gold;
+	public static Item crystal_redstone;
+	public static Item crystal_uranium;
+	public static Item crystal_thorium;
+	public static Item crystal_plutonium;
+	public static Item crystal_titanium;
+	public static Item crystal_sulfur;
+	public static Item crystal_niter;
+	public static Item crystal_copper;
+	public static Item crystal_tungsten;
+	public static Item crystal_aluminium;
+	public static Item crystal_fluorite;
+	public static Item crystal_beryllium;
+	public static Item crystal_lead;
+	public static Item crystal_schrabidium;
+	public static Item crystal_rare;
+	public static Item crystal_phosphorus;
+	public static Item crystal_lithium;
+	public static Item crystal_starmetal;
+	public static Item crystal_trixite;
+
 	public static Item powder_lead;
 	public static Item powder_neptunium;
 	public static Item powder_schrabidium;
@@ -645,6 +667,7 @@ public class ModItems {
 	public static Item jetpack_tank;
 	public static Item gun_kit_1;
 	public static Item gun_kit_2;
+	public static Item cbt_device;
 
 	public static Item can_empty;
 	public static Item can_smart;
@@ -1587,6 +1610,7 @@ public class ModItems {
 	public static Item shimmer_sledge;
 	public static Item shimmer_axe;
 	public static Item bottle_opener;
+	public static Item pch;
 
 	public static Item crowbar;
 
@@ -2051,6 +2075,28 @@ public class ModItems {
 		nugget_les = new ItemRadioactive(0.5F, false, true).setUnlocalizedName("nugget_les").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_les");
 		plate_combine_steel = new Item().setUnlocalizedName("plate_combine_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_combine_steel");
 
+		crystal_iron = new Item().setUnlocalizedName("crystal_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_iron");
+		crystal_gold = new Item().setUnlocalizedName("crystal_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_gold");
+		crystal_redstone = new Item().setUnlocalizedName("crystal_redstone").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_redstone");
+		crystal_uranium = new ItemRadioactive(0.75F).setUnlocalizedName("crystal_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_uranium");
+		crystal_thorium = new Item().setUnlocalizedName("crystal_thorium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_thorium");
+		crystal_plutonium = new ItemRadioactive(3.0F).setUnlocalizedName("crystal_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_plutonium");
+		crystal_titanium = new Item().setUnlocalizedName("crystal_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_titanium");
+		crystal_sulfur = new Item().setUnlocalizedName("crystal_sulfur").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_sulfur");
+		crystal_niter = new Item().setUnlocalizedName("crystal_niter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_niter");
+		crystal_copper = new Item().setUnlocalizedName("crystal_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_copper");
+		crystal_tungsten = new Item().setUnlocalizedName("crystal_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_tungsten");
+		crystal_aluminium = new Item().setUnlocalizedName("crystal_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_aluminium");
+		crystal_fluorite = new Item().setUnlocalizedName("crystal_fluorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_fluorite");
+		crystal_beryllium = new Item().setUnlocalizedName("crystal_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_beryllium");
+		crystal_lead = new Item().setUnlocalizedName("crystal_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_lead");
+		crystal_schrabidium = new ItemRadioactive(10F, false, true).setUnlocalizedName("crystal_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_schrabidium");
+		crystal_rare = new Item().setUnlocalizedName("crystal_rare").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_rare");
+		crystal_phosphorus = new ItemRadioactive(0.0F, true).setUnlocalizedName("crystal_phosphorus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_phosphorus");
+		crystal_lithium = new Item().setUnlocalizedName("crystal_lithium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_lithium");
+		crystal_starmetal = new Item().setUnlocalizedName("crystal_starmetal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_starmetal");
+		crystal_trixite = new ItemRadioactive(10.0F).setUnlocalizedName("crystal_trixite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_trixite");
+		
 		powder_lead = new Item().setUnlocalizedName("powder_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lead");
 		powder_neptunium = new ItemRadioactive(2.5F, true).setUnlocalizedName("powder_neptunium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_neptunium");
 		powder_schrabidium = new ItemRadioactive(7.5F, true, true).setUnlocalizedName("powder_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_schrabidium");
@@ -2430,6 +2476,7 @@ public class ModItems {
 		cladding_rubber = new ItemCladding(0.075F).setUnlocalizedName("cladding_rubber").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_rubber");
 		cladding_lead = new ItemCladding(0.2F).setUnlocalizedName("cladding_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_lead");
 		cladding_desh = new ItemCladding(0.4F).setUnlocalizedName("cladding_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_desh");
+		cbt_device = new ItemSyringe().setUnlocalizedName("cbt_device").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":cbt_device");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -3596,6 +3643,7 @@ public class ModItems {
 		wrench = new WeaponSpecial(MainRegistry.tMatSteel).setUnlocalizedName("wrench").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wrench");
 		wrench_flipped = new WeaponSpecial(MainRegistry.tMatElec).setUnlocalizedName("wrench_flipped").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wrench_flipped");
 		memespoon = new WeaponSpecial(MainRegistry.tMatSteel).setUnlocalizedName("memespoon").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":memespoon");
+		pch = new WeaponSpecial(MainRegistry.tMatHammmer).setUnlocalizedName("pch").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":pch");
 
 		multitool_hit = new ItemMultitoolPassive().setUnlocalizedName("multitool_hit").setCreativeTab(null).setTextureName(RefStrings.MODID + ":multitool_fist");
 		multitool_dig = new ItemMultitoolTool(4.0F, MainRegistry.enumToolMaterialMultitool, ItemMultitoolTool.getAllBlocks()).setFull3D().setUnlocalizedName("multitool_dig").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":multitool_claw");
@@ -3926,6 +3974,29 @@ public class ModItems {
 		GameRegistry.registerItem(powder_power, powder_power.getUnlocalizedName());
 		GameRegistry.registerItem(cordite, cordite.getUnlocalizedName());
 		GameRegistry.registerItem(ballistite, ballistite.getUnlocalizedName());
+		
+		//Crystals
+		GameRegistry.registerItem(crystal_iron, crystal_iron.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_gold, crystal_gold.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_redstone, crystal_redstone.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_uranium, crystal_uranium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_thorium, crystal_thorium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_plutonium, crystal_plutonium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_titanium, crystal_titanium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_sulfur, crystal_sulfur.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_niter, crystal_niter.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_copper, crystal_copper.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_tungsten, crystal_tungsten.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_aluminium, crystal_aluminium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_fluorite, crystal_fluorite.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_beryllium, crystal_beryllium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_lead, crystal_lead.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_schrabidium, crystal_schrabidium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_rare, crystal_rare.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_phosphorus, crystal_phosphorus.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_lithium, crystal_lithium.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_starmetal, crystal_starmetal.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_trixite, crystal_trixite.getUnlocalizedName());
 		
 		//Fragments
 		GameRegistry.registerItem(fragment_neodymium, fragment_neodymium.getUnlocalizedName());
@@ -5135,6 +5206,7 @@ public class ModItems {
 		GameRegistry.registerItem(schrabidium_hammer, schrabidium_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(shimmer_sledge, shimmer_sledge.getUnlocalizedName());
 		GameRegistry.registerItem(shimmer_axe, shimmer_axe.getUnlocalizedName());
+		GameRegistry.registerItem(pch, pch.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_pickaxe, schrabidium_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_axe, schrabidium_axe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_shovel, schrabidium_shovel.getUnlocalizedName());
@@ -5316,6 +5388,7 @@ public class ModItems {
 		
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());
+		GameRegistry.registerItem(cbt_device, cbt_device.getUnlocalizedName());
 		
 		//Cladding
 		GameRegistry.registerItem(cladding_paint, cladding_paint.getUnlocalizedName());

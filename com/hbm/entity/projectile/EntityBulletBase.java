@@ -94,9 +94,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		moX /= f2;
 		moY /= f2;
 		moZ /= f2;
-		moX += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ mult2;
-		moY += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ mult2;
-		moZ += this.rand.nextGaussian() * /*(this.rand.nextBoolean() ? -1 : 1) **/ mult2;
+		moX += this.rand.nextGaussian() * mult2;
+		moY += this.rand.nextGaussian() * mult2;
+		moZ += this.rand.nextGaussian() * mult2;
 		moX *= mult1;
 		moY *= mult1;
 		moZ *= mult1;
@@ -359,7 +359,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			
 			double motion = Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector();
 			
-			for (i = 0; i < motion * 2; ++i) {
+			for (i = 0; i < motion * 3; ++i) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vanillaExt");

@@ -43,6 +43,8 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         this.motionZ = (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI) * f);
         this.motionY = (double)(-MathHelper.sin((this.rotationPitch + this.func_70183_g()) / 180.0F * (float)Math.PI) * f);
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, this.func_70182_d(), 1.0F);
+        this.rotationPitch = 0;
+        this.prevRotationPitch = 0;
     }
 
     public EntityGrenadeBouncyBase(World world, double posX, double posY, double posZ)
@@ -94,9 +96,7 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         this.motionX = motionX;
         this.motionY = motionY;
         this.motionZ = motionZ;
-        float f3 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
         this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
-        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(motionY, (double)f3) * 180.0D / Math.PI);
     }
     
     @SideOnly(Side.CLIENT)
@@ -108,18 +108,20 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
 
         if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
             this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(motionY, (double)f) * 180.0D / Math.PI);
         }
     }
     
     public void onUpdate()
     {
+        super.onUpdate();
         this.lastTickPosX = this.posX;
         this.lastTickPosY = this.posY;
         this.lastTickPosZ = this.posZ;
-        super.onUpdate();
+        
+        this.prevRotationPitch = this.rotationPitch;
+        
+        this.rotationPitch -= Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector() * 25;
         
         //Bounce here
         
@@ -162,25 +164,14 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         }
         
         //Bounce here [END]
-
+        
         if(!bounce) {
         	this.posX += this.motionX;
         	this.posY += this.motionY;
         	this.posZ += this.motionZ;
         }
         
-        float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
         this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-
-        for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)f1) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-        {
-            ;
-        }
-
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-        {
-            this.prevRotationPitch += 360.0F;
-        }
 
         while (this.rotationYaw - this.prevRotationYaw < -180.0F)
         {
@@ -192,7 +183,6 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
             this.prevRotationYaw += 360.0F;
         }
 
-        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
         this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
         float f2 = 0.99F;
         float f3 = this.getGravityVelocity();

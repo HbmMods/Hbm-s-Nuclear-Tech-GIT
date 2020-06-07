@@ -6,7 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.CentrifugeRecipes;
+import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemToolAbility;
 import com.hbm.main.MainRegistry;
@@ -200,7 +201,7 @@ public abstract class ToolAbility {
 				block = Blocks.redstone_ore;
 			
 			ItemStack stack = new ItemStack(block, 1, meta);
-			ItemStack result = MachineRecipes.getShredderResult(stack);
+			ItemStack result = ShredderRecipes.getShredderResult(stack);
 			
 			if(result != null && result.getItem() != ModItems.scrap) {
 				world.setBlockToAir(x, y, z);
@@ -229,7 +230,7 @@ public abstract class ToolAbility {
 				block = Blocks.redstone_ore;
 			
 			ItemStack stack = new ItemStack(block, 1, meta);
-			ItemStack[] result = MachineRecipes.getCentrifugeProcessingResult(stack);
+			ItemStack[] result = CentrifugeRecipes.getOutput(stack);
 			
 			if(result != null) {
 				world.setBlockToAir(x, y, z);

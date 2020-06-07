@@ -1,7 +1,6 @@
 package com.hbm.blocks.network;
 
 import com.hbm.entity.item.EntityMovingItem;
-import com.hbm.tileentity.machine.TileEntityMachineEPress;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -81,11 +80,6 @@ public class BlockConveyor extends Block {
 		if(i == 3)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
-		
-		if(itemStack.hasDisplayName())
-		{
-			((TileEntityMachineEPress)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
 		}
 	}
 

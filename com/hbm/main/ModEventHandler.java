@@ -14,6 +14,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.handler.ArmorUtil;
+import com.hbm.handler.VersionChecker;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.Library;
@@ -47,6 +48,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -67,8 +69,15 @@ public class ModEventHandler
 	@SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		
-        if(event.player.worldObj.isRemote)
+		System.out.println("eeeeee");
+		
+        if(!event.player.worldObj.isRemote) {
         	event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
+        	
+        	if(VersionChecker.newVersion) {
+        		event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "New version " + VersionChecker.versionNumber + " is available!"));
+        	}
+        }
 	}
 	
 	@SubscribeEvent
@@ -619,7 +628,39 @@ public class ModEventHandler
 		EntityPlayerMP player = event.player;
 		String message = event.message;
 		
-		//only if debug mode is enabled, which it is not by default
+		//boolean conditions for the illiterate, edition 1
+		//bellow you can see the header of an if-block. inside the brackets, there is a boolean statement.
+		//that means nothing other than its value totaling either 'true' or 'false'
+		//examples: 'true' would just mean true
+		//'1 > 3' would equal false
+		//'i < 10' would equal true if 'i' is smaller than 10, if equal or greater, it will result in false
+		
+		//let's start from the back:
+		
+		//this part means that the message's first character has to equal a '!': -------------------------+
+		//                                                                                                |
+		//this is a logical AND operator: -------------------------------------------------------------+  |
+		//                                                                                             |  |
+		//this is a reference to a field in                                                            |  |
+		//Library.java containing a reference UUID: --------------------------------------+            |  |
+		//                                                                                |            |  |
+		//this will compare said UUID with                                                |            |  |
+		//the string representation of the                                                |            |  |
+		//current player's UUID: ----------+                                              |            |  |
+		//                                 |                                              |            |  |
+		//another AND operator: --------+  |                                              |            |  |
+		//                              |  |                                              |            |  |
+		//this is a reference to a      |  |                                              |            |  |
+		//boolean called                |  |                                              |            |  |
+		//'enableDebugMode' which is    |  |                                              |            |  |
+		//only set once by the mod's    |  |                                              |            |  |
+		//config and is disabled by     |  |                                              |            |  |
+		//default. "debug" is not a     |  |                                              |            |  |
+		//substring of the message, nor |  |                                              |            |  |
+		//something that can be toggled |  |                                              |            |  |
+		//in any other way except for   |  |                                              |            |  |
+		//the config file: |            |  |                                              |            |  |
+		//                 V            V  V                                              V            V  V
 		if(MainRegistry.enableDebugMode && player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
 			
 			String[] msg = message.split(" ");

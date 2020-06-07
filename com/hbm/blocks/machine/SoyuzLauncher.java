@@ -89,23 +89,6 @@ public class SoyuzLauncher extends BlockDummyable {
 		
 		ForgeDirection dir = ForgeDirection.EAST;
 		
-		/*if(i == 0)
-		{
-			dir = ForgeDirection.getOrientation(2);
-		}
-		if(i == 1)
-		{
-			dir = ForgeDirection.getOrientation(5);
-		}
-		if(i == 2)
-		{
-			dir = ForgeDirection.getOrientation(3);
-		}
-		if(i == 3)
-		{
-			dir = ForgeDirection.getOrientation(4);
-		}*/
-		
 		if(!checkRequirement(world, x, y, z, dir, o)) {
 			world.setBlockToAir(x, y, z);
 			
@@ -126,6 +109,8 @@ public class SoyuzLauncher extends BlockDummyable {
 			
 			return;
 		}
+		
+		pl.getHeldItem().stackSize--;
 		
 		world.setBlock(x + dir.offsetX * o , y + dir.offsetY * o + height, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
 		fillSpace(world, x, y, z, dir, o);
@@ -165,8 +150,6 @@ public class SoyuzLauncher extends BlockDummyable {
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { -2, 4, -3, 6, 6, -3 }, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { 0, 4, 1, 1, -6, 8 }, this, dir);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] { 0, 4, 2, 2, 9, -5 }, this, dir);
-		
-		//for(int a = )
 	}
 
 	@Override

@@ -1,10 +1,43 @@
 package com.hbm.inventory;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipesCommon {
+	
+	public static ItemStack[] copyStackArray(ItemStack[] array) {
+		
+		if(array == null)
+			return null;
+		
+		ItemStack[] clone = new ItemStack[array.length];
+		
+		for(int i = 0; i < array.length; i++) {
+			
+			if(array[i] != null)
+				clone[i] = array[i].copy();
+		}
+		
+		return clone;
+	}
+	
+	public static ItemStack[] objectToStackArray(Object[] array) {
+
+		if(array == null)
+			return null;
+		
+		ItemStack[] clone = new ItemStack[array.length];
+		
+		for(int i = 0; i < array.length; i++) {
+			
+			if(array[i] instanceof ItemStack)
+				clone[i] = (ItemStack)array[i];
+		}
+		
+		return clone;
+	}
 	
 	public static class ComparableStack {
 
@@ -12,8 +45,25 @@ public class RecipesCommon {
 		int stacksize;
 		int meta;
 		
+		public ComparableStack(ItemStack stack) {
+			this.item = stack.getItem();
+			this.stacksize = stack.stackSize;
+			this.meta = stack.getItemDamage();
+		}
+		
+		public ComparableStack makeSingular() {
+			stacksize = 1;
+			return this;
+		}
+		
 		public ComparableStack(Item item) {
 			this.item = item;
+			this.stacksize = 1;
+			this.meta = 0;
+		}
+		
+		public ComparableStack(Block item) {
+			this.item = Item.getItemFromBlock(item);
 			this.stacksize = 1;
 			this.meta = 0;
 		}

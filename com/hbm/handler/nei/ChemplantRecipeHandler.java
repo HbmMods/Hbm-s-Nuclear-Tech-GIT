@@ -123,10 +123,10 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(result, (ItemStack)recipe.getValue()[0]) || 
 					compareFluidStacks(result, (ItemStack)recipe.getValue()[1]) || 
-					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[2]) || 
-					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[3]) || 
-					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[4]) || 
-					NEIServerUtils.areStacksSameType(result, (ItemStack)recipe.getValue()[5]))
+					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[2]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[3]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[4]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(result, (ItemStack)recipe.getValue()[5]))
 				this.arecipes.add(new SmeltingSet(
 						(ItemStack)recipe.getKey()[0],
 						(ItemStack)recipe.getKey()[1],
@@ -159,11 +159,11 @@ public class ChemplantRecipeHandler extends TemplateRecipeHandler {
 		for (Map.Entry<Object[], Object[]> recipe : recipes.entrySet()) {
 			if (compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[0]) || 
 					compareFluidStacks(ingredient, (ItemStack)recipe.getKey()[1]) || 
-					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[2]) || 
-					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[3]) || 
-					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[4]) || 
-					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[5]) || 
-					NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()[6]))
+					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[2]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[3]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[4]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[5]) || 
+					NEIServerUtils.areStacksSameTypeCrafting(ingredient, (ItemStack)recipe.getKey()[6]))
 				this.arecipes.add(new SmeltingSet(
 						(ItemStack)recipe.getKey()[0],
 						(ItemStack)recipe.getKey()[1],

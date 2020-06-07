@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -18,7 +20,7 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 
     public static ArrayList<Fuel> fuels;
 
-    public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe
+    public class RecipeSet extends TemplateRecipeHandler.CachedRecipe
     {
     	PositionedStack input;
         PositionedStack result1;
@@ -26,18 +28,17 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
         PositionedStack result3;
         PositionedStack result4;
     	
-        public SmeltingSet(ItemStack input, ItemStack result1, ItemStack result2, ItemStack result3, ItemStack result4) {
-        	input.stackSize = 1;
+        public RecipeSet(Object input, ItemStack[] results) {
             this.input = new PositionedStack(input, 21, 6);
-            this.result1 = new PositionedStack(result1, 129, 6);
-            this.result2 = new PositionedStack(result2, 147, 6);
-            this.result3 = new PositionedStack(result3, 129, 42);
-            this.result4 = new PositionedStack(result4, 147, 42);
+            this.result1 = new PositionedStack(results[0], 129, 6);
+            this.result2 = new PositionedStack(results[1], 147, 6);
+            this.result3 = new PositionedStack(results[2], 129, 42);
+            this.result4 = new PositionedStack(results[3], 147, 42);
         }
 
         @Override
 		public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 48, Arrays.asList(new PositionedStack[] {input}));
+            return getCycledIngredients(cycleticks / 48, Arrays.asList(input));
         }
 
         @Override
@@ -94,11 +95,15 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 	
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
+		
 		if ((outputId.equals("centrifugeprocessing")) && getClass() == CentrifugeRecipeHandler.class) {
-			Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
+
+			Map<Object, Object[]> recipes = CentrifugeRecipes.getRecipes();
+			
 			for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));
+				this.arecipes.add(new RecipeSet(recipe.getKey(), RecipesCommon.objectToStackArray(recipe.getValue())));
 			}
+			
 		} else {
 			super.loadCraftingRecipes(outputId, results);
 		}
@@ -106,17 +111,26 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
-		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[0], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[1], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[2], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[3], result))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));
+
+		Map<Object, Object[]> recipes = CentrifugeRecipes.getRecipes();
+
+		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
+			
+			if(NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[0], result) ||
+					NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[1], result) ||
+					NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[2], result) ||
+					NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[3], result))
+				this.arecipes.add(new RecipeSet(recipe.getKey(), RecipesCommon.objectToStackArray(recipe.getValue())));
 		}
 	}
 
 	@Override
 	public void loadUsageRecipes(String inputId, Object... ingredients) {
+		
 		if ((inputId.equals("centrifugeprocessing")) && getClass() == CentrifugeRecipeHandler.class) {
+			
 			loadCraftingRecipes("centrifugeprocessing", new Object[0]);
+			
 		} else {
 			super.loadUsageRecipes(inputId, ingredients);
 		}
@@ -124,10 +138,25 @@ public class CentrifugeRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object, Object[]> recipes = MachineRecipes.instance().getCentrifugeRecipes();
+
+		Map<Object, Object[]> recipes = CentrifugeRecipes.getRecipes();
+
 		for (Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1], (ItemStack)recipe.getValue()[2], (ItemStack)recipe.getValue()[3]));				
+			
+			if(recipe.getKey() instanceof ItemStack) {
+
+				if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
+					this.arecipes.add(new RecipeSet(recipe.getKey(), RecipesCommon.objectToStackArray(recipe.getValue())));
+				
+			} else if (recipe.getKey() instanceof ArrayList) {
+				
+				for(Object o : (ArrayList)recipe.getKey()) {
+					ItemStack stack = (ItemStack)o;
+
+					if (NEIServerUtils.areStacksSameType(ingredient, stack))
+						this.arecipes.add(new RecipeSet(stack, RecipesCommon.objectToStackArray(recipe.getValue())));
+				}
+			}
 		}
 	}
 

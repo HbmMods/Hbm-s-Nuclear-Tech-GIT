@@ -20,6 +20,8 @@ public class ContainerCrystallizer extends Container {
 		this.addSlotToContainer(new Slot(tedf, 0, 80, 35));
 		this.addSlotToContainer(new Slot(tedf, 1, 8, 53));
 		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 140, 35));
+		this.addSlotToContainer(new Slot(tedf, 3, 26, 17));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 25, 53));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -51,10 +53,11 @@ public class ContainerCrystallizer extends Container {
 				{
 					return null;
 				}
-			}
-			else if (!this.mergeItemStack(var5, 0, diFurnace.getSizeInventory(), false))
-			{
-					return null;
+			} else {
+				
+				if (!this.mergeItemStack(var5, 0, 2, false))
+					if (!this.mergeItemStack(var5, 3, 4, false))
+						return null;
 			}
 			
 			if (var5.stackSize == 0)

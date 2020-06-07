@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -214,7 +214,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		{
 			return false;
 		}
-		ItemStack[] itemStack = MachineRecipes.getCentrifugeProcessingResult(slots[0]);
+		ItemStack[] itemStack = CentrifugeRecipes.getOutput(slots[0]);
 		if(itemStack == null)
 		{
 			return false;
@@ -238,7 +238,7 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 	
 	private void processItem() {
 		if(canProcess()) {
-			ItemStack[] itemStack = MachineRecipes.getCentrifugeProcessingResult(slots[0]);
+			ItemStack[] itemStack = CentrifugeRecipes.getOutput(slots[0]);
 			
 			if(slots[2] == null && itemStack[0] != null)
 			{

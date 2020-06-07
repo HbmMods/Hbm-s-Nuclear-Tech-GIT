@@ -356,6 +356,17 @@ public class ItemSyringe extends Item {
             }
 		}
 		
+		if(this == ModItems.cbt_device)
+		{
+            if (!world.isRemote)
+            {
+                player.addPotionEffect(new PotionEffect(HbmPotion.bang.id, 30, 0));
+            
+            	stack.stackSize--;
+            	world.playSoundAtEntity(player, "hbm:item.vice", 1.0F, 1.0F);
+            }
+		}
+		
 		return stack;
 	}
 

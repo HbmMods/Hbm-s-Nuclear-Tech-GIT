@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
@@ -321,7 +321,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 			if(slots[i] != null && hasSpace(slots[i]))
 			{
 				ItemStack inp = slots[i].copy();
-				ItemStack outp = MachineRecipes.getShredderResult(inp);
+				ItemStack outp = ShredderRecipes.getShredderResult(inp);
 				boolean flag = false;
 				
 				for (int j = 9; j < 27; j++)
@@ -367,7 +367,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	
 	public boolean hasSpace(ItemStack stack) {
 		
-		ItemStack result = MachineRecipes.getShredderResult(stack);
+		ItemStack result = ShredderRecipes.getShredderResult(stack);
 		
 		if (result != null)
 			for (int i = 9; i < 27; i++) {

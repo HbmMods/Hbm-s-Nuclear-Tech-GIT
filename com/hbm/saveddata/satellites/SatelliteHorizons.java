@@ -10,6 +10,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkProvider;
 
 public class SatelliteHorizons extends Satellite {
 	
@@ -43,6 +44,10 @@ public class SatelliteHorizons extends Satellite {
 		
 		EntityTom tom = new EntityTom(world);
 		tom.setPosition(x + 0.5, 600, z + 0.5);
+		
+		IChunkProvider provider = world.getChunkProvider();
+		provider.loadChunk(x >> 4, z >> 4);
+		
 		world.spawnEntityInWorld(tom);
 
 		for(Object p : world.playerEntities)

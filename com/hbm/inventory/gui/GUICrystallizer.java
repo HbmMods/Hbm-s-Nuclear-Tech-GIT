@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerCrystallizer;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
@@ -13,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GUICrystallizer extends GuiInfoContainer {
 
-	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_crystallizer.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_crystallizer.png");
 	private TileEntityMachineCrystallizer acidomatic;
 	
 	public GUICrystallizer(InventoryPlayer invPlayer, TileEntityMachineCrystallizer acidomatic) {
@@ -22,6 +23,14 @@ public class GUICrystallizer extends GuiInfoContainer {
 
 		this.xSize = 176;
 		this.ySize = 168;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+		
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 51 - 34, 16, 34, acidomatic.power, acidomatic.maxPower);
+		acidomatic.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 17, 16, 52);
 	}
 	
 	@Override
@@ -37,5 +46,14 @@ public class GUICrystallizer extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		int i = (int)acidomatic.getPowerScaled(34);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 51 - i, 176, 34 - i, 16, i);
+		
+		int j = acidomatic.getProgressScaled(23);
+		drawTexturedModalRect(guiLeft + 104, guiTop + 34, 192, 0, j, 16);
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(acidomatic.tank.getSheet());
+		acidomatic.tank.renderTank(this, guiLeft + 44, guiTop + 69, acidomatic.tank.getTankType().textureX() * FluidTank.x, acidomatic.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }
