@@ -104,7 +104,7 @@ public class RecipesCommon {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + Item.getIdFromItem(item);
+			result = prime * result + Item.itemRegistry.getNameForObject(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled
 			result = prime * result + meta;
 			result = prime * result + stacksize;
 			return result;
@@ -124,7 +124,7 @@ public class RecipesCommon {
 					return false;
 			} else if (!item.equals(other.item))
 				return false;
-			if (meta != other.meta)
+			if (meta != OreDictionary.WILDCARD_VALUE && other.meta != OreDictionary.WILDCARD_VALUE && meta != other.meta)
 				return false;
 			if (stacksize != other.stacksize)
 				return false;

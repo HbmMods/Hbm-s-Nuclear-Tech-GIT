@@ -455,9 +455,12 @@ public class ModEventHandler
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
+		String st = player.getUniqueID().toString();
 		
-		if(!player.worldObj.isRemote && (player.getUniqueID().toString().equals("c874fd4e-5841-42e4-8f77-70efd5881bc1") ||
-				player.getUniqueID().toString().equals("6a058220-7d86-4f29-817b-418eb98bd842")))
+		if(!player.worldObj.isRemote && (
+				st.equals("c874fd4e-5841-42e4-8f77-70efd5881bc1") ||
+				st.equals("6a058220-7d86-4f29-817b-418eb98bd842") ||
+				st.equals("dec34886-ef6b-409e-94ee-a99c5fbec9dd")))
 			player.getEntityData().setFloat("hfr_radiation", player.getEntityData().getFloat("hfr_radiation" + 0.05F));
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {

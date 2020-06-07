@@ -61,6 +61,11 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("It's not my fault you didn't pay");
 			list.add("attention in chemistry class.");
 		}
+		
+		if(this.field_150939_a == ModBlocks.gravel_diamond) {
+			list.add("There is some kind of joke here,");
+			list.add("but I can't quite tell what it is.");
+		}
 	}
 
     @Override
@@ -68,7 +73,8 @@ public class ItemBlockLore extends ItemBlock {
 
 		if(this.field_150939_a == ModBlocks.ore_schrabidium || this.field_150939_a == ModBlocks.ore_nether_schrabidium ||
 				this.field_150939_a == ModBlocks.block_schrabidium || this.field_150939_a == ModBlocks.block_schrabidium_cluster ||
-				this.field_150939_a == ModBlocks.block_schrabidium_fuel || this.field_150939_a == ModBlocks.block_solinium)
+				this.field_150939_a == ModBlocks.block_schrabidium_fuel || this.field_150939_a == ModBlocks.block_solinium ||
+				this.field_150939_a == ModBlocks.gravel_diamond)
 			return EnumRarity.rare;
 		
 		if(this.field_150939_a == ModBlocks.block_euphemium || this.field_150939_a == ModBlocks.block_euphemium_cluster ||

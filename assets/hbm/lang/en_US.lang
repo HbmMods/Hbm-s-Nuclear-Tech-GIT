@@ -948,6 +948,7 @@ tile.cmb_brick.name=CMB Steel Tile
 tile.cmb_brick_reinforced.name=Reinforced CMB Bricks
 
 tile.gravel_obsidian.name=Crushed Obsidian
+tile.gravel_diamond.name=Diamond Gravel
 
 tile.barbed_wire.name=Barbed Wire
 tile.barbed_wire_fire.name=Flaming Barbed Wire

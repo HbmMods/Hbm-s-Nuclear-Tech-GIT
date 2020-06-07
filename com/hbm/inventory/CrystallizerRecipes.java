@@ -9,6 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -44,6 +45,9 @@ public class CrystallizerRecipes {
 		recipes.put("oreLithium", new ItemStack(ModItems.crystal_lithium));
 		recipes.put("oreStarmetal", new ItemStack(ModItems.crystal_starmetal));
 		recipes.put("sand", new ItemStack(ModItems.ingot_fiberglass));
+		recipes.put(new ComparableStack(Blocks.cobblestone), new ItemStack(ModBlocks.reinforced_stone));
+		recipes.put(new ComparableStack(ModBlocks.gravel_obsidian), new ItemStack(ModBlocks.brick_obsidian));
+		recipes.put("blockRedstone", new ItemStack(ModItems.nugget_mercury));
 	}
 	
 	public static ItemStack getOutput(ItemStack stack) {

@@ -948,6 +948,7 @@ tile.cmb_brick.name=CMB-Stahlfliese
 tile.cmb_brick_reinforced.name=Verstärkte CMB-Ziegel
 
 tile.gravel_obsidian.name=Gebrochener Obsidian
+tile.gravel_diamond.name=Diamantkies
 
 tile.barbed_wire.name=Stacheldraht
 tile.barbed_wire_fire.name=Flammender Stacheldraht

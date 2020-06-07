@@ -226,7 +226,7 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
-			Library.chargeItemsFromTE(slots, 7, power, maxPower);
+			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
 			
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
