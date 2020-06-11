@@ -175,7 +175,7 @@ public class BulletConfigFactory {
 		bullet.HBRC = 0;
 		bullet.LBRC = 0;
 		bullet.bounceMod = 1.0;
-		bullet.doesPenetrate = false;
+		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = false;
 		bullet.nuke = 35;
 		bullet.style = BulletConfiguration.STYLE_NUKE;

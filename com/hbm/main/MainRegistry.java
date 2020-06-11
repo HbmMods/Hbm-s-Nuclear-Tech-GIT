@@ -443,6 +443,9 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityYellowBarrel.class, "tileentity_nukebarrel");
 		GameRegistry.registerTileEntity(TileEntityLaunchPad.class, "tileentity_launch1");
 		GameRegistry.registerTileEntity(TileEntityDecoBlock.class, "tileentity_deco");
+		GameRegistry.registerTileEntity(TileEntityDecoBlockAltW.class, "tileentity_deco_w");
+		GameRegistry.registerTileEntity(TileEntityDecoBlockAltG.class, "tileentity_deco_g");
+		GameRegistry.registerTileEntity(TileEntityDecoBlockAltF.class, "tileentity_deco_f");
 		GameRegistry.registerTileEntity(TileEntityCoreTitanium.class, "tileentity_core_titanium");
 		GameRegistry.registerTileEntity(TileEntityCoreAdvanced.class, "tileentity_core_advanced");
 		GameRegistry.registerTileEntity(TileEntityFusionMultiblock.class, "tileentity_fusion_multiblock");
@@ -557,6 +560,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityCyberCrab.class, "tileentity_crabs");
 		GameRegistry.registerTileEntity(TileEntitySoyuzCapsule.class, "tileentity_soyuz_capsule");
 		GameRegistry.registerTileEntity(TileEntityMachineCrystallizer.class, "tileentity_acidomatic");
+		GameRegistry.registerTileEntity(TileEntitySoyuzStruct.class, "tileentity_soyuz_struct");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

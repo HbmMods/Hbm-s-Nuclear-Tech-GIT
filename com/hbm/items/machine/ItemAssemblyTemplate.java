@@ -1353,7 +1353,7 @@ public class ItemAssemblyTemplate extends Item {
 			//scheme.applyUniversalScheme();
 			scheme.colorCount = 4;
 			//universal scheme configuration for testing
-			//TODO: get textures properly baked, display color for shield
+			//todo: get textures properly baked, display color for shield
 			scheme.addColor(0x334077);
 			scheme.addColor(0x6A298F);
 			scheme.addColor(0xDF3795);

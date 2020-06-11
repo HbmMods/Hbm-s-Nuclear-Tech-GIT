@@ -162,6 +162,34 @@ public abstract class ToolAbility {
 		}
 	}
 
+	public static class SilkAbility extends ToolAbility {
+
+		@Override
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+			
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
+			
+			ItemStack stack = new ItemStack(block, 1, meta);
+			
+			if(stack.getItem() != null) {
+				world.setBlockToAir(x, y, z);
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack));
+			}
+		}
+
+		@Override
+		public String getName() {
+			return "tool.ability.silktouch";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName());
+		}
+	}
+
 	public static class SmelterAbility extends ToolAbility {
 
 		@Override

@@ -42,7 +42,7 @@ public abstract class BlockDummyable extends BlockContainer {
     	
     	super.onNeighborBlockChange(world, x, y, z, block);
     	
-    	if(world.isRemote)
+    	if(world.isRemote || safeRem)
     		return;
     	
     	int metadata = world.getBlockMetadata(x, y, z);
@@ -56,6 +56,7 @@ public abstract class BlockDummyable extends BlockContainer {
     	
     	if(b != this) {
     		world.setBlockToAir(x, y, z);
+    		//world.setBlock(x, y, z, ModBlocks.dfc_injector, dir.ordinal(), 3);
     	}
     }
     

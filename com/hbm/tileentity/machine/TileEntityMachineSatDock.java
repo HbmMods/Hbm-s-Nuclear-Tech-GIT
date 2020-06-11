@@ -3,12 +3,14 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteMiner;
+import com.hbm.util.WeightedRandomObject;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.WeightedRandom;
 
 public class TileEntityMachineSatDock extends TileEntity implements ISidedInventory {
 
@@ -252,49 +255,42 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		
 		int items = rand.nextInt(6) + 10;
 		
-		int randy = 0;
 		rand = new Random();
 		
 		for(int i = 0; i < items; i++) {
 			
-			randy = (int) (rand.nextFloat() * 100);
-			
-			if(randy < 10)
-				addToInv(new ItemStack(ModItems.powder_aluminium, 3));
-			else if(randy < 20)
-				addToInv(new ItemStack(ModItems.powder_iron, 3));
-			else if(randy < 30)
-				addToInv(new ItemStack(ModItems.powder_titanium, 2));
-			else if(randy < 45)
-				addToInv(new ItemStack(ModItems.powder_coal, 4));
-			else if(randy < 50)
-				addToInv(new ItemStack(ModItems.powder_uranium, 2));
-			else if(randy < 53)
-				addToInv(new ItemStack(ModItems.powder_plutonium, 1));
-			else if(randy < 58)
-				addToInv(new ItemStack(ModItems.powder_thorium, 2));
-			else if(randy < 60)
-				addToInv(new ItemStack(ModItems.powder_desh_mix, 3));
-			else if(randy < 65)
-				addToInv(new ItemStack(ModItems.powder_diamond, 2));
-			else if(randy < 75)
-				addToInv(new ItemStack(Items.redstone, 5));
-			else if(randy < 77)
-				addToInv(new ItemStack(ModItems.powder_nitan_mix, 2));
-			else if(randy < 80)
-				addToInv(new ItemStack(ModItems.powder_power, 2));
-			else if(randy < 85)
-				addToInv(new ItemStack(ModItems.powder_copper, 5));
-			else if(randy < 90)
-				addToInv(new ItemStack(ModItems.powder_lead, 3));
-			else if(randy < 95)
-				addToInv(new ItemStack(ModItems.fluorite, 4));
-			else if(randy < 99)
-				addToInv(new ItemStack(ModItems.powder_lapis, 4));
-			else
-				addToInv(new ItemStack(ModItems.powder_combine_steel, 1));
+			ItemStack stack = ((WeightedRandomObject)WeightedRandom.getRandomItem(rand, cargo)).asStack();
+			addToInv(stack);
 		}
 	}
+	
+	private WeightedRandomObject[] cargo = new WeightedRandomObject[] {
+			new WeightedRandomObject(new ItemStack(ModItems.powder_aluminium, 3), 10),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_iron, 3), 10),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_titanium, 2), 8),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_coal, 4), 15),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_uranium, 2), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_plutonium, 1), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_thorium, 2), 7),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_desh_mix, 3), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_diamond, 2), 7),
+			new WeightedRandomObject(new ItemStack(Items.redstone, 5), 15),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_nitan_mix, 2), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_power, 2), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_copper, 5), 15),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_lead, 3), 10),
+			new WeightedRandomObject(new ItemStack(ModItems.fluorite, 4), 15),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_lapis, 4), 10),
+			new WeightedRandomObject(new ItemStack(ModItems.powder_combine_steel, 1), 1),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_aluminium, 1), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_gold, 1), 5),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_phosphorus, 1), 10),
+			new WeightedRandomObject(new ItemStack(ModBlocks.gravel_diamond, 1), 3),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_uranium, 1), 3),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_plutonium, 1), 3),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_trixite, 1), 1),
+			new WeightedRandomObject(new ItemStack(ModItems.crystal_starmetal, 1), 1),
+	};
 	
 	private void addToInv(ItemStack stack) {
 		

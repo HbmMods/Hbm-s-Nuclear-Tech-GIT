@@ -11,7 +11,6 @@ public class ItemMike extends ItemRadioactive {
 	
 	public ItemMike(float radiation) {
 		super(radiation);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

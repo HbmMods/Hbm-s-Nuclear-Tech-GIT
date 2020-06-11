@@ -410,8 +410,7 @@ public class Library {
 		
 		return power;
 	}
-
-	//TODO: rewrite this shit
+	
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
 		
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative)

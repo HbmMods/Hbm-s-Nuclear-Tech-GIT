@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import com.hbm.blocks.BlockDummyable;
+
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -52,6 +54,8 @@ public class MultiblockHandlerXR {
 		int count = 0;
 		
 		int[] rot = rotate(dim, dir);
+		
+		BlockDummyable.safeRem = true;
 
 		for(int a = x - rot[4]; a <= x + rot[5]; a++) {
 			for(int b = y - rot[1]; b <= y + rot[0]; b++) {
@@ -81,11 +85,15 @@ public class MultiblockHandlerXR {
 					
 					if(count > 2000) {
 						System.out.println("fillspace: ded " + a + " " + b + " " + c + " " + x + " " + y + " " + z);
+						
+						BlockDummyable.safeRem = false;
 						return;
 					}
 				}
 			}
 		}
+		
+		BlockDummyable.safeRem = false;
 	}
 	
 	@Deprecated

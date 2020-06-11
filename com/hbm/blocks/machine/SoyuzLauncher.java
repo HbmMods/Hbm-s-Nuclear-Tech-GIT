@@ -75,7 +75,7 @@ public class SoyuzLauncher extends BlockDummyable {
 		}
 	}
 	
-	int height = 4;
+	public static final int height = 4;
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
@@ -120,7 +120,7 @@ public class SoyuzLauncher extends BlockDummyable {
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 	
-	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+	public boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		
 		x = x + dir.offsetX * o;
 		y = y + dir.offsetY * o + height;
@@ -137,7 +137,7 @@ public class SoyuzLauncher extends BlockDummyable {
 		return true;
 	}
 	
-	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		
 		x = x + dir.offsetX * o;
 		y = y + dir.offsetY * o + height;
@@ -210,7 +210,15 @@ public class SoyuzLauncher extends BlockDummyable {
                         }
                     }
                 }
-
+                
+                for(int l = 0; l < 10; l++)
+                	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_launcher, 38)));
+                for(int l = 0; l < 8; l++)
+                	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.concrete_smooth, 41)));
+                for(int l = 0; l < 6; l++)
+                	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 64)));
+            	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 53)));
+                
                 world.func_147453_f(x, y, z, p_149749_5_);
             }
         }
