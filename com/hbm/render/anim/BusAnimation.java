@@ -1,6 +1,7 @@
-package com.hbm.render.block;
+package com.hbm.render.anim;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 //a """simple""" implementation of an animation system
 //it's the first thing i came up with and i suppose it's relatively simple but
@@ -15,6 +16,9 @@ public class BusAnimation {
 	//imagine the busses being film strips that hang from the ceiling, with the tape player
 	//rolling down, picking up images from all tapes and combining them into a movie.
 	
+	//0 by default, will always equal the duration of the longest BusAnimationSequence
+	private int totalTime = 0;
+	
 	/**
 	 * Adds a bus to the animation
 	 * If an object has several moving parts, each transformation type of each seperat bus should have its own bus
@@ -26,7 +30,28 @@ public class BusAnimation {
 	public BusAnimation addBus(String name, BusAnimationSequence bus) {
 		
 		animationBuses.put(name, bus);
+		
+		int duration = bus.getTotalTime();
+		
+		if(duration > totalTime)
+			totalTime = duration;
+		
 		return this;
+	}
+	
+	/**
+	 * In case there is keyframes being added to sequences in post, this method allows the totalTime
+	 * to be updated.
+	 */
+	public void updateTime() {
+		
+		for(Entry<String, BusAnimationSequence> sequence : animationBuses.entrySet()) {
+			
+			int time = sequence.getValue().getTotalTime();
+			
+			if(time > totalTime)
+				totalTime = time;
+		}
 	}
 	
 	/**
@@ -60,6 +85,10 @@ public class BusAnimation {
 	 */
 	public void playPendingSounds(int lastMillis, int millis) {
 		//TODO: pending
+	}
+	
+	public int getDuration() {
+		return totalTime;
 	}
 
 }

@@ -18,10 +18,6 @@ public class Gun4GaugeFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.reloadDuration = 10;
 		config.firingDuration = 0;
 		config.ammoCap = 4;

@@ -8,6 +8,10 @@ import com.hbm.items.weapon.GunBoltAction;
 import com.hbm.items.weapon.GunLeverAction;
 import com.hbm.items.weapon.GunLeverActionS;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.model.ModelB92;
 import com.hbm.render.model.ModelB93;
 import com.hbm.render.model.ModelBoltAction;
@@ -50,6 +54,9 @@ public class ItemRenderGunAnim implements IItemRenderer {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+		
+		float lever = 0;
+		
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:
 			GL11.glPushMatrix();
@@ -83,9 +90,34 @@ public class ItemRenderGunAnim implements IItemRenderer {
 					GL11.glTranslatef(2.3F, 0.2F, 0.8F);
 				}
 				
-				if((item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark) && GunLeverAction.getRotationFromAnim(item) > 0) {
-					GL11.glRotatef(GunLeverAction.getRotationFromAnim(item) * 25, 0.0F, 0.0F, 1.0F);
-					GL11.glTranslatef(GunLeverAction.getOffsetFromAnim(item) * -1.5F, 0.0F, 0.0F);
+				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark) {
+					
+					Animation anim = HbmAnimations.getRelevantAnim();
+					
+					if(anim != null) {
+						
+						BusAnimation buses = anim.animation;
+						int millis = (int)(System.currentTimeMillis() - anim.startMillis);
+
+						BusAnimationSequence rotate = buses.getBus("LEVER_ROTATE");
+						
+						if(rotate != null) {
+							double[] trans = rotate.getTransformation(millis);
+							
+							if(trans != null) {
+								GL11.glRotated(trans[2], 0.0, 0.0, 1.0);
+								lever = (float) Math.toRadians(trans[2]);
+							}
+						}
+
+						BusAnimationSequence recoil = buses.getBus("LEVER_RECOIL");
+						if(recoil != null) {
+							double[] trans = recoil.getTransformation(millis);
+							
+							if(trans != null)
+								GL11.glTranslated(trans[0], 0.0, 0.0);
+						}
+					}
 				}
 				
 				if((item.getItem() == ModItems.gun_lever_action_sonata) && GunLeverActionS.getRotationFromAnim(item) > 0) {
@@ -121,7 +153,7 @@ public class ItemRenderGunAnim implements IItemRenderer {
 				}
 
 				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark)
-					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverAction.getRotationFromAnim(item));
+					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, lever);
 				if(item.getItem() == ModItems.gun_lever_action_sonata)
 					leveraction.renderAnim((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, GunLeverActionS.getRotationFromAnim(item));
 				if(item.getItem() == ModItems.gun_bolt_action || item.getItem() == ModItems.gun_bolt_action_green || item.getItem() == ModItems.gun_bolt_action_saturnite)

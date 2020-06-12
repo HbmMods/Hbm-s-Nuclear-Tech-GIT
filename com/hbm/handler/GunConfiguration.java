@@ -1,8 +1,11 @@
 package com.hbm.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class GunConfiguration {
@@ -26,14 +29,8 @@ public class GunConfiguration {
 	//weapon won't fire after weapon breaks (main only)
 	public int durability;
 	
-	//whether or not there is a reload delay animation
-	public boolean hasReloadAnim;
-	//whether or not there is a firing delay with animation
-	public boolean hasFiringAnim;
-	//whether there is a warmup duration for spinup
-	public boolean hasSpinup;
-	//whether there is a cooldown duration for spindown
-	public boolean hasSpindown;
+	//animations!
+	public HashMap<AnimType, BusAnimation> animations = new HashMap();
 	//whether ot not to disable crosshais when sneaking
 	public boolean hasSights;
 	

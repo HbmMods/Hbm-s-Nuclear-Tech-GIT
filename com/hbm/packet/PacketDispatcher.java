@@ -93,6 +93,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(AuxParticlePacketNT.Handler.class, AuxParticlePacketNT.class, i++, Side.CLIENT);
 		//Signals server to do coord based satellite stuff
 		wrapper.registerMessage(SatCoordPacket.Handler.class, SatCoordPacket.class, i++, Side.SERVER);
+		//Triggers gun animations of the client
+		wrapper.registerMessage(GunAnimationPacket.Handler.class, GunAnimationPacket.class, i++, Side.CLIENT);
 	}
 	
 }

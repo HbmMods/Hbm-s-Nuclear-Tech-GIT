@@ -16,6 +16,8 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.MovingSoundChopper;
@@ -52,6 +54,7 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
+		/// HANDLE GUN AND AMMO OVERLAYS ///
 		if(event.type == ElementType.HOTBAR && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
 			
 			ItemGunBase gun = ((ItemGunBase)player.getHeldItem().getItem());
@@ -83,6 +86,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
+		/// HANDLE GEIGER COUNTER HUD ///
 		if(event.type == ElementType.HOTBAR) {
 			
 			if(player.inventory.hasItem(ModItems.geiger_counter)) {
@@ -95,12 +99,28 @@ public class ModEventHandlerClient {
 			}
 		}
 		
+		/// HANDLE CUSTOM CROSSHAIRS ///
 		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon && MainRegistry.enableCrosshairs) {
 			event.setCanceled(true);
 			
 			if(!(player.getHeldItem().getItem() instanceof ItemGunBase && ((ItemGunBase)player.getHeldItem().getItem()).mainConfig.hasSights && player.isSneaking()))
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
 			
+		}
+		
+		/// HANLDE ANIMATION BUSES ///
+		
+		for(int i = 0; i < HbmAnimations.hotbar.length; i++) {
+			
+			Animation animation = HbmAnimations.hotbar[i];
+			
+			if(animation == null)
+				continue;
+			
+			long time = System.currentTimeMillis() - animation.startMillis;
+			
+			if(time > animation.animation.getDuration())
+				HbmAnimations.hotbar[i] = null;
 		}
 	}
 	

@@ -18,10 +18,6 @@ public class GunOSIPRFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
 		config.ammoCap = 30;
@@ -50,10 +46,6 @@ public class GunOSIPRFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
 		config.ammoCap = 0;

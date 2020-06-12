@@ -18,10 +18,6 @@ public class GunGrenadeFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.hasSights = true;
 		config.reloadDuration = 40;
 		config.firingDuration = 0;

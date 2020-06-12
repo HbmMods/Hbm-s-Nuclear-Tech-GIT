@@ -1,4 +1,4 @@
-package com.hbm.render.block;
+package com.hbm.render.util;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;

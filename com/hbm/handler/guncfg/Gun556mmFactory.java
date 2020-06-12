@@ -27,10 +27,6 @@ public class Gun556mmFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.hasSights = false;
 		config.reloadDuration = 20;
 		config.firingDuration = 0;
@@ -69,10 +65,6 @@ public class Gun556mmFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_AUTO;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.hasSights = true;
 		config.reloadDuration = 25;
 		config.firingDuration = 0;
@@ -110,10 +102,6 @@ public class Gun556mmFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.hasReloadAnim = false;
-		config.hasFiringAnim = false;
-		config.hasSpinup = false;
-		config.hasSpindown = false;
 		config.hasSights = true;
 		config.reloadDuration = 40;
 		config.firingDuration = 0;
