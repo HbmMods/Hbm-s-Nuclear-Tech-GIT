@@ -23,6 +23,7 @@ public class BeamPronter {
 	public static void prontBeam(Vec3 skeleton, EnumWaveType wave, EnumBeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
 
 		GL11.glPushMatrix();
+		GL11.glDepthMask(false);
 		
 		float sYaw = (float)(Math.atan2(skeleton.xCoord, skeleton.zCoord) * 180F / Math.PI);
         float sqrt = MathHelper.sqrt_double(skeleton.xCoord * skeleton.xCoord + skeleton.zCoord * skeleton.zCoord);
@@ -141,6 +142,7 @@ public class BeamPronter {
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glPopMatrix();
+		GL11.glDepthMask(true);
 
 		GL11.glPopMatrix();
 	}
