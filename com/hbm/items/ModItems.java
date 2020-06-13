@@ -1184,6 +1184,7 @@ public class ModItems {
 	public static Item ammo_fuel;
 	public static Item ammo_fuel_napalm;
 	public static Item ammo_fuel_phosphorus;
+	public static Item ammo_fuel_vaporizer;
 	public static Item ammo_fuel_gas;
 	
 	public static Item gun_rpg;
@@ -2972,6 +2973,7 @@ public class ModItems {
 		ammo_fuel = new ItemAmmo().setUnlocalizedName("ammo_fuel").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel");
 		ammo_fuel_napalm = new ItemAmmo().setUnlocalizedName("ammo_fuel_napalm").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel_napalm");
 		ammo_fuel_phosphorus = new ItemAmmo().setUnlocalizedName("ammo_fuel_phosphorus").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel_phosphorus");
+		ammo_fuel_vaporizer = new ItemAmmo().setUnlocalizedName("ammo_fuel_vaporizer").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel_vaporizer");
 		ammo_fuel_gas = new ItemAmmo().setUnlocalizedName("ammo_fuel_gas").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel_gas");
 		
 		gun_rpg = new ItemGunBase(GunRocketFactory.getGustavConfig()).setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
@@ -5089,6 +5091,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_fuel, ammo_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_fuel_napalm, ammo_fuel_napalm.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_fuel_phosphorus, ammo_fuel_phosphorus.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_fuel_vaporizer, ammo_fuel_vaporizer.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_fuel_gas, ammo_fuel_gas.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket, ammo_rocket.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_rocket_he, ammo_rocket_he.getUnlocalizedName());

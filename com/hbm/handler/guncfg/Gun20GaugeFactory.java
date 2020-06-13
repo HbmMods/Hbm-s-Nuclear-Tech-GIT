@@ -21,7 +21,7 @@ public class Gun20GaugeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 20;
+		config.rateOfFire = 25;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
@@ -35,13 +35,16 @@ public class Gun20GaugeFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("LEVER_ROTATE", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 250))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 45, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
 						)
 				.addBus("LEVER_RECOIL", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 90, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))
+						.addKeyframe(new BusAnimationKeyframe(0, -0.5, 0, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
 						)
 				);
 		

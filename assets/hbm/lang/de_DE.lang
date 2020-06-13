@@ -1652,6 +1652,7 @@ item.ammo_grenade_kampf.name=40mm Rakete
 item.ammo_fuel.name=Dieselkatusche
 item.ammo_fuel_napalm.name=Napalmkatusche
 item.ammo_fuel_phosphorus.name=WP-Katusche
+item.ammo_fuel_vaporizer.name=Vaporisierer-Katusche
 item.ammo_fuel_gas.name=Gaskatusche
 
 item.folly_shell.name=Silberne Kanonenhülse

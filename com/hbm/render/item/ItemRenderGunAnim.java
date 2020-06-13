@@ -8,10 +8,7 @@ import com.hbm.items.weapon.GunBoltAction;
 import com.hbm.items.weapon.GunLeverAction;
 import com.hbm.items.weapon.GunLeverActionS;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations;
-import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.model.ModelB92;
 import com.hbm.render.model.ModelB93;
 import com.hbm.render.model.ModelBoltAction;
@@ -91,33 +88,15 @@ public class ItemRenderGunAnim implements IItemRenderer {
 				}
 				
 				if(item.getItem() == ModItems.gun_lever_action || item.getItem() == ModItems.gun_lever_action_dark) {
-					
-					Animation anim = HbmAnimations.getRelevantAnim();
-					
-					if(anim != null) {
-						
-						BusAnimation buses = anim.animation;
-						int millis = (int)(System.currentTimeMillis() - anim.startMillis);
 
-						BusAnimationSequence rotate = buses.getBus("LEVER_ROTATE");
-						
-						if(rotate != null) {
-							double[] trans = rotate.getTransformation(millis);
-							
-							if(trans != null) {
-								GL11.glRotated(trans[2], 0.0, 0.0, 1.0);
-								lever = (float) Math.toRadians(trans[2]);
-							}
-						}
+					double[] recoil = HbmAnimations.getRelevantTransformation("LEVER_RECOIL");
+					GL11.glTranslated(recoil[0], recoil[1] * 4, recoil[2]);
 
-						BusAnimationSequence recoil = buses.getBus("LEVER_RECOIL");
-						if(recoil != null) {
-							double[] trans = recoil.getTransformation(millis);
-							
-							if(trans != null)
-								GL11.glTranslated(trans[0], 0.0, 0.0);
-						}
-					}
+					GL11.glTranslatef(-1.5F, 0, 0);
+					double[] rotation = HbmAnimations.getRelevantTransformation("LEVER_ROTATE");
+					GL11.glRotated(rotation[2], 0.0, 0.0, 1.0);
+					lever = (float) Math.toRadians(rotation[2] * 2);
+					GL11.glTranslatef(1.5F, 0, 0);
 				}
 				
 				if((item.getItem() == ModItems.gun_lever_action_sonata) && GunLeverActionS.getRotationFromAnim(item) > 0) {

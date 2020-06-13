@@ -335,6 +335,16 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Single projectile");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_fuel_vaporizer) {
+			list.add(EnumChatFormatting.BLUE + "+ Induces phosphorus burns");
+			list.add(EnumChatFormatting.BLUE + "+ Increased flame count");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* For removing big mistakes");
+			list.add(EnumChatFormatting.RED + "- Highly decreased accuracy");
+			list.add(EnumChatFormatting.RED + "- Highly decreased range");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+			list.add(EnumChatFormatting.RED + "- No lingering fire");
+		}
 		if(this == ModItems.ammo_fuel_gas) {
 			list.add(EnumChatFormatting.BLUE + "+ No gravity");
 			list.add(EnumChatFormatting.BLUE + "+ Poison splash");

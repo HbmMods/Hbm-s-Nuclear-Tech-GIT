@@ -1652,6 +1652,7 @@ item.ammo_grenade_kampf.name=40mm Rocket
 item.ammo_fuel.name=Diesel Tank
 item.ammo_fuel_napalm.name=Napalm Tank
 item.ammo_fuel_phosphorus.name=WP Tank
+item.ammo_fuel_vaporizer.name=Vaporizer Tank
 item.ammo_fuel_gas.name=Gas Tank
 
 item.folly_shell.name=Silver Bullet Casing

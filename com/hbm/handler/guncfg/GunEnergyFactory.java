@@ -10,6 +10,7 @@ import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -76,6 +77,7 @@ public class GunEnergyFactory {
 		config.config.add(BulletConfigSyncingUtil.FLAMER_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_NAPALM);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_WP);
+		config.config.add(BulletConfigSyncingUtil.FLAMER_VAPORIZER);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_GAS);
 		
 		return config;
@@ -180,6 +182,29 @@ public class GunEnergyFactory {
 		bullet.vPFX = "smoke";
 		
 		bullet.bImpact = BulletConfigFactory.getPhosphorousEffect(5, 60 * 20, 25, 0.25);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getVaporizerConfig() {
+		
+		BulletConfiguration bullet = getFlameConfig();
+		
+		bullet.ammo = ModItems.ammo_fuel_vaporizer;
+		bullet.wear = 4;
+		bullet.spread = 0.25F;
+		bullet.bulletsMin = 8;
+		bullet.bulletsMax = 10;
+		bullet.dmgMin = 6;
+		bullet.dmgMax = 10;
+		bullet.maxAge = 15;
+		bullet.vPFX = "flame";
+		bullet.incendiary = 0;
+		
+		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
+		eff.getCurativeItems().clear();
+		bullet.effects = new ArrayList();
+		bullet.effects.add(new PotionEffect(eff));
 		
 		return bullet;
 	}

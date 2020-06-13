@@ -58,5 +58,27 @@ public class HbmAnimations {
 		
 		return null;
 	}
+	
+	public static double[] getRelevantTransformation(String bus) {
+		
+		Animation anim = HbmAnimations.getRelevantAnim();
+		
+		if(anim != null) {
+			
+			BusAnimation buses = anim.animation;
+			int millis = (int)(System.currentTimeMillis() - anim.startMillis);
+
+			BusAnimationSequence seq = buses.getBus(bus);
+			
+			if(seq != null) {
+				double[] trans = seq.getTransformation(millis);
+				
+				if(trans != null)
+					return trans;
+			}
+		}
+		
+		return new double[] {0, 0, 0};
+	}
 
 }
