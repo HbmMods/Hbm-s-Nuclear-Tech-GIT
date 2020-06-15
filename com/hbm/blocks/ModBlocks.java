@@ -598,7 +598,7 @@ public class ModBlocks {
 	public static final int guiID_machine_drill = 45;
 
 	public static Block machine_mining_laser;
-	public static final int guiID_mining_laser = 45;
+	public static final int guiID_mining_laser = 95;
 
 	public static Block machine_assembler;
 	public static final int guiID_machine_assembler = 48;

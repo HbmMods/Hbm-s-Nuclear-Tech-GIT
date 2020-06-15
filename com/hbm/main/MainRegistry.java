@@ -56,6 +56,8 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.tileentity.TileEntityProxyEnergy;
+import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
@@ -563,6 +565,8 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntitySoyuzStruct.class, "tileentity_soyuz_struct");
 		GameRegistry.registerTileEntity(TileEntityITERStruct.class, "tileentity_iter_struct");
 		GameRegistry.registerTileEntity(TileEntityMachineMiningLaser.class, "tileentity_mining_laser");
+		GameRegistry.registerTileEntity(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
+		GameRegistry.registerTileEntity(TileEntityProxyEnergy.class, "tileentity_proxy_power");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

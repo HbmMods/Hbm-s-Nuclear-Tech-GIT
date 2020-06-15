@@ -19,7 +19,7 @@ public class RenderLaserMiner extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interpolation) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		GL11.glTranslated(x + 0.5, y - 1, z + 0.5);
 		
 		TileEntityMachineMiningLaser laser = (TileEntityMachineMiningLaser)te;
 
@@ -46,13 +46,14 @@ public class RenderLaserMiner extends TileEntitySpecialRenderer {
 		double pitch = Math.toDegrees(Math.atan2(vec.yCoord, sqrt));
 		//turns out using tan(vec.yCoord, length) was inaccurate,
 		//the emitter wouldn't match the laser perfectly when pointing down
-		
-		bindTexture(ResourceManager.universal);
+
+		bindTexture(ResourceManager.mining_laser_base_tex);
 		ResourceManager.mining_laser.renderPart("Base");
 
-		GL11.glShadeModel(GL11.GL_SMOOTH);
+		//GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glPushMatrix();
 		GL11.glRotated(yaw, 0, 1, 0);
+		bindTexture(ResourceManager.mining_laser_pivot_tex);
 		ResourceManager.mining_laser.renderPart("Pivot");
 		GL11.glPopMatrix();
 		
@@ -61,18 +62,18 @@ public class RenderLaserMiner extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, -1, 0);
 		GL11.glRotated(pitch + 90, -1, 0, 0);
 		GL11.glTranslated(0, 1, 0);
+		bindTexture(ResourceManager.mining_laser_laser_tex);
 		ResourceManager.mining_laser.renderPart("Laser");
 		GL11.glPopMatrix();
-		GL11.glShadeModel(GL11.GL_FLAT);
+		//GL11.glShadeModel(GL11.GL_FLAT);
 		
 		if(laser.beam) {
 			length = vec.lengthVector();
 			GL11.glTranslated(nVec.xCoord, nVec.yCoord - 1, nVec.zCoord);
 			int range = (int)Math.ceil(length * 0.5);
-	        //BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, 0, 1, 0F, 8, 0.0625F);
-	        BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, (int)te.getWorldObj().getTotalWorldTime() * -25 % 360, range * 2, 0.125F, 4, 0.0625F);
-	        BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, (int)te.getWorldObj().getTotalWorldTime() * -25 % 360 + 120, range * 2, 0.125F, 4, 0.0625F);
-	        BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, (int)te.getWorldObj().getTotalWorldTime() * -25 % 360 + 240, range * 2, 0.125F, 4, 0.0625F);
+	        BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, (int)te.getWorldObj().getTotalWorldTime() * -25 % 360, range * 2, 0.075F, 3, 0.025F);
+	        BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, (int)te.getWorldObj().getTotalWorldTime() * -25 % 360 + 120, range * 2, 0.075F, 3, 0.025F);
+	        BeamPronter.prontBeam(vec, EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xa00000, 0xa00000, (int)te.getWorldObj().getTotalWorldTime() * -25 % 360 + 240, range * 2, 0.075F, 3, 0.025F);
 		}
         
 		GL11.glPopMatrix();

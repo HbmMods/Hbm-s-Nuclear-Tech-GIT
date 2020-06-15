@@ -851,6 +851,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_mining_laser:
+				{
+					if(entity instanceof TileEntityMachineMiningLaser)
+					{
+						return new ContainerMiningLaser(player.inventory, (TileEntityMachineMiningLaser) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1696,6 +1705,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineCrystallizer)
 					{
 						return new GUICrystallizer(player.inventory, (TileEntityMachineCrystallizer) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_mining_laser:
+				{
+					if(entity instanceof TileEntityMachineMiningLaser)
+					{
+						return new GUIMiningLaser(player.inventory, (TileEntityMachineMiningLaser) entity);
 					}
 					return null;
 				}

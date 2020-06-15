@@ -123,11 +123,14 @@ public abstract class BlockDummyable extends BlockContainer {
 		
 		if(!(player instanceof EntityPlayer))
 			return;
+
+		world.setBlockToAir(x, y, z);
 		
 		EntityPlayer pl = (EntityPlayer) player;
 		
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		int o = -getOffset();
+		y += getHeightOffset();
 		
 		ForgeDirection dir = ForgeDirection.NORTH;
 		
@@ -171,6 +174,7 @@ public abstract class BlockDummyable extends BlockContainer {
 		
 		world.setBlock(x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
 		fillSpace(world, x, y, z, dir, o);
+		y -= getHeightOffset();
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);
 
@@ -252,5 +256,9 @@ public abstract class BlockDummyable extends BlockContainer {
 
 	public abstract int[] getDimensions();
 	public abstract int getOffset();
+	
+	public int getHeightOffset() {
+		return 0;
+	}
 
 }

@@ -33,7 +33,7 @@ If you want to do some changes in the code yourself, start here after 6. and con
 
 # License
 
-This software is licensed under the GNU Public Livense version 3. In short: This software is free, you may run the software freely, create modified versions, distribute this software and distribute modified versions, as long as the modified software too has a free software license. You win this round, Stallman.
+This software is licensed under the GNU Public License version 3. In short: This software is free, you may run the software freely, create modified versions, distribute this software and distribute modified versions, as long as the modified software too has a free software license. You win this round, Stallman.
 
 TERMS AND CONDITIONS
 0. Definitions.

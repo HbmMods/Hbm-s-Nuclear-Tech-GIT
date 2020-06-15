@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.TileEntityCoreEmitter;
 import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
+import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityMachineReactorSmall;
@@ -257,6 +258,12 @@ public class AuxButtonPacket implements IMessage {
 						launcher.mode = (byte) m.value;
 					if(m.id == 1)
 						launcher.startCountdown();
+				}
+				
+				if (te instanceof TileEntityMachineMiningLaser) {
+					TileEntityMachineMiningLaser laser = (TileEntityMachineMiningLaser)te;
+
+					laser.isOn = !laser.isOn;
 				}
 				
 			//} catch (Exception x) { }
