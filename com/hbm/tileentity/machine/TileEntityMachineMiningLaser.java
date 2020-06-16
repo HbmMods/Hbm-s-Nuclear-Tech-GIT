@@ -102,7 +102,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 					
 					scan(range);
 					
-					if(beam && canBreak(worldObj.getBlock(targetX, targetY, targetZ))) {
+					if(beam && canBreak(worldObj.getBlock(targetX, targetY, targetZ), targetX, targetY, targetZ)) {
 						
 						breakProgress += getBreakSpeed(speed);
 						clientBreakProgress = Math.min(breakProgress, 1);
@@ -312,7 +312,16 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		for(int x = -range; x <= range; x++) {
 			for(int z = -range; z <= range; z++) {
 				
-				if(canBreak(worldObj.getBlock(x + xCoord, targetY, z + zCoord))) {
+				if(worldObj.getBlock(x + xCoord, targetY, z + zCoord).getMaterial().isLiquid()) {
+					/*targetX = x + xCoord;
+					targetZ = z + zCoord;
+					worldObj.func_147480_a(x + xCoord, targetY, z + zCoord, false);
+					beam = true;*/
+					
+					continue;
+				}
+				
+				if(canBreak(worldObj.getBlock(x + xCoord, targetY, z + zCoord), x + xCoord, targetY, z + zCoord)) {
 					targetX = x + xCoord;
 					targetZ = z + zCoord;
 					beam = true;
@@ -325,8 +334,8 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		targetY--;
 	}
 	
-	private boolean canBreak(Block block) {
-		return block != Blocks.air && block != Blocks.water && block != Blocks.flowing_water;
+	private boolean canBreak(Block block, int x, int y, int z) {
+		return block != Blocks.air && block.getBlockHardness(worldObj, x, y, z) >= 0 && block.getMaterial().isSolid();
 	}
 	
 	public int getOverdrive() {
