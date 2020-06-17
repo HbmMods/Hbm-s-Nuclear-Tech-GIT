@@ -27,7 +27,7 @@ public class RenderLaserMiner extends TileEntitySpecialRenderer {
 		double ty = (laser.targetY - laser.lastTargetY) * interpolation + laser.lastTargetY;
 		double tz = (laser.targetZ - laser.lastTargetZ) * interpolation + laser.lastTargetZ;
 		double vx = tx - laser.xCoord;
-		double vy = ty - laser.yCoord + 1.5;
+		double vy = ty - laser.yCoord + 3;
 		double vz = tz - laser.zCoord;
 		
 		Vec3 nVec = Vec3.createVectorHelper(vx, vy, vz);

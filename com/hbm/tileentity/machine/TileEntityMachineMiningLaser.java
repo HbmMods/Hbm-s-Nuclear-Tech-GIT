@@ -33,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer {
 	
 	public long power;
-	public static final long maxPower = 10000000;
+	public static final long maxPower = 100000000;
 	public static final int consumption = 10000;
 
 	public boolean isOn;
@@ -102,7 +102,16 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 					
 					scan(range);
 					
-					if(beam && canBreak(worldObj.getBlock(targetX, targetY, targetZ), targetX, targetY, targetZ)) {
+					
+					Block block = worldObj.getBlock(targetX, targetY, targetZ);
+					
+					if(block.getMaterial().isLiquid()) {
+						worldObj.setBlockToAir(targetX, targetY, targetZ);
+						buildDam();
+						continue;
+					}
+					
+					if(beam && canBreak(block, targetX, targetY, targetZ)) {
 						
 						breakProgress += getBreakSpeed(speed);
 						clientBreakProgress = Math.min(breakProgress, 1);
@@ -111,6 +120,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 							worldObj.destroyBlockInWorldPartially(-1, targetX, targetY, targetZ, (int) Math.floor(breakProgress * 10));
 						} else {
 							breakBlock(fortune);
+							buildDam();
 						}
 					}
 				}
@@ -152,6 +162,18 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		this.beam = data.getBoolean("beam");
 		this.isOn = data.getBoolean("isOn");
 		this.breakProgress = data.getDouble("progress");
+	}
+	
+	private void buildDam() {
+
+		if(worldObj.getBlock(targetX + 1, targetY, targetZ).getMaterial().isLiquid())
+			worldObj.setBlock(targetX + 1, targetY, targetZ, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX - 1, targetY, targetZ).getMaterial().isLiquid())
+			worldObj.setBlock(targetX - 1, targetY, targetZ, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX, targetY, targetZ + 1).getMaterial().isLiquid())
+			worldObj.setBlock(targetX, targetY, targetZ + 1, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX, targetY, targetZ - 1).getMaterial().isLiquid())
+			worldObj.setBlock(targetX, targetY, targetZ - 1, ModBlocks.barricade);
 	}
 	
 	private void tryFillContainer(int x, int y, int z) {
@@ -335,7 +357,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 	
 	private boolean canBreak(Block block, int x, int y, int z) {
-		return block != Blocks.air && block.getBlockHardness(worldObj, x, y, z) >= 0 && block.getMaterial().isSolid();
+		return block != Blocks.air && block.getBlockHardness(worldObj, x, y, z) >= 0 && !block.getMaterial().isLiquid() && block != Blocks.bedrock;
 	}
 	
 	public int getOverdrive() {
@@ -395,7 +417,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			}
 		}
 		
-		return Math.min(range, 26);
+		return Math.min(range, 25);
 	}
 	
 	public int getFortune() {

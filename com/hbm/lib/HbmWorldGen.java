@@ -237,7 +237,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
 			if (biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
-				if (rand.nextInt(MainRegistry.radioStructure) == 0) {
+				if (MainRegistry.radioStructure > 0 && rand.nextInt(MainRegistry.radioStructure) == 0) {
 					for (int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
@@ -250,7 +250,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			if (biome == BiomeGenBase.plains || biome == BiomeGenBase.forest || biome == BiomeGenBase.desert
 					|| biome == BiomeGenBase.swampland || biome == BiomeGenBase.extremeHills) {
-				if (rand.nextInt(MainRegistry.antennaStructure) == 0) {
+				if (MainRegistry.antennaStructure > 0 && rand.nextInt(MainRegistry.antennaStructure) == 0) {
 					for (int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
@@ -263,7 +263,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			if (biome == BiomeGenBase.desert || biome == BiomeGenBase.beach || biome == BiomeGenBase.mesa
 					|| biome == BiomeGenBase.mesaPlateau) {
-				if (rand.nextInt(MainRegistry.atomStructure) == 0) {
+				if (MainRegistry.atomStructure > 0 && rand.nextInt(MainRegistry.atomStructure) == 0) {
 					for (int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
@@ -275,7 +275,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 
 			if (biome == BiomeGenBase.desert) {
-				if (rand.nextInt(MainRegistry.vertibirdStructure) == 0) {
+				if (MainRegistry.vertibirdStructure > 0 && rand.nextInt(MainRegistry.vertibirdStructure) == 0) {
 					for (int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
@@ -291,7 +291,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (rand.nextInt(MainRegistry.dungeonStructure) == 0) {
+			if (MainRegistry.dungeonStructure > 0 && rand.nextInt(MainRegistry.dungeonStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int y = rand.nextInt(256);
 				int z = j + rand.nextInt(16);
@@ -299,7 +299,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 
 			if (biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
-				if (rand.nextInt(MainRegistry.relayStructure) == 0) {
+				if (MainRegistry.relayStructure > 0 && rand.nextInt(MainRegistry.relayStructure) == 0) {
 					for (int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
@@ -310,7 +310,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 			if (biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
-				if (rand.nextInt(MainRegistry.satelliteStructure) == 0) {
+				if (MainRegistry.satelliteStructure > 0 && rand.nextInt(MainRegistry.satelliteStructure) == 0) {
 					for (int a = 0; a < 1; a++) {
 						int x = i + rand.nextInt(16);
 						int z = j + rand.nextInt(16);
@@ -332,7 +332,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (rand.nextInt(MainRegistry.bunkerStructure) == 0) {
+			if (MainRegistry.bunkerStructure > 0 && rand.nextInt(MainRegistry.bunkerStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -340,7 +340,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Bunker().generate(world, rand, x, y, z);
 			}
 
-			if (rand.nextInt(MainRegistry.siloStructure) == 0) {
+			if (MainRegistry.siloStructure > 0 && rand.nextInt(MainRegistry.siloStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -348,7 +348,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Silo().generate(world, rand, x, y, z);
 			}
 
-			if (rand.nextInt(MainRegistry.factoryStructure) == 0) {
+			if (MainRegistry.factoryStructure > 0 && rand.nextInt(MainRegistry.factoryStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -356,7 +356,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Factory().generate(world, rand, x, y, z);
 			}
 
-			if (rand.nextInt(MainRegistry.dudStructure) == 0) {
+			if (MainRegistry.dudStructure > 0 && rand.nextInt(MainRegistry.dudStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -364,7 +364,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Dud().generate(world, rand, x, y, z);
 			}
 
-			if (rand.nextInt(MainRegistry.spaceshipStructure) == 0) {
+			if (MainRegistry.spaceshipStructure > 0 && rand.nextInt(MainRegistry.spaceshipStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -372,7 +372,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Spaceship().generate(world, rand, x, y, z);
 			}
 			
-			if (biome == BiomeGenBase.desert && rand.nextInt(MainRegistry.barrelStructure) == 0) {
+			if (MainRegistry.barrelStructure > 0 && biome == BiomeGenBase.desert && rand.nextInt(MainRegistry.barrelStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -380,7 +380,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Barrel().generate(world, rand, x, y, z);
 			}
 
-			if (rand.nextInt(MainRegistry.broadcaster) == 0) {
+			if (MainRegistry.broadcaster > 0 && rand.nextInt(MainRegistry.broadcaster) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -393,7 +393,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (MainRegistry.enableMines && rand.nextInt(MainRegistry.minefreq) == 0) {
+			if (MainRegistry.minefreq > 0 && MainRegistry.enableMines && rand.nextInt(MainRegistry.minefreq) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -406,7 +406,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 			
-			if (MainRegistry.enableRad && rand.nextInt(MainRegistry.radfreq) == 0 && biome == BiomeGenBase.desert) {
+			if (MainRegistry.radfreq > 0 && MainRegistry.enableRad && rand.nextInt(MainRegistry.radfreq) == 0 && biome == BiomeGenBase.desert) {
 				
 				for (int a = 0; a < 1; a++) {
 					int x = i + rand.nextInt(16);
@@ -424,7 +424,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (biome == BiomeGenBase.plains && rand.nextInt(MainRegistry.geyserWater) == 0) {
+			if (MainRegistry.geyserWater > 0 && biome == BiomeGenBase.plains && rand.nextInt(MainRegistry.geyserWater) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -433,7 +433,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					new Geyser().generate(world, rand, x, y, z);
 			}
 
-			if (biome == BiomeGenBase.desert && rand.nextInt(MainRegistry.geyserChlorine) == 0) {
+			if (MainRegistry.geyserChlorine > 0 && biome == BiomeGenBase.desert && rand.nextInt(MainRegistry.geyserChlorine) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -442,7 +442,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					new GeyserLarge().generate(world, rand, x, y, z);
 			}
 
-			if (biome == BiomeGenBase.beach && rand.nextInt(MainRegistry.capsuleStructure) == 0) {
+			if (MainRegistry.capsuleStructure > 0 && biome == BiomeGenBase.beach && rand.nextInt(MainRegistry.capsuleStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z) - 4;
@@ -462,7 +462,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if (rand.nextInt(MainRegistry.geyserVapor) == 0) {
+			if (MainRegistry.geyserVapor > 0 && rand.nextInt(MainRegistry.geyserVapor) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -488,7 +488,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					MainRegistry.logger.info("[Debug] Successfully spawned pink tree at " + x + " " + z);
 			}
 
-			if (MainRegistry.enableVaults && rand.nextInt(MainRegistry.vaultfreq) == 0) {
+			if (MainRegistry.vaultfreq > 0 && MainRegistry.enableVaults && rand.nextInt(MainRegistry.vaultfreq) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
@@ -535,7 +535,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				
 			}
 
-			if (rand.nextInt(MainRegistry.meteorStructure) == 0) {
+			if (MainRegistry.meteorStructure > 0 && rand.nextInt(MainRegistry.meteorStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				
