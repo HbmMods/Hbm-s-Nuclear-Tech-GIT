@@ -141,10 +141,10 @@ public class MachineRecipes {
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
 			return list;
 		case WATZ:
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_schrabidium), 1));
-			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_uranium), 2));
-			list.add(new GasCentOutput(3, new ItemStack(ModItems.powder_iron), 3));
-			list.add(new GasCentOutput(3, new ItemStack(ModItems.powder_copper), 4));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_solinium), 1));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_uranium), 1));
+			list.add(new GasCentOutput(5, new ItemStack(ModItems.powder_lead), 1));
+			list.add(new GasCentOutput(10, new ItemStack(ModItems.dust), 1));
 			return list;
 		case SAS3:
 			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_schrabidium), 1));
@@ -200,7 +200,7 @@ public class MachineRecipes {
 		case PUF6:
 			return 100;
 		case WATZ:
-			return 100;
+			return 1000;
 		case SAS3:
 			return 100;
 		case COOLANT:
@@ -2854,28 +2854,27 @@ public class MachineRecipes {
 			break;
 		case LW_ELEMENT:
 			list.add(new ItemStack(ModItems.ingot_tungsten, 4));
-			list.add(new ItemStack(ModItems.plate_advanced_alloy, 6));
-			list.add(new ItemStack(ModItems.rod_empty, 4));
+			list.add(new ItemStack(ModItems.plate_advanced_alloy, 4));
+			list.add(new ItemStack(ModItems.rod_empty, 2));
 			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 2));
-			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 4));
 			break;
 		case LW_CONTROL:
 			list.add(new ItemStack(ModItems.ingot_tungsten, 4));
 			list.add(new ItemStack(ModItems.ingot_advanced_alloy, 4));
 			list.add(new ItemStack(ModItems.ingot_lead, 2));
 			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 4));
-			list.add(new ItemStack(ModItems.circuit_copper, 2));
+			list.add(new ItemStack(ModItems.wire_advanced_alloy, 2));
 			break;
 		case LW_COOLER:
 			list.add(new ItemStack(ModItems.ingot_tungsten, 2));
 			list.add(new ItemStack(ModItems.ingot_steel, 2));
-			list.add(new ItemStack(ModItems.niter, 6));
-			list.add(new ItemStack(ModItems.powder_quartz, 4));
+			list.add(new ItemStack(ModItems.niter, 4));
 			break;
 		case LW_STRUTURE:
 			list.add(new ItemStack(ModItems.ingot_tungsten, 2));
 			list.add(new ItemStack(ModItems.ingot_lead, 2));
-			list.add(new ItemStack(ModItems.ingot_steel, 5));
+			list.add(new ItemStack(ModItems.ingot_steel, 3));
 			break;
 		case LW_HATCH:
 			list.add(new ItemStack(ModBlocks.reinforced_brick, 1));
@@ -2891,7 +2890,7 @@ public class MachineRecipes {
 			break;
 		case LW_CORE:
 			list.add(new ItemStack(ModBlocks.block_meteor, 1));
-			list.add(new ItemStack(ModItems.circuit_gold, 8));
+			list.add(new ItemStack(ModItems.circuit_gold, 5));
 			list.add(new ItemStack(ModItems.circuit_schrabidium, 2));
 			list.add(new ItemStack(ModItems.wire_magnetized_tungsten, 12));
 			break;

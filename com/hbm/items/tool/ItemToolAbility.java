@@ -9,6 +9,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.hbm.handler.ToolAbility;
+import com.hbm.handler.ToolAbility.SilkAbility;
 import com.hbm.handler.WeaponAbility;
 
 import cpw.mods.fml.relauncher.Side;
@@ -157,6 +158,9 @@ public class ItemToolAbility extends ItemTool {
     public boolean canHarvestBlock(Block block, ItemStack stack) {
     	
     	if(!canOperate(stack)) return false;
+    	
+    	if(this.getCurrentAbility(stack) instanceof SilkAbility)
+    		return true;
     	
     	return getDigSpeed(stack, block, 0) > 1;
     }

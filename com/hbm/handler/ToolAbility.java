@@ -11,9 +11,12 @@ import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemToolAbility;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.EnchantmentUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -167,16 +170,18 @@ public abstract class ToolAbility {
 		@Override
 		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
 			
-			//a band-aid on a gaping wound
-			if(block == Blocks.lit_redstone_ore)
-				block = Blocks.redstone_ore;
+			//if the tool is already enchanted, do nothing
+			if(EnchantmentHelper.getSilkTouchModifier(player) || player.getHeldItem() == null)
+				return;
 			
-			ItemStack stack = new ItemStack(block, 1, meta);
+			//add enchantment
+			ItemStack stack = player.getHeldItem();
 			
-			if(stack.getItem() != null) {
-				world.setBlockToAir(x, y, z);
-				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack));
-			}
+			EnchantmentUtil.addEnchantment(stack, Enchantment.silkTouch, 1);
+			block.harvestBlock(world, player, x, y, z, meta);
+			EnchantmentUtil.removeEnchantment(stack, Enchantment.silkTouch);
+			
+			world.setBlockToAir(x, y, z);
 		}
 
 		@Override
@@ -187,6 +192,42 @@ public abstract class ToolAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName());
+		}
+	}
+
+	public static class LuckAbility extends ToolAbility {
+		
+		int luck;
+		
+		public LuckAbility(int luck) {
+			this.luck = luck;
+		}
+
+		@Override
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+			
+			//if the tool is already enchanted, do nothing
+			if(EnchantmentHelper.getFortuneModifier(player) > 0 || player.getHeldItem() == null)
+				return;
+			
+			//add enchantment
+			ItemStack stack = player.getHeldItem();
+			
+			EnchantmentUtil.addEnchantment(stack, Enchantment.fortune, luck);
+			block.harvestBlock(world, player, x, y, z, meta);
+			EnchantmentUtil.removeEnchantment(stack, Enchantment.fortune);
+			
+			world.setBlockToAir(x, y, z);
+		}
+
+		@Override
+		public String getName() {
+			return "tool.ability.luck";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + " (" + luck + ")";
 		}
 	}
 
