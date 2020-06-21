@@ -73,10 +73,11 @@ potion.hbm_phosphorus=Фосфорные ожоги
 tool.ability.recursion=Жилковый Майнер
 tool.ability.hammer=AoE
 tool.ability.silktouch=Точечный Майнер
+tool.ability.fortune=Экстрактор руд
 tool.ability.smelter=Авто-плавка
 tool.ability.shredder=Авто-измельчитель
 tool.ability.centrifuge=Авто-центрифуга
-weapon.ability.radiation=Радиоактивные Лезвия
+weapon.ability.radiation=Радиоактивные лезвия
 weapon.ability.vampire=Вампир
 weapon.ability.stun=Оглушение
 
@@ -622,7 +623,7 @@ item.siren_track.name=Трек сирены
 
 item.bobmazon_materials.name=Бобмазон: Материалы
 item.bobmazon_machines.name=Бобмазон: Блоки и машины
-item.bobmazon_weapons.nameБобмазон: Оружие и взрывчатка
+item.bobmazon_weapons.name=Бобмазон: Оружие и взрывчатка
 item.bobmazon_tools.name=Бобмазон: Предметы
 item.bobmazon_hidden.name=Скрытый каталог
 
@@ -657,6 +658,7 @@ item.ingot_steel.name=Стальной слиток
 item.plate_steel.name=Стальная пластина
 item.ingot_beryllium.name=Бериллевый слиток
 item.plate_schrabidium.name=Шрабидиевая пластина
+item.ingot_schraranium.name=Шрараниевый слиток
 item.ingot_schrabidium.name=Шрабидиевый слиток
 item.nugget_schrabidium.name=Шрабидиевый самородок
 item.plate_copper.name=Медная пластина
@@ -1086,23 +1088,32 @@ item.battery_spark_cell_10000.name=Устойчивый пространстве
 item.battery_spark_cell_power.name=Абсурдный физический спарк-блок накопления энергии
 
 item.upgrade_template.name=Шаблон улучшения механизма
-item.upgrade_speed_1.name=Красное улучшение механизма уровня I
-item.upgrade_speed_2.name=Красное улучшение механизма уровня II
-item.upgrade_speed_3.name=Красное улучшение механизма уровня III
-item.upgrade_effect_1.name=Зелёное улучшение механизма уровня I
-item.upgrade_effect_2.name=Зелёное улучшение механизма уровня II
-item.upgrade_effect_3.name=Зелёное улучшение механизма уровня III
-item.upgrade_power_1.name=Синее улучшение механизма уровня I
-item.upgrade_power_2.name=Синее улучшение механизма уровня II
-item.upgrade_power_3.name=Синее улучшение механизма уровня III
-item.upgrade_fortune_1.name=Фиолетовое улучшение механизма уровня I
-item.upgrade_fortune_2.name=Фиолетовое улучшение механизма уровня II
-item.upgrade_fortune_3.name=Фиолетовое улучшение механизма уровня III
-item.upgrade_afterburn_1.name=Розовое улучшение механизма уровня I
-item.upgrade_afterburn_2.name=Розовое улучшение механизма уровня II
-item.upgrade_afterburn_3.name=Розовое улучшение механизма уровня III
+item.upgrade_speed_1.name=Улучшение механизма "Скорость" уровня I
+item.upgrade_speed_2.name=Улучшение механизма "Скорость" уровня II
+item.upgrade_speed_3.name=Улучшение механизма "Скорость" уровня III
+item.upgrade_effect_1.name=Улучшение механизма "Эффективность" уровня I
+item.upgrade_effect_2.name=Улучшение механизма "Эффективность" уровня II
+item.upgrade_effect_3.name=Улучшение механизма "Эффективность" уровня III
+item.upgrade_power_1.name=Улучшение механизма "Энергосбережение" уровня I
+item.upgrade_power_2.name=Улучшение механизма "Энергосбережение" уровня II
+item.upgrade_power_3.name=Улучшение механизма "Энергосбережение" уровня III
+item.upgrade_fortune_1.name=Улучшение механизма "Удача" уровня I
+item.upgrade_fortune_2.name=Улучшение механизма "Удача" уровня II
+item.upgrade_fortune_3.name=Улучшение механизма "Удача" уровня III
+item.upgrade_afterburn_1.name=Улучшение механизма "Форсаж" уровня I
+item.upgrade_afterburn_2.name=Улучшение механизма "Форсаж" уровня II
+item.upgrade_afterburn_3.name=Улучшение механизма "Форсаж" уровня III
+item.upgrade_overdrive_1.name=Улучшение механизма "Перегруз" уровня I
+item.upgrade_overdrive_2.name=Улучшение механизма "Перегруз" уровня II
+item.upgrade_overdrive_3.name=Улучшение механизма "Перегруз" уровня III
 item.upgrade_radius.name=Улучшение радиуса излучателя
 item.upgrade_health.name=Улучшение прочности излучателя
+item.upgrade_smelter.name=Улучшение "Плавильня"
+item.upgrade_shredder.name=Улучшение "Измельчитель"
+item.upgrade_centrifuge.name=Улучшение "Центрифуга"
+item.upgrade_crystallizer.name=Улучшение "Кристаллизатор"
+item.upgrade_nullifier.name=Улучшение "Уничтожитель мусора"
+item.upgrade_screm.name=Улучшение "Кричащий учёный"
 
 item.fusion_core.name=Ядерный блок
 item.energy_core.name=Импровизированный энергоблок
@@ -1651,7 +1662,9 @@ item.ammo_grenade_kampf.name=40мм-Ракета
 item.ammo_fuel.name=Бак с дизелем
 item.ammo_fuel_napalm.name=Бак с напалмом
 item.ammo_fuel_phosphorus.name=Бак с белым фосфором
+item.ammo_fuel_vaporizer.name=Бак испарителя
 item.ammo_fuel_gas.name=Бак с газом
+
 
 item.folly_shell.name=Оболочка серебряной пули
 item.folly_bullet.name=12.8см Высокоэнергетическая оболочка из звёздного металла
