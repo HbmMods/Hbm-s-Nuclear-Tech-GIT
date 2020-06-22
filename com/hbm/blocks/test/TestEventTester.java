@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.block.Block;
@@ -374,6 +375,12 @@ public class TestEventTester extends Block {
             EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, (double)((float)par2 + 0.5F), (double)((float)par3 + 0.5F), (double)((float)par4 + 0.5F), this, worldObj.getBlockMetadata(par2, par3, par4));
             worldObj.spawnEntityInWorld(entityfallingblock);
     	}*/
+    	
+    	if(!worldObj.isRemote) {
+	    	EntityCloudTom tom = new EntityCloudTom(worldObj, 100);
+	    	tom.setPosition(par2 + 0.5, par3 + 2, par4 + 0.5);
+	    	worldObj.spawnEntityInWorld(tom);
+    	}
         
         return true;
     }

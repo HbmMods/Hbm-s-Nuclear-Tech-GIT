@@ -4,7 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.util.RenderMiscEffects;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -116,7 +119,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         //GL11.glRotatef(-25, 0, 1, 0);
         //GL11.glRotatef(15, 0, 0, 1);
         
-        long time = tileEntity.getWorldObj().getTotalWorldTime();
+        /*long time = tileEntity.getWorldObj().getTotalWorldTime();
         double sine = Math.sin(time * 0.05) * 5;
         double sin3 = Math.sin(time * 0.05 + Math.PI * 0.5) * 5;
         double sin2 = Math.sin(time * 0.05 + Math.PI);
@@ -132,6 +135,34 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         ResourceManager.soyuz_lander.renderPart("Capsule");
         bindTexture(ResourceManager.soyuz_chute_tex);
         ResourceManager.soyuz_lander.renderPart("Chute");
+        GL11.glShadeModel(GL11.GL_FLAT);*/
+
+        GL11.glRotatef(-90, 0, 1, 0);
+        GL11.glTranslated(0, 3, 0);
+        bindTexture(ResourceManager.nikonium_tex);
+        ResourceManager.nikonium.renderAll();
+        GL11.glTranslated(0, -3, 0);
+        GL11.glRotatef(90, 0, 1, 0);
+
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        bindTexture(ResourceManager.fstbmb_tex);
+        ResourceManager.fstbmb.renderPart("Body");
+        ResourceManager.fstbmb.renderPart("Balefire");
+        
+        bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/misc/glintBF.png"));
+        RenderMiscEffects.renderClassicGlint(tileEntity.getWorldObj(), f, ResourceManager.fstbmb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
+        
+        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+        float f3 = 0.04F;
+        GL11.glTranslatef(0.815F, 0.9275F, 0.5F);
+        GL11.glScalef(f3, -f3, f3);
+        GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
+        GL11.glRotatef(90, 0, 1, 0);
+        GL11.glDepthMask(false);
+        GL11.glTranslatef(0, 1, 0);
+        font.drawString("00:15", 0, 0, 0xff0000);
+        GL11.glDepthMask(true);
+        
         GL11.glShadeModel(GL11.GL_FLAT);
         
         GL11.glPopMatrix();

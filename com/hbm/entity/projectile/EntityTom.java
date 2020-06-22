@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.entity.logic.EntityTomBlast;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,6 +40,10 @@ public class EntityTom extends EntityThrowable {
     			tom.posZ = posZ;
     			tom.destructionRange = 500;
     			worldObj.spawnEntityInWorld(tom);
+    			
+    			EntityCloudTom cloud = new EntityCloudTom(worldObj, 500);
+    			cloud.setLocationAndAngles(posX, posY, posZ, 0, 0);
+    			worldObj.spawnEntityInWorld(cloud);
     		}
     		this.setDead();
         }

@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.items.tool.ItemToolAbility;
+import com.hbm.items.tool.IItemAbility;
 import com.hbm.lib.Library;
 
 import net.minecraft.client.resources.I18n;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 public abstract class WeaponAbility {
 	
-	public abstract void onHit(World world, EntityPlayer player, Entity victim, ItemToolAbility tool);
+	public abstract void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool);
 	public abstract String getName();
 	public abstract String getFullName();
 	
@@ -26,7 +26,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, ItemToolAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
 			
 			Library.applyRadData(victim, rad);
 		}
@@ -51,7 +51,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, ItemToolAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
 			
 			if(victim instanceof EntityLivingBase) {
 				
@@ -82,7 +82,7 @@ public abstract class WeaponAbility {
 		}
 
 		@Override
-		public void onHit(World world, EntityPlayer player, Entity victim, ItemToolAbility tool) {
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
 			
 			if(victim instanceof EntityLivingBase) {
 				

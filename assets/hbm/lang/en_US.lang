@@ -70,8 +70,8 @@ potion.hbm_phosphorus=Phosphorus Burns
 
 tool.ability.recursion=Vein Miner
 tool.ability.hammer=AoE
-tool.ability.silktouch=Precision Miner
-tool.ability.fortune=Ore Extractor
+tool.ability.silktouch=Silk Touch
+tool.ability.luck=Fortune
 tool.ability.smelter=Auto-Smelter
 tool.ability.shredder=Auto-Shredder
 tool.ability.centrifuge=Auto-Centrifuge
@@ -1808,7 +1808,7 @@ item.plate_desh.name=Desh Compound Plate
 item.euphemium_helmet.name=Euphemium Helmet
 item.euphemium_plate.name=Euphemium Chestplate
 item.euphemium_legs.name=Euphemium Leggings
-item.euphemium_boots.name=Euphemiums Boots
+item.euphemium_boots.name=Euphemium Boots
 
 item.schrabidium_helmet.name=Schrabidium Helmet
 item.schrabidium_plate.name=Schrabidium Chestplate

@@ -70,8 +70,8 @@ potion.hbm_phosphorus=Phosphorverbrennung
 
 tool.ability.recursion=Erzadern-Miner
 tool.ability.hammer=AoE
-tool.ability.silktouch=Präzisionswerkzeug
-tool.ability.fortune=Erz-Extraktor
+tool.ability.silktouch=Behutsamkeit
+tool.ability.luck=Glück
 tool.ability.smelter=Auto-Ofen
 tool.ability.shredder=Auto-Brecher
 tool.ability.cnetrifuge=Auto-Zentrifuge

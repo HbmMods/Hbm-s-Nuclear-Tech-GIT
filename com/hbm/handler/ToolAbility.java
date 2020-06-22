@@ -9,7 +9,7 @@ import java.util.Set;
 import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemToolAbility;
+import com.hbm.items.tool.IItemAbility;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.EnchantmentUtil;
 
@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 
 public abstract class ToolAbility {
 	
-	public abstract void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool);
+	public abstract void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool);
 	public abstract String getName();
 	public abstract String getFullName();
 	
@@ -42,7 +42,7 @@ public abstract class ToolAbility {
 		private Set<ThreeInts> pos = new HashSet();
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			Block b = world.getBlock(x, y, z);
 
@@ -68,7 +68,7 @@ public abstract class ToolAbility {
 			}
 		}
 		
-		private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, ItemToolAbility tool, int depth) {
+		private void breakExtra(World world, int x, int y, int z, int refX, int refY, int refZ, EntityPlayer player, IItemAbility tool, int depth) {
 			
 			if(pos.contains(new ThreeInts(x, y, z)))
 				return;
@@ -139,7 +139,7 @@ public abstract class ToolAbility {
 		}
 		
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			for(int a = x - range; a <= x + range; a++) {
 				for(int b = y - range; b <= y + range; b++) {
@@ -168,7 +168,7 @@ public abstract class ToolAbility {
 	public static class SilkAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//if the tool is already enchanted, do nothing
 			if(EnchantmentHelper.getSilkTouchModifier(player) || player.getHeldItem() == null)
@@ -204,7 +204,7 @@ public abstract class ToolAbility {
 		}
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//if the tool is already enchanted, do nothing
 			if(EnchantmentHelper.getFortuneModifier(player) > 0 || player.getHeldItem() == null)
@@ -234,7 +234,7 @@ public abstract class ToolAbility {
 	public static class SmelterAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)
@@ -263,7 +263,7 @@ public abstract class ToolAbility {
 	public static class ShredderAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)
@@ -292,7 +292,7 @@ public abstract class ToolAbility {
 	public static class CentrifugeAbility extends ToolAbility {
 
 		@Override
-		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, ItemToolAbility tool) {
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			//a band-aid on a gaping wound
 			if(block == Blocks.lit_redstone_ore)

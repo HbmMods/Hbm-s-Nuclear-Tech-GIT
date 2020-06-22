@@ -31,9 +31,9 @@ public class RenderSmallNukeMK3 extends Render {
     public RenderSmallNukeMK3() {
     	blastModel = AdvancedModelLoader.loadModel(objTesterModelRL);
     	ringModel = AdvancedModelLoader.loadModel(ringModelRL);
-    	ringTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Ring2.png");
+    	ringTexture = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/Ring2.png");
     	ringBigModel = AdvancedModelLoader.loadModel(ringBigModelRL);
-    	ringBigTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Ring2.png");
+    	ringBigTexture = new ResourceLocation(RefStrings.MODID, "textures/models/explosion/Ring2.png");
     	scale = 0;
     	ring = 0;
     }
