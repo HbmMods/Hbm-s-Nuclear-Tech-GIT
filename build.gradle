@@ -1,56 +1,110 @@
 buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-        maven {
-            url = "https://repo1.maven.org/maven2/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+	repositories {
+		mavenCentral()
+		maven {
+			name = "GTMaven"
+			url = "https://gregtech.overminddl1.com/"
+		}
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+		maven {
+				url = "https://repo1.maven.org/maven2/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+	}
 }
 
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+version = "1.0.27"
+group= "com.hbm"
+archivesBaseName = "hbm"
 
 minecraft {
-    version = "1.7.10-10.13.4.1558-1.7.10"
-    runDir = "eclipse"
+	version = "1.7.10-10.13.4.1614-1.7.10"
+	runDir = "instance"
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+compileJava.options.bootClasspath = org.gradle.internal.jvm.Jvm.current().getJre().getHomeDir().toString() +"/lib/rt.jar"
+compileJava {
+	options.encoding = "UTF-8"
+}
+
+repositories {
+	maven {
+		name = "gt"
+		url = "https://gregtech.overminddl1.com/"
+	}
 }
 
 dependencies {
-compile files('lib/CodeChickenCore-1.7.10-1.0.4.29-dev.jar')
-compile files('lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
-compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
+	compile "codechicken:CodeChickenLib:1.7.10-1.1.3.140:dev"
+	compile "codechicken:CodeChickenCore:1.7.10-1.0.7.47:dev"
+	compile "codechicken:NotEnoughItems:1.7.10-1.0.5.120:dev"
 }
 
 processResources
 {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+	// this will ensure that this task is redone when the versions change.
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+	// replace stuff in mcmod.info, nothing else
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+
+		// replace version and mcversion
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+
+	// copy everything else, thats not the mcmod.info
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
+
+task sourceJar(type: Jar) {
+	manifest {}
+	classifier = 'sources'
+	from sourceSets.main.allSource
+	exclude 'assets/**'
+}
+
+task devJar(type: Jar) {
+	manifest {}
+	classifier = 'dev'
+	from sourceSets.main.output
+}
+
+artifacts {
+	archives devJar, sourceJar
+}
+
+if (!hasProperty("mavenUsername")) {
+	ext.mavenUsername="${System.getenv().MAVEN_USERNAME}"
+}
+
+if (!hasProperty("mavenPassword")) {
+	ext.mavenPassword="${System.getenv().MAVEN_PASSWORD}"
+}
+
+if (!hasProperty("mavenURL")) {
+	ext.mavenURL="${System.getenv().MAVEN_URL}"
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			uniqueVersion = false
+			repository(url: mavenURL) {
+				authentication(userName: mavenUsername, password: mavenPassword)
+			}
+		}
+	}
 }
