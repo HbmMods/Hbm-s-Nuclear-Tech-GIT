@@ -1,3 +1,9 @@
-.gradle/
-build/
+/.gradle/
+/build/
+/instance/
+/eclipse/
+/.classpath
+/.gradletasknamecache
+/.project
+/.settings/org.eclipse.jdt.core.prefs
 
