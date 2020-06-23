@@ -18,6 +18,67 @@ buildscript {
 	}
 }
 
+allprojects {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+	}
+}
+
+apply plugin: 'eclipse'
+eclipse {
+	classpath {
+		downloadJavadoc = true
+		downloadSources = true
+	}
+}
+
+def eclipseRuntimeClasspath = ""
+def eclipseRuntimeClasspathTemplate = "<listEntry value=\"&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#10;&lt;runtimeClasspathEntry externalArchive=&quot;@@PATH@@&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;\"/>\n"
+
+task eclipseForgeWorkspace(type: Copy) {
+	doFirst {
+		sourceSets.main.runtimeClasspath.collect {
+			eclipseRuntimeClasspath += eclipseRuntimeClasspathTemplate.replaceAll('@@PATH@@', it.toString())
+			""
+		}
+	}
+	from(".meta/eclipse/.metadata") {
+		include '**/*.template'
+		rename { it.replace '.template', '' }
+		filter { it.replaceAll('@@eclipseRuntimeClasspath@@', eclipseRuntimeClasspath) }
+		//rename '(.*).template', '$1'
+	}
+	from(".meta/eclipse/.metadata") {
+		exclude '**/*.launch'
+	}
+	into "eclipse/.metadata"
+}
+
+import org.apache.tools.ant.taskdefs.condition.Os
+task eclipseForgeProject {
+	doLast {
+		if(!(new File("eclipse/Minecraft")).exists()) {
+			if(!Os.isFamily(Os.FAMILY_WINDOWS)) {
+				ant.symlink(resource: "../", link: "eclipse/Minecraft")
+			} else {
+				println("WINDOWS: Before loading this workspace with Eclipse, manually run this in an Elevated/Admin command prompt:")
+				println("mklink /D " + (new File("").absolutePath) + "/eclipse/Minecraft " + (new File("").absolutePath))
+			}
+		}
+	}
+}
+eclipseForgeProject.dependsOn(eclipseForgeWorkspace)
+
+tasks.eclipse.dependsOn(eclipseForgeProject)
+
+apply plugin: 'idea'
+idea {
+	module {
+		downloadJavadoc = true
+		downloadSources = true
+	}
+}
+
 apply plugin: 'forge'
 
 version = "1.0.27"
