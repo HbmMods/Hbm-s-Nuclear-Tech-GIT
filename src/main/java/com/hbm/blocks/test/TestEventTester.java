@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudTom;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.block.Block;
@@ -376,10 +378,19 @@ public class TestEventTester extends Block {
             worldObj.spawnEntityInWorld(entityfallingblock);
     	}*/
     	
-    	if(!worldObj.isRemote) {
+    	/*if(!worldObj.isRemote) {
 	    	EntityCloudTom tom = new EntityCloudTom(worldObj, 100);
 	    	tom.setPosition(par2 + 0.5, par3 + 2, par4 + 0.5);
 	    	worldObj.spawnEntityInWorld(tom);
+    	}*/
+    	
+    	if(!worldObj.isRemote) {
+    		
+    		worldObj.setBlockToAir(par2, par3, par4);
+    		ExplosionNT ex = new ExplosionNT(worldObj, null, par2 + 0.5, par3 + 2, par4 + 0.5, 5);
+    		ex.addAttrib(ExAttrib.ALLDROP);
+    		ex.doExplosionA();
+    		ex.doExplosionB(false);
     	}
         
         return true;

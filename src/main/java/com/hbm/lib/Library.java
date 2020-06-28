@@ -440,14 +440,13 @@ public class Library {
 		return power;
 	}
 	
-	//TODO: jesus christ
+	//TODO: jesus christ kill it
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
 	public static void ffgeua(int x, int y, int z, boolean newTact, ISource that, World worldObj) {
 		Block block = worldObj.getBlock(x, y, z);
 		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
 
-		//TODO: transition multiblocks to use the XR mutliblock handler so this spaghetti trash becomes obsolete
 		//Factories
 		if(block == ModBlocks.factory_titanium_conductor && worldObj.getBlock(x, y + 1, z) == ModBlocks.factory_titanium_core)
 		{
