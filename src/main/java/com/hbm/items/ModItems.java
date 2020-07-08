@@ -245,6 +245,7 @@ public class ModItems {
 	public static Item crystal_fluorite;
 	public static Item crystal_beryllium;
 	public static Item crystal_lead;
+	public static Item crystal_schraranium;
 	public static Item crystal_schrabidium;
 	public static Item crystal_rare;
 	public static Item crystal_phosphorus;
@@ -1614,6 +1615,7 @@ public class ModItems {
 	public static Item cobalt_axe;
 	public static Item cobalt_shovel;
 	public static Item cobalt_hoe;
+	public static Item smashing_hammer;
 	public static Item centri_stick;
 
 	public static Item matchstick;
@@ -2106,6 +2108,7 @@ public class ModItems {
 		crystal_fluorite = new Item().setUnlocalizedName("crystal_fluorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_fluorite");
 		crystal_beryllium = new Item().setUnlocalizedName("crystal_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_beryllium");
 		crystal_lead = new Item().setUnlocalizedName("crystal_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_lead");
+		crystal_schraranium = new ItemRadioactive(5F, false, true).setUnlocalizedName("crystal_schraranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_schraranium");
 		crystal_schrabidium = new ItemRadioactive(10F, false, true).setUnlocalizedName("crystal_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_schrabidium");
 		crystal_rare = new Item().setUnlocalizedName("crystal_rare").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_rare");
 		crystal_phosphorus = new ItemRadioactive(0.0F, true).setUnlocalizedName("crystal_phosphorus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_phosphorus");
@@ -3658,6 +3661,8 @@ public class ModItems {
 		
 		centri_stick = new ItemToolAbility(3F, 0, MainRegistry.tMatElec, EnumToolType.MINER)
 				.addBreakAbility(new ToolAbility.CentrifugeAbility()).setMaxDamage(50).setUnlocalizedName("centri_stick").setTextureName(RefStrings.MODID + ":centri_stick");
+		smashing_hammer = new ItemToolAbility(12F, -0.1, MainRegistry.tMatSteel, EnumToolType.MINER)
+				.addBreakAbility(new ToolAbility.ShredderAbility()).setMaxDamage(2500).setUnlocalizedName("smashing_hammer").setTextureName(RefStrings.MODID + ":smashing_hammer");
 		
 		mask_of_infamy = new MaskOfInfamy(ArmorMaterial.IRON, 8, 0).setUnlocalizedName("mask_of_infamy").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_of_infamy");
 
@@ -4050,6 +4055,7 @@ public class ModItems {
 		GameRegistry.registerItem(crystal_fluorite, crystal_fluorite.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_beryllium, crystal_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_lead, crystal_lead.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_schraranium, crystal_schraranium.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_schrabidium, crystal_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_rare, crystal_rare.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_phosphorus, crystal_phosphorus.getUnlocalizedName());
@@ -5314,6 +5320,7 @@ public class ModItems {
 		GameRegistry.registerItem(elec_pickaxe, elec_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(elec_axe, elec_axe.getUnlocalizedName());
 		GameRegistry.registerItem(elec_shovel, elec_shovel.getUnlocalizedName());
+		GameRegistry.registerItem(smashing_hammer, smashing_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(centri_stick, centri_stick.getUnlocalizedName());
 		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
 		GameRegistry.registerItem(crowbar, crowbar.getUnlocalizedName());

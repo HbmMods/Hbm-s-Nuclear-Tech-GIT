@@ -11,7 +11,6 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -19,6 +18,7 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.RadiationSavedData;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -145,7 +145,7 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 					|| itemStack.getItem() == ModItems.rod_quad_coolant)
 				return true;
 		if (i == 16)
-			if (itemStack.getItem() instanceof ItemBattery)
+			if (itemStack.getItem() instanceof IBatteryItem)
 				return true;
 		return false;
 	}
@@ -245,8 +245,7 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 					|| itemStack.getItem() == ModItems.fluid_barrel_empty)
 				return true;
 		if (i == 16)
-			if (itemStack.getItem() instanceof ItemBattery
-					&& ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack))
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == ((IBatteryItem)itemStack.getItem()).getMaxCharge())
 				return true;
 
 		return false;

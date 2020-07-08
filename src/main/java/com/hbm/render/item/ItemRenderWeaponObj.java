@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -129,6 +131,9 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glTranslatef(1.0F, -1.0F, -0.0F);
 				GL11.glRotatef(170F, 0.0F, 1.0F, 0.0F);
 				GL11.glScaled(0.25, 0.25, 0.25);
+
+				double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+				GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
 				
 				if(player.isSneaking()) {
 					GL11.glRotatef(5F, 0.0F, 1.0F, 0.0F);

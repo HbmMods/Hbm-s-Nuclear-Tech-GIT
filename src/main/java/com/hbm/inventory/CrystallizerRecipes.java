@@ -54,6 +54,7 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModItems.powder_diamond), new ItemStack(Items.diamond));
 		recipes.put(new ComparableStack(ModItems.powder_emerald), new ItemStack(Items.emerald));
 		recipes.put(new ComparableStack(ModItems.powder_lapis), new ItemStack(Items.dye, 1, 4));
+		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack(ModItems.crystal_schraranium));
 	}
 	
 	public static ItemStack getOutput(ItemStack stack) {

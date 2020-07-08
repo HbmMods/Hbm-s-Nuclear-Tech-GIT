@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -104,10 +103,6 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		switch(i)
 		{
-		case 0:
-			if(stack.getItem() instanceof ItemBattery)
-				return true;
-			break;
 		case 1:
 			if(stack.getItem() == ModItems.rod_water || stack.getItem() == ModItems.rod_dual_water || stack.getItem() == ModItems.rod_quad_water || stack.getItem() == Items.water_bucket)
 				return true;
@@ -206,9 +201,6 @@ public class TileEntityMachineDeuterium extends TileEntity implements ISidedInve
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 4)
 			return true;
-		if(i == 0)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
-				return true;
 		if(i == 1)
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
 				return true;

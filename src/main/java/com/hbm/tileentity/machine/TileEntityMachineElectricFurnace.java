@@ -2,12 +2,12 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -105,7 +105,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0)
-			if(itemStack.getItem() instanceof ItemBattery)
+			if(itemStack.getItem() instanceof IBatteryItem)
 				return true;
 		
 		if(i == 1)
@@ -190,7 +190,7 @@ public class TileEntityMachineElectricFurnace extends TileEntity implements ISid
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 0)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == 0)
 				return true;
 		if(i == 2)
 			return true;

@@ -1,33 +1,25 @@
 package com.hbm.tileentity.machine;
 
-import java.util.Random;
-
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.TileEntityMachineBase;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineSchrabidiumTransmutator extends TileEntity implements ISidedInventory, IConsumer {
-
-	private ItemStack slots[];
+public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IConsumer {
 
 	public long power = 0;
 	public int process = 0;
-	public int soundCycle = 0;
 	public static final long maxPower = 5000000;
-	public static final int processSpeed = 60;
-	Random rand = new Random();
+	public static final int processSpeed = 600;
+	
+	private AudioWrapper audio;
 
 	private static final int[] slots_top = new int[] { 0 };
 	private static final int[] slots_bottom = new int[] { 1, 2 };
@@ -36,36 +28,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	private String customName;
 
 	public TileEntityMachineSchrabidiumTransmutator() {
-		slots = new ItemStack[4];
-	}
-
-	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
+		super(4);
 	}
 
 	@Override
@@ -83,25 +46,13 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	}
 
 	@Override
+	public String getName() {
+		return getInventoryName();
+	}
+
+	@Override
 	public int getInventoryStackLimit() {
 		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
 	}
 
 	@Override
@@ -116,7 +67,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 				return true;
 			break;
 		case 3:
-			if (stack.getItem() instanceof ItemBattery)
+			if (stack.getItem() instanceof IBatteryItem)
 				return true;
 			break;
 		}
@@ -124,68 +75,23 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (slots[i] != null) {
-			if (slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 
 		power = nbt.getLong("power");
-		process = nbt.getShort("process");
-		slots = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if (b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
+		process = nbt.getInteger("process");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
-		nbt.setShort("process", (short) process);
-		NBTTagList list = new NBTTagList();
-
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
+		nbt.setInteger("process", process);
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
 	}
 
 	@Override
@@ -200,7 +106,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 		}
 
 		if (i == 3) {
-			if (stack.getItem() instanceof ItemBattery && ItemBattery.getCharge(stack) == 0)
+			if (stack.getItem() instanceof IBatteryItem && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0)
 				return true;
 		}
 
@@ -219,7 +125,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
 				&& slots[2].getItem() == ModItems.redcoil_capacitor
 				&& slots[2].getItemDamage() < slots[2].getMaxDamage()
-				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == ModItems.ingot_schrabidium
+				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == ModItems.ingot_schraranium
 						&& slots[1].stackSize < slots[1].getMaxStackSize()))) {
 			return true;
 		}
@@ -233,15 +139,6 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 	public void process() {
 		process++;
 
-		if (isProcessing()) {
-			if (soundCycle == 0)
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 1.0F);
-			soundCycle++;
-
-			if (soundCycle >= 38)
-				soundCycle = 0;
-		}
-
 		if (process >= processSpeed) {
 
 			power = 0;
@@ -253,7 +150,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			}
 
 			if (slots[1] == null) {
-				slots[1] = new ItemStack(ModItems.ingot_schrabidium);
+				slots[1] = new ItemStack(ModItems.ingot_schraranium);
 			} else {
 				slots[1].stackSize++;
 			}
@@ -262,7 +159,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			}
 
 			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "ambient.weather.thunder", 10000.0F,
-					0.8F + this.rand.nextFloat() * 0.2F);
+					0.8F + this.worldObj.rand.nextFloat() * 0.2F);
 		}
 	}
 
@@ -273,29 +170,68 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntity impleme
 			
 			power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 
-			if (canProcess()) {
-
-				//if (!worldObj.isRemote) {
+			if(canProcess()) {
 				process();
-				//}
 			} else {
 				process = 0;
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			data.setInteger("progress", process);
+			this.networkPack(data, 50);
+			
+		} else {
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			if(process > 0) {
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 1.0F);
+					audio.startSound();
+				}
+			} else {
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
+	}
+	
+    public void onChunkUnload() {
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
+	
+    public void invalidate() {
+    	
+    	super.invalidate();
+    	
+    	if(audio != null) {
+			audio.stopSound();
+			audio = null;
+    	}
+    }
+	
+	@Override
+	public void networkUnpack(NBTTagCompound data) {
+
+		this.power = data.getLong("power");
+		this.process = data.getInteger("progress");
 	}
 
 	@Override
 	public void setPower(long i) {
 		power = i;
-
 	}
 
 	@Override
 	public long getPower() {
 		return power;
-
 	}
 
 	@Override

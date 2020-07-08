@@ -8,10 +8,10 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.FluidTank;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -195,7 +195,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(i == 0 && CrystallizerRecipes.getOutput(itemStack) != null)
 			return true;
 		
-		if(i == 1 && itemStack.getItem() instanceof ItemBattery)
+		if(i == 1 && itemStack.getItem() instanceof IBatteryItem)
 			return true;
 		
 		return false;

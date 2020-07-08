@@ -11,11 +11,11 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -126,7 +126,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
-		if(i == 0 && stack.getItem() instanceof ItemBattery)
+		if(i == 0 && stack.getItem() instanceof IBatteryItem)
 			return true;
 		if(i == 1 && FluidContainerRegistry.getFluidContent(stack, FluidType.HOTOIL) > 0)
 			return true;
@@ -230,7 +230,7 @@ public class TileEntityMachineRefinery extends TileEntity implements ISidedInven
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 0)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == 0)
 				return true;
 		if(i == 2)
 			return true;

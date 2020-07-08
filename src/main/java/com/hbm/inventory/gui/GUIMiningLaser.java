@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMiningLaser;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -44,6 +45,8 @@ public class GUIMiningLaser extends GuiInfoContainer {
 				" -Crystallizer (exclusive)",
 				" -Nullifier"};
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 87, guiTop + 31, 8, 8, guiLeft + 141, guiTop + 39 + 16, text);
+
+		laser.tank.renderTankInfo(this, mouseX, mouseY, guiLeft + 35, guiTop + 124 - 52, 7, 52);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -83,5 +86,8 @@ public class GUIMiningLaser extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 66, guiTop + 36, 192, 0, 8, j);
 		
 		this.drawInfoPanel(guiLeft + 87, guiTop + 31, 8, 8, 8);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(laser.tank.getSheet());
+		laser.tank.renderTank(this, guiLeft + 35, guiTop + 124, laser.tank.getTankType().textureX() * FluidTank.x, laser.tank.getTankType().textureY() * FluidTank.y, 7, 52);
 	}
 }

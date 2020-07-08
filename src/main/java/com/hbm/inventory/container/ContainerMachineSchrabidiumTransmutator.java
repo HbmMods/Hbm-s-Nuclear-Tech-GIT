@@ -6,17 +6,12 @@ import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerMachineSchrabidiumTransmutator extends Container {
 
 private TileEntityMachineSchrabidiumTransmutator nukeBoy;
-
-	private int water;
-	private int sulfur;
-	private int progress;
 	
 	public ContainerMachineSchrabidiumTransmutator(InventoryPlayer invPlayer, TileEntityMachineSchrabidiumTransmutator tedf) {
 		
@@ -81,23 +76,6 @@ private TileEntityMachineSchrabidiumTransmutator nukeBoy;
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return nukeBoy.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-			
-			if(this.progress != this.nukeBoy.process)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.nukeBoy.process);
-			}
-		}
-		
-		this.progress = this.nukeBoy.process;
 	}
 	
 	@Override

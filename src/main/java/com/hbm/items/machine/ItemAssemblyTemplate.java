@@ -131,6 +131,36 @@ public class ItemAssemblyTemplate extends Item {
 		UPGRADE_PINK_III,
 		UPGRADE_RANGE,
 		UPGRADE_HEALTH,
+
+		UPGRADE_OVERDRIVE_I(200, Arrays.asList(
+				new ItemStack(ModItems.upgrade_speed_3, 4),
+				new ItemStack(ModItems.upgrade_effect_3, 2),
+				new ItemStack(ModItems.ingot_desh, 8),
+				new ItemStack(ModItems.powder_power, 16),
+				new ItemStack(ModItems.crystal_lithium, 4),
+				new ItemStack(ModItems.circuit_schrabidium, 4)),
+				new ItemStack(ModItems.upgrade_overdrive_1)),
+		UPGRADE_OVERDRIVE_II(400, Arrays.asList(
+				new ItemStack(ModItems.upgrade_overdrive_1, 1),
+				new ItemStack(ModItems.upgrade_afterburn_1, 1),
+				new ItemStack(ModItems.upgrade_speed_3, 2),
+				new ItemStack(ModItems.upgrade_effect_3, 2),
+				new ItemStack(ModItems.ingot_saturnite, 12),
+				new ItemStack(ModItems.powder_nitan_mix, 16),
+				new ItemStack(ModItems.crystal_starmetal, 6),
+				new ItemStack(ModItems.circuit_schrabidium, 6)),
+				new ItemStack(ModItems.upgrade_overdrive_2)),
+		UPGRADE_OVERDRIVE_III(800, Arrays.asList(
+				new ItemStack(ModItems.upgrade_overdrive_2, 1),
+				new ItemStack(ModItems.upgrade_afterburn_1, 1),
+				new ItemStack(ModItems.upgrade_speed_3, 2),
+				new ItemStack(ModItems.upgrade_effect_3, 2),
+				new ItemStack(ModItems.ingot_desh, 8),
+				new ItemStack(ModItems.powder_power, 16),
+				new ItemStack(ModItems.crystal_lithium, 4),
+				new ItemStack(ModItems.circuit_schrabidium, 4)),
+				new ItemStack(ModItems.upgrade_overdrive_3)),
+		
 		FUSE,
 		REDCOIL_CAPACITOR,
 		TITANIUM_FILTER,
@@ -175,6 +205,7 @@ public class ItemAssemblyTemplate extends Item {
 		CHEMPLANT,
 		TANK,
 		MINER,
+		MININGLASER,
 		TURBOFAN,
 		TELEPORTER,
 		SCHRABTRANS,
@@ -997,6 +1028,8 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case MINER:
 			return 200;
+		case MININGLASER:
+			return 400;
 		case TURBOFAN:
 			return 500;
 		case TELEPORTER:

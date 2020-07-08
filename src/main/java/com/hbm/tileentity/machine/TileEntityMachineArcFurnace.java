@@ -4,12 +4,12 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineArcFurnace;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -117,7 +117,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 			return false;
 		
 		if(i == 5)
-			if(itemStack.getItem() instanceof ItemBattery)
+			if(itemStack.getItem() instanceof IBatteryItem)
 				return true;
 		
 		if(i == 2 || i == 3 || i == 4)
@@ -205,7 +205,7 @@ public class TileEntityMachineArcFurnace extends TileEntity implements ISidedInv
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 5)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == 0)
 				return true;
 		
 		if(i == 1)

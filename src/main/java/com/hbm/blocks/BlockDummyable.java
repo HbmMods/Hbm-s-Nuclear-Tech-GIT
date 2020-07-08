@@ -152,7 +152,6 @@ public abstract class BlockDummyable extends BlockContainer {
 		}
 		
 		if(!checkRequirement(world, x, y, z, dir, o)) {
-			world.setBlockToAir(x, y, z);
 			
 			if(!pl.capabilities.isCreativeMode) {
 				ItemStack stack = pl.inventory.mainInventory[pl.inventory.currentItem];

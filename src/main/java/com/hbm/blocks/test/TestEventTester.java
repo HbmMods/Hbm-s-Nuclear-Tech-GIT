@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityCloudTom;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.saveddata.RadiationSavedData;

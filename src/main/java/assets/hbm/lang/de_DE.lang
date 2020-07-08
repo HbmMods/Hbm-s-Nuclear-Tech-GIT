@@ -378,6 +378,7 @@ tile.struct_launcher.name=Startrampe-Komponentenblock
 tile.struct_scaffold.name=Startrampe-Gerüstblock
 tile.struct_launcher_core.name=Kompaktrampe-Kernkomponente
 tile.struct_launcher_core_large.name=Startrampe-Kernkomponente
+tile.struct_soyuz_launcher.name=Soyuz-Startrampe-Kernkomponente
 
 tile.machine_difurnace_off.name=Hochofen
 tile.machine_difurnace_on.name=Hochofen
@@ -761,6 +762,7 @@ item.crystal_aluminium.name=Aluminiumkristalle
 item.crystal_fluorite.name=Fluoritkristalle
 item.crystal_beryllium.name=Berylliumkristalle
 item.crystal_lead.name=Bleikristalle
+item.crystal_schraranium.name=Schraraniumkristalle
 item.crystal_schrabidium.name=Schrabidiumkristalle
 item.crystal_rare.name=Seltenerdenkristalle
 item.crystal_phosphorus.name=Phosphorkristalle
@@ -2181,6 +2183,7 @@ item.cobalt_axe.name=Kobaltaxt
 item.cobalt_shovel.name=Kobaltschaufel
 item.cobalt_hoe.name=Kobaltfeldhacke
 item.centri_stick.name=Zentrifuge am Spieß
+item.smashing_hammer.name=Zerschmetterungshammer
 
 tile.red_cable.name=Rotes Kupferkabel
 

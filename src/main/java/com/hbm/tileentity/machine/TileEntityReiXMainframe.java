@@ -2,8 +2,8 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
@@ -104,7 +104,7 @@ public class TileEntityReiXMainframe extends TileEntity implements ISidedInvento
 		switch(i)
 		{
 		case 0:
-			if(stack.getItem() instanceof ItemBattery)
+			if(stack.getItem() instanceof IBatteryItem)
 				return true;
 			break;
 		case 1:
@@ -203,9 +203,6 @@ public class TileEntityReiXMainframe extends TileEntity implements ISidedInvento
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 4)
 			return true;
-		if(i == 0 && itemStack.getItem() instanceof ItemBattery)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
-				return true;
 		if(i == 2)
 			if(itemStack.getItem() == Items.bucket || (itemStack.getItem() == ModItems.tank_waste && itemStack.getItemDamage() <= 0))
 				return true;

@@ -2,12 +2,12 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.ShredderRecipes;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -107,7 +107,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		if(i == 0)
 				return true;
 		if(i == 2)
-			if(stack.getItem() instanceof ItemBattery || stack.getItem() instanceof ItemBlades)
+			if(stack.getItem() instanceof IBatteryItem || stack.getItem() instanceof ItemBlades)
 				return true;
 		
 		return false;

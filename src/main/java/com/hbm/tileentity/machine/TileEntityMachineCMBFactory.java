@@ -9,11 +9,11 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -115,7 +115,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		switch(i)
 		{
 		case 0:
-			if(stack.getItem() instanceof ItemBattery)
+			if(stack.getItem() instanceof IBatteryItem)
 				return true;
 			break;
 		case 1:
@@ -215,7 +215,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		if(i == 4)
 			return true;
 		if(i == 0)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == 0)
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == 0)
 				return true;
 		if(i == 2)
 			if(itemStack.getItem() == Items.bucket || (itemStack.getItem() == ModItems.tank_waste && itemStack.getItemDamage() <= 0))

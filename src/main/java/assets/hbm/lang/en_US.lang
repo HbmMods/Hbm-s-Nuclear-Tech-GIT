@@ -378,6 +378,7 @@ tile.struct_launcher.name=Launch Pad Component Block
 tile.struct_scaffold.name=Launch Pad Scaffold Block
 tile.struct_launcher_core.name=Compact Launcher Core Component
 tile.struct_launcher_core_large.name=Launch Table Core Component
+tile.struct_soyuz_launcher.name=Soyuz Launcher Core Component
 
 tile.machine_difurnace_off.name=Blast Furnace
 tile.machine_difurnace_on.name=Blast Furnace
@@ -507,6 +508,9 @@ tile.soyuz_capsule.name=Cargo Landing Capsule
 container.soyuzCapsule=Cargo Landing Capsule
 tile.machine_crystallizer.name=Ore Acidizer
 container.crystallizer=Ore Acidizer
+tile.machine_mining_laser.name=Mining Laser
+container.miningLaser=Mining Laser
+tile.barricade.name=Sand Bags
 
 tile.barrel_plastic.name=Safe Barrel™
 tile.barrel_corroded.name=Corroded Barrel
@@ -761,6 +765,7 @@ item.crystal_aluminium.name=Aluminium Crystals
 item.crystal_fluorite.name=Fluorite Crystals
 item.crystal_beryllium.name=Beryllium Crystals
 item.crystal_lead.name=Lead Crystals
+item.crystal_schraranium.name=Schraranium Crystals
 item.crystal_schrabidium.name=Schrabidium Crystals
 item.crystal_rare.name=Rare Earth Crystals
 item.crystal_phosphorus.name=Phosphorus Crystals
@@ -2184,6 +2189,7 @@ item.cobalt_axe.name=Cobalt Axe
 item.cobalt_shovel.name=Cobalt Shovel
 item.cobalt_hoe.name=Cobalt Hoe
 item.centri_stick.name=Centrifuge on a Stick
+item.smashing_hammer.name=Smashing Hammer
 
 tile.red_cable.name=Red Copper Cable
 

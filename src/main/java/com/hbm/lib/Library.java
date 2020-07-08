@@ -19,9 +19,9 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.tool.ItemToolAbilityPower;
 import com.hbm.potion.HbmPotion;
+import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityCableSwitch;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
@@ -36,6 +36,7 @@ import com.hbm.tileentity.machine.TileEntityMachineBattery;
 import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -172,10 +173,13 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_reactor_small ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table)
-		{
+				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table) {
 			return true;
 		}
+		
+		if(world.getBlock(x, y, z) == ModBlocks.machine_mining_laser && tileentity instanceof TileEntityProxyInventory)
+			return true;
+		
 		return false;
 	}
 	
@@ -366,26 +370,28 @@ public class Library {
 	//not great either but certainly better
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
 
-		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
+		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
+			
+			IBatteryItem battery = (IBatteryItem) slots[index].getItem();
 
-			long batMax = ItemBattery.getMaxChargeStatic(slots[index]);
-			long batCharge = ItemBattery.getCharge(slots[index]);
-			long batRate = ((ItemBattery)slots[index].getItem()).getChargeRate();
+			long batMax = battery.getMaxCharge();
+			long batCharge = battery.getCharge(slots[index]);
+			long batRate = battery.getChargeRate();
 			
 			//in hHE
 			long toCharge = Math.min(Math.min(power / 100, batRate), batMax - batCharge);
 			
 			power -= toCharge * 100;
 			
-			((ItemBattery)slots[index].getItem()).chargeBattery(slots[index], toCharge);
+			battery.chargeBattery(slots[index], toCharge);
 
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_desh && battery.getCharge(slots[index]) >= battery.getMaxCharge())
 				slots[index] = new ItemStack(ModItems.dynosphere_desh_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_schrabidium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
 				slots[index] = new ItemStack(ModItems.dynosphere_schrabidium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_euphemium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
 				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
-			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && ItemBattery.getCharge(slots[index]) >= ItemBattery.getMaxChargeStatic(slots[index]))
+			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
 				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
 		}
 
@@ -404,10 +410,6 @@ public class Library {
 			
 		}
 		
-		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
-			ItemBattery.updateDamage(slots[index]);
-		}
-		
 		return power;
 	}
 	
@@ -423,18 +425,18 @@ public class Library {
 			return maxPower;
 		}
 		
-		if(slots[index] != null && slots[index].getItem() instanceof ItemBattery) {
+		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
+			
+			IBatteryItem battery = (IBatteryItem) slots[index].getItem();
 
-			long batCharge = ItemBattery.getCharge(slots[index]);
-			long batRate = ((ItemBattery)slots[index].getItem()).getDischargeRate();
+			long batCharge = battery.getCharge(slots[index]);
+			long batRate = battery.getDischargeRate();
 			
 			//in hHe
 			long toDischarge = Math.min(Math.min((maxPower - power) / 100, batRate), batCharge);
 			
-			((ItemBattery)slots[index].getItem()).dischargeBattery(slots[index], toDischarge);
+			battery.dischargeBattery(slots[index], toDischarge);
 			power += toDischarge * 100;
-			
-			ItemBattery.updateDamage(slots[index]);
 		}
 		
 		return power;

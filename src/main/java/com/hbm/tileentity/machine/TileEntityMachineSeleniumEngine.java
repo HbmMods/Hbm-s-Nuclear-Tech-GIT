@@ -11,12 +11,12 @@ import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -121,7 +121,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			if (FluidContainerRegistry.getFluidContent(stack, tank.getTankType()) > 0)
 				return true;
 		if (i == 13)
-			if (stack.getItem() instanceof ItemBattery)
+			if (stack.getItem() instanceof IBatteryItem)
 				return true;
 
 		return false;
@@ -200,7 +200,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntity implements ISide
 			if (itemStack.getItem() == ModItems.canister_empty || itemStack.getItem() == ModItems.tank_steel)
 				return true;
 		if (i == 2)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack))
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == ((IBatteryItem)itemStack.getItem()).getMaxCharge())
 				return true;
 
 		return false;

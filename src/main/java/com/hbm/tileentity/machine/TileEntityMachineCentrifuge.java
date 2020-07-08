@@ -2,13 +2,13 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.CentrifugeRecipes;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -115,10 +115,10 @@ public class TileEntityMachineCentrifuge extends TileEntity implements ISidedInv
 		}
 		
 		if(i == 1) {
-			return itemStack.getItem() instanceof ItemBattery;
+			return itemStack.getItem() instanceof IBatteryItem;
 		}
 		
-		return !(itemStack.getItem() instanceof ItemBattery);
+		return !(itemStack.getItem() instanceof IBatteryItem);
 	}
 	
 	@Override

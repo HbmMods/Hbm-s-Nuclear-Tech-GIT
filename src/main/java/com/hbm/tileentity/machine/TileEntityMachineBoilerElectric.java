@@ -12,12 +12,12 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -122,7 +122,7 @@ public class TileEntityMachineBoilerElectric extends TileEntity implements ISide
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
 		if(i == 4)
-			if(stack != null && stack.getItem() instanceof ItemBattery)
+			if(stack != null && stack.getItem() instanceof IBatteryItem)
 				return true;
 		
 		return false;

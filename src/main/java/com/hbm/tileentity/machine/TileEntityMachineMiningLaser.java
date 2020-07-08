@@ -1,13 +1,18 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.CrystallizerRecipes;
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -30,11 +35,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IConsumer, IFluidSource {
 	
 	public long power;
+	public int age = 0;
 	public static final long maxPower = 100000000;
 	public static final int consumption = 10000;
+	public FluidTank tank;
+	public List<IFluidAcceptor> list = new ArrayList();
 
 	public boolean isOn;
 	public int targetX;
@@ -53,6 +61,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		//slots 1 - 8: upgrades
 		//slots 9 - 29: output
 		super(30);
+		tank = new FluidTank(FluidType.OIL, 64000, 0);
 	}
 
 	@Override
@@ -64,8 +73,17 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			age++;
+			if (age >= 20) {
+				age = 0;
+			}
+
+			if (age == 9 || age == 19)
+				fillFluidInit(tank.getTankType());
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
 			
 			//reset progress if the position changes
 			if(lastTargetX != targetX ||
@@ -293,6 +311,18 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		for(EntityItem item : items) {
 			
 			if(nullifier && bad.contains(item.getEntityItem().getItem())) {
+				item.setDead();
+				continue;
+			}
+			
+			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.ore_oil)) {
+				
+				tank.setTankType(FluidType.OIL); //just to be sure
+				
+				tank.setFill(tank.getFill() + 500);
+				if(tank.getFill() > tank.getMaxFill())
+					tank.setFill(tank.getMaxFill());
+				
 				item.setDead();
 				continue;
 			}
@@ -599,5 +629,82 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public long getMaxPower() {
 		return maxPower;
+	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tank.setFill(fill);
+	}
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		if(type == FluidType.OIL)
+			tank.setFill(fill);
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		tank.setTankType(type);
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		return new ArrayList() {{ add(tank); }};
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		if(type == FluidType.OIL)
+			return tank.getFill();
+		return 0;
+	}
+
+	@Override
+	public void fillFluidInit(FluidType type) {
+
+		fillFluid(xCoord + 2, yCoord, zCoord, this.getTact(), type);
+		fillFluid(xCoord - 2, yCoord, zCoord, this.getTact(), type);
+		fillFluid(xCoord, yCoord, zCoord + 2, this.getTact(), type);
+		fillFluid(xCoord, yCoord, zCoord - 2, this.getTact(), type);
+	}
+
+	@Override
+	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
+		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
+	}
+
+	@Override
+	public boolean getTact() {
+		if (age >= 0 && age < 10) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public List<IFluidAcceptor> getFluidList(FluidType type) {
+		return list;
+	}
+
+	@Override
+	public void clearFluidList(FluidType type) {
+		list.clear();
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		tank.readFromNBT(nbt, "oil");
+		isOn = nbt.getBoolean("isOn");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		tank.writeToNBT(nbt, "oil");
+		nbt.setBoolean("isOn", isOn);
 	}
 }

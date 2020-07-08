@@ -21,12 +21,12 @@ import com.hbm.interfaces.ISource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 public class TileEntityMachineCoal extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
@@ -123,7 +123,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			if(FluidContainerRegistry.getFluidContent(stack, FluidType.WATER) > 0)
 				return true;
 		if(i == 2)
-			if(stack.getItem() instanceof ItemBattery)
+			if(stack.getItem() instanceof IBatteryItem)
 				return true;
 		if(i == 1)
 			if(TileEntityFurnace.getItemBurnTime(stack) > 0)
@@ -211,7 +211,7 @@ public class TileEntityMachineCoal extends TileEntity implements ISidedInventory
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty)
 				return true;
 		if(i == 2)
-			if (itemStack.getItem() instanceof ItemBattery && ItemBattery.getCharge(itemStack) == ItemBattery.getMaxChargeStatic(itemStack))
+			if (itemStack.getItem() instanceof IBatteryItem && ((IBatteryItem)itemStack.getItem()).getCharge(itemStack) == ((IBatteryItem)itemStack.getItem()).getMaxCharge())
 				return true;
 		
 		return false;

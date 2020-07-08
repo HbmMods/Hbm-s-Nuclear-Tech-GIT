@@ -2733,6 +2733,18 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.bolt_dura_steel, 2));
 			list.add(new ItemStack(ModItems.drill_titanium, 1));
 			break;
+		case MININGLASER:
+			list.add(new ItemStack(ModItems.tank_steel, 3));
+			list.add(new ItemStack(ModItems.ingot_steel, 8));
+			list.add(new ItemStack(ModItems.plate_steel, 12));
+			list.add(new ItemStack(ModItems.crystal_redstone, 3));
+			list.add(new ItemStack(Items.diamond, 5));
+			list.add(new ItemStack(ModItems.ingot_polymer, 8));
+			list.add(new ItemStack(ModItems.motor, 3));
+			list.add(new ItemStack(ModItems.ingot_dura_steel, 4));
+			list.add(new ItemStack(ModItems.bolt_dura_steel, 6));
+			list.add(new ItemStack(ModBlocks.machine_lithium_battery, 3));
+			break;
 		case TURBOFAN:
 			list.add(new ItemStack(ModItems.hull_big_steel, 1));
 			list.add(new ItemStack(ModItems.hull_big_titanium, 3));
@@ -4005,6 +4017,9 @@ public class MachineRecipes {
 			break;
 		case MINER:
 			output = new ItemStack(ModBlocks.machine_drill, 1);
+			break;
+		case MININGLASER:
+			output = new ItemStack(ModBlocks.machine_mining_laser, 1);
 			break;
 		case TURBOFAN:
 			output = new ItemStack(ModBlocks.machine_turbofan, 1);

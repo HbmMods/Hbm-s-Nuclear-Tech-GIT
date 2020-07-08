@@ -13,7 +13,6 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -22,6 +21,7 @@ import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEChemplantPacket;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -135,7 +135,7 @@ public class TileEntityMachineChemplant extends TileEntity implements ISidedInve
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		if(i == 0)
-			if(itemStack.getItem() instanceof ItemBattery)
+			if(itemStack.getItem() instanceof IBatteryItem)
 				return true;
 		
 		if(i == 1)

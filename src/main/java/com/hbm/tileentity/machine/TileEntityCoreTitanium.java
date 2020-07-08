@@ -6,6 +6,7 @@ import com.hbm.interfaces.IFactory;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -234,7 +235,7 @@ public class TileEntityCoreTitanium extends TileEntity implements ISidedInventor
 	public void updateEntity() {
 		if(this.slots[22] != null && this.slots[22].getItem() == ModItems.factory_core_titanium)
 		{
-			this.power = (int) ItemBattery.getCharge(slots[22]);
+			this.power = (int) ((IBatteryItem)slots[22].getItem()).getCharge(slots[22]);
 		} else {
 			this.power = 0;
 		}

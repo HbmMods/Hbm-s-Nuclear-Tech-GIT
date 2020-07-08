@@ -62,9 +62,19 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("attention in chemistry class.");
 		}
 		
+		if(this.field_150939_a == ModBlocks.machine_mining_laser) {
+			list.add("3x3x3 Multiblock");
+			list.add("Only placeable on a ceiling.");
+		}
+		
 		if(this.field_150939_a == ModBlocks.gravel_diamond) {
 			list.add("There is some kind of joke here,");
 			list.add("but I can't quite tell what it is.");
+			list.add("");
+			list.add("Update, 2020-07-04:");
+			list.add("We deny any implications of a joke on");
+			list.add("the basis that it was so severly unfunny");
+			list.add("that people started stabbing their eyes out.");
 		}
 	}
 
