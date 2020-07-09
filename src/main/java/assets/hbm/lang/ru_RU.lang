@@ -1,4 +1,4 @@
-Эй, Док! Спасибо за работу! Добро пожаловать в “команду”))
+﻿Эй, Док! Спасибо за работу! Добро пожаловать в “команду”))
 
 itemGroup.tabTest=Тестовая вкладка NTM
 itemGroup.tabParts=Ресурсы и детали NTM
@@ -420,6 +420,7 @@ tile.struct_launcher.name=Блок-компонент пусковой площ�
 tile.struct_scaffold.name=Подмосток пусковой площадки
 tile.struct_launcher_core.name=Ядро компактной пусковой площадки
 tile.struct_launcher_core_large.name=Ядро большой пусковой площадки
+tile.struct_soyuz_launcher.name=Ядро стартовой площадки Союза
 
 tile.machine_difurnace_off.name=Доменная печь
 tile.machine_difurnace_on.name=Доменная печь
@@ -549,6 +550,9 @@ tile.soyuz_capsule.name=Грузовая посадочная капсула
 container.soyuzCapsule=Грузовая посадочная капсула
 tile.machine_crystallizer.name=Рудный окислитель
 container.crystallizer=Рудный окислитель
+tile.machine_mining_laser.name=Шахтёрский лазер
+container.miningLaser=Шахтёрский лазер
+tile.barricade.name=Мешки с песком
 
 tile.barrel_plastic.name=Безопасный бочонок™
 tile.barrel_corroded.name=Проржавевшая бочка
@@ -803,6 +807,7 @@ item.crystal_aluminium.name=Кристаллизованный алюминий
 item.crystal_fluorite.name=Кристаллизованный флюорит
 item.crystal_beryllium.name=Кристаллизованный бериллий
 item.crystal_lead.name=Кристаллизованный свинец
+item.crystal_schraranium.name=Кристаллизованный шрараний
 item.crystal_schrabidium.name=Кристаллизованный шрабидий
 item.crystal_rare.name=Кристализованные лантаноиды
 item.crystal_phosphorus.name=Кристаллизованный фосфор
@@ -1080,7 +1085,7 @@ item.powder_actinium_tiny.name=Кучка актиниевой пыли
 item.powder_euphemium.name=Эвфемиевый порошок
 item.powder_meteorite.name=Метеоритный порошок
 item.powder_meteorite_tiny.name=Кучка метеоритной пыли
-item.powder_yellowcake.name=Йеллоукейк  
+item.powder_yellowcake.name=Йеллоукейк	
 item.powder_magic.name=Измельченное зачарование
 item.redstone_depleted.name=Обесцвеченная красная пыль
 
@@ -2235,6 +2240,7 @@ item.cobalt_axe.name=Кобальтовый топор
 item.cobalt_shovel.name=Кобальтовая лопата
 item.cobalt_hoe.name=Кобальтовая мотыга
 item.centri_stick.name=Центрифуга на палке
+item.smashing_hammer.name=Убойный молот
 
 tile.red_cable.name=Провод из красной меди
 
