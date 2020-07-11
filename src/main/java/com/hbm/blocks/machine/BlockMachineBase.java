@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public abstract class BlockMachineBase extends BlockContainer {
 	
 	int guiID = -1;
-	boolean rotatable = false;
+	protected boolean rotatable = false;
 
 	protected BlockMachineBase(Material mat, int guiID) {
 		super(mat);

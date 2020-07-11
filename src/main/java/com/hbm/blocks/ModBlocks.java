@@ -325,40 +325,28 @@ public class ModBlocks {
 	
 	public static Block nuke_gadget;
 	public static final int guiID_nuke_gadget = 3;
-
 	public static Block nuke_boy;
 	public static final int guiID_nuke_boy = 4;
-	
 	public static Block nuke_man;
 	public static final int guiID_nuke_man = 6;
-
 	public static Block nuke_mike;
 	public static final int guiID_nuke_mike = 11;
-	
 	public static Block nuke_tsar;
 	public static final int guiID_nuke_tsar = 12;
-	
 	public static Block nuke_fleija;
 	public static final int guiID_nuke_fleija = 17;
-	
 	public static Block nuke_prototype;
 	public static final int guiID_nuke_prototype = 23;
-	
 	public static Block nuke_custom;
 	public static final int guiID_nuke_custom = 37;
-	
 	public static Block nuke_solinium;
 	public static final int guiID_nuke_solinium = 60;
-	
 	public static Block nuke_n2;
 	public static final int guiID_nuke_n2 = 61;
-
 	public static Block nuke_n45;
 	public static final int guiID_nuke_n45 = 77;
-
-	public static Block nuke_balefire;
-	public static final int guiID_nuke_balefire = 0000;
-	
+	public static Block nuke_fstbmb;
+	public static final int guiID_nuke_fstbmb = 0000;
 	public static Block bomb_multi;
 	public static final int guiID_bomb_multi = 10;
 	
@@ -1009,7 +997,7 @@ public class ModBlocks {
 		nuke_solinium = new NukeSolinium(Material.iron).setBlockName("nuke_solinium").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_solinium");
 		nuke_n2 = new NukeN2(Material.iron).setBlockName("nuke_n2").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_n2");
 		nuke_n45 = new NukeN45(Material.iron).setBlockName("nuke_n45").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":code");
-		//nuke_balefire = new NukeBalefire(Material.iron).setBlockName("nuke_balefire").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_balefire");
+		nuke_fstbmb = new NukeBalefire(Material.iron, guiID_nuke_fstbmb).setBlockName("nuke_fstbmb").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":nuke_fstbmb");
 		
 		cel_prime = new CelPrime(Material.iron).setBlockName("cel_prime").setCreativeTab(null).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":code");
 		cel_prime_terminal = new CelPrimePart(Material.iron).setBlockName("cel_prime_terminal").setCreativeTab(null).setHardness(5.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":code");
@@ -1632,6 +1620,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(nuke_solinium, nuke_solinium.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_n2, nuke_n2.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_n45, nuke_n45.getUnlocalizedName());
+		GameRegistry.registerBlock(nuke_fstbmb, nuke_fstbmb.getUnlocalizedName());
 		GameRegistry.registerBlock(nuke_custom, nuke_custom.getUnlocalizedName());
 		
 		//Generic Bombs

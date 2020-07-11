@@ -2,10 +2,12 @@ package com.hbm.handler;
 
 import java.util.List;
 
+import com.hbm.handler.guncfg.BulletConfigFactory;
 import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletRicochetBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
@@ -73,6 +75,7 @@ public class BulletConfiguration {
 	public IBulletHitBehavior bHit;
 	public IBulletRicochetBehavior bRicochet;
 	public IBulletImpactBehavior bImpact;
+	public IBulletUpdateBehavior bUpdate;
 	
 	//appearance
 	public int style;
@@ -117,6 +120,12 @@ public class BulletConfiguration {
 	public BulletConfiguration setToFire(int duration) {
 		
 		this.incendiary = duration;
+		return this;
+	}
+	
+	public BulletConfiguration setToGuided() {
+		
+		this.bUpdate = BulletConfigFactory.getLaserSteering();
 		return this;
 	}
 

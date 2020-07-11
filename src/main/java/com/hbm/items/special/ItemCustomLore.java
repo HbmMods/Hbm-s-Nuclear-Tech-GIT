@@ -584,6 +584,11 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("Doubles as a crappy lander!");
 		}
+		
+		if(this == ModItems.egg_balefire)
+		{
+			list.add("Doubles as a crappy lander!");
+		}
 	}
 
     @Override
@@ -639,7 +644,8 @@ public class ItemCustomLore extends Item {
     			this == ModItems.rune_dagaz ||
     			this == ModItems.rune_hagalaz ||
     			this == ModItems.rune_jera ||
-    			this == ModItems.rune_thurisaz)
+    			this == ModItems.rune_thurisaz ||
+    			this == ModItems.egg_balefire)
     	{
     		return true;
     	}

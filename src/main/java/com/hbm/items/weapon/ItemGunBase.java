@@ -48,9 +48,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 	}
 	
 	public ItemGunBase(GunConfiguration config, GunConfiguration alt) {
-		mainConfig = config;
+		this(config);
 		altConfig = alt;
-		this.setMaxStackSize(1);
 	}
 
 	@Override
@@ -418,6 +417,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		
 		if(!mainConfig.reloadSoundEnd)
 			world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
+		
+		PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD.ordinal()), (EntityPlayerMP) player);
 		
 		setIsReloading(stack, true);
 		resetReloadCycle(stack);

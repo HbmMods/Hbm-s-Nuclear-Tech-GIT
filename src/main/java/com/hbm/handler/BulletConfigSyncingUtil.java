@@ -144,6 +144,18 @@ public class BulletConfigSyncingUtil {
 	public static int G20_SHOCK_FIRE = i++;
 	public static int G20_WITHER_FIRE = i++;
 
+	public static int ROCKET_NORMAL_LASER = i++;
+	public static int ROCKET_HE_LASER = i++;
+	public static int ROCKET_INCENDIARY_LASER = i++;
+	public static int ROCKET_SHRAPNEL_LASER = i++;
+	public static int ROCKET_EMP_LASER = i++;
+	public static int ROCKET_GLARE_LASER = i++;
+	public static int ROCKET_SLEEK_LASER = i++;
+	public static int ROCKET_NUKE_LASER = i++;
+	public static int ROCKET_CHAINSAW_LASER = i++;
+	public static int ROCKET_TOXIC_LASER = i++;
+	public static int ROCKET_PHOSPHORUS_LASER = i++;
+
 	public static int NUKE_NORMAL = i++;
 	public static int NUKE_MIRV = i++;
 	public static int NUKE_AMAT = i++;
@@ -283,6 +295,18 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G20_CAUSTIC_FIRE, Gun20GaugeFactory.get20GaugeCausticConfig().setToFire(3));
 		configSet.put(G20_SHOCK_FIRE, Gun20GaugeFactory.get20GaugeShockConfig().setToFire(3));
 		configSet.put(G20_WITHER_FIRE, Gun20GaugeFactory.get20GaugeWitherConfig().setToFire(3));
+        
+		configSet.put(ROCKET_NORMAL_LASER, GunRocketFactory.getRocketConfig().setToGuided());
+		configSet.put(ROCKET_HE_LASER, GunRocketFactory.getRocketHEConfig().setToGuided());
+		configSet.put(ROCKET_INCENDIARY_LASER, GunRocketFactory.getRocketIncendiaryConfig().setToGuided());
+		configSet.put(ROCKET_PHOSPHORUS_LASER, GunRocketFactory.getRocketPhosphorusConfig().setToGuided());
+		configSet.put(ROCKET_SHRAPNEL_LASER, GunRocketFactory.getRocketShrapnelConfig().setToGuided());
+		configSet.put(ROCKET_EMP_LASER, GunRocketFactory.getRocketEMPConfig().setToGuided());
+		configSet.put(ROCKET_GLARE_LASER, GunRocketFactory.getRocketGlareConfig().setToGuided());
+		configSet.put(ROCKET_SLEEK_LASER, GunRocketFactory.getRocketSleekConfig().setToGuided());
+		configSet.put(ROCKET_NUKE_LASER, GunRocketFactory.getRocketNukeConfig().setToGuided());
+		configSet.put(ROCKET_CHAINSAW_LASER, GunRocketFactory.getRocketRPCConfig().setToGuided());
+		configSet.put(ROCKET_TOXIC_LASER, GunRocketFactory.getRocketChlorineConfig().setToGuided());
 		
 		configSet.put(NUKE_NORMAL, GunFatmanFactory.getNukeConfig());
 		configSet.put(NUKE_PROTO, GunFatmanFactory.getNukeProtoConfig());

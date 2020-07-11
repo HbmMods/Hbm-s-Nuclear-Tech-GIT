@@ -6,6 +6,7 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -20,6 +21,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 public class BulletConfigFactory {
 	
@@ -262,6 +265,40 @@ public class BulletConfigFactory {
 		};
 		
 		return impact;
+	}
+	
+	public static IBulletUpdateBehavior getLaserSteering() {
+		
+		IBulletUpdateBehavior onUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.shooter == null || !(bullet.shooter instanceof EntityPlayer))
+					return;
+				
+				MovingObjectPosition mop = Library.rayTrace((EntityPlayer)bullet.shooter, 200, 1);
+				
+				if(mop == null || mop.hitVec == null)
+					return;
+				
+				Vec3 vec = Vec3.createVectorHelper(mop.hitVec.xCoord - bullet.posX, mop.hitVec.yCoord - bullet.posY, mop.hitVec.zCoord - bullet.posZ);
+				
+				if(vec.lengthVector() < 3)
+					return;
+				
+				vec = vec.normalize();
+				
+				double speed = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
+
+				bullet.motionX = vec.xCoord * speed;
+				bullet.motionY = vec.yCoord * speed;
+				bullet.motionZ = vec.zCoord * speed;
+			}
+			
+		};
+		
+		return onUpdate;
 	}
 
 }

@@ -1195,6 +1195,7 @@ public class ModItems {
 	public static Item gun_rpg_ammo;
 	public static Item gun_karl;
 	public static Item gun_panzerschreck;
+	public static Item gun_quadro;
 	public static Item gun_hk69;
 	public static Item gun_stinger;
 	public static Item gun_skystinger;
@@ -1378,33 +1379,27 @@ public class ModItems {
 	public static Item gadget_explosive8;
 	public static Item gadget_wireing;
 	public static Item gadget_core;
-
 	public static Item boy_igniter;
 	public static Item boy_propellant;
 	public static Item boy_bullet;
 	public static Item boy_target;
 	public static Item boy_shielding;
-	
 	public static Item man_explosive;
 	public static Item man_explosive8;
 	public static Item man_igniter;
 	public static Item man_core;
-
 	public static Item mike_core;
 	public static Item mike_deut;
 	public static Item mike_cooling_unit;
-
 	public static Item tsar_core;
-
 	public static Item fleija_igniter;
 	public static Item fleija_propellant;
 	public static Item fleija_core;
-
 	public static Item solinium_igniter;
 	public static Item solinium_propellant;
 	public static Item solinium_core;
-
 	public static Item n2_charge;
+	public static Item egg_balefire;
 
 	public static Item custom_tnt;
 	public static Item custom_nuke;
@@ -2995,6 +2990,7 @@ public class ModItems {
 		gun_rpg = new ItemGunBase(GunRocketFactory.getGustavConfig()).setUnlocalizedName("gun_rpg").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_rpg");
 		gun_karl = new ItemGunBase(GunRocketFactory.getKarlConfig()).setUnlocalizedName("gun_karl").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_karl");
 		gun_panzerschreck = new ItemGunBase(GunRocketFactory.getPanzConfig()).setUnlocalizedName("gun_panzerschreck").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_panzerschreck");
+		gun_quadro = new ItemGunBase(GunRocketFactory.getQuadroConfig()).setUnlocalizedName("gun_quadro").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_quadro");
 		gun_rpg_ammo = new Item().setUnlocalizedName("gun_rpg_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_rpg_ammo_alt");
 		gun_hk69 = new ItemGunBase(GunGrenadeFactory.getHK69Config()).setUnlocalizedName("gun_hk69").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_hk69");
 		gun_stinger = new GunStinger().setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger");
@@ -3204,6 +3200,8 @@ public class ModItems {
 		solinium_core = new ItemSolinium(15F, true).setUnlocalizedName("solinium_core").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":solinium_core");
 		
 		n2_charge = new ItemN2().setUnlocalizedName("n2_charge").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":n2_charge");
+		
+		egg_balefire = new ItemCustomLore().setUnlocalizedName("egg_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":egg_balefire");
 
 		custom_tnt = new ItemCustomLore().setUnlocalizedName("custom_tnt").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_tnt");
 		custom_nuke = new ItemCustomLore().setUnlocalizedName("custom_nuke").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_nuke");
@@ -5003,6 +5001,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
 		GameRegistry.registerItem(gun_karl, gun_karl.getUnlocalizedName());
 		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
+		GameRegistry.registerItem(gun_quadro, gun_quadro.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hk69, gun_hk69.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
@@ -5511,6 +5510,9 @@ public class ModItems {
 		
 		//N2
 		GameRegistry.registerItem(n2_charge, n2_charge.getUnlocalizedName());
+		
+		//FSTBMB
+		GameRegistry.registerItem(egg_balefire, egg_balefire.getUnlocalizedName());
 		
 		//Conventional Armor
 		GameRegistry.registerItem(goggles, goggles.getUnlocalizedName());

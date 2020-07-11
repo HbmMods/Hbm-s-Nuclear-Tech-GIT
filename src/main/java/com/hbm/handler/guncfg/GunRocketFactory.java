@@ -8,6 +8,10 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletRicochetBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.block.material.Material;
@@ -51,6 +55,70 @@ public class GunRocketFactory {
 		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE);
 		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
 		config.durability = 140;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getQuadroConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 5;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.reloadDuration = 100;
+		config.firingDuration = 0;
+		config.ammoCap = 4;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_CIRCUMFLEX;
+		config.firingSound = "hbm:weapon.rpgShoot";
+		config.reloadSound = "hbm:weapon.quadroReload";
+		config.reloadSoundEnd = false;
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("QUADRO_RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, -0.5, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						)
+				);
+		
+		config.animations.put(AnimType.RELOAD, new BusAnimation()
+				.addBus("QUADRO_RELOAD_ROTATE", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 750))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 3500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 750))
+						)
+				.addBus("QUADRO_RELOAD_PUSH", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(-1, -1, 0, 0))
+						.addKeyframe(new BusAnimationKeyframe(-1, -1, 0, 750))
+						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 500))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 3000))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 750))
+						)
+				);
+		
+		config.name = "OpenQuadro Guided Man-Portable Missile Launcher";
+		config.manufacturer = "Open Mann Co.";
+		config.comment.add("For the next three hundred years, people who needed to get to the second");
+		config.comment.add("floor used the only method available to them, which was rocket jumping.");
+		config.comment.add("This persisted until 1857, when the young bearded inventor named");
+		config.comment.add("President Abraham Lincoln invented stairs.");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.ROCKET_NORMAL_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_HE_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_INCENDIARY_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_PHOSPHORUS_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_SHRAPNEL_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_EMP_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_GLARE_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_TOXIC_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_SLEEK_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_NUKE_LASER);
+		config.config.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW_LASER);
+		config.durability = 500;
 		
 		return config;
 	}

@@ -44,7 +44,7 @@ import net.minecraft.world.World;
 public class EntityBulletBase extends Entity implements IProjectile {
 	
 	private BulletConfiguration config;
-	private EntityLivingBase shooter;
+	public EntityLivingBase shooter;
 	public float overrideDamage;
 
 	public EntityBulletBase(World world) {
@@ -322,12 +322,16 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		/// ZONE 1 END ///
 
         if(!didBounce) {
-		motionY -= config.gravity;
+        	motionY -= config.gravity;
 			this.posX += this.motionX * this.config.velocity;
 			this.posY += this.motionY * this.config.velocity;
 			this.posZ += this.motionZ * this.config.velocity;
 			this.setPosition(this.posX, this.posY, this.posZ);
         }
+        
+        /// SPECIAL UPDATE BEHAVIOR ///
+        if(this.config.bUpdate != null)
+        	this.config.bUpdate.behaveUpdate(this);
         
         if(this.config.style == BulletConfiguration.STYLE_ROCKET && !worldObj.isRemote)
     		this.worldObj.spawnEntityInWorld(new EntityTSmokeFX(worldObj, this.posX, this.posY, this.posZ, 0, 0, 0));

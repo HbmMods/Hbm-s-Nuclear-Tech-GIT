@@ -567,6 +567,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityMachineMiningLaser.class, "tileentity_mining_laser");
 		GameRegistry.registerTileEntity(TileEntityProxyInventory.class, "tileentity_proxy_inventory");
 		GameRegistry.registerTileEntity(TileEntityProxyEnergy.class, "tileentity_proxy_power");
+		GameRegistry.registerTileEntity(TileEntityNukeBalefire.class, "tileentity_nuke_fstbmb");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

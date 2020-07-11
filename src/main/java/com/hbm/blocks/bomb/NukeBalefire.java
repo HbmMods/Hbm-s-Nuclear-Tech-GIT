@@ -9,13 +9,29 @@ import net.minecraft.world.World;
 
 public class NukeBalefire extends BlockMachineBase {
 
-	protected NukeBalefire(Material mat, int guiID) {
+	public NukeBalefire(Material mat, int guiID) {
 		super(mat, guiID);
+		rotatable = true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityNukeBalefire();
+	}
+	
+	@Override
+	public int getRenderType(){
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 
 }
