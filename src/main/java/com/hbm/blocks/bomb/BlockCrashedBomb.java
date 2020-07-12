@@ -6,12 +6,15 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -70,6 +73,25 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
+	}
+
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float fx, float fy, float fz) {
+		
+		if(world.isRemote)
+			return true;
+		
+		if (player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.defuser) {
+
+			world.func_147480_a(x, y, z, false);
+
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.egg_balefire_shard)));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.plate_steel, 10 + world.rand.nextInt(15))));
+			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModItems.plate_titanium, 2 + world.rand.nextInt(7))));
+
+			return true;
+		}
+
+		return false;
 	}
 	
 	@Override

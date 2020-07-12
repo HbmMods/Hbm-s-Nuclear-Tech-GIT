@@ -41,12 +41,10 @@ public class RenderNukeFstbmb extends TileEntitySpecialRenderer {
         
         TileEntityNukeBalefire bf = (TileEntityNukeBalefire)tileEntity;
         
-        if(bf.hasEgg()) {
+        if(bf.loaded) {
 	        bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/misc/glintBF.png"));
 	        RenderMiscEffects.renderClassicGlint(tileEntity.getWorldObj(), f, ResourceManager.fstbmb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
-        }
-        
-        if(bf.hasBattery()) {
+	        
 	        FontRenderer font = Minecraft.getMinecraft().fontRenderer;
 	        float f3 = 0.04F;
 	        GL11.glTranslatef(0.815F, 0.9275F, 0.5F);

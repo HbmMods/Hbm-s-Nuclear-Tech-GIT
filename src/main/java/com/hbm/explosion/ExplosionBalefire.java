@@ -81,13 +81,57 @@ public class ExplosionBalefire
 
 	private void breakColumn(int x, int z)
 	{
+		int dist = (int) (radius - Math.sqrt(x * x + z * z));
+		
+		if (dist > 0) {
+			int pX = posX + x;
+			int pZ = posZ + z;
+			
+			int y  = worldObj.getHeightValue(pX, pZ);
+			int maxdepth = (int) (10 + radius * 0.25);
+			int depth = (int) ((maxdepth * dist / radius) + (Math.sin(dist * 0.15 + 2) * 2));//
+			
+			depth = Math.max(y - depth, 0);
+			
+			while(y > depth) {
+
+				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster) {
+					
+					if(worldObj.rand.nextInt(10) == 0) {
+						worldObj.setBlock(pX, y + 1, pZ, ModBlocks.balefire);
+						worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
+					}
+					return;
+				}
+				
+				worldObj.setBlockToAir(pX, y, pZ);
+				
+				y--;
+			}
+			
+			if(worldObj.rand.nextInt(10) == 0) {
+				worldObj.setBlock(pX, depth + 1, pZ, ModBlocks.balefire);
+				
+				if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster)
+					worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
+			}
+
+			for(int i = depth; i > depth - 5; i--) {
+				if(worldObj.getBlock(pX, i, pZ) == Blocks.stone)
+					worldObj.setBlock(pX, i, pZ, ModBlocks.sellafield_slaked);
+			}
+		}
+	}
+
+	/*private void breakColumn(int x, int z)
+	{
 		int dist = this.radius2 - (x * x + z * z);
 		if (dist > 0)
 		{
 			int pX = posX + x;
 			int pZ = posZ + z;
 			
-			int y = worldObj.getHeightValue(pX, pZ);
+			int y  = worldObj.getHeightValue(pX, pZ);
 			float strength = (float)dist / (float) this.radius;
 			
 			while(y > 0) {
@@ -126,5 +170,5 @@ public class ExplosionBalefire
 				y--;
 			}
 		}
-	}
+	}*/
 }

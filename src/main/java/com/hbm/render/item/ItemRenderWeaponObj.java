@@ -130,19 +130,20 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			}
 
 			if(item.getItem() == ModItems.gun_flechette) {
+				
 				GL11.glRotatef(25F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(1.0F, -1.0F, -0.0F);
 				GL11.glRotatef(170F, 0.0F, 1.0F, 0.0F);
 				GL11.glScaled(0.25, 0.25, 0.25);
-
-				double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-				GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
 				
 				if(player.isSneaking()) {
 					GL11.glRotatef(5F, 0.0F, 1.0F, 0.0F);
 					GL11.glRotatef(-2F, 0.0F, 0.0F, 1.0F);
 					GL11.glTranslatef(-2.0F, 1.2F, 3.7F);
 				}
+
+				double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+				GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
 			}
 
 			if(item.getItem() == ModItems.gun_quadro) {

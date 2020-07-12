@@ -1,13 +1,15 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.machine.BlockMachineBase;
+import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class NukeBalefire extends BlockMachineBase {
+public class NukeBalefire extends BlockMachineBase implements IBomb {
 
 	public NukeBalefire(Material mat, int guiID) {
 		super(mat, guiID);
@@ -32,6 +34,25 @@ public class NukeBalefire extends BlockMachineBase {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block b) {
+
+		if (world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			explode(world, x, y, z);
+		}
+	}
+
+	@Override
+	public void explode(World world, int x, int y, int z) {
+		
+		if(!world.isRemote) {
+			TileEntityNukeBalefire bomb = (TileEntityNukeBalefire) world.getTileEntity(x, y, z);
+				
+			if(bomb.isLoaded())
+				bomb.explode();
+		}
 	}
 
 }

@@ -53,7 +53,7 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 	private String customName;
 
 	public TileEntityCompactLauncher() {
-		slots = new ItemStack[6];
+		slots = new ItemStack[8];
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.NONE, 25000, 0);
 		tanks[1] = new FluidTank(FluidType.NONE, 25000, 1);
@@ -164,8 +164,8 @@ public class TileEntityCompactLauncher extends TileEntity implements ISidedInven
 			
 			updateTypes();
 
-			tanks[0].loadTank(2, 3, slots);
-			tanks[1].loadTank(2, 3, slots);
+			tanks[0].loadTank(2, 6, slots);
+			tanks[1].loadTank(3, 7, slots);
 
 			for (int i = 0; i < 2; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

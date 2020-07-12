@@ -587,7 +587,12 @@ public class ItemCustomLore extends Item {
 		
 		if(this == ModItems.egg_balefire)
 		{
-			list.add("Doubles as a crappy lander!");
+			list.add("What kind of bird lays a radioactive egg?");
+		}
+		
+		if(this == ModItems.ingot_schraranium)
+		{
+			list.add("Made from uranium in a schrabidium transmutator");
 		}
 	}
 
@@ -645,8 +650,8 @@ public class ItemCustomLore extends Item {
     			this == ModItems.rune_hagalaz ||
     			this == ModItems.rune_jera ||
     			this == ModItems.rune_thurisaz ||
-    			this == ModItems.egg_balefire)
-    	{
+    			this == ModItems.egg_balefire_shard ||
+    			this == ModItems.egg_balefire) {
     		return true;
     	}
     	

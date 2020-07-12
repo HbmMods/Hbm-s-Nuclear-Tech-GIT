@@ -2,6 +2,7 @@ package com.hbm.packet;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
+import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
@@ -264,6 +265,12 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityMachineMiningLaser laser = (TileEntityMachineMiningLaser)te;
 
 					laser.isOn = !laser.isOn;
+				}
+				
+				/// yes ///
+				if(te instanceof TileEntityMachineBase) {
+					TileEntityMachineBase base = (TileEntityMachineBase)te;
+					base.handleButtonPacket(m.value, m.id);
 				}
 				
 			//} catch (Exception x) { }

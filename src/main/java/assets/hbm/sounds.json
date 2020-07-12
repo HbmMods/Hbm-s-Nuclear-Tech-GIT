@@ -132,6 +132,8 @@
 	"weapon.glauncher": {"category": "player", "sounds": ["weapon/glauncher1", "weapon/glauncher2"]},
     "weapon.bodysplat": {"category": "player", "sounds": [{"name": "weapon/bodysplat", "stream": false}]},
     "weapon.quadroReload": {"category": "player", "sounds": [{"name": "weapon/quadroReload", "stream": false}]},
+    "weapon.fstbmbStart": {"category": "player", "sounds": [{"name": "weapon/fstbmbStart", "stream": false}]},
+    "weapon.fstbmbPing": {"category": "player", "sounds": [{"name": "weapon/fstbmbPing", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

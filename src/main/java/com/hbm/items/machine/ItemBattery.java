@@ -40,14 +40,14 @@ public class ItemBattery extends Item implements IBatteryItem {
 				itemstack.getItem() != ModItems.dynosphere_euphemium && 
 				itemstack.getItem() != ModItems.dynosphere_dineutronium)
 		{
-			list.add("Energy stored: " + Library.getShortNumber(charge * 100) + "/" + Library.getShortNumber(maxCharge * 100) + "HE");
+			list.add("Energy stored: " + Library.getShortNumber(charge) + "/" + Library.getShortNumber(maxCharge) + "HE");
 		} else {
-			String charge1 = Library.getShortNumber((charge  * 100) / this.maxCharge);
+			String charge1 = Library.getShortNumber((charge * 100) / this.maxCharge);
 			list.add("Charge: " + charge1 + "%");
-			list.add("(" + Library.getShortNumber(charge * 100) + "/" + Library.getShortNumber(maxCharge * 100) + "HE)");
+			list.add("(" + Library.getShortNumber(charge) + "/" + Library.getShortNumber(maxCharge) + "HE)");
 		}
-		list.add("Charge rate: " + Library.getShortNumber(chargeRate * 100) + "HE/t");
-		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate * 100) + "HE/t");
+		list.add("Charge rate: " + Library.getShortNumber(chargeRate) + "HE/t");
+		list.add("Discharge rate: " + Library.getShortNumber(dischargeRate) + "HE/t");
 	}
 
     @Override

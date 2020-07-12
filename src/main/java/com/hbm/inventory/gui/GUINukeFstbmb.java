@@ -1,21 +1,27 @@
 package com.hbm.inventory.gui;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerNukeFstbmb;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUINukeFstbmb extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/fstbmbSchematic.png");
 	private TileEntityNukeBalefire bomb;
+    private GuiTextField timer;
 	
 	public GUINukeFstbmb(InventoryPlayer invPlayer, TileEntityNukeBalefire bomb) {
 		super(new ContainerNukeFstbmb(invPlayer, bomb));
@@ -25,6 +31,19 @@ public class GUINukeFstbmb extends GuiInfoContainer {
 		this.ySize = 222;
 	}
 	
+	public void initGui() {
+
+		super.initGui();
+
+        Keyboard.enableRepeatEvents(true);
+        this.timer = new GuiTextField(this.fontRendererObj, guiLeft + 94, guiTop + 40, 29, 12);
+        this.timer.setTextColor(0xff0000);
+        this.timer.setDisabledTextColour(0x800000);
+        this.timer.setEnableBackgroundDrawing(false);
+        this.timer.setMaxStringLength(3);
+        this.timer.setText(String.valueOf(bomb.timer / 20));
+	}
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
@@ -32,12 +51,15 @@ public class GUINukeFstbmb extends GuiInfoContainer {
 
 	protected void mouseClicked(int x, int y, int i) {
     	super.mouseClicked(x, y, i);
+        this.timer.mouseClicked(x, y, i);
 		
-    	if(guiLeft + 61 <= x && guiLeft + 61 + 18 > x && guiTop + 17 < y && guiTop + 17 + 18 >= y) {
-    		
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-    		//PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(laser.xCoord, laser.yCoord, laser.zCoord, 0, 0));
-    	}
+
+		if(!bomb.started) {
+	    	if(guiLeft + 142 <= x && guiLeft + 142 + 18 > x && guiTop + 35 < y && guiTop + 35 + 18 >= y) {
+	    		
+	    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(bomb.xCoord, bomb.yCoord, bomb.zCoord, 0, 0));
+	    	}
+		}
     }
 	
 	@Override
@@ -69,5 +91,24 @@ public class GUINukeFstbmb extends GuiInfoContainer {
 		
 		if(bomb.hasBattery())
 			drawTexturedModalRect(guiLeft + 88, guiTop + 93, 176, 16, 18, 10);
+		
+		if(bomb.started)
+			drawTexturedModalRect(guiLeft + 142, guiTop + 35, 176, 26, 18, 18);
+		
+        this.timer.drawTextBox();
 	}
+	
+    protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+    	
+        if (this.timer.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
+
+    		if(NumberUtils.isNumber(timer.getText())) {
+    			int j = MathHelper.clamp_int(Integer.parseInt(timer.getText()), 1, 999);
+	    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(bomb.xCoord, bomb.yCoord, bomb.zCoord, j, 1));
+    		}
+    		
+        } else {
+            super.keyTyped(p_73869_1_, p_73869_2_);
+        }
+    }
 }

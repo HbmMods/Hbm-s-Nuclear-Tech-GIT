@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.bomb.BlockCrashedBomb;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -47,6 +48,9 @@ public class ItemCell extends Item {
 	            	}
 	            }
 			}
+			
+			Library.applyRadDirect(player, 50F);
+			
 			return true;
 		}
 		return false;

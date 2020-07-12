@@ -32,8 +32,8 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		launcher.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 88 - 52, 16, 52);
-		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 88 - 52, 16, 52);
+		launcher.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 36, 16, 34);
+		launcher.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 36, 16, 34);
 		this.drawCustomInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 88 - 52, 16, 52, new String[] { "Solid Fuel: " + launcher.solid + "l" });
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 113, 34, 6, launcher.power, launcher.maxPower);
 
@@ -89,10 +89,10 @@ public class GUIMachineCompactLauncher extends GuiInfoContainer {
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 11);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[0].getSheet());
-		launcher.tanks[0].renderTank(this, guiLeft + 116, guiTop + 88, launcher.tanks[0].getTankType().textureX() * FluidTank.x, launcher.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
+		launcher.tanks[0].renderTank(this, guiLeft + 116, guiTop + 70, launcher.tanks[0].getTankType().textureX() * FluidTank.x, launcher.tanks[0].getTankType().textureY() * FluidTank.y, 16, 34);
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(launcher.tanks[1].getSheet());
-		launcher.tanks[1].renderTank(this, guiLeft + 134, guiTop + 88, launcher.tanks[1].getTankType().textureX() * FluidTank.x, launcher.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		launcher.tanks[1].renderTank(this, guiLeft + 134, guiTop + 70, launcher.tanks[1].getTankType().textureX() * FluidTank.x, launcher.tanks[1].getTankType().textureY() * FluidTank.y, 16, 34);
 		
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();

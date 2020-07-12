@@ -1473,15 +1473,15 @@ public class MainRegistry
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_legs, 0.12F);
 		HazmatRegistry.instance.registerHazmat(ModItems.alloy_boots, 0.04F);
 		
-		HazmatRegistry.instance.registerHazmat(ModItems.cmb_helmet, 1F);
-		HazmatRegistry.instance.registerHazmat(ModItems.cmb_plate, 2.2F);
-		HazmatRegistry.instance.registerHazmat(ModItems.cmb_legs, 1.6F);
-		HazmatRegistry.instance.registerHazmat(ModItems.cmb_boots, 0.5F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_helmet, 0.5F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_plate, 1.1F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_legs, 0.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.cmb_boots, 0.2F);
 		
-		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_helmet, 1.2F);
-		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_plate, 2.4F);
-		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_legs, 1.8F);
-		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_boots, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_helmet, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_plate, 1.2F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_legs, 0.9F);
+		HazmatRegistry.instance.registerHazmat(ModItems.schrabidium_boots, 0.3F);
 		
 		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_helmet, 6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.euphemium_plate, 12F);

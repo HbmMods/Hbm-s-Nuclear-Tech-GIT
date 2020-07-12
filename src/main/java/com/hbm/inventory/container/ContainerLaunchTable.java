@@ -18,10 +18,12 @@ public class ContainerLaunchTable extends Container {
 
 		this.addSlotToContainer(new Slot(tedf, 0, 26, 36));
 		this.addSlotToContainer(new Slot(tedf, 1, 26, 72));
-		this.addSlotToContainer(new Slot(tedf, 2, 116, 90));
-		this.addSlotToContainer(new Slot(tedf, 3, 134, 90));
+		this.addSlotToContainer(new Slot(tedf, 2, 116, 90 - 18));
+		this.addSlotToContainer(new Slot(tedf, 3, 134, 90 - 18));
 		this.addSlotToContainer(new Slot(tedf, 4, 152, 90));
 		this.addSlotToContainer(new Slot(tedf, 5, 116, 108));
+		this.addSlotToContainer(new Slot(tedf, 6, 116, 90));
+		this.addSlotToContainer(new Slot(tedf, 7, 134, 90));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -48,13 +50,13 @@ public class ContainerLaunchTable extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 1) {
-				if (!this.mergeItemStack(var5, 2, this.inventorySlots.size(), true))
+            if (par2 <= 7) {
+				if (!this.mergeItemStack(var5, 8, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 1, false))
+			else if (!this.mergeItemStack(var5, 0, 8, false))
 				return null;
 			
 			if (var5.stackSize == 0)

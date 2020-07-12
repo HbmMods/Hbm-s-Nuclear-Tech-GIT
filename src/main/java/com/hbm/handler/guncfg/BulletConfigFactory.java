@@ -277,6 +277,9 @@ public class BulletConfigFactory {
 				if(bullet.shooter == null || !(bullet.shooter instanceof EntityPlayer))
 					return;
 				
+				if(Vec3.createVectorHelper(bullet.posX - bullet.shooter.posX, bullet.posY - bullet.shooter.posY, bullet.posZ - bullet.shooter.posZ).lengthVector() > 100)
+					return;
+				
 				MovingObjectPosition mop = Library.rayTrace((EntityPlayer)bullet.shooter, 200, 1);
 				
 				if(mop == null || mop.hitVec == null)

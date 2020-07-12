@@ -52,7 +52,7 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 	private String customName;
 
 	public TileEntityLaunchTable() {
-		slots = new ItemStack[6];
+		slots = new ItemStack[8];
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(FluidType.NONE, 100000, 0);
 		tanks[1] = new FluidTank(FluidType.NONE, 100000, 1);
@@ -165,8 +165,8 @@ public class TileEntityLaunchTable extends TileEntity implements ISidedInventory
 			
 			updateTypes();
 
-			tanks[0].loadTank(2, 3, slots);
-			tanks[1].loadTank(2, 3, slots);
+			tanks[0].loadTank(2, 6, slots);
+			tanks[1].loadTank(3, 7, slots);
 
 			for (int i = 0; i < 2; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);

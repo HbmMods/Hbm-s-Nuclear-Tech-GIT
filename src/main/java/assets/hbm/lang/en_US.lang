@@ -273,6 +273,9 @@ item.solinium_core.name=Semi-Stable Solinium Core
 
 item.n2_charge.name=Large Explosive Charge
 
+item.egg_balefire_shard.name=Balefire Shard
+item.egg_balefire.name=Balefire Egg
+
 item.custom_tnt.name=Custom Nuke Explosive Charge
 item.custom_nuke.name=Custom Nuke Nuclear Rod
 item.custom_hydro.name=Custom Nuke Hydrogen Rod
@@ -378,7 +381,7 @@ tile.struct_launcher.name=Launch Pad Component Block
 tile.struct_scaffold.name=Launch Pad Scaffold Block
 tile.struct_launcher_core.name=Compact Launcher Core Component
 tile.struct_launcher_core_large.name=Launch Table Core Component
-tile.struct_soyuz_launcher.name=Soyuz Launcher Core Component
+tile.struct_soyuz_core.name=Soyuz Launcher Core Component
 
 tile.machine_difurnace_off.name=Blast Furnace
 tile.machine_difurnace_on.name=Blast Furnace
@@ -1302,6 +1305,7 @@ item.gun_stinger.name=FIM-92 Stinger
 item.gun_skystinger.name=The One Sky Stinger
 item.gun_stinger_ammo.name=Stinger Rocket
 item.gun_hk69.name=Grenade Pistol
+item.gun_quadro.name=Quattro Formaggi
 
 item.flame_pony.name=Painting of a Cartoon Pony
 item.flame_conspiracy.name=Conspiracy Theory
@@ -1463,6 +1467,8 @@ item.apple_schrabidium.name=Schrabidium Apple
 item.cotton_candy.name=Radioactive Cotton Candy
 item.tem_flakes.name=Tem Flakes
 item.glowing_stew.name=Glowing Mushroom Stew
+item.balefire_scrambled.name=Scrambled Balefire Egg
+item.balefire_and_ham.name=Ham and Balefire Eggs
 item.lemon.name="Lemon"
 item.definitelyfood.name=TotallyNotDirt-Brand MRE
 item.loops.name=Lööps
@@ -1561,7 +1567,7 @@ item.gun_calamity_ammo.name=.50 BMG Round (LEGACY)
 item.gun_lacunae_ammo.name=5mm Round (LEGACY)
 item.gun_fatman_ammo.name=Mini Nuke
 item.gun_mirv_ammo.name=Eightfold MIRV
-item.gun_bf_ammo.name=Mk.V Compact AMAT-Artillery Shell - Type B.F.
+item.gun_bf_ammo.name=Balefire Shell
 item.gun_mp40_ammo.name=Submachine Gun Round (LEGACY)
 item.gun_uzi_ammo.name=.22 LR Round (LEGACY)
 item.gun_uboinik_ammo.name=12x70 Buckshot (LEGACY)

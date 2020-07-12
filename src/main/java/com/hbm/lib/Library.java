@@ -93,7 +93,7 @@ public class Library {
 		}
 
 		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", rad + f);
+		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
 	}
 	
 	public static void applyRadDirect(Entity e, float f) {
@@ -105,7 +105,7 @@ public class Library {
 			return;
 		
 		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", rad + f);
+		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
 	}
 	
 	public static boolean checkForHeld(EntityPlayer player, Item item) {
@@ -379,9 +379,9 @@ public class Library {
 			long batRate = battery.getChargeRate();
 			
 			//in hHE
-			long toCharge = Math.min(Math.min(power / 100, batRate), batMax - batCharge);
+			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
 			
-			power -= toCharge * 100;
+			power -= toCharge;
 			
 			battery.chargeBattery(slots[index], toCharge);
 
@@ -402,9 +402,9 @@ public class Library {
 			long batRate = ((ItemToolAbilityPower)slots[index].getItem()).getChargeRate();
 			
 			//in hHE
-			long toCharge = Math.min(Math.min(power / 100, batRate), batMax - batCharge);
+			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
 			
-			power -= toCharge * 100;
+			power -= toCharge;
 			
 			((ItemToolAbilityPower)slots[index].getItem()).chargeBattery(slots[index], toCharge);
 			
@@ -433,10 +433,10 @@ public class Library {
 			long batRate = battery.getDischargeRate();
 			
 			//in hHe
-			long toDischarge = Math.min(Math.min((maxPower - power) / 100, batRate), batCharge);
+			long toDischarge = Math.min(Math.min((maxPower - power), batRate), batCharge);
 			
 			battery.dischargeBattery(slots[index], toDischarge);
-			power += toDischarge * 100;
+			power += toDischarge;
 		}
 		
 		return power;
