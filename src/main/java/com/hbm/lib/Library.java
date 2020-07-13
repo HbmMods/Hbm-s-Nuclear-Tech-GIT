@@ -1,9 +1,12 @@
 package com.hbm.lib;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
@@ -70,6 +73,13 @@ public class Library {
 	public static String GOD___TM = "57146e3f-16b5-4e9f-b0b8-139bec2ca2cb";
 	public static String ZippySqrl = "03c20435-a229-489a-a1a1-671b803f7017";
 	public static String Schrabby = "3a4a1944-5154-4e67-b80a-b6561e8630b7";
+	public static String SweatySwiggs = "5544aa30-b305-4362-b2c1-67349bb499d5";
+	public static String Drillgon = "41ebd03f-7a12-42f3-b037-0caa4d6f235b";
+
+	public static Set<String> contributors = Sets.newHashSet(new String[] {
+			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
+			"5bf069bc-5b46-4179-aafe-35c0a07dee8b", //JMF781
+			});
 	
 	//the old list that allowed superuser mode for the ZOMG
 	//currently unused
