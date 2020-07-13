@@ -315,6 +315,9 @@ item.solinium_core.name=Полу-стабильный солиниевый за�
 
 item.n2_charge.name=Крупный взрывной заряд
 
+item.egg_balefire_shard.name=Жар-осколок
+item.egg_balefire.name=Жар-яйцо
+
 item.custom_tnt.name=Взрывной заряд Персональной бомбы
 item.custom_nuke.name=Ядерный заряд Персональной бомбы
 item.custom_hydro.name=Водородный заряд Персональной бомбы
@@ -420,7 +423,7 @@ tile.struct_launcher.name=Блок-компонент пусковой площ�
 tile.struct_scaffold.name=Подмосток пусковой площадки
 tile.struct_launcher_core.name=Ядро компактной пусковой площадки
 tile.struct_launcher_core_large.name=Ядро большой пусковой площадки
-tile.struct_soyuz_launcher.name=Ядро стартовой площадки Союза
+tile.struct_soyuz_core.name=Ядро стартовой площадки Союза
 
 tile.machine_difurnace_off.name=Доменная печь
 tile.machine_difurnace_on.name=Доменная печь
@@ -1343,6 +1346,7 @@ item.gun_stinger.name=FIM-92 "Стингер"
 item.gun_skystinger.name="Небесный Стингер"
 item.gun_stinger_ammo.name=Ракета-Стингер
 item.gun_hk69.name=Гранатомет
+item.gun_quadro.name="Четыре Сыра"
 
 item.flame_pony.name=Картинка цветной лошади
 item.flame_conspiracy.name=Конспирологическая теория
@@ -1504,6 +1508,8 @@ item.apple_schrabidium.name=Шрабидиевое Яблоко
 item.cotton_candy.name=Радиоактивная сахарная вата
 item.tem_flakes.name=Хлопья Тэм
 item.glowing_stew.name=Тушеные светящиеся грибы
+item.balefire_scrambled.name=Жар-яичница
+item.balefire_and_ham.name=Ветчина и жар-яйца
 item.lemon.name="Лимон"
 item.definitelyfood.name=ИРП марки “ТочноНеГрязь”
 item.pudding.name=Пудинг
@@ -1602,7 +1608,7 @@ item.gun_calamity_ammo.name=Кал. 50 (LEGACY)
 item.gun_lacunae_ammo.name=5-мм патрон (LEGACY)
 item.gun_fatman_ammo.name=Ядерный минизаряд
 item.gun_mirv_ammo.name=Восьмиричный МИРВ
-item.gun_bf_ammo.name=МК.V компактный АМАТ-артиллерийский снаряд - Тип B.F.
+item.gun_bf_ammo.name=Жар-снаряд
 item.gun_mp40_ammo.name=Патрон Для Пистолета-Пулемета (LEGACY)
 item.gun_uzi_ammo.name=Патроны кал. 22LR (LEGACY)
 item.gun_uboinik_ammo.name=Дробь 12x70 калибра (LEGACY)
