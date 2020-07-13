@@ -337,6 +337,7 @@ container.nukeCustom=Персональная бомба
 container.nukeSolinium=Синий Ополаскиватель
 container.nukeN2=N²-мина
 container.nukeN45=Морская мина N45
+container.nukeFstbmb=Жар-бомба
 
 container.bombMulti=Многоцелевая бомба
 
@@ -351,6 +352,7 @@ tile.nuke_custom.name=Персональная бомба
 tile.nuke_solinium.name=Синий Ополаскиватель
 tile.nuke_n2.name=N²-мина 
 tile.nuke_n45.name=Морская мина N45
+tile.nuke_fstbmb.name=Жар-бомба
 
 tile.bomb_multi.name=Многоцелевая бомба
 tile.rejuvinator.name=ГЭКК
@@ -1893,6 +1895,7 @@ item.mask_of_infamy.name=Маска Позора
 tile.det_cord.name=Детонирующий шнур
 tile.det_charge.name=Заряд взрывчатки
 tile.det_nuke.name=Ядерный заряд
+tile.det_miner.name=Шахтёрский заряд
 tile.red_barrel.name=Взрывная бочка
 tile.pink_barrel.name=Керосиновая бочка
 tile.lox_barrel.name=Бочка с жидким кислородом
