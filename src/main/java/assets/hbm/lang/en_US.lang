@@ -295,6 +295,7 @@ container.nukeCustom=Custom Nuke
 container.nukeSolinium=The Blue Rinse
 container.nukeN2=N² Mine
 container.nukeN45=N45 Naval Mine
+container.nukeFstbmb=Balefire Bomb
 
 container.bombMulti=Multi Purpose Bomb
 
@@ -309,6 +310,7 @@ tile.nuke_custom.name=Custom Nuke
 tile.nuke_solinium.name=The Blue Rinse
 tile.nuke_n2.name=N² Mine
 tile.nuke_n45.name=N45 Naval Mine
+tile.nuke_fstbmb.name=Balefire Bomb
 
 tile.bomb_multi.name=Multi Purpose Bomb
 tile.rejuvinator.name=Rejuvination Device
@@ -1852,6 +1854,7 @@ item.mask_of_infamy.name=Mask of Infamy
 tile.det_cord.name=Det Cord
 tile.det_charge.name=Explosive Charge
 tile.det_nuke.name=Nuclear Charge
+tile.det_miner.name=Mining Charge
 tile.red_barrel.name=Explosive Barrel
 tile.pink_barrel.name=Kerosene Barrel
 tile.lox_barrel.name=LOX Barrel

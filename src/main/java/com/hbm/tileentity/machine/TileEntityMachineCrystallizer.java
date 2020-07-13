@@ -12,8 +12,12 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IConsumer, IFluidAcceptor {
 	
@@ -23,6 +27,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public static final int acidRequired = 500;
 	public short progress;
 	public static final short duration = 600;
+	
+	public float angle;
+	public float prevAngle;
 	
 	public FluidTank tank;
 
@@ -67,6 +74,18 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			data.setShort("progress", progress);
 			data.setLong("power", power);
 			this.networkPack(data, 25);
+		} else {
+			
+			prevAngle = angle;
+			
+			if(progress > 0) {
+				angle += 5F;
+				
+				if(angle >= 360) {
+					angle -= 360;
+					prevAngle -= 360;
+				}
+			}
 		}
 	}
 	
@@ -209,6 +228,18 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		
-		return side == 0 ? new int[] { 2 } : (side == 1 ? new int[] { 0 } : new int[] { 1 });
+		return side == 0 ? new int[] { 2 } : new int[] { 0, 2 };
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

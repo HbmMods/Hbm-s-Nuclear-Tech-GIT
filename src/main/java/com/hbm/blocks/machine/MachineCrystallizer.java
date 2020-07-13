@@ -1,43 +1,98 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineCrystallizer extends BlockMachineBase {
+public class MachineCrystallizer extends BlockDummyable {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
 	public MachineCrystallizer(Material mat) {
-		super(mat, ModBlocks.guiID_crystallizer);
+		super(mat);
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineCrystallizer();
+	public TileEntity createNewTileEntity(World world, int meta) {
+
+		if(meta >= 12)
+			return new TileEntityMachineCrystallizer();
+		
+		if(meta >= 8 && meta <= 11)
+			return new TileEntityProxyInventory();
+
+		if(meta == 7)
+			return new TileEntityProxyCombo(false, true, true);
+		
+		return null;
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_crystallizer_top");
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_crystallizer_side");
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote)
+		{
+			return true;
+		} else if(!player.isSneaking())
+		{
+			int[] pos = this.findCore(world, x, y, z);
+			
+			if(pos == null)
+				return false;
+			
+			TileEntityMachineCrystallizer entity = (TileEntityMachineCrystallizer) world.getTileEntity(pos[0], pos[1], pos[2]);
+			if(entity != null)
+			{
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_crystallizer, world, pos[0], pos[1], pos[2]);
+			}
+			return true;
+		} else {
+			player.addChatComponentMessage(new ChatComponentText("" + world.getBlockMetadata(x, y, z)));
+			return false;
+		}
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
+	public int[] getDimensions() {
+		return new int[] { 6, 0, 1, 1, 1, 1 };
+	}
+
+	@Override
+	public int getOffset() {
+		return 1;
+	}
+	
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+
+		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o);
+		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o);
+		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o + 1);
+		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o - 1);
+
+		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
+			this.makeExtra(world, x + dir.offsetX * o + 1, y + 5, z + dir.offsetZ * o);
+			this.makeExtra(world, x + dir.offsetX * o - 1, y + 5, z + dir.offsetZ * o);
+		}
+
+		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
+			this.makeExtra(world, x + dir.offsetX * o, y + 5, z + dir.offsetZ * o + 1);
+			this.makeExtra(world, x + dir.offsetX * o, y + 5, z + dir.offsetZ * o - 1);
+		}
 	}
 
 }

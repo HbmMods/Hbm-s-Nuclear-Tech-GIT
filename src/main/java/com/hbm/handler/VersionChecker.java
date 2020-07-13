@@ -17,7 +17,7 @@ public class VersionChecker {
 		
 		try {
 			
-			URL github = new URL("https://raw.githubusercontent.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/master/com/hbm/lib/RefStrings.java");
+			URL github = new URL("https://raw.githubusercontent.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/master/src/main/java/com/hbm/lib/RefStrings.java");
 	        BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 			
 	        MainRegistry.logger.info("Searching for new versions...");

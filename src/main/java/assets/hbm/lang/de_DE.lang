@@ -1846,6 +1846,7 @@ item.mask_of_infamy.name=Maske der Schande
 tile.det_cord.name=Det Cord
 tile.det_charge.name=Sprengladung
 tile.det_nuke.name=Atomare Sprengladung
+tile.det_miner.name=Bergbau-Sprengladung
 tile.red_barrel.name=Explosives Fass
 tile.pink_barrel.name=Kerosinfass
 tile.lox_barrel.name=LOX-Fass

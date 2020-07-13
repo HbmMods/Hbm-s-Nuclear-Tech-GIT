@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.Arrays;
 import java.util.List;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 
@@ -11,12 +12,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
+@Spaghetti("death")
 public class ItemAssemblyTemplate extends Item {
 	
+	//TODO: replace this steaming shit with JSON
 	public enum EnumAssemblyTemplate {
 
 		IRON_PLATE,
@@ -203,6 +207,17 @@ public class ItemAssemblyTemplate extends Item {
 		REFINERY,
 		EPRESS,
 		CHEMPLANT,
+		CRYSTALLIZER(400, Arrays.asList(
+				new ItemStack(ModItems.hull_big_steel, 4),
+				new ItemStack(ModItems.pipes_steel, 4),
+				new ItemStack(ModItems.ingot_desh, 4),
+				new ItemStack(ModItems.motor, 2),
+				new ItemStack(ModItems.blades_advanced_alloy, 2),
+				new ItemStack(ModItems.ingot_steel, 16),
+				new ItemStack(ModItems.plate_titanium, 16),
+				new ItemStack(Blocks.glass, 4),
+				new ItemStack(ModItems.circuit_gold, 1)),
+				new ItemStack(ModBlocks.machine_crystallizer)),
 		TANK,
 		MINER,
 		MININGLASER,
@@ -245,6 +260,15 @@ public class ItemAssemblyTemplate extends Item {
 		FLEIJA,
 		SOLINIUM,
 		N2,
+		FSTBMB(600, Arrays.asList(
+				new ItemStack(ModItems.sphere_steel, 1),
+				new ItemStack(ModItems.hull_big_titanium, 6),
+				new ItemStack(ModItems.fins_big_steel, 1),
+				new ItemStack(ModItems.powder_magic, 8),
+				new ItemStack(ModItems.wire_gold, 12),
+				new ItemStack(ModItems.circuit_targeting_tier4, 4),
+				new ItemStack(Items.dye, 6, 8)),
+				new ItemStack(ModBlocks.nuke_fstbmb)),
 		CUSTOM_NUKE,
 		BOMB_LEV,
 		BOMB_ENDO,

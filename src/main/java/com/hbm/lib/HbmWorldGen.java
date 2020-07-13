@@ -385,11 +385,11 @@ public class HbmWorldGen implements IWorldGenerator {
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
-				if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z)) {
-					world.setBlock(x, y + 1, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
+					world.setBlock(x, y, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
 					
 					if(MainRegistry.enableDebugMode)
-						MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + (y + 1) +" " + z);
+						MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + (y) +" " + z);
 				}
 			}
 
@@ -398,11 +398,11 @@ public class HbmWorldGen implements IWorldGenerator {
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
-				if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z)) {
-					world.setBlock(x, y + 1, z, ModBlocks.mine_ap);
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
+					world.setBlock(x, y, z, ModBlocks.mine_ap);
 				
 					if(MainRegistry.enableDebugMode)
-						MainRegistry.logger.info("[Debug] Successfully spawned landmine at " + x + " " + (y + 1) +" " + z);
+						MainRegistry.logger.info("[Debug] Successfully spawned landmine at " + x + " " + (y) +" " + z);
 				}
 			}
 			
@@ -493,38 +493,38 @@ public class HbmWorldGen implements IWorldGenerator {
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
-				if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z)) {
-					world.setBlock(x, y + 1, z, ModBlocks.safe, rand.nextInt(4) + 2, 2);
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
+					world.setBlock(x, y, z, ModBlocks.safe, rand.nextInt(4) + 2, 2);
 					
 					switch(rand.nextInt(10)) {
 					case 0:
 					case 1:
 					case 2:
 					case 3:
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setMod(1);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).lock();
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(1);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
 						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(10), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(4) + 3);
 						break;
 					case 4:
 					case 5:
 					case 6:
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setMod(0.1);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).lock();
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.1);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
 						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(11), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(3) + 2);
 						break;
 					case 7:
 					case 8:
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setMod(0.02);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).lock();
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.02);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
 						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(12), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(3) + 1);
 						break;
 					case 9:
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).setMod(0.0);
-						((TileEntitySafe)world.getTileEntity(x, y + 1, z)).lock();
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.0);
+						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
 						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(13), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(2) + 1);
 						break;
 					}
