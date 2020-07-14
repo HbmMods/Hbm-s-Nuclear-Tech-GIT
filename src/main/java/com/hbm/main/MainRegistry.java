@@ -1126,8 +1126,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustLead", ModItems.powder_lead);
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("ingotCopper", ModItems.ingot_copper);
-		OreDictionary.registerOre("ingotRedAlloy", ModItems.ingot_red_copper);
-		OreDictionary.registerOre("ingotRedstoneAlloy", ModItems.ingot_red_copper);
+		OreDictionary.registerOre("ingotRedCopperAlloy", ModItems.ingot_red_copper);
 		OreDictionary.registerOre("ingotAdvanced", ModItems.ingot_advanced_alloy);
 		OreDictionary.registerOre("ingotAdvancedAlloy", ModItems.ingot_advanced_alloy);
 		OreDictionary.registerOre("ingotTungsten", ModItems.ingot_tungsten);
@@ -1214,8 +1213,7 @@ public class MainRegistry
 		OreDictionary.registerOre("dustAdvancedAlloy", ModItems.powder_advanced_alloy);
 		OreDictionary.registerOre("dustCMBSteel", ModItems.powder_combine_steel);
 		OreDictionary.registerOre("dustMagnetizedTungsten", ModItems.powder_magnetized_tungsten);
-		OreDictionary.registerOre("dustRedAlloy", ModItems.powder_red_copper);
-		OreDictionary.registerOre("dustRedstoneAlloy", ModItems.powder_red_copper);
+		OreDictionary.registerOre("dustRedCopperAlloy", ModItems.powder_red_copper);
 		OreDictionary.registerOre("dustSteel", ModItems.powder_steel);
 		OreDictionary.registerOre("dustLithium", ModItems.powder_lithium);
 		OreDictionary.registerOre("dustNetherQuartz", ModItems.powder_quartz);
@@ -1302,8 +1300,7 @@ public class MainRegistry
 		OreDictionary.registerOre("blockNiter", ModBlocks.block_niter);
 		OreDictionary.registerOre("blockSalpeter", ModBlocks.block_niter);
 		OreDictionary.registerOre("blockCopper", ModBlocks.block_copper);
-		OreDictionary.registerOre("blockRedAlloy", ModBlocks.block_red_copper);
-		OreDictionary.registerOre("blockRedstoneAlloy", ModBlocks.block_red_copper);
+		OreDictionary.registerOre("blockRedCopperAlloy", ModBlocks.block_red_copper);
 		OreDictionary.registerOre("blockAdvanced", ModBlocks.block_advanced_alloy);
 		OreDictionary.registerOre("blockTungsten", ModBlocks.block_tungsten);
 		OreDictionary.registerOre("blockAluminum", ModBlocks.block_aluminium);
