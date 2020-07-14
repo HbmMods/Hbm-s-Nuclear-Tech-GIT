@@ -869,6 +869,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_microwave:
+				{
+					if(entity instanceof TileEntityMicrowave)
+					{
+						return new ContainerMicrowave(player.inventory, (TileEntityMicrowave) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1732,6 +1741,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityNukeBalefire)
 					{
 						return new GUINukeFstbmb(player.inventory, (TileEntityNukeBalefire) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_microwave:
+				{
+					if(entity instanceof TileEntityMicrowave)
+					{
+						return new GUIMicrowave(player.inventory, (TileEntityMicrowave) entity);
 					}
 					return null;
 				}
