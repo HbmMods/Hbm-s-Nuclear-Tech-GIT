@@ -504,7 +504,7 @@ public class HbmWorldGen implements IWorldGenerator {
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(10), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(4) + 3);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(10), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(4) + 3);
 						break;
 					case 4:
 					case 5:
@@ -512,20 +512,20 @@ public class HbmWorldGen implements IWorldGenerator {
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(11), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(3) + 2);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(11), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 2);
 						break;
 					case 7:
 					case 8:
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.02);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(12), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(3) + 1);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(12), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 1);
 						break;
 					case 9:
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.0);
 						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(13), (TileEntitySafe)world.getTileEntity(x, y + 1, z), rand.nextInt(2) + 1);
+						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.getLoot(13), (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(2) + 1);
 						break;
 					}
 					
