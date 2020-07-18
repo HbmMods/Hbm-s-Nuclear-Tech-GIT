@@ -4,13 +4,13 @@ import com.hbm.calc.Location;
 import com.hbm.interfaces.IConsumer;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IEnergyProvider {
+public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IEnergyHandler {
 	
 	public long power;
 	public final long maxPower = 1000000;
@@ -106,6 +106,11 @@ public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IE
 		
 		nbt.setLong("power", power);
 		storage.writeToNBT(nbt);
+	}
+
+	@Override
+	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+		return 0;
 	}
 
 }

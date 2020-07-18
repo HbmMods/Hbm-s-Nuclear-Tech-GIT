@@ -11,6 +11,7 @@ public class RenderAccessoryUtility {
 
 	private static ResourceLocation hbm = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHbm3.png");
 	private static ResourceLocation hbm2 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeHbm2.png");
+	private static ResourceLocation drillgon = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDrillgon.png");
 	private static ResourceLocation dafnik = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDafnik.png");
 	private static ResourceLocation lpkukin = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeShield.png");
 	private static ResourceLocation vertice = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVertice_2.png");
@@ -43,7 +44,7 @@ public class RenderAccessoryUtility {
 		}
 
 		if(uuid.equals(Library.Drillgon)) {
-			return hbm;
+			return drillgon;
 		}
 		if(uuid.equals(Library.Dafnik)) {
 			return dafnik;

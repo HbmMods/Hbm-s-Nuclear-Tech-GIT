@@ -119,6 +119,11 @@ hbmfluid.oxygen=Flüssiger Sauerstoff
 hbmfluid.xenon=Xenongas
 hbmfluid.balefire=BF-Raketentreibstoff
 hbmfluid.mercury=Quecksilber
+hbmfluid.plasma_dt=Deuterium-Tritium-Plasma
+hbmfluid.plasma_hd=Wasserstoff-Deuterium-Plasma
+hbmfluid.plasma_ht=Wasserstoff-Tritium-Plasma
+hbmfluid.plasma_xm=Xenon-Quecksilber-Plasma
+hbmfluid.plasma_bf=Balefire-Plasma
 
 chem.TEST=Test
 chem.FP_HEAVYOIL=Schwerölverarbeitung
@@ -2247,6 +2252,7 @@ item.shimmer_sledge.name=Shimmer Sledge
 item.shimmer_axe.name=Shimmer Axe
 item.euphemium_stopper.name=Stopper
 item.matchstick.name=Streichholz
+item.balefire_and_steel.name=Balefire-Zeug
 item.remote.name=Kaputte Fernbedienung
 item.pch.name=Horse Nut Hammer
 

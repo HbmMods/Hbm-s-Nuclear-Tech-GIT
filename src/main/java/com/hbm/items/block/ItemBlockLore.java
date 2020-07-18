@@ -73,8 +73,17 @@ public class ItemBlockLore extends ItemBlock {
 			list.add("");
 			list.add("Update, 2020-07-04:");
 			list.add("We deny any implications of a joke on");
-			list.add("the basis that it was so severly unfunny");
+			list.add("the basis that it was so severely unfunny");
 			list.add("that people started stabbing their eyes out.");
+			list.add("");
+			list.add("Update, 2020-17-04:");
+			list.add("As it turns out, \"Diamond Gravel\" was");
+			list.add("never really a thing, rendering what might");
+			list.add("have been a joke as totally nonsensical.");
+			list.add("We apologize for getting your hopes up with");
+			list.add("this non-joke that hasn't been made.");
+			list.add("");
+			list.add("i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
 		}
 	}
 

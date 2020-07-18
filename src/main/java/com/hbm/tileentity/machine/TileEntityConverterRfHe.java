@@ -8,12 +8,12 @@ import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
+import cofh.api.energy.IEnergyHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterRfHe extends TileEntity implements ISource, IEnergyReceiver {
+public class TileEntityConverterRfHe extends TileEntity implements ISource, IEnergyHandler {
 	
 	public long power;
 	public final long maxPower = 1000000;
@@ -133,6 +133,11 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 		
 		nbt.setLong("power", power);
 		storage.writeToNBT(nbt);
+	}
+
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+		return 0;
 	}
 
 }
