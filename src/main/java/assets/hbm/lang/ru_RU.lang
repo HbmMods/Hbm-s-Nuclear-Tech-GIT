@@ -120,7 +120,12 @@ hbmfluid.hydrogen=Жидкий водород
 hbmfluid.oxygen=Жидкий кислород
 hbmfluid.xenon=Ксенон
 hbmfluid.balefire=Ракетное жар-топливо
-hbmfluid.mercury=Ртуть 
+hbmfluid.mercury=Ртуть
+hbmfluid.plasma_dt=Дейтериево-Тритиевая-плазма
+hbmfluid.plasma_hd=Водородно-Дейтериевая-плазма
+hbmfluid.plasma_ht=Водородно-Тритиевая-плазма
+hbmfluid.plasma_xm=Ксеноново-Ртутная-плазма
+hbmfluid.plasma_bf=Жар-плазма 
 
 //Special for 1.12.2 version//
 fluid.hbmsteam=Пар
@@ -2306,6 +2311,7 @@ item.shimmer_sledge.name=Отлитая кувалда
 item.shimmer_axe.name=Отлитый топор
 item.euphemium_stopper.name=Ограничитель
 item.matchstick.name=Спичка
+item.balefire_and_steel.name=Жар-огниво
 item.remote.name=Сломанный пульт дистанционного управления
 item.pch.name=Молот с семенем коня
 
