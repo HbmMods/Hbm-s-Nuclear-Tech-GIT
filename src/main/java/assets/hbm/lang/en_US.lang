@@ -977,6 +977,9 @@ tile.barbed_wire_wither.name=Withered Barbed Wire
 tile.barbed_wire_ultradeath.name=Cloud Barbed Wire
 
 tile.fence_metal.name=Chainlink Fence
+tile.sand_uranium.name=Uranium Sand
+tile.glass_uranium.name=Uranium Glass
+tile.glass_trinitite.name=Trinity Glass
 
 tile.seal_frame.name=Silo Hatch Frame
 tile.seal_controller.name=Silo Hatch Opener

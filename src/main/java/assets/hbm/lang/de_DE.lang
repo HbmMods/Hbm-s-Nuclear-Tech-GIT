@@ -972,6 +972,9 @@ tile.barbed_wire_wither.name=Withernder Stacheldraht
 tile.barbed_wire_ultradeath.name=Wolken-Stacheldraht
 
 tile.fence_metal.name=Maschendrahtzaun
+tile.sand_uranium.name=Uransand
+tile.glass_uranium.name=Uranglas
+tile.glass_trinitite.name=Trinity-Glas
 
 tile.seal_frame.name=Siloluke (Rahmen)
 tile.seal_controller.name=Silolukenöffner

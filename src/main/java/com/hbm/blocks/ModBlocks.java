@@ -23,9 +23,7 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.block.material.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -218,6 +216,10 @@ public class ModBlocks {
 	public static Block geiger;
 
 	public static Block fence_metal;
+
+	public static Block sand_uranium;
+	public static Block glass_uranium;
+	public static Block glass_trinitite;
 
 	public static Block mush;
 	public static Block mush_block;
@@ -965,6 +967,10 @@ public class ModBlocks {
 		geiger = new GeigerCounter(Material.rock).setBlockName("geiger").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":geiger");
 		
 		fence_metal = new BlockMetalFence(Material.rock).setBlockName("fence_metal").setCreativeTab(MainRegistry.machineTab).setHardness(15.0F).setResistance(0.25F).setBlockTextureName(RefStrings.MODID + ":fence_metal");
+		
+		sand_uranium = new BlockFalling(Material.sand).setBlockName("sand_uranium").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.machineTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":sand_uranium");
+		glass_uranium = new BlockRadGlass(RefStrings.MODID + ":glass_uranium", Material.glass).setBlockName("glass_uranium").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
+		glass_trinitite = new BlockRadGlass(RefStrings.MODID + ":glass_trinitite", Material.glass).setBlockName("glass_trinitite").setLightLevel(5F/15F).setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.machineTab).setHardness(0.3F);
 
 		mush = new BlockMush(Material.plants).setBlockName("mush").setCreativeTab(MainRegistry.blockTab).setLightLevel(0.5F).setStepSound(Block.soundTypeGrass).setBlockTextureName(RefStrings.MODID + ":mush");
 		mush_block = new BlockMushHuge(Material.plants).setBlockName("mush_block").setLightLevel(1.0F).setStepSound(Block.soundTypeGrass).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":mush_block_skin");
@@ -1690,6 +1696,11 @@ public class ModBlocks {
 		
 		//Chainlink Fence
 		GameRegistry.registerBlock(fence_metal, fence_metal.getUnlocalizedName());
+		
+		//Sands, Glass
+		GameRegistry.registerBlock(sand_uranium, sand_uranium.getUnlocalizedName());
+		GameRegistry.registerBlock(glass_uranium, glass_uranium.getUnlocalizedName());
+		GameRegistry.registerBlock(glass_trinitite, glass_trinitite.getUnlocalizedName());
 		
 		//Silo Hatch
 		GameRegistry.registerBlock(seal_frame, seal_frame.getUnlocalizedName());
