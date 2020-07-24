@@ -69,8 +69,6 @@ public class ModEventHandler
 	@SubscribeEvent
     public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 		
-		System.out.println("eeeeee");
-		
         if(!event.player.worldObj.isRemote) {
         	event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
         	

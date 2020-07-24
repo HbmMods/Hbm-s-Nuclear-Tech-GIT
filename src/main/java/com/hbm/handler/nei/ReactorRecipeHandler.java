@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.inventory.BreederRecipes;
+import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineReactor;
 import codechicken.nei.NEIServerUtils;
@@ -22,11 +24,13 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
     {
     	PositionedStack input;
         PositionedStack result;
+        int heat;
     	
-        public SmeltingSet(ItemStack input, ItemStack result) {
+        public SmeltingSet(ItemStack input, ItemStack result, int heat) {
         	input.stackSize = 1;
             this.input = new PositionedStack(input, 51, 6);
             this.result = new PositionedStack(result, 111, 24);
+            this.heat = heat;
         }
 
         @Override
@@ -67,10 +71,13 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 	
 	@Override
 	public void loadCraftingRecipes(String outputId, Object... results) {
+		
 		if ((outputId.equals("breeding")) && getClass() == ReactorRecipeHandler.class) {
-			Map<Object, Object> recipes = MachineRecipes.instance().getReactorRecipes();
-			for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));
+			
+			Map<ItemStack, BreederRecipe> recipes = BreederRecipes.getAllRecipes();
+			
+			for (Map.Entry<ItemStack, BreederRecipe> recipe : recipes.entrySet()) {
+				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -79,10 +86,12 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
-		Map<Object, Object> recipes = MachineRecipes.instance().getReactorRecipes();
-		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
-			if (NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue(), result))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));
+		
+		Map<ItemStack, BreederRecipe> recipes = BreederRecipes.getAllRecipes();
+
+		for (Map.Entry<ItemStack, BreederRecipe> recipe : recipes.entrySet()) {
+			if (NEIServerUtils.areStacksSameType(recipe.getValue().output, result))
+				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));
 		}
 	}
 
@@ -97,10 +106,12 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
-		Map<Object, Object> recipes = MachineRecipes.instance().getReactorRecipes();
-		for (Map.Entry<Object, Object> recipe : recipes.entrySet()) {
+		
+		Map<ItemStack, BreederRecipe> recipes = BreederRecipes.getAllRecipes();
+
+		for (Map.Entry<ItemStack, BreederRecipe> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()));				
+				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));			
 		}
 	}
 

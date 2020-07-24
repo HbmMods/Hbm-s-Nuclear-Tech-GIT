@@ -126,6 +126,7 @@ public class BulletConfiguration {
 	public BulletConfiguration setToGuided() {
 		
 		this.bUpdate = BulletConfigFactory.getLaserSteering();
+		this.doesRicochet = false;
 		return this;
 	}
 

@@ -233,7 +233,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(250);
 						
@@ -246,7 +245,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(250);
 
@@ -259,7 +257,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(250);
 
@@ -272,7 +269,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(2);
 							attemptPower(375);
 
@@ -285,7 +281,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(2);
 							attemptPower(375);
 
@@ -298,7 +293,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(2);
 							attemptPower(375);
 
@@ -311,7 +305,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(125);
 
@@ -324,7 +317,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(125);
 
@@ -337,7 +329,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(1);
 							attemptPower(125);
 
@@ -350,7 +341,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(10);
 							attemptPower(62500);
 
@@ -363,7 +353,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(10);
 							attemptPower(62500);
 
@@ -376,7 +365,6 @@ public class TileEntityReactorMultiblock extends TileEntity implements ISidedInv
 						{
 							int j = ItemFuelRod.getLifeTime(slots[i]);
 							ItemFuelRod.setLifeTime(slots[i], j + 1);
-							ItemFuelRod.updateDamage(slots[i]);
 							attemptHeat(10);
 							attemptPower(62500);
 

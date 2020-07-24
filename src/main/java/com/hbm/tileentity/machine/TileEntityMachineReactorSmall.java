@@ -526,8 +526,10 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			
 		} else if(te instanceof TileEntityMachineReactor) {
 			TileEntityMachineReactor reactor = (TileEntityMachineReactor)te;
-			if(reactor.charge < 1 && this.coreHeat > 0)
+			if(reactor.charge <= 1 && this.hullHeat > 0) {
 				reactor.charge = 1;
+				reactor.heat = (int)Math.floor(hullHeat * 4 / maxHullHeat) + 1;
+			}
 			
 		} else if(te instanceof TileEntityNukeFurnace) {
 			TileEntityNukeFurnace reactor = (TileEntityNukeFurnace)te;
@@ -621,9 +623,8 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			ItemFuelRod rod = ((ItemFuelRod) slots[id].getItem());
 			this.coreHeat += rod.heat * coreHeatMod;
 			ItemFuelRod.setLifeTime(slots[id], ItemFuelRod.getLifeTime(slots[id]) + 1);
-			ItemFuelRod.updateDamage(slots[id]);
 
-			if (ItemFuelRod.getLifeTime(slots[id]) > ((ItemFuelRod) slots[id].getItem()).lifeTime) {
+			if(ItemFuelRod.getLifeTime(slots[id]) > ((ItemFuelRod) slots[id].getItem()).lifeTime) {
 				onRunOut(id);
 				return;
 			}

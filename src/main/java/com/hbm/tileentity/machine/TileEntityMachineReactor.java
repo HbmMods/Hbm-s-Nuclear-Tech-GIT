@@ -1,21 +1,18 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineReactor;
-import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.ModItems;
+import com.hbm.inventory.BreederRecipes;
+import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 
 public class TileEntityMachineReactor extends TileEntityMachineBase {
 
-	private ItemStack slots[];
-
 	public int progress;
 	public int charge;
+	public int heat;
 	public static final int maxPower = 1000;
 	public static final int processingSpeed = 1000;
 
@@ -40,197 +37,111 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		return i == 2 ? false : (i == 0 ? hasItemPower(itemStack) : true);
-	}
+	public void updateEntity() {
 
-	public boolean hasItemPower(ItemStack itemStack) {
-		return getItemPower(itemStack) > 0;
-	}
-
-	private static int getItemPower(ItemStack itemStack) {
-		
-		if(itemStack == null) {
-			return 0;
+		if(!worldObj.isRemote) {
 			
-		} else {
+			boolean markDirty = false;
 			
-			Item item = itemStack.getItem();
-
-			if(item == ModItems.pellet_rtg_weak)
-				return 1;
-			if(item == ModItems.pellet_rtg)
-				return 2;
-			if(item == ModItems.rod_u238)
-				return 1;
-			if(item == ModItems.rod_dual_u238)
-				return 2;
-			if(item == ModItems.rod_quad_u238)
-				return 4;
-			if(item == ModItems.rod_u235)
-				return 3;
-			if(item == ModItems.rod_dual_u235)
-				return 6;
-			if(item == ModItems.rod_quad_u235)
-				return 12;
-			if(item == ModItems.rod_pu238)
-				return 5;
-			if(item == ModItems.rod_dual_pu238)
-				return 10;
-			if(item == ModItems.rod_quad_pu238)
-				return 20;
-			if(item == ModItems.rod_pu239)
-				return 3;
-			if(item == ModItems.rod_dual_pu239)
-				return 6;
-			if(item == ModItems.rod_quad_pu239)
-				return 12;
-			if(item == ModItems.rod_pu240)
-				return 1;
-			if(item == ModItems.rod_dual_pu240)
-				return 2;
-			if(item == ModItems.rod_quad_pu240)
-				return 4;
-			if(item == ModItems.rod_neptunium)
-				return 3;
-			if(item == ModItems.rod_dual_neptunium)
-				return 6;
-			if(item == ModItems.rod_quad_neptunium)
-				return 12;
-			if(item == ModItems.rod_schrabidium)
-				return 15;
-			if(item == ModItems.rod_dual_schrabidium)
-				return 30;
-			if(item == ModItems.rod_quad_schrabidium)
-				return 60;
-			if(item == ModItems.rod_solinium)
-				return 20;
-			if(item == ModItems.rod_dual_solinium)
-				return 40;
-			if(item == ModItems.rod_quad_solinium)
-				return 80;
-
-			return 0;
-		}
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		
-		if(slots[i] != null) {
-			if(slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
+			if(charge == 0) {
+				heat = 0;
 			}
 			
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if(slots[i].stackSize == 0) {
-				slots[i] = null;
+			if(hasItemPower(slots[0]) && charge == 0) {
+				
+				charge += getItemPower(slots[0]);
+				heat = getItemHeat(slots[0]);
+				
+				if(slots[0] != null) {
+					
+					slots[0].stackSize--;
+					
+					if(slots[0].stackSize == 0) {
+						slots[0] = slots[0].getItem().getContainerItem(slots[0]);
+					}
+					
+					markDirty = true;
+				}
 			}
 
-			return itemStack1;
+			if(hasPower() && canProcess()) {
+				
+				progress++;
+
+				if(this.progress == TileEntityMachineReactor.processingSpeed) {
+					this.progress = 0;
+					this.charge--;
+					this.processItem();
+					markDirty = true;
+				}
+			} else {
+				progress = 0;
+			}
+
+			boolean trigger = true;
+
+			if(hasPower() && canProcess() && this.progress == 0)
+				trigger = false;
+
+			if(trigger) {
+				markDirty = true;
+				MachineReactor.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			}
+
+			if(markDirty)
+				this.markDirty();
 			
-		} else {
-			return null;
+			NBTTagCompound data = new NBTTagCompound();
+			data.setShort("charge", (short)charge);
+			data.setShort("progress", (short)progress);
+			data.setByte("heat", (byte)heat);
+			this.networkPack(data, 20);
 		}
 	}
+	
+	public void networkUnpack(NBTTagCompound data) {
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
-
-		charge = nbt.getShort("charge");
-		progress = nbt.getShort("progress");
-		slots = new ItemStack[getSizeInventory()];
-
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-		nbt.setShort("charge", (short) charge);
-		nbt.setShort("progress", (short) progress);
-		NBTTagList list = new NBTTagList();
-
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
-	}
-
-	@Override
-	public int[] getAccessibleSlotsFromSide(int side) {
-		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		if(i == 0) {
-			if(itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty
-					|| itemStack.getItem() == ModItems.rod_quad_empty) {
-				return true;
-			}
-
-			return false;
-		}
-
-		return true;
-	}
-
-	public int getDiFurnaceProgressScaled(int i) {
-		return (progress * i) / processingSpeed;
-	}
-
-	public int getPowerRemainingScaled(int i) {
-		return (charge * i) / maxPower;
+		charge = data.getShort("charge");
+		progress = data.getShort("progress");
+		heat = data.getByte("heat");
 	}
 
 	public boolean canProcess() {
+		
 		if(slots[1] == null) {
 			return false;
 		}
-		ItemStack itemStack = MachineRecipes.getReactorProcessingResult(slots[1].getItem());
-		if(itemStack == null) {
+		
+		BreederRecipe recipe = BreederRecipes.getOutput(slots[1]);
+		
+		if(recipe == null)
 			return false;
-		}
-
-		if(slots[2] == null) {
-			return true;
-		}
-
-		if(!slots[2].isItemEqual(itemStack)) {
+		
+		if(this.heat < recipe.heat)
 			return false;
-		}
 
-		if(slots[2].stackSize < getInventoryStackLimit() && slots[2].stackSize < slots[2].getMaxStackSize()) {
+		if(slots[2] == null)
 			return true;
-		} else {
-			return slots[2].stackSize < itemStack.getMaxStackSize();
-		}
+
+		if(!slots[2].isItemEqual(recipe.output))
+			return false;
+
+		if(slots[2].stackSize < getInventoryStackLimit() && slots[2].stackSize < slots[2].getMaxStackSize())
+			return true;
+		else
+			return slots[2].stackSize < recipe.output.getMaxStackSize();
 	}
 
 	private void processItem() {
+		
 		if(canProcess()) {
-			ItemStack itemStack = MachineRecipes.getReactorProcessingResult(slots[1].getItem());
+			
+			BreederRecipe rec = BreederRecipes.getOutput(slots[1]);
+			
+			if(rec == null)
+				return;
+			
+			ItemStack itemStack = rec.output;
 
 			if(slots[2] == null) {
 				slots[2] = itemStack.copy();
@@ -251,6 +162,62 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 		}
 	}
 
+	public boolean hasItemPower(ItemStack stack) {
+		return BreederRecipes.getFuelValue(stack) != null;
+	}
+
+	private static int getItemPower(ItemStack stack) {
+		
+		int[] power = BreederRecipes.getFuelValue(stack);
+		
+		if(power == null)
+			return 0;
+		
+		return power[1];
+	}
+
+	private static int getItemHeat(ItemStack stack) {
+		
+		int[] power = BreederRecipes.getFuelValue(stack);
+		
+		if(power == null)
+			return 0;
+		
+		return power[0];
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_side);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i == 2 ? false : (i == 0 ? hasItemPower(itemStack) : true);
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		
+		if(i == 0) {
+			if(!hasItemPower(slots[0])) {
+				return true;
+			}
+			
+			return false;
+		}
+
+		return true;
+	}
+
+	public int getProgressScaled(int i) {
+		return (progress * i) / processingSpeed;
+	}
+
+	public int getHeatScaled(int i) {
+		return (heat * i) / 4;
+	}
+
 	public boolean hasPower() {
 		return charge > 0;
 	}
@@ -260,47 +227,21 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 	}
 
 	@Override
-	public void updateEntity() {
-		this.hasPower();
-		boolean markDirty = false;
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
 
-		if(!worldObj.isRemote) {
-			if(this.hasItemPower(this.slots[0]) && this.charge == 0) {
-				this.charge += getItemPower(this.slots[0]);
-				if(this.slots[0] != null) {
-					markDirty = true;
-					this.slots[0].stackSize--;
-					if(this.slots[0].stackSize == 0) {
-						this.slots[0] = this.slots[0].getItem().getContainerItem(this.slots[0]);
-					}
-				}
-			}
+		charge = nbt.getShort("charge");
+		heat = nbt.getShort("heat");
+		progress = nbt.getShort("progress");
+		slots = new ItemStack[getSizeInventory()];
+	}
 
-			if(hasPower() && canProcess()) {
-				progress++;
-
-				if(this.progress == TileEntityMachineReactor.processingSpeed) {
-					this.progress = 0;
-					this.processItem();
-					markDirty = true;
-				}
-			} else {
-				progress = 0;
-			}
-
-			boolean trigger = true;
-
-			if(hasPower() && canProcess() && this.progress == 0)
-				trigger = false;
-
-			if(trigger) {
-				markDirty = true;
-				MachineReactor.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord,
-						this.zCoord);
-			}
-		}
-
-		if(markDirty)
-			this.markDirty();
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setShort("charge", (short) charge);
+		nbt.setShort("heat", (short) heat);
+		nbt.setShort("progress", (short) progress);
 	}
 }

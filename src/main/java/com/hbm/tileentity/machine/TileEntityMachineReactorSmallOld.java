@@ -484,7 +484,6 @@ public class TileEntityMachineReactorSmallOld extends TileEntity
 			ItemFuelRod rod = ((ItemFuelRod) slots[id].getItem());
 			this.coreHeat += rod.heat;
 			ItemFuelRod.setLifeTime(slots[id], ItemFuelRod.getLifeTime(slots[id]) + 1);
-			ItemFuelRod.updateDamage(slots[id]);
 
 			if (ItemFuelRod.getLifeTime(slots[id]) > ((ItemFuelRod) slots[id].getItem()).lifeTime) {
 				onRunOut(id);

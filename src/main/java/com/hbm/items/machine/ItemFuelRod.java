@@ -3,10 +3,12 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.items.special.ItemRadioactive;
+import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemFuelRod extends ItemRadioactive {
 
@@ -17,17 +19,16 @@ public class ItemFuelRod extends ItemRadioactive {
 		super(radiation, false, blinding);
 		this.lifeTime = life;
 		this.heat = heat;
-		this.setMaxDamage(100);
 		this.canRepair = false;
 	}
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("Used in nuclear reactor");
+		list.add(EnumChatFormatting.YELLOW + "[Reactor Fuel Rod]");
 		
-		list.add("Generates " + heat + " heat per tick");
-		list.add("Lasts " + lifeTime + " ticks");
+		list.add(EnumChatFormatting.DARK_AQUA + "  Generates " + heat + " heat per tick");
+		list.add(EnumChatFormatting.DARK_AQUA + "  Lasts " + Library.getShortNumber(lifeTime) + " ticks");
 		
 		super.addInformation(itemstack, player, list, bool);
 	}
@@ -39,14 +40,6 @@ public class ItemFuelRod extends ItemRadioactive {
 		stack.stackTagCompound.setInteger("life", time);
 	}
 	
-	public static void updateDamage(ItemStack stack) {
-		
-		if(!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
-		
-		stack.setItemDamage((int)((double)getLifeTime(stack) / (double)((ItemFuelRod)stack.getItem()).lifeTime * 100D));
-	}
-	
 	public static int getLifeTime(ItemStack stack) {
 		if(!stack.hasTagCompound()) {
 			stack.stackTagCompound = new NBTTagCompound();
@@ -55,5 +48,14 @@ public class ItemFuelRod extends ItemRadioactive {
 		
 		return stack.stackTagCompound.getInteger("life");
 	}
+    
+    public boolean showDurabilityBar(ItemStack stack) {
+        return true;
+    }
+    
+    public double getDurabilityForDisplay(ItemStack stack)
+    {
+        return (double)getLifeTime(stack) / (double)((ItemFuelRod)stack.getItem()).lifeTime;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.handler.ArmorUtil;
+import com.hbm.inventory.BreederRecipes;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.Entity;
@@ -72,5 +73,12 @@ public class ItemRadioactive extends ItemCustomLore {
 		
 		if(blinding)
 			list.add(EnumChatFormatting.DARK_AQUA + "[Blinding]");
+		
+		int[] breeder = BreederRecipes.getFuelValue(stack);
+		
+		if(breeder != null) {
+			list.add(BreederRecipes.getHEATString("[Provides " + breeder[0] + " HEAT]", breeder[0]));
+			list.add(EnumChatFormatting.YELLOW + "Worth " + breeder[1] + " operations in breeding reactor");
+		}
 	}
 }

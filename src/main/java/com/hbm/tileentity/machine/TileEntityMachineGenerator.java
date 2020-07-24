@@ -302,7 +302,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(1);
 					attemptPower(100);
 				
@@ -315,7 +314,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(1);
 					attemptPower(100);
 
@@ -328,7 +326,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(1);
 					attemptPower(100);
 
@@ -341,7 +338,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(2);
 					attemptPower(150);
 
@@ -354,7 +350,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(2);
 					attemptPower(150);
 
@@ -367,7 +362,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(2);
 					attemptPower(150);
 
@@ -380,7 +374,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(1);
 					attemptPower(50);
 
@@ -393,7 +386,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(1);
 					attemptPower(50);
 
@@ -406,7 +398,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(1);
 					attemptPower(50);
 
@@ -419,7 +410,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(10);
 					attemptPower(25000);
 
@@ -432,7 +422,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(10);
 					attemptPower(25000);
 
@@ -445,7 +434,6 @@ public class TileEntityMachineGenerator extends TileEntity implements ISidedInve
 				{
 					int j = ItemFuelRod.getLifeTime(slots[i]);
 					ItemFuelRod.setLifeTime(slots[i], j + 1);
-					ItemFuelRod.updateDamage(slots[i]);
 					attemptHeat(10);
 					attemptPower(25000);
 

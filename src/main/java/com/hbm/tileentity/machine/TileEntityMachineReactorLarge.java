@@ -12,6 +12,7 @@ import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFuelRod;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -433,9 +434,9 @@ public class TileEntityMachineReactorLarge extends TileEntity
 			}
 			
 			//Load fuel
-			if(slots[4] != null && getFuelContent(slots[4].getItem(), type) > 0) {
+			if(slots[4] != null && getFuelContent(slots[4], type) > 0) {
 				
-				int cont = getFuelContent(slots[4].getItem(), type) * fuelMult;
+				int cont = getFuelContent(slots[4], type) * fuelMult;
 				
 				if(fuel + cont <= maxFuel) {
 					
@@ -621,7 +622,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				for(int i = 0; i < chest.getSizeInventory(); i++) {
 					
 					if(chest.getStackInSlot(i) != null) {
-						int cont = getFuelContent(chest.getStackInSlot(i).getItem(), type) * fuelMult;
+						int cont = getFuelContent(chest.getStackInSlot(i), type) * fuelMult;
 						
 						if(cont > 0 && fuel + cont <= maxFuel) {
 							
@@ -639,7 +640,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 				for(int i = 0; i < chest.getSizeInventory(); i++) {
 					
 					if(chest.getStackInSlot(i) != null) {
-						int cont = getFuelContent(chest.getStackInSlot(i).getItem(), getFuelType(chest.getStackInSlot(i).getItem())) * fuelMult;
+						int cont = getFuelContent(chest.getStackInSlot(i), getFuelType(chest.getStackInSlot(i).getItem())) * fuelMult;
 						
 						if(cont > 0 && fuel + cont <= maxFuel) {
 							
@@ -905,6 +906,7 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		}
 	}
 
+	//TODO: turn this steaming hot garbage into hashmaps
 	static List<ReactorFuelEntry> fuels = new ArrayList();
 	static List<ReactorWasteEntry> wastes = new ArrayList();
 	
@@ -918,11 +920,25 @@ public class TileEntityMachineReactorLarge extends TileEntity
 		wastes.add(new ReactorWasteEntry(nuggets, type, in, out));
 	}
 	
-	public static int getFuelContent(Item item, ReactorFuelType type) {
+	public static int getFuelContent(ItemStack item, ReactorFuelType type) {
+		
+		if(item == null)
+			return 0;
 		
 		for(ReactorFuelEntry ent : fuels) {
-			if(ent.item == item && type.toString().equals(ent.type.toString()))
-				return ent.value;
+			if(ent.item == item.getItem() && type.toString().equals(ent.type.toString())) {
+				
+				int value = ent.value;
+				
+				//if it's a fuel rod that has been used up, multiply by damage and floor it
+				if(item.getItem() instanceof ItemFuelRod) {
+					
+					double mult = 1D - ((double)ItemFuelRod.getLifeTime(item) / (double)((ItemFuelRod)item.getItem()).lifeTime);
+					return (int)Math.floor(mult * value);
+				}
+				
+				return value;
+			}
 		}
 			
 		return 0;
