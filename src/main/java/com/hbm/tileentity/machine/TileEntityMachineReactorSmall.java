@@ -526,8 +526,8 @@ public class TileEntityMachineReactorSmall extends TileEntity
 			
 		} else if(te instanceof TileEntityMachineReactor) {
 			TileEntityMachineReactor reactor = (TileEntityMachineReactor)te;
-			if(reactor.dualPower < 1 && this.coreHeat > 0)
-				reactor.dualPower = 1;
+			if(reactor.charge < 1 && this.coreHeat > 0)
+				reactor.charge = 1;
 			
 		} else if(te instanceof TileEntityNukeFurnace) {
 			TileEntityNukeFurnace reactor = (TileEntityNukeFurnace)te;

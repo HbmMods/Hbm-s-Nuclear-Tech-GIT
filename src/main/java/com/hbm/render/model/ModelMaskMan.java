@@ -26,38 +26,39 @@ public class ModelMaskMan extends ModelBase {
         float f7 = man.limbSwing - man.limbSwingAmount * (1.0F - f5);
         float f6 = (man.prevLimbSwingAmount + (man.limbSwingAmount - man.prevLimbSwingAmount) * f5) * 0.5F;
         
-		GL11.glRotated(Math.toDegrees(MathHelper.cos(f7 * 0.6662F + (float)Math.PI) * 1.4F * f6) * -0.1, 1, 0, 0);
+        double swing = Math.toDegrees(MathHelper.cos(f7 / 2F + (float)Math.PI) * 1.4F * f6);
+        
+		GL11.glRotated(swing * -0.1, 1, 0, 0);
 		
 		ResourceManager.maskman.renderPart("Torso");
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5F, 4F, 0);
-		//GL11.glRotated(f3, 1, 0, 0);
 		GL11.glRotated(f3, 0, 1, 0);
 		ResourceManager.maskman.renderPart("Head");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-0.5F, 1.75F, -0.5F);
-		GL11.glRotated(Math.toDegrees(MathHelper.cos(f7 * 0.6662F + (float)Math.PI) * 1.4F * f6), 0, 0, 1);
+		GL11.glRotated(swing, 0, 0, 1);
 		ResourceManager.maskman.renderPart("LLeg");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-0.5F, 1.75F, 0.5F);
-		GL11.glRotated(Math.toDegrees(MathHelper.cos(f7 * 0.6662F) * 1.4F * f6), 0, 0, 1);
+		GL11.glRotated(swing * -1, 0, 0, 1);
 		ResourceManager.maskman.renderPart("RLeg");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-0.5F, 3.75F, -1.5F);
-		GL11.glRotated(Math.toDegrees(MathHelper.cos(f7 * 0.6662F) * 1.4F * f6), 0, 0, 1);
+		GL11.glRotated(swing * 0.25, 0, 0, 1);
 		ResourceManager.maskman.renderPart("LArm");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(-0.5F, 3.75F, 1.5F);
-		GL11.glRotated(Math.toDegrees(MathHelper.cos(f7 * 0.6662F + (float)Math.PI) * 1.4F * f6), 0, 0, 1);
+		GL11.glRotated(swing * -0.25, 0, 0, 1);
 		ResourceManager.maskman.renderPart("RArm");
 		GL11.glPopMatrix();
 		
