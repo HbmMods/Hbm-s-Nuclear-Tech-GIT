@@ -1018,6 +1018,9 @@ tile.barbed_wire_wither.name=Иссушающая колючая проволо�
 tile.barbed_wire_ultradeath.name=Розовооблачная колючая проволока
 
 tile.fence_metal.name=Проволочная сетка
+tile.sand_uranium.name=Урановый песок
+tile.glass_uranium.name=Урановое стекло
+tile.glass_trinitite.name="Тринити" стекло
 
 tile.seal_frame.name=Рама люка пусковой щахты
 tile.seal_controller.name=Открыватель дюка пусковой щахты
