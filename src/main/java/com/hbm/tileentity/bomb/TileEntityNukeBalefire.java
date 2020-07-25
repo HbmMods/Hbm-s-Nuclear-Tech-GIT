@@ -90,12 +90,22 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase {
 	
 	public boolean hasBattery() {
 		
+		return getBattery() > 0;
+	}
+	
+	public int getBattery() {
+		
 		if(slots[1] != null && slots[1].getItem() == ModItems.battery_spark &&
 				((IBatteryItem)ModItems.battery_spark).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_spark).getMaxCharge()) {
-			return true;
+			return 1;
 		}
 		
-		return false;
+		if(slots[1] != null && slots[1].getItem() == ModItems.battery_trixite &&
+				((IBatteryItem)ModItems.battery_trixite).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_trixite).getMaxCharge()) {
+			return 2;
+		}
+		
+		return 0;
 	}
 	
 	public void explode() {

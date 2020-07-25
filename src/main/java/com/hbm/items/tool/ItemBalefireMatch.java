@@ -12,7 +12,7 @@ public class ItemBalefireMatch extends Item {
 
     public ItemBalefireMatch() {
         this.maxStackSize = 1;
-        this.setMaxDamage(64);
+        this.setMaxDamage(256);
         this.setCreativeTab(CreativeTabs.tabTools);
     }
     

@@ -8,7 +8,6 @@ import java.util.Map;
 
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.inventory.BreederRecipes.BreederRecipe;
-import com.hbm.inventory.MachineRecipes;
 import com.hbm.inventory.gui.GUIMachineReactor;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -18,19 +17,24 @@ import net.minecraft.item.ItemStack;
 
 public class ReactorRecipeHandler extends TemplateRecipeHandler {
 
-    public static ArrayList<Fuel> fuels;
-
-    public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe
-    {
+    public class BreedingSet extends TemplateRecipeHandler.CachedRecipe {
+    	
     	PositionedStack input;
         PositionedStack result;
-        int heat;
+        public int heat;
+        public ArrayList<Fuel> fuels;
     	
-        public SmeltingSet(ItemStack input, ItemStack result, int heat) {
+        public BreedingSet(ItemStack input, ItemStack result, int heat) {
         	input.stackSize = 1;
             this.input = new PositionedStack(input, 51, 6);
             this.result = new PositionedStack(result, 111, 24);
             this.heat = heat;
+            
+            fuels = new ArrayList();
+            
+            for(ItemStack sta : BreederRecipes.getAllFuelsFromHEAT(heat)) {
+            	fuels.add(new Fuel(sta));
+            }
         }
 
         @Override
@@ -49,8 +53,8 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
         }
     }
 
-    public static class Fuel
-    {
+    public static class Fuel {
+    	
         public Fuel(ItemStack ingred) {
         	
             this.stack = new PositionedStack(ingred, 51, 42, false);
@@ -77,7 +81,7 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 			Map<ItemStack, BreederRecipe> recipes = BreederRecipes.getAllRecipes();
 			
 			for (Map.Entry<ItemStack, BreederRecipe> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));
+				this.arecipes.add(new BreedingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -91,7 +95,7 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 
 		for (Map.Entry<ItemStack, BreederRecipe> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameType(recipe.getValue().output, result))
-				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));
+				this.arecipes.add(new BreedingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));
 		}
 	}
 
@@ -111,7 +115,7 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
 
 		for (Map.Entry<ItemStack, BreederRecipe> recipe : recipes.entrySet()) {
 			if (NEIServerUtils.areStacksSameType(ingredient, (ItemStack)recipe.getKey()))
-				this.arecipes.add(new SmeltingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));			
+				this.arecipes.add(new BreedingSet(recipe.getKey(), recipe.getValue().output, recipe.getValue().heat));			
 		}
 	}
 
@@ -128,17 +132,9 @@ public class ReactorRecipeHandler extends TemplateRecipeHandler {
     @Override
     public void drawExtras(int recipe) {
         drawProgressBar(50, 24, 176, 0, 14, 14, 48 * 3, 7);
-        drawProgressBar(74, 23, 176, 16, 24, 16, 48, 0);
-    }
-
-    @Override
-    public TemplateRecipeHandler newInstance() {
-        if (fuels == null || fuels.isEmpty())
-            fuels = new ArrayList<Fuel>();
-        for(ItemStack i : MachineRecipes.instance().getReactorFuels())
-        {
-        	fuels.add(new Fuel(i));
-        }
-        return super.newInstance();
+        drawProgressBar(75, 23, 176, 16, 24, 16, 48, 0);
+        
+        int heat = ((BreedingSet)this.arecipes.get(recipe)).heat;
+        drawProgressBar(43, 24, 194, 0, 4, 16, (float) 1 - heat / 4F, 7);
     }
 }

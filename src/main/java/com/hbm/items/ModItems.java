@@ -759,6 +759,8 @@ public class ModItems {
 	public static Item rod_unobtainium;
 	public static Item rod_daffergon;
 	public static Item rod_verticium;
+	public static Item rod_balefire;
+	public static Item rod_balefire_blazing;
 
 	public static Item rod_dual_empty;
 	public static Item rod_dual_uranium;
@@ -775,6 +777,8 @@ public class ModItems {
 	public static Item rod_dual_lead;
 	public static Item rod_dual_schrabidium;
 	public static Item rod_dual_solinium;
+	public static Item rod_dual_balefire;
+	public static Item rod_dual_balefire_blazing;
 
 	public static Item rod_quad_empty;
 	public static Item rod_quad_uranium;
@@ -791,6 +795,8 @@ public class ModItems {
 	public static Item rod_quad_lead;
 	public static Item rod_quad_schrabidium;
 	public static Item rod_quad_solinium;
+	public static Item rod_quad_balefire;
+	public static Item rod_quad_balefire_blazing;
 
 	public static Item rod_uranium_fuel;
 	public static Item rod_dual_uranium_fuel;
@@ -1423,6 +1429,7 @@ public class ModItems {
 	public static Item battery_lithium;
 	public static Item battery_schrabidium;
 	public static Item battery_spark;
+	public static Item battery_trixite;
 	public static Item battery_creative;
 
 	public static Item battery_red_cell;
@@ -2600,6 +2607,8 @@ public class ModItems {
 		rod_unobtainium = new ItemCustomLore().setUnlocalizedName("rod_unobtainium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_unobtainium");
 		rod_daffergon = new ItemCustomLore().setUnlocalizedName("rod_daffergon").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_daffergon");
 		rod_verticium = new ItemCustomLore().setUnlocalizedName("rod_verticium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_verticium");
+		rod_balefire = new ItemRadioactive(1500F).setUnlocalizedName("rod_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_balefire");
+		rod_balefire_blazing = new ItemRadioactive(2500F, true).setUnlocalizedName("rod_balefire_blazing").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_balefire_blazing");
 
 		rod_dual_empty = new Item().setUnlocalizedName("rod_dual_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_dual_empty");
 		rod_dual_th232 = new ItemCustomLore().setUnlocalizedName("rod_dual_th232").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_th232");
@@ -2616,6 +2625,8 @@ public class ModItems {
 		rod_dual_lead = new Item().setUnlocalizedName("rod_dual_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_lead");
 		rod_dual_schrabidium = new ItemRadioactive(15F, false, true).setUnlocalizedName("rod_dual_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_schrabidium");
 		rod_dual_solinium = new ItemRadioactive(15F, false, true).setUnlocalizedName("rod_dual_solinium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_solinium");
+		rod_dual_balefire = new ItemRadioactive(3000F).setUnlocalizedName("rod_dual_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_dual_balefire");
+		rod_dual_balefire_blazing = new ItemRadioactive(5000F, true).setUnlocalizedName("rod_dual_balefire_blazing").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_dual_balefire_blazing");
 
 		rod_quad_empty = new Item().setUnlocalizedName("rod_quad_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rod_quad_empty");
 		rod_quad_th232 = new ItemCustomLore().setUnlocalizedName("rod_quad_th232").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_th232");
@@ -2632,6 +2643,8 @@ public class ModItems {
 		rod_quad_lead = new Item().setUnlocalizedName("rod_quad_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_lead");
 		rod_quad_schrabidium = new ItemRadioactive(30F, false, true).setUnlocalizedName("rod_quad_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_schrabidium");
 		rod_quad_solinium = new ItemRadioactive(30F, false, true).setUnlocalizedName("rod_quad_solinium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_solinium");
+		rod_quad_balefire = new ItemRadioactive(6000F).setUnlocalizedName("rod_quad_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_quad_balefire");
+		rod_quad_balefire_blazing = new ItemRadioactive(10000F, true).setUnlocalizedName("rod_quad_balefire_blazing").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_quad_balefire_blazing");
 
 		rod_thorium_fuel = new ItemFuelRod(0.5F, false, 100000, 10).setUnlocalizedName("rod_thorium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_empty).setTextureName(RefStrings.MODID + ":rod_thorium_fuel");
 		rod_dual_thorium_fuel = new ItemFuelRod(1.5F, false, 100000, 20).setUnlocalizedName("rod_dual_thorium_fuel").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_thorium_fuel");
@@ -3219,7 +3232,7 @@ public class ModItems {
 		
 		n2_charge = new ItemN2().setUnlocalizedName("n2_charge").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":n2_charge");
 		
-		egg_balefire_shard = new ItemRadioactive(1500F, true).setUnlocalizedName("egg_balefire_shard").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":egg_balefire_shard");
+		egg_balefire_shard = new ItemRadioactive(1500F, true).setUnlocalizedName("egg_balefire_shard").setMaxStackSize(16).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":egg_balefire_shard");
 		egg_balefire = new ItemRadioactive(10000F, true).setUnlocalizedName("egg_balefire").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":egg_balefire");
 
 		custom_tnt = new ItemCustomLore().setUnlocalizedName("custom_tnt").setMaxStackSize(1).setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":custom_tnt");
@@ -3235,6 +3248,7 @@ public class ModItems {
 		battery_lithium = new ItemBattery(250000, 1000, 1000).setUnlocalizedName("battery_lithium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_lithium");
 		battery_schrabidium = new ItemBattery(1000000, 5000, 5000).setUnlocalizedName("battery_schrabidium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_schrabidium_new");
 		battery_spark = new ItemBattery(100000000, 2000000, 2000000).setUnlocalizedName("battery_spark").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_spark");
+		battery_trixite = new ItemBattery(5000000, 40000, 200000).setUnlocalizedName("battery_trixite").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_trixite");
 		battery_creative = new Item().setUnlocalizedName("battery_creative").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_creative_new");
 
 		battery_red_cell = new ItemBattery(15000, 100, 100).setUnlocalizedName("battery_red_cell").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":battery_red_cell");
@@ -4456,6 +4470,7 @@ public class ModItems {
 		GameRegistry.registerItem(battery_schrabidium_cell_2, battery_schrabidium_cell_2.getUnlocalizedName());
 		GameRegistry.registerItem(battery_schrabidium_cell_4, battery_schrabidium_cell_4.getUnlocalizedName());
 		GameRegistry.registerItem(battery_spark, battery_spark.getUnlocalizedName());
+		GameRegistry.registerItem(battery_trixite, battery_trixite.getUnlocalizedName());
 		GameRegistry.registerItem(battery_spark_cell_6, battery_spark_cell_6.getUnlocalizedName());
 		GameRegistry.registerItem(battery_spark_cell_25, battery_spark_cell_25.getUnlocalizedName());
 		GameRegistry.registerItem(battery_spark_cell_100, battery_spark_cell_100.getUnlocalizedName());
@@ -4743,6 +4758,14 @@ public class ModItems {
 		GameRegistry.registerItem(rod_tritium, rod_tritium.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_tritium, rod_dual_tritium.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_tritium, rod_quad_tritium.getUnlocalizedName());
+		
+		GameRegistry.registerItem(rod_balefire, rod_balefire.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_balefire, rod_dual_balefire.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_balefire, rod_quad_balefire.getUnlocalizedName());
+		
+		GameRegistry.registerItem(rod_balefire_blazing, rod_balefire_blazing.getUnlocalizedName());
+		GameRegistry.registerItem(rod_dual_balefire_blazing, rod_dual_balefire_blazing.getUnlocalizedName());
+		GameRegistry.registerItem(rod_quad_balefire_blazing, rod_quad_balefire_blazing.getUnlocalizedName());
 
 		GameRegistry.registerItem(rod_euphemium, rod_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(rod_australium, rod_australium.getUnlocalizedName());

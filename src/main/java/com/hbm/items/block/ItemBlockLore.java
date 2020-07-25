@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ItemBlockLore extends ItemBlock {
 
@@ -25,27 +26,39 @@ public class ItemBlockLore extends ItemBlock {
 		}
 		
 		if(this.field_150939_a == ModBlocks.barrel_plastic) {
-			list.add("Cannot store hot fluids");
-			list.add("Cannot store corrosive fluids");
-			list.add("Cannot store antimatter");
+			list.add(EnumChatFormatting.AQUA + "Capacity: 12,000mB");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store hot fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
+		}
+		
+		if(this.field_150939_a == ModBlocks.barrel_corroded) {
+			list.add(EnumChatFormatting.AQUA + "Capacity: 6,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
+			list.add(EnumChatFormatting.RED + "Leaky");
 		}
 		
 		if(this.field_150939_a == ModBlocks.barrel_iron) {
-			list.add("Can store hot fluids");
-			list.add("Cannot store corrosive fluids properly");
-			list.add("Cannot store antimatter");
+			list.add(EnumChatFormatting.AQUA + "Capacity: 8,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store corrosive fluids properly");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 		
 		if(this.field_150939_a == ModBlocks.barrel_steel) {
-			list.add("Can store hot fluids");
-			list.add("Can store corrosive fluids");
-			list.add("Cannot store antimatter");
+			list.add(EnumChatFormatting.AQUA + "Capacity: 16,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store corrosive fluids");
+			list.add(EnumChatFormatting.YELLOW + "Cannot store antimatter");
 		}
 		
 		if(this.field_150939_a == ModBlocks.barrel_antimatter) {
-			list.add("Can store hot fluids");
-			list.add("Can store corrosive fluids");
-			list.add("Can store antimatter");
+			list.add(EnumChatFormatting.AQUA + "Capacity: 16,000mB");
+			list.add(EnumChatFormatting.GREEN + "Can store hot fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store corrosive fluids");
+			list.add(EnumChatFormatting.GREEN + "Can store antimatter");
 		}
 		
 		if(this.field_150939_a == ModBlocks.meteor_battery) {

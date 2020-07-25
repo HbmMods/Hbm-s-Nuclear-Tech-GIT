@@ -1,6 +1,8 @@
 package com.hbm.inventory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.hbm.blocks.ModBlocks;
@@ -61,7 +63,10 @@ public class BreederRecipes {
 		recipes.put(new ComparableStack(ModItems.rod_schrabidium), new BreederRecipe(ModItems.rod_solinium, 3));
 		recipes.put(new ComparableStack(ModItems.rod_dual_schrabidium), new BreederRecipe(ModItems.rod_dual_solinium, 3));
 		recipes.put(new ComparableStack(ModItems.rod_quad_schrabidium), new BreederRecipe(ModItems.rod_quad_solinium, 3));
-		recipes.put(new ComparableStack(ModItems.rod_quad_euphemium), new BreederRecipe(ModItems.rod_quad_euphemium, 4));
+		recipes.put(new ComparableStack(ModItems.rod_quad_solinium), new BreederRecipe(ModItems.rod_quad_euphemium, 4));
+		recipes.put(new ComparableStack(ModItems.rod_balefire), new BreederRecipe(ModItems.rod_balefire_blazing, 4));
+		recipes.put(new ComparableStack(ModItems.rod_dual_balefire), new BreederRecipe(ModItems.rod_dual_balefire_blazing, 4));
+		recipes.put(new ComparableStack(ModItems.rod_quad_balefire), new BreederRecipe(ModItems.rod_quad_balefire_blazing, 4));
 
 		//rocks
 		recipes.put(new ComparableStack(Blocks.stone), new BreederRecipe(new ItemStack(ModBlocks.sellafield_0), 2));
@@ -116,6 +121,14 @@ public class BreederRecipes {
 		fuels.put(new ComparableStack(ModItems.rod_tritium), new int[] {1, 1});
 		fuels.put(new ComparableStack(ModItems.rod_dual_tritium), new int[] {1, 2});
 		fuels.put(new ComparableStack(ModItems.rod_quad_tritium), new int[] {1, 4});
+		
+		fuels.put(new ComparableStack(ModItems.rod_balefire), new int[] {2, 150});
+		fuels.put(new ComparableStack(ModItems.rod_dual_balefire), new int[] {2, 300});
+		fuels.put(new ComparableStack(ModItems.rod_quad_balefire), new int[] {2, 600});
+		
+		fuels.put(new ComparableStack(ModItems.rod_balefire_blazing), new int[] {4, 75});
+		fuels.put(new ComparableStack(ModItems.rod_dual_balefire_blazing), new int[] {4, 150});
+		fuels.put(new ComparableStack(ModItems.rod_quad_balefire_blazing), new int[] {4, 300});
 	}
 	
 	public static HashMap<ItemStack, BreederRecipe> getAllRecipes() {
@@ -127,6 +140,20 @@ public class BreederRecipes {
 		}
 		
 		return map;
+	}
+	
+	public static List<ItemStack> getAllFuelsFromHEAT(int heat) {
+		
+		List<ItemStack> list = new ArrayList();
+		
+		for(Map.Entry<ComparableStack, int[]> fuel : fuels.entrySet()) {
+			
+			if(fuel.getValue()[0] >= heat) {
+				list.add(fuel.getKey().toStack());
+			}
+		}
+		
+		return list;
 	}
 	
 	public static BreederRecipe getOutput(ItemStack stack) {

@@ -22,9 +22,9 @@ public class ControlTab extends CreativeTabs {
 	@Override
 	public Item getTabIconItem() {
 		
-		if(ModItems.rod_uranium_fuel != null)
+		if(ModItems.rod_balefire_blazing != null)
 		{
-			return ModItems.rod_uranium_fuel;
+			return ModItems.rod_balefire_blazing;
 		}
 		
 		return Items.iron_pickaxe;
@@ -66,7 +66,10 @@ public class ControlTab extends CreativeTabs {
 			
 			list.remove(index);
 			list.add(index, full);
-			list.add(index, empty);
+			
+			//do not list empty versions of SU batteries
+			if(battery.getChargeRate() > 0)
+				list.add(index, empty);
 		}
 	}
 }
