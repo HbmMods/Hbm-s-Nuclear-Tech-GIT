@@ -1123,6 +1123,7 @@ item.battery_creative.name=Бесконечная батарейка
 
 item.battery_su.name=Одноразовая батарейка
 item.battery_su_l.name=Большая одноразовая батарейка
+item.battery_trixite.name=Безымянная спарк-батарея
 item.battery_steam.name=Паровой бак для хранения энергии 
 item.battery_steam_large.name=Большой паровой бак для хранения энергии
 
@@ -1302,6 +1303,12 @@ item.rod_reiium.name=Реиевый стержень
 item.rod_unobtainium.name=Недостатиевый стержень
 item.rod_daffergon.name=Даффергоновый стержень
 item.rod_verticium.name=Вертициевый стержень
+item.rod_balefire.name=Жар-стержень
+item.rod_balefire_blazing.name=Пылающий жар-стержень
+item.rod_dual_balefire.name=Сдвоенный жар-стержень
+item.rod_dual_balefire_blazing.name=Сдвоенный пылающий жар-стержень
+item.rod_quad_balefire.name=Счетверённый жар-стержень
+item.rod_quad_balefire_blazing.name=Счетверённый пылающий жар-стержень
 
 item.rod_dual_empty.name=Пустой сдвоенный стержень
 item.rod_dual_th232.name=Сдвоенный стержень с торием-232
