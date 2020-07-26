@@ -4,15 +4,18 @@ import org.apache.logging.log4j.Level;
 
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionFleija;
+import com.hbm.explosion.ExplosionHurtUtil;
 import com.hbm.explosion.ExplosionNukeAdvanced;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionSolinium;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+@Spaghetti("why???")
 public class EntityNukeExplosionMK3 extends Entity {
 	
 	public int age = 0;
@@ -155,7 +158,13 @@ public class EntityNukeExplosionMK3 extends Entity {
         if(!flag)
         {
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-        	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
+        	
+        	if(waste || extType != 1) {
+        		ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
+        	} else {
+        		ExplosionHurtUtil.doRadiation(worldObj, posX, posY, posZ, 15000, 250000, this.destructionRange);
+        	}
+        	
         } else {
 			if (!did2 && waste) {
 				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (int)(this.destructionRange * 1.8) * 10);
