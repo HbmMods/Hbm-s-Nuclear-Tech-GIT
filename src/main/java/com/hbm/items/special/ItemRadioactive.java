@@ -79,6 +79,7 @@ public class ItemRadioactive extends ItemCustomLore {
 		if(breeder != null) {
 			list.add(BreederRecipes.getHEATString("[Provides " + breeder[0] + " HEAT]", breeder[0]));
 			list.add(EnumChatFormatting.YELLOW + "Worth " + breeder[1] + " operations in breeding reactor");
+			list.add(EnumChatFormatting.YELLOW + "Worth " + (breeder[0] * breeder[1] * 5) + " operations in nuclear furnace");
 		}
 	}
 }

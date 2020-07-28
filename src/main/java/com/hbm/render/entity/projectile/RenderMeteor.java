@@ -23,8 +23,10 @@ public class RenderMeteor extends Render {
 		
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glScalef(5.0F, 5.0F, 5.0F);
 		renderBlock(getEntityTexture(rocket), 0, 0, 0);
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		GL11.glPopMatrix();

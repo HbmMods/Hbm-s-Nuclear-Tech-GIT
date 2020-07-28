@@ -368,6 +368,11 @@ public class ItemCustomLore extends Item {
 			list.add(EnumChatFormatting.ITALIC + "\"Filled with life, self-doubt and asbestos. That comes with the air.\"");
 		}
 		
+		if(this == ModItems.powder_asbestos)
+		{
+			list.add(EnumChatFormatting.ITALIC + "\"Sniffffffff- MHHHHHHMHHHHHHHHH\"");
+		}
+		
 		if(this == ModItems.ingot_fiberglass)
 		{
 			list.add("High in fiber, high in glass. Everything the body needs.");

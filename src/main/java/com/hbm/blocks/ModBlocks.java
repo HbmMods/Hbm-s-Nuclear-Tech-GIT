@@ -178,6 +178,7 @@ public class ModBlocks {
 	public static Block reinforced_stone;
 	public static Block concrete_smooth;
 	public static Block concrete;
+	public static Block concrete_pillar;
 	public static Block brick_concrete;
 	public static Block brick_concrete_mossy;
 	public static Block brick_concrete_cracked;
@@ -188,6 +189,10 @@ public class ModBlocks {
 
 	public static Block cmb_brick;
 	public static Block cmb_brick_reinforced;
+
+	public static Block tile_lab;
+	public static Block tile_lab_cracked;
+	public static Block tile_lab_broken;
 
 	public static Block block_meteor;
 	public static Block block_meteor_cobble;
@@ -932,23 +937,28 @@ public class ModBlocks {
 		reinforced_lamp_off = new ReinforcedLamp(Material.rock, false).setBlockName("reinforced_lamp_off").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_off");
 		reinforced_lamp_on = new ReinforcedLamp(Material.rock, true).setBlockName("reinforced_lamp_on").setHardness(15.0F).setResistance(300.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_lamp_on");
 
-		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(3000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
-		concrete_smooth = new BlockGeneric(Material.rock).setBlockName("concrete_smooth").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
-		concrete = new BlockGeneric(Material.rock).setBlockName("concrete").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete_tile");
-		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
-		brick_concrete_mossy = new BlockGeneric(Material.rock).setBlockName("brick_concrete_mossy").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_mossy");
-		brick_concrete_cracked = new BlockGeneric(Material.rock).setBlockName("brick_concrete_cracked").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(2000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_cracked");
-		brick_concrete_broken = new BlockGeneric(Material.rock).setBlockName("brick_concrete_broken").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(1500.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_broken");
+		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(3000.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
+		concrete_smooth = new BlockGeneric(Material.rock).setBlockName("concrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
+		concrete = new BlockGeneric(Material.rock).setBlockName("concrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete_tile");
+		concrete_pillar = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":concrete_pillar_top").setBlockName("concrete_pillar").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(4000.0F).setBlockTextureName(RefStrings.MODID + ":concrete_pillar_side");
+		brick_concrete = new BlockGeneric(Material.rock).setBlockName("brick_concrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
+		brick_concrete_mossy = new BlockGeneric(Material.rock).setBlockName("brick_concrete_mossy").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_mossy");
+		brick_concrete_cracked = new BlockGeneric(Material.rock).setBlockName("brick_concrete_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(2000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_cracked");
+		brick_concrete_broken = new BlockGeneric(Material.rock).setBlockName("brick_concrete_broken").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(1500.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete_broken");
 		brick_obsidian = new BlockGeneric(Material.rock).setBlockName("brick_obsidian").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(8000.0F).setBlockTextureName(RefStrings.MODID + ":brick_obsidian");
-		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
-		brick_compound = new BlockGeneric(Material.rock).setBlockName("brick_compound").setCreativeTab(MainRegistry.blockTab).setLightOpacity(15).setHardness(15.0F).setResistance(10000.0F).setBlockTextureName(RefStrings.MODID + ":brick_compound");
+		brick_light = new BlockGeneric(Material.rock).setBlockName("brick_light").setCreativeTab(MainRegistry.blockTab).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_light");
+		brick_compound = new BlockGeneric(Material.rock).setBlockName("brick_compound").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(10000.0F).setBlockTextureName(RefStrings.MODID + ":brick_compound");
 		cmb_brick = new BlockGeneric(Material.rock).setBlockName("cmb_brick").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick");
 		cmb_brick_reinforced = new BlockGeneric(Material.rock).setBlockName("cmb_brick_reinforced").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(60000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick_reinforced");
+		
+		tile_lab = new BlockGeneric(Material.rock).setBlockName("tile_lab").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab");
+		tile_lab_cracked = new BlockGeneric(Material.rock).setBlockName("tile_lab_cracked").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab_cracked");
+		tile_lab_broken = new BlockGeneric(Material.rock).setBlockName("tile_lab_broken").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab_broken");
 
 		block_meteor = new BlockOre(Material.rock).setBlockName("block_meteor").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor");
 		block_meteor_cobble = new BlockOre(Material.rock).setBlockName("block_meteor_cobble").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_cobble");
 		block_meteor_broken = new BlockOre(Material.rock).setBlockName("block_meteor_broken").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_crushed");
-		block_meteor_molten = new BlockOre(Material.rock, true).setBlockName("block_meteor_molten").setLightLevel(0.75F).setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":block_meteor_molten");
+		block_meteor_molten = new BlockOre(Material.rock, true).setBlockName("block_meteor_molten").setLightLevel(0.75F).setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_cobble_molten");
 		block_meteor_treasure = new BlockOre(Material.rock).setBlockName("block_meteor_treasure").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_treasure");
 		meteor_polished = new BlockGeneric(Material.rock).setBlockName("meteor_polished").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_polished");
 		meteor_brick = new BlockGeneric(Material.rock).setBlockName("meteor_brick").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":meteor_brick");
@@ -1561,6 +1571,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(reinforced_stone, reinforced_stone.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_smooth, concrete_smooth.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete, concrete.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete_pillar, concrete_pillar.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete, brick_concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_mossy, brick_concrete_mossy.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_cracked, brick_concrete_cracked.getUnlocalizedName());
@@ -1572,6 +1583,11 @@ public class ModBlocks {
 		//CMB Building Elements
 		GameRegistry.registerBlock(cmb_brick, cmb_brick.getUnlocalizedName());
 		GameRegistry.registerBlock(cmb_brick_reinforced, cmb_brick_reinforced.getUnlocalizedName());
+		
+		//Tiles
+		GameRegistry.registerBlock(tile_lab, tile_lab.getUnlocalizedName());
+		GameRegistry.registerBlock(tile_lab_cracked, tile_lab_cracked.getUnlocalizedName());
+		GameRegistry.registerBlock(tile_lab_broken, tile_lab_broken.getUnlocalizedName());
 		
 		//Other defensive stuff
 		GameRegistry.registerBlock(barbed_wire, barbed_wire.getUnlocalizedName());

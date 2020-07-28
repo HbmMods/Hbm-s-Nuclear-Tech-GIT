@@ -172,6 +172,10 @@ public class BlockOre extends Block {
 		{
 			return ModItems.ingot_asbestos;
 		}
+		if(this == ModBlocks.ore_asbestos)
+		{
+			return ModItems.ingot_asbestos;
+		}
 		if(this == ModBlocks.ore_lignite)
 		{
 			return ModItems.lignite;

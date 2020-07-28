@@ -59,6 +59,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotEuphemium", ModItems.ingot_euphemium);
 		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
 		OreDictionary.registerOre("ingotStarmetal", ModItems.ingot_starmetal);
+		OreDictionary.registerOre("ingotAsbestos", ModItems.ingot_asbestos);
 		
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
@@ -135,10 +136,11 @@ public class OreDictManager {
 		OreDictionary.registerOre("dustSchrabidium", ModItems.powder_schrabidium);
 		OreDictionary.registerOre("dustSulfur", ModItems.sulfur);
 		OreDictionary.registerOre("dustNiter", ModItems.niter);
-		OreDictionary.registerOre("dustSalpeter", ModItems.niter);
+		OreDictionary.registerOre("dustSaltpeter", ModItems.niter);
 		OreDictionary.registerOre("dustLead", ModItems.powder_lead);
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustPolonium", ModItems.powder_polonium);
+		OreDictionary.registerOre("dustAsbestos", ModItems.powder_asbestos);
 
 		OreDictionary.registerOre("dustNeptunium", ModItems.powder_neptunium);
 		OreDictionary.registerOre("dustIodine", ModItems.powder_iodine);
@@ -176,7 +178,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_schrabidium);
 		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_sulfur);
 		OreDictionary.registerOre("oreNiter", ModBlocks.ore_niter);
-		OreDictionary.registerOre("oreSalpeter", ModBlocks.ore_niter);
+		OreDictionary.registerOre("oreSaltpeter", ModBlocks.ore_niter);
 		OreDictionary.registerOre("oreCopper", ModBlocks.ore_copper);
 		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_tungsten);
 		OreDictionary.registerOre("oreAluminum", ModBlocks.ore_aluminium);
@@ -208,13 +210,14 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreLead", ModBlocks.ore_meteor_lead);
 		OreDictionary.registerOre("oreLithium", ModBlocks.ore_meteor_lithium);
 		OreDictionary.registerOre("oreStarmetal", ModBlocks.ore_meteor_starmetal);
+		OreDictionary.registerOre("oreAsbestos", ModBlocks.ore_asbestos);
 
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockUranium", ModBlocks.block_uranium);
 		OreDictionary.registerOre("blockTitanium", ModBlocks.block_titanium);
 		OreDictionary.registerOre("blockSulfur", ModBlocks.block_sulfur);
 		OreDictionary.registerOre("blockNiter", ModBlocks.block_niter);
-		OreDictionary.registerOre("blockSalpeter", ModBlocks.block_niter);
+		OreDictionary.registerOre("blockSaltpeter", ModBlocks.block_niter);
 		OreDictionary.registerOre("blockCopper", ModBlocks.block_copper);
 		OreDictionary.registerOre("blockRedCopperAlloy", ModBlocks.block_red_copper);
 		OreDictionary.registerOre("blockAdvanced", ModBlocks.block_advanced_alloy);
@@ -234,6 +237,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockDaffergon", ModBlocks.block_daffergon);
 		OreDictionary.registerOre("blockVerticium", ModBlocks.block_verticium);
 		OreDictionary.registerOre("blockDesh", ModBlocks.block_desh);
+		OreDictionary.registerOre("blockAsbestos", ModBlocks.block_asbestos);
 
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockThorium232", ModBlocks.block_thorium);

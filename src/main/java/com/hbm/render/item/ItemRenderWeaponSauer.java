@@ -75,9 +75,9 @@ public class ItemRenderWeaponSauer implements IItemRenderer {
 				GL11.glTranslated(0, 5, 0);
 				GL11.glRotated(tilt[0], 0, 0, 1);
 
-				GL11.glTranslated(0, 0, cock[0]);
+				GL11.glTranslated(0, 0, cock[0] * 2);
 				ResourceManager.sauergun.renderPart("Lever");
-				GL11.glTranslated(0, 0, -cock[0]);
+				GL11.glTranslated(0, 0, -cock[0] * 2);
 
 				GL11.glTranslated(eject[2] * 10, -eject[2], 0);
 				GL11.glRotated(eject[2] * 90, -1, 0, 0);
@@ -105,8 +105,9 @@ public class ItemRenderWeaponSauer implements IItemRenderer {
 			
 		case ENTITY:
 
-			double s1 = 0.5D;
-			GL11.glTranslatef(0.0F, 0.0F, 1.0F);
+			double s1 = 0.25D;
+			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
+			GL11.glTranslatef(0.0F, 0.0F, 0.5F);
 			GL11.glScaled(s1, s1, s1);
 			ResourceManager.sauergun.renderPart("Lever");
 			break;

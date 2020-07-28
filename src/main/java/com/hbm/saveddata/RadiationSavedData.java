@@ -16,9 +16,9 @@ import net.minecraft.world.chunk.Chunk;
 
 public class RadiationSavedData extends WorldSavedData {
 
-	//public List<RadiationSaveStructure> contamination = new ArrayList();
 	public HashMap<ChunkCoordIntPair, Float> contamination = new HashMap();
 	
+	//in order to reduce read operations
 	private static RadiationSavedData openInstance;
 	
     public World worldObj;

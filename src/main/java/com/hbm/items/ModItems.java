@@ -224,6 +224,7 @@ public class ModItems {
 	
 	public static Item ingot_fiberglass;
 	public static Item ingot_asbestos;
+	public static Item powder_asbestos;
 
 	public static Item ingot_lanthanium;
 	public static Item ingot_actinium;
@@ -2050,6 +2051,7 @@ public class ModItems {
 		plate_saturnite = new ItemCustomLore().setUnlocalizedName("plate_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_saturnite");
 		ingot_fiberglass = new ItemCustomLore().setUnlocalizedName("ingot_fiberglass").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_fiberglass");
 		ingot_asbestos = new ItemCustomLore().setUnlocalizedName("ingot_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_asbestos");
+		powder_asbestos = new ItemCustomLore().setUnlocalizedName("powder_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_asbestos");
 		ingot_electronium = new ItemCustomLore().setUnlocalizedName("ingot_electronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_electronium");
 		nugget_mercury = new ItemCustomLore().setUnlocalizedName("nugget_mercury").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_mercury");
 		bottle_mercury = new ItemCustomLore().setUnlocalizedName("bottle_mercury").setContainerItem(Items.glass_bottle).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bottle_mercury");
@@ -4045,6 +4047,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_cerium, powder_cerium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lanthanium, powder_lanthanium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_actinium, powder_actinium.getUnlocalizedName());
+		GameRegistry.registerItem(powder_asbestos, powder_asbestos.getUnlocalizedName());
 		GameRegistry.registerItem(powder_magic, powder_magic.getUnlocalizedName());
 		GameRegistry.registerItem(powder_cloud, powder_cloud.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh_mix, powder_desh_mix.getUnlocalizedName());

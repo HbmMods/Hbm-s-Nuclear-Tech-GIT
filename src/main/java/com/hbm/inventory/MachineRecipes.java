@@ -1601,7 +1601,7 @@ public class MachineRecipes {
 			list.add(new ItemStack(Items.string, 8));
 			break;
 		case ASBESTOS_CLOTH:
-			list.add(new ItemStack(ModItems.powder_quartz, 4));
+			list.add(new ItemStack(ModItems.ingot_asbestos, 2));
 			list.add(new ItemStack(Items.string, 6));
 			list.add(new ItemStack(Blocks.wool, 1));
 			break;

@@ -1,11 +1,11 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.MachineNukeFurnace;
+import com.hbm.inventory.BreederRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemCustomLore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -106,39 +106,17 @@ public class TileEntityNukeFurnace extends TileEntity implements ISidedInventory
 		return getItemPower(itemStack) > 0;
 	}
 	
-	private static int getItemPower(ItemStack itemStack) {
-		if(itemStack == null)
-		{
+	private static int getItemPower(ItemStack stack) {
+		if(stack == null) {
 			return 0;
-		}else{
-		Item item = itemStack.getItem();
+		} else {
 
-		if(item == ModItems.rod_u238) return 1 * 5;
-		if(item == ModItems.rod_dual_u238) return 2 * 5;
-		if(item == ModItems.rod_quad_u238) return 4 * 5;
-		if(item == ModItems.rod_u235) return 3 * 5;
-		if(item == ModItems.rod_dual_u235) return 6 * 5;
-		if(item == ModItems.rod_quad_u235) return 12 * 5;
-		if(item == ModItems.rod_pu238) return 5 * 5;
-		if(item == ModItems.rod_dual_pu238) return 10 * 5;
-		if(item == ModItems.rod_quad_pu238) return 20 * 5;
-		if(item == ModItems.rod_pu239) return 3 * 5;
-		if(item == ModItems.rod_dual_pu239) return 6 * 5;
-		if(item == ModItems.rod_quad_pu239) return 12 * 5;
-		if(item == ModItems.rod_pu240) return 1 * 5;
-		if(item == ModItems.rod_dual_pu240) return 2 * 5;
-		if(item == ModItems.rod_quad_pu240) return 4 * 5;
-		if(item == ModItems.rod_neptunium) return 3 * 5;
-		if(item == ModItems.rod_dual_neptunium) return 6 * 5;
-		if(item == ModItems.rod_quad_neptunium) return 12 * 5;
-		if(item == ModItems.rod_schrabidium) return 15 * 5;
-		if(item == ModItems.rod_dual_schrabidium) return 30 * 5;
-		if(item == ModItems.rod_quad_schrabidium) return 60 * 5;
-		if(item == ModItems.rod_solinium) return 20 * 5;
-		if(item == ModItems.rod_dual_solinium) return 40 * 5;
-		if(item == ModItems.rod_quad_solinium) return 80 * 5;
-		
-		return 0;
+			int[] power = BreederRecipes.getFuelValue(stack);
+			
+			if(power == null)
+				return 0;
+			
+			return power[0] * power[1] * 5;
 		}
 	}
 	
