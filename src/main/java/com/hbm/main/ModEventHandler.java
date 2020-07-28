@@ -14,6 +14,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.handler.ArmorUtil;
+import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.VersionChecker;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -28,6 +29,7 @@ import com.hbm.saveddata.RadiationSavedData;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -217,7 +219,7 @@ public class ModEventHandler
 					}
 				}
 				
-				if(event.world.getTotalWorldTime() % 20 == 0) {
+				if(event.world.getTotalWorldTime() % 20 == 0 && event.phase == Phase.START) {
 					data.updateSystem();
 				}
 				
@@ -361,6 +363,9 @@ public class ModEventHandler
 			}
 		}
 		/// RADIATION STUFF END ///
+		
+		if(event.phase == Phase.START)
+			RadiationWorldHandler.handleWorldDestruction(event.world);
 	}
 	
 	@SubscribeEvent

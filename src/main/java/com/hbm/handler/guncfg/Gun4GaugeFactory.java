@@ -50,6 +50,7 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
 		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
 	}
@@ -98,6 +99,7 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
 		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
 	}
@@ -139,6 +141,15 @@ public class Gun4GaugeFactory {
 		bullet.dmgMax = 15;
 		bullet.wear = 25;
 		bullet.trail = 1;
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration get4GaugeSleekConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_sleek;
 		
 		return bullet;
 	}

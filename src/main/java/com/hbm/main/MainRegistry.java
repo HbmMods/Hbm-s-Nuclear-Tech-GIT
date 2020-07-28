@@ -319,6 +319,8 @@ public class MainRegistry
 	public static int fogRad = 100;
 	public static int fogCh = 20;
 	public static float hellRad = 0.1F;
+	public static int worldRad = 10;
+	public static int worldRadThreshold = 20;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -1532,6 +1534,8 @@ public class MainRegistry
         Property netherRad = config.get(CATEGORY_NUKE, "6.09_netherRad", 10);
         netherRad.comment = "RAD/s in the nether in hundredths";
         hellRad = netherRad.getInt() * 0.01F;
+        worldRad = createConfigInt(config, CATEGORY_NUKE, "6.10_worldRadCount", "How many block operations radiation can perform per tick", 10);
+        worldRadThreshold = createConfigInt(config, CATEGORY_NUKE, "6.11_worldRadThreshold", "The least amount of RADs required for block modification to happen", 20);
 
         final String CATEGORY_MISSILE = "07_missile_machines";
         Property propRadarRange = config.get(CATEGORY_MISSILE, "7.00_radarRange", 1000);

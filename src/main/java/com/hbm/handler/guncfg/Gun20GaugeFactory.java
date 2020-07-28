@@ -58,6 +58,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
+		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
 		
 		return config;
 	}
@@ -84,6 +85,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
+		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
 		
 		return config;
 	}
@@ -110,6 +112,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
+		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
 		
 		return config;
 	}
@@ -137,6 +140,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
+		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
 		
 		return config;
 	}
@@ -164,6 +168,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER);
+		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
 		
 		return config;
 	}
@@ -191,6 +196,7 @@ public class Gun20GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G20_CAUSTIC_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_SHOCK_FIRE);
 		config.config.add(BulletConfigSyncingUtil.G20_WITHER_FIRE);
+		config.config.add(BulletConfigSyncingUtil.G20_SLEEK);
 		
 		return config;
 	}
@@ -324,6 +330,15 @@ public class Gun20GaugeFactory {
 		
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 10 * 20, 2));
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get20GaugeSleekConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
+		
+		bullet.ammo = ModItems.ammo_20gauge_sleek;
 		
 		return bullet;
 	}

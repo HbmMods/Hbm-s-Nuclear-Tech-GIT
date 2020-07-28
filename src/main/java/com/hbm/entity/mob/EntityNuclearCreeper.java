@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.entity.mob.ai.EntityAINuclearCreeperSwell;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;

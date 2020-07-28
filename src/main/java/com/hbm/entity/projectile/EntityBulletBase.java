@@ -58,6 +58,10 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.config = BulletConfigSyncingUtil.pullConfig(config);
 		this.dataWatcher.updateObject(18, config);
 		this.renderDistanceWeight = 10.0D;
+		
+		this.dataWatcher.updateObject(16, (byte)this.config.style);
+		this.dataWatcher.updateObject(17, (byte)this.config.trail);
+		
 		this.setSize(0.5F, 0.5F);
 	}
 	
@@ -82,6 +86,36 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.setSize(0.5F, 0.5F);
 
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread);
+		
+		this.dataWatcher.updateObject(16, (byte)this.config.style);
+		this.dataWatcher.updateObject(17, (byte)this.config.trail);
+	}
+
+	public EntityBulletBase(World world, int config, EntityLivingBase entity, EntityLivingBase target, float motion, float deviation) {
+		super(world);
+		
+		this.config = BulletConfigSyncingUtil.pullConfig(config);
+		this.dataWatcher.updateObject(18, config);
+		this.shooter = entity;
+
+		this.renderDistanceWeight = 10.0D;
+		this.setSize(0.5F, 0.5F);
+
+		this.posY = entity.posY + entity.getEyeHeight() - 0.10000000149011612D;
+		double d0 = target.posX - entity.posX;
+		double d1 = target.boundingBox.minY + target.height / 3.0F - this.posY;
+		double d2 = target.posZ - entity.posZ;
+		double d3 = MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+
+		if (d3 >= 1.0E-7D) {
+			float f2 = (float) (Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
+			float f3 = (float) (-(Math.atan2(d1, d3) * 180.0D / Math.PI));
+			double d4 = d0 / d3;
+			double d5 = d2 / d3;
+			this.setLocationAndAngles(entity.posX + d4, this.posY, entity.posZ + d5, f2, f3);
+			this.yOffset = 0.0F;
+			this.setThrowableHeading(d0, d1, d2, motion, deviation);
+		}
 		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);

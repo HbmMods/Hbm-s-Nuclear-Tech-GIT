@@ -68,8 +68,8 @@ public class RadiationSavedData extends WorldSavedData {
     			float rad = struct.getValue();
 
 				//struct.radiation *= 0.999F;
-    			rad *= 0.99F;
-    			rad -= 0.5F;
+    			rad *= 0.999F;
+    			rad -= 0.05F;
 				
 				if(rad <= 0) {
 					rad = 0;

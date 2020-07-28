@@ -44,6 +44,7 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
 		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		
 		return config;
 	}
@@ -78,6 +79,7 @@ public class Gun12GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_SHRAPNEL);
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
 		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		
 		return config;
 	}
@@ -155,6 +157,15 @@ public class Gun12GaugeFactory {
 			}
 			
 		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get12GaugeSleekConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardAirstrikeConfig();
+		
+		bullet.ammo = ModItems.ammo_12gauge_sleek;
 		
 		return bullet;
 	}

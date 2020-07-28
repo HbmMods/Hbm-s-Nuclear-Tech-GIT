@@ -34,6 +34,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Instantly removes annoying and unbalanced enemies");
 			list.add(EnumChatFormatting.YELLOW + "* No drawbacks lole");
 		}
+		if(this == ModItems.ammo_12gauge_sleek) {
+			list.add(EnumChatFormatting.YELLOW + "* Fires a tracer which summons a storm of DU-flechettes");
+		}
 		
 		//20 GAUGE
 		if(this == ModItems.ammo_20gauge_flechette) {
@@ -78,6 +81,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
 			list.add(EnumChatFormatting.BLUE + "+ Withering");
 		}
+		if(this == ModItems.ammo_20gauge_sleek) {
+			list.add(EnumChatFormatting.YELLOW + "* Fires a tracer which summons a storm of DU-flechettes");
+		}
 		
 		//23mm
 		if(this == ModItems.ammo_4gauge_slug) {
@@ -92,6 +98,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* It's a 40mm grenade that we squeezed to fit the barrel!");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
+		if(this == ModItems.ammo_4gauge_sleek) {
+			list.add(EnumChatFormatting.YELLOW + "* Fires a tracer which summons a storm of DU-flechettes");
 		}
 		
 		//.357 MAGNUM

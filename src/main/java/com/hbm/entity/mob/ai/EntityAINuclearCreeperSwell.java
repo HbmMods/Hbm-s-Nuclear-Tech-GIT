@@ -1,16 +1,18 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.ai;
+
+import com.hbm.entity.mob.EntityNuclearCreeper;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 
-public class EntityAITaintedCreeperSwell extends EntityAIBase {
+public class EntityAINuclearCreeperSwell extends EntityAIBase {
     /** The creeper that is swelling. */
-    EntityTaintedCreeper swellingCreeper;
+    EntityNuclearCreeper swellingCreeper;
     /** The creeper's attack target. This is used for the changing of the creeper's state. */
     EntityLivingBase creeperAttackTarget;
     private static final String __OBFID = "CL_00001614";
 
-    public EntityAITaintedCreeperSwell(EntityTaintedCreeper p_i1655_1_)
+    public EntityAINuclearCreeperSwell(EntityNuclearCreeper p_i1655_1_)
     {
         this.swellingCreeper = p_i1655_1_;
         this.setMutexBits(1);

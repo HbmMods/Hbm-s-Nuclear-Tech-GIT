@@ -431,7 +431,8 @@ public class ItemCustomLore extends Item {
     			this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium || 
     			this == ModItems.powder_australium || this == ModItems.powder_weidanium || 
     			this == ModItems.powder_reiium || this == ModItems.powder_unobtainium || 
-    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium)
+    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium ||
+    			this == ModItems.coin_maskman)
     	{
     		return EnumRarity.uncommon;
     	}

@@ -1,11 +1,16 @@
 package com.hbm.entity.mob;
 
+import com.hbm.entity.mob.ai.EntityAIShootTarget;
+import com.hbm.items.ModItems;
+
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,18 +22,26 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
 		super(world);
 		
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(3, new EntityAILookIdle(this));
+        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+        this.tasks.addTask(2, new EntityAIShootTarget(this, true, true, 3));
+        this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(4, new EntityAILookIdle(this));
+        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
         
 		this.setSize(2F, 5F);
 		this.isImmuneToFire = true;
+        this.experienceValue = 100;
 	}
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.5D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(24.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(15.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
     }
     
     public boolean isAIEnabled() {
@@ -37,5 +50,10 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
     
     protected boolean canDespawn() {
         return false;
+    }
+    
+    protected void dropFewItems(boolean bool, int i) {
+    	
+        this.dropItem(ModItems.coin_maskman, 1);
     }
 }

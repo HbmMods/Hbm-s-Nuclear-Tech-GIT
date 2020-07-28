@@ -33,6 +33,7 @@ public class BulletConfigSyncingUtil {
 	public static int G20_CAUSTIC = i++;
 	public static int G20_SHOCK = i++;
 	public static int G20_WITHER = i++;
+	public static int G20_SLEEK = i++;
 
 	public static int ROCKET_NORMAL = i++;
 	public static int ROCKET_HE = i++;
@@ -63,6 +64,7 @@ public class BulletConfigSyncingUtil {
 	public static int G12_SHRAPNEL = i++;
 	public static int G12_DU = i++;
 	public static int G12_AM = i++;
+	public static int G12_SLEEK = i++;
 
 	public static int LR22_NORMAL = i++;
 	public static int LR22_AP = i++;
@@ -109,6 +111,7 @@ public class BulletConfigSyncingUtil {
 	public static int G4_NORMAL = i++;
 	public static int G4_SLUG = i++;
 	public static int G4_EXPLOSIVE = i++;
+	public static int G4_SLEEK = i++;
 
 	public static int SPECIAL_OSIPR = i++;
 	public static int SPECIAL_OSIPR_CHARGED = i++;
@@ -185,6 +188,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G20_CAUSTIC, Gun20GaugeFactory.get20GaugeCausticConfig());
 		configSet.put(G20_SHOCK, Gun20GaugeFactory.get20GaugeShockConfig());
 		configSet.put(G20_WITHER, Gun20GaugeFactory.get20GaugeWitherConfig());
+		configSet.put(G20_SLEEK, Gun20GaugeFactory.get20GaugeSleekConfig());
         
 		configSet.put(ROCKET_NORMAL, GunRocketFactory.getRocketConfig());
 		configSet.put(ROCKET_HE, GunRocketFactory.getRocketHEConfig());
@@ -215,6 +219,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G12_SHRAPNEL, Gun12GaugeFactory.get12GaugeShrapnelConfig());
 		configSet.put(G12_DU, Gun12GaugeFactory.get12GaugeDUConfig());
 		configSet.put(G12_AM, Gun12GaugeFactory.get12GaugeAMConfig());
+		configSet.put(G12_SLEEK, Gun12GaugeFactory.get12GaugeSleekConfig());
         
 		configSet.put(LR22_NORMAL, Gun22LRFactory.get22LRConfig());
 		configSet.put(LR22_AP, Gun22LRFactory.get22LRAPConfig());
@@ -261,6 +266,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_NORMAL, Gun4GaugeFactory.get4GaugeConfig());
 		configSet.put(G4_SLUG, Gun4GaugeFactory.get4GaugeSlugConfig());
 		configSet.put(G4_EXPLOSIVE, Gun4GaugeFactory.get4GaugeExplosiveConfig());
+		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
         
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
 		configSet.put(SPECIAL_OSIPR_CHARGED, GunOSIPRFactory.getPulseChargedConfig());

@@ -1,6 +1,7 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.ai.EntityAITaintedCreeperSwell;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
