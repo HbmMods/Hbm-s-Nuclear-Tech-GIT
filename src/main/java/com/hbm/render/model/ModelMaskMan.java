@@ -23,6 +23,11 @@ public class ModelMaskMan extends ModelBase {
 		
 		EntityMaskMan man = (EntityMaskMan)entity;
 		
+		//boolean target = entity.worldObj.getEntityByID(man.getDataWatcher().getWatchableObjectInt(man.dwTargetPlayer)) != null;
+		
+		//if(target)
+		//	GL11.glRotated(-f3, 0, 1, 0);
+		
         float f7 = man.limbSwing - man.limbSwingAmount * (1.0F - f5);
         float f6 = (man.prevLimbSwingAmount + (man.limbSwingAmount - man.prevLimbSwingAmount) * f5) * 0.5F;
         
@@ -34,7 +39,8 @@ public class ModelMaskMan extends ModelBase {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.5F, 4F, 0);
-		GL11.glRotated(f3, 0, 1, 0);
+		//if(!target)
+		GL11.glRotated(-f3, 0, 1, 0);
 		ResourceManager.maskman.renderPart("Head");
 		GL11.glPopMatrix();
 		

@@ -51,7 +51,9 @@ public class EntityAIShootTarget extends EntityAIBase {
 
 			EntityBulletBase bullet = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.G20_SHRAPNEL, owner, target, 1.6F, 0);
 			owner.worldObj.spawnEntityInWorld(bullet);
-			owner.playSound("hbm:weapon.sawShoot", 1.0F, 2.0F);
+			owner.playSound("hbm:weapon.calShoot", 1.0F, 1.0F);
 		}
+		
+		this.owner.rotationYaw = this.owner.rotationYawHead;
     }
 }

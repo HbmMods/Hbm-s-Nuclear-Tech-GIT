@@ -725,6 +725,7 @@ item.coil_gold.name=Goldspule
 item.coil_gold_torus.name=Goldene Ringspule
 item.coil_magnetized_tungsten.name=4000K Hochtemperaturensupraleitermagnetspule
 item.coil_tungsten.name=Heizspirale
+item.coin_maskman.name=Maskenmann-Münze
 item.coke.name=Koks
 item.combine_scrap.name=CMB Schrott
 item.component_emitter.name=Emitterkomponente

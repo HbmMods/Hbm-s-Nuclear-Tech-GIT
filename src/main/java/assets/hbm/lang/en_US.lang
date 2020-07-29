@@ -725,6 +725,7 @@ item.coil_gold.name=Gold Coil
 item.coil_gold_torus.name=Golden Ring Coil
 item.coil_magnetized_tungsten.name=4000K High Temperature Super Conducting Coil
 item.coil_tungsten.name=Heating Coil
+item.coin_maskman.name=Maskman Coin
 item.coke.name=Coke
 item.combine_scrap.name=CMB Scrap Metal
 item.component_emitter.name=Emitter Component

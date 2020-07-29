@@ -43,6 +43,29 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
         this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
     }
+
+    //public static final int dwTargetPlayer = 12;
+    
+    /*protected void entityInit() {
+        super.entityInit();
+        this.getDataWatcher().addObject(dwTargetPlayer, new Integer(0));
+    }*/
+    
+    public void onLivingUpdate() {
+    	
+    	super.onLivingUpdate();
+		
+    	/*if(worldObj.isRemote) {
+    		
+    	} else {
+    		
+    		if(this.getAITarget() != null) {
+    			this.getDataWatcher().updateObject(dwTargetPlayer, this.getAITarget().getEntityId());
+    		} else {
+    			this.getDataWatcher().updateObject(dwTargetPlayer, 0);
+    		}
+    	}*/
+    }
     
     public boolean isAIEnabled() {
         return true;

@@ -124,6 +124,11 @@ public class RadiationSavedData extends WorldSavedData {
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
+		
+		if(!MainRegistry.enableRads) {
+			return;
+		}
+		
 		int count = nbt.getInteger("radCount");
 		
 		for(int i = 0; i < count; i++) {
