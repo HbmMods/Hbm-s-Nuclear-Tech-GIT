@@ -542,7 +542,7 @@ public class TileEntityAMSBase extends TileEntity implements ISidedInventory, IS
 			
 		    SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 		    if(data == null) {
-		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
 		        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 		    }
 		    data.markDirty();

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
 public class BroadcastSavedData extends WorldSavedData {
@@ -12,17 +11,14 @@ public class BroadcastSavedData extends WorldSavedData {
 	public int bcCount;
 	
 	public List<BroadcastSaveStructure> broadcasts = new ArrayList();
-	
-    private World worldObj;
 
 	public BroadcastSavedData(String p_i2141_1_) {
 		super(p_i2141_1_);
 	}
 
-    public BroadcastSavedData(World p_i1678_1_)
+    public BroadcastSavedData()
     {
         super("broadcasts");
-        this.worldObj = p_i1678_1_;
         this.markDirty();
     }
     

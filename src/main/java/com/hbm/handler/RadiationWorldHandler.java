@@ -1,6 +1,5 @@
 package com.hbm.handler;
 
-import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.saveddata.RadiationSavedData;
@@ -9,7 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkProviderServer;
 
 public class RadiationWorldHandler {
@@ -22,7 +20,7 @@ public class RadiationWorldHandler {
 		WorldServer serv = (WorldServer)world;
 		
 		RadiationSavedData data = RadiationSavedData.getData(serv);
-		List<Chunk> loadedChunks = ((ChunkProviderServer) serv.getChunkProvider()).func_152380_a();
+		ChunkProviderServer provider = (ChunkProviderServer) serv.getChunkProvider();
 		
 		int count = 50;//MainRegistry.worldRad;
 		int threshold = 5;//MainRegistry.worldRadThreshold;
@@ -35,7 +33,6 @@ public class RadiationWorldHandler {
 		Entry<ChunkCoordIntPair, Float> randEnt = (Entry<ChunkCoordIntPair, Float>) entries[world.rand.nextInt(entries.length)];
 		
 		ChunkCoordIntPair coords = randEnt.getKey();
-		Chunk chunk = world.getChunkFromChunkCoords(coords.chunkXPos, coords.chunkZPos);
 		
 		for(int i = 0; i < 1; i++) {
 			
@@ -43,7 +40,7 @@ public class RadiationWorldHandler {
 			if(randEnt == null || randEnt.getValue() < threshold)
 				continue;
 			
-			if(chunk != null && loadedChunks.contains(chunk)) {
+			if(provider.chunkExists(coords.chunkXPos, coords.chunkZPos)) {
 
 				for(int a = 0; a < 16; a ++) {
 					for(int b = 0; b < 16; b ++) {

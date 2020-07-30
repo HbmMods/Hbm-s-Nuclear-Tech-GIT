@@ -220,6 +220,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_50bmg_sleek) {
+			list.add(EnumChatFormatting.YELLOW + "* Fires a high-damage round that summons a small meteorite");
+		}
 		
 		//.50 AE
 		if(this == ModItems.ammo_50ae_ap) {
@@ -382,6 +385,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_556_sleek) {
+			list.add(EnumChatFormatting.YELLOW + "* Fires a high-damage round that summons a small meteorite");
+		}
 		if(this == ModItems.ammo_556_flechette) {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* Less bouncy");
@@ -409,6 +415,9 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Heavy metal");
 			list.add(EnumChatFormatting.YELLOW + "* Less bouncy");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		if(this == ModItems.ammo_556_flechette_sleek) {
+			list.add(EnumChatFormatting.YELLOW + "* Fires a high-damage round that summons a small meteorite");
 		}
 		if(this == ModItems.ammo_556_tracer) {
 			list.add(EnumChatFormatting.YELLOW + "* Tracer");

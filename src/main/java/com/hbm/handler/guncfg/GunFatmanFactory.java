@@ -9,6 +9,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -38,6 +39,20 @@ public class GunFatmanFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
+		config.durability = 1000;
+		
+		return config;
+	}
+	
+	public static GunConfiguration getMIRVConfig() {
+		
+		GunConfiguration config = getFatmanConfig();
+		
+		config.name = "M-42 Experimental MIRV";
+		config.manufacturer = "Fort Strong";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV);
 		config.durability = 1000;
 		
 		return config;
@@ -108,6 +123,34 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		
 		bullet.ammo = ModItems.gun_mirv_ammo;
+		bullet.style = BulletConfiguration.STYLE_MIRV;
+		bullet.velocity *= 3;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.ticksExisted == 15) {
+					bullet.setDead();
+					
+					for(int i = 0; i < 6; i++) {
+						
+						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_NORMAL);
+						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+						double mod = 0.1D;
+						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
+						nuke.motionY = -0.1D;
+						nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
+						bullet.worldObj.spawnEntityInWorld(nuke);
+					}
+				}
+			}
+			
+		};
 		
 		return bullet;
 	}

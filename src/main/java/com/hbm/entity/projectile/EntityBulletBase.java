@@ -59,6 +59,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		this.dataWatcher.updateObject(18, config);
 		this.renderDistanceWeight = 10.0D;
 		
+		if(this.config == null) {
+			this.setDead();
+			return;
+		}
+		
 		this.dataWatcher.updateObject(16, (byte)this.config.style);
 		this.dataWatcher.updateObject(17, (byte)this.config.trail);
 		
@@ -184,6 +189,11 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		
 		if(config == null)
 			config = BulletConfigSyncingUtil.pullConfig(dataWatcher.getWatchableObjectInt(18));
+
+		if(config == null){
+			this.setDead();
+			return;
+		}
 		
 		if(config.maxAge == 0) {
 			this.setDead();

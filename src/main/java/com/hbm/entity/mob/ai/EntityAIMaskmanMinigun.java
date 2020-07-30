@@ -8,14 +8,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.Vec3;
 
-public class EntityAIShootTarget extends EntityAIBase {
+public class EntityAIMaskmanMinigun extends EntityAIBase {
 	
 	private EntityCreature owner;
     private EntityLivingBase target;
     int delay;
     int timer;
 
-	public EntityAIShootTarget(EntityCreature owner, boolean checkSight, boolean nearbyOnly, int delay) {
+	public EntityAIMaskmanMinigun(EntityCreature owner, boolean checkSight, boolean nearbyOnly, int delay) {
 		this.owner = owner;
 		this.delay = delay;
 		timer = delay;
@@ -49,7 +49,7 @@ public class EntityAIShootTarget extends EntityAIBase {
 		if(timer <= 0) {
 			timer = delay;
 
-			EntityBulletBase bullet = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.G20_SHRAPNEL, owner, target, 1.6F, 0);
+			EntityBulletBase bullet = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_BULLET, owner, target, 1.0F, 0);
 			owner.worldObj.spawnEntityInWorld(bullet);
 			owner.playSound("hbm:weapon.calShoot", 1.0F, 1.0F);
 		}

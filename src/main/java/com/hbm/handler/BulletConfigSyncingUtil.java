@@ -93,6 +93,7 @@ public class BulletConfigSyncingUtil {
 	public static int BMG50_DU = i++;
 	public static int BMG50_STAR = i++;
 	public static int BMG50_PHOSPHORUS = i++;
+	public static int BMG50_SLEEK = i++;
 
 	public static int R5_NORMAL = i++;
 	public static int R5_EXPLOSIVE = i++;
@@ -131,11 +132,13 @@ public class BulletConfigSyncingUtil {
 	public static int R556_AP = i++;
 	public static int R556_DU = i++;
 	public static int R556_STAR = i++;
+	public static int R556_SLEEK = i++;
 	public static int R556_TRACER = i++;
 	public static int R556_FLECHETTE = i++;
 	public static int R556_FLECHETTE_INCENDIARY = i++;
 	public static int R556_FLECHETTE_PHOSPHORUS = i++;
 	public static int R556_FLECHETTE_DU = i++;
+	public static int R556_FLECHETTE_SLEEK = i++;
 	public static int R556_K = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
@@ -163,6 +166,13 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_MIRV = i++;
 	public static int NUKE_AMAT = i++;
 	public static int NUKE_PROTO = i++;
+
+	public static int MASKMAN_BULLET = i++;
+	public static int MASKMAN_ORB = i++;
+	public static int MASKMAN_BOLT = i++;
+	public static int MASKMAN_ROCKET = i++;
+	public static int MASKMAN_TRACER = i++;
+	public static int MASKMAN_METEOR = i++;
 	
 	public static void loadConfigsForSync() {
 		
@@ -248,6 +258,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(BMG50_AP, Gun50BMGFactory.get50BMGAPConfig());
 		configSet.put(BMG50_DU, Gun50BMGFactory.get50BMGDUConfig());
 		configSet.put(BMG50_STAR, Gun50BMGFactory.get50BMGStarConfig());
+		configSet.put(BMG50_SLEEK, Gun50BMGFactory.get50BMGSleekConfig());
         
 		configSet.put(R5_NORMAL, Gun5mmFactory.get5mmConfig());
 		configSet.put(R5_EXPLOSIVE, Gun5mmFactory.get5mmExplosiveConfig());
@@ -286,11 +297,13 @@ public class BulletConfigSyncingUtil {
 		configSet.put(R556_AP, Gun556mmFactory.get556APConfig());
 		configSet.put(R556_DU, Gun556mmFactory.get556DUConfig());
 		configSet.put(R556_STAR, Gun556mmFactory.get556StarConfig());
+		configSet.put(R556_SLEEK, Gun556mmFactory.get556SleekConfig());
 		configSet.put(R556_TRACER, Gun556mmFactory.get556TracerConfig());
 		configSet.put(R556_FLECHETTE, Gun556mmFactory.get556FlechetteConfig());
 		configSet.put(R556_FLECHETTE_INCENDIARY, Gun556mmFactory.get556FlechetteIncendiaryConfig());
 		configSet.put(R556_FLECHETTE_PHOSPHORUS, Gun556mmFactory.get556FlechettePhosphorusConfig());
 		configSet.put(R556_FLECHETTE_DU, Gun556mmFactory.get556FlechetteDUConfig());
+		configSet.put(R556_FLECHETTE_SLEEK, Gun556mmFactory.get556FlechetteSleekConfig());
 		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
         
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
@@ -315,8 +328,16 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROCKET_TOXIC_LASER, GunRocketFactory.getRocketChlorineConfig().setToGuided());
 		
 		configSet.put(NUKE_NORMAL, GunFatmanFactory.getNukeConfig());
+		configSet.put(NUKE_MIRV, GunFatmanFactory.getMirvConfig());
 		configSet.put(NUKE_PROTO, GunFatmanFactory.getNukeProtoConfig());
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
+
+		configSet.put(MASKMAN_BULLET, GunNPCFactory.getMaskmanBullet());
+		configSet.put(MASKMAN_ORB, GunNPCFactory.getMaskmanOrb());
+		configSet.put(MASKMAN_BOLT, GunNPCFactory.getMaskmanBolt());
+		configSet.put(MASKMAN_ROCKET, GunNPCFactory.getMaskmanRocket());
+		configSet.put(MASKMAN_TRACER, GunNPCFactory.getMaskmanTracer());
+		configSet.put(MASKMAN_METEOR, GunNPCFactory.getMaskmanMeteor());
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {

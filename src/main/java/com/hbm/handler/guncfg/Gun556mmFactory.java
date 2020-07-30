@@ -6,6 +6,7 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletHitBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -18,6 +19,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
@@ -56,6 +58,7 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.R556_AP);
 		config.config.add(BulletConfigSyncingUtil.R556_DU);
 		config.config.add(BulletConfigSyncingUtil.R556_STAR);
+		config.config.add(BulletConfigSyncingUtil.R556_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.R556_K);
 		
 		return config;
@@ -100,6 +103,7 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_DU);
+		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.R556_K);
 		
 		return config;
@@ -234,6 +238,55 @@ public class Gun556mmFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration get556SleekConfig() {
+		
+		BulletConfiguration bullet = get556Config();
+		
+		bullet.ammo = ModItems.ammo_556_sleek;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 20;
+		bullet.wear = 10;
+		bullet.leadChance = 100;
+		bullet.doesPenetrate = false;
+		
+		bullet.bHit = new IBulletHitBehavior() {
+
+			@Override
+			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+				meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
+				meteor.motionY = -1D;
+				meteor.shooter = bullet.shooter;
+				bullet.worldObj.spawnEntityInWorld(meteor);
+			}
+		};
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(y == -1)
+					return;
+				
+				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+				meteor.setPosition(bullet.posX, bullet.posY + 30 + meteor.worldObj.rand.nextInt(10), bullet.posZ);
+				meteor.motionY = -1D;
+				meteor.shooter = bullet.shooter;
+				bullet.worldObj.spawnEntityInWorld(meteor);
+			}
+		};
+		
+		return bullet;
+	}
+
 	public static BulletConfiguration get556TracerConfig() {
 		
 		BulletConfiguration bullet = get556Config();
@@ -310,6 +363,55 @@ public class Gun556mmFactory {
 		bullet.wear = 25;
 		bullet.leadChance = 50;
 		bullet.doesPenetrate = true;
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration get556FlechetteSleekConfig() {
+		
+		BulletConfiguration bullet = get556FlechetteConfig();
+		
+		bullet.ammo = ModItems.ammo_556_flechette_sleek;
+		bullet.dmgMin = 12;
+		bullet.dmgMax = 16;
+		bullet.wear = 10;
+		bullet.leadChance = 50;
+		bullet.doesPenetrate = false;
+		
+		bullet.bHit = new IBulletHitBehavior() {
+
+			@Override
+			public void behaveEntityHit(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+				meteor.setPosition(hit.posX, hit.posY + 30 + meteor.worldObj.rand.nextInt(10), hit.posZ);
+				meteor.motionY = -1D;
+				meteor.shooter = bullet.shooter;
+				bullet.worldObj.spawnEntityInWorld(meteor);
+			}
+		};
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(y == -1)
+					return;
+				
+				EntityBulletBase meteor = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.MASKMAN_METEOR);
+				meteor.setPosition(bullet.posX, bullet.posY + 30 + meteor.worldObj.rand.nextInt(10), bullet.posZ);
+				meteor.motionY = -1D;
+				meteor.shooter = bullet.shooter;
+				bullet.worldObj.spawnEntityInWorld(meteor);
+			}
+		};
 		
 		return bullet;
 	}

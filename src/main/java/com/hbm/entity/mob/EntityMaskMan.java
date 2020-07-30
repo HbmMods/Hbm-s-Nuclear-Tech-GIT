@@ -1,10 +1,11 @@
 package com.hbm.entity.mob;
 
-import com.hbm.entity.mob.ai.EntityAIShootTarget;
+import com.hbm.entity.mob.ai.EntityAIMaskmanCasualApproach;
+import com.hbm.entity.mob.ai.EntityAIMaskmanLasergun;
+import com.hbm.entity.mob.ai.EntityAIMaskmanMinigun;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -22,8 +23,9 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
 		super(world);
 		
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-        this.tasks.addTask(2, new EntityAIShootTarget(this, true, true, 3));
+        this.tasks.addTask(2, new EntityAIMaskmanCasualApproach(this, EntityPlayer.class, 1.0D, false));
+        this.tasks.addTask(2, new EntityAIMaskmanMinigun(this, true, true, 3));
+        this.tasks.addTask(3, new EntityAIMaskmanLasergun(this, true, true));
         this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(4, new EntityAILookIdle(this));
         this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -37,34 +39,11 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(24.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(100.0D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(15.0D);
         this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
-    }
-
-    //public static final int dwTargetPlayer = 12;
-    
-    /*protected void entityInit() {
-        super.entityInit();
-        this.getDataWatcher().addObject(dwTargetPlayer, new Integer(0));
-    }*/
-    
-    public void onLivingUpdate() {
-    	
-    	super.onLivingUpdate();
-		
-    	/*if(worldObj.isRemote) {
-    		
-    	} else {
-    		
-    		if(this.getAITarget() != null) {
-    			this.getDataWatcher().updateObject(dwTargetPlayer, this.getAITarget().getEntityId());
-    		} else {
-    			this.getDataWatcher().updateObject(dwTargetPlayer, 0);
-    		}
-    	}*/
     }
     
     public boolean isAIEnabled() {
@@ -77,6 +56,7 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
     
     protected void dropFewItems(boolean bool, int i) {
     	
-        this.dropItem(ModItems.coin_maskman, 1);
+    	if(!worldObj.isRemote)
+    		this.dropItem(ModItems.coin_maskman, 1);
     }
 }

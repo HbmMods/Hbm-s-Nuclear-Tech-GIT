@@ -148,8 +148,8 @@ public class GunGrenadeFactory {
 		
 		bullet.ammo = ModItems.ammo_grenade_concussion;
 		bullet.velocity = 2.0F;
-		bullet.dmgMin = 20;
-		bullet.dmgMax = 15;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 20;
 		bullet.blockDamage = false;
 		bullet.explosive = 10.0F;
 		bullet.trail = 3;

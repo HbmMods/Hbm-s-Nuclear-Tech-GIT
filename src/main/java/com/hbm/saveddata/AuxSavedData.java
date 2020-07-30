@@ -10,17 +10,14 @@ import net.minecraft.world.WorldSavedData;
 public class AuxSavedData extends WorldSavedData {
 	
 	public List<DataPair> data = new ArrayList();
-	
-    private World worldObj;
 
 	public AuxSavedData(String p_i2141_1_) {
 		super(p_i2141_1_);
 	}
 
-    public AuxSavedData(World p_i1678_1_)
+    public AuxSavedData()
     {
         super("hbmauxdata");
-        this.worldObj = p_i1678_1_;
         this.markDirty();
     }
     
@@ -75,7 +72,7 @@ public class AuxSavedData extends WorldSavedData {
 
 		AuxSavedData data = (AuxSavedData)worldObj.perWorldStorage.loadData(AuxSavedData.class, "hbmauxdata");
 	    if(data == null) {
-	        worldObj.perWorldStorage.setData("hbmauxdata", new AuxSavedData(worldObj));
+	        worldObj.perWorldStorage.setData("hbmauxdata", new AuxSavedData());
 	        
 	        data = (AuxSavedData)worldObj.perWorldStorage.loadData(AuxSavedData.class, "hbmauxdata");
 	    }

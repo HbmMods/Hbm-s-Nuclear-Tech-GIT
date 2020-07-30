@@ -199,7 +199,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 				data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 			
 		    if(data == null) {
-		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+		        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
 		        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 		    }
 		    data.markDirty();

@@ -12,17 +12,14 @@ import net.minecraft.world.WorldSavedData;
 public class SatelliteSavedData extends WorldSavedData {
 	
 	public HashMap<Integer, Satellite> sats = new HashMap();
-	
-    private World worldObj;
 
 	public SatelliteSavedData(String p_i2141_1_) {
 		super(p_i2141_1_);
 	}
 
-    public SatelliteSavedData(World p_i1678_1_)
+    public SatelliteSavedData()
     {
         super("satellites");
-        this.worldObj = p_i1678_1_;
         this.markDirty();
     }
     
@@ -73,12 +70,10 @@ public class SatelliteSavedData extends WorldSavedData {
 
 		SatelliteSavedData data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 	    if(data == null) {
-	        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData(worldObj));
+	        worldObj.perWorldStorage.setData("satellites", new SatelliteSavedData());
 	        
 	        data = (SatelliteSavedData)worldObj.perWorldStorage.loadData(SatelliteSavedData.class, "satellites");
 	    }
-	    
-	    data.worldObj = worldObj;
 	    
 	    return data;
 	}
