@@ -3,61 +3,50 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class MachineRTG extends BlockContainer {
 
 	private static boolean keepInventory;
 	private final Random field_149933_a = new Random();
-	private Random rand;
-	
-	@SideOnly(Side.CLIENT)
-	//private IIcon iconFront;
-	private IIcon iconTop;
-	private IIcon iconBottom;
 
     public MachineRTG(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
-	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + (":machine_rtg_top"));
-		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":red_wire_coated"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_rtg_furnace_base_alt");
+	public int getRenderType() {
+		return -1;
 	}
-	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return side == 1 ? this.iconTop : (side == 0 ? this.iconBottom : this.blockIcon);
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		
 		if(this == ModBlocks.machine_rtg_grey)
 			return new TileEntityMachineRTG();
-		if(this == ModBlocks.machine_rtg_cyan)
-			return null;
+		
 		return null;
 	}
 	
