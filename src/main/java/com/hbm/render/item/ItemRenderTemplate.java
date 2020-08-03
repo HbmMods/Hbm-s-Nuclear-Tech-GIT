@@ -8,16 +8,12 @@ import com.hbm.items.ModItems;
 import com.hbm.render.util.RenderItemStack;
 
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderTemplate implements IItemRenderer {
 	
 	private ItemStack currentItem;
-	private RenderItem itemRenderer;
-	private RenderManager renderManager = RenderManager.instance;
 
 	public boolean handleRenderType(ItemStack stack, IItemRenderer.ItemRenderType type) {
 		

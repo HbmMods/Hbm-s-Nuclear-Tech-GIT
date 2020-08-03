@@ -1,5 +1,6 @@
 package com.hbm.tileentity;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.NBTPacket;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
 @Spaghetti("Not spaghetti in itself, but for the love of god please use this base class for all machines")
@@ -197,5 +199,23 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 			}
 		}
 		nbt.setTag("items", list);
+	}
+	
+	public int countMufflers() {
+		
+		int count = 0;
+		
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+			if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.muffler)
+				count++;
+		
+		return count;
+	}
+	
+	public float getVolume(int toSilence) {
+		
+		float volume = 1 - (countMufflers() / (float)toSilence);
+		
+		return Math.max(volume, 0);
 	}
 }

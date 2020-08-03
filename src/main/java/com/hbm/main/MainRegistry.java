@@ -499,7 +499,6 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityAMSEmitter.class, "tileentity_ams_emitter");
 		GameRegistry.registerTileEntity(TileEntityAMSLimiter.class, "tileentity_ams_limiter");
 		GameRegistry.registerTileEntity(TileEntityMachineSiren.class, "tileentity_siren");
-		GameRegistry.registerTileEntity(TileEntityTaint.class, "tileentity_taint");
 		GameRegistry.registerTileEntity(TileEntityMachineSPP.class, "tileentity_spp");
 		GameRegistry.registerTileEntity(TileEntityTurretSpitfire.class, "tileentity_turret_spitfire");
 		GameRegistry.registerTileEntity(TileEntityMachineRadGen.class, "tileentity_radgen");

@@ -12,22 +12,13 @@ import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.AuxGaugePacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityMachineDiesel extends TileEntity implements ISidedInventory, ISource, IFluidContainer, IFluidAcceptor {
-
-	private ItemStack slots[];
+public class TileEntityMachineDiesel extends TileEntityMachineBase implements ISource, IFluidContainer, IFluidAcceptor {
 
 	public long power;
 	public int soundCycle = 0;
@@ -41,77 +32,14 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	private static final int[] slots_bottom = new int[] { 1, 2 };
 	private static final int[] slots_side = new int[] { 2 };
 
-	private String customName;
-
 	public TileEntityMachineDiesel() {
-		slots = new ItemStack[5];
+		super(5);
 		tank = new FluidTank(FluidType.DIESEL, 16000, 0);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (slots[i] != null) {
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.machineDiesel";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64;
-		}
-	}
-
-	// You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {
-	}
-
-	@Override
-	public void closeInventory() {
+	public String getName() {
+		return "container.machineDiesel";
 	}
 
 	@Override
@@ -127,70 +55,26 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (slots[i] != null) {
-			if (slots[i].stackSize <= j) {
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0) {
-				slots[i] = null;
-			}
-
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 
 		this.power = nbt.getLong("powerTime");
 		this.powerCap = nbt.getLong("powerCap");
 		tank.readFromNBT(nbt, "fuel");
-		slots = new ItemStack[getSizeInventory()];
-
-		for (int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if (b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
 		nbt.setLong("powerTime", power);
 		nbt.setLong("powerCap", powerCap);
 		tank.writeToNBT(nbt, "fuel");
-		NBTTagList list = new NBTTagList();
-
-		for (int i = 0; i < slots.length; i++) {
-			if (slots[i] != null) {
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte) i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
-	}
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
 	}
 
 	@Override
@@ -211,7 +95,8 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 
 	@Override
 	public void updateEntity() {
-		if (!worldObj.isRemote) {
+		
+		if(!worldObj.isRemote) {
 			age++;
 			if (age >= 20) {
 				age = 0;
@@ -236,9 +121,17 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 
 			generate();
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, (int)powerCap, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("power", (int) power);
+			data.setInteger("powerCap", (int) powerCap);
+			this.networkPack(data, 50);
 		}
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+
+		power = data.getInteger("power");
+		powerCap = data.getInteger("powerCap");
 	}
 	
 	public boolean hasAcceptableFuel() {
@@ -259,20 +152,17 @@ public class TileEntityMachineDiesel extends TileEntity implements ISidedInvento
 	}
 
 	public void generate() {
+		
 		if (hasAcceptableFuel()) {
 			if (tank.getFill() > 0) {
+				
 				if (soundCycle == 0) {
-					//if (tank.getTankType().name().equals(FluidType.) > 0)
-					//	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 1.0F);
-					//else
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 0.5F);
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.5F * this.getVolume(3), 0.5F);
 				}
 				soundCycle++;
 
 				if (soundCycle >= 3)
 					soundCycle = 0;
-				//if (this.superTimer > 0)
-				//	soundCycle = 0;
 
 				tank.setFill(tank.getFill() - 10);
 				if (tank.getFill() < 0)
