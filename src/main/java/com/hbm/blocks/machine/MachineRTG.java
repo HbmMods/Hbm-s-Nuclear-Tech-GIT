@@ -28,7 +28,7 @@ public class MachineRTG extends BlockContainer {
 
 	@Override
 	public int getRenderType() {
-		return -1;
+		return 334087;
 	}
 
 	@Override

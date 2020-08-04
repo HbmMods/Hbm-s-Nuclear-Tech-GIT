@@ -37,10 +37,6 @@ public class TileEntityMachineAmgen extends TileEntity implements ISource {
 				
 				data.decrementRad(worldObj, xCoord, zCoord, 5F);
 				
-			} else if(block == ModBlocks.machine_minirtg) {
-				
-				power += 25;
-				
 			} else if(block == ModBlocks.machine_geo) {
 				
 				Block b = worldObj.getBlock(xCoord, yCoord - 1, zCoord);

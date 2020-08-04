@@ -31,6 +31,8 @@ import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -121,6 +123,26 @@ public class ModEventHandlerClient {
 			
 			if(time > animation.animation.getDuration())
 				HbmAnimations.hotbar[i] = null;
+		}
+		
+		if(event.type == ElementType.CROSSHAIRS && player.ticksExisted < 200) {
+			
+			FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+			
+			ScaledResolution resolution = event.resolution;
+			int pX = resolution.getScaledWidth() / 2;
+			int pZ = resolution.getScaledHeight() / 2;
+
+			String msg = "PLEASE";
+			font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 40, 0xffffff);
+			msg = "THIS IS A DEVELOPMENT VERSION";
+			if(player.ticksExisted > 30) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 20, 0xffffff);
+			msg = "OBVIOUSLY SOME THINGS AREN'T GOING TO WORK";
+			if(player.ticksExisted > 60) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ, 0xffffff);
+			msg = "PLEASE AT LEAST TRY TO REMEMBER THAT";
+			if(player.ticksExisted > 90) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 20, 0xffffff);
+			msg = "FOR THE LOVE OF GOD";
+			if(player.ticksExisted > 120) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 40, 0xb00000);
 		}
 	}
 	

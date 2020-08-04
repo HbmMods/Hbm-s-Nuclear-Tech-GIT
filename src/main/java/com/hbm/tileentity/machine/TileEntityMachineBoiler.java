@@ -258,7 +258,7 @@ public class TileEntityMachineBoiler extends TileEntity implements ISidedInvento
 				mark = true;
 			}
 			
-			if(burnTime > 0 && worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_boiler_on)
+			if(burnTime <= 0 && worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_boiler_on)
 				MachineBoiler.updateBlockState(false, worldObj, xCoord, yCoord, zCoord);
 			
 			if(heat > maxHeat)

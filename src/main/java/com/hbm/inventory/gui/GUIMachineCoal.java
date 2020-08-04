@@ -70,26 +70,29 @@ public class GUIMachineCoal extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineCoal)
-			diFurnace = (TileEntityMachineCoal) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
+		//It's as horrifying as it is functional.
+		TileEntityMachineCoal dud = diFurnace;
 		
-		if(diFurnace.power > 0) {
-			int i = (int)diFurnace.getPowerScaled(52);
+		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineCoal)
+			dud = (TileEntityMachineCoal) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
+		
+		if(dud.power > 0) {
+			int i = (int)dud.getPowerScaled(52);
 			drawTexturedModalRect(guiLeft + 152, guiTop + 69 - i, 176, 52 - i, 16, i);
 		}
 		
-		if(diFurnace.burnTime > 0)
+		if(dud.burnTime > 0)
 		{
 			drawTexturedModalRect(guiLeft + 79, guiTop + 34, 208, 0, 18, 18);
 		}
 
-		if(diFurnace.tank.getFill() <= 0)
+		if(dud.tank.getFill() <= 0)
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tank.getSheet());
-		diFurnace.tank.renderTank(this, guiLeft + 8, guiTop + 69, diFurnace.tank.getTankType().textureX() * FluidTank.x, diFurnace.tank.getTankType().textureY() * FluidTank.y, 16, 52);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(dud.tank.getSheet());
+		dud.tank.renderTank(this, guiLeft + 8, guiTop + 69, dud.tank.getTankType().textureX() * FluidTank.x, dud.tank.getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }

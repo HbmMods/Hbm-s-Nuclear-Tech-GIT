@@ -23,6 +23,9 @@ public class ItemMachineUpgrade extends Item {
 			list.add("");
 			list.add("Chemical Plant:");
 			list.add("Delay -25 / Consumption +300");
+			list.add("");
+			list.add("Crystallizer");
+			list.add("Delay -10% / Consumption +1000");
 		}
 		
 		if(this == ModItems.upgrade_speed_2)
@@ -35,6 +38,9 @@ public class ItemMachineUpgrade extends Item {
 			list.add("");
 			list.add("Chemical Plant:");
 			list.add("Delay -50 / Consumption +600");
+			list.add("");
+			list.add("Crystallizer");
+			list.add("Delay -20% / Consumption +2000");
 		}
 		
 		if(this == ModItems.upgrade_speed_3)
@@ -47,24 +53,36 @@ public class ItemMachineUpgrade extends Item {
 			list.add("");
 			list.add("Chemical Plant:");
 			list.add("Delay -75 / Consumption +900");
+			list.add("");
+			list.add("Crystallizer");
+			list.add("Speed Delay -30% / Consumption +3000");
 		}
 		
 		if(this == ModItems.upgrade_effect_1)
 		{
 			list.add("Mining Drill:");
 			list.add("Radius +1 / Consumption +80");
+			list.add("");
+			list.add("Crystallizer");
+			list.add("+5% chance of not consuming an item / Acid consumption +1000mB");
 		}
 		
 		if(this == ModItems.upgrade_effect_2)
 		{
 			list.add("Mining Drill:");
 			list.add("Radius +2 / Consumption +160");
+			list.add("");
+			list.add("Crystallizer");
+			list.add("+10% chance of not consuming an item / Acid consumption +2000mB");
 		}
 		
 		if(this == ModItems.upgrade_effect_3)
 		{
 			list.add("Mining Drill:");
 			list.add("Radius +3 / Consumption +240");
+			list.add("");
+			list.add("Crystallizer");
+			list.add("+15% chance of not consuming an item / Acid consumption +3000mB");
 		}
 		
 		if(this == ModItems.upgrade_power_1)

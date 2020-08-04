@@ -39,10 +39,6 @@ public class MachineAmgen extends BlockContainer {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_geo_top");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_geo_side");
 		}
-		if(this == ModBlocks.machine_minirtg) {
-			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_minirtg_top");
-			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_minirtg_side");
-		}
 	}
 
 	@Override

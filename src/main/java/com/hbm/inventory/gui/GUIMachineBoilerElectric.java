@@ -74,30 +74,33 @@ public class GUIMachineBoilerElectric extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-
-		if(diFurnace.power > 0)
-			drawTexturedModalRect(guiLeft + 97, guiTop + 34, 176, 0, 18, 18);
-
-		int j = (int)diFurnace.getHeatScaled(17);
-		drawTexturedModalRect(guiLeft + 103, guiTop + 33 - j, 194, 16 - j, 6, j);
-
-		int i = (int)diFurnace.getPowerScaled(34);
-		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 200, 34 - i, 7, i);
+		
+		//<insert witty line here>
+		TileEntityMachineBoilerElectric dud = diFurnace;
 		
 		if(diFurnace.isInvalid() && diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord) instanceof TileEntityMachineBoilerElectric)
-			diFurnace = (TileEntityMachineBoilerElectric) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
+			dud = (TileEntityMachineBoilerElectric) diFurnace.getWorldObj().getTileEntity(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord);
+
+		if(dud.power > 0)
+			drawTexturedModalRect(guiLeft + 97, guiTop + 34, 176, 0, 18, 18);
+
+		int j = (int)dud.getHeatScaled(17);
+		drawTexturedModalRect(guiLeft + 103, guiTop + 33 - j, 194, 16 - j, 6, j);
+
+		int i = (int)dud.getPowerScaled(34);
+		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 200, 34 - i, 7, i);
 
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 2);
 		this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 16, 16, 16, 3);
 		
-		if(diFurnace.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
+		if(dud.tanks[1].getTankType().name().equals(FluidType.NONE.name())) {
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36 + 32, 16, 16, 6);
 		}
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[0].getSheet());
-		diFurnace.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, diFurnace.tanks[0].getTankType().textureX() * FluidTank.x, diFurnace.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(dud.tanks[0].getSheet());
+		dud.tanks[0].renderTank(this, guiLeft + 62, guiTop + 69, dud.tanks[0].getTankType().textureX() * FluidTank.x, dud.tanks[0].getTankType().textureY() * FluidTank.y, 16, 52);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(diFurnace.tanks[1].getSheet());
-		diFurnace.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, diFurnace.tanks[1].getTankType().textureX() * FluidTank.x, diFurnace.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(dud.tanks[1].getSheet());
+		dud.tanks[1].renderTank(this, guiLeft + 134, guiTop + 69, dud.tanks[1].getTankType().textureX() * FluidTank.x, dud.tanks[1].getTankType().textureY() * FluidTank.y, 16, 52);
 	}
 }

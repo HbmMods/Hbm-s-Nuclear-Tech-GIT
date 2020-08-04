@@ -49,13 +49,25 @@ public class GUIMachineReactor extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(breeder.hasPower())
+		/*
+		 * A dud is a tile entity which did not survive a block state change (i.e. a furnace becoming lit) on the client.
+		 * Usually, most functionality is preserved since vanilla interacts with the open GUI screen rather than the TE
+		 * itself, though this does not apply to NTM packets. The client will think the TE bound to the GUI is invalid,
+		 * and therefore miss out on NTM status packets, but it will still require the old TE for slot changes. The refreshed
+		 * "dud" is only used for status bars, it will not replace the actual invalid TE instance in the GUI screen.
+		 */
+		TileEntityMachineReactor dud = breeder;
+		
+		if(breeder.isInvalid() && breeder.getWorldObj().getTileEntity(breeder.xCoord, breeder.yCoord, breeder.zCoord) instanceof TileEntityMachineReactor)
+			dud = (TileEntityMachineReactor) breeder.getWorldObj().getTileEntity(breeder.xCoord, breeder.yCoord, breeder.zCoord);
+		
+		if(dud.hasPower())
 			drawTexturedModalRect(guiLeft + 55, guiTop + 35, 176, 0, 18, 16);
 		
-		int i = breeder.getProgressScaled(23);
+		int i = dud.getProgressScaled(23);
 		drawTexturedModalRect(guiLeft + 80, guiTop + 34, 176, 16, i, 16);
 		
-		int j = breeder.getHeatScaled(16);
+		int j = dud.getHeatScaled(16);
 		drawTexturedModalRect(guiLeft + 48, guiTop + 51 - j, 194, 16 - j, 4, j);
 	}
 

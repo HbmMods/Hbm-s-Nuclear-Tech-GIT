@@ -659,6 +659,34 @@ public class ItemAssemblyTemplate extends Item {
 				new ItemStack(ModItems.circuit_targeting_tier4, 1)),
 				new ItemStack(ModItems.mp_warhead_15_n2)),
 		
+		SOYUZ(2000, Arrays.asList(
+				new ItemStack(ModItems.rocket_fuel, 40),
+				new ItemStack(ModBlocks.det_cord, 20),
+				new ItemStack(ModItems.thruster_medium, 12),
+				new ItemStack(ModItems.thruster_small, 12),
+				new ItemStack(ModItems.tank_steel, 10),
+				new ItemStack(ModItems.circuit_targeting_tier4, 4),
+				new ItemStack(ModItems.circuit_targeting_tier3, 8),
+				new ItemStack(ModItems.plate_polymer, 64),
+				new ItemStack(ModItems.fins_small_steel, 4),
+				new ItemStack(ModItems.hull_big_titanium, 40),
+				new ItemStack(ModItems.hull_big_steel, 24),
+				new ItemStack(ModItems.ingot_fiberglass, 64)),
+				
+				new ItemStack(ModItems.missile_soyuz)),
+		
+		LANDER(1000, Arrays.asList(
+				new ItemStack(ModItems.rocket_fuel, 10),
+				new ItemStack(ModItems.thruster_small, 3),
+				new ItemStack(ModItems.tank_steel, 2),
+				new ItemStack(ModItems.circuit_targeting_tier3, 4),
+				new ItemStack(ModItems.plate_polymer, 32),
+				new ItemStack(ModItems.hull_big_aluminium, 2),
+				new ItemStack(ModItems.sphere_steel, 1),
+				new ItemStack(ModItems.ingot_fiberglass, 12)),
+				
+				new ItemStack(ModItems.missile_soyuz_lander)),
+		
 		GERALD(1200, Arrays.asList(
 				new ItemStack(ModItems.cap_star, 1),
 				new ItemStack(ModItems.chlorine_pinwheel, 1),
