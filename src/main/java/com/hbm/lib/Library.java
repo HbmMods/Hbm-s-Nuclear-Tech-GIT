@@ -12,7 +12,6 @@ import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.FluidTypeHandler.FluidType;
-import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IConductor;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -22,7 +21,6 @@ import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemToolAbilityPower;
-import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityCableSwitch;
@@ -83,39 +81,6 @@ public class Library {
 	//the old list that allowed superuser mode for the ZOMG
 	//currently unused
 	public static List<String> superuser = new ArrayList<String>();
-	
-	public static void applyRadData(Entity e, float f) {
-
-		if(!(e instanceof EntityLivingBase))
-			return;
-		
-		EntityLivingBase entity = (EntityLivingBase)e;
-		
-		if(entity.isPotionActive(HbmPotion.mutation))
-			return;
-		
-		if(entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)entity;
-			
-			float koeff = 5.0F;
-			f *= (float) Math.pow(koeff, -HazmatRegistry.instance.getResistance(player));
-		}
-
-		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
-	}
-	
-	public static void applyRadDirect(Entity e, float f) {
-
-		if(!(e instanceof EntityLivingBase))
-			return;
-		
-		if(((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
-			return;
-		
-		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
-	}
 	
 	public static boolean checkForHeld(EntityPlayer player, Item item) {
 		

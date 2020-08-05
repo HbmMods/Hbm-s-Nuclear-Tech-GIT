@@ -1,7 +1,7 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.tileentity.machine.TileEntityGeiger;
+import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -10,11 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public class GeigerCounter extends BlockContainer {
 
@@ -123,15 +121,7 @@ public class GeigerCounter extends BlockContainer {
 		} else if(!player.isSneaking())
 		{
 	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-
-			double eRad = ((int)(player.getEntityData().getFloat("hfr_radiation") * 10)) / 10D;
-
-			RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
-			Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-			double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
-
-			player.addChatMessage(new ChatComponentText("Current chunk radiation: " + rads + " RAD/s"));
-			player.addChatMessage(new ChatComponentText("Player contamination: " + eRad + " RAD"));
+	    	ContaminationUtil.printGeigerData(player);
 			return true;
 		} else {
 			return false;

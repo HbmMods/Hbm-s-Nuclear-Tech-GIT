@@ -573,6 +573,7 @@ public class MainRegistry
 		GameRegistry.registerTileEntity(TileEntityProxyCombo.class, "tileentity_proxy_combo");
 		GameRegistry.registerTileEntity(TileEntityMicrowave.class, "tileentity_microwave");
 		GameRegistry.registerTileEntity(TileEntityMachineMiniRTG.class, "tileentity_mini_rtg");
+		GameRegistry.registerTileEntity(TileEntityITER.class, "tileentity_iter");
 
 	    EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 	    EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

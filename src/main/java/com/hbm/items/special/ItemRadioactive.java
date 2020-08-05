@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hbm.handler.ArmorUtil;
 import com.hbm.inventory.BreederRecipes;
-import com.hbm.lib.Library;
+import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,7 +47,7 @@ public class ItemRadioactive extends ItemCustomLore {
 		if (entity instanceof EntityLivingBase) {
 			
 			if(this.radiation > 0)
-				Library.applyRadData(entity, this.radiation * mod / 20F);
+				ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
 			
 			if(this.fire)
 				entity.setFire(5);

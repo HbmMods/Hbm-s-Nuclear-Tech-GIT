@@ -7,13 +7,13 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -105,15 +105,7 @@ public class ItemGeigerCounter extends Item {
 		
 		if(!world.isRemote) {
 	    	world.playSoundAtEntity(player, "hbm:item.techBoop", 1.0F, 1.0F);
-
-			double eRad = ((int)(player.getEntityData().getFloat("hfr_radiation") * 10)) / 10D;
-
-			RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
-			Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
-			double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
-
-			player.addChatMessage(new ChatComponentText("Current chunk radiation: " + rads + " RAD/s"));
-			player.addChatMessage(new ChatComponentText("Player contamination: " + eRad + " RAD"));
+	    	ContaminationUtil.printGeigerData(player);
 		}
 		
 		return stack;

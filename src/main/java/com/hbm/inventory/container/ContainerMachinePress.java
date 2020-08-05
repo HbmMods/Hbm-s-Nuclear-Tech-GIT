@@ -20,6 +20,11 @@ private TileEntityMachinePress nukeBoy;
 	private int maxBurn;
 	
 	public ContainerMachinePress(InventoryPlayer invPlayer, TileEntityMachinePress tedf) {
+
+		power = 0;
+		progress = 0;
+		burnTime = 0;
+		maxBurn = 0;
 		
 		nukeBoy = tedf;
 

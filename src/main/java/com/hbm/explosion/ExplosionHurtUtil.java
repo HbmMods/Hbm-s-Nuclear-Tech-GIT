@@ -2,7 +2,7 @@ package com.hbm.explosion;
 
 import java.util.List;
 
-import com.hbm.lib.Library;
+import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
@@ -37,7 +37,7 @@ public class ExplosionHurtUtil {
 			double interpolation = 1 - (dist / radius);
 			float rad = (float) (outer + (inner - outer) * interpolation);
 			
-			Library.applyRadData(entity, rad);
+			ContaminationUtil.applyRadData(entity, rad);
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.items.tool.IItemAbility;
-import com.hbm.lib.Library;
+import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ public abstract class WeaponAbility {
 		@Override
 		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
 			
-			Library.applyRadData(victim, rad);
+			ContaminationUtil.applyRadData(victim, rad);
 		}
 
 		@Override

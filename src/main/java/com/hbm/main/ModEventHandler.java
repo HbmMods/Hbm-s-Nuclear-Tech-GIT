@@ -25,6 +25,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.RadSurveyPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -241,13 +242,13 @@ public class ModEventHandler
 								rad = MainRegistry.hellRad;
 							
 							if(rad > 0) {
-								Library.applyRadData(entity, rad / 2);
+								ContaminationUtil.applyRadData(entity, rad / 2);
 							}
 							
 							if(entity.worldObj.isRaining() && MainRegistry.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 &&
 									entity.worldObj.canBlockSeeTheSky(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))) {
 
-								Library.applyRadData(entity, MainRegistry.cont * 0.005F);
+								ContaminationUtil.applyRadData(entity, MainRegistry.cont * 0.005F);
 							}
 						}
 						

@@ -8,8 +8,8 @@ import com.hbm.entity.mob.ai.EntityAINuclearCreeperSwell;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,17 +38,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityNuclearCreeper extends EntityMob {
-    /**
-     * Time when this creeper was last in an active state (Messed up code here, probably causes creeper animation to go
-     * weird)
-     */
+	
     private int lastActiveTime;
-    /** The amount of time since the creeper was close enough to the player to ignite */
     private int timeSinceIgnited;
     private int fuseTime = 75;
-    /** Explosion radius for this creeper. */
     private int explosionRadius = 20;
-    private static final String __OBFID = "CL_00001684";
 
     public EntityNuclearCreeper(World p_i1733_1_)
     {
@@ -82,28 +76,19 @@ public class EntityNuclearCreeper extends EntityMob {
 
 		return super.attackEntityFrom(source, amount);
 	}
-
-    /**
-     * Returns true if the newer Entity AI code should be run
-     */
+    
     @Override
 	public boolean isAIEnabled()
     {
         return true;
     }
-
-    /**
-     * The number of iterations PathFinder.getSafePoint will execute before giving up.
-     */
+    
     @Override
 	public int getMaxSafePointTries()
     {
         return this.getAttackTarget() == null ? 3 : 3 + (int)(this.getHealth() - 1.0F);
     }
-
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
+    
     @Override
 	protected void fall(float p_70069_1_)
     {
@@ -124,10 +109,7 @@ public class EntityNuclearCreeper extends EntityMob {
         this.dataWatcher.addObject(17, Byte.valueOf((byte)0));
         this.dataWatcher.addObject(18, Byte.valueOf((byte)0));
     }
-
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
+    
     @Override
 	public void writeEntityToNBT(NBTTagCompound p_70014_1_)
     {
@@ -142,10 +124,7 @@ public class EntityNuclearCreeper extends EntityMob {
         p_70014_1_.setByte("ExplosionRadius", (byte)this.explosionRadius);
         p_70014_1_.setBoolean("ignited", this.func_146078_ca());
     }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
+    
     @Override
 	public void readEntityFromNBT(NBTTagCompound p_70037_1_)
     {
@@ -167,10 +146,7 @@ public class EntityNuclearCreeper extends EntityMob {
             this.func_146079_cb();
         }
     }
-
-    /**
-     * Called to update the entity's position/logic.
-     */
+    
     @Override
 	public void onUpdate()
     {
@@ -214,7 +190,7 @@ public class EntityNuclearCreeper extends EntityMob {
 
         for(Entity e : list)
         	if(!(e instanceof EntityNuclearCreeper))
-        		Library.applyRadData(e, 0.25F);
+        		ContaminationUtil.applyRadData(e, 0.25F);
 
         super.onUpdate();
         
@@ -223,28 +199,19 @@ public class EntityNuclearCreeper extends EntityMob {
         	this.heal(1.0F);
         }
     }
-
-    /**
-     * Returns the sound this mob makes when it is hurt.
-     */
+    
     @Override
 	protected String getHurtSound()
     {
         return "mob.creeper.say";
     }
-
-    /**
-     * Returns the sound this mob makes on death.
-     */
+    
     @Override
 	protected String getDeathSound()
     {
         return "mob.creeper.death";
     }
-
-    /**
-     * Called when the mob's health reaches 0.
-     */
+    
     @Override
 	public void onDeath(DamageSource p_70645_1_)
     {
@@ -296,18 +263,12 @@ public class EntityNuclearCreeper extends EntityMob {
     {
         return true;
     }
-
-    /**
-     * Returns true if the creeper is powered by a lightning bolt.
-     */
+    
     public boolean getPowered()
     {
         return this.dataWatcher.getWatchableObjectByte(17) == 1;
     }
-
-    /**
-     * Params: (Float)Render tick. Returns the intensity of the creeper's flash when it is ignited.
-     */
+    
     @SideOnly(Side.CLIENT)
     public float getCreeperFlashIntensity(float p_70831_1_)
     {
@@ -319,36 +280,24 @@ public class EntityNuclearCreeper extends EntityMob {
     {
         return Item.getItemFromBlock(Blocks.tnt);
     }
-
-    /**
-     * Returns the current state of creeper, -1 is idle, 1 is 'in fuse'
-     */
+    
     public int getCreeperState()
     {
         return this.dataWatcher.getWatchableObjectByte(16);
     }
-
-    /**
-     * Sets the state of creeper, -1 to idle and 1 to be 'in fuse'
-     */
+    
     public void setCreeperState(int p_70829_1_)
     {
         this.dataWatcher.updateObject(16, Byte.valueOf((byte)p_70829_1_));
     }
-
-    /**
-     * Called when a lightning bolt hits the entity.
-     */
+    
     @Override
 	public void onStruckByLightning(EntityLightningBolt p_70077_1_)
     {
         super.onStruckByLightning(p_70077_1_);
         this.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
     }
-
-    /**
-     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
-     */
+    
     @Override
 	protected boolean interact(EntityPlayer p_70085_1_)
     {
@@ -378,7 +327,6 @@ public class EntityNuclearCreeper extends EntityMob {
 
             if (this.getPowered())
             {
-                //this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(this.explosionRadius * 2), flag);
             	this.explosionRadius *= 3;
             }
 

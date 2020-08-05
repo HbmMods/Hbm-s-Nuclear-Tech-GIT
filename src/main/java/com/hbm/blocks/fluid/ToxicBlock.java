@@ -3,8 +3,9 @@ package com.hbm.blocks.fluid;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.ContaminationUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -103,7 +104,7 @@ public class ToxicBlock extends BlockFluidClassic {
 		
 		//Library.applyRadiation(entity, 2 * 60 * 20, 50, 60 * 20, 35);
 		
-		Library.applyRadData(entity, 1.0F);
+		ContaminationUtil.applyRadData(entity, 1.0F);
 	}
 
 	@Override
