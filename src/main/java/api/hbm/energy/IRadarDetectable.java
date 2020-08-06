@@ -13,8 +13,9 @@ public interface IRadarDetectable {
 		MISSILE_15,			//size 15 custom missiles
 		MISSILE_15_20,		//size 15/20 custom missiles
 		MISSILE_20,			//size 20 custom missiles
+		MISSILE_AB,			//anti ballistic missile
 		PLAYER,				//airborne players
 	}
 	
-	//TODO: rewrite the crappy radaar TE code and implement the API
+	public RadarTargetType getTargetType();
 }

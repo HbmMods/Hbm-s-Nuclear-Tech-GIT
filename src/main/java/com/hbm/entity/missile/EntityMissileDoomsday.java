@@ -3,6 +3,8 @@ package com.hbm.entity.missile;
 import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
+
+import api.hbm.energy.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -104,8 +106,7 @@ public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
 	}
 
 	@Override
-	public int getMissileType() {
-		return 3;
+	public RadarTargetType getTargetType() {
+		return RadarTargetType.MISSILE_TIER4;
 	}
-
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 
+import api.hbm.energy.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -44,7 +45,7 @@ public class EntityMissileBurst extends EntityMissileBaseAdvanced {
 	}
 
 	@Override
-	public int getMissileType() {
-		return 2;
+	public RadarTargetType getTargetType() {
+		return RadarTargetType.MISSILE_TIER3;
 	}
 }

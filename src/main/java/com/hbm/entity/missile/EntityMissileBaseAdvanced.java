@@ -10,6 +10,7 @@ import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
+import api.hbm.energy.IRadarDetectable;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public abstract class EntityMissileBaseAdvanced extends Entity implements IChunkLoader {
+public abstract class EntityMissileBaseAdvanced extends Entity implements IChunkLoader, IRadarDetectable {
 	
 	int startX;
 	int startZ;
@@ -260,8 +261,6 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
     }
 
 	public abstract void onImpact();
-
-	public abstract int getMissileType();
 
 	public abstract List<ItemStack> getDebris();
 	

@@ -48,8 +48,8 @@ public class EntityMissileBunkerBuster extends EntityMissileBaseAdvanced {
 	}
 
 	@Override
-	public int getMissileType() {
-		return 0;
+	public RadarTargetType getTargetType() {
+		return RadarTargetType.MISSILE_TIER1;
 	}
 
 }

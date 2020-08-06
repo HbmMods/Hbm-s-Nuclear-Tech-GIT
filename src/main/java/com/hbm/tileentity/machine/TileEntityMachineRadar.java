@@ -6,12 +6,16 @@ import java.util.List;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.Untested;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TERadarDestructorPacket;
 import com.hbm.packet.TERadarPacket;
+import com.hbm.tileentity.TileEntityTickingBase;
 
+import api.hbm.energy.IRadarDetectable;
+import api.hbm.energy.IRadarDetectable.RadarTargetType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,15 +25,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineRadar extends TileEntity implements IConsumer {
+@Untested
+public class TileEntityMachineRadar extends TileEntityTickingBase implements IConsumer {
 
-	public static List<EntityMissileBaseAdvanced> allMissiles = new ArrayList();
 	public List<int[]> nearbyMissiles = new ArrayList();
 	int pingTimer = 0;
+	int lastPower;
 	final static int maxTimer = 40;
 
 	public long power = 0;
 	public static final int maxPower = 100000;
+
+	@Override
+	public String getInventoryName() {
+		return "";
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -51,31 +61,32 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		if(this.yCoord < MainRegistry.radarAltitude)
 			return;
 		
-		if(!worldObj.isRemote)
-			nearbyMissiles.clear();
+		int lastPower = getRedPower();
 		
-		if(power > 0) {
-
-			if(!worldObj.isRemote) {
+		if(!worldObj.isRemote) {
+			nearbyMissiles.clear();
+			
+			if(power > 0) {
+				
 				allocateMissiles();
-				sendMissileData();
+				
+				power -= 500;
+				
+				if(power < 0)
+					power = 0;
 			}
 			
-			power -= 500;
-			if(power < 0)
-				power = 0;
-		}
-		
-		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
-		
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-		
-		pingTimer++;
-		
-		if(power > 0 && pingTimer >= maxTimer) {
-			this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 5.0F, 1.0F);
-			pingTimer = 0;
+			if(lastPower != getRedPower())
+				worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+			
+			sendMissileData();
+			
+			pingTimer++;
+			
+			if(power > 0 && pingTimer >= maxTimer) {
+				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 5.0F, 1.0F);
+				pingTimer = 0;
+			}
 		}
 	}
 	
@@ -86,40 +97,14 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - MainRegistry.radarRange, 0, zCoord + 0.5 - MainRegistry.radarRange, xCoord + 0.5 + MainRegistry.radarRange, 5000, zCoord + 0.5 + MainRegistry.radarRange));
 
 		for(Entity e : list) {
-			/*if(e instanceof EntityMissileBaseAdvanced) {
-				EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
-				nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType() });
-			}*/
-			
-			/*if(e instanceof EntityRocketHoming && e.posY >= yCoord + MainRegistry.radarBuffer) {
-				EntityRocketHoming rocket = (EntityRocketHoming)e;
-				
-				if(rocket.getIsCritical())
-					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 7, (int)e.posY });
-				else
-					nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 6, (int)e.posY });
-				
-				continue;
-			}*/
 
 			if(e instanceof EntityPlayer && e.posY >= yCoord + MainRegistry.radarBuffer) {
-				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 5, (int)e.posY });
+				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, RadarTargetType.PLAYER.ordinal(), (int)e.posY });
 			}
 			
-			if(e instanceof EntityMissileAntiBallistic && e.posY >= yCoord + MainRegistry.radarBuffer) {
-				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, 4, (int)e.posY });
+			if(e instanceof IRadarDetectable && e.posY >= yCoord + MainRegistry.radarBuffer) {
+				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, ((IRadarDetectable)e).getTargetType().ordinal(), (int)e.posY });
 			}
-		}
-		
-		for(Entity e : allMissiles) {
-			if(e != null && !e.isDead && e.posY >= yCoord + MainRegistry.radarBuffer)
-				if(e instanceof EntityMissileBaseAdvanced) {
-					if(e.posX < xCoord + MainRegistry.radarRange && e.posX > xCoord - MainRegistry.radarRange &&
-							e.posZ < zCoord + MainRegistry.radarRange && e.posZ > zCoord - MainRegistry.radarRange) {
-						EntityMissileBaseAdvanced mis = (EntityMissileBaseAdvanced)e;
-						nearbyMissiles.add(new int[] { (int)mis.posX, (int)mis.posZ, mis.getMissileType(), (int)mis.posY });
-					}
-				}
 		}
 	}
 	
@@ -149,10 +134,35 @@ public class TileEntityMachineRadar extends TileEntity implements IConsumer {
 	
 	private void sendMissileData() {
 		
-		PacketDispatcher.wrapper.sendToAllAround(new TERadarDestructorPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		NBTTagCompound data = new NBTTagCompound();
+		data.setLong("power", power);
+		data.setInteger("count", this.nearbyMissiles.size());
 		
-		for(int[] e : this.nearbyMissiles) {
-			PacketDispatcher.wrapper.sendToAllAround(new TERadarPacket(xCoord, yCoord, zCoord, e[0], e[1], e[2], e[3]), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		for(int i = 0; i < this.nearbyMissiles.size(); i++) {
+			data.setInteger("x" + i, this.nearbyMissiles.get(i)[0]);
+			data.setInteger("z" + i, this.nearbyMissiles.get(i)[1]);
+			data.setInteger("type" + i, this.nearbyMissiles.get(i)[2]);
+			data.setInteger("y" + i, this.nearbyMissiles.get(i)[3]);
+		}
+		
+		this.networkPack(data, 15);
+	}
+	
+	public void networkUnpack(NBTTagCompound data) {
+		
+		this.nearbyMissiles.clear();
+		this.power = data.getLong("power");
+		
+		int count = data.getInteger("count");
+		
+		for(int i = 0; i < count; i++) {
+
+			int x = data.getInteger("x" + i);
+			int z = data.getInteger("z" + i);
+			int type = data.getInteger("type" + i);
+			int y = data.getInteger("y" + i);
+			
+			this.nearbyMissiles.add(new int[] {x, z, type, y});
 		}
 	}
 	

@@ -253,9 +253,10 @@ public class GUIScreenSatInterface extends GuiScreen {
 					
 					int t = 5;
 					
-					if(e instanceof EntityMissileBaseAdvanced) {
+					//TODO: fix radar screen implementation
+					/*if(e instanceof EntityMissileBaseAdvanced) {
 						t = ((EntityMissileBaseAdvanced)e).getMissileType();
-					}
+					}*/
 					
 					if(e instanceof EntityMob) {
 						t = 6;

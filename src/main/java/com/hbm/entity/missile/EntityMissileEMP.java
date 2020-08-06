@@ -8,6 +8,7 @@ import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.items.ModItems;
 
+import api.hbm.energy.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -53,8 +54,7 @@ public class EntityMissileEMP extends EntityMissileBaseAdvanced {
 	}
 
 	@Override
-	public int getMissileType() {
-		return 0;
+	public RadarTargetType getTargetType() {
+		return RadarTargetType.MISSILE_TIER0;
 	}
-
 }
