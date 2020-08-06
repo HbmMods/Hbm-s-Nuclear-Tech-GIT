@@ -74,13 +74,16 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				
 				//for when you fill corrosive liquid into an iron tank
 				if(b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) {
-					
-					BlockFluidBarrel.keepInventory = true;
+					ItemStack[] copy = this.slots.clone();
+					this.slots = new ItemStack[6];
 					worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
-					worldObj.setTileEntity(xCoord, yCoord, zCoord, this);
-					this.validate();
+					TileEntityBarrel barrel = (TileEntityBarrel)worldObj.getTileEntity(xCoord, yCoord, zCoord);
 					
-					BlockFluidBarrel.keepInventory = false;
+					if(barrel != null) {
+						barrel.tank.setTankType(tank.getTankType());
+						barrel.tank.setFill(Math.min(barrel.tank.getMaxFill(), tank.getFill()));
+						barrel.slots = copy;
+					}
 					
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 				}

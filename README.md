@@ -9,8 +9,8 @@ For a 1.12 fork, check this link: https://github.com/Drillgon200/Hbm-s-Nuclear-T
 Tired of waiting until the next version comes out? Here is a tutorial on how to compile the very newest version yourself:
 1. Download minecraft forge 1.7.10 src
 2. Unpack it somewhere
-3. Go to the new folder and run `gradlew setupDecompWorkspace` on windows or `./gradlew setupDecompWorkspace` on linux. This process will most likely display errors which is due to some dependencies being no longer available. Don't worry, the repository should have all the files you need.
-4. Download the source and insert it into the same folder. This will overwrite a couple of files, for example build.gradle
+3. Download the source and insert it into the same folder. This will overwrite a couple of files, for example build.gradle
+4. Run `gradlew setupDecompWorkspace` on windows or `./gradlew setupDecompWorkspace` on linux (remember: do not take the name of root in vain). Running this command on a blank forge workspace will yield errors, so it's important you insert the mod's source in step 3. The source has corrected versions of guild.gradle and the gradle wrapper, if done correctly it should run just fine.
 5. The `build.gradle` file will reference these following files:
 ```
 compile files('lib/CodeChickenCore-1.7.10-1.0.4.29-dev.jar')
@@ -18,10 +18,9 @@ compile files('lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
 compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
 ```
 which means you need to do one of the following things:
-1) Find these exact versions of the dependencies, download them and put them into a folder called `libs` in your project's root folder
+1) Find these exact versions of the dependencies, download them and put them into a folder called `libs` in your project's root folder. You can download a zip containing all files here: https://bit.ly/3fBxMq0
 2) Find other versions, change the `build.gradle` file to reflect this difference and fix any potential errors this could cause (unlikely but not impossible)
 3) Remove these dependencies from `build.gradle` along with all the API code. Note that this will break NEI-integration.
-I know that this approach is anything but desirable, but until I get around to fixing this, you can always ask me to send you the libraries.
 7. Open up the CMD in the root directory and run `gradlew build` on windows or `./gradlew build` on linux
 8. Head over to `build/libs` and get the jar (named modid.jar)
 9. Open the jar file with an archieve manager of your choice and insert the mod's asset folder into the jar's main directory
