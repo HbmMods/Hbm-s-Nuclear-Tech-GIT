@@ -131,5 +131,21 @@ public class RecipesCommon {
 			return true;
 		}
 	}
+	
+	public static class OreDictStack {
+		
+		public String name;
+		public int stacksize;
+		
+		public OreDictStack(String name) {
+			this.name = name;
+			this.stacksize = 1;
+		}
+		
+		public OreDictStack(String name, int stacksize) {
+			this(name);
+			this.stacksize = stacksize;
+		}
+	}
 
 }

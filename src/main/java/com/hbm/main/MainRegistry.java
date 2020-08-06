@@ -151,52 +151,6 @@ public class MainRegistry
 	public static CreativeTabs consumableTab = new ConsumableTab(CreativeTabs.getNextID(), "tabConsumable");
 	
 	//Achievements
-	public static Achievement achCircuit0;
-	public static Achievement achCircuit1;
-	public static Achievement achCircuit2;
-	public static Achievement achCircuit3;
-	public static Achievement achCircuit4;
-	public static Achievement achCircuit5;
-	public static Achievement achJack;
-	public static Achievement achDalekanium;
-	public static Achievement achRefinery;
-	public static Achievement achBattery;
-	public static Achievement achOil;
-	public static Achievement achCatapult1;
-	public static Achievement achCatapult2;
-	public static Achievement achCatapult3;
-	public static Achievement achU235;
-	public static Achievement achPu238;
-	public static Achievement achPu239;
-	public static Achievement achNeptunium;
-	public static Achievement achDesh;
-	public static Achievement achMeteor;
-	public static Achievement achGeiger;
-	public static Achievement achDesignator;
-	public static Achievement achRemote;
-	public static Achievement achOverpowered;
-	public static Achievement achShimSham;
-	public static Achievement achMatchstick;
-	public static Achievement achRails;
-	public static Achievement achFolder;
-	public static Achievement achPress;
-	public static Achievement achFWatz;
-	public static Achievement achTurbofan;
-	public static Achievement achGadget;
-	public static Achievement achBoy;
-	public static Achievement achMan;
-	public static Achievement achMike;
-	public static Achievement achTsar;
-	public static Achievement achFLEIJA;
-	public static Achievement achPrototype;
-	public static Achievement achCustom;
-	public static Achievement achTurret;
-	public static Achievement achMeteorDeath;
-	public static Achievement achXenium;
-	public static Achievement achRadiation;
-	public static Achievement achSchrabidium;
-	public static Achievement achEuphemium;
-	
 	public static Achievement achSacrifice;
 	public static Achievement achImpossible;
 	public static Achievement achTOB;
@@ -379,6 +333,7 @@ public class MainRegistry
 		CellularDungeonFactory.init();
 		Satellite.register();
 		VersionChecker.checkVersion();
+		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 		
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
