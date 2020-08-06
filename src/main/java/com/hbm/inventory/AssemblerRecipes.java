@@ -18,10 +18,16 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraftforge.oredict.OreDictionary;
+
+@Untested
 public class AssemblerRecipes {
 
 	public static File config;
@@ -158,7 +164,96 @@ public class AssemblerRecipes {
 	}
 	
 	private static Object parseJsonArray(JsonArray array) {
-		return null;
+		
+		boolean dict = false;
+		String item = "";
+		int stacksize = 1;
+		int meta = 0;
+		
+		if(array.size() < 2)
+			return null;
+		
+		//is index 0 "item" or "dict"?
+		if(array.get(0).isJsonPrimitive()) {
+			
+			if(array.get(0).getAsString().equals("item")) {
+				dict = false;
+			} else if(array.get(0).getAsString().equals("dict")) {
+				dict = true;
+			} else {
+				
+				MainRegistry.logger.error("Error reading recipe, stack array does not have 'item' or 'dict' label!");
+				return null;
+			}
+			
+		} else {
+			
+			MainRegistry.logger.error("Error reading recipe, label is not a valid data type!");
+			return null;
+		}
+		
+		//is index 1 a string
+		if(array.get(1).isJsonPrimitive()) {
+			
+			item = array.get(1).getAsString();
+			
+		} else {
+			MainRegistry.logger.error("Error reading recipe, item string is not a valid data type!");
+			return null;
+		}
+		
+		//if index 3 exists, eval it as a stacksize
+		if(array.size() > 2 && array.get(2).isJsonPrimitive()) {
+			
+			if(array.get(2).getAsJsonPrimitive().isNumber()) {
+				
+				stacksize = Math.min(64, Math.max(1, array.get(2).getAsJsonPrimitive().getAsNumber().intValue()));
+				
+			} else {
+				
+				MainRegistry.logger.error("Error reading recipe, stack size is not a valid data type!");
+				return null;
+			}
+		}
+		
+		//ore dict implementation
+		if(dict) {
+			
+			if(OreDictionary.doesOreNameExist(item)) {
+				return new OreDictStack(item, stacksize);
+			} else {
+				
+				MainRegistry.logger.error("Error reading recipe, ore dict name does not exist!");
+				return null;
+			}
+		
+		//comparable stack
+		} else {
+			
+			//if index 4 exists, eval it as a meta
+			if(array.size() > 3 && array.get(3).isJsonPrimitive()) {
+				
+				if(array.get(3).getAsJsonPrimitive().isNumber()) {
+					
+					meta = Math.max(0, array.get(3).getAsJsonPrimitive().getAsNumber().intValue());
+					
+				} else {
+					
+					MainRegistry.logger.error("Error reading recipe, metadata is not a valid data type!");
+					return null;
+				}
+			}
+			
+			Item it = (Item)Item.itemRegistry.getObject(item);
+			
+			if(it == null) {
+				
+				MainRegistry.logger.error("Item could not be found!");
+				return null;
+			}
+			
+			return new ComparableStack(it, stacksize, meta);
+		}
 	}
 	
 	public static void saveJSONRecipes() {

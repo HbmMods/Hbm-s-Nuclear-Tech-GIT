@@ -81,7 +81,6 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
         ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
         ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
         ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
-        TileEntityMachineRadar.allMissiles.remove(this);
     }
 
 	public EntityMissileBaseAdvanced(World world, float x, float y, float z, int a, int b) {
@@ -172,21 +171,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	}
 	
 	@Override
-    public void onUpdate()
-    {
-		//super.onUpdate();
-		
-		if(!worldObj.isRemote) {
-			TileEntityMachineRadar.allMissiles.remove(this);
-			TileEntityMachineRadar.allMissiles.add(this);
-		}
-		
-		//if(!worldObj.loadedEntityList.contains(this))
-		//	worldObj.loadedEntityList.add(this);
-		
-		//System.out.println(this.posX + " " + this.posY + " " + this.posZ);
-		
-		
+    public void onUpdate() {
 		
 		if(velocity < 1)
 			velocity = 1;
@@ -201,6 +186,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 		
+        //TODO: instead of crappy skipping, implement a hitscan
 		for(int i = 0; i < velocity; i++) {
 	        //this.posX += this.motionX;
 	        //this.posY += this.motionY;
