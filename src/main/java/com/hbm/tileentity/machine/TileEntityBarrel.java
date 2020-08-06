@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockFluidBarrel;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
@@ -59,28 +60,27 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				
 				Block b = this.getBlockType();
 				
+				//for when you fill antimatter into a matter tank
 				if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 				}
 				
+				//for when you fill hot or corrosive liquids into a plastic tank
 				if(b == ModBlocks.barrel_plastic && (tank.getTankType().isCorrosive() || tank.getTankType().isHot())) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 				}
 				
-				//TODO: rip off furnace code and make transition more seamless
+				//for when you fill corrosive liquid into an iron tank
 				if(b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) {
-					ItemStack[] copy = this.slots.clone();
-					this.slots = new ItemStack[6];
-					worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
-					TileEntityBarrel barrel = (TileEntityBarrel)worldObj.getTileEntity(xCoord, yCoord, zCoord);
 					
-					if(barrel != null) {
-						barrel.tank.setTankType(tank.getTankType());
-						barrel.tank.setFill(Math.min(barrel.tank.getMaxFill(), tank.getFill()));
-						barrel.slots = copy;
-					}
+					BlockFluidBarrel.keepInventory = true;
+					worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
+					worldObj.setTileEntity(xCoord, yCoord, zCoord, this);
+					this.validate();
+					
+					BlockFluidBarrel.keepInventory = false;
 					
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 				}

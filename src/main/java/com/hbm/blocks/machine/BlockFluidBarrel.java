@@ -79,8 +79,7 @@ public class BlockFluidBarrel extends BlockContainer {
 	}
 
     private final Random field_149933_a = new Random();
-	private Random rand;
-	private static boolean keepInventory;
+	public static boolean keepInventory;
 	
 	@Spaghetti("stop doing that and make a base class for fuck's sake")
 	@Override
