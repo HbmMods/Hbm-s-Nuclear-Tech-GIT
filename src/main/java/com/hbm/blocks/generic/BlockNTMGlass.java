@@ -7,9 +7,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
 
-public class BlockRadGlass extends BlockBreakable {
+public class BlockNTMGlass extends BlockBreakable {
 
-	public BlockRadGlass(String name, Material material) {
+	public BlockNTMGlass(String name, Material material) {
 		super(name, material, false);
 	}
 	
