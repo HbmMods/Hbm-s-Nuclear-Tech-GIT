@@ -4,19 +4,14 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.effect.EntityNukeCloudBig;
-import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.entity.logic.EntityNukeExplosionPlus;
 import com.hbm.entity.projectile.EntityFallingNuke;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Untested;
 import com.hbm.main.MainRegistry;
@@ -130,13 +125,20 @@ public class NukeCustom extends BlockContainer implements IBomb {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_) {
 		
-		TileEntityNukeCustom entity = (TileEntityNukeCustom) world.getTileEntity(x, y, z);
 		if (world.isBlockIndirectlyGettingPowered(x, y, z) && !world.isRemote) {
 			this.explode(world, x, y, z);
 		}
 	}
+
+	public static final int maxTnt = 150;
+	public static final int maxNuke = 200;
+	public static final int maxHydro = 350;
+	public static final int maxAmat = 350;
+	public static final int maxSchrab = 250;
 	
 	public static void explodeCustom(World worldObj, double xCoord, double yCoord, double zCoord, float tnt, float nuke, float hydro, float amat, float dirty, float schrab, float euph) {
+		
+		dirty = Math.min(dirty, 100);
 		
 		/// EUPHEMIUM ///
 		if(euph > 0) {
@@ -148,7 +150,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		} else if(schrab > 0) {
 			
 			schrab += amat / 2 + hydro / 4 + nuke / 8 + tnt / 16;
-			schrab = Math.min(schrab, 250);
+			schrab = Math.min(schrab, maxSchrab);
 
 			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(worldObj);
 			entity.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
@@ -166,7 +168,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		} else if(amat > 0) {
 
 			amat += hydro / 2 + nuke / 4 + tnt / 8;
-			amat = Math.min(amat, 350);
+			amat = Math.min(amat, maxAmat);
 
 			EntityBalefire bf = new EntityBalefire(worldObj);
     		bf.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
@@ -178,7 +180,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		} else if(hydro > 0) {
 
 			hydro += nuke / 2 + tnt / 4;
-			hydro = Math.min(hydro, 350);
+			hydro = Math.min(hydro, maxHydro);
 			dirty *= 0.25F;
 
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)hydro, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).moreFallout((int)dirty));
@@ -188,7 +190,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		} else if(nuke > 0) {
 			
 			nuke += tnt / 2;
-			nuke = Math.min(nuke, 200);
+			nuke = Math.min(nuke, maxNuke);
 
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)nuke, xCoord + 0.5, yCoord + 5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, nuke));
@@ -196,7 +198,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		/// NON-NUCLEAR ///
 		} else if(tnt >= 75) {
 
-			tnt = Math.min(tnt, 150);
+			tnt = Math.min(tnt, maxTnt);
 
 			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFacNoRad(worldObj, (int)tnt, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, tnt));
@@ -246,7 +248,8 @@ public class NukeCustom extends BlockContainer implements IBomb {
 		
 		if(!entity.isFalling()) {
 			
-			entity.destruct();
+			entity.clearSlots();
+			world.func_147480_a(x, y, z, false);
 			NukeCustom.explodeCustom(world, x + 0.5, y + 0.5, z + 0.5, entity.tnt, entity.nuke, entity.hydro, entity.amat, entity.dirty, entity.schrab, entity.euph);
 			
 		} else {

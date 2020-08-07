@@ -4,17 +4,8 @@ import java.util.HashMap;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.NukeCustom;
-import com.hbm.entity.effect.EntityCloudFleija;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.entity.grenade.EntityGrenadeZOMG;
-import com.hbm.entity.logic.EntityBalefire;
-import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.explosion.ExplosionChaos;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -209,6 +199,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		entries.put(new ComparableStack(ModItems.nugget_pu239), new CustomNukeEntry(EnumBombType.NUKE, 2.5F));
 		entries.put(new ComparableStack(ModItems.nugget_neptunium), new CustomNukeEntry(EnumBombType.NUKE, 3.0F));
 		entries.put(new ComparableStack(ModItems.powder_neptunium), new CustomNukeEntry(EnumBombType.NUKE, 30F));
+		entries.put(new ComparableStack(ModItems.custom_nuke), new CustomNukeEntry(EnumBombType.NUKE, 30F));
 
 		entries.put(new ComparableStack(ModItems.cell_deuterium), new CustomNukeEntry(EnumBombType.HYDRO, 20F));
 		entries.put(new ComparableStack(ModItems.cell_tritium), new CustomNukeEntry(EnumBombType.HYDRO, 30F));
@@ -218,8 +209,8 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 
 		entries.put(new ComparableStack(ModItems.cell_antimatter), new CustomNukeEntry(EnumBombType.AMAT, 5F));
 		entries.put(new ComparableStack(ModItems.custom_amat), new CustomNukeEntry(EnumBombType.AMAT, 15F));
-		entries.put(new ComparableStack(ModItems.egg_balefire_shard), new CustomNukeEntry(EnumBombType.AMAT, 25F));
-		entries.put(new ComparableStack(ModItems.egg_balefire), new CustomNukeEntry(EnumBombType.AMAT, 250F));
+		entries.put(new ComparableStack(ModItems.egg_balefire_shard), new CustomNukeEntry(EnumBombType.AMAT, 15F));
+		entries.put(new ComparableStack(ModItems.egg_balefire), new CustomNukeEntry(EnumBombType.AMAT, 150F));
 
 		entries.put(new ComparableStack(ModItems.ingot_tungsten), new CustomNukeEntry(EnumBombType.DIRTY, 1F));
 		entries.put(new ComparableStack(ModItems.custom_dirty), new CustomNukeEntry(EnumBombType.DIRTY, 10F));
@@ -232,11 +223,11 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		entries.put(new ComparableStack(ModItems.cell_anti_schrabidium), new CustomNukeEntry(EnumBombType.SCHRAB, 15F));
 		entries.put(new ComparableStack(ModItems.custom_schrab), new CustomNukeEntry(EnumBombType.SCHRAB, 15F));
 
-		entries.put(new ComparableStack(ModItems.custom_schrab), new CustomNukeEntry(EnumBombType.EUPH, 1F));
+		entries.put(new ComparableStack(ModItems.nugget_euphemium), new CustomNukeEntry(EnumBombType.EUPH, 1F));
 		entries.put(new ComparableStack(ModItems.ingot_euphemium), new CustomNukeEntry(EnumBombType.EUPH, 1F));
 
-		entries.put(new ComparableStack(Items.redstone), new CustomNukeEntry(EnumBombType.TNT, 1.005F, EnumEntryType.MULT));
-		entries.put(new ComparableStack(Blocks.redstone_block), new CustomNukeEntry(EnumBombType.TNT, 1.05F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(Items.redstone), new CustomNukeEntry(EnumBombType.TNT, 1.05F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(Blocks.redstone_block), new CustomNukeEntry(EnumBombType.TNT, 1.5F, EnumEntryType.MULT));
 
 		entries.put(new ComparableStack(ModItems.ingot_uranium), new CustomNukeEntry(EnumBombType.NUKE, 1.05F, EnumEntryType.MULT));
 		entries.put(new ComparableStack(ModItems.ingot_plutonium), new CustomNukeEntry(EnumBombType.NUKE, 1.15F, EnumEntryType.MULT));
@@ -283,6 +274,9 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 			ComparableStack comp = new ComparableStack(stack).makeSingular();
 			CustomNukeEntry ent = entries.get(comp);
 			
+			if(ent == null)
+				continue;
+			
 			if(ent.entry == EnumEntryType.ADD) {
 				
 				switch(ent.type) {
@@ -314,8 +308,6 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		amat *= amatMod;
 		dirty *= dirtyMod;
 		schrab *= schrabMod;
-
-		dirty = Math.min(dirty, 100);
 		
 		if(tnt < 16) nuke = 0;
 		if(nuke < 100) hydro = 0;
@@ -330,6 +322,38 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		this.dirty = dirty;
 		this.schrab = schrab;
 		this.euph = euph;
+	}
+	
+	public float getNukeAdj() {
+		
+		if(nuke == 0)
+			return 0;
+		
+		return Math.min(nuke + tnt / 2, NukeCustom.maxNuke);
+	}
+	
+	public float getHydroAdj() {
+		
+		if(hydro == 0)
+			return 0;
+		
+		return Math.min(hydro + nuke / 2 + tnt / 4, NukeCustom.maxHydro);
+	}
+	
+	public float getAmatAdj() {
+		
+		if(amat == 0)
+			return 0;
+		
+		return Math.min(amat + hydro / 2 + nuke / 4 + tnt / 8, NukeCustom.maxAmat);
+	}
+	
+	public float getSchrabAdj() {
+		
+		if(schrab == 0)
+			return 0;
+		
+		return Math.min(schrab + amat / 2 + hydro / 4 + nuke / 8 + tnt / 16, NukeCustom.maxSchrab);
 	}
 	
 	public boolean isFalling() {
