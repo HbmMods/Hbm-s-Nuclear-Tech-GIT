@@ -9,12 +9,10 @@ import net.minecraft.item.ItemStack;
 
 public class FluidContainerRegistry {
 	
-	public static final FluidContainerRegistry instance = new FluidContainerRegistry();
-	
 	//TODO: somehow incorporate hashmaps into this
-	List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
+	static List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
 	
-	public void registerContainer(FluidContainer con) {
+	public static void registerContainer(FluidContainer con) {
 		allContainers.add(con);
 	}
 	
@@ -26,7 +24,7 @@ public class FluidContainerRegistry {
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 		
-		for(FluidContainer container : instance.allContainers) {
+		for(FluidContainer container : allContainers) {
 			if(container.type.name().equals(type.name()) &&
 					ItemStack.areItemStacksEqual(container.fullContainer, sta) &&
 					ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
@@ -44,7 +42,7 @@ public class FluidContainerRegistry {
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 		
-		for(FluidContainer container : instance.allContainers) {
+		for(FluidContainer container : allContainers) {
 			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && 
 					ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.type;
@@ -60,7 +58,7 @@ public class FluidContainerRegistry {
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		for(FluidContainer container : instance.allContainers) {
+		for(FluidContainer container : allContainers) {
 			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) && 
 					ItemStack.areItemStackTagsEqual(container.emptyContainer, sta) && 
 					container.type.name().equals(type.name()))
@@ -77,7 +75,7 @@ public class FluidContainerRegistry {
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		for(FluidContainer container : instance.allContainers) {
+		for(FluidContainer container : allContainers) {
 			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && 
 					ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.emptyContainer.copy();

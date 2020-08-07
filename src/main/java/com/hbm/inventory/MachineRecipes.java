@@ -4841,7 +4841,7 @@ public class MachineRecipes {
 	public Map<Object, Object> getFluidContainers() {
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		
-		for(FluidContainer con : FluidContainerRegistry.instance.allContainers) {
+		for(FluidContainer con : FluidContainerRegistry.allContainers) {
 			if(con != null) {
 				ItemStack fluid = new ItemStack(ModItems.fluid_icon, 1, Arrays.asList(FluidType.values()).indexOf(con.type));
 				fluid.stackTagCompound = new NBTTagCompound();
