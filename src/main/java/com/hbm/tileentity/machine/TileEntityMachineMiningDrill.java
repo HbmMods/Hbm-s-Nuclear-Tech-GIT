@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.Untested;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -11,6 +12,7 @@ import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEDrillPacket;
 import com.hbm.sound.SoundLoopMachine;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -29,9 +31,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineMiningDrill extends TileEntity implements ISidedInventory, IConsumer {
-
-	private ItemStack slots[];
+public class TileEntityMachineMiningDrill extends TileEntityMachineBase implements IConsumer {
 
 	public long power;
 	public int warning;
@@ -45,6 +45,7 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	public float torque;
 	public float rotation;
 	SoundLoopMachine sound;
+	//TODO: clientside-only animations and sound
 	
 	private static final int[] slots_top = new int[] {1};
 	private static final int[] slots_bottom = new int[] {2, 0};
@@ -54,74 +55,13 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	private String customName;
 	
 	public TileEntityMachineMiningDrill() {
-		slots = new ItemStack[13];
+		super(13);
 	}
 
 	@Override
-	public int getSizeInventory() {
-		return slots.length;
+	public String getName() {
+		return "container.miningDrill";
 	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return slots[i];
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if(slots[i] != null)
-		{
-			ItemStack itemStack = slots[i];
-			slots[i] = null;
-			return itemStack;
-		} else {
-		return null;
-		}
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemStack) {
-		slots[i] = itemStack;
-		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-		{
-			itemStack.stackSize = getInventoryStackLimit();
-		}
-	}
-
-	@Override
-	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "container.miningDrill";
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return this.customName != null && this.customName.length() > 0;
-	}
-	
-	public void setCustomName(String name) {
-		this.customName = name;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
-			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
-		}
-	}
-	
-	//You scrubs aren't needed for anything (right now)
-	@Override
-	public void openInventory() {}
-	@Override
-	public void closeInventory() {}
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
@@ -136,63 +76,17 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	}
 	
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if(slots[i] != null)
-		{
-			if(slots[i].stackSize <= j)
-			{
-				ItemStack itemStack = slots[i];
-				slots[i] = null;
-				return itemStack;
-			}
-			ItemStack itemStack1 = slots[i].splitStack(j);
-			if (slots[i].stackSize == 0)
-			{
-				slots[i] = null;
-			}
-			
-			return itemStack1;
-		} else {
-			return null;
-		}
-	}
-	
-	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		NBTTagList list = nbt.getTagList("items", 10);
 		
 		this.power = nbt.getLong("powerTime");
-		slots = new ItemStack[getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++)
-		{
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length)
-			{
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
-		}
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setLong("powerTime", power);
-		NBTTagList list = new NBTTagList();
 		
-		for(int i = 0; i < slots.length; i++)
-		{
-			if(slots[i] != null)
-			{
-				NBTTagCompound nbt1 = new NBTTagCompound();
-				nbt1.setByte("slot", (byte)i);
-				slots[i].writeToNBT(nbt1);
-				list.appendTag(nbt1);
-			}
-		}
-		nbt.setTag("items", list);
+		nbt.setLong("powerTime", power);
 	}
 	
 	@Override
@@ -200,21 +94,12 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
     {
         return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
     }
-
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return false;
-	}
 	
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
 	
+	@Untested
 	@Override
 	public void updateEntity() {
 		
@@ -339,50 +224,16 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 							
 							flag = i != this.yCoord - 1;
 							
-							if(this.radius == 1)
-								if(!this.drill1(this.xCoord, i, this.zCoord)) {
-									if(this.isOreo(this.xCoord, i - 1, this.zCoord) && this.hasSpace(stack1)) {
-										//if(stack1 != null)
-											//this.addItemToInventory(stack1);
+							if(!this.drill(this.xCoord, i, this.zCoord, radius)) {
+								if(this.isOreo(this.xCoord, i - 1, this.zCoord) && this.hasSpace(stack1)) {
 										worldObj.setBlock(this.xCoord, i - 1, this.zCoord, ModBlocks.drill_pipe);
-									} else {
-										//Code 2: Drill jammed
-										warning = 1;
-									}
+								} else {
+									//Code 2: Drill jammed
+									warning = 1;
 								}
-							if(this.radius == 2)
-								if(!this.drill2(this.xCoord, i, this.zCoord)) {
-									if(this.isOreo(this.xCoord, i - 1, this.zCoord) && this.hasSpace(stack1)) {
-										//if(stack1 != null)
-											//this.addItemToInventory(stack1);
-										worldObj.setBlock(this.xCoord, i - 1, this.zCoord, ModBlocks.drill_pipe);
-									} else {
-										//Code 2: Drill jammed
-										warning = 1;
-									}
-								}
-							if(this.radius == 3)
-								if(!this.drill3(this.xCoord, i, this.zCoord)) {
-									if(this.isOreo(this.xCoord, i - 1, this.zCoord) && this.hasSpace(stack1)) {
-										//if(stack1 != null)
-											//this.addItemToInventory(stack1);
-										worldObj.setBlock(this.xCoord, i - 1, this.zCoord, ModBlocks.drill_pipe);
-									} else {
-										//Code 2: Drill jammed
-										warning = 1;
-									}
-								}
-							if(this.radius == 4)
-								if(!this.drill4(this.xCoord, i, this.zCoord)) {
-									if(this.isOreo(this.xCoord, i - 1, this.zCoord) && this.hasSpace(stack1)) {
-										//if(stack1 != null)
-											//this.addItemToInventory(stack1);
-										worldObj.setBlock(this.xCoord, i - 1, this.zCoord, ModBlocks.drill_pipe);
-									} else {
-										//Code 2: Drill jammed
-										warning = 1;
-									}
-								}
+							
+							}
+							
 							break;
 						}
 					}
@@ -527,25 +378,6 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	//"ok"
 	public boolean isOreo(int x, int y, int z) {
 		
-		/*Block b = worldObj.getBlock(x, y, z);
-		int meta = worldObj.getBlockMetadata(x, y, z);
-		
-		if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || 
-				b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
-				b == Blocks.clay || b == Blocks.hardened_clay || b == Blocks.stained_hardened_clay || 
-				b == Blocks.gravel || b.isReplaceable(worldObj, x, y, z))
-			return true;
-		
-		int[] ids = OreDictionary.getOreIDs(new ItemStack(b, 1, meta));
-		
-		for(int i = 0; i < ids.length; i++) {
-			
-			String s = OreDictionary.getOreName(ids[i]);
-			
-			if(s.length() > 3 && s.substring(0, 3).equals("ore"))
-				return true;
-		}*/
-		
 		Block b = worldObj.getBlock(x, y, z);
 		float hardness = b.getBlockHardness(worldObj, x, y, z);
 		
@@ -553,27 +385,6 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	}
 	
 	public boolean isMinableOreo(int x, int y, int z) {
-		
-		/*Block b = worldObj.getBlock(x, y, z);
-		int meta = worldObj.getBlockMetadata(x, y, z);
-		
-		if(b == Blocks.grass || b == Blocks.dirt || 
-				b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
-				b == Blocks.clay || b == Blocks.hardened_clay || b == Blocks.stained_hardened_clay || 
-				b == Blocks.gravel || b.isReplaceable(worldObj, x, y, z))
-			return true;
-		
-		int[] ids = OreDictionary.getOreIDs(new ItemStack(b, 1, meta));
-		
-		for(int i = 0; i < ids.length; i++) {
-			
-			String s = OreDictionary.getOreName(ids[i]);
-			
-			if(s.length() > 3 && s.substring(0, 3).equals("ore"))
-				return true;
-		}
-		
-		return false;*/
 		
 		Block b = worldObj.getBlock(x, y, z);
 		float hardness = b.getBlockHardness(worldObj, x, y, z);
@@ -585,190 +396,20 @@ public class TileEntityMachineMiningDrill extends TileEntity implements ISidedIn
 	 * returns true if there has been a successful mining operation
 	 * returns false if no block could be mined and the drill is ready to extend
 	 * */
-	public boolean drill1(int x, int y, int z) {
+	public boolean drill(int x, int y, int z, int rad) {
 		
 		if(!flag)
 			return false;
 		
-		if(!tryDrill(x + 1, y, z))
-			if(!tryDrill(x + 1, y, z + 1))
-				if(!tryDrill(x, y, z + 1))
-					if(!tryDrill(x - 1, y, z + 1))
-						if(!tryDrill(x  - 1, y, z))
-							if(!tryDrill(x - 1, y, z - 1))
-								if(!tryDrill(x, y, z - 1))
-									if(!tryDrill(x + 1, y, z - 1))
-
-										if(!tryDrill(x, y - 1, z))
-											return false;
+		for(int ix = x - rad; ix <= x + rad; ix++) {
+			for(int iz = z - rad; iz <= z + rad; iz++) {
+				
+				if(tryDrill(ix, y, iz))
+					return true;
+			}
+		}
 					
-		return true;
-	}
-	
-	public boolean drill2(int x, int y, int z) {
-		
-		if(!flag)
-			return false;
-		
-		if(!tryDrill(x + 1, y, z))
-			if(!tryDrill(x + 1, y, z + 1))
-				if(!tryDrill(x, y, z + 1))
-					if(!tryDrill(x - 1, y, z + 1))
-						if(!tryDrill(x  - 1, y, z))
-							if(!tryDrill(x - 1, y, z - 1))
-								if(!tryDrill(x, y, z - 1))
-									if(!tryDrill(x + 1, y, z - 1))
-
-										if(!tryDrill(x + 2, y, z))
-											if(!tryDrill(x + 2, y, z + 1))
-												if(!tryDrill(x + 1, y, z + 2))
-													if(!tryDrill(x, y, z + 2))
-														if(!tryDrill(x - 1, y, z + 2))
-															if(!tryDrill(x - 2, y, z + 1))
-																if(!tryDrill(x - 2, y, z))
-																	if(!tryDrill(x - 2, y, z - 1))
-																		if(!tryDrill(x - 1, y, z - 2))
-																			if(!tryDrill(x, y, z - 2))
-																				if(!tryDrill(x + 1, y, z - 2))
-																					if(!tryDrill(x + 2, y, z - 1))
-
-																						if(!tryDrill(x, y - 1, z))
-																							return false;
-					
-		return true;
-	}
-	
-	public boolean drill3(int x, int y, int z) {
-		
-		if(!flag)
-			return false;
-		
-		if(!tryDrill(x + 1, y, z))
-			if(!tryDrill(x + 1, y, z + 1))
-				if(!tryDrill(x, y, z + 1))
-					if(!tryDrill(x - 1, y, z + 1))
-						if(!tryDrill(x  - 1, y, z))
-							if(!tryDrill(x - 1, y, z - 1))
-								if(!tryDrill(x, y, z - 1))
-									if(!tryDrill(x + 1, y, z - 1))
-
-										if(!tryDrill(x + 2, y, z))
-											if(!tryDrill(x + 2, y, z + 1))
-												if(!tryDrill(x + 1, y, z + 2))
-													if(!tryDrill(x, y, z + 2))
-														if(!tryDrill(x - 1, y, z + 2))
-															if(!tryDrill(x - 2, y, z + 1))
-																if(!tryDrill(x - 2, y, z))
-																	if(!tryDrill(x - 2, y, z - 1))
-																		if(!tryDrill(x - 1, y, z - 2))
-																			if(!tryDrill(x, y, z - 2))
-																				if(!tryDrill(x + 1, y, z - 2))
-																					if(!tryDrill(x + 2, y, z - 1))
-
-																						if(!tryDrill(x + 3, y, z))
-																							if(!tryDrill(x + 3, y, z + 1))
-																								if(!tryDrill(x + 2, y, z + 2))
-																									if(!tryDrill(x + 1, y, z + 3))
-																										if(!tryDrill(x, y, z + 3))
-																											if(!tryDrill(x - 1, y, z + 3))
-																												if(!tryDrill(x - 2, y, z + 2))
-																													if(!tryDrill(x - 3, y, z + 1))
-																														if(!tryDrill(x - 3, y, z))
-																															if(!tryDrill(x - 3, y, z - 1))
-																																if(!tryDrill(x - 2, y, z - 2))
-																																	if(!tryDrill(x - 1, y, z - 3))
-																																		if(!tryDrill(x, y, z - 3))
-																																			if(!tryDrill(x + 1, y, z - 3))
-																																				if(!tryDrill(x + 2, y, z - 2))
-																																					if(!tryDrill(x + 3, y, z - 1))
-
-																																						if(!tryDrill(x, y - 1, z))
-																																							return false;
-					
-		return true;
-	}
-	
-	public boolean drill4(int x, int y, int z) {
-		
-		if(!flag)
-			return false;
-		
-		if(!tryDrill(x + 1, y, z))
-			if(!tryDrill(x + 1, y, z + 1))
-				if(!tryDrill(x, y, z + 1))
-					if(!tryDrill(x - 1, y, z + 1))
-						if(!tryDrill(x  - 1, y, z))
-							if(!tryDrill(x - 1, y, z - 1))
-								if(!tryDrill(x, y, z - 1))
-									if(!tryDrill(x + 1, y, z - 1))
-
-										if(!tryDrill(x + 2, y, z))
-											if(!tryDrill(x + 2, y, z + 1))
-												if(!tryDrill(x + 1, y, z + 2))
-													if(!tryDrill(x, y, z + 2))
-														if(!tryDrill(x - 1, y, z + 2))
-															if(!tryDrill(x - 2, y, z + 1))
-																if(!tryDrill(x - 2, y, z))
-																	if(!tryDrill(x - 2, y, z - 1))
-																		if(!tryDrill(x - 1, y, z - 2))
-																			if(!tryDrill(x, y, z - 2))
-																				if(!tryDrill(x + 1, y, z - 2))
-																					if(!tryDrill(x + 2, y, z - 1))
-
-																						if(!tryDrill(x + 3, y, z))
-																							if(!tryDrill(x + 3, y, z + 1))
-																								if(!tryDrill(x + 2, y, z + 2))
-																									if(!tryDrill(x + 1, y, z + 3))
-																										if(!tryDrill(x, y, z + 3))
-																											if(!tryDrill(x - 1, y, z + 3))
-																												if(!tryDrill(x - 2, y, z + 2))
-																													if(!tryDrill(x - 3, y, z + 1))
-																														if(!tryDrill(x - 3, y, z))
-																															if(!tryDrill(x - 3, y, z - 1))
-																																if(!tryDrill(x - 2, y, z - 2))
-																																	if(!tryDrill(x - 1, y, z - 3))
-																																		if(!tryDrill(x, y, z - 3))
-																																			if(!tryDrill(x + 1, y, z - 3))
-																																				if(!tryDrill(x + 2, y, z - 2))
-																																					if(!tryDrill(x + 3, y, z - 1))
-
-																																						if(!tryDrill(x + 4, y, z))
-																																							if(!tryDrill(x + 4, y, z + 1))
-																																								if(!tryDrill(x + 4, y, z + 2))
-																																									if(!tryDrill(x + 3, y, z + 2))
-																																										if(!tryDrill(x + 3, y, z + 3))
-																																											if(!tryDrill(x + 2, y, z + 3))
-																																												if(!tryDrill(x + 2, y, z + 4))
-																																													if(!tryDrill(x + 1, y, z + 4))
-																																														if(!tryDrill(x, y, z + 4))
-																																															if(!tryDrill(x - 1, y, z + 4))
-																																																if(!tryDrill(x - 2, y, z + 4))
-																																																	if(!tryDrill(x - 2, y, z + 3))
-																																																		if(!tryDrill(x - 3, y, z + 3))
-																																																			if(!tryDrill(x - 3, y, z + 2))
-																																																				if(!tryDrill(x - 4, y, z + 2))
-																																																					if(!tryDrill(x - 4, y, z + 1))
-																																																						if(!tryDrill(x - 4, y, z))
-																																																							if(!tryDrill(x - 4, y, z - 1))
-																																																								if(!tryDrill(x - 4, y, z - 2))
-																																																									if(!tryDrill(x - 3, y, z - 2))
-																																																										if(!tryDrill(x - 3, y, z - 3))
-																																																											if(!tryDrill(x - 2, y, z - 3))
-																																																												if(!tryDrill(x - 2, y, z - 4))
-																																																													if(!tryDrill(x - 1, y, z - 4))
-																																																														if(!tryDrill(x, y, z - 4))
-																																																															if(!tryDrill(x + 1, y, z - 4))
-																																																																if(!tryDrill(x + 2, y, z - 4))
-																																																																	if(!tryDrill(x + 2, y, z - 3))
-																																																																		if(!tryDrill(x + 3, y, z - 3))
-																																																																			if(!tryDrill(x + 3, y, z - 2))
-																																																																				if(!tryDrill(x + 4, y, z - 2))
-																																																																					if(!tryDrill(x + 4, y, z - 1))
-
-																																																																						if(!tryDrill(x, y - 1, z))
-																																																																							return false;
-					
-		return true;
+		return false;
 	}
 
 	/**
