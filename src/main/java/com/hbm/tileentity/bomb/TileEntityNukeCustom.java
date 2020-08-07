@@ -1,7 +1,20 @@
 package com.hbm.tileentity.bomb;
 
+import java.util.HashMap;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.NukeCustom;
+import com.hbm.entity.effect.EntityCloudFleija;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,25 +33,9 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 
 	public ItemStack slots[];
 	private String customName;
-	public float tntStrength;
-	public float nukeStrength;
-	public float hydroStrength;
-	public float amatStrength;
-	public float dirtyStrength;
-	public float schrabStrength;
-	public float euphStrength;
-	public boolean falls;
 	
 	public TileEntityNukeCustom() {
 		slots = new ItemStack[27];
-		tntStrength = 0;
-		nukeStrength = 0;
-		hydroStrength = 0;
-		amatStrength = 0;
-		dirtyStrength = 0;
-		schrabStrength = 0;
-		euphStrength = 0;
-		falls = false;
 	}
 	
 	@Override
@@ -150,12 +147,13 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return j != 0 || i != 1 || itemStack.getItem() == Items.bucket;
+		return false;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		
 		NBTTagList list = nbt.getTagList("items", 10);
 		slots = new ItemStack[getSizeInventory()];
 		
@@ -173,6 +171,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
 		NBTTagList list = new NBTTagList();
 		
 		for(int i = 0; i < slots.length; i++)
@@ -188,298 +187,165 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		nbt.setTag("items", list);
 	}
 	
+	public static HashMap<ComparableStack, CustomNukeEntry> entries = new HashMap();
+	
+	public static void registerBombItems() {
+
+		entries.put(new ComparableStack(Items.gunpowder), new CustomNukeEntry(EnumBombType.TNT, 0.8F));
+		entries.put(new ComparableStack(Blocks.tnt), new CustomNukeEntry(EnumBombType.TNT, 4F));
+		entries.put(new ComparableStack(ModBlocks.det_cord), new CustomNukeEntry(EnumBombType.TNT, 1.5F));
+		entries.put(new ComparableStack(ModBlocks.det_charge), new CustomNukeEntry(EnumBombType.TNT, 15F));
+		entries.put(new ComparableStack(ModItems.canister_fuel), new CustomNukeEntry(EnumBombType.TNT, 0.5F));
+		entries.put(new ComparableStack(ModItems.canister_napalm), new CustomNukeEntry(EnumBombType.TNT, 2.5F));
+		entries.put(new ComparableStack(ModItems.canister_kerosene), new CustomNukeEntry(EnumBombType.TNT, 0.8F));
+		entries.put(new ComparableStack(ModBlocks.red_barrel), new CustomNukeEntry(EnumBombType.TNT, 2.5F));
+		entries.put(new ComparableStack(ModBlocks.pink_barrel), new CustomNukeEntry(EnumBombType.TNT, 4F));
+		entries.put(new ComparableStack(ModItems.custom_tnt), new CustomNukeEntry(EnumBombType.TNT, 10F));
+
+		entries.put(new ComparableStack(ModItems.ingot_u235), new CustomNukeEntry(EnumBombType.NUKE, 15F));
+		entries.put(new ComparableStack(ModItems.ingot_pu239), new CustomNukeEntry(EnumBombType.NUKE, 25F));
+		entries.put(new ComparableStack(ModItems.ingot_neptunium), new CustomNukeEntry(EnumBombType.NUKE, 30F));
+		entries.put(new ComparableStack(ModItems.nugget_u235), new CustomNukeEntry(EnumBombType.NUKE, 1.5F));
+		entries.put(new ComparableStack(ModItems.nugget_pu239), new CustomNukeEntry(EnumBombType.NUKE, 2.5F));
+		entries.put(new ComparableStack(ModItems.nugget_neptunium), new CustomNukeEntry(EnumBombType.NUKE, 3.0F));
+		entries.put(new ComparableStack(ModItems.powder_neptunium), new CustomNukeEntry(EnumBombType.NUKE, 30F));
+
+		entries.put(new ComparableStack(ModItems.cell_deuterium), new CustomNukeEntry(EnumBombType.HYDRO, 20F));
+		entries.put(new ComparableStack(ModItems.cell_tritium), new CustomNukeEntry(EnumBombType.HYDRO, 30F));
+		entries.put(new ComparableStack(ModItems.lithium), new CustomNukeEntry(EnumBombType.HYDRO, 20F));
+		entries.put(new ComparableStack(ModItems.tritium_deuterium_cake), new CustomNukeEntry(EnumBombType.HYDRO, 200F));
+		entries.put(new ComparableStack(ModItems.custom_hydro), new CustomNukeEntry(EnumBombType.HYDRO, 30F));
+
+		entries.put(new ComparableStack(ModItems.cell_antimatter), new CustomNukeEntry(EnumBombType.AMAT, 5F));
+		entries.put(new ComparableStack(ModItems.custom_amat), new CustomNukeEntry(EnumBombType.AMAT, 15F));
+		entries.put(new ComparableStack(ModItems.egg_balefire_shard), new CustomNukeEntry(EnumBombType.AMAT, 25F));
+		entries.put(new ComparableStack(ModItems.egg_balefire), new CustomNukeEntry(EnumBombType.AMAT, 250F));
+
+		entries.put(new ComparableStack(ModItems.ingot_tungsten), new CustomNukeEntry(EnumBombType.DIRTY, 1F));
+		entries.put(new ComparableStack(ModItems.custom_dirty), new CustomNukeEntry(EnumBombType.DIRTY, 10F));
+
+		entries.put(new ComparableStack(ModItems.ingot_schrabidium), new CustomNukeEntry(EnumBombType.SCHRAB, 5F));
+		entries.put(new ComparableStack(ModBlocks.block_schrabidium), new CustomNukeEntry(EnumBombType.SCHRAB, 50F));
+		entries.put(new ComparableStack(ModItems.nugget_schrabidium), new CustomNukeEntry(EnumBombType.SCHRAB, 0.5F));
+		entries.put(new ComparableStack(ModItems.powder_schrabidium), new CustomNukeEntry(EnumBombType.SCHRAB, 5F));
+		entries.put(new ComparableStack(ModItems.cell_sas3), new CustomNukeEntry(EnumBombType.SCHRAB, 7.5F));
+		entries.put(new ComparableStack(ModItems.cell_anti_schrabidium), new CustomNukeEntry(EnumBombType.SCHRAB, 15F));
+		entries.put(new ComparableStack(ModItems.custom_schrab), new CustomNukeEntry(EnumBombType.SCHRAB, 15F));
+
+		entries.put(new ComparableStack(ModItems.custom_schrab), new CustomNukeEntry(EnumBombType.EUPH, 1F));
+		entries.put(new ComparableStack(ModItems.ingot_euphemium), new CustomNukeEntry(EnumBombType.EUPH, 1F));
+
+		entries.put(new ComparableStack(Items.redstone), new CustomNukeEntry(EnumBombType.TNT, 1.005F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(Blocks.redstone_block), new CustomNukeEntry(EnumBombType.TNT, 1.05F, EnumEntryType.MULT));
+
+		entries.put(new ComparableStack(ModItems.ingot_uranium), new CustomNukeEntry(EnumBombType.NUKE, 1.05F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.ingot_plutonium), new CustomNukeEntry(EnumBombType.NUKE, 1.15F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.ingot_u238), new CustomNukeEntry(EnumBombType.NUKE, 1.1F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.ingot_pu238), new CustomNukeEntry(EnumBombType.NUKE, 1.15F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.nugget_uranium), new CustomNukeEntry(EnumBombType.NUKE, 1.005F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.nugget_plutonium), new CustomNukeEntry(EnumBombType.NUKE, 1.15F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.nugget_u238), new CustomNukeEntry(EnumBombType.NUKE, 1.01F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.nugget_pu238), new CustomNukeEntry(EnumBombType.NUKE, 1.015F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.powder_uranium), new CustomNukeEntry(EnumBombType.NUKE, 1.05F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.powder_plutonium), new CustomNukeEntry(EnumBombType.NUKE, 1.15F, EnumEntryType.MULT));
+
+		entries.put(new ComparableStack(ModItems.ingot_pu240), new CustomNukeEntry(EnumBombType.DIRTY, 1.05F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModItems.nuclear_waste), new CustomNukeEntry(EnumBombType.DIRTY, 1.025F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModBlocks.block_waste), new CustomNukeEntry(EnumBombType.DIRTY, 1.25F, EnumEntryType.MULT));
+		entries.put(new ComparableStack(ModBlocks.yellow_barrel), new CustomNukeEntry(EnumBombType.DIRTY, 1.2F, EnumEntryType.MULT));
+	}
+
+	public float tnt;
+	public float nuke;
+	public float hydro;
+	public float amat;
+	public float dirty;
+	public float schrab;
+	public float euph;
+	
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void updateEntity() {
-
-		this.tntStrength = 0;
-		this.nukeStrength = 0;
-		this.hydroStrength = 0;
-		this.amatStrength = 0;
-		this.dirtyStrength = 0;
-		this.schrabStrength = 0;
-		this.euphStrength = 0;
 		
-		for(int i = 0; i < slots.length; i++) {
-			if(slots[i] != null) {
-				setValues(slots[i]);
-			}
-			if(slots[i] != null) {
-				setMultipliers(slots[i]);
+		float tnt = 0F,		tntMod = 1F;
+		float nuke = 0F,	nukeMod = 1F;
+		float hydro = 0F,	hydroMod = 1F;
+		float amat = 0F,	amatMod = 1F;
+		float dirty = 0F,	dirtyMod = 1F;
+		float schrab = 0F,	schrabMod = 1F;
+		float euph = 0F;
+		
+		for(ItemStack stack : slots) {
+			
+			if(stack == null)
+				continue;
+			
+			ComparableStack comp = new ComparableStack(stack).makeSingular();
+			CustomNukeEntry ent = entries.get(comp);
+			
+			if(ent.entry == EnumEntryType.ADD) {
+				
+				switch(ent.type) {
+				case TNT: tnt += ent.value; break;
+				case NUKE: nuke += ent.value; break;
+				case HYDRO: hydro += ent.value; break;
+				case AMAT: amat += ent.value; break;
+				case DIRTY: dirty += ent.value; break;
+				case SCHRAB: schrab += ent.value; break;
+				case EUPH: euph += ent.value; break;
+				}
+				
+			} else if(ent.entry == EnumEntryType.MULT) {
+				
+				switch(ent.type) {
+				case TNT: tntMod *= ent.value; break;
+				case NUKE: nukeMod *= ent.value; break;
+				case HYDRO: hydroMod *= ent.value; break;
+				case AMAT: amatMod *= ent.value; break;
+				case DIRTY: dirtyMod *= ent.value; break;
+				case SCHRAB: schrabMod *= ent.value; break;
+				}
 			}
 		}
+		
+		tnt *= tntMod;
+		nuke *= nukeMod;
+		hydro *= hydroMod;
+		amat *= amatMod;
+		dirty *= dirtyMod;
+		schrab *= schrabMod;
 
-		if(this.nukeStrength > 0 && this.tntStrength < 16)
-			this.nukeStrength = 0;
-		if(this.hydroStrength > 0 && this.nukeStrength < 100)
-			this.hydroStrength = 0;
-		if(this.amatStrength > 0 && this.nukeStrength < 15)
-			this.amatStrength = 0;
-		if(this.dirtyStrength > 0 && this.nukeStrength == 0)
-			this.dirtyStrength = 0;
-		if(this.schrabStrength > 0 && this.nukeStrength < 50)
-			this.schrabStrength = 0;
-		if(this.euphStrength > 0 && this.schrabStrength == 0)
-			this.euphStrength = 0;
-	}
-	
-	public void setValues(ItemStack stack) {
+		dirty = Math.min(dirty, 100);
 		
-		Item item = stack.getItem();
-		
-		for(int i = 0; i < stack.stackSize; i++) {
-			if(item == Items.gunpowder) {
-				this.tntStrength += 0.8F;
-			}
-			if(item == Item.getItemFromBlock(Blocks.tnt)) {
-				this.tntStrength += 4;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.det_cord)) {
-				this.tntStrength += 1.5F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.det_charge)) {
-				this.tntStrength += 15F;
-			}
-			if(item == ModItems.canister_fuel) {
-				this.tntStrength += 0.3F;
-			}
-			if(item == ModItems.canister_fuel) {
-				this.tntStrength += 0.5F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.red_barrel)) {
-				this.tntStrength += 2.5F;
-			}
-			if(item == ModItems.gun_immolator_ammo) {
-				this.tntStrength += 0.055F;
-			}
-			if(item == ModItems.clip_immolator) {
-				this.tntStrength += 3.5F;
-			}
+		if(tnt < 16) nuke = 0;
+		if(nuke < 100) hydro = 0;
+		if(nuke < 50) amat = 0;
+		if(nuke < 50) schrab = 0;
+		if(schrab == 0) euph = 0;
 
-			if(item == ModItems.custom_tnt) {
-				this.tntStrength += 10F;
-			}
-			//
-			if(item == ModItems.ingot_u235) {
-				this.nukeStrength += 15F;
-			}
-			if(item == ModItems.ingot_pu239) {
-				this.nukeStrength += 25F;
-			}
-			if(item == ModItems.ingot_neptunium) {
-				this.nukeStrength += 30F;
-			}
-			if(item == ModItems.nugget_u235) {
-				this.nukeStrength += 1.5F;
-			}
-			if(item == ModItems.nugget_pu239) {
-				this.nukeStrength += 2.5F;
-			}
-			if(item == ModItems.nugget_neptunium) {
-				this.nukeStrength += 3.0F;
-			}
-			if(item == ModItems.powder_neptunium) {
-				this.nukeStrength += 30F;
-			}
-			
-			if(item == ModItems.custom_nuke) {
-				this.nukeStrength += 30F;
-			}
-			//
-			if(item == ModItems.cell_deuterium) {
-				this.hydroStrength += 20F;
-			}
-			if(item == ModItems.cell_tritium) {
-				this.hydroStrength += 30F;
-			}
-			if(item == ModItems.lithium) {
-				this.hydroStrength += 20F;
-			}
-			if(item == ModItems.tritium_deuterium_cake) {
-				this.hydroStrength += 200F;
-			}
-			
-			if(item == ModItems.custom_hydro) {
-				this.hydroStrength += 30F;
-			}
-			//
-			if(item == ModItems.cell_antimatter) {
-				this.amatStrength += 5F;
-			}
-			
-			if(item == ModItems.custom_amat) {
-				this.amatStrength += 15F;
-			}
-			//
-			if(item == ModItems.ingot_tungsten) {
-				this.dirtyStrength += 10F;
-			}
-			if(item == ModItems.nuclear_waste) {
-				this.dirtyStrength += 2.5F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.yellow_barrel)) {
-				this.dirtyStrength += 20F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.block_waste)) {
-				this.dirtyStrength += 25F;
-			}
-			
-			if(item == ModItems.custom_dirty) {
-				this.dirtyStrength += 10F;
-			}
-			//
-			if(item == ModItems.ingot_schrabidium) {
-				this.schrabStrength += 5F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.block_schrabidium)) {
-				this.schrabStrength += 50F;
-			}
-			if(item == ModItems.plate_schrabidium) {
-				this.schrabStrength += 1.25F;
-			}
-			if(item == ModItems.nugget_schrabidium) {
-				this.schrabStrength += 0.5F;
-			}
-			if(item == ModItems.cell_sas3) {
-				this.schrabStrength += 7.5F;
-			}
-			if(item == ModItems.cell_anti_schrabidium) {
-				this.schrabStrength += 15F;
-			}
-			
-			if(item == ModItems.custom_schrab) {
-				this.schrabStrength += 15F;
-			}
-			//
-			if(item == ModItems.nugget_euphemium) {
-				this.euphStrength += 1F;
-			}
-			if(item == ModItems.ingot_euphemium) {
-				this.euphStrength += 1F;
-			}
-			
-			if(item == ModItems.custom_fall) {
-				this.falls = true;
-			}
-		}
+		this.tnt = tnt;
+		this.nuke = nuke;
+		this.hydro = hydro;
+		this.amat = amat;
+		this.dirty = dirty;
+		this.schrab = schrab;
+		this.euph = euph;
 	}
 	
-	public void setMultipliers(ItemStack stack) {
+	public boolean isFalling() {
 		
-		Item item = stack.getItem();
-		
-		for(int i = 0; i < stack.stackSize; i++) {
-			if(item == Items.redstone) {
-				this.tntStrength *= 1.005F;
-			}
-			if(item == Item.getItemFromBlock(Blocks.redstone_block)) {
-				this.tntStrength *= 1.05F;
-			}
-			if(item == ModItems.canister_fuel) {
-				this.tntStrength *= 1.025F;
-			}
-			if(item == ModItems.canister_napalm) {
-				this.tntStrength *= 1.035F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.red_barrel)) {
-				this.tntStrength *= 1.2F;
-			}
-			if(item == ModItems.gun_immolator_ammo) {
-				this.tntStrength *= 1.0004F;
-			}
-			if(item == ModItems.clip_immolator) {
-				this.tntStrength *= 1.025F;
-			}
-			//
-			if(item == ModItems.ingot_u238) {
-				this.nukeStrength *= 1.1F;
-				this.hydroStrength *= 1.1F;
-				this.dirtyStrength *= 1.1F;
-			}
-			if(item == ModItems.ingot_pu238) {
-				this.nukeStrength *= 1.25F;
-			}
-			if(item == ModItems.ingot_pu240) {
-				this.nukeStrength *= 1.05F;
-				this.dirtyStrength *= 1.15F;
-			}
-			if(item == ModItems.ingot_neptunium) {
-				this.nukeStrength *= 1.35F;
-				this.dirtyStrength *= 1.15F;
-			}
-			if(item == ModItems.nugget_u238) {
-				this.nukeStrength *= 1.01F;
-				this.hydroStrength *= 1.01F;
-			}
-			if(item == ModItems.nugget_pu238) {
-				this.nukeStrength *= 1.025F;
-			}
-			if(item == ModItems.nugget_pu240) {
-				this.nukeStrength *= 1.005F;
-				this.dirtyStrength *= 1.015F;
-			}
-			if(item == ModItems.nugget_neptunium) {
-				this.nukeStrength *= 1.035F;
-				this.dirtyStrength *= 1.015F;
-			}
-			if(item == ModItems.powder_neptunium) {
-				this.nukeStrength *= 1.35F;
-				this.dirtyStrength *= 1.15F;
-			}
-			if(item == ModItems.ingot_uranium) {
-				this.nukeStrength *= 1.085F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.block_uranium)) {
-				this.nukeStrength *= 1.85F;
-			}
-			if(item == ModItems.ingot_plutonium) {
-				this.nukeStrength *= 1.075F;
-			}
-			if(item == ModItems.nugget_uranium) {
-				this.nukeStrength *= 1.0085F;
-			}
-			if(item == ModItems.nugget_plutonium) {
-				this.nukeStrength *= 1.0075F;
-			}
-			if(item == ModItems.powder_uranium) {
-				this.nukeStrength *= 1.085F;
-				this.dirtyStrength *= 1.15F;
-			}
-			if(item == ModItems.powder_plutonium) {
-				this.nukeStrength *= 1.075F;
-				this.dirtyStrength *= 1.15F;
-			}
-			//
-			if(item == ModItems.cell_antimatter) {
-				this.amatStrength *= 1.1F;
-			}
-			//
-			if(item == ModItems.nuclear_waste) {
-				this.dirtyStrength *= 1.05F;
-			}
-			if(item == Item.getItemFromBlock(ModBlocks.yellow_barrel)) {
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-				this.dirtyStrength *= 1.05F;
-			}
-		}
-	}
-	
-	public boolean isReady() {
-		if(this.tntStrength > 0)
-		{
-			return true;
+		for(ItemStack stack : slots) {
+			if(stack != null && stack.getItem() == ModItems.custom_fall)
+				return true;
 		}
 		
 		return false;
 	}
 	
-	public float[] returnAllValues() {
-		return new float[] { this.tntStrength, this.nukeStrength, this.hydroStrength, this.amatStrength, this.dirtyStrength, this.schrabStrength, this.euphStrength };
+	public void destruct() {
+		
+		clearSlots();
+		worldObj.func_147480_a(xCoord, yCoord, xCoord, false);
 	}
 	
 	public void clearSlots() {
@@ -499,5 +365,49 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 	public double getMaxRenderDistanceSquared()
 	{
 		return 65536.0D;
+	}
+	
+	public static enum EnumBombType {
+		TNT("TNT"),
+		NUKE("Nuclear"),
+		HYDRO("Hydrogen"),
+		AMAT("Antimatter"),
+		DIRTY("Salted"),
+		SCHRAB("Schrabidium"),
+		EUPH("Anti Mass");
+		
+		String name;
+		
+		EnumBombType(String name) {
+			this.name = name;
+		}
+		
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
+	
+	public static enum EnumEntryType {
+		ADD,
+		MULT
+	}
+	
+	public static class CustomNukeEntry {
+		
+		public EnumBombType type;
+		public EnumEntryType entry;
+		public float value;
+		
+		public CustomNukeEntry(EnumBombType type, float value) {
+			this.type = type;
+			this.entry = EnumEntryType.ADD;
+			this.value = value;
+		}
+		
+		public CustomNukeEntry(EnumBombType type, float value, EnumEntryType entry) {
+			this(type, value);
+			this.entry = entry;
+		}
 	}
 }

@@ -12,7 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUINukeCustom extends GuiContainer {
+public class GUINukeCustom extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gunBombSchematic.png");
 	private TileEntityNukeCustom testNuke;
@@ -39,33 +39,24 @@ public class GUINukeCustom extends GuiContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		if(this.testNuke.tntStrength > 0)
-		{
-			drawTexturedModalRect(guiLeft + 16, guiTop + 89, 176, 0, 18, 18);
-		}
-		if(this.testNuke.nukeStrength > 0)
-		{
-			drawTexturedModalRect(guiLeft + 34, guiTop + 89, 176, 18, 18, 18);
-		}
-		if(this.testNuke.hydroStrength > 0)
-		{
-			drawTexturedModalRect(guiLeft + 52, guiTop + 89, 176, 36, 18, 18);
-		}
-		if(this.testNuke.amatStrength > 0)
-		{
-			drawTexturedModalRect(guiLeft + 70, guiTop + 89, 176, 54, 18, 18);
-		}
-		if(this.testNuke.dirtyStrength > 0)
-		{
-			drawTexturedModalRect(guiLeft + 88, guiTop + 89, 176, 72, 18, 18);
-		}
-		if(this.testNuke.schrabStrength > 0)
-		{
-			drawTexturedModalRect(guiLeft + 106, guiTop + 89, 176, 90, 18, 18);
-		}
-		if(this.testNuke.euphStrength > 0)
-		{
+		if(this.testNuke.euph > 0)
 			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 176, 108, 18, 18);
-		}
+		else if(this.testNuke.schrab > 0)
+			drawTexturedModalRect(guiLeft + 106, guiTop + 89, 176, 90, 18, 18);
+		else if(this.testNuke.amat > 0)
+			drawTexturedModalRect(guiLeft + 70, guiTop + 89, 176, 54, 18, 18);
+		else if(this.testNuke.hydro > 0)
+			drawTexturedModalRect(guiLeft + 52, guiTop + 89, 176, 36, 18, 18);
+		else if(this.testNuke.nuke > 0)
+			drawTexturedModalRect(guiLeft + 34, guiTop + 89, 176, 18, 18, 18);
+		else if(this.testNuke.tnt > 0)
+			drawTexturedModalRect(guiLeft + 16, guiTop + 89, 176, 0, 18, 18);
+		
+		if(this.testNuke.dirty > 0 && 
+				this.testNuke.nuke > 0 &&
+				this.testNuke.amat == 0 &&
+				this.testNuke.schrab == 0 &&
+				this.testNuke.euph == 0)
+			drawTexturedModalRect(guiLeft + 88, guiTop + 89, 176, 72, 18, 18);
 	}
 }

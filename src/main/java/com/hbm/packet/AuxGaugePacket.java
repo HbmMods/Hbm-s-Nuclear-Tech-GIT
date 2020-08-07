@@ -212,11 +212,6 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 0)
 						boiler.heat = m.value;
 				}
-				if (te instanceof TileEntityNukeCustom) {
-					TileEntityNukeCustom nuke = (TileEntityNukeCustom)te;
-					
-					nuke.falls = m.value == 1;
-				}
 				if (te instanceof TileEntityNukeN45) {
 					TileEntityNukeN45 nuke = (TileEntityNukeN45)te;
 					

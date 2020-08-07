@@ -10,6 +10,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
@@ -25,6 +26,9 @@ import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
 import com.hbm.sound.MovingSoundPlayerLoop;
 import com.hbm.sound.MovingSoundXVL1456;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
+import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
@@ -267,6 +271,22 @@ public class ModEventHandlerClient {
 		
 		if(rad > 0)
 			list.add(EnumChatFormatting.YELLOW + "Radiation resistance: " + rad);
+		
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		
+		CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
+		
+		if(entry != null) {
+			
+			if(!list.isEmpty())
+				list.add("");
+			
+			if(entry.entry == EnumEntryType.ADD)
+				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+
+			if(entry.entry == EnumEntryType.MULT)
+				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+		}
     }
 	
 	public static IIcon particleBase;
