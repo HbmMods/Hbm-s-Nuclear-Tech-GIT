@@ -179,8 +179,9 @@ public class NukeCustom extends BlockContainer implements IBomb {
 
 			hydro += nuke / 2 + tnt / 4;
 			hydro = Math.min(hydro, 350);
+			dirty *= 0.25F;
 
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)hydro, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)hydro, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, hydro));
 			
 		/// NUCLEAR ///
@@ -189,7 +190,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			nuke += tnt / 2;
 			nuke = Math.min(nuke, 200);
 
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)nuke, xCoord + 0.5, yCoord + 5, zCoord + 0.5));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)nuke, xCoord + 0.5, yCoord + 5, zCoord + 0.5).moreFallout((int)dirty));
 			worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, nuke));
 			
 		/// NON-NUCLEAR ///

@@ -23,6 +23,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 	public int length;
 	
 	public boolean fallout = true;
+	private int falloutAdd = 0;
 	
 	ExplosionNukeRay explosion;
 
@@ -92,7 +93,7 @@ public class EntityNukeExplosionMK4 extends Entity {
 			fallout.posX = this.posX;
 			fallout.posY = this.posY;
 			fallout.posZ = this.posZ;
-			fallout.setScale((int)(this.length * 1.8) * MainRegistry.falloutRange / 100);
+			fallout.setScale((int)(this.length * 1.8 + falloutAdd) * MainRegistry.falloutRange / 100);
 
 			this.worldObj.spawnEntityInWorld(fallout);
 			
@@ -108,14 +109,20 @@ public class EntityNukeExplosionMK4 extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
+	protected void readEntityFromNBT(NBTTagCompound nbt) {
+
+		/*strength = nbt.getInteger("strength");
+		count = nbt.getInteger("count");
+		speed = nbt.getInteger("speed");
+		length = nbt.getInteger("length");
+		fallout = nbt.getBoolean("fallout");
+		falloutAdd = nbt.getInteger("falloutAdd");*/
 		
+		//TODO: implement NBT functionality for MK4 explosion logic
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		
-	}
+	protected void writeEntityToNBT(NBTTagCompound nbt) { }
 	
 	public static EntityNukeExplosionMK4 statFac(World world, int r, double x, double y, double z) {
 		
@@ -167,6 +174,11 @@ public class EntityNukeExplosionMK4 extends Entity {
 		mk4.length = mk4.strength / 2;
 		mk4.fallout = false;
 		return mk4;
+	}
+	
+	public EntityNukeExplosionMK4 moreFallout(int fallout) {
+		falloutAdd = fallout;
+		return this;
 	}
 
 }
