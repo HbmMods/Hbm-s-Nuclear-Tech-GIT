@@ -129,26 +129,38 @@ public class ModEventHandlerClient {
 				HbmAnimations.hotbar[i] = null;
 		}
 		
-		if(event.type == ElementType.CROSSHAIRS && player.ticksExisted < 200) {
+		if(event.type == ElementType.CROSSHAIRS) {
 			
-			FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-			
-			ScaledResolution resolution = event.resolution;
-			int pX = resolution.getScaledWidth() / 2;
-			int pZ = resolution.getScaledHeight() / 2;
-
-			String msg = "PLEASE";
-			font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 40, 0xffffff);
-			msg = "THIS IS A DEVELOPMENT VERSION";
-			if(player.ticksExisted > 30) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 20, 0xffffff);
-			msg = "OBVIOUSLY SOME THINGS AREN'T GOING TO WORK";
-			if(player.ticksExisted > 60) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ, 0xffffff);
-			msg = "PLEASE AT LEAST TRY TO REMEMBER THAT";
-			if(player.ticksExisted > 90) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 20, 0xffffff);
-			msg = "FOR THE LOVE OF GOD";
-			if(player.ticksExisted > 120) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 40, 0xb00000);
+			if(player.ticksExisted < 200) {
+				
+				if(annoyanceToken) {
+					FontRenderer font = Minecraft.getMinecraft().fontRenderer;
+					
+					ScaledResolution resolution = event.resolution;
+					int pX = resolution.getScaledWidth() / 2;
+					int pZ = resolution.getScaledHeight() / 2;
+		
+					String msg = "PLEASE";
+					font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 40, 0xffffff);
+					msg = "THIS IS A DEVELOPMENT VERSION";
+					if(player.ticksExisted > 30) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 20, 0xffffff);
+					msg = "OBVIOUSLY SOME THINGS AREN'T GOING TO WORK";
+					if(player.ticksExisted > 60) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ, 0xffffff);
+					msg = "PLEASE AT LEAST TRY TO REMEMBER THAT";
+					if(player.ticksExisted > 90) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 20, 0xffffff);
+					msg = "FOR THE LOVE OF GOD";
+					if(player.ticksExisted > 120) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 40, 0xb00000);
+				}
+				
+			} else {
+				
+				if(annoyanceToken)
+					annoyanceToken = false;
+			}
 		}
 	}
+	
+	public static boolean annoyanceToken = true;
 	
 	@SubscribeEvent
 	public void preRenderEvent(RenderPlayerEvent.Pre event) {
