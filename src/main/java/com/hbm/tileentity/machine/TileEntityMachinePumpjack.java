@@ -282,11 +282,7 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 						if(b == ModBlocks.oil_pipe)
 							continue;
 						
-						if(b == Blocks.air || b == Blocks.grass || b == Blocks.dirt || 
-								b == Blocks.stone || b == Blocks.sand || b == Blocks.sandstone || 
-								b == Blocks.clay || b == Blocks.hardened_clay || b == Blocks.stained_hardened_clay || 
-								b == Blocks.gravel || isOre(b, worldObj.getBlockMetadata(xCoord, i, zCoord)) ||
-								b.isReplaceable(worldObj, xCoord, i, zCoord)) {
+						if(b.isReplaceable(worldObj, xCoord, i, zCoord) || b.getExplosionResistance(null) < 100) {
 							worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
 						
 							//Code 2: The drilling ended
@@ -348,21 +344,6 @@ public class TileEntityMachinePumpjack extends TileEntity implements ISidedInven
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
-	}
-	
-	public boolean isOre(Block b, int meta) {
-		
-		int[] ids = OreDictionary.getOreIDs(new ItemStack(b, 1, meta));
-		
-		for(int i = 0; i < ids.length; i++) {
-			
-			String s = OreDictionary.getOreName(ids[i]);
-			
-			if(s.length() > 3 && s.substring(0, 3).equals("ore"))
-				return true;
-		}
-		
-		return false;
 	}
 	
 	public boolean succ(int x, int y, int z) {
