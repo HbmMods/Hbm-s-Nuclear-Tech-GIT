@@ -288,8 +288,8 @@ item.test_nuke_tier2_bullet.name=Снаряд MOX (уровень 2)
 item.test_nuke_tier1_target.name=Субкритическая цель U235 (уровень 1)
 item.test_nuke_tier2_target.name=Субкритическая цель MOX (уровень 2)
 
-item.gadget_explosive.name=Взрывчатка
-item.gadget_explosive8.name=Связка взрывчатки
+item.gadget_explosive.name=Взрывные линзы первого поколения
+item.gadget_explosive8.name=Связка взрывчатки первого поколения
 item.gadget_wireing.name=Провода
 item.gadget_core.name=Плутониевое ядро
 
@@ -299,7 +299,7 @@ item.boy_bullet.name=Снаряд U235
 item.boy_target.name=Субкритическая цель U235
 item.boy_shielding.name=Нейтронный щит
 
-item.man_explosive.name=Взрывчатка
+item.man_explosive.name=Взрывные линзы
 item.man_explosive8.name=Связка взрывчатки
 item.man_igniter.name=Зажигатель
 item.man_core.name=Плутониевое ядро
@@ -714,6 +714,7 @@ item.plate_steel.name=Стальная пластина
 item.ingot_beryllium.name=Бериллевый слиток
 item.plate_schrabidium.name=Шрабидиевая пластина
 item.ingot_schraranium.name=Шрараниевый слиток
+item.ingot_semtex.name=Семтекс
 item.ingot_schrabidium.name=Шрабидиевый слиток
 item.nugget_schrabidium.name=Шрабидиевый самородок
 item.plate_copper.name=Медная пластина
@@ -1075,6 +1076,7 @@ item.powder_lithium.name=Литиевый порошок
 item.powder_advanced_alloy.name=Порошок продвинутого сплава
 item.powder_quartz.name=Кварцевый порошок
 item.powder_power.name=Энерго-порошок
+item.powder_semtex_mix.name=Смесь семтекса
 item.powder_iodine.name=Порошок иода
 item.powder_thorium.name=Ториевый порошок
 item.powder_neodymium.name=Неодимовый порошок
