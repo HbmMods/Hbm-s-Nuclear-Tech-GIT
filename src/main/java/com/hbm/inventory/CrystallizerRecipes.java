@@ -41,20 +41,24 @@ public class CrystallizerRecipes {
 		recipes.put("oreBeryllium", new ItemStack(ModItems.crystal_beryllium));
 		recipes.put("oreLead", new ItemStack(ModItems.crystal_lead));
 		recipes.put("oreSchrabidium", new ItemStack(ModItems.crystal_schrabidium));
+		recipes.put("oreLithium", new ItemStack(ModItems.crystal_lithium));
+		recipes.put("oreStarmetal", new ItemStack(ModItems.crystal_starmetal));
+		
 		recipes.put(new ComparableStack(ModBlocks.ore_rare), new ItemStack(ModItems.crystal_rare));
 		recipes.put(new ComparableStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.crystal_phosphorus));
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new ItemStack(ModItems.crystal_trixite));
-		recipes.put("oreLithium", new ItemStack(ModItems.crystal_lithium));
-		recipes.put("oreStarmetal", new ItemStack(ModItems.crystal_starmetal));
+		recipes.put(new ComparableStack(ModBlocks.gravel_diamond), new ItemStack(ModItems.crystal_diamond));
+		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack(ModItems.crystal_schraranium));
+		
 		recipes.put("sand", new ItemStack(ModItems.ingot_fiberglass));
 		recipes.put(new ComparableStack(Blocks.cobblestone), new ItemStack(ModBlocks.reinforced_stone));
 		recipes.put(new ComparableStack(ModBlocks.gravel_obsidian), new ItemStack(ModBlocks.brick_obsidian));
 		recipes.put("blockRedstone", new ItemStack(ModItems.nugget_mercury));
-		recipes.put(new ComparableStack(ModBlocks.gravel_diamond), new ItemStack(ModItems.crystal_diamond));
+		
 		recipes.put(new ComparableStack(ModItems.powder_diamond), new ItemStack(Items.diamond));
 		recipes.put(new ComparableStack(ModItems.powder_emerald), new ItemStack(Items.emerald));
 		recipes.put(new ComparableStack(ModItems.powder_lapis), new ItemStack(Items.dye, 1, 4));
-		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack(ModItems.crystal_schraranium));
+		recipes.put(new ComparableStack(ModItems.powder_semtex_mix), new ItemStack(ModItems.ingot_semtex));
 	}
 	
 	public static ItemStack getOutput(ItemStack stack) {

@@ -75,7 +75,8 @@ private TileEntityNukeCustom nukeBoy;
 					return null;
 				}
 			} else {
-				return null;
+				if (!this.mergeItemStack(var5, 0, 27, true))
+					return null;
 			}
             
 			if (var5.stackSize == 0)

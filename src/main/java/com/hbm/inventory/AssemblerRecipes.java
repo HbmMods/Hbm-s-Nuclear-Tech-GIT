@@ -1,29 +1,24 @@
 package com.hbm.inventory;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
-import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -35,6 +30,7 @@ public class AssemblerRecipes {
 	private static final Gson gson = new Gson();
 	public static HashMap<ComparableStack, Object[]> recipes = new HashMap();
 	public static HashMap<ComparableStack, Integer> time = new HashMap();
+	public static List<ComparableStack> recipeList = new ArrayList();
 	
 	/**
 	 * Pre-Init phase: Finds the recipe config (if exists) and checks if a template is present, if not it generates one.
@@ -71,10 +67,52 @@ public class AssemblerRecipes {
 			registerDefaults();
 		else
 			loadJSONRecipes();
+		
+		generateList();
 	}
 	
-	private static void registerDefaults() {
+	/**
+	 * Generates an ordered list of outputs, used by the template item to generate subitems
+	 */
+	private static void generateList() {
 		
+		List<ComparableStack> list = new ArrayList(recipes.keySet());
+		Collections.sort(list);
+		recipeList = list;
+	}
+	
+	/**
+	 * Registers regular recipes if there's no custom confiuration
+	 */
+	private static void registerDefaults() {
+
+		makeRecipe(new ComparableStack(ModItems.plate_iron, 2),
+				new Object[] {new OreDictStack("ingotIron", 3)},
+				20);
+		makeRecipe(new ComparableStack(ModItems.plate_gold, 2),
+				new Object[] {new OreDictStack("ingotGold", 3)},
+				20);
+		makeRecipe(new ComparableStack(ModItems.plate_titanium, 2),
+				new Object[] {new OreDictStack("ingotTitanium", 3)},
+				20);
+		makeRecipe(new ComparableStack(ModItems.plate_aluminium, 2),
+				new Object[] {new OreDictStack("ingotAluminum", 3)},
+				20);
+		makeRecipe(new ComparableStack(ModItems.plate_steel, 2),
+				new Object[] {new OreDictStack("ingotSteel", 3)},
+				20);
+		makeRecipe(new ComparableStack(ModItems.plate_lead, 2),
+				new Object[] {new OreDictStack("ingotLead", 3)},
+				20);
+		makeRecipe(new ComparableStack(ModItems.asbestos_cloth, 4),
+				new Object[] {new OreDictStack("ingotAsbestos", 2), new ComparableStack(Items.string, 6)},
+				20);
+	}
+	
+	private static void makeRecipe(ComparableStack out, Object[] in, int duration) {
+		
+		recipes.put(out, in);
+		time.put(out, duration);
 	}
 	
 	/*

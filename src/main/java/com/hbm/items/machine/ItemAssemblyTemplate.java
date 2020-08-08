@@ -1,10 +1,15 @@
 package com.hbm.items.machine;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.AssemblerRecipes;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -16,6 +21,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.oredict.OreDictionary;
 
 @Spaghetti("death")
 public class ItemAssemblyTemplate extends Item {
@@ -733,7 +739,7 @@ public class ItemAssemblyTemplate extends Item {
     public String getItemStackDisplayName(ItemStack stack)
     {
         String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-        ItemStack out = MachineRecipes.getOutputFromTempate(stack);
+        ItemStack out = stack.getItemDamage() < AssemblerRecipes.recipeList.size() ? AssemblerRecipes.recipeList.get(stack.getItemDamage()).toStack() : null;
         String s1 = ("" + StatCollector.translateToLocal((out != null ? out.getUnlocalizedName() : "") + ".name")).trim();
 
         if (s1 != null)
@@ -746,12 +752,13 @@ public class ItemAssemblyTemplate extends Item {
 
     @Override
 	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list)
-    {
-        for (int i = 0; i < EnumAssemblyTemplate.values().length; ++i)
-        {
+    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+    	
+    	int count = AssemblerRecipes.recipeList.size();
+    	
+    	for(int i = 0; i < count; i++) {
             list.add(new ItemStack(item, 1, i));
-        }
+    	}
     }
     
     public static int getProcessTime(ItemStack stack) {
@@ -759,7 +766,20 @@ public class ItemAssemblyTemplate extends Item {
     	if(!(stack.getItem() instanceof ItemAssemblyTemplate))
     		return 100;
     	
-        int i = stack.getItemDamage();
+    	int i = stack.getItemDamage();
+    	
+    	if(i < 0 || i >= AssemblerRecipes.recipeList.size())
+    		return 100;
+    	
+    	ComparableStack out = AssemblerRecipes.recipeList.get(i);
+    	Integer time = AssemblerRecipes.time.get(out);
+    	
+    	if(time != null)
+    		return time;
+    	else
+    		return 100;
+    	
+        /*int i = stack.getItemDamage();
         EnumAssemblyTemplate enum1 = EnumAssemblyTemplate.getEnum(i);
         
         if(enum1.time != 0)
@@ -1108,7 +1128,7 @@ public class ItemAssemblyTemplate extends Item {
 			return 150;
 		case LR_CORE:
 			return 250;*/
-		case LF_MAGNET:
+		/*case LF_MAGNET:
 			return 150;
 		case LF_CENTER:
 			return 200;
@@ -1312,37 +1332,63 @@ public class ItemAssemblyTemplate extends Item {
 			return 1000;
         default:
         	return 100;
-        }
+        }*/
     }
 	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
     	
     	if(!(stack.getItem() instanceof ItemAssemblyTemplate))
     		return;
-
-    	List<ItemStack> stacks = MachineRecipes.getRecipeFromTempate(stack);
-    	ItemStack out = MachineRecipes.getOutputFromTempate(stack);
-
-		list.add("[CREATED USING TEMPLATE FOLDER]");
-		list.add("");
-		
-    	try {
-    		list.add("Output:");
-    		list.add(out.stackSize + "x " + out.getDisplayName());
-    		list.add("Inputs:");
     	
-    		for(int i = 0; i < stacks.size(); i++) {
-    			if(stacks.get(i) != null)
-    	    		list.add(stacks.get(i).stackSize + "x " + stacks.get(i).getDisplayName());
-    		}
-    		list.add("Production time:");
-        	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
-    	} catch(Exception e) {
-    		list.add("###INVALID###");
-    		list.add("0x334077-0x6A298F-0xDF3795-0x334077");
+    	int i = stack.getItemDamage();
+    	
+    	if(i < 0 || i >= AssemblerRecipes.recipeList.size()) {
+    		list.add("I AM ERROR");
+    		return;
     	}
+    	
+    	ComparableStack out = AssemblerRecipes.recipeList.get(i);
+    	
+    	if(out == null) {
+    		list.add("I AM ERROR");
+    		return;
+    	}
+    	
+    	Object[] in = AssemblerRecipes.recipes.get(out);
+    	
+    	if(in == null) {
+    		list.add("I AM ERROR");
+    		return;
+    	}
+    	
+    	ItemStack output = out.toStack();
+    	
+		list.add("Output:");
+		list.add(output.stackSize + "x " + output.getDisplayName());
+		list.add("Inputs:");
+		
+		Random rand = new Random(System.currentTimeMillis() / 1000);
+		
+		for(Object o : in) {
+			
+			if(o instanceof ComparableStack)  {
+				ItemStack input = ((ComparableStack)o).toStack();
+	    		list.add(input.stackSize + "x " + input.getDisplayName());
+	    		
+			} else if(o instanceof OreDictStack)  {
+				OreDictStack input = (OreDictStack) o;
+				ArrayList<ItemStack> ores = OreDictionary.getOres(input.name);
+				
+				if(ores.size() > 0) {
+					ItemStack inStack = ores.get(rand.nextInt(ores.size()));
+		    		list.add(inStack.stackSize + "x " + inStack.getDisplayName());
+				}
+			}
+		}
+		
+		list.add("Production time:");
+    	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
 	}
 
     /*@Override

@@ -184,6 +184,7 @@ public class TileEntityNukeCustom extends TileEntity implements ISidedInventory 
 		entries.put(new ComparableStack(Items.gunpowder), new CustomNukeEntry(EnumBombType.TNT, 0.8F));
 		entries.put(new ComparableStack(Blocks.tnt), new CustomNukeEntry(EnumBombType.TNT, 4F));
 		entries.put(new ComparableStack(ModBlocks.det_cord), new CustomNukeEntry(EnumBombType.TNT, 1.5F));
+		entries.put(new ComparableStack(ModItems.ingot_semtex), new CustomNukeEntry(EnumBombType.TNT, 8F));
 		entries.put(new ComparableStack(ModBlocks.det_charge), new CustomNukeEntry(EnumBombType.TNT, 15F));
 		entries.put(new ComparableStack(ModItems.canister_fuel), new CustomNukeEntry(EnumBombType.TNT, 0.5F));
 		entries.put(new ComparableStack(ModItems.canister_napalm), new CustomNukeEntry(EnumBombType.TNT, 2.5F));

@@ -1071,6 +1071,7 @@ public class MainRegistry
 		CentrifugeRecipes.register();
 		BreederRecipes.registerFuels();
 		BreederRecipes.registerRecipes();
+		AssemblerRecipes.loadRecipes();
 		
 		TileEntityNukeCustom.registerBombItems();
 

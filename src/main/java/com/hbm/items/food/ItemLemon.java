@@ -202,6 +202,12 @@ public class ItemLemon extends ItemFood {
 			list.add("What if he didn't?");
 			list.add("What if the world was made of pudding?");
 		}
+
+		if(this == ModItems.ingot_semtex) {
+			list.add("Semtex H Plastic Explosive");
+			list.add("Performant explosive for many applications.");
+			list.add("Edible");
+		}
 	}
 
 

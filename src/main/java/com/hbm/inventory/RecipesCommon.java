@@ -39,7 +39,7 @@ public class RecipesCommon {
 		return clone;
 	}
 	
-	public static class ComparableStack {
+	public static class ComparableStack implements Comparable<ComparableStack> {
 
 		Item item;
 		int stacksize;
@@ -129,6 +129,21 @@ public class RecipesCommon {
 			if (stacksize != other.stacksize)
 				return false;
 			return true;
+		}
+
+		@Override
+		public int compareTo(ComparableStack comp) {
+			
+			int thisID = Item.getIdFromItem(item);
+			int thatID = Item.getIdFromItem(comp.item);
+			
+			if(thisID > thatID)
+				return 1;
+			
+			if(thatID > thisID)
+				return -1;
+			
+			return 0;
 		}
 	}
 	
