@@ -1383,6 +1383,8 @@ public class ItemAssemblyTemplate extends Item {
 				if(ores.size() > 0) {
 					ItemStack inStack = ores.get(rand.nextInt(ores.size()));
 		    		list.add(inStack.stackSize + "x " + inStack.getDisplayName());
+				} else {
+		    		list.add("I AM ERROR");
 				}
 			}
 		}

@@ -68,6 +68,18 @@ public class RecipesCommon {
 			this.meta = 0;
 		}
 		
+		public ComparableStack(Block item, int stacksize) {
+			this.item = Item.getItemFromBlock(item);
+			this.stacksize = stacksize;
+			this.meta = 0;
+		}
+		
+		public ComparableStack(Block item, int stacksize, int meta) {
+			this.item = Item.getItemFromBlock(item);
+			this.stacksize = stacksize;
+			this.meta = meta;
+		}
+		
 		public ComparableStack(Item item, int stacksize) {
 			this(item);
 			this.stacksize = stacksize;

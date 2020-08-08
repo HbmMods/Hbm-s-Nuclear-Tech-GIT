@@ -3,7 +3,7 @@ package com.hbm.render.item;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.render.util.RenderItemStack;
 
@@ -20,7 +20,7 @@ public class ItemRenderTemplate implements IItemRenderer {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && (type == IItemRenderer.ItemRenderType.INVENTORY)) {
 
 			if(stack.getItem() == ModItems.assembly_template)
-				this.currentItem = MachineRecipes.getOutputFromTempate(stack);
+				this.currentItem = AssemblerRecipes.recipeList.get(stack.getItemDamage()).toStack();
 			if(stack.getItem() == ModItems.chemistry_template)
 				this.currentItem = new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage());
 			
