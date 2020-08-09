@@ -115,7 +115,6 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 				
 				if(o instanceof ItemStack && NEIServerUtils.areStacksSameTypeCrafting((ItemStack)o, ingredient)) {
 					this.arecipes.add(new SmeltingSet(recipe.getValue(), recipe.getKey()));
-					return;
 					
 				} else if(o instanceof List) {
 					
@@ -123,7 +122,6 @@ public class AssemblerRecipeHandler extends TemplateRecipeHandler {
 						
 						if(obj instanceof ItemStack && NEIServerUtils.areStacksSameTypeCrafting((ItemStack)obj, ingredient)) {
 							this.arecipes.add(new SmeltingSet(recipe.getValue(), recipe.getKey()));
-							return;
 						}
 					}
 				}

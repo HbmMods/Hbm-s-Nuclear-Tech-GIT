@@ -886,6 +886,8 @@ public class GUIHandler implements IGuiHandler {
 			{
 			case ModItems.guiID_item_box:
 				return new ContainerLeadBox(player, player.inventory, new InventoryLeadBox(player.getHeldItem()));
+			case ModItems.guiID_item_book:
+				return new ContainerBook(player.inventory);
 			}
 		}
 		
@@ -1755,7 +1757,7 @@ public class GUIHandler implements IGuiHandler {
 				}
 			}
 		} else {
-			//CLIENTONLY GUIS
+			//ITEM GUIS
 			
 			switch(ID)
 			{
@@ -1772,6 +1774,8 @@ public class GUIHandler implements IGuiHandler {
 			case ModItems.guiID_item_bobmazon:
 				if(BobmazonOfferFactory.getOffers(player.getHeldItem()) != null)
 					return new GUIScreenBobmazon(player, BobmazonOfferFactory.getOffers(player.getHeldItem()));
+			case ModItems.guiID_item_book:
+				return new GUIBook(player.inventory);
 			}
 		}
 		return null;

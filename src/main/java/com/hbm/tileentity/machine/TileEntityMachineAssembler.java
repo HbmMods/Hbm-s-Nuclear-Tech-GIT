@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.interfaces.IConsumer;
-import com.hbm.inventory.MachineRecipes;
+import com.hbm.inventory.AssemblerRecipes;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.lib.Library;
@@ -28,7 +29,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMachineAssembler extends TileEntity implements ISidedInventory, IConsumer {
 
@@ -260,24 +260,24 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			isProgressing = false;
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
-			if(MachineRecipes.getOutputFromTempate(slots[4]) != null && MachineRecipes.getRecipeFromTempate(slots[4]) != null) {
+			if(AssemblerRecipes.getOutputFromTempate(slots[4]) != null && AssemblerRecipes.getRecipeFromTempate(slots[4]) != null) {
 				this.maxProgress = (ItemAssemblyTemplate.getProcessTime(slots[4]) * speed) / 100;
 				
-				if(power >= consumption && removeItems(MachineRecipes.getRecipeFromTempate(slots[4]), cloneItemStackProper(slots))) {
+				if(power >= consumption && removeItems(AssemblerRecipes.getRecipeFromTempate(slots[4]), cloneItemStackProper(slots))) {
 					
-					if(slots[5] == null || (slots[5] != null && slots[5].getItem() == MachineRecipes.getOutputFromTempate(slots[4]).copy().getItem()) && slots[5].stackSize + MachineRecipes.getOutputFromTempate(slots[4]).copy().stackSize <= slots[5].getMaxStackSize()) {
+					if(slots[5] == null || (slots[5] != null && slots[5].getItem() == AssemblerRecipes.getOutputFromTempate(slots[4]).copy().getItem()) && slots[5].stackSize + AssemblerRecipes.getOutputFromTempate(slots[4]).copy().stackSize <= slots[5].getMaxStackSize()) {
 						progress++;
 						isProgressing = true;
 						
 						if(progress >= maxProgress) {
 							progress = 0;
 							if(slots[5] == null) {
-								slots[5] = MachineRecipes.getOutputFromTempate(slots[4]).copy();
+								slots[5] = AssemblerRecipes.getOutputFromTempate(slots[4]).copy();
 							} else {
-								slots[5].stackSize += MachineRecipes.getOutputFromTempate(slots[4]).copy().stackSize;
+								slots[5].stackSize += AssemblerRecipes.getOutputFromTempate(slots[4]).copy().stackSize;
 							}
 							
-							removeItems(MachineRecipes.getRecipeFromTempate(slots[4]), slots);
+							removeItems(AssemblerRecipes.getRecipeFromTempate(slots[4]), slots);
 						}
 						
 						power -= consumption;
@@ -312,69 +312,71 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			tryExchangeTemplates(te1, te2);
 			
 			//OUTPUT
-			if(te1 instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te1;
+			if(te1 instanceof IInventory) {
+				IInventory chest = (IInventory)te1;
 				
 				tryFillContainer(chest, 5);
 			}
 			
-			if(te1 instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te1;
-
-				tryFillContainer(hopper, 5);
-			}
-			
-			if(te1 instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te1;
-
-				tryFillContainer(hopper, 5);
-			}
-			
-			if(te1 instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te1;
-
-				tryFillContainer(hopper, 5);
-			}
-			
-			//INPUT
-			if(te2 instanceof TileEntityChest) {
-				TileEntityChest chest = (TileEntityChest)te2;
+			if(te2 instanceof IInventory) {
+				IInventory chest = (IInventory)te2;
 				
 				for(int i = 0; i < chest.getSizeInventory(); i++)
 					if(tryFillAssembler(chest, i))
 						break;
 			}
-			
-			if(te2 instanceof TileEntityHopper) {
-				TileEntityHopper hopper = (TileEntityHopper)te2;
-
-				for(int i = 0; i < hopper.getSizeInventory(); i++)
-					if(tryFillAssembler(hopper, i))
-						break;
-			}
-			
-			if(te2 instanceof TileEntityCrateIron) {
-				TileEntityCrateIron hopper = (TileEntityCrateIron)te2;
-
-				for(int i = 0; i < hopper.getSizeInventory(); i++)
-					if(tryFillAssembler(hopper, i))
-						break;
-			}
-			
-			if(te2 instanceof TileEntityCrateSteel) {
-				TileEntityCrateSteel hopper = (TileEntityCrateSteel)te2;
-
-				for(int i = 0; i < hopper.getSizeInventory(); i++)
-					if(tryFillAssembler(hopper, i))
-						break;
-			}
-
 
 			PacketDispatcher.wrapper.sendToAllAround(new TEAssemblerPacket(xCoord, yCoord, zCoord, isProgressing), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			PacketDispatcher.wrapper.sendToAllAround(new LoopedSoundPacket(xCoord, yCoord, zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 		
+	}
+	
+	private boolean removeItems(List<AStack> stack, ItemStack[] array) {
+
+		if(stack == null)
+			return false;
+		
+		for(int i = 0; i < stack.size(); i++) {
+			for(int j = 0; j < stack.get(i).stacksize; j++) {
+				AStack sta = stack.get(i).copy();
+				sta.stacksize = 1;
+			
+				if(!canRemoveItemFromArray(sta, array))
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean canRemoveItemFromArray(AStack stack, ItemStack[] array) {
+
+		AStack st = stack.copy();
+		
+		if(st == null)
+			return true;
+		
+		for(int i = 6; i < 18; i++) {
+			
+			if(array[i] != null) {
+				
+				ItemStack sta = array[i].copy();
+				sta.stackSize = 1;
+			
+				if(sta != null && st.isApplicable(sta) && array[i].stackSize > 0) {
+					array[i].stackSize--;
+					
+					if(array[i].stackSize <= 0)
+						array[i] = null;
+					
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public boolean tryExchangeTemplates(TileEntity te1, TileEntity te2) {
@@ -506,18 +508,15 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		}
 		
 		return false;
-	}
-	
-	//Loads assembler's input queue from chests
-	public boolean tryFillAssembler(IInventory inventory, int slot) {
+	}public boolean tryFillAssembler(IInventory inventory, int slot) {
 		
-		if(MachineRecipes.getOutputFromTempate(slots[4]) == null || MachineRecipes.getRecipeFromTempate(slots[4]) == null)
+		if(AssemblerRecipes.getOutputFromTempate(slots[4]) == null || AssemblerRecipes.getRecipeFromTempate(slots[4]) == null)
 			return false;
 		else {
-			List<ItemStack> list = copyItemStackList(MachineRecipes.getRecipeFromTempate(slots[4]));
+			List<AStack> list = copyItemStackList(AssemblerRecipes.getRecipeFromTempate(slots[4]));
 			
 			for(int i = 0; i < list.size(); i++)
-				list.get(i).stackSize = 1;
+				list.get(i).stacksize = 1;
 
 
 			if(inventory.getStackInSlot(slot) == null)
@@ -529,7 +528,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 			boolean flag = false;
 			
 			for(int i = 0; i < list.size(); i++)
-				if(isItemAcceptible(stack, list.get(i)))
+				if(list.get(i).isApplicable(stack))
 					flag = true;
 			
 			if(!flag)
@@ -547,7 +546,7 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 					sta1.stackSize = 1;
 					sta2.stackSize = 1;
 			
-					if(isItemAcceptible(sta1, sta2) && slots[i].stackSize < slots[i].getMaxStackSize()) {
+					if(sta1.isItemEqual(sta2) && slots[i].stackSize < slots[i].getMaxStackSize()) {
 						ItemStack sta3 = inventory.getStackInSlot(slot).copy();
 						sta3.stackSize--;
 						if(sta3.stackSize <= 0)
@@ -581,78 +580,11 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 		return false;
 	}
 	
-	//boolean true: remove items, boolean false: simulation mode
-	public boolean removeItems(List<ItemStack> stack, ItemStack[] array) {
-		
-		if(stack == null)
-			return false;
-		
-		for(int i = 0; i < stack.size(); i++) {
-			for(int j = 0; j < stack.get(i).stackSize; j++) {
-				ItemStack sta = stack.get(i).copy();
-				sta.stackSize = 1;
-			
-				if(!canRemoveItemFromArray(sta, array))
-					return false;
-			}
-		}
-		
-		return true;
-		
-	}
-	
-	public boolean canRemoveItemFromArray(ItemStack stack, ItemStack[] array) {
-
-		ItemStack st = stack.copy();
-		
-		if(st == null)
-			return true;
-		
-		for(int i = 6; i < 18; i++) {
-			
-			if(array[i] != null) {
-				ItemStack sta = array[i].copy();
-				sta.stackSize = 1;
-			
-				if(sta != null && isItemAcceptible(sta, st) && array[i].stackSize > 0) {
-					array[i].stackSize--;
-					
-					if(array[i].stackSize <= 0)
-						array[i] = null;
-					
-					return true;
-				}
-			}
-		}
-		
-		return false;
-	}
-	
-	public boolean isItemAcceptible(ItemStack stack1, ItemStack stack2) {
-		
-		if(stack1 != null && stack2 != null) {
-			if(ItemStack.areItemStacksEqual(stack1, stack2))
-				return true;
-		
-			int[] ids1 = OreDictionary.getOreIDs(stack1);
-			int[] ids2 = OreDictionary.getOreIDs(stack2);
-			
-			if(ids1 != null && ids2 != null && ids1.length > 0 && ids2.length > 0) {
-				for(int i = 0; i < ids1.length; i++)
-					for(int j = 0; j < ids2.length; j++)
-						if(ids1[i] == ids2[j])
-							return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	public static List<ItemStack> copyItemStackList(List<ItemStack> list){
-        List<ItemStack> newList = new ArrayList<ItemStack>();
+	public static List<AStack> copyItemStackList(List<AStack> list){
+        List<AStack> newList = new ArrayList<AStack>();
         if(list == null || list.isEmpty())
             return newList;
-        for(ItemStack stack : list){
+        for(AStack stack : list){
             newList.add(stack.copy());
         }
         return newList;

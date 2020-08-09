@@ -1,5 +1,7 @@
 package com.hbm.inventory;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,10 +41,42 @@ public class RecipesCommon {
 		return clone;
 	}
 	
-	public static class ComparableStack implements Comparable<ComparableStack> {
+	public static abstract class AStack implements Comparable<AStack> {
+		
+		public int stacksize;
+		
+		public boolean isApplicable(ItemStack stack) {
+			return isApplicable(new ComparableStack(stack));
+		}
+		
+		/*
+		 * Is it unprofessional to pool around in child classes from an abstract superclass? Do I look like I give a shit?
+		 */
+		public boolean isApplicable(ComparableStack comp) {
+			
+			if(this instanceof ComparableStack) {
+				return ((ComparableStack)this).equals(comp);
+			}
+			
+			if(this instanceof OreDictStack) {
+				
+				List<ItemStack> ores = OreDictionary.getOres(((OreDictStack)this).name);
+				
+				for(ItemStack stack : ores) {
+					if(stack.getItem() == comp.item && stack.getItemDamage() == comp.meta)
+						return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		public abstract AStack copy();
+	}
+	
+	public static class ComparableStack extends AStack {
 
 		Item item;
-		int stacksize;
 		int meta;
 		
 		public ComparableStack(ItemStack stack) {
@@ -144,25 +178,44 @@ public class RecipesCommon {
 		}
 
 		@Override
-		public int compareTo(ComparableStack comp) {
+		public int compareTo(AStack stack) {
 			
-			int thisID = Item.getIdFromItem(item);
-			int thatID = Item.getIdFromItem(comp.item);
-			
-			if(thisID > thatID)
+			if(stack instanceof ComparableStack) {
+				
+				ComparableStack comp = (ComparableStack) stack;
+				
+				int thisID = Item.getIdFromItem(item);
+				int thatID = Item.getIdFromItem(comp.item);
+				
+				if(thisID > thatID)
+					return 1;
+				if(thatID > thisID)
+					return -1;
+				
+				if(meta > comp.meta)
+					return 1;
+				if(comp.meta > meta)
+					return -1;
+				
+				return 0;
+			}
+
+			//if compared with an ODStack, the CStack will take priority
+			if(stack instanceof OreDictStack)
 				return 1;
-			
-			if(thatID > thisID)
-				return -1;
 			
 			return 0;
 		}
+
+		@Override
+		public AStack copy() {
+			return new ComparableStack(item, stacksize, meta);
+		}
 	}
 	
-	public static class OreDictStack {
+	public static class OreDictStack extends AStack {
 		
 		public String name;
-		public int stacksize;
 		
 		public OreDictStack(String name) {
 			this.name = name;
@@ -172,6 +225,31 @@ public class RecipesCommon {
 		public OreDictStack(String name, int stacksize) {
 			this(name);
 			this.stacksize = stacksize;
+		}
+		
+		public List<ItemStack> toStacks() {
+			return OreDictionary.getOres(name);
+		}
+
+		@Override
+		public int compareTo(AStack stack) {
+			
+			if(stack instanceof OreDictStack) {
+				
+				OreDictStack comp = (OreDictStack) stack;
+				return name.compareTo(comp.name);
+			}
+			
+			//if compared with a CStack, the ODStack will yield
+			if(stack instanceof ComparableStack)
+				return -1;
+			
+			return 0;
+		}
+
+		@Override
+		public AStack copy() {
+			return new OreDictStack(name, stacksize);
 		}
 	}
 

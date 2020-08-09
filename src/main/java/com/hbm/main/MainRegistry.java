@@ -27,8 +27,6 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -49,8 +47,6 @@ import com.hbm.handler.*;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.*;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemAssemblyTemplate;
-import com.hbm.items.machine.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.lib.HbmWorld;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -1074,36 +1070,9 @@ public class MainRegistry
 		BreederRecipes.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
+		MagicRecipes.register();
 		
 		TileEntityNukeCustom.registerBombItems();
-		
-		/*
-		 * makeRecipe(new ComparableStack(ModItems.asbestos_cloth, 4),
-				new Object[] {new OreDictStack("ingotAsbestos", 2), new ComparableStack(Items.string, 6)},
-				20);
-		 */
-		
-		for(EnumAssemblyTemplate temp : EnumAssemblyTemplate.values()) {
-			ItemStack template = new ItemStack(ModItems.assembly_template, 1, temp.ordinal());
-			
-			ItemStack out = MachineRecipes.getOutputFromTempate(template);
-			List<ItemStack> in = MachineRecipes.getRecipeFromTempate(template);
-			
-			if(out != null && in != null) {
-				
-				String msg = "";
-				
-				msg += "makeRecipe(new ComparableStack(" + out.getUnlocalizedName() + ", " + out.stackSize + "), ";
-				msg += "new Object[] {";
-				for(ItemStack inp : in) {
-					msg += "new ComparableStack(" + inp.getUnlocalizedName() + ", " + inp.stackSize + ", " + inp.getItemDamage() + "), ";
-				}
-				msg += "},";
-				msg += ItemAssemblyTemplate.getProcessTime(template) + ");";
-				
-				System.out.println(msg);
-			}
-		}
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), FluidType.WATER, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), FluidType.LAVA, 1000));
@@ -1306,8 +1275,6 @@ public class MainRegistry
 		
 		proxy.registerMissileItems();
 	}
-	
-	public static List<String> templateBlacklist = new ArrayList();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -1552,7 +1519,6 @@ public class MainRegistry
         phosphorusID = createConfigInt(config, CATEGORY_POTION, "8.08_phosphorusPotionID", "What potion ID the phosphorus effect will have", 70);
 
         final String CATEGORY_MACHINE = "09_machines";
-        templateBlacklist = Arrays.asList(createConfigStringList(config, CATEGORY_MACHINE, "9.00_templateBlacklist", "Which machine templates should be prohibited from being created (args: enum names)"));
 
         final String CATEGORY_DROPS = "10_dangerous_drops";
         dropCell = createConfigBool(config, CATEGORY_DROPS, "10.00_dropCell", "Whether antimatter cells should explode when dropped", true);

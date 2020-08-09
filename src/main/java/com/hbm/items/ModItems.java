@@ -326,6 +326,7 @@ public class ModItems {
 	public static Item powder_desh;
 	public static Item powder_semtex_mix;
 	public static Item powder_desh_mix;
+	public static Item powder_desh_ready;
 	public static Item powder_nitan_mix;
 	public static Item powder_spark_mix;
 	public static Item powder_yellowcake;
@@ -1955,6 +1956,7 @@ public class ModItems {
 	public static final int guiID_item_box = 102;
 	public static final int guiID_item_bobmazon = 103;
 	public static final int guiID_item_sat_coord = 104;
+	public static final int guiID_item_book = 105;
 
 	public static Item mysteryshovel;
 	public static Item memory;
@@ -2198,6 +2200,7 @@ public class ModItems {
 		powder_actinium = new ItemCustomLore().setUnlocalizedName("powder_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_actinium");
 		powder_semtex_mix = new Item().setUnlocalizedName("powder_semtex_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_semtex_mix");
 		powder_desh_mix = new Item().setUnlocalizedName("powder_desh_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_desh_mix");
+		powder_desh_ready = new Item().setUnlocalizedName("powder_desh_ready").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_desh_ready");
 		powder_nitan_mix = new Item().setUnlocalizedName("powder_nitan_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_nitan_mix");
 		powder_spark_mix = new Item().setUnlocalizedName("powder_spark_mix").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_spark_mix");
 		powder_desh = new Item().setUnlocalizedName("powder_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_desh");
@@ -4076,6 +4079,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_cloud, powder_cloud.getUnlocalizedName());
 		GameRegistry.registerItem(powder_semtex_mix, powder_semtex_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh_mix, powder_desh_mix.getUnlocalizedName());
+		GameRegistry.registerItem(powder_desh_ready, powder_desh_ready.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh, powder_desh.getUnlocalizedName());
 		GameRegistry.registerItem(powder_nitan_mix, powder_nitan_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_spark_mix, powder_spark_mix.getUnlocalizedName());

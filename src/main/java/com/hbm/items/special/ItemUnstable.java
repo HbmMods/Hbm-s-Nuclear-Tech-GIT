@@ -33,6 +33,9 @@ public class ItemUnstable extends Item {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+    	
+    	if(stack.getItemDamage() != 0)
+    		return;
 		
 		list.add("Decay: " + (getTimer(stack) * 100 / timer) + "%");
 	}

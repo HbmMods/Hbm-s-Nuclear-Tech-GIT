@@ -67,6 +67,8 @@ public class ContainerCrateSteel extends Container {
 			{
 				var4.onSlotChanged();
 			}
+
+			var4.onPickupFromSlot(p_82846_1_, var5);
 		}
 		
 		return var3;

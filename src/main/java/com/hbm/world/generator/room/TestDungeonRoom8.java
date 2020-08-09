@@ -7,6 +7,7 @@ import com.hbm.world.generator.CellularDungeon;
 import com.hbm.world.generator.CellularDungeonRoom;
 import com.hbm.world.generator.DungeonToolbox;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -42,8 +43,13 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 		case 6: world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.block_meteor, 0, 3); break;
 		case 7:
 			world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.safe, 0, 3);
-			if(world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2) instanceof TileEntitySafe)
-				((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(ModItems.book_of_));
+			if(world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2) instanceof TileEntitySafe) {
+				
+				if(world.rand.nextInt(10) == 0)
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(ModItems.book_of_));
+				else
+					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(Items.book));
+			}
 			break;
 		}
 		

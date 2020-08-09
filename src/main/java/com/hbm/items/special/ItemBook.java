@@ -3,14 +3,11 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.potion.HbmPotion;
+import com.hbm.main.MainRegistry;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class ItemBook extends Item {
@@ -18,13 +15,19 @@ public class ItemBook extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
-		if(this == ModItems.book_of_)
-		{
-			list.add("Edition 4, gold lined pages");
-		}
+		list.add("Edition 4, gold lined pages");
 	}
 
 	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(!world.isRemote)
+			player.openGui(MainRegistry.instance, ModItems.guiID_item_book, world, 0, 0, 0);
+		
+		return stack;
+	}
+
+	/*@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
 		if(world.isRemote)
@@ -54,6 +57,6 @@ public class ItemBook extends Item {
 		}
 		
 		return stack;
-	}
+	}*/
 
 }

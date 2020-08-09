@@ -7,12 +7,12 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIdentifier;
-import com.hbm.items.machine.ItemAssemblyTemplate.EnumAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.ItemFolderPacket;
@@ -57,7 +57,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
     	for(int i = 1; i < FluidType.values().length; i++)
     		stacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
     	//Assembly Templates
-    	for(int i = 0; i < EnumAssemblyTemplate.values().length; i++)
+    	for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
     		stacks.add(new ItemStack(ModItems.assembly_template, 1, i));
     	//Chemistry Templates
     	for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++)
@@ -194,7 +194,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		        GL11.glDisable(GL11.GL_LIGHTING);
 				if(stack != null) {
 					if(stack.getItem() == ModItems.assembly_template)
-						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), MachineRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
+						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), AssemblerRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
 					else if(stack.getItem() == ModItems.chemistry_template)
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), new ItemStack(ModItems.chemistry_icon, 1, stack.getItemDamage()), xPos + 1, yPos + 1);
 					else

@@ -1,14 +1,10 @@
 package com.hbm.packet;
 
-import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIdentifier;
-import com.hbm.items.machine.ItemAssemblyTemplate.EnumAssemblyTemplate;
-import com.hbm.items.machine.ItemChemistryTemplate.EnumChemistryTemplate;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -18,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 
 public class ItemFolderPacket implements IMessage {
 
@@ -64,13 +59,6 @@ public class ItemFolderPacket implements IMessage {
 
 					if(stack.getItem() instanceof ItemFluidIdentifier) {
 						
-						FluidType enumeration = FluidType.getEnum(m.meta);
-						
-						if(MainRegistry.templateBlacklist.contains(enumeration.getName())) {
-							p.addChatMessage(new ChatComponentText("This item appears to be blacklisted."));
-							return null;
-						}
-						
 						if(p.inventory.hasItem(ModItems.plate_iron) && p.inventory.hasItem(Items.dye)) {
 							p.inventory.consumeInventoryItem(ModItems.plate_iron);
 							p.inventory.consumeInventoryItem(Items.dye);
@@ -80,13 +68,6 @@ public class ItemFolderPacket implements IMessage {
 					}
 					if(stack.getItem() instanceof ItemAssemblyTemplate) {
 						
-						EnumAssemblyTemplate enumeration = EnumAssemblyTemplate.getEnum(m.meta);
-						
-						if(MainRegistry.templateBlacklist.contains(enumeration.getName())) {
-							p.addChatMessage(new ChatComponentText("This item appears to be blacklisted."));
-							return null;
-						}
-						
 						if(p.inventory.hasItem(Items.paper) && p.inventory.hasItem(Items.dye)) {
 							p.inventory.consumeInventoryItem(Items.paper);
 							p.inventory.consumeInventoryItem(Items.dye);
@@ -95,13 +76,6 @@ public class ItemFolderPacket implements IMessage {
 						}
 					}
 					if(stack.getItem() instanceof ItemChemistryTemplate) {
-						
-						EnumChemistryTemplate enumeration = EnumChemistryTemplate.getEnum(m.meta);
-						
-						if(MainRegistry.templateBlacklist.contains(enumeration.getName())) {
-							p.addChatMessage(new ChatComponentText("This item appears to be blacklisted."));
-							return null;
-						}
 						
 						if(p.inventory.hasItem(Items.paper) && p.inventory.hasItem(Items.dye)) {
 							p.inventory.consumeInventoryItem(Items.paper);

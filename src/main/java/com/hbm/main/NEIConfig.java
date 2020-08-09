@@ -43,6 +43,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new PressRecipeHandler());
 		API.registerRecipeHandler(new CrystallizerRecipeHandler());
 		API.registerUsageHandler(new CrystallizerRecipeHandler());
+		API.registerRecipeHandler(new BookRecipeHandler());
+		API.registerUsageHandler(new BookRecipeHandler());
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(new ItemStack(ModItems.memory));
