@@ -772,6 +772,7 @@ item.ingot_desh.name=Слиток деш
 item.nugget_desh.name=Самородок деш
 item.powder_desh.name=Порошок деш
 item.powder_desh_mix.name=Смесь деш
+item.powder_desh_ready.name=ГотоваяДеш™ смесь
 item.powder_nitan_mix.name=Нитановая смесь
 item.powder_spark_mix.name=Спарк-смесь
 item.ingot_dineutronium.name=Динейтрониевый слиток
@@ -1316,6 +1317,7 @@ item.rod_dual_balefire.name=Сдвоенный жар-стержень
 item.rod_dual_balefire_blazing.name=Сдвоенный пылающий жар-стержень
 item.rod_quad_balefire.name=Счетверённый жар-стержень
 item.rod_quad_balefire_blazing.name=Счетверённый пылающий жар-стержень
+item.rod_of_discord.name=Жезл раздора
 
 item.rod_dual_empty.name=Пустой сдвоенный стержень
 item.rod_dual_th232.name=Сдвоенный стержень с торием-232
@@ -2588,7 +2590,7 @@ item.letter.name=Экспресс-почта
 item.polaroid.name=Полароид
 item.glitch.name=Глюк
 item.book_secret.name=3-596-50802-9
-item.book_of_.name=Книга Вагонов
+item.book_of_.name=Чёрная Книга
 item.burnt_bark.name=Обожженная кора
 
 item.loot_10.name=Ящик с запчастями от Ракеты 10-го размера
