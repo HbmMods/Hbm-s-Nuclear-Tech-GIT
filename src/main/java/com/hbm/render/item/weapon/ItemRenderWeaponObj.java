@@ -50,9 +50,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		if(item.getItem() == ModItems.gun_deagle)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.turbofan_blades_tex);
 
-		if(item.getItem() == ModItems.gun_supershotgun)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.turbofan_blades_tex);
-
 		if(item.getItem() == ModItems.gun_ks23)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.ks23_tex);
 
@@ -89,17 +86,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				
 				if(player.isSneaking()) {
 					GL11.glTranslatef(3.7F, 1.7F, 0F);
-					GL11.glRotatef(-5F, 0.0F, 1.0F, 0.0F);
-				}
-			}
-
-			if(item.getItem() == ModItems.gun_supershotgun) {
-				GL11.glRotatef(25F, 0.0F, 0.0F, 1.0F);
-				GL11.glTranslatef(-0.5F, -0.2F, -0.3F);
-				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				
-				if(player.isSneaking()) {
-					GL11.glTranslatef(0F, 0.25F, -0.555F);
 					GL11.glRotatef(-5F, 0.0F, 1.0F, 0.0F);
 				}
 			}
@@ -183,13 +169,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glScaled(0.15, 0.15, 0.15);
 			}
 
-			if(item.getItem() == ModItems.gun_supershotgun) {
-				GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
-				GL11.glRotatef(-80F, 0.0F, 1.0F, 0.0F);
-				GL11.glTranslatef(-0.5F, -0.3F, -0.5F);
-				GL11.glScaled(1.5, 1.5, 1.5);
-			}
-
 			if(item.getItem() == ModItems.gun_ks23) {
 				GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
 				GL11.glRotatef(10F, 0.0F, 1.0F, 0.0F);
@@ -232,10 +211,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glTranslatef(0.0F, 0.2F, 0.0F);
 				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
 				GL11.glScaled(0.25, 0.25, 0.25);
-			}
-
-			if(item.getItem() == ModItems.gun_supershotgun) {
-				GL11.glTranslatef(-1.0F, -0.2F, 0.0F);
 			}
 			
 			if(item.getItem() == ModItems.gun_ks23) {
@@ -328,12 +303,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 		if(item.getItem() == ModItems.gun_deagle) {
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.deagle.renderAll();
-			GL11.glShadeModel(GL11.GL_FLAT);
-		}
-
-		if(item.getItem() == ModItems.gun_supershotgun) {
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			ResourceManager.shotty.renderAll();
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}
 

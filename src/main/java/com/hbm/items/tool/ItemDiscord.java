@@ -53,7 +53,7 @@ public class ItemDiscord extends Item {
 		list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Rod of Discord is crucial in so many boss fights.");
 		list.add(EnumChatFormatting.RED + "" + EnumChatFormatting.ITALIC + "Imagine getting coiled by worm bosses.");
 		list.add("");
-		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Oh, you mean the terraria item.");
+		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Oh, you mean the Terraria item.");
 		list.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Idk about that thing.");
 	}
 }

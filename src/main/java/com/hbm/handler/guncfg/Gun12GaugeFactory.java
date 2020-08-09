@@ -9,6 +9,10 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.Entity;
@@ -67,6 +71,29 @@ public class Gun12GaugeFactory {
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.shottyShoot";
+		
+		config.animations.put(AnimType.CYCLE, new BusAnimation()
+				.addBus("SHOTTY_RECOIL", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						)
+				.addBus("SHOTTY_BREAK", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 100))	//do nothing for 100ms
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 200))	//open
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 500))	//do nothing for 500ms
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))	//close
+						)
+				.addBus("SHOTTY_EJECT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))	//do nothing for 300ms
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 700))	//fling!
+						)
+				.addBus("SHOTTY_INSERT", new BusAnimationSequence()
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))	//do nothing for 300ms
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 0))		//reposition
+						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 350))	//come in from the side
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))	//push
+						)
+				);
 		
 		config.name = "???";
 		config.manufacturer = "???";
