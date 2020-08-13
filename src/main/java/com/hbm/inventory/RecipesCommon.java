@@ -213,6 +213,26 @@ public class RecipesCommon {
 		}
 	}
 	
+	/*
+	 * This implementation does not override the compare function, which effectively makes it ignore stack data.
+	 * This is still in line with the use-case of the ComparableNBTStack holding machine output stack information,
+	 * since the compare function is not needed. In case the compare function is required, make a new child class.
+	 */
+	public static class ComparableNBTStack extends ComparableStack {
+		
+		NBTTagCompound nbt;
+		
+		public ComparableNBTStack addNBT(NBTTagCompound nbt) {
+			this.nbt = nbt;
+		}
+		
+		public ItemStack toStack() {
+			ItemStack stack = super.toStack();
+			stack.stackTagCompound = this.nbt;
+			return stack;
+		}
+	}
+	
 	public static class OreDictStack extends AStack {
 		
 		public String name;

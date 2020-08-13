@@ -5,10 +5,10 @@ import net.minecraft.util.IChatComponent;
 
 public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossDisplayData {
 	
-	/*   ___   _   _    _    ___ 
-	 *  | _ ) /_\ | |  | |  / __|
-	 *  | _ \/ _ \| |__| |__\__ \
-	 *  |___/_/ \_\____|____|___/
+	/*   ___   _   _    _    ___           ___           _____ ___  ___ _  _
+	 *  | _ ) /_\ | |  | |  / __|   ___   |   |   ___   |_   _| _ )|   | \| |
+	 *  | _ \/ _ \| |__| |__\__ \  |___|  | | |  |___|    | | |   \| | |    |
+	 *  |___/_/ \_\____|____|___/         |___|           |_| |_|\_\___|_|\_|
 	 */
 
 	@Override
