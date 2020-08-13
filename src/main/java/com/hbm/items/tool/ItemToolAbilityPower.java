@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.hbm.lib.Library;
 
+import api.hbm.energy.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ItemToolAbilityPower extends ItemToolAbility {
+public class ItemToolAbilityPower extends ItemToolAbility implements IBatteryItem {
 
 	public long maxPower = 1;
 	public long chargeRate;
@@ -23,7 +24,8 @@ public class ItemToolAbilityPower extends ItemToolAbility {
 		this.consumption = consumption;
 		this.setMaxDamage(1);
 	}
-    
+
+	@Override
     public void chargeBattery(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ItemToolAbilityPower) {
     		if(stack.hasTagCompound()) {
@@ -34,7 +36,8 @@ public class ItemToolAbilityPower extends ItemToolAbility {
     		}
     	}
     }
-    
+
+	@Override
     public void setCharge(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ItemToolAbilityPower) {
     		if(stack.hasTagCompound()) {
@@ -45,7 +48,8 @@ public class ItemToolAbilityPower extends ItemToolAbility {
     		}
     	}
     }
-    
+
+	@Override
     public void dischargeBattery(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ItemToolAbilityPower) {
     		if(stack.hasTagCompound()) {
@@ -59,8 +63,9 @@ public class ItemToolAbilityPower extends ItemToolAbility {
     			stack.stackTagCompound.setLong("charge", 0);
     	}
     }
-    
-    public static long getCharge(ItemStack stack) {
+
+	@Override
+    public long getCharge(ItemStack stack) {
     	if(stack.getItem() instanceof ItemToolAbilityPower) {
     		if(stack.hasTagCompound()) {
     			return stack.stackTagCompound.getLong("charge");
@@ -81,39 +86,47 @@ public class ItemToolAbilityPower extends ItemToolAbility {
     	
     	super.addInformation(stack, player, list, ext);
     }
-    
+
+	@Override
     public boolean showDurabilityBar(ItemStack stack) {
     	
         return getCharge(stack) < maxPower;
     }
-    
+
+	@Override
     public double getDurabilityForDisplay(ItemStack stack) {
     	
         return 1 - (double)getCharge(stack) / (double)maxPower;
     }
-    
+
+	@Override
     protected boolean canOperate(ItemStack stack) {
     	
     	return getCharge(stack) >= this.consumption;
     }
-    
+
+	@Override
     public long getMaxCharge() {
     	return maxPower;
     }
-    
+
+	@Override
     public long getChargeRate() {
     	return chargeRate;
     }
-    
-    public static long getMaxChargeStatic(ItemStack stack) {
-    	return ((ItemToolAbilityPower)stack.getItem()).maxPower;
-    }
-    
+
+	@Override
+	public long getDischargeRate() {
+		return 0;
+	}
+
+	@Override
     public void setDamage(ItemStack stack, int damage)
     {
         this.dischargeBattery(stack, damage * consumption);
     }
-    
+
+	@Override
     public boolean isDamageable() {
     	return true;
     }

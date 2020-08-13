@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipesCommon {
@@ -222,8 +223,37 @@ public class RecipesCommon {
 		
 		NBTTagCompound nbt;
 		
+		public ComparableNBTStack(ItemStack stack) {
+			super(stack);
+		}
+		
+		public ComparableNBTStack(Item item) {
+			super(item);
+		}
+		
+		public ComparableNBTStack(Block item) {
+			super(item);
+		}
+		
+		public ComparableNBTStack(Block item, int stacksize) {
+			super(item, stacksize);
+		}
+		
+		public ComparableNBTStack(Block item, int stacksize, int meta) {
+			super(item, stacksize, meta);
+		}
+		
+		public ComparableNBTStack(Item item, int stacksize) {
+			super(item, stacksize);
+		}
+		
+		public ComparableNBTStack(Item item, int stacksize, int meta) {
+			super(item, stacksize, meta);
+		}
+		
 		public ComparableNBTStack addNBT(NBTTagCompound nbt) {
 			this.nbt = nbt;
+			return this;
 		}
 		
 		public ItemStack toStack() {

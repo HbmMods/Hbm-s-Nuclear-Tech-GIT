@@ -20,7 +20,6 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemToolAbilityPower;
 import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.conductor.TileEntityCable;
 import com.hbm.tileentity.conductor.TileEntityCableSwitch;
@@ -367,21 +366,6 @@ public class Library {
 				slots[index] = new ItemStack(ModItems.dynosphere_euphemium_charged);
 			if(slots[index] != null && slots[index].getItem() == ModItems.dynosphere_dineutronium && battery.getCharge(slots[index]) >= battery.getMaxCharge())
 				slots[index] = new ItemStack(ModItems.dynosphere_dineutronium_charged);
-		}
-
-		if(slots[index] != null && slots[index].getItem() instanceof ItemToolAbilityPower) {
-
-			long batMax = ItemToolAbilityPower.getMaxChargeStatic(slots[index]);
-			long batCharge = ItemToolAbilityPower.getCharge(slots[index]);
-			long batRate = ((ItemToolAbilityPower)slots[index].getItem()).getChargeRate();
-			
-			//in hHE
-			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
-			
-			power -= toCharge;
-			
-			((ItemToolAbilityPower)slots[index].getItem()).chargeBattery(slots[index], toCharge);
-			
 		}
 		
 		return power;

@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 
 public class ItemModDoor extends Item
 {
-    private static final String __OBFID = "CL_00000020";
-
     public ItemModDoor()
     {
         this.maxStackSize = 1;

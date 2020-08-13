@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.EnumChatFormatting;
@@ -163,22 +162,6 @@ public class ItemSwordAbility extends ItemSword implements IItemAbility {
 				list.add("  " + EnumChatFormatting.RED + ability.getFullName());
     		}
     	}
-    }
-    
-    private int getAbility(ItemStack stack) {
-    	
-    	if(stack.hasTagCompound())
-    		return stack.stackTagCompound.getInteger("ability");
-    	
-    	return 0;
-    }
-    
-    private void setAbility(ItemStack stack, int ability) {
-
-    	if(!stack.hasTagCompound())
-    		stack.stackTagCompound = new NBTTagCompound();
-    	
-    	stack.stackTagCompound.setInteger("ability", ability);
     }
     
     protected boolean canOperate(ItemStack stack) {

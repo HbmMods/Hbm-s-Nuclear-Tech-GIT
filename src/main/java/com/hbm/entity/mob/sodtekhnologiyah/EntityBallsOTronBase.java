@@ -1,6 +1,12 @@
 package com.hbm.entity.mob.sodtekhnologiyah;
 
+import net.minecraft.world.World;
+
 public class EntityBallsOTronBase extends EntityWormBase {
+
+	public EntityBallsOTronBase(World world) {
+		super(world);
+	}
 
 	@Override
 	public int getHeadID() {

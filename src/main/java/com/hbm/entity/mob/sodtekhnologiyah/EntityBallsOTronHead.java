@@ -2,6 +2,7 @@ package com.hbm.entity.mob.sodtekhnologiyah;
 
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 
 public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossDisplayData {
 	
@@ -11,14 +12,8 @@ public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossD
 	 *  |___/_/ \_\____|____|___/         |___|           |_| |_|\_\___|_|\_|
 	 */
 
-	@Override
-	public float getMaxHealth() {
-		return 0;
-	}
-
-	@Override
-	public float getHealth() {
-		return 0;
+	public EntityBallsOTronHead(World world) {
+		super(world);
 	}
 
 	@Override

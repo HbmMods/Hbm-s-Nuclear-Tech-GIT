@@ -61,7 +61,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
 				Sets.newHashSet(new Block[] { Blocks.grass, Blocks.dirt, Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow, Blocks.clay, Blocks.farmland, Blocks.soul_sand, Blocks.mycelium })
 		),
 		MINER(
-				Sets.newHashSet(new Material[] { Material.iron, Material.anvil, Material.rock, Material.clay, Material.sand, Material.ground, Material.snow, Material.craftedSnow })
+				Sets.newHashSet(new Material[] { Material.grass, Material.iron, Material.anvil, Material.rock, Material.clay, Material.sand, Material.ground, Material.snow, Material.craftedSnow })
 		);
 		
 		private EnumToolType(Set<Material> materials) {
