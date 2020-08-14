@@ -123,6 +123,8 @@ public class ModEventHandler
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask, 1, world.rand.nextInt(100)));
 			if(rand.nextInt(256) == 0)
 				entity.setCurrentItemOrArmor(4, new ItemStack(ModItems.mask_of_infamy, 1, world.rand.nextInt(100)));
+			if(rand.nextInt(1024) == 0)
+				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.starmetal_plate, 1, world.rand.nextInt(ModItems.starmetal_plate.getMaxDamage())));
 			
 			if(rand.nextInt(128) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.pipe_lead, 1, world.rand.nextInt(100)));
@@ -140,6 +142,8 @@ public class ModEventHandler
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.stopsign));
 			if(rand.nextInt(512) == 0)
 				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.sopsign));
+			if(rand.nextInt(512) == 0)
+				entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.chernobylsign));
 		}
 		if(entity instanceof EntitySkeleton) {
 			if(rand.nextInt(16) == 0) {

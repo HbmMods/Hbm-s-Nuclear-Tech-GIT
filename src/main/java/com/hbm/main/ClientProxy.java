@@ -190,6 +190,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.shimmer_axe, new ItemRenderShim());
 		MinecraftForgeClient.registerItemRenderer(ModItems.stopsign, new ItemRenderShim());
 		MinecraftForgeClient.registerItemRenderer(ModItems.sopsign, new ItemRenderShim());
+		MinecraftForgeClient.registerItemRenderer(ModItems.chernobylsign, new ItemRenderShim());
 		MinecraftForgeClient.registerItemRenderer(ModItems.pch, new ItemRenderShim());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());

@@ -33,7 +33,7 @@ public class ItemRenderShim implements IItemRenderer {
 		GL11.glPushMatrix();
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:
-			if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign) {
+			if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign || item.getItem() == ModItems.chernobylsign) {
 				GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
 				GL11.glRotatef(-90.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glTranslatef(-1.0F, -1.5F, 0.0F);
@@ -48,6 +48,8 @@ public class ItemRenderShim implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.stopsign_tex);
 				if(item.getItem() == ModItems.sopsign)
 					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.sopsign_tex);
+				if(item.getItem() == ModItems.chernobylsign)
+					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.chernobylsign_tex);
 				if(item.getItem() == ModItems.pch)
 					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pch_tex);
 				
@@ -74,7 +76,7 @@ public class ItemRenderShim implements IItemRenderer {
 					ResourceManager.shimmer_sledge.renderAll();
 				if(item.getItem() == ModItems.shimmer_axe)
 					ResourceManager.shimmer_axe.renderAll();
-				if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign)
+				if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign || item.getItem() == ModItems.chernobylsign)
 					ResourceManager.stopsign.renderAll();
 				
 				if(item.getItem() == ModItems.pch) {

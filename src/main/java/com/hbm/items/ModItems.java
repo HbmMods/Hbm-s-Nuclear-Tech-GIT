@@ -1680,6 +1680,7 @@ public class ModItems {
 	public static Item reer_graar;
 	public static Item stopsign;
 	public static Item sopsign;
+	public static Item chernobylsign;
 
 	public static Item crystal_horn;
 	public static Item crystal_charred;
@@ -3796,6 +3797,7 @@ public class ModItems {
 		reer_graar = new ModSword(MainRegistry.tMatTitan).setUnlocalizedName("reer_graar").setFull3D().setTextureName(RefStrings.MODID + ":reer_graar_hd");
 		stopsign = new WeaponSpecial(MainRegistry.tMatAlloy).setUnlocalizedName("stopsign").setTextureName(RefStrings.MODID + ":stopsign");
 		sopsign = new WeaponSpecial(MainRegistry.tMatAlloy).setUnlocalizedName("sopsign").setTextureName(RefStrings.MODID + ":sopsign");
+		chernobylsign = new WeaponSpecial(MainRegistry.tMatAlloy).setUnlocalizedName("chernobylsign").setTextureName(RefStrings.MODID + ":chernobylsign");
 
 		crystal_horn = new ItemCustomLore().setUnlocalizedName("crystal_horn").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_horn");
 		crystal_charred = new ItemCustomLore().setUnlocalizedName("crystal_charred").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_charred");
@@ -5435,6 +5437,7 @@ public class ModItems {
 		GameRegistry.registerItem(reer_graar, reer_graar.getUnlocalizedName());
 		GameRegistry.registerItem(stopsign, stopsign.getUnlocalizedName());
 		GameRegistry.registerItem(sopsign, sopsign.getUnlocalizedName());
+		GameRegistry.registerItem(chernobylsign, chernobylsign.getUnlocalizedName());
 		
 		//Multitool
 		GameRegistry.registerItem(multitool_hit, multitool_hit.getUnlocalizedName());
