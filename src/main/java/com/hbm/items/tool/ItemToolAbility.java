@@ -294,7 +294,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
     		player.addChatComponentMessage(
     				new ChatComponentText("[Enabled ")
     				.appendSibling(new ChatComponentTranslation(getCurrentAbility(stack).getName(), new Object[0]))
-    				.appendSibling(new ChatComponentText("]")));
+    				.appendSibling(new ChatComponentText(getCurrentAbility(stack).getExtension() + "]")));
     	} else {
     		player.addChatComponentMessage(new ChatComponentText("[Tool ability deactivated]"));
     	}

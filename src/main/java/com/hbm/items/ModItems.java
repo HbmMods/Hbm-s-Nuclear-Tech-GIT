@@ -1642,6 +1642,8 @@ public class ModItems {
 	public static Item smashing_hammer;
 	public static Item centri_stick;
 	public static Item drax;
+	public static Item drax_mk2;
+	public static Item drax_mk3;
 
 	public static Item matchstick;
 	public static Item balefire_and_steel;
@@ -3727,11 +3729,33 @@ public class ModItems {
 		smashing_hammer = new ItemToolAbility(12F, -0.1, MainRegistry.tMatSteel, EnumToolType.MINER)
 				.addBreakAbility(new ToolAbility.ShredderAbility()).setMaxDamage(2500).setUnlocalizedName("smashing_hammer").setTextureName(RefStrings.MODID + ":smashing_hammer");
 		drax = new ItemToolAbilityPower(15F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 500000000, 100000, 5000)
+				.addBreakAbility(new ToolAbility.SmelterAbility())
 				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.addBreakAbility(new ToolAbility.LuckAbility(2))
+				.addBreakAbility(new ToolAbility.HammerAbility(1))
+				.addBreakAbility(new ToolAbility.HammerAbility(2))
+				.addBreakAbility(new ToolAbility.RecursionAbility(5)).setUnlocalizedName("drax").setTextureName(RefStrings.MODID + ":drax");
+		drax_mk2 = new ItemToolAbilityPower(20F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 1000000000, 250000, 7500)
+				.addBreakAbility(new ToolAbility.SmelterAbility())
+				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.addBreakAbility(new ToolAbility.CentrifugeAbility())
+				.addBreakAbility(new ToolAbility.LuckAbility(3))
 				.addBreakAbility(new ToolAbility.HammerAbility(1))
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.HammerAbility(3))
-				.addBreakAbility(new ToolAbility.RecursionAbility(5)).setUnlocalizedName("drax").setTextureName(RefStrings.MODID + ":drax");
+				.addBreakAbility(new ToolAbility.RecursionAbility(7)).setUnlocalizedName("drax_mk2").setTextureName(RefStrings.MODID + ":drax_mk2");
+		drax_mk3 = new ItemToolAbilityPower(20F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 2500000000L, 500000, 10000)
+				.addBreakAbility(new ToolAbility.SmelterAbility())
+				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.addBreakAbility(new ToolAbility.CentrifugeAbility())
+				.addBreakAbility(new ToolAbility.CrystallizerAbility())
+				.addBreakAbility(new ToolAbility.SilkAbility())
+				.addBreakAbility(new ToolAbility.LuckAbility(4))
+				.addBreakAbility(new ToolAbility.HammerAbility(1))
+				.addBreakAbility(new ToolAbility.HammerAbility(2))
+				.addBreakAbility(new ToolAbility.HammerAbility(3))
+				.addBreakAbility(new ToolAbility.HammerAbility(4))
+				.addBreakAbility(new ToolAbility.RecursionAbility(9)).setUnlocalizedName("drax_mk3").setTextureName(RefStrings.MODID + ":drax_mk3");
 		
 		mask_of_infamy = new MaskOfInfamy(ArmorMaterial.IRON, 8, 0).setUnlocalizedName("mask_of_infamy").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_of_infamy");
 
@@ -5422,6 +5446,8 @@ public class ModItems {
 		GameRegistry.registerItem(smashing_hammer, smashing_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(centri_stick, centri_stick.getUnlocalizedName());
 		GameRegistry.registerItem(drax, drax.getUnlocalizedName());
+		GameRegistry.registerItem(drax_mk2, drax_mk2.getUnlocalizedName());
+		GameRegistry.registerItem(drax_mk3, drax_mk3.getUnlocalizedName());
 		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
 		GameRegistry.registerItem(balefire_and_steel, balefire_and_steel.getUnlocalizedName());
 		GameRegistry.registerItem(crowbar, crowbar.getUnlocalizedName());

@@ -27,32 +27,6 @@ public class RenderITERMultiblock extends TileEntitySpecialRenderer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.75F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         GL11.glDepthMask(false);
-
-		/*GL11.glShadeModel(GL11.GL_SMOOTH);
-        bindTexture(ResourceManager.iter_glass);
-        ResourceManager.iter.renderPart("Windows");
-        bindTexture(ResourceManager.iter_motor);
-        ResourceManager.iter.renderPart("Motors");
-        bindTexture(ResourceManager.iter_rails);
-        ResourceManager.iter.renderPart("Rails");
-        bindTexture(ResourceManager.iter_toroidal);
-        ResourceManager.iter.renderPart("Toroidal");
-        bindTexture(ResourceManager.iter_torus);
-        ResourceManager.iter.renderPart("Torus");
-        
-        GL11.glPushMatrix();
-        GL11.glRotated(System.currentTimeMillis() / 5D % 360, 0, 1, 0);
-        bindTexture(ResourceManager.iter_solenoid);
-        ResourceManager.iter.renderPart("Solenoid");
-		GL11.glPopMatrix();
-
-        GL11.glPushMatrix();
-        GL11.glRotated(System.currentTimeMillis() / 50D % 360, 0, 1, 0);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        bindTexture(ResourceManager.iter_plasma);
-        ResourceManager.iter.renderPart("Plasma");
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glPopMatrix();*/
         
 		ResourceLocation magnet = IconUtil.getTextureFromBlockAndSide(ModBlocks.fusion_conductor, 2);
 		ResourceLocation solenoid = IconUtil.getTextureFromBlockAndSide(ModBlocks.fusion_center, 2);

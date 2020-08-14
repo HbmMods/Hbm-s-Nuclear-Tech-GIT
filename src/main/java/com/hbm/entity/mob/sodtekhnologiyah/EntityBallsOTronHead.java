@@ -1,5 +1,6 @@
 package com.hbm.entity.mob.sodtekhnologiyah;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
@@ -19,6 +20,11 @@ public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossD
 	@Override
 	public IChatComponent func_145748_c_() {
 		return null;
+	}
+
+	@Override
+	public float getAttackStrength(Entity target) {
+		return 0;
 	}
 
 }

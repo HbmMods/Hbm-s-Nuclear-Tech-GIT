@@ -60,7 +60,7 @@ public class ItemRenderShim implements IItemRenderer {
 					GL11.glTranslatef(0.45F, -0.3F, 0.0F);
 				}
 				
-				if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign) {
+				if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign || item.getItem() == ModItems.chernobylsign) {
 					GL11.glRotatef(45.0F, 0.0F, 0.0F, 1.0F);
 					GL11.glScalef(0.35F, 0.35F, 0.35F);
 					GL11.glTranslatef(2.0F, -2.0F, 0.0F);

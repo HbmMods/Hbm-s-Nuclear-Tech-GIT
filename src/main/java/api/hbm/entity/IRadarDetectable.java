@@ -1,4 +1,4 @@
-package api.hbm.energy;
+package api.hbm.entity;
 
 public interface IRadarDetectable {
 

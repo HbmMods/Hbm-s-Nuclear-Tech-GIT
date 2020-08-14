@@ -28,7 +28,7 @@ public abstract class EntityWormBase extends EntityBurrowing {
 	protected double maxSpeed;
 	protected double fallSpeed;
 	protected double rangeForParts;
-	protected EntityWormBase followed;
+	protected EntityLivingBase followed;
 	protected int surfaceY;
 	private int uniqueWormID;
 	private int partID;

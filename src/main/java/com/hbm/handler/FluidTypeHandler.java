@@ -13,6 +13,7 @@ public class FluidTypeHandler {
 		STEAM			(0xe5e5e5,	9,	2,	1,	3,	0,	0,	EnumSymbol.NONE,		"hbmfluid.steam", true, false, false),
 		HOTSTEAM		(0xE7D6D6,	1,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.hotsteam", true, false, false),
 		SUPERHOTSTEAM	(0xE7B7B7,	2,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.superhotsteam", true, false, false),
+		ULTRAHOTSTEAM	(0xE39393,	13,	1,	2,	4,	0,	0,	EnumSymbol.NONE,		"hbmfluid.ultrahotsteam", true, false, false),
 		COOLANT			(0xd8fcff,	2,	1,	1,	1,	0,	0,	EnumSymbol.NONE,		"hbmfluid.coolant"),
 		
 		LAVA			(0xFF3300,	3,	1,	1,	4,	0,	0,	EnumSymbol.NOWATER,		"hbmfluid.lava", true, false, false),

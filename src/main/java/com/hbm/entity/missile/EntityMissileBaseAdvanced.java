@@ -10,7 +10,7 @@ import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
-import api.hbm.energy.IRadarDetectable;
+import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

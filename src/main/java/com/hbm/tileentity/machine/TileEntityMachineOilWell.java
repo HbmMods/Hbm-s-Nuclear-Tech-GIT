@@ -279,7 +279,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 						if(b == ModBlocks.oil_pipe)
 							continue;
 						
-						if(b.isReplaceable(worldObj, xCoord, i, zCoord) || b.getExplosionResistance(null) < 100) {
+						if((b.isReplaceable(worldObj, xCoord, i, zCoord) || b.getExplosionResistance(null) < 100) && !(b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty)) {
 							worldObj.setBlock(xCoord, i, zCoord, ModBlocks.oil_pipe);
 						
 							//Code 2: The drilling ended
@@ -287,7 +287,7 @@ public class TileEntityMachineOilWell extends TileEntity implements ISidedInvent
 								warning = 2;
 							break;
 							
-						} else if((b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty) && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
+						} else if(this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
 							if(succ(this.xCoord, i, this.zCoord)) {
 								
 								this.tanks[0].setFill(this.tanks[0].getFill() + 500);

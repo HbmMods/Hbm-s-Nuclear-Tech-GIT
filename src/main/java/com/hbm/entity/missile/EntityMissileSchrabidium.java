@@ -8,7 +8,7 @@ import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
-import api.hbm.energy.IRadarDetectable.RadarTargetType;
+import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

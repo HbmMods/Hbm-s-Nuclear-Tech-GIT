@@ -495,7 +495,7 @@ public class ModBlocks {
 	public static final int guiID_fusion_multiblock = 27;
 
 	public static Block iter;
-	public static final int guiID_iter = 27;
+	public static final int guiID_iter = 98;
 	public static Block plasma_heater;
 	public static final int guiID_plasma_heater = 27;
 

@@ -8,8 +8,8 @@ import com.hbm.interfaces.Untested;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityTickingBase;
 
-import api.hbm.energy.IRadarDetectable;
-import api.hbm.energy.IRadarDetectable.RadarTargetType;
+import api.hbm.entity.IRadarDetectable;
+import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;

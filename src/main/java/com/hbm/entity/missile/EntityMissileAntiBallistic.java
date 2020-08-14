@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 
-import api.hbm.energy.IRadarDetectable;
+import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;

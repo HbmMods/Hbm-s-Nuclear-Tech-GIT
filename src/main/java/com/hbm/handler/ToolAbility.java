@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hbm.inventory.CentrifugeRecipes;
+import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
@@ -30,6 +31,7 @@ public abstract class ToolAbility {
 	public abstract void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool);
 	public abstract String getName();
 	public abstract String getFullName();
+	public abstract String getExtension();
 	
 	public static class RecursionAbility extends ToolAbility {
 		
@@ -125,7 +127,12 @@ public abstract class ToolAbility {
 
 		@Override
 		public String getFullName() {
-			return I18n.format(getName()) + " (" + radius + ")";
+			return I18n.format(getName()) + getExtension();
+		}
+
+		@Override
+		public String getExtension() {
+			return " (" + radius + ")";
 		}
 		
 	}
@@ -161,7 +168,12 @@ public abstract class ToolAbility {
 
 		@Override
 		public String getFullName() {
-			return I18n.format(getName()) + " (" + range + ")";
+			return I18n.format(getName()) + getExtension();
+		}
+
+		@Override
+		public String getExtension() {
+			return " (" + range + ")";
 		}
 	}
 
@@ -192,6 +204,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName());
+		}
+
+		@Override
+		public String getExtension() {
+			return "";
 		}
 	}
 
@@ -227,7 +244,12 @@ public abstract class ToolAbility {
 
 		@Override
 		public String getFullName() {
-			return I18n.format(getName()) + " (" + luck + ")";
+			return I18n.format(getName()) + getExtension();
+		}
+
+		@Override
+		public String getExtension() {
+			return " (" + luck + ")";
 		}
 	}
 
@@ -258,6 +280,11 @@ public abstract class ToolAbility {
 		public String getFullName() {
 			return I18n.format(getName());
 		}
+
+		@Override
+		public String getExtension() {
+			return "";
+		}
 	}
 	
 	public static class ShredderAbility extends ToolAbility {
@@ -287,6 +314,11 @@ public abstract class ToolAbility {
 		public String getFullName() {
 			return I18n.format(getName());
 		}
+
+		@Override
+		public String getExtension() {
+			return "";
+		}
 	}
 	
 	public static class CentrifugeAbility extends ToolAbility {
@@ -312,8 +344,47 @@ public abstract class ToolAbility {
 		}
 
 		@Override
+		public String getExtension() {
+			return "";
+		}
+
+		@Override
 		public String getName() {
 			return "tool.ability.centrifuge";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName());
+		}
+	}
+	
+	public static class CrystallizerAbility extends ToolAbility {
+
+		@Override
+		public void onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
+			
+			//a band-aid on a gaping wound
+			if(block == Blocks.lit_redstone_ore)
+				block = Blocks.redstone_ore;
+			
+			ItemStack stack = new ItemStack(block, 1, meta);
+			ItemStack result = CrystallizerRecipes.getOutput(stack);
+			
+			if(result != null) {
+				world.setBlockToAir(x, y, z);
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, result.copy()));
+			}
+		}
+
+		@Override
+		public String getExtension() {
+			return "";
+		}
+
+		@Override
+		public String getName() {
+			return "tool.ability.crystallizer";
 		}
 
 		@Override
