@@ -41,6 +41,7 @@ import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
+import com.hbm.entity.mob.sodtekhnologiyah.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
@@ -684,6 +685,9 @@ public class MainRegistry
 	    EntityRegistry.registerGlobalEntityID(EntityTeslaCrab.class, "entity_tesla_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x440000);
 	    EntityRegistry.registerGlobalEntityID(EntityTaintCrab.class, "entity_taint_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xFF00FF);
 	    EntityRegistry.registerGlobalEntityID(EntityMaskMan.class, "entity_mask_man", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xAAAAAA);
+
+	    EntityRegistry.registerGlobalEntityID(EntityBallsOTronHead.class, "entity_balls_o_tron_mk0", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xAAAAAA);
+	    EntityRegistry.registerModEntity(EntityBallsOTronSegment.class, "entity_balls_o_tron_mk0_segfault", 148, this, 1000, 1, true);
 	
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			

@@ -71,13 +71,13 @@ public abstract class EntityBurrowing extends EntityCreature {
         this.motionZ *= drag;
         
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double var10 = this.posX - this.prevPosX;
-        double var9 = this.posZ - this.prevPosZ;
-        float var7 = (float) Math.sqrt(var10 * var10 + var9 * var9) * 4.0F;
-        if (var7 > 1.0F) {
-          var7 = 1.0F;
+        double deltaX = this.posX - this.prevPosX;
+        double deltaZ = this.posZ - this.prevPosZ;
+        float dist = (float) Math.sqrt(deltaX * deltaX + deltaZ * deltaZ) * 4.0F;
+        if (dist > 1.0F) {
+          dist = 1.0F;
         }
-        this.limbSwingAmount += (var7 - this.limbSwingAmount) * 0.4F;
+        this.limbSwingAmount += (dist - this.limbSwingAmount) * 0.4F;
         this.limbSwing += this.limbSwingAmount;
     }
 

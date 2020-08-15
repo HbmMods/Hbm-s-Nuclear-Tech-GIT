@@ -66,8 +66,8 @@ public abstract class EntityWormBase extends EntityBurrowing {
 		return this.uniqueWormID;
 	}
 
-	public void setUniqueWormID(int par1) {
-		this.uniqueWormID = par1;
+	public void setUniqueWormID(int id) {
+		this.uniqueWormID = id;
 	}
 
 	@Override
@@ -107,9 +107,9 @@ public abstract class EntityWormBase extends EntityBurrowing {
 		}
 	}
 
-	protected void attackEntitiesInList(List<Entity> par1List) {
+	protected void attackEntitiesInList(List<Entity> targets) {
 		
-		for(Entity var3 : par1List) {
+		for(Entity var3 : targets) {
 			if(((var3 instanceof EntityLivingBase)) && (canAttackClass(var3.getClass()))
 					&& ((!(var3 instanceof EntityWormBase)) || (((EntityWormBase) var3).getUniqueWormID() != getUniqueWormID()))) {
 				attackEntityAsMob(var3);
@@ -123,20 +123,20 @@ public abstract class EntityWormBase extends EntityBurrowing {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
+	public boolean attackEntityAsMob(Entity target) {
 		
-		boolean var2 = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), getAttackStrength(par1Entity));
+		boolean var2 = target.attackEntityFrom(DamageSource.causeMobDamage(this), getAttackStrength(target));
 		
 		if(var2) {
 			this.entityAge = 0;
-			double var5 = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
-			double var6 = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
-			double var7 = (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D;
-			double var8 = par1Entity.posX - var5;
-			double var10 = par1Entity.posZ - var6;
-			double var11 = par1Entity.posY - var7;
-			double var12 = this.knockbackDivider * (var8 * var8 + var10 * var10 + var11 * var11 + 0.1D);
-			par1Entity.addVelocity(var8 / var12, var11 / var12, var10 / var12);
+			double tx = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
+			double tz = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
+			double ty = (this.boundingBox.minY + this.boundingBox.maxY) / 2.0D;
+			double deltaX = target.posX - tx;
+			double deltaZ = target.posZ - tz;
+			double deltaY = target.posY - ty;
+			double knockback = this.knockbackDivider * (deltaX * deltaX + deltaZ * deltaZ + deltaY * deltaY + 0.1D);
+			target.addVelocity(deltaX / knockback, deltaY / knockback, deltaZ / knockback);
 		}
 		
 		return var2;

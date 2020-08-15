@@ -3,8 +3,7 @@ package com.hbm.entity.mob.sodtekhnologiyah;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityBallsOTronBase extends EntityWormBase {
@@ -35,6 +34,10 @@ public abstract class EntityBallsOTronBase extends EntityWormBase {
 		this.dragInGround = 0.98F;
 		this.knockbackDivider = 1.0D;
 	}
+	
+    public boolean canEntityBeSeenThroughNonSolids(Entity p_70685_1_) {
+        return this.worldObj.func_147447_a(Vec3.createVectorHelper(this.posX, this.posY + (double)this.getEyeHeight(), this.posZ), Vec3.createVectorHelper(p_70685_1_.posX, p_70685_1_.posY + (double)p_70685_1_.getEyeHeight(), p_70685_1_.posZ), false, true, false) == null;
+    }
 
 	@Override
 	protected void applyEntityAttributes() {
