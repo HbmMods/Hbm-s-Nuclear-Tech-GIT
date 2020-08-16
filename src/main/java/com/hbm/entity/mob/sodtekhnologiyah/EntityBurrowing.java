@@ -81,4 +81,8 @@ public abstract class EntityBurrowing extends EntityCreature {
         this.limbSwing += this.limbSwingAmount;
     }
 
+    public boolean isOnLadder() {
+    	return false;
+    }
+
 }

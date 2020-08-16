@@ -14,6 +14,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.handler.ArmorUtil;
+import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.VersionChecker;
 import com.hbm.items.ModItems;
@@ -162,7 +163,6 @@ public class ModEventHandler
 		/////
 		//try {
 		/////
-		
 		
 		/// METEOR SHOWER START ///
 		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
@@ -369,8 +369,10 @@ public class ModEventHandler
 		}
 		/// RADIATION STUFF END ///
 		
-		if(event.phase == Phase.START)
+		if(event.phase == Phase.START) {
 			RadiationWorldHandler.handleWorldDestruction(event.world);
+			BossSpawnHandler.rollTheDice(event.world);
+		}
 	}
 	
 	@SubscribeEvent

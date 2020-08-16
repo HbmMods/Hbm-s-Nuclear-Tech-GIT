@@ -29,7 +29,6 @@ import net.minecraft.world.World;
 public class MachineBattery extends BlockContainer {
 
     private final Random field_149933_a = new Random();
-	private Random rand;
 	private static boolean keepInventory;
 	public long maxPower;
 	

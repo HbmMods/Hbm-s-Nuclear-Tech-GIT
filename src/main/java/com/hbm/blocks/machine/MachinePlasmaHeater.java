@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -14,12 +15,15 @@ public class MachinePlasmaHeater extends BlockDummyable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
+
+		if(meta >= 12)
+			return new TileEntityMachinePlasmaHeater();
 		return null;
 	}
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {2, 0, 1, 1, 1, 8};
+		return new int[] {3, 0, 8, 1, 1, 1};
 	}
 
 	@Override

@@ -173,6 +173,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("plateSaturnite", ModItems.plate_saturnite);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium);
+		OreDictionary.registerOre("oreUranium", ModBlocks.ore_uranium_scorched);
 		OreDictionary.registerOre("oreThorium", ModBlocks.ore_thorium);
 		OreDictionary.registerOre("oreTitanium", ModBlocks.ore_titanium);
 		OreDictionary.registerOre("oreSchrabidium", ModBlocks.ore_schrabidium);
@@ -195,6 +196,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_rare);
 
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium);
+		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium_scorched);
 		OreDictionary.registerOre("orePlutonium", ModBlocks.ore_nether_plutonium);
 		OreDictionary.registerOre("oreTungsten", ModBlocks.ore_nether_tungsten);
 		OreDictionary.registerOre("oreSulfur", ModBlocks.ore_nether_sulfur);
@@ -238,6 +240,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockVerticium", ModBlocks.block_verticium);
 		OreDictionary.registerOre("blockDesh", ModBlocks.block_desh);
 		OreDictionary.registerOre("blockAsbestos", ModBlocks.block_asbestos);
+		OreDictionary.registerOre("blockCobalt", ModBlocks.block_cobalt);
 
 		OreDictionary.registerOre("blockThorium", ModBlocks.block_thorium);
 		OreDictionary.registerOre("blockThorium232", ModBlocks.block_thorium);

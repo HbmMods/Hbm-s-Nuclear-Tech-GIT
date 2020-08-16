@@ -129,7 +129,7 @@ public class ModEventHandlerClient {
 				HbmAnimations.hotbar[i] = null;
 		}
 		
-		if(event.type == ElementType.CROSSHAIRS) {
+		/*if(event.type == ElementType.CROSSHAIRS) {
 			
 			if(player.ticksExisted < 200) {
 				
@@ -157,7 +157,7 @@ public class ModEventHandlerClient {
 				if(annoyanceToken)
 					annoyanceToken = false;
 			}
-		}
+		}*/
 	}
 	
 	public static boolean annoyanceToken = true;

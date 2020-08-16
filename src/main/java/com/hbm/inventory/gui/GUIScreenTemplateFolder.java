@@ -37,11 +37,8 @@ public class GUIScreenTemplateFolder extends GuiScreen {
     int currentPage = 0;
     List<ItemStack> stacks = new ArrayList<ItemStack>();
     List<FolderButton> buttons = new ArrayList<FolderButton>();
-    private final EntityPlayer player;
     
     public GUIScreenTemplateFolder(EntityPlayer player) {
-    	
-    	this.player = player;
 
     	//Stamps
 		for(Item i : MachineRecipes.stamps_plate)

@@ -61,13 +61,16 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 			if(player.isSneaking()) {
 				GL11.glTranslatef(0F, 1.0F, -1.8F);
 				GL11.glRotatef(3.5F, 0.0F, 1.0F, 0.0F);
+			} else {
+				
+				GL11.glRotated(-eject[2] * 0.25, 0, 0, 1);
 			}
 
 			GL11.glTranslated(-recoil[0] * 2, 0, 0);
 			GL11.glRotated(recoil[0] * 5, 0, 0, 1);
 			
 			GL11.glPushMatrix();
-			GL11.glRotated(-eject[2], 0, 0, 1);
+			GL11.glRotated(-eject[2] * 0.8, 0, 0, 1);
 			ResourceManager.shotty.renderPart("Barrel");
 
 			GL11.glPushMatrix();

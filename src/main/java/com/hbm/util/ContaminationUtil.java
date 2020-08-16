@@ -59,6 +59,14 @@ public class ContaminationUtil {
 		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
 	}
 	
+	public static float getRads(Entity e) {
+
+		if(!(e instanceof EntityLivingBase))
+			return 0.0F;
+		
+		return e.getEntityData().getFloat("hfr_radiation");
+	}
+	
 	public static void printGeigerData(EntityPlayer player) {
 
 		World world = player.worldObj;

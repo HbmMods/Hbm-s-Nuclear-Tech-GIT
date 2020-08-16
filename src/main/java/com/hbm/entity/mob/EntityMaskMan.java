@@ -15,6 +15,8 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityMaskMan extends EntityMob implements IBossDisplayData {
@@ -46,6 +48,37 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
     }
     
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+    	
+    	if(source.isFireDamage())
+    		amount = 0;
+    	if(source.isMagicDamage())
+    		amount = 0;
+    	if(source.isProjectile())
+    		amount *= 0.25F;
+    	if(source.isExplosion())
+    		amount *= 0.5F;
+    	if(amount > 50)
+    		amount = 50;
+    	
+    	return super.attackEntityFrom(source, amount);
+    }
+    
+    
+    public void onUpdate() {
+        super.onUpdate();
+        
+        if(this.prevHealth >= this.getMaxHealth() / 2 && this.getHealth() < this.getMaxHealth() / 2) {
+        	
+        	prevHealth = this.getHealth();
+        	
+        	if(!worldObj.isRemote)
+        		worldObj.createExplosion(this, posX, posY + 4, posZ, 2.5F, true);
+        }
+        
+        getEntityData().setFloat("hfr_radiation", 0);
+    }
+    
     public boolean isAIEnabled() {
         return true;
     }
@@ -56,7 +89,10 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
     
     protected void dropFewItems(boolean bool, int i) {
     	
-    	if(!worldObj.isRemote)
+    	if(!worldObj.isRemote) {
     		this.dropItem(ModItems.coin_maskman, 1);
+    		this.dropItem(ModItems.gas_mask_m65, 1);
+    		this.dropItem(Items.skull, 1);
+    	}
     }
 }

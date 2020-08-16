@@ -5,6 +5,7 @@ import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityBallsOTronSegment extends EntityBallsOTronBase {
@@ -67,6 +68,10 @@ public class EntityBallsOTronSegment extends EntityBallsOTronBase {
 		} else if(this.attackCounter > 0) {
 			this.attackCounter -= 1;
 		}
+		
+        float f3 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+        this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(motionY, f3) * 180.0D / Math.PI);
 	}
 
 	public void writeEntityToNBT(NBTTagCompound nbt) {

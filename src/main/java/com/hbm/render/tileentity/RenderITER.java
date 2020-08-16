@@ -18,6 +18,7 @@ public class RenderITER extends TileEntitySpecialRenderer {
 		GL11.glTranslatef((float)x + 0.5F, (float)y - 2, (float)z + 0.5F);
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_LIGHTING);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
         bindTexture(ResourceManager.iter_glass);
@@ -56,14 +57,15 @@ public class RenderITER extends TileEntitySpecialRenderer {
         
         bindTexture(ResourceManager.iter_plasma);
         ResourceManager.iter.renderPart("Plasma");
-        
+
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDepthMask(true);
-		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
 		
-        GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPopMatrix();
 	}

@@ -102,7 +102,7 @@ public abstract class EntityWormBase extends EntityBurrowing {
 		this.attackTick = Math.max(this.attackTick - 1, 0);
 		if(this.attackTick == 0) {
 			this.attackTick = 10;
-
+			
 			attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.5D, 0.5D, 0.5D)));
 		}
 	}

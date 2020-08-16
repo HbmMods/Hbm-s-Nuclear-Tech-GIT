@@ -82,7 +82,7 @@ public class RenderScreenOverlay {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
         GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	private static int getScaled(double cur, double max, double scale) {
@@ -106,7 +106,7 @@ public class RenderScreenOverlay {
 	        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
 	        GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, int count, int max, int dura) {
@@ -134,7 +134,7 @@ public class RenderScreenOverlay {
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         
         GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public static void renderAmmoAlt(ScaledResolution resolution, Gui gui, Item ammo, int count) {
@@ -158,7 +158,7 @@ public class RenderScreenOverlay {
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         
         GL11.glPopMatrix();
-		Minecraft.getMinecraft().renderEngine.bindTexture(hud);
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public enum Crosshair {

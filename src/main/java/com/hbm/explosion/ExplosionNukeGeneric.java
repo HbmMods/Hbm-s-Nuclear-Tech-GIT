@@ -37,6 +37,7 @@ import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
 
 import cofh.api.energy.IEnergyProvider;
@@ -466,16 +467,20 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (b == ModBlocks.ore_uranium) {
-				rand = random.nextInt(30);
+				rand = random.nextInt(MainRegistry.schrabFromUraniumChance);
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_schrabidium);
+				} else {
+					world.setBlock(x, y, z, ModBlocks.ore_uranium_scorched);
 				}
 			}
 
 			else if (b == ModBlocks.ore_nether_uranium) {
-				rand = random.nextInt(30);
+				rand = random.nextInt(MainRegistry.schrabFromUraniumChance);
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_nether_schrabidium);
+				} else {
+					world.setBlock(x, y, z, ModBlocks.ore_nether_uranium_scorched);
 				}
 			}
 

@@ -62,7 +62,7 @@ public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossD
 
     public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
     	
-    	setUniqueWormID(this.rand.nextInt(4096));
+    	/*setUniqueWormID(this.rand.nextInt(4096));
     	
     	int x = MathHelper.floor_double(this.posX);
         int y = MathHelper.floor_double(this.posY);
@@ -81,7 +81,13 @@ public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossD
         this.spawnPoint.set(x, y, z);
         
         this.aggroCooldown = 60;
-        return super.onSpawnWithEgg(data);
+        return super.onSpawnWithEgg(data);*/
+    	
+    	//TODO: unlock this
+    	
+    	this.setDead();
+    	
+    	return data;
     }
     
 	@Override
