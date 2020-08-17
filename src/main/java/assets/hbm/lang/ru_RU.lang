@@ -2600,6 +2600,7 @@ item.weapon_pipe_lead.name=Ручное управление
 item.reer_graar.name=Рер Граар
 item.stopsign.name=Боевой топор из знака СТОП
 item.sopsign.name=Боевой топор из знака С ОП
+item.chernobylsign.name=Боевой топор из Чернобыльского предупреждающего знака
 
 item.letter.name=Экспресс-почта
 item.polaroid.name=Полароид
