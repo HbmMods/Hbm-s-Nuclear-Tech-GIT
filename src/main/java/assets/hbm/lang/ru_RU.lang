@@ -71,12 +71,13 @@ potion.hbm_telekinesis=! ! !
 potion.hbm_phosphorus=Фосфорные ожоги
 
 tool.ability.recursion=Жилковый Майнер
-tool.ability.hammer=AoE
+tool.ability.hammer=Зона действия
 tool.ability.silktouch=Шёлковое касание
-tool.ability.fortune=Удача
+tool.ability.luck=Удача
 tool.ability.smelter=Авто-плавка
 tool.ability.shredder=Авто-измельчитель
 tool.ability.centrifuge=Авто-центрифуга
+tool.ability.crystallizer=Авто-кристаллизатор
 weapon.ability.radiation=Радиоактивные лезвия
 weapon.ability.vampire=Вампир
 weapon.ability.stun=Оглушение
@@ -2599,6 +2600,7 @@ item.weapon_pipe_lead.name=Ручное управление
 item.reer_graar.name=Рер Граар
 item.stopsign.name=Боевой топор из знака СТОП
 item.sopsign.name=Боевой топор из знака С ОП
+item.chernobylsign.name=Боевой топор из Чернобыльского предупреждающего знака
 
 item.letter.name=Экспресс-почта
 item.polaroid.name=Полароид
