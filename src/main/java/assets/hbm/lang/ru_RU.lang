@@ -71,7 +71,7 @@ potion.hbm_telekinesis=! ! !
 potion.hbm_phosphorus=Фосфорные ожоги
 
 tool.ability.recursion=Жилковый Майнер
-tool.ability.hammer=AoE
+tool.ability.hammer=Зона действия
 tool.ability.silktouch=Шёлковое касание
 tool.ability.luck=Удача
 tool.ability.smelter=Авто-плавка
