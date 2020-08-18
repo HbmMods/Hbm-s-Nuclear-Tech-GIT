@@ -4,8 +4,8 @@ import com.hbm.blocks.ModBlocks;
 
 public class TestDungeon extends CellularDungeon {
 
-	public TestDungeon(int width, int height, int dimX, int dimZ, int tries) {
-		super(width, height, dimX, dimZ, tries);
+	public TestDungeon(int width, int height, int dimX, int dimZ, int tries, int branches) {
+		super(width, height, dimX, dimZ, tries, branches);
 
 		this.floor.add(ModBlocks.meteor_polished);
 		this.wall.add(ModBlocks.meteor_brick);

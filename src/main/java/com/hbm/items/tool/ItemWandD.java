@@ -3,7 +3,7 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
-import com.hbm.world.dungeon.Ruin001;
+import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -27,9 +27,9 @@ public class ItemWandD extends Item {
 			int z = pos.blockZ;
 			int y = world.getHeightValue(x, z);
 
-			new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
+			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
 			
-			//CellularDungeonFactory.test.generate(world, x, y, z, world.rand);
+			CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
 		}
 		
 		return stack;

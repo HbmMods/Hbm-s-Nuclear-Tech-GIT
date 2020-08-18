@@ -547,7 +547,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				
-				CellularDungeonFactory.test.generate(world, x, 10, z, rand);
+				CellularDungeonFactory.meteor.generate(world, x, 10, z, rand);
 				
 				if(MainRegistry.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + x + " 10 " + z);

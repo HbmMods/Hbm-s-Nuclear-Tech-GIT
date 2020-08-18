@@ -33,23 +33,26 @@ public class CellularDungeon {
 	//the rooms that the dungeon can use
 	public List<CellularDungeonRoom> rooms = new ArrayList();
 	int tries;
+	int branches;
 	
-	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries) {
+	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries, int branches) {
 
 		this.dimX = dimX;
 		this.dimZ = dimZ;
 		this.width = width;
 		this.height = height;
 		this.tries = tries;
+		this.branches = branches;
 	}
 	
-	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries, Block floor, Block ceiling, Block wall) {
+	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries, int branches, Block floor, Block ceiling, Block wall) {
 
 		this.dimX = dimX;
 		this.dimZ = dimZ;
 		this.width = width;
 		this.height = height;
 		this.tries = tries;
+		this.branches = branches;
 		this.floor.add(floor);
 		this.ceiling.add(ceiling);
 		this.wall.add(wall);
@@ -121,7 +124,7 @@ public class CellularDungeon {
 			order.add(new int[] { x, z });
 		}
 		
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < branches; i++) {
 			ForgeDirection dir = getRandomDir(rand);
 			addRoom(x + dir.offsetX, z + dir.offsetZ, rand, dir.getOpposite(), DungeonToolbox.getRandom(rooms, rand));
 		}

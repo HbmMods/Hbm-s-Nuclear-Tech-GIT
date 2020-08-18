@@ -1,4 +1,4 @@
-package com.hbm.entity.mob.sodtekhnologiyah;
+package com.hbm.entity.mob.botprime;
 
 import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
 
@@ -12,19 +12,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossDisplayData {
+public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDisplayData {
 	
-	/*   ___   _   _    _    ___           ___           _____ ___  ___ _  _
-	 *  | _ ) /_\ | |  | |  / __|   ___   |   |   ___   |_   _| _ )|   | \| |
-	 *  | _ \/ _ \| |__| |__\__ \  |___|  | | |  |___|    | | |   \| | |    |
-	 *  |___/_/ \_\____|____|___/         |___|           |_| |_|\_\___|_|\_|
+	/*   ___   _   _   _   ___           ___           _____ ___  ___ _  _       ___ ___  _ _   _ ___
+	 *  | _ ) /_\ | | | | / __|   ___   |   |   ___   |_   _| _ )|   | \| |     | _ \ _ )| | \ / | __|
+	 *  | _ \/ _ \| |_| |_\__ \  |___|  | | |  |___|    | | |   \| | |    |     |  _/   \| |  V  | _|
+	 *  |___/_/ \_\___|___|___/         |___|           |_| |_|\_\___|_|\_|     |_| |_|\_\_|_|V|_|___|
 	 */
 
-	private final WormMovementHead movement = new WormMovementHead(this);
+	private final WormMovementHeadNT movement = new WormMovementHeadNT(this);
 	
-	public EntityBallsOTronHead(World world) {
+	public EntityBOTPrimeHead(World world) {
 		super(world);
 		this.experienceValue = 1000;
 		this.wasNearGround = false;
@@ -61,18 +62,19 @@ public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossD
 
     public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
     	
-    	/*setUniqueWormID(this.rand.nextInt(4096));
+    	//TODO: check if this is even needed
+    	setHeadID(this.getEntityId());
     	
     	int x = MathHelper.floor_double(this.posX);
         int y = MathHelper.floor_double(this.posY);
         int z = MathHelper.floor_double(this.posZ);
         
-        for (int o = 0; o < 119; o++) {
+        for (int i = 0; i < 119; i++) {
         	
-          EntityBallsOTronSegment bodyPart = new EntityBallsOTronSegment(this.worldObj);
-          bodyPart.setPartID(o);
+          EntityBOTPrimeBody bodyPart = new EntityBOTPrimeBody(this.worldObj);
+          bodyPart.setPartNumber(i);
           bodyPart.setPosition(x, y, z);
-          bodyPart.setUniqueWormID(getUniqueWormID());
+          bodyPart.setHeadID(getEntityId());
           this.worldObj.spawnEntityInWorld(bodyPart);
         }
         
@@ -80,13 +82,8 @@ public class EntityBallsOTronHead extends EntityBallsOTronBase implements IBossD
         this.spawnPoint.set(x, y, z);
         
         this.aggroCooldown = 60;
-        return super.onSpawnWithEgg(data);*/
-    	
-    	//TODO: unlock this
-    	
-    	this.setDead();
-    	
-    	return data;
+        
+        return super.onSpawnWithEgg(data);
     }
     
 	@Override
