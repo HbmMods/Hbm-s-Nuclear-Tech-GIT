@@ -764,5 +764,10 @@ public class ClientProxy extends ServerProxy {
 		audio.updatePosition(x, y, z);
 		return audio;
 	}
+
+	@Override
+	public void playSound(String sound, Object data) {
+		
+	}
 }
 

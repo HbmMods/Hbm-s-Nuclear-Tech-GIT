@@ -20,7 +20,7 @@ public class CellularDungeonFactory {
 		meteor.rooms.add(new TestDungeonRoom7(meteor));
 		meteor.rooms.add(new TestDungeonRoom8(meteor));
 		
-		jungle = new JungleDungeon(5, 5, 21, 21, 500, 5);
+		jungle = new JungleDungeon(5, 5, 25, 25, 700, 6);
 		jungle.rooms.add(new JungleDungeonRoom(jungle));
 	}
 

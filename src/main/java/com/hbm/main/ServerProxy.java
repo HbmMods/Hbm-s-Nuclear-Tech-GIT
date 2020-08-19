@@ -21,4 +21,6 @@ public class ServerProxy {
 	public void registerMissileItems() { }
 
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) { return null; }
+	
+	public void playSound(String sound, Object data) { }
 }

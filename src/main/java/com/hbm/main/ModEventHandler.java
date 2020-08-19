@@ -27,6 +27,7 @@ import com.hbm.packet.RadSurveyPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -372,6 +373,7 @@ public class ModEventHandler
 		if(event.phase == Phase.START) {
 			RadiationWorldHandler.handleWorldDestruction(event.world);
 			BossSpawnHandler.rollTheDice(event.world);
+			TimedGenerator.automaton(event.world, 100);
 		}
 	}
 	

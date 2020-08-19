@@ -32,29 +32,25 @@ public class ItemModRecord extends ItemRecord {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_,
-			int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
-		if (p_77648_3_.getBlock(p_77648_4_, p_77648_5_, p_77648_6_) == Blocks.jukebox
-				&& p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_) == 0) {
-			if (p_77648_3_.isRemote) {
+	public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
+
+		if(p_77648_3_.getBlock(p_77648_4_, p_77648_5_, p_77648_6_) == Blocks.jukebox && p_77648_3_.getBlockMetadata(p_77648_4_, p_77648_5_, p_77648_6_) == 0) {
+			
+			if(p_77648_3_.isRemote) {
 				return true;
+				
 			} else {
-				((BlockJukebox) Blocks.jukebox).func_149926_b(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_,
-						p_77648_1_);
-				p_77648_3_.playAuxSFXAtEntity((EntityPlayer) null, 1005, p_77648_4_, p_77648_5_, p_77648_6_,
-						Item.getIdFromItem(this));
+				((BlockJukebox) Blocks.jukebox).func_149926_b(p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_1_);
+				p_77648_3_.playAuxSFXAtEntity((EntityPlayer) null, 1005, p_77648_4_, p_77648_5_, p_77648_6_, Item.getIdFromItem(this));
 				--p_77648_1_.stackSize;
 				return true;
 			}
+			
 		} else {
 			return false;
 		}
 	}
-
-	/**
-	 * allows items to add custom lines of information to the mouseover
-	 * description
-	 */
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List p_77624_3_, boolean p_77624_4_) {
@@ -82,17 +78,10 @@ public class ItemModRecord extends ItemRecord {
 	public static ItemRecord getRecord(String p_150926_0_) {
 		return (ItemRecord) modRecords.get(p_150926_0_);
 	}
-
-	/**
-	 * Retrieves the resource location of the sound to play for this record.
-	 * 
-	 * @param name
-	 *            The name of the record to play
-	 * @return The resource location for the audio, null to use default.
-	 */
+	
 	@Override
 	public ResourceLocation getRecordResource(String name) {
-		
+
 		String s = "";
 
 		if(name.equals("records.lc"))
@@ -103,15 +92,14 @@ public class ItemModRecord extends ItemRecord {
 			s = RefStrings.MODID + ":music.recordVortalCombat";
 		if(name.equals("records.glass"))
 			s = RefStrings.MODID + ":music.transmission";
-		
+
 		return new ResourceLocation(s);
 	}
 
-    @Override
-	public String getItemStackDisplayName(ItemStack p_77653_1_)
-    {
-        String s = (StatCollector.translateToLocal(Items.record_11.getUnlocalizedName() + ".name")).trim();
+	@Override
+	public String getItemStackDisplayName(ItemStack p_77653_1_) {
+		String s = (StatCollector.translateToLocal(Items.record_11.getUnlocalizedName() + ".name")).trim();
 
-        return s;
-    }
+		return s;
+	}
 }
