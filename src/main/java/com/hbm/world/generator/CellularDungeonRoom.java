@@ -1,5 +1,7 @@
 package com.hbm.world.generator;
 
+import com.hbm.inventory.RecipesCommon.MetaBlock;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -29,7 +31,7 @@ public class CellularDungeonRoom {
 	public void generateMain(World world, int x, int y, int z) {
 		
 		DungeonToolbox.generateBox(world, x, y, z, parent.width, 1, parent.width, parent.floor);
-		DungeonToolbox.generateBox(world, x, y + 1, z, parent.width, parent.height - 1, parent.width, Blocks.air);
+		DungeonToolbox.generateBox(world, x, y + 1, z, parent.width, parent.height - 1, parent.width, new MetaBlock(Blocks.air));
 		DungeonToolbox.generateBox(world, x, y + parent.height - 1, z, parent.width, 1, parent.width, parent.ceiling);
 	}
 	
@@ -39,28 +41,28 @@ public class CellularDungeonRoom {
 			DungeonToolbox.generateBox(world, x, y + 1, z, parent.width, parent.height - 2, 1, parent.wall);
 			
 			if(door)
-				DungeonToolbox.generateBox(world, x + parent.width / 2, y + 1, z, 1, 2, 1, Blocks.air);
+				DungeonToolbox.generateBox(world, x + parent.width / 2, y + 1, z, 1, 2, 1, new MetaBlock(Blocks.air));
 		}
 		
 		if(wall == ForgeDirection.SOUTH) {
 			DungeonToolbox.generateBox(world, x, y + 1, z + parent.width - 1, parent.width, parent.height - 2, 1, parent.wall);
 			
 			if(door)
-				DungeonToolbox.generateBox(world, x + parent.width / 2, y + 1, z + parent.width - 1, 1, 2, 1, Blocks.air);
+				DungeonToolbox.generateBox(world, x + parent.width / 2, y + 1, z + parent.width - 1, 1, 2, 1, new MetaBlock(Blocks.air));
 		}
 		
 		if(wall == ForgeDirection.WEST) {
 			DungeonToolbox.generateBox(world, x, y + 1, z, 1, parent.height - 2, parent.width, parent.wall);
 			
 			if(door)
-				DungeonToolbox.generateBox(world, x, y + 1, z + parent.width / 2, 1, 2, 1, Blocks.air);
+				DungeonToolbox.generateBox(world, x, y + 1, z + parent.width / 2, 1, 2, 1, new MetaBlock(Blocks.air));
 		}
 		
 		if(wall == ForgeDirection.EAST) {
 			DungeonToolbox.generateBox(world, x + parent.width - 1, y + 1, z, 1, parent.height - 2, parent.width, parent.wall);
 			
 			if(door)
-				DungeonToolbox.generateBox(world, x + parent.width - 1, y + 1, z + parent.width / 2, 1, 2, 1, Blocks.air);
+				DungeonToolbox.generateBox(world, x + parent.width - 1, y + 1, z + parent.width / 2, 1, 2, 1, new MetaBlock(Blocks.air));
 		}
 	}
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.inventory.RecipesCommon.MetaBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,11 +27,11 @@ public class CellularDungeon {
 	//the height of a room
 	public int height;
 	//list of random floor blocks with equal weight
-	public List<Block> floor = new ArrayList();
+	public List<MetaBlock> floor = new ArrayList();
 	//list of random ceiling blocks with equal weight
-	public List<Block> ceiling = new ArrayList();
+	public List<MetaBlock> ceiling = new ArrayList();
 	//list of random wall blocks with equal weight
-	public List<Block> wall = new ArrayList();
+	public List<MetaBlock> wall = new ArrayList();
 	//the rooms that the dungeon can use
 	public List<CellularDungeonRoom> rooms = new ArrayList();
 	int tries;
@@ -45,7 +47,7 @@ public class CellularDungeon {
 		this.branches = branches;
 	}
 	
-	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries, int branches, Block floor, Block ceiling, Block wall) {
+	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries, int branches, MetaBlock floor, MetaBlock ceiling, MetaBlock wall) {
 
 		this.dimX = dimX;
 		this.dimZ = dimZ;

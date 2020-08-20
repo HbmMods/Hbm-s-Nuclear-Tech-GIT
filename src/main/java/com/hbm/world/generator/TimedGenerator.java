@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 
 public class TimedGenerator {
 	
+	//TODO: replace with timed operations, allows not only for direct block placements but also snazzy conditioned stuff
 	private static final HashMap<Integer, ArrayList<Object[]>> operations = new HashMap();
 	
 	public static void automaton(World world, int amount) {

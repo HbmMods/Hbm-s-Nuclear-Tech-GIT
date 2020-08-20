@@ -302,5 +302,20 @@ public class RecipesCommon {
 			return new OreDictStack(name, stacksize);
 		}
 	}
+	
+	public static class MetaBlock {
+		
+		public Block block;
+		public int meta;
+		
+		public MetaBlock(Block block, int meta) {
+			this.block = block;
+			this.meta = meta;
+		}
+		
+		public MetaBlock(Block block) {
+			this(block, 0);
+		}
+	}
 
 }
