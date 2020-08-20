@@ -7,6 +7,7 @@ import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -22,8 +23,16 @@ public class BlockJungleCrate extends Block {
     	
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 
-        ret.add(new ItemStack(ModItems.cap_nuka, 12 + rand.nextInt(21)));
-        ret.add(new ItemStack(ModItems.syringe_metal_stimpak, 1 + rand.nextInt(3)));
+        ret.add(new ItemStack(Items.gold_ingot, 4 + rand.nextInt(4)));
+        ret.add(new ItemStack(Items.gold_nugget, 8 + rand.nextInt(10)));
+        ret.add(new ItemStack(ModItems.powder_gold, 2 + rand.nextInt(3)));
+        ret.add(new ItemStack(ModItems.wire_gold, 2 + rand.nextInt(2)));
+
+        if(rand.nextInt(2) == 0)
+        	ret.add(new ItemStack(ModItems.plate_gold, 1 + rand.nextInt(2)));
+        
+        if(rand.nextInt(3) == 0)
+        	ret.add(new ItemStack(ModItems.crystal_gold));
         
         return ret;
     }

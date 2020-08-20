@@ -2,8 +2,6 @@ package com.hbm.items.block;
 
 import java.util.List;
 
-import com.hbm.blocks.generic.RedBarrel;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;

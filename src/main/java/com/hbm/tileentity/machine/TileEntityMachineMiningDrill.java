@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IConsumer;
-import com.hbm.interfaces.Untested;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
@@ -19,13 +18,10 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
@@ -51,8 +47,6 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 	private static final int[] slots_bottom = new int[] {2, 0};
 	private static final int[] slots_side = new int[] {0};
 	Random rand = new Random();
-	
-	private String customName;
 	
 	public TileEntityMachineMiningDrill() {
 		super(13);
@@ -99,7 +93,6 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		return (power * i) / maxPower;
 	}
 	
-	@Untested
 	@Override
 	public void updateEntity() {
 		
@@ -404,8 +397,9 @@ public class TileEntityMachineMiningDrill extends TileEntityMachineBase implemen
 		for(int ix = x - rad; ix <= x + rad; ix++) {
 			for(int iz = z - rad; iz <= z + rad; iz++) {
 				
-				if(tryDrill(ix, y, iz))
-					return true;
+				if(ix != x || iz != z)
+					if(tryDrill(ix, y, iz))
+						return true;
 			}
 		}
 					
