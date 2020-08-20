@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.lib.Library;
@@ -222,8 +223,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 				
 				if(this.progress == TileEntityMachineShredder.processingSpeed)
 				{
-					this.slots[27].setItemDamage(this.slots[27].getItemDamage() + 1);
-					this.slots[28].setItemDamage(this.slots[28].getItemDamage() + 1);
+					for(int i = 27; i <= 28; i++)
+						if(slots[i].getMaxDamage() > 0)
+							this.slots[i].setItemDamage(this.slots[i].getItemDamage() + 1);
 					
 					this.progress = 0;
 					this.processItem();
@@ -262,59 +264,6 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		}
 	}
 	
-	/*public void processItem() {
-		
-		boolean flag = false;
-		
-		for(int i = 0; i < 9; i++)
-		{
-			ItemStack result = MachineRecipes.getResult(slots[i]);
-			if(slots[i] != null && slots[i].stackSize > 0 && hasSpace(result));
-				flag = true;
-		}
-		
-		if(!flag) {
-			return;
-		}
-		
-		for(int i = 0; i < 9; i++)
-		{
-			ItemStack result = MachineRecipes.getResult(slots[i]);
-			
-			if(slots[i] != null && slots[i].stackSize > 0 && hasSpace(result)) {
-				slots[i].stackSize -= 1;
-				if(slots[i].stackSize < 0)
-				{
-					slots[i] = null;
-				}
-				
-				boolean flag1 = false;
-				
-				for(int j = 9; j < 27; j++)
-				{
-					if(slots[j] != null && slots[j].getItem() == result.getItem() && slots[j].stackSize + result.stackSize <= result.getMaxStackSize())
-					{
-						slots[j].stackSize += result.stackSize;
-						flag1 = true;
-						break;
-					}
-				}
-				
-				if(!flag1)
-				{
-					for(int j = 9; j < 27; j++)
-					{
-						if(slots[j] == null)
-						{
-							slots[j] = result;
-							break;
-						}
-					}
-				}
-			}
-		}
-	}*/
-	
 	public void processItem() {
 		for(int i = 0; i < 9; i++)
 		{
@@ -350,15 +299,18 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		}
 	}
 	
+	@Untested
 	public boolean canProcess() {
 		if(slots[27] != null && slots[28] != null && 
-				slots[27].getItem() instanceof ItemBlades && slots[28].getItem() instanceof ItemBlades && 
-				slots[27].getItemDamage() < slots[27].getMaxDamage() && slots[28].getItemDamage() < slots[28].getMaxDamage())
-		for(int i = 0; i < 9; i++)
-		{
-			if(slots[i] != null && slots[i].stackSize > 0 && hasSpace(slots[i]))
+				this.getGearLeft() > 0 && this.getGearLeft() < 3 && 
+				this.getGearRight() > 0 && this.getGearRight() < 3) {
+			
+			for(int i = 0; i < 9; i++)
 			{
-				return true;
+				if(slots[i] != null && slots[i].stackSize > 0 && hasSpace(slots[i]))
+				{
+					return true;
+				}
 			}
 		}
 		
@@ -408,6 +360,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		
 		if(slots[27] != null && slots[27].getItem() instanceof ItemBlades)
 		{
+			if(slots[27].getMaxDamage() == 0)
+				return 1;
+			
 			if(slots[27].getItemDamage() < slots[27].getItem().getMaxDamage()/2)
 			{
 				return 1;
@@ -425,6 +380,9 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		
 		if(slots[28] != null && slots[28].getItem() instanceof ItemBlades)
 		{
+			if(slots[28].getMaxDamage() == 0)
+				return 1;
+			
 			if(slots[28].getItemDamage() < slots[28].getItem().getMaxDamage()/2)
 			{
 				return 1;

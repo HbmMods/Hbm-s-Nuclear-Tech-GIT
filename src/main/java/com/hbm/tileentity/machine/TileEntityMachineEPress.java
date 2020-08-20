@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.items.machine.ItemBlades;
+import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -106,7 +106,7 @@ public class TileEntityMachineEPress extends TileEntity implements ISidedInvento
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
 		
-		if(stack.getItem() instanceof ItemBlades && i == 1)
+		if(stack.getItem() instanceof ItemStamp && i == 1)
 			return true;
 		
 		if(TileEntityFurnace.getItemBurnTime(stack) > 0 && i == 0)
