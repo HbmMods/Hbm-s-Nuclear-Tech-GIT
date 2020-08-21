@@ -11,12 +11,14 @@ import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
+import com.hbm.tileentity.machine.TileEntityITER;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 public class FluidTank {
@@ -221,8 +223,13 @@ public class FluidTank {
 	}
 	
 	public void renderTankInfo(GuiInfoContainer gui, int mouseX, int mouseY, int x, int y, int width, int height) {
-		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY)
-			gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
+		if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
+			
+			if(type.temperature == 0)
+				gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB" }, mouseX, mouseY);
+			else
+				gui.drawFluidInfo(new String[] { I18n.format(this.type.getUnlocalizedName()), fluid + "/" + maxFluid + "mB", EnumChatFormatting.RED + "" + type.temperature + "°C" }, mouseX, mouseY);
+		}
 	}
 	
 	public ResourceLocation getSheet() {

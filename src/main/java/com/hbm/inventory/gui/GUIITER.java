@@ -72,8 +72,8 @@ public class GUIITER extends GuiInfoContainer {
 		}
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(iter.plasma.getSheet());
-		iter.plasma.renderTank(this, guiLeft + 71, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 16, 52);
-		iter.plasma.renderTank(this, guiLeft + 71 + 16, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 16, 52);
-		iter.plasma.renderTank(this, guiLeft + 71 + 32, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 2, 52);
+		iter.plasma.renderTank(this, guiLeft + 71, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 16, 34);
+		iter.plasma.renderTank(this, guiLeft + 71 + 16, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 16, 34);
+		iter.plasma.renderTank(this, guiLeft + 71 + 32, guiTop + 88, iter.plasma.getTankType().textureX() * FluidTank.x, iter.plasma.getTankType().textureY() * FluidTank.y, 2, 34);
 	}
 }

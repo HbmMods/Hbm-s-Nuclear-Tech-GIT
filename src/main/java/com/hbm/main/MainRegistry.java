@@ -41,6 +41,8 @@ import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.mob.sodtekhnologiyah.*;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
@@ -102,18 +104,13 @@ public class MainRegistry {
 	public static ToolMaterial enumToolMaterialBat = EnumHelper.addToolMaterial("BAT", 0, 500, 1.5F, 3F, 25);
 	public static ToolMaterial enumToolMaterialBatNail = EnumHelper.addToolMaterial("BATNAIL", 0, 450, 1.0F, 4F, 25);
 	public static ToolMaterial enumToolMaterialGolfClub = EnumHelper.addToolMaterial("GOLFCLUB", 1, 1000, 2.0F, 5F, 25);
-	public static ToolMaterial enumToolMaterialPipeRusty = EnumHelper.addToolMaterial("PIPERUSTY", 1, 350, 1.5F, 4.5F,
-			25);
-	public static ToolMaterial enumToolMaterialPipeLead = EnumHelper.addToolMaterial("PIPELEAD", 1, 250, 1.5F, 5.5F,
-			25);
+	public static ToolMaterial enumToolMaterialPipeRusty = EnumHelper.addToolMaterial("PIPERUSTY", 1, 350, 1.5F, 4.5F, 25);
+	public static ToolMaterial enumToolMaterialPipeLead = EnumHelper.addToolMaterial("PIPELEAD", 1, 250, 1.5F, 5.5F, 25);
 
-	public static ToolMaterial enumToolMaterialBottleOpener = EnumHelper.addToolMaterial("OPENER", 1, 250, 1.5F, 0.5F,
-			200);
-	public static ToolMaterial enumToolMaterialSledge = EnumHelper.addToolMaterial("SHIMMERSLEDGE", 1, 0, 25.0F, 26F,
-			200);
+	public static ToolMaterial enumToolMaterialBottleOpener = EnumHelper.addToolMaterial("OPENER", 1, 250, 1.5F, 0.5F, 200);
+	public static ToolMaterial enumToolMaterialSledge = EnumHelper.addToolMaterial("SHIMMERSLEDGE", 1, 0, 25.0F, 26F, 200);
 
-	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F,
-			25);
+	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F, 25);
 
 	// Armor Materials
 	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("HBM_TEST", 2500,
@@ -702,8 +699,8 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityTaintCrab.class, "entity_taint_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xFF00FF);
 		EntityRegistry.registerGlobalEntityID(EntityMaskMan.class, "entity_mob_mask_man", EntityRegistry.findGlobalUniqueEntityId(), 0x818572, 0xC7C1B7);
 
-		EntityRegistry.registerGlobalEntityID(EntityBallsOTronHead.class, "entity_balls_o_tron_mk0", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xAAAAAA);
-		EntityRegistry.registerModEntity(EntityBallsOTronSegment.class, "entity_balls_o_tron_mk0_segfault", 148, this, 1000, 1, true);
+		EntityRegistry.registerGlobalEntityID(EntityBOTPrimeHead.class, "entity_balls_o_tron_mk0", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xAAAAAA);
+		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_mk0_segfault", 148, this, 1000, 1, true);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 

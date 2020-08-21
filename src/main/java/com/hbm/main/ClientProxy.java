@@ -28,6 +28,8 @@ import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.mob.sodtekhnologiyah.EntityBallsOTronSegment;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
@@ -430,6 +432,8 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTaintCrab.class, new RenderTaintCrab());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMaskMan.class, new RenderMaskMan());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBallsOTronSegment.class, new RenderBalls());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeHead.class, new RenderWormHead());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeBody.class, new RenderWormBody());
 	    //"particles"
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new MultiCloudRenderer(new Item[] { ModItems.smoke1, ModItems.smoke2, ModItems.smoke3, ModItems.smoke4, ModItems.smoke5, ModItems.smoke6, ModItems.smoke7, ModItems.smoke8 }));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBSmokeFX.class, new MultiCloudRenderer(new Item[] { ModItems.b_smoke1, ModItems.b_smoke2, ModItems.b_smoke3, ModItems.b_smoke4, ModItems.b_smoke5, ModItems.b_smoke6, ModItems.b_smoke7, ModItems.b_smoke8 }));

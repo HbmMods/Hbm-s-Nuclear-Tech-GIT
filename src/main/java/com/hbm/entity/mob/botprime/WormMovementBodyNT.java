@@ -2,8 +2,6 @@ package com.hbm.entity.mob.botprime;
 
 import java.util.List;
 
-import com.hbm.entity.mob.sodtekhnologiyah.EntityWormBase;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +25,7 @@ public class WormMovementBodyNT {
 		}
 		
 		if(((this.user.ticksExisted % 60 == 0) || (this.user.ticksExisted == 1)) && ((this.user.targetedEntity == null) || (this.user.followed == null))) {
-			findEntityToFollow(this.user.worldObj.selectEntitiesWithinAABB(EntityLiving.class, this.user.boundingBox.expand(this.user.rangeForParts, this.user.rangeForParts, this.user.rangeForParts), EntityWormBase.wormSelector));
+			findEntityToFollow(this.user.worldObj.selectEntitiesWithinAABB(EntityLiving.class, this.user.boundingBox.expand(this.user.rangeForParts, this.user.rangeForParts, this.user.rangeForParts), EntityWormBaseNT.wormSelector));
 		}
 		
 		double deltaX = this.user.waypointX - this.user.posX;

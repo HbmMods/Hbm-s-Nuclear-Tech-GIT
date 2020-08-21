@@ -16,7 +16,7 @@ public class EntityBOTPrimeBody extends EntityBOTPrimeBase {
 		super(world);
 		this.bodySpeed = 0.6D;
 		this.rangeForParts = 70.0D;
-		this.segmentDistance = 1.9D;
+		this.segmentDistance = 3.5D;
 	    this.maxBodySpeed = 1.4D;
 	    this.targetTasks.addTask(1, new EntityAINearestAttackableTargetNT(this, EntityLivingBase.class, 0, true, false, this.selector, 128.0D));
 	}

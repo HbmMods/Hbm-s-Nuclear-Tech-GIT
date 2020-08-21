@@ -887,6 +887,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_plasma_heater:
+				{
+					if(entity instanceof TileEntityMachinePlasmaHeater)
+					{
+						return new ContainerPlasmaHeater(player.inventory, (TileEntityMachinePlasmaHeater) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1770,6 +1779,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityITER)
 					{
 						return new GUIITER(player.inventory, (TileEntityITER) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_plasma_heater:
+				{
+					if(entity instanceof TileEntityMachinePlasmaHeater)
+					{
+						return new GUIPlasmaHeater(player.inventory, (TileEntityMachinePlasmaHeater) entity);
 					}
 					return null;
 				}

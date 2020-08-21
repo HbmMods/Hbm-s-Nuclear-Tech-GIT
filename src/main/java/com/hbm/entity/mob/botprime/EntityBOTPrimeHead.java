@@ -1,6 +1,7 @@
 package com.hbm.entity.mob.botprime;
 
 import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
+import com.hbm.entity.particle.EntityCloudFX;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,15 +28,15 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 	
 	public EntityBOTPrimeHead(World world) {
 		super(world);
-		this.experienceValue = 1000;
+		/*this.experienceValue = 1000;
 		this.wasNearGround = false;
 		this.attackRange = 150.0D;
 		this.setSize(3.0F, 3.0F);
 		this.maxSpeed = 1.0D;
 		this.fallSpeed = 0.006D;
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTargetNT(this, EntityPlayer.class, 0, false, false, null, 128.0D));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTargetNT(this, Entity.class, 0, false, false, this.selector, 50.0D));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTargetNT(this, EntityPlayer.class, 0, false, false, null, 128.0D));*/
+		//this.targetTasks.addTask(3, new EntityAINearestAttackableTargetNT(this, Entity.class, 0, false, false, this.selector, 50.0D));
 	}
 
 	@Override
@@ -63,13 +64,13 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
     public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
     	
     	//TODO: check if this is even needed
-    	setHeadID(this.getEntityId());
+    	/*setHeadID(this.getEntityId());
     	
     	int x = MathHelper.floor_double(this.posX);
         int y = MathHelper.floor_double(this.posY);
         int z = MathHelper.floor_double(this.posZ);
         
-        for (int i = 0; i < 119; i++) {
+        for (int i = 0; i < 49; i++) {
         	
           EntityBOTPrimeBody bodyPart = new EntityBOTPrimeBody(this.worldObj);
           bodyPart.setPartNumber(i);
@@ -81,7 +82,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
         setPosition(x, y, z);
         this.spawnPoint.set(x, y, z);
         
-        this.aggroCooldown = 60;
+        this.aggroCooldown = 60;*/
         
         return super.onSpawnWithEgg(data);
     }
@@ -91,7 +92,11 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		
 		super.updateAITasks();
 		
-	    this.movement.updateMovement();
+	    /*this.movement.updateMovement();
+	    
+	    if(worldObj.isRemote) {
+	    	System.out.println(posX + " " + posY + " " + posZ);
+	    }
 	    
 	    if ((getHealth() < getMaxHealth()) && (this.ticksExisted % 6 == 0)) {
 	      if (this.targetedEntity != null) {
@@ -119,7 +124,7 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 	    }
 	    else if (this.attackCounter > 0) {
 	      this.attackCounter -= 1;
-	    }
+	    }*/
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package com.hbm.entity.mob.botprime;
 
 import java.util.List;
 
-import com.hbm.entity.mob.sodtekhnologiyah.EntityBurrowing;
-
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,7 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public abstract class EntityWormBaseNT extends EntityBurrowing {
+public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 
 	public int aggroCooldown = 0;
 	public int courseChangeCooldown = 0;
@@ -51,7 +49,7 @@ public abstract class EntityWormBaseNT extends EntityBurrowing {
 		super(world);
 		this.setSize(1.0F, 1.0F);
 		this.surfaceY = 60;
-		this.renderDistanceWeight = 5.0D;
+		this.renderDistanceWeight = 15.0D;
 	}
 
 	public int getPartNumber() {
@@ -81,7 +79,6 @@ public abstract class EntityWormBaseNT extends EntityBurrowing {
 		}
 	}
 
-	//TODO: test this with onUpdate instead
 	protected void updateEntityActionState() {
 		
 		if((!this.worldObj.isRemote) && (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL)) {
