@@ -426,6 +426,7 @@ tile.crate_metal.name=Ящик с механизмами
 tile.crate_red.name=Красный ящик
 tile.crate_can.name=Ящик с консервами
 tile.crate_ammo.name=Ящик из звёздного металла
+tile.crate_jungle.name=Ящик из энаргита
 tile.marker_structure.name=Маркер для многоблочных структур
 
 tile.struct_launcher.name=Блок-компонент пусковой площадки
@@ -1012,6 +1013,11 @@ tile.brick_concrete.name=Бетонные кирпичи
 tile.brick_concrete_mossy.name=Замшелые бетонные кирпичи
 tile.brick_concrete_cracked.name=Потресканные бетонные кирпичи
 tile.brick_concrete_broken.name=Сломанные бетонные кирпичи
+tile.brick_jungle.name=Энаргитовые кирпичи
+tile.brick_jungle_cracked.name=Потресканные энаргитовые кирпичи
+tile.brick_jungle_glyph.name=Энаргитовые кирпичи с глифами
+tile.brick_jungle_lava.name=Магматические энаргитовые кирпичи
+tile.brick_jungle_trap.name=Заражённые энаргитовые кирпичи
 tile.brick_obsidian.name=Обсидиановые кирпичи
 tile.brick_light.name=Легкие кирпичи
 tile.asphalt.name=Асфальт
@@ -2489,6 +2495,7 @@ item.blades_titanium.name=Титановые лезвия измельчител
 item.blades_advanced_alloy.name=Усовершенствованные лезвия измельчителя
 item.blades_combine_steel.name=CMB-стальные лезвия измельчителя
 item.blades_schrabidium.name=Шрабидиевые лезвия измельчителя
+item.blades_desh.name=Деш-лезвия измельчителя
 
 item.stamp_stone_flat.name=Плоский штамп (Камень)
 item.stamp_stone_plate.name=Штамп пластины (Камень)
