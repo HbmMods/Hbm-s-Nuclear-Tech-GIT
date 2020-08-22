@@ -3,11 +3,11 @@ package com.hbm.tileentity.bomb;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 
@@ -256,9 +256,9 @@ public class TileEntityNukeN45 extends TileEntity implements ISidedInventory {
 				ExplosionLarge.explode(world, x, y, z, 15, true, false, false);
 				break;
 			case 4:
-				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(MainRegistry.missileRadius * 0.75F), x + 0.5, y + 0.5, z + 0.5));
+				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(BombConfig.missileRadius * 0.75F), x + 0.5, y + 0.5, z + 0.5));
 	
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, MainRegistry.missileRadius * 0.005F * 0.75F);
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F * 0.75F);
 				entity2.posX = x;
 				entity2.posY = y;
 				entity2.posZ = z;

@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
@@ -47,7 +48,6 @@ public class EntityMiniNuke extends Entity implements IProjectile
     private double damage = 2.0D;
     /** The amount of knockback an arrow applies when it hits a mob. */
     private int knockbackStrength;
-    private static final String __OBFID = "CL_00001715";
     
 
     public EntityMiniNuke(World p_i1753_1_)
@@ -237,7 +237,7 @@ public class EntityMiniNuke extends Entity implements IProjectile
         {
             if (!this.worldObj.isRemote)
             {
-    	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.fatmanRadius, posX, posY, posZ));
+    	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.fatmanRadius, posX, posY, posZ));
     	    	
         	    //Perma-baleflare mode if the polaroid's glitched
         	    if(MainRegistry.polaroidID == 11)
@@ -378,7 +378,7 @@ public class EntityMiniNuke extends Entity implements IProjectile
                         {
                             if (!this.worldObj.isRemote)
                             {
-                    	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.fatmanRadius, posX, posY, posZ));
+                    	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.fatmanRadius, posX, posY, posZ));
                     	    	
                             	if(rand.nextInt(100) == 0)
                             	{

@@ -1,14 +1,13 @@
 package com.hbm.entity.grenade;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 public class EntityGrenadeASchrab extends EntityGrenadeBase {
-	private static final String __OBFID = "CL_00001722";
 
 	public EntityGrenadeASchrab(World p_i1773_1_) {
 		super(p_i1773_1_);
@@ -33,14 +32,14 @@ public class EntityGrenadeASchrab extends EntityGrenadeBase {
 			entity.posX = this.posX;
 			entity.posY = this.posY;
 			entity.posZ = this.posZ;
-			entity.destructionRange = MainRegistry.aSchrabRadius;
+			entity.destructionRange = BombConfig.aSchrabRadius;
 			entity.speed = 25;
 			entity.coefficient = 1.0F;
 			entity.waste = false;
 
 			this.worldObj.spawnEntityInWorld(entity);
 
-			EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, MainRegistry.aSchrabRadius);
+			EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, BombConfig.aSchrabRadius);
 			cloud.posX = this.posX;
 			cloud.posY = this.posY;
 			cloud.posZ = this.posZ;

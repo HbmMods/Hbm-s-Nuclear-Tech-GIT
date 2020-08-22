@@ -3,12 +3,11 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -24,21 +23,14 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-		/*EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
-    	entity.posX = this.posX;
-    	entity.posY = this.posY;
-    	entity.posZ = this.posZ;
-    	entity.destructionRange = MainRegistry.missileRadius;
-    	entity.speed = MainRegistry.blastSpeed;
-    	entity.coefficient = 10.0F;*/
-    	
-    	this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.missileRadius, posX, posY, posZ));
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, MainRegistry.missileRadius * 0.005F);
-    	entity2.posX = this.posX;
-    	entity2.posY = this.posY/* - 9*/;
-    	entity2.posZ = this.posZ;
-    	this.worldObj.spawnEntityInWorld(entity2);
+		this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.missileRadius, posX, posY, posZ));
+
+		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.missileRadius * 0.005F);
+		entity2.posX = this.posX;
+		entity2.posY = this.posY;
+		entity2.posZ = this.posZ;
+		this.worldObj.spawnEntityInWorld(entity2);
 	}
 
 	@Override
@@ -50,7 +42,7 @@ public class EntityMissileNuclear extends EntityMissileBaseAdvanced {
 		list.add(new ItemStack(ModItems.plate_aluminium, 12));
 		list.add(new ItemStack(ModItems.thruster_large, 1));
 		list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
-		
+
 		return list;
 	}
 

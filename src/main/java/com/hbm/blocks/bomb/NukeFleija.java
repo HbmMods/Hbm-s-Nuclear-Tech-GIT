@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.interfaces.IBomb;
@@ -31,7 +32,6 @@ public class NukeFleija extends BlockContainer implements IBomb {
 
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory = false;
-    private Map field_77288_k = new HashMap();
 
 	public NukeFleija(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -129,7 +129,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.fleijaRadius);
+            	igniteTestBomb(p_149695_1_, x, y, z, BombConfig.fleijaRadius);
         	}
         }
     }
@@ -146,7 +146,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
     		entity.posY = y;
     		entity.posZ = z;
     		entity.destructionRange = r;
-    		entity.speed = MainRegistry.blastSpeed;
+    		entity.speed = BombConfig.blastSpeed;
     		entity.coefficient = 1.0F;
     		entity.waste = false;
     	
@@ -209,7 +209,7 @@ public class NukeFleija extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             	entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	igniteTestBomb(world, x, y, z, MainRegistry.fleijaRadius);
+            	igniteTestBomb(world, x, y, z, BombConfig.fleijaRadius);
         	}
         }
 	}

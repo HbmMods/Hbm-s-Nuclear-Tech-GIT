@@ -20,8 +20,6 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 	private static final int[] slots_bottom = new int[] { 2, 0 };
 	private static final int[] slots_side = new int[] { 0 };
 
-	private String customName;
-
 	public TileEntityMachineReactor() {
 		super(3);
 	}

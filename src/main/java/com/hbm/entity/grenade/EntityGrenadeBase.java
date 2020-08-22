@@ -2,6 +2,7 @@ package com.hbm.entity.grenade;
 
 import org.apache.logging.log4j.Level;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -11,9 +12,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public abstract class EntityGrenadeBase extends EntityThrowable
-{
-    private static final String __OBFID = "CL_00001722";
+public abstract class EntityGrenadeBase extends EntityThrowable {
 
     public EntityGrenadeBase(World p_i1773_1_)
     {
@@ -41,7 +40,7 @@ public abstract class EntityGrenadeBase extends EntityThrowable
         }
         
         if(!worldObj.isRemote) {
-    		if(MainRegistry.enableExtendedLogging) {
+    		if(GeneralConfig.enableExtendedLogging) {
     			
     			String s = "null";
     			

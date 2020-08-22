@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 
@@ -270,7 +271,7 @@ public class Antenna extends WorldGenerator
 		world.setBlock(x + 0, y + 20, z + 2, Blocks.air, 0, 3);
 		world.setBlock(x + 1, y + 20, z + 2, Blocks.air, 0, 3);
 		world.setBlock(x + 2, y + 20, z + 2, Blocks.air, 0, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned antenna at " + x + " " + y +" " + z + "\n");
 		return true;
 

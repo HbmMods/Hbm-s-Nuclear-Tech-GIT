@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import java.util.List;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.particle.EntitySSmokeFX;
 import com.hbm.explosion.ExplosionParticleB;
@@ -46,7 +47,6 @@ public class EntityBaleflare extends Entity implements IProjectile {
 	private double damage = 2.0D;
 	/** The amount of knockback an arrow applies when it hits a mob. */
 	private int knockbackStrength;
-	private static final String __OBFID = "CL_00001715";
 
 	public EntityBaleflare(World p_i1753_1_)
     {
@@ -247,7 +247,7 @@ public class EntityBaleflare extends Entity implements IProjectile {
             			bf.posX = this.posX;
             			bf.posY = this.posY;
             			bf.posZ = this.posZ;
-            			bf.destructionRange = MainRegistry.fatmanRadius;
+            			bf.destructionRange = BombConfig.fatmanRadius;
             			worldObj.spawnEntityInWorld(bf);
                 	    
                     	ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);

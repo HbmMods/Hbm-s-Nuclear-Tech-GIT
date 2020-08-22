@@ -14,8 +14,11 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.FuelType;
+import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.items.weapon.ItemMissile.WarheadType;
 import com.hbm.main.MainRegistry;
+
+import api.hbm.entity.IRadarDetectable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -31,7 +34,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityMissileCustom extends Entity implements IChunkLoader {
+public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarDetectable {
 	
 	int startX;
 	int startZ;
@@ -426,4 +429,26 @@ public class EntityMissileCustom extends Entity implements IChunkLoader {
             }
         }
     }
+
+	@Override
+	public RadarTargetType getTargetType() {
+		
+		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+
+		PartSize top = part.top;
+		PartSize bottom = part.bottom;
+
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10)
+			return RadarTargetType.MISSILE_10;
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15)
+			return RadarTargetType.MISSILE_10_15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15)
+			return RadarTargetType.MISSILE_15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20)
+			return RadarTargetType.MISSILE_15_20;
+		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20)
+			return RadarTargetType.MISSILE_20;
+		
+		return RadarTargetType.PLAYER;
+	}
 }

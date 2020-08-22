@@ -6,6 +6,7 @@ import static net.minecraftforge.common.ChestGenHooks.DUNGEON_CHEST;
 
 import java.util.Random;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
@@ -1055,7 +1056,7 @@ public class LibraryDungeon extends WorldGenerator
 		world.setBlock(x + 3, y + 5, z + 3, Blocks.air, 0, 3);
 		world.setBlock(x + 3, y + 5, z + 6, Blocks.air, 0, 3);
 		world.setBlock(x + 4, y + 5, z + 7, Blocks.air, 0, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned library at " + x + " " + y +" " + z + "\n");
 		return true;
 

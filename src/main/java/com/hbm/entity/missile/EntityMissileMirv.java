@@ -3,12 +3,11 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -25,9 +24,9 @@ public class EntityMissileMirv extends EntityMissileBaseAdvanced {
 	@Override
 	public void onImpact() {
 		
-    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, MainRegistry.missileRadius * 2, posX, posY, posZ));
+    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, BombConfig.missileRadius * 2, posX, posY, posZ));
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, MainRegistry.missileRadius * 2 * 0.005F);
+		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.missileRadius * 2 * 0.005F);
     	entity2.posX = this.posX;
     	entity2.posY = this.posY - 9;
     	entity2.posZ = this.posZ;

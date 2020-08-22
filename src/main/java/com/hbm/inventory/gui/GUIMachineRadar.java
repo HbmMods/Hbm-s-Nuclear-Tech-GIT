@@ -4,11 +4,13 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.inventory.container.ContainerMachineRadar;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
+import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -35,33 +37,14 @@ public class GUIMachineRadar extends GuiInfoContainer {
 
 		if(!diFurnace.nearbyMissiles.isEmpty()) {
 			for(int[] m : diFurnace.nearbyMissiles) {
-				int x = guiLeft + (int)((m[0] - diFurnace.xCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) + 108;
-				int z = guiTop + (int)((m[1] - diFurnace.zCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) + 117;
+				int x = guiLeft + (int)((m[0] - diFurnace.xCoord) / ((double)WeaponConfig.radarRange * 2 + 1) * (200D - 8D)) + 108;
+				int z = guiTop + (int)((m[1] - diFurnace.zCoord) / ((double)WeaponConfig.radarRange * 2 + 1) * (200D - 8D)) + 117;
 				
 				if(mouseX + 4 > x && mouseX - 4 < x && 
 						mouseY + 4 > z && mouseY - 4 < z) {
 
 					
-					String[] text = new String[] { "Error." };
-
-					if(m[2] == 0)
-						text = new String[] { "Tier 1 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					else if(m[2] == 1)
-						text = new String[] { "Tier 2 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					else if(m[2] == 2)
-						text = new String[] { "Tier 3 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					else if(m[2] == 3)
-						text = new String[] { "Tier 4 Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					else if(m[2] == 4)
-						text = new String[] { "Anti Ballistic Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					else if(m[2] == 5)
-						text = new String[] { "Player", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					/*else if(m[2] == 6)
-						text = new String[] { "Stinger Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };
-					else if(m[2] == 7)
-						text = new String[] { "Sky Stinger Missile", m[0] + " / " + m[1], "Alt.: " + m[3] };*/
-					else
-						text = new String[] { "Unknown Force", m[0] + " / " + m[1], "Alt.: " + m[3] };
+					String[] text = new String[] { RadarTargetType.values()[m[2]].name, m[0] + " / " + m[1], "Alt.: " + m[3] };
 					
 					this.func_146283_a(Arrays.asList(text), x, z);
 					
@@ -91,8 +74,8 @@ public class GUIMachineRadar extends GuiInfoContainer {
 		
 		if(!diFurnace.nearbyMissiles.isEmpty()) {
 			for(int[] m : diFurnace.nearbyMissiles) {
-				int x = (int)((m[0] - diFurnace.xCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;
-				int z = (int)((m[1] - diFurnace.zCoord) / ((double)MainRegistry.radarRange * 2 + 1) * (200D - 8D)) - 4;
+				int x = (int)((m[0] - diFurnace.xCoord) / ((double)WeaponConfig.radarRange * 2 + 1) * (200D - 8D)) - 4;
+				int z = (int)((m[1] - diFurnace.zCoord) / ((double)WeaponConfig.radarRange * 2 + 1) * (200D - 8D)) - 4;
 				int t = m[2];
 
 				drawTexturedModalRect(guiLeft + 108 + x, guiTop + 117 + z, 216, 8 * t, 8, 8);

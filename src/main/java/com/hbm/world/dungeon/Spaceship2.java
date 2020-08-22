@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
@@ -445,7 +446,7 @@ public class Spaceship2
 		world.setBlock(x + 7, y + 4, z + 6, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + 4, z + 6, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + 4, z + 7, Blocks.air, 0, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned spaceship at " + x + " " + y +" " + z + "\n");
 		return true;
 

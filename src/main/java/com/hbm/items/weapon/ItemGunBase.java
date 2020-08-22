@@ -5,6 +5,8 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.WeaponConfig;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -120,7 +122,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 			setIsAltDown(stack, false);
 		}
 			
-		if(MainRegistry.enableGuns && mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
+		if(GeneralConfig.enableGuns && mainConfig.firingMode == 1 && getIsMouseDown(stack) && tryShoot(stack, world, player, isCurrentItem)) {
 			
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
@@ -499,7 +501,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 				list.add(EnumChatFormatting.ITALIC + s);
 		}
 		
-		if(MainRegistry.enableExtendedLogging) {
+		if(GeneralConfig.enableExtendedLogging) {
 			list.add("");
 			list.add("Type: " + getMagType(stack));
 			list.add("Is Reloading: " + getIsReloading(stack));

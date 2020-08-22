@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -2586,7 +2587,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 16, y + 19, z + 12, Blocks.torch, 2, 3);
 		world.setBlock(x + 22, y + 19, z + 12, Blocks.torch, 1, 3);
 		world.setBlock(x + 19, y + 19, z + 15, Blocks.torch, 3, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned satellite dish at " + x + " " + y +" " + z + "\n");
 		return true;
 

@@ -22,12 +22,12 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisplayData {
+	
 	public int courseChangeCooldown;
 	public double waypointX;
 	public double waypointY;
 	public double waypointZ;
 	private Entity targetedEntity;
-	private int aggroCooldown;
 	public int prevAttackCounter;
 	public int attackCounter;
 	public int mineDropCounter;
@@ -151,10 +151,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 				// this.worldObj.getClosestVulnerablePlayerToEntity(this,
 				// 100.0D);
 				this.targetedEntity = Library.getClosestEntityForChopper(worldObj, this.posX, this.posY, this.posZ, 250);
-
-				if (this.targetedEntity != null) {
-					this.aggroCooldown = 20;
-				}
 			}
 
 			double d4 = 64.0D;

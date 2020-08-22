@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
@@ -127,7 +128,7 @@ public class WasteEarth extends Block {
     			world.setBlock(x, y + 1, z, ModBlocks.mush);
     	}
     	
-    	if(this == ModBlocks.waste_mycelium && MainRegistry.enableMycelium)
+    	if(this == ModBlocks.waste_mycelium && GeneralConfig.enableMycelium)
     	{
     		for(int i = -1; i < 2; i++) {
     			for(int j = -1; j < 2; j++) {
@@ -172,7 +173,7 @@ public class WasteEarth extends Block {
             }
     	}
     	
-    	if(MainRegistry.enableAutoCleanup && (this == ModBlocks.waste_earth | this == ModBlocks.waste_mycelium))
+    	if(GeneralConfig.enableAutoCleanup && (this == ModBlocks.waste_earth | this == ModBlocks.waste_mycelium))
     		if(!world.isRemote)
     			world.setBlock(x, y, z, Blocks.dirt);
     }

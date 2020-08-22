@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
@@ -672,7 +673,7 @@ public class TileEntityWatzCore extends TileEntity implements ISidedInventory, I
 					entity.posX = this.xCoord;
 					entity.posY = this.yCoord;
 					entity.posZ = this.zCoord;
-					entity.destructionRange = MainRegistry.fleijaRadius;
+					entity.destructionRange = BombConfig.fleijaRadius;
 					entity.speed = 25;
 					entity.coefficient = 1.0F;
 					entity.waste = false;

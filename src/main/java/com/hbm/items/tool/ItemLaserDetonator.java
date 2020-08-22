@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -37,7 +38,7 @@ public class ItemLaserDetonator extends Item {
 	    	if(world.getBlock(x, y, z) instanceof IBomb) {
 	    		((IBomb)world.getBlock(x, y, z)).explode(world, x, y, z);
 
-	    		if(MainRegistry.enableExtendedLogging)
+	    		if(GeneralConfig.enableExtendedLogging)
 	    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
 	    		
 	    		player.addChatMessage(new ChatComponentText("Detonated!"));

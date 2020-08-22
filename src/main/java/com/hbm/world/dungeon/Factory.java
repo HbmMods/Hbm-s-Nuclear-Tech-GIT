@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 
@@ -3133,7 +3134,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 17, y + 43, z + 10, Blocks.web, 0, 3);
 		world.setBlock(x + 18, y + 43, z + 10, Blocks.web, 0, 3);
 		world.setBlock(x + 17, y + 43, z + 11, Blocks.web, 0, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned abandoned factory at " + x + " " + y +" " + z + "\n");
 		return true;
 

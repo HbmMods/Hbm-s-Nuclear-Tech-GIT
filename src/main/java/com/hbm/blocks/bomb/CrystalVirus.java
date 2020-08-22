@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
@@ -20,7 +21,7 @@ public class CrystalVirus extends Block {
     @Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
     	
-    	if(MainRegistry.enableVirus) {
+    	if(GeneralConfig.enableVirus) {
     		if(world.getBlock(x + 1, y, z) != ModBlocks.crystal_virus && world.getBlock(x + 1, y, z) != Blocks.air && world.getBlock(x + 1, y, z) != ModBlocks.crystal_hardened && world.getBlock(x + 1, y, z) != ModBlocks.crystal_pulsar) {
     			world.setBlock(x + 1, y, z, ModBlocks.crystal_virus);
     		}

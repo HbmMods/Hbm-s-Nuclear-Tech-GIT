@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
@@ -121,14 +123,14 @@ public class NukeMike extends BlockContainer implements IBomb {
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
 				entity.clearSlots();
 				p_149695_1_.setBlockToAir(x, y, z);
-				igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.manRadius);
+				igniteTestBomb(p_149695_1_, x, y, z, BombConfig.manRadius);
 			}
 
 			if (entity.isFilled()) {
 				this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
 				entity.clearSlots();
 				p_149695_1_.setBlockToAir(x, y, z);
-				igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.mikeRadius);
+				igniteTestBomb(p_149695_1_, x, y, z, BombConfig.mikeRadius);
 			}
 		}
 	}
@@ -139,9 +141,9 @@ public class NukeMike extends BlockContainer implements IBomb {
 			// world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0);
 			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 
-	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.mikeRadius, x + 0.5, y + 0.5, z + 0.5));
+	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.mikeRadius, x + 0.5, y + 0.5, z + 0.5));
 
-			if (MainRegistry.enableNukeClouds) {
+			if (GeneralConfig.enableNukeClouds) {
 				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, r * 0.005F);
 				entity2.posX = x;
 				entity2.posY = y;
@@ -203,14 +205,14 @@ public class NukeMike extends BlockContainer implements IBomb {
 				this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 				entity.clearSlots();
 				world.setBlockToAir(x, y, z);
-				igniteTestBomb(world, x, y, z, MainRegistry.manRadius);
+				igniteTestBomb(world, x, y, z, BombConfig.manRadius);
 			}
 
 			if (entity.isFilled()) {
 				this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 				entity.clearSlots();
 				world.setBlockToAir(x, y, z);
-				igniteTestBomb(world, x, y, z, MainRegistry.mikeRadius);
+				igniteTestBomb(world, x, y, z, BombConfig.mikeRadius);
 			}
 		}
 	}

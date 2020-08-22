@@ -8,8 +8,9 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.hbm.config.ToolConfig;
 import com.hbm.handler.ToolAbility;
-import com.hbm.handler.ToolAbility.SilkAbility;
+import com.hbm.handler.ToolAbility.*;
 import com.hbm.handler.WeaponAbility;
 
 import cpw.mods.fml.relauncher.Side;
@@ -31,6 +32,7 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -290,18 +292,55 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
     	
     	setAbility(stack, i % this.breakAbility.size());
     	
+    	while(!isAbilityAllowed(getCurrentAbility(stack))) {
+    		
+    		player.addChatComponentMessage(
+    				new ChatComponentText("[Ability ")
+    				.appendSibling(new ChatComponentTranslation(getCurrentAbility(stack).getName(), new Object[0]))
+    				.appendSibling(new ChatComponentText(getCurrentAbility(stack).getExtension() + " is blacklisted!]"))
+    				.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
+    		
+        	i++;
+        	setAbility(stack, i % this.breakAbility.size());
+    	}
+    	
     	if(getCurrentAbility(stack) != null) {
     		player.addChatComponentMessage(
     				new ChatComponentText("[Enabled ")
     				.appendSibling(new ChatComponentTranslation(getCurrentAbility(stack).getName(), new Object[0]))
-    				.appendSibling(new ChatComponentText(getCurrentAbility(stack).getExtension() + "]")));
+    				.appendSibling(new ChatComponentText(getCurrentAbility(stack).getExtension() + "]"))
+    				.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
     	} else {
-    		player.addChatComponentMessage(new ChatComponentText("[Tool ability deactivated]"));
+    		player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GOLD + "[Tool ability deactivated]"));
     	}
 
         world.playSoundAtEntity(player, "random.orb", 0.25F, getCurrentAbility(stack) == null ? 0.75F : 1.25F);
     	
     	return stack;
+    }
+    
+    //TODO: integrate "isAllowed" into the ability class
+    private boolean isAbilityAllowed(ToolAbility ability) {
+
+    	if(ability instanceof HammerAbility)
+    		return ToolConfig.abilityHammer;
+    	if(ability instanceof RecursionAbility)
+    		return ToolConfig.abilityVein;
+    	if(ability instanceof LuckAbility)
+    		return ToolConfig.abilityLuck;
+    	if(ability instanceof SilkAbility)
+    		return ToolConfig.abilitySilk;
+    	if(ability instanceof SmelterAbility)
+    		return ToolConfig.abilityFurnace;
+    	if(ability instanceof ShredderAbility)
+    		return ToolConfig.abilityShredder;
+    	if(ability instanceof CentrifugeAbility)
+    		return ToolConfig.abilityCentrifuge;
+    	if(ability instanceof CrystallizerAbility)
+    		return ToolConfig.abilityCrystallizer;
+    		
+    	return true;
+    	
     }
     
     private ToolAbility getCurrentAbility(ItemStack stack) {

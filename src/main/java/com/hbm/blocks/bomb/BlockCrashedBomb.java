@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
@@ -103,7 +104,7 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 			bf.posX = x;
 			bf.posY = y;
 			bf.posZ = z;
-			bf.destructionRange = (int) (MainRegistry.fatmanRadius * 1.25);
+			bf.destructionRange = (int) (BombConfig.fatmanRadius * 1.25);
 			world.spawnEntityInWorld(bf);
     		ExplosionParticleB.spawnMush(world, x, y, z);
         }

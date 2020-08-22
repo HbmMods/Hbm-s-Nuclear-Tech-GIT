@@ -9,6 +9,9 @@ import java.util.Random;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.RadiationConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
@@ -91,7 +94,7 @@ public class ModEventHandler
 		if(event.entity.worldObj.isRemote)
 			return;
 		
-		if(MainRegistry.enableCataclysm) {
+		if(GeneralConfig.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
 			event.entity.worldObj.spawnEntityInWorld(foeq);
@@ -166,8 +169,8 @@ public class ModEventHandler
 		/////
 		
 		/// METEOR SHOWER START ///
-		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && MainRegistry.enableMeteorStrikes) {
-			if(event.world.rand.nextInt(meteorShower > 0 ? MainRegistry.meteorShowerChance : MainRegistry.meteorStrikeChance) == 0) {
+		if(event.world != null && !event.world.isRemote && event.world.provider.isSurfaceWorld() && GeneralConfig.enableMeteorStrikes) {
+			if(event.world.rand.nextInt(meteorShower > 0 ? WorldConfig.meteorShowerChance : WorldConfig.meteorStrikeChance) == 0) {
 				if(!event.world.playerEntities.isEmpty()) {
 					EntityPlayer p = (EntityPlayer)event.world.playerEntities.get(event.world.rand.nextInt(event.world.playerEntities.size()));
 					
@@ -186,23 +189,23 @@ public class ModEventHandler
 			
 			if(meteorShower > 0) {
 				meteorShower--;
-				if(meteorShower == 0 && MainRegistry.enableDebugMode)
+				if(meteorShower == 0 && GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("Ended meteor shower.");
 			}
 			
-			if(event.world.rand.nextInt(MainRegistry.meteorStrikeChance * 100) == 0 && MainRegistry.enableMeteorShowers) {
+			if(event.world.rand.nextInt(WorldConfig.meteorStrikeChance * 100) == 0 && GeneralConfig.enableMeteorShowers) {
 				meteorShower = 
-						(int)(MainRegistry.meteorShowerDuration * 0.75 + 
-								MainRegistry.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
+						(int)(WorldConfig.meteorShowerDuration * 0.75 + 
+								WorldConfig.meteorShowerDuration * 0.25 * event.world.rand.nextFloat());
 
-				if(MainRegistry.enableDebugMode)
+				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("Started meteor shower! Duration: " + meteorShower);
 			}
 		}
 		/// METEOR SHOWER END ///
 
 		/// RADIATION STUFF START ///
-		if(event.world != null && !event.world.isRemote && MainRegistry.enableRads) {
+		if(event.world != null && !event.world.isRemote && GeneralConfig.enableRads) {
 			
 			int thunder = AuxSavedData.getThunder(event.world);
 			
@@ -243,17 +246,17 @@ public class ModEventHandler
 							Chunk chunk = entity.worldObj.getChunkFromBlockCoords((int)entity.posX, (int)entity.posZ);
 							float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
 							
-							if(event.world.provider.isHellWorld && MainRegistry.hellRad > 0 && rad < MainRegistry.hellRad)
-								rad = MainRegistry.hellRad;
+							if(event.world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
+								rad = RadiationConfig.hellRad;
 							
 							if(rad > 0) {
 								ContaminationUtil.applyRadData(entity, rad / 2);
 							}
 							
-							if(entity.worldObj.isRaining() && MainRegistry.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 &&
+							if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 &&
 									entity.worldObj.canBlockSeeTheSky(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))) {
 
-								ContaminationUtil.applyRadData(entity, MainRegistry.cont * 0.005F);
+								ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.005F);
 							}
 						}
 						
@@ -645,31 +648,31 @@ public class ModEventHandler
 		
 		//let's start from the back:
 		
-		//this part means that the message's first character has to equal a '!': -------------------------+
-		//                                                                                                |
-		//this is a logical AND operator: -------------------------------------------------------------+  |
-		//                                                                                             |  |
-		//this is a reference to a field in                                                            |  |
-		//Library.java containing a reference UUID: --------------------------------------+            |  |
-		//                                                                                |            |  |
-		//this will compare said UUID with                                                |            |  |
-		//the string representation of the                                                |            |  |
-		//current player's UUID: ----------+                                              |            |  |
-		//                                 |                                              |            |  |
-		//another AND operator: --------+  |                                              |            |  |
-		//                              |  |                                              |            |  |
-		//this is a reference to a      |  |                                              |            |  |
-		//boolean called                |  |                                              |            |  |
-		//'enableDebugMode' which is    |  |                                              |            |  |
-		//only set once by the mod's    |  |                                              |            |  |
-		//config and is disabled by     |  |                                              |            |  |
-		//default. "debug" is not a     |  |                                              |            |  |
-		//substring of the message, nor |  |                                              |            |  |
-		//something that can be toggled |  |                                              |            |  |
-		//in any other way except for   |  |                                              |            |  |
-		//the config file: |            |  |                                              |            |  |
-		//                 V            V  V                                              V            V  V
-		if(MainRegistry.enableDebugMode && player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
+		//this part means that the message's first character has to equal a '!': --------------------------+
+		//                                                                                                 |
+		//this is a logical AND operator: --------------------------------------------------------------+  |
+		//                                                                                              |  |
+		//this is a reference to a field in                                                             |  |
+		//Library.java containing a reference UUID: ---------------------------------------+            |  |
+		//                                                                                 |            |  |
+		//this will compare said UUID with                                                 |            |  |
+		//the string representation of the                                                 |            |  |
+		//current player's UUID: -----------+                                              |            |  |
+		//                                  |                                              |            |  |
+		//another AND operator: ---------+  |                                              |            |  |
+		//                               |  |                                              |            |  |
+		//this is a reference to a       |  |                                              |            |  |
+		//boolean called                 |  |                                              |            |  |
+		//'enableDebugMode' which is     |  |                                              |            |  |
+		//only set once by the mod's     |  |                                              |            |  |
+		//config and is disabled by      |  |                                              |            |  |
+		//default. "debug" is not a      |  |                                              |            |  |
+		//substring of the message, nor  |  |                                              |            |  |
+		//something that can be toggled  |  |                                              |            |  |
+		//in any other way except for    |  |                                              |            |  |
+		//the config file: |             |  |                                              |            |  |
+		//                 V             V  V                                              V            V  V
+		if(GeneralConfig.enableDebugMode && player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
 			
 			String[] msg = message.split(" ");
 			

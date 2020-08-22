@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.main.MainRegistry;
 
@@ -505,7 +506,7 @@ public class Vertibird extends WorldGenerator
 
 		world.setBlock(x + 12, y + 2 - yOffset, z + 1, Blocks.lever, 3, 3);
 		world.setBlock(x + 14, y + 2 - yOffset, z + 1, Blocks.lever, 3, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned Vertibird at " + x + " " + y +" " + z + "\n");
 		return true;
 

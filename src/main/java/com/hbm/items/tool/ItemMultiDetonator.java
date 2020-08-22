@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.main.MainRegistry;
 
@@ -89,7 +90,7 @@ public class ItemMultiDetonator extends Item {
 						if (!world.isRemote) {
 							((IBomb) world.getBlock(x, y, z)).explode(world, x, y, z);
 
-				    		if(MainRegistry.enableExtendedLogging)
+				    		if(GeneralConfig.enableExtendedLogging)
 				    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
 						}
 						

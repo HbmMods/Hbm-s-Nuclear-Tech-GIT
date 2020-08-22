@@ -2,6 +2,7 @@ package com.hbm.entity.grenade;
 
 import org.apache.logging.log4j.Level;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
@@ -214,7 +215,7 @@ public abstract class EntityGrenadeBouncyBase extends Entity implements IProject
         	if(thrower != null && thrower instanceof EntityPlayer)
         		s = ((EntityPlayer)thrower).getDisplayName();
 
-    		if(MainRegistry.enableExtendedLogging)
+    		if(GeneralConfig.enableExtendedLogging)
     			MainRegistry.logger.log(Level.INFO, "[GREN] Set off grenade at " + ((int)posX) + " / " + ((int)posY) + " / " + ((int)posZ) + " by " + s + "!");
         }
     }

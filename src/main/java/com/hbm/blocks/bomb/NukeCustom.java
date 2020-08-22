@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
@@ -155,7 +156,7 @@ public class NukeCustom extends BlockContainer implements IBomb {
 			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(worldObj);
 			entity.setPosition(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5);
     		entity.destructionRange = (int) schrab;
-    		entity.speed = MainRegistry.blastSpeed;
+    		entity.speed = BombConfig.blastSpeed;
     		entity.coefficient = 1.0F;
     		entity.waste = false;
     		worldObj.spawnEntityInWorld(entity);

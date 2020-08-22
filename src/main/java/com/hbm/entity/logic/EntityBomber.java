@@ -3,6 +3,7 @@ package com.hbm.entity.logic;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityBoxcar;
@@ -209,8 +210,8 @@ public class EntityBomber extends Entity implements IChunkLoader {
     	
     	Vec3 vector = Vec3.createVectorHelper(world.rand.nextDouble() - 0.5, 0, world.rand.nextDouble() - 0.5);
     	vector = vector.normalize();
-    	vector.xCoord *= MainRegistry.enableBomberShortMode ? 1 : 2;
-    	vector.zCoord *= MainRegistry.enableBomberShortMode ? 1 : 2;
+    	vector.xCoord *= GeneralConfig.enableBomberShortMode ? 1 : 2;
+    	vector.zCoord *= GeneralConfig.enableBomberShortMode ? 1 : 2;
     	
     	this.setLocationAndAngles(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
     	this.loadNeighboringChunks((int)(x / 16), (int)(z / 16));
@@ -512,5 +513,4 @@ public class EntityBomber extends Entity implements IChunkLoader {
             }
         }
     }
-
 }

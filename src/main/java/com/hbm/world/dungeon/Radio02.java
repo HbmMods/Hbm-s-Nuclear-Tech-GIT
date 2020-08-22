@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.init.Blocks;
@@ -2172,7 +2173,7 @@ public class Radio02
 		world.setBlock(x + 8, y + 23, z + 25, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + 23, z + 25, Blocks.air, 0, 3);
 		world.setBlock(x + 10, y + 23, z + 25, Blocks.air, 0, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned abandoned Radio station at " + x + " " + y +" " + z + "\n");
 		return true;
 

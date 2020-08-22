@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
@@ -41,7 +42,7 @@ public class MachineRecipes {
 		if(item == null || item2 == null)
 			return null;
 		
-		if (MainRegistry.enableDebugMode) {
+		if (GeneralConfig.enableDebugMode) {
 			if (item.getItem() == Items.iron_ingot && item2.getItem() == Items.quartz
 					|| item.getItem() == Items.quartz && item2.getItem() == Items.iron_ingot) {
 				return new ItemStack(ModBlocks.test_render, 1);
@@ -723,7 +724,7 @@ public class MachineRecipes {
 	public Map<Object[], Object> getAlloyRecipes() {
 		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
 		
-		if (MainRegistry.enableDebugMode) {
+		if (GeneralConfig.enableDebugMode) {
 			recipes.put(new ItemStack[] { new ItemStack(Items.iron_ingot), new ItemStack(Items.quartz) },
 					new ItemStack(Item.getItemFromBlock(ModBlocks.test_render)));
 		}

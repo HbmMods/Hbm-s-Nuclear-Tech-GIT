@@ -5,6 +5,7 @@ import java.util.Random;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.missile.EntityCarrier;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBHole;
@@ -225,7 +226,7 @@ public class LaunchPad extends BlockContainer implements IBomb {
         			xCoord += 1;
         		}
 
-	    		if(MainRegistry.enableExtendedLogging)
+	    		if(GeneralConfig.enableExtendedLogging)
 	    			MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + x + " / " + y + " / " + z + " to " + xCoord + " / " + zCoord + "!");
         		
         		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.missile_generic && entity.power >= 75000)

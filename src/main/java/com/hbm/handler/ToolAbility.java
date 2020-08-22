@@ -6,12 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.hbm.config.ToolConfig;
 import com.hbm.inventory.CentrifugeRecipes;
 import com.hbm.inventory.CrystallizerRecipes;
 import com.hbm.inventory.ShredderRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.EnchantmentUtil;
 
 import net.minecraft.block.Block;
@@ -48,9 +48,9 @@ public abstract class ToolAbility {
 			
 			Block b = world.getBlock(x, y, z);
 
-			if(b == Blocks.stone && !MainRegistry.recursiveStone)
+			if(b == Blocks.stone && !ToolConfig.recursiveStone)
 				return;
-			if(b == Blocks.netherrack && !MainRegistry.recursiveNetherrack)
+			if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack)
 				return;
 			
 			List<Integer> indices = Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5});
@@ -77,7 +77,7 @@ public abstract class ToolAbility {
 			
 			depth += 1;
 			
-			if(depth > MainRegistry.recursionDepth)
+			if(depth > ToolConfig.recursionDepth)
 				return;
 			
 			pos.add(new ThreeInts(x, y, z));

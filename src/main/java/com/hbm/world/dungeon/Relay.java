@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -1658,7 +1659,7 @@ public class Relay extends WorldGenerator
 
 		world.setBlock(x + 5, y + 1, z + 11, Blocks.torch, 1, 3);
 		world.setBlock(x + 3, y + 1, z + 12, Blocks.wall_sign, 4, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned relay tower at " + x + " " + y +" " + z + "\n");
 		return true;
 

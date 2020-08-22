@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
@@ -82,9 +83,9 @@ public class DetCord extends Block implements IBomb {
 				ExplosionLarge.explode(world, x, y, z, 15, true, false, false);
 			}
 			if(this == ModBlocks.det_nuke) {
-				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.missileRadius, x + 0.5, y + 0.5, z + 0.5));
+				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
 
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, MainRegistry.missileRadius * 0.005F);
+				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
 				entity2.posX = x;
 				entity2.posY = y;
 				entity2.posZ = z;

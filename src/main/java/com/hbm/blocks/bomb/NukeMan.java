@@ -1,11 +1,9 @@
 package com.hbm.blocks.bomb;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.effect.EntityNukeCloudNoShroom;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
@@ -32,7 +30,6 @@ public class NukeMan extends BlockContainer implements IBomb {
 
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory = false;
-    private Map field_77288_k = new HashMap();
 
 	public NukeMan(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -138,237 +135,21 @@ public class NukeMan extends BlockContainer implements IBomb {
 	
 	public boolean igniteTestBomb(World world, int x, int y, int z)
 	{
-		if (!world.isRemote) {
-			/*
-		dealDamage(world,x,y,z, 30);
-		detonateTestBomb(world,x,y,z, 30);
-		vapor(world,x,y,z, 30);
-		dealDamage(world,x,y,z, 60);
-		detonateTestBomb(world,x,y,z, 60);
-		vapor(world,x,y,z, 60);
-		dealDamage(world,x,y,z, 90);
-		detonateTestBomb(world,x,y,z, 90);
-		vapor(world,x,y,z, 90);
-		dealDamage(world,x,y,z, 120);
-		detonateTestBomb(world,x,y,z, 120);
-		vapor(world,x,y,z, 120);
-		*/
-		tetn.clearSlots();
-		//world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0); //spawns a huge explosion particle
-		world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F); //x,y,z,sound,volume,pitch
-		/*ExplosionNukeGeneric.detonateTestBomb(world, x, y, z, 175);
-		ExplosionNukeGeneric.vapor(world, x, y, z, 195);
-		ExplosionNukeGeneric.waste(world, x, y, z, 250);
-		ExplosionNukeGeneric.dealDamage(world, x, y, z, 195);*/
+		if(!world.isRemote) {
+			tetn.clearSlots();
+			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 
-    	/*EntityNukeExplosion entity = new EntityNukeExplosion(world);
-    	entity.posX = x;
-    	entity.posY = y;
-    	entity.posZ = z;
-    	entity.destructionRange = 175;
-    	entity.vaporRange = 195;
-    	entity.wasteRange = 250;
-    	entity.damageRange = 195;
-    	
-    	world.spawnEntityInWorld(entity);*/
-		
-    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.manRadius, x + 0.5, y + 0.5, z + 0.5));
-    	
-    	//ExplosionNukeAdvanced.mush(world, x, y, z);
+			world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.manRadius, x + 0.5, y + 0.5, z + 0.5));
 
-    	if (MainRegistry.enableNukeClouds) {
-			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, MainRegistry.manRadius * 0.005F);
+			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.manRadius * 0.005F);
 			entity2.posX = x;
 			entity2.posY = y;
 			entity2.posZ = z;
 			world.spawnEntityInWorld(entity2);
-		} else {
-			EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 1000);
-			entity2.posX = x;
-			entity2.posY = y - 17;
-			entity2.posZ = z;
-			world.spawnEntityInWorld(entity2);
 		}
-		}
-    	
+
 		return false;
 	}
-	
-	/*public void detonateTestBomb(World world, int x, int y, int z, int bombStartStrength)
-	{
-		//Rodol's awesome destruction code
-		int r = bombStartStrength; //radius of explosion (change this to bigger numbers for more epicness)
-		int r2 = r*r; //radius^2, for faster distance checks. (No sqrt needed for pythagoras)
-		int r22 = r2/2; //half of r^2, calculations outside the loop only get called once. Always pull out as many things from the loop as possible.
-		for (int xx = -r; xx < r; xx++)
-		{
-			int X = xx+x; //x coordinate we are working on
-			int XX = xx*xx; //more stuff for a faster distance check
-			for (int yy = -r; yy < r; yy++)
-			{
-				int Y = yy+y; //y coord
-				int YY = XX+yy*yy;
-				for (int zz = -r; zz < r; zz++)
-				{
-					int Z = zz+z; //z coord
-					int ZZ = YY+zz*zz; //final= x*x+y*y+z*z. remind you of anything?
-					if (ZZ<r22+world.rand.nextInt(r22/25)) //and the distance check. x*x+y*y+z*z < radius^2 is the same as sqrt(x*x+y*y+z*z) < radius, the distance formula. Here we use a random number between r^2 and r^2/2 for a jagged explosion.
-					{ //but since sqrt is slow we optimize the algorithm for super fast explosions! Yay!
-						//faster explosions means more explosions per second! 
-						if(Y >= y) destruction(world, X, Y, Z); //destroy the block if its within the radius ...and if it's not bedrock :D
-					} //you can change the if statement to if (ZZ<r2) for a smoother explosion crater.
-				}
-			}
-		}
-			
-			for (int xx = -r; xx < r; xx++)
-			{
-				int X = xx+x;
-				int XX = xx*xx;
-				for (int yy = -r; yy < r; yy++)
-				{
-					int Y = yy+y;
-					int YY = XX+yy*yy*50;
-					for (int zz = -r; zz < r; zz++)
-					{
-						int Z = zz+z;
-						int ZZ = YY+zz*zz;
-						if (ZZ<r22/*+world.rand.nextInt(r22)*//*)
-						{
-							if(Y < y) destruction(world, X, Y, Z);
-						}
-					}
-				}
-			}
-		
-		
-        
-        //Particle creation: coming soon!
-        
-        //spawnMush(world, x, y, z);
-        
-	}
-	
-	public void dealDamage(World world, int x, int y, int z, int bombStartStrength) {
-		//BlockTNT.class Damage code
-				float f = bombStartStrength;
-		        HashSet hashset = new HashSet();
-		        int i;
-		        int j;
-		        int k;
-		        double d5;
-		        double d6;
-		        double d7;
-		        double wat = bombStartStrength*2;
-		        
-
-		        bombStartStrength *= 2.0F;
-		        i = MathHelper.floor_double(x - wat - 1.0D);
-		        j = MathHelper.floor_double(x + wat + 1.0D);
-		        k = MathHelper.floor_double(y - wat - 1.0D);
-		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		        int l = MathHelper.floor_double(z - wat - 1.0D);
-		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox((double)i, (double)k, (double)l, (double)j, (double)i2, (double)j2));
-		        Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
-
-		        for (int i1 = 0; i1 < list.size(); ++i1)
-		        {
-		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / (double)bombStartStrength;
-
-		            if (d4 <= 1.0D)
-		            {
-		                d5 = entity.posX - x;
-		                d6 = entity.posY + (double)entity.getEyeHeight() - y;
-		                d7 = entity.posZ - z;
-		                double d9 = (double)MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-		                if (d9 < wat)
-		                {
-		                    d5 /= d9;
-		                    d6 /= d9;
-		                    d7 /= d9;
-		                    double d10 = (double)world.getBlockDensity(vec3, entity.boundingBox);
-		                    double d11 = (1.0D - d4);// * d10;
-		                    entity.attackEntityFrom(DamageSource.generic, (float)((int)((d11 * d11 + d11) / 2.0D * 8.0D * (double)bombStartStrength + 1.0D)));
-		                    double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-		                    entity.motionX += d5 * d8;
-		                    entity.motionY += d6 * d8;
-		                    entity.motionZ += d7 * d8;
-
-		                    if (entity instanceof EntityPlayer)
-		                    {
-		                        this.field_77288_k.put((EntityPlayer)entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
-		                    }
-		                }
-		                /*
-		                if(d9 < bombStartStrength)
-		                {
-		                	d5 /= d9;
-		                    d6 /= d9;
-		                    d7 /= d9;
-		                    double d10 = (double)world.getBlockDensity(vec3, entity.boundingBox);
-		                    double d11 = (1.0D - d4);// * d10;
-		                    if (!entity.worldObj.isRemote)
-		                    {
-		                    entity.setDead();
-		                    entity = null;
-		                    }/*
-		                    double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-		                    entity.motionX += d5 * d8;
-		                    entity.motionY += d6 * d8;
-		                    entity.motionZ += d7 * d8;
-
-		                    if (entity instanceof EntityPlayer)
-		                    {
-		                        this.field_77288_k.put((EntityPlayer)entity, Vec3.createVectorHelper(d5 * d11, d6 * d11, d7 * d11));
-		                    }
-		                }*//*
-		            }
-		        }
-
-		        bombStartStrength = (int)f;
-	}
-	
-	public void vapor(World world, int x, int y, int z, int bombStartStrength) {
-		int r = bombStartStrength * 2;
-		int r2 = r*r;
-		int r22 = r2/2;
-		for (int xx = -r; xx < r; xx++)
-		{
-			int X = xx+x;
-			int XX = xx*xx;
-			for (int yy = -r; yy < r; yy++)
-			{
-				int Y = yy+y;
-				int YY = XX+yy*yy;
-				for (int zz = -r; zz < r; zz++)
-				{
-					int Z = zz+z;
-					int ZZ = YY+zz*zz;
-					if (ZZ<r22)
-						vaporDest(world, X, Y, Z);
-				}
-			}
-		}
-	}
-
-	public void spawnMush(World world, int x, int y, int z)
-	{
-		for(int m = 0; m < 10; m++)
-        {
-        	//world.spawnParticle("largesmoke", x, y + m, z, 0, 0, 0);
-        	world.setBlock(x, y + m, z, ModBlocks.event_tester, 0, 0);
-        }
-        for(int m = -4; m < 6; m++)
-        {
-        	for(int n = -6; n < 4; n++)
-        	{
-        		//world.spawnParticle("largesmoke", x + m, y + 10, z + n, 0, 0, 0);
-        		world.setBlock(x + m, y + 10, z + n, ModBlocks.event_tester, 0, 0);
-        	}
-        }
-	}*/
 	
 	@Override
 	public int getRenderType(){
@@ -405,59 +186,7 @@ public class NukeMan extends BlockContainer implements IBomb {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
-	}/*
-	
-	public void destruction(World world, int x, int y, int z)
-	{
-		int rand;
-		
-		if(world.getBlock(x, y, z) != Blocks.bedrock && world.getBlock(x, y, z) != ModBlocks.reinforced_brick && world.getBlock(x, y, z) != ModBlocks.reinforced_glass && world.getBlock(x, y, z) != ModBlocks.reinforced_light && world.getBlock(x, y, z) != ModBlocks.reinforced_sand && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_off && world.getBlock(x, y, z) != ModBlocks.reinforced_lamp_on)
-		{
-			if(world.getBlock(x, y, z) == ModBlocks.brick_concrete)
-			{
-				rand = field_149933_a.nextInt(8);
-				if(rand == 0)
-				{
-					world.setBlock(x, y, z, Blocks.air, 0, 3);
-				}
-			}else if(world.getBlock(x, y, z) == ModBlocks.brick_light)
-			{
-				rand = field_149933_a.nextInt(2);
-				if(rand == 0)
-				{
-					world.setBlock(x, y, z, Blocks.air, 0, 3);
-				}
-			}else if(world.getBlock(x, y, z) == ModBlocks.brick_obsidian)
-			{
-				rand = field_149933_a.nextInt(20);
-				if(rand == 0)
-				{
-					world.setBlock(x, y, z, Blocks.air, 0, 3);
-				}
-			}else{
-				world.setBlock(x, y, z, Blocks.air, 0, 3);
-			}
-		}
 	}
-	
-	public void vaporDest(World world, int x, int y, int z)
-	{
-		if(world.getBlock(x, y, z) == Blocks.water ||
-				world.getBlock(x, y, z) == Blocks.flowing_water ||
-				world.getBlock(x, y, z) == Blocks.tallgrass ||
-				world.getBlock(x, y, z) == Blocks.leaves ||
-				world.getBlock(x, y, z) == Blocks.leaves2 ||
-				world.getBlock(x, y, z) == Blocks.double_plant ||
-				world.getBlock(x, y, z) == Blocks.cactus)
-		{
-			world.setBlock(x, y, z, Blocks.air);
-		}
-		
-		if(world.getBlock(x, y, z).isFlammable(world, x, y, z, ForgeDirection.UP) && world.getBlock(x, y + 1, z) == Blocks.air)
-		{
-			world.setBlock(x, y + 1, z, Blocks.fire);
-		}
-	}*/
 
 	@Override
 	public void explode(World world, int x, int y, int z) {

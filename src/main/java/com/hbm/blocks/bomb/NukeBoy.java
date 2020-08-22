@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudNoShroom;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
@@ -30,7 +31,6 @@ public class NukeBoy extends BlockContainer implements IBomb {
 
 	private static boolean keepInventory = false;
 	private final static Random field_149933_a = new Random();
-	private boolean isExploding = false;
 
 	public NukeBoy(Material p_i45386_1_) {
 		super(p_i45386_1_);
@@ -126,39 +126,12 @@ public class NukeBoy extends BlockContainer implements IBomb {
 
 	public boolean igniteTestBomb(World world, int x, int y, int z) {
 		if (!world.isRemote) {
-			tetn.clearSlots();
-			// world.spawnParticle("hugeexplosion", x, y, z, 0, 0, 0); //spawns
-			// a huge explosion particle
-			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F); // x,y,z,sound,volume,pitch
-			/*
-			 * ExplosionNukeGeneric.detonateTestBomb(world, x, y, z, 120);
-			 * ExplosionNukeGeneric.vapor(world, x, y, z, 200);
-			 * ExplosionNukeGeneric.waste(world, x, y, z, 150);
-			 * ExplosionNukeGeneric.dealDamage(world, x, y, z, 150);
-			 */
-
-			/*
-			 * EntityNukeExplosion entity = new EntityNukeExplosion(world);
-			 * entity.posX = x; entity.posY = y; entity.posZ = z;
-			 * entity.destructionRange = 120; entity.vaporRange = 200;
-			 * entity.wasteRange = 150; entity.damageRange = 150;
-			 * 
-			 * world.spawnEntityInWorld(entity);
-			 */
 			
-	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.boyRadius, x + 0.5, y + 0.5, z + 0.5));
-
-			// ExplosionNukeAdvanced.mush(world, x, y, z);
-
-			if (MainRegistry.enableNukeClouds) {
-				world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z, MainRegistry.boyRadius));
-			} else {
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudNoShroom(world, 3000);
-				entity2.posX = x;
-				entity2.posY = y - 11;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
-			}
+			tetn.clearSlots();
+			world.playSoundEffect(x, y, z, "random.explode", 1.0f, world.rand.nextFloat() * 0.1F + 0.9F);
+			
+	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.boyRadius, x + 0.5, y + 0.5, z + 0.5));
+			world.spawnEntityInWorld(EntityNukeCloudSmall.statFac(world, x, y, z, BombConfig.boyRadius));
 		}
 		return false;
 	}

@@ -1,5 +1,6 @@
 package com.hbm.items.food;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionParticle;
 import com.hbm.main.MainRegistry;
@@ -18,7 +19,7 @@ public class ItemWaffle extends ItemFood {
 	@Override
     public void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
     {
-		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(MainRegistry.fatmanRadius * 1.5), player.posX, player.posY, player.posZ));
+		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(BombConfig.fatmanRadius * 1.5), player.posX, player.posY, player.posZ));
     	
     	ExplosionParticle.spawnMush(world, (int)player.posX, (int)player.posY - 3, (int)player.posZ);
     }

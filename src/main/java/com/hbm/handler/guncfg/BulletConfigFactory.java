@@ -3,6 +3,7 @@ package com.hbm.handler.guncfg;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.ArmorUtil;
@@ -238,7 +239,7 @@ public class BulletConfigFactory {
 		bullet.bounceMod = 1.0;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = false;
-		bullet.nuke = 35;
+		bullet.nuke = BombConfig.fatmanRadius;
 		bullet.style = BulletConfiguration.STYLE_NUKE;
 		bullet.plink = BulletConfiguration.PLINK_GRENADE;
 		

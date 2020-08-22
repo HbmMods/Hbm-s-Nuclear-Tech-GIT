@@ -2,6 +2,7 @@ package com.hbm.items.weapon;
 
 import java.util.List;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.main.MainRegistry;
@@ -22,7 +23,7 @@ public class WeaponizedCell extends Item {
 			
 	    	if(!world.isRemote) {
 	    		
-	    		if(MainRegistry.dropStar) {
+	    		if(WeaponConfig.dropStar) {
 	    		
 		    		world.playSoundEffect(item.posX, item.posY, item.posZ, "random.explode", 100.0f, world.rand.nextFloat() * 0.1F + 0.9F);
 	

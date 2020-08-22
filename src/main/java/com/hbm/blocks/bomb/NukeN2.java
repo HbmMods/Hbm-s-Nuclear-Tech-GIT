@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
@@ -124,7 +125,7 @@ public class NukeN2 extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.n2Radius);
+            	igniteTestBomb(p_149695_1_, x, y, z, BombConfig.n2Radius);
         	}
         }
     }
@@ -194,7 +195,7 @@ public class NukeN2 extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             	entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	igniteTestBomb(world, x, y, z, MainRegistry.fleijaRadius);
+            	igniteTestBomb(world, x, y, z, BombConfig.fleijaRadius);
         	}
         }
 	}

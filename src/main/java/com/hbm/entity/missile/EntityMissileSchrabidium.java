@@ -3,12 +3,11 @@ package com.hbm.entity.missile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 
-import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -24,25 +23,24 @@ public class EntityMissileSchrabidium extends EntityMissileBaseAdvanced {
 
 	@Override
 	public void onImpact() {
-        if (!this.worldObj.isRemote)
-        {
+		if(!this.worldObj.isRemote) {
 			EntityNukeExplosionMK3 entity = new EntityNukeExplosionMK3(this.worldObj);
 			entity.posX = this.posX;
 			entity.posY = this.posY;
 			entity.posZ = this.posZ;
-			entity.destructionRange = MainRegistry.aSchrabRadius;
+			entity.destructionRange = BombConfig.aSchrabRadius;
 			entity.speed = 25;
 			entity.coefficient = 1.0F;
 			entity.waste = false;
 
 			this.worldObj.spawnEntityInWorld(entity);
 
-			EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, MainRegistry.aSchrabRadius);
+			EntityCloudFleija cloud = new EntityCloudFleija(this.worldObj, BombConfig.aSchrabRadius);
 			cloud.posX = this.posX;
 			cloud.posY = this.posY;
 			cloud.posZ = this.posZ;
 			this.worldObj.spawnEntityInWorld(cloud);
-        }
+		}
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class EntityMissileSchrabidium extends EntityMissileBaseAdvanced {
 		list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
 		list.add(new ItemStack(ModItems.ducttape, 1));
 		list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
-		
+
 		return list;
 	}
 

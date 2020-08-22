@@ -2,6 +2,7 @@ package com.hbm.main;
 
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -106,7 +107,7 @@ public class ModEventHandlerClient {
 		}
 		
 		/// HANDLE CUSTOM CROSSHAIRS ///
-		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon && MainRegistry.enableCrosshairs) {
+		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon && GeneralConfig.enableCrosshairs) {
 			event.setCanceled(true);
 			
 			if(!(player.getHeldItem().getItem() instanceof ItemGunBase && ((ItemGunBase)player.getHeldItem().getItem()).mainConfig.hasSights && player.isSneaking()))

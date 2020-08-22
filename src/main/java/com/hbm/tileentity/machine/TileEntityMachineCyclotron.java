@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityCloudFleija;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -277,7 +278,7 @@ public class TileEntityMachineCyclotron extends TileEntity implements ISidedInve
 						ExplosionLarge.explodeFire(worldObj, xCoord, yCoord, zCoord, 35 + rand.nextInt(21), true, true, true);
 					}
 					if(i == 1) {
-						worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)(MainRegistry.fatmanRadius * 1.5), xCoord, yCoord, zCoord));
+						worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord, yCoord, zCoord));
 						ExplosionParticleB.spawnMush(worldObj, xCoord, yCoord - 3, zCoord);
 					}
 					if(i == 2) {

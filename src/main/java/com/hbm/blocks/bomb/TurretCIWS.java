@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import java.util.List;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -53,7 +54,7 @@ public class TurretCIWS extends TurretBase {
 			
 			if(!world.isRemote) {
 				
-				rayShot(world, vector, x + vector.xCoord * 2.5 + 0.5, y + vector.yCoord * 2.5 + 0.5, z + vector.zCoord * 2.5 + 0.5, 100, 10.0F, MainRegistry.ciwsHitrate);
+				rayShot(world, vector, x + vector.xCoord * 2.5 + 0.5, y + vector.yCoord * 2.5 + 0.5, z + vector.zCoord * 2.5 + 0.5, 100, 10.0F, WeaponConfig.ciwsHitrate);
 				
 				EntityGasFlameFX smoke = new EntityGasFlameFX(world);
 				smoke.posX = x + vector.xCoord * 2.5 + 0.5;

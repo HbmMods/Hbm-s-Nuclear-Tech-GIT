@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -2521,7 +2522,7 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 9, y + -1, z + 2, Blocks.ladder, 3, 3);
 		world.setBlock(x + 9, y + 0, z + 2, Blocks.ladder, 3, 3);
 		world.setBlock(x + 9, y + 1, z + 2, Blocks.ladder, 3, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned missile silo at " + x + " " + y +" " + z + "\n");
 		return true;
 

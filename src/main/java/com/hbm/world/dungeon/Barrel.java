@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -403,7 +404,7 @@ public class Barrel extends WorldGenerator {
 		world.setBlock(x + 2, y + 8, z + 5, Blocks.ladder, 3, 3);
 		world.setBlock(x + 2, y + 9, z + 5, Blocks.ladder, 3, 3);
 		
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned waste tank at " + x + " " + y +" " + z + "\n");
 		
 		return true;

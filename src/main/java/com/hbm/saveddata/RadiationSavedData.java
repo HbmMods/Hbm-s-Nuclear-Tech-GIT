@@ -3,6 +3,8 @@ package com.hbm.saveddata;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.hbm.config.GeneralConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
@@ -75,7 +77,7 @@ public class RadiationSavedData extends WorldSavedData {
 					rad = 0;
 				}
 				
-				if(rad > MainRegistry.fogRad && worldObj != null && worldObj.rand.nextInt(MainRegistry.fogCh) == 0 && worldObj.getChunkFromChunkCoords(struct.getKey().chunkXPos, struct.getKey().chunkZPos).isChunkLoaded) {
+				if(rad > RadiationConfig.fogRad && worldObj != null && worldObj.rand.nextInt(RadiationConfig.fogCh) == 0 && worldObj.getChunkFromChunkCoords(struct.getKey().chunkXPos, struct.getKey().chunkZPos).isChunkLoaded) {
 					
 					int x = struct.getKey().chunkXPos * 16 + worldObj.rand.nextInt(16);
 					int z = struct.getKey().chunkZPos * 16 + worldObj.rand.nextInt(16);
@@ -125,7 +127,7 @@ public class RadiationSavedData extends WorldSavedData {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		
-		if(!MainRegistry.enableRads) {
+		if(!GeneralConfig.enableRads) {
 			return;
 		}
 		

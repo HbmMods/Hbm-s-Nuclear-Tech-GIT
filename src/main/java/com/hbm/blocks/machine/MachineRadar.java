@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.WeaponConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
@@ -42,7 +43,7 @@ public class MachineRadar extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
-		if(y < MainRegistry.radarAltitude) {
+		if(y < WeaponConfig.radarAltitude) {
 			if(world.isRemote)
 				player.addChatMessage(new ChatComponentText("[Radar] Error: Radar altitude not sufficient."));
 			return true;

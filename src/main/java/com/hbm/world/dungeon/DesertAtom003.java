@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -1767,7 +1768,7 @@ public class DesertAtom003
 		world.setBlock(x + 22, y + 5, z + 14, Blocks.lever, 2, 3);
 		world.setBlock(x + 8, y + 8, z + 21, Blocks.wall_sign, 2, 3);
 		world.setBlock(x + 8, y + 9, z + 21, Blocks.wall_sign, 2, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned abandoned Power Plant at " + x + " " + y +" " + z + "\n");
 		return true;
 

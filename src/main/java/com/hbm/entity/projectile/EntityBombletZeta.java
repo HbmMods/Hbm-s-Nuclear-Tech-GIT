@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -69,7 +70,7 @@ public class EntityBombletZeta extends EntityThrowable {
     				ExplosionChaos.spawnChlorine(worldObj, this.posX + 0.5F - motionX, this.posY + 0.5F - motionY, this.posZ + 0.5F - motionZ, 75, 2, 0);
     			}
     			if(type == 4) {
-    				worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int) (MainRegistry.fatmanRadius * 1.5), posX, posY, posZ));
+    				worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int) (BombConfig.fatmanRadius * 1.5), posX, posY, posZ));
     				
     	        	if(rand.nextInt(100) == 0)
     	        	{

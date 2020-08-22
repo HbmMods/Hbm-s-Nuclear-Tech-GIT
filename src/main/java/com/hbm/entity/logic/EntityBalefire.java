@@ -2,6 +2,7 @@ package com.hbm.entity.logic;
 
 import org.apache.logging.log4j.Level;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.explosion.ExplosionBalefire;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.main.MainRegistry;
@@ -55,7 +56,7 @@ public class EntityBalefire extends Entity {
         	
         if(!this.did)
         {
-    		if(MainRegistry.enableExtendedLogging && !worldObj.isRemote)
+    		if(GeneralConfig.enableExtendedLogging && !worldObj.isRemote)
     			MainRegistry.logger.log(Level.INFO, "[NUKE] Initialized BF explosion at " + posX + " / " + posY + " / " + posZ + " with strength " + destructionRange + "!");
     		
         	exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange);

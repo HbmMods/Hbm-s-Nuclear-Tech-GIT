@@ -3,9 +3,9 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Untested;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityTickingBase;
 
 import api.hbm.entity.IRadarDetectable;
@@ -51,7 +51,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 	@Override
 	public void updateEntity() {
 		
-		if(this.yCoord < MainRegistry.radarAltitude)
+		if(this.yCoord < WeaponConfig.radarAltitude)
 			return;
 		
 		int lastPower = getRedPower();
@@ -87,15 +87,15 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		
 		nearbyMissiles.clear();
 		
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - MainRegistry.radarRange, 0, zCoord + 0.5 - MainRegistry.radarRange, xCoord + 0.5 + MainRegistry.radarRange, 5000, zCoord + 0.5 + MainRegistry.radarRange));
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord + 0.5 - WeaponConfig.radarRange, 0, zCoord + 0.5 - WeaponConfig.radarRange, xCoord + 0.5 + WeaponConfig.radarRange, 5000, zCoord + 0.5 + WeaponConfig.radarRange));
 
 		for(Entity e : list) {
 
-			if(e instanceof EntityPlayer && e.posY >= yCoord + MainRegistry.radarBuffer) {
+			if(e instanceof EntityPlayer && e.posY >= yCoord + WeaponConfig.radarBuffer) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, RadarTargetType.PLAYER.ordinal(), (int)e.posY });
 			}
 			
-			if(e instanceof IRadarDetectable && e.posY >= yCoord + MainRegistry.radarBuffer) {
+			if(e instanceof IRadarDetectable && e.posY >= yCoord + WeaponConfig.radarBuffer) {
 				nearbyMissiles.add(new int[] { (int)e.posX, (int)e.posZ, ((IRadarDetectable)e).getTargetType().ordinal(), (int)e.posY });
 			}
 		}
@@ -105,7 +105,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 		
 		if(!nearbyMissiles.isEmpty()) {
 			
-			double maxRange = MainRegistry.radarRange * Math.sqrt(2D);
+			double maxRange = WeaponConfig.radarRange * Math.sqrt(2D);
 			
 			int power = 0;
 			

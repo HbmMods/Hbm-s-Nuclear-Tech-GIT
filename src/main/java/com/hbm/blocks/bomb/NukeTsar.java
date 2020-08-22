@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.interfaces.IBomb;
@@ -129,7 +130,7 @@ public class NukeTsar extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.manRadius);
+            	igniteTestBomb(p_149695_1_, x, y, z, BombConfig.manRadius);
         	}
         	
         	if(entity.isFilled())
@@ -137,7 +138,7 @@ public class NukeTsar extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(p_149695_1_, x, y, z, 1);
             	entity.clearSlots();
             	p_149695_1_.setBlockToAir(x, y, z);
-            	igniteTestBomb(p_149695_1_, x, y, z, MainRegistry.tsarRadius);
+            	igniteTestBomb(p_149695_1_, x, y, z, BombConfig.tsarRadius);
         	}
         }
     }
@@ -211,7 +212,7 @@ public class NukeTsar extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             	entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	igniteTestBomb(world, x, y, z, MainRegistry.manRadius);
+            	igniteTestBomb(world, x, y, z, BombConfig.manRadius);
         	}
         	
         	if(entity.isFilled())
@@ -219,7 +220,7 @@ public class NukeTsar extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             	entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	igniteTestBomb(world, x, y, z, MainRegistry.tsarRadius);
+            	igniteTestBomb(world, x, y, z, BombConfig.tsarRadius);
         	}
         }
 	}

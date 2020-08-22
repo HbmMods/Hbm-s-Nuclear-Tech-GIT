@@ -1,6 +1,8 @@
 package com.hbm.entity.effect;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
+import com.hbm.config.RadiationConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.AuxSavedData;
 
@@ -36,7 +38,7 @@ public class EntityFalloutRain extends Entity {
 
         if(!worldObj.isRemote) {
         	
-        	for(int i = 0; i < MainRegistry.fSpeed; i++) {
+        	for(int i = 0; i < BombConfig.fSpeed; i++) {
         		
 	        	Vec3 vec = Vec3.createVectorHelper(radProgress * 0.5, 0, 0);
 	        	double circum = radProgress * 2 * Math.PI * 2;
@@ -75,12 +77,12 @@ public class EntityFalloutRain extends Entity {
         	}
         	
         	if(this.isDead) {
-        		if(MainRegistry.rain > 0 && getScale() > 150) {
+        		if(RadiationConfig.rain > 0 && getScale() > 150) {
         			worldObj.getWorldInfo().setRaining(true);
     				worldObj.getWorldInfo().setThundering(true);
-    				worldObj.getWorldInfo().setRainTime(MainRegistry.rain);
-    				worldObj.getWorldInfo().setThunderTime(MainRegistry.rain);
-    				AuxSavedData.setThunder(worldObj, MainRegistry.rain);
+    				worldObj.getWorldInfo().setRainTime(RadiationConfig.rain);
+    				worldObj.getWorldInfo().setThunderTime(RadiationConfig.rain);
+    				AuxSavedData.setThunder(worldObj, RadiationConfig.rain);
         		}
         	}
         }

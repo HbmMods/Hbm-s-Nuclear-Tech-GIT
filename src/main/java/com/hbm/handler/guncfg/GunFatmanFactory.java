@@ -2,6 +2,7 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionParticleB;
@@ -171,7 +172,7 @@ public class GunFatmanFactory {
 					bf.posX = x;
 					bf.posY = y;
 					bf.posZ = z;
-					bf.destructionRange = (int) (MainRegistry.fatmanRadius * 1.25);
+					bf.destructionRange = (int) (BombConfig.fatmanRadius * 1.25);
 					bullet.worldObj.spawnEntityInWorld(bf);
 		    		ExplosionParticleB.spawnMush(bullet.worldObj, x, y, z);
 				}

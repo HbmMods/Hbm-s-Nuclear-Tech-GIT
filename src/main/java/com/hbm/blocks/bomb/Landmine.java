@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionParticle;
@@ -175,7 +176,7 @@ public class Landmine extends BlockContainer implements IBomb {
 			}
 			if (this == ModBlocks.mine_fat) {
 
-    	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, MainRegistry.fatmanRadius, x + 0.5, y + 0.5, z + 0.5));
+    	    	world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.fatmanRadius, x + 0.5, y + 0.5, z + 0.5));
     	    	
         	    if(MainRegistry.polaroidID == 11) {
         	    	ExplosionParticleB.spawnMush(world, x + 0.5, y - 3, z + 0.5);

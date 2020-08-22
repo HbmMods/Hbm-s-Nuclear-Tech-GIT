@@ -5,6 +5,7 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -1598,7 +1599,7 @@ public class Bunker extends WorldGenerator
 		world.setBlock(x + 6, y + -19, z + 10, Blocks.bed, 8, 3);
 		world.setBlock(x + 8, y + -19, z + 10, Blocks.bed, 8, 3);
 		world.setBlock(x + 10, y + -19, z + 10, Blocks.bed, 8, 3);
-		if(MainRegistry.enableDebugMode)
+		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned bunker at " + x + " " + y +" " + z + "\n");
 		return true;
 
