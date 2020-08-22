@@ -1,6 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.deco.TileEntityTrappedBrick;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -20,6 +21,10 @@ public class TrappedBrick extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
+		
+		if(Trap.get(meta).type == TrapType.DETECTOR)
+				return new TileEntityTrappedBrick();
+		
 		return null;
 	}
 

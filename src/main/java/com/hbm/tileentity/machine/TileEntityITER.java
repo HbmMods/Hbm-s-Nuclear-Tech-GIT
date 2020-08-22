@@ -25,7 +25,8 @@ import net.minecraft.util.Vec3;
 public class TileEntityITER extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, IFluidSource {
 	
 	public long power;
-	public static final long maxPower = 1000000000;
+	public static final long maxPower = 100000000;
+	public static final int powerReq = 1000000;
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
@@ -60,10 +61,17 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 
 			if (age == 9 || age == 19)
 				fillFluidInit(tanks[1].getTankType());
+			
+			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
 			/// START Processing part ///
 			
-			if(plasma.getFill() > 0 && this.plasma.getTankType().temperature >= this.getShield()) {
+			if(!isOn) {
+				plasma.setFill(0);	//jettison plasma if the thing is turned off
+			}
+			
+			//explode either if there's plasma that is too hot or if the reactor is turned on but the magnets have no power
+			if(plasma.getFill() > 0 && (this.plasma.getTankType().temperature >= this.getShield() || (this.isOn && this.power < this.powerReq))) {
 				this.disassemble();
 				Vec3 vec = Vec3.createVectorHelper(5.5, 0, 0);
 				vec.rotateAroundY(worldObj.rand.nextFloat() * (float)Math.PI * 2F);
@@ -78,6 +86,25 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			/// END Notif packets ///
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("isOn", isOn);
+			data.setLong("power", power);
+			this.networkPack(data, 250);
+		}
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound data) {
+		this.isOn = data.getBoolean("isOn");
+		this.power = data.getLong("power");
+	}
+
+	@Override
+	public void handleButtonPacket(int value, int meta) {
+		
+		if(meta == 0) {
+			this.isOn = !this.isOn;
 		}
 	}
 

@@ -7,9 +7,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-public class ItemGlyphBlock extends ItemBlock {
+public class ItemTrapBlock extends ItemBlock {
 
-	public ItemGlyphBlock(Block block) {
+	public ItemTrapBlock(Block block) {
 		super(block);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);

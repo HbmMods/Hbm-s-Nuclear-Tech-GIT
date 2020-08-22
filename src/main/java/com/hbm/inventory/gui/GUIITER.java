@@ -63,8 +63,15 @@ public class GUIITER extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		if(iter.isOn)
+			drawTexturedModalRect(guiLeft + 52, guiTop + 107, 176, 0, 18, 18);
 		
-		//TODO: progress bars and button
+		if(iter.isOn && iter.power >= iter.powerReq)
+			drawTexturedModalRect(guiLeft + 76, guiTop + 94, 194, 0, 24, 12);
+		
+		if(iter.getShield() >= iter.plasma.getTankType().temperature)
+			drawTexturedModalRect(guiLeft + 97, guiTop + 17, 218, 0, 18, 18);
 
 		for(int t = 0; t < 2; t++) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(iter.tanks[t].getSheet());
