@@ -65,6 +65,9 @@ public class GUIMachineTurbine extends GuiInfoContainer {
 		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.SUPERHOTSTEAM.name())) {
 			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
 		}
+		if(diFurnace.tanks[0].getTankType().name().equals(FluidType.ULTRAHOTSTEAM.name())) {
+			drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
+		}
 
 		int i = (int)diFurnace.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 176, 34 - i, 7, i);

@@ -64,7 +64,6 @@ public class MachineITER extends BlockDummyable {
 			}
 			return true;
 		} else {
-			player.addChatComponentMessage(new ChatComponentText("" + world.getBlockMetadata(x, y, z)));
 			return false;
 		}
 	}

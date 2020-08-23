@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityITER;
 import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
 
@@ -11,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachinePlasmaHeater extends BlockDummyable {
 
@@ -23,6 +25,10 @@ public class MachinePlasmaHeater extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityMachinePlasmaHeater();
+
+		if(meta >= 6)
+			return new TileEntityProxyCombo(false, true, true);
+		
 		return null;
 	}
 	
@@ -46,6 +52,20 @@ public class MachinePlasmaHeater extends BlockDummyable {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		
+		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
+		
+		for(int i = 1; i < 4; i++) {
+			for(int j = -1; j < 2; j++) {
+				
+				this.makeExtra(world, x + side.offsetX * j, y + i, z + side.offsetZ * j);
+			}
 		}
 	}
 

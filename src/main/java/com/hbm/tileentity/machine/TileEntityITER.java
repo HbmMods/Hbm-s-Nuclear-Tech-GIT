@@ -78,6 +78,19 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			
 			if(isOn && power >= powerReq) {
 				power -= powerReq;
+				
+				for(int i = 0; i < 20; i++) {
+					
+					if(tanks[0].getFill() >= 10 && plasma.getFill() > 0) {
+						tanks[0].setFill(tanks[0].getFill() - 10);
+						tanks[1].setFill(tanks[1].getFill() + 1);
+						
+						if(tanks[1].getFill() > tanks[1].getMaxFill())
+							tanks[1].setFill(tanks[1].getMaxFill());
+						
+						plasma.setFill(plasma.getFill() - 1);
+					}
+				}
 			}
 			
 			/// END Processing part ///

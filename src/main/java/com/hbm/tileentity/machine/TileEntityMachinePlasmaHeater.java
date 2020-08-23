@@ -60,6 +60,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()) * 2);
 			convert = Math.min(convert, maxConv);
 			convert = (int) Math.min(convert, power / powerReq);
+			convert = Math.max(0, convert);
 
 			tanks[0].setFill(tanks[0].getFill() - convert);
 			tanks[1].setFill(tanks[1].getFill() - convert);
@@ -117,8 +118,8 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	
 	private void updateType() {
 		
-		if(plasma.getFill() > 0)
-			return;
+		//if(plasma.getFill() > 0)
+		//	return;
 		
 		List<FluidType> types = new ArrayList() {{ add(tanks[0].getTankType()); add(tanks[1].getTankType()); }};
 
