@@ -15,10 +15,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
@@ -79,6 +76,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				worldObj.newExplosion(null, xCoord + 0.5 + vec.xCoord, yCoord + 0.5 + worldObj.rand.nextGaussian() * 1.5D, zCoord + 0.5 + vec.zCoord, 2.5F, true, true);
 			}
 			
+			if(isOn && power >= powerReq) {
+				power -= powerReq;
+			}
+			
 			/// END Processing part ///
 
 			/// START Notif packets ///
@@ -91,6 +92,19 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
 			this.networkPack(data, 250);
+		} else {
+			
+			this.lastRotor = this.rotor;
+			
+			if(this.isOn && this.power >= this.powerReq) {
+				
+				this.rotor += 15F;
+				
+				if(this.rotor >= 360) {
+					this.rotor -= 360;
+					this.lastRotor -= 360;
+				}
+			}
 		}
 	}
 
@@ -106,6 +120,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		if(meta == 0) {
 			this.isOn = !this.isOn;
 		}
+	}
+
+	public long getPowerScaled(long i) {
+		return (power * i) / maxPower;
 	}
 
 	@Override
@@ -218,6 +236,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
 
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
@@ -227,6 +247,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", this.power);
 
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");

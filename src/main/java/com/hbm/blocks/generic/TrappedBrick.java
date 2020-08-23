@@ -1,13 +1,22 @@
 package com.hbm.blocks.generic;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.TrappedBrick.Trap;
 import com.hbm.tileentity.deco.TileEntityTrappedBrick;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -27,6 +36,14 @@ public class TrappedBrick extends BlockContainer {
 		
 		return null;
 	}
+	
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+    	
+        for (int i = 0; i < Trap.values().length; ++i) {
+            list.add(new ItemStack(item, 1, i));
+        }
+    }
 
     @Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
@@ -44,12 +61,48 @@ public class TrappedBrick extends BlockContainer {
 			if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z))
 				world.setBlock(x, y + 1, z, Blocks.fire);
 			break;
+		case SPIKES:
+			if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z))
+				world.setBlock(x, y + 1, z, ModBlocks.barbed_wire);
+			break;
 		case MINE:
 			world.createExplosion(null, x + 0.5, y + 1.5, z + 0.5, 1F, false);
 			break;
 		case WEB:
 			if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z))
 				world.setBlock(x, y + 1, z, Blocks.web);
+			break;
+		case RAD_CONVERSION:
+			for(int a = - 3; a <= 3; a++) {
+				for(int b = - 3; b <= 3; b++) {
+					for(int c = - 3; c <= 3; c++) {
+						
+						if(world.rand.nextBoolean())
+							continue;
+						
+						Block bl = world.getBlock(x + a, y + b, z + c);
+						if(bl == ModBlocks.brick_jungle || bl == ModBlocks.brick_jungle_cracked || bl == ModBlocks.brick_jungle_lava) {
+							world.setBlock(x + a, y + b, z + c, ModBlocks.brick_jungle_ooze);
+						}
+					}
+				}
+			}
+			break;
+		case MAGIC_CONVERSTION:
+			for(int a = - 3; a <= 3; a++) {
+				for(int b = - 3; b <= 3; b++) {
+					for(int c = - 3; c <= 3; c++) {
+						
+						if(world.rand.nextBoolean())
+							continue;
+						
+						Block bl = world.getBlock(x + a, y + b, z + c);
+						if(bl == ModBlocks.brick_jungle || bl == ModBlocks.brick_jungle_cracked || bl == ModBlocks.brick_jungle_lava) {
+							world.setBlock(x + a, y + b, z + c, ModBlocks.brick_jungle_mystic);
+						}
+					}
+				}
+			}
 			break;
 		case SLOWNESS:
 			player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 300, 2));
@@ -94,7 +147,7 @@ public class TrappedBrick extends BlockContainer {
 		
 		public static Trap get(int i) {
 			
-			if(i < 0 || i >= Trap.values().length)
+			if(i >= 0 && i < Trap.values().length)
 				return Trap.values()[i];
 			
 			return FIRE;

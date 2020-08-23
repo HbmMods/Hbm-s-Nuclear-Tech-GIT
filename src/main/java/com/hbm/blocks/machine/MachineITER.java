@@ -3,6 +3,8 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.machine.TileEntityITER;
 import com.hbm.tileentity.machine.TileEntityITERStruct;
 
@@ -13,7 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -28,6 +32,10 @@ public class MachineITER extends BlockDummyable {
 		
 		if(meta >= 12)
 			return new TileEntityITER();
+
+		if(meta >= 6)
+			return new TileEntityProxyCombo(false, true, true);
+		
 		return null;
 	}
 
@@ -56,6 +64,7 @@ public class MachineITER extends BlockDummyable {
 			}
 			return true;
 		} else {
+			player.addChatComponentMessage(new ChatComponentText("" + world.getBlockMetadata(x, y, z)));
 			return false;
 		}
 	}
@@ -203,6 +212,17 @@ public class MachineITER extends BlockDummyable {
 						world.setBlock(x + ex, y + iy, z + ez, this, meta, 3);
 				}
 			}
+		}
+		
+		this.makeExtra(world, x, y, z);
+		this.makeExtra(world, x, y + 4, z);
+		
+		Vec3 vec = Vec3.createVectorHelper(5.75, 0, 0);
+		
+		for(int i = 0; i < 16; i++) {
+			vec.rotateAroundY((float) (Math.PI / 8));
+			this.makeExtra(world, x + (int)vec.xCoord, y, z + (int)vec.zCoord);
+			this.makeExtra(world, x + (int)vec.xCoord, y + 4, z + (int)vec.zCoord);
 		}
 	}
 

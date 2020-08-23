@@ -264,6 +264,14 @@ public class BlockOre extends Block {
     	{
     		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 5));
     	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.brick_jungle_ooze)
+    	{
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 15 * 20, 9));
+    	}
+    	if (entity instanceof EntityLivingBase && this == ModBlocks.brick_jungle_mystic)
+    	{
+    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.taint.id, 15 * 20, 2));
+    	}
     	
         if(this == ModBlocks.block_meteor_molten)
         	entity.setFire(5);

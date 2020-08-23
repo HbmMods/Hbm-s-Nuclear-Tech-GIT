@@ -35,7 +35,7 @@ public class RenderITER extends TileEntitySpecialRenderer {
         ResourceManager.iter.renderPart("Torus");
         
         GL11.glPushMatrix();
-        GL11.glRotated(System.currentTimeMillis() / 5D % 360, 0, 1, 0);
+        GL11.glRotated(iter.lastRotor + (iter.rotor - iter.lastRotor) * f, 0, 1, 0);
         bindTexture(ResourceManager.iter_solenoid);
         ResourceManager.iter.renderPart("Solenoid");
 		GL11.glPopMatrix();

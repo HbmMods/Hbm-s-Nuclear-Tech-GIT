@@ -49,8 +49,7 @@ public class BlockGlyph extends Block {
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List p_149666_3_)
     {
-        for (int i = 0; i < 16; ++i)
-        {
+        for (int i = 0; i < 16; ++i) {
             p_149666_3_.add(new ItemStack(p_149666_1_, 1, i));
         }
     }

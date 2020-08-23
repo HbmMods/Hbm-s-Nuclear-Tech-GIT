@@ -37,6 +37,9 @@ public class GUIITER extends GuiInfoContainer {
 		iter.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 26, guiTop + 54, 16, 52);	//Water
 		iter.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 54, 16, 52);	//Steam
 		iter.plasma.renderTankInfo(this, mouseX, mouseY, guiLeft + 71, guiTop + 54, 34, 34);	//Plasma
+
+		String text = "Magnets are " + ((iter.isOn && iter.power >= iter.powerReq) ? "ON" : "OFF");
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 76, guiTop + 94, 24, 12, mouseX, mouseY, new String[] { text });
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -72,6 +75,9 @@ public class GUIITER extends GuiInfoContainer {
 		
 		if(iter.getShield() >= iter.plasma.getTankType().temperature)
 			drawTexturedModalRect(guiLeft + 97, guiTop + 17, 218, 0, 18, 18);
+		
+		int i = (int)iter.getPowerScaled(34);
+		drawTexturedModalRect(guiLeft + 71, guiTop + 108, 176, 25, i, 16);
 
 		for(int t = 0; t < 2; t++) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(iter.tanks[t].getSheet());
