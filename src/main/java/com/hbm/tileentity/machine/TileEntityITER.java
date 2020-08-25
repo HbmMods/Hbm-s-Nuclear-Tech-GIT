@@ -9,6 +9,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -28,6 +29,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	public FluidTank plasma;
+	
+	@SideOnly(Side.CLIENT)
+	public int blanket;
 	
 	public float rotor;
 	public float lastRotor;
@@ -81,15 +85,16 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				
 				for(int i = 0; i < 20; i++) {
 					
-					if(tanks[0].getFill() >= 10 && plasma.getFill() > 0) {
+					if(tanks[0].getFill() >= 10) {
 						tanks[0].setFill(tanks[0].getFill() - 10);
 						tanks[1].setFill(tanks[1].getFill() + 1);
 						
 						if(tanks[1].getFill() > tanks[1].getMaxFill())
 							tanks[1].setFill(tanks[1].getMaxFill());
-						
-						plasma.setFill(plasma.getFill() - 1);
 					}
+					
+					if(plasma.getFill() > 0)
+						plasma.setFill(plasma.getFill() - 1);
 				}
 			}
 			
@@ -104,6 +109,17 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
+			
+			if(slots[3] == null) {
+				data.setInteger("blanket", 0);
+			} else if(slots[3].getItem() == ModItems.fusion_shield_tungsten) {
+				data.setInteger("blanket", 1);
+			} else if(slots[3].getItem() == ModItems.fusion_shield_desh) {
+				data.setInteger("blanket", 2);
+			} else if(slots[3].getItem() == ModItems.fusion_shield_chlorophyte) {
+				data.setInteger("blanket", 3);
+			}
+			
 			this.networkPack(data, 250);
 		} else {
 			
@@ -125,6 +141,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	public void networkUnpack(NBTTagCompound data) {
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
+		this.blanket = data.getInteger("blanket");
 	}
 
 	@Override

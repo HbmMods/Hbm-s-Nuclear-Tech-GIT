@@ -31,7 +31,14 @@ public class RenderITER extends TileEntitySpecialRenderer {
         ResourceManager.iter.renderPart("Rails");
         bindTexture(ResourceManager.iter_toroidal);
         ResourceManager.iter.renderPart("Toroidal");
-        bindTexture(ResourceManager.iter_torus);
+        
+        switch(iter.blanket) {
+        case 0: bindTexture(ResourceManager.iter_torus); break;
+        case 1: bindTexture(ResourceManager.iter_torus_tungsten); break;
+        case 2: bindTexture(ResourceManager.iter_torus_desh); break;
+        case 3: bindTexture(ResourceManager.iter_torus_chlorophyte); break;
+        default: bindTexture(ResourceManager.iter_torus); break;
+        }
         ResourceManager.iter.renderPart("Torus");
         
         GL11.glPushMatrix();
@@ -58,10 +65,14 @@ public class RenderITER extends TileEntitySpecialRenderer {
 		    int b = (int)((color & 0xFF) / 2 * alpha);
 	        
 	        GL11.glColor3b((byte) r, (byte) g, (byte) b);
+
+			GL11.glTranslatef(0, 2.5F, 0);
+	        GL11.glScaled(1, alpha, 1);
+			GL11.glTranslatef(0, -2.5F, 0);
 	        
 	        bindTexture(ResourceManager.iter_plasma);
 	        ResourceManager.iter.renderPart("Plasma");
-	
+	        
 	        GL11.glEnable(GL11.GL_LIGHTING);
 	        GL11.glEnable(GL11.GL_ALPHA_TEST);
 	        GL11.glDisable(GL11.GL_BLEND);
