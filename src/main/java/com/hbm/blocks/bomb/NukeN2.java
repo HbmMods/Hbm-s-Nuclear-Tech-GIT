@@ -195,7 +195,7 @@ public class NukeN2 extends BlockContainer implements IBomb {
         		this.onBlockDestroyedByPlayer(world, x, y, z, 1);
             	entity.clearSlots();
             	world.setBlockToAir(x, y, z);
-            	igniteTestBomb(world, x, y, z, BombConfig.fleijaRadius);
+            	igniteTestBomb(world, x, y, z, BombConfig.n2Radius);
         	}
         }
 	}

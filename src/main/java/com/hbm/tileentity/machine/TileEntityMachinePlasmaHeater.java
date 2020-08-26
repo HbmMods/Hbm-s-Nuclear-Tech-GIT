@@ -22,7 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IConsumer {
 	
-	public static long power;
+	public long power;
 	public static final long maxPower = 100000000;
 	
 	public FluidTank[] tanks;
@@ -61,15 +61,17 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			convert = Math.min(convert, maxConv);
 			convert = (int) Math.min(convert, power / powerReq);
 			convert = Math.max(0, convert);
+			
+			if(convert > 0) {
 
-			tanks[0].setFill(tanks[0].getFill() - convert);
-			tanks[1].setFill(tanks[1].getFill() - convert);
-			
-			plasma.setFill(plasma.getFill() + convert * 2);
-			power -= convert * powerReq;
-			
-			if(convert > 0)
+				tanks[0].setFill(tanks[0].getFill() - convert);
+				tanks[1].setFill(tanks[1].getFill() - convert);
+				
+				plasma.setFill(plasma.getFill() + convert * 2);
+				power -= convert * powerReq;
+				
 				this.markDirty();
+			}
 			/// END Managing all the internal stuff ///
 
 			/// START Loading plasma into the ITER ///
@@ -112,8 +114,16 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			for(int i = 0; i < tanks.length; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setLong("power", power);
+			this.networkPack(data, 50);
 			/// END Notif packets ///
 		}
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.power = nbt.getLong("power");
 	}
 	
 	private void updateType() {

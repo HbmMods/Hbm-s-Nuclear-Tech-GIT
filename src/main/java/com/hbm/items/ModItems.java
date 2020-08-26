@@ -295,6 +295,7 @@ public class ModItems {
 	public static Item powder_yellowcake;
 	public static Item powder_magic;
 	public static Item powder_cloud;
+	public static Item powder_balefire;
 
 	public static Item fragment_neodymium;
 	public static Item fragment_cobalt;
@@ -578,6 +579,7 @@ public class ModItems {
 	public static Item fusion_shield_tungsten;
 	public static Item fusion_shield_desh;
 	public static Item fusion_shield_chlorophyte;
+	public static Item fusion_shield_vaporwave;
 	
 	public static Item cell_empty;
 	public static Item cell_uf6;
@@ -2188,6 +2190,7 @@ public class ModItems {
 		powder_yellowcake = new ItemRadioactive(0.5F).setUnlocalizedName("powder_yellowcake").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_yellowcake");
 		powder_magic = new Item().setUnlocalizedName("powder_magic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_magic");
 		powder_cloud = new Item().setUnlocalizedName("powder_cloud").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cloud");
+		powder_balefire = new ItemRadioactive(500F, true).setUnlocalizedName("powder_balefire").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_balefire");
 
 		fragment_neodymium = new Item().setUnlocalizedName("fragment_neodymium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_neodymium");
 		fragment_cobalt = new Item().setUnlocalizedName("fragment_cobalt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fragment_cobalt");
@@ -3317,6 +3320,7 @@ public class ModItems {
 		fusion_shield_tungsten = new ItemFusionShield(60 * 60 * 60 * 5, 3500).setUnlocalizedName("fusion_shield_tungsten").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_tungsten");
 		fusion_shield_desh = new ItemFusionShield(60 * 60 * 60 * 10, 4500).setUnlocalizedName("fusion_shield_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_desh");
 		fusion_shield_chlorophyte = new ItemFusionShield(60 * 60 * 60 * 15, 9000).setUnlocalizedName("fusion_shield_chlorophyte").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_chlorophyte");
+		fusion_shield_vaporwave = new ItemFusionShield(60 * 60 * 60 * 10, 1916169).setUnlocalizedName("fusion_shield_vaporwave").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fusion_shield_vaporwave");
 
 		upgrade_template = new ItemCustomLore().setUnlocalizedName("upgrade_template").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":upgrade_template");
 		upgrade_speed_1 = new ItemMachineUpgrade().setUnlocalizedName("upgrade_speed_1").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_speed_1");
@@ -4085,6 +4089,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_asbestos, powder_asbestos.getUnlocalizedName());
 		GameRegistry.registerItem(powder_magic, powder_magic.getUnlocalizedName());
 		GameRegistry.registerItem(powder_cloud, powder_cloud.getUnlocalizedName());
+		GameRegistry.registerItem(powder_balefire, powder_balefire.getUnlocalizedName());
 		GameRegistry.registerItem(powder_semtex_mix, powder_semtex_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh_mix, powder_desh_mix.getUnlocalizedName());
 		GameRegistry.registerItem(powder_desh_ready, powder_desh_ready.getUnlocalizedName());
@@ -4709,6 +4714,7 @@ public class ModItems {
 		GameRegistry.registerItem(fusion_shield_tungsten, fusion_shield_tungsten.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_shield_desh, fusion_shield_desh.getUnlocalizedName());
 		GameRegistry.registerItem(fusion_shield_chlorophyte, fusion_shield_chlorophyte.getUnlocalizedName());
+		GameRegistry.registerItem(fusion_shield_vaporwave, fusion_shield_vaporwave.getUnlocalizedName());
 		
 		//Fuel Rods
 		GameRegistry.registerItem(rod_empty, rod_empty.getUnlocalizedName());

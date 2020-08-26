@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -51,7 +52,12 @@ public abstract class BlockMachineBase extends BlockContainer {
 		
         if (!keepInventory) {
         	
-        	ISidedInventory tileentityfurnace = (ISidedInventory)world.getTileEntity(x, y, z);
+        	TileEntity te = world.getTileEntity(x, y, z);
+        	
+        	if(!(te instanceof ISidedInventory))
+        		return;
+        	
+        	ISidedInventory tileentityfurnace = (ISidedInventory)te;
 
             if (tileentityfurnace != null) {
             	

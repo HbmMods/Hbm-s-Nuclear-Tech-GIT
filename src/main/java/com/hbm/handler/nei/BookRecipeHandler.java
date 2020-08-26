@@ -19,10 +19,8 @@ import net.minecraft.item.ItemStack;
 
 public class BookRecipeHandler extends TemplateRecipeHandler {
 
-    public static ArrayList<Fuel> batteries;
-
-    public class RecipeSet extends TemplateRecipeHandler.CachedRecipe
-    {
+    public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
+    	
     	List<PositionedStack> input;
         PositionedStack result;
     	
@@ -46,16 +44,6 @@ public class BookRecipeHandler extends TemplateRecipeHandler {
 		public PositionedStack getResult() {
             return result;
         }
-    }
-
-    public static class Fuel
-    {
-        public Fuel(ItemStack ingred) {
-        	
-            this.stack = new PositionedStack(ingred, 3, 42, false);
-        }
-
-        public PositionedStack stack;
     }
     
 	@Override

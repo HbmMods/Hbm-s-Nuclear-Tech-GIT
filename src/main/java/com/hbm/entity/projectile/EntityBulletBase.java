@@ -563,7 +563,9 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.instakill && e instanceof EntityLivingBase && !worldObj.isRemote) {
-			((EntityLivingBase)e).setHealth(0.0F);
+			
+			if(!(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode))
+				((EntityLivingBase)e).setHealth(0.0F);
 		}
 		
 		if(config.caustic > 0 && e instanceof EntityPlayer){

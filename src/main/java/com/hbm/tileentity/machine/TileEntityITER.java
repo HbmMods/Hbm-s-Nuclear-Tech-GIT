@@ -9,6 +9,7 @@ import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidTank;
+import com.hbm.inventory.FusionRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
@@ -16,6 +17,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -83,6 +85,14 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			if(isOn && power >= powerReq) {
 				power -= powerReq;
 				
+				if(plasma.getFill() > 0) {
+					
+					int chance = FusionRecipes.getByproductChance(plasma.getTankType());
+					
+					if(chance > 0 && worldObj.rand.nextInt() == 0)
+						produceByproduct();
+				}
+				
 				for(int i = 0; i < 20; i++) {
 					
 					if(tanks[0].getFill() >= 10) {
@@ -118,6 +128,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				data.setInteger("blanket", 2);
 			} else if(slots[3].getItem() == ModItems.fusion_shield_chlorophyte) {
 				data.setInteger("blanket", 3);
+			} else if(slots[3].getItem() == ModItems.fusion_shield_vaporwave) {
+				data.setInteger("blanket", 4);
 			}
 			
 			this.networkPack(data, 250);
@@ -135,6 +147,31 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				}
 			}
 		}
+	}
+	
+	private void produceByproduct() {
+		
+		ItemStack by = FusionRecipes.getByproduct(plasma.getTankType());
+		
+		if(by == null)
+			return;
+		
+		if(slots[4] == null) {
+			slots[4] = by;
+			return;
+		}
+		
+		if(slots[4].getItem() == by.getItem() && slots[4].getItemDamage() == by.getItemDamage() && slots[4].stackSize < slots[4].getMaxStackSize()) {
+			slots[4].stackSize++;
+		}
+	}
+	
+	public int getShield() {
+		
+		if(slots[3] == null || !(slots[3].getItem() instanceof ItemFusionShield))
+			return 273;
+		
+		return ((ItemFusionShield)slots[3].getItem()).maxTemp;
 	}
 
 	@Override
@@ -308,14 +345,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-	
-	public int getShield() {
-		
-		if(slots[3] == null || !(slots[3].getItem() instanceof ItemFusionShield))
-			return 273;
-		
-		return ((ItemFusionShield)slots[3].getItem()).maxTemp;
 	}
 	
 	public void disassemble() {

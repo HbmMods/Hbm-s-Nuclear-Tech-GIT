@@ -37,6 +37,7 @@ public class RenderITER extends TileEntitySpecialRenderer {
         case 1: bindTexture(ResourceManager.iter_torus_tungsten); break;
         case 2: bindTexture(ResourceManager.iter_torus_desh); break;
         case 3: bindTexture(ResourceManager.iter_torus_chlorophyte); break;
+        case 4: bindTexture(ResourceManager.iter_torus_vaporwave); break;
         default: bindTexture(ResourceManager.iter_torus); break;
         }
         ResourceManager.iter.renderPart("Torus");

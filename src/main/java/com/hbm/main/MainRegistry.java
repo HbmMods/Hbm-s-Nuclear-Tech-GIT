@@ -421,6 +421,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityMachinePlasmaHeater.class, "tileentity_plasma_heater");
 		GameRegistry.registerTileEntity(TileEntityMachineFENSU.class, "tileentity_fensu");
 		GameRegistry.registerTileEntity(TileEntityTrappedBrick.class, "tileentity_trapped_brick");
+		GameRegistry.registerTileEntity(TileEntityPlasmaStruct.class, "tileentity_plasma_struct");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

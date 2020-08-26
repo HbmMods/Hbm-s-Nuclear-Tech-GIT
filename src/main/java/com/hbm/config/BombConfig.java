@@ -12,8 +12,8 @@ public class BombConfig {
 	public static int tsarRadius = 500;
 	public static int prototypeRadius = 150;
 	public static int fleijaRadius = 50;
-	public static int soliniumRadius = 75;
-	public static int n2Radius = 100;
+	public static int soliniumRadius = 150;
+	public static int n2Radius = 200;
 	public static int missileRadius = 100;
 	public static int mirvRadius = 100;
 	public static int fatmanRadius = 35;
@@ -65,10 +65,10 @@ public class BombConfig {
 		Property propASchrab = config.get(CATEGORY_NUKES, "3.11_aSchrabRadius", 20);
 		propASchrab.comment = "Radius of dropped anti schrabidium";
 		aSchrabRadius = propASchrab.getInt();
-		Property propSolinium = config.get(CATEGORY_NUKES, "3.12_soliniumRadius", 75);
+		Property propSolinium = config.get(CATEGORY_NUKES, "3.12_soliniumRadius", 150);
 		propSolinium.comment = "Radius of the blue rinse";
 		soliniumRadius = propSolinium.getInt();
-		Property propN2 = config.get(CATEGORY_NUKES, "3.13_n2Radius", 130);
+		Property propN2 = config.get(CATEGORY_NUKES, "3.13_n2Radius", 200);
 		propN2.comment = "Radius of the N2 mine";
 		n2Radius = propN2.getInt();
 
