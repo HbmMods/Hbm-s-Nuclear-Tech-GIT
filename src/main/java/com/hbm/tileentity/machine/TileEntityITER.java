@@ -95,16 +95,18 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 				
 				for(int i = 0; i < 20; i++) {
 					
-					if(tanks[0].getFill() >= 10) {
-						tanks[0].setFill(tanks[0].getFill() - 10);
-						tanks[1].setFill(tanks[1].getFill() + 1);
+					if(plasma.getFill() > 0) {
 						
-						if(tanks[1].getFill() > tanks[1].getMaxFill())
-							tanks[1].setFill(tanks[1].getMaxFill());
-					}
-					
-					if(plasma.getFill() > 0)
+						if(tanks[0].getFill() >= 10) {
+							tanks[0].setFill(tanks[0].getFill() - 10);
+							tanks[1].setFill(tanks[1].getFill() + 1);
+							
+							if(tanks[1].getFill() > tanks[1].getMaxFill())
+								tanks[1].setFill(tanks[1].getMaxFill());
+						}
+						
 						plasma.setFill(plasma.getFill() - 1);
+					}
 				}
 			}
 			
@@ -114,7 +116,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			for(int i = 0; i < tanks.length; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			/// END Notif packets ///
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isOn", isOn);
@@ -133,6 +134,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			}
 			
 			this.networkPack(data, 250);
+			/// END Notif packets ///
+			
 		} else {
 			
 			this.lastRotor = this.rotor;

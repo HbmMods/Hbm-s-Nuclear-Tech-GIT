@@ -5,7 +5,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityITER;
 import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -61,8 +60,9 @@ public class MachinePlasmaHeater extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
+
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -3, 2, 1, 1, 1}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o , y + 2, z + dir.offsetZ * o, new int[] {0, 1, 10, -8, 0, 0}, this, dir);
 		
 		ForgeDirection side = dir.getRotation(ForgeDirection.UP);
 		
@@ -78,8 +78,10 @@ public class MachinePlasmaHeater extends BlockDummyable {
     	
         float f = 0.0625F;
         
-    	if(world.getBlockMetadata(x, y, z) == ForgeDirection.UP.ordinal() && world.getBlock(x, y + 1, z) != this) {
+        if(world.getBlockMetadata(x, y, z) == ForgeDirection.UP.ordinal() && world.getBlock(x, y + 1, z) != this) {
     		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + f * 8F, z + 1);
+    	} else if(world.getBlockMetadata(x, y, z) == ForgeDirection.DOWN.ordinal() && world.getBlock(x, y - 1, z) != this) {
+    		return AxisAlignedBB.getBoundingBox(x, y + f * 8F, z, x + 1, y + 1, z + 1);
     	} else {
     		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
     	}
@@ -91,7 +93,9 @@ public class MachinePlasmaHeater extends BlockDummyable {
         
     	if(world.getBlockMetadata(x, y, z) == ForgeDirection.UP.ordinal() && world.getBlock(x, y + 1, z) != this) {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f * 8F, 1.0F);
-    	} else {
+    	} else if(world.getBlockMetadata(x, y, z) == ForgeDirection.DOWN.ordinal() && world.getBlock(x, y - 1, z) != this) {
+    		this.setBlockBounds(0.0F, f * 8F, 0.0F, 1, 1.0F, 1.0F);
+    	} else  {
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     	}
     }
@@ -102,6 +106,9 @@ public class MachinePlasmaHeater extends BlockDummyable {
 			return false;
 		
 		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -3, 1, 1, 1, 1}, x, y, z, dir))
+			return false;
+		
+		if(!MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o , y + 2, z + dir.offsetZ * o, new int[] {0, 1, 10, -8, 0, 0}, x, y, z, dir))
 			return false;
 		
 		return true;

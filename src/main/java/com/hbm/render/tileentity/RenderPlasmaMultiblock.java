@@ -39,16 +39,23 @@ public class RenderPlasmaMultiblock extends TileEntitySpecialRenderer {
 		ResourceLocation heater = IconUtil.getTextureFromBlockAndSide(ModBlocks.fusion_heater, 2);
 		bindTexture(heater);
         
-        for(int iy = 1; iy < 5; iy ++) {
+        for(int iy = 1; iy < 6; iy ++) {
         	
 	        for(int ix = 0; ix < 10; ix++) {
 	
-	            for(int iz = -2; iz < 3; iz++) {
+	            for(int iz = -1; iz < 2; iz++) {
+	            	
+	            	if(iy == 5 && ix > 3)
+	            		break;
 	            	
 	            	SmallBlockPronter.renderSmolBlockAt(ix, iy, iz);
 	            }
 	        }
         }
+
+        for(int i = 10; i <= 11; i++)
+            for(int j = 2; j <= 3; j++)
+            	SmallBlockPronter.renderSmolBlockAt(i, j, 0);
 
 		GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);

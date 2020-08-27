@@ -18,6 +18,7 @@ public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		switch(te.getBlockMetadata() - BlockDummyable.offset) {
 		case 2: GL11.glRotatef(0, 0F, 1F, 0F); break;
@@ -30,6 +31,8 @@ public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
 		
         bindTexture(ResourceManager.iter_microwave);
         ResourceManager.iter.renderPart("Microwave");
+
+        GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPopMatrix();
 	}

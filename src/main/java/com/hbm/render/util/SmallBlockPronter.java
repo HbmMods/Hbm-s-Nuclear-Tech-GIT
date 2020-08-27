@@ -17,8 +17,7 @@ public class SmallBlockPronter {
 	 */
 	public static void renderSmolBlockAt(float x, float y, float z) {
 		GL11.glPushMatrix();
-		GL11.glTranslatef(x, y, z);
-		GL11.glRotatef(180, 0F, 0F, 1F);
+		GL11.glTranslatef(x - 1, y - 1, z);
 		
 		Tessellator tesseract = Tessellator.instance;
 		tesseract.startDrawingQuads();
