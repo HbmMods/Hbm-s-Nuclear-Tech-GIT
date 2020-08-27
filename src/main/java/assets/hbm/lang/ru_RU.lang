@@ -1106,6 +1106,7 @@ item.powder_thorium.name=Ториевый порошок
 item.powder_neodymium.name=Неодимовый порошок
 item.powder_astatine.name=Астатовый порошок
 item.powder_caesium.name=Цезиевый порошок
+item.powder_balefire.name=Термоядерный пепел
 item.powder_australium.name=Австралиевый порошок
 item.powder_weidanium.name=Вейдановый порошок
 item.powder_reiium.name=Реиевый порошок
@@ -1215,6 +1216,7 @@ item.fusion_core_infinite.name=Бесконечный ядерный блок
 item.fusion_shield_chlorophyte.name=Хлорофитовый защитный слой термоядерного реактора
 item.fusion_shield_desh.name=Деш-Защитный слой термоядерного реактора 
 item.fusion_shield_tungsten.name=Вольфрамовый защитный слой термоядерного реактора
+item.fusion_shield_vaporwave.name=Вапорвейвный защитный слой термоядерного реактора
 
 item.dynosphere_base.name=Шаблон Диносферы
 item.dynosphere_desh.name=Диносфера из деш
