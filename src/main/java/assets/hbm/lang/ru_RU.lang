@@ -434,6 +434,7 @@ tile.struct_scaffold.name=Подмосток пусковой площадки
 tile.struct_launcher_core.name=Ядро компактной пусковой площадки
 tile.struct_launcher_core_large.name=Ядро большой пусковой площадки
 tile.struct_soyuz_core.name=Ядро стартовой площадки Союза
+tile.struct_plasma_core.name=Ядро нагревателя плазмы
 tile.struct_iter_core.name=Ядро термоядерного реактора
 
 tile.machine_difurnace_off.name=Доменная печь
@@ -620,7 +621,7 @@ container.reactorLarge=Большой ядерный реактор
 tile.fusion_conductor.name=Сверхпроводящий магнит
 tile.fusion_center.name=Центральный элемент магнита
 tile.fusion_motor.name=Элемент магнитного мотора
-tile.fusion_heater.name=Нагреватель плазмы
+tile.fusion_heater.name=Компонент нагревателя плазмы
 tile.fusion_hatch.name=Люк доступа термоядерного реактора
 tile.fusion_core.name=Контроллер термоядерного реактора
 tile.plasma.name=Плазма
