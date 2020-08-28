@@ -896,6 +896,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_machine_large_turbine:
+				{
+					if(entity instanceof TileEntityMachineLargeTurbine)
+					{
+						return new ContainerMachineLargeTurbine(player.inventory, (TileEntityMachineLargeTurbine) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1788,6 +1797,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachinePlasmaHeater)
 					{
 						return new GUIPlasmaHeater(player.inventory, (TileEntityMachinePlasmaHeater) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_machine_large_turbine:
+				{
+					if(entity instanceof TileEntityMachineLargeTurbine)
+					{
+						return new GUIMachineLargeTurbine(player.inventory, (TileEntityMachineLargeTurbine) entity);
 					}
 					return null;
 				}

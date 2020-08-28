@@ -5,8 +5,11 @@ import com.hbm.inventory.BreederRecipes;
 import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineReactor extends TileEntityMachineBase {
 
@@ -83,7 +86,6 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 
 			if(trigger) {
 				markDirty = true;
-				MachineReactor.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
 			if(markDirty)
@@ -241,5 +243,30 @@ public class TileEntityMachineReactor extends TileEntityMachineBase {
 		nbt.setShort("charge", (short) charge);
 		nbt.setShort("heat", (short) heat);
 		nbt.setShort("progress", (short) progress);
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord,
+					yCoord,
+					zCoord,
+					xCoord + 1,
+					yCoord + 3,
+					zCoord + 1
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

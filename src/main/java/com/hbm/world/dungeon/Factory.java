@@ -593,7 +593,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 13, y + 0, z + 3, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 14, y + 0, z + 3, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 4, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 1, y + 0, z + 4, ModBlocks.machine_reactor, 5, 3);
+		world.setBlock(x + 1, y + 0, z + 4, ModBlocks.deco_lead, 5, 3);
 		world.setBlock(x + 6, y + 0, z + 4, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 4, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 8, y + 0, z + 4, ModBlocks.factory_titanium_hull, 0, 3);
@@ -629,7 +629,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 13, y + 0, z + 9, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 14, y + 0, z + 9, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 10, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 1, y + 0, z + 10, ModBlocks.machine_reactor, 5, 3);
+		world.setBlock(x + 1, y + 0, z + 10, ModBlocks.deco_lead, 5, 3);
 		world.setBlock(x + 6, y + 0, z + 10, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 10, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 8, y + 0, z + 10, ModBlocks.factory_titanium_hull, 0, 3);
@@ -665,7 +665,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 13, y + 0, z + 15, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 14, y + 0, z + 15, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 0, z + 16, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 1, y + 0, z + 16, ModBlocks.machine_reactor, 5, 3);
+		world.setBlock(x + 1, y + 0, z + 16, ModBlocks.deco_lead, 5, 3);
 		world.setBlock(x + 6, y + 0, z + 16, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 0, z + 16, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 8, y + 0, z + 16, ModBlocks.factory_titanium_hull, 0, 3);
@@ -797,11 +797,11 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 13, y + 1, z + 3, Blocks.stone_brick_stairs, 2, 3);
 		world.setBlock(x + 14, y + 1, z + 3, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 4, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 1, y + 1, z + 4, ModBlocks.machine_reactor, 5, 3);
+		world.setBlock(x + 1, y + 1, z + 4, ModBlocks.deco_lead, 5, 3);
 		world.setBlock(x + 6, y + 1, z + 4, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 4, ModBlocks.factory_titanium_furnace, 2, 3);
 		world.setBlock(x + 8, y + 1, z + 4, ModBlocks.factory_titanium_hull, 0, 3);
-		world.setBlock(x + 13, y + 1, z + 4, ModBlocks.machine_rtg_furnace_off, 4, 3);
+		world.setBlock(x + 13, y + 1, z + 4, ModBlocks.machine_electric_furnace_off, 4, 3);
 		world.setBlock(x + 14, y + 1, z + 4, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 5, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 1, y + 1, z + 5, Block2, 5, 3);
@@ -815,7 +815,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 6, y + 1, z + 6, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 6, ModBlocks.factory_titanium_furnace, 3, 3);
 		world.setBlock(x + 8, y + 1, z + 6, ModBlocks.factory_titanium_hull, 0, 3);
-		world.setBlock(x + 13, y + 1, z + 6, ModBlocks.machine_rtg_furnace_off, 4, 3);
+		world.setBlock(x + 13, y + 1, z + 6, ModBlocks.machine_electric_furnace_off, 4, 3);
 		world.setBlock(x + 14, y + 1, z + 6, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 7, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 13, y + 1, z + 7, Blocks.stone_brick_stairs, 3, 3);
@@ -826,11 +826,11 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 13, y + 1, z + 9, Blocks.stone_brick_stairs, 2, 3);
 		world.setBlock(x + 14, y + 1, z + 9, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 10, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 1, y + 1, z + 10, ModBlocks.machine_reactor, 5, 3);
+		world.setBlock(x + 1, y + 1, z + 10, ModBlocks.deco_lead, 5, 3);
 		world.setBlock(x + 6, y + 1, z + 10, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 10, ModBlocks.factory_titanium_furnace, 2, 3);
 		world.setBlock(x + 8, y + 1, z + 10, ModBlocks.factory_titanium_hull, 0, 3);
-		world.setBlock(x + 13, y + 1, z + 10, ModBlocks.machine_rtg_furnace_off, 4, 3);
+		world.setBlock(x + 13, y + 1, z + 10, ModBlocks.machine_electric_furnace_off, 4, 3);
 		world.setBlock(x + 14, y + 1, z + 10, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 11, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 1, y + 1, z + 11, Block2, 5, 3);
@@ -844,7 +844,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 6, y + 1, z + 12, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 12, ModBlocks.factory_titanium_furnace, 3, 3);
 		world.setBlock(x + 8, y + 1, z + 12, ModBlocks.factory_titanium_hull, 0, 3);
-		world.setBlock(x + 13, y + 1, z + 12, ModBlocks.machine_rtg_furnace_off, 4, 3);
+		world.setBlock(x + 13, y + 1, z + 12, ModBlocks.machine_electric_furnace_off, 4, 3);
 		world.setBlock(x + 14, y + 1, z + 12, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 13, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 13, y + 1, z + 13, Blocks.stone_brick_stairs, 3, 3);
@@ -855,10 +855,10 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 13, y + 1, z + 15, Blocks.stone_brick_stairs, 2, 3);
 		world.setBlock(x + 14, y + 1, z + 15, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 16, Blocks.stonebrick, 0, 3);
-		world.setBlock(x + 1, y + 1, z + 16, ModBlocks.machine_reactor, 5, 3);
+		world.setBlock(x + 1, y + 1, z + 16, ModBlocks.deco_lead, 5, 3);
 		world.setBlock(x + 6, y + 1, z + 16, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 16, ModBlocks.factory_titanium_hull, 0, 3);
-		world.setBlock(x + 13, y + 1, z + 16, ModBlocks.machine_rtg_furnace_off, 4, 3);
+		world.setBlock(x + 13, y + 1, z + 16, ModBlocks.machine_electric_furnace_off, 4, 3);
 		world.setBlock(x + 14, y + 1, z + 16, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 17, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 1, y + 1, z + 17, Block2, 5, 3);
@@ -871,7 +871,7 @@ public class Factory extends WorldGenerator
 		world.setBlock(x + 1, y + 1, z + 18, Block2, 5, 3);
 		world.setBlock(x + 6, y + 1, z + 18, ModBlocks.factory_titanium_hull, 0, 3);
 		world.setBlock(x + 7, y + 1, z + 18, ModBlocks.factory_titanium_furnace, 3, 3);
-		world.setBlock(x + 13, y + 1, z + 18, ModBlocks.machine_rtg_furnace_off, 4, 3);
+		world.setBlock(x + 13, y + 1, z + 18, ModBlocks.machine_electric_furnace_off, 4, 3);
 		world.setBlock(x + 14, y + 1, z + 18, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 0, y + 1, z + 19, Blocks.stonebrick, 0, 3);
 		world.setBlock(x + 13, y + 1, z + 19, Blocks.stone_brick_stairs, 3, 3);

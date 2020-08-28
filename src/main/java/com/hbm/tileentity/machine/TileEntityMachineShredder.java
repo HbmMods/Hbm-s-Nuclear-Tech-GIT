@@ -265,36 +265,41 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 	}
 	
 	public void processItem() {
-		for(int i = 0; i < 9; i++)
+		
+		for(int inpSlot = 0; inpSlot < 9; inpSlot++)
 		{
-			if(slots[i] != null && hasSpace(slots[i]))
+			if(slots[inpSlot] != null && hasSpace(slots[inpSlot]))
 			{
-				ItemStack inp = slots[i].copy();
+				ItemStack inp = slots[inpSlot];
 				ItemStack outp = ShredderRecipes.getShredderResult(inp);
+				
 				boolean flag = false;
 				
-				for (int j = 9; j < 27; j++)
+				for (int outSlot = 9; outSlot < 27; outSlot++)
 				{
-					if (slots[j] != null && slots[j].getItem().equals(outp.getItem()) && slots[j].stackSize + outp.stackSize <= outp.getMaxStackSize()) {
-						slots[j].stackSize += outp.stackSize;
-						slots[i].stackSize -= 1;
+					if (slots[outSlot] != null && slots[outSlot].getItem() == outp.getItem() && slots[outSlot].stackSize + outp.stackSize <= outp.getMaxStackSize()) {
+						
+						System.out.println(outp.getUnlocalizedName() + " is equal to " + slots[outSlot].getUnlocalizedName());
+						
+						slots[outSlot].stackSize += outp.stackSize;
+						slots[inpSlot].stackSize -= 1;
 						flag = true;
 						break;
 					}
 				}
 				
 				if(!flag)
-					for (int j = 9; j < 27; j++)
+					for (int outSlot = 9; outSlot < 27; outSlot++)
 					{
-						if (slots[j] == null) {
-							slots[j] = outp.copy();
-							slots[i].stackSize -= 1;
+						if (slots[outSlot] == null) {
+							slots[outSlot] = outp.copy();
+							slots[inpSlot].stackSize -= 1;
 							break;
 						}
 					}
 				
-				if(slots[i].stackSize <= 0)
-					slots[i] = null;
+				if(slots[inpSlot].stackSize <= 0)
+					slots[inpSlot] = null;
 			}
 		}
 	}

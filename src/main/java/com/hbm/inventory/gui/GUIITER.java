@@ -78,6 +78,9 @@ public class GUIITER extends GuiInfoContainer {
 		
 		int i = (int)iter.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 71, guiTop + 108, 176, 25, i, 16);
+		
+		int j = (int)iter.getProgressScaled(17);
+		drawTexturedModalRect(guiLeft + 44, guiTop + 22, 176, 18, j, 7);
 
 		for(int t = 0; t < 2; t++) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(iter.tanks[t].getSheet());

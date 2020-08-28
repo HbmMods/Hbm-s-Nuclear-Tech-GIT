@@ -8,6 +8,8 @@ import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.inventory.BreederRecipes;
+import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.FusionRecipes;
 import com.hbm.items.ModItems;
@@ -31,6 +33,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	public FluidTank plasma;
+	
+	public int progress;
+	public static final int duration = 100;
 	
 	@SideOnly(Side.CLIENT)
 	public int blanket;
@@ -93,13 +98,23 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 						produceByproduct();
 				}
 				
+				if(plasma.getFill() > 0 && this.getShield() != 0) {
+					
+					ItemFusionShield.setShieldDamage(slots[3], ItemFusionShield.getShieldDamage(slots[3]) + 1);
+					
+					if(ItemFusionShield.getShieldDamage(slots[3]) > ((ItemFusionShield)slots[3].getItem()).maxDamage)
+						slots[3] = null;
+				}
+				
+				int prod = FusionRecipes.getSteamProduction(plasma.getTankType());
+				
 				for(int i = 0; i < 20; i++) {
 					
 					if(plasma.getFill() > 0) {
 						
-						if(tanks[0].getFill() >= 10) {
-							tanks[0].setFill(tanks[0].getFill() - 10);
-							tanks[1].setFill(tanks[1].getFill() + 1);
+						if(tanks[0].getFill() >= prod * 10) {
+							tanks[0].setFill(tanks[0].getFill() - prod * 10);
+							tanks[1].setFill(tanks[1].getFill() + prod);
 							
 							if(tanks[1].getFill() > tanks[1].getMaxFill())
 								tanks[1].setFill(tanks[1].getMaxFill());
@@ -109,6 +124,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 					}
 				}
 			}
+			
+			doBreederStuff();
 			
 			/// END Processing part ///
 
@@ -120,6 +137,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
+			data.setInteger("progress", progress);
 			
 			if(slots[3] == null) {
 				data.setInteger("blanket", 0);
@@ -149,6 +167,51 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 					this.lastRotor -= 360;
 				}
 			}
+		}
+	}
+	
+	private void doBreederStuff() {
+		
+		if(plasma.getFill() == 0) {
+			this.progress = 0;
+			return;
+		}
+		
+		BreederRecipe out = BreederRecipes.getOutput(slots[1]);
+		
+		if(out == null) {
+			this.progress = 0;
+			return;
+		}
+		
+		if(slots[2] != null && slots[2].stackSize >= slots[2].getMaxStackSize()) {
+			this.progress = 0;
+			return;
+		}
+		
+		int level = FusionRecipes.getBreedingLevel(plasma.getTankType());
+		
+		if(out.heat > level) {
+			this.progress = 0;
+			return;
+		}
+		
+		progress++;
+		
+		if(progress > this.duration) {
+			
+			if(slots[2] != null) {
+				slots[2].stackSize++;
+			} else {
+				slots[2] = out.output.copy();
+			}
+			
+			slots[1].stackSize--;
+			
+			if(slots[1].stackSize <=0)
+				slots[1] = null;
+			
+			this.markDirty();
 		}
 	}
 	
@@ -182,6 +245,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.blanket = data.getInteger("blanket");
+		this.progress = data.getInteger("progress"); //
 	}
 
 	@Override
@@ -194,6 +258,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
+	}
+
+	public long getProgressScaled(long i) {
+		return (progress * i) / duration;
 	}
 
 	@Override

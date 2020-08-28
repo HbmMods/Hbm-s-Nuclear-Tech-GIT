@@ -18,12 +18,36 @@ public class FusionRecipes {
 		}
 	}
 	
+	public static int getBreedingLevel(FluidType plasma) {
+		
+		switch(plasma) {
+		case PLASMA_DT: return 1;
+		case PLASMA_HD: return 1;
+		case PLASMA_HT: return 1;
+		case PLASMA_XM: return 3; 
+		case PLASMA_BF: return 4;
+		default: return 0;
+		}
+	}
+	
 	public static ItemStack getByproduct(FluidType plasma) {
 		
 		switch(plasma) {
 		case PLASMA_XM: return new ItemStack(ModItems.powder_chlorophyte); 
 		case PLASMA_BF: return new ItemStack(ModItems.powder_balefire);
 		default: return null;
+		}
+	}
+	
+	public static int getSteamProduction(FluidType plasma) {
+		
+		switch(plasma) {
+		case PLASMA_DT: return 120;
+		case PLASMA_HD: return 80;
+		case PLASMA_HT: return 100;
+		case PLASMA_XM: return 240; 
+		case PLASMA_BF: return 640;
+		default: return 9;
 		}
 	}
 	

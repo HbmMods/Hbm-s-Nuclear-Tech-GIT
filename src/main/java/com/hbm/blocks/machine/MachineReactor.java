@@ -1,129 +1,31 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyInventory;
 import com.hbm.tileentity.machine.TileEntityMachineReactor;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class MachineReactor extends BlockContainer {
+public class MachineReactor extends BlockDummyable {
+	
+	public MachineReactor(Material mat) {
+		super(mat);
+	}
 
-	private final Random field_149933_a = new Random();
-	private final boolean isActive;
-	private static boolean keepInventory;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconFront;
-
-
-	public MachineReactor(boolean blockState) {
-		super(Material.iron);
-		isActive = blockState;
-	}
-	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_reactor_decal");
-		this.iconFront = iconRegister.registerIcon(RefStrings.MODID + (this.isActive ? ":machine_reactor_front_on" : ":machine_reactor_front_off"));
-		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_reactor_top");
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : (side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon)));
-	}
-	
-	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return Item.getItemFromBlock(ModBlocks.machine_reactor);
-    }
-	
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		this.setDefaultDirection(world, x, y, z);
-	}
-	
-	private void setDefaultDirection(World world, int x, int y, int z) {
-		if(!world.isRemote)
-		{
-			Block block1 = world.getBlock(x, y, z - 1);
-			Block block2 = world.getBlock(x, y, z + 1);
-			Block block3 = world.getBlock(x - 1, y, z);
-			Block block4 = world.getBlock(x + 1, y, z);
-			
-			byte b0 = 3;
-			
-			if(block1.func_149730_j() && !block2.func_149730_j())
-			{
-				b0 = 3;
-			}
-			if(block2.func_149730_j() && !block1.func_149730_j())
-			{
-				b0 = 2;
-			}
-			if(block3.func_149730_j() && !block4.func_149730_j())
-			{
-				b0 = 5;
-			}
-			if(block4.func_149730_j() && !block3.func_149730_j())
-			{
-				b0 = 4;
-			}
-			
-			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
-		}
-	}
-	
-	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+	public TileEntity createNewTileEntity(World world, int meta) {
 		
-		if(i == 0)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
-		}
-		if(i == 1)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
-		}
-		if(i == 2)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
-		}
-		if(i == 3)
-		{
-			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-		}
+		if(meta >= 12)
+			return new TileEntityMachineReactor();
 		
-		if(itemStack.hasDisplayName())
-		{
-			((TileEntityMachineReactor)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
-		}
+		return new TileEntityProxyInventory();
 	}
 	
 	@Override
@@ -133,10 +35,15 @@ public class MachineReactor extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking())
 		{
-			TileEntityMachineReactor entity = (TileEntityMachineReactor) world.getTileEntity(x, y, z);
+			int[] pos = this.findCore(world, x, y, z);
+			
+			if(pos == null)
+				return false;
+			
+			TileEntityMachineReactor entity = (TileEntityMachineReactor) world.getTileEntity(pos[0], pos[1], pos[2]);
 			if(entity != null)
 			{
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor, world, x, y, z);
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_reactor, world, pos[0], pos[1], pos[2]);
 			}
 			return true;
 		} else {
@@ -145,87 +52,12 @@ public class MachineReactor extends BlockContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityMachineReactor();
+	public int[] getDimensions() {
+		return new int[] { 2, 0, 0, 0, 0, 0 };
 	}
 
-	public static void updateBlockState(boolean isProcessing, World world, int x, int y, int z) {
-		int i = world.getBlockMetadata(x, y, z);
-		TileEntity entity = world.getTileEntity(x, y, z);
-		keepInventory = true;
-		
-		if(isProcessing)
-		{
-			world.setBlock(x, y, z, ModBlocks.machine_reactor_on);
-		}else{
-			world.setBlock(x, y, z, ModBlocks.machine_reactor);
-		}
-		
-		keepInventory = false;
-		world.setBlockMetadataWithNotify(x, y, z, i, 2);
-		
-		if(entity != null) {
-			entity.validate();
-			world.setTileEntity(x, y, z, entity);
-		}
-	}
-	
 	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
-    {
-        if (!keepInventory)
-        {
-        	TileEntityMachineReactor tileentityfurnace = (TileEntityMachineReactor)p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
-
-            if (tileentityfurnace != null)
-            {
-                for (int i1 = 0; i1 < tileentityfurnace.getSizeInventory(); ++i1)
-                {
-                    ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
-
-                    if (itemstack != null)
-                    {
-                        float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-                        float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-                        float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-
-                        while (itemstack.stackSize > 0)
-                        {
-                            int j1 = this.field_149933_a.nextInt(21) + 10;
-
-                            if (j1 > itemstack.stackSize)
-                            {
-                                j1 = itemstack.stackSize;
-                            }
-
-                            itemstack.stackSize -= j1;
-                            EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-
-                            if (itemstack.hasTagCompound())
-                            {
-                                entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemstack.getTagCompound().copy());
-                            }
-
-                            float f3 = 0.05F;
-                            entityitem.motionX = (float)this.field_149933_a.nextGaussian() * f3;
-                            entityitem.motionY = (float)this.field_149933_a.nextGaussian() * f3 + 0.2F;
-                            entityitem.motionZ = (float)this.field_149933_a.nextGaussian() * f3;
-                            p_149749_1_.spawnEntityInWorld(entityitem);
-                        }
-                    }
-                }
-
-                p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
-            }
-        }
-
-        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
-    }
-
-    @Override
-	@SideOnly(Side.CLIENT)
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
-    {
-        return Item.getItemFromBlock(ModBlocks.machine_reactor);
-    }
+	public int getOffset() {
+		return 0;
+	}
 }

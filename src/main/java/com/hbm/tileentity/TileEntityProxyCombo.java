@@ -19,6 +19,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsum
 	boolean power;
 	boolean fluid;
 	
+	public TileEntityProxyCombo() { }
+	
 	public TileEntityProxyCombo(boolean inventory, boolean power, boolean fluid) {
 		this.inventory = inventory;
 		this.power = power;
