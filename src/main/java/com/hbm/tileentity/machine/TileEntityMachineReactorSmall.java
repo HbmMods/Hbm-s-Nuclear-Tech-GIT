@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -524,11 +525,23 @@ public class TileEntityMachineReactorSmall extends TileEntity
 				tanks[1].setFill(tanks[1].getFill() + 5);
 			}
 			
-		} else if(te instanceof TileEntityMachineReactor) {
-			TileEntityMachineReactor reactor = (TileEntityMachineReactor)te;
-			if(reactor.charge <= 1 && this.hullHeat > 0) {
-				reactor.charge = 1;
-				reactor.heat = (int)Math.floor(hullHeat * 4 / maxHullHeat) + 1;
+		} else if(b == ModBlocks.machine_reactor) {
+
+			int[] pos = ((MachineReactor)ModBlocks.machine_reactor).findCore(worldObj, x, y, z);
+			
+			if(pos != null) {
+				
+				TileEntity tile = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+				
+				if(tile instanceof TileEntityMachineReactor) {
+					
+					TileEntityMachineReactor reactor = (TileEntityMachineReactor)tile;
+					
+					if(reactor.charge <= 1 && this.hullHeat > 0) {
+						reactor.charge = 1;
+						reactor.heat = (int)Math.floor(hullHeat * 4 / maxHullHeat) + 1;
+					}
+				}
 			}
 			
 		} else if(te instanceof TileEntityNukeFurnace) {

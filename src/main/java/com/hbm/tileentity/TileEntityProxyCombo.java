@@ -10,6 +10,7 @@ import com.hbm.inventory.FluidTank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsumer, IFluidAcceptor, ISidedInventory {
@@ -330,6 +331,24 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IConsum
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.inventory = nbt.getBoolean("inv");
+		this.power = nbt.getBoolean("power");
+		this.fluid = nbt.getBoolean("fluid");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setBoolean("inv", inventory);
+		nbt.setBoolean("power", power);
+		nbt.setBoolean("fluid", fluid);
 	}
 
 }

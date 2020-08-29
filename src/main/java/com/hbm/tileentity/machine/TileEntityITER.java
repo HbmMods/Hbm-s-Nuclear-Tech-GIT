@@ -376,6 +376,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		super.readFromNBT(nbt);
 		
 		this.power = nbt.getLong("power");
+		this.isOn = nbt.getBoolean("isOn");
 
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
@@ -387,6 +388,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		super.writeToNBT(nbt);
 		
 		nbt.setLong("power", this.power);
+		nbt.setBoolean("isOn", isOn);
 
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");

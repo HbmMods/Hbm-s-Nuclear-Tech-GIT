@@ -19,6 +19,8 @@ public class TileEntityMachineTransformer extends TileEntity implements ISource,
 	boolean tact;
 	int age;
 	
+	public TileEntityMachineTransformer() { }
+	
 	public TileEntityMachineTransformer(long buffer, int d) {
 		maxPower = buffer;
 		delay = d;
