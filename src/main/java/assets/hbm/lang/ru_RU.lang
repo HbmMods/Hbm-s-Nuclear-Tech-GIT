@@ -52,7 +52,7 @@ achievement.oil.desc=Бобмазон уровень 4 (Электрически
 achievement.nuclear=Атомная Наука
 achievement.nuclear.desc=Бобмазон уровень 5 (Урановое топливо)
 achievement.hidden=Скрытый Каталог
-achievement.hidden.desc=Убейте эндермена падающим товарным вагоном, находясь в огне и имея более 250 РАД.
+achievement.hidden.desc=Убейте зараженного крипера падающим товарным вагоном
 achievement.horizonsStart=Апогей
 achievement.horizonsStart.desc=Отправьте Геральда на луну.
 achievement.horizonsEnd=Горизонты
@@ -229,6 +229,7 @@ chem.SOLID_FUEL=Производство твердого ракетного т�
 chem.ELECTROLYSIS=Крио-электролиз
 chem.XENON=Ксеноновый цикл Линде
 chem.SATURN=Производство сатурнита
+chem.BALEFIRE=Смешивание ракетного жар-топлива
 
 item.record.lc.desc=Valve - Diabolic Adrenaline Guitar/Lambda Core
 item.record.ss.desc=Valve - Sector Sweep
