@@ -1694,6 +1694,9 @@ public class MachineRecipes {
 			list.add(new ItemStack(ModItems.powder_dura_steel, 1));
 			list.add(new ItemStack(ModItems.powder_fire, 1));
 			break;
+        case BALEFIRE:
+			list.add(new ItemStack(ModItems.egg_balefire_shard, 1));
+			break;
 		default:
 			break;
 		}
@@ -1893,6 +1896,9 @@ public class MachineRecipes {
 			input[0] = new FluidStack(100, FluidType.ACID);
 			input[1] = new FluidStack(200, FluidType.MERCURY);
         	break;
+    	case BALEFIRE:
+			input[0] = new FluidStack(6000, FluidType.KEROSENE);
+        	break;
 		default:
 			break;
 		}
@@ -2022,6 +2028,9 @@ public class MachineRecipes {
         case SATURN:
 			output[0] = new ItemStack(ModItems.ingot_saturnite, 1);
         	break;
+        case BALEFIRE:
+			output[0] = new ItemStack(ModItems.powder_balefire, 1);
+        	break;
 		default:
 			break;
 		}
@@ -2141,6 +2150,9 @@ public class MachineRecipes {
         	break;
         case XENON:
 			output[0] = new FluidStack(50, FluidType.XENON);
+        	break;
+        case BALEFIRE:
+			output[0] = new FluidStack(8000, FluidType.BALEFIRE);
         	break;
 		default:
 			break;

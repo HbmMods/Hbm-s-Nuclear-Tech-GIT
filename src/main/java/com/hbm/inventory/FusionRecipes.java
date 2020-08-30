@@ -42,12 +42,12 @@ public class FusionRecipes {
 	public static int getSteamProduction(FluidType plasma) {
 		
 		switch(plasma) {
-		case PLASMA_DT: return 120;
-		case PLASMA_HD: return 80;
-		case PLASMA_HT: return 100;
-		case PLASMA_XM: return 240; 
-		case PLASMA_BF: return 640;
-		default: return 9;
+		case PLASMA_DT: return 30;
+		case PLASMA_HD: return 20;
+		case PLASMA_HT: return 25;
+		case PLASMA_XM: return 60; 
+		case PLASMA_BF: return 160;
+		default: return 0;
 		}
 	}
 	

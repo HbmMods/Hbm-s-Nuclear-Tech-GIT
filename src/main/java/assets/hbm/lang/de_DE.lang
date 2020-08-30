@@ -48,6 +48,7 @@ achievement.tasteofblood.desc=ist nicht Teil des Testprotokolls.
 achievement.tasteofblood=Der Geschmack von Blut
 
 chem.ASPHALT=Asphaltherstellung
+chem.BALEFIRE=BF-Raketentreibstoffherstellung
 chem.BP_BIOFUEL=Biodieselumesterung
 chem.BP_BIOGAS=Biogasherstellung
 chem.CC_HEATING=Fortgeschrittene Kohleverflüssigung

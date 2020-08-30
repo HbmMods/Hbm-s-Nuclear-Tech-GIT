@@ -33,6 +33,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
 	
+	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
 
@@ -67,6 +68,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			tanks[0].loadTank(2, 3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
 			
+			boolean operational = false;
+			
 			Object[] outs = MachineRecipes.getTurbineOutput(tanks[0].getTankType());
 			
 			if(outs == null) {
@@ -79,6 +82,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 				//TODO: handle this dynamically instead of a 16k iteration for loop
 				for(int i = 0; i < processMax; i++) {
 					if(tanks[0].getFill() >= (Integer)outs[2] && tanks[1].getFill() + (Integer)outs[1] <= tanks[1].getMaxFill()) {
+						
+						operational = true;
+						
 						tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2]);
 						tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1]);
 						
@@ -99,12 +105,13 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
+			data.setBoolean("operational", operational);
 			this.networkPack(data, 50);
 		} else {
 			
 			this.lastRotor = this.rotor;
 			
-			if(tanks[0].getFill() > 0) {
+			if(shouldTurn) {
 				
 				this.rotor += 15F;
 				
@@ -118,6 +125,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
+		this.shouldTurn = data.getBoolean("operational");
 	}
 	
 	public long getPowerScaled(int i) {

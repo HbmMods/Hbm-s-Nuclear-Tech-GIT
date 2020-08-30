@@ -471,6 +471,16 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.circuit_red_copper, 24),
 				new ComparableStack(ModItems.circuit_gold, 12)
 			}, 600);
+		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
+				new ComparableStack(ModItems.hull_big_steel, 1),
+				new OreDictStack("plateSteel", 12),
+				new ComparableStack(ModItems.turbine_titanium, 3),
+				new ComparableStack(ModItems.rotor_steel, 2),
+				new ComparableStack(ModItems.generator_steel, 2),
+				new ComparableStack(ModItems.bolt_compound, 3),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.circuit_aluminium, 1),
+			}, 20);
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {

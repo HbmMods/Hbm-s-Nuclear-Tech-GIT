@@ -8,9 +8,12 @@ import com.hbm.tileentity.machine.TileEntityITER;
 import com.hbm.tileentity.machine.TileEntityITERStruct;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -227,5 +230,23 @@ public class MachineITER extends BlockDummyable {
 	public int getOffset() {
 		return 7;
 	}
+	
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
+    	
+    	if(i >= 12) {
+            
+            for(int l = 0; l < 4; l++)
+            	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 64)));
+            
+        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 36)));
+        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_center, 64)));
+        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_motor, 4)));
+        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.reinforced_glass, 8)));
+        	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_iter_core, 1)));
+    	}
+
+		super.breakBlock(world, x, y, z, block, i);
+    }
 
 }

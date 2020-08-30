@@ -59,6 +59,12 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.powder_magic),
 				new ComparableStack(ModItems.ingot_starmetal)));
+		
+		recipes.add(new MagicRecipe(new ItemStack(ModItems.gun_bf),
+				new ComparableStack(ModItems.gun_fatman),
+				new ComparableStack(ModItems.egg_balefire_shard),
+				new ComparableStack(ModItems.powder_magic),
+				new ComparableStack(ModItems.powder_magic)));
 	}
 	
 	public static List<MagicRecipe> getRecipes() {

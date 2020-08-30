@@ -27,8 +27,8 @@ import net.minecraft.util.Vec3;
 public class TileEntityITER extends TileEntityMachineBase implements IConsumer, IFluidAcceptor, IFluidSource {
 	
 	public long power;
-	public static final long maxPower = 100000000;
-	public static final int powerReq = 1000000;
+	public static final long maxPower = 10000000;
+	public static final int powerReq = 100000;
 	public int age = 0;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
@@ -47,7 +47,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	public TileEntityITER() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(FluidType.WATER, 128000, 0);
+		tanks[0] = new FluidTank(FluidType.WATER, 1280000, 0);
 		tanks[1] = new FluidTank(FluidType.ULTRAHOTSTEAM, 128000, 1);
 		plasma = new FluidTank(FluidType.PLASMA_DT, 16000, 2);
 	}

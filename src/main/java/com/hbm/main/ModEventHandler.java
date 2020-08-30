@@ -13,7 +13,9 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.handler.ArmorUtil;
@@ -40,7 +42,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
@@ -52,12 +53,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.ServerChatEvent;
@@ -104,14 +107,11 @@ public class ModEventHandler
 			event.entity.dropItem(ModItems.book_of_, 1);
 		}
 		
-		if(event.entity instanceof EntityEnderman && event.source == ModDamageSource.boxcar) {
+		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.playerEntities) {
 				EntityPlayer player = (EntityPlayer)o;
-				
-				if(player.getEntityData().getFloat("hfr_radiation") > 250 && player.isBurning()) {
-					player.triggerAchievement(MainRegistry.bobHidden);
-				}
+				player.triggerAchievement(MainRegistry.bobHidden);
 			}
 		}
 	}
@@ -500,6 +500,55 @@ public class ModEventHandler
 				}
 			}
 		}
+
+		//TODO: rewrite this so it doesn't look like shit
+		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
+			
+			if(player.getUniqueID().toString().equals(Library.HbMinecraft)) {
+				
+				int i = player.ticksExisted * 3;
+				
+				Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
+				vec.rotateAroundY((float) (i * Math.PI / 180D));
+				
+				NBTTagCompound p1 = new NBTTagCompound();
+				p1.setString("type", "vanillaExt");
+				p1.setString("mode", "reddust");
+				p1.setDouble("posX", player.posX + vec.xCoord);
+				p1.setDouble("posY", player.posY + 1.5);
+				p1.setDouble("posZ", player.posZ + vec.zCoord);
+				p1.setDouble("mX", 51F/256F);
+				p1.setDouble("mY", 64F/256F);
+				p1.setDouble("mZ", 119F/256F);
+				MainRegistry.proxy.effectNT(p1);
+				
+				vec.rotateAroundY((float) (Math.PI * 2D / 3D));
+				
+				NBTTagCompound p2 = new NBTTagCompound();
+				p2.setString("type", "vanillaExt");
+				p2.setString("mode", "reddust");
+				p2.setDouble("posX", player.posX + vec.xCoord);
+				p2.setDouble("posY", player.posY + 1.5);
+				p2.setDouble("posZ", player.posZ + vec.zCoord);
+				p2.setDouble("mX", 106F/256F);
+				p2.setDouble("mY", 41F/256F);
+				p2.setDouble("mZ", 143F/256F);
+				MainRegistry.proxy.effectNT(p2);
+				
+				vec.rotateAroundY((float) (Math.PI * 2D / 3D));
+				
+				NBTTagCompound p3 = new NBTTagCompound();
+				p3.setString("type", "vanillaExt");
+				p3.setString("mode", "reddust");
+				p3.setDouble("posX", player.posX + vec.xCoord);
+				p3.setDouble("posY", player.posY + 1.5);
+				p3.setDouble("posZ", player.posZ + vec.zCoord);
+				p3.setDouble("mX", 223F/256F);
+				p3.setDouble("mY", 55F/256F);
+				p3.setDouble("mZ", 149F/256F);
+				MainRegistry.proxy.effectNT(p3);
+			}
+		}
 	}
 	
 	@SubscribeEvent
@@ -508,6 +557,11 @@ public class ModEventHandler
         if(evt.entity instanceof EntityMissileBaseAdvanced)
         {
             ((EntityMissileBaseAdvanced)evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
+        }
+        
+        if(evt.entity instanceof EntityMissileCustom)
+        {
+            ((EntityMissileCustom)evt.entity).loadNeighboringChunks(evt.newChunkX, evt.newChunkZ);
         }
     }
 	

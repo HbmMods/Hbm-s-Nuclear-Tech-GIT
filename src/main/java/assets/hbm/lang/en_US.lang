@@ -14,7 +14,7 @@ achievement.fiend2=Delinquent 2: Delinquent Harder
 achievement.fiend=Delinquent
 achievement.freytag.desc=Herold's life guards
 achievement.freytag=Freytag
-achievement.hidden.desc=Kill an enderman with a falling boxcar while being on fire and having more than 250 RADs.
+achievement.hidden.desc=Kill a tainted creeper with a falling boxcar.
 achievement.hidden=Hidden Catalog
 achievement.horizonsBonus.desc=honest to god what the hell is wrong with you
 achievement.horizonsBonus=Slam Dunk Diarrhea
@@ -48,6 +48,7 @@ achievement.tasteofblood.desc=is not part of any testing protocol.
 achievement.tasteofblood=The Taste of Blood
 
 chem.ASPHALT=Asphalt Production
+chem.BALEFIRE=BF Rocket Fuel Mixing
 chem.BP_BIOFUEL=Biofuel Transesterification
 chem.BP_BIOGAS=Biogas Production
 chem.CC_HEATING=Advanced Coal Liquefaction

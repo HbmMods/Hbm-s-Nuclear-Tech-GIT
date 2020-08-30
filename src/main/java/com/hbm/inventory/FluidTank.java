@@ -11,7 +11,6 @@ import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
-import com.hbm.tileentity.machine.TileEntityITER;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.inventory.GuiContainer;

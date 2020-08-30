@@ -53,7 +53,7 @@ public class TileEntityPlasmaStruct extends TileEntity {
 			}
 		}
 		
-		rot = MultiblockHandlerXR.rotate(new int[] {4, -3, 1, 1, 1, 1}, dir);
+		rot = MultiblockHandlerXR.rotate(new int[] {4, -3, 2, 1, 1, 1}, dir);
 
 		for(int a = xCoord - rot[4]; a <= xCoord + rot[5]; a++) {
 			for(int b = yCoord - rot[1]; b <= yCoord + rot[0]; b++) {
