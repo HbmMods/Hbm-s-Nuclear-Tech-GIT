@@ -235,7 +235,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	public int getShield() {
 		
 		if(slots[3] == null || !(slots[3].getItem() instanceof ItemFusionShield))
-			return 273;
+			return 0;
 		
 		return ((ItemFusionShield)slots[3].getItem()).maxTemp;
 	}
