@@ -287,7 +287,9 @@ public class EntityModBeam extends Entity implements IProjectile {
 					}
 
 					if(movingobjectposition.entityHit instanceof EntityLivingBase) {
-						((EntityLivingBase) movingobjectposition.entityHit).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 60, 0));
+						
+						if(!worldObj.isRemote)
+							((EntityLivingBase) movingobjectposition.entityHit).addPotionEffect(new PotionEffect(HbmPotion.bang.id, 60, 0));
 					} else {
 						explode();
 					}

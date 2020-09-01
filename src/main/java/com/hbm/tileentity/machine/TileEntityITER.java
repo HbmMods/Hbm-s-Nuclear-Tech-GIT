@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.MachineITER;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -422,6 +423,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 	
 	public void disassemble() {
 		
+		MachineITER.drop = false;
+		
 		int[][][] layout = TileEntityITERStruct.layout;
 		
 		for(int y = 0; y < 5; y++) {
@@ -448,5 +451,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		}
 		
 		worldObj.setBlock(xCoord, yCoord - 2, zCoord, ModBlocks.struct_iter_core);
+		
+		MachineITER.drop = true;
 	}
 }

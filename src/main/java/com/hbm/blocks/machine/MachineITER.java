@@ -231,10 +231,12 @@ public class MachineITER extends BlockDummyable {
 		return 7;
 	}
 	
+	public static boolean drop = true;
+	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
     	
-    	if(i >= 12) {
+    	if(i >= 12 && drop) {
             
             for(int l = 0; l < 4; l++)
             	world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.fusion_conductor, 64)));

@@ -290,6 +290,8 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_wall), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_corner), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_roof), new ItemRenderDecoBlock());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.machine_selenium), new ItemRendererMachine(2D));
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.radiorec), new ItemRendererMachine(1D));
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorUtil;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelT45Boots;
 import com.hbm.render.model.ModelT45Chest;
@@ -30,6 +31,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.common.ISpecialArmor;
 
+@Spaghetti("kill it")
 public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 	@SideOnly(Side.CLIENT)
 	private ModelT45Helmet helmet;
@@ -153,6 +155,7 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 
 	}
 
+	//TODO: cleanse this filth with holy fire once it's time to overhaul armors
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack armor) {
 		if (armor.getItem() == ModItems.t45_plate) {
@@ -212,9 +215,9 @@ public class ArmorT45 extends ItemArmor implements ISpecialArmor {
 		if (itemstack.getItem() == ModItems.t45_plate) {
 			if (itemstack.stackTagCompound != null) {
 				if (itemstack.stackTagCompound.getInteger("charge") != 0)
-					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 2000 + 1) + "%");
+					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 200000 + 1) + "%");
 				else
-					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 2000) + "%");
+					list.add("Charge: " + (itemstack.stackTagCompound.getInteger("charge") / 200000) + "%");
 			}
 		}
 	}
