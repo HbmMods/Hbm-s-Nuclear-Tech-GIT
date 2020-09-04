@@ -18,7 +18,6 @@ import net.minecraft.util.ResourceLocation;
 public class RenderScreenOverlay {
 
 	private static final ResourceLocation misc = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_misc.png");
-	private static final ResourceLocation hud = new ResourceLocation("textures/gui/widgets.png");
 	private static final RenderItem itemRenderer = RenderItem.getInstance();
 	
 	private static long lastSurvey;

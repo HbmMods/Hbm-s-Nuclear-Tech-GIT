@@ -23,4 +23,6 @@ public class ServerProxy {
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float pitch) { return null; }
 	
 	public void playSound(String sound, Object data) { }
+	
+	public void displayTooltip(String msg) { }
 }

@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -22,7 +23,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
 public class AuxButtonPacket implements IMessage {
 
@@ -271,6 +274,29 @@ public class AuxButtonPacket implements IMessage {
 				if(te instanceof TileEntityMachineBase) {
 					TileEntityMachineBase base = (TileEntityMachineBase)te;
 					base.handleButtonPacket(m.value, m.id);
+				}
+				
+				//why make new packets when you can just abuse and uglify the existing ones?
+				if(te == null && m.value == 999) {
+					
+					NBTTagCompound perDat = p.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+					
+					if(!perDat.getBoolean("hasDucked")) {
+						EntityDuck ducc = new EntityDuck(p.worldObj);
+						ducc.setPosition(p.posX, p.posY + p.eyeHeight, p.posZ);
+						
+						Vec3 vec = p.getLookVec();
+						ducc.motionX = vec.xCoord;
+						ducc.motionY = vec.yCoord;
+						ducc.motionZ = vec.zCoord;
+						
+						p.worldObj.spawnEntityInWorld(ducc);
+						p.worldObj.playSoundAtEntity(p, "hbm:entity.ducc", 1.0F, 1.0F);
+						
+						perDat.setBoolean("hasDucked", true);
+						
+						p.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, perDat);
+					}
 				}
 				
 			//} catch (Exception x) { }

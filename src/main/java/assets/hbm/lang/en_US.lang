@@ -248,6 +248,7 @@ death.attack.tauBlast=%1$s charged the XVL1456 for too long and was blown into p
 death.attack.teleporter=%1$s was teleported into nothingness.
 
 entity.entity_cyber_crab.name=Cyber Crab
+entity.entity_fucc_a_ducc.name=Duck
 entity.entity_mob_hunter_chopper.name=Hunter Chopper
 entity.entity_mob_mask_man.name=Mask Man
 entity.entity_mob_nuclear_creeper.name=Nuclear Creeper

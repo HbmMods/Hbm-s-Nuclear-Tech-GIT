@@ -248,6 +248,7 @@ death.attack.tauBlast=%1$s lud die XVL1456 zu lange auf und wurde in Stücke ger
 death.attack.teleporter=%1$s wurde ins Nichts teleportiert.
 
 entity.entity_cyber_crab.name=Cyber-Krabbe
+entity.entity_fucc_a_ducc.name=Ente
 entity.entity_mob_hunter_chopper.name=Jagdschrauber
 entity.entity_mob_mask_man.name=Maskenmann
 entity.entity_mob_nuclear_creeper.name=Nuklearer Creeper

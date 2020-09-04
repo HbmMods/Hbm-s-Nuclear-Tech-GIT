@@ -2,6 +2,8 @@ package com.hbm.main;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -16,6 +18,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
@@ -127,39 +130,15 @@ public class ModEventHandlerClient {
 			if(time > animation.animation.getDuration())
 				HbmAnimations.hotbar[i] = null;
 		}
-		
-		/*if(event.type == ElementType.CROSSHAIRS) {
 			
-			if(player.ticksExisted < 200) {
-				
-				if(annoyanceToken) {
-					FontRenderer font = Minecraft.getMinecraft().fontRenderer;
-					
-					ScaledResolution resolution = event.resolution;
-					int pX = resolution.getScaledWidth() / 2;
-					int pZ = resolution.getScaledHeight() / 2;
-		
-					String msg = "PLEASE";
-					font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 40, 0xffffff);
-					msg = "THIS IS A DEVELOPMENT VERSION";
-					if(player.ticksExisted > 30) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ - 20, 0xffffff);
-					msg = "OBVIOUSLY SOME THINGS AREN'T GOING TO WORK";
-					if(player.ticksExisted > 60) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ, 0xffffff);
-					msg = "PLEASE AT LEAST TRY TO REMEMBER THAT";
-					if(player.ticksExisted > 90) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 20, 0xffffff);
-					msg = "FOR THE LOVE OF GOD";
-					if(player.ticksExisted > 120) font.drawStringWithShadow(msg, pX - font.getStringWidth(msg) / 2, pZ + 40, 0xb00000);
-				}
-				
-			} else {
-				
-				if(annoyanceToken)
-					annoyanceToken = false;
-			}
-		}*/
+		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O)) {
+			
+			ducked = true;
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));
+		}
 	}
 	
-	public static boolean annoyanceToken = true;
+	public static boolean ducked = false;
 	
 	@SubscribeEvent
 	public void preRenderEvent(RenderPlayerEvent.Pre event) {

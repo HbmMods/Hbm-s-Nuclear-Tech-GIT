@@ -28,6 +28,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
 import com.hbm.packet.RadSurveyPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
@@ -86,6 +87,9 @@ public class ModEventHandler
         	if(VersionChecker.newVersion) {
         		event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "New version " + VersionChecker.versionNumber + " is available!"));
         	}
+        	
+        	if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
+        		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP)event.player);
         }
 	}
 	

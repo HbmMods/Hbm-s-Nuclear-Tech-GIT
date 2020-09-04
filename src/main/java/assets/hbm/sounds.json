@@ -156,6 +156,7 @@
     "entity.planeCrash": {"category": "hostile", "sounds": [{"name": "entity/planeCrash", "stream": false}]},
     "entity.planeShotDown": {"category": "hostile", "sounds": [{"name": "entity/planeShotDown", "stream": false}]},
 	"entity.cybercrab": {"category": "hostile", "sounds": ["entity/radio_random1", "entity/radio_random2", "entity/radio_random3", "entity/radio_random4", "entity/radio_random5", "entity/radio_random6", "entity/radio_random7", "entity/radio_random8", "entity/radio_random9", "entity/radio_random10", "entity/radio_random11", "entity/radio_random12", "entity/radio_random13", "entity/radio_random14", "entity/radio_random15"]},
+    "entity.ducc": {"category": "neutral", "sounds": ["entity/ducc1", "entity/ducc2"]},
     
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     

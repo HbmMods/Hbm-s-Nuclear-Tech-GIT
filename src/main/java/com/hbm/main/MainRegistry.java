@@ -576,6 +576,7 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityTeslaCrab.class, "entity_tesla_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0x440000);
 		EntityRegistry.registerGlobalEntityID(EntityTaintCrab.class, "entity_taint_crab", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xFF00FF);
 		EntityRegistry.registerGlobalEntityID(EntityMaskMan.class, "entity_mob_mask_man", EntityRegistry.findGlobalUniqueEntityId(), 0x818572, 0xC7C1B7);
+		EntityRegistry.registerGlobalEntityID(EntityDuck.class, "entity_fucc_a_ducc", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
 
 		// EntityRegistry.registerGlobalEntityID(EntityBOTPrimeHead.class,
 		// "entity_balls_o_tron_mk0", EntityRegistry.findGlobalUniqueEntityId(),
