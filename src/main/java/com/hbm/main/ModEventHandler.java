@@ -477,6 +477,7 @@ public class ModEventHandler
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 
+			/// FSB ARMOR START ///
 			ItemStack helmet = player.inventory.armorInventory[3];
 			ItemStack plate = player.inventory.armorInventory[2];
 			ItemStack legs = player.inventory.armorInventory[1];
@@ -503,6 +504,20 @@ public class ModEventHandler
 					}
 				}
 			}
+			/// FSB ARMOR END ///
+			
+			/// BETA HEALTH START ///
+			if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia)) {
+				if(player.getFoodStats().getFoodLevel() < 10) {
+					player.getFoodStats().setFoodLevel(10);
+				}
+				
+				if(player.getFoodStats().getFoodLevel() > 10) {
+					player.heal(player.getFoodStats().getFoodLevel() - 10);
+					player.getFoodStats().setFoodLevel(10);
+				}
+			}
+			/// BETA HEALTH END ///
 		}
 
 		//TODO: rewrite this so it doesn't look like shit

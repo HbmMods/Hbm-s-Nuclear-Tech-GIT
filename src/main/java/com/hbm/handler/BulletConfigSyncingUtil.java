@@ -111,7 +111,12 @@ public class BulletConfigSyncingUtil {
 
 	public static int G4_NORMAL = i++;
 	public static int G4_SLUG = i++;
+	public static int G4_FLECHETTE = i++;
+	public static int G4_FLECHETTE_PHOSPHORUS = i++;
 	public static int G4_EXPLOSIVE = i++;
+	public static int G4_SEMTEX = i++;
+	public static int G4_BALEFIRE = i++;
+	public static int G4_KAMPF = i++;
 	public static int G4_SLEEK = i++;
 
 	public static int SPECIAL_OSIPR = i++;
@@ -276,7 +281,12 @@ public class BulletConfigSyncingUtil {
         
 		configSet.put(G4_NORMAL, Gun4GaugeFactory.get4GaugeConfig());
 		configSet.put(G4_SLUG, Gun4GaugeFactory.get4GaugeSlugConfig());
+		configSet.put(G4_FLECHETTE, Gun4GaugeFactory.get4GaugeFlechetteConfig());
+		configSet.put(G4_FLECHETTE_PHOSPHORUS, Gun4GaugeFactory.get4GaugeFlechettePhosphorusConfig());
 		configSet.put(G4_EXPLOSIVE, Gun4GaugeFactory.get4GaugeExplosiveConfig());
+		configSet.put(G4_SEMTEX, Gun4GaugeFactory.get4GaugeMiningConfig());
+		configSet.put(G4_BALEFIRE, Gun4GaugeFactory.get4GaugeBalefireConfig());
+		configSet.put(G4_KAMPF, Gun4GaugeFactory.getGrenadeKampfConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
         
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());

@@ -2,15 +2,27 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 
 public class Gun4GaugeFactory {
 	
@@ -49,7 +61,12 @@ public class Gun4GaugeFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
+		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
+		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
+		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
+		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -98,7 +115,12 @@ public class Gun4GaugeFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.G4_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.G4_SLUG);
+		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE);
+		config.config.add(BulletConfigSyncingUtil.G4_FLECHETTE_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.G4_EXPLOSIVE);
+		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
+		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
+		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -130,6 +152,63 @@ public class Gun4GaugeFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration get4GaugeFlechetteConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_flechette;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 8;
+		bullet.bulletsMin *= 2;
+		bullet.bulletsMax *= 2;
+		bullet.wear = 15;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.HBRC = 2;
+		bullet.LBRC = 95;
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration get4GaugeFlechettePhosphorusConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBuckshotConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_flechette;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 8;
+		bullet.bulletsMin *= 2;
+		bullet.bulletsMax *= 2;
+		bullet.wear = 15;
+		bullet.style = BulletConfiguration.STYLE_FLECHETTE;
+		bullet.HBRC = 2;
+		bullet.LBRC = 95;
+		
+		bullet.ammo = ModItems.ammo_4gauge_flechette_phosphorus;
+		bullet.incendiary = 5;
+		
+		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
+		eff.getCurativeItems().clear();
+		bullet.effects = new ArrayList();
+		bullet.effects.add(new PotionEffect(eff));
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaburst");
+				data.setString("mode", "flame");
+				data.setInteger("count", 15);
+				data.setDouble("motion", 0.05D);
+				
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+			}
+		};
+		
+		return bullet;
+	}
+
 	public static BulletConfiguration get4GaugeExplosiveConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
@@ -141,6 +220,83 @@ public class Gun4GaugeFactory {
 		bullet.dmgMax = 15;
 		bullet.wear = 25;
 		bullet.trail = 1;
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration get4GaugeMiningConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_semtex;
+		bullet.velocity *= 2;
+		bullet.gravity *= 2;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 25;
+		bullet.trail = 1;
+		bullet.explosive = 0.0F;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				ExplosionNT explosion = new ExplosionNT(bullet.worldObj, null, bullet.posX, bullet.posY, bullet.posZ, 4);
+				explosion.atttributes.add(ExAttrib.ALLDROP);
+				explosion.atttributes.add(ExAttrib.NOHURT);
+				explosion.doExplosionA();
+				explosion.doExplosionB(false);
+				
+				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
+			}
+		};
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration get4GaugeBalefireConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardGrenadeConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_balefire;
+		bullet.velocity *= 2;
+		bullet.gravity *= 2;
+		bullet.dmgMin = 10;
+		bullet.dmgMax = 15;
+		bullet.wear = 25;
+		bullet.trail = 1;
+		bullet.explosive = 0.0F;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				ExplosionNT explosion = new ExplosionNT(bullet.worldObj, null, bullet.posX, bullet.posY, bullet.posZ, 6);
+				explosion.atttributes.add(ExAttrib.BALEFIRE);
+				explosion.doExplosionA();
+				explosion.doExplosionB(false);
+				
+				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 30);
+			}
+		};
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getGrenadeKampfConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_kampf;
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.0D;
+		bullet.wear = 15;
+		bullet.explosive = 3.5F;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.trail = 4;
+		bullet.vPFX = "smoke";
 		
 		return bullet;
 	}
