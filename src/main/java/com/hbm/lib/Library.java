@@ -272,24 +272,32 @@ public class Library {
 		return entity;
 	}
 	
-	public static MovingObjectPosition rayTrace(EntityPlayer player, double d, float f) {
-        Vec3 vec3 = getPosition(f, player);
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation) {
+        Vec3 vec3 = getPosition(interpolation, player);
         vec3.yCoord += player.eyeHeight;
-        Vec3 vec31 = player.getLook(f);
-        Vec3 vec32 = vec3.addVector(vec31.xCoord * d, vec31.yCoord * d, vec31.zCoord * d);
+        Vec3 vec31 = player.getLook(interpolation);
+        Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
         return player.worldObj.func_147447_a(vec3, vec32, false, false, true);
 	}
 	
-    public static Vec3 getPosition(float par1, EntityPlayer player) {
-        if (par1 == 1.0F)
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation, boolean liquids, boolean entity, boolean allowZeroLength) {
+        Vec3 vec3 = getPosition(interpolation, player);
+        vec3.yCoord += player.eyeHeight;
+        Vec3 vec31 = player.getLook(interpolation);
+        Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
+        return player.worldObj.func_147447_a(vec3, vec32, liquids, entity, allowZeroLength);
+	}
+	
+    public static Vec3 getPosition(float interpolation, EntityPlayer player) {
+        if (interpolation == 1.0F)
         {
             return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
         }
         else
         {
-            double d0 = player.prevPosX + (player.posX - player.prevPosX) * par1;
-            double d1 = player.prevPosY + (player.posY - player.prevPosY) * par1 + (player.getEyeHeight() - player.getDefaultEyeHeight());
-            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * par1;
+            double d0 = player.prevPosX + (player.posX - player.prevPosX) * interpolation;
+            double d1 = player.prevPosY + (player.posY - player.prevPosY) * interpolation + (player.getEyeHeight() - player.getDefaultEyeHeight());
+            double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * interpolation;
             return Vec3.createVectorHelper(d0, d1, d2);
         }
     }

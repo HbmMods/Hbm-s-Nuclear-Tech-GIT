@@ -12,7 +12,6 @@ public class ItemGunShotty extends ItemGunBase {
 	public ItemGunShotty(GunConfiguration config) {
 		super(config);
 	}
-
 	
 	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
 		super.updateServer(stack, world, player, slot, isCurrentItem);

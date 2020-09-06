@@ -389,6 +389,7 @@ item.ammo_9mm.name=9mm Patrone
 item.ammo_9mm_ap.name=9mm Patrone (Panzerbrechend)
 item.ammo_9mm_du.name=9mm Patrone (DU)
 item.ammo_9mm_rocket.name=9mm Rakete
+item.ammo_cell.name=Energiezelle
 item.ammo_container.name=Munitionsbehälter
 item.ammo_folly.name=Silbernes Geschoss (Original)
 item.ammo_folly_du.name=Silbernes Geschoss (DU, Nicht-Explosiv)

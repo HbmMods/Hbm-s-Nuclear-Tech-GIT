@@ -40,6 +40,37 @@ public class Gun9mmFactory {
 		
 		return config;
 	}
+	
+	public static GunConfiguration getThompsonConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 2;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 20;
+		config.firingDuration = 0;
+		config.ammoCap = 30;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_SPLIT;
+		config.durability = 2500;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.firingSound = "hbm:weapon.rifleShoot";
+		config.reloadSoundEnd = false;
+		
+		config.name = "M1A1 Submachine Gun 9mm Mod";
+		config.manufacturer = "Auto-Ordnance Corporation";
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.P9_AP);
+		config.config.add(BulletConfigSyncingUtil.P9_DU);
+		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
+		
+		return config;
+	}
 
 	static float inaccuracy = 5;
 	public static BulletConfiguration get9mmConfig() {

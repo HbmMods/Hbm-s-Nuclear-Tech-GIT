@@ -568,6 +568,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntitySoyuzCapsule.class, "entity_soyuz_capsule", 145, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityMovingItem.class, "entity_c_item", 146, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityCloudTom.class, "entity_moonstone_blast", 147, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityBeamVortex.class, "entity_vortex_beam", 148, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

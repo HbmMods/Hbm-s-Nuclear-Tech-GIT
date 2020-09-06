@@ -389,6 +389,7 @@ item.ammo_9mm.name=9mm Round
 item.ammo_9mm_ap.name=9mm Round (Armor Piercing)
 item.ammo_9mm_du.name=9mm Round (DU)
 item.ammo_9mm_rocket.name=9mm Rocket
+item.ammo_cell.name=Energy Cell
 item.ammo_container.name=Ammo Container
 item.ammo_folly.name=Silver Bullet (Original)
 item.ammo_folly_du.name=Silver Bullet (DU, Non-Explosive)

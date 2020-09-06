@@ -83,6 +83,14 @@ public class GunEnergyFactory {
 		return config;
 	}
 	
+	public static GunConfiguration getVortexConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		return config;
+		
+	}
+	
 	public static BulletConfiguration getOrbusConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();

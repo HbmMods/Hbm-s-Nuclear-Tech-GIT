@@ -86,6 +86,18 @@ public class ItemAmmo extends Item {
 		}
 		
 		//23mm
+		if(this == ModItems.ammo_4gauge_flechette) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.YELLOW + "* Less bouncy");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_4gauge_flechette_phosphorus) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Induces phosphorus burns");
+			list.add(EnumChatFormatting.YELLOW + "* Twice the warcrime in a single round!");
+			list.add(EnumChatFormatting.YELLOW + "* Less bouncy");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
 		if(this == ModItems.ammo_4gauge_slug) {
 			list.add(EnumChatFormatting.BLUE + "+ Near-perfect accuracy");
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
@@ -97,6 +109,28 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* It's a 40mm grenade that we squeezed to fit the barrel!");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
+		if(this == ModItems.ammo_4gauge_semtex) {
+			list.add(EnumChatFormatting.BLUE + "+ Explosive");
+			list.add(EnumChatFormatting.BLUE + "+ Explosion drops all blocks");
+			list.add(EnumChatFormatting.RED + "- No splash damage");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
+		if(this == ModItems.ammo_4gauge_balefire) {
+			list.add(EnumChatFormatting.BLUE + "+ Explosive");
+			list.add(EnumChatFormatting.BLUE + "+ Balefire");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+			list.add(EnumChatFormatting.RED + "- Single projectile");
+		}
+		if(this == ModItems.ammo_4gauge_kampf) {
+			list.add(EnumChatFormatting.BLUE + "+ Explosive");
+			list.add(EnumChatFormatting.BLUE + "+ Rocket Propelled");
+			list.add(EnumChatFormatting.BLUE + "+ Increased accuracy");
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.RED + "- Increased wear");
 			list.add(EnumChatFormatting.RED + "- Single projectile");
 		}
 		if(this == ModItems.ammo_4gauge_sleek) {
