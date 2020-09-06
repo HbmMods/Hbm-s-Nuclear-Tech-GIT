@@ -1694,6 +1694,7 @@ item.gun_spark_ammo.name=Электромагнитный картридж
 item.gun_hp_ammo.name=Чернильный картридж
 item.gun_euthanasia_ammo.name=Шприцы
 item.gun_defabricator_ammo.name=Энергетические ячейки Дефабрикатора
+item.ammo_cell.name=Энерго-патроны
 
 item.ammo_12gauge.name=Картечь 12 калибра
 item.ammo_12gauge_incendiary.name=Картечь 12 калибра (Зажигательная)
