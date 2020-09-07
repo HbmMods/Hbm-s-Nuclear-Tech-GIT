@@ -242,13 +242,16 @@ public class Gun4GaugeFactory {
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
+				if(bullet.worldObj.isRemote)
+					return;
+				
 				ExplosionNT explosion = new ExplosionNT(bullet.worldObj, null, bullet.posX, bullet.posY, bullet.posZ, 4);
 				explosion.atttributes.add(ExAttrib.ALLDROP);
 				explosion.atttributes.add(ExAttrib.NOHURT);
 				explosion.doExplosionA();
 				explosion.doExplosionB(false);
 				
-				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
+				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 15);
 			}
 		};
 		
@@ -272,6 +275,9 @@ public class Gun4GaugeFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
 				
 				ExplosionNT explosion = new ExplosionNT(bullet.worldObj, null, bullet.posX, bullet.posY, bullet.posZ, 6);
 				explosion.atttributes.add(ExAttrib.BALEFIRE);
