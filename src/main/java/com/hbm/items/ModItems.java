@@ -871,6 +871,11 @@ public class ModItems {
 	public static Item magnetron;
 	public static Item pellet_buckshot;
 	public static Item pellet_flechette;
+	public static Item pellet_chlorophyte;
+	public static Item pellet_mercury;
+	public static Item pellet_meteorite;
+	public static Item pellet_canister;
+	public static Item pellet_charged;
 
 	public static Item designator;
 	public static Item designator_range;
@@ -2729,6 +2734,11 @@ public class ModItems {
 		magnetron = new ItemCustomLore().setUnlocalizedName("magnetron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnetron_alt");
 		pellet_buckshot = new Item().setUnlocalizedName("pellet_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_lead");
 		pellet_flechette = new Item().setUnlocalizedName("pellet_flechette").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_flechette");
+		pellet_chlorophyte = new Item().setUnlocalizedName("pellet_chlorophyte").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_chlorophyte");
+		pellet_mercury = new Item().setUnlocalizedName("pellet_mercury").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_mercury");
+		pellet_meteorite = new Item().setUnlocalizedName("pellet_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_meteorite");
+		pellet_canister = new Item().setUnlocalizedName("pellet_canister").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_canister");
+		pellet_charged = new Item().setUnlocalizedName("pellet_charged").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_charged");
 
 		pellet_schrabidium = new WatzFuel(25F, true, 50000, 140000, 0.975F, 200, 1.05F, 1.05F).setUnlocalizedName("pellet_schrabidium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_schrabidium").setMaxStackSize(1);
 		pellet_hes = new WatzFuel(20F, true, 108000, 65000, 1F, 85, 1, 1.025F).setUnlocalizedName("pellet_hes").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pellet_hes").setMaxStackSize(1);
@@ -4440,6 +4450,11 @@ public class ModItems {
 		GameRegistry.registerItem(pellet_cluster, pellet_cluster.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_buckshot, pellet_buckshot.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_flechette, pellet_flechette.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_chlorophyte, pellet_chlorophyte.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_mercury, pellet_mercury.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_meteorite, pellet_meteorite.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_canister, pellet_canister.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_charged, pellet_charged.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_gas, pellet_gas.getUnlocalizedName());
 
 		GameRegistry.registerItem(magnetron, magnetron.getUnlocalizedName());

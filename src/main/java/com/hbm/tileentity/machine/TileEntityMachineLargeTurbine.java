@@ -10,6 +10,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.ISource;
+import com.hbm.interfaces.Untested;
 import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.lib.Library;
@@ -17,8 +18,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -50,6 +49,7 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		return "container.machineLargeTurbine";
 	}
 
+	@Untested
 	@Override
 	public void updateEntity() {
 		
@@ -77,25 +77,19 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
 				
-				int processMax = (int) Math.ceil(tanks[0].getFill() / 10F);
+				int processMax = (int) Math.ceil(tanks[0].getFill() / 10F) / (Integer)outs[2];		//the maximum amount of cycles based on the 10% cap
+				int processSteam = tanks[0].getFill() / (Integer)outs[2];							//the maximum amount of cycles depending on steam
+				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];	//the maximum amount of cycles depending on water
 				
-				//TODO: handle this dynamically instead of a 16k iteration for loop
-				for(int i = 0; i < processMax; i++) {
-					if(tanks[0].getFill() >= (Integer)outs[2] && tanks[1].getFill() + (Integer)outs[1] <= tanks[1].getMaxFill()) {
-						
-						operational = true;
-						
-						tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2]);
-						tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1]);
-						
-						power += (Integer)outs[3];
-						
-						if(power > maxPower)
-							power = maxPower;
-					} else {
-						break;
-					}
-				}
+				int cycles = Math.min(processMax, Math.min(processSteam, processWater));
+				
+				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
+				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
+				
+				power += (Integer)outs[3] * cycles;
+				
+				if(power > maxPower)
+					power = maxPower;
 			}
 			
 			tanks[1].unloadTank(5, 6, slots);
