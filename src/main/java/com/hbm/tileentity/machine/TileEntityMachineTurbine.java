@@ -235,19 +235,19 @@ public class TileEntityMachineTurbine extends TileEntity implements ISidedInvent
 			} else {
 				tanks[1].setTankType((FluidType) outs[0]);
 				
-				for(int i = 0; i < 1200; i++) {
-					if(tanks[0].getFill() >= (Integer)outs[2] && tanks[1].getFill() + (Integer)outs[1] <= tanks[1].getMaxFill()) {
-						tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2]);
-						tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1]);
-						
-						power += (Integer)outs[3];
-						
-						if(power > maxPower)
-							power = maxPower;
-					} else {
-						break;
-					}
-				}
+				int processMax = 1200;																//the maximum amount of cycles based on the 1.2k cycle cap (subject to change)
+				int processSteam = tanks[0].getFill() / (Integer)outs[2];							//the maximum amount of cycles depending on steam
+				int processWater = (tanks[1].getMaxFill() - tanks[1].getFill()) / (Integer)outs[1];	//the maximum amount of cycles depending on water
+				
+				int cycles = Math.min(processMax, Math.min(processSteam, processWater));
+				
+				tanks[0].setFill(tanks[0].getFill() - (Integer)outs[2] * cycles);
+				tanks[1].setFill(tanks[1].getFill() + (Integer)outs[1] * cycles);
+				
+				power += (Integer)outs[3] * cycles;
+				
+				if(power > maxPower)
+					power = maxPower;
 			}
 			
 			tanks[1].unloadTank(5, 6, slots);

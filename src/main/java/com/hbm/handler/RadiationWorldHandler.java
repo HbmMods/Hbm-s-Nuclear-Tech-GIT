@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import java.util.Map.Entry;
 
+import com.hbm.config.RadiationConfig;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.init.Blocks;
@@ -15,6 +16,9 @@ public class RadiationWorldHandler {
 	public static void handleWorldDestruction(World world) {
 		
 		if(!(world instanceof WorldServer))
+			return;
+		
+		if(!RadiationConfig.worldRadEffects)
 			return;
 		
 		WorldServer serv = (WorldServer)world;
