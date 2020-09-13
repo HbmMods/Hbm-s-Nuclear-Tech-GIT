@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -174,6 +175,30 @@ public class SoyuzPronter {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
+	}
+	
+	public static void prontCapsule() {
+
+		GL11.glPushMatrix();
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		TextureManager tex = Minecraft.getMinecraft().getTextureManager();
+
+		tex.bindTexture(ResourceManager.soyuz_module_dome_tex);
+		ResourceManager.soyuz_module.renderPart("Dome");
+		tex.bindTexture(ResourceManager.soyuz_module_lander_tex);
+		ResourceManager.soyuz_module.renderPart("Capsule");
+		tex.bindTexture(ResourceManager.soyuz_module_propulsion_tex);
+		ResourceManager.soyuz_module.renderPart("Propulsion");
+		tex.bindTexture(ResourceManager.soyuz_module_solar_tex);
+		ResourceManager.soyuz_module.renderPart("Solar");
+
+		GL11.glShadeModel(GL11.GL_FLAT);
+
+		GL11.glPopMatrix();
+
 	}
 
 }

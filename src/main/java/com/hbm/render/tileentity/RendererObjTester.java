@@ -137,7 +137,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         ResourceManager.soyuz_lander.renderPart("Chute");
         GL11.glShadeModel(GL11.GL_FLAT);*/
 
-        GL11.glRotatef(-90, 0, 1, 0);
+        /*GL11.glRotatef(-90, 0, 1, 0);
         GL11.glTranslated(0, 3, 0);
         bindTexture(ResourceManager.nikonium_tex);
         ResourceManager.nikonium.renderAll();
@@ -162,6 +162,22 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         GL11.glTranslatef(0, 1, 0);
         font.drawString("00:15", 0, 0, 0xff0000);
         GL11.glDepthMask(true);
+        
+        GL11.glShadeModel(GL11.GL_FLAT);*/
+
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glEnable(GL11.GL_LIGHTING);
+
+        bindTexture(ResourceManager.soyuz_module_dome_tex);
+        ResourceManager.soyuz_module.renderPart("Dome");
+        bindTexture(ResourceManager.soyuz_module_lander_tex);
+        ResourceManager.soyuz_module.renderPart("Capsule");
+        bindTexture(ResourceManager.soyuz_module_propulsion_tex);
+        ResourceManager.soyuz_module.renderPart("Propulsion");
+        bindTexture(ResourceManager.soyuz_module_solar_tex);
+        ResourceManager.soyuz_module.renderPart("Solar");
         
         GL11.glShadeModel(GL11.GL_FLAT);
         

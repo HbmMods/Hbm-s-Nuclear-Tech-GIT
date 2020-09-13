@@ -3,6 +3,7 @@ package com.hbm.main;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -25,6 +26,7 @@ import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderScreenOverlay;
+import com.hbm.render.util.SoyuzPronter;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
 import com.hbm.sound.MovingSoundCrashing;
@@ -37,9 +39,13 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -47,10 +53,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -286,5 +295,42 @@ public class ModEventHandlerClient {
 		
 		if(event.map.getTextureType() == 0)
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
+		
+		GL11.glPushMatrix();
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+		double dx = player.prevPosX + (player.posX - player.prevPosX) * event.partialTicks;
+		double dy = player.prevPosY + (player.posY - player.prevPosY) * event.partialTicks;
+		double dz = player.prevPosZ + (player.posZ - player.prevPosZ) * event.partialTicks;
+		
+		int dist = 300;
+		int x = 0;
+		int y = 500;
+		int z = 0;
+		
+		Vec3 vec = Vec3.createVectorHelper(x - dx, y - dy, z - dz);
+		
+		if(vec.lengthVector() < dist) {
+			
+			GL11.glTranslated(vec.xCoord, vec.yCoord, vec.zCoord);
+
+			GL11.glRotated(80, 0, 0, 1);
+			GL11.glRotated(30, 0, 1, 0);
+			
+			GL11.glTranslated(0, -3, 0);
+
+            RenderHelper.enableStandardItemLighting();
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 6500F, 30F);
+			SoyuzPronter.prontCapsule();
+            RenderHelper.disableStandardItemLighting();
+		}
+		
+		GL11.glPopMatrix();
 	}
 }
