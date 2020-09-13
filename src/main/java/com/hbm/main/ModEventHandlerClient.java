@@ -54,7 +54,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -301,6 +300,24 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		
+		/* 
+		 * what a fucking moron can't even say sorry to some internet retard and has to resort to spending
+		 * hours with modeling a fucking orbital module so he can attach a message to it which is rendered
+		 * in the world at an unreachable space as if anyone's going to read that
+		 * 
+		 * the 1.12 port def doesn't need any of this, no idea what to do now that i have the oribtal module   <=== correction: the floaty orbital module is kinda fun to have, the attached message is obsolete though
+		 * modeled and textured or with render-in-world technology. i'm 90% sure it was a huge waste of time
+		 * (as is almost everything i do, why have nice things when you can mope and dick around ad infinitum)
+		 * but at least i can p r e t e n d that i was productive in the last couple of days. cyclotron
+		 * overhaul? new turrets? the new silo hatch i promised? nah, i gotta waste time like the retard
+		 * that i am. thinking about it, leaving this note here will make me look like an even bigger
+		 * dumbass, but at this point, why care?
+		 * 
+		 * and the retard that i am, i realized 5 hours in that i forgot to add the small cupola window to the
+		 * orbital module, and adding that would mean i'd have to expand the texture and in term redo the UV,
+		 * but who has time for that considering this model is basically useless anyway?
+		 */
+		
 		GL11.glPushMatrix();
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -319,16 +336,56 @@ public class ModEventHandlerClient {
 		if(vec.lengthVector() < dist) {
 			
 			GL11.glTranslated(vec.xCoord, vec.yCoord, vec.zCoord);
+			
+			GL11.glPushMatrix();
+
+            RenderHelper.enableStandardItemLighting();
 
 			GL11.glRotated(80, 0, 0, 1);
 			GL11.glRotated(30, 0, 1, 0);
 			
+	        double sine = Math.sin(System.currentTimeMillis() * 0.0005) * 5;
+	        double sin3 = Math.sin(System.currentTimeMillis() * 0.0005 + Math.PI * 0.5) * 5;
+	        GL11.glRotated(sine, 0, 0, 1);
+	        GL11.glRotated(sin3, 1, 0, 0);
+			
 			GL11.glTranslated(0, -3, 0);
-
-            RenderHelper.enableStandardItemLighting();
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 6500F, 30F);
 			SoyuzPronter.prontCapsule();
+			
+			GL11.glRotated(System.currentTimeMillis() * 0.025 % 360, 0, -1, 0);
+			
+			String msg = "nosta pls    am sorry     the server is going to hell";
+
+			GL11.glTranslated(0, 3.75, 0);
+			GL11.glRotated(180, 1, 0, 0);
+			
+			float rot = 0F;
+			
+			//looks dumb but we'll use this technology for the cyclotron
+			for(char c : msg.toCharArray()) {
+
+				GL11.glPushMatrix();
+				
+				GL11.glRotatef(rot, 0, 1, 0);
+				
+				rot -= Minecraft.getMinecraft().fontRenderer.getCharWidth(c);
+				
+				GL11.glTranslated(2, 0, 0);
+				
+				GL11.glRotatef(-90, 0, 1, 0);
+				
+				float scale = 0.03F;
+				GL11.glScalef(scale, scale, scale);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				Minecraft.getMinecraft().fontRenderer.drawString(String.valueOf(c), 0, 0, 0xff00ff);
+				GL11.glEnable(GL11.GL_CULL_FACE);
+	    		GL11.glPopMatrix();
+			}
+			
             RenderHelper.disableStandardItemLighting();
+    		
+    		GL11.glPopMatrix();
 		}
 		
 		GL11.glPopMatrix();

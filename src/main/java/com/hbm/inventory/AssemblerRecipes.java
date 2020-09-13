@@ -206,18 +206,18 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.pellet_rtg, 1), new AStack[] {new ComparableStack(ModItems.nugget_pu238, 5), new OreDictStack("plateIron", 2), },50);
 		makeRecipe(new ComparableStack(ModItems.pellet_rtg_weak, 1), new AStack[] {new ComparableStack(ModItems.nugget_u238, 4), new ComparableStack(ModItems.nugget_pu238, 1), new OreDictStack("plateIron", 2), },50);
 		makeRecipe(new ComparableStack(ModItems.tritium_deuterium_cake, 1), new AStack[] {new ComparableStack(ModItems.cell_deuterium, 6), new ComparableStack(ModItems.cell_tritium, 2), new ComparableStack(ModItems.lithium, 4), },150);
-		makeRecipe(new ComparableStack(ModItems.pellet_cluster, 1), new AStack[] {new OreDictStack("plateSteel", 4), new ComparableStack(Blocks.tnt, 1), },50);
-		makeRecipe(new ComparableStack(ModItems.pellet_buckshot, 1), new AStack[] {new ComparableStack(ModItems.nugget_lead, 6), },50);
+		makeRecipe(new ComparableStack(ModItems.pellet_cluster, 1), new AStack[] {new OreDictStack("plateSteel", 4), new ComparableStack(Blocks.tnt, 1), }, 50);
+		makeRecipe(new ComparableStack(ModItems.pellet_buckshot, 1), new AStack[] {new ComparableStack(ModItems.nugget_lead, 6), }, 50);
 		makeRecipe(new ComparableStack(ModItems.australium_iii, 1), new AStack[] {new ComparableStack(ModItems.rod_australium, 1), new OreDictStack("ingotSteel", 1), new OreDictStack("plateSteel", 6), new OreDictStack("plateCopper", 2), new ComparableStack(ModItems.wire_copper, 6), },150);
 		makeRecipe(new ComparableStack(ModItems.magnetron, 1), new AStack[] {new ComparableStack(ModItems.ingot_advanced_alloy, 1), new ComparableStack(ModItems.plate_advanced_alloy, 2), new ComparableStack(ModItems.wire_tungsten, 1), new ComparableStack(ModItems.coil_tungsten, 1), },100);
-		makeRecipe(new ComparableStack(ModItems.pellet_schrabidium, 1), new AStack[] {new ComparableStack(ModItems.ingot_schrabidium, 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_hes, 1), new AStack[] {new ComparableStack(ModItems.ingot_hes, 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_mes, 1), new AStack[] {new ComparableStack(ModItems.ingot_schrabidium_fuel, 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_les, 1), new AStack[] {new ComparableStack(ModItems.ingot_les, 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_beryllium, 1), new AStack[] {new ComparableStack(ModItems.ingot_beryllium, 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_neptunium, 1), new AStack[] {new ComparableStack(ModItems.ingot_neptunium, 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_lead, 1), new AStack[] {new OreDictStack("ingotLead", 5), new OreDictStack("plateIron", 2), },200);
-		makeRecipe(new ComparableStack(ModItems.pellet_advanced, 1), new AStack[] {new OreDictStack("ingotDesh", 5), new OreDictStack("plateIron", 2), },200);
+		makeRecipe(new ComparableStack(ModItems.pellet_schrabidium, 1), new AStack[] {new ComparableStack(ModItems.ingot_schrabidium, 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_hes, 1), new AStack[] {new ComparableStack(ModItems.ingot_hes, 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_mes, 1), new AStack[] {new ComparableStack(ModItems.ingot_schrabidium_fuel, 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_les, 1), new AStack[] {new ComparableStack(ModItems.ingot_les, 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_beryllium, 1), new AStack[] {new ComparableStack(ModItems.ingot_beryllium, 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_neptunium, 1), new AStack[] {new ComparableStack(ModItems.ingot_neptunium, 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_lead, 1), new AStack[] {new OreDictStack("ingotLead", 5), new OreDictStack("plateIron", 2), }, 200);
+		makeRecipe(new ComparableStack(ModItems.pellet_advanced, 1), new AStack[] {new OreDictStack("ingotDesh", 5), new OreDictStack("plateIron", 2), }, 200);
 		makeRecipe(new ComparableStack(ModItems.upgrade_template, 1), new AStack[] {new OreDictStack("plateSteel", 1), new OreDictStack("plateIron", 4), new OreDictStack("plateCopper", 2), new ComparableStack(ModItems.wire_copper, 6), },100);
 		makeRecipe(new ComparableStack(ModItems.upgrade_speed_1, 1), new AStack[] {new ComparableStack(ModItems.upgrade_template, 1), new OreDictStack("dustRedCopperAlloy", 4), new ComparableStack(Items.redstone, 6), new ComparableStack(ModItems.wire_red_copper, 4), },200);
 		makeRecipe(new ComparableStack(ModItems.upgrade_speed_2, 1), new AStack[] {new ComparableStack(ModItems.upgrade_speed_1, 1), new OreDictStack("dustRedCopperAlloy", 2), new ComparableStack(Items.redstone, 4), new ComparableStack(ModItems.circuit_red_copper, 4), new ComparableStack(ModItems.wire_red_copper, 4), new ComparableStack(ModItems.ingot_polymer, 2), },300);
@@ -481,6 +481,22 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.circuit_aluminium, 1),
 			}, 20);
+
+		makeRecipe(new ComparableStack(ModItems.pellet_chlorophyte, 2), new AStack[] {
+				new ComparableStack(ModItems.powder_chlorophyte, 1),
+				new OreDictStack("nuggetLead", 12),
+			}, 50);
+		makeRecipe(new ComparableStack(ModItems.pellet_mercury, 2), new AStack[] {
+				new ComparableStack(ModItems.nugget_mercury, 1),
+				new OreDictStack("nuggetLead", 12),
+			}, 50);
+		makeRecipe(new ComparableStack(ModItems.pellet_meteorite, 2), new AStack[] {
+				new ComparableStack(ModItems.powder_meteorite, 1),
+				new OreDictStack("nuggetLead", 12),
+			}, 50);
+		makeRecipe(new ComparableStack(ModItems.pellet_canister, 2), new AStack[] {
+				new OreDictStack("ingotIron", 3),
+			}, 50);
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {

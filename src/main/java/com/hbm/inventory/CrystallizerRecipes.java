@@ -60,6 +60,7 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(ModItems.powder_lapis), new ItemStack(Items.dye, 1, 4));
 		recipes.put(new ComparableStack(ModItems.powder_semtex_mix), new ItemStack(ModItems.ingot_semtex));
 		recipes.put(new ComparableStack(ModItems.powder_desh_ready), new ItemStack(ModItems.ingot_desh));
+		recipes.put(new ComparableStack(ModItems.powder_meteorite), new ItemStack(ModItems.fragment_meteorite, 1));
 	}
 	
 	public static ItemStack getOutput(ItemStack stack) {
