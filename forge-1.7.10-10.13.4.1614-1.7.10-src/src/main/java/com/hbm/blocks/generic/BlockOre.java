@@ -180,6 +180,14 @@ public class BlockOre extends Block {
 		{
 			return ModItems.lignite;
 		}
+		if(this == ModBlocks.ore_cobalt)
+		{
+			return ModItems.fragment_cobalt;
+		}
+		if(this == ModBlocks.ore_nether_cobalt)
+		{
+			return ModItems.fragment_cobalt;
+		}
 		
 		return Item.getItemFromBlock(this);
     }
@@ -210,6 +218,14 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.block_meteor_treasure)
 		{
 			return 1 + p_149745_1_.nextInt(3);
+		}
+		if(this == ModBlocks.ore_cobalt)
+		{
+			return 4 + p_149745_1_.nextInt(6);
+		}
+		if(this == ModBlocks.ore_nether_cobalt)
+		{
+			return 5 + p_149745_1_.nextInt(8);
 		}
     	
     	return 1;
