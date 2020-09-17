@@ -712,6 +712,7 @@ tile.ore_uranium.name=Uranium Ore
 tile.ore_thorium.name=Thorium Ore
 tile.ore_schrabidium.name=Schrabidium Ore
 tile.ore_beryllium.name=Beryllium Ore
+tile.ore_cinnabar.name=Cinnabar Deposit
 
 tile.ore_nether_cobalt.name=Nether Cobalt Ore
 tile.ore_nether_uranium.name=Nether Uranium Ore

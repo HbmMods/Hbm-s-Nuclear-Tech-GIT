@@ -2279,6 +2279,7 @@ tile.ore_daffergon.name=Dellite
 tile.ore_fluorite.name=Fluorite Ore
 tile.ore_lead.name=Lead Ore
 tile.ore_lignite.name=Lignite Ore
+tile.ore_cinnabar.name=Cinnabar Deposit
 tile.ore_meteor_aluminium.name=Meteor Aluminium Ore
 tile.ore_meteor_copper.name=Meteor Copper Ore
 tile.ore_meteor_lead.name=Meteor Lead Ore

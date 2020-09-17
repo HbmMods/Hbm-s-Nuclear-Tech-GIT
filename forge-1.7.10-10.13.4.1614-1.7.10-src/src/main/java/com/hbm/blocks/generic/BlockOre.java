@@ -188,6 +188,10 @@ public class BlockOre extends Block {
 		{
 			return ModItems.fragment_cobalt;
 		}
+		if(this == ModBlocks.ore_cinnabar)
+		{
+			return ModItems.cinnabar;
+		}
 		
 		return Item.getItemFromBlock(this);
     }
@@ -226,6 +230,10 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_nether_cobalt)
 		{
 			return 5 + p_149745_1_.nextInt(8);
+		}
+		if(this == ModBlocks.ore_cinnabar)
+		{
+			return 1 + p_149745_1_.nextInt(2);
 		}
     	
     	return 1;

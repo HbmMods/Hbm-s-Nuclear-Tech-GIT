@@ -101,6 +101,7 @@ public class ModItems {
 	public static Item nugget_solinium;
 	public static Item ingot_phosphorus;
 	public static Item ingot_semtex;
+	public static Item cinnabar;
 
 	public static Item ingot_australium;
 	public static Item ingot_weidanium;
@@ -219,6 +220,7 @@ public class ModItems {
 	public static Item crystal_starmetal;
 	public static Item crystal_trixite;
 	public static Item crystal_cobalt;
+	public static Item crystal_cinnabar;
 
 	public static Item powder_lead;
 	public static Item powder_neptunium;
@@ -2051,6 +2053,7 @@ public class ModItems {
 		photo_panel = new Item().setUnlocalizedName("photo_panel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":photo_panel");
 		sat_base = new Item().setUnlocalizedName("sat_base").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":sat_base");
 		thruster_nuclear = new Item().setUnlocalizedName("thruster_nuclear").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thruster_nuclear");
+		cinnabar = new Item().setUnlocalizedName("cinnabar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cinnabar_placeholder");
 
 		ingot_dura_steel = new ItemCustomLore().setUnlocalizedName("ingot_dura_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_dura_steel");
 		ingot_polymer = new ItemCustomLore().setUnlocalizedName("ingot_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_polymer");
@@ -4071,6 +4074,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_electronium, ingot_electronium.getUnlocalizedName());
 
 		//Dusts & Other
+		GameRegistry.registerItem(cinnabar, cinnabar.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_phosphorus, ingot_phosphorus.getUnlocalizedName());
 		GameRegistry.registerItem(lithium, lithium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_semtex, ingot_semtex.getUnlocalizedName());
@@ -4192,6 +4196,7 @@ public class ModItems {
 		GameRegistry.registerItem(crystal_starmetal, crystal_starmetal.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_trixite, crystal_trixite.getUnlocalizedName());
 		GameRegistry.registerItem(crystal_cobalt, crystal_cobalt.getUnlocalizedName());
+		GameRegistry.registerItem(crystal_cinnabar, crystal_cinnabar.getUnlocalizedName());
 		
 		//Fragments
 		GameRegistry.registerItem(fragment_neodymium, fragment_neodymium.getUnlocalizedName());

@@ -204,13 +204,33 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.powder_cobalt, 1),
 				new ItemStack(ModItems.powder_iron, 1),
 				new ItemStack(ModItems.powder_iron, 1),
-				new ItemStack(Blocks.gravel, 1) });
+				new ItemStack(Blocks.gravel, 1)
+		});
 		
 		recipes.put(new ComparableStack(ModItems.crystal_cobalt), new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt, 1),
 				new ItemStack(ModItems.powder_cobalt, 1),
 				new ItemStack(ModItems.powder_iron, 2),
-				new ItemStack(ModItems.powder_lithium_tiny, 1) });
+				new ItemStack(ModItems.powder_lithium_tiny, 1)
+		});
+		recipes.put("oreCinnabar", new ItemStack[] {
+				new ItemStack(ModItems.cinnabar, 4),
+				new ItemStack(ModItems.nugget_mercury, 3),
+				new ItemStack(ModItems.sulfur, 2),
+				new ItemStack(Blocks.gravel, 1)
+		});
+		recipes.put(new ComparableStack(ModItems.crystal_cinnabar), new ItemStack[] {
+				new ItemStack(ModItems.cinnabar, 6),
+				new ItemStack(ModItems.nugget_mercury, 6),
+				new ItemStack(ModItems.sulfur, 3),
+				new ItemStack(Items.redstone, 6)
+		});
+		recipes.put("oreAsbestos", new ItemStack[] {
+				new ItemStack(ModItems.powder_asbestos, 1),
+				new ItemStack(ModItems.powder_asbestos, 1),
+				new ItemStack(ModItems.powder_asbestos, 1),
+				new ItemStack(Blocks.gravel, 1)
+		});
 		
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });
 		

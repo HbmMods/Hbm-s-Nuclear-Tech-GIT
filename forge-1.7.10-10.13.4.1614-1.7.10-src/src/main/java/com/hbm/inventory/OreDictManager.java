@@ -60,7 +60,9 @@ public class OreDictManager {
 		OreDictionary.registerOre("ingotDineutronium", ModItems.ingot_dineutronium);
 		OreDictionary.registerOre("ingotStarmetal", ModItems.ingot_starmetal);
 		OreDictionary.registerOre("ingotAsbestos", ModItems.ingot_asbestos);
-		
+		OreDictionary.registerOre("gemCinnabar", ModItems.cinnabar);
+
+		OreDictionary.registerOre("nuggetBeryllium", ModItems.nugget_beryllium);
 		OreDictionary.registerOre("nuggetLead", ModItems.nugget_lead);
 		OreDictionary.registerOre("nuggetUranium", ModItems.nugget_uranium);
 		OreDictionary.registerOre("nuggetUranium233", ModItems.nugget_u233);
@@ -196,6 +198,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("oreVerticium", ModBlocks.ore_verticium);
 		OreDictionary.registerOre("oreRareEarth", ModBlocks.ore_rare);
 		OreDictionary.registerOre("oreCobalt", ModBlocks.ore_cobalt);
+		OreDictionary.registerOre("oreCinnabar", ModBlocks.ore_cinnabar);
 
 		OreDictionary.registerOre("oreCobalt", ModBlocks.ore_nether_cobalt);
 		OreDictionary.registerOre("oreUranium", ModBlocks.ore_nether_uranium);

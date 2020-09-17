@@ -44,6 +44,7 @@ public class CrystallizerRecipes {
 		recipes.put("oreLithium", new ItemStack(ModItems.crystal_lithium));
 		recipes.put("oreStarmetal", new ItemStack(ModItems.crystal_starmetal));
 		recipes.put("oreCobalt", new ItemStack(ModItems.crystal_cobalt));
+		recipes.put("oreCinnabar", new ItemStack(ModItems.crystal_cinnabar));
 		
 		recipes.put(new ComparableStack(ModBlocks.ore_rare), new ItemStack(ModItems.crystal_rare));
 		recipes.put(new ComparableStack(ModBlocks.ore_nether_fire), new ItemStack(ModItems.crystal_phosphorus));
