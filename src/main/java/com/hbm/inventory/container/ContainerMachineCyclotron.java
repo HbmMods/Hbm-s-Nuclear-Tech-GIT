@@ -6,42 +6,42 @@ import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerMachineCyclotron extends Container {
 
-	private TileEntityMachineCyclotron testNuke;
-	private int progress;
+	private TileEntityMachineCyclotron cyclotron;
 	
-	public ContainerMachineCyclotron(InventoryPlayer invPlayer, TileEntityMachineCyclotron tedf) {
-		progress = 0;
+	public ContainerMachineCyclotron(InventoryPlayer invPlayer, TileEntityMachineCyclotron tile) {
 		
-		testNuke = tedf;
+		cyclotron = tile;
 		
 		//Input
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 18));
-		this.addSlotToContainer(new Slot(tedf, 1, 8, 36));
-		this.addSlotToContainer(new Slot(tedf, 2, 8, 54));
+		this.addSlotToContainer(new Slot(tile, 0, 17, 18));
+		this.addSlotToContainer(new Slot(tile, 1, 17, 36));
+		this.addSlotToContainer(new Slot(tile, 2, 17, 54));
 		//Targets
-		this.addSlotToContainer(new Slot(tedf, 3, 80, 72));
-		this.addSlotToContainer(new Slot(tedf, 4, 98, 72));
-		this.addSlotToContainer(new Slot(tedf, 5, 116, 72));
-		//Tech
-		this.addSlotToContainer(new Slot(tedf, 6, 8, 81));
-		this.addSlotToContainer(new Slot(tedf, 7, 26, 81));
-		this.addSlotToContainer(new Slot(tedf, 8, 44, 81));
-		//Battery
-		this.addSlotToContainer(new Slot(tedf, 9, 152, 108));
-		//Cell
-		this.addSlotToContainer(new Slot(tedf, 10, 8, 108));
+		this.addSlotToContainer(new Slot(tile, 3, 107, 18));
+		this.addSlotToContainer(new Slot(tile, 4, 107, 36));
+		this.addSlotToContainer(new Slot(tile, 5, 107, 54));
 		//Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 11, 44, 108));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 12, 62, 108));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 13, 80, 108));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 14, 98, 108));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 15, 116, 108));
+		this.addSlotToContainer(new SlotMachineOutput(tile, 6, 143, 18));
+		this.addSlotToContainer(new SlotMachineOutput(tile, 7, 143, 36));
+		this.addSlotToContainer(new SlotMachineOutput(tile, 8, 143, 54));
+		//AMAT In
+		this.addSlotToContainer(new Slot(tile, 9, 143, 90));
+		//AMAT Out
+		this.addSlotToContainer(new SlotMachineOutput(tile, 10, 143, 108));
+		//Coolant In
+		this.addSlotToContainer(new Slot(tile, 11, 62, 72));
+		//Coolant Out
+		this.addSlotToContainer(new SlotMachineOutput(tile, 12, 62, 90));
+		//Battery
+		this.addSlotToContainer(new Slot(tile, 13, 62, 108));
+		//Upgrades
+		this.addSlotToContainer(new Slot(tile, 14, 17, 90));
+		this.addSlotToContainer(new Slot(tile, 15, 17, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -58,15 +58,9 @@ public class ContainerMachineCyclotron extends Container {
 	}
 	
 	@Override
-	public void addCraftingToCrafters(ICrafting crafting) {
-		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.testNuke.progress);
-	}
-	
-	@Override
     public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
     {
-		ItemStack var3 = null;
+		/*ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
 		
 		if (var4 != null && var4.getHasStack())
@@ -95,36 +89,13 @@ public class ContainerMachineCyclotron extends Container {
 			}
 		}
 		
-		return var3;
+		return var3;*/
+		
+		return null;
     }
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return testNuke.isUseableByPlayer(player);
-	}
-	
-	@Override
-	public void detectAndSendChanges() {
-		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++)
-		{
-			ICrafting par1 = (ICrafting)this.crafters.get(i);
-
-			if(this.progress != this.testNuke.progress)
-			{
-				par1.sendProgressBarUpdate(this, 0, this.testNuke.progress);
-			}
-		}
-
-		this.progress = this.testNuke.progress;
-	}
-	
-	@Override
-	public void updateProgressBar(int i, int j) {
-		if(i == 0)
-		{
-			testNuke.progress = j;
-		}
+		return cyclotron.isUseableByPlayer(player);
 	}
 }

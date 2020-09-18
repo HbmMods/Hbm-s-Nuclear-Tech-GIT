@@ -301,21 +301,7 @@ public class ModEventHandlerClient {
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		
 		/* 
-		 * what a fucking moron can't even say sorry to some internet retard and has to resort to spending
-		 * hours with modeling a fucking orbital module so he can attach a message to it which is rendered
-		 * in the world at an unreachable space as if anyone's going to read that
-		 * 
-		 * the 1.12 port def doesn't need any of this, no idea what to do now that i have the oribtal module   <=== correction: the floaty orbital module is kinda fun to have, the attached message is obsolete though
-		 * modeled and textured or with render-in-world technology. i'm 90% sure it was a huge waste of time
-		 * (as is almost everything i do, why have nice things when you can mope and dick around ad infinitum)
-		 * but at least i can p r e t e n d that i was productive in the last couple of days. cyclotron
-		 * overhaul? new turrets? the new silo hatch i promised? nah, i gotta waste time like the retard
-		 * that i am. thinking about it, leaving this note here will make me look like an even bigger
-		 * dumbass, but at this point, why care?
-		 * 
-		 * and the retard that i am, i realized 5 hours in that i forgot to add the small cupola window to the
-		 * orbital module, and adding that would mean i'd have to expand the texture and in term redo the UV,
-		 * but who has time for that considering this model is basically useless anyway?
+		 * my ass is heavy
 		 */
 		
 		GL11.glPushMatrix();
@@ -355,7 +341,7 @@ public class ModEventHandlerClient {
 			
 			GL11.glRotated(System.currentTimeMillis() * 0.025 % 360, 0, -1, 0);
 			
-			String msg = "nosta pls    am sorry     the server is going to hell";
+			String msg = "your ad here";
 
 			GL11.glTranslated(0, 3.75, 0);
 			GL11.glRotated(180, 1, 0, 0);

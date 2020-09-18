@@ -918,6 +918,7 @@ public class MainRegistry {
 		BreederRecipes.registerFuels();
 		BreederRecipes.registerRecipes();
 		AssemblerRecipes.loadRecipes();
+		CyclotronRecipes.register();
 		MagicRecipes.register();
 
 		TileEntityNukeCustom.registerBombItems();

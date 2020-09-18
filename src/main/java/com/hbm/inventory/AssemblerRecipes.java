@@ -501,6 +501,11 @@ public class AssemblerRecipes {
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {
 		
+		if(out == null || Item.itemRegistry.getNameForObject(out.item) == null) {
+			MainRegistry.logger.error("Canceling assembler registration, item was null!");
+			return;
+		}
+		
 		recipes.put(out, in);
 		time.put(out, duration);
 	}
