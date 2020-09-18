@@ -19,6 +19,7 @@ public class WorldConfig {
 	public static int ligniteSpawn = 2;
 	public static int asbestosSpawn = 2;
 	public static int cobaltSpawn = 5;
+	public static int cinnabarSpawn = 3;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
@@ -65,6 +66,7 @@ public class WorldConfig {
 		ligniteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.11_ligniteSpawnrate", "Amount of lignite ore veins per chunk", 2);
 		asbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.12_asbestosSpawnRate", "Amount of asbestos ore veins per chunk", 2);
 		cobaltSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.13_cobaltSpawnrate", "Amount of cobalt ore veins per chunk", 3);
+		cinnabarSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_cinnabarSpawnRate", "Amount of cinnabar deposits per chunk", 2);
 
 		final String CATEGORY_DUNGEON = "04_dungeons";
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);
