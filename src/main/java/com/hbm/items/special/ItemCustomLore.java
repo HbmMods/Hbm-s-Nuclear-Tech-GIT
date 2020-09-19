@@ -61,6 +61,14 @@ public class ItemCustomLore extends Item {
 				list.add("Cheaper and weaker pellet, now with more U238!");
 		}
 
+		if(this == ModItems.pellet_rtg_polonium)
+		{
+			if(MainRegistry.polaroidID == 11)
+				list.add("Polonium 4 U and me.");
+			else
+				list.add("More powderful RTG pellet, made from finest polonium!");
+		}
+
 		if(this == ModItems.pellet_cluster)
 		{
 			list.add("Used in multi purpose bombs:");

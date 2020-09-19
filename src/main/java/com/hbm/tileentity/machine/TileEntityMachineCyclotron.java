@@ -43,7 +43,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public String getName() {
-		return "container.machineCyclotron";
+		return "container.cyclotron";
 	}
 
 	@Override

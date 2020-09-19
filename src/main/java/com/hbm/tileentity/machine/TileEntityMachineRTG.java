@@ -228,8 +228,13 @@ public class TileEntityMachineRTG extends TileEntity implements ISidedInventory,
 						heat += 5;
 					if(slots[i].getItem() == ModItems.pellet_rtg_weak)
 						heat += 3;
+					if(slots[i].getItem() == ModItems.pellet_rtg_polonium)
+						heat += 25;
 				}
 			}
+			
+			if(heat > heatMax)
+				heat = heatMax;
 			
 			power += heat;
 			if(power > powerMax)

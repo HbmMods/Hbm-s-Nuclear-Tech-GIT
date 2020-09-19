@@ -1447,6 +1447,7 @@ item.pellet_mes.name=MES Watz Pellet
 item.pellet_meteorite.name=Meteorite Rounds
 item.pellet_neptunium.name=Neptunium Watz Pellet
 item.pellet_rtg.name=Plutonium 238 Fuel Pellet
+item.pellet_rtg_polonium.name=Polonium 210 Fuel Pellet
 item.pellet_rtg_weak.name=Weak Uranium RTG Pellet
 item.pellet_schrabidium.name=Pure Schrabidium Watz Pellet
 item.photo_panel.name=Photovoltaic Panel
