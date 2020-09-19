@@ -128,7 +128,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_asbestos, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_asbestos });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_fiberglass, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_fiberglass });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_cobalt, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_cobalt });
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_cinnabar, 1), new Object[] { "##", "###", "###", '#', "gemCinnabar" });
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_cinnabar, 1), new Object[] { "###", "###", "###", '#', ModItems.cinnabar });
 
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.hazmat, 8), new Object[] { "###", "# #", "###", '#', ModItems.hazmat_cloth });
 		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_cloth, 1), new Object[] { "#", '#', ModBlocks.hazmat });
@@ -1640,7 +1640,7 @@ public class CraftingManager {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_aluminium), new ItemStack(ModItems.ingot_aluminium), 2.5F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_lead), new ItemStack(ModItems.ingot_lead), 3.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_beryllium), new ItemStack(ModItems.ingot_beryllium), 2.0F);
-		GameRegistry.addSmelting(ModBlocks.ore_cinnabar, new ItemStack(ModItems.nugget_mercury, 2), 10.0F);
+		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_cinnabar), new ItemStack(ModItems.nugget_mercury, 2), 10.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_schrabidium), new ItemStack(ModItems.ingot_schrabidium), 128.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_schrabidium), new ItemStack(ModItems.ingot_schrabidium), 256.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_meteor_uranium), new ItemStack(ModItems.ingot_uranium, 2), 12.0F);
@@ -1703,6 +1703,7 @@ public class CraftingManager {
 		GameRegistry.addSmelting(ModItems.tank_waste, new ItemStack(ModItems.tank_waste), 0.0F);
 		
 		GameRegistry.addSmelting(ModItems.cinnabar, new ItemStack(ModItems.nugget_mercury, 3), 5.0F);
+		GameRegistry.addSmelting(ModItems.crystal_cinnabar, new ItemStack(ModItems.nugget_mercury, 12), 5.0F);
 		GameRegistry.addSmelting(Items.bone, new ItemStack(Items.slime_ball, 3), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(Items.dye, 1, 15), new ItemStack(Items.slime_ball, 1), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(Blocks.gravel, 1), new ItemStack(Blocks.cobblestone, 1), 0.0F);
