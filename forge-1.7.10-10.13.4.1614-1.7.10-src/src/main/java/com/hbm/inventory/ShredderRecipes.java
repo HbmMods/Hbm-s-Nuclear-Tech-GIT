@@ -144,10 +144,11 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(ModBlocks.meteor_brick_chiseled, new ItemStack(ModItems.powder_meteorite, 1));
 		ShredderRecipes.setRecipe(ModBlocks.meteor_pillar, new ItemStack(ModItems.powder_meteorite, 1));
 		ShredderRecipes.setRecipe(ModBlocks.ore_rare, new ItemStack(ModItems.powder_desh_mix, 1));
-		ShredderRecipes.setRecipe(ModBlocks.ore_cinnabar, new ItemStack(ModItems.nugget_mercury, 8));
+		ShredderRecipes.setRecipe(ModBlocks.ore_cinnabar, new ItemStack(Items.redstone, 27));
 		ShredderRecipes.setRecipe(Blocks.diamond_ore, new ItemStack(ModBlocks.gravel_diamond, 2));
 		ShredderRecipes.setRecipe(ModItems.ingot_schraranium, new ItemStack(ModItems.nugget_schrabidium, 2));
-		ShredderRecipes.setRecipe(ModItems.crystal_cinnabar, new ItemStack(ModItems.nugget_mercury, 16));
+		ShredderRecipes.setRecipe(ModItems.cinnabar, new ItemStack(Items.redstone, 9));
+		ShredderRecipes.setRecipe(ModItems.crystal_cinnabar, new ItemStack(Items.redstone, 63));
 		ShredderRecipes.setRecipe(ModItems.crystal_iron, new ItemStack(ModItems.powder_iron, 3));
 		ShredderRecipes.setRecipe(ModItems.crystal_gold, new ItemStack(ModItems.powder_gold, 3));
 		ShredderRecipes.setRecipe(ModItems.crystal_redstone, new ItemStack(Items.redstone, 8));
