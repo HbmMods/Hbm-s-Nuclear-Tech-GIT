@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.inventory.FluidTank;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -31,7 +32,16 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 106 - 88, 16, 88, cyclotron.power, cyclotron.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 80, guiTop + 72, 7, 52, cyclotron.power, cyclotron.maxPower);
+
+		cyclotron.coolant.renderTankInfo(this, mouseX, mouseY, guiLeft + 53, guiTop + 72, 7, 52);
+		cyclotron.amat.renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 90, 7, 34);
+
+		String[] text = new String[] { "Acceptable upgrades:",
+				" -Speed (stacks to level 3)",
+				" -Effectiveness (stacks to level 3)",
+				" -Power Saving (stacks to level 3)"};
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 21, guiTop + 75, 8, 8, mouseX, mouseY, text);
 	}
 	
 	@Override
@@ -67,5 +77,12 @@ public class GUIMachineCyclotron extends GuiInfoContainer {
 		
 		if(cyclotron.isOn)
 			drawTexturedModalRect(guiLeft + 97, guiTop + 107, 219, 0, 18, 18);
+		
+		this.drawInfoPanel(guiLeft + 21, guiTop + 75, 8, 8, 8);
+
+		Minecraft.getMinecraft().getTextureManager().bindTexture(cyclotron.coolant.getSheet());
+		cyclotron.coolant.renderTank(this, guiLeft + 53, guiTop + 124, cyclotron.coolant.getTankType().textureX() * FluidTank.x, cyclotron.coolant.getTankType().textureY() * FluidTank.y, 7, 52);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(cyclotron.amat.getSheet());
+		cyclotron.amat.renderTank(this, guiLeft + 134, guiTop + 124, cyclotron.amat.getTankType().textureX() * FluidTank.x, cyclotron.amat.getTankType().textureY() * FluidTank.y, 7, 34);
 	}
 }

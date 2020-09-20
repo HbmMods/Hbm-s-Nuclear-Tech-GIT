@@ -48,8 +48,11 @@ public class EntityShrapnel extends EntityThrowable {
 
         if(this.ticksExisted > 5) {
         	this.setDead();
-        	if(!this.worldObj.isRemote)
-        		worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 0.1F, true);
+        	
+        	for(int i = 0; i < 5; i++)
+        		worldObj.spawnParticle("lava", posX, posY, posZ, 0.0, 0.0, 0.0);
+        	
+        	worldObj.playSoundEffect(posX, posY, posZ, "random.fizz", 1.0F, 1.0F);
         }
     }
     

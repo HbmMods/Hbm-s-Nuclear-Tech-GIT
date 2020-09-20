@@ -459,49 +459,23 @@ public class ExplosionThermo {
 		        bombStartStrength = (int)f;
 	}
 	
-	public static void setEntitiesOnFire(World world, int x, int y, int z, int bombStartStrength) {
-				float f = bombStartStrength;
-		        new HashSet();
-		        int i;
-		        int j;
-		        int k;
-		        double d5;
-		        double d6;
-		        double d7;
-		        double wat = bombStartStrength;
-		        bombStartStrength *= 2.0F;
-		        i = MathHelper.floor_double(x - wat - 1.0D);
-		        j = MathHelper.floor_double(x + wat + 1.0D);
-		        k = MathHelper.floor_double(y - wat - 1.0D);
-		        int i2 = MathHelper.floor_double(y + wat + 1.0D);
-		        int l = MathHelper.floor_double(z - wat - 1.0D);
-		        int j2 = MathHelper.floor_double(z + wat + 1.0D);
-		        List list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(i, k, l, j, i2, j2));
-		        Vec3.createVectorHelper(x, y, z);
+	public static void setEntitiesOnFire(World world, double x, double y, double z, int radius) {
 
-		        for (int i1 = 0; i1 < list.size(); ++i1)
-		        {
-		            Entity entity = (Entity)list.get(i1);
-		            double d4 = entity.getDistance(x, y, z) / bombStartStrength;
+		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius));
 
-		            if (d4 <= 1.0D)
-		            {
-		                d5 = entity.posX - x;
-		                d6 = entity.posY + entity.getEyeHeight() - y;
-		                d7 = entity.posZ - z;
-		                double d9 = MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-		                if (d9 < wat && !(entity instanceof EntityOcelot) && entity instanceof EntityLivingBase)
-		                {
+		for(Entity e : list) {
+			
+			if(e.getDistance(x, y, z) <= radius) {
 
-	                    	if(!(entity instanceof EntityPlayer && ArmorUtil.checkForAsbestos((EntityPlayer) entity))) {
-	                    		((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 15 * 20, 4));
-	                    		entity.setFire(10);
-	                    	}
-		                }
-		            }
-		        }
-
-		        bombStartStrength = (int)f;
+				if(!(e instanceof EntityPlayer && ArmorUtil.checkForAsbestos((EntityPlayer) e))) {
+					
+					if(e instanceof EntityLivingBase)
+						((EntityLivingBase) e).addPotionEffect(new PotionEffect(Potion.weakness.getId(), 15 * 20, 4));
+					
+					e.setFire(10);
+				}
+			}
+		}
 	}
 
 }

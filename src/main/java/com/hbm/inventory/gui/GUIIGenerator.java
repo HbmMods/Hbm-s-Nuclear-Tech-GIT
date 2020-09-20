@@ -87,14 +87,5 @@ public class GUIIGenerator extends GuiInfoContainer {
 		} else {
 			drawTexturedModalRect(guiLeft + 12, guiTop + 59 + 24, 230, 0, 6, 6);
 		}
-		if(diFurnace.canLocateThermalElement() > 0) {
-			drawTexturedModalRect(guiLeft + 12, guiTop + 59 + 12, 230, 0, 6, 6);
-		}
-		if(diFurnace.lubricant > 0) {
-			drawTexturedModalRect(guiLeft + 12, guiTop + 59 + 36, 230, 0, 6, 6);
-		}
-		if(diFurnace.hasLimiter()) {
-			drawTexturedModalRect(guiLeft + 12, guiTop + 59 + 48, 230, 0, 6, 6);
-		}
 	}
 }

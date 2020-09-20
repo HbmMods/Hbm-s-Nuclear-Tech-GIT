@@ -4,17 +4,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.hbm.config.BombConfig;
+import com.hbm.entity.effect.EntityBlackHole;
+import com.hbm.entity.logic.EntityBalefire;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionParticle;
+import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.explosion.ExplosionThermo;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.CyclotronRecipes;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor {
 	
@@ -25,6 +37,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	public boolean isOn;
 	
 	private int age;
+	private int countdown;
 	
 	public int progress;
 	public static final int duration = 690;
@@ -66,10 +79,12 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			
 			if(isOn) {
 				
-				if(canProcess()) {
+				int defConsumption = consumption - 100000 * getConsumption();
+				
+				if(canProcess() && power >= defConsumption) {
 					
-					progress++;
-					power -= consumption;
+					progress += this.getSpeed();
+					power -= defConsumption;
 					
 					if(progress >= duration) {
 						process();
@@ -78,12 +93,37 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 					}
 					
 					if(coolant.getFill() > 0) {
+
+			    		countdown = 0;
 						
 						if(worldObj.rand.nextInt(3) == 0)
 							coolant.setFill(coolant.getFill() - 1);
 						
-					} else {
-						worldObj.newExplosion(null, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 25, true, true);
+					} else if(worldObj.rand.nextInt(this.getSafety()) == 0) {
+						
+						countdown++;
+						
+						int chance = 7 - Math.min((int) Math.ceil(countdown / 200D), 6);
+						
+						if(worldObj.rand.nextInt(chance) == 0)
+							ExplosionLarge.spawnTracers(worldObj, xCoord + 0.5, yCoord + 3.25, zCoord + 0.5, 1);
+						
+						if(countdown > 1000) {
+							ExplosionThermo.setEntitiesOnFire(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 25);
+							ExplosionThermo.scorchLight(worldObj, xCoord, yCoord, zCoord, 7);
+							
+							if(countdown % 4 == 0)
+								ExplosionLarge.spawnBurst(worldObj, xCoord + 0.5, yCoord + 3.25, zCoord + 0.5, 18, 1);
+							
+						} else if(countdown > 600) {
+							ExplosionThermo.setEntitiesOnFire(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 10);
+						}
+						
+						if(countdown == 1140)
+							worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "hbm:block.shutdown", 10.0F, 1.0F);
+						
+						if(countdown > 1200)
+							explode();
 					}
 					
 				} else {
@@ -101,8 +141,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			data.setBoolean("isOn", isOn);
 			this.networkPack(data, 25);
 			
-			this.coolant.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
-			this.amat.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
+			coolant.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+			amat.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	
@@ -113,25 +153,46 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 	
 	public void handleButtonPacket(int value, int meta) {
+		
+		this.isOn = !this.isOn;
+	}
+	
+	private void explode() {
 
-		System.out.println("Before: " + isOn);
+		ExplosionLarge.explodeFire(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 25, true, false, true);
 		
-		if(this.isOn)
-			this.isOn = false;
-		else
-			this.isOn = true;
-		
-		System.out.println("After: " + isOn);
+		int rand = worldObj.rand.nextInt(10);
+
+		if(rand < 2) {
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5));
+			ExplosionParticle.spawnMush(worldObj, xCoord + 0.5, yCoord - 3, zCoord + 0.5);
+		} else if(rand < 4) {
+			EntityBalefire bf = new EntityBalefire(worldObj);
+			bf.posX = xCoord + 0.5;
+			bf.posY = yCoord + 1.5;
+			bf.posZ = zCoord + 0.5;
+			bf.destructionRange = (int)(BombConfig.fatmanRadius * 1.5);
+			worldObj.spawnEntityInWorld(bf);
+			ExplosionParticleB.spawnMush(worldObj, xCoord + 0.5, yCoord - 3, zCoord + 0.5);
+		} else if(rand < 5) {
+			EntityBlackHole bl = new EntityBlackHole(worldObj, 1.5F + worldObj.rand.nextFloat());
+			bl.posX = xCoord + 0.5F;
+			bl.posY = yCoord + 1.5F;
+			bl.posZ = zCoord + 0.5F;
+			worldObj.spawnEntityInWorld(bl);
+		}
 	}
 	
 	public boolean canProcess() {
 		
-		if(power < consumption)
-			return false;
-		
 		for(int i = 0; i < 3; i++) {
 			
-			ItemStack out = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
+			Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
+			
+			if(res == null)
+				continue;
+			
+			ItemStack out = (ItemStack)res[0];
 			
 			if(out == null)
 				continue;
@@ -148,57 +209,101 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	
 	public void process() {
 		
-		int amat = 0;
-		
 		for(int i = 0; i < 3; i++) {
 			
-			ItemStack out = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
+			Object[] res = CyclotronRecipes.getOutput(slots[i + 3], slots[i]);
+			
+			if(res == null)
+				continue;
+			
+			ItemStack out = (ItemStack)res[0];
 			
 			if(out == null)
 				continue;
 			
 			if(slots[i + 6] == null) {
 				
-				amat += this.getAmat(slots[i]);
 				this.decrStackSize(i, 1);
 				this.decrStackSize(i + 3, 1);
 				slots[i + 6] = out;
+				
+				this.amat.setFill(this.amat.getFill() + (Integer)res[1]);
+				
 				continue;
 			}
 			
 			if(slots[i + 6].getItem() == out.getItem() && slots[i + 6].getItemDamage() == out.getItemDamage() && slots[i + 6].stackSize < out.getMaxStackSize()) {
 				
-				amat += this.getAmat(slots[i]);
 				this.decrStackSize(i, 1);
 				this.decrStackSize(i + 3, 1);
 				slots[i + 6].stackSize++;
+				
+				this.amat.setFill(this.amat.getFill() + (Integer)res[1]);
 			}
 		}
 		
-		this.amat.setFill(this.amat.getFill() + amat);
 		if(this.amat.getFill() > this.amat.getMaxFill())
 			this.amat.setFill(this.amat.getMaxFill());
 	}
 	
-	public int getAmat(ItemStack stack) {
+	public int getSpeed() {
 		
-		//TODO: move to cyclotron recipe handler and register it on a per-recipe basis
+		int speed = 1;
 		
-		if(stack == null)
-			return 0;
+		for(int i = 14; i < 16; i++) {
+			
+			if(slots[i] != null) {
+				
+				if(slots[i].getItem() == ModItems.upgrade_speed_1)
+					speed += 1;
+				else if(slots[i].getItem() == ModItems.upgrade_speed_2)
+					speed += 2;
+				else if(slots[i].getItem() == ModItems.upgrade_speed_3)
+					speed += 3;
+			}
+		}
 		
-		if(stack.getItem() == ModItems.part_lithium)
-			return 50;
-		if(stack.getItem() == ModItems.part_beryllium)
-			return 25;
-		if(stack.getItem() == ModItems.part_carbon)
-			return 10;
-		if(stack.getItem() == ModItems.part_copper)
-			return 15;
-		if(stack.getItem() == ModItems.part_plutonium)
-			return 100;
+		return Math.min(speed, 4);
+	}
+	
+	public int getConsumption() {
 		
-		return 0;
+		int speed = 0;
+		
+		for(int i = 14; i < 16; i++) {
+			
+			if(slots[i] != null) {
+				
+				if(slots[i].getItem() == ModItems.upgrade_power_1)
+					speed += 1;
+				else if(slots[i].getItem() == ModItems.upgrade_power_2)
+					speed += 2;
+				else if(slots[i].getItem() == ModItems.upgrade_power_3)
+					speed += 3;
+			}
+		}
+		
+		return Math.min(speed, 3);
+	}
+	
+	public int getSafety() {
+		
+		int speed = 1;
+		
+		for(int i = 14; i < 16; i++) {
+			
+			if(slots[i] != null) {
+				
+				if(slots[i].getItem() == ModItems.upgrade_effect_1)
+					speed += 1;
+				else if(slots[i].getItem() == ModItems.upgrade_effect_2)
+					speed += 2;
+				else if(slots[i].getItem() == ModItems.upgrade_effect_3)
+					speed += 3;
+			}
+		}
+		
+		return Math.min(speed, 4);
 	}
 
 	public long getPowerScaled(long i) {
@@ -211,6 +316,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public void setFillstate(int fill, int index) {
+		
 		if(index == 0)
 			coolant.setFill(fill);
 		else if(index == 1)
@@ -230,7 +336,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		if(index == 0)
 			coolant.setTankType(type);
 		else if(index == 1)
-			coolant.setTankType(type);
+			amat.setTankType(type);
 	}
 
 	@Override
@@ -289,5 +395,50 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			return coolant.getMaxFill();
 		
 		return 0;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return AxisAlignedBB.getBoundingBox(xCoord - 2, yCoord, zCoord - 2, xCoord + 3, yCoord + 4, zCoord + 3);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		coolant.readFromNBT(nbt, "coolant");
+		amat.readFromNBT(nbt, "amat");
+		
+		this.isOn = nbt.getBoolean("isOn");
+		this.countdown = nbt.getInteger("countdown");
+		this.progress = nbt.getInteger("progress");
+		this.power = nbt.getLong("power");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		coolant.writeToNBT(nbt, "coolant");
+		amat.writeToNBT(nbt, "amat");
+		
+		nbt.setBoolean("isOn", isOn);
+		nbt.setInteger("countdown", countdown);
+		nbt.setInteger("progress", progress);
+		nbt.setLong("power", power);
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && i >= 14 && i <= 15 && stack.getItem() instanceof ItemMachineUpgrade)
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.5F, 1.0F);
 	}
 }

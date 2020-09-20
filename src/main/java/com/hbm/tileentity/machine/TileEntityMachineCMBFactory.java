@@ -236,7 +236,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 		
 		boolean b = false;
 		
-		if(tank.getFill() >= 10 && power >= 100000 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
+		if(tank.getFill() >= 1 && power >= 100000 && slots[1] != null && slots[3] != null && (slots[4] == null || slots[4].stackSize <= 60))
 		{
 			boolean flag0 = slots[1].getItem() == ModItems.ingot_magnetized_tungsten || slots[1].getItem() == ModItems.powder_magnetized_tungsten;
 			boolean flag1 = slots[3].getItem() == ModItems.ingot_advanced_alloy || slots[3].getItem() == ModItems.powder_advanced_alloy;
@@ -252,7 +252,7 @@ public class TileEntityMachineCMBFactory extends TileEntity implements ISidedInv
 	}
 	
 	public void process() {
-		tank.setFill(tank.getFill() - 10);
+		tank.setFill(tank.getFill() - 1);
 		power -= 100000;
 		
 		process++;

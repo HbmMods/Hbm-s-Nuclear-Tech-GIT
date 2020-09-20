@@ -1,8 +1,14 @@
 package com.hbm.inventory.container;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotMachineOutput;
+import com.hbm.inventory.SlotUpgrade;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -40,8 +46,8 @@ public class ContainerMachineCyclotron extends Container {
 		//Battery
 		this.addSlotToContainer(new Slot(tile, 13, 62, 108));
 		//Upgrades
-		this.addSlotToContainer(new Slot(tile, 14, 17, 90));
-		this.addSlotToContainer(new Slot(tile, 15, 17, 108));
+		this.addSlotToContainer(new SlotUpgrade(tile, 14, 17, 90));
+		this.addSlotToContainer(new SlotUpgrade(tile, 15, 17, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -58,41 +64,66 @@ public class ContainerMachineCyclotron extends Container {
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
-    {
-		/*ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		
-		if (var4 != null && var4.getHasStack())
-		{
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
-			
-            if (par2 <= 15) {
-				if (!this.mergeItemStack(var5, 16, this.inventorySlots.size(), true))
-				{
+		ItemStack var3 = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
+
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			var3 = stack.copy();
+
+			if(index <= 15) {
+				if(!this.mergeItemStack(stack, 16, this.inventorySlots.size(), true)) {
 					return null;
 				}
+				
+			} else {
+				
+				if(stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(stack, 13, 14, true))
+						return null;
+					
+				} else if(FluidContainerRegistry.getFluidContent(stack, FluidType.COOLANT) > 0) {
+					if(!this.mergeItemStack(stack, 11, 12, true))
+						return null;
+					
+				} else if(FluidContainerRegistry.getFullContainer(stack, FluidType.AMAT) != null) {
+					if(!this.mergeItemStack(stack, 9, 10, true))
+						return null;
+					
+				} else if(stack.getItem() instanceof ItemMachineUpgrade) {
+					if(!this.mergeItemStack(stack, 14, 15, true))
+						if(!this.mergeItemStack(stack, 15, 16, true))
+							return null;
+					
+				} else {
+					
+					if(stack.getItem() == ModItems.part_lithium ||
+							stack.getItem() == ModItems.part_beryllium ||
+							stack.getItem() == ModItems.part_carbon ||
+							stack.getItem() == ModItems.part_copper ||
+							stack.getItem() == ModItems.part_plutonium) {
+						
+						if(!this.mergeItemStack(stack, 0, 3, true))
+							return null;
+					} else {
+						
+						if(!this.mergeItemStack(stack, 3, 6, true))
+							return null;
+					}
+				}
 			}
-			else if (!this.mergeItemStack(var5, 0, 16, false))
-			{
-					return null;
-			}
-			
-			if (var5.stackSize == 0)
-			{
-				var4.putStack((ItemStack) null);
-			}
-			else
-			{
-				var4.onSlotChanged();
+
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
 			}
 		}
-		
-		return var3;*/
-		
-		return null;
-    }
+
+		return var3;
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

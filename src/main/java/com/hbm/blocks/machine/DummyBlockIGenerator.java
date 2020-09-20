@@ -17,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class DummyBlockIGenerator extends BlockContainer implements IDummy {
@@ -80,23 +81,12 @@ public class DummyBlockIGenerator extends BlockContainer implements IDummy {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
-    		TileEntity te = world.getTileEntity(x, y, z);
-    		if(te != null && te instanceof TileEntityDummy) {
-    			int a = ((TileEntityDummy)te).targetX;
-    			int b = ((TileEntityDummy)te).targetY;
-    			int c = ((TileEntityDummy)te).targetZ;
-    			
-    			TileEntityMachineIGenerator entity = (TileEntityMachineIGenerator) world.getTileEntity(a, b, c);
-    			if(entity != null)
-    			{
-    				FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_industrial_generator, world, a, b, c);
-    			}
-    		}
+		} else if(!player.isSneaking()) {
+			
+			player.addChatComponentMessage(new ChatComponentText("The IGen has been retired, you may break it for recycling."));
 			return true;
 		} else {
 			return false;

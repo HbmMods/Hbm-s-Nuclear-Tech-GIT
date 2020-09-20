@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.config.WeaponConfig;
 import com.hbm.inventory.container.ContainerMachineRadar;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
