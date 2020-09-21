@@ -135,6 +135,7 @@
     "weapon.fstbmbStart": {"category": "player", "sounds": [{"name": "weapon/fstbmbStart", "stream": false}]},
     "weapon.fstbmbPing": {"category": "player", "sounds": [{"name": "weapon/fstbmbPing", "stream": false}]},
     "weapon.sauergun": {"category": "player", "sounds": ["weapon/sauergun1", "weapon/sauergun2", "weapon/sauergun3"]},
+    "weapon.whack": {"category": "player", "sounds": [{"name": "weapon/whack", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

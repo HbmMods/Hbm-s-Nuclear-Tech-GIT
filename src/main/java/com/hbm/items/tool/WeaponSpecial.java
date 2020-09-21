@@ -134,10 +134,27 @@ public class WeaponSpecial extends ItemSword {
 		}
     	
 		if(this == ModItems.shimmer_axe) {
-			
 			entity.setHealth(entity.getHealth() / 2);
 			
         	world.playSoundAtEntity(entity, "hbm:weapon.slice", 3.0F, 1.F);
+		}
+    	
+		if(this == ModItems.wood_gavel) {
+        	world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
+		}
+    	
+		if(this == ModItems.lead_gavel) {
+        	world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
+        	
+			entity.addPotionEffect(new PotionEffect(HbmPotion.lead.id, 15 * 20, 4));
+		}
+		
+		if(this == ModItems.diamond_gavel) {
+			
+			float ded = entity.getMaxHealth() / 3;
+			entity.setHealth(entity.getHealth() - ded);
+			
+        	world.playSoundAtEntity(entity, "hbm:weapon.whack", 3.0F, 1.F);
 		}
     	
 		if(this == ModItems.wrench) {
@@ -312,6 +329,18 @@ public class WeaponSpecial extends ItemSword {
 			list.add(EnumChatFormatting.AQUA + "Deals crits while the wielder is rocket jumping");
 			list.add(EnumChatFormatting.RED + "20% slower firing speed");
 			list.add(EnumChatFormatting.RED + "No random critical hits");
+		}
+
+		if(this == ModItems.wood_gavel) {
+			list.add("Thunk!");
+		}
+		if(this == ModItems.lead_gavel) {
+			list.add("You are hereby sentenced to lead poisoning.");
+		}
+		if(this == ModItems.diamond_gavel) {
+			list.add("The joke! It makes sense now!!");
+			list.add("");
+			list.add(EnumChatFormatting.BLUE + "Deals as much damage as it needs to.");
 		}
 	}
 
