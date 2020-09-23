@@ -1245,6 +1245,7 @@ item.centrifuge_tower.name=Башня центрифуги
 item.reactor_core.name=Активная зона реактора-размножителя
 item.pellet_rtg.name=РИТЭГ-пеллета из плутония-238
 item.pellet_rtg_weak.name=Слабая урановая РИТЭГ-пеллета
+item.pellet_rtg_polonium.name=РИТЭГ-пеллета из полония-210
 item.rtg_unit.name=РИТЭГ-элемент
 item.hazmat_cloth.name=Защитная ткань
 item.hazmat_cloth_red.name=Дополнительная защитная ткань
