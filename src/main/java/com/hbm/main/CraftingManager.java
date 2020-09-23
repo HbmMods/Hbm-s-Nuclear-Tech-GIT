@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -1626,6 +1627,24 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.wood_gavel, 1), new Object[] { "SWS", " R ", " R ", 'S', "slabWood", 'W', "logWood", 'R', "stickWood" }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.lead_gavel, 1), new Object[] { "PIP", "IGI", "PIP", 'P', ModItems.pellet_buckshot, 'I', "ingotLead", 'G', ModItems.wood_gavel }));
 
+		if(GeneralConfig.enableBabyMode) {
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cordite, 3), new Object[] { ModItems.ballistite, Items.gunpowder, new ItemStack(Blocks.wool, 1, OreDictionary.WILDCARD_VALUE) });
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ingot_semtex, 3), new Object[] { Items.slime_ball, Blocks.tnt, ModItems.niter });
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.canister_fuel, 1), new Object[] { ModItems.canister_oil, Items.redstone });
+
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_iron, 4), new Object[] { "##", "##", '#', "ingotIron" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_gold, 4), new Object[] { "##", "##", '#', "ingotGold" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_aluminium, 4), new Object[] { "##", "##", '#', "ingotAluminum" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_titanium, 4), new Object[] { "##", "##", '#', "ingotTitanium" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_copper, 4), new Object[] { "##", "##", '#', "ingotCopper" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_lead, 4), new Object[] { "##", "##", '#', "ingotLead" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_steel, 4), new Object[] { "##", "##", '#', "ingotSteel" }));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_schrabidium, 4), new Object[] { "##", "##", '#', "ingotSchrabidium" }));
+			GameRegistry.addRecipe(new ItemStack(ModItems.plate_advanced_alloy, 4), new Object[] { "##", "##", '#', ModItems.ingot_advanced_alloy });
+			GameRegistry.addRecipe(new ItemStack(ModItems.plate_saturnite, 4), new Object[] { "##", "##", '#', ModItems.ingot_saturnite });
+			GameRegistry.addRecipe(new ItemStack(ModItems.plate_combine_steel, 4), new Object[] { "##", "##", '#', ModItems.ingot_combine_steel });
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.neutron_reflector, 4), new Object[] { "##", "##", '#', "ingotTungsten" }));
+		}
 	}
 	
 	public static void AddSmeltingRec()

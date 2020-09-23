@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.blocks.machine.MachineReactor;
 import com.hbm.inventory.BreederRecipes;
 import com.hbm.inventory.BreederRecipes.BreederRecipe;
 import com.hbm.tileentity.TileEntityMachineBase;

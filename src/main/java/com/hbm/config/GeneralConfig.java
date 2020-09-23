@@ -27,6 +27,7 @@ public class GeneralConfig {
 	public static boolean enableGuns = true;
 	public static boolean enableVirus = true;
 	public static boolean enableCrosshairs = true;
+	public static boolean enableBabyMode = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -54,5 +55,6 @@ public class GeneralConfig {
 		enableGuns = config.get(CATEGORY_GENERAL, "1.20_enableGuns", true).getBoolean(true);
 		enableVirus = config.get(CATEGORY_GENERAL, "1.21_enableVirus", false).getBoolean(false);
 		enableCrosshairs = config.get(CATEGORY_GENERAL, "1.22_enableCrosshairs", true).getBoolean(true);
+		enableBabyMode = config.get(CATEGORY_GENERAL, "1.23_enableBabyMode", false).getBoolean(false);
 	}
 }

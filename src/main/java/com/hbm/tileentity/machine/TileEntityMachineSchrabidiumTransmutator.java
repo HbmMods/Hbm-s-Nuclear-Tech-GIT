@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.config.VersatileConfig;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.MachineRecipes;
 import com.hbm.items.ModItems;
@@ -125,7 +126,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 		if (power >= 4990000 && slots[0] != null && MachineRecipes.mODE(slots[0], "ingotUranium") && slots[2] != null
 				&& slots[2].getItem() == ModItems.redcoil_capacitor
 				&& slots[2].getItemDamage() < slots[2].getMaxDamage()
-				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == ModItems.ingot_schraranium
+				&& (slots[1] == null || (slots[1] != null && slots[1].getItem() == VersatileConfig.getTransmutatorItem()
 						&& slots[1].stackSize < slots[1].getMaxStackSize()))) {
 			return true;
 		}
@@ -150,7 +151,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			}
 
 			if (slots[1] == null) {
-				slots[1] = new ItemStack(ModItems.ingot_schraranium);
+				slots[1] = new ItemStack(VersatileConfig.getTransmutatorItem());
 			} else {
 				slots[1].stackSize++;
 			}

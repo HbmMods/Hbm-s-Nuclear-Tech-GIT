@@ -109,6 +109,13 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_starmetal, 2);
 		}
 
+		if(GeneralConfig.enableBabyMode) {
+			if(mODE(item, new String[] { "gemCoal", "dustCoal" }) && item2.getItem() == ModItems.canister_empty
+					|| item.getItem() == ModItems.canister_empty && mODE(item2, new String[] { "gemCoal", "dustCoal" })) {
+				return new ItemStack(ModItems.canister_oil );
+			}
+		}
+
 		return null;
 	}
 
@@ -754,6 +761,12 @@ public class MachineRecipes {
 					getFurnaceOutput(new ItemStack(ModItems.ingot_steel), new ItemStack(ModItems.ingot_cobalt)).copy());
 			recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite) },
 					getFurnaceOutput(new ItemStack(ModItems.ingot_saturnite), new ItemStack(ModItems.powder_meteorite)).copy());
+			
+			if(GeneralConfig.enableBabyMode) {
+				recipes.put(new ItemStack[] { new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal) },
+						getFurnaceOutput(new ItemStack(ModItems.canister_empty), new ItemStack(Items.coal)).copy());
+			}
+			
 		} catch (Exception x) {
 			MainRegistry.logger.error("Unable to register alloy recipes for NEI!");
 		}
@@ -1787,8 +1800,12 @@ public class MachineRecipes {
 			input[0] = new FluidStack(1800, FluidType.COOLANT);
 			break;
         case DESH:
-			input[0] = new FluidStack(200, FluidType.MERCURY);
-			input[1] = new FluidStack(200, FluidType.LIGHTOIL);
+        	if(GeneralConfig.enableBabyMode) {
+				input[0] = new FluidStack(200, FluidType.LIGHTOIL);
+        	} else {
+				input[0] = new FluidStack(200, FluidType.MERCURY);
+				input[1] = new FluidStack(200, FluidType.LIGHTOIL);
+        	}
 			break;
         case PEROXIDE:
 			input[0] = new FluidStack(1000, FluidType.WATER);

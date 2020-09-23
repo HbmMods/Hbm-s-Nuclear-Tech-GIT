@@ -17,7 +17,7 @@ public class WorldConfig {
 	public static int leadSpawn = 6;
 	public static int berylliumSpawn = 6;
 	public static int ligniteSpawn = 2;
-	public static int asbestosSpawn = 2;
+	public static int asbestosSpawn = 4;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;

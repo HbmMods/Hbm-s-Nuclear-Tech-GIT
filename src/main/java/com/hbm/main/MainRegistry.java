@@ -180,8 +180,6 @@ public class MainRegistry {
 	public static Achievement horizonsEnd;
 	public static Achievement horizonsBonus;
 
-	public static final int schrabFromUraniumChance = 100;
-
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
 
@@ -209,7 +207,6 @@ public class MainRegistry {
 
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
-		CraftingManager.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
 		GameRegistry.registerFuelHandler(new FuelHandler());
@@ -218,6 +215,8 @@ public class MainRegistry {
 		CellularDungeonFactory.init();
 		Satellite.register();
 		VersionChecker.checkVersion();
+		loadConfig(PreEvent);
+		CraftingManager.mainRegistry();
 		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
@@ -1135,6 +1134,9 @@ public class MainRegistry {
 		MinecraftForge.TERRAIN_GEN_BUS.register(new ModEventHandler());
 		MinecraftForge.ORE_GEN_BUS.register(new ModEventHandler());
 		PacketDispatcher.registerPackets();
+	}
+	
+	private void loadConfig(FMLPreInitializationEvent event) {
 
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();

@@ -13,6 +13,7 @@ import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.CyclotronRecipes;
@@ -28,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor {
+public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IConsumer {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -440,5 +441,20 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		
 		if(stack != null && i >= 14 && i <= 15 && stack.getItem() instanceof ItemMachineUpgrade)
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.5F, 1.0F);
+	}
+
+	@Override
+	public void setPower(long i) {
+		this.power = i;
+	}
+
+	@Override
+	public long getPower() {
+		return this.power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return this.maxPower;
 	}
 }

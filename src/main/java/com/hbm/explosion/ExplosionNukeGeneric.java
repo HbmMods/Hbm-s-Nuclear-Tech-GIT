@@ -22,6 +22,7 @@ import net.minecraft.world.WorldSettings.GameType;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.VersatileConfig;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
@@ -467,7 +468,7 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (b == ModBlocks.ore_uranium) {
-				rand = random.nextInt(MainRegistry.schrabFromUraniumChance);
+				rand = random.nextInt(VersatileConfig.getSchrabOreChance());
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_schrabidium);
 				} else {
@@ -476,7 +477,7 @@ public class ExplosionNukeGeneric {
 			}
 
 			else if (b == ModBlocks.ore_nether_uranium) {
-				rand = random.nextInt(MainRegistry.schrabFromUraniumChance);
+				rand = random.nextInt(VersatileConfig.getSchrabOreChance());
 				if (rand == 1) {
 					world.setBlock(x, y, z, ModBlocks.ore_nether_schrabidium);
 				} else {
