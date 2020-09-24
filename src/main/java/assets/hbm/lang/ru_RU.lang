@@ -2407,6 +2407,9 @@ item.matchstick.name=Спичка
 item.balefire_and_steel.name=Жар-огниво
 item.remote.name=Сломанный пульт дистанционного управления
 item.pch.name=Молот с семенем коня
+item.diamond_gavel.name=Алмазный молоток
+item.lead_gavel.name=Свинцовый молоток
+item.wood_gavel.name=Деревянный молоток
 
 item.shimmer_head.name=Тяжелая головка молота
 item.shimmer_axe_head.name=Тяжелое лезвие топора
