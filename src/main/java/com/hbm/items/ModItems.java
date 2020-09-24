@@ -1810,6 +1810,8 @@ public class ModItems {
 	public static Item padlock_reinforced;
 	public static Item padlock_unbreakable;
 
+	public static Item mech_key;
+
 	public static Item turret_light_ammo;
 	public static Item turret_heavy_ammo;
 	public static Item turret_rocket_ammo;
@@ -3501,6 +3503,8 @@ public class ModItems {
 		padlock = new ItemLock(0.1).setUnlocalizedName("padlock").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":padlock");
 		padlock_reinforced = new ItemLock(0.02).setUnlocalizedName("padlock_reinforced").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":padlock_reinforced");
 		padlock_unbreakable = new ItemLock(0).setUnlocalizedName("padlock_unbreakable").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":padlock_unbreakable");
+		
+		mech_key = new ItemCustomLore().setUnlocalizedName("mech_key").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":mech_key");
 
 		turret_light_ammo = new ItemTurretAmmo(ModBlocks.turret_light, 100).setUnlocalizedName("turret_light_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_light_ammo");
 		turret_heavy_ammo = new ItemTurretAmmo(ModBlocks.turret_heavy, 25).setUnlocalizedName("turret_heavy_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_heavy_ammo");
@@ -3875,7 +3879,7 @@ public class ModItems {
 		glitch = new ItemGlitch().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
 		letter = new ItemStarterKit().setUnlocalizedName("letter").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":letter");
 		book_secret = new ItemCustomLore().setUnlocalizedName("book_secret").setCreativeTab(MainRegistry.polaroidID == 11 ? MainRegistry.consumableTab : null).setTextureName(RefStrings.MODID + ":book_secret");
-		book_of_ = new ItemBook().setUnlocalizedName("book_of_").setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_of_");
+		book_of_ = new ItemBook().setUnlocalizedName("book_of_").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_of_");
 		burnt_bark = new ItemCustomLore().setUnlocalizedName("burnt_bark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":burnt_bark");
 
 		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
@@ -4953,6 +4957,7 @@ public class ModItems {
 		GameRegistry.registerItem(key_red, key_red.getUnlocalizedName());
 		GameRegistry.registerItem(key_kit, key_kit.getUnlocalizedName());
 		GameRegistry.registerItem(key_fake, key_fake.getUnlocalizedName());
+		GameRegistry.registerItem(mech_key, mech_key.getUnlocalizedName());
 		GameRegistry.registerItem(pin, pin.getUnlocalizedName());
 		GameRegistry.registerItem(padlock_rusty, padlock_rusty.getUnlocalizedName());
 		GameRegistry.registerItem(padlock, padlock.getUnlocalizedName());

@@ -39,26 +39,31 @@ public class CyclotronRecipes {
 		makeRecipe(lithium, liAmat, "dustActinium", new ItemStack(ModItems.powder_thorium), liA);
 		makeRecipe(lithium, liAmat, "dustUranium", new ItemStack(ModItems.powder_neptunium), liA);
 		makeRecipe(lithium, liAmat, "dustNeptunium", new ItemStack(ModItems.powder_plutonium), liA);
+		makeRecipe(lithium, liAmat, new ComparableStack(ModItems.powder_reiium), new ItemStack(ModItems.powder_weidanium), liA);
 		/// LITHIUM END ///
 
 		/// BERYLLIUM START ///
 		int beA = 25;
 		
 		makeRecipe(beryllium, beAmat, "dustNetherQuartz", new ItemStack(ModItems.sulfur), beA);
+		makeRecipe(beryllium, beAmat, "dustTitanium", new ItemStack(ModItems.powder_iron), beA);
+		makeRecipe(beryllium, beAmat, "dustCobalt", new ItemStack(ModItems.powder_copper), beA);
 		makeRecipe(beryllium, beAmat, new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_niobium), beA);
 		makeRecipe(beryllium, beAmat, new ComparableStack(ModItems.powder_cerium), new ItemStack(ModItems.powder_neodymium), beA);
 		makeRecipe(beryllium, beAmat, "dustThorium", new ItemStack(ModItems.powder_uranium), beA);
+		makeRecipe(beryllium, beAmat, new ComparableStack(ModItems.powder_weidanium), new ItemStack(ModItems.powder_australium), beA);
 		/// BERYLLIUM END ///
 		
 		/// CARBON START ///
 		int caA = 10;
 		
 		makeRecipe(carbon, caAmat, "dustSulfur", new ItemStack(ModItems.powder_titanium), caA);
-		makeRecipe(carbon, caAmat, "dustTitanium", new ItemStack(ModItems.powder_iron), caA);
+		makeRecipe(carbon, caAmat, "dustTitanium", new ItemStack(ModItems.powder_cobalt), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_lanthanium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_neodymium), new ItemStack(ModItems.powder_gold), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.nugget_mercury), new ItemStack(ModItems.powder_polonium), caA);
 		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_actinium), caA);
+		makeRecipe(carbon, caAmat, new ComparableStack(ModItems.powder_australium), new ItemStack(ModItems.powder_verticium), caA);
 		/// CARBON END ///
 		
 		/// COPPER START ///
@@ -74,6 +79,7 @@ public class CyclotronRecipes {
 		makeRecipe(copper, coAmat, new ComparableStack(ModItems.powder_iodine), new ItemStack(ModItems.powder_polonium), coA);
 		makeRecipe(copper, coAmat, new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_actinium), coA);
 		makeRecipe(copper, coAmat, "dustGold", new ItemStack(ModItems.powder_uranium), coA);
+		makeRecipe(copper, coAmat, new ComparableStack(ModItems.powder_verticium), new ItemStack(ModItems.powder_unobtainium), coA);
 		/// COPPER END ///
 
 		/// PLUTONIUM START ///
@@ -81,7 +87,9 @@ public class CyclotronRecipes {
 		
 		makeRecipe(plutonium, plAmat, "dustPhosphorus", new ItemStack(ModItems.powder_tennessine), plA);
 		makeRecipe(plutonium, plAmat, "dustPlutonium", new ItemStack(ModItems.powder_tennessine), plA);
+		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_reiium), plA);
 		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.pellet_charged), new ItemStack(ModItems.nugget_schrabidium), 200);
+		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.powder_unobtainium), new ItemStack(ModItems.powder_daffergon), plA);
 		/// PLUTONIUM END ///
 		
 		///TODO: fictional elements
@@ -153,9 +161,9 @@ public class CyclotronRecipes {
 		
 		for(Entry<Object, ItemStack> entry : map.entrySet()) {
 			
-			if(entry.getKey() instanceof ItemStack) {
+			if(entry.getKey() instanceof ComparableStack) {
 				
-				recipes.put(new ItemStack[] { new ItemStack(part), (ItemStack) entry.getKey() }, entry.getValue());
+				recipes.put(new ItemStack[] { new ItemStack(part), ((ComparableStack) entry.getKey()).toStack() }, entry.getValue());
 				
 			} else if(entry.getKey() instanceof String) {
 

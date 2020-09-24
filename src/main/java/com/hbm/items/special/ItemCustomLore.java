@@ -368,6 +368,11 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("Made from uranium in a schrabidium transmutator");
 		}
+		
+		if(this == ModItems.mech_key)
+		{
+			list.add("It pulses with power.");
+		}
 	}
 
     @Override

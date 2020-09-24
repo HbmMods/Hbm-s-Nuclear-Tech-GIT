@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
@@ -9,6 +10,7 @@ import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -42,6 +44,21 @@ public class MachineCyclotron extends BlockDummyable {
 			
 			if(pos == null)
 				return false;
+			
+			TileEntityMachineCyclotron cyc = (TileEntityMachineCyclotron)world.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(player.getHeldItem() != null) {
+				
+				for(int i = 0; i < 4; i++) {
+					
+					if(player.getHeldItem().getItem() == TileEntityMachineCyclotron.getItemForPlug(i) && !cyc.getPlug(i)) {
+						player.getHeldItem().stackSize--;
+						cyc.setPlug(i);
+						world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.5F, 1.0F);
+						return true;
+					}
+				}
+			}
 			
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_machine_cyclotron, world, pos[0], pos[1], pos[2]);
 			return true;

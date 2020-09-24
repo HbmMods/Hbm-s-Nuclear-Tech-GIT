@@ -25,6 +25,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -39,6 +40,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	
 	private int age;
 	private int countdown;
+	
+	private byte plugs; 
 	
 	public int progress;
 	public static final int duration = 690;
@@ -140,6 +143,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
 			data.setBoolean("isOn", isOn);
+			data.setByte("plugs", plugs);
 			this.networkPack(data, 25);
 			
 			coolant.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
@@ -151,6 +155,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
+		this.plugs = data.getByte("plugs");
 	}
 	
 	public void handleButtonPacket(int value, int meta) {
@@ -420,6 +425,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		this.countdown = nbt.getInteger("countdown");
 		this.progress = nbt.getInteger("progress");
 		this.power = nbt.getLong("power");
+		this.plugs = nbt.getByte("plugs");
 	}
 	
 	@Override
@@ -433,6 +439,28 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		nbt.setInteger("countdown", countdown);
 		nbt.setInteger("progress", progress);
 		nbt.setLong("power", power);
+		nbt.setByte("plugs", plugs);
+	}
+	
+	public void setPlug(int index) {
+		this.plugs |= (1 << index);
+		this.markDirty();
+	}
+	
+	public boolean getPlug(int index) {
+		return (this.plugs & (1 << index)) > 0;
+	}
+	
+	public static Item getItemForPlug(int i) {
+		
+		switch(i) {
+		case 0: return ModItems.powder_balefire;
+		case 1: return ModItems.book_of_;
+		case 2: return ModItems.diamond_gavel;
+		case 3: return ModItems.coin_maskman;
+		}
+		
+		return null;
 	}
 
 	@Override
