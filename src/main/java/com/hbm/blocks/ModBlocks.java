@@ -755,6 +755,10 @@ public class ModBlocks {
 	public static Fluid toxic_fluid;
 	public static final Material fluidtoxic = (new MaterialLiquid(MapColor.greenColor));
 
+	public static Block schrabidic_block;
+	public static Fluid schrabidic_fluid;
+	public static final Material fluidschrabidic = (new MaterialLiquid(MapColor.cyanColor));
+
 	public static Block dummy_block_igenerator;
 	public static Block dummy_port_igenerator;
 	public static Block dummy_block_centrifuge;
@@ -1391,13 +1395,17 @@ public class ModBlocks {
 		FluidRegistry.registerFluid(mud_fluid);
 		mud_block = new MudBlock(mud_fluid, fluidmud.setReplaceable(), ModDamageSource.mudPoisoning).setBlockName("mud_block").setResistance(500F);
 
-		acid_fluid = new AcidFluid().setDensity(2500).setViscosity(1500).setLuminosity(5).setTemperature(2773).setUnlocalizedName("mud_fluid");
+		acid_fluid = new AcidFluid().setDensity(2500).setViscosity(1500).setLuminosity(5).setTemperature(2773).setUnlocalizedName("acid_fluid");
 		FluidRegistry.registerFluid(acid_fluid);
 		acid_block = new AcidBlock(acid_fluid, fluidacid.setReplaceable(), ModDamageSource.acid).setBlockName("acid_block").setResistance(500F);
 
-		toxic_fluid = new ToxicFluid().setDensity(2500).setViscosity(2000).setLuminosity(15).setTemperature(2773).setUnlocalizedName("mud_fluid");
+		toxic_fluid = new ToxicFluid().setDensity(2500).setViscosity(2000).setLuminosity(15).setTemperature(2773).setUnlocalizedName("toxic_fluid");
 		FluidRegistry.registerFluid(toxic_fluid);
 		toxic_block = new ToxicBlock(toxic_fluid, fluidtoxic.setReplaceable(), ModDamageSource.radiation).setBlockName("toxic_block").setResistance(500F);
+
+		schrabidic_fluid = new ToxicFluid().setDensity(31200).setViscosity(500).setTemperature(273).setUnlocalizedName("schrabidic_fluid");
+		FluidRegistry.registerFluid(schrabidic_fluid);
+		schrabidic_block = new ToxicBlock(schrabidic_fluid, fluidschrabidic.setReplaceable(), ModDamageSource.radiation).setBlockName("schrabidic_block").setResistance(500F);
 
 		dummy_block_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_block_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		dummy_port_igenerator = new DummyBlockIGenerator(Material.iron).setBlockName("dummy_port_igenerator").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2032,6 +2040,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(mud_block, mud_block.getUnlocalizedName());
 		GameRegistry.registerBlock(acid_block, acid_block.getUnlocalizedName());
 		GameRegistry.registerBlock(toxic_block, toxic_block.getUnlocalizedName());
+		GameRegistry.registerBlock(schrabidic_block, schrabidic_block.getUnlocalizedName());
 		
 		//Multiblock Dummy Blocks
 		GameRegistry.registerBlock(dummy_block_igenerator, dummy_block_igenerator.getUnlocalizedName());

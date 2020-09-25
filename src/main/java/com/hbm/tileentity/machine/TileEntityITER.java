@@ -95,7 +95,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 					
 					int chance = FusionRecipes.getByproductChance(plasma.getTankType());
 					
-					if(chance > 0 && worldObj.rand.nextInt() == 0)
+					if(chance > 0 && worldObj.rand.nextInt(chance) == 0)
 						produceByproduct();
 				}
 				
