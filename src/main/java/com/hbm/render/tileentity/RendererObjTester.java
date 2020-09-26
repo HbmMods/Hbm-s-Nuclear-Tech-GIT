@@ -4,13 +4,17 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.RenderMiscEffects;
+import com.hbm.render.util.BeamPronter.EnumBeamType;
+import com.hbm.render.util.BeamPronter.EnumWaveType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -165,7 +169,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         
         GL11.glShadeModel(GL11.GL_FLAT);*/
 
-        GL11.glShadeModel(GL11.GL_SMOOTH);
+        /*GL11.glShadeModel(GL11.GL_SMOOTH);
 
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glEnable(GL11.GL_LIGHTING);
@@ -179,7 +183,101 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         bindTexture(ResourceManager.soyuz_module_solar_tex);
         ResourceManager.soyuz_module.renderPart("Solar");
         
-        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glShadeModel(GL11.GL_FLAT);*/
+        
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        
+        bindTexture(ResourceManager.igen_tex);
+        ResourceManager.igen.renderPart("Base");
+        
+        float angle = System.currentTimeMillis() * 1 % 360;
+        float px = 0.0625F;
+        float sine = (float) Math.sin(Math.toRadians(angle));
+        float cosine = (float) Math.cos(Math.toRadians(angle));
+        float armAng = 22.5F;
+        
+        GL11.glPushMatrix();
+        GL11.glTranslated(0, 3.5, 0);
+        GL11.glRotatef(angle, 0, 0, 1);
+        GL11.glTranslated(0, -3.5, 0);
+        
+        bindTexture(ResourceManager.igen_rotor);
+        ResourceManager.igen.renderPart("Rotor");
+        GL11.glPopMatrix();
+        
+        
+        
+        GL11.glPushMatrix();
+        GL11.glTranslated(0, 3.5, px * 5);
+        GL11.glRotatef(angle, -1, 0, 0);
+        GL11.glTranslated(0, -3.5, px * -5);
+        
+        bindTexture(ResourceManager.igen_cog);
+        ResourceManager.igen.renderPart("CogLeft");
+        GL11.glPopMatrix();
+        
+        
+        
+        GL11.glPushMatrix();
+        GL11.glTranslated(0, 3.5, px * 5);
+        GL11.glRotatef(angle, 1, 0, 0);
+        GL11.glTranslated(0, -3.5, px * -5);
+        
+        bindTexture(ResourceManager.igen_cog);
+        ResourceManager.igen.renderPart("CogRight");
+        GL11.glPopMatrix();
+        
+        
+        
+        GL11.glPushMatrix();
+        GL11.glTranslated(0, 0, cosine * 0.8725 - 1);
+        
+        bindTexture(ResourceManager.igen_pistons);
+        ResourceManager.igen.renderPart("Pistons");
+        GL11.glPopMatrix();
+        
+        GL11.glPushMatrix();
+        
+        GL11.glTranslated(0, sine * 0.55, cosine * 0.8725 - 1.125);
+        
+        GL11.glTranslated(0, 3.5, px * 6.5);
+        GL11.glRotatef(sine * -armAng, 1, 0, 0);
+        GL11.glTranslated(0, -3.5, px * -5);
+        
+        bindTexture(ResourceManager.igen_arm);
+        ResourceManager.igen.renderPart("ArmLeft");
+        GL11.glPopMatrix();
+        
+        GL11.glPushMatrix();
+        
+        GL11.glTranslated(0, -sine * 0.55, cosine * 0.8725 - 1.125);
+        
+        GL11.glTranslated(0, 3.5, px * 6.5);
+        GL11.glRotatef(sine * armAng, 1, 0, 0);
+        GL11.glTranslated(0, -3.5, px * -5);
+        
+        bindTexture(ResourceManager.igen_arm);
+        ResourceManager.igen.renderPart("ArmRight");
+        GL11.glPopMatrix();
+
+        GL11.glTranslated(-0.75, 5.5625, -7);
+        for(int i = 0; i < 2; i++) {
+	        BeamPronter.prontBeam(Vec3.createVectorHelper(1.5, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x8080ff, 0x0000ff, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + i, 5, px * 4, 0, 0);
+	        BeamPronter.prontBeam(Vec3.createVectorHelper(1.5, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffffff, 0x0000ff, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 2 + i, 5, px * 4, 0, 0);
+        }
+        
+        GL11.glEnable(GL11.GL_CULL_FACE);
+
+        tileEntity.getWorldObj().spawnParticle("splash", tileEntity.xCoord + 2.1, tileEntity.yCoord + 5.875, tileEntity.zCoord + 0.5, 0, 0, -0.25);
+        tileEntity.getWorldObj().spawnParticle("smoke", tileEntity.xCoord + 2.8, tileEntity.yCoord + 5.05, tileEntity.zCoord + 2, 0, 0, -0.1);
+        
+        if(tileEntity.getWorldObj().rand.nextInt(100) == 0) {
+
+    		tileEntity.getWorldObj().spawnParticle("flame", tileEntity.xCoord + 2.8, tileEntity.yCoord + 5.05, tileEntity.zCoord + 2, 0, 0, -0.3);
+        	for(int i = 0; i < 5; i++) {
+                tileEntity.getWorldObj().spawnParticle("smoke", tileEntity.xCoord + 2.8, tileEntity.yCoord + 5.05, tileEntity.zCoord + 2, 0, 0, -0.3);
+        	}
+        }
         
         GL11.glPopMatrix();
     }
