@@ -10,6 +10,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
+import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -67,6 +68,7 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
 		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
 		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -121,6 +123,7 @@ public class Gun4GaugeFactory {
 		config.config.add(BulletConfigSyncingUtil.G4_SEMTEX);
 		config.config.add(BulletConfigSyncingUtil.G4_BALEFIRE);
 		config.config.add(BulletConfigSyncingUtil.G4_KAMPF);
+		config.config.add(BulletConfigSyncingUtil.G4_CANISTER);
 		config.config.add(BulletConfigSyncingUtil.G4_SLEEK);
 		
 		return config;
@@ -303,6 +306,44 @@ public class Gun4GaugeFactory {
 		bullet.style = BulletConfiguration.STYLE_GRENADE;
 		bullet.trail = 4;
 		bullet.vPFX = "smoke";
+		
+		return bullet;
+	}
+
+	public static BulletConfiguration getGrenadeCanisterConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardRocketConfig();
+		
+		bullet.ammo = ModItems.ammo_4gauge_canister;
+		bullet.spread = 0.0F;
+		bullet.gravity = 0.0D;
+		bullet.wear = 15;
+		bullet.explosive = 1F;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.trail = 4;
+		bullet.vPFX = "smoke";
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					if(bullet.ticksExisted > 10) {
+						bullet.setDead();
+						
+						for(int i = 0; i < 50; i++) {
+							
+							EntityBulletBase bolt = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.M44_AP);
+							bolt.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+							bolt.setThrowableHeading(bullet.motionX, bullet.motionY, bullet.motionZ, 0.25F, 0.1F);
+							bullet.worldObj.spawnEntityInWorld(bolt);
+						}
+					}
+				}
+			}
+		};
 		
 		return bullet;
 	}

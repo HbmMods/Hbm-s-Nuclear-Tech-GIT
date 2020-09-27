@@ -148,7 +148,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.filter_coal, 1), new AStack[] {new OreDictStack("dustCoal", 4), new ComparableStack(Items.string, 6), new ComparableStack(Items.paper, 1), },50);
 		makeRecipe(new ComparableStack(ModItems.centrifuge_element, 1), new AStack[] {new ComparableStack(ModItems.tank_steel, 2), new ComparableStack(ModItems.coil_tungsten, 2), new ComparableStack(ModItems.wire_red_copper, 6), new ComparableStack(ModItems.motor, 1), },200);
 		makeRecipe(new ComparableStack(ModItems.centrifuge_tower, 1), new AStack[] {new ComparableStack(ModItems.centrifuge_element, 4), new OreDictStack("plateSteel", 4), new ComparableStack(ModItems.wire_red_copper, 6), new OreDictStack("dustLapis", 2), new ComparableStack(ModItems.ingot_polymer, 2), },150);
-		makeRecipe(new ComparableStack(ModItems.magnet_dee, 1), new AStack[] {new ComparableStack(ModBlocks.fusion_conductor, 6), new OreDictStack("ingotSteel", 3), new ComparableStack(ModItems.coil_advanced_torus, 1), },100);
+		//makeRecipe(new ComparableStack(ModItems.magnet_dee, 1), new AStack[] {new ComparableStack(ModBlocks.fusion_conductor, 6), new OreDictStack("ingotSteel", 3), new ComparableStack(ModItems.coil_advanced_torus, 1), },100);
 		makeRecipe(new ComparableStack(ModItems.magnet_circular, 1), new AStack[] {new ComparableStack(ModBlocks.fusion_conductor, 5), new OreDictStack("ingotSteel", 4), new ComparableStack(ModItems.plate_advanced_alloy, 6), },150);
 		makeRecipe(new ComparableStack(ModItems.cyclotron_tower, 1), new AStack[] {new ComparableStack(ModItems.magnet_circular, 6), new ComparableStack(ModItems.magnet_dee, 3), new OreDictStack("plateSteel", 12), new ComparableStack(ModItems.wire_advanced_alloy, 8), new ComparableStack(ModItems.plate_polymer, 24), },300);
 		makeRecipe(new ComparableStack(ModItems.reactor_core, 1), new AStack[] {new OreDictStack("ingotLead", 8), new OreDictStack("ingotBeryllium", 6), new OreDictStack("plateSteel", 16), new OreDictStack("plateDenseLead", 8), new ComparableStack(ModItems.ingot_fiberglass, 2) },100);
@@ -265,7 +265,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.machine_diesel, 1), new AStack[] {new ComparableStack(ModItems.hull_small_steel, 4), new ComparableStack(Blocks.piston, 4), new OreDictStack("ingotSteel", 6), new OreDictStack("ingotRedCopperAlloy", 2), new OreDictStack("plateCopper", 4), new ComparableStack(ModItems.wire_red_copper, 6), },200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_selenium, 1), new AStack[] {new OreDictStack("ingotSteel", 4), new OreDictStack("plateTitanium", 6), new OreDictStack("plateCopper", 8), new ComparableStack(ModItems.hull_big_steel, 1), new ComparableStack(ModItems.hull_small_steel, 9), new ComparableStack(ModItems.pedestal_steel, 1), new ComparableStack(ModItems.coil_copper, 4), },250);
 		makeRecipe(new ComparableStack(ModBlocks.machine_reactor_small, 1), new AStack[] {new OreDictStack("ingotSteel", 6), new ComparableStack(ModItems.ingot_polymer, 4), new OreDictStack("plateLead", 8), new OreDictStack("plateCopper", 4), new OreDictStack("ingotLead", 12), new OreDictStack("ingotRedCopperAlloy", 6), new ComparableStack(ModItems.circuit_copper, 8), new ComparableStack(ModItems.circuit_red_copper, 4), },300);
-		makeRecipe(new ComparableStack(ModBlocks.machine_cyclotron, 1), new AStack[] {new ComparableStack(ModItems.cyclotron_tower, 1), new ComparableStack(ModItems.board_copper, 4), new OreDictStack("ingotSteel", 16), new ComparableStack(ModItems.ingot_polymer, 24), new OreDictStack("plateSteel", 6), new ComparableStack(ModBlocks.machine_battery, 4), new ComparableStack(ModItems.wire_red_copper, 20), new ComparableStack(ModItems.circuit_red_copper, 12), new ComparableStack(ModItems.circuit_gold, 3), },600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_rtg_grey, 1), new AStack[] {new ComparableStack(ModItems.rtg_unit, 5), new OreDictStack("plateSteel", 8), new ComparableStack(ModItems.wire_red_copper, 4), new ComparableStack(ModItems.ingot_polymer, 6), },200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_battery, 1), new AStack[] {new OreDictStack("ingotSteel", 4), new OreDictStack("dustSulfur", 12), new OreDictStack("dustLead", 12), new OreDictStack("ingotRedCopperAlloy", 2), new ComparableStack(ModItems.wire_red_copper, 4), },200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_lithium_battery, 1), new AStack[] {new ComparableStack(ModItems.ingot_polymer, 4), new OreDictStack("dustCobalt", 12), new ComparableStack(ModItems.powder_lithium, 12), new ComparableStack(ModItems.ingot_advanced_alloy, 2), new ComparableStack(ModItems.wire_red_copper, 4), },400);
@@ -495,6 +494,31 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.pellet_canister, 2), new AStack[] {
 				new OreDictStack("ingotIron", 3),
 			}, 50);
+		
+		makeRecipe(new ComparableStack(ModBlocks.machine_cyclotron, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_lithium_battery, 3),
+				new ComparableStack(ModBlocks.fusion_conductor, 8),
+				new ComparableStack(ModItems.wire_advanced_alloy, 96),
+				new OreDictStack("ingotSteel", 16),
+				new OreDictStack("plateSteel", 32),
+				new OreDictStack("plateAluminum", 32),
+				new ComparableStack(ModItems.ingot_polymer, 24),
+				new ComparableStack(ModItems.plate_polymer, 64),
+				new ComparableStack(ModItems.board_copper, 8),
+				new ComparableStack(ModItems.circuit_red_copper, 8),
+				new ComparableStack(ModItems.circuit_gold, 3),
+			}, 600);
+
+		makeRecipe(new ComparableStack(ModItems.gun_zomg, 1), new AStack[] {
+				new ComparableStack(ModItems.crystal_xen, 2),
+				new ComparableStack(ModItems.singularity_counter_resonant, 1),
+				new ComparableStack(ModItems.mechanism_special, 3),
+				new ComparableStack(ModItems.plate_paa, 12),
+				new OreDictStack("plateDenseLead", 8),
+				new ComparableStack(ModItems.coil_magnetized_tungsten, 5),
+				new ComparableStack(ModItems.powder_magic, 4),
+				new OreDictStack("ingotAsbestos", 8)
+			}, 200);
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {

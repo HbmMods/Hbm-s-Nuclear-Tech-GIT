@@ -110,6 +110,7 @@ public class BulletConfiguration {
 	public static final int BOLT_LACUNAE = 0;
 	public static final int BOLT_NIGHTMARE = 1;
 	public static final int BOLT_LASER = 2;
+	public static final int BOLT_ZOMG = 3;
 	
 	public BulletConfiguration setToBolt(int trail) {
 		
@@ -130,5 +131,17 @@ public class BulletConfiguration {
 		this.doesRicochet = false;
 		return this;
 	}
-
+	
+	public BulletConfiguration setToHoming(Item ammo) {
+		
+		this.ammo = ammo;
+		this.bUpdate = BulletConfigFactory.getHomingBehavior(200, 45);
+		this.dmgMin *= 1.5F;
+		this.dmgMax *= 1.5F;
+		this.wear *= 0.5;
+		this.doesRicochet = false;
+		this.doesPenetrate = false;
+		this.vPFX = "greendust";
+		return this;
+	}
 }

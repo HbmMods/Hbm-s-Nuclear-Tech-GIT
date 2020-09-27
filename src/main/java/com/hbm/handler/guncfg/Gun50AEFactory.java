@@ -46,6 +46,7 @@ public class Gun50AEFactory {
 		config.config.add(BulletConfigSyncingUtil.AE50_AP);
 		config.config.add(BulletConfigSyncingUtil.AE50_DU);
 		config.config.add(BulletConfigSyncingUtil.AE50_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_AE50);
 		
 		return config;
 	}

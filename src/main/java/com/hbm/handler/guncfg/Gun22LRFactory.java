@@ -36,6 +36,7 @@ public class Gun22LRFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.LR22_AP);
+		config.config.add(BulletConfigSyncingUtil.CHL_LR22);
 		
 		return config;
 	}
@@ -52,6 +53,7 @@ public class Gun22LRFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.LR22_NORMAL_FIRE);
 		config.config.add(BulletConfigSyncingUtil.LR22_AP_FIRE);
+		config.config.add(BulletConfigSyncingUtil.CHL_LR22_FIRE);
 		
 		return config;
 	}

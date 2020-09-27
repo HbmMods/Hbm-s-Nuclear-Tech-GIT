@@ -32,6 +32,7 @@ public class YellowBarrel extends Block {
     }
 	
 	public void explode(World p_149695_1_, int x, int y, int z) {
+		
 		if(rand.nextInt(3) == 0) {
 			p_149695_1_.setBlock(x, y, z, ModBlocks.toxic_block);
 		} else {
@@ -91,7 +92,10 @@ public class YellowBarrel extends Block {
     {
     	super.updateTick(world, x, y, z, rand);
         
-        RadiationSavedData.incrementRad(world, x, z, 5, 75);
+    	if(this == ModBlocks.yellow_barrel)
+    		RadiationSavedData.incrementRad(world, x, z, 5, 75);
+    	else
+    		RadiationSavedData.incrementRad(world, x, z, 0.5F, 5);
 
         world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
     }

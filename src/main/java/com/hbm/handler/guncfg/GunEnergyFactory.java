@@ -3,11 +3,14 @@ package com.hbm.handler.guncfg;
 import java.util.ArrayList;
 
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionChaos;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -79,6 +82,36 @@ public class GunEnergyFactory {
 		config.config.add(BulletConfigSyncingUtil.FLAMER_WP);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_VAPORIZER);
 		config.config.add(BulletConfigSyncingUtil.FLAMER_GAS);
+		
+		return config;
+	}
+	
+	public static GunConfiguration getZOMGConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_AUTO;
+		config.reloadDuration = 10;
+		config.reloadSoundEnd = false;
+		config.firingDuration = 0;
+		config.durability = 100000;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.ammoCap = 1000;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.L_ARROWS;
+		config.firingSound = "hbm:weapon.zomgShoot";
+		config.reloadSound = "hbm:weapon.b92Reload";
+		
+		config.name = "EMC101 Prismatic Negative Energy Cannon";
+		config.manufacturer = "MWT Prototype Labs";
+
+		config.comment.add("Taste the rainbow!");
+		
+		config.config = new ArrayList<Integer>();
+		config.config.add(BulletConfigSyncingUtil.ZOMG_BOLT);
 		
 		return config;
 	}
@@ -252,6 +285,44 @@ public class GunEnergyFactory {
 		bullet.incendiary = 0;
 		
 		bullet.bImpact = BulletConfigFactory.getGasEffect(5, 60 * 20);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getZOMGBoltConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.ammo = ModItems.nugget_euphemium;
+		bullet.ammoCount = 1000;
+		bullet.wear = 1;
+		bullet.velocity = 1F;
+		bullet.spread = 0.125F;
+		bullet.maxAge = 100;
+		bullet.gravity = 0D;
+		bullet.bulletsMin = 5;
+		bullet.bulletsMax = 5;
+		bullet.dmgMin = 10000;
+		bullet.dmgMax = 25000;
+
+		bullet.style = bullet.STYLE_BOLT;
+		bullet.trail = bullet.BOLT_ZOMG;
+		
+		bullet.effects = new ArrayList();
+		bullet.effects.add(new PotionEffect(HbmPotion.bang.id, 10 * 20, 0));
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					ExplosionChaos.explodeZOMG(bullet.worldObj, (int)bullet.posX, (int)bullet.posY, (int)bullet.posZ, 5);
+					bullet.worldObj.playSoundEffect(bullet.posX, bullet.posY, bullet.posZ, "hbm:entity.bombDet", 5.0F, 1.0F);
+    				ExplosionLarge.spawnParticles(bullet.worldObj, bullet.posX, bullet.posY, bullet.posZ, 5);
+				}
+			}
+		};
 		
 		return bullet;
 	}

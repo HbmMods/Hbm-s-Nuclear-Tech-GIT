@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.RedBarrel;
-import com.hbm.calc.VectorUtil;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -22,6 +21,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -321,7 +321,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
                 		vel.normalize();
 
                 		boolean lRic = rand.nextInt(100) < config.LBRC;
-                		double angle = Math.abs(VectorUtil.getCrossAngle(vel, face) - 90);
+                		double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
                 		
                 		if(hRic || (angle <= config.ricochetAngle && lRic)) {
                         	switch(movement.sideHit) {

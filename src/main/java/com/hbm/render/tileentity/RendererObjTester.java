@@ -186,6 +186,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
         GL11.glShadeModel(GL11.GL_FLAT);*/
         
         GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         
         bindTexture(ResourceManager.igen_tex);
         ResourceManager.igen.renderPart("Base");
@@ -266,6 +267,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	        BeamPronter.prontBeam(Vec3.createVectorHelper(1.5, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffffff, 0x0000ff, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 2 + i, 5, px * 4, 0, 0);
         }
         
+        GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glEnable(GL11.GL_CULL_FACE);
 
         tileEntity.getWorldObj().spawnParticle("splash", tileEntity.xCoord + 2.1, tileEntity.yCoord + 5.875, tileEntity.zCoord + 0.5, 0, 0, -0.25);

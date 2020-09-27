@@ -58,6 +58,7 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.R556_AP);
 		config.config.add(BulletConfigSyncingUtil.R556_DU);
 		config.config.add(BulletConfigSyncingUtil.R556_STAR);
+		config.config.add(BulletConfigSyncingUtil.CHL_R556);
 		config.config.add(BulletConfigSyncingUtil.R556_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.R556_K);
 		
@@ -103,6 +104,7 @@ public class Gun556mmFactory {
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_INCENDIARY);
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_PHOSPHORUS);
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_DU);
+		config.config.add(BulletConfigSyncingUtil.CHL_R556_FLECHETTE);
 		config.config.add(BulletConfigSyncingUtil.R556_FLECHETTE_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.R556_K);
 		

@@ -36,6 +36,7 @@ public class Gun9mmFactory {
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.P9_AP);
 		config.config.add(BulletConfigSyncingUtil.P9_DU);
+		config.config.add(BulletConfigSyncingUtil.CHL_P9);
 		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
 		
 		return config;
@@ -67,6 +68,7 @@ public class Gun9mmFactory {
 		config.config.add(BulletConfigSyncingUtil.P9_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.P9_AP);
 		config.config.add(BulletConfigSyncingUtil.P9_DU);
+		config.config.add(BulletConfigSyncingUtil.CHL_P9);
 		config.config.add(BulletConfigSyncingUtil.P9_ROCKET);
 		
 		return config;

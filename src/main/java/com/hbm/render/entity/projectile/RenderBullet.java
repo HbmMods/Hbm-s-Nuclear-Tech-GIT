@@ -60,7 +60,7 @@ public class RenderBullet extends Render {
 		switch(style) {
 			case BulletConfiguration.STYLE_NONE: break;
 			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
-			case BulletConfiguration.STYLE_BOLT: renderDart(trail); break;
+			case BulletConfiguration.STYLE_BOLT: renderDart(trail, bullet.getEntityId()); break;
 			case BulletConfiguration.STYLE_FLECHETTE: renderFlechette(); break;
 			case BulletConfiguration.STYLE_FOLLY: renderBullet(trail); break;
 			case BulletConfiguration.STYLE_PELLET: renderBuckshot(); break;
@@ -119,6 +119,8 @@ public class RenderBullet extends Render {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketNuclear.png")); break;
 		case 9:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketPhosphorus.png")); break;
+		case 10:
+			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelRocketCanister.png")); break;
 		}
 		
 		if(type == 8) {
@@ -308,7 +310,7 @@ public class RenderBullet extends Render {
 		GL11.glPopMatrix();
 	}
 	
-	private void renderDart(int style) {
+	private void renderDart(int style, int eID) {
 		
 		float red = 1F;
 		float green = 1F;
@@ -318,6 +320,13 @@ public class RenderBullet extends Render {
 		case BulletConfiguration.BOLT_LASER: red = 1F; green = 0F; blue = 0F; break;
 		case BulletConfiguration.BOLT_NIGHTMARE: red = 1F; green = 1F; blue = 0F; break;
 		case BulletConfiguration.BOLT_LACUNAE: red = 0.25F; green = 0F; blue = 0.75F; break;
+		
+		case BulletConfiguration.BOLT_ZOMG:
+			Random rand = new Random(eID * eID);
+			red = rand.nextInt(2) * 0.8F;
+			green = rand.nextInt(2) * 0.8F;
+			blue = rand.nextInt(2) * 0.8F;
+			break;
 		}
 		
 		GL11.glPushMatrix();

@@ -760,6 +760,10 @@ public class ClientProxy extends ServerProxy {
 			if("bluedust".equals(data.getString("mode"))) {
 				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F);
 			}
+
+			if("greendust".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.5F, 0.1F);
+			}
 			
 			if(fx != null)
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);

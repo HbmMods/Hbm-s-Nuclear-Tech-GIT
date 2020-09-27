@@ -2,6 +2,7 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -366,7 +367,10 @@ public class ItemCustomLore extends Item {
 		
 		if(this == ModItems.ingot_schraranium)
 		{
-			list.add("Made from uranium in a schrabidium transmutator");
+			if(GeneralConfig.enableBabyMode)
+				list.add("shut up peer please for the love of god shut up i can't stand it any longer shut up shut up shut up shut up shut up");
+			else
+				list.add("Made from uranium in a schrabidium transmutator");
 		}
 		
 		if(this == ModItems.mech_key)

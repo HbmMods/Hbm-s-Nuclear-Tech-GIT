@@ -16,6 +16,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -358,6 +359,76 @@ public class BulletConfigFactory {
 				bullet.motionZ = vec.zCoord * speed;
 			}
 			
+		};
+		
+		return onUpdate;
+	}
+	
+	public static IBulletUpdateBehavior getHomingBehavior(final double range, final double angle) {
+		
+		IBulletUpdateBehavior onUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.worldObj.getEntityByID(bullet.getEntityData().getInteger("homingTarget")) == null) {
+					chooseTarget(bullet);
+				}
+				
+				Entity target = bullet.worldObj.getEntityByID(bullet.getEntityData().getInteger("homingTarget"));
+				
+				if(target != null) {
+					
+					Vec3 delta = Vec3.createVectorHelper(target.posX - bullet.posX, target.posY + target.height / 2 - bullet.posY, target.posZ - bullet.posZ);
+					delta = delta.normalize();
+					
+					double vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
+
+					bullet.motionX = delta.xCoord * vel;
+					bullet.motionY = delta.yCoord * vel;
+					bullet.motionZ = delta.zCoord * vel;
+				}
+			}
+			
+			private void chooseTarget(EntityBulletBase bullet) {
+				
+				List<EntityLivingBase> entities = bullet.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, bullet.boundingBox.expand(range, range, range));
+				
+				Vec3 mot = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ);
+				
+				EntityLivingBase target = null;
+				double targetAngle = angle;
+				
+				for(EntityLivingBase e : entities) {
+					
+					if(!e.isEntityAlive() || e == bullet.shooter)
+						continue;
+					
+					Vec3 delta = Vec3.createVectorHelper(e.posX - bullet.posX, e.posY + e.height / 2 - bullet.posY, e.posZ - bullet.posZ);
+					
+					if(bullet.worldObj.rayTraceBlocks(Vec3.createVectorHelper(bullet.posX, bullet.posY, bullet.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.height / 2, e.posZ)) != null)
+						continue;
+					
+					double dist = e.getDistanceSqToEntity(bullet);
+					
+					if(dist < range * range) {
+						
+						double deltaAngle = BobMathUtil.getCrossAngle(mot, delta);
+					
+						if(deltaAngle < targetAngle) {
+							target = e;
+							targetAngle = deltaAngle;
+						}
+					}
+				}
+				
+				if(target != null) {
+					bullet.getEntityData().setInteger("homingTarget", target.getEntityId());
+				}
+			}
 		};
 		
 		return onUpdate;

@@ -180,6 +180,13 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_44_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
+		}
 		
 		//5mm
 		if(this == ModItems.ammo_5mm_explosive) {
@@ -197,6 +204,13 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
 		}
+		if(this == ModItems.ammo_5mm_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
+		}
 		
 		//9mm
 		if(this == ModItems.ammo_9mm_ap) {
@@ -212,11 +226,25 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Rocket");
 			list.add(EnumChatFormatting.YELLOW + "* Uhhhh");
 		}
+		if(this == ModItems.ammo_9mm_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
+		}
 		
 		//.22LR
 		if(this == ModItems.ammo_22lr_ap) {
 			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
 			list.add(EnumChatFormatting.RED + "- Increased wear");
+		}
+		if(this == ModItems.ammo_22lr_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
 		
 		//.50 BMG
@@ -257,6 +285,13 @@ public class ItemAmmo extends Item {
 		if(this == ModItems.ammo_50bmg_sleek) {
 			list.add(EnumChatFormatting.YELLOW + "* Fires a high-damage round that summons a small meteorite");
 		}
+		if(this == ModItems.ammo_50bmg_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
+		}
 		
 		//.50 AE
 		if(this == ModItems.ammo_50ae_ap) {
@@ -272,6 +307,13 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.BLUE + "+ Highly increased damage");
 			list.add(EnumChatFormatting.YELLOW + "* Starmetal");
 			list.add(EnumChatFormatting.RED + "- Highly increased wear");
+		}
+		if(this == ModItems.ammo_50ae_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
 		
 		//84mm ROCKETS
@@ -458,6 +500,20 @@ public class ItemAmmo extends Item {
 		}
 		if(this == ModItems.ammo_556_k) {
 			list.add(EnumChatFormatting.YELLOW + "* It's a blank");
+		}
+		if(this == ModItems.ammo_556_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
+		}
+		if(this == ModItems.ammo_556_flechette_chlorophyte) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased damage");
+			list.add(EnumChatFormatting.BLUE + "+ Decreased wear");
+			list.add(EnumChatFormatting.DARK_GREEN + "* Chlorophyte");
+			list.add(EnumChatFormatting.YELLOW + "* Homing");
+			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
 		
 		//FOLLY
