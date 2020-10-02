@@ -19,8 +19,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(TEPylonSenderPacket.Handler.class, TEPylonSenderPacket.class, i++, Side.CLIENT);
 		//Resets connection list in client-sided pole rendering
 		wrapper.registerMessage(TEPylonDestructorPacket.Handler.class, TEPylonDestructorPacket.class, i++, Side.CLIENT);
-		//Flywheel rotation for industrial generator rendering
-		wrapper.registerMessage(TEIGeneratorPacket.Handler.class, TEIGeneratorPacket.class, i++, Side.CLIENT);
 		//Machine type for marker rendering
 		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, i++, Side.CLIENT);
 		//Mining drill rotation for rendering

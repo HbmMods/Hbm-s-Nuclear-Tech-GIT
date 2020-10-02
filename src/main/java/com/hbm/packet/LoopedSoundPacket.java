@@ -1,10 +1,10 @@
 package com.hbm.packet;
 
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.sound.SoundLoopAssembler;
 import com.hbm.sound.SoundLoopBroadcaster;
 import com.hbm.sound.SoundLoopCentrifuge;
 import com.hbm.sound.SoundLoopChemplant;
-import com.hbm.sound.SoundLoopIGen;
 import com.hbm.sound.SoundLoopMiner;
 import com.hbm.sound.SoundLoopTurbofan;
 import com.hbm.tileentity.machine.TileEntityBroadcaster;
@@ -12,7 +12,6 @@ import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
-import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
@@ -26,6 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
+@Spaghetti("this class should be destroyed")
 public class LoopedSoundPacket implements IMessage {
 
 	int x;
@@ -100,18 +100,6 @@ public class LoopedSoundPacket implements IMessage {
 				
 				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineAssembler)te).isProgressing)
 					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopAssembler(new ResourceLocation("hbm:block.assemblerOperate"), te));
-			}
-			
-			if (te != null && te instanceof TileEntityMachineIGenerator) {
-				
-				boolean flag = true;
-				for(int i = 0; i < SoundLoopIGen.list.size(); i++)  {
-					if(SoundLoopIGen.list.get(i).getTE() == te && !SoundLoopIGen.list.get(i).isDonePlaying())
-						flag = false;
-				}
-				
-				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineIGenerator)te).torque > 0)
-					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopIGen(new ResourceLocation("hbm:block.igeneratorOperate"), te));
 			}
 			
 			if (te != null && te instanceof TileEntityMachineTurbofan) {

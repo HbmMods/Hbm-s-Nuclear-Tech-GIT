@@ -126,12 +126,6 @@ public class MachineRecipes {
 		List<GasCentOutput> list = new ArrayList();
 		
 		switch(fluid) {
-		case LAVA:
-			list.add(new GasCentOutput(1, new ItemStack(ModBlocks.gravel_obsidian), 1));
-			list.add(new GasCentOutput(2, new ItemStack(Blocks.gravel), 2));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_lithium), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.powder_iron, 2), 4));
-			return list;
 		case UF6:
 			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 1));
 			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 2));
