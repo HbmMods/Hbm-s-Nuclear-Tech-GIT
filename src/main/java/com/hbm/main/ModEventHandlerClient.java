@@ -46,10 +46,13 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
@@ -57,6 +60,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -165,6 +169,16 @@ public class ModEventHandlerClient {
 			renderer.modelArmorChestplate.aimedBow = true;
 		}
 	}
+	
+	/*@SubscribeEvent
+	public void renderThermalSight(RenderLivingEvent.Pre event) {
+		
+		AxisAlignedBB aabb = event.entity.boundingBox;
+
+		GL11.glPushMatrix();
+		Render.renderAABB(aabb);
+        GL11.glPopMatrix();
+	}*/
 
 	@SubscribeEvent
 	public void clickHandler(MouseEvent event) {

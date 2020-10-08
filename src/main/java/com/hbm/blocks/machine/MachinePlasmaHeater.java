@@ -1,5 +1,7 @@
 package com.hbm.blocks.machine;
 
+import java.util.Random;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
@@ -12,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,6 +37,11 @@ public class MachinePlasmaHeater extends BlockDummyable {
 		if(meta >= 6)
 			return new TileEntityProxyCombo(false, true, true);
 		
+		return null;
+	}
+
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
 	}
 	

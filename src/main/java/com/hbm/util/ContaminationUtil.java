@@ -39,6 +39,9 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return;
 		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		f *= calculateRadiationMod(entity);
@@ -50,6 +53,9 @@ public class ContaminationUtil {
 	public static void applyRadDirect(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
 		
 		if(((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))

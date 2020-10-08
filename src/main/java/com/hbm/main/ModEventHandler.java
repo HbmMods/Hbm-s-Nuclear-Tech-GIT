@@ -243,6 +243,9 @@ public class ModEventHandler
 						
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
+						
+						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
+							continue;
 
 						if(event.world.getTotalWorldTime() % 20 == 0) {
 
@@ -306,9 +309,6 @@ public class ModEventHandler
 						
 						if(eRad > 2500)
 							entity.getEntityData().setFloat("hfr_radiation", 2500);
-						
-						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
-							continue;
 						
 						if(eRad >= 1000) {
 							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100)) {
@@ -475,6 +475,17 @@ public class ModEventHandler
 		EntityPlayer player = event.player;
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
+			
+			/// GHOST FIX START ///
+			
+			if(!Float.isFinite(player.getHealth()) || !Float.isFinite(player.getAbsorptionAmount())) {
+				player.addChatComponentMessage(new ChatComponentText("Your health has been restored!"));
+				player.worldObj.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
+				player.setHealth(player.getMaxHealth());
+				player.setAbsorptionAmount(0);
+			}
+			
+			/// GHOST FIX END ///
 
 			/// FSB ARMOR START ///
 			ItemStack helmet = player.inventory.armorInventory[3];

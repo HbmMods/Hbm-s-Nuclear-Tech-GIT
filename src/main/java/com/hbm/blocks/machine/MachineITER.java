@@ -1,5 +1,7 @@
 package com.hbm.blocks.machine;
 
+import java.util.Random;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
@@ -37,6 +39,11 @@ public class MachineITER extends BlockDummyable {
 		if(meta >= 6)
 			return new TileEntityProxyCombo(false, true, true);
 		
+		return null;
+	}
+
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
 	}
 

@@ -50,8 +50,6 @@ public class ItemRenderShim implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.sopsign_tex);
 				if(item.getItem() == ModItems.chernobylsign)
 					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.chernobylsign_tex);
-				if(item.getItem() == ModItems.pch)
-					Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pch_tex);
 				
 				if(item.getItem() == ModItems.shimmer_sledge || item.getItem() == ModItems.shimmer_axe) {
 					GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
@@ -67,23 +65,12 @@ public class ItemRenderShim implements IItemRenderer {
 					GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 				}
 				
-				if(item.getItem() == ModItems.pch) {
-					GL11.glRotatef(45.0F, 0.0F, 0.0F, 1.0F);
-					GL11.glTranslatef(0.7F, 0.0F, 0.0F);
-				}
-				
 				if(item.getItem() == ModItems.shimmer_sledge)
 					ResourceManager.shimmer_sledge.renderAll();
 				if(item.getItem() == ModItems.shimmer_axe)
 					ResourceManager.shimmer_axe.renderAll();
 				if(item.getItem() == ModItems.stopsign || item.getItem() == ModItems.sopsign || item.getItem() == ModItems.chernobylsign)
 					ResourceManager.stopsign.renderAll();
-				
-				if(item.getItem() == ModItems.pch) {
-					GL11.glShadeModel(GL11.GL_SMOOTH);
-					ResourceManager.pch.renderAll();
-					GL11.glShadeModel(GL11.GL_FLAT);
-				}
 				
 		default: break;
 		}
