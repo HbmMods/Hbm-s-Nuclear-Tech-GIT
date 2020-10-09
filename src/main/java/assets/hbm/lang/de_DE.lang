@@ -2427,8 +2427,10 @@ tile.yellow_barrel.name=Radioaktives Fass
 
 tool.ability.cnetrifuge=Auto-Zentrifuge
 tool.ability.crystallizer=Auto-Kristallisierer
+tool.ability.explosion=Explosion
 tool.ability.hammer=AoE
 tool.ability.luck=Glück
+tool.ability.mercury=Quecksilber-Berührung
 tool.ability.recursion=Erzadern-Miner
 tool.ability.shredder=Auto-Brecher
 tool.ability.silktouch=Behutsamkeit

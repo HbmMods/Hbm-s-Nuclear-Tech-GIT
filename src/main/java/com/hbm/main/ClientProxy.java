@@ -19,6 +19,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -188,6 +189,12 @@ public class ClientProxy extends ServerProxy {
 
 	@Override
 	public void registerItemRenderer() {
+		
+		ItemRenderLibrary.init();
+		
+		for(Entry<Item, ItemRenderBase> entry : ItemRenderLibrary.renderers.entrySet())
+			MinecraftForgeClient.registerItemRenderer(entry.getKey(), entry.getValue());
+		
 		//test crap
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_container), new ItemRenderTestContainer());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_bomb_advanced), new ItemRenderTestBombAdvanced());
@@ -296,8 +303,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_wall), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_corner), new ItemRenderDecoBlock());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.steel_roof), new ItemRenderDecoBlock());
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.machine_selenium), new ItemRendererMachine(2D));
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.radiorec), new ItemRendererMachine(1D));
 	}
 
 	@Override

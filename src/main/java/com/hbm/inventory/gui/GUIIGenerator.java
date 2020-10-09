@@ -4,11 +4,14 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerIGenerator;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.GaugeUtil;
 import com.hbm.render.util.GaugeUtil.Gauge;
 import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -16,11 +19,11 @@ import net.minecraft.util.ResourceLocation;
 public class GUIIGenerator extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/generators/gui_igen.png");
-	private TileEntityMachineIGenerator diFurnace;
+	private TileEntityMachineIGenerator igen;
 
 	public GUIIGenerator(InventoryPlayer invPlayer, TileEntityMachineIGenerator tedf) {
 		super(new ContainerIGenerator(invPlayer, tedf));
-		diFurnace = tedf;
+		igen = tedf;
 		
 		this.xSize = 188;
 		this.ySize = 222;
@@ -30,10 +33,28 @@ public class GUIIGenerator extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 	}
+
+	protected void mouseClicked(int x, int y, int i) {
+    	super.mouseClicked(x, y, i);
+		
+    	if(guiLeft + 24 <= x && guiLeft + 24 + 14 > x && guiTop + 64 < y && guiTop + 64 + 14 >= y) {
+    		
+    		//push pellet
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(igen.xCoord, igen.yCoord, igen.zCoord, 0, 0));
+    	}
+		
+    	if(guiLeft + 24 <= x && guiLeft + 24 + 14 > x && guiTop + 100 < y && guiTop + 100 + 14 >= y) {
+    		
+    		//pop pellet
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(igen.xCoord, igen.yCoord, igen.zCoord, 0, 1));
+    	}
+    }
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		String name = this.igen.hasCustomInventoryName() ? this.igen.getInventoryName() : I18n.format(this.igen.getInventoryName());
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 14, this.ySize - 96 + 2, 4210752);
@@ -45,16 +66,17 @@ public class GUIIGenerator extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int[] pellets = new int[] {0,1,0,1,0,0,0,1,2,0,0,2};
-		
-		for(int i = 0; i < pellets.length; i++) {
+		for(int i = 0; i < igen.pellets.length; i++) {
 			
-			drawTexturedModalRect(guiLeft + 6, guiTop + 106 - 4 * i, 188, 9 * pellets[i], 14, 9);
+			if(igen.pellets[i] != null)
+				drawTexturedModalRect(guiLeft + 6, guiTop + 106 - 4 * i, 188, igen.pellets[i].offset, 14, 9);
 		}
+		
+		GaugeUtil.renderGauge(Gauge.BOW_SMALL, guiLeft + 40, guiTop + 26, this.zLevel, igen.getSolidGauge());
 
-		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 20, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
-		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 56, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
-		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 92, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
+		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 20, this.zLevel, igen.getTempGauge());
+		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 56, this.zLevel, igen.getTorqueGauge());
+		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 92, this.zLevel, igen.getPowerGauge());
 
 		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 26, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
 		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 62, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
