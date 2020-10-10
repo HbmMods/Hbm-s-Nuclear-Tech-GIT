@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.machine.TileEntityMachineAssembler;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -12,21 +13,6 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderAssembler extends TileEntitySpecialRenderer {
-
-	private static final ResourceLocation body = new ResourceLocation(RefStrings.MODID, "models/assembler_new_body.obj");
-	private static final ResourceLocation cog = new ResourceLocation(RefStrings.MODID, "models/assembler_new_cog.obj");
-	private static final ResourceLocation slider = new ResourceLocation(RefStrings.MODID, "models/assembler_new_slider.obj");
-	private static final ResourceLocation arm = new ResourceLocation(RefStrings.MODID, "models/assembler_new_arm.obj");
-
-	private static final IModelCustom bodyModel = AdvancedModelLoader.loadModel(body);
-	private static final IModelCustom cogModel = AdvancedModelLoader.loadModel(cog);
-	private static final IModelCustom sliderModel = AdvancedModelLoader.loadModel(slider);
-	private static final IModelCustom armModel = AdvancedModelLoader.loadModel(arm);
-
-    private static final ResourceLocation bodyTexture = new ResourceLocation(RefStrings.MODID, "textures/models/assembler_base_new.png");
-    private static final ResourceLocation cogTexture = new ResourceLocation(RefStrings.MODID, "textures/models/assembler_cog_new.png");
-    private static final ResourceLocation sliderTexture = new ResourceLocation(RefStrings.MODID, "textures/models/assembler_slider_new.png");
-    private static final ResourceLocation armTexture = new ResourceLocation(RefStrings.MODID, "textures/models/assembler_arm_new.png");
 	
 	public RenderAssembler() { }
 
@@ -54,9 +40,9 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 	        GL11.glTranslated(0.5D, 0.0D, -0.5D); break;
 		}
 
-        bindTexture(bodyTexture);
+        bindTexture(ResourceManager.assembler_body_tex);
         
-        bodyModel.renderAll();
+        ResourceManager.assembler_body.renderAll();
 
         GL11.glPopMatrix();
         
@@ -86,7 +72,7 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 		}
 		
 
-        bindTexture(sliderTexture);
+        bindTexture(ResourceManager.assembler_slider_tex);
         
         int offset = (int) (System.currentTimeMillis() % 5000) / 5;
         
@@ -98,9 +84,9 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
         if(assembler.isProgressing)
         	GL11.glTranslated(offset * 0.003 - 0.75, 0, 0);
 		
-        sliderModel.renderAll();
+        ResourceManager.assembler_slider.renderAll();
 
-        bindTexture(armTexture);
+        bindTexture(ResourceManager.assembler_arm_tex);
         
         double sway = (System.currentTimeMillis() % 2000) / 2;
 
@@ -108,7 +94,7 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 
         if(assembler.isProgressing)
         	GL11.glTranslated(0, 0, sway * 0.3);
-        armModel.renderAll();
+        ResourceManager.assembler_arm.renderAll();
 
         GL11.glPopMatrix();
         
@@ -137,7 +123,7 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
 		}
 		
 
-        bindTexture(cogTexture);
+        bindTexture(ResourceManager.assembler_cog_tex);
 
         int rotation = (int) (System.currentTimeMillis() % (360 * 5)) / 5;
         
@@ -149,25 +135,25 @@ public class RenderAssembler extends TileEntitySpecialRenderer {
         GL11.glPushMatrix();
 		GL11.glTranslated(-0.6, 0.75, 1.0625);
 		GL11.glRotatef(-rotation, 0F, 0F, 1F);
-		cogModel.renderAll();
+		ResourceManager.assembler_cog.renderAll();
         GL11.glPopMatrix();
         
         GL11.glPushMatrix();
 		GL11.glTranslated(0.6, 0.75, 1.0625);
 		GL11.glRotatef(rotation, 0F, 0F, 1F);
-		cogModel.renderAll();
+		ResourceManager.assembler_cog.renderAll();
         GL11.glPopMatrix();
         
         GL11.glPushMatrix();
 		GL11.glTranslated(-0.6, 0.75, -1.0625);
 		GL11.glRotatef(-rotation, 0F, 0F, 1F);
-		cogModel.renderAll();
+		ResourceManager.assembler_cog.renderAll();
         GL11.glPopMatrix();
         
         GL11.glPushMatrix();
 		GL11.glTranslated(0.6, 0.75, -1.0625);
 		GL11.glRotatef(rotation, 0F, 0F, 1F);
-		cogModel.renderAll();
+		ResourceManager.assembler_cog.renderAll();
         GL11.glPopMatrix();
 
         GL11.glPopMatrix();

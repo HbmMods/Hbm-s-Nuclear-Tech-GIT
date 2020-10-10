@@ -13,7 +13,7 @@ public class TileEntityMachineMiniRTG extends TileEntity implements ISource {
 
 	public List<IConsumer> list = new ArrayList();
 	public long power;
-	public long maxPower = 100;
+	public long maxPower = 1400;
 	boolean tact = false;
 	
 	@Override
@@ -21,7 +21,7 @@ public class TileEntityMachineMiniRTG extends TileEntity implements ISource {
 		
 		if(!worldObj.isRemote) {
 
-			power += 25;
+			power += 70;
 			
 			if(power > maxPower)
 				power = maxPower;
