@@ -72,7 +72,9 @@ potion.hbm_phosphorus=Фосфорные ожоги
 
 tool.ability.recursion=Жилковый Майнер
 tool.ability.hammer=Зона действия
+tool.ability.explosion=Взрыв
 tool.ability.silktouch=Шёлковое касание
+tool.ability.mercury=Ртутное прикосновение
 tool.ability.luck=Удача
 tool.ability.smelter=Авто-плавка
 tool.ability.shredder=Авто-измельчитель
@@ -81,6 +83,7 @@ tool.ability.crystallizer=Авто-кристаллизатор
 weapon.ability.radiation=Радиоактивные лезвия
 weapon.ability.vampire=Вампир
 weapon.ability.stun=Оглушение
+weapon.ability.phosphorus=Фосфорный наконечник
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -1969,6 +1972,8 @@ item.schrabidium_pickaxe.name=Шрабидиевая кирка
 item.schrabidium_axe.name=Шрабидиевый топор
 item.schrabidium_shovel.name=Шрабидиевая лопата
 item.schrabidium_hoe.name=Шрабидиевая мотыга
+item.chlorophyte_pickaxe.name=Хлорофитовая кирка
+item.mese_pickaxe.name=Месе кирка
 
 item.jetpack_boost.name=Импульсный ранец
 item.jetpack_fly.name=Реактивный ранец
@@ -2411,7 +2416,7 @@ item.remote.name=Сломанный пульт дистанционного уп
 item.diamond_gavel.name=Алмазный молоток
 item.lead_gavel.name=Свинцовый молоток
 item.wood_gavel.name=Деревянный молоток
-item.mese_gavel.name=Месье молоток
+item.mese_gavel.name=Месе молоток
 
 item.shimmer_head.name=Тяжелая головка молота
 item.shimmer_axe_head.name=Тяжелое лезвие топора
