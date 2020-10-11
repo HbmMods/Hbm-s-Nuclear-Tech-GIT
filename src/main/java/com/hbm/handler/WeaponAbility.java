@@ -1,6 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.items.tool.IItemAbility;
+import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.client.resources.I18n;
@@ -96,6 +97,36 @@ public abstract class WeaponAbility {
 		@Override
 		public String getName() {
 			return "weapon.ability.stun";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName()) + " (" + duration + ")";
+		}
+	}
+	
+	public static class PhosphorusAbility extends WeaponAbility {
+		
+		int duration;
+		
+		public PhosphorusAbility(int duration) {
+			this.duration = duration;
+		}
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+			
+			if(victim instanceof EntityLivingBase) {
+				
+				EntityLivingBase living = (EntityLivingBase) victim;
+
+				living.addPotionEffect(new PotionEffect(HbmPotion.phosphorus.id, duration * 20, 4));
+			}
+		}
+
+		@Override
+		public String getName() {
+			return "weapon.ability.phosphorus";
 		}
 
 		@Override

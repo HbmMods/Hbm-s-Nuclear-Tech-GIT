@@ -200,13 +200,25 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 			GL11.glPopMatrix();
 			
 			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.boxcar) {
-				GL11.glTranslatef(0, 0, -1.5F);
-	        	GL11.glRotated(90, 1, 0, 0);
 
-	            GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glRotatef(180, 0F, 0F, 1F);
+				GL11.glTranslatef(0, -1.5F, 0);
+				
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(0, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				default:
+					GL11.glRotatef(180, 0F, 0F, 1F);
+					GL11.glRotated(90, 1, 0, 0);
+					GL11.glTranslatef(0, -1.5F, 0);
+					break;
+				}
+
+	            GL11.glEnable(GL11.GL_CULL_FACE);
 	        	bindTexture(ResourceManager.boxcar_tex);
 	        	ResourceManager.boxcar.renderAll();
-	            GL11.glEnable(GL11.GL_CULL_FACE);
 			}
 			
 			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.boat) {

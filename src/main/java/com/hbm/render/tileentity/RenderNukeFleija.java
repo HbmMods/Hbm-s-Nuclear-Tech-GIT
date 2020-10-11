@@ -2,27 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderNukeFleija extends TileEntitySpecialRenderer {
-	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/Fleija.obj");
-	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/Prototype.obj");
-	private IModelCustom manModel;
-    private ResourceLocation manTexture;
-	
-	public RenderNukeFleija()
-    {
-		manModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		manTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Fleija.png");
-		//manTexture = new ResourceLocation(RefStrings.MODID, "textures/models/Prototype.png");
-    }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -42,8 +27,8 @@ public class RenderNukeFleija extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(manTexture);
-        manModel.renderAll();
+        bindTexture(ResourceManager.bomb_fleija_tex);
+        ResourceManager.bomb_fleija.renderAll();
 
         GL11.glPopMatrix();
     }

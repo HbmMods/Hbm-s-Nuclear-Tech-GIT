@@ -556,9 +556,9 @@ public class HbmWorldGen implements IWorldGenerator {
 					z = j + rand.nextInt(65) - 32;
 					y = world.getHeightValue(x, z);
 					
-					if(world.getBlock(x, y, z).canPlaceTorchOnTop(world, x, y, z)) {
-						world.setBlock(x, y + 1, z, Blocks.skull, 1, 2);
-						TileEntitySkull skull = (TileEntitySkull)world.getTileEntity(x, y + 1, z);
+					if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
+						world.setBlock(x, y, z, Blocks.skull, 1, 2);
+						TileEntitySkull skull = (TileEntitySkull)world.getTileEntity(x, y, z);
 						
 						if(skull != null)
 							skull.func_145903_a(rand.nextInt(16));

@@ -2,25 +2,12 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderNukeMan extends TileEntitySpecialRenderer {
-	
-	private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/FatMan.obj");
-	private IModelCustom manModel;
-    private ResourceLocation manTexture;
-	
-	public RenderNukeMan()
-    {
-		manModel = AdvancedModelLoader.loadModel(objTesterModelRL);
-		manTexture = new ResourceLocation(RefStrings.MODID, "textures/models/FatMan.png");
-    }
 
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
@@ -41,10 +28,10 @@ public class RenderNukeMan extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(manTexture);
-        manModel.renderAll();
+        bindTexture(ResourceManager.bomb_man_tex);
+        ResourceManager.bomb_man.renderAll();
         
-        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_CULL_FACE);
 
         GL11.glPopMatrix();
     }

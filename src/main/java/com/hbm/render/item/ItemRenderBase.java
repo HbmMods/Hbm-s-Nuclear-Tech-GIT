@@ -29,6 +29,7 @@ public abstract class ItemRenderBase implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		
 		GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_CULL_FACE);
 		if(type == ItemRenderType.INVENTORY) {
 			RenderHelper.enableGUIStandardItemLighting();
 			GL11.glTranslated(8, 10, 0);
