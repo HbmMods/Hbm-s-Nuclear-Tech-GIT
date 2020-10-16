@@ -1,0 +1,122 @@
+package com.hbm.items.armor;
+
+import java.util.List;
+
+import com.hbm.lib.Library;
+
+import api.hbm.energy.IBatteryItem;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
+
+	public long maxPower = 1;
+	public long chargeRate;
+	public long consumption;
+
+	public ArmorFSBPowered(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption) {
+		super(material, layer, slot, texture);
+		this.maxPower = maxPower;
+		this.chargeRate = chargeRate;
+		this.consumption = consumption;
+		this.setMaxDamage(1);
+	}
+    
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+    	
+    	list.add("Charge: " + Library.getShortNumber(getCharge(stack)) + " / " + Library.getShortNumber(maxPower));
+    	
+    	super.addInformation(stack, player, list, ext);
+    }
+
+	@Override
+    public void chargeBattery(ItemStack stack, long i) {
+    	if(stack.getItem() instanceof ArmorFSBPowered) {
+    		if(stack.hasTagCompound()) {
+    			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") + i);
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", i);
+    		}
+    	}
+    }
+
+	@Override
+    public void setCharge(ItemStack stack, long i) {
+    	if(stack.getItem() instanceof ArmorFSBPowered) {
+    		if(stack.hasTagCompound()) {
+    			stack.stackTagCompound.setLong("charge", i);
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", i);
+    		}
+    	}
+    }
+
+	@Override
+    public void dischargeBattery(ItemStack stack, long i) {
+    	if(stack.getItem() instanceof ArmorFSBPowered) {
+    		if(stack.hasTagCompound()) {
+    			stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", this.maxPower - i);
+    		}
+    		
+    		if(stack.stackTagCompound.getLong("charge") < 0)
+    			stack.stackTagCompound.setLong("charge", 0);
+    	}
+    }
+
+	@Override
+    public long getCharge(ItemStack stack) {
+    	if(stack.getItem() instanceof ArmorFSBPowered) {
+    		if(stack.hasTagCompound()) {
+    			return stack.stackTagCompound.getLong("charge");
+    		} else {
+    			stack.stackTagCompound = new NBTTagCompound();
+    			stack.stackTagCompound.setLong("charge", ((ArmorFSBPowered)stack.getItem()).maxPower);
+    			return stack.stackTagCompound.getLong("charge");
+    		}
+    	}
+    	
+    	return 0;
+    }
+
+	@Override
+    public boolean showDurabilityBar(ItemStack stack) {
+    	
+        return getCharge(stack) < maxPower;
+    }
+
+	@Override
+    public double getDurabilityForDisplay(ItemStack stack) {
+    	
+        return 1 - (double)getCharge(stack) / (double)maxPower;
+    }
+
+	@Override
+    public long getMaxCharge() {
+    	return maxPower;
+    }
+
+	@Override
+    public long getChargeRate() {
+    	return chargeRate;
+    }
+
+	@Override
+	public long getDischargeRate() {
+		return 0;
+	}
+
+	@Override
+    public void setDamage(ItemStack stack, int damage)
+    {
+        this.dischargeBattery(stack, damage * consumption);
+    }
+}

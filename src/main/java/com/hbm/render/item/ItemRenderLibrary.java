@@ -634,6 +634,146 @@ public class ItemRenderLibrary {
 	        	ResourceManager.mine_fat.renderAll();
 	            GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_forcefield), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(6, 6, 6);
+			}
+			public void renderCommon() {
+		        bindTexture(ResourceManager.forcefield_base_tex); ResourceManager.radar_body.renderAll();
+		        GL11.glTranslated(0, 1D, 0);
+		        bindTexture(ResourceManager.forcefield_top_tex); ResourceManager.forcefield_top.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_missile_assembly), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2.5, 0);
+				GL11.glScaled(10, 10, 10);
+			}
+			public void renderCommon() {
+	            GL11.glDisable(GL11.GL_CULL_FACE);
+		        bindTexture(ResourceManager.missile_assembly_tex); ResourceManager.missile_assembly.renderAll();
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.launch_pad), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+		        bindTexture(ResourceManager.missile_pad_tex); ResourceManager.missile_pad.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.compact_launcher), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(3.5, 3.5, 3.5);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				bindTexture(ResourceManager.compact_launcher_tex); ResourceManager.compact_launcher.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.launch_table), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(2.5, 2.5, 2.5);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				bindTexture(ResourceManager.launch_table_base_tex); ResourceManager.launch_table_base.renderAll();
+				bindTexture(ResourceManager.launch_table_small_pad_tex); ResourceManager.launch_table_small_pad.renderAll();
+				GL11.glTranslatef(0F, 0F, 2.5F);
+				for(int i = 0; i < 8; i++) {
+					GL11.glTranslatef(0F, 1F, 0.F);
+					if(i < 6) {
+						bindTexture(ResourceManager.launch_table_small_scaffold_base_tex); ResourceManager.launch_table_small_scaffold_base.renderAll();
+					}
+					if(i == 6) {
+						bindTexture(ResourceManager.launch_table_small_scaffold_connector_tex); ResourceManager.launch_table_small_scaffold_connector.renderAll();
+					}
+					if(i > 6) {
+						bindTexture(ResourceManager.launch_table_small_scaffold_base_tex); ResourceManager.launch_table_small_scaffold_empty.renderAll();
+					}
+				}
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.soyuz_capsule), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+	            GL11.glShadeModel(GL11.GL_SMOOTH);
+	        	bindTexture(ResourceManager.soyuz_lander_tex); ResourceManager.soyuz_lander.renderPart("Capsule");
+	            GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_radar), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(6, 6, 6);
+			}
+			public void renderCommon() {
+	            GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glRotated(90, 0, -1, 0);
+		        bindTexture(ResourceManager.radar_body_tex); ResourceManager.radar_body.renderAll();
+		        bindTexture(ResourceManager.radar_head_tex); ResourceManager.radar_head.renderAll();
+	            GL11.glEnable(GL11.GL_CULL_FACE);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(6, 6, 6);
+			}
+			public void renderCommon() {
+				GL11.glRotated(90, 0, -1, 0);
+		        bindTexture(ResourceManager.uf6_tex); ResourceManager.tank.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_puf6_tank), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 0);
+				GL11.glScaled(6, 6, 6);
+			}
+			public void renderCommon() {
+				GL11.glRotated(90, 0, -1, 0);
+		        bindTexture(ResourceManager.puf6_tex); ResourceManager.tank.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.sat_dock), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glRotated(90, 0, -1, 0);
+		        bindTexture(ResourceManager.satdock_tex); ResourceManager.satDock.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.vault_door), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -5, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+		        bindTexture(ResourceManager.vault_cog_tex); ResourceManager.vault_cog.renderAll();
+		        bindTexture(ResourceManager.vault_label_101_tex); ResourceManager.vault_label.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.blast_door), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+		        bindTexture(ResourceManager.blast_door_base_tex); ResourceManager.blast_door_base.renderAll();
+		        bindTexture(ResourceManager.blast_door_tooth_tex); ResourceManager.blast_door_tooth.renderAll();
+		        bindTexture(ResourceManager.blast_door_slider_tex); ResourceManager.blast_door_slider.renderAll();
+		        bindTexture(ResourceManager.blast_door_block_tex); ResourceManager.blast_door_block.renderAll();
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

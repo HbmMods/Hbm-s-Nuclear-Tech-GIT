@@ -3,17 +3,22 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.google.common.collect.HashBiMap;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.ISource;
+import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import scala.actors.threadpool.Arrays;
 
-public class TileEntityMachineIGenerator extends TileEntityMachineBase implements ISource {
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements ISource, IFluidAcceptor {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -23,11 +28,17 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public static final int maxTemperature = 1000;
 	public int torque;
 	public static final int maxTorque = 10000;
+	public float limiter = 0.0F; /// 0 - 1 ///
 	
 	public IGenRTG[] pellets = new IGenRTG[12];
+	public FluidTank[] tanks;
 
 	public TileEntityMachineIGenerator() {
 		super(15);
+		tanks = new FluidTank[3];
+		tanks[0] = new FluidTank(FluidType.WATER, 8000, 0);
+		tanks[1] = new FluidTank(FluidType.HEATINGOIL, 16000, 1);
+		tanks[2] = new FluidTank(FluidType.LUBRICANT, 2000, 2);
 	}
 
 	@Override
@@ -39,12 +50,25 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			tanks[0].loadTank(7, 8, slots);
+			tanks[1].loadTank(9, 10, slots);
+			tanks[1].setType(11, 12, slots);
+			tanks[2].loadTank(13, 14, slots);
 			
 			loadFuel();
-			rtgAction();
+			pelletAction();
 			
-			if(burnTime > 0)
+			if(burnTime > 0) {
 				burnTime --;
+				temperature += 100;
+			}
+			
+			rtgAction();
+			rotorAction();
+			generatorAction();
+			
+			this.power = Library.chargeItemsFromTE(slots, 6, power, maxPower);
 			
 			NBTTagCompound data = new NBTTagCompound();
 			int[] rtgs = new int[pellets.length];
@@ -57,9 +81,16 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			}
 			
 			data.setIntArray("rtgs", rtgs);
+			data.setInteger("temp", temperature);
+			data.setInteger("torque", torque);
+			data.setInteger("power", (int)power);
 			data.setShort("burn", (short) burnTime);
 			data.setShort("lastBurn", (short) lastBurnTime);
+			data.setFloat("dial", limiter);
 			this.networkPack(data, 250);
+			
+			for(int i = 0; i < 3; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
 		}
 	}
 
@@ -80,8 +111,17 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			}
 		}
 
+		this.temperature = nbt.getInteger("temp");
+		this.torque = nbt.getInteger("torque");
+		this.power = nbt.getInteger("power");
 		this.burnTime = nbt.getShort("burn");
 		this.lastBurnTime = nbt.getShort("lastBurn");
+		
+		if(ignoreNext <= 0) {
+			this.limiter = nbt.getFloat("dial");
+		} else {
+			ignoreNext--;
+		}
 	}
 
 	@Override
@@ -91,6 +131,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			pushPellet();
 		if(meta == 1)
 			popPellet();
+		if(meta == 2)
+			setDialByAngle(value);
 	}
 	
 	/**
@@ -119,6 +161,20 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 	
 	/**
+	 * Creates heat from RTG pellets
+	 */
+	private void pelletAction() {
+		
+		for(int i = 0; i < pellets.length; i++) {
+			if(pellets[i] != null)
+				this.temperature += pellets[i].heat;
+		}
+		
+		if(temperature > maxTemperature)
+			temperature = maxTemperature;
+	}
+	
+	/**
 	 * does the thing with the thermo elements
 	 */
 	private void rtgAction() {
@@ -135,6 +191,43 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		
 		this.temperature -= pow;
 		this.power += pow;
+		
+		if(power > maxPower)
+			power = maxPower;
+	}
+
+	/**
+	 * Turns heat into rotational energy
+	 */
+	private void rotorAction() {
+		
+		int conversion = getConversion();
+		
+		this.torque += conversion;
+		this.temperature -= conversion;
+		
+		if(torque > maxTorque)
+			worldObj.createExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true);
+	}
+	
+	/**
+	 * Do the power stuff
+	 */
+	private void generatorAction() {
+		
+		this.power += this.torque;
+		torque -= getBrake();
+		
+		if(power > maxPower)
+			power = maxPower;
+	}
+	
+	public int getBrake() {
+		return (int) Math.ceil(torque * 0.1 * (tanks[2].getFill() > 0 ? 0.5 : 1));
+	}
+	
+	public int getConversion() {
+		return (int) (temperature * limiter * (tanks[0].getFill() > 0 ? 1 : 0.35));
 	}
 	
 	/**
@@ -203,6 +296,16 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public double getTorqueGauge() {
 		return (double) torque / (double) maxTorque;
 	}
+	
+	public float getAngleFromDial() {
+		return (45F + limiter * 270F) % 360F;
+	}
+	
+	int ignoreNext = 0;
+	public void setDialByAngle(float angle) {
+		this.limiter = (angle - 45F) / 270F;
+		ignoreNext = 5;
+	}
 
 	@Override
 	public void ffgeuaInit() {
@@ -245,6 +348,48 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setFillstate(int fill, int index) {
+		tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setFluidFill(int fill, FluidType type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setType(FluidType type, int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<FluidTank> getTanks() {
+		return Arrays.asList(tanks);
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		
+		for(int i = 0; i < 3; i++)
+			if(tanks[i].getTankType() == type)
+				return tanks[i].getFill();
+		
+		return 0;
+	}
+
+	@Override
+	public int getMaxFluidFill(FluidType type) {
+		
+		for(int i = 0; i < 3; i++)
+			if(tanks[i].getTankType() == type)
+				return tanks[i].getMaxFill();
+		
+		return 0;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -263,6 +408,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 
 		this.burnTime = nbt.getInteger("burn");
 		this.lastBurnTime = nbt.getInteger("lastBurn");
+		this.limiter = nbt.getFloat("limiter");
 	}
 	
 	@Override
@@ -280,6 +426,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 
 		nbt.setInteger("burn", burnTime);
 		nbt.setInteger("lastBurn", lastBurnTime);
+		nbt.setFloat("limiter", limiter);
 	}
 	
 	private static HashBiMap<Item, IGenRTG> rtgPellets = HashBiMap.create();

@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerIGenerator;
@@ -12,14 +13,17 @@ import com.hbm.tileentity.machine.TileEntityMachineIGenerator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class GUIIGenerator extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/generators/gui_igen.png");
 	private TileEntityMachineIGenerator igen;
+	boolean caughtMouse = false;
 
 	public GUIIGenerator(InventoryPlayer invPlayer, TileEntityMachineIGenerator tedf) {
 		super(new ContainerIGenerator(invPlayer, tedf));
@@ -30,8 +34,23 @@ public class GUIIGenerator extends GuiInfoContainer {
 	}
 	
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float f) {
-		super.drawScreen(mouseX, mouseY, f);
+	public void drawScreen(int x, int y, float f) {
+		super.drawScreen(x, y, f);
+		
+    	if(!caughtMouse && Mouse.isButtonDown(0) && guiLeft + 85 <= x && guiLeft + 85 + 18 > x && guiTop + 71 < y && guiTop + 71 + 18 >= y) {
+    		caughtMouse = true;
+    	}
+    	
+    	if(caughtMouse && !Mouse.isButtonDown(0)) {
+    		int dial = (int) Math.round(Math.toDegrees(getAngle(x, y)));
+    		igen.setDialByAngle(dial);
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(igen.xCoord, igen.yCoord, igen.zCoord, dial, 2));
+    		caughtMouse = false;
+    	}
+    	
+    	igen.tanks[0].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 26, 18, 18);
+    	igen.tanks[1].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 62, 18, 18);
+    	igen.tanks[2].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 98, 18, 18);
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -58,10 +77,12 @@ public class GUIIGenerator extends GuiInfoContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 14, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(igen.getConversion() + "", 100, this.ySize - 96 + 2, 0xffffff);
+		this.fontRendererObj.drawString(igen.getBrake() + "", 100, this.ySize - 96 + 12, 0xffffff);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+	protected void drawGuiContainerBackgroundLayer(float iinterpolation, int x, int y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
@@ -72,14 +93,51 @@ public class GUIIGenerator extends GuiInfoContainer {
 				drawTexturedModalRect(guiLeft + 6, guiTop + 106 - 4 * i, 188, igen.pellets[i].offset, 14, 9);
 		}
 		
+		drawDial(x, y);
+		
 		GaugeUtil.renderGauge(Gauge.BOW_SMALL, guiLeft + 40, guiTop + 26, this.zLevel, igen.getSolidGauge());
 
 		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 20, this.zLevel, igen.getTempGauge());
 		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 56, this.zLevel, igen.getTorqueGauge());
 		GaugeUtil.renderGauge(Gauge.BAR_SMALL, guiLeft + 76, guiTop + 92, this.zLevel, igen.getPowerGauge());
 
-		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 26, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
-		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 62, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
-		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 98, this.zLevel, Math.sin(System.currentTimeMillis() * 0.0025D) * 0.5 + 0.5);
+		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 26, this.zLevel, (double)igen.tanks[0].getFill() / (double)igen.tanks[0].getMaxFill());
+		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 62, this.zLevel, (double)igen.tanks[1].getFill() / (double)igen.tanks[1].getMaxFill());
+		GaugeUtil.renderGauge(Gauge.WIDE_SMALL, guiLeft + 148, guiTop + 98, this.zLevel, (double)igen.tanks[2].getFill() / (double)igen.tanks[2].getMaxFill());
+	}
+	
+	private void drawDial(float x, float y) {
+		
+		float angle = (float) getAngle(x, y);
+		double pixel = 1D/256D;
+		
+		Vec3 vec = Vec3.createVectorHelper(8, 8, 0);
+		vec.rotateAroundZ(-angle);
+
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        
+        tessellator.addVertexWithUV(guiLeft + 94 + vec.xCoord, guiTop + 80 + vec.yCoord, this.zLevel, pixel * 218, 0);
+        vec.rotateAroundZ((float)Math.toRadians(90));
+        tessellator.addVertexWithUV(guiLeft + 94 + vec.xCoord, guiTop + 80 + vec.yCoord, this.zLevel, pixel * 218, pixel * 16);
+        vec.rotateAroundZ((float)Math.toRadians(90));
+        tessellator.addVertexWithUV(guiLeft + 94 + vec.xCoord, guiTop + 80 + vec.yCoord, this.zLevel, pixel * 202, pixel * 16);
+        vec.rotateAroundZ((float)Math.toRadians(90));
+        tessellator.addVertexWithUV(guiLeft + 94 + vec.xCoord, guiTop + 80 + vec.yCoord, this.zLevel, pixel * 202, 0);
+		
+        tessellator.draw();
+	}
+	
+	private double getAngle(float x, float y) {
+		
+		if(!caughtMouse)
+			return Math.toRadians(igen.getAngleFromDial());
+		
+		double angle = -Math.atan2(guiLeft + 94 - x, guiTop + 80 - y) + (float) Math.PI * 1;
+
+		angle = Math.max(angle, Math.PI * 0.25);
+		angle = Math.min(angle, Math.PI * 1.75);
+		
+		return angle;
 	}
 }

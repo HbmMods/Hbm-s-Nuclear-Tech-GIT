@@ -3,6 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,16 +13,6 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderPuF6Tank extends TileEntitySpecialRenderer {
 	
-	private static final ResourceLocation tankModel = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/tank.obj");
-	private IModelCustom tankModelC;
-    private ResourceLocation tankTexture;
-	
-	public RenderPuF6Tank()
-    {
-		tankModelC = AdvancedModelLoader.loadModel(tankModel);
-		tankTexture = new ResourceLocation(RefStrings.MODID, "textures/models/PUF6Tank.png");
-    }
-
     @Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
     {
@@ -40,8 +31,8 @@ public class RenderPuF6Tank extends TileEntitySpecialRenderer {
 			GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-        bindTexture(tankTexture);
-        tankModelC.renderAll();
+        bindTexture(ResourceManager.puf6_tex);
+        ResourceManager.tank.renderAll();
 
         GL11.glPopMatrix();
     }

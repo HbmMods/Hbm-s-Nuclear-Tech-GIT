@@ -33,10 +33,14 @@ import net.minecraftforge.common.ISpecialArmor;
 
 @Spaghetti("kill it")
 public class ArmorT45 extends ItemArmor implements ISpecialArmor {
+	
 	@SideOnly(Side.CLIENT)
 	private ModelT45Helmet helmet;
+	@SideOnly(Side.CLIENT)
 	private ModelT45Chest plate;
+	@SideOnly(Side.CLIENT)
 	private ModelT45Legs legs;
+	@SideOnly(Side.CLIENT)
 	private ModelT45Boots boots;
 
 	public ArmorT45(ArmorMaterial armorMaterial, int renderIndex, int armorType) {
