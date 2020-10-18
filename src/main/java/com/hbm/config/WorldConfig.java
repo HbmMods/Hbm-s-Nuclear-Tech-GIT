@@ -37,6 +37,7 @@ public class WorldConfig {
 	public static int geyserVapor = 500;
 	public static int meteorStructure = 15000;
 	public static int capsuleStructure = 100;
+	public static int arcticStructure = 500;
 
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
@@ -87,6 +88,7 @@ public class WorldConfig {
 		geyserVapor = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.19_geyserVaporSpawn", "Spawn vapor geyser on every nTH chunk", 500);
 		meteorStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.20_meteorSpawn", "Spawn meteor dungeon on every nTH chunk", 15000);
 		capsuleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
+		arcticStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.22_arcticVaultSpawn", "Spawn artic code vault on every nTH chunk", 500);
 
 		final String CATEGORY_METEOR = "05_meteors";
 		Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);
@@ -99,28 +101,29 @@ public class WorldConfig {
 		propMeteorShowerDuration.comment = "Max duration of meteor shower in ticks";
 		meteorShowerDuration = propMeteorShowerDuration.getInt();
 
-		radioStructure = CommonConfig.setDef(radioStructure, 1000);
-		antennaStructure = CommonConfig.setDef(antennaStructure, 1000);
-		atomStructure = CommonConfig.setDef(atomStructure, 1000);
-		vertibirdStructure = CommonConfig.setDef(vertibirdStructure, 1000);
-		dungeonStructure = CommonConfig.setDef(dungeonStructure, 1000);
-		relayStructure = CommonConfig.setDef(relayStructure, 1000);
-		satelliteStructure = CommonConfig.setDef(satelliteStructure, 1000);
-		bunkerStructure = CommonConfig.setDef(bunkerStructure, 1000);
-		siloStructure = CommonConfig.setDef(siloStructure, 1000);
-		factoryStructure = CommonConfig.setDef(factoryStructure, 1000);
-		dudStructure = CommonConfig.setDef(dudStructure, 1000);
-		spaceshipStructure = CommonConfig.setDef(spaceshipStructure, 1000);
-		barrelStructure = CommonConfig.setDef(barrelStructure, 1000);
-		geyserWater = CommonConfig.setDef(geyserWater, 1000);
-		geyserChlorine = CommonConfig.setDef(geyserChlorine, 1000);
-		geyserVapor = CommonConfig.setDef(geyserVapor, 1000);
-		broadcaster = CommonConfig.setDef(broadcaster, 1000);
-		minefreq = CommonConfig.setDef(minefreq, 1000);
-		radfreq = CommonConfig.setDef(radfreq, 1000);
-		vaultfreq = CommonConfig.setDef(vaultfreq, 1000);
-		meteorStructure = CommonConfig.setDef(meteorStructure, 15000);
-		capsuleStructure = CommonConfig.setDef(capsuleStructure, 100);
+		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
+		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
+		atomStructure = CommonConfig.setDefZero(atomStructure, 1000);
+		vertibirdStructure = CommonConfig.setDefZero(vertibirdStructure, 1000);
+		dungeonStructure = CommonConfig.setDefZero(dungeonStructure, 1000);
+		relayStructure = CommonConfig.setDefZero(relayStructure, 1000);
+		satelliteStructure = CommonConfig.setDefZero(satelliteStructure, 1000);
+		bunkerStructure = CommonConfig.setDefZero(bunkerStructure, 1000);
+		siloStructure = CommonConfig.setDefZero(siloStructure, 1000);
+		factoryStructure = CommonConfig.setDefZero(factoryStructure, 1000);
+		dudStructure = CommonConfig.setDefZero(dudStructure, 1000);
+		spaceshipStructure = CommonConfig.setDefZero(spaceshipStructure, 1000);
+		barrelStructure = CommonConfig.setDefZero(barrelStructure, 1000);
+		geyserWater = CommonConfig.setDefZero(geyserWater, 1000);
+		geyserChlorine = CommonConfig.setDefZero(geyserChlorine, 1000);
+		geyserVapor = CommonConfig.setDefZero(geyserVapor, 1000);
+		broadcaster = CommonConfig.setDefZero(broadcaster, 1000);
+		minefreq = CommonConfig.setDefZero(minefreq, 1000);
+		radfreq = CommonConfig.setDefZero(radfreq, 1000);
+		vaultfreq = CommonConfig.setDefZero(vaultfreq, 1000);
+		meteorStructure = CommonConfig.setDefZero(meteorStructure, 15000);
+		capsuleStructure = CommonConfig.setDefZero(capsuleStructure, 100);
+		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
 		
 		meteorStrikeChance = CommonConfig.setDef(meteorStrikeChance, 1000);
 		meteorShowerChance = CommonConfig.setDef(meteorShowerChance, 1000);

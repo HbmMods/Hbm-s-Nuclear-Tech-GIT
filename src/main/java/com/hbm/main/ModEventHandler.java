@@ -393,80 +393,13 @@ public class ModEventHandler
 			event.setCanceled(true);
 		}
 		
-		if(e instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)e;
-
-			ItemStack helmet = player.inventory.armorInventory[3];
-			ItemStack plate = player.inventory.armorInventory[2];
-			ItemStack legs = player.inventory.armorInventory[1];
-			ItemStack boots = player.inventory.armorInventory[0];
-			
-			if(plate != null && plate.getItem() instanceof ArmorFSB) {
-				
-				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
-				
-				boolean noHelmet = chestplate.noHelmet;
-			
-				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
-					
-					if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
-						chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
-						chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
-						
-						if(chestplate.fireproof && event.source.isFireDamage()) {
-							player.extinguish();
-							event.setCanceled(true);
-						}
-					}
-				}
-			}
-		}
+		ArmorFSB.handleAttack(event);
 	}
 	
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
-		EntityLivingBase e = event.entityLiving;
-		
-		if(e instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)e;
-
-			ItemStack helmet = player.inventory.armorInventory[3];
-			ItemStack plate = player.inventory.armorInventory[2];
-			ItemStack legs = player.inventory.armorInventory[1];
-			ItemStack boots = player.inventory.armorInventory[0];
-			
-			if(plate != null && plate.getItem() instanceof ArmorFSB) {
-				
-				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
-				
-				boolean noHelmet = chestplate.noHelmet;
-			
-				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
-					
-					if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
-						chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
-						chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
-						
-						if(chestplate.damageMod != -1) {
-							event.ammount *= chestplate.damageMod;
-						}
-						
-						if(chestplate.resistance.get(event.source.getDamageType()) != null) {
-							event.ammount *= chestplate.resistance.get(event.source);
-						}
-						
-						if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
-							event.ammount *= chestplate.blastProtection;
-						}
-						
-						if(chestplate.damageCap != -1) {
-							event.ammount = Math.min(event.ammount, chestplate.damageCap);
-						}
-					}
-				}
-			}
-		}
+		ArmorFSB.handleHurt(event);
 	}
 	
 	@SubscribeEvent

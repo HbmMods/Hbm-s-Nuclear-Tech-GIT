@@ -46,10 +46,18 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
@@ -165,16 +173,6 @@ public class ModEventHandlerClient {
 			renderer.modelArmorChestplate.aimedBow = true;
 		}
 	}
-	
-	/*@SubscribeEvent
-	public void renderThermalSight(RenderLivingEvent.Pre event) {
-		
-		AxisAlignedBB aabb = event.entity.boundingBox;
-
-		GL11.glPushMatrix();
-		Render.renderAABB(aabb);
-        GL11.glPopMatrix();
-	}*/
 
 	@SubscribeEvent
 	public void clickHandler(MouseEvent event) {
@@ -310,10 +308,6 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onRenderWorldLastEvent(RenderWorldLastEvent event) {
 		
-		/* 
-		 * my ass is heavy
-		 */
-		
 		GL11.glPushMatrix();
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -385,5 +379,93 @@ public class ModEventHandlerClient {
 		}
 		
 		GL11.glPopMatrix();
+		
+		renderThermalSight(event.partialTicks);
+	}
+	
+	public void renderThermalSight(float partialTicks) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
+		double y =  player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
+		double z =  player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
+
+		GL11.glPushMatrix();
+		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_POINT_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_LINES);
+
+		for(Object o : player.worldObj.loadedEntityList) {
+			
+			Entity ent = (Entity) o;
+			
+			if(ent == player)
+				continue;
+			
+			if(ent.getDistanceSqToEntity(player) > 4096)
+				continue;
+			
+			if(ent instanceof IBossDisplayData)
+				tess.setColorOpaque_F(1F, 0.5F, 0F);
+			else if(ent instanceof EntityMob)
+				tess.setColorOpaque_F(1F, 0F, 0F);
+			else if(ent instanceof EntityPlayer)
+				tess.setColorOpaque_F(1F, 0F, 1F);
+			else if(ent instanceof EntityLiving)
+				tess.setColorOpaque_F(0F, 1F, 0F);
+			else if(ent instanceof EntityItem)
+				tess.setColorOpaque_F(1F, 1F, 0.5F);
+			else if(ent instanceof EntityXPOrb) {
+				if(player.ticksExisted % 10 < 5)
+					tess.setColorOpaque_F(1F, 1F, 0.5F);
+				else
+					tess.setColorOpaque_F(0.5F, 1F, 0.5F);
+			} else
+				continue;
+			
+			AxisAlignedBB bb = ent.boundingBox;
+			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
+			tess.addVertex(bb.minX - x, bb.minY - y, bb.minZ - z);
+			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.minY - y, bb.minZ - z);
+			tess.addVertex(bb.minX - x, bb.minY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.minY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.minY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.minY - y, bb.maxZ - z);
+			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.maxZ - z);
+			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.minZ - z);
+			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.maxZ - z);
+			tess.addVertex(bb.maxX - x, bb.minY - y, bb.maxZ - z);
+			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
+			tess.addVertex(bb.minX - x, bb.maxY - y, bb.maxZ - z);
+			tess.addVertex(bb.minX - x, bb.maxY - y, bb.maxZ - z);
+			tess.addVertex(bb.minX - x, bb.minY - y, bb.maxZ - z);
+			tess.addVertex(bb.minX - x, bb.maxY - y, bb.maxZ - z);
+			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.maxZ - z);
+			tess.addVertex(bb.minX - x, bb.minY - y, bb.maxZ - z);
+			tess.addVertex(bb.maxX - x, bb.minY - y, bb.maxZ - z);
+			tess.addVertex(bb.minX - x, bb.minY - y, bb.minZ - z);
+			tess.addVertex(bb.minX - x, bb.minY - y, bb.maxZ - z);
+		}
+		
+		tess.draw();
+		
+		tess.setColorOpaque_F(1F, 1F, 1F);
+		
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_POINT_SMOOTH);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glPopMatrix();
 	}
 }

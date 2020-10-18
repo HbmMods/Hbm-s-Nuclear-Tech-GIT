@@ -10,6 +10,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntitySafe;
 import com.hbm.tileentity.machine.TileEntitySoyuzCapsule;
 import com.hbm.world.dungeon.Antenna;
+import com.hbm.world.dungeon.ArcticVault;
 import com.hbm.world.dungeon.Barrel;
 import com.hbm.world.dungeon.Bunker;
 import com.hbm.world.dungeon.CrashedVertibird;
@@ -564,6 +565,13 @@ public class HbmWorldGen implements IWorldGenerator {
 							skull.func_145903_a(rand.nextInt(16));
 					}
 				}
+			}
+
+			if (WorldConfig.arcticStructure > 0 && rand.nextInt(WorldConfig.arcticStructure) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = 16 + rand.nextInt(32);
+				new ArcticVault().trySpawn(world, x, y, z);
 			}
 		}
 

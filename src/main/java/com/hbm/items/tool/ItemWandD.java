@@ -2,7 +2,9 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
+import com.hbm.world.dungeon.ArcticVault;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,11 +29,34 @@ public class ItemWandD extends Item {
 			int z = pos.blockZ;
 			int y = world.getHeightValue(x, z);
 
-			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
+			/*//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
 
 			CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
 			CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
-			CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
+			CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);*/
+			
+			//new ArcticVault().trySpawn(world, x, y, z);
+			
+			for(int ix = x - 10; ix <= x + 10; ix++) {
+				for(int iz = z - 10; iz <= z + 10; iz++) {
+
+					if(ix % 2 == 0 && iz % 2 == 0) {
+						for(int iy = y; iy < y + 4; iy++)
+							world.setBlock(ix, iy, iz, ModBlocks.brick_dungeon_flat);
+						world.setBlock(ix, y + 4, iz, ModBlocks.brick_dungeon_tile);
+					} else if(ix % 2 == 1 && iz % 2 == 1) {
+						world.setBlock(ix, y, iz, ModBlocks.reinforced_stone);
+						world.setBlock(ix, y + 1, iz, ModBlocks.spikes);
+					} else if(world.rand.nextInt(3) == 0) {
+						for(int iy = y; iy < y + 4; iy++)
+							world.setBlock(ix, iy, iz, ModBlocks.brick_dungeon_flat);
+						world.setBlock(ix, y + 4, iz, ModBlocks.brick_dungeon_tile);
+					} else {
+						world.setBlock(ix, y, iz, ModBlocks.reinforced_stone);
+						world.setBlock(ix, y + 1, iz, ModBlocks.spikes);
+					}
+				}
+			}
 		}
 		
 		return stack;

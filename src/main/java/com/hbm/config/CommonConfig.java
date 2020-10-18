@@ -7,6 +7,17 @@ import net.minecraftforge.common.config.Property;
 
 public class CommonConfig {
 
+	public static int setDefZero(int value, int def) {
+
+		if(value < 0) {
+			MainRegistry.logger.error("Fatal error config: Randomizer value has been below zero, despite bound having to be positive integer!");
+			MainRegistry.logger.error(String.format("Errored value will default back to %d, PLEASE REVIEW CONFIGURATION DESCRIPTION BEFORE MEDDLING WITH VALUES!", def));
+			return def;
+		}
+
+		return value;
+	}
+
 	public static int setDef(int value, int def) {
 
 		if(value <= 0) {
