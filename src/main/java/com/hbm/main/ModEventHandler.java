@@ -67,8 +67,10 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 
@@ -403,9 +405,24 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
+	public void onPlayerFall(PlayerFlyableFallEvent event) {
+		
+		ArmorFSB.handleFall(event.entityPlayer);
+	}
+	
+	@SubscribeEvent
+	public void onEntityFall(LivingFallEvent event) {
+		
+		if(event.entityLiving instanceof EntityPlayer)
+			ArmorFSB.handleFall((EntityPlayer) event.entityLiving);
+	}
+	
+	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
+		
+		ArmorFSB.handleTick(event);
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 			

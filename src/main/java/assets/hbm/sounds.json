@@ -160,6 +160,8 @@
     "entity.ducc": {"category": "neutral", "sounds": ["entity/ducc1", "entity/ducc2"]},
     "entity.slicer": {"category": "neutral", "sounds": ["entity/slicer1", "entity/slicer2", "entity/slicer3", "entity/slicer4"]},
     
+    "step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
+    
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     
     "fm.clap":  {"category": "block", "sounds": [{"name": "clap", "stream": false}]},

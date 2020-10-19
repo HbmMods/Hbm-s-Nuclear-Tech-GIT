@@ -16,6 +16,7 @@ import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -50,6 +51,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -57,6 +59,8 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
@@ -161,6 +165,11 @@ public class ModEventHandlerClient {
 		
 		RenderPlayer renderer = event.renderer;
 		AbstractClientPlayer player = (AbstractClientPlayer)event.entityPlayer;
+		
+		PotionEffect invis = player.getActivePotionEffect(Potion.invisibility);
+		
+		if(invis != null && invis.getAmplifier() > 0)
+			event.setCanceled(true);
 		
 		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
 		
@@ -380,7 +389,13 @@ public class ModEventHandlerClient {
 		
 		GL11.glPopMatrix();
 		
-		renderThermalSight(event.partialTicks);
+		if(ArmorFSB.hasFSBArmor(player)) {
+			ItemStack plate = player.inventory.armorInventory[2];
+			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+			
+			if(chestplate.thermal)
+				renderThermalSight(event.partialTicks);
+		}
 	}
 	
 	public void renderThermalSight(float partialTicks) {

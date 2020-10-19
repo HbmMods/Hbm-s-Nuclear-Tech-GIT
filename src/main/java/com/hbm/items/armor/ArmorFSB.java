@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.interfaces.Untested;
 
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -25,8 +26,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 //Armor with full set bonus
 public class ArmorFSB extends ItemArmor {
@@ -40,6 +44,9 @@ public class ArmorFSB extends ItemArmor {
 	public float damageMod = -1;
 	public boolean fireproof = false;
 	public boolean noHelmet = false;
+	public boolean thermal = false;
+	public double gravity = 0;
+	public String step;
 
 	public ArmorFSB(ArmorMaterial material, int layer, int slot, String texture) {
 		super(material, layer, slot);
@@ -76,6 +83,21 @@ public class ArmorFSB extends ItemArmor {
 		return this;
 	}
 	
+	public ArmorFSB enableThermalSight(boolean thermal) {
+		this.thermal = thermal;
+		return this;
+	}
+	
+	public ArmorFSB setGravity(double gravity) {
+		this.gravity = gravity;
+		return this;
+	}
+	
+	public ArmorFSB setStep(String step) {
+		this.step = step;
+		return this;
+	}
+	
 	public ArmorFSB setOverlay(String path) {
 		this.overlay = new ResourceLocation(path);
 		return this;
@@ -90,6 +112,9 @@ public class ArmorFSB extends ItemArmor {
 		this.damageMod = original.damageMod;
 		this.fireproof = original.fireproof;
 		this.noHelmet = original.noHelmet;
+		this.thermal = original.thermal;
+		this.gravity = original.gravity;
+		this.step = original.step;
 		//overlay doesn't need to be copied because it's helmet exclusive
 		return this;
 	}
@@ -133,6 +158,10 @@ public class ArmorFSB extends ItemArmor {
     	
     	if(fireproof) {
 			list.add("  Fireproof");
+    	}
+    	
+    	if(thermal) {
+			list.add("  Thermal Sight");
     	}
     }
     
@@ -180,6 +209,11 @@ public class ArmorFSB extends ItemArmor {
 					player.extinguish();
 					event.setCanceled(true);
 				}
+				
+				if(chestplate.resistance.get(event.source.getDamageType()) != null &&
+						chestplate.resistance.get(event.source.getDamageType()) <= 0) {
+					event.setCanceled(true);
+				}
 			}
 		}
     }
@@ -201,7 +235,7 @@ public class ArmorFSB extends ItemArmor {
 				}
 				
 				if(chestplate.resistance.get(event.source.getDamageType()) != null) {
-					event.ammount *= chestplate.resistance.get(event.source);
+					event.ammount *= chestplate.resistance.get(event.source.getDamageType());
 				}
 				
 				if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
@@ -214,6 +248,41 @@ public class ArmorFSB extends ItemArmor {
 			}
 		}
     }
+
+	@Untested
+    public static void handleTick(TickEvent.PlayerTickEvent event) {
+		
+		EntityPlayer player = event.player;
+
+		if(ArmorFSB.hasFSBArmor(player)) {
+
+			ItemStack plate = player.inventory.armorInventory[2];
+
+			ArmorFSB chestplate = (ArmorFSB) plate.getItem();
+
+			if(!chestplate.effects.isEmpty()) {
+
+				for(PotionEffect i : chestplate.effects) {
+					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
+				}
+			}
+			
+			if(!player.capabilities.isFlying && !player.isInWater())
+				player.motionY -= chestplate.gravity;
+		}
+    }
+	
+	@Untested
+	public static void handleFall(EntityPlayer player) {
+
+		if(ArmorFSB.hasFSBArmor(player)) {
+
+			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[3].getItem();
+
+			if(chestplate.step != null)
+				player.playSound(chestplate.step, 1.0F, 1.0F);
+		}
+	}
 	
     @SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
