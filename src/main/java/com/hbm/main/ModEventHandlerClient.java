@@ -11,6 +11,7 @@ import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
@@ -353,8 +354,8 @@ public class ModEventHandlerClient {
 			SoyuzPronter.prontCapsule();
 			
 			GL11.glRotated(System.currentTimeMillis() * 0.025 % 360, 0, -1, 0);
-			
-			String msg = "your ad here";
+
+			String msg = HTTPHandler.capsule;
 
 			GL11.glTranslated(0, 3.75, 0);
 			GL11.glRotated(180, 1, 0, 0);
@@ -368,13 +369,14 @@ public class ModEventHandlerClient {
 				
 				GL11.glRotatef(rot, 0, 1, 0);
 				
-				rot -= Minecraft.getMinecraft().fontRenderer.getCharWidth(c);
+				float width = Minecraft.getMinecraft().fontRenderer.getStringWidth(msg);
+				float scale = 5 / width;
+				
+				rot -= Minecraft.getMinecraft().fontRenderer.getCharWidth(c) * scale * 50;
 				
 				GL11.glTranslated(2, 0, 0);
 				
 				GL11.glRotatef(-90, 0, 1, 0);
-				
-				float scale = 0.03F;
 				GL11.glScalef(scale, scale, scale);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				Minecraft.getMinecraft().fontRenderer.drawString(String.valueOf(c), 0, 0, 0xff00ff);

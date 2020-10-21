@@ -21,7 +21,7 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.RadiationWorldHandler;
-import com.hbm.handler.VersionChecker;
+import com.hbm.handler.HTTPHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.Library;
@@ -67,6 +67,7 @@ import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -85,8 +86,8 @@ public class ModEventHandler
         if(!event.player.worldObj.isRemote) {
         	event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
         	
-        	if(VersionChecker.newVersion) {
-        		event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "New version " + VersionChecker.versionNumber + " is available!"));
+        	if(HTTPHandler.newVersion) {
+        		event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "New version " + HTTPHandler.versionNumber + " is available!"));
         	}
         	
         	if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
@@ -408,6 +409,13 @@ public class ModEventHandler
 	public void onPlayerFall(PlayerFlyableFallEvent event) {
 		
 		ArmorFSB.handleFall(event.entityPlayer);
+	}
+	
+	@SubscribeEvent
+	public void onEntityJump(LivingJumpEvent event) {
+		
+		if(event.entityLiving instanceof EntityPlayer)
+			ArmorFSB.handleJump((EntityPlayer) event.entityLiving);
 	}
 	
 	@SubscribeEvent

@@ -214,7 +214,7 @@ public class MainRegistry {
 		BulletConfigSyncingUtil.loadConfigsForSync();
 		CellularDungeonFactory.init();
 		Satellite.register();
-		VersionChecker.checkVersion();
+		HTTPHandler.loadStats();
 		loadConfig(PreEvent);
 		CraftingManager.mainRegistry();
 		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());

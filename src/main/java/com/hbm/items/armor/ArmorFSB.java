@@ -1,5 +1,6 @@
 package com.hbm.items.armor;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +11,11 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.interfaces.Untested;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -25,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -47,6 +52,8 @@ public class ArmorFSB extends ItemArmor {
 	public boolean thermal = false;
 	public double gravity = 0;
 	public String step;
+	public String jump;
+	public String fall;
 
 	public ArmorFSB(ArmorMaterial material, int layer, int slot, String texture) {
 		super(material, layer, slot);
@@ -98,6 +105,16 @@ public class ArmorFSB extends ItemArmor {
 		return this;
 	}
 	
+	public ArmorFSB setJump(String jump) {
+		this.jump = jump;
+		return this;
+	}
+	
+	public ArmorFSB setFall(String fall) {
+		this.fall = fall;
+		return this;
+	}
+	
 	public ArmorFSB setOverlay(String path) {
 		this.overlay = new ResourceLocation(path);
 		return this;
@@ -115,6 +132,8 @@ public class ArmorFSB extends ItemArmor {
 		this.thermal = original.thermal;
 		this.gravity = original.gravity;
 		this.step = original.step;
+		this.jump = original.jump;
+		this.fall = original.fall;
 		//overlay doesn't need to be copied because it's helmet exclusive
 		return this;
 	}
@@ -269,8 +288,43 @@ public class ArmorFSB extends ItemArmor {
 			
 			if(!player.capabilities.isFlying && !player.isInWater())
 				player.motionY -= chestplate.gravity;
+			
+			if(chestplate.step != null && player.worldObj.isRemote && player.onGround) {
+
+				try {
+					Field nextStepDistance = ReflectionHelper.findField(Entity.class, "nextStepDistance", "field_70150_b");
+					Field distanceWalkedOnStepModified = ReflectionHelper.findField(Entity.class, "distanceWalkedOnStepModified", "field_82151_R");
+					
+					if(player.getEntityData().getFloat("hfr_nextStepDistance") == 0) {
+						player.getEntityData().setFloat("hfr_nextStepDistance", nextStepDistance.getFloat(player));
+					}
+					
+	                int px = MathHelper.floor_double(player.posX);
+	                int py = MathHelper.floor_double(player.posY - 0.2D - (double)player.yOffset);
+	                int pz = MathHelper.floor_double(player.posZ);
+	                Block block = player.worldObj.getBlock(px, py, pz);
+					
+					if(block.getMaterial() != Material.air && player.getEntityData().getFloat("hfr_nextStepDistance") <= distanceWalkedOnStepModified.getFloat(player))
+						player.playSound(chestplate.step, 1.0F, 1.0F);
+					
+					player.getEntityData().setFloat("hfr_nextStepDistance", nextStepDistance.getFloat(player));
+					
+				} catch (Exception x) { }
+			}
 		}
     }
+	
+	@Untested
+	public static void handleJump(EntityPlayer player) {
+
+		if(ArmorFSB.hasFSBArmor(player)) {
+
+			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[3].getItem();
+
+			if(chestplate.jump != null)
+				player.playSound(chestplate.jump, 1.0F, 1.0F);
+		}
+	}
 	
 	@Untested
 	public static void handleFall(EntityPlayer player) {
@@ -279,8 +333,8 @@ public class ArmorFSB extends ItemArmor {
 
 			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[3].getItem();
 
-			if(chestplate.step != null)
-				player.playSound(chestplate.step, 1.0F, 1.0F);
+			if(chestplate.fall != null)
+				player.playSound(chestplate.fall, 1.0F, 1.0F);
 		}
 	}
 	
