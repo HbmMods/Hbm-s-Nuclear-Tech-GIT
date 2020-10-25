@@ -18,6 +18,8 @@ public class WorldConfig {
 	public static int berylliumSpawn = 6;
 	public static int ligniteSpawn = 2;
 	public static int asbestosSpawn = 4;
+	public static int rareSpawn = 6;
+	public static int lithiumSpawn = 6;
 
 	public static int radioStructure = 500;
 	public static int antennaStructure = 250;
@@ -64,6 +66,8 @@ public class WorldConfig {
 		thoriumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.10_thoriumSpawnrate", "Ammount of thorium ore veins per chunk", 7);
 		ligniteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.11_ligniteSpawnrate", "Ammount of lignite ore veins per chunk", 2);
 		asbestosSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.12_asbestosSpawnRate", "Ammount of asbestos ore veins per chunk", 2);
+		lithiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.13_lithiumSpawnRate", "Ammount of schist lithium ore veins per chunk", 6);
+		rareSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.14_rareEarthSpawnRate", "Ammount of rare earth ore veins per chunk", 6);
 
 		final String CATEGORY_DUNGEON = "04_dungeons";
 		radioStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.00_radioSpawn", "Spawn radio station on every nTH chunk", 500);

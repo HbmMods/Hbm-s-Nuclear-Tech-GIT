@@ -31,11 +31,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.sound.PlaySoundEvent17;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 
 //Armor with full set bonus
 public class ArmorFSB extends ItemArmor {
@@ -77,6 +74,11 @@ public class ArmorFSB extends ItemArmor {
 	
 	public ArmorFSB setMod(float mod) {
 		this.damageMod = mod;
+		return this;
+	}
+	
+	public ArmorFSB setBlastProtection(float blastProtection) {
+		this.blastProtection = blastProtection;
 		return this;
 	}
 	
@@ -127,6 +129,7 @@ public class ArmorFSB extends ItemArmor {
 		this.resistance = original.resistance;
 		this.damageCap = original.damageCap;
 		this.damageMod = original.damageMod;
+		this.blastProtection = original.blastProtection;
 		this.fireproof = original.fireproof;
 		this.noHelmet = original.noHelmet;
 		this.thermal = original.thermal;
@@ -151,36 +154,44 @@ public class ArmorFSB extends ItemArmor {
     	if(!effects.isEmpty()) {
     		
     		for(PotionEffect effect : effects) {
-	    		list.add("  " + I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
+	    		list.add(EnumChatFormatting.AQUA + "  " + I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
     		}
     	}
     	
     	if(!resistance.isEmpty()) {
 
         	for(Entry<String, Float> struct : resistance.entrySet()) {
-        		list.add("  Damage modifier of " + struct.getValue() + " against " + I18n.format(struct.getKey()));
+        		
+        		if(struct.getValue() != 0)
+        			list.add(EnumChatFormatting.YELLOW + "  Damage modifier of " + struct.getValue() + " against " + I18n.format(struct.getKey()));
+        		else
+        			list.add(EnumChatFormatting.RED + "  Nullifies all damage from " + I18n.format(struct.getKey()));
         	}
     	}
     	
     	if(blastProtection != -1) {
 
-    		list.add("  Damage modifier of " + blastProtection + " against explosions");
+    		list.add(EnumChatFormatting.YELLOW + "  Damage modifier of " + blastProtection + " against explosions");
     	}
     	
     	if(damageCap != -1) {
-			list.add("  Hard damage cap of " + damageCap);
+			list.add(EnumChatFormatting.YELLOW + "  Hard damage cap of " + damageCap);
     	}
     	
     	if(damageMod != -1) {
-			list.add("  General damage modifier of " + damageMod);
+			list.add(EnumChatFormatting.YELLOW + "  General damage modifier of " + damageMod);
     	}
     	
     	if(fireproof) {
-			list.add("  Fireproof");
+			list.add(EnumChatFormatting.RED + "  Fireproof");
     	}
     	
     	if(thermal) {
-			list.add("  Thermal Sight");
+			list.add(EnumChatFormatting.RED + "  Thermal Sight");
+    	}
+    	
+    	if(gravity != 0) {
+			list.add(EnumChatFormatting.BLUE + "  Gravity modifier of " + gravity);
     	}
     }
     

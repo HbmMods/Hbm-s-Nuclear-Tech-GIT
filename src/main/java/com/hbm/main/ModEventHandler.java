@@ -74,6 +74,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 
 public class ModEventHandler
 {	
@@ -560,6 +561,18 @@ public class ModEventHandler
 		}
 		if(item == ModItems.ingot_uranium_fuel) {
 			e.player.addStat(MainRegistry.bobNuclear, 1);
+		}
+	}
+
+	@SubscribeEvent
+	public void onBlockBreak(BreakEvent event) {
+		
+		if(!(event.getPlayer() instanceof EntityPlayerMP))
+			return;
+		
+		if(event.block == ModBlocks.stone_gneiss && !((EntityPlayerMP) event.getPlayer()).func_147099_x().hasAchievementUnlocked(MainRegistry.achStratum)) {
+			event.getPlayer().triggerAchievement(MainRegistry.achStratum);
+			event.setExpToDrop(500);
 		}
 	}
 	

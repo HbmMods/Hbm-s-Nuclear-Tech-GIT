@@ -170,6 +170,7 @@ public class MainRegistry {
 	public static Achievement achSoyuz;
 	public static Achievement achRadPoison;
 	public static Achievement achRadDeath;
+	public static Achievement achStratum;
 	public static Achievement bobMetalworks;
 	public static Achievement bobAssembly;
 	public static Achievement bobChemistry;
@@ -205,17 +206,18 @@ public class MainRegistry {
 				polaroidID = rand.nextInt(18) + 1;
 		}
 
+		loadConfig(PreEvent);
+		HbmPotion.init();
+		
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
 		GameRegistry.registerFuelHandler(new FuelHandler());
-		HbmPotion.init();
 		BulletConfigSyncingUtil.loadConfigsForSync();
 		CellularDungeonFactory.init();
 		Satellite.register();
 		HTTPHandler.loadStats();
-		loadConfig(PreEvent);
 		CraftingManager.mainRegistry();
 		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 
@@ -861,6 +863,7 @@ public class MainRegistry {
 		achFiend = new Achievement("achievement.fiend", "fiend", 6, -2, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
 		achFiend2 = new Achievement("achievement.fiend2", "fiend2", 6, 0, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
 		achSoyuz = new Achievement("achievement.soyuz", "soyuz", -2, 0, Items.baked_potato, null).initIndependentStat().setSpecial().registerStat();
+		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
 
 		bobMetalworks = new Achievement("achievement.metalworks", "metalworks", -2, 2, ModItems.bob_metalworks, null).initIndependentStat().registerStat();
 		bobAssembly = new Achievement("achievement.assembly", "assembly", 0, 2, ModItems.bob_assembly, bobMetalworks).initIndependentStat().registerStat();
@@ -890,6 +893,7 @@ public class MainRegistry {
 				achFiend,
 				achFiend2,
 				achSoyuz,
+				achStratum,
 				bobMetalworks,
 				bobAssembly,
 				bobChemistry,
@@ -1000,6 +1004,11 @@ public class MainRegistry {
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_plate, 0.8F);
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_legs, 0.6F);
 		HazmatRegistry.instance.registerHazmat(ModItems.t45_boots, 0.2F);
+
+		HazmatRegistry.instance.registerHazmat(ModItems.bj_helmet, 0.4F);
+		HazmatRegistry.instance.registerHazmat(ModItems.bj_plate, 0.8F);
+		HazmatRegistry.instance.registerHazmat(ModItems.bj_legs, 0.6F);
+		HazmatRegistry.instance.registerHazmat(ModItems.bj_boots, 0.2F);
 
 		HazmatRegistry.instance.registerHazmat(ModItems.paa_plate, 0.8F);
 		HazmatRegistry.instance.registerHazmat(ModItems.paa_legs, 0.6F);

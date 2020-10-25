@@ -485,6 +485,15 @@ public class ExplosionNukeGeneric {
 				}
 			}
 
+			else if (b == ModBlocks.ore_gneiss_uranium) {
+				rand = random.nextInt(VersatileConfig.getSchrabOreChance());
+				if (rand == 1) {
+					world.setBlock(x, y, z, ModBlocks.ore_gneiss_schrabidium);
+				} else {
+					world.setBlock(x, y, z, ModBlocks.ore_gneiss_uranium_scorched);
+				}
+			}
+
 		}
 	}
 

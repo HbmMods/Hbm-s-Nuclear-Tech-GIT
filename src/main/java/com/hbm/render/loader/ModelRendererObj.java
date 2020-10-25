@@ -39,6 +39,19 @@ public class ModelRendererObj {
         this.rotationPointZ = z;
         return this;
     }
+    
+    public void copyTo(ModelRendererObj obj) {
+
+    	obj.offsetX = offsetX;
+    	obj.offsetY = offsetY;
+    	obj.offsetZ = offsetZ;
+    	obj.rotateAngleX = rotateAngleX;
+    	obj.rotateAngleY = rotateAngleY;
+    	obj.rotateAngleZ = rotateAngleZ;
+    	obj.rotationPointX = rotationPointX;
+    	obj.rotationPointY = rotationPointY;
+    	obj.rotationPointZ = rotationPointZ;
+    }
 
     @SideOnly(Side.CLIENT)
     public void render(float scale) {

@@ -190,6 +190,14 @@ public class EntityFalloutRain extends Entity {
 				else
 					worldObj.setBlock(x, y, z, ModBlocks.ore_nether_uranium_scorched);
     			return;
+			}
+
+			else if(b == ModBlocks.ore_gneiss_uranium) {
+				if(rand.nextInt(VersatileConfig.getSchrabOreChance()) == 0)
+					worldObj.setBlock(x, y, z, ModBlocks.ore_gneiss_schrabidium);
+				else
+					worldObj.setBlock(x, y, z, ModBlocks.ore_gneiss_uranium_scorched);
+				return;
     			
     		//this piece stops the "stomp" from reaching below ground
 			} else if(b.isNormalCube()) {

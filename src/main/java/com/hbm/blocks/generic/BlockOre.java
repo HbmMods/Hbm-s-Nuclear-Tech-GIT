@@ -129,7 +129,7 @@ public class BlockOre extends Block {
 			case 35: return ModItems.glitch;
 			}
 		}
-		if(this == ModBlocks.ore_rare)
+		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare)
 		{
 			switch(rand.nextInt(6)) {
 			case 0: return ModItems.fragment_actinium;
@@ -199,7 +199,7 @@ public class BlockOre extends Block {
 		{
 			return 2 + p_149745_1_.nextInt(3);
 		}
-		if(this == ModBlocks.ore_rare)
+		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare)
 		{
 			return 4 + p_149745_1_.nextInt(8);
 		}
