@@ -1,8 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.HashBiMap;
+import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -12,10 +15,15 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 import scala.actors.threadpool.Arrays;
 
 public class TileEntityMachineIGenerator extends TileEntityMachineBase implements ISource, IFluidAcceptor {
@@ -30,8 +38,18 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public static final int maxTorque = 10000;
 	public float limiter = 0.0F; /// 0 - 1 ///
 	
+	public static final int animSpeed = 50;
+
+	@SideOnly(Side.CLIENT)
+	public float rotation;
+	@SideOnly(Side.CLIENT)
+	public float prevRotation;
+	
 	public IGenRTG[] pellets = new IGenRTG[12];
 	public FluidTank[] tanks;
+	
+	public int age = 0;
+	public List<IConsumer> list = new ArrayList();
 
 	public TileEntityMachineIGenerator() {
 		super(15);
@@ -50,6 +68,14 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			age++;
+			if (age >= 20) {
+				age = 0;
+			}
+
+			if (age == 9 || age == 19)
+				ffgeuaInit();
 
 			tanks[0].loadTank(7, 8, slots);
 			tanks[1].loadTank(9, 10, slots);
@@ -64,7 +90,15 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 				temperature += 100;
 			}
 			
+			fuelAction();
+			
+			if(temperature > maxTemperature)
+				temperature = maxTemperature;
+			
+			int displayHeat = temperature;
+			
 			rtgAction();
+			
 			rotorAction();
 			generatorAction();
 			
@@ -81,7 +115,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			}
 			
 			data.setIntArray("rtgs", rtgs);
-			data.setInteger("temp", temperature);
+			data.setInteger("temp", displayHeat);
 			data.setInteger("torque", torque);
 			data.setInteger("power", (int)power);
 			data.setShort("burn", (short) burnTime);
@@ -91,6 +125,16 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			
 			for(int i = 0; i < 3; i++)
 				tanks[i].updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
+		} else {
+			
+			this.prevRotation = this.rotation;
+			
+			this.rotation += this.torque * animSpeed / maxTorque;
+			
+			if(this.rotation >= 360) {
+				this.rotation -= 360;
+				this.prevRotation -= 360;
+			}
 		}
 	}
 
@@ -169,9 +213,39 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 			if(pellets[i] != null)
 				this.temperature += pellets[i].heat;
 		}
+	}
+	
+	/**
+	 * Burns liquid fuel
+	 */
+	private void fuelAction() {
 		
-		if(temperature > maxTemperature)
-			temperature = maxTemperature;
+		int heat = getHeatFromFuel(tanks[1].getTankType());
+		
+		int maxBurn = 2;
+		
+		if(tanks[1].getFill() > 0) {
+			
+			int burn = Math.min(maxBurn, tanks[1].getFill());
+			
+			tanks[1].setFill(tanks[1].getFill() - burn);
+			temperature += heat * burn;
+		}
+	}
+	
+	public int getHeatFromFuel(FluidType type) {
+		
+		switch(type) {
+		case SMEAR: 		return 75;
+		case HEATINGOIL: 	return 150;
+		case DIESEL: 		return 225;
+		case KEROSENE: 		return 300;
+		case RECLAIMED: 	return 100;
+		case PETROIL: 		return 125;
+		case BIOFUEL: 		return 200;
+		case NITAN: 		return 2500;
+		default: 			return 0;
+		}
 	}
 	
 	/**
@@ -203,7 +277,13 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		
 		int conversion = getConversion();
 		
-		this.torque += conversion;
+		if(temperature > 10 && tanks[0].getFill() > 0)
+			tanks[0].setFill(tanks[0].getFill() - 1);
+		
+		if(torque > 10 && tanks[2].getFill() > 0 && worldObj.rand.nextInt(2) == 0)
+			tanks[2].setFill(tanks[2].getFill() - 1);
+		
+		this.torque += conversion * (tanks[0].getFill() > 0 ? 1.5 : 1);
 		this.temperature -= conversion;
 		
 		if(torque > maxTorque)
@@ -215,7 +295,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	 */
 	private void generatorAction() {
 		
-		this.power += this.torque;
+		double balanceFactor = 0.025D;
+		
+		this.power += this.torque * balanceFactor;
 		torque -= getBrake();
 		
 		if(power > maxPower)
@@ -227,7 +309,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	}
 	
 	public int getConversion() {
-		return (int) (temperature * limiter * (tanks[0].getFill() > 0 ? 1 : 0.35));
+		return (int) (temperature * limiter);
 	}
 	
 	/**
@@ -309,44 +391,58 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 
 	@Override
 	public void ffgeuaInit() {
-		// TODO Auto-generated method stub
 		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		
+		int[] rot = MultiblockHandlerXR.rotate(new int [] {1,0,2,2,8,8}, dir);
+		
+		boolean tact = this.getTact();
+		
+		for(int iy = 0; iy <= 1; iy++) {
+			for(int ix = -rot[4]; ix <= rot[5]; ix++) {
+				for(int iz = -rot[2]; iz <= rot[3]; iz++) {
+					
+					if(ix == -rot[4] || ix == rot[5] || iz == -rot[2] || iz == rot[3]) {
+						
+						ffgeua(xCoord + dir.offsetX * 2 + ix, yCoord + iy, zCoord + dir.offsetZ * 2 + iz, tact);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	public void ffgeua(int x, int y, int z, boolean newTact) {
-		// TODO Auto-generated method stub
-		
+		Library.ffgeua(x, y, z, newTact, this, worldObj);
 	}
 
 	@Override
 	public boolean getTact() {
-		// TODO Auto-generated method stub
+		if (age >= 0 && age < 10) {
+			return true;
+		}
+
 		return false;
 	}
 
 	@Override
 	public long getSPower() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.power;
 	}
 
 	@Override
 	public void setSPower(long i) {
-		// TODO Auto-generated method stub
-		
+		this.power = i;
 	}
 
 	@Override
 	public List<IConsumer> getList() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.list;
 	}
 
 	@Override
 	public void clearList() {
-		// TODO Auto-generated method stub
-		
+		this.list.clear();
 	}
 
 	@Override
@@ -356,14 +452,18 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 
 	@Override
 	public void setFluidFill(int fill, FluidType type) {
-		// TODO Auto-generated method stub
 		
+		if(type == FluidType.WATER)
+			tanks[0].setFill(fill);
+		else if(type == FluidType.LUBRICANT)
+			tanks[2].setFill(fill);
+		else if(tanks[1].getTankType() == type)
+			tanks[1].setFill(fill);
 	}
 
 	@Override
 	public void setType(FluidType type, int index) {
-		// TODO Auto-generated method stub
-		
+		tanks[index].setTankType(type);
 	}
 
 	@Override
@@ -448,5 +548,17 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		public static IGenRTG getPellet(Item item) {
 			return rtgPellets.get(item);
 		}
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		return 65536.0D;
 	}
 }

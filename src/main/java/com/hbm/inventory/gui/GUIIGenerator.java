@@ -4,6 +4,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerIGenerator;
+import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -47,6 +48,13 @@ public class GUIIGenerator extends GuiInfoContainer {
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(igen.xCoord, igen.yCoord, igen.zCoord, dial, 2));
     		caughtMouse = false;
     	}
+
+		this.drawCustomInfoStat(x, y, guiLeft + 76, guiTop + 20, 36, 12, x, y, new String[] { (igen.temperature + 300) + "K" });
+		this.drawCustomInfoStat(x, y, guiLeft + 76, guiTop + 56, 36, 12, x, y, new String[] { (Math.round((igen.torque * igen.animSpeed / (360D * 20D)) * 10D) / 10D) + "RPM" });
+		this.drawCustomInfoStat(x, y, guiLeft + 76, guiTop + 92, 36, 12, x, y, new String[] { Library.getShortNumber(igen.power) + "HE" });
+		this.drawCustomInfoStat(x, y, guiLeft + 40, guiTop + 26, 18, 18, x, y, new String[] { (igen.burnTime / 20) + "s" });
+		this.drawCustomInfoStat(x, y, guiLeft + 24, guiTop + 64, 14, 14, x, y, new String[] { "Add pellet to stack" });
+		this.drawCustomInfoStat(x, y, guiLeft + 24, guiTop + 100, 14, 14, x, y, new String[] { "Take pellet from stack" });
     	
     	igen.tanks[0].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 26, 18, 18);
     	igen.tanks[1].renderTankInfo(this, x, y, guiLeft + 148, guiTop + 62, 18, 18);
@@ -77,8 +85,6 @@ public class GUIIGenerator extends GuiInfoContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 14, this.ySize - 96 + 2, 4210752);
-		this.fontRendererObj.drawString(igen.getConversion() + "", 100, this.ySize - 96 + 2, 0xffffff);
-		this.fontRendererObj.drawString(igen.getBrake() + "", 100, this.ySize - 96 + 12, 0xffffff);
 	}
 
 	@Override
@@ -92,6 +98,23 @@ public class GUIIGenerator extends GuiInfoContainer {
 			if(igen.pellets[i] != null)
 				drawTexturedModalRect(guiLeft + 6, guiTop + 106 - 4 * i, 188, igen.pellets[i].offset, 14, 9);
 		}
+		
+		for(int i = 0; i < 3; i++) {
+			if(igen.tanks[i].getFill() > 0) {
+				
+				int hex = igen.tanks[i].getTankType().getColor();
+				
+			    int r = (hex & 0xFF0000) >> 16;
+			    int g = (hex & 0xFF00) >> 8;
+			    int b = (hex & 0xFF);
+			    
+			    GL11.glColor3f(r / 256F, g / 256F, b / 256F);
+			    
+				drawTexturedModalRect(guiLeft + 149, guiTop + 39 + 36 * i, 218, 0, 16, 4);
+			}
+		}
+		
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		drawDial(x, y);
 		
