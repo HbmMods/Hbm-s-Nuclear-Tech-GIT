@@ -130,11 +130,11 @@ public class ModelArmorBase extends ModelBiped {
         else
         {
             body.rotateAngleX = 0.0F;
-            rightFoot.rotationPointZ = rightLeg.rotationPointZ = 0.1F;
-            leftFoot.rotationPointZ = leftLeg.rotationPointZ = 0.1F;
-            rightFoot.rotationPointY = rightLeg.rotationPointY = 12.0F;
-            leftFoot.rotationPointY = leftLeg.rotationPointY = 12.0F;
-            head.rotationPointY = 0.0F;
+            rightFoot.offsetZ = rightLeg.offsetZ = 0.1F;
+            leftFoot.offsetZ = leftLeg.offsetZ = 0.1F;
+            rightFoot.offsetY = rightLeg.offsetY = 0.0F;
+            leftFoot.offsetY = leftLeg.offsetY = 0.0F;
+            head.offsetY = 0.0F;
         }
 
         rightArm.rotateAngleZ += MathHelper.cos(p_78087_3_ * 0.09F) * 0.05F + 0.05F;
