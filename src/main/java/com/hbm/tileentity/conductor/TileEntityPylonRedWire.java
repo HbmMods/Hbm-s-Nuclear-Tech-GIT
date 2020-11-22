@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.calc.UnionOfTileEntitiesAndBooleans;
 import com.hbm.interfaces.IConductor;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEPylonDestructorPacket;
 import com.hbm.packet.TEPylonSenderPacket;
@@ -18,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
+@Spaghetti("Destroy this abomination in holy fire")
 public class TileEntityPylonRedWire extends TileEntity implements IConductor {
 	
 	public List<UnionOfTileEntitiesAndBooleans> uoteab = new ArrayList<UnionOfTileEntitiesAndBooleans>();

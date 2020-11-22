@@ -278,8 +278,10 @@ public class ItemRenderLibrary {
 				GL11.glScaled(3, 3, 3);
 			}
 			public void renderCommon() {
-				bindTexture(ResourceManager.tank_tex); ResourceManager.tank_body.renderAll();
-				bindTexture(ResourceManager.tank_label_tex); ResourceManager.tank_label.renderAll();
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.tank_tex); ResourceManager.fluidtank.renderPart("Tank");
+				GL11.glShadeModel(GL11.GL_FLAT);
+				bindTexture(ResourceManager.tank_label_tex); ResourceManager.fluidtank.renderPart("Label");
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_well), new ItemRenderBase() {
@@ -773,6 +775,19 @@ public class ItemRenderLibrary {
 		        bindTexture(ResourceManager.blast_door_tooth_tex); ResourceManager.blast_door_tooth.renderAll();
 		        bindTexture(ResourceManager.blast_door_slider_tex); ResourceManager.blast_door_slider.renderAll();
 		        bindTexture(ResourceManager.blast_door_block_tex); ResourceManager.blast_door_block.renderAll();
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_microwave), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4, 4);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(-2, -2, 1);
+				GL11.glScaled(3, 3, 3);
+				bindTexture(ResourceManager.microwave_tex);
+		        ResourceManager.microwave.renderPart("mainbody_Cube.001");
+		        ResourceManager.microwave.renderPart("window_Cube.002");
 			}});
 	}
 	

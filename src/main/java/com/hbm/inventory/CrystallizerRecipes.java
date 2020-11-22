@@ -54,6 +54,7 @@ public class CrystallizerRecipes {
 		recipes.put(new ComparableStack(Blocks.cobblestone), new ItemStack(ModBlocks.reinforced_stone));
 		recipes.put(new ComparableStack(ModBlocks.gravel_obsidian), new ItemStack(ModBlocks.brick_obsidian));
 		recipes.put("blockRedstone", new ItemStack(ModItems.nugget_mercury));
+		recipes.put(new ComparableStack(Items.rotten_flesh), new ItemStack(Items.leather));
 		
 		recipes.put(new ComparableStack(ModItems.powder_diamond), new ItemStack(Items.diamond));
 		recipes.put(new ComparableStack(ModItems.powder_emerald), new ItemStack(Items.emerald));

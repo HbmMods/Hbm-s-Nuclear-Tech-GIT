@@ -72,6 +72,7 @@ public class Library {
 	public static String SweatySwiggs = "5544aa30-b305-4362-b2c1-67349bb499d5";
 	public static String Drillgon = "41ebd03f-7a12-42f3-b037-0caa4d6f235b";
 	public static String Doctor17 = "e4ab1199-1c22-4f82-a516-c3238bc2d0d1";
+	public static String ShimmeringBlaze = "061bc566-ec74-4307-9614-ac3a70d2ef38";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -885,9 +886,8 @@ public class Library {
 			}
 		}
 		
-		if(tileentity instanceof IFluidAcceptor && newTact && !(tileentity instanceof TileEntityMachineFluidTank && ((TileEntityMachineFluidTank)tileentity).dna())
-				&& ((IFluidAcceptor)tileentity).getMaxFluidFill(type) > 0 && ((IFluidAcceptor)tileentity).getMaxFluidFill(type) - ((IFluidAcceptor)tileentity).getFluidFill(type) > 0)
-		{
+		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFill(type) > 0 &&
+				((IFluidAcceptor)tileentity).getMaxFluidFill(type) - ((IFluidAcceptor)tileentity).getFluidFill(type) > 0) {
 			that.getFluidList(type).add((IFluidAcceptor)tileentity);
 		}
 		

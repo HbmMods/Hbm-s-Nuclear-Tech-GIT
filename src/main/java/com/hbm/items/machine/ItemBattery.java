@@ -153,7 +153,7 @@ public class ItemBattery extends Item implements IBatteryItem {
     		return stack.copy();
     	}
     	
-    	return null;
+    	return new ItemStack(item);
     }
     
     public boolean showDurabilityBar(ItemStack stack) {

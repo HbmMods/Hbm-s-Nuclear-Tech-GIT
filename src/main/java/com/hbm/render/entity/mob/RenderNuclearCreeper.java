@@ -19,7 +19,6 @@ public class RenderNuclearCreeper extends RenderLiving
     private static final ResourceLocation creeperTextures = new ResourceLocation(RefStrings.MODID + ":" + "textures/entity/creeper.png");
     /** The creeper model. */
     private ModelBase creeperModel = new ModelCreeper(2.0F);
-    private static final String __OBFID = "CL_00000985";
 
     public RenderNuclearCreeper()
     {

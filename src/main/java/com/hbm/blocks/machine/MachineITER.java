@@ -37,7 +37,7 @@ public class MachineITER extends BlockDummyable {
 			return new TileEntityITER();
 
 		if(meta >= 6)
-			return new TileEntityProxyCombo(false, true, true);
+			return new TileEntityProxyCombo(true, true, true);
 		
 		return null;
 	}

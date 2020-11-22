@@ -54,7 +54,7 @@ public class GunLeverActionS extends Item {
 		boolean flag = p_77615_3_.capabilities.isCreativeMode
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, p_77615_1_) > 0;
 
-		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_12gauge)) {
+		if (flag || p_77615_3_.inventory.hasItem(ModItems.ammo_20gauge)) {
 			float f = j / 20.0F;
 			f = (f * f + f * 2.0F) / 3.0F;
 
@@ -76,7 +76,7 @@ public class GunLeverActionS extends Item {
 			p_77615_3_.motionY += vec.yCoord * 0.75;
 			p_77615_3_.motionZ += vec.zCoord * 0.75;
 
-			p_77615_3_.inventory.consumeInventoryItem(ModItems.ammo_12gauge);
+			p_77615_3_.inventory.consumeInventoryItem(ModItems.ammo_20gauge);
 
 			p_77615_1_.damageItem(1, p_77615_3_);
 

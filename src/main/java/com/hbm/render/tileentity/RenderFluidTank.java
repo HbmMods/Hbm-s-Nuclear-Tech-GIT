@@ -20,6 +20,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer {
         GL11.glTranslated(x + 0.5D, y, z + 0.5D);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 		GL11.glRotatef(90, 0F, 1F, 0F);
 		switch(tileEntity.getBlockMetadata())
@@ -35,9 +36,9 @@ public class RenderFluidTank extends TileEntitySpecialRenderer {
 		}
 
         bindTexture(ResourceManager.tank_tex);
-        
-        ResourceManager.tank_body.renderAll();
+		ResourceManager.fluidtank.renderPart("Tank");
 
+		GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glPopMatrix();
         
         renderTileEntityAt2(tileEntity, x, y, z, f);
@@ -72,7 +73,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer {
 			s = ((TileEntityMachineFluidTank)tileEntity).tank.getTankType().name();
 		
         bindTexture(new ResourceLocation(RefStrings.MODID, "textures/models/tank_" + s + ".png"));
-        ResourceManager.tank_label.renderAll();
+        ResourceManager.fluidtank.renderPart("Label");
 
         GL11.glPopMatrix();
     }

@@ -1504,15 +1504,6 @@ public class GUIHandler implements IGuiHandler {
 					return null;
 				}
 				
-				case ModBlocks.guiID_radiobox:
-				{
-					if(entity instanceof TileEntityRadiobox)
-					{
-						return new GUIRadiobox(player.inventory, (TileEntityRadiobox) entity);
-					}
-					return null;
-				}
-				
 				case ModBlocks.guiID_telelinker:
 				{
 					if(entity instanceof TileEntityMachineTeleLinker)

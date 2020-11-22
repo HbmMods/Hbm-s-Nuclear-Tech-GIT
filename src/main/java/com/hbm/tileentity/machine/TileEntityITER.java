@@ -16,10 +16,12 @@ import com.hbm.inventory.FusionRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -214,6 +216,16 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 			
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] { 2, 4 };
 	}
 	
 	private void produceByproduct() {
@@ -453,5 +465,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		worldObj.setBlock(xCoord, yCoord - 2, zCoord, ModBlocks.struct_iter_core);
 		
 		MachineITER.drop = true;
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+				AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 10, 50));
+		
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.achMeltdown);
+		}
 	}
 }

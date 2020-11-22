@@ -81,9 +81,13 @@ public class ItemFluidIdentifier extends Item {
     {
 		TileEntity te = world.getTileEntity(x, y, z);
 		if(te != null && te instanceof TileEntityFluidDuct) {
-			TileEntityFluidDuct duct = (TileEntityFluidDuct)te;
 			
-			duct.type = FluidType.getEnum(stack.getItemDamage());
+			if(!world.isRemote) {
+				TileEntityFluidDuct duct = (TileEntityFluidDuct)te;
+				duct.type = FluidType.getEnum(stack.getItemDamage());
+			}
+			
+			player.swingItem();
 		}
 		return false;
     }

@@ -236,6 +236,12 @@ public class ItemGrenade extends Item {
 
 		list.add("Fuse: " + translateFuse());
 
+		if (this == ModItems.grenade_smart) {
+			list.add("");
+			list.add("\"Why did it not blow up????\"");
+			list.add(EnumChatFormatting.ITALIC + "If it didn't blow up it means it worked.");
+		}
+
 		if (this == ModItems.grenade_if_generic) {
 			list.add("");
 			list.add(EnumChatFormatting.ITALIC + "\"How do you like " + EnumChatFormatting.RESET + EnumChatFormatting.GRAY + "them" + EnumChatFormatting.ITALIC + " apples?\"");

@@ -102,8 +102,6 @@ public class ItemAssemblyTemplate extends Item {
 		list.add(output.stackSize + "x " + output.getDisplayName());
 		list.add("Inputs:");
 		
-		Random rand = new Random(System.currentTimeMillis() / 1000);
-		
 		for(Object o : in) {
 			
 			if(o instanceof ComparableStack)  {
@@ -115,7 +113,7 @@ public class ItemAssemblyTemplate extends Item {
 				ArrayList<ItemStack> ores = OreDictionary.getOres(input.name);
 				
 				if(ores.size() > 0) {
-					ItemStack inStack = ores.get(rand.nextInt(ores.size()));
+					ItemStack inStack = ores.get((int) (Math.abs(System.currentTimeMillis() / 1000) % ores.size()));
 		    		list.add(input.stacksize + "x " + inStack.getDisplayName());
 				} else {
 		    		list.add("I AM ERROR");

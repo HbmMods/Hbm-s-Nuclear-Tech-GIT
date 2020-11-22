@@ -68,6 +68,8 @@ public class ItemSwordAbility extends ItemSword implements IItemAbility {
 				ability.onHit(attacker.worldObj, (EntityPlayer) attacker, victim, this);
     		}
     	}
+    	
+    	stack.damageItem(1, attacker);
         
         return true;
     }

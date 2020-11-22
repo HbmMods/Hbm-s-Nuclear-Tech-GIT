@@ -208,7 +208,10 @@ public class ArmorFSB extends ItemArmor {
 			
 			boolean noHelmet = chestplate.noHelmet;
 		
-			if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
+			if(((helmet != null && helmet.getItem() instanceof ItemArmor) || noHelmet) &&
+					plate != null && plate.getItem() instanceof ItemArmor &&
+					legs != null && legs.getItem() instanceof ItemArmor &&
+					boots != null && boots.getItem() instanceof ItemArmor) {
 				
 				if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
 					chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&

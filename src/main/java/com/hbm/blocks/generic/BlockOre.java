@@ -172,7 +172,7 @@ public class BlockOre extends Block {
 		{
 			return ModItems.ingot_asbestos;
 		}
-		if(this == ModBlocks.ore_asbestos)
+		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos)
 		{
 			return ModItems.ingot_asbestos;
 		}

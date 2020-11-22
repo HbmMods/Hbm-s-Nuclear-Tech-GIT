@@ -304,12 +304,15 @@ public class BulletConfigFactory {
 							PotionEffect eff0 = new PotionEffect(Potion.poison.id, duration, 2, true);
 							PotionEffect eff1 = new PotionEffect(Potion.digSlowdown.id, duration, 2, true);
 							PotionEffect eff2 = new PotionEffect(Potion.weakness.id, duration, 4, true);
+							PotionEffect eff3 = new PotionEffect(Potion.wither.id, (int)Math.ceil(duration * 0.1), 0, true);
 							eff0.getCurativeItems().clear();
 							eff1.getCurativeItems().clear();
 							eff2.getCurativeItems().clear();
+							eff3.getCurativeItems().clear();
 							((EntityLivingBase)e).addPotionEffect(eff0);
 							((EntityLivingBase)e).addPotionEffect(eff1);
 							((EntityLivingBase)e).addPotionEffect(eff2);
+							((EntityLivingBase)e).addPotionEffect(eff3);
 						}
 					}
 				}
@@ -409,7 +412,7 @@ public class BulletConfigFactory {
 					
 					Vec3 delta = Vec3.createVectorHelper(e.posX - bullet.posX, e.posY + e.height / 2 - bullet.posY, e.posZ - bullet.posZ);
 					
-					if(bullet.worldObj.rayTraceBlocks(Vec3.createVectorHelper(bullet.posX, bullet.posY, bullet.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.height / 2, e.posZ)) != null)
+					if(bullet.worldObj.func_147447_a(Vec3.createVectorHelper(bullet.posX, bullet.posY, bullet.posZ), Vec3.createVectorHelper(e.posX, e.posY + e.height / 2, e.posZ), false, true, false) != null)
 						continue;
 					
 					double dist = e.getDistanceSqToEntity(bullet);

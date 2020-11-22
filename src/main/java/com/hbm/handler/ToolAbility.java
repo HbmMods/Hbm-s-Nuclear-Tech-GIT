@@ -34,6 +34,7 @@ public abstract class ToolAbility {
 	public abstract String getName();
 	public abstract String getFullName();
 	public abstract String getExtension();
+	public abstract boolean isAllowed();
 	
 	public static class RecursionAbility extends ToolAbility {
 		
@@ -136,7 +137,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return " (" + radius + ")";
 		}
-		
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityVein;
+		}
 	}
 
 	public static class HammerAbility extends ToolAbility {
@@ -177,6 +182,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return " (" + range + ")";
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityHammer;
+		}
 	}
 
 	public static class SilkAbility extends ToolAbility {
@@ -211,6 +221,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getExtension() {
 			return "";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilitySilk;
 		}
 	}
 
@@ -253,6 +268,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return " (" + luck + ")";
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityLuck;
+		}
 	}
 
 	public static class SmelterAbility extends ToolAbility {
@@ -287,6 +307,11 @@ public abstract class ToolAbility {
 		public String getExtension() {
 			return "";
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityFurnace;
+		}
 	}
 	
 	public static class ShredderAbility extends ToolAbility {
@@ -320,6 +345,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getExtension() {
 			return "";
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityShredder;
 		}
 	}
 	
@@ -359,6 +389,11 @@ public abstract class ToolAbility {
 		public String getFullName() {
 			return I18n.format(getName());
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityCentrifuge;
+		}
 	}
 	
 	public static class CrystallizerAbility extends ToolAbility {
@@ -392,6 +427,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName());
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityCrystallizer;
 		}
 	}
 	
@@ -431,6 +471,11 @@ public abstract class ToolAbility {
 		public String getFullName() {
 			return I18n.format(getName());
 		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityMercury;
+		}
 	}
 	
 	public static class ExplosionAbility extends ToolAbility {
@@ -467,6 +512,11 @@ public abstract class ToolAbility {
 		@Override
 		public String getFullName() {
 			return I18n.format(getName()) + getExtension();
+		}
+
+		@Override
+		public boolean isAllowed() {
+			return ToolConfig.abilityExplosion;
 		}
 	}
 }

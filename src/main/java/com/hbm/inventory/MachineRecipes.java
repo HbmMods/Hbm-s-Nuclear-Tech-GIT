@@ -1905,7 +1905,7 @@ public class MachineRecipes {
         	break;
     	case SATURN:
 			input[0] = new FluidStack(100, FluidType.ACID);
-			input[1] = new FluidStack(200, FluidType.MERCURY);
+			input[1] = new FluidStack(50, FluidType.MERCURY);
         	break;
     	case BALEFIRE:
 			input[0] = new FluidStack(6000, FluidType.KEROSENE);
@@ -2037,7 +2037,7 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.rocket_fuel, 1);
         	break;
         case SATURN:
-			output[0] = new ItemStack(ModItems.ingot_saturnite, 1);
+			output[0] = new ItemStack(ModItems.ingot_saturnite, 2);
         	break;
         case BALEFIRE:
 			output[0] = new ItemStack(ModItems.powder_balefire, 1);

@@ -52,7 +52,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -281,7 +280,7 @@ public class ModEventHandlerClient {
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
 		
-		float rad = HazmatRegistry.instance.getResistance(stack);
+		float rad = HazmatRegistry.getResistance(stack);
 		
 		rad = ((int)(rad * 100)) / 100F;
 		
@@ -304,15 +303,6 @@ public class ModEventHandlerClient {
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
 		}
     }
-	
-	public static IIcon particleBase;
-
-	@SubscribeEvent
-	public void onTextureStitch(TextureStitchEvent.Pre event) {
-		
-		if(event.map.getTextureType() == 0)
-			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
-	}
 	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
@@ -484,5 +474,14 @@ public class ModEventHandlerClient {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glPopMatrix();
+	}
+	
+	public static IIcon particleBase;
+
+	@SubscribeEvent
+	public void onTextureStitch(TextureStitchEvent.Pre event) {
+		
+		if(event.map.getTextureType() == 0)
+			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 	}
 }

@@ -53,14 +53,18 @@ public class ItemRenderWeaponThompson implements IItemRenderer {
 			
 		case EQUIPPED:
 
-			double scale = 0.5D;
+			double scale = 0.25D;
 			GL11.glScaled(scale, scale, scale);
+			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef(-170, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(-15F, 1.0F, 0.0F, 0.0F);
+			GL11.glTranslatef(-2F, -3F, -0.5F);
 			
 			break;
 			
 		case ENTITY:
 
-			double s1 = 0.25D;
+			double s1 = 0.2D;
 			GL11.glScaled(s1, s1, s1);
 			
 			break;

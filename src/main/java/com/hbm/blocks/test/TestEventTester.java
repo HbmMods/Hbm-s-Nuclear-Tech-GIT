@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.saveddata.RadiationSavedData;
@@ -224,6 +225,12 @@ public class TestEventTester extends Block {
 				System.out.println(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
         	}
         	
+        	if(!worldObj.isRemote) {
+        		
+        		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFac(worldObj, x1, y1 + 5, z1, 100));
+        		worldObj.setBlockToAir(x1, y1, z1);
+        	}
+        	
         }
     }
     
@@ -383,13 +390,18 @@ public class TestEventTester extends Block {
 	    	worldObj.spawnEntityInWorld(tom);
     	}*/
     	
-    	if(!worldObj.isRemote) {
+    	/*if(!worldObj.isRemote) {
     		
     		worldObj.setBlockToAir(par2, par3, par4);
     		ExplosionNT ex = new ExplosionNT(worldObj, null, par2 + 0.5, par3 + 2, par4 + 0.5, 5);
     		ex.addAttrib(ExAttrib.ALLDROP);
     		ex.doExplosionA();
     		ex.doExplosionB(false);
+    	}*/
+    	
+    	if(!worldObj.isRemote) {
+    		
+    		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, par2, par3 + 5, par4, 100, 0));
     	}
         
         return true;

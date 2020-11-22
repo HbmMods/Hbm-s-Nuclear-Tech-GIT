@@ -14,7 +14,9 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
@@ -52,7 +54,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -306,9 +307,23 @@ public class ModEventHandler
 				        			event.world.spawnEntityInWorld(creep);
 			        		entity.setDead();
 							continue;
+			        	} else if(entity.getClass().equals(EntityDuck.class) && eRad >= 200) {
+			        		
+			        		EntityQuackos quacc = new EntityQuackos(event.world);
+			        		quacc.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+			        		
+			        		if(!entity.isDead && !event.world.isRemote)
+				        		event.world.spawnEntityInWorld(quacc);
+			        		
+			        		entity.setDead();
+							continue;
 			        	}
 						
-						if(eRad < 200 || entity instanceof EntityNuclearCreeper || entity instanceof EntityMooshroom || entity instanceof EntityZombie || entity instanceof EntitySkeleton)
+						if(eRad < 200 || entity instanceof EntityNuclearCreeper ||
+								entity instanceof EntityMooshroom ||
+								entity instanceof EntityZombie ||
+								entity instanceof EntitySkeleton ||
+								entity instanceof EntityQuackos)
 							continue;
 						
 						if(eRad > 2500)
@@ -445,35 +460,6 @@ public class ModEventHandler
 			}
 			
 			/// GHOST FIX END ///
-
-			/// FSB ARMOR START ///
-			ItemStack helmet = player.inventory.armorInventory[3];
-			ItemStack plate = player.inventory.armorInventory[2];
-			ItemStack legs = player.inventory.armorInventory[1];
-			ItemStack boots = player.inventory.armorInventory[0];
-			
-			if(plate != null && plate.getItem() instanceof ArmorFSB) {
-				
-				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
-				
-				boolean noHelmet = chestplate.noHelmet;
-			
-				if((helmet != null || noHelmet) && plate != null && legs != null && boots != null) {
-					
-					if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
-						chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
-						chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
-						
-						if(!chestplate.effects.isEmpty()) {
-							
-							for(PotionEffect i : chestplate.effects) {
-								player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), i.getIsAmbient()));
-							}
-						}
-					}
-				}
-			}
-			/// FSB ARMOR END ///
 			
 			/// BETA HEALTH START ///
 			if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia)) {

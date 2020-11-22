@@ -28,7 +28,7 @@ public class ContaminationUtil {
 			EntityPlayer player = (EntityPlayer)entity;
 			
 			float koeff = 5.0F;
-			return (float) Math.pow(koeff, -HazmatRegistry.instance.getResistance(player));
+			return (float) Math.pow(koeff, -HazmatRegistry.getResistance(player));
 		}
 		
 		return 1;
@@ -84,7 +84,7 @@ public class ContaminationUtil {
 		double rads = ((int)(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition) * 10)) / 10D;
 		
 		double res = 100.0D - ((int)(ContaminationUtil.calculateRadiationMod(player) * 10000)) / 100D;
-		double resKoeff = ((int)(HazmatRegistry.instance.getResistance(player) * 100)) / 100D;
+		double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100)) / 100D;
 		
 		String chunkPrefix = "";
 		String radPrefix = "";
