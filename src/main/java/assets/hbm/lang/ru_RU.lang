@@ -61,6 +61,8 @@ achievement.horizonsBonus=Слэм-данк диарея
 achievement.horizonsBonus.desc=Честное слово, что, черт возьми, с тобой не так
 achievement.stratum.desc=Жми на тормоза, Миттс.
 achievement.stratum=Пласт
+achievement.meltdown.desc=Ты зашел так далеко, как ты мог все испортить?
+achievement.meltdown=Быстрая внеплановая разборка
 
 potion.hbm_taint=Порча
 potion.hbm_mutation=Заражённое порчей сердце
@@ -86,6 +88,8 @@ weapon.ability.radiation=Радиоактивные лезвия
 weapon.ability.vampire=Вампир
 weapon.ability.stun=Оглушение
 weapon.ability.phosphorus=Фосфорный наконечник
+weapon.ability.beheader=Обезглавливатель
+weapon.ability.chainsaw=Бензоболь
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -583,6 +587,8 @@ container.crystallizer=Рудный окислитель
 tile.machine_mining_laser.name=Шахтёрский лазер
 container.miningLaser=Шахтёрский лазер
 tile.barricade.name=Мешки с песком
+container.microwave=Микроволновка
+tile.machine_microwave.name=Микроволновка
 
 tile.barrel_plastic.name=Безопасный бочонок™
 tile.barrel_corroded.name=Проржавевшая бочка
@@ -751,6 +757,8 @@ item.ingot_phosphorus.name=Брусок белого фосфора
 item.ingot_magnetized_tungsten.name=Намагниченный слиток вольфрама
 item.ingot_combine_steel.name=Слиток CMB-стали
 item.plate_combine_steel.name=Пластина CMB-стали 
+item.plate_armor_lunar.name=Лунная общивка
+item.plate_armor_titanium.name=Титановая обшивка
 item.wire_magnetized_tungsten.name=4000K Высокотемпературный проводник
 item.coil_magnetized_tungsten.name=4000K Высокотемпературная сверхпроводящая катушка
 item.plate_mixed.name=Смешанная пластина
@@ -1022,6 +1030,14 @@ tile.deco_steel.name=Стальной декоративный блок
 tile.deco_lead.name=Свинцовый декоративный блок
 tile.deco_beryllium.name=Бериллевый декоративный блок
 tile.deco_asbestos.name=Асбестовая крыша
+tile.block_cap_fritz.name=Блок крышек от Фрицз-Кола
+tile.block_cap_korl.name=Блок крышек от Корл
+tile.block_cap_nuka.name=Блок крышек от Ядер-колы
+tile.block_cap_quantum.name=Блок крышек от Квантовой Ядер-колы
+tile.block_cap_rad.name=Блок крышек от С~Колы РАД
+tile.block_cap_sparkle.name=Блок крышек от С~Колы
+tile.block_cap_star.name=Блок крышек со звездой от Сансет Сарсапарилла
+tile.block_cap_sunset.name=Блок крышек от Сансет Сарсапарилла
 
 tile.hazmat.name=Блок защитной ткани
 
@@ -1164,6 +1180,7 @@ item.powder_meteorite_tiny.name=Кучка метеоритной пыли
 item.powder_yellowcake.name=Йеллоукейк	
 item.powder_magic.name=Измельченное зачарование
 item.redstone_depleted.name=Обесцвеченная красная пыль
+item.powder_steel_tiny.name=Кучка стального порошка
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
@@ -1438,6 +1455,7 @@ item.gun_stinger_ammo.name=Ракета-Стингер
 item.gun_hk69.name=Гранатомет
 item.gun_quadro.name="Четыре Сыра"
 item.gun_sauer.name=Дробовик Стэна Зауэра
+item.gun_thompson.name=Пистолет-пулемёт Томпсона
 
 item.flame_pony.name=Картинка цветной лошади
 item.flame_conspiracy.name=Конспирологическая теория
@@ -1938,6 +1956,7 @@ entity.entity_mob_hunter_chopper.name=Вертолёт-охотник
 entity.entity_cyber_crab.name=Киберкраб
 entity.entity_tesla_crab.name=Теслакраб
 entity.entity_taint_crab.name=Заражённый порчей теслакраб
+entity.entity_elder_one.name=Крякос Старший
 
 item.cap_aluminium.name=Алюминиевый колпачок
 item.hull_small_steel.name=Небольшая стальная оболочка
@@ -2526,6 +2545,7 @@ item.cap_fritz.name=Крышка от Фрицз-Колы
 item.cap_sunset.name=Крышка от Сансет Сарсапариллы
 item.cap_star.name=Крышка от Сансет Сарсапариллы со звездой
 item.ring_pull.name=Ключ-кольцо
+item.ring_starmetal.name=§9Кольцо из Звёздного металла§r
 item.canned_beef.name=Консервированная говядина
 item.canned_tuna.name=Консервированный тунец
 item.canned_mystery.name=Консервы "Тайна Мяса"
@@ -2553,6 +2573,7 @@ item.canned_diesel.name=Консервированное дизельное то
 item.canned_kerosene.name=Консервированный керосин
 item.canned_recursion.name=Консервированная рекурсия
 item.canned_bark.name=Консервы вяленой сосновой коры
+item.spongebob_macaroni.name=Сырные макаронны "Губка Боб"
 item.can_key.name=Винтовой ключ
 
 item.canteen_13.name=Фляжка Убежища 13
