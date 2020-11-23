@@ -8,7 +8,6 @@ import java.util.Set;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.hbm.config.ToolConfig;
 import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.*;
 import com.hbm.handler.WeaponAbility;
@@ -294,7 +293,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility {
     	
     	setAbility(stack, i % this.breakAbility.size());
     	
-    	while(!getCurrentAbility(stack).isAllowed()) {
+    	while(getCurrentAbility(stack) != null && !getCurrentAbility(stack).isAllowed()) {
     		
     		player.addChatComponentMessage(
     				new ChatComponentText("[Ability ")
