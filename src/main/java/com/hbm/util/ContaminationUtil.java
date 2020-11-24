@@ -42,6 +42,9 @@ public class ContaminationUtil {
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
 		
+		if(e instanceof EntityPlayer && e.ticksExisted < 200)
+			return;
+		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		f *= calculateRadiationMod(entity);

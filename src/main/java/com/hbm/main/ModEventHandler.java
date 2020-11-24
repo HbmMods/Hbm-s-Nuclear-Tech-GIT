@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -60,6 +62,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -330,17 +333,17 @@ public class ModEventHandler
 							entity.getEntityData().setFloat("hfr_radiation", 2500);
 						
 						if(eRad >= 1000) {
-							if(entity.attackEntityFrom(ModDamageSource.radiation, entity.getMaxHealth() * 100)) {
-								entity.getEntityData().setFloat("hfr_radiation", 0);
 
-					        	if(entity instanceof EntityPlayer)
-					        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadDeath);
-							}
+							entity.attackEntityFrom(ModDamageSource.radiation, 1000F);
+							entity.getEntityData().setFloat("hfr_radiation", 0);
 							
-							//.attackEntityFrom ensures the recentlyHit var is set to enable drops.
-							//if the attack is canceled, then nothing will drop.
-							//that's what you get for trying to cheat death
-				        	entity.setHealth(0);
+							if(entity.getHealth() > 0) {
+					        	entity.setHealth(0);
+					        	entity.onDeath(ModDamageSource.radiation);
+							}
+				        	
+				        	if(entity instanceof EntityPlayer)
+				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadDeath);
 				        	
 						} else if(eRad >= 800) {
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -463,13 +466,18 @@ public class ModEventHandler
 			
 			/// BETA HEALTH START ///
 			if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia)) {
-				if(player.getFoodStats().getFoodLevel() < 10) {
-					player.getFoodStats().setFoodLevel(10);
-				}
 				
 				if(player.getFoodStats().getFoodLevel() > 10) {
 					player.heal(player.getFoodStats().getFoodLevel() - 10);
-					player.getFoodStats().setFoodLevel(10);
+				}
+				
+				if(player.getFoodStats().getFoodLevel() != 10) {
+					
+					// Why can't you be normal??
+					try {
+						Field food = ReflectionHelper.findField(FoodStats.class, "field_149334_b", "foodLevel");
+						food.setInt(player.getFoodStats(), 10);
+					} catch(Exception e) { }
 				}
 			}
 			/// BETA HEALTH END ///
