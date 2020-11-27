@@ -46,6 +46,7 @@ public class ArmorFSB extends ItemArmor {
 	public float damageMod = -1;
 	public boolean fireproof = false;
 	public boolean noHelmet = false;
+	public boolean vats = false;
 	public boolean thermal = false;
 	public double gravity = 0;
 	public String step;
@@ -92,6 +93,11 @@ public class ArmorFSB extends ItemArmor {
 		return this;
 	}
 	
+	public ArmorFSB enableVATS(boolean vats) {
+		this.vats = vats;
+		return this;
+	}
+	
 	public ArmorFSB enableThermalSight(boolean thermal) {
 		this.thermal = thermal;
 		return this;
@@ -132,6 +138,7 @@ public class ArmorFSB extends ItemArmor {
 		this.blastProtection = original.blastProtection;
 		this.fireproof = original.fireproof;
 		this.noHelmet = original.noHelmet;
+		this.vats = original.vats;
 		this.thermal = original.thermal;
 		this.gravity = original.gravity;
 		this.step = original.step;
@@ -184,6 +191,10 @@ public class ArmorFSB extends ItemArmor {
     	
     	if(fireproof) {
 			list.add(EnumChatFormatting.RED + "  Fireproof");
+    	}
+    	
+    	if(vats) {
+			list.add(EnumChatFormatting.RED + "  Enemy HUD");
     	}
     	
     	if(thermal) {
@@ -263,20 +274,23 @@ public class ArmorFSB extends ItemArmor {
 				
 				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
 				
-				if(chestplate.damageMod != -1) {
-					event.ammount *= chestplate.damageMod;
-				}
-				
-				if(chestplate.resistance.get(event.source.getDamageType()) != null) {
-					event.ammount *= chestplate.resistance.get(event.source.getDamageType());
-				}
-				
-				if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
-					event.ammount *= chestplate.blastProtection;
-				}
-				
-				if(chestplate.damageCap != -1) {
-					event.ammount = Math.min(event.ammount, chestplate.damageCap);
+				if(event.ammount < 100) {
+					
+					if(chestplate.damageMod != -1) {
+						event.ammount *= chestplate.damageMod;
+					}
+					
+					if(chestplate.resistance.get(event.source.getDamageType()) != null) {
+						event.ammount *= chestplate.resistance.get(event.source.getDamageType());
+					}
+					
+					if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
+						event.ammount *= chestplate.blastProtection;
+					}
+					
+					if(chestplate.damageCap != -1) {
+						event.ammount = Math.min(event.ammount, chestplate.damageCap);
+					}
 				}
 			}
 		}

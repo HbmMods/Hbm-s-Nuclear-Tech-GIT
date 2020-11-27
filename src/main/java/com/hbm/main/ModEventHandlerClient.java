@@ -27,6 +27,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.util.RenderAccessoryUtility;
+import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
 import com.hbm.sound.MovingSoundChopper;
@@ -52,6 +53,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -69,6 +71,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -386,94 +389,37 @@ public class ModEventHandlerClient {
 			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
 			
 			if(chestplate.thermal)
-				renderThermalSight(event.partialTicks);
+				RenderOverhead.renderThermalSight(event.partialTicks);
 		}
 	}
 	
-	public void renderThermalSight(float partialTicks) {
+	@SubscribeEvent
+	public void preRenderEvent(RenderLivingEvent.Pre event) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		double x = player.prevPosX + (player.posX - player.prevPosX) * partialTicks;
-		double y =  player.prevPosY + (player.posY - player.prevPosY) * partialTicks;
-		double z =  player.prevPosZ + (player.posZ - player.prevPosZ) * partialTicks;
-
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_POINT_SMOOTH);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		Tessellator tess = Tessellator.instance;
-		tess.startDrawing(GL11.GL_LINES);
-
-		for(Object o : player.worldObj.loadedEntityList) {
+		if(ArmorFSB.hasFSBArmor(player)) {
+			ItemStack plate = player.inventory.armorInventory[2];
+			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
 			
-			Entity ent = (Entity) o;
-			
-			if(ent == player)
-				continue;
-			
-			if(ent.getDistanceSqToEntity(player) > 4096)
-				continue;
-			
-			if(ent instanceof IBossDisplayData)
-				tess.setColorOpaque_F(1F, 0.5F, 0F);
-			else if(ent instanceof EntityMob)
-				tess.setColorOpaque_F(1F, 0F, 0F);
-			else if(ent instanceof EntityPlayer)
-				tess.setColorOpaque_F(1F, 0F, 1F);
-			else if(ent instanceof EntityLiving)
-				tess.setColorOpaque_F(0F, 1F, 0F);
-			else if(ent instanceof EntityItem)
-				tess.setColorOpaque_F(1F, 1F, 0.5F);
-			else if(ent instanceof EntityXPOrb) {
-				if(player.ticksExisted % 10 < 5)
-					tess.setColorOpaque_F(1F, 1F, 0.5F);
-				else
-					tess.setColorOpaque_F(0.5F, 1F, 0.5F);
-			} else
-				continue;
-			
-			AxisAlignedBB bb = ent.boundingBox;
-			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
-			tess.addVertex(bb.minX - x, bb.minY - y, bb.minZ - z);
-			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.minY - y, bb.minZ - z);
-			tess.addVertex(bb.minX - x, bb.minY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.minY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.minY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.minY - y, bb.maxZ - z);
-			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.maxZ - z);
-			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.minZ - z);
-			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.maxZ - z);
-			tess.addVertex(bb.maxX - x, bb.minY - y, bb.maxZ - z);
-			tess.addVertex(bb.minX - x, bb.maxY - y, bb.minZ - z);
-			tess.addVertex(bb.minX - x, bb.maxY - y, bb.maxZ - z);
-			tess.addVertex(bb.minX - x, bb.maxY - y, bb.maxZ - z);
-			tess.addVertex(bb.minX - x, bb.minY - y, bb.maxZ - z);
-			tess.addVertex(bb.minX - x, bb.maxY - y, bb.maxZ - z);
-			tess.addVertex(bb.maxX - x, bb.maxY - y, bb.maxZ - z);
-			tess.addVertex(bb.minX - x, bb.minY - y, bb.maxZ - z);
-			tess.addVertex(bb.maxX - x, bb.minY - y, bb.maxZ - z);
-			tess.addVertex(bb.minX - x, bb.minY - y, bb.minZ - z);
-			tess.addVertex(bb.minX - x, bb.minY - y, bb.maxZ - z);
+			if(chestplate.vats) {
+				
+				int count = (int)Math.min(event.entity.getMaxHealth(), 100);
+				
+				int bars = (int)Math.ceil(event.entity.getHealth() * count / event.entity.getMaxHealth());
+				
+				String bar = EnumChatFormatting.RED + "";
+				
+				for(int i = 0; i < count; i++) {
+					
+					if(i == bars)
+						bar += EnumChatFormatting.RESET + "";
+					
+						bar += "|";
+				}
+				RenderOverhead.renderTag(event.entity, event.x, event.y, event.z, event.renderer, bar, chestplate.thermal);
+			}
 		}
-		
-		tess.draw();
-		
-		tess.setColorOpaque_F(1F, 1F, 1F);
-		
-		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_POINT_SMOOTH);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glPopMatrix();
 	}
 	
 	public static IIcon particleBase;

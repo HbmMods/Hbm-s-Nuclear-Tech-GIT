@@ -134,8 +134,11 @@ public class ArmorUtil {
 			"bronze",
 			"electrum",
 			"t45",
+			"bj",
+			"starmetal",
 			"hazmat", //also count because rubber is insulating
-			"rubber"
+			"rubber",
+			"spacesuit"
 	};
 	
 	public static boolean isFaradayArmor(Item item) {

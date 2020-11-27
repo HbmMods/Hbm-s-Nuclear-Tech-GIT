@@ -3573,6 +3573,7 @@ public class ModItems {
 		
 		t45_helmet = new ArmorT45(MainRegistry.aMatT45, 2, 0, 1000000, 10000, 1000).setCap(6.5F).setMod(0.25F)
 				.setFireproof(true)
+				.enableVATS(true)
 				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 0))
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.setBlastProtection(0.5F)
@@ -3635,7 +3636,9 @@ public class ModItems {
 		
 		bj_helmet = new ArmorBJ(MainRegistry.aMatStarmetal, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).setMod(0.25F).setCap(4.0F)
 				.setFireproof(true)
+				.enableVATS(true)
 				.enableThermalSight(true)
+				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
 				.addEffect(new PotionEffect(Potion.field_76443_y.id, 20, 0))
 				.addEffect(new PotionEffect(HbmPotion.radx.id, 20, 0))
