@@ -270,6 +270,13 @@ fluid.acid_fluid=Acid
 fluid.mud_fluid=Poisonous Mud
 fluid.toxic_fluid=Stereotypical Green Ooze
 
+hadron.analysis=Analyzing...
+hadron.buttonOn=Analysis Chamber (if present) is ON
+hadron.buttonOff=Analysis Chamber is OFF
+hadron.error=Error!
+hadron.idle=Idle
+hadron.progress=In Progress...
+
 hbmfluid.acid=Hydrogen Peroxide
 hbmfluid.amat=Antimatter
 hbmfluid.aschrab=Antischrabidium

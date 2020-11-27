@@ -270,6 +270,13 @@ fluid.acid_fluid=Säure
 fluid.mud_fluid=Giftiger Schlamm
 fluid.toxic_fluid=Stereotypischer grüner Schleim
 
+hadron.analysis=Analysiere...
+hadron.buttonOn=Analysekammer (falls vorhanden) ist AN
+hadron.buttonOff=Analysekammer ist AUS
+hadron.error=Fehler!
+hadron.idle=Leerlauf
+hadron.progress=Verarbeite...
+
 hbmfluid.acid=Wasserstoffperoxid
 hbmfluid.amat=Antimaterie
 hbmfluid.aschrab=Antischrabidium

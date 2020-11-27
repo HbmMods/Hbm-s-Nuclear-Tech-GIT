@@ -460,6 +460,7 @@ public class ModBlocks {
 	public static Block hadron_analysis_glass;
 	public static Block hadron_access;
 	public static Block hadron_core;
+	public static final int guiID_hadron = 101;
 	
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
@@ -1198,26 +1199,15 @@ public class ModBlocks {
 		hadron_plating_striped = new BlockHadronPlating(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_plating_striped").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_plating_striped");
 		hadron_plating_voltz = new BlockHadronPlating(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_plating_voltz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_plating_voltz");
 		hadron_plating_glass = new BlockNTMGlass(RefStrings.MODID + ":hadron_plating_glass", Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_plating_glass").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_plating_glass");
-		hadron_coil_alloy = new BlockHadronCoil(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_alloy").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_alloy");
-		hadron_coil_schrabidium = new BlockHadronCoil(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_schrabidium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_schrabidium");
-		hadron_coil_starmetal = new BlockHadronCoil(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_starmetal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_starmetal");
+		hadron_coil_alloy = new BlockHadronCoil(Material.iron, 1).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_alloy").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_alloy");
+		hadron_coil_schrabidium = new BlockHadronCoil(Material.iron, 3).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_schrabidium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_schrabidium");
+		hadron_coil_starmetal = new BlockHadronCoil(Material.iron, 10).setStepSound(Block.soundTypeMetal).setBlockName("hadron_coil_starmetal").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_coil_starmetal");
+		hadron_power = new BlockHadronPower(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_power").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_power");
 		hadron_diode = new BlockHadronDiode(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_diode").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		hadron_analysis = new BlockHadronPlating(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_analysis").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_analysis");
 		hadron_analysis_glass = new BlockNTMGlass(RefStrings.MODID + ":hadron_analysis_glass", Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_analysis_glass").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_analysis_glass");
-
-		/*public static Block hadron_plating;
-		public static Block hadron_plating_blue;
-		public static Block hadron_plating_black;
-		public static Block hadron_plating_yellow;
-		public static Block hadron_plating_striped;
-		public static Block hadron_plating_glass;
-		public static Block hadron_plating_voltz;
-		public static Block hadron_coil_alloy;
-		public static Block hadron_coil_schrabidium;
-		public static Block hadron_coil_starmetal;
-		public static Block hadron_power;
-		public static Block hadron_access;
-		public static Block hadron_core;*/
+		hadron_access = new BlockHadronAccess(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_access").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_access");
+		hadron_core = new BlockHadronCore(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_core");
 		
 		machine_electric_furnace_off = new MachineElectricFurnace(false).setBlockName("machine_electric_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_electric_furnace_on = new MachineElectricFurnace(true).setBlockName("machine_electric_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
@@ -1990,9 +1980,12 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_coil_alloy, hadron_coil_alloy.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_coil_schrabidium, hadron_coil_schrabidium.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_coil_starmetal, hadron_coil_starmetal.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_power, hadron_power.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_diode, hadron_diode.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_analysis, hadron_analysis.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_analysis_glass, hadron_analysis_glass.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_access, hadron_access.getUnlocalizedName());
+		GameRegistry.registerBlock(hadron_core, hadron_core.getUnlocalizedName());
 		
 		/*public static Block hadron_plating;
 		public static Block hadron_plating_blue;

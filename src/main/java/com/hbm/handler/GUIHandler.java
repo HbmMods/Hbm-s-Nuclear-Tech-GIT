@@ -905,6 +905,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_hadron:
+				{
+					if(entity instanceof TileEntityHadron)
+					{
+						return new ContainerHadron(player.inventory, (TileEntityHadron) entity);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
@@ -1797,6 +1806,15 @@ public class GUIHandler implements IGuiHandler {
 					if(entity instanceof TileEntityMachineLargeTurbine)
 					{
 						return new GUIMachineLargeTurbine(player.inventory, (TileEntityMachineLargeTurbine) entity);
+					}
+					return null;
+				}
+				
+				case ModBlocks.guiID_hadron:
+				{
+					if(entity instanceof TileEntityHadron)
+					{
+						return new GUIHadron(player.inventory, (TileEntityHadron) entity);
 					}
 					return null;
 				}
