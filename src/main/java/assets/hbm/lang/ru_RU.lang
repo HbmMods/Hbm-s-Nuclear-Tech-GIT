@@ -178,6 +178,13 @@ fluid.hbmbalefire=Ракетное жар-топливо
 fluid.hbmmercury=Ртуть
 //Special for 1.12.2 version//
 
+hadron.analysis=Анализ...
+hadron.buttonOn=Камера анализа (если есть) включена
+hadron.buttonOff=Камера анализа выключена
+hadron.error=Ошибка!
+hadron.idle=Ожидание
+hadron.progress=В процессе...
+
 chem.TEST=Тест
 chem.FP_HEAVYOIL=Переработка тяжелой нефти
 chem.FP_SMEAR=Переработка Промышленной нефти
@@ -2641,6 +2648,16 @@ item.part_beryllium.name=Коробка бериллиевой пыли
 item.part_carbon.name=Коробка угольной пыли
 item.part_copper.name=Коробка медной пыли
 item.part_plutonium.name=Коробка плутониевой пыли
+item.particle_aelectron.name=Капсула с Антиэлектроном
+item.particle_amat.name=Капсула с Антиматерией
+item.particle_aproton.name=Капсула с Антипротоном
+item.particle_aschrab.name=Капсула с Антишрабидием
+item.particle_dark.name=Капсула с Тёмной материей
+item.particle_empty.name=Пустая капсула
+item.particle_higgs.name=Капсула с Бозоном Хиггса
+item.particle_muon.name=Капсула с Мюоном
+item.particle_sparkticle.name=Капсула со Спарктиклом
+item.particle_strange.name=Капсула со Странным кварком
 
 item.rune_blank.name=Пустая каталитическая матрица
 item.rune_isa.name=Охлаждающая каталитическая матрица
