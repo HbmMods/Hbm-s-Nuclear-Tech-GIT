@@ -6,20 +6,29 @@ import java.util.List;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterRfHe extends TileEntity implements ISource, IEnergyHandler {
+public class TileEntityConverterRfHe extends TileEntityMachineBase implements ISource, IEnergyHandler {
 	
 	public long power;
 	public final long maxPower = 1000000;
 	public List<IConsumer> list = new ArrayList();
 	public int age = 0;
 	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
+	
+	public TileEntityConverterRfHe() {
+		super(0);
+	}
+
+	@Override
+	public String getName() {
+		return "";
+	}
 	
 	@Override
 	public void updateEntity() {
@@ -33,16 +42,26 @@ public class TileEntityConverterRfHe extends TileEntity implements ISource, IEne
 			
 			if(convert > 0)
 				this.markDirty();
-		}
 			
-		age++;
-		if(age >= 20)
-		{
-			age = 0;
+			age++;
+			if(age >= 20)
+			{
+				age = 0;
+			}
+			
+			if(age == 9 || age == 19)
+				ffgeuaInit();
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("rf", storage.getEnergyStored());
+			data.setLong("he", power);
+			this.networkPack(data, 25);
 		}
-		
-		if(age == 9 || age == 19)
-			ffgeuaInit();
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		storage.setEnergyStored(nbt.getInteger("rf"));
+		power = nbt.getLong("he");
 	}
 
 	@Override

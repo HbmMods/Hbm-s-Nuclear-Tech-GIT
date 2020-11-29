@@ -21,7 +21,6 @@ import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
@@ -35,6 +34,7 @@ import com.hbm.packet.PlayerInformPacket;
 import com.hbm.packet.RadSurveyPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.world.generator.TimedGenerator;
 

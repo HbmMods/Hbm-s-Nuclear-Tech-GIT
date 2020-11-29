@@ -66,5 +66,11 @@ public class GUIHadron extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(hadron.isOn)
+			drawTexturedModalRect(guiLeft + 16, guiTop + 89, 206, 0, 18, 18);
+		
+		if(hadron.analysisOnly)
+			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 18, 18, 18);
 	}
 }

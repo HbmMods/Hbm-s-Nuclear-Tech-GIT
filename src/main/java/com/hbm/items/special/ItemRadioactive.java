@@ -2,8 +2,8 @@ package com.hbm.items.special;
 
 import java.util.List;
 
-import com.hbm.handler.ArmorUtil;
 import com.hbm.inventory.BreederRecipes;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;

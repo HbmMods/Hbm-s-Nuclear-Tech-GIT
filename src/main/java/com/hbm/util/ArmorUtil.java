@@ -1,5 +1,6 @@
-package com.hbm.handler;
+package com.hbm.util;
 
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
@@ -107,10 +108,10 @@ public class ArmorUtil {
 		
 		if(armor[0] == null || armor[1] == null || armor[2] == null || armor[3] == null) return false;
 		
-		if(isFaradayArmor(armor[0].getItem()) &&
-				isFaradayArmor(armor[1].getItem()) &&
-				isFaradayArmor(armor[2].getItem()) &&
-				isFaradayArmor(armor[3].getItem()))
+		if(isFaradayArmor(armor[0]) &&
+				isFaradayArmor(armor[1]) &&
+				isFaradayArmor(armor[2]) &&
+				isFaradayArmor(armor[3]))
 			return true;
 		
 		return false;
@@ -141,7 +142,7 @@ public class ArmorUtil {
 			"spacesuit"
 	};
 	
-	public static boolean isFaradayArmor(Item item) {
+	public static boolean isFaradayArmor(ItemStack item) {
 		
 		String name = item.getUnlocalizedName();
 		
@@ -150,6 +151,9 @@ public class ArmorUtil {
 			if(name.toLowerCase().contains(metal))
 				return true;
 		}
+		
+		if(HazmatRegistry.getCladding(item) > 0)
+			return true;
 		
 		return false;
 	}

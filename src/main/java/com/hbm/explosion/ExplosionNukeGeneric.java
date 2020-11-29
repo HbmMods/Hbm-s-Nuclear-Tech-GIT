@@ -32,7 +32,6 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
 import com.hbm.entity.projectile.EntityMiniMIRV;
 import com.hbm.entity.projectile.EntityMiniNuke;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.items.ModItems;
@@ -40,6 +39,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityTurretBase;
+import com.hbm.util.ArmorUtil;
 
 import cofh.api.energy.IEnergyProvider;
 

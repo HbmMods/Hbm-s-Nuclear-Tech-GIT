@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
@@ -12,6 +11,7 @@ import com.hbm.items.machine.ItemCatalyst;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.ArmorUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

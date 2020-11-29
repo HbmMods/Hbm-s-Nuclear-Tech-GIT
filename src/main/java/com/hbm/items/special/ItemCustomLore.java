@@ -3,9 +3,9 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -455,6 +455,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeBody.class, new RenderWormBody());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDuck.class, new RenderDuck(new ModelChicken(), 0.3F));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityQuackos.class, new RenderQuacc(new ModelChicken(), 0.3F));
+	    RenderingRegistry.registerEntityRenderingHandler(EntityFBI.class, new RenderFBI());
 	    //"particles"
 	    RenderingRegistry.registerEntityRenderingHandler(EntitySmokeFX.class, new MultiCloudRenderer(new Item[] { ModItems.smoke1, ModItems.smoke2, ModItems.smoke3, ModItems.smoke4, ModItems.smoke5, ModItems.smoke6, ModItems.smoke7, ModItems.smoke8 }));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBSmokeFX.class, new MultiCloudRenderer(new Item[] { ModItems.b_smoke1, ModItems.b_smoke2, ModItems.b_smoke3, ModItems.b_smoke4, ModItems.b_smoke5, ModItems.b_smoke6, ModItems.b_smoke7, ModItems.b_smoke8 }));
@@ -827,6 +828,31 @@ public class ClientProxy extends ServerProxy {
 			double mY = data.getDouble("mY");
 			double mZ = data.getDouble("mZ");
 			world.spawnParticle(data.getString("mode"), x, y, z, mX, mY, mZ);
+		}
+		
+		if("hadron".equals(type)) {
+			
+			for(int i = 0; i < 30; i++) {
+				
+				EntityFX fx = null;
+
+				if(i % 3 == 0) {
+					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
+				}
+				if(i % 3 == 1) {
+					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F);
+				}
+				if(i % 3 == 2) {
+					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 1F, 1F, 0.1F);
+				}
+				
+				if(fx != null) {
+					fx.motionX = rand.nextGaussian() * 0.1;
+					fx.motionY = rand.nextGaussian() * 0.1;
+					fx.motionZ = rand.nextGaussian() * 0.1;
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
 		}
 	}
 	

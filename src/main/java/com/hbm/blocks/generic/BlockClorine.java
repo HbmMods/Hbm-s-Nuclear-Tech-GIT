@@ -2,7 +2,8 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
-import com.hbm.handler.ArmorUtil;
+import com.hbm.util.ArmorUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

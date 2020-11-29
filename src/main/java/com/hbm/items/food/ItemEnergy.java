@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 public class ItemEnergy extends Item {
 
@@ -29,6 +30,12 @@ public class ItemEnergy extends Item {
 
         if (!world.isRemote)
         {
+        	
+        	if(player instanceof FakePlayer) {
+        		world.newExplosion(player, player.posX, player.posY, player.posZ, 5F, true, true);
+        		return super.onEaten(stack, world, player);
+        	}
+        	
         	if(this == ModItems.can_smart)
         	{
                 player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 30 * 20, 1));

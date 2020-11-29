@@ -20,9 +20,9 @@ import com.hbm.entity.projectile.EntityRainbow;
 import com.hbm.entity.projectile.EntityRocket;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntitySchrab;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

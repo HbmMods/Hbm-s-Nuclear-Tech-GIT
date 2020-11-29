@@ -598,6 +598,18 @@ public class ModItems {
 	public static Item cell_sas3;
 	public static Item cell_antimatter;
 	public static Item cell_anti_schrabidium;
+
+	public static Item particle_empty;
+	public static Item particle_aproton;
+	public static Item particle_aelectron;
+	public static Item particle_amat;
+	public static Item particle_aschrab;
+	public static Item particle_higgs;
+	public static Item particle_muon;
+	public static Item particle_strange;
+	public static Item particle_dark;
+	public static Item particle_sparkticle;
+	
 	public static Item pellet_antimatter;
 	public static Item singularity;
 	public static Item singularity_counter_resonant;
@@ -2455,6 +2467,18 @@ public class ModItems {
 		cell_tritium = new ItemRadioactive(0.5F).setUnlocalizedName("cell_tritium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_tritium");
 		cell_sas3 = new ItemRadioactive(10F, false, true).setUnlocalizedName("cell_sas3").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_sas3");
 		cell_anti_schrabidium = new ItemDrop().setUnlocalizedName("cell_anti_schrabidium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_anti_schrabidium");
+
+		particle_empty = new Item().setUnlocalizedName("particle_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":particle_empty");
+		particle_aproton = new Item().setUnlocalizedName("particle_aproton").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_aproton");
+		particle_aelectron = new Item().setUnlocalizedName("particle_aelectron").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_aelectron");
+		particle_amat = new Item().setUnlocalizedName("particle_amat").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_amat");
+		particle_aschrab = new Item().setUnlocalizedName("particle_aschrab").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_aschrab");
+		particle_higgs = new Item().setUnlocalizedName("particle_higgs").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_higgs");
+		particle_muon = new Item().setUnlocalizedName("particle_muon").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_muon");
+		particle_strange = new Item().setUnlocalizedName("particle_strange").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_strange");
+		particle_dark = new Item().setUnlocalizedName("particle_dark").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_dark");
+		particle_sparkticle = new Item().setUnlocalizedName("particle_sparkticle").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_sparkticle");
+		
 		singularity = new ItemDrop().setUnlocalizedName("singularity").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity");
 		singularity_counter_resonant = new ItemDrop().setUnlocalizedName("singularity_counter_resonant").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_alt");
 		singularity_super_heated = new ItemDrop().setUnlocalizedName("singularity_super_heated").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_5");
@@ -4620,6 +4644,18 @@ public class ModItems {
 		GameRegistry.registerItem(cell_sas3, cell_sas3.getUnlocalizedName());
 		GameRegistry.registerItem(cell_antimatter, cell_antimatter.getUnlocalizedName());
 		GameRegistry.registerItem(cell_anti_schrabidium, cell_anti_schrabidium.getUnlocalizedName());
+		
+		//Particle Containers
+		GameRegistry.registerItem(particle_empty, particle_empty.getUnlocalizedName());
+		GameRegistry.registerItem(particle_aproton, particle_aproton.getUnlocalizedName());
+		GameRegistry.registerItem(particle_aelectron, particle_aelectron.getUnlocalizedName());
+		GameRegistry.registerItem(particle_amat, particle_amat.getUnlocalizedName());
+		GameRegistry.registerItem(particle_aschrab, particle_aschrab.getUnlocalizedName());
+		GameRegistry.registerItem(particle_higgs, particle_higgs.getUnlocalizedName());
+		GameRegistry.registerItem(particle_muon, particle_muon.getUnlocalizedName());
+		GameRegistry.registerItem(particle_strange, particle_strange.getUnlocalizedName());
+		GameRegistry.registerItem(particle_dark, particle_dark.getUnlocalizedName());
+		GameRegistry.registerItem(particle_sparkticle, particle_sparkticle.getUnlocalizedName());
 		
 		//OMG how the hell is that even possible!?
 		GameRegistry.registerItem(singularity, singularity.getUnlocalizedName());

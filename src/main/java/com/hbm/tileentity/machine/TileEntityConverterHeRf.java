@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.calc.Location;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.tileentity.TileEntityMachineBase;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
@@ -10,8 +11,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IEnergyHandler {
+public class TileEntityConverterHeRf extends TileEntityMachineBase implements IConsumer, IEnergyHandler {
 	
+	public TileEntityConverterHeRf() {
+		super(0);
+	}
+
+	@Override
+	public String getName() {
+		return "";
+	}
+
 	public long power;
 	public final long maxPower = 1000000;
 	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
@@ -46,7 +56,17 @@ public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IE
 					storage.extractEnergy(energyTransferred, false);
 				}
 			}
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("rf", storage.getEnergyStored());
+			data.setLong("he", power);
+			this.networkPack(data, 25);
 		}
+	}
+	
+	public void networkUnpack(NBTTagCompound nbt) {
+		storage.setEnergyStored(nbt.getInteger("rf"));
+		power = nbt.getLong("he");
 	}
 	
 	@Override
@@ -112,5 +132,4 @@ public class TileEntityConverterHeRf extends TileEntity implements IConsumer, IE
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		return 0;
 	}
-
 }

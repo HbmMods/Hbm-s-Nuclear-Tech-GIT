@@ -6,7 +6,6 @@ import java.util.Random;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
-import com.hbm.handler.ArmorUtil;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -16,6 +15,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

@@ -422,6 +422,8 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityPlasmaStruct.class, "tileentity_plasma_struct");
 		GameRegistry.registerTileEntity(TileEntityMachineLargeTurbine.class, "tileentity_industrial_turbine");
 		GameRegistry.registerTileEntity(TileEntityHadronDiode.class, "tileentity_hadron_diode");
+		GameRegistry.registerTileEntity(TileEntityHadronPower.class, "tileentity_hadron_power");
+		GameRegistry.registerTileEntity(TileEntityHadron.class, "tileentity_hadron");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -582,6 +584,7 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityMaskMan.class, "entity_mob_mask_man", EntityRegistry.findGlobalUniqueEntityId(), 0x818572, 0xC7C1B7);
 		EntityRegistry.registerGlobalEntityID(EntityDuck.class, "entity_fucc_a_ducc", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
 		EntityRegistry.registerGlobalEntityID(EntityQuackos.class, "entity_elder_one", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
+		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
 
 		// EntityRegistry.registerGlobalEntityID(EntityBOTPrimeHead.class,
 		// "entity_balls_o_tron_mk0", EntityRegistry.findGlobalUniqueEntityId(),

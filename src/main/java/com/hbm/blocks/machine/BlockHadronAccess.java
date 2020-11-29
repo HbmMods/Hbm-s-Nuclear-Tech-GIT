@@ -46,12 +46,19 @@ public class BlockHadronAccess extends Block {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
 			
+			for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
+				System.out.println(d.name() + " " + d.getOpposite().name());
+			}
+			
+			System.out.println(dir.name());
+			
 			for(int i = 1; i < 3; i++) {
 				
 				if(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i) == ModBlocks.hadron_core) {
 					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hadron, world, x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i);
-					
 				}
+				
+				System.out.println(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i).getUnlocalizedName());
 			}
 			
 			return true;
