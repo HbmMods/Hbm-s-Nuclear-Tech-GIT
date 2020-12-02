@@ -18,10 +18,12 @@ public class ContainerHadron extends Container {
 		
 		hadron = tedf;
 
-		//Input
-		this.addSlotToContainer(new Slot(tedf, 0, 26, 36));
-		//Output
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 134, 36));
+		//Inputs
+		this.addSlotToContainer(new Slot(tedf, 0, 17, 36));
+		this.addSlotToContainer(new Slot(tedf, 0, 35, 36));
+		//Outputs
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 125, 36));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 143, 36));
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 2, 44, 108));
 		

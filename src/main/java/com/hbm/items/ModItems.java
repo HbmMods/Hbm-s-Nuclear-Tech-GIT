@@ -600,6 +600,8 @@ public class ModItems {
 	public static Item cell_anti_schrabidium;
 
 	public static Item particle_empty;
+	public static Item particle_copper;
+	public static Item particle_lead;
 	public static Item particle_aproton;
 	public static Item particle_aelectron;
 	public static Item particle_amat;
@@ -609,6 +611,7 @@ public class ModItems {
 	public static Item particle_strange;
 	public static Item particle_dark;
 	public static Item particle_sparkticle;
+	public static Item particle_digamma;
 	
 	public static Item pellet_antimatter;
 	public static Item singularity;
@@ -2469,6 +2472,8 @@ public class ModItems {
 		cell_anti_schrabidium = new ItemDrop().setUnlocalizedName("cell_anti_schrabidium").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":cell_anti_schrabidium");
 
 		particle_empty = new Item().setUnlocalizedName("particle_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":particle_empty");
+		particle_copper = new Item().setUnlocalizedName("particle_copper").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_copper");
+		particle_lead = new Item().setUnlocalizedName("particle_lead").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_lead");
 		particle_aproton = new Item().setUnlocalizedName("particle_aproton").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_aproton");
 		particle_aelectron = new Item().setUnlocalizedName("particle_aelectron").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_aelectron");
 		particle_amat = new Item().setUnlocalizedName("particle_amat").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_amat");
@@ -2478,6 +2483,7 @@ public class ModItems {
 		particle_strange = new Item().setUnlocalizedName("particle_strange").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_strange");
 		particle_dark = new Item().setUnlocalizedName("particle_dark").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_dark");
 		particle_sparkticle = new Item().setUnlocalizedName("particle_sparkticle").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_sparkticle");
+		particle_digamma = new Item().setUnlocalizedName("particle_digamma").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.particle_empty).setTextureName(RefStrings.MODID + ":particle_digamma");
 		
 		singularity = new ItemDrop().setUnlocalizedName("singularity").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity");
 		singularity_counter_resonant = new ItemDrop().setUnlocalizedName("singularity_counter_resonant").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.nuclear_waste).setTextureName(RefStrings.MODID + ":singularity_alt");
@@ -4647,6 +4653,8 @@ public class ModItems {
 		
 		//Particle Containers
 		GameRegistry.registerItem(particle_empty, particle_empty.getUnlocalizedName());
+		GameRegistry.registerItem(particle_copper, particle_copper.getUnlocalizedName());
+		GameRegistry.registerItem(particle_lead, particle_lead.getUnlocalizedName());
 		GameRegistry.registerItem(particle_aproton, particle_aproton.getUnlocalizedName());
 		GameRegistry.registerItem(particle_aelectron, particle_aelectron.getUnlocalizedName());
 		GameRegistry.registerItem(particle_amat, particle_amat.getUnlocalizedName());
@@ -4656,6 +4664,7 @@ public class ModItems {
 		GameRegistry.registerItem(particle_strange, particle_strange.getUnlocalizedName());
 		GameRegistry.registerItem(particle_dark, particle_dark.getUnlocalizedName());
 		GameRegistry.registerItem(particle_sparkticle, particle_sparkticle.getUnlocalizedName());
+		GameRegistry.registerItem(particle_digamma, particle_digamma.getUnlocalizedName());
 		
 		//OMG how the hell is that even possible!?
 		GameRegistry.registerItem(singularity, singularity.getUnlocalizedName());

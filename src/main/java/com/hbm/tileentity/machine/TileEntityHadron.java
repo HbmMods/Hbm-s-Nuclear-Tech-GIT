@@ -33,7 +33,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	public boolean analysisOnly = true;
 	
 	public TileEntityHadron() {
-		super(3);
+		super(5);
 	}
 
 	@Override

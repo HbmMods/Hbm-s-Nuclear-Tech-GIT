@@ -7,6 +7,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityHadron;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -33,8 +34,12 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 71, guiTop + 108, 34, 16, hadron.power, hadron.maxPower);
 
-		//String text = "Magnets are " + ((iter.isOn && iter.power >= iter.powerReq) ? "ON" : "OFF");
-		//this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 76, guiTop + 94, 24, 12, mouseX, mouseY, new String[] { text });
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper0"));
+		
+		if(hadron.analysisOnly)
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 107, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.modeLine"));
+		else
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 107, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.modeCircular"));
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -47,7 +52,7 @@ public class GUIHadron extends GuiInfoContainer {
     	}
 		
     	//Toggle analysis chamber
-    	if(guiLeft + 142 <= x && guiLeft + 142 + 18 > x && guiTop + 89 < y && guiTop + 89 + 18 >= y) {
+    	if(guiLeft + 142 <= x && guiLeft + 142 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(hadron.xCoord, hadron.yCoord, hadron.zCoord, 0, 1));
     	}
@@ -71,6 +76,6 @@ public class GUIHadron extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 16, guiTop + 89, 206, 0, 18, 18);
 		
 		if(hadron.analysisOnly)
-			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 18, 18, 18);
+			drawTexturedModalRect(guiLeft + 142, guiTop + 107, 206, 18, 18, 18);
 	}
 }
