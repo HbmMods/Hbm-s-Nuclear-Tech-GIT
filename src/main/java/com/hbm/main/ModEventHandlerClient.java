@@ -5,15 +5,12 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
@@ -49,21 +46,11 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
@@ -85,36 +72,9 @@ public class ModEventHandlerClient {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
-		/// HANDLE GUN AND AMMO OVERLAYS ///
-		if(event.type == ElementType.HOTBAR && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBase) {
-			
-			ItemGunBase gun = ((ItemGunBase)player.getHeldItem().getItem());
-			GunConfiguration gcfg = gun.mainConfig;
-			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(player.getHeldItem())));
-			
-			Item ammo = bcfg.ammo;
-			int count = ItemGunBase.getMag(player.getHeldItem());
-			int max = gcfg.ammoCap;
-			
-			if(gcfg.reloadType == GunConfiguration.RELOAD_NONE) {
-				ammo = ItemGunBase.getBeltType(player, player.getHeldItem(), true);
-				count = ItemGunBase.getBeltSize(player, ammo);
-				max = -1;
-			}
-			
-			int dura = ItemGunBase.getItemWear(player.getHeldItem()) * 50 / gcfg.durability;
-			
-			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
-			
-			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
-				Item oldAmmo = ammo;
-				ammo = ItemGunBase.getBeltType(player, player.getHeldItem(), false);
-				
-				if(ammo != oldAmmo) {
-					count = ItemGunBase.getBeltSize(player, ammo);
-					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
-				}
-			}
+		/// HANDLE GUN OVERLAYS ///
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemHUD) {
+			((IItemHUD)player.getHeldItem().getItem()).renderHUD(event, event.type, player, player.getHeldItem());
 		}
 		
 		/// HANDLE GEIGER COUNTER HUD ///
@@ -128,15 +88,6 @@ public class ModEventHandlerClient {
 				
 				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 			}
-		}
-		
-		/// HANDLE CUSTOM CROSSHAIRS ///
-		if(event.type == ElementType.CROSSHAIRS && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IHoldableWeapon && GeneralConfig.enableCrosshairs) {
-			event.setCanceled(true);
-			
-			if(!(player.getHeldItem().getItem() instanceof ItemGunBase && ((ItemGunBase)player.getHeldItem().getItem()).mainConfig.hasSights && player.isSneaking()))
-				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
-			
 		}
 		
 		/// HANLDE ANIMATION BUSES ///

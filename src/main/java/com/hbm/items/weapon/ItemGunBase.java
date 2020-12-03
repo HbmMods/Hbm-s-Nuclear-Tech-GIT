@@ -12,16 +12,19 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.interfaces.IItemHUD;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,8 +36,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunBase extends Item implements IHoldableWeapon {
+public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 
 	public GunConfiguration mainConfig;
 	public GunConfiguration altConfig;
@@ -704,4 +709,46 @@ public class ItemGunBase extends Item implements IHoldableWeapon {
 		return mainConfig.crosshair;
 	}
 
+	@Override
+	public void renderHUD(Pre event, ElementType type, EntityPlayer player, ItemStack stack) {
+		
+		ItemGunBase gun = ((ItemGunBase)stack.getItem());
+		GunConfiguration gcfg = gun.mainConfig;
+		
+		if(type == ElementType.HOTBAR) {
+			BulletConfiguration bcfg = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(stack)));
+			
+			Item ammo = bcfg.ammo;
+			int count = ItemGunBase.getMag(stack);
+			int max = gcfg.ammoCap;
+			
+			if(gcfg.reloadType == GunConfiguration.RELOAD_NONE) {
+				ammo = ItemGunBase.getBeltType(player, stack, true);
+				count = ItemGunBase.getBeltSize(player, ammo);
+				max = -1;
+			}
+			
+			int dura = ItemGunBase.getItemWear(stack) * 50 / gcfg.durability;
+			
+			RenderScreenOverlay.renderAmmo(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count, max, dura);
+			
+			if(gun.altConfig != null && gun.altConfig.reloadType == GunConfiguration.RELOAD_NONE) {
+				Item oldAmmo = ammo;
+				ammo = ItemGunBase.getBeltType(player, stack, false);
+				
+				if(ammo != oldAmmo) {
+					count = ItemGunBase.getBeltSize(player, ammo);
+					RenderScreenOverlay.renderAmmoAlt(event.resolution, Minecraft.getMinecraft().ingameGUI, ammo, count);
+				}
+			}
+		}
+		
+		if(type == ElementType.CROSSHAIRS && GeneralConfig.enableCrosshairs) {
+
+			event.setCanceled(true);
+			
+			if(!(gcfg.hasSights && player.isSneaking()))
+				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
+		}
+	}
 }
