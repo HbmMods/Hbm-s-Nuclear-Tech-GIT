@@ -632,61 +632,28 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateNether(World world, Random rand, int i, int j) {
 
-		for (int k = 0; k < 8; k++)
-		{
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(127);
-			int randPosZ = j + rand.nextInt(16);
-			
-			(new WorldGenMinable(ModBlocks.ore_nether_uranium, 6, Blocks.netherrack)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
+		DungeonToolbox.generateOre(world, rand, i, j, 8, 6, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, 10, 10, 0, 127, ModBlocks.ore_nether_tungsten, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, 26, 12, 0, 127, ModBlocks.ore_nether_sulfur, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, 24, 6, 0, 127, ModBlocks.ore_nether_fire, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, 24, 32, 16, 96, ModBlocks.ore_nether_coal, Blocks.netherrack);
+		
 		if(GeneralConfig.enablePlutoniumOre)
-		{
-			for (int k = 0; k < 6; k++)
-			{
-				int randPosX = i + rand.nextInt(16);
-				int randPosY = rand.nextInt(127);
-				int randPosZ = j + rand.nextInt(16);
-			
-				(new WorldGenMinable(ModBlocks.ore_nether_plutonium, 4, Blocks.netherrack)).generate(world, rand, randPosX, randPosY, randPosZ);
-			}
-		}
-		for (int k = 0; k < 10; k++)
-		{
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(127);
-			int randPosZ = j + rand.nextInt(16);
-			
-			(new WorldGenMinable(ModBlocks.ore_nether_tungsten, 10, Blocks.netherrack)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-		for (int k = 0; k < 26; k++)
-		{
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(127);
-			int randPosZ = j + rand.nextInt(16);
-			
-			(new WorldGenMinable(ModBlocks.ore_nether_sulfur, 12, Blocks.netherrack)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
-		for (int k = 0; k < 24; k++)
-		{
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(127);
-			int randPosZ = j + rand.nextInt(16);
-			
-			(new WorldGenMinable(ModBlocks.ore_nether_fire, 3, Blocks.netherrack)).generate(world, rand, randPosX, randPosY, randPosZ);
+			DungeonToolbox.generateOre(world, rand, i, j, 6, 4, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
+
+		for(int k = 0; k < 30; k++){
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int d = 16 + rand.nextInt(96);
+
+			for(int y = d - 5; y <= d; y++)
+			if(world.getBlock(x, y + 1, z) == Blocks.air && world.getBlock(x, y, z) == Blocks.netherrack)
+				world.setBlock(x, y, z, ModBlocks.ore_nether_smoldering);
 		}
 	}
 
 	private void generateEnd(World world, Random rand, int i, int j) {
-
-		for (int k = 0; k < 8; k++)
-		{
-			int randPosX = i + rand.nextInt(16);
-			int randPosY = rand.nextInt(127);
-			int randPosZ = j + rand.nextInt(16);
-			
-			(new WorldGenMinable(ModBlocks.ore_tikite, 6, Blocks.end_stone)).generate(world, rand, randPosX, randPosY, randPosZ);
-		}
+		DungeonToolbox.generateOre(world, rand, i, j, 8, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
 	}
 
 }

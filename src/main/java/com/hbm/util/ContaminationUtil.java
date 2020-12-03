@@ -8,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -122,9 +124,11 @@ public class ContaminationUtil {
 		if(resKoeff > 0)
 			resPrefix += EnumChatFormatting.GREEN;
 
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "===== ☢ GEIGER COUNTER ☢ ====="));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Current chunk radiation: " + chunkPrefix + rads + " RAD/s"));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Player contamination: " + radPrefix + eRad + " RAD"));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Player resistance: " + resPrefix + res + "% (" + resKoeff + ")"));
+		//localization and server-side restrictions have turned this into a painful mess
+		//a *functioning* painful mess, nonetheless
+		player.addChatMessage(new ChatComponentText("===== ☢ ").appendSibling(new ChatComponentTranslation("geiger.title")).appendSibling(new ChatComponentText(" ☢ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.chunkRad").appendSibling(new ChatComponentText(" " + chunkPrefix + rads + " RAD/s")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 	}
 }

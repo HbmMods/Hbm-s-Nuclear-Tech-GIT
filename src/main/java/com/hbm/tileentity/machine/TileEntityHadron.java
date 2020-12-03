@@ -9,6 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.inventory.HadronRecipes;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -17,9 +18,8 @@ import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -31,6 +31,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	
 	public boolean isOn = false;
 	public boolean analysisOnly = true;
+	public boolean hopperMode = false;
 	
 	public TileEntityHadron() {
 		super(5);
@@ -48,10 +49,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			
 			drawPower();
 			
-			if(particles.isEmpty() && slots[0] != null) {
+			if(this.isOn && particles.size() < maxParticles && slots[0] != null && slots[1] != null && power >= maxPower * 0.75) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				particles.add(new Particle(slots[0].getItem(), dir, xCoord, yCoord, zCoord));
+				particles.add(new Particle(slots[0], slots[1], dir, xCoord, yCoord, zCoord));
 				this.decrStackSize(0, 1);
+				this.decrStackSize(1, 1);
+				power -= maxPower * 0.75;
 			}
 			
 			if(!particles.isEmpty())
@@ -61,10 +64,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 				particles.remove(p);
 			}
 			
+			particlesToRemove.clear();
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isOn", isOn);
 			data.setLong("power", power);
 			data.setBoolean("analysis", analysisOnly);
+			data.setBoolean("hopperMode", hopperMode);
 			this.networkPack(data, 50);
 		}
 	}
@@ -74,6 +80,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.analysisOnly = data.getBoolean("analysis");
+		this.hopperMode = data.getBoolean("hopperMode");
 	}
 
 	@Override
@@ -83,6 +90,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			this.isOn = !this.isOn;
 		if(meta == 1)
 			this.analysisOnly = !this.analysisOnly;
+		if(meta == 2)
+			this.hopperMode = !this.hopperMode;
 	}
 	
 	private void drawPower() {
@@ -112,6 +121,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	private void finishParticle(Particle p, boolean analysisOnly) {
 		particlesToRemove.add(p);
 		worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 10, 1);
+		
+		ItemStack[] out = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
+		
+		if(out != null) {
+			slots[2] = out[0];
+			slots[3] = out[1];
+		}
 	}
 	
 	static final int maxParticles = 1;
@@ -123,6 +139,26 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		for(Particle particle : particles) {
 			particle.update();
 		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.isOn = nbt.getBoolean("isOn");
+		this.power = nbt.getLong("power");
+		this.analysisOnly = nbt.getBoolean("analysis");
+		this.hopperMode = nbt.getBoolean("hopperMode");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setBoolean("isOn", isOn);
+		nbt.setLong("power", power);
+		nbt.setBoolean("analysis", analysisOnly);
+		nbt.setBoolean("hopperMode", hopperMode);
 	}
 
 	@Override
@@ -144,7 +180,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	public class Particle {
 		
 		//Starting values
-		Item item;
+		ItemStack item1;
+		ItemStack item2;
 		ForgeDirection dir;
 		int posX;
 		int posY;
@@ -159,8 +196,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		
 		boolean expired = false;
 		
-		public Particle(Item item, ForgeDirection dir, int posX, int posY, int posZ) {
-			this.item = item;
+		public Particle(ItemStack item1, ItemStack item2, ForgeDirection dir, int posX, int posY, int posZ) {
+			this.item1 = item1;
+			this.item2 = item2;
 			this.dir = dir;
 			this.posX = posX;
 			this.posY = posY;

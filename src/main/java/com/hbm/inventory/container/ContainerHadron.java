@@ -20,12 +20,12 @@ public class ContainerHadron extends Container {
 
 		//Inputs
 		this.addSlotToContainer(new Slot(tedf, 0, 17, 36));
-		this.addSlotToContainer(new Slot(tedf, 0, 35, 36));
+		this.addSlotToContainer(new Slot(tedf, 1, 35, 36));
 		//Outputs
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 125, 36));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 1, 143, 36));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 125, 36));
+		this.addSlotToContainer(new SlotMachineOutput(tedf, 3, 143, 36));
 		//Battery
-		this.addSlotToContainer(new Slot(tedf, 2, 44, 108));
+		this.addSlotToContainer(new Slot(tedf, 4, 44, 108));
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -57,12 +57,12 @@ public class ContainerHadron extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 2) {
-				if (!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true))
+            if (par2 <= 4) {
+				if (!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true))
 				{
 					return null;
 				}
-			} else if (!this.mergeItemStack(var5, 0, 1, false)) {
+			} else if (!this.mergeItemStack(var5, 0, 2, false)) {
 							return null;
 			}
 			

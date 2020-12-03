@@ -27,7 +27,7 @@ public class MobConfig {
 		maskmanMinRad = CommonConfig.createConfigInt(config, CATEGORY, "12.03_maskmanMinRad", "The amount of radiation needed for mask man to spawn", 50);
 		maskmanUnderground = CommonConfig.createConfigBool(config, CATEGORY, "12.04_maskmanUnderound", "Whether players need to be underground for mask man to spawn", true);
 
-		enableMaskman = CommonConfig.createConfigBool(config, CATEGORY, "12.05_enableFBIRaids", "Whether there should be FBI raids", false);
+		enableRaids = CommonConfig.createConfigBool(config, CATEGORY, "12.05_enableFBIRaids", "Whether there should be FBI raids", false);
 		raidDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.06_raidDelay", "How many world ticks need to pass for a check to be performed", 30 * 60 * 60);
 		raidChance = CommonConfig.createConfigInt(config, CATEGORY, "12.07_raidChance", "1:x chance to spawn a raid, must be at least 1", 3);
 		raidAmount = CommonConfig.createConfigInt(config, CATEGORY, "12.08_raidAmount", "How many FBI agents are spawned each raid", 15);
