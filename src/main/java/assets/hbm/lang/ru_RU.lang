@@ -1,5 +1,3 @@
-﻿Эй, Док! Спасибо за работу! Добро пожаловать в “команду”))
-
 itemGroup.tabTest=Тестовая вкладка NTM
 itemGroup.tabParts=Ресурсы и детали NTM
 itemGroup.tabControl=Топливо и элементы механизмов NTM
@@ -184,6 +182,10 @@ hadron.buttonOff=Камера анализа выключена
 hadron.error=Ошибка!
 hadron.idle=Ожидание
 hadron.progress=В процессе...
+hadron.hopper0=§eОбычный Режим:$Все предметы будут использованы.
+hadron.hopper1=§eРежим Воронки:$Один предмет всегда останется.
+hadron.modeCircular=§eРежим Кругового Ускорителя:$Магниты возвращаются в центр.$Разблокирует больше рецептов.
+hadron.modeLine=§eРежим Линейного Ускорителя:$Ускоритель заканчивается на камере анализа.$Меньше рецептов.
 
 chem.TEST=Тест
 chem.FP_HEAVYOIL=Переработка тяжелой нефти
@@ -2658,6 +2660,9 @@ item.particle_higgs.name=Капсула с Бозоном Хиггса
 item.particle_muon.name=Капсула с Мюоном
 item.particle_sparkticle.name=Капсула со Спарктиклом
 item.particle_strange.name=Капсула со Странным кварком
+item.particle_copper.name=Капсула с медным ионом
+item.particle_digamma.name=§cЧастица Дигамма§r
+item.particle_lead.name=Капсула со свинцовым ионом
 
 item.rune_blank.name=Пустая каталитическая матрица
 item.rune_isa.name=Охлаждающая каталитическая матрица
@@ -2702,6 +2707,11 @@ item.pellet_coolant.name=Охлаждающий кластер
 item.linker.name=Телелинкер
 item.reactor_sensor.name=Дистанционный датчик реактора
 item.oil_detector.name=Детектор нефтяного резервуара
+item.oil_detector.desc1=Нажмите на правую кнопку мышки для поиска нефтяных резервуаров.
+item.oil_detector.desc2=Детектор обнаруживает только крупные резервуары.
+item.oil_detector.bullseye=Нефтяной резервуар прямо снизу!
+item.oil_detector.detected=Поблизости обнаружен резервуар нефти.
+item.oil_detector.noOil=Нефть не обнаружена.
 item.geiger_counter.name=Ручной счетчик Гейгера
 tile.geiger.name=Счетчик Гейгера
 tile.glass_polonium.name=Полониевое стекло
