@@ -176,6 +176,11 @@ fluid.hbmbalefire=Ракетное жар-топливо
 fluid.hbmmercury=Ртуть
 //Special for 1.12.2 version//
 
+geiger.chunkRad=Текущий уровень радиации в чанке:
+geiger.playerRad=Уровень радиоактивного заражения игрока:
+geiger.playerRes=Радиационная защита игрока:
+geiger.title=СЧЁТЧИК ГЕЙГЕРА
+
 hadron.analysis=Анализ...
 hadron.buttonOn=Камера анализа (если есть) включена
 hadron.buttonOff=Камера анализа выключена
@@ -1021,6 +1026,8 @@ tile.ore_nether_tungsten.name=Адская вольфрамовая руда
 tile.ore_nether_sulfur.name=Адская серная руда
 tile.ore_nether_fire.name=Адская фосфорная руда
 tile.ore_nether_schrabidium.name=Адская шрабидиевая руда
+tile.ore_nether_coal.name=Горящая руда адского угля
+tile.ore_nether_smoldering.name=Тлеющий адский камень
 
 tile.ore_meteor_aluminium.name=Метеоритная алюминиевая руда
 tile.ore_meteor_copper.name=Метеоритная медная руда
@@ -2650,7 +2657,7 @@ item.part_beryllium.name=Коробка бериллиевой пыли
 item.part_carbon.name=Коробка угольной пыли
 item.part_copper.name=Коробка медной пыли
 item.part_plutonium.name=Коробка плутониевой пыли
-item.particle_aelectron.name=Капсула с Антиэлектроном
+item.particle_aelectron.name=Капсула с Позитроном
 item.particle_amat.name=Капсула с Антиматерией
 item.particle_aproton.name=Капсула с Антипротоном
 item.particle_aschrab.name=Капсула с Антишрабидием
