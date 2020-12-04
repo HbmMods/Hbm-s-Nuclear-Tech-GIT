@@ -30,7 +30,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	public static final long maxPower = 1000000000;
 	
 	public boolean isOn = false;
-	public boolean analysisOnly = true;
+	public boolean analysisOnly = false;
 	public boolean hopperMode = false;
 	
 	public TileEntityHadron() {
@@ -50,11 +50,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			drawPower();
 			
 			if(this.isOn && particles.size() < maxParticles && slots[0] != null && slots[1] != null && power >= maxPower * 0.75) {
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				particles.add(new Particle(slots[0], slots[1], dir, xCoord, yCoord, zCoord));
-				this.decrStackSize(0, 1);
-				this.decrStackSize(1, 1);
-				power -= maxPower * 0.75;
+				
+				if(!hopperMode || (slots[0].stackSize > 1 && slots[1].stackSize > 1)) {
+					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
+					particles.add(new Particle(slots[0], slots[1], dir, xCoord, yCoord, zCoord));
+					this.decrStackSize(0, 1);
+					this.decrStackSize(1, 1);
+					power -= maxPower * 0.75;
+				}
 			}
 			
 			if(!particles.isEmpty())
@@ -72,6 +75,27 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			data.setBoolean("analysis", analysisOnly);
 			data.setBoolean("hopperMode", hopperMode);
 			this.networkPack(data, 50);
+		}
+	}
+	
+	private void process(Particle p) {
+		
+		ItemStack[] result = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
+		
+		if(result == null)
+			return;
+		
+		if((slots[2] == null || (slots[2].getItem() == result[0].getItem() && slots[2].stackSize < slots[2].getMaxStackSize())) &&
+				(slots[3] == null || (slots[3].getItem() == result[1].getItem() && slots[3].stackSize < slots[3].getMaxStackSize()))) {
+			
+			for(int i = 2; i <= 3; i++ ) {
+				
+				//System.out.println("yes");
+				if(slots[i] == null)
+					slots[i] = result[i - 2].copy();
+				else
+					slots[i].stackSize++;
+			}
 		}
 	}
 
@@ -118,16 +142,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		}
 	}
 	
-	private void finishParticle(Particle p, boolean analysisOnly) {
+	private void finishParticle(Particle p) {
 		particlesToRemove.add(p);
 		worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 10, 1);
-		
-		ItemStack[] out = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
-		
-		if(out != null) {
-			slots[2] = out[0];
-			slots[3] = out[1];
-		}
+		process(p);
 	}
 	
 	static final int maxParticles = 1;
@@ -159,6 +177,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		nbt.setLong("power", power);
 		nbt.setBoolean("analysis", analysisOnly);
 		nbt.setBoolean("hopperMode", hopperMode);
+	}
+	
+	public int getPowerScaled(int i) {
+		return (int)(power * i / maxPower);
 	}
 
 	@Override
@@ -197,8 +219,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		boolean expired = false;
 		
 		public Particle(ItemStack item1, ItemStack item2, ForgeDirection dir, int posX, int posY, int posZ) {
-			this.item1 = item1;
-			this.item2 = item2;
+			this.item1 = item1.copy();
+			this.item2 = item2.copy();
+			this.item1.stackSize = 1;
+			this.item2.stackSize = 1;
 			this.dir = dir;
 			this.posX = posX;
 			this.posY = posY;
@@ -216,8 +240,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			this.expired = true;
 			particlesToRemove.add(this);
 			worldObj.newExplosion(null, posX + 0.5, posY + 0.5, posZ + 0.5, 10, false, false);
-			System.out.println("Last dir: " + dir.name());
-			System.out.println("Last pos: " + posX + " " + posY + " " + posZ);
+			//System.out.println("Last dir: " + dir.name());
+			//System.out.println("Last pos: " + posX + " " + posY + " " + posZ);
 			Thread.currentThread().dumpStack();
 		}
 		
@@ -267,13 +291,16 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			if(p.analysis != 3)
 				p.expire();
 			else
-				this.finishParticle(p, false);
+				this.finishParticle(p);
 			
 			return;
 		}
 		
 		if(block.getMaterial() != Material.air && block != ModBlocks.hadron_diode)
 			p.expire();
+		
+		if(block == ModBlocks.hadron_diode)
+			p.isCheckExempt = true;
 		
 		if(coilValue(worldObj.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) > 0)
 			p.isCheckExempt = true;
@@ -388,8 +415,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 							continue;
 						}
 						
-						System.out.println("Was exempt: " + p.isCheckExempt);
-						worldObj.setBlock(a, b, c, Blocks.dirt);
+						//System.out.println("Was exempt: " + p.isCheckExempt);
+						//worldObj.setBlock(a, b, c, Blocks.dirt);
 
 						p.expire();
 					}
@@ -413,7 +440,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 
 			//if operating in line accelerator mode, halt after 2 blocks and staart the reading
 			if(this.analysisOnly && p.analysis == 2) {
-				this.finishParticle(p, true);
+				this.finishParticle(p);
 			}
 			
 		} else {
@@ -509,7 +536,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			
 			List<ForgeDirection> dirs = getRandomDirs();
 			
-			System.out.println("Starting as " + dir.name());
+			//System.out.println("Starting as " + dir.name());
 			
 			//let's look at every direction we could go in
 			for(ForgeDirection d : dirs) {
@@ -517,19 +544,19 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 				if(d == dir || d == dir.getOpposite())
 					continue;
 				
-				System.out.println("Trying " + d.name());
+				//System.out.println("Trying " + d.name());
 				
 				//there is air! we can pass!
 				if(worldObj.getBlock(x + d.offsetX, y + d.offsetY, z + d.offsetZ).getMaterial() == Material.air) {
 					
 					if(validDir == ForgeDirection.UNKNOWN) {
 						validDir = d;
-						System.out.println("yes");
+						//System.out.println("yes");
 					
 					//it seems like there are two or more possible ways, which is not allowed without a diode
 					//sorry kid, nothing personal
 					} else {
-						System.out.println("what");
+						//System.out.println("what");
 						p.expire();
 						return;
 					}

@@ -25,8 +25,13 @@ public class BlockGeysir extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		
-		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":geysir_stone");
-		this.blockIcon = Blocks.stone.getIcon(0, 0);
+		if(this == ModBlocks.geysir_nether) {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":geysir_nether");
+			this.blockIcon = Blocks.netherrack.getIcon(0, 0);
+		} else {
+			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":geysir_stone");
+			this.blockIcon = Blocks.stone.getIcon(0, 0);
+		}
 	}
 
 	@Override
@@ -57,6 +62,10 @@ public class BlockGeysir extends BlockContainer {
 			float f2 = z + 0.5F;
 	
 			p_149734_1_.spawnParticle("cloud", f, f1, f2, 0.0D, 0.1D, 0.0D);
+		}
+		
+		if(this == ModBlocks.geysir_nether) {
+			p_149734_1_.spawnParticle("flame", x + 0.5F, y + 1.0625F, z + 0.5F, 0.0D, 0.0D, 0.0D);
 		}
 	}
 

@@ -832,7 +832,7 @@ public class ClientProxy extends ServerProxy {
 		
 		if("hadron".equals(type)) {
 			
-			for(int i = 0; i < 30; i++) {
+			/*for(int i = 0; i < 30; i++) {
 				
 				EntityFX fx = null;
 
@@ -852,7 +852,9 @@ public class ClientProxy extends ServerProxy {
 					fx.motionZ = rand.nextGaussian() * 0.1;
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
-			}
+			}*/
+			
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
 		}
 	}
 	

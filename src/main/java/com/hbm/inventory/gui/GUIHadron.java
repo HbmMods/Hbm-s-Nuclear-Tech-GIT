@@ -32,9 +32,12 @@ public class GUIHadron extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 		
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 71, guiTop + 108, 34, 16, hadron.power, hadron.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 108, 70, 16, hadron.power, hadron.maxPower);
 
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper0"));
+		if(hadron.hopperMode)
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper1"));
+		else
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper0"));
 		
 		if(hadron.analysisOnly)
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 107, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.modeLine"));
@@ -55,6 +58,12 @@ public class GUIHadron extends GuiInfoContainer {
     	if(guiLeft + 142 <= x && guiLeft + 142 + 18 > x && guiTop + 107 < y && guiTop + 107 + 18 >= y) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
     		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(hadron.xCoord, hadron.yCoord, hadron.zCoord, 0, 1));
+    	}
+		
+    	//Toggle hopper mode
+    	if(guiLeft + 142 <= x && guiLeft + 142 + 18 > x && guiTop + 89 < y && guiTop + 89 + 18 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+    		PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(hadron.xCoord, hadron.yCoord, hadron.zCoord, 0, 2));
     	}
     }
 	
@@ -77,5 +86,11 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		if(hadron.analysisOnly)
 			drawTexturedModalRect(guiLeft + 142, guiTop + 107, 206, 18, 18, 18);
+		
+		if(hadron.hopperMode)
+			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 36, 18, 18);
+		
+		int i = hadron.getPowerScaled(70);
+		drawTexturedModalRect(guiLeft + 62, guiTop + 108, 176, 60, i, 16);
 	}
 }

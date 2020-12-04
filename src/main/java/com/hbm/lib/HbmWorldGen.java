@@ -650,6 +650,16 @@ public class HbmWorldGen implements IWorldGenerator {
 			if(world.getBlock(x, y + 1, z) == Blocks.air && world.getBlock(x, y, z) == Blocks.netherrack)
 				world.setBlock(x, y, z, ModBlocks.ore_nether_smoldering);
 		}
+
+		for(int k = 0; k < 1; k++){
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int d = 16 + rand.nextInt(96);
+
+			for(int y = d - 5; y <= d; y++)
+			if(world.getBlock(x, y + 1, z) == Blocks.air && world.getBlock(x, y, z) == Blocks.netherrack)
+				world.setBlock(x, y, z, ModBlocks.geysir_nether);
+		}
 	}
 
 	private void generateEnd(World world, Random rand, int i, int j) {

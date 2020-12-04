@@ -63,11 +63,6 @@ public class HadronRecipes {
 	 * @return either null (no recipe) or an ItemStack array with 2 non-null instances
 	 */
 	public static ItemStack[] getOutput(ItemStack in1, ItemStack in2, int momentum, boolean analysisOnly) {
-
-		System.out.println(in1);
-		System.out.println(in2);
-		System.out.println(momentum);
-		System.out.println(analysisOnly);
 		
 		for(HadronRecipe r : recipes) {
 			
