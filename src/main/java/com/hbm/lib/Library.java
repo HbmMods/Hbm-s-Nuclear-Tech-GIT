@@ -32,7 +32,6 @@ import com.hbm.tileentity.conductor.TileEntityPylonRedWire;
 import com.hbm.tileentity.conductor.TileEntityWireCoated;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineBattery;
-import com.hbm.tileentity.machine.TileEntityMachineFluidTank;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
 
 import api.hbm.energy.IBatteryItem;
