@@ -36,7 +36,7 @@ public class TileEntityProxyBase extends TileEntity {
 		/// this spares me the hassle of registering a new child class TE that aims at the right target ///
 		
 		if(this.getBlockType() instanceof BlockHadronAccess) {
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 
 			
 			for(int i = 1; i < 3; i++) {

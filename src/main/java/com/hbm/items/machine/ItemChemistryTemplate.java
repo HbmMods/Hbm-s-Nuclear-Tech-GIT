@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.util.I18nUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.resources.I18n;
@@ -11,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class ItemChemistryTemplate extends Item {
@@ -271,12 +274,12 @@ public class ItemChemistryTemplate extends Item {
     	FluidStack[] inF = MachineRecipes.getFluidInputFromTempate(stack);
     	ItemStack[] out = MachineRecipes.getChemOutputFromTempate(stack);
     	FluidStack[] outF = MachineRecipes.getFluidOutputFromTempate(stack);
-
-		list.add("[CREATED USING TEMPLATE FOLDER]");
+    	
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder"));
 		list.add("");
 
     	try {
-    		list.add("Outputs:");
+    		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_out_p"));
     		for(int i = 0; i < 4; i++)
     			if(out[i] != null)
     				list.add(out[i].stackSize + "x " + out[i].getDisplayName());
@@ -285,7 +288,7 @@ public class ItemChemistryTemplate extends Item {
     			if(outF[i] != null)
     				list.add(outF[i].fill + "mB " + I18n.format(outF[i].type.getUnlocalizedName()));
     		
-    		list.add("Inputs:");
+    		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_in_p"));
     		
     		if(stacks != null)
     			for(int i = 0; i < stacks.size(); i++)
@@ -295,8 +298,8 @@ public class ItemChemistryTemplate extends Item {
     			if(inF[i] != null)
     				list.add(inF[i].fill + "mB " + I18n.format(inF[i].type.getUnlocalizedName()));
     		
-    		list.add("Production time:");
-        	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " seconds");
+    		list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_time"));
+        	list.add(Math.floor((float)(getProcessTime(stack)) / 20 * 100) / 100 + " " + I18nUtil.resolveKey("info.template_seconds"));
     	} catch(Exception e) {
     		list.add("###INVALID###");
     		list.add("0x334077-0x6A298F-0xDF3795-0x334077");

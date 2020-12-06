@@ -46,7 +46,8 @@ public class TrappedBrick extends BlockContainer {
         }
     }
 
-    @Override
+    @SuppressWarnings("incomplete-switch")
+	@Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
     	
     	int meta = world.getBlockMetadata(x, y, z);

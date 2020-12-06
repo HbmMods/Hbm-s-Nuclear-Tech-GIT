@@ -6,14 +6,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.config.WeaponConfig;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
-import com.hbm.main.MainRegistry;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -186,7 +184,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
 			
-			setItemWear(stack, getItemWear(stack) + config.wear);
+			int wear = (int) Math.ceil(config.wear / (1F + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack)));
+			setItemWear(stack, getItemWear(stack) + wear);
 		}
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 	}

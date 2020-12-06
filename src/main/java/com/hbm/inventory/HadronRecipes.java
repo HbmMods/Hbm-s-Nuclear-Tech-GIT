@@ -29,28 +29,68 @@ public class HadronRecipes {
 	public static void register() {
 
 		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_copper),
-				new ItemStack(ModItems.particle_lead), //replace with protons
-				800,
+				160,
 				new ItemStack(ModItems.particle_aproton),
 				new ItemStack(ModItems.particle_aelectron),
+				true
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_amat),
+				new ItemStack(ModItems.particle_amat),
+				1600,
+				new ItemStack(ModItems.particle_aschrab),
+				new ItemStack(ModItems.particle_empty),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_aschrab),
+				new ItemStack(ModItems.particle_aschrab),
+				2400,
+				new ItemStack(ModItems.particle_dark),
+				new ItemStack(ModItems.particle_empty),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_hydrogen),
+				new ItemStack(ModItems.particle_amat),
+				400,
+				new ItemStack(ModItems.particle_muon),
+				new ItemStack(ModItems.particle_empty),
+				true
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_hydrogen),
+				new ItemStack(ModItems.particle_lead),
+				8000,
+				new ItemStack(ModItems.particle_higgs),
+				new ItemStack(ModItems.particle_empty),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_muon),
+				new ItemStack(ModItems.particle_dark),
+				800,
+				new ItemStack(ModItems.particle_strange),
+				new ItemStack(ModItems.particle_empty),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(ModItems.particle_strange),
+				new ItemStack(ModItems.powder_magic),
+				24000,
+				new ItemStack(ModItems.particle_sparkticle),
+				new ItemStack(ModItems.dust),
 				false
 				));
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.particle_higgs),
-				8000,
+				200000,
 				new ItemStack(ModItems.particle_digamma),
 				new ItemStack(ModItems.particle_empty),
 				false
-				));
-		recipes.add(new HadronRecipe(
-				new ItemStack(ModItems.particle_aschrab),
-				new ItemStack(ModItems.particle_aschrab),
-				320,
-				new ItemStack(ModItems.particle_dark),
-				new ItemStack(ModItems.particle_empty),
-				true
 				));
 	}
 	

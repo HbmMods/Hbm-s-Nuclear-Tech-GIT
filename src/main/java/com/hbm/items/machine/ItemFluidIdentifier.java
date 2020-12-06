@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -63,7 +65,7 @@ public class ItemFluidIdentifier extends Item {
     	if(!(stack.getItem() instanceof ItemFluidIdentifier))
     		return;
 
-		list.add("[CREATED USING TEMPLATE FOLDER]");
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder"));
 		list.add("");
     	list.add("Universal fluid identifier for:");
     	list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));

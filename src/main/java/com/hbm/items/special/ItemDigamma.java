@@ -2,6 +2,7 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.lib.ModDamageSource;
 
@@ -57,6 +58,7 @@ public class ItemDigamma extends ItemRadioactive {
 		
 		float d = ((int)((1000F / 60) * 10)) / 10F;
 		
+		list.add(EnumChatFormatting.RED + "[Digamma Radiation]");
 		list.add(EnumChatFormatting.DARK_RED + "" + d + "DRX/s");
 		
 		list.add(EnumChatFormatting.RED + "[Dangerous Drop]");
@@ -68,11 +70,15 @@ public class ItemDigamma extends ItemRadioactive {
 			
 			if (entityItem.onGround) {
 				
-	        	EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 10F);
-	        	bl.posX = entityItem.posX ;
-	        	bl.posY = entityItem.posY ;
-	        	bl.posZ = entityItem.posZ ;
-	        	entityItem.worldObj.spawnEntityInWorld(bl);
+				if(WeaponConfig.dropSing) {
+		        	EntityRagingVortex bl = new EntityRagingVortex(entityItem.worldObj, 10F);
+		        	bl.posX = entityItem.posX ;
+		        	bl.posY = entityItem.posY ;
+		        	bl.posZ = entityItem.posZ ;
+		        	entityItem.worldObj.spawnEntityInWorld(bl);
+				}
+				
+				entityItem.setDead();
 	        	
 				return true;
 			}

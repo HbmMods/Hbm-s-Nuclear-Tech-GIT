@@ -10,7 +10,9 @@ import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.HadronRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -19,10 +21,12 @@ import com.hbm.tileentity.machine.TileEntityHadronDiode.DiodeConfig;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityHadron extends TileEntityMachineBase implements IConsumer {
@@ -132,6 +136,15 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 					slots[i] = result[i - 2].copy();
 				else
 					slots[i].stackSize++;
+			}
+			
+			if(result[0].getItem() == ModItems.particle_digamma) {
+				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,
+						AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5)
+						.expand(128, 50, 128));
+				
+				for(EntityPlayer player : players)
+					player.triggerAchievement(MainRegistry.achOmega12);
 			}
 		}
 		

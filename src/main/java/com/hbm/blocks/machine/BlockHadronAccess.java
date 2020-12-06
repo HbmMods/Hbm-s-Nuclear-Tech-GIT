@@ -32,7 +32,9 @@ public class BlockHadronAccess extends BlockContainer {
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int meta) {
     	
-    	if(side != meta)
+		ForgeDirection dir = ForgeDirection.getOrientation(meta).getOpposite();
+    	
+    	if(side != dir.ordinal())
     		return ModBlocks.hadron_plating_blue.getIcon(side, meta);
     	
     	return this.blockIcon;
@@ -41,7 +43,8 @@ public class BlockHadronAccess extends BlockContainer {
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
     	
         int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
-        world.setBlockMetadataWithNotify(x, y, z, l, 2);
+		ForgeDirection dir = ForgeDirection.getOrientation(l).getOpposite();
+        world.setBlockMetadataWithNotify(x, y, z, dir.ordinal(), 2);
     }
 	
 	@Override
@@ -51,7 +54,7 @@ public class BlockHadronAccess extends BlockContainer {
 			return true;
 		} else if(!player.isSneaking()) {
 			
-			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
+			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 			
 			/*for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
 				System.out.println(d.name() + " " + d.getOpposite().name());
