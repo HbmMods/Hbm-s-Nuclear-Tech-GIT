@@ -61,6 +61,8 @@ achievement.stratum.desc=Жми на тормоза, Миттс.
 achievement.stratum=Пласт
 achievement.meltdown.desc=Ты зашел так далеко, как ты мог все испортить?
 achievement.meltdown=Быстрая внеплановая разборка
+achievement.omega12.desc=Решите проблему продолжения жизни на этой несчастной планете.
+achievement.omega12=Ускоритель частиц Омега-12
 
 potion.hbm_taint=Порча
 potion.hbm_mutation=Заражённое порчей сердце
@@ -88,6 +90,15 @@ weapon.ability.stun=Оглушение
 weapon.ability.phosphorus=Фосфорный наконечник
 weapon.ability.beheader=Обезглавливатель
 weapon.ability.chainsaw=Бензоболь
+
+info.coil=Сила катушки
+info.templatefolder=Создано с помощью папки шаблонов
+info.template_in=Ввод:
+info.template_in_p=Вводы:
+info.template_out=Выход:
+info.template_out_p=Выходы:
+info.template_seconds=секунд
+info.template_time=Время производства:
 
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
@@ -613,6 +624,7 @@ tile.hadron_power.name=Порт питания ускорителя частиц
 tile.hadron_analysis.name=Стенка камеры ускорителя частиц
 tile.hadron_analysis_glass.name=Окно камеры ускорителя частиц
 tile.hadron_coil_alloy.name=Плотная сверхпроводящая катушка
+tile.hadron_coil_mese.name=Плотная месе катушка
 tile.hadron_coil_schrabidium.name=Плотная шрабидиевая катушка
 tile.hadron_coil_starmetal.name=Плотная звёзднометаллическая катушка
 tile.hadron_diode.name=Диод частиц Шоттки
@@ -1995,6 +2007,7 @@ entity.entity_cyber_crab.name=Киберкраб
 entity.entity_tesla_crab.name=Теслакраб
 entity.entity_taint_crab.name=Заражённый порчей теслакраб
 entity.entity_elder_one.name=Крякос Старший
+entity.entity_hbm_fbi.name=Агент ФБР
 
 item.cap_aluminium.name=Алюминиевый колпачок
 item.hull_small_steel.name=Небольшая стальная оболочка
