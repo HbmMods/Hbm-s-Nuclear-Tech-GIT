@@ -30,6 +30,8 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation doctor17 = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeDoctor17.png");
 	private static ResourceLocation shimmeringblaze = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeBlaze.png");
 	private static ResourceLocation wiki = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeWiki.png");
+	private static ResourceLocation leftnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeLeftNugget.png");
+	private static ResourceLocation rightnugget = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeRightNugget.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -95,6 +97,12 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.ShimmeringBlaze)) {
 			return shimmeringblaze;
+		}
+		if(uuid.equals(Library.FifeMiner)) {
+			return leftnugget;
+		}
+		if(uuid.equals(Library.lag_add)) {
+			return rightnugget;
 		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;

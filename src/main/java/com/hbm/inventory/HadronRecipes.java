@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class HadronRecipes {
@@ -90,6 +91,14 @@ public class HadronRecipes {
 				200000,
 				new ItemStack(ModItems.particle_digamma),
 				new ItemStack(ModItems.particle_empty),
+				false
+				));
+		recipes.add(new HadronRecipe(
+				new ItemStack(Items.chicken),
+				new ItemStack(Items.chicken),
+				800,
+				new ItemStack(ModItems.nugget),
+				new ItemStack(ModItems.nugget),
 				false
 				));
 	}
