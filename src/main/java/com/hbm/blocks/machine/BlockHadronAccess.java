@@ -2,24 +2,31 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyInventory;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockHadronAccess extends Block {
+public class BlockHadronAccess extends BlockContainer {
 
 	public BlockHadronAccess(Material mat) {
 		super(mat);
+	}
+
+	@Override
+	public TileEntity createNewTileEntity(World world, int meta) {
+		return new TileEntityProxyInventory();
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -46,11 +53,11 @@ public class BlockHadronAccess extends Block {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z)).getOpposite();
 			
-			for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
+			/*for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
 				System.out.println(d.name() + " " + d.getOpposite().name());
 			}
 			
-			System.out.println(dir.name());
+			System.out.println(dir.name());*/
 			
 			for(int i = 1; i < 3; i++) {
 				
@@ -58,7 +65,7 @@ public class BlockHadronAccess extends Block {
 					FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_hadron, world, x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i);
 				}
 				
-				System.out.println(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i).getUnlocalizedName());
+				//System.out.println(world.getBlock(x + dir.offsetX * i, y + dir.offsetY * i, z + dir.offsetZ * i).getUnlocalizedName());
 			}
 			
 			return true;

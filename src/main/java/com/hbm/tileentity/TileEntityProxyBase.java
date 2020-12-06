@@ -1,8 +1,12 @@
 package com.hbm.tileentity;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockHadronAccess;
+import com.hbm.tileentity.machine.TileEntityHadron;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityProxyBase extends TileEntity {
 	
@@ -25,6 +29,22 @@ public class TileEntityProxyBase extends TileEntity {
 				
 				if(te != null)
 					return te;
+			}
+		}
+		
+		
+		/// this spares me the hassle of registering a new child class TE that aims at the right target ///
+		
+		if(this.getBlockType() instanceof BlockHadronAccess) {
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
+
+			
+			for(int i = 1; i < 3; i++) {
+				TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX * i, yCoord + dir.offsetY * i, zCoord + dir.offsetZ * i);
+				
+				if(te instanceof TileEntityHadron) {
+					return te;
+				}
 			}
 		}
 		

@@ -10,6 +10,7 @@ import com.hbm.blocks.machine.BlockHadronCoil;
 import com.hbm.blocks.machine.BlockHadronPlating;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.inventory.HadronRecipes;
+import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -33,6 +34,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	public boolean analysisOnly = false;
 	public boolean hopperMode = false;
 	
+	private int delay;
+	public EnumHadronState state = EnumHadronState.IDLE;
+	private static final int delaySuccess = 20;
+	private static final int delayNoResult = 60;
+	private static final int delayError = 60;
+	
 	public TileEntityHadron() {
 		super(5);
 	}
@@ -41,15 +48,33 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	public String getName() {
 		return "container.hadron";
 	}
+	
+	private static final int[] access = new int[] {0, 1, 2, 3};
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+        return access;
+    }
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i == 2 || i == 3;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return i == 0 || i == 1;
+	}
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
+			power = Library.chargeTEFromItems(slots, 4, power, maxPower);
 			drawPower();
 			
-			if(this.isOn && particles.size() < maxParticles && slots[0] != null && slots[1] != null && power >= maxPower * 0.75) {
+			if(delay <= 0 && this.isOn && particles.size() < maxParticles && slots[0] != null && slots[1] != null && power >= maxPower * 0.75) {
 				
 				if(!hopperMode || (slots[0].stackSize > 1 && slots[1].stackSize > 1)) {
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
@@ -57,7 +82,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 					this.decrStackSize(0, 1);
 					this.decrStackSize(1, 1);
 					power -= maxPower * 0.75;
+					this.state = EnumHadronState.PROGRESS;
 				}
+			}
+			
+			if(delay > 0)
+				delay--;
+			else if(particles.isEmpty()) {
+				this.state = EnumHadronState.IDLE;
 			}
 			
 			if(!particles.isEmpty())
@@ -74,6 +106,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			data.setLong("power", power);
 			data.setBoolean("analysis", analysisOnly);
 			data.setBoolean("hopperMode", hopperMode);
+			data.setByte("state", (byte) state.ordinal());
 			this.networkPack(data, 50);
 		}
 	}
@@ -82,8 +115,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		
 		ItemStack[] result = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
 		
-		if(result == null)
+		if(result == null) {
+			this.state = EnumHadronState.NORESULT;
+			this.delay = delayNoResult;
+			worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 2, 0.5F);
 			return;
+		}
 		
 		if((slots[2] == null || (slots[2].getItem() == result[0].getItem() && slots[2].stackSize < slots[2].getMaxStackSize())) &&
 				(slots[3] == null || (slots[3].getItem() == result[1].getItem() && slots[3].stackSize < slots[3].getMaxStackSize()))) {
@@ -97,6 +134,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 					slots[i].stackSize++;
 			}
 		}
+		
+		worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 2, 1F);
+		this.delay = delaySuccess;
+		this.state = EnumHadronState.SUCCESS;
 	}
 
 	@Override
@@ -105,6 +146,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		this.power = data.getLong("power");
 		this.analysisOnly = data.getBoolean("analysis");
 		this.hopperMode = data.getBoolean("hopperMode");
+		this.state = EnumHadronState.values()[data.getByte("state")];
 	}
 
 	@Override
@@ -144,8 +186,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 	
 	private void finishParticle(Particle p) {
 		particlesToRemove.add(p);
-		worldObj.playSoundEffect(p.posX, p.posY, p.posZ, "random.orb", 10, 1);
-		process(p);
+		
+		if(!p.isExpired())
+			process(p);
+		
+		p.expired = true;
 	}
 	
 	static final int maxParticles = 1;
@@ -213,7 +258,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		int momentum;
 		int charge;
 		int analysis;
-		static final int maxCharge = 10;
+		static final int maxCharge = 80;
 		boolean isCheckExempt = false;
 		
 		boolean expired = false;
@@ -242,7 +287,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			worldObj.newExplosion(null, posX + 0.5, posY + 0.5, posZ + 0.5, 10, false, false);
 			//System.out.println("Last dir: " + dir.name());
 			//System.out.println("Last pos: " + posX + " " + posY + " " + posZ);
-			Thread.currentThread().dumpStack();
+			//Thread.currentThread().dumpStack();
+
+			TileEntityHadron.this.state = EnumHadronState.ERROR;
+			TileEntityHadron.this.delay = delayError;
 		}
 		
 		public boolean isExpired() {
@@ -253,12 +301,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 			
 			if(expired) //just in case
 				return;
-			
-			this.charge--;
 
 			changeDirection(this);
 			makeSteppy(this);
-			checkSegment(this);
+			
+			if(!this.isExpired()) //only important for when the current segment is the core
+				checkSegment(this);
+			
 			isCheckExempt = false; //clearing up the exemption we might have held from the previous turn, AFTER stepping
 			
 			if(charge <= 0)
@@ -371,6 +420,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 							p.expire();
 						} else {
 							p.momentum += coilVal;
+							p.charge -= coilVal;
 						}
 
 						continue;
@@ -433,6 +483,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 				p.expire();
 			
 			if(p.analysis == 2) {
+				this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
+				this.state = EnumHadronState.ANALYSIS;
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "hadron");
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5), new TargetPoint(worldObj.provider.dimensionId, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, 25));
@@ -608,5 +660,20 @@ public class TileEntityHadron extends TileEntityMachineBase implements IConsumer
 		
 		return b == ModBlocks.hadron_analysis ||
 				b == ModBlocks.hadron_analysis_glass;
+	}
+	
+	public static enum EnumHadronState {
+		IDLE(0x8080ff),
+		PROGRESS(0xffff00),
+		ANALYSIS(0xffff00),
+		NORESULT(0xff8000),
+		SUCCESS(0x00ff00),
+		ERROR(0xff0000);
+		
+		public int color;
+		
+		private EnumHadronState(int color) {
+			this.color = color;
+		}
 	}
 }

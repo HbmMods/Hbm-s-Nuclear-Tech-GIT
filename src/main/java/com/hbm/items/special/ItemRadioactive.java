@@ -3,11 +3,14 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.inventory.BreederRecipes;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;

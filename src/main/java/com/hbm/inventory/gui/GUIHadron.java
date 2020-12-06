@@ -7,6 +7,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityHadron;
+import com.hbm.tileentity.machine.TileEntityHadron.EnumHadronState;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
@@ -73,6 +74,9 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		
+		String state = I18n.format("hadron." + this.hadron.state.name().toLowerCase());
+		this.fontRendererObj.drawString(state, this.xSize / 2 - this.fontRendererObj.getStringWidth(state) / 2, 76, this.hadron.state.color);
 	}
 	
 	@Override
@@ -89,8 +93,27 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		if(hadron.hopperMode)
 			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 36, 18, 18);
+
+		if(hadron.state == EnumHadronState.SUCCESS) {
+			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 0, 30, 30);
+		}
+		if(hadron.state == EnumHadronState.NORESULT) {
+			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 30, 30, 30);
+		}
+		if(hadron.state == EnumHadronState.ERROR) {
+			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 106, 30, 30);
+		}
 		
 		int i = hadron.getPowerScaled(70);
 		drawTexturedModalRect(guiLeft + 62, guiTop + 108, 176, 60, i, 16);
+
+		int color = hadron.state.color;
+		float red = (color & 0xff0000) >> 16;
+		float green = (color & 0x00ff00) >> 8;
+		float blue = (color & 0x0000ff);
+		
+		GL11.glColor4f(red, green, blue, 1.0F);
+		drawTexturedModalRect(guiLeft + 45, guiTop + 73, 0, 222, 86, 14);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 }

@@ -77,14 +77,18 @@ public class HadronRecipes {
 		return null;
 	}
 	
+	public static List<HadronRecipe> getRecipes() {
+		return recipes;
+	}
+	
 	public static class HadronRecipe {
 		
-		ComparableStack in1;
-		ComparableStack in2;
-		int momentum;
-		ItemStack out1;
-		ItemStack out2;
-		boolean analysisOnly;
+		public ComparableStack in1;
+		public ComparableStack in2;
+		public int momentum;
+		public ItemStack out1;
+		public ItemStack out2;
+		public boolean analysisOnly;
 		
 		public HadronRecipe(ItemStack in1, ItemStack in2, int momentum, ItemStack out1, ItemStack out2, boolean analysisOnly) {
 			this.in1 = new ComparableStack(in1);
