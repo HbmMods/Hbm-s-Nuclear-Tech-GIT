@@ -185,6 +185,8 @@ hadron.analysis=Анализ...
 hadron.buttonOn=Камера анализа (если есть) включена
 hadron.buttonOff=Камера анализа выключена
 hadron.error=Ошибка!
+hadron.noresult=Нет результата.
+hadron.success=Завершено!
 hadron.idle=Ожидание
 hadron.progress=В процессе...
 hadron.hopper0=§eОбычный режим:$Все предметы будут использованы.
@@ -604,6 +606,10 @@ tile.barricade.name=Мешки с песком
 container.microwave=Микроволновка
 tile.machine_microwave.name=Микроволновка
 
+container.hadron=Ускоритель частиц
+tile.hadron_access.name=Терминал доступа ускорителя частиц
+tile.hadron_core.name=Ядро ускорителя частиц
+tile.hadron_power.name=Порт питания ускорителя частиц
 tile.hadron_analysis.name=Стенка камеры ускорителя частиц
 tile.hadron_analysis_glass.name=Окно камеры ускорителя частиц
 tile.hadron_coil_alloy.name=Плотная сверхпроводящая катушка
@@ -2669,6 +2675,7 @@ item.particle_sparkticle.name=Капсула со Спарктиклом
 item.particle_strange.name=Капсула со Странным кварком
 item.particle_copper.name=Капсула с ионами меди
 item.particle_lead.name=Капсула с ионами свинца
+item.particle_hydrogen.name=Капсула с ионами водорода
 item.particle_digamma.name=§cЧастица Дигамма§r
 
 item.rune_blank.name=Пустая каталитическая матрица
