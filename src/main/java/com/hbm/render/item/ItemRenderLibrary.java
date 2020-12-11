@@ -789,6 +789,32 @@ public class ItemRenderLibrary {
 		        ResourceManager.microwave.renderPart("mainbody_Cube.001");
 		        ResourceManager.microwave.renderPart("window_Cube.002");
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_solar_boiler), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2.5, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+			}
+			public void renderCommon() {
+				GL11.glScaled(1, 1, 1);
+	            GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.solar_tex); ResourceManager.solar_boiler.renderPart("Base");
+	            GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.solar_mirror), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(8, 8, 8);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.solar_mirror_tex);
+				ResourceManager.solar_mirror.renderPart("Base");
+				GL11.glTranslated(0, 1, 0);
+				GL11.glRotated(45, 0, 0, -1);
+				GL11.glTranslated(0, -1, 0);
+				ResourceManager.solar_mirror.renderPart("Mirror");
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

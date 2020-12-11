@@ -1246,6 +1246,7 @@ item.mike_cooling_unit.name=Deuterium Cooling Unit
 item.mike_core.name=Uranium Coated Deuterium Tank
 item.mike_deut.name=Deuterium Tank
 item.mike_kit.name=Ivy Mike Kit
+item.mirror_tool.name=Mirror Adjustment Tool
 item.missile_anti_ballistic.name=Anti Ballistic Missile
 item.missile_assembly.name=Small Missile Assembly
 item.missile_bhole.name=Black Hole Missile

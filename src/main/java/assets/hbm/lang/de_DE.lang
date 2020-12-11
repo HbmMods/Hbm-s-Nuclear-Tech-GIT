@@ -1246,6 +1246,7 @@ item.mike_cooling_unit.name=Deuteriumkühleinheit
 item.mike_core.name=Mit Uran ummantelter Deuteriumtank
 item.mike_deut.name=Deuteriumtank
 item.mike_kit.name=Ivy Mike Kit
+item.mirror_tool.name=Spiegeleinstellungswerkzeug
 item.missile_anti_ballistic.name=Flugabwehrrakete
 item.missile_assembly.name=Kleines Raketen-Bauset
 item.missile_bhole.name=Schwarzes-Loch-Rakete

@@ -35,6 +35,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MachineConfig;
+import com.hbm.config.MobConfig;
 import com.hbm.config.PotionConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.ToolConfig;
@@ -425,6 +426,8 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityHadronDiode.class, "tileentity_hadron_diode");
 		GameRegistry.registerTileEntity(TileEntityHadronPower.class, "tileentity_hadron_power");
 		GameRegistry.registerTileEntity(TileEntityHadron.class, "tileentity_hadron");
+		GameRegistry.registerTileEntity(TileEntitySolarBoiler.class, "tileentity_solarboiler");
+		GameRegistry.registerTileEntity(TileEntitySolarMirror.class, "tileentity_solarmirror");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -1174,6 +1177,7 @@ public class MainRegistry {
 		PotionConfig.loadFromConfig(config);
 		ToolConfig.loadFromConfig(config);
 		WeaponConfig.loadFromConfig(config);
+		MobConfig.loadFromConfig(config);
 
 		config.save();
 	}

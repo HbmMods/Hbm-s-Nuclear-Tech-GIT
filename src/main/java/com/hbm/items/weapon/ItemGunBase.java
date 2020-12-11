@@ -709,6 +709,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderHUD(Pre event, ElementType type, EntityPlayer player, ItemStack stack) {
 		
 		ItemGunBase gun = ((ItemGunBase)stack.getItem());

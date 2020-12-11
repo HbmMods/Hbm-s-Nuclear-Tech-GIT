@@ -42,10 +42,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	
 	public MissileStruct load;
 
-	private static final int[] access = new int[] { 0 };
-
-	private String customName;
-
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
