@@ -632,14 +632,14 @@ public class HbmWorldGen implements IWorldGenerator {
 
 	private void generateNether(World world, Random rand, int i, int j) {
 
-		DungeonToolbox.generateOre(world, rand, i, j, 8, 6, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
-		DungeonToolbox.generateOre(world, rand, i, j, 10, 10, 0, 127, ModBlocks.ore_nether_tungsten, Blocks.netherrack);
-		DungeonToolbox.generateOre(world, rand, i, j, 26, 12, 0, 127, ModBlocks.ore_nether_sulfur, Blocks.netherrack);
-		DungeonToolbox.generateOre(world, rand, i, j, 24, 6, 0, 127, ModBlocks.ore_nether_fire, Blocks.netherrack);
-		DungeonToolbox.generateOre(world, rand, i, j, 24, 32, 16, 96, ModBlocks.ore_nether_coal, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherUraniumuSpawn, 6, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherTungstenSpawn, 10, 0, 127, ModBlocks.ore_nether_tungsten, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherSulfurSpawn, 12, 0, 127, ModBlocks.ore_nether_sulfur, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 0, 127, ModBlocks.ore_nether_fire, Blocks.netherrack);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherCoalSpawn, 32, 16, 96, ModBlocks.ore_nether_coal, Blocks.netherrack);
 		
 		if(GeneralConfig.enablePlutoniumOre)
-			DungeonToolbox.generateOre(world, rand, i, j, 6, 4, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
+			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
 
 		for(int k = 0; k < 30; k++){
 			int x = i + rand.nextInt(16);
@@ -663,7 +663,7 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 
 	private void generateEnd(World world, Random rand, int i, int j) {
-		DungeonToolbox.generateOre(world, rand, i, j, 8, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
 	}
 
 }

@@ -46,6 +46,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -58,6 +59,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderItemInFrameEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -380,5 +382,29 @@ public class ModEventHandlerClient {
 		
 		if(event.map.getTextureType() == 0)
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
+	}
+
+	private static final ResourceLocation poster = new ResourceLocation(RefStrings.MODID + ":textures/models/misc/poster.png");
+	
+	@SubscribeEvent
+	public void renderFrame(RenderItemInFrameEvent event) {
+		
+		if(event.item != null && event.item.getItem() == ModItems.flame_pony) {
+			event.setCanceled(true);
+			
+			double p = 0.0625D;
+			double o = p * 2.75D;
+			
+			GL11.glDisable(GL11.GL_LIGHTING);
+			Minecraft.getMinecraft().renderEngine.bindTexture(poster);
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			tess.addVertexWithUV(0.5, 0.5 + o, p * 0.5, 1, 0);
+			tess.addVertexWithUV(-0.5, 0.5 + o, p * 0.5, 0, 0);
+			tess.addVertexWithUV(-0.5, -0.5 + o, p * 0.5, 0, 1);
+			tess.addVertexWithUV(0.5, -0.5 + o, p * 0.5, 1, 1);
+			tess.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
 	}
 }

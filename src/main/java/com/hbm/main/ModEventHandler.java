@@ -4,7 +4,9 @@ import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -26,6 +28,7 @@ import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -36,6 +39,7 @@ import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -44,6 +48,8 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -55,6 +61,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -67,6 +74,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -723,6 +731,30 @@ public class ModEventHandler
 			
 			player.inventoryContainer.detectAndSendChanges();
 			event.setCanceled(true);
+		}
+	}
+	
+	@SubscribeEvent
+	public void anvilUpdateEvent(AnvilUpdateEvent event) {
+		
+		if(event.left.getItem() instanceof ItemGunBase && event.right.getItem() == Items.enchanted_book) {
+			
+			event.output = event.left.copy();
+
+            Map mapright = EnchantmentHelper.getEnchantments(event.right);
+            Iterator itr = mapright.keySet().iterator();
+
+            while (itr.hasNext()) {
+            	
+            	int i = ((Integer)itr.next()).intValue();
+            	int j = ((Integer)mapright.get(Integer.valueOf(i))).intValue();
+            	Enchantment e = Enchantment.enchantmentsList[i];
+            	
+            	EnchantmentUtil.removeEnchantment(event.output, e);
+            	EnchantmentUtil.addEnchantment(event.output, e, j);
+            }
+            
+            event.cost = 10;
 		}
 	}
 }

@@ -377,6 +377,10 @@ public class ItemCustomLore extends Item {
 		{
 			list.add("It pulses with power.");
 		}
+		
+		if(this == ModItems.nugget_mox_fuel) {
+			list.add("Moxie says: " + EnumChatFormatting.BOLD + "TAX EVASION.");
+		}
 	}
 
     @Override

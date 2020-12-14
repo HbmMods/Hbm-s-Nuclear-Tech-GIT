@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.TileEntitySolarMirror;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.EnumSkyBlock;
 
 public class RenderSolarMirror extends TileEntitySpecialRenderer {
 
@@ -43,7 +44,7 @@ public class RenderSolarMirror extends TileEntitySpecialRenderer {
         GL11.glTranslated(0, -1, 0);
         ResourceManager.solar_mirror.renderPart("Mirror");
         
-        if(mirror.tY >= mirror.yCoord && te.getWorldObj().canBlockSeeTheSky(te.xCoord, te.yCoord + 1, te.zCoord)) {
+        if(mirror.isOn) {
 	        
 	        Tessellator tess = Tessellator.instance;
 	        GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -56,7 +57,7 @@ public class RenderSolarMirror extends TileEntitySpecialRenderer {
 	        GL11.glDepthMask(false);
 	        
 	        float min = 0.005F;
-	        float max = 0.02F;
+	        float max = 0.01F;
 	        
 	        tess.startDrawingQuads();
 	        tess.setColorRGBA_F(1F, 1F, 1F, max);

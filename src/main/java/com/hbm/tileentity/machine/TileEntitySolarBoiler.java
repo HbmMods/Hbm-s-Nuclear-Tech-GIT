@@ -32,9 +32,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 		
 		if(!worldObj.isRemote) {
 			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
+			//if(worldObj.getTotalWorldTime() % 5 == 0) {
 				fillFluidInit(FluidType.STEAM);
-			}
+			//}
 			
 			int process = heat / 10;
 			process = Math.min(process, water.getFill());
@@ -46,8 +46,8 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 			water.setFill(water.getFill() - process);
 			steam.setFill(steam.getFill() + process * 100);
 			
-			if(steam.getFill() > steam.getMaxFill() * 0.9)
-				System.out.println("*" + steam.getFill());
+			//if(steam.getFill() > steam.getMaxFill() * 0.9)
+			//	System.out.println("*" + steam.getFill());
 			
 			heat = 0;
 		}
@@ -105,7 +105,7 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	
 	@Override
 	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
+		return worldObj.getTotalWorldTime() % 2 == 0;
 	}
 
 	@Override

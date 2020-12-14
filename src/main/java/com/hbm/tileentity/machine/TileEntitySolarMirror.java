@@ -2,8 +2,11 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityTickingBase;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntitySolarMirror extends TileEntityTickingBase {
@@ -11,6 +14,7 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 	public int tX;
 	public int tY;
 	public int tZ;
+	public boolean isOn;
 
 	@Override
 	public String getInventoryName() {
@@ -25,13 +29,19 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				sendUpdate();
 			
-			if(tY < yCoord)
+			if(tY < yCoord) {
+				isOn = false;
 				return;
+			}
 			
 			int sun = worldObj.getSavedLightValue(EnumSkyBlock.Sky, xCoord, yCoord, zCoord) - worldObj.skylightSubtracted - 11;
 			
-			if(sun <= 0 || !worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord))
+			if(sun <= 0 || !worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord)) {
+				isOn = false;
 				return;
+			}
+			
+			isOn = true;
 			
 			TileEntity te = worldObj.getTileEntity(tX, tY - 1, tZ);
 			
@@ -48,6 +58,7 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		data.setInteger("posX", tX);
 		data.setInteger("posY", tY);
 		data.setInteger("posZ", tZ);
+		data.setBoolean("isOn", isOn);
 		this.networkPack(data, 200);
 	}
 
@@ -56,6 +67,7 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		tX = nbt.getInteger("posX");
 		tY = nbt.getInteger("posY");
 		tZ = nbt.getInteger("posZ");
+		isOn = nbt.getBoolean("isOn");
 	}
 	
 	public void setTarget(int x, int y, int z) {
@@ -78,5 +90,30 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		nbt.setInteger("targetX", tX);
 		nbt.setInteger("targetY", tY);
 		nbt.setInteger("targetZ", tZ);
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 0.25,
+					yCoord,
+					zCoord - 0.25,
+					xCoord + 1.25,
+					yCoord + 1.5,
+					zCoord + 1.25
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }

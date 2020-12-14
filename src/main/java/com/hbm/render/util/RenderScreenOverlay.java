@@ -108,7 +108,7 @@ public class RenderScreenOverlay {
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
-	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, int count, int max, int dura) {
+	public static void renderAmmo(ScaledResolution resolution, Gui gui, Item ammo, int count, int max, int dura, boolean renderCount) {
 		
 		GL11.glPushMatrix();
         
@@ -123,7 +123,8 @@ public class RenderScreenOverlay {
 		
 		String cap = max == -1 ? ("∞") : ("" + max);
 		
-		Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + cap, pX + 16, pZ + 6, 0xFFFFFF);
+		if(renderCount)
+			Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + cap, pX + 16, pZ + 6, 0xFFFFFF);
 
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
