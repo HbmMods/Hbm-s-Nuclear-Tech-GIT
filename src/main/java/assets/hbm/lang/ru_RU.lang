@@ -616,6 +616,8 @@ container.miningLaser=Шахтёрский лазер
 tile.barricade.name=Мешки с песком
 container.microwave=Микроволновка
 tile.machine_microwave.name=Микроволновка
+tile.machine_solar_boiler.name=Бойлер солнечной башни
+tile.solar_mirror.name=Зеркало-гелиостат
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -1909,6 +1911,9 @@ item.pellet_chlorophyte.name=Хлорофитные гранулы
 item.pellet_mercury.name=Ртутные гранулы
 item.pellet_meteorite.name=Метеоритные гранулы
 
+item.gun_bolter.name=Болтер
+item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
+
 item.cordite.name=Кордит
 item.ballistite.name=Баллистит
 item.plate_kevlar.name=Кевларо-керамический состав
@@ -2626,6 +2631,7 @@ item.canned_recursion.name=Консервированная рекурсия
 item.canned_bark.name=Консервы вяленой сосновой коры
 item.spongebob_macaroni.name=Сырные макаронны "Губка Боб"
 item.can_key.name=Винтовой ключ
+item.nugget.name=Куриный наггетс
 
 item.canteen_13.name=Фляжка Убежища 13
 item.canteen_vodka.name=Стильная фляга
@@ -2743,6 +2749,9 @@ item.geiger_counter.name=Ручной счетчик Гейгера
 tile.geiger.name=Счетчик Гейгера
 tile.glass_polonium.name=Полониевое стекло
 item.survey_scanner.name=Сканер
+item.mirror_tool.name=Инструмент для регулировки зеркал
+item.mirror_tool.linked=Позиция выравнивания установлена!
+item.mirror_tool.desc=Щелкните правой кнопкой мыши по бойлеру, чтобы запомнить его положение.$Нажмите на зеркала, чтобы повернуть их в сторону бойлера
 
 item.thermo_element.name=Термоэлектрический элемент
 item.limiter.name=Ограничитель генератора
