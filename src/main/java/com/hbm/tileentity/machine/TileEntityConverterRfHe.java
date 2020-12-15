@@ -16,10 +16,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityConverterRfHe extends TileEntityMachineBase implements ISource, IEnergyHandler {
 	
 	public long power;
-	public final long maxPower = 1000000;
+	public long maxPower = 500000000;
 	public List<IConsumer> list = new ArrayList();
-	public int age = 0;
-	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
+	public boolean tact;
+	public EnergyStorage storage = new EnergyStorage(2000000000, 2000000000, 2000000000);
+	
+	public int buf;
 	
 	public TileEntityConverterRfHe() {
 		super(0);
@@ -35,33 +37,32 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 		
 		if (!worldObj.isRemote) {
 			
-			long convert = Math.min(storage.getEnergyStored(), (maxPower - power) * 4);
+			power = storage.getEnergyStored() / 4;
+			maxPower = Math.max(1000000, power);
+			
+			buf = storage.getEnergyStored();
 
-			storage.setEnergyStored((int) (storage.getEnergyStored() - convert));
-			power += convert / 4;
+			tact = false;
+			ffgeuaInit();
+			tact = true;
+			ffgeuaInit();
 			
-			if(convert > 0)
-				this.markDirty();
-			
-			age++;
-			if(age >= 20)
-			{
-				age = 0;
-			}
-			
-			if(age == 9 || age == 19)
-				ffgeuaInit();
+			storage.setEnergyStored((int)power * 4);
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("rf", storage.getEnergyStored());
+			data.setInteger("maxrf", storage.getEnergyStored());
 			data.setLong("he", power);
+			data.setLong("maxhe", power);
 			this.networkPack(data, 25);
 		}
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		storage.setEnergyStored(nbt.getInteger("rf"));
+		storage.setCapacity(nbt.getInteger("maxrf"));
 		power = nbt.getLong("he");
+		maxPower = nbt.getLong("maxhe");
 	}
 
 	@Override
@@ -71,6 +72,7 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+		storage.setCapacity(2000000000);
 		return storage.receiveEnergy(maxReceive, simulate);
 	}
 
@@ -81,6 +83,10 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
+		
+		if(storage.getEnergyStored() < 4000000)
+			return 2000000000;
+		
 		return storage.getMaxEnergyStored();
 	}
 
@@ -102,12 +108,7 @@ public class TileEntityConverterRfHe extends TileEntityMachineBase implements IS
 	
 	@Override
 	public boolean getTact() {
-		if(age >= 0 && age < 10)
-		{
-			return true;
-		}
-		
-		return false;
+		return tact;
 	}
 	
 	public long getPowerScaled(long i) {

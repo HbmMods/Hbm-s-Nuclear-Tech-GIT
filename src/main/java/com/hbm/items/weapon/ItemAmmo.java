@@ -516,6 +516,12 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Not penetrating");
 		}
 		
+		//BOLTS
+		if(this == ModItems.ammo_75bolt) {
+			list.add(EnumChatFormatting.YELLOW + "Gyro-stabilized armor-piercing");
+			list.add(EnumChatFormatting.YELLOW + "DU round with tandem charge");
+		}
+		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {
 			list.add(EnumChatFormatting.BLUE + "+ Focused starmetal reaction blast");

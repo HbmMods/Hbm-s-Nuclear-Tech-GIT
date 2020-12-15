@@ -23,8 +23,10 @@ public class TileEntityConverterHeRf extends TileEntityMachineBase implements IC
 	}
 
 	public long power;
-	public final long maxPower = 1000000;
-	public EnergyStorage storage = new EnergyStorage(4000000, 2500000, 2500000);
+	public long maxPower = 500000000;
+	public EnergyStorage storage = new EnergyStorage(2000000000, 2000000000, 2000000000);
+	
+	public int buf;
 	
 	//Thanks to the great people of Fusion Warfare for helping me with this part.
 
@@ -32,13 +34,10 @@ public class TileEntityConverterHeRf extends TileEntityMachineBase implements IC
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
 			
-			long convert = Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), power * 4);
-
-			power -= convert / 4;
-			storage.setEnergyStored((int) (storage.getEnergyStored() + convert));
+			storage.setCapacity((int)power * 4);
+			storage.setEnergyStored((int)power * 4);
 			
-			if(convert > 0)
-				this.markDirty();
+			buf = storage.getEnergyStored();
 			
 			for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			
@@ -57,16 +56,22 @@ public class TileEntityConverterHeRf extends TileEntityMachineBase implements IC
 				}
 			}
 			
+			power = storage.getEnergyStored() / 4;
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("rf", storage.getEnergyStored());
+			data.setInteger("maxrf", storage.getEnergyStored());
 			data.setLong("he", power);
+			data.setLong("maxhe", power);
 			this.networkPack(data, 25);
 		}
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		storage.setEnergyStored(nbt.getInteger("rf"));
+		storage.setCapacity(nbt.getInteger("maxrf"));
 		power = nbt.getLong("he");
+		maxPower = nbt.getLong("maxhe");
 	}
 	
 	@Override
@@ -101,6 +106,10 @@ public class TileEntityConverterHeRf extends TileEntityMachineBase implements IC
 
 	@Override
 	public long getMaxPower() {
+		
+		if(power < 1000000)
+			return 500000000;//Long.MAX_VALUE / 100;
+		
 		return maxPower;
 	}
 	

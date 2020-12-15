@@ -76,8 +76,10 @@ public class Gun75BoltFactory {
 		bullet.ammo = ModItems.ammo_75bolt;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 5;
-		bullet.dmgMax = 10;
+		bullet.dmgMin = 16;
+		bullet.dmgMax = 24;
+		bullet.doesRicochet = false;
+		bullet.explosive = 0.25F;
 		
 		return bullet;
 	}
