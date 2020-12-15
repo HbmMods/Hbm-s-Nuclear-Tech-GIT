@@ -1911,6 +1911,9 @@ item.pellet_chlorophyte.name=Хлорофитные гранулы
 item.pellet_mercury.name=Ртутные гранулы
 item.pellet_meteorite.name=Метеоритные гранулы
 
+item.gun_bolter.name=Болтер
+item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
+
 item.cordite.name=Кордит
 item.ballistite.name=Баллистит
 item.plate_kevlar.name=Кевларо-керамический состав
