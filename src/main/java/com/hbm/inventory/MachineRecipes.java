@@ -116,6 +116,11 @@ public class MachineRecipes {
 			}
 		}
 
+		if (item.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor) && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
+				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == Item.getItemFromBlock(ModBlocks.block_meteor)) {
+			return new ItemStack(ModItems.ingot_meteorite);
+		}
+
 		return null;
 	}
 

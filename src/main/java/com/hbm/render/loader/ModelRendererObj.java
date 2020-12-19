@@ -81,8 +81,11 @@ public class ModelRendererObj {
     	
     	GL11.glScalef(scale, scale, scale);
         
-        for(String part : parts)
-        	model.renderPart(part);
+    	if(parts != null && parts.length > 0)
+    		for(String part : parts)
+    			model.renderPart(part);
+    	else
+    		model.renderAll();
     	
     	GL11.glPopMatrix();
     }

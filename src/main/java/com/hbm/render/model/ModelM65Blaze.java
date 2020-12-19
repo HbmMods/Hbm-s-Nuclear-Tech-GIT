@@ -15,7 +15,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ModelM65 extends ModelBiped {
+public class ModelM65Blaze extends ModelBiped {
 	// fields
 	public ModelRenderer mask;
 	public ModelRenderer Shape1;
@@ -29,11 +29,11 @@ public class ModelM65 extends ModelBiped {
 	public ModelRenderer Shape9;
 	public ModelRenderer Shape10;
 
-	public ModelM65() {
+	public ModelM65Blaze() {
 		textureWidth = 32;
 		textureHeight = 32;
 		
-		float yOffset = 0.5F;
+		float yOffset = 4F;
 
 		mask = new ModelRenderer(this, 0, 0);
 		Shape1 = new ModelRenderer(this, 0, 0);

@@ -109,6 +109,18 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
+	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		
+		EntityPlayer player = event.player;
+		
+		if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && !player.worldObj.isRemote) {
+			
+			if(!player.inventory.hasItem(ModItems.hat))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
+		}
+	}
+	
+	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
 		
 		event.entityLiving.getEntityData().setFloat("hfr_radiation", 0);
@@ -483,7 +495,7 @@ public class ModEventHandler
 					
 					// Why can't you be normal??
 					try {
-						Field food = ReflectionHelper.findField(FoodStats.class, "field_149334_b", "foodLevel");
+						Field food = ReflectionHelper.findField(FoodStats.class, "field_75127_a", "foodLevel");
 						food.setInt(player.getFoodStats(), 10);
 					} catch(Exception e) { }
 				}

@@ -347,7 +347,7 @@ public class ArmorFSB extends ItemArmor {
 
 		if(ArmorFSB.hasFSBArmor(player)) {
 
-			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[3].getItem();
+			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
 
 			if(chestplate.jump != null)
 				player.playSound(chestplate.jump, 1.0F, 1.0F);
@@ -359,7 +359,7 @@ public class ArmorFSB extends ItemArmor {
 
 		if(ArmorFSB.hasFSBArmor(player)) {
 
-			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[3].getItem();
+			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
 
 			if(chestplate.fall != null)
 				player.playSound(chestplate.fall, 1.0F, 1.0F);
