@@ -199,6 +199,7 @@ public class ModItems {
 	public static Item blade_meteorite;
 
 	public static Item plate_armor_titanium;
+	public static Item plate_armor_hev;
 	public static Item plate_armor_lunar;
 
 	public static Item solid_fuel;
@@ -2129,6 +2130,7 @@ public class ModItems {
 		blade_meteorite = new ItemHot(10).setUnlocalizedName("blade_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_meteorite");
 
 		plate_armor_titanium = new Item().setUnlocalizedName("plate_armor_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_titanium");
+		plate_armor_hev = new Item().setUnlocalizedName("plate_armor_hev").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_hev");
 		plate_armor_lunar = new Item().setUnlocalizedName("plate_armor_lunar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_lunar");
 
 		solid_fuel = new Item().setUnlocalizedName("solid_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel");
@@ -3624,18 +3626,19 @@ public class ModItems {
 		gas_mask_m65 = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("gas_mask_m65").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":gas_mask_m65");
 		hat = new ArmorHat(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("nossy_hat").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":hat");
 		//oxy_mask = new ArmorModel(ArmorMaterial.IRON, 7, 0).setUnlocalizedName("oxy_mask").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":oxy_mask");
-		
-		t45_helmet = new ArmorT45(MainRegistry.aMatT45, 2, 0, 1000000, 10000, 1000).setCap(6.5F).setMod(0.25F)
+
+		ArmorMaterial aMatT45 = EnumHelper.addArmorMaterial("HBM_T45", 150, new int[] { 3, 8, 6, 3 }, 0);
+		aMatT45.customCraftingMaterial = ModItems.plate_armor_titanium;
+		t45_helmet = new ArmorT45(aMatT45, 2, 0, 1000000, 10000, 1000).setCap(6.5F).setMod(0.25F)
 				.setFireproof(true)
 				.enableVATS(true)
 				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 0))
-				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.setBlastProtection(0.5F)
 				.addResistance("fall", 0)
 				.setUnlocalizedName("t45_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_helmet");
-		t45_plate = new ArmorT45(MainRegistry.aMatT45, 2, 1, 1000000, 10000, 1000).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_plate");
-		t45_legs = new ArmorT45(MainRegistry.aMatT45, 2, 2, 1000000, 10000, 1000).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_legs");
-		t45_boots = new ArmorT45(MainRegistry.aMatT45, 2, 3, 1000000, 10000, 1000).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_boots");
+		t45_plate = new ArmorT45(aMatT45, 2, 1, 1000000, 10000, 1000).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_plate");
+		t45_legs = new ArmorT45(aMatT45, 2, 2, 1000000, 10000, 1000).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_legs");
+		t45_boots = new ArmorT45(aMatT45, 2, 3, 1000000, 10000, 1000).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_boots");
 
 		schrabidium_helmet = new ArmorFSB(MainRegistry.aMatSchrab, 7, 0, RefStrings.MODID + ":textures/armor/schrabidium_1.png").setCap(4F).setMod(0.1F)
 				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 2))
@@ -3688,7 +3691,9 @@ public class ModItems {
 		starmetal_legs = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_legs").setTextureName(RefStrings.MODID + ":starmetal_legs");
 		starmetal_boots = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_boots").setTextureName(RefStrings.MODID + ":starmetal_boots");
 
-		bj_helmet = new ArmorBJ(MainRegistry.aMatStarmetal, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).setMod(0.25F).setCap(4.0F)
+		ArmorMaterial aMatBJ = EnumHelper.addArmorMaterial("HBM_BLACKJACK", 150, new int[] { 3, 8, 6, 3 }, 100);
+		aMatBJ.customCraftingMaterial = ModItems.plate_armor_lunar;
+		bj_helmet = new ArmorBJ(aMatBJ, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).setMod(0.25F).setCap(4.0F)
 				.setFireproof(true)
 				.enableVATS(true)
 				.enableThermalSight(true)
@@ -3702,17 +3707,14 @@ public class ModItems {
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
 				.addResistance("fall", 0).setUnlocalizedName("bj_helmet").setTextureName(RefStrings.MODID + ":bj_helmet");
-		bj_plate = new ArmorBJ(MainRegistry.aMatStarmetal, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_plate").setTextureName(RefStrings.MODID + ":bj_plate");
-		bj_legs = new ArmorBJ(MainRegistry.aMatStarmetal, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 1000).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_legs").setTextureName(RefStrings.MODID + ":bj_legs");
-		bj_boots = new ArmorBJ(MainRegistry.aMatStarmetal, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_boots").setTextureName(RefStrings.MODID + ":bj_boots");
+		bj_plate = new ArmorBJ(aMatBJ, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_plate").setTextureName(RefStrings.MODID + ":bj_plate");
+		bj_legs = new ArmorBJ(aMatBJ, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 1000).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_legs").setTextureName(RefStrings.MODID + ":bj_legs");
+		bj_boots = new ArmorBJ(aMatBJ, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 1000).cloneStats((ArmorFSB) bj_helmet).setUnlocalizedName("bj_boots").setTextureName(RefStrings.MODID + ":bj_boots");
 
 		hev_helmet = new ArmorHEV(MainRegistry.aMatStarmetal, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 1000).setMod(0.25F).setCap(4.0F)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.setBlastProtection(0.25F)
-				//.setGravity(0.02D)
-				.setStep("hbm:step.metal")
-				.setJump("hbm:step.iron_jump")
-				.setFall("hbm:step.iron_land")
+				.setThreshold(2.0F)
 				.addResistance("fall", 0.5F).setUnlocalizedName("hev_helmet").setTextureName(RefStrings.MODID + ":hev_helmet");
 		hev_plate = new ArmorHEV(MainRegistry.aMatStarmetal, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 1000).cloneStats((ArmorFSB) hev_helmet).setUnlocalizedName("hev_plate").setTextureName(RefStrings.MODID + ":hev_plate");
 		hev_legs = new ArmorHEV(MainRegistry.aMatStarmetal, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 1000000, 10000, 1000).cloneStats((ArmorFSB) hev_helmet).setUnlocalizedName("hev_legs").setTextureName(RefStrings.MODID + ":hev_legs");
@@ -4441,6 +4443,7 @@ public class ModItems {
 		
 		//Armor Plates
 		GameRegistry.registerItem(plate_armor_titanium, plate_armor_titanium.getUnlocalizedName());
+		GameRegistry.registerItem(plate_armor_hev, plate_armor_hev.getUnlocalizedName());
 		GameRegistry.registerItem(plate_armor_lunar, plate_armor_lunar.getUnlocalizedName());
 		
 		//Boards

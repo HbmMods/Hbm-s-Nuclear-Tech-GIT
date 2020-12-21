@@ -38,7 +38,7 @@ public class ItemPancake extends ItemFood {
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
     	
-    	if(ArmorFSB.hasFSBArmor(player) && player.inventory.armorInventory[3].getItem() == ModItems.bj_helmet) {
+    	if(ArmorFSB.hasFSBArmorIgnoreCharge(player) && player.inventory.armorInventory[3].getItem() == ModItems.bj_helmet) {
         	return super.onItemRightClick(stack, world, player);
     	}
     	

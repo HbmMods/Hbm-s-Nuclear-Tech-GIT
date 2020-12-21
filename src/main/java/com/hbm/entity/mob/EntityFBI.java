@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
+import com.hbm.entity.mob.ai.EntityAIBreaking;
+import com.hbm.entity.mob.ai.EntityAI_MLPF;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
 
@@ -28,6 +30,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -43,16 +46,19 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 		super(world);
         this.getNavigator().setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIBreakDoor(this));
+        this.tasks.addTask(1, new EntityAIBreaking(this));
         this.tasks.addTask(2, new EntityAIArrowAttack(this, 1D, 20, 25, 15.0F));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.tasks.addTask(6, new EntityAI_MLPF(this, EntityPlayer.class, 100, 1D, 16));
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, false));
         this.setSize(0.6F, 1.8F);
+        
+        this.isImmuneToFire = true;
 	}
 
     protected void applyEntityAttributes() {
@@ -65,6 +71,13 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
     	
     	if(source instanceof EntityDamageSourceIndirect && ((EntityDamageSourceIndirect)source).getEntity() instanceof EntityFBI) {
     		return false;
+    	}
+
+    	if(this.getEquipmentInSlot(4) != null && this.getEquipmentInSlot(4).getItem() == Item.getItemFromBlock(Blocks.glass)) {
+	    	if("oxygenSuffocation".equals(source.damageType))
+	    		return false;
+	    	if("thermal".equals(source.damageType))
+	    		return false;
     	}
     	
     	return super.attackEntityFrom(source, amount);
@@ -82,6 +95,20 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
         switch(equip) {
         case 0: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_revolver_nopip)); break;
         case 1: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_ks23)); break;
+        }
+        
+        if(rand.nextInt(10) == 0) {
+        	this.setCurrentItemOrArmor(4, new ItemStack(ModItems.security_helmet));
+        	this.setCurrentItemOrArmor(3, new ItemStack(ModItems.security_plate));
+        	this.setCurrentItemOrArmor(2, new ItemStack(ModItems.security_legs));
+        	this.setCurrentItemOrArmor(1, new ItemStack(ModItems.security_boots));
+        }
+        
+        if(this.worldObj != null && this.worldObj.provider.dimensionId != 0) {
+        	this.setCurrentItemOrArmor(4, new ItemStack(Blocks.glass));
+        	this.setCurrentItemOrArmor(3, new ItemStack(ModItems.paa_plate));
+        	this.setCurrentItemOrArmor(2, new ItemStack(ModItems.paa_legs));
+        	this.setCurrentItemOrArmor(1, new ItemStack(ModItems.paa_boots));
         }
     }
     
@@ -153,7 +180,7 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
     public void onLivingUpdate() {
     	super.onLivingUpdate();
     	
-    	if(worldObj.isRemote)
+    	if(worldObj.isRemote || this.getHealth() <= 0)
     		return;
     	
     	if(this.ticksExisted % MobConfig.raidAttackDelay == 0) {

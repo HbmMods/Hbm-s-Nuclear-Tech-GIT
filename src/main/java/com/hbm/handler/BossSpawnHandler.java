@@ -47,7 +47,7 @@ public class BossSpawnHandler {
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
 					
-					Vec3 vec = Vec3.createVectorHelper(32, 0, 0);
+					Vec3 vec = Vec3.createVectorHelper(MobConfig.raidAttackDistance, 0, 0);
 					vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
 					
 					for(int i = 0; i < MobConfig.raidAmount; i++) {

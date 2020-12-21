@@ -34,6 +34,11 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
     }
 
 	@Override
+	public boolean isArmorEnabled(ItemStack stack) {
+		return getCharge(stack) > 0;
+	}
+
+	@Override
     public void chargeBattery(ItemStack stack, long i) {
     	if(stack.getItem() instanceof ArmorFSBPowered) {
     		if(stack.hasTagCompound()) {

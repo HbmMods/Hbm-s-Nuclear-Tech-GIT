@@ -2039,7 +2039,7 @@ public class MachineRecipes {
 			output[0] = new ItemStack(ModItems.plate_kevlar, 4);
         	break;
         case SOLID_FUEL:
-			output[0] = new ItemStack(ModItems.rocket_fuel, 1);
+			output[0] = new ItemStack(ModItems.rocket_fuel, 4);
         	break;
         case SATURN:
 			output[0] = new ItemStack(ModItems.ingot_saturnite, 2);

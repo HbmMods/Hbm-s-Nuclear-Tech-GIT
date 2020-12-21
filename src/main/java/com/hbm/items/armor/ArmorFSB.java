@@ -44,6 +44,7 @@ public class ArmorFSB extends ItemArmor {
 	public float blastProtection = -1;
 	public float damageCap = -1;
 	public float damageMod = -1;
+	public float damageThreshold = 0;
 	public boolean fireproof = false;
 	public boolean noHelmet = false;
 	public boolean vats = false;
@@ -75,6 +76,11 @@ public class ArmorFSB extends ItemArmor {
 	
 	public ArmorFSB setMod(float mod) {
 		this.damageMod = mod;
+		return this;
+	}
+	
+	public ArmorFSB setThreshold(float threshold) {
+		this.damageThreshold = threshold;
 		return this;
 	}
 	
@@ -135,6 +141,7 @@ public class ArmorFSB extends ItemArmor {
 		this.resistance = original.resistance;
 		this.damageCap = original.damageCap;
 		this.damageMod = original.damageMod;
+		this.damageThreshold = original.damageThreshold;
 		this.blastProtection = original.blastProtection;
 		this.fireproof = original.fireproof;
 		this.noHelmet = original.noHelmet;
@@ -189,6 +196,10 @@ public class ArmorFSB extends ItemArmor {
 			list.add(EnumChatFormatting.YELLOW + "  General damage modifier of " + damageMod);
     	}
     	
+    	if(damageThreshold > 0) {
+			list.add(EnumChatFormatting.YELLOW + "  Damage threshold of " + damageThreshold);
+    	}
+    	
     	if(fireproof) {
 			list.add(EnumChatFormatting.RED + "  Fireproof");
     	}
@@ -208,28 +219,54 @@ public class ArmorFSB extends ItemArmor {
     
     public static boolean hasFSBArmor(EntityPlayer player) {
     	
-		ItemStack helmet = player.inventory.armorInventory[3];
 		ItemStack plate = player.inventory.armorInventory[2];
-		ItemStack legs = player.inventory.armorInventory[1];
-		ItemStack boots = player.inventory.armorInventory[0];
 		
 		if(plate != null && plate.getItem() instanceof ArmorFSB) {
 			
 			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
-			
 			boolean noHelmet = chestplate.noHelmet;
-		
-			if(((helmet != null && helmet.getItem() instanceof ItemArmor) || noHelmet) &&
-					plate != null && plate.getItem() instanceof ItemArmor &&
-					legs != null && legs.getItem() instanceof ItemArmor &&
-					boots != null && boots.getItem() instanceof ItemArmor) {
+			
+			for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
 				
-				if((noHelmet || chestplate.getArmorMaterial() == ((ItemArmor)helmet.getItem()).getArmorMaterial()) &&
-					chestplate.getArmorMaterial() == ((ItemArmor)legs.getItem()).getArmorMaterial() &&
-					chestplate.getArmorMaterial() == ((ItemArmor)boots.getItem()).getArmorMaterial()) {
-					return true;
-				}
+				ItemStack armor = player.inventory.armorInventory[i];
+				
+				if(armor == null || !(armor.getItem() instanceof ArmorFSB))
+					return false;
+				
+				if(((ArmorFSB)armor.getItem()).getArmorMaterial() != chestplate.getArmorMaterial())
+					return false;
+				
+				if(!((ArmorFSB)armor.getItem()).isArmorEnabled(armor))
+					return false;
 			}
+			
+			return true;
+		}
+		
+		return false;
+    }
+    
+    public static boolean hasFSBArmorIgnoreCharge(EntityPlayer player) {
+    	
+		ItemStack plate = player.inventory.armorInventory[2];
+		
+		if(plate != null && plate.getItem() instanceof ArmorFSB) {
+			
+			ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+			boolean noHelmet = chestplate.noHelmet;
+			
+			for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
+				
+				ItemStack armor = player.inventory.armorInventory[i];
+				
+				if(armor == null || !(armor.getItem() instanceof ArmorFSB))
+					return false;
+				
+				if(((ArmorFSB)armor.getItem()).getArmorMaterial() != chestplate.getArmorMaterial())
+					return false;
+			}
+			
+			return true;
 		}
 		
 		return false;
@@ -248,6 +285,10 @@ public class ArmorFSB extends ItemArmor {
 				ItemStack plate = player.inventory.armorInventory[2];
 				
 				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
+				
+				if(chestplate.damageThreshold >= event.ammount) {
+					event.setCanceled(true);
+				}
 				
 				if(chestplate.fireproof && event.source.isFireDamage()) {
 					player.extinguish();
@@ -275,6 +316,8 @@ public class ArmorFSB extends ItemArmor {
 				ArmorFSB chestplate = (ArmorFSB)player.inventory.armorInventory[2].getItem();
 				
 				if(event.ammount < 100) {
+					
+					event.ammount -= chestplate.damageThreshold;
 					
 					if(chestplate.damageMod != -1) {
 						event.ammount *= chestplate.damageMod;
@@ -364,6 +407,10 @@ public class ArmorFSB extends ItemArmor {
 			if(chestplate.fall != null)
 				player.playSound(chestplate.fall, 1.0F, 1.0F);
 		}
+	}
+	
+	public boolean isArmorEnabled(ItemStack stack) {
+		return true;
 	}
 	
     @SideOnly(Side.CLIENT)

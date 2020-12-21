@@ -16,6 +16,7 @@ public class MobConfig {
 	public static int raidAmount = 15;
 	public static int raidAttackDelay = 40;
 	public static int raidAttackReach = 2;
+	public static int raidAttackDistance = 32;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -32,7 +33,8 @@ public class MobConfig {
 		raidChance = CommonConfig.createConfigInt(config, CATEGORY, "12.07_raidChance", "1:x chance to spawn a raid, must be at least 1", 3);
 		raidAmount = CommonConfig.createConfigInt(config, CATEGORY, "12.08_raidAmount", "How many FBI agents are spawned each raid", 15);
 		raidAttackDelay = CommonConfig.createConfigInt(config, CATEGORY, "12.09_raidAttackDelay", "Time between individual attempts to break machines", 40);
-		raidAttackReach = CommonConfig.createConfigInt(config, CATEGORY, "12.10_raidAttackReach", "How far away machiens can be broken", 2);
+		raidAttackReach = CommonConfig.createConfigInt(config, CATEGORY, "12.10_raidAttackReach", "How far away machines can be broken", 2);
+		raidAttackDistance = CommonConfig.createConfigInt(config, CATEGORY, "12.11_raidAttackDistance", "How far away agents will spawn from the targeted player", 32);
 
 	}
 }
