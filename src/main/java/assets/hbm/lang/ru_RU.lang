@@ -2013,7 +2013,7 @@ entity.entity_cyber_crab.name=Киберкраб
 entity.entity_tesla_crab.name=Теслакраб
 entity.entity_taint_crab.name=Заражённый порчей теслакраб
 entity.entity_elder_one.name=Крякос Старший
-entity.entity_hbm_fbi.name=Агент ФБР
+entity.entity_ntm_fbi.name=Агент ФБР
 
 item.cap_aluminium.name=Алюминиевый колпачок
 item.hull_small_steel.name=Небольшая стальная оболочка
