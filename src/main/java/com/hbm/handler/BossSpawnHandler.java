@@ -45,7 +45,7 @@ public class BossSpawnHandler {
 		
 		if(MobConfig.enableRaids) {
 			
-			if(world.getTotalWorldTime() % MobConfig.raidAttackDelay == 0) {
+			if(world.getTotalWorldTime() % MobConfig.raidDelay == 0) {
 				
 				if(world.rand.nextInt(MobConfig.raidChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
 					
