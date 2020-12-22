@@ -1628,14 +1628,14 @@ public class MachineRecipes {
 			break;
         case CIRCUIT_4:
 			list.add(new ItemStack(ModItems.circuit_red_copper, 1));
-			list.add(new ItemStack(ModItems.wire_gold, 6));
-			list.add(new ItemStack(ModItems.powder_lapis, 4));
+			list.add(new ItemStack(ModItems.wire_gold, 4));
+			list.add(new ItemStack(ModItems.powder_lapis, 1));
 			list.add(new ItemStack(ModItems.ingot_polymer, 1));
 			break;
         case CIRCUIT_5:
 			list.add(new ItemStack(ModItems.circuit_gold, 1));
-			list.add(new ItemStack(ModItems.wire_schrabidium, 6));
-			list.add(new ItemStack(ModItems.powder_diamond, 4));
+			list.add(new ItemStack(ModItems.wire_schrabidium, 4));
+			list.add(new ItemStack(ModItems.powder_diamond, 1));
 			list.add(new ItemStack(ModItems.ingot_desh, 1));
 			break;
         case POLYMER:

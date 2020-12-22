@@ -73,7 +73,8 @@ public class EntityAI_MLPF extends EntityAIBase {
     	//System.out.println("Routing to " + x + "/" + y + "/" + z);
     	
 		//this is where the magic happens
-        boolean success = this.mover.getNavigator().tryMoveToXYZ(x, y, z, this.speed);
+        this.mover.getNavigator().tryMoveToXYZ(x, y, z, this.speed);
+        mover.setAttackTarget(target);
         
         //System.out.println("Start successful? " + success);
     }

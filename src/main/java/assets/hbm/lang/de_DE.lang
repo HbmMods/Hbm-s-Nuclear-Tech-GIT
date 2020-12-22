@@ -2400,6 +2400,7 @@ tile.ore_daffergon.name=Dellit
 tile.ore_fluorite.name=Fluoriterz
 tile.ore_gneiss_asbestos.name=Schiefer-Asbesterz
 tile.ore_gneiss_copper.name=Schiefer-Kupfererz
+tile.ore_gneiss_gas.name=Gasschiefer
 tile.ore_gneiss_gold.name=Schiefer-Golderz
 tile.ore_gneiss_iron.name=Schiefer-Eisenerz
 tile.ore_gneiss_lithium.name=Schifer-Lithiumerz

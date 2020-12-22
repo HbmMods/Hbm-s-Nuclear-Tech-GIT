@@ -2400,6 +2400,7 @@ tile.ore_daffergon.name=Dellite
 tile.ore_fluorite.name=Fluorite Ore
 tile.ore_gneiss_asbestos.name=Schist Asbestos Ore
 tile.ore_gneiss_copper.name=Schist Copper Ore
+tile.ore_gneiss_gas.name=Gas Shale
 tile.ore_gneiss_gold.name=Schist Gold Ore
 tile.ore_gneiss_iron.name=Schist Iron Ore
 tile.ore_gneiss_lithium.name=Schist Lithium Ore

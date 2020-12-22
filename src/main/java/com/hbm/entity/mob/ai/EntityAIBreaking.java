@@ -37,7 +37,7 @@ public class EntityAIBreaking extends EntityAIBase {
 			{
 				return false;
 			}
-			
+
 			Block block = entityDigger.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 			
 			if(block.getBlockHardness(entityDigger.worldObj, mop.blockX, mop.blockY, mop.blockZ) >= 0) {
@@ -72,7 +72,7 @@ public class EntityAIBreaking extends EntityAIBase {
 	{
     	MovingObjectPosition mop = null;
     	
-    	if(entityDigger.ticksExisted%10 == 0)
+    	if(entityDigger.ticksExisted % 10 == 0)
     	{
     		mop = GetNextObstical(entityDigger, 2D);
     	}
@@ -93,7 +93,7 @@ public class EntityAIBreaking extends EntityAIBase {
 		
 		int health = (int) block.getBlockHardness(entityDigger.worldObj, markedLoc[0], markedLoc[1], markedLoc[2]) / 3;
 		
-		if(health <= 0) {
+		if(health < 0) {
 			markedLoc = null;
 			return;
 		}

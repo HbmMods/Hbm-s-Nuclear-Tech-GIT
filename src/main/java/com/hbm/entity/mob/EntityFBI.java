@@ -18,7 +18,6 @@ import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -86,9 +85,13 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
     protected void entityInit() {
         super.entityInit();
     }
+    
+    protected boolean canDespawn() {
+        return false;
+    }
 	
     protected void addRandomArmor() {
-        super.addRandomArmor();
+        //super.addRandomArmor();
         
         int equip = rand.nextInt(2);
         
@@ -97,7 +100,7 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
         case 1: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_ks23)); break;
         }
         
-        if(rand.nextInt(10) == 0) {
+        if(rand.nextInt(5) == 0) {
         	this.setCurrentItemOrArmor(4, new ItemStack(ModItems.security_helmet));
         	this.setCurrentItemOrArmor(3, new ItemStack(ModItems.security_plate));
         	this.setCurrentItemOrArmor(2, new ItemStack(ModItems.security_legs));

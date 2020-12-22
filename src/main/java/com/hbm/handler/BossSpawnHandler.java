@@ -9,6 +9,9 @@ import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -24,6 +27,7 @@ public class BossSpawnHandler {
 				if(world.rand.nextInt(MobConfig.maskmanChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {	//33% chance only if there is a player online
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));	//choose a random player
+					player.addChatComponentMessage(new ChatComponentText("The mask man is about to claim another victim.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 					
 					if(ContaminationUtil.getRads(player) >= MobConfig.maskmanMinRad && (world.getHeightValue((int)player.posX, (int)player.posZ) > player.posY + 3 || !MobConfig.maskmanUnderground)) {	//if the player has more than 50 RAD and is underground
 						
@@ -41,11 +45,12 @@ public class BossSpawnHandler {
 		
 		if(MobConfig.enableRaids) {
 			
-			if(world.getTotalWorldTime() % MobConfig.raidDelay == 0) {
+			if(world.getTotalWorldTime() % MobConfig.raidAttackDelay == 0) {
 				
 				if(world.rand.nextInt(MobConfig.raidChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
+					player.addChatComponentMessage(new ChatComponentText("FBI, OPEN UP!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 					
 					Vec3 vec = Vec3.createVectorHelper(MobConfig.raidAttackDistance, 0, 0);
 					vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
@@ -72,6 +77,7 @@ public class BossSpawnHandler {
 			
 			world.spawnEntityInWorld(e);
 			ForgeEventFactory.doSpecialSpawn(e, world, x, y, z);
+			e.onSpawnWithEgg(null);
 		}
 	}
 
