@@ -806,7 +806,8 @@ item.ingot_magnetized_tungsten.name=Намагниченный слиток во
 item.ingot_combine_steel.name=Слиток CMB-стали
 item.plate_combine_steel.name=Пластина CMB-стали 
 item.plate_armor_lunar.name=Лунная обшивка
-item.plate_armor_titanium.name=Титановая обшивка
+item.plate_armor_titanium.name=Титановая обшивка брони
+item.plate_armor_hev.name=Реактивная обшивка брони
 item.wire_magnetized_tungsten.name=4000K Высокотемпературный проводник
 item.coil_magnetized_tungsten.name=4000K Высокотемпературная сверхпроводящая катушка
 item.plate_mixed.name=Смешанная пластина
@@ -2314,6 +2315,7 @@ item.asbestos_legs.name=Огнезащитные поножи
 item.asbestos_boots.name=Огнезащитные ботинки
 item.vault_suit.name=Комбинезон Убежища
 item.vault_pants.name=Штаны комбинезона Убежища
+item.nossy_hat.name=Сказочная шляпа
 
 item.paa_plate.name=Защищающая грудная пластина из PaA
 item.paa_legs.name=Укреплённые поножи из PaA
@@ -2335,6 +2337,11 @@ item.bj_boots.name=Лунные шипованные ботинки
 item.bj_helmet.name=Повязка с тепловым сенсором
 item.bj_legs.name=Лунные кибернетические замены ног
 item.bj_plate.name=Лунная кибернетическая обшивка
+
+item.hev_boots.name=Ботинки H.E.V Модели IV
+item.hev_plate.name=Нагрудник H.E.V Модели IV
+item.hev_helmet.name=Шлем H.E.V Модели IV
+item.hev_legs.name=Поножи H.E.V Модели IV
 
 tile.mush.name=Светящийся гриб
 tile.waste_mycelium.name=Светящийся мицелий
