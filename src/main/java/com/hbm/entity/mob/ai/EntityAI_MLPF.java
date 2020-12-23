@@ -60,6 +60,9 @@ public class EntityAI_MLPF extends EntityAIBase {
     	//line length is capped so the pathfinder can manage it
     	int range = distance;
 
+    	if(vec.lengthVector() < 16)
+    		mover.setAttackTarget(target);
+
     	vec = vec.normalize();
     	vec.xCoord *= range;
     	vec.yCoord *= range;
@@ -74,7 +77,6 @@ public class EntityAI_MLPF extends EntityAIBase {
     	
 		//this is where the magic happens
         this.mover.getNavigator().tryMoveToXYZ(x, y, z, this.speed);
-        mover.setAttackTarget(target);
         
         //System.out.println("Start successful? " + success);
     }

@@ -239,7 +239,12 @@ public abstract class WeaponAbility {
 				EntityLivingBase living = (EntityLivingBase) victim;
 				
 				if(living instanceof EntitySkeleton) {
-					living.entityDropItem(new ItemStack(Items.skull, 1, ((EntitySkeleton)living).getSkeletonType()), 0.0F);
+					
+					if(((EntitySkeleton)living).getSkeletonType() == 0)
+						living.entityDropItem(new ItemStack(Items.skull, 1, 0), 0.0F);
+					else
+						living.entityDropItem(new ItemStack(ModItems.cell_antimatter), 0.0F);
+					
 				} else if(living instanceof EntityZombie) {
 					living.entityDropItem(new ItemStack(Items.skull, 1, 2), 0.0F);
 				} else if(living instanceof EntityCreeper) {

@@ -1,5 +1,8 @@
 package com.hbm.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -9,14 +12,19 @@ import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.GunB92Cell;
 import com.hbm.util.EnchantmentUtil;
 
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CraftingManager {
@@ -1762,6 +1770,34 @@ public class CraftingManager {
 			GameRegistry.addRecipe(new ItemStack(ModItems.wire_schrabidium, 16), new Object[] { "###", '#', ModItems.ingot_schrabidium });
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.book_of_), new Object[] { "BGB", "GAG", "BGB", 'B', ModItems.egg_balefire_shard, 'G', "ingotGold", 'A', Items.book }));
+		}
+	}
+	
+	public static void crumple() {
+		
+		if(Loader.isModLoaded("Mekanism")) {
+			
+			List<IRecipe> toDestroy = new ArrayList();
+			
+			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
+			ItemStack digiminer = new ItemStack(mb, 1, 4);
+			
+			for(Object o : net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList()) {
+				
+				if(o instanceof IRecipe) {
+					IRecipe rec = (IRecipe)o;
+					ItemStack stack = rec.getRecipeOutput();
+					
+					if(stack != null && stack.getItem() == digiminer.getItem() && stack.getItemDamage() == digiminer.getItemDamage()) {
+						toDestroy.add(rec);
+					}
+				}
+			}
+			
+			if(toDestroy.size() > 0) {
+				net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList().removeAll(toDestroy);
+				GameRegistry.addRecipe(digiminer, new Object[] { "###", "###", '#', ModItems.ingot_schrabidium });
+			}
 		}
 	}
 	

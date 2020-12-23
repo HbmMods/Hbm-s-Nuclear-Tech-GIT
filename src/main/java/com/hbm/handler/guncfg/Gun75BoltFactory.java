@@ -2,15 +2,24 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
+import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 
 public class Gun75BoltFactory {
 
@@ -64,6 +73,8 @@ public class Gun75BoltFactory {
 		
 		config.config = new ArrayList();
 		config.config.add(BulletConfigSyncingUtil.B75_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.B75_INCENDIARY);
+		config.config.add(BulletConfigSyncingUtil.B75_HE);
 		
 		return config;
 	}
@@ -76,12 +87,65 @@ public class Gun75BoltFactory {
 		bullet.ammo = ModItems.ammo_75bolt;
 		bullet.ammoCount = 30;
 		bullet.spread *= inaccuracy;
-		bullet.dmgMin = 16;
-		bullet.dmgMax = 24;
+		bullet.dmgMin = 24;
+		bullet.dmgMax = 32;
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
 		
 		return bullet;
 	}
 
+	public static BulletConfiguration get75BoltIncConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_75bolt_incendiary;
+		bullet.ammoCount = 30;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 26;
+		bullet.dmgMax = 36;
+		bullet.doesRicochet = false;
+		bullet.explosive = 0.25F;
+
+		bullet.incendiary = 5;
+		bullet.doesPenetrate = false;
+		
+		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
+		eff.getCurativeItems().clear();
+		bullet.effects = new ArrayList();
+		bullet.effects.add(new PotionEffect(eff));
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaburst");
+				data.setString("mode", "flame");
+				data.setInteger("count", 15);
+				data.setDouble("motion", 0.05D);
+				
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 50));
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration get75BoltHEConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_75bolt_he;
+		bullet.ammoCount = 30;
+		bullet.spread *= inaccuracy;
+		bullet.dmgMin = 32;
+		bullet.dmgMax = 48;
+		bullet.doesRicochet = false;
+		bullet.explosive = 2.5F;
+		bullet.blockDamage = false;
+		
+		return bullet;
+	}
 }

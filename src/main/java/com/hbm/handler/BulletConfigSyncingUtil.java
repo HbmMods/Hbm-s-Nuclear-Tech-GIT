@@ -148,8 +148,10 @@ public class BulletConfigSyncingUtil {
 	public static int R556_FLECHETTE_DU = i++;
 	public static int R556_FLECHETTE_SLEEK = i++;
 	public static int R556_K = i++;
-	
+
 	public static int B75_NORMAL = i++;
+	public static int B75_INCENDIARY = i++;
+	public static int B75_HE = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
 	public static int G20_SHRAPNEL_FIRE = i++;
@@ -337,6 +339,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(R556_K, Gun556mmFactory.get556KConfig());
 		
 		configSet.put(B75_NORMAL, Gun75BoltFactory.get75BoltConfig());
+		configSet.put(B75_INCENDIARY, Gun75BoltFactory.get75BoltIncConfig());
+		configSet.put(B75_HE, Gun75BoltFactory.get75BoltHEConfig());
         
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
 		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));

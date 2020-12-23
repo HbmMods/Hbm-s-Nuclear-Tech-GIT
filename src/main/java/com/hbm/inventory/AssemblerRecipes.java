@@ -543,6 +543,26 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.ingot_u238, 1)
 			}, 60);
 
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt_incendiary, 2), new AStack[] {
+				new OreDictStack("plateSteel", 2),
+				new OreDictStack("plateCopper", 1),
+				new ComparableStack(ModItems.primer_50, 5),
+				new ComparableStack(ModItems.casing_50, 5),
+				new ComparableStack(ModItems.ingot_semtex, 3),
+				new ComparableStack(ModItems.cordite, 3),
+				new ComparableStack(ModItems.ingot_phosphorus, 3)
+			}, 60);
+
+		makeRecipe(new ComparableStack(ModItems.ammo_75bolt_he, 2), new AStack[] {
+				new OreDictStack("plateSteel", 2),
+				new OreDictStack("plateCopper", 1),
+				new ComparableStack(ModItems.primer_50, 5),
+				new ComparableStack(ModItems.casing_50, 5),
+				new ComparableStack(ModItems.ingot_semtex, 5),
+				new ComparableStack(ModItems.cordite, 5),
+				new ComparableStack(Items.redstone, 3)
+			}, 60);
+
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_sparkle, 1), new AStack[] { new ComparableStack(ModItems.cap_sparkle, 128) }, 10);
