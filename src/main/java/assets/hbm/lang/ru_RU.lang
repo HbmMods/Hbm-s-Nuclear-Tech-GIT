@@ -100,6 +100,32 @@ info.template_out_p=Выходы:
 info.template_seconds=секунд
 info.template_time=Время производства:
 
+armor.blastProtection=Модификатор урона %s от взрывов
+armor.cap=Максимальное значение урона %s
+armor.damageModifier=Модификатор урона %s против %s
+armor.fireproof=Огнеупорность
+armor.fullSetBonus=Бонусы Полного Набора брони:
+armor.geigerHUD=Встроенный HUD счетчика Гейгера
+armor.geigerSound=Звуковой Счётчик Гейгера
+armor.gravity=Модификатор гравитации %s
+armor.modifier=Общий модификатор урона %s
+armor.nullDamage=Нейтрализация всего урона от %s
+armor.thermal=Термальный визор
+armor.threshold=Порог урона %s
+armor.vats=Вражеский HUD
+
+trait.blinding=Ослепление
+trait.breeding=Даёт %s операций в реакторе-размножителе
+trait.digamma=Дигамма радиация
+trait.drop=Опасно выкидывать
+trait.furnace=Даёт %s операций в ядерной печи
+trait.heat=Обеспечивает %s ТЕПЛА
+trait.hlParticle=Период Полураспада Частицы: %s
+trait.hlPlayer=Период Полураспада Игрока: %s
+trait.hot=Пирофорный / Горячий
+trait.radioactive=Радиоактивный
+trait.radResistance=Сопротивление радиации: %s
+
 hbmfluid.none=Ничего
 hbmfluid.water=Вода
 hbmfluid.steam=Пар
@@ -362,6 +388,7 @@ item.n2_charge.name=Крупный взрывной заряд
 
 item.egg_balefire_shard.name=Жар-осколок
 item.egg_balefire.name=Жар-яйцо
+item.egg_balefire.desc=Какая птица откладывает радиоактивные яйца?
 
 item.custom_tnt.name=Взрывной заряд Персональной бомбы
 item.custom_nuke.name=Ядерный заряд Персональной бомбы
@@ -808,6 +835,7 @@ item.plate_combine_steel.name=Пластина CMB-стали
 item.plate_armor_lunar.name=Лунная обшивка
 item.plate_armor_titanium.name=Титановая обшивка брони
 item.plate_armor_hev.name=Реактивная обшивка брони
+item.plate_armor_ajr.name=Кованная железная обшивка брони
 item.wire_magnetized_tungsten.name=4000K Высокотемпературный проводник
 item.coil_magnetized_tungsten.name=4000K Высокотемпературная сверхпроводящая катушка
 item.plate_mixed.name=Смешанная пластина
@@ -1034,6 +1062,7 @@ tile.ore_gneiss_asbestos.name=Сланцевая асбестовая руда
 tile.ore_gneiss_copper.name=Сланцевая медная руда
 tile.ore_gneiss_gold.name=Сланцевая золотая руда
 tile.ore_gneiss_iron.name=Сланцевая железная руда
+tile.ore_gneiss_gas.name=Сланцевый газ
 tile.ore_gneiss_lithium.name=Сланцевая литиевая руда
 tile.ore_gneiss_rare.name=Сланцевая редкоземельная руда
 tile.ore_gneiss_schrabidium.name=Сланцевая шрабидиевая руда
@@ -1914,6 +1943,8 @@ item.pellet_meteorite.name=Метеоритные гранулы
 
 item.gun_bolter.name=Болтер
 item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
+item.ammo_75bolt_incendiary.name=Магазин зажигательных болтов .75 (30rnd)
+item.ammo_75bolt_he.name=Магазин фугасных болтов .75 (30rnd)
 
 item.cordite.name=Кордит
 item.ballistite.name=Баллистит
@@ -2332,6 +2363,10 @@ item.t45_helmet.name=Шлем силовой брони T45
 item.t45_plate.name=Нагрудник силовой брони T45
 item.t45_legs.name=Поножи силовой брони T45
 item.t45_boots.name=Ботинки силовой брони T45
+item.ajr_boots.name=Ботинки силовой брони T45-AJR
+item.ajr_helmet.name=Шлем силовой брони T45-AJR
+item.ajr_legs.name=Поножи силовой брони T45-AJR
+item.ajr_plate.name=Нагрудник силовой брони T45-AJR
 
 item.bj_boots.name=Лунные шипованные ботинки
 item.bj_helmet.name=Повязка с тепловым сенсором
@@ -2342,6 +2377,7 @@ item.hev_boots.name=Ботинки H.E.V Модели IV
 item.hev_plate.name=Нагрудник H.E.V Модели IV
 item.hev_helmet.name=Шлем H.E.V Модели IV
 item.hev_legs.name=Поножи H.E.V Модели IV
+item.hev_battery.name=Батарея костюма
 
 tile.mush.name=Светящийся гриб
 tile.waste_mycelium.name=Светящийся мицелий
