@@ -1023,10 +1023,20 @@ public class MainRegistry {
 		HazmatRegistry.registerHazmat(ModItems.t45_legs, 0.6F);
 		HazmatRegistry.registerHazmat(ModItems.t45_boots, 0.2F);
 
+		HazmatRegistry.registerHazmat(ModItems.ajr_helmet, 0.4F);
+		HazmatRegistry.registerHazmat(ModItems.ajr_plate, 0.8F);
+		HazmatRegistry.registerHazmat(ModItems.ajr_legs, 0.6F);
+		HazmatRegistry.registerHazmat(ModItems.ajr_boots, 0.2F);
+
 		HazmatRegistry.registerHazmat(ModItems.bj_helmet, 0.4F);
 		HazmatRegistry.registerHazmat(ModItems.bj_plate, 0.8F);
 		HazmatRegistry.registerHazmat(ModItems.bj_legs, 0.6F);
 		HazmatRegistry.registerHazmat(ModItems.bj_boots, 0.2F);
+
+		HazmatRegistry.registerHazmat(ModItems.hev_helmet, 0.5F);
+		HazmatRegistry.registerHazmat(ModItems.hev_plate, 1.0F);
+		HazmatRegistry.registerHazmat(ModItems.hev_legs, 0.7F);
+		HazmatRegistry.registerHazmat(ModItems.hev_boots, 0.3F);
 
 		HazmatRegistry.registerHazmat(ModItems.paa_plate, 0.8F);
 		HazmatRegistry.registerHazmat(ModItems.paa_legs, 0.6F);

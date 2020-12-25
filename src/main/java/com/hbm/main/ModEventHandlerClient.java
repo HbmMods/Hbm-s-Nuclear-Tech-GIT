@@ -35,6 +35,7 @@ import com.hbm.sound.MovingSoundXVL1456;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.CustomNukeEntry;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom.EnumEntryType;
+import com.hbm.util.I18nUtil;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
@@ -82,13 +83,16 @@ public class ModEventHandlerClient {
 		/// HANDLE GEIGER COUNTER HUD ///
 		if(event.type == ElementType.HOTBAR) {
 			
-			if(player.inventory.hasItem(ModItems.geiger_counter)) {
-
-				float rads = 0;
-
-				rads = player.getEntityData().getFloat("hfr_radiation");
+			if(!(ArmorFSB.hasFSBArmor(player) && ((ArmorFSB)player.inventory.armorInventory[3].getItem()).customGeiger)) {
 				
-				RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
+				if(player.inventory.hasItem(ModItems.geiger_counter)) {
+	
+					float rads = 0;
+	
+					rads = player.getEntityData().getFloat("hfr_radiation");
+					
+					RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
+				}
 			}
 		}
 		
@@ -111,6 +115,12 @@ public class ModEventHandlerClient {
 			
 			ducked = true;
 			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(0, 0, 0, 999, 0));
+		}
+		
+		ItemStack helmet = player.inventory.armorInventory[3];
+		
+		if(helmet != null && helmet.getItem() instanceof ArmorFSB) {
+			((ArmorFSB)helmet.getItem()).handleOverlay(event, player);
 		}
 	}
 	
@@ -241,7 +251,7 @@ public class ModEventHandlerClient {
 		rad = ((int)(rad * 100)) / 100F;
 		
 		if(rad > 0)
-			list.add(EnumChatFormatting.YELLOW + "Radiation resistance: " + rad);
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));
 		
 		ComparableStack comp = new ComparableStack(stack).makeSingular();
 		

@@ -9,6 +9,9 @@ import java.util.Map.Entry;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.interfaces.Untested;
+import com.hbm.items.ModItems;
+import com.hbm.saveddata.RadiationSavedData;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
@@ -31,6 +34,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -49,6 +55,8 @@ public class ArmorFSB extends ItemArmor {
 	public boolean noHelmet = false;
 	public boolean vats = false;
 	public boolean thermal = false;
+	public boolean geigerSound = false;
+	public boolean customGeiger = false;
 	public double gravity = 0;
 	public String step;
 	public String jump;
@@ -109,6 +117,16 @@ public class ArmorFSB extends ItemArmor {
 		return this;
 	}
 	
+	public ArmorFSB setHasGeigerSound(boolean geiger) {
+		this.geigerSound = geiger;
+		return this;
+	}
+	
+	public ArmorFSB setHasCustomGeiger(boolean geiger) {
+		this.customGeiger = geiger;
+		return this;
+	}
+	
 	public ArmorFSB setGravity(double gravity) {
 		this.gravity = gravity;
 		return this;
@@ -147,6 +165,8 @@ public class ArmorFSB extends ItemArmor {
 		this.noHelmet = original.noHelmet;
 		this.vats = original.vats;
 		this.thermal = original.thermal;
+		this.geigerSound = original.geigerSound;
+		this.customGeiger = original.customGeiger;
 		this.gravity = original.gravity;
 		this.step = original.step;
 		this.jump = original.jump;
@@ -163,7 +183,7 @@ public class ArmorFSB extends ItemArmor {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
     	
-    	list.add(EnumChatFormatting.GOLD + "Full set bonus:");
+    	list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
     	
     	if(!effects.isEmpty()) {
     		
@@ -177,43 +197,51 @@ public class ArmorFSB extends ItemArmor {
         	for(Entry<String, Float> struct : resistance.entrySet()) {
         		
         		if(struct.getValue() != 0)
-        			list.add(EnumChatFormatting.YELLOW + "  Damage modifier of " + struct.getValue() + " against " + I18n.format(struct.getKey()));
+        			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.damageModifier", struct.getValue(), I18n.format(struct.getKey())));
         		else
-        			list.add(EnumChatFormatting.RED + "  Nullifies all damage from " + I18n.format(struct.getKey()));
+        			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.nullDamage", struct.getValue(), I18n.format(struct.getKey())));
         	}
     	}
     	
     	if(blastProtection != -1) {
 
-    		list.add(EnumChatFormatting.YELLOW + "  Damage modifier of " + blastProtection + " against explosions");
+    		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.blastProtection", blastProtection));
     	}
     	
     	if(damageCap != -1) {
-			list.add(EnumChatFormatting.YELLOW + "  Hard damage cap of " + damageCap);
+    		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.cap", damageCap));
     	}
     	
     	if(damageMod != -1) {
-			list.add(EnumChatFormatting.YELLOW + "  General damage modifier of " + damageMod);
+    		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.modifier", damageMod));
     	}
     	
     	if(damageThreshold > 0) {
-			list.add(EnumChatFormatting.YELLOW + "  Damage threshold of " + damageThreshold);
+    		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.threshold", damageThreshold));
     	}
     	
     	if(fireproof) {
-			list.add(EnumChatFormatting.RED + "  Fireproof");
+    		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.fireproof"));
+    	}
+    	
+    	if(geigerSound) {
+    		list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerSound"));
+    	}
+    	
+    	if(customGeiger) {
+    		list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerHUD"));
     	}
     	
     	if(vats) {
-			list.add(EnumChatFormatting.RED + "  Enemy HUD");
+    		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
     	}
     	
     	if(thermal) {
-			list.add(EnumChatFormatting.RED + "  Thermal Sight");
+    		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
     	}
     	
     	if(gravity != 0) {
-			list.add(EnumChatFormatting.BLUE + "  Gravity modifier of " + gravity);
+    		list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
     	}
     }
     
@@ -272,7 +300,6 @@ public class ArmorFSB extends ItemArmor {
 		return false;
     }
 
-	@Untested
     public static void handleAttack(LivingAttackEvent event) {
     	
 		EntityLivingBase e = event.entityLiving;
@@ -303,7 +330,6 @@ public class ArmorFSB extends ItemArmor {
 		}
     }
 
-	@Untested
     public static void handleHurt(LivingHurtEvent event) {
     	
 		EntityLivingBase e = event.entityLiving;
@@ -339,7 +365,6 @@ public class ArmorFSB extends ItemArmor {
 		}
     }
 
-	@Untested
     public static void handleTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
@@ -385,7 +410,6 @@ public class ArmorFSB extends ItemArmor {
 		}
     }
 	
-	@Untested
 	public static void handleJump(EntityPlayer player) {
 
 		if(ArmorFSB.hasFSBArmor(player)) {
@@ -397,7 +421,6 @@ public class ArmorFSB extends ItemArmor {
 		}
 	}
 	
-	@Untested
 	public static void handleFall(EntityPlayer player) {
 
 		if(ArmorFSB.hasFSBArmor(player)) {
@@ -408,6 +431,63 @@ public class ArmorFSB extends ItemArmor {
 				player.playSound(chestplate.fall, 1.0F, 1.0F);
 		}
 	}
+
+	@Override
+	public void onArmorTick(World world, EntityPlayer entity, ItemStack stack) {
+		
+		if(this.armorType != 1)
+			return;
+		
+		if(!this.hasFSBArmor(entity))
+			return;
+		
+		if(world.getTotalWorldTime() % 5 == 0) {
+			
+			int x = check(world, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
+			
+			if(x > 0) {
+				List<Integer> list = new ArrayList<Integer>();
+
+				if(x < 1)
+					list.add(0);
+				if(x < 5)
+					list.add(0);
+				if(x < 10)
+					list.add(1);
+				if(x > 5 && x < 15)
+					list.add(2);
+				if(x > 10 && x < 20)
+					list.add(3);
+				if(x > 15 && x < 25)
+					list.add(4);
+				if(x > 20 && x < 30)
+					list.add(5);
+				if(x > 25)
+					list.add(6);
+			
+				int r = list.get(world.rand.nextInt(list.size()));
+				
+				if(r > 0)
+					world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
+			} else if(world.rand.nextInt(50) == 0) {
+				world.playSoundAtEntity(entity, "hbm:item.geiger"+ (1 + world.rand.nextInt(1)), 1.0F, 1.0F);
+			}
+		}
+	}
+
+	public static int check(World world, int x, int y, int z) {
+		
+		RadiationSavedData data = RadiationSavedData.getData(world);
+		
+		Chunk chunk = world.getChunkFromBlockCoords(x, z);
+		int rads = (int)Math.ceil(data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition));
+		
+		return rads;
+	}
+
+	//For crazier stuff not possible without hooking the event
+    @SideOnly(Side.CLIENT)
+	public void handleOverlay(RenderGameOverlayEvent.Pre event, EntityPlayer player) { }
 	
 	public boolean isArmorEnabled(ItemStack stack) {
 		return true;

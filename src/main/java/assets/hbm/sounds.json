@@ -54,6 +54,7 @@
     "item.repair": {"category": "player", "sounds": ["tool/repair1", "tool/repair2", "tool/repair3", "tool/repair4", "tool/repair5", "tool/repair6", "tool/repair7"]},
     "item.vice": {"category": "player", "sounds": [{"name": "tool/vice", "stream": false}]},
     "item.upgradePlug": {"category": "player", "sounds": [{"name": "tool/upgradePlug", "stream": false}]},
+    "item.battery": {"category": "player", "sounds": [{"name": "tool/battery", "stream": false}]},
 
 	"music.recordLambdaCore": {"category": "record", "sounds": [{"name": "music/recordLambdaCore", "stream": true}]},
 	"music.recordSectorSweep": {"category": "record", "sounds": [{"name": "music/recordSectorSweep", "stream": true}]},

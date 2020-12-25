@@ -6,6 +6,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,8 +19,20 @@ import net.minecraft.util.EnumChatFormatting;
 public class ItemCustomLore extends Item {
 	
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		
+		String unloc = this.getUnlocalizedName() + ".desc";
+		String loc = I18nUtil.resolveKey(unloc);
+		
+		if(!unloc.equals(loc)) {
+			
+			String[] locs = loc.split("\\$");
+			
+			for(String s : locs) {
+				list.add(s);
+			}
+		}
+		
 		if(this == ModItems.flame_pony)
 		{
 			//list.add("Blue horse beats yellow horse, look it up!");
@@ -358,11 +371,6 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.missile_soyuz_lander)
 		{
 			list.add("Doubles as a crappy lander!");
-		}
-		
-		if(this == ModItems.egg_balefire)
-		{
-			list.add("What kind of bird lays a radioactive egg?");
 		}
 		
 		if(this == ModItems.ingot_schraranium)

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorFSB;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ContaminationUtil;
 
@@ -23,6 +24,12 @@ public class ItemGeigerCounter extends Item {
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
+		
+		if(entity instanceof EntityPlayer) {
+			
+			if(ArmorFSB.hasFSBArmor((EntityPlayer)entity) && ((ArmorFSB)((EntityPlayer)entity).inventory.armorInventory[2].getItem()).geigerSound)
+				return;
+		}
 		
 		setInt(stack, getInt(stack, "timer") + 1, "timer");
 		if(getInt(stack, "timer") == 10) {

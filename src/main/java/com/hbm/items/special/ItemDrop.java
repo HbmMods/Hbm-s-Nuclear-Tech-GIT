@@ -17,6 +17,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -244,7 +245,7 @@ public class ItemDrop extends Item {
 			list.add("Explodes when dropped!");
 		}
 		
-		list.add(EnumChatFormatting.RED + "[Dangerous Drop]");
+		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.drop") + "]");
 	}
 	
 	@Override

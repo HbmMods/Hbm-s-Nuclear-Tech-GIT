@@ -19,8 +19,8 @@ public class ModelArmorAJR extends ModelArmorBase {
 		rightArm = new ModelRendererObj(ResourceManager.armor_ajr, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
 		leftLeg = new ModelRendererObj(ResourceManager.armor_ajr, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
 		rightLeg = new ModelRendererObj(ResourceManager.armor_ajr, "RightLeg").setRotationPoint(-1.9F, 12.0F, 0.0F);
-		leftFoot = new ModelRendererObj(ResourceManager.armor_ajr, "LeftFoot").setRotationPoint(1.9F, 12.0F, 0.0F);
-		rightFoot = new ModelRendererObj(ResourceManager.armor_ajr, "RightFoot").setRotationPoint(-1.9F, 12.0F, 0.0F);
+		leftFoot = new ModelRendererObj(ResourceManager.armor_ajr, "LeftBoot").setRotationPoint(1.9F, 12.0F, 0.0F);
+		rightFoot = new ModelRendererObj(ResourceManager.armor_ajr, "RightBoot").setRotationPoint(-1.9F, 12.0F, 0.0F);
 	}
 
 	@Override

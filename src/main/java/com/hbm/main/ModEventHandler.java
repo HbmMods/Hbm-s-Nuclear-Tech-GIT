@@ -115,7 +115,7 @@ public class ModEventHandler
 		
 		EntityPlayer player = event.player;
 		
-		if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && !player.worldObj.isRemote) {
+		if(player.getDisplayName().equals("Dr_Nostalgia") && !player.worldObj.isRemote) {
 			
 			if(!player.inventory.hasItem(ModItems.hat))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
@@ -487,7 +487,7 @@ public class ModEventHandler
 			/// GHOST FIX END ///
 			
 			/// BETA HEALTH START ///
-			if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia)) {
+			if(player.getDisplayName().equals("Dr_Nostalgia")) {
 				
 				if(player.getFoodStats().getFoodLevel() > 10) {
 					player.heal(player.getFoodStats().getFoodLevel() - 10);

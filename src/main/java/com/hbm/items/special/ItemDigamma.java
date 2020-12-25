@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -50,18 +51,18 @@ public class ItemDigamma extends ItemRadioactive {
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.GOLD + "Particle Half-Life: 1.67*10³⁴a");
-		list.add(EnumChatFormatting.RED + "Player Half-Life: " + (digamma / 20F) + "s");
+		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.hlParticle", "1.67*10³⁴a"));
+		list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.hlPlayer", (digamma / 20F) + "s"));
 		
 		list.add("");
 		super.addInformation(stack, player, list, bool);
 		
 		float d = ((int)((1000F / 60) * 10)) / 10F;
 		
-		list.add(EnumChatFormatting.RED + "[Digamma Radiation]");
+		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
 		list.add(EnumChatFormatting.DARK_RED + "" + d + "DRX/s");
 		
-		list.add(EnumChatFormatting.RED + "[Dangerous Drop]");
+		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.drop") + "]");
 	}
 
 	@Override

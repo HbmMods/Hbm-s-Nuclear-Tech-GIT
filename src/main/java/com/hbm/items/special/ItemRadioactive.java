@@ -3,14 +3,12 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.inventory.BreederRecipes;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -67,22 +65,22 @@ public class ItemRadioactive extends ItemCustomLore {
 		super.addInformation(stack, player, list, bool);
 		
 		if(radiation > 0) {
-			list.add(EnumChatFormatting.GREEN + "[Radioactive]");
+			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
 			list.add(EnumChatFormatting.YELLOW + (radiation + "RAD/s"));
 		}
 		
 		if(fire)
-			list.add(EnumChatFormatting.GOLD + "[Pyrophyric / Hot]");
+			list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("trait.hot") + "]");
 		
 		if(blinding)
-			list.add(EnumChatFormatting.DARK_AQUA + "[Blinding]");
+			list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey("trait.blinding") + "]");
 		
 		int[] breeder = BreederRecipes.getFuelValue(stack);
 		
 		if(breeder != null) {
-			list.add(BreederRecipes.getHEATString("[Provides " + breeder[0] + " HEAT]", breeder[0]));
-			list.add(EnumChatFormatting.YELLOW + "Worth " + breeder[1] + " operations in breeding reactor");
-			list.add(EnumChatFormatting.YELLOW + "Worth " + (breeder[0] * breeder[1] * 5) + " operations in nuclear furnace");
+			list.add(BreederRecipes.getHEATString("[" + I18nUtil.resolveKey("trait.heat", breeder[0]) + "]", breeder[0]));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
 		}
 	}
 }
