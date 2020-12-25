@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineReactor;
+import com.hbm.config.MobConfig;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -676,16 +677,26 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	}
 
 	private void explode() {
+		
 		for(int i = 0; i < slots.length; i++) {
 			this.slots[i] = null;
 		}
 
+		worldObj.setBlockToAir(this.xCoord, this.yCoord, this.zCoord);
 		worldObj.createExplosion(null, this.xCoord, this.yCoord, this.zCoord, 18.0F, true);
 		ExplosionNukeGeneric.waste(worldObj, this.xCoord, this.yCoord, this.zCoord, 35);
 		worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, ModBlocks.toxic_block);
 
 		RadiationSavedData data = RadiationSavedData.getData(worldObj);
 		data.incrementRad(worldObj, xCoord, zCoord, 1000F, 2000F);
+		
+		if(MobConfig.enableElementals) {
+			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(100, 100, 100));
+			
+			for(EntityPlayer player : players) {
+				player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", true);
+			}
+		}
 	}
 
 	@Override

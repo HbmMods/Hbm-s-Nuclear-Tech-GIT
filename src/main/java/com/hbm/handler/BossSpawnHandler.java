@@ -3,6 +3,7 @@ package com.hbm.handler;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityFBI;
 import com.hbm.entity.mob.EntityMaskMan;
+import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -42,8 +43,6 @@ public class BossSpawnHandler {
 			}
 		}
 		
-
-		
 		if(MobConfig.enableRaids) {
 			
 			if(world.getTotalWorldTime() % MobConfig.raidDelay == 0) {
@@ -63,6 +62,41 @@ public class BossSpawnHandler {
 						double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
 						
 						trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new EntityFBI(world));
+					}
+				}
+			}
+		}
+		
+		if(MobConfig.enableElementals) {
+			
+			if(true || world.getTotalWorldTime() % MobConfig.elementalDelay == 0) {
+				
+				if(world.rand.nextInt(MobConfig.elementalChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
+					
+					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
+					
+					if(player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).getBoolean("radMark")) {
+						
+						player.addChatComponentMessage(new ChatComponentText("You hear a faint clicking...").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
+						player.getEntityData().getCompoundTag(player.PERSISTED_NBT_TAG).setBoolean("radMark", false);
+						
+						Vec3 vec = Vec3.createVectorHelper(MobConfig.raidAttackDistance, 0, 0);
+						
+						for(int i = 0; i < MobConfig.elementalAmount; i++) {
+							
+							vec.rotateAroundY((float)(Math.PI * 2) * world.rand.nextFloat());
+	
+							double spawnX = player.posX + vec.xCoord + world.rand.nextGaussian();
+							double spawnZ = player.posZ + vec.zCoord + world.rand.nextGaussian();
+							double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
+							
+							EntityRADBeast rad = new EntityRADBeast(world);
+							
+							if(i == 0)
+								rad.makeLeader();
+							
+							trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, rad);
+						}
 					}
 				}
 			}

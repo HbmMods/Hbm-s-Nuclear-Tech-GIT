@@ -1,6 +1,7 @@
 package com.hbm.util;
 
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -40,6 +41,9 @@ public class ContaminationUtil {
 
 		if(!(e instanceof EntityLivingBase))
 			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
@@ -59,6 +63,9 @@ public class ContaminationUtil {
 
 		if(!(e instanceof EntityLivingBase))
 			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
@@ -73,6 +80,9 @@ public class ContaminationUtil {
 	public static float getRads(Entity e) {
 
 		if(!(e instanceof EntityLivingBase))
+			return 0.0F;
+
+		if(e instanceof IRadiationImmune)
 			return 0.0F;
 		
 		return e.getEntityData().getFloat("hfr_radiation");

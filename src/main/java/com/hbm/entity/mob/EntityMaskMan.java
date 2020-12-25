@@ -3,6 +3,7 @@ package com.hbm.entity.mob;
 import com.hbm.entity.mob.ai.EntityAIMaskmanCasualApproach;
 import com.hbm.entity.mob.ai.EntityAIMaskmanLasergun;
 import com.hbm.entity.mob.ai.EntityAIMaskmanMinigun;
+import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,7 +20,7 @@ import net.minecraft.init.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityMaskMan extends EntityMob implements IBossDisplayData {
+public class EntityMaskMan extends EntityMob implements IBossDisplayData, IRadiationImmune {
 
 	public EntityMaskMan(World world) {
 		super(world);
@@ -75,8 +76,6 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData {
         	if(!worldObj.isRemote)
         		worldObj.createExplosion(this, posX, posY + 4, posZ, 2.5F, true);
         }
-        
-        getEntityData().setFloat("hfr_radiation", 0);
     }
     
     public boolean isAIEnabled() {
