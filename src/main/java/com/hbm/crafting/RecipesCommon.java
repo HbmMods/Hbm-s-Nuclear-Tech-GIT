@@ -29,11 +29,11 @@ public class RecipesCommon {
 
 	//Compress nine items into one
 	public static void add9To1(Item nine, Block one) {
-		add9To1(new ItemStack(nine), new ItemStack(nine));
+		add9To1(new ItemStack(nine), new ItemStack(one));
 	}
 
 	public static void add9To1(Item nine, Item one) {
-		add9To1(new ItemStack(nine), new ItemStack(nine));
+		add9To1(new ItemStack(nine), new ItemStack(one));
 	}
 
 	public static void add9To1(ItemStack nine, ItemStack one) {

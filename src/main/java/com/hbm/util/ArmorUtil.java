@@ -213,6 +213,22 @@ public class ArmorUtil {
 		{
 			return true;
 		}
+		if(checkArmorPiece(player, ModItems.t45_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.ajr_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.bj_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hev_helmet, 3))
+		{
+			return true;
+		}
 		
 		return false;
 	}

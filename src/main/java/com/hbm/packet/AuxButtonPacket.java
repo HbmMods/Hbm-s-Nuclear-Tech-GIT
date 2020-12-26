@@ -1,5 +1,6 @@
 package com.hbm.packet;
 
+import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
@@ -281,7 +282,7 @@ public class AuxButtonPacket implements IMessage {
 					
 					NBTTagCompound perDat = p.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
 					
-					if(!perDat.getBoolean("hasDucked")) {
+					if(MobConfig.enableDucks && !perDat.getBoolean("hasDucked")) {
 						EntityDuck ducc = new EntityDuck(p.worldObj);
 						ducc.setPosition(p.posX, p.posY + p.eyeHeight, p.posZ);
 						

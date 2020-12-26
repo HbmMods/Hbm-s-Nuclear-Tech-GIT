@@ -18,6 +18,16 @@ public class MineralRecipes {
 	public static void register() {
 
 		RecipesCommon.add9To1(ModItems.ingot_aluminium, ModBlocks.block_aluminium);
+		RecipesCommon.add1To9(ModBlocks.block_aluminium, ModItems.ingot_aluminium);
+
+		RecipesCommon.add9To1(ModItems.ingot_schraranium, ModBlocks.block_schraranium);
+		RecipesCommon.add1To9(ModBlocks.block_schraranium, ModItems.ingot_schraranium);
+		
+		RecipesCommon.add9To1(ModItems.ingot_schrabidate, ModBlocks.block_schrabidate);
+		RecipesCommon.add1To9(ModBlocks.block_schrabidate, ModItems.ingot_schrabidate);
+		
+		RecipesCommon.add9To1(ModItems.ingot_dineutronium, ModBlocks.block_dineutronium);
+		RecipesCommon.add1To9(ModBlocks.block_dineutronium, ModItems.ingot_dineutronium);
 		
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_copper), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_copper });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_fluorite), 1), new Object[] { "###", "###", "###", '#', ModItems.fluorite });
@@ -76,7 +86,6 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_fiberglass, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_fiberglass });
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.block_cobalt, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_cobalt });
 
-		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_aluminium, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_aluminium) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_copper, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_copper) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.fluorite, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_fluorite) });
 		GameRegistry.addRecipe(new ItemStack(ModItems.niter, 9), new Object[] { "#", '#', Item.getItemFromBlock(ModBlocks.block_niter) });

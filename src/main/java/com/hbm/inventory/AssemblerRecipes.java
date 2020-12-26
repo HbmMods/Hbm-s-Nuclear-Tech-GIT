@@ -27,10 +27,13 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.Loader;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 
 @Untested
@@ -120,7 +123,7 @@ public class AssemblerRecipes {
 	}
 	
 	/**
-	 * Registers regular recipes if there's no custom confiuration
+	 * Registers regular recipes if there's no custom configuration
 	 */
 	private static void registerDefaults() {
 		
@@ -571,6 +574,29 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_fritz, 1), new AStack[] { new ComparableStack(ModItems.cap_fritz, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_sunset, 1), new AStack[] { new ComparableStack(ModItems.cap_sunset, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_star, 1), new AStack[] { new ComparableStack(ModItems.cap_star, 128) }, 10);
+		
+		if(Loader.isModLoaded("Mekanism")) {
+			
+			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
+			
+			if(mb != null) {
+	
+				makeRecipe(new ComparableStack(mb, 1, 4), new AStack[] {
+						new ComparableStack(ModItems.ingot_dura_steel, 16),
+						new OreDictStack("ingotDesh", 8),
+						new OreDictStack("plateSteel", 48),
+						new OreDictStack("plateCopper", 24),
+						new ComparableStack(ModItems.pipes_steel, 8),
+						new ComparableStack(ModItems.circuit_gold, 8),
+						new ComparableStack(ModItems.wire_advanced_alloy, 24),
+						new ComparableStack(ModBlocks.fusion_conductor, 12),
+						new ComparableStack(ModBlocks.machine_lithium_battery, 3),
+						new ComparableStack(ModItems.crystal_redstone, 12),
+						new ComparableStack(ModItems.crystal_diamond, 8),
+						new ComparableStack(ModItems.motor_desh, 16)
+					}, 15 * 60 * 20);
+			}
+		}
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {

@@ -86,7 +86,9 @@ public class ItemChemistryTemplate extends Item {
 		ELECTROLYSIS,
 		XENON,
 		SATURN,
-		BALEFIRE;
+		BALEFIRE,
+		SCHRABIDIC,
+		SCHRABIDATE;
 		
 		public static EnumChemistryTemplate getEnum(int i) {
 			if(i < EnumChemistryTemplate.values().length)
@@ -255,9 +257,13 @@ public class ItemChemistryTemplate extends Item {
         case XENON:
         	return 600;
         case SATURN:
-        	return 600;
+        	return 60;
         case BALEFIRE:
         	return 100;
+        case SCHRABIDIC:
+        	return 100;
+        case SCHRABIDATE:
+        	return 600;
         default:
         	return 100;
         }

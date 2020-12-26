@@ -3,8 +3,12 @@ package com.hbm.render.item;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.special.ItemHot;
+import com.hbm.render.util.RenderItemStack;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -12,8 +16,7 @@ public class ItemRendererHot implements IItemRenderer {
 
 	@Override
 	public boolean handleRenderType(ItemStack stack, ItemRenderType type) {
-		
-		return true;
+		return type == ItemRenderType.INVENTORY;
 	}
 
 	@Override
@@ -26,16 +29,21 @@ public class ItemRendererHot implements IItemRenderer {
 		GL11.glPushMatrix();
 		RenderHelper.enableGUIStandardItemLighting();
 		
-		float d = (float)ItemHot.getHeat(item);
+		Minecraft mc = Minecraft.getMinecraft();
+		RenderItemStack.renderItem.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, 0, 0);
 		
-		//GL11.glColor3f(1F, 1F - d * 0.25F, d);
-		
-		/*if(currentItem != null)
-			RenderItemStack.renderItemStack(0, 0, 1.0F, currentItem);
-		else
-			RenderItemStack.renderItemStack(0, 0, 1.0F, item);*/
+		double h = ItemHot.getHeat(item);
+		if(h > 0) {
+
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_LIGHTING);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			GL11.glColor4f(1F, 1F, 1F, (float) h);
+            RenderItem.getInstance().renderIcon(0, 0, ((ItemHot)item.getItem()).hotIcon, 16, 16);
+            GL11.glEnable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_BLEND);
+		}
 		
 		GL11.glPopMatrix();
 	}
-
 }

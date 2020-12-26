@@ -69,7 +69,7 @@ public class BossSpawnHandler {
 		
 		if(MobConfig.enableElementals) {
 			
-			if(true || world.getTotalWorldTime() % MobConfig.elementalDelay == 0) {
+			if(world.getTotalWorldTime() % MobConfig.elementalDelay == 0) {
 				
 				if(world.rand.nextInt(MobConfig.elementalChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {
 					

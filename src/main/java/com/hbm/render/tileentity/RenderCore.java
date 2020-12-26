@@ -41,7 +41,7 @@ public class RenderCore extends TileEntitySpecialRenderer {
     		GL11.glRotatef(RenderManager.instance.playerViewX - 90, 1.0F, 0.0F, 0.0F);
     		GL11.glTranslated(-0.5, -0.5, -0.5);
     		
-        	renderVoid(core, 0, 0, 0);
+    		renderOrb(core, 0, 0, 0);
         	GL11.glPopMatrix();
         }
     }

@@ -28,7 +28,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public List<IFluidAcceptor> list = new ArrayList();
 	
 	public TileEntityMachineFluidTank() {
-		super(7);
+		super(6);
 		tank = new FluidTank(FluidType.NONE, 256000, 0);
 	}
 

@@ -199,7 +199,7 @@ public class ArmorFSB extends ItemArmor {
         		if(struct.getValue() != 0)
         			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.damageModifier", struct.getValue(), I18n.format(struct.getKey())));
         		else
-        			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.nullDamage", struct.getValue(), I18n.format(struct.getKey())));
+        			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.nullDamage", I18n.format(struct.getKey())));
         	}
     	}
     	

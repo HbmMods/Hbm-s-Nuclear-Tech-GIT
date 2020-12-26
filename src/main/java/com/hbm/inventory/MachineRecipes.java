@@ -121,6 +121,11 @@ public class MachineRecipes {
 			return new ItemStack(ModItems.ingot_meteorite);
 		}
 
+		if (item.getItem() == ModItems.meteorite_sword_hardened && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
+				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == ModItems.meteorite_sword_hardened) {
+			return new ItemStack(ModItems.meteorite_sword_alloyed, 1);
+		}
+
 		return null;
 	}
 
@@ -315,6 +320,9 @@ public class MachineRecipes {
 				return new ItemStack(ModItems.biomass_compressed);
 			if(input.getItem() == ModItems.powder_lignite)
 				return new ItemStack(ModItems.briquette_lignite);
+
+			if(input.getItem() == ModItems.meteorite_sword_reforged)
+				return new ItemStack(ModItems.meteorite_sword_hardened);
 		}
 		
 		if(stamps_plate.contains(stamp.getItem())) {
@@ -1709,6 +1717,12 @@ public class MachineRecipes {
         case BALEFIRE:
 			list.add(new ItemStack(ModItems.egg_balefire_shard, 1));
 			break;
+        case SCHRABIDIC:
+			list.add(new ItemStack(ModItems.pellet_charged, 1));
+			break;
+        case SCHRABIDATE:
+			list.add(new ItemStack(ModItems.powder_iron, 1));
+			break;
 		default:
 			break;
 		}
@@ -1915,6 +1929,13 @@ public class MachineRecipes {
     	case BALEFIRE:
 			input[0] = new FluidStack(6000, FluidType.KEROSENE);
         	break;
+    	case SCHRABIDIC:
+			input[0] = new FluidStack(8000, FluidType.SAS3);
+			input[1] = new FluidStack(6000, FluidType.ACID);
+        	break;
+    	case SCHRABIDATE:
+			input[0] = new FluidStack(250, FluidType.SCHRABIDIC);
+        	break;
 		default:
 			break;
 		}
@@ -2047,6 +2068,9 @@ public class MachineRecipes {
         case BALEFIRE:
 			output[0] = new ItemStack(ModItems.powder_balefire, 1);
         	break;
+        case SCHRABIDATE:
+			output[0] = new ItemStack(ModItems.powder_schrabidate, 1);
+        	break;
 		default:
 			break;
 		}
@@ -2169,6 +2193,9 @@ public class MachineRecipes {
         	break;
         case BALEFIRE:
 			output[0] = new FluidStack(8000, FluidType.BALEFIRE);
+        	break;
+        case SCHRABIDIC:
+			output[0] = new FluidStack(16000, FluidType.SCHRABIDIC);
         	break;
 		default:
 			break;

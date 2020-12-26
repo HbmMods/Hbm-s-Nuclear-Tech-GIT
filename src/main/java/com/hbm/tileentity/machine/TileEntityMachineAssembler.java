@@ -278,6 +278,9 @@ public class TileEntityMachineAssembler extends TileEntity implements ISidedInve
 							}
 							
 							removeItems(AssemblerRecipes.getRecipeFromTempate(slots[4]), slots);
+							
+							if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
+								slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
 						}
 						
 						power -= consumption;

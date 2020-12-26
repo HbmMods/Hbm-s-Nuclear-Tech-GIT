@@ -13,6 +13,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
@@ -28,6 +29,7 @@ import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
@@ -42,6 +44,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -105,7 +108,7 @@ public class ModEventHandler
         		event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "New version " + HTTPHandler.versionNumber + " is available!"));
         	}
         	
-        	if(event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
+        	if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
         		PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!"), (EntityPlayerMP)event.player);
         }
 	}
@@ -473,6 +476,9 @@ public class ModEventHandler
 		
 		ArmorFSB.handleTick(event);
 		
+		if(player.ticksExisted == 100 || player.ticksExisted == 200)
+			CraftingManager.crumple();
+		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 			
 			/// GHOST FIX START ///
@@ -769,6 +775,49 @@ public class ModEventHandler
             }
             
             event.cost = 10;
+		}
+		
+		if(event.left.getItem() == ModItems.ingot_meteorite && event.right.getItem() == ModItems.ingot_meteorite &&
+				event.left.stackSize == 1 && event.right.stackSize == 1) {
+			
+			double h1 = ItemHot.getHeat(event.left);
+			double h2 = ItemHot.getHeat(event.right);
+			
+			if(h1 >= 0.5 && h2 >= 0.5) {
+	            
+				ItemStack out = new ItemStack(ModItems.ingot_meteorite_forged);
+				ItemHot.heatUp(out, (h1 + h2) / 2D);
+				event.output = out;
+	            event.cost = 10;
+			}
+		}
+		
+		if(event.left.getItem() == ModItems.ingot_meteorite_forged && event.right.getItem() == ModItems.ingot_meteorite_forged &&
+				event.left.stackSize == 1 && event.right.stackSize == 1) {
+			
+			double h1 = ItemHot.getHeat(event.left);
+			double h2 = ItemHot.getHeat(event.right);
+			
+			if(h1 >= 0.5 && h2 >= 0.5) {
+	            
+				ItemStack out = new ItemStack(ModItems.blade_meteorite);
+				ItemHot.heatUp(out, (h1 + h2) / 2D);
+				event.output = out;
+	            event.cost = 30;
+			}
+		}
+		
+		if(event.left.getItem() == ModItems.meteorite_sword_seared && event.right.getItem() == ModItems.ingot_meteorite_forged &&
+				event.left.stackSize == 1 && event.right.stackSize == 1) {
+			
+			double h2 = ItemHot.getHeat(event.right);
+			
+			if(h2 >= 0.5) {
+	            
+				ItemStack out = new ItemStack(ModItems.meteorite_sword_reforged);
+				event.output = out;
+	            event.cost = 50;
+			}
 		}
 	}
 }
