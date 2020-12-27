@@ -685,6 +685,7 @@ tile.radiobox.name=Коробка управления вредителями Р
 tile.radiorec.name=Сломанное FM радио
 container.radiobox=FM передатчик
 container.radiorec=FM радио
+tile.muffler.name=Глушитель
 
 tile.red_pylon.name=Электрический столб
 item.wiring_red_copper.name=Моток провода
@@ -2079,7 +2080,7 @@ item.dysfunctional_reactor.name=Нерабочий ядерный реактор
 item.rotor_steel.name=Большой стальной ротор
 item.generator_steel.name=Корпус генератора
 item.blade_titanium.name=Титановая лопость
-item.blade_meteorite.name=Метеоритное лезвие
+item.blade_meteorite.name=Метеоритовое лезвие
 item.turbine_titanium.name=Титановая паровая турбина
 item.generator_front.name=Перед генератора
 item.blade_tungsten.name=Усиленная вольфрамом лопасть
@@ -2523,8 +2524,10 @@ item.meteorite_sword_alloyed.name=Метеоритовый меч (Легиро�
 item.meteorite_sword_machined.name=Метеоритовый меч (Механически обработанный)
 item.meteorite_sword_treated.name=Метеоритовый меч (Обработанный)
 item.meteorite_sword_etched.name=Метеоритовый меч (Гравированный)
-item.meteorite_sword.name=Метеоритовый меч
-item.meteorite_sword.name=Метеоритовый меч
+item.meteorite_sword_bred.name=Метеоритовый меч (Разведённый)
+item.meteorite_sword_irradiated.name=Метеоритовый меч (Облучённый)
+item.meteorite_sword_fused.name=Метеоритовый меч (Сплавленный)
+item.meteorite_sword_baleful.name=Метеоритовый меч (Зловещий)
 
 tile.red_cable.name=Провод из красной меди
 
@@ -2706,6 +2709,7 @@ item.nugget.name=Куриный наггетс
 
 item.canteen_13.name=Фляжка Убежища 13
 item.canteen_vodka.name=Стильная фляга
+item.canteen_fab.name=Потрясающая водка
 
 item.bottle_opener.name=Собственная самодельная открывашка для бутылок
 
@@ -2889,4 +2893,5 @@ tile.cheater_virus_seed.name=Нестабильный блок шрабидат�
 
 item.mysteryshovel.name=Непрочная лопата
 tile.ntm_dirt.name=Грязь
+item.beta.name=БЕТА-ФУНКЦИИ
 item.memory.name=item.null.name
