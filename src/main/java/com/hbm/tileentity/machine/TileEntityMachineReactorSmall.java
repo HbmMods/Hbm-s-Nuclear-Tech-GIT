@@ -344,9 +344,15 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 			}
 
 			if(rods >= rodsMax)
+				
 				for(int i = 0; i < 12; i++) {
-					if(slots[i] != null && slots[i].getItem() instanceof ItemFuelRod)
-						decay(i);
+					
+					if(slots[i] != null) {
+						if(slots[i].getItem() instanceof ItemFuelRod)
+							decay(i);
+						else if(slots[i].getItem() == ModItems.meteorite_sword_bred)
+							slots[i] = new ItemStack(ModItems.meteorite_sword_irradiated);
+					}
 				}
 
 			coreHeatMod = 1.0;

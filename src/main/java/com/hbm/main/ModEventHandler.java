@@ -122,6 +122,9 @@ public class ModEventHandler
 			
 			if(!player.inventory.hasItem(ModItems.hat))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
+			
+			if(!player.inventory.hasItem(ModItems.beta))
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
 	
@@ -493,7 +496,7 @@ public class ModEventHandler
 			/// GHOST FIX END ///
 			
 			/// BETA HEALTH START ///
-			if(player.getDisplayName().equals("Dr_Nostalgia")) {
+			if(player.inventory.hasItem(ModItems.beta)) {
 				
 				if(player.getFoodStats().getFoodLevel() > 10) {
 					player.heal(player.getFoodStats().getFoodLevel() - 10);

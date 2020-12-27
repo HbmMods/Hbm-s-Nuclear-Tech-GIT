@@ -9,6 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -183,5 +184,20 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IConsu
 	public long getMaxPower() {
 		return maxPower;
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		power = nbt.getLong("power");
+		speed = nbt.getInteger("speed");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
 
+		nbt.setLong("power", power);
+		nbt.setInteger("speed", speed);
+	}
 }

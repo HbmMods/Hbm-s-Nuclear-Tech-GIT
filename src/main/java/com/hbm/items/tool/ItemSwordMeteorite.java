@@ -60,6 +60,59 @@ public class ItemSwordMeteorite extends ItemSwordAbility {
     		list.add(EnumChatFormatting.ITALIC + "Acids clean the material");
     		list.add(EnumChatFormatting.ITALIC + "To make this the perfect sword");
     	}
+    	
+    	if(this == ModItems.meteorite_sword_bred) {
+    		list.add(EnumChatFormatting.ITALIC + "Immense heat and radiation");
+    		list.add(EnumChatFormatting.ITALIC + "Compress the material");
+    	}
+    	
+    	if(this == ModItems.meteorite_sword_irradiated) {
+    		list.add(EnumChatFormatting.ITALIC + "The power of the Atom");
+    		list.add(EnumChatFormatting.ITALIC + "Gives the sword might");
+    	}
+    	
+    	if(this == ModItems.meteorite_sword_fused) {
+    		list.add(EnumChatFormatting.ITALIC + "This blade has met");
+    		list.add(EnumChatFormatting.ITALIC + "With the forces of the stars");
+    	}
+    	
+    	if(this == ModItems.meteorite_sword_baleful) {
+    		list.add(EnumChatFormatting.ITALIC + "This sword has met temperatures");
+    		list.add(EnumChatFormatting.ITALIC + "Far beyond what normal material can endure");
+    	}
+    	
+    	/*if(this == ModItems.meteorite_sword_subatomic) {
+			
+    	}*/
+    	
+    	/*if(this == ModItems.meteorite_sword_void) {
+			
+    	}*/
+    	
+    	/*if(this == ModItems.meteorite_sword_clouded) {
+    		list.add(EnumChatFormatting.ITALIC + "The sword to fell");
+    		list.add(EnumChatFormatting.ITALIC + "The capital");
+    	}*/
+    	
+    	/*if(this == ModItems.meteorite_sword_enchanted) {
+    		list.add(EnumChatFormatting.ITALIC + "The sword to defeat");
+    		list.add(EnumChatFormatting.ITALIC + "The country");
+    	}*/
+    	
+    	/*if(this == ModItems.meteorite_sword_fstbmb) {
+    		list.add(EnumChatFormatting.ITALIC + "The sword to end");
+    		list.add(EnumChatFormatting.ITALIC + "The world");
+    	}*/
+    	
+    	/*if(this == ModItems.meteorite_sword_digama) {
+    		list.add(EnumChatFormatting.ITALIC + "The sword to extinguish");
+    		list.add(EnumChatFormatting.ITALIC + "The universe");
+    	}*/
+
+    	//meteorite_sword_duchess
+    	//meteorite_sword_queen
+    	//meteorite_sword_storm
+    	//§k
     }
 
 }

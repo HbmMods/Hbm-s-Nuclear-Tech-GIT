@@ -8,8 +8,6 @@ import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.interfaces.Untested;
-import com.hbm.items.ModItems;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.I18nUtil;
 
@@ -313,7 +311,7 @@ public class ArmorFSB extends ItemArmor {
 				
 				ArmorFSB chestplate = (ArmorFSB)plate.getItem();
 				
-				if(chestplate.damageThreshold >= event.ammount) {
+				if(chestplate.damageThreshold >= event.ammount && !event.source.isUnblockable()) {
 					event.setCanceled(true);
 				}
 				
@@ -343,7 +341,8 @@ public class ArmorFSB extends ItemArmor {
 				
 				if(event.ammount < 100) {
 					
-					event.ammount -= chestplate.damageThreshold;
+					if(!event.source.isUnblockable())
+						event.ammount -= chestplate.damageThreshold;
 					
 					if(chestplate.damageMod != -1) {
 						event.ammount *= chestplate.damageMod;

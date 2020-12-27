@@ -182,6 +182,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 		
 		BreederRecipe out = BreederRecipes.getOutput(slots[1]);
 		
+		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_irradiated)
+			out = new BreederRecipe(ModItems.meteorite_sword_fused, 1);
+		
+		if(slots[1] != null && slots[1].getItem() == ModItems.meteorite_sword_fused)
+			out = new BreederRecipe(ModItems.meteorite_sword_baleful, 4);
+		
 		if(out == null) {
 			this.progress = 0;
 			return;

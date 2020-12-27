@@ -34,6 +34,11 @@ public class ItemDrop extends Item {
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		if (entityItem != null) {
 			
+			if(this == ModItems.beta) {
+				entityItem.setDead();
+				return true;
+			}
+			
 			ItemStack stack = entityItem.getEntityItem();
 
 			if (stack.getItem() != null && stack.getItem() == ModItems.detonator_deadman) {

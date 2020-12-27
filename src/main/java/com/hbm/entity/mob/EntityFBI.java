@@ -185,15 +185,10 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 
     public boolean isPotionApplicable(PotionEffect potion)
     {
-        if(Potion.potionTypes[potion.getPotionID()].isBadEffect()) {
-
-    		if(this.getEquipmentInSlot(4) == null)
-            	this.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65));
-    		
-    		return false;
-        }
-
-        return true;
+    	if(this.getEquipmentInSlot(4) == null)
+           	this.setCurrentItemOrArmor(4, new ItemStack(ModItems.gas_mask_m65));
+    	
+    	return false;
     }
 	
     public void onLivingUpdate() {

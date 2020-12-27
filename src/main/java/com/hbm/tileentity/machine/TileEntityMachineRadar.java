@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.Untested;
@@ -74,11 +75,14 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ICo
 			
 			sendMissileData();
 			
-			pingTimer++;
-			
-			if(power > 0 && pingTimer >= maxTimer) {
-				this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 5.0F, 1.0F);
-				pingTimer = 0;
+			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) != ModBlocks.muffler) {
+				
+				pingTimer++;
+				
+				if(power > 0 && pingTimer >= maxTimer) {
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 5.0F, 1.0F);
+					pingTimer = 0;
+				}
 			}
 		}
 	}

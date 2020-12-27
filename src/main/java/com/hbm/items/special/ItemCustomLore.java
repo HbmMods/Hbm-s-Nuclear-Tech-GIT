@@ -413,7 +413,9 @@ public class ItemCustomLore extends Item {
     			this == ModItems.cell_sas3 || this == ModItems.powder_schrabidium || 
     			this == ModItems.wire_schrabidium || this == ModItems.circuit_schrabidium || 
     			this == ModItems.gun_revolver_schrabidium_ammo || this == ModItems.ingot_saturnite || 
-    			this == ModItems.plate_saturnite)
+    			this == ModItems.plate_saturnite || this == ModItems.ingot_schrabidate || 
+    			this == ModItems.powder_schrabidate || this == ModItems.ingot_schraranium || 
+    			this == ModItems.crystal_schraranium)
     	{
     		return EnumRarity.rare;
     	}
