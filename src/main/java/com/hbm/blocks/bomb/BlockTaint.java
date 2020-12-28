@@ -10,6 +10,7 @@ import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.mob.EntityTeslaCrab;
 import com.hbm.potion.HbmPotion;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -87,10 +88,12 @@ public class BlockTaint extends Block/*Container*/ {
     {
         return MapColor.purpleColor;
     }
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
-		return 334077;
+		return renderID;
 	}
 
     @Override

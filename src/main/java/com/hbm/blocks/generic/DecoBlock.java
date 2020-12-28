@@ -1,23 +1,17 @@
 package com.hbm.blocks.generic;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
 import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.deco.TileEntityDecoBlock;
 
-import net.minecraft.block.Block;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -43,13 +37,16 @@ public class DecoBlock extends BlockContainer {
 		
 		return new TileEntityDecoBlock();
 	}
+
+    public static int renderIDScaffold = RenderingRegistry.getNextAvailableRenderId();
+    public static int renderIDBeam = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
 		if(this == ModBlocks.steel_scaffold)
-			return 334078;
+			return renderIDScaffold;
 		else if(this == ModBlocks.steel_beam)
-			return 334080;
+			return renderIDBeam;
 		else
 			return -1;
 	}

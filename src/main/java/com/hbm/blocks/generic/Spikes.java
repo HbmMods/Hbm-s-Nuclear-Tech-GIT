@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import com.hbm.lib.ModDamageSource;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -24,10 +25,12 @@ public class Spikes extends Block {
     {
         return null;
     }
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
     public int getRenderType()
     {
-        return 334088;
+        return renderID;
     }
 
     public boolean renderAsNormalBlock()

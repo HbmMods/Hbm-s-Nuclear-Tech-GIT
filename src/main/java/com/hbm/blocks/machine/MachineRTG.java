@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineRTG;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -25,10 +26,12 @@ public class MachineRTG extends BlockContainer {
     public MachineRTG(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
 	public int getRenderType() {
-		return 334087;
+		return renderID;
 	}
 
 	@Override

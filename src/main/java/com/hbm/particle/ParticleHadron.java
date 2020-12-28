@@ -1,7 +1,5 @@
 package com.hbm.particle;
 
-import java.util.Random;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;

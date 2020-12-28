@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.List;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockFence;
@@ -16,10 +17,12 @@ public class BlockMetalFence extends BlockFence {
 	public BlockMetalFence(Material p_i45406_2_) {
 		super("", p_i45406_2_);
 	}
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
 	public int getRenderType(){
-		return 334082;
+		return renderID;
 	}
 	
 	@Override

@@ -44,8 +44,7 @@ import com.hbm.config.WorldConfig;
 import com.hbm.creativetabs.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
-import com.hbm.entity.item.EntityMinecartTest;
-import com.hbm.entity.item.EntityMovingItem;
+import com.hbm.entity.item.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
@@ -427,6 +426,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntitySolarBoiler.class, "tileentity_solarboiler");
 		GameRegistry.registerTileEntity(TileEntitySolarMirror.class, "tileentity_solarmirror");
 		GameRegistry.registerTileEntity(TileEntityMachineDetector.class, "tileentity_he_detector");
+		GameRegistry.registerTileEntity(TileEntityFireworks.class, "tileentity_firework_box");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -577,6 +577,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityMovingItem.class, "entity_c_item", 146, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityCloudTom.class, "entity_moonstone_blast", 147, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityBeamVortex.class, "entity_vortex_beam", 148, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityFireworks.class, "entity_firework_ball", 149, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);

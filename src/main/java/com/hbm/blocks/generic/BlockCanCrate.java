@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.items.ModItems;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,10 +19,12 @@ public class BlockCanCrate extends Block {
 	public BlockCanCrate(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
+    
+    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
-		return 334085;
+		return renderID;
 	}
 	
 	@Override

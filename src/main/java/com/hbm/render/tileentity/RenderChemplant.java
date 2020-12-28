@@ -126,7 +126,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 			GL11.glColor3ub((byte)((color & 0xFF0000) >> 16), (byte)((color & 0x00FF00) >> 8), (byte)((color & 0x0000FF) >> 0));
 			GL11.glTranslated(-0.625, 0, 0.625);
 	        
-			int count = chem.tanks[0].getFill() / 1000;
+			int count = chem.tanks[0].getFill() * 16 / 24000;
 	        for(int i = 0; i < count; i++) {
 	        	
 	        	if(i < count - 1)
@@ -150,7 +150,7 @@ public class RenderChemplant extends TileEntitySpecialRenderer {
 			GL11.glColor3ub((byte)((color & 0xFF0000) >> 16), (byte)((color & 0x00FF00) >> 8), (byte)((color & 0x0000FF) >> 0));
 			GL11.glTranslated(0.625, 0, 0.625);
 
-			int count = chem.tanks[1].getFill() / 1000;
+			int count = chem.tanks[1].getFill() * 16 / 24000;
 	        for(int i = 0; i < count; i++) {
 	        	
 	        	if(i < count - 1)

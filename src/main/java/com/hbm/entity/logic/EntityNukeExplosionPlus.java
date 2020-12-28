@@ -72,7 +72,7 @@ public class EntityNukeExplosionPlus extends Entity {
         if(!flag)
         {
         	this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-        	ExplosionNukeGeneric.dealDamage(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, this.destructionRange * 2);
+        	ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
         } else {
 			if (!did2 && waste) {
 				EntityFalloutRain fallout = new EntityFalloutRain(this.worldObj, (this.wasteRange) * 10);

@@ -1,5 +1,7 @@
 package com.hbm.render.block;
 
+import com.hbm.blocks.bomb.BlockTaint;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -116,7 +118,7 @@ public class RenderTaintBlock implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return 334077;
+		return BlockTaint.renderID;
 	}
 
 }

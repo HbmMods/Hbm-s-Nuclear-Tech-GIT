@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -26,6 +27,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
+import com.hbm.entity.item.EntityFireworks;
 import com.hbm.entity.item.EntityMinecartTest;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.entity.logic.*;
@@ -365,6 +367,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRubble.class, new RenderRubble());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderShrapnel());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityFireworks.class, new RenderShrapnel());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityOilSpill.class, new RenderEmpty());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityWaterSplash.class, new RenderEmpty());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityEMP.class, new RenderEmpty());
@@ -473,7 +476,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeHead.class, new RenderWormHead());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBOTPrimeBody.class, new RenderWormBody());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDuck.class, new RenderDuck(new ModelChicken(), 0.3F));
-	    RenderingRegistry.registerEntityRenderingHandler(EntityQuackos.class, new RenderQuacc(new ModelChicken(), 0.3F));
+	    RenderingRegistry.registerEntityRenderingHandler(EntityQuackos.class, new RenderQuacc(new ModelChicken(), 7.5F));
 	    RenderingRegistry.registerEntityRenderingHandler(EntityFBI.class, new RenderFBI());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRADBeast.class, new RenderRADBeast());
 	    //"particles"
@@ -510,6 +513,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderConveyor());
 		RenderingRegistry.registerBlockHandler(new RenderRTGBlock());
 		RenderingRegistry.registerBlockHandler(new RenderSpikeBlock());
+		RenderingRegistry.registerBlockHandler(new RenderChain());
 	}
 	
 	@Override
@@ -756,6 +760,23 @@ public class ClientProxy extends ServerProxy {
 					ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
+			}
+		}
+		
+		if("fireworks".equals(type)) {
+			int color = data.getInteger("color");
+			char c = (char)data.getInteger("char");
+			
+			ParticleLetter fx = new ParticleLetter(world, x, y, z, color, c);
+			Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			
+			for(int i = 0; i < 50; i++) {
+				EntityFireworkSparkFX blast = new EntityFireworkSparkFX(world, x, y, z,
+						0.4 * world.rand.nextGaussian(),
+						0.4 * world.rand.nextGaussian(),
+						0.4 * world.rand.nextGaussian(), Minecraft.getMinecraft().effectRenderer);
+				blast.setColour(color);
+				Minecraft.getMinecraft().effectRenderer.addEffect(blast);
 			}
 		}
 		
