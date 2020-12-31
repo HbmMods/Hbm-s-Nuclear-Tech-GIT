@@ -111,6 +111,7 @@ public class BulletConfiguration {
 	public static final int BOLT_NIGHTMARE = 1;
 	public static final int BOLT_LASER = 2;
 	public static final int BOLT_ZOMG = 3;
+	public static final int BOLT_WORM = 4;
 	
 	public BulletConfiguration setToBolt(int trail) {
 		

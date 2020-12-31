@@ -92,7 +92,7 @@ public class RenderAccessoryUtility {
 		if(uuid.equals(Library.SweatySwiggs)) {
 			return swiggs;
 		}
-		if(uuid.equals(Library.Doctor17)) {
+		if(uuid.equals(Library.Doctor17) || uuid.equals(Library.Doctor17PH)) {
 			return doctor17;
 		}
 		if(uuid.equals(Library.ShimmeringBlaze)) {

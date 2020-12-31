@@ -1,7 +1,11 @@
 package com.hbm.entity.mob.botprime;
 
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
+
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -42,7 +46,8 @@ public abstract class EntityBOTPrimeBase extends EntityWormBaseNT {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(5000.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15000.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
 	}
 
 	@Override
@@ -54,4 +59,28 @@ public abstract class EntityBOTPrimeBase extends EntityWormBaseNT {
     protected boolean canDespawn() {
         return false;
     }
+	
+	protected void laserAttack(Entity target, boolean head) {
+		
+		if(!(target instanceof EntityLivingBase))
+			return;
+		
+		EntityLivingBase living = (EntityLivingBase) target;
+
+		if(head) {
+			
+			for(int i = 0; i < 5; i++) {
+				
+				EntityBulletBase bullet = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.WORM_LASER, this, living, 1.0F, i * 0.05F);
+				this.worldObj.spawnEntityInWorld(bullet);
+			}
+			
+			this.playSound("hbm:weapon.ballsLaser", 5.0F, 0.75F);
+			
+		} else {
+			EntityBulletBase bullet = new EntityBulletBase(this.worldObj, BulletConfigSyncingUtil.WORM_BOLT, this, living, 0.5F, 0.125F);
+			this.worldObj.spawnEntityInWorld(bullet);
+			this.playSound("hbm:weapon.ballsLaser", 5.0F, 1.0F);
+		}
+	}
 }

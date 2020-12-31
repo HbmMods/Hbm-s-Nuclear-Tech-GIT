@@ -48,6 +48,8 @@ import com.hbm.entity.item.*;
 import com.hbm.entity.logic.*;
 import com.hbm.entity.missile.*;
 import com.hbm.entity.mob.*;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeBody;
+import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.*;
@@ -591,11 +593,9 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
 		EntityRegistry.registerGlobalEntityID(EntityRADBeast.class, "entity_ntm_radiation_blaze", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
 
-		// EntityRegistry.registerGlobalEntityID(EntityBOTPrimeHead.class,
-		// "entity_balls_o_tron_mk0", EntityRegistry.findGlobalUniqueEntityId(),
-		// 0xAAAAAA, 0xAAAAAA);
-		// EntityRegistry.registerModEntity(EntityBOTPrimeBody.class,
-		// "entity_balls_o_tron_mk0_segfault", 148, this, 1000, 1, true);
+		//EntityRegistry.registerGlobalEntityID(EntityBOTPrimeHead.class, "entity_balls_o_tron", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xAAAAAA);
+		EntityRegistry.registerModEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron", 150, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 151, this, 1000, 1, true);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 

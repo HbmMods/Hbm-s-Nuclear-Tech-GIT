@@ -191,4 +191,35 @@ public class GunNPCFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration getWormBolt() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.coin_worm;
+		bullet.spread = 0.0F;
+		bullet.maxAge = 60;
+		bullet.dmgMin = 15;
+		bullet.dmgMax = 25;
+		bullet.leadChance = 0;
+		bullet.ricochetAngle = 90D;
+		bullet.setToBolt(BulletConfiguration.BOLT_WORM);
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getWormHeadBolt() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.coin_worm;
+		bullet.spread = 0.0F;
+		bullet.maxAge = 100;
+		bullet.dmgMin = 35;
+		bullet.dmgMax = 60;
+		bullet.leadChance = 0;
+		bullet.ricochetAngle = 90D;
+		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
+		
+		return bullet;
+	}
 }

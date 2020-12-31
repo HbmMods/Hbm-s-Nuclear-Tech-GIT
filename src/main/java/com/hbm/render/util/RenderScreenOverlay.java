@@ -92,8 +92,10 @@ public class RenderScreenOverlay {
 	
 	public static void renderCustomCrosshairs(ScaledResolution resolution, Gui gui, Crosshair cross) {
 		
-		if(cross == Crosshair.NONE)
+		if(cross == Crosshair.NONE) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 			return;
+		}
 
 		int size = cross.size;
 
@@ -123,7 +125,7 @@ public class RenderScreenOverlay {
 		
 		String cap = max == -1 ? ("∞") : ("" + max);
 		
-		if(renderCount)
+		//if(renderCount)
 			Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + cap, pX + 16, pZ + 6, 0xFFFFFF);
 
         GL11.glDisable(GL11.GL_BLEND);

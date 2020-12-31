@@ -1,5 +1,6 @@
 package com.hbm.entity.mob.botprime;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.world.World;
 
@@ -27,20 +28,22 @@ public abstract class EntityBurrowingNT extends EntityCreature {
     public void moveEntityWithHeading(float strafe, float forward) {
     	
     	float drag = this.dragInGround;
-        if ((!isEntityInsideOpaqueBlock()) && (!isInWater()) && (!handleLavaMovement()))
-        {
-        	drag = this.dragInAir;
-        }
-        else
-        {
-          //TODO: sounds when tunneling
-        }
+    	
+		if((!isEntityInsideOpaqueBlock()) && (!isInWater()) && (!handleLavaMovement())) {
+			drag = this.dragInAir;
+		} else if(this.getRNG().nextInt(100) == 0) {
+			//Block b = worldObj.getBlock((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ));
+			//this.playSound(b.stepSound.getStepResourcePath(), 5F, 1F);
+		}
+        
         if (!getIsHead()) {
         	drag *= 0.9F;
         }
+        
         moveFlying(strafe, forward, 0.02F);
         
         moveEntity(this.motionX, this.motionY, this.motionZ);
+        
         this.motionX *= drag;
         this.motionY *= drag;
         this.motionZ *= drag;

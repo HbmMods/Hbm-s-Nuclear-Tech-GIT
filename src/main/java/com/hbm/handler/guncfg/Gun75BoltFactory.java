@@ -6,8 +6,10 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -18,6 +20,8 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 
@@ -91,6 +95,26 @@ public class Gun75BoltFactory {
 		bullet.dmgMax = 32;
 		bullet.doesRicochet = false;
 		bullet.explosive = 0.25F;
+		
+		bullet.bHurt = new IBulletHurtBehavior() {
+
+			@Override
+			public void behaveEntityHurt(EntityBulletBase bullet, Entity hit) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(hit instanceof EntityLivingBase) {
+					EntityLivingBase living = (EntityLivingBase) hit;
+					float f = living.getHealth();
+					f = Math.max(0, f - 2);
+					living.setHealth(f);
+					
+					if(f == 0)
+						living.onDeath(ModDamageSource.lead);
+				}
+			}
+		};
 		
 		return bullet;
 	}

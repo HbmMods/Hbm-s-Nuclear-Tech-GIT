@@ -60,6 +60,10 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 		this.partNum = num;
 	}
 
+	public Entity getHead() {
+		return worldObj.getEntityByID(this.headID);
+	}
+
 	public int getHeadID() {
 		return this.headID;
 	}
@@ -74,14 +78,26 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 		if(this.isEntityInvulnerable() || source == DamageSource.drown || source == DamageSource.inWall || ((source.getEntity() instanceof EntityWormBaseNT) && ((EntityWormBaseNT) source.getEntity()).getHeadID() == this.getHeadID())) {
 			return false;
 		} else {
+			
 			this.setBeenAttacked();
-			return super.attackEntityFrom(source, amount);
+			
+			if(this.getIsHead()) {
+				return super.attackEntityFrom(source, amount);
+			}
+			
+			Entity head = this.targetedEntity;
+			
+			if(head != null) {
+				return head.attackEntityFrom(source, amount);
+			} else {
+				return super.attackEntityFrom(source, amount);
+			}
 		}
 	}
 
 	protected void updateEntityActionState() {
 		
-		if((!this.worldObj.isRemote) && (this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL)) {
+		if(!this.worldObj.isRemote && this.worldObj.difficultySetting == EnumDifficulty.PEACEFUL) {
 			setDead();
 		}
 		if((this.targetedEntity != null) && (this.targetedEntity.isDead)) {
@@ -97,7 +113,7 @@ public abstract class EntityWormBaseNT extends EntityBurrowingNT {
 			this.motionY = 0.3D;
 		}
 		
-		if(this.ticksExisted % 10 == 0) {
+		if(this.ticksExisted % 5 == 0) {
 			attackEntitiesInList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.5D, 0.5D, 0.5D)));
 		}
 	}

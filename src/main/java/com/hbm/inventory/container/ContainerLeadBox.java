@@ -23,8 +23,10 @@ public class ContainerLeadBox extends Container {
 	 * slots we made? We can just use InventoryItem.INV_SIZE and if we ever
 	 * change it, the Container updates automatically.
 	 */
-	private static final int INV_START = InventoryLeadBox.INV_SIZE, INV_END = INV_START + 26,
-			HOTBAR_START = INV_END + 1, HOTBAR_END = HOTBAR_START + 8;
+	private static final int INV_START = InventoryLeadBox.INV_SIZE,
+			INV_END = INV_START + 26,
+			HOTBAR_START = INV_END + 1,
+			HOTBAR_END = HOTBAR_START + 8;
 
 	// If you're planning to add armor slots, put those first like this:
 	// ARMOR_START = InventoryItem.INV_SIZE, ARMOR_END = ARMOR_START+3,

@@ -521,6 +521,14 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "Gyro-stabilized armor-piercing");
 			list.add(EnumChatFormatting.YELLOW + "DU round with tandem charge");
 		}
+		if(this == ModItems.ammo_75bolt_incendiary) {
+			list.add(EnumChatFormatting.YELLOW + "Armor-piercing explosive round");
+			list.add(EnumChatFormatting.YELLOW + "filled with oxy-phosphorous gel");
+		}
+		if(this == ModItems.ammo_75bolt_he) {
+			list.add(EnumChatFormatting.YELLOW + "Armor-piercing penetrator filled");
+			list.add(EnumChatFormatting.YELLOW + "with a powerful explosive charge");
+		}
 		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {

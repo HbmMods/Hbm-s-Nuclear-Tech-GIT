@@ -120,6 +120,9 @@ public class BulletConfigSyncingUtil {
 	public static int G4_BALEFIRE = i++;
 	public static int G4_KAMPF = i++;
 	public static int G4_CANISTER = i++;
+	public static int G4_CLAW = i++;
+	public static int G4_VAMPIRE = i++;
+	public static int G4_VOID = i++;
 	public static int G4_SLEEK = i++;
 
 	public static int SPECIAL_OSIPR = i++;
@@ -198,6 +201,9 @@ public class BulletConfigSyncingUtil {
 	public static int MASKMAN_ROCKET = i++;
 	public static int MASKMAN_TRACER = i++;
 	public static int MASKMAN_METEOR = i++;
+
+	public static int WORM_BOLT = i++;
+	public static int WORM_LASER = i++;
 	
 	public static void loadConfigsForSync() {
 		
@@ -309,6 +315,9 @@ public class BulletConfigSyncingUtil {
 		configSet.put(G4_BALEFIRE, Gun4GaugeFactory.get4GaugeBalefireConfig());
 		configSet.put(G4_KAMPF, Gun4GaugeFactory.getGrenadeKampfConfig());
 		configSet.put(G4_CANISTER, Gun4GaugeFactory.getGrenadeCanisterConfig());
+		configSet.put(G4_CLAW, Gun4GaugeFactory.get4GaugeClawConfig());
+		configSet.put(G4_VAMPIRE, Gun4GaugeFactory.get4GaugeVampireConfig());
+		configSet.put(G4_VOID, Gun4GaugeFactory.get4GaugeVoidConfig());
 		configSet.put(G4_SLEEK, Gun4GaugeFactory.get4GaugeSleekConfig());
         
 		configSet.put(SPECIAL_OSIPR, GunOSIPRFactory.getPulseConfig());
@@ -387,6 +396,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(MASKMAN_ROCKET, GunNPCFactory.getMaskmanRocket());
 		configSet.put(MASKMAN_TRACER, GunNPCFactory.getMaskmanTracer());
 		configSet.put(MASKMAN_METEOR, GunNPCFactory.getMaskmanMeteor());
+		configSet.put(WORM_BOLT, GunNPCFactory.getWormBolt());
+		configSet.put(WORM_LASER, GunNPCFactory.getWormHeadBolt());
 	}
 	
 	public static BulletConfiguration pullConfig(int key) {
