@@ -9,6 +9,7 @@ import com.hbm.explosion.ExplosionParticle;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -216,6 +217,12 @@ public class EntityNuclearCreeper extends EntityMob {
 	public void onDeath(DamageSource p_70645_1_)
     {
         super.onDeath(p_70645_1_);
+        
+        List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(50, 50, 50));
+        
+        for(EntityPlayer player : players) {
+        	player.triggerAchievement(MainRegistry.bossCreeper);
+        }
 
         if (p_70645_1_.getEntity() instanceof EntitySkeleton || (p_70645_1_.isProjectile() && p_70645_1_.getEntity() instanceof EntityArrow && ((EntityArrow)(p_70645_1_.getEntity())).shootingEntity == null))
         {

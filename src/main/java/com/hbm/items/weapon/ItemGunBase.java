@@ -750,6 +750,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			
 			if(!(gcfg.hasSights && player.isSneaking()))
 				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, ((IHoldableWeapon)player.getHeldItem().getItem()).getCrosshair());
+			else
+				RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, Crosshair.NONE);
 		}
 	}
 }

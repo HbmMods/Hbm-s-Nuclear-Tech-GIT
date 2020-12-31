@@ -51,6 +51,7 @@ public class WorldConfig {
 	public static int meteorStructure = 15000;
 	public static int capsuleStructure = 100;
 	public static int arcticStructure = 500;
+	public static int jungleStructure = 2000;
 
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
@@ -115,6 +116,7 @@ public class WorldConfig {
 		meteorStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.20_meteorSpawn", "Spawn meteor dungeon on every nTH chunk", 15000);
 		capsuleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
 		arcticStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.22_arcticVaultSpawn", "Spawn artic code vault on every nTH chunk", 500);
+		jungleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.23_jungleDungeonSpawn", "Spawn jungle dungeon on every nTH chunk", 2000);
 
 		final String CATEGORY_METEOR = "05_meteors";
 		Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);
@@ -148,6 +150,7 @@ public class WorldConfig {
 		radfreq = CommonConfig.setDefZero(radfreq, 1000);
 		vaultfreq = CommonConfig.setDefZero(vaultfreq, 1000);
 		meteorStructure = CommonConfig.setDefZero(meteorStructure, 15000);
+		jungleStructure = CommonConfig.setDefZero(jungleStructure, 1000);
 		capsuleStructure = CommonConfig.setDefZero(capsuleStructure, 100);
 		arcticStructure = CommonConfig.setDefZero(arcticStructure, 500);
 		

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.blocks.machine.BlockFluidBarrel;
 import com.hbm.explosion.ExplosionThermo;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -69,7 +70,7 @@ public class RedBarrel extends Block {
 	
 	@Override
 	public int getRenderType(){
-		return 334081;
+		return BlockFluidBarrel.renderID;
 	}
 	
 	@Override

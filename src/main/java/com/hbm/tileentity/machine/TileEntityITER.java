@@ -105,8 +105,12 @@ public class TileEntityITER extends TileEntityMachineBase implements IConsumer, 
 					
 					ItemFusionShield.setShieldDamage(slots[3], ItemFusionShield.getShieldDamage(slots[3]) + 1);
 					
-					if(ItemFusionShield.getShieldDamage(slots[3]) > ((ItemFusionShield)slots[3].getItem()).maxDamage)
+					if(ItemFusionShield.getShieldDamage(slots[3]) > ((ItemFusionShield)slots[3].getItem()).maxDamage) {
 						slots[3] = null;
+						worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:block.shutdown", 5F, 1F);
+						this.isOn = false;
+						this.markDirty();
+					}
 				}
 				
 				int prod = FusionRecipes.getSteamProduction(plasma.getTankType());

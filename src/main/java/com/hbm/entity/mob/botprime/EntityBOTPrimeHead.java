@@ -1,6 +1,10 @@
 package com.hbm.entity.mob.botprime;
 
+import java.util.List;
+
 import com.hbm.entity.mob.EntityAINearestAttackableTargetNT;
+import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
@@ -8,6 +12,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -128,6 +133,18 @@ public class EntityBOTPrimeHead extends EntityBOTPrimeBase implements IBossDispl
 		float f3 = MathHelper.sqrt_double(dx * dx + dz * dz);
 		this.prevRotationYaw = this.rotationYaw = (float) (Math.atan2(dx, dz) * 180.0D / Math.PI);
 		this.prevRotationPitch = this.rotationPitch = (float) (Math.atan2(dy, f3) * 180.0D / Math.PI);
+	}
+    
+    @Override
+	public void onDeath(DamageSource p_70645_1_) {
+		super.onDeath(p_70645_1_);
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(200, 200, 200));
+
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.bossMaskman);
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coin_worm));
+		}
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package com.hbm.entity.mob;
 
+import java.util.List;
+
 import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -167,6 +171,19 @@ public class EntityRADBeast extends EntityMob implements IRadiationImmune {
 
     protected Item getDropItem() {
 		return ModItems.rod_uranium_fuel_depleted;
+    }
+    
+    @Override
+	public void onDeath(DamageSource p_70645_1_) {
+        super.onDeath(p_70645_1_);
+        
+        if(this.getMaxHealth() > 150) {
+	        List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(50, 50, 50));
+	        
+	        for(EntityPlayer player : players) {
+	        	player.triggerAchievement(MainRegistry.bossMeltdown);
+	        }
+        }
     }
     
     protected void dropFewItems(boolean beenHit, int looting) {

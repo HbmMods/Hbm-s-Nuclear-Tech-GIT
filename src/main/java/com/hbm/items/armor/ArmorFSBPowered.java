@@ -10,18 +10,21 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 
 	public long maxPower = 1;
 	public long chargeRate;
 	public long consumption;
+	public long drain;
 
-	public ArmorFSBPowered(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption) {
+	public ArmorFSBPowered(ArmorMaterial material, int layer, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
 		super(material, layer, slot, texture);
 		this.maxPower = maxPower;
 		this.chargeRate = chargeRate;
 		this.consumption = consumption;
+		this.drain = drain;
 		this.setMaxDamage(1);
 	}
     
@@ -123,5 +126,12 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
     public void setDamage(ItemStack stack, int damage)
     {
         this.dischargeBattery(stack, damage * consumption);
+    }
+	
+    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+    	
+    	if(this.drain > 0 && ArmorFSB.hasFSBArmor(player)) {
+    		this.dischargeBattery(itemStack, drain);
+    	}
     }
 }

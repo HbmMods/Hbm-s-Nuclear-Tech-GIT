@@ -183,6 +183,10 @@ public class MainRegistry {
 	public static Achievement horizonsStart;
 	public static Achievement horizonsEnd;
 	public static Achievement horizonsBonus;
+	public static Achievement bossCreeper;
+	public static Achievement bossMeltdown;
+	public static Achievement bossMaskman;
+	public static Achievement bossWorm;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -889,6 +893,11 @@ public class MainRegistry {
 		horizonsEnd = new Achievement("achievement.horizonsEnd", "horizonsEnd", 0, 4, ModItems.sat_gerald, horizonsStart).initIndependentStat().registerStat();
 		horizonsBonus = new Achievement("achievement.horizonsBonus", "horizonsBonus", 2, 4, ModItems.sat_gerald, horizonsEnd).initIndependentStat().registerStat().setSpecial();
 
+		bossCreeper = new Achievement("achievement.bossCreeper", "bossCreeper", 8, 0, ModItems.coin_creeper, null).initIndependentStat().registerStat();
+		bossMeltdown = new Achievement("achievement.bossMeltdown", "bossMeltdown", 9, -1, ModItems.coin_radiation, bossCreeper).initIndependentStat().registerStat();
+		bossMaskman = new Achievement("achievement.bossMaskman", "bossMaskman", 9, 1, ModItems.coin_maskman, bossCreeper).initIndependentStat().registerStat();
+		bossWorm = new Achievement("achievement.bossWorm", "bossWorm", 11, 1, ModItems.coin_worm, bossMaskman).initIndependentStat().registerStat().setSpecial();
+
 		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
 		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
 
@@ -919,7 +928,11 @@ public class MainRegistry {
 				horizonsEnd,
 				horizonsBonus,
 				achRadPoison,
-				achRadDeath
+				achRadDeath,
+				bossCreeper,
+				bossMeltdown,
+				bossMaskman,
+				bossWorm
 		}));
 
 		// MUST be initialized AFTER achievements!!

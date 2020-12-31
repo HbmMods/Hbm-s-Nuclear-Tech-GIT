@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockFluidBarrel;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.saveddata.RadiationSavedData;
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +46,7 @@ public class YellowBarrel extends Block {
 	
 	@Override
 	public int getRenderType(){
-		return 334081;
+		return BlockFluidBarrel.renderID;
 	}
 	
 	@Override

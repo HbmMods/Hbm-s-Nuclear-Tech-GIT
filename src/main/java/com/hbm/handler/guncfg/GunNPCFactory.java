@@ -201,7 +201,7 @@ public class GunNPCFactory {
 		bullet.dmgMin = 15;
 		bullet.dmgMax = 25;
 		bullet.leadChance = 0;
-		bullet.ricochetAngle = 90D;
+		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_WORM);
 		
 		return bullet;
@@ -217,7 +217,7 @@ public class GunNPCFactory {
 		bullet.dmgMin = 35;
 		bullet.dmgMax = 60;
 		bullet.leadChance = 0;
-		bullet.ricochetAngle = 90D;
+		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
 		
 		return bullet;

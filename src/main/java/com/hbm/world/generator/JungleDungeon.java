@@ -30,12 +30,22 @@ public class JungleDungeon extends CellularDungeon {
 		this.ceiling.add(new MetaBlock(ModBlocks.brick_jungle_cracked));
 	}
 	
-	public void generate(World world, int x, int y, int z, Random rand) {
+	public void generate(final World world, final int x, final int y, final int z, final Random rand) {
 		super.generate(world, x, y, z, rand);
 		
 		TimedGenerator.addOp(world, new ITimedJob() {
 			@Override
-			public void work() { JungleDungeon.this.hasHole = false; }
+			public void work() {
+				
+				JungleDungeon that = JungleDungeon.this;
+				
+				//A hole has not been made -> this is the bottom floor
+				if(!that.hasHole) {
+					world.setBlock(x, y, z, ModBlocks.brick_jungle_circle);
+				}
+				
+				that.hasHole = false;
+			}
 		} );
 		
 		//since all the building is timed jobs, this has to be as well. timed jobs are ordered so this works!

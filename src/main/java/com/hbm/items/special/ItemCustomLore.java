@@ -18,6 +18,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends Item {
 	
+	EnumRarity rarity;
+	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		
@@ -430,13 +432,12 @@ public class ItemCustomLore extends Item {
     			this == ModItems.nugget_daffergon || this == ModItems.nugget_verticium || 
     			this == ModItems.powder_australium || this == ModItems.powder_weidanium || 
     			this == ModItems.powder_reiium || this == ModItems.powder_unobtainium || 
-    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium ||
-    			this == ModItems.coin_maskman)
+    			this == ModItems.powder_daffergon || this == ModItems.powder_verticium)
     	{
     		return EnumRarity.uncommon;
     	}
     	
-		return EnumRarity.common;
+		return this.rarity != null ? rarity : EnumRarity.common;
     }
 
     @Override
@@ -455,5 +456,9 @@ public class ItemCustomLore extends Item {
     	
     	return false;
     }
-
+    
+    public ItemCustomLore setRarity(EnumRarity rarity) {
+    	this.rarity = rarity;
+		return this;
+    }
 }

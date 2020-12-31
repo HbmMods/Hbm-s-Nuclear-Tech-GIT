@@ -59,6 +59,14 @@ public abstract class EntityBOTPrimeBase extends EntityWormBaseNT {
     protected boolean canDespawn() {
         return false;
     }
+    
+    protected String getHurtSound() {
+        return "mob.blaze.hit";
+    }
+    
+    protected String getDeathSound() {
+        return "hbm:entity.bombDet";
+    }
 	
 	protected void laserAttack(Entity target, boolean head) {
 		

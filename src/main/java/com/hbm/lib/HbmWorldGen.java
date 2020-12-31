@@ -537,6 +537,25 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
+			if((biome == BiomeGenBase.jungle || biome == BiomeGenBase.jungleEdge || biome == BiomeGenBase.jungleHills) &&
+					WorldConfig.jungleStructure > 0 && rand.nextInt(WorldConfig.jungleStructure) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				
+				CellularDungeonFactory.jungle.generate(world, x, 20, z, world.rand);
+				CellularDungeonFactory.jungle.generate(world, x, 24, z, world.rand);
+				CellularDungeonFactory.jungle.generate(world, x, 28, z, world.rand);
+				
+				if(GeneralConfig.enableDebugMode)
+					MainRegistry.logger.info("[Debug] Successfully spawned jungle dungeon at " + x + " 10 " + z);
+				
+				int y = world.getHeightValue(x, z);
+				
+				for(int f = 0; f < 3; f++)
+					world.setBlock(x, y + f, z, ModBlocks.deco_titanium);
+				world.setBlock(x, y + 3, z, Blocks.redstone_block);
+			}
+
 			if (WorldConfig.arcticStructure > 0 && rand.nextInt(WorldConfig.arcticStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);

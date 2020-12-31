@@ -1,10 +1,13 @@
 package com.hbm.entity.mob;
 
+import java.util.List;
+
 import com.hbm.entity.mob.ai.EntityAIMaskmanCasualApproach;
 import com.hbm.entity.mob.ai.EntityAIMaskmanLasergun;
 import com.hbm.entity.mob.ai.EntityAIMaskmanMinigun;
 import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -77,6 +80,17 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData, IRadia
         		worldObj.createExplosion(this, posX, posY + 4, posZ, 2.5F, true);
         }
     }
+    
+    @Override
+	public void onDeath(DamageSource p_70645_1_) {
+		super.onDeath(p_70645_1_);
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(50, 50, 50));
+
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.bossMaskman);
+		}
+	}
     
     public boolean isAIEnabled() {
         return true;

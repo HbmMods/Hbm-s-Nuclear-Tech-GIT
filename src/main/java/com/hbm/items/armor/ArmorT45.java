@@ -24,8 +24,8 @@ public class ArmorT45 extends ArmorFSBPowered {
 	@SideOnly(Side.CLIENT)
 	private ModelT45Boots boots;
 
-	public ArmorT45(ArmorMaterial material, int layer, int slot, long maxPower, long chargeRate, long consumption) {
-		super(material, layer, slot, "", maxPower, chargeRate, consumption);
+	public ArmorT45(ArmorMaterial material, int layer, int slot, long maxPower, long chargeRate, long consumption, long drain) {
+		super(material, layer, slot, "", maxPower, chargeRate, consumption, drain);
 	}
 
 	@Override

@@ -344,6 +344,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.missile_incendiary_strong, 1), new AStack[] {new ComparableStack(ModItems.warhead_incendiary_medium, 1), new ComparableStack(ModItems.fuel_tank_medium, 1), new ComparableStack(ModItems.thruster_medium, 1), new OreDictStack("plateTitanium", 10), new OreDictStack("plateSteel", 14), new ComparableStack(ModItems.circuit_targeting_tier2, 1), },250);
 		makeRecipe(new ComparableStack(ModItems.missile_cluster_strong, 1), new AStack[] {new ComparableStack(ModItems.warhead_cluster_medium, 1), new ComparableStack(ModItems.fuel_tank_medium, 1), new ComparableStack(ModItems.thruster_medium, 1), new OreDictStack("plateTitanium", 10), new OreDictStack("plateSteel", 14), new ComparableStack(ModItems.circuit_targeting_tier2, 1), },250);
 		makeRecipe(new ComparableStack(ModItems.missile_buster_strong, 1), new AStack[] {new ComparableStack(ModItems.warhead_buster_medium, 1), new ComparableStack(ModItems.fuel_tank_medium, 1), new ComparableStack(ModItems.thruster_medium, 1), new OreDictStack("plateTitanium", 10), new OreDictStack("plateSteel", 14), new ComparableStack(ModItems.circuit_targeting_tier2, 1), },250);
+		makeRecipe(new ComparableStack(ModItems.missile_emp_strong, 1), new AStack[] {new ComparableStack(ModBlocks.emp_bomb, 3), new ComparableStack(ModItems.fuel_tank_medium, 1), new ComparableStack(ModItems.thruster_medium, 1), new OreDictStack("plateTitanium", 10), new OreDictStack("plateSteel", 14), new ComparableStack(ModItems.circuit_targeting_tier2, 1), },250);
 		makeRecipe(new ComparableStack(ModItems.missile_burst, 1), new AStack[] {new ComparableStack(ModItems.warhead_generic_large, 1), new ComparableStack(ModItems.fuel_tank_large, 1), new ComparableStack(ModItems.thruster_large, 1), new OreDictStack("plateTitanium", 14), new OreDictStack("plateSteel", 20), new OreDictStack("plateAluminum", 12), new ComparableStack(ModItems.circuit_targeting_tier3, 1), },350);
 		makeRecipe(new ComparableStack(ModItems.missile_inferno, 1), new AStack[] {new ComparableStack(ModItems.warhead_incendiary_large, 1), new ComparableStack(ModItems.fuel_tank_large, 1), new ComparableStack(ModItems.thruster_large, 1), new OreDictStack("plateTitanium", 14), new OreDictStack("plateSteel", 20), new OreDictStack("plateAluminum", 12), new ComparableStack(ModItems.circuit_targeting_tier3, 1), },350);
 		makeRecipe(new ComparableStack(ModItems.missile_rain, 1), new AStack[] {new ComparableStack(ModItems.warhead_cluster_large, 1), new ComparableStack(ModItems.fuel_tank_large, 1), new ComparableStack(ModItems.thruster_large, 1), new OreDictStack("plateTitanium", 14), new OreDictStack("plateSteel", 20), new OreDictStack("plateAluminum", 12), new ComparableStack(ModItems.circuit_targeting_tier3, 1), },350);
@@ -564,6 +565,17 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.cordite, 5),
 				new ComparableStack(Items.redstone, 3)
 			}, 60);
+
+		makeRecipe(new ComparableStack(ModItems.spawn_worm, 1), new AStack[] {
+				new OreDictStack("blockTitanium", 75),
+				new ComparableStack(ModItems.motor, 75),
+				new ComparableStack(ModBlocks.glass_trinitite, 25),
+				new ComparableStack(Items.redstone, 75),
+				new ComparableStack(ModItems.wire_gold, 75),
+				new ComparableStack(ModBlocks.block_polonium, 10),
+				new ComparableStack(ModItems.plate_armor_titanium, 50),
+				new ComparableStack(ModItems.coin_worm, 1)
+			}, 1200);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
