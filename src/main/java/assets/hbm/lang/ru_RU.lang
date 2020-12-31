@@ -63,6 +63,14 @@ achievement.meltdown.desc=Ты зашел так далеко, как ты мо�
 achievement.meltdown=Быстрая внеплановая разборка
 achievement.omega12.desc=Решите проблему продолжения жизни на этой несчастной планете.
 achievement.omega12=Ускоритель частиц Омега-12
+achievement.bossCreeper.desc='Вот это ядерные криперы? Эта штуковина?!'
+achievement.bossCreeper=Бомба на четырёх ногах
+achievement.bossMaskman.desc=Врезать большому мальчику.
+achievement.bossMaskman=6 месяцев обязательной службы, и все, что я получил, - это паршивая футболка
+achievement.bossMeltdown.desc=Скорее ужасно, чем отлично, но я приму то, что могу получить.
+achievement.bossMeltdown=3.6 рентген
+achievement.bossWorm.desc=Фабстафф. Моя задница. А ты считай.
+achievement.bossWorm=Разборка Баллс-О-Трон
 
 potion.hbm_taint=Порча
 potion.hbm_mutation=Заражённое порчей сердце
@@ -347,6 +355,7 @@ death.attack.lead=%1$s умер от отравления свинцом
 death.attack.taint=%1$s умер от невероятного количества опухолей
 death.attack.electricity=%1$s был убит электрическим током
 death.attack.exhaust=%1$s был превращен в шашлык стартовой ракетой
+death.attack.lunar=%1$s забыли зарядить свои жизненно важные органы.
 
 item.redstone_sword.name=Меч из красного камня
 item.big_sword.name=Большой меч
@@ -651,6 +660,11 @@ container.microwave=Микроволновка
 tile.machine_microwave.name=Микроволновка
 tile.machine_solar_boiler.name=Бойлер солнечной башни
 tile.solar_mirror.name=Зеркало-гелиостат
+tile.dungeon_chain.name=Металлическая цепь
+tile.fireworks.name=Батарея фейерверков
+tile.fireworks.charges=Зарядов: %s
+tile.fireworks.message=Послание: %s
+tile.fireworks.color=Цвет: %s
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -1855,6 +1869,9 @@ item.ammo_4gauge_sleek.name=Картечь 4 калибра (IF-R&D)
 item.ammo_4gauge_flechette.name=Игольчатая картечь 4 калибра
 item.ammo_4gauge_flechette_phosphorus.name=Игольчатая картечь 4 калибра (БФ)
 item.ammo_4gauge_slug.name=Твёрдая Стальная пуля 4 калибра
+item.ammo_4gauge_claw.name=Картечь 4 калибра (Клешни)
+item.ammo_4gauge_vampire.name=Картечь 4 калибра (Осиновый кол)
+item.ammo_4gauge_void.name=Картечь 4 калибра (Пустотная оболочка)
 item.ammo_4gauge_explosive.name=23мм граната
 item.ammo_5mm.name=5-мм патрон
 item.ammo_5mm_chlorophyte.name=5-мм патрон (Хлорофит)
@@ -1952,6 +1969,7 @@ item.pellet_charged.name=Ионизированные частицы
 item.pellet_chlorophyte.name=Хлорофитные гранулы
 item.pellet_mercury.name=Ртутные гранулы
 item.pellet_meteorite.name=Метеоритные гранулы
+item.pellet_claws.name=Острые металлические когти
 
 item.gun_bolter.name=Болтер
 item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
@@ -2045,6 +2063,7 @@ item.cladding_desh.name=Обшивка из деш
 item.coin_maskman.name=Монета Маскмена
 item.coin_creeper.name=Монета Ядерного крипера
 item.coin_radiation.name=Монета Радиации
+item.coin_worm.name=Монета Баллс-О-Трон
 
 item.stealth_boy.name=Стелс-Бой
 
@@ -2062,6 +2081,8 @@ entity.entity_taint_crab.name=Заражённый порчей теслакра
 entity.entity_elder_one.name=Крякос Старший
 entity.entity_ntm_fbi.name=Агент ФБР
 entity.entity_ntm_radiation_blaze.name=Элементаль Расплавления
+entity.hbm.entity_balls_o_tron.name=Баллс-О-Трон Прайм
+entity.hbm.entity_balls_o_tron_seg.name=Баллс-О-Трон Сегмент
 
 item.cap_aluminium.name=Алюминиевый колпачок
 item.hull_small_steel.name=Небольшая стальная оболочка
@@ -2877,6 +2898,7 @@ tile.dummy_block.name=Блок-пустышка
 tile.dummy_port.name=Блок-пустышка (Розетка)
 
 item.chopper.name=Вертолёт-охотник
+item.spawn_worm.name=Баллс-О-Трон Прайм
 
 item.nothing.name=Ничего
 
