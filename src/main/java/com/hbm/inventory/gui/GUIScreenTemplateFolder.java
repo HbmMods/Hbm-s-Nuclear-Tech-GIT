@@ -21,6 +21,7 @@ import com.hbm.packet.PacketDispatcher;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -55,7 +56,8 @@ public class GUIScreenTemplateFolder extends GuiScreen {
     		stacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
     	//Assembly Templates
     	for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
-    		stacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+    		//if(!AssemblerRecipes.hidden.contains(AssemblerRecipes.recipeList.get(i)))
+    			stacks.add(new ItemStack(ModItems.assembly_template, 1, i));
     	//Chemistry Templates
     	for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++)
     		stacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
@@ -188,7 +190,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		
 		public void drawIcon(boolean b) {
 			try {
-		        GL11.glDisable(GL11.GL_LIGHTING);
+		        RenderHelper.disableStandardItemLighting();
 				if(stack != null) {
 					if(stack.getItem() == ModItems.assembly_template)
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), AssemblerRecipes.getOutputFromTempate(stack), xPos + 1, yPos + 1);
@@ -197,7 +199,6 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 					else
 						itemRender.renderItemAndEffectIntoGUI(fontRendererObj, mc.getTextureManager(), stack, xPos + 1, yPos + 1);
 				}
-		        GL11.glEnable(GL11.GL_LIGHTING);
 			} catch(Exception x) { }
 		}
 		

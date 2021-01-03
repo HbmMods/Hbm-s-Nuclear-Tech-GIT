@@ -139,7 +139,8 @@
     "weapon.whack": {"category": "player", "sounds": [{"name": "weapon/whack", "stream": false}]},
     "weapon.chainsaw": {"category": "player", "sounds": [{"name": "weapon/chainsaw", "stream": false}]},
     "weapon.rocketFlame": {"category": "block", "sounds": [{"name": "weapon/rocketFlame", "stream": false}]},
-    "weapon.ballsLaser": {"category": "block", "sounds": [{"name": "weapon/ballsLaser", "stream": false}]},
+    "weapon.ballsLaser": {"category": "hostile", "sounds": [{"name": "weapon/ballsLaser", "stream": false}]},
+    "weapon.dartShoot": {"category": "player", "sounds": [{"name": "weapon/dartShoot", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

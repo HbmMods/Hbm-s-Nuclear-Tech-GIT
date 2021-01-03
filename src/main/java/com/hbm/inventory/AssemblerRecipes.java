@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,6 +45,7 @@ public class AssemblerRecipes {
 	public static HashMap<ComparableStack, AStack[]> recipes = new HashMap();
 	public static HashMap<ComparableStack, Integer> time = new HashMap();
 	public static List<ComparableStack> recipeList = new ArrayList();
+	public static HashSet<ComparableStack> hidden = new HashSet();
 	
 	/**
 	 * Pre-Init phase: Finds the recipe config (if exists) and checks if a template is present, if not it generates one.
@@ -265,6 +267,7 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.machine_reactor, 1), new AStack[] {new ComparableStack(ModItems.reactor_core, 1), new OreDictStack("ingotSteel", 12), new OreDictStack("plateLead", 16), new ComparableStack(ModBlocks.reinforced_glass, 4), new ComparableStack(ModItems.ingot_asbestos, 4)},150);
 		makeRecipe(new ComparableStack(ModBlocks.machine_rtg_furnace_off, 1), new AStack[] {new ComparableStack(Blocks.furnace, 1), new ComparableStack(ModItems.rtg_unit, 3), new OreDictStack("plateLead", 6), new OreDictStack("plateDenseLead", 4), new OreDictStack("plateCopper", 2), },150);
 		makeRecipe(new ComparableStack(ModBlocks.machine_radgen, 1), new AStack[] {new OreDictStack("ingotSteel", 8), new OreDictStack("plateSteel", 32), new ComparableStack(ModItems.coil_magnetized_tungsten, 6), new ComparableStack(ModItems.wire_magnetized_tungsten, 24), new ComparableStack(ModItems.circuit_gold, 4), new ComparableStack(ModItems.reactor_core, 3), new ComparableStack(ModItems.ingot_starmetal, 1), new OreDictStack("dyeRed", 1), },400);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_diesel, 1), new AStack[] {new ComparableStack(ModItems.hull_small_steel, 4), new ComparableStack(Blocks.piston, 4), new OreDictStack("ingotSteel", 6), new OreDictStack("ingotRedCopperAlloy", 2), new OreDictStack("plateCopper", 4), new ComparableStack(ModItems.wire_red_copper, 6), },200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_selenium, 1), new AStack[] {new OreDictStack("ingotSteel", 4), new OreDictStack("plateTitanium", 6), new OreDictStack("plateCopper", 8), new ComparableStack(ModItems.hull_big_steel, 1), new ComparableStack(ModItems.hull_small_steel, 9), new ComparableStack(ModItems.pedestal_steel, 1), new ComparableStack(ModItems.coil_copper, 4), },250);
 		makeRecipe(new ComparableStack(ModBlocks.machine_reactor_small, 1), new AStack[] {new OreDictStack("ingotSteel", 6), new ComparableStack(ModItems.ingot_polymer, 4), new OreDictStack("plateLead", 8), new OreDictStack("plateCopper", 4), new OreDictStack("ingotLead", 12), new OreDictStack("ingotRedCopperAlloy", 6), new ComparableStack(ModItems.circuit_copper, 8), new ComparableStack(ModItems.circuit_red_copper, 4), },300);
@@ -608,6 +611,10 @@ public class AssemblerRecipes {
 					}, 15 * 60 * 20);
 			}
 		}
+		
+		
+		/// HIDDEN ///
+		hidden.add(new ComparableStack(ModBlocks.machine_radgen, 1));
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {

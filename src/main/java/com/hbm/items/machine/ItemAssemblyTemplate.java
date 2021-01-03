@@ -2,29 +2,51 @@ package com.hbm.items.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemAssemblyTemplate extends Item {
+	
+    @SideOnly(Side.CLIENT)
+    protected IIcon hiddenIcon;
 
     public ItemAssemblyTemplate()
     {
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconFromDamage(int meta) {
+    	
+    	ComparableStack stack = AssemblerRecipes.recipeList.get(meta);
+    	
+    	if(AssemblerRecipes.hidden.contains(stack))
+    		return this.hiddenIcon;
+    	
+		return this.itemIcon;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister reg) {
+    	super.registerIcons(reg);
+        this.hiddenIcon = reg.registerIcon(this.iconString + "_secret");
     }
 
     public String getItemStackDisplayName(ItemStack stack)
