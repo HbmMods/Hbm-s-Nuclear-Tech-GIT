@@ -12,7 +12,12 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
 import com.hbm.interfaces.IBulletUpdateBehavior;
 import com.hbm.items.ModItems;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class GunFatmanFactory {
 	
@@ -104,6 +109,22 @@ public class GunFatmanFactory {
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 
 		bullet.ammo = ModItems.gun_fatman_ammo;
+		
+		bullet.nuke = 0;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				
+				if(!bullet.worldObj.isRemote) {
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "muke");
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY + 0.5, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
+				}
+			}
+		};
 		
 		return bullet;
 	}

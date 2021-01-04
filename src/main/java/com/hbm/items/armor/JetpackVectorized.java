@@ -3,8 +3,16 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
+import com.hbm.extprop.HbmExtendedProperties;
+import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.KeybindPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.model.ModelJetPack;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
@@ -13,42 +21,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class JetpackVectorized extends ItemArmor {
+public class JetpackVectorized extends JetpackBase {
 
-	private ModelJetPack model;
-	public static int maxFuel = 6000;
-
-	public JetpackVectorized(ArmorMaterial p_i45325_1_, int p_i45325_2_, int p_i45325_3_) {
-		super(p_i45325_1_, p_i45325_2_, p_i45325_3_);
-	}
-	
-	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
-	{
-		list.add("Kerosene: " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
-	}
-
-
-	@Override
-	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity) {
-		return armorType == 1;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-		if (armorSlot == 1) {
-			if (model == null) {
-				this.model = new ModelJetPack();
-			}
-			return this.model;
-		}
-		
-		return null;
+	public JetpackVectorized(ArmorMaterial mat, int i, int j, FluidType fuel, int maxFuel) {
+		super(mat, i, j, fuel, maxFuel);
 	}
 
 	@Override
@@ -57,49 +38,52 @@ public class JetpackVectorized extends ItemArmor {
 	}
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
-    	
-    	if(player.isSneaking() && this.getFuel(stack) > 0) {
-    		
-    		Vec3 vec = Vec3.createVectorHelper(player.getLookVec().xCoord, 0, player.getLookVec().zCoord);
-    		vec.normalize();
+		
+		HbmExtendedProperties props = HbmExtendedProperties.getData(player);
+		
+		if(world.isRemote) {
+			
+			if(player == MainRegistry.proxy.me()) {
+				
+				boolean last = props.getKeyPressed(EnumKeybind.JETPACK);
+				boolean current = MainRegistry.proxy.getIsKeyPressed(EnumKeybind.JETPACK);
+				
+				if(last != current) {
+					PacketDispatcher.wrapper.sendToServer(new KeybindPacket(EnumKeybind.JETPACK, current));
+					props.setKeyPressed(EnumKeybind.JETPACK, current);
+				}
+			}
+			
+		} else {
+			
+			if(getFuel(stack) > 0 && props.getKeyPressed(EnumKeybind.JETPACK)) {
 
-    		player.motionX += vec.xCoord * 0.2;
-    		player.motionY += 0.15;
-    		player.motionZ += vec.zCoord * 0.2;
+	    		NBTTagCompound data = new NBTTagCompound();
+	    		data.setString("type", "jetpack");
+	    		data.setInteger("player", player.getEntityId());
+	    		data.setInteger("mode", 1);
+	    		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, player.posX, player.posY, player.posZ), new TargetPoint(world.provider.dimensionId, player.posX, player.posY, player.posZ, 100));
+			}
+		}
 
-	    	if(!world.isRemote) {
-	    		EntityGasFlameFX fx = new EntityGasFlameFX(world);
-	    		fx.posX = player.posX - vec.xCoord;
-	    		fx.posY = player.posY - 1;
-	    		fx.posZ = player.posZ - vec.zCoord;
-	    		fx.motionX -= vec.xCoord * 0.2;
-	    		fx.motionY -= vec.yCoord * 0.2;
-	    		fx.motionZ -= vec.zCoord * 0.2;
-	    		world.spawnEntityInWorld(fx);
-	    	}
-    		
-    		player.fallDistance = 0;
-    		
-    		this.setFuel(stack, this.getFuel(stack) - 1);
-    	}
+		if(getFuel(stack) > 0 && props.getKeyPressed(EnumKeybind.JETPACK)) {
+			
+			if(player.motionY < 0.4D)
+				player.motionY += 0.1D;
+			
+			Vec3 look = player.getLookVec();
+			
+			if(Vec3.createVectorHelper(player.motionX, player.motionY, player.motionZ).lengthVector() < 2) {
+				player.motionX += look.xCoord * 0.1;
+				player.motionY += look.yCoord * 0.1;
+				player.motionZ += look.zCoord * 0.1;
+				
+				if(look.yCoord > 0)
+					player.fallDistance = 0;
+			}
+			
+			world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
+			this.useUpFuel(player, stack, 3);
+		}
     }
-	
-    public static int getFuel(ItemStack stack) {
-		if(stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-			return 0;
-		}
-		
-		return stack.stackTagCompound.getInteger("fuel");
-		
-	}
-	
-	public static void setFuel(ItemStack stack, int i) {
-		if(stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-		}
-		
-		stack.stackTagCompound.setInteger("fuel", i);
-		
-	}
 }

@@ -3,10 +3,7 @@ package com.hbm.inventory;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.JetpackBooster;
-import com.hbm.items.armor.JetpackBreak;
-import com.hbm.items.armor.JetpackRegular;
-import com.hbm.items.armor.JetpackVectorized;
+import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -127,32 +124,12 @@ public class FluidTank {
 		ItemStack full = null;
 		if(slots[in] != null) {
 
+			//TODO: make an interface to handle cases like these
 			for(int i = 0; i < 25; i++) {
-				if(slots[in].getItem() == ModItems.jetpack_boost && this.type.name().equals(FluidType.KEROSENE.name())) {
-					if(this.fluid > 0 && JetpackBooster.getFuel(slots[in]) < JetpackBooster.maxFuel) {
+				if(slots[in].getItem() instanceof JetpackBase && ((JetpackBase)slots[in].getItem()).fuel == this.type) {
+					if(this.fluid > 0 && JetpackBase.getFuel(slots[in]) < ((JetpackBase)slots[in].getItem()).maxFuel) {
 						this.fluid--;
-						JetpackBooster.setFuel(slots[in], JetpackBooster.getFuel(slots[in]) + 1);
-					} else {
-						return;
-					}
-				} else if(slots[in].getItem() == ModItems.jetpack_break && this.type.name().equals(FluidType.KEROSENE.name())) {
-					if(this.fluid > 0 && JetpackBreak.getFuel(slots[in]) < JetpackBreak.maxFuel) {
-						this.fluid--;
-						JetpackBreak.setFuel(slots[in], JetpackBreak.getFuel(slots[in]) + 1);
-					} else {
-						return;
-					}
-				} else if(slots[in].getItem() == ModItems.jetpack_fly && this.type.name().equals(FluidType.KEROSENE.name())) {
-					if(this.fluid > 0 && JetpackRegular.getFuel(slots[in]) < JetpackRegular.maxFuel) {
-						this.fluid--;
-						JetpackRegular.setFuel(slots[in], JetpackRegular.getFuel(slots[in]) + 1);
-					} else {
-						return;
-					}
-				} else if(slots[in].getItem() == ModItems.jetpack_vector && this.type.name().equals(FluidType.KEROSENE.name())) {
-					if(this.fluid > 0 && JetpackVectorized.getFuel(slots[in]) < JetpackVectorized.maxFuel) {
-						this.fluid--;
-						JetpackVectorized.setFuel(slots[in], JetpackVectorized.getFuel(slots[in]) + 1);
+						JetpackBase.setFuel(slots[in], JetpackBase.getFuel(slots[in]) + 1);
 					} else {
 						return;
 					}

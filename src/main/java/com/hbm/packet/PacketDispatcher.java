@@ -95,6 +95,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(GunAnimationPacket.Handler.class, GunAnimationPacket.class, i++, Side.CLIENT);
 		//Sends a funi text to display like a music disc announcement
 		wrapper.registerMessage(PlayerInformPacket.Handler.class, PlayerInformPacket.class, i++, Side.CLIENT);
+		//Universal keybind packet
+		wrapper.registerMessage(KeybindPacket.Handler.class, KeybindPacket.class, i++, Side.SERVER);
 	}
 	
 }

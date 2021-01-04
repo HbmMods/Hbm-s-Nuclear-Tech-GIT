@@ -3,11 +3,9 @@ package com.hbm.items.special;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.JetpackBooster;
-import com.hbm.items.armor.JetpackBreak;
-import com.hbm.items.armor.JetpackRegular;
-import com.hbm.items.armor.JetpackVectorized;
+import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
@@ -291,28 +289,24 @@ public class ItemSyringe extends Item {
             }
 		}
 		
-		if(this == ModItems.jetpack_tank && player.inventory.armorInventory[2] != null &&
-				(player.inventory.armorInventory[2].getItem() == ModItems.jetpack_boost || player.inventory.armorInventory[2].getItem() == ModItems.jetpack_break ||
-				player.inventory.armorInventory[2].getItem() == ModItems.jetpack_fly || player.inventory.armorInventory[2].getItem() == ModItems.jetpack_vector))
-		{
+		if(this == ModItems.jetpack_tank && player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
             if (!world.isRemote)
             {
             	ItemStack jetpack = player.inventory.armorInventory[2];
-            	int fill = JetpackRegular.getFuel(jetpack) + 1000;
-
-            	if(jetpack.getItem() == ModItems.jetpack_boost && fill > JetpackBooster.maxFuel)
-            		fill = JetpackBooster.maxFuel;
-            	if(jetpack.getItem() == ModItems.jetpack_break && fill > JetpackBreak.maxFuel)
-            		fill = JetpackBreak.maxFuel;
-            	if(jetpack.getItem() == ModItems.jetpack_fly && fill > JetpackRegular.maxFuel)
-            		fill = JetpackRegular.maxFuel;
-            	if(jetpack.getItem() == ModItems.jetpack_vector && fill > JetpackVectorized.maxFuel)
-            		fill = JetpackVectorized.maxFuel;
+            	JetpackBase jetItem = (JetpackBase) jetpack.getItem();
             	
-            	if(JetpackRegular.getFuel(jetpack) == fill)
+            	if(jetItem.fuel != FluidType.KEROSENE)
             		return stack;
             	
-            	JetpackRegular.setFuel(jetpack, fill);
+            	int fill = JetpackBase.getFuel(jetpack) + 1000;
+
+            	if(fill > jetItem.maxFuel)
+            		fill = jetItem.maxFuel;
+            	
+            	if(JetpackBase.getFuel(jetpack) == fill)
+            		return stack;
+            	
+            	JetpackBase.setFuel(jetpack, fill);
 		        world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
             
             	stack.stackSize--;

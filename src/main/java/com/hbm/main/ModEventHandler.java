@@ -25,6 +25,7 @@ import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
+import com.hbm.extprop.HbmExtendedProperties;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
@@ -82,6 +83,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -129,6 +131,19 @@ public class ModEventHandler
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
+
+	@SubscribeEvent
+	public void onEntityConstructing(EntityEvent.EntityConstructing event)  {
+		
+		if(event.entity instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer) event.entity;
+			
+			if(HbmExtendedProperties.getData(player) == null) {
+				
+			}
+		}
+	}
 	
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
@@ -150,7 +165,7 @@ public class ModEventHandler
 		
 		if(event.entity instanceof EntityTaintedCreeper && event.source == ModDamageSource.boxcar) {
 			
-			for(Object o : event.entity.worldObj.playerEntities) {
+			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
 				player.triggerAchievement(MainRegistry.bobHidden);
 			}

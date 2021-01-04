@@ -9,6 +9,9 @@ import net.minecraft.client.particle.EntityFireworkSparkFX;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,6 +41,7 @@ import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.mob.sodtekhnologiyah.EntityBallsOTronSegment;
 import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
 import com.hbm.render.block.*;
@@ -871,6 +875,61 @@ public class ClientProxy extends ServerProxy {
 			world.spawnParticle(data.getString("mode"), x, y, z, mX, mY, mZ);
 		}
 		
+		if("jetpack".equals(type)) {
+			
+			Entity ent = world.getEntityByID(data.getInteger("player"));
+			
+			if(ent instanceof EntityPlayer) {
+				
+				EntityPlayer p = (EntityPlayer)ent;
+				
+				Vec3 vec = Vec3.createVectorHelper(0, 0, -0.25);
+				Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
+				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+
+				vec.rotateAroundY(angle);
+				offset.rotateAroundY(angle);
+				
+				double ix = p.posX + vec.xCoord;
+				double iy = p.posY + p.eyeHeight - 1;
+				double iz = p.posZ + vec.zCoord;
+				double ox = offset.xCoord;
+				double oz = offset.zCoord;
+				
+				double moX = 0;
+				double moY = 0;
+				double moZ = 0;
+				
+				int mode = data.getInteger("mode");
+				
+				if(mode == 0) {
+					moY -= 0.2;
+				}
+				
+				if(mode == 1) {
+					Vec3 look = p.getLookVec();
+
+					moX -= look.xCoord * 0.1D;
+					moY -= look.yCoord * 0.1D;
+					moZ -= look.zCoord * 0.1D;
+				}
+
+				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
+				Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
+			}
+		}
+		
+		if("muke".equals(type)) {
+
+			ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);
+			ParticleMukeFlash flash = new ParticleMukeFlash(man, world, x, y, z);
+
+			Minecraft.getMinecraft().effectRenderer.addEffect(wave);
+			Minecraft.getMinecraft().effectRenderer.addEffect(flash);
+		}
+		
 		if("hadron".equals(type)) {
 			
 			/*for(int i = 0; i < 30; i++) {
@@ -916,6 +975,20 @@ public class ClientProxy extends ServerProxy {
 	public void displayTooltip(String msg) {
 		
 		Minecraft.getMinecraft().ingameGUI.func_110326_a(msg, false);
+	}
+
+	@Override
+	public boolean getIsKeyPressed(EnumKeybind key) {
+		
+		if(key == EnumKeybind.JETPACK)
+			return Minecraft.getMinecraft().gameSettings.keyBindJump.getIsKeyPressed();
+		
+		return false;
+	}
+
+	@Override
+	public EntityPlayer me() {
+		return Minecraft.getMinecraft().thePlayer;
 	}
 }
 

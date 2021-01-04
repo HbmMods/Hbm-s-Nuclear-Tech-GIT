@@ -28,7 +28,7 @@ public class MagicRecipes {
 				comps.add(new ComparableStack(matrix.getStackInSlot(i)).makeSingular());
 		}
 		
-		Collections.sort(comps);
+		//Collections.sort(comps);
 		
 		for(MagicRecipe recipe : recipes) {
 			if(recipe.matches(comps))
@@ -104,7 +104,7 @@ public class MagicRecipes {
 		public MagicRecipe(ItemStack out, AStack... in) {
 			this.out = out;
 			this.in = Arrays.asList(in);
-			Collections.sort(this.in);
+			//Collections.sort(this.in);
 		}
 		
 		public boolean matches(List<ComparableStack> comps) {

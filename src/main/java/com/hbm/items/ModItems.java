@@ -5,6 +5,7 @@ import com.hbm.handler.BucketHandler;
 import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.LuckAbility;
 import com.hbm.handler.WeaponAbility;
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.guncfg.*;
 import com.hbm.items.armor.*;
 import com.hbm.items.bomb.*;
@@ -4059,9 +4060,9 @@ public class ModItems {
 		australium_iii = new ArmorAustralium(MainRegistry.aMatAus3, 9, 1).setUnlocalizedName("australium_iii").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":australium_iii");
 		
 		jetpack_boost = new JetpackBooster(MainRegistry.aMatSteel, 9, 1).setUnlocalizedName("jetpack_boost").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_boost");
-		jetpack_break = new JetpackBreak(MainRegistry.aMatSteel, 9, 1).setUnlocalizedName("jetpack_break").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_break");
-		jetpack_fly = new JetpackRegular(MainRegistry.aMatSteel, 9, 1).setUnlocalizedName("jetpack_fly").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_fly");
-		jetpack_vector = new JetpackVectorized(MainRegistry.aMatSteel, 9, 1).setUnlocalizedName("jetpack_vector").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_vector");
+		jetpack_break = new JetpackBreak(MainRegistry.aMatSteel, 9, 1, FluidType.KEROSENE, 8000).setUnlocalizedName("jetpack_break").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_break");
+		jetpack_fly = new JetpackRegular(MainRegistry.aMatSteel, 9, 1, FluidType.KEROSENE, 12000).setUnlocalizedName("jetpack_fly").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_fly");
+		jetpack_vector = new JetpackVectorized(MainRegistry.aMatSteel, 9, 1, FluidType.KEROSENE, 16000).setUnlocalizedName("jetpack_vector").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_vector");
 
 		cape_test = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 9, 1).setUnlocalizedName("cape_test").setCreativeTab(null).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_test");
 		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 9, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
