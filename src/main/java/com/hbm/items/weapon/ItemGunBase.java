@@ -12,6 +12,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
+import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -188,6 +189,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 			setItemWear(stack, getItemWear(stack) + wear);
 		}
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
+
+		if(player.getDisplayName().equals("Vic4Games")) {
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", "justTilt");
+			nbt.setInteger("time", mainConfig.rateOfFire + 1);
+			PacketDispatcher.wrapper.sendTo(new AuxParticlePacketNT(nbt, player.posX, player.posY, player.posZ), (EntityPlayerMP) player);
+		}
 	}
 	
 	//unlike fire(), being called does not automatically imply success, some things may still have to be handled before spawning the projectile

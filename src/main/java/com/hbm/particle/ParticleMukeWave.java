@@ -48,7 +48,7 @@ public class ParticleMukeWave extends EntityFX {
 		tess.setBrightness(240);
 		
 		this.particleAlpha = 1 - (((float)this.particleAge + interp) / (float)this.particleMaxAge);
-		float scale = (this.particleAge + interp) * 2F;
+		float scale = (1 - (float)Math.pow(Math.E, (this.particleAge + interp) * -0.125)) * 45;
 		
 		tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, this.particleAlpha);
 		

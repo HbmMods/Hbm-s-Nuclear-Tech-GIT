@@ -32,10 +32,6 @@ public class ParticleMukeFlash extends EntityFX {
 		return 3;
 	}
 
-    public void onUpdate() {
-    	super.onUpdate();
-    }
-
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
 		
 		this.theRenderEngine.bindTexture(texture);
@@ -64,13 +60,13 @@ public class ParticleMukeFlash extends EntityFX {
 		
 		Random rand = new Random();
 
-		for(int i = 0; i < 16; i++) {
+		for(int i = 0; i < 24; i++) {
 			
 			rand.setSeed(i * 31 + 1);
 
-			float pX = (float) (dX + rand.nextDouble() * 5 - 2.5);
-			float pY = (float) (dY + rand.nextDouble() * 3 - 1.5);
-			float pZ = (float) (dZ + rand.nextDouble() * 5 - 2.5);
+			float pX = (float) (dX + rand.nextDouble() * 10 - 5);
+			float pY = (float) (dY + rand.nextDouble() * 5 - 2.5);
+			float pZ = (float) (dZ + rand.nextDouble() * 10 - 5);
 			
 			tess.addVertexWithUV((double) (pX - x * scale - tx * scale), (double) (pY - y * scale), (double) (pZ - z * scale - tz * scale), 1, 1);
 			tess.addVertexWithUV((double) (pX - x * scale + tx * scale), (double) (pY + y * scale), (double) (pZ - z * scale + tz * scale), 1, 0);

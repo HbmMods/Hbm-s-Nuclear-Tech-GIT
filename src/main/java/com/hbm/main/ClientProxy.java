@@ -3,6 +3,7 @@
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChicken;
+import net.minecraft.client.particle.EntityBlockDustFX;
 import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFireworkSparkFX;
@@ -15,12 +16,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -43,6 +47,7 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
+import com.hbm.lib.Library;
 import com.hbm.particle.*;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
@@ -914,6 +919,26 @@ public class ClientProxy extends ServerProxy {
 					moZ -= look.zCoord * 0.1D;
 				}
 
+				Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+				Vec3 thrust = Vec3.createVectorHelper(moX, moY, moZ);
+				thrust = thrust.normalize();
+				Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+				MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
+				
+				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+					
+					Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+					int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+					
+					Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+					Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+					
+					for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+						vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+						Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+					}
+				}
+
 				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
 				Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFlameFX(world, ix - ox, iy, iz - oz, p.motionX + moX * 2, p.motionY + moY * 2, p.motionZ + moZ * 2));
 				Minecraft.getMinecraft().effectRenderer.addEffect(new net.minecraft.client.particle.EntitySmokeFX(world, ix + ox, iy, iz + oz, p.motionX + moX * 3, p.motionY + moY * 3, p.motionZ + moZ * 3));
@@ -928,6 +953,25 @@ public class ClientProxy extends ServerProxy {
 
 			Minecraft.getMinecraft().effectRenderer.addEffect(wave);
 			Minecraft.getMinecraft().effectRenderer.addEffect(flash);
+
+			//single swing: 			HT 15,  MHT 15
+			//double swing: 			HT 60,  MHT 50
+			//vic's immersive swing: 	HT 100, MHT 50
+			
+			if(player.getDisplayName().equals("Vic4Games")) {
+				player.hurtTime = 100;
+				player.maxHurtTime = 50;
+			} else {
+				player.hurtTime = 15;
+				player.maxHurtTime = 15;
+			}
+			player.attackedAtYaw = 0F;
+		}
+		
+		if("justTilt".equals(type)) {
+			
+			player.hurtTime = player.maxHurtTime = data.getInteger("time");
+			player.attackedAtYaw = 0F;
 		}
 		
 		if("hadron".equals(type)) {

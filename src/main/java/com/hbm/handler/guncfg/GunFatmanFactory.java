@@ -122,6 +122,7 @@ public class GunFatmanFactory {
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "muke");
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY + 0.5, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
+					bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 				}
 			}
 		};
