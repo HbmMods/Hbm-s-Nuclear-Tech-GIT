@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -15,6 +19,7 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -118,11 +123,39 @@ public class GunFatmanFactory {
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
+
+					double posX = bullet.posX;
+					double posY = bullet.posY + 0.5;
+					double posZ = bullet.posZ;
+					
+					if(y >= 0) {
+						posX = x + 0.5;
+						posY = y + 1.5;
+						posZ = z + 0.5;
+					}
 					
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "muke");
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY + 0.5, bullet.posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
 					bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+					
+					ExplosionLarge.spawnShrapnels(bullet.worldObj, posX, posY, posZ, 25);
+					
+					ExplosionNT exp = new ExplosionNT(bullet.worldObj, null, posX, posY, posZ, 15F)
+							.addAttrib(ExAttrib.FIRE)
+							.addAttrib(ExAttrib.NOPARTICLE)
+							.addAttrib(ExAttrib.NOSOUND)
+							.addAttrib(ExAttrib.NODROP)
+							.addAttrib(ExAttrib.NOHURT);
+					exp.doExplosionA();
+					exp.doExplosionB(false);
+					
+					ExplosionNukeGeneric.dealDamage(bullet.worldObj, posX, posY, posZ, 45);
+					
+					for(int i = -2; i <= 2; i++)
+						for(int j = -2; j <= 2; j++)
+							if(i + j < 4)
+								RadiationSavedData.incrementRad(bullet.worldObj, (int)posX + i * 16, (int)posZ + j * 16, 50 / (Math.abs(i) + Math.abs(j) + 1), 1000);
 				}
 			}
 		};
@@ -189,13 +222,41 @@ public class GunFatmanFactory {
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
 				if(!bullet.worldObj.isRemote) {
-					EntityBalefire bf = new EntityBalefire(bullet.worldObj);
+
+					double posX = bullet.posX;
+					double posY = bullet.posY + 0.5;
+					double posZ = bullet.posZ;
+					
+					if(y >= 0) {
+						posX = x + 0.5;
+						posY = y + 1.5;
+						posZ = z + 0.5;
+					}
+					
+					/*EntityBalefire bf = new EntityBalefire(bullet.worldObj);
 					bf.posX = x;
 					bf.posY = y;
 					bf.posZ = z;
 					bf.destructionRange = (int) (BombConfig.fatmanRadius * 1.25);
-					bullet.worldObj.spawnEntityInWorld(bf);
-		    		ExplosionParticleB.spawnMush(bullet.worldObj, x, y, z);
+					bullet.worldObj.spawnEntityInWorld(bf);*/
+					
+					bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+					
+					ExplosionLarge.spawnShrapnels(bullet.worldObj, posX, posY, posZ, 25);
+					
+					ExplosionNT exp = new ExplosionNT(bullet.worldObj, null, posX, posY, posZ, 15F)
+							.addAttrib(ExAttrib.BALEFIRE)
+							.addAttrib(ExAttrib.NOPARTICLE)
+							.addAttrib(ExAttrib.NOSOUND)
+							.addAttrib(ExAttrib.NODROP)
+							.addAttrib(ExAttrib.NOHURT);
+					exp.doExplosionA();
+					exp.doExplosionB(false);
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "muke");
+					data.setBoolean("balefire", true);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y + 0.5, z), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
 				}
 			}
 		};

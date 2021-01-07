@@ -56,10 +56,10 @@ public class ParticleMukeWave extends EntityFX {
 	    float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double)interp - interpPosY);
 	    float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double)interp - interpPosZ);
 	       
-		tess.addVertexWithUV((double)(pX - 1 * scale), (double)(pY), (double)(pZ - 1 * scale), 1, 1);
-		tess.addVertexWithUV((double)(pX - 1 * scale), (double)(pY), (double)(pZ + 1 * scale), 1, 0);
-		tess.addVertexWithUV((double)(pX + 1 * scale), (double)(pY), (double)(pZ + 1 * scale), 0, 0);
-		tess.addVertexWithUV((double)(pX + 1 * scale), (double)(pY), (double)(pZ - 1 * scale), 0, 1);
+		tess.addVertexWithUV((double)(pX - 1 * scale), (double)(pY - 0.25), (double)(pZ - 1 * scale), 1, 1);
+		tess.addVertexWithUV((double)(pX - 1 * scale), (double)(pY - 0.25), (double)(pZ + 1 * scale), 1, 0);
+		tess.addVertexWithUV((double)(pX + 1 * scale), (double)(pY - 0.25), (double)(pZ + 1 * scale), 0, 0);
+		tess.addVertexWithUV((double)(pX + 1 * scale), (double)(pY - 0.25), (double)(pZ - 1 * scale), 0, 1);
 		tess.draw();
 		
 		GL11.glPolygonOffset(0.0F, 0.0F);

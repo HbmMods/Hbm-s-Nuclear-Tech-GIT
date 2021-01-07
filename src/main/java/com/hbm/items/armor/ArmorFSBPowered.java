@@ -130,7 +130,7 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 	
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
     	
-    	if(this.drain > 0 && ArmorFSB.hasFSBArmor(player)) {
+    	if(this.drain > 0 && ArmorFSB.hasFSBArmor(player) && !player.capabilities.isCreativeMode) {
     		this.dischargeBattery(itemStack, drain);
     	}
     }

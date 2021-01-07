@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.JetpackBase;
@@ -81,6 +82,9 @@ public class FluidTank {
 		
 		FluidType inType = FluidType.NONE;
 		if(slots[in] != null) {
+			
+			//TODO: add IPartiallyFillable case for unloading
+			
 			inType = FluidContainerRegistry.getFluidType(slots[in]);
 			
 			if(slots[in].getItem() == ModItems.fluid_barrel_infinite && type != FluidType.NONE) {
@@ -123,19 +127,24 @@ public class FluidTank {
 
 		ItemStack full = null;
 		if(slots[in] != null) {
-
-			//TODO: make an interface to handle cases like these
-			for(int i = 0; i < 25; i++) {
-				if(slots[in].getItem() instanceof JetpackBase && ((JetpackBase)slots[in].getItem()).fuel == this.type) {
-					if(this.fluid > 0 && JetpackBase.getFuel(slots[in]) < ((JetpackBase)slots[in].getItem()).maxFuel) {
-						this.fluid--;
-						JetpackBase.setFuel(slots[in], JetpackBase.getFuel(slots[in]) + 1);
-					} else {
-						return;
+			
+			if(slots[in].getItem() instanceof IPartiallyFillable) {
+				IPartiallyFillable fillable = (IPartiallyFillable)slots[in].getItem();
+				int speed = fillable.getLoadSpeed(slots[in]);
+				
+				if(fillable.getType(slots[in]) == this.type && speed > 0) {
+					
+					int toLoad = Math.min(this.fluid, speed);
+					int fill = fillable.getFill(slots[in]);
+					toLoad = Math.min(toLoad, fillable.getMaxFill(slots[in]) - fill);
+					
+					if(toLoad > 0) {
+						this.fluid -= toLoad;
+						fillable.setFill(slots[in], fill + toLoad);
 					}
-				} else {
-					break;
 				}
+				
+				return;
 			}
 			
 			if(slots[in].getItem() == ModItems.fluid_barrel_infinite) {

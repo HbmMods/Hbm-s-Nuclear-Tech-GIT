@@ -2,7 +2,6 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
-import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.extprop.HbmExtendedProperties;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -10,20 +9,14 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.render.model.ModelJetPack;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class JetpackRegular extends JetpackBase {
@@ -74,5 +67,14 @@ public class JetpackRegular extends JetpackBase {
 			world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.flamethrowerShoot", 0.25F, 1.5F);
 			this.useUpFuel(player, stack, 5);
 		}
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+
+    	list.add("Regular jetpack for simple upwards momentum.");
+    	list.add("");
+    	
+    	super.addInformation(stack, player, list, ext);
     }
 }

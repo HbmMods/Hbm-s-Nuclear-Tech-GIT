@@ -25,13 +25,16 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -55,6 +58,7 @@ public class ArmorFSB extends ItemArmor {
 	public boolean thermal = false;
 	public boolean geigerSound = false;
 	public boolean customGeiger = false;
+	public boolean hardLanding = false;
 	public double gravity = 0;
 	public String step;
 	public String jump;
@@ -125,6 +129,11 @@ public class ArmorFSB extends ItemArmor {
 		return this;
 	}
 	
+	public ArmorFSB setHasHardLanding(boolean hardLanding) {
+		this.hardLanding = hardLanding;
+		return this;
+	}
+	
 	public ArmorFSB setGravity(double gravity) {
 		this.gravity = gravity;
 		return this;
@@ -165,6 +174,7 @@ public class ArmorFSB extends ItemArmor {
 		this.thermal = original.thermal;
 		this.geigerSound = original.geigerSound;
 		this.customGeiger = original.customGeiger;
+		this.hardLanding = original.hardLanding;
 		this.gravity = original.gravity;
 		this.step = original.step;
 		this.jump = original.jump;
@@ -236,6 +246,10 @@ public class ArmorFSB extends ItemArmor {
     	
     	if(thermal) {
     		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
+    	}
+    	
+    	if(hardLanding) {
+    		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
     	}
     	
     	if(gravity != 0) {
@@ -425,6 +439,29 @@ public class ArmorFSB extends ItemArmor {
 		if(ArmorFSB.hasFSBArmor(player)) {
 
 			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+			
+			if(chestplate.hardLanding && player.fallDistance > 10) {
+
+				//player.playSound(Block.soundTypeAnvil.func_150496_b(), 2.0F, 0.5F);
+				
+				List<Entity> entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.boundingBox.expand(3, 0, 3));
+				
+				for(Entity e : entities) {
+					
+					Vec3 vec = Vec3.createVectorHelper(player.posX - e.posX, 0, player.posZ - e.posZ);
+					
+					if(vec.lengthVector() < 3) {
+						
+						double intensity = 3 - vec.lengthVector();
+						e.motionX += vec.xCoord * intensity * -2;
+						e.motionY += 0.1D * intensity;
+						e.motionZ += vec.zCoord * intensity * -2;
+						
+						e.attackEntityFrom(DamageSource.causePlayerDamage(player).setDamageBypassesArmor(), (float) (intensity * 10));
+					}
+				}
+				//return;
+			}
 
 			if(chestplate.fall != null)
 				player.playSound(chestplate.fall, 1.0F, 1.0F);

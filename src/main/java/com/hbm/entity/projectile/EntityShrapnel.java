@@ -11,6 +11,7 @@ public class EntityShrapnel extends EntityThrowable {
     public EntityShrapnel(World p_i1773_1_)
     {
         super(p_i1773_1_);
+        this.isImmuneToFire = true;
     }
 
     public EntityShrapnel(World p_i1774_1_, EntityLivingBase p_i1774_2_)

@@ -38,11 +38,15 @@ public class ModelArmorBJ extends ModelArmorBase {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bj_eyepatch);
 			head.render(par7);
 		}
-		if(type == 1) {
+		if(type == 1 || type == 5) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bj_chest);
 			body.render(par7);
-			//Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bj_jetpack);
-			//jetpack.render(par7);
+			
+			if(type == 5) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bj_jetpack);
+				jetpack.render(par7);
+			}
+			
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bj_arm);
 			leftArm.render(par7);
 			rightArm.render(par7);

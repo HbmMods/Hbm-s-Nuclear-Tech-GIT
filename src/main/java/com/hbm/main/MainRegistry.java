@@ -1048,6 +1048,7 @@ public class MainRegistry {
 
 		HazmatRegistry.registerHazmat(ModItems.bj_helmet, 0.4F);
 		HazmatRegistry.registerHazmat(ModItems.bj_plate, 0.8F);
+		HazmatRegistry.registerHazmat(ModItems.bj_plate_jetpack, 0.8F);
 		HazmatRegistry.registerHazmat(ModItems.bj_legs, 0.6F);
 		HazmatRegistry.registerHazmat(ModItems.bj_boots, 0.2F);
 

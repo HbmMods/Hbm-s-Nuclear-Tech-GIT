@@ -3,6 +3,7 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.render.model.ModelJetPack;
 import com.hbm.util.I18nUtil;
 
@@ -16,7 +17,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class JetpackBase extends ItemArmor {
+public abstract class JetpackBase extends ItemArmor implements IPartiallyFillable {
 
 	private ModelJetPack model;
 	public FluidType fuel;
@@ -74,5 +75,35 @@ public abstract class JetpackBase extends ItemArmor {
 		
 		stack.stackTagCompound.setInteger("fuel", i);
 		
+	}
+
+	@Override
+	public FluidType getType(ItemStack stack) {
+		return fuel;
+	}
+
+	@Override
+	public int getFill(ItemStack stack) {
+		return this.getFuel(stack);
+	}
+
+	@Override
+	public void setFill(ItemStack stack, int fill) {
+		this.setFuel(stack, fill);
+	}
+
+	@Override
+	public int getMaxFill(ItemStack stack) {
+		return this.maxFuel;
+	}
+
+	@Override
+	public int getLoadSpeed(ItemStack stack) {
+		return 10;
+	}
+
+	@Override
+	public int getUnloadSpeed(ItemStack stack) {
+		return 0;
 	}
 }

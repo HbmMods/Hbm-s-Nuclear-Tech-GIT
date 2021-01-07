@@ -139,6 +139,8 @@ public class ArmorUtil {
 			"starmetal",
 			"hazmat", //also count because rubber is insulating
 			"rubber",
+			"hev",
+			"ajr",
 			"spacesuit"
 	};
 	
@@ -188,6 +190,14 @@ public class ArmorUtil {
 		{
 			return true;
 		}
+		if(checkArmorPiece(player, ModItems.ajr_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hev_helmet, 3))
+		{
+			return true;
+		}
 		if(checkArmorPiece(player, ModItems.schrabidium_helmet, 3))
 		{
 			return true;
@@ -206,6 +216,14 @@ public class ArmorUtil {
 	public static boolean checkForGoggles(EntityPlayer player) {
 
 		if(checkArmorPiece(player, ModItems.goggles, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_red, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
 		{
 			return true;
 		}
