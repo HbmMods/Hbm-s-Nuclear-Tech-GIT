@@ -121,6 +121,9 @@ armor.nullDamage=Нейтрализация всего урона от %s
 armor.thermal=Термальный визор
 armor.threshold=Порог урона %s
 armor.vats=Вражеский HUD
+armor.electricJetpack=Ионный реактивный ранец
+armor.hardLanding=Жёсткая посадка
+armor.glider=Присесть, чтобы спланировать
 
 trait.blinding=Ослепление
 trait.breeding=Даёт %s операций в реакторе-размножителе
@@ -1812,6 +1815,7 @@ item.gun_euthanasia.name=Эвтаназия
 item.gun_defabricator.name=Дефабрикатор
 item.gun_dampfmaschine.name=Совершенно не шуточное оружие
 item.gun_folly.name=Прототип Дигамма "Причуда"
+item.gun_darter.name=Дротиковый пистолет
 
 item.gun_revolver_iron_ammo.name=Пуля
 item.gun_revolver_ammo.name=Свинцовая пуля
@@ -1959,6 +1963,7 @@ item.ammo_fuel_napalm.name=Бак с напалмом
 item.ammo_fuel_phosphorus.name=Бак с белым фосфором
 item.ammo_fuel_vaporizer.name=Бак испарителя
 item.ammo_fuel_gas.name=Бак с газом
+item.ammo_dart.name=Пластиковый дротик (Иссущающий)
 
 item.folly_shell.name=Оболочка серебряной пули
 item.folly_bullet.name=12.8см Высокоэнергетическая оболочка из звёздного металла
@@ -2144,7 +2149,7 @@ item.mese_pickaxe.name=Месе кирка
 
 item.jetpack_boost.name=Импульсный ранец
 item.jetpack_fly.name=Реактивный ранец
-item.jetpack_break.name=Брейкпак
+item.jetpack_break.name=Строительный ранец
 item.jetpack_vector.name=Векторный реактивный ранец
 item.jetpack_tank.name=Резервный топливный бак ранца
 
@@ -2411,6 +2416,7 @@ item.bj_boots.name=Лунные шипованные ботинки
 item.bj_helmet.name=Повязка с тепловым сенсором
 item.bj_legs.name=Лунные кибернетические замены ног
 item.bj_plate.name=Лунная кибернетическая обшивка
+item.bj_plate_jetpack.name=Лунная кибернетическая обшивка (с крыльями)
 
 item.hev_boots.name=Ботинки H.E.V Модели IV
 item.hev_plate.name=Нагрудник H.E.V Модели IV
