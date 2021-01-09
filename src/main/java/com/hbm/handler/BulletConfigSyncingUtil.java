@@ -180,9 +180,23 @@ public class BulletConfigSyncingUtil {
 	public static int ROCKET_PHOSPHORUS_LASER = i++;
 
 	public static int NUKE_NORMAL = i++;
-	public static int NUKE_MIRV = i++;
+	public static int NUKE_LOW = i++;
+	public static int NUKE_HIGH = i++;
+	public static int NUKE_TOTS = i++;
+	public static int NUKE_SAFE = i++;
+	public static int NUKE_PUMPKIN = i++;
+	public static int NUKE_PROTO_NORMAL = i++;
+	public static int NUKE_PROTO_LOW = i++;
+	public static int NUKE_PROTO_HIGH = i++;
+	public static int NUKE_PROTO_TOTS = i++;
+	public static int NUKE_PROTO_SAFE = i++;
+	public static int NUKE_PROTO_PUMPKIN = i++;
+	public static int NUKE_MIRV_NORMAL = i++;
+	public static int NUKE_MIRV_LOW = i++;
+	public static int NUKE_MIRV_HIGH = i++;
+	public static int NUKE_MIRV_SAFE = i++;
+	
 	public static int NUKE_AMAT = i++;
-	public static int NUKE_PROTO = i++;
 	
 	public static int ZOMG_BOLT = i++;
 
@@ -375,10 +389,24 @@ public class BulletConfigSyncingUtil {
 		configSet.put(ROCKET_NUKE_LASER, GunRocketFactory.getRocketNukeConfig().setToGuided());
 		configSet.put(ROCKET_CHAINSAW_LASER, GunRocketFactory.getRocketRPCConfig().setToGuided());
 		configSet.put(ROCKET_TOXIC_LASER, GunRocketFactory.getRocketChlorineConfig().setToGuided());
-		
+
 		configSet.put(NUKE_NORMAL, GunFatmanFactory.getNukeConfig());
-		configSet.put(NUKE_MIRV, GunFatmanFactory.getMirvConfig());
-		configSet.put(NUKE_PROTO, GunFatmanFactory.getNukeProtoConfig());
+		configSet.put(NUKE_LOW, GunFatmanFactory.getNukeLowConfig());
+		configSet.put(NUKE_HIGH, GunFatmanFactory.getNukeHighConfig());
+		configSet.put(NUKE_TOTS, GunFatmanFactory.getNukeTotsConfig());
+		configSet.put(NUKE_SAFE, GunFatmanFactory.getNukeSafeConfig());
+		configSet.put(NUKE_PUMPKIN, GunFatmanFactory.getNukePumpkinConfig());
+		configSet.put(NUKE_PROTO_NORMAL, GunFatmanFactory.getNukeConfig().accuracyMod(20F));
+		configSet.put(NUKE_PROTO_LOW, GunFatmanFactory.getNukeLowConfig().accuracyMod(20F));
+		configSet.put(NUKE_PROTO_HIGH, GunFatmanFactory.getNukeHighConfig().accuracyMod(20F));
+		configSet.put(NUKE_PROTO_TOTS, GunFatmanFactory.getNukeTotsConfig().accuracyMod(20F));
+		configSet.put(NUKE_PROTO_SAFE, GunFatmanFactory.getNukeSafeConfig().accuracyMod(20F));
+		configSet.put(NUKE_PROTO_PUMPKIN, GunFatmanFactory.getNukePumpkinConfig().accuracyMod(20F));
+		configSet.put(NUKE_MIRV_NORMAL, GunFatmanFactory.getMirvConfig());
+		configSet.put(NUKE_MIRV_LOW, GunFatmanFactory.getMirvLowConfig());
+		configSet.put(NUKE_MIRV_HIGH, GunFatmanFactory.getMirvHighConfig());
+		configSet.put(NUKE_MIRV_SAFE, GunFatmanFactory.getMirvSafeConfig());
+		
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 		
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());

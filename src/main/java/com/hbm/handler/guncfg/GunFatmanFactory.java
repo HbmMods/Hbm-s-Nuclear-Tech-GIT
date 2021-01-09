@@ -49,6 +49,11 @@ public class GunFatmanFactory {
 		
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.NUKE_LOW);
+		config.config.add(BulletConfigSyncingUtil.NUKE_HIGH);
+		config.config.add(BulletConfigSyncingUtil.NUKE_TOTS);
+		config.config.add(BulletConfigSyncingUtil.NUKE_SAFE);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PUMPKIN);
 		config.durability = 1000;
 		
 		return config;
@@ -62,7 +67,10 @@ public class GunFatmanFactory {
 		config.manufacturer = "Fort Strong";
 		
 		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV);
+		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_LOW);
+		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_HIGH);
+		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_SAFE);
 		config.durability = 1000;
 		
 		return config;
@@ -103,7 +111,12 @@ public class GunFatmanFactory {
 		config.manufacturer = "Fort Strong";
 		
 		config.config = new ArrayList<Integer>();
-		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_NORMAL);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_LOW);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_HIGH);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_TOTS);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_SAFE);
+		config.config.add(BulletConfigSyncingUtil.NUKE_PROTO_PUMPKIN);
 		config.durability = 1000;
 		
 		return config;
@@ -112,17 +125,99 @@ public class GunFatmanFactory {
 	public static BulletConfiguration getNukeConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-
-		bullet.ammo = ModItems.gun_fatman_ammo;
+		bullet.ammo = ModItems.ammo_nuke;
 		
-		bullet.nuke = 0;
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 3);
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukeLowConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_low;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 2);
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukeHighConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_high;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 4);
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukeTotsConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_tots;
+		bullet.bulletsMin = 8;
+		bullet.bulletsMax = 8;
+		bullet.spread = 0.1F;
+		bullet.style = bullet.STYLE_GRENADE;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 1);
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukeSafeConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_safe;
+		
+		bullet.bImpact = new IBulletImpactBehavior() {
+
+			@Override
+			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 0);
+			}
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getNukePumpkinConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		bullet.ammo = ModItems.ammo_nuke_pumpkin;
+		bullet.explosive = 10F;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
 				
-				if(!bullet.worldObj.isRemote) {
+				if(bullet.worldObj.isRemote) {
 
 					double posX = bullet.posX;
 					double posY = bullet.posY + 0.5;
@@ -134,28 +229,7 @@ public class GunFatmanFactory {
 						posZ = z + 0.5;
 					}
 					
-					NBTTagCompound data = new NBTTagCompound();
-					data.setString("type", "muke");
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
-					bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
-					
-					ExplosionLarge.spawnShrapnels(bullet.worldObj, posX, posY, posZ, 25);
-					
-					ExplosionNT exp = new ExplosionNT(bullet.worldObj, null, posX, posY, posZ, 15F)
-							.addAttrib(ExAttrib.FIRE)
-							.addAttrib(ExAttrib.NOPARTICLE)
-							.addAttrib(ExAttrib.NOSOUND)
-							.addAttrib(ExAttrib.NODROP)
-							.addAttrib(ExAttrib.NOHURT);
-					exp.doExplosionA();
-					exp.doExplosionB(false);
-					
-					ExplosionNukeGeneric.dealDamage(bullet.worldObj, posX, posY, posZ, 45);
-					
-					for(int i = -2; i <= 2; i++)
-						for(int j = -2; j <= 2; j++)
-							if(i + j < 4)
-								RadiationSavedData.incrementRad(bullet.worldObj, (int)posX + i * 16, (int)posZ + j * 16, 50 / (Math.abs(i) + Math.abs(j) + 1), 1000);
+					ExplosionLarge.spawnParticles(bullet.worldObj, posX, posY, posZ, 45);
 				}
 			}
 		};
@@ -163,21 +237,11 @@ public class GunFatmanFactory {
 		return bullet;
 	}
 	
-	public static BulletConfiguration getNukeProtoConfig() {
-		
-		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
-
-		bullet.spread = 0.1F;
-		bullet.ammo = ModItems.gun_fatman_ammo;
-		
-		return bullet;
-	}
-	
 	public static BulletConfiguration getMirvConfig() {
 		
-		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
+		BulletConfiguration bullet = getNukeConfig();
 		
-		bullet.ammo = ModItems.gun_mirv_ammo;
+		bullet.ammo = ModItems.ammo_mirv;
 		bullet.style = BulletConfiguration.STYLE_MIRV;
 		bullet.velocity *= 3;
 		
@@ -210,12 +274,122 @@ public class GunFatmanFactory {
 		return bullet;
 	}
 	
+	public static BulletConfiguration getMirvLowConfig() {
+		
+		BulletConfiguration bullet = getNukeConfig();
+		
+		bullet.ammo = ModItems.ammo_mirv_low;
+		bullet.style = BulletConfiguration.STYLE_MIRV;
+		bullet.velocity *= 3;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.ticksExisted == 15) {
+					bullet.setDead();
+					
+					for(int i = 0; i < 6; i++) {
+						
+						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_LOW);
+						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+						double mod = 0.1D;
+						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
+						nuke.motionY = -0.1D;
+						nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
+						bullet.worldObj.spawnEntityInWorld(nuke);
+					}
+				}
+			}
+			
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getMirvHighConfig() {
+		
+		BulletConfiguration bullet = getNukeConfig();
+		
+		bullet.ammo = ModItems.ammo_mirv_high;
+		bullet.style = BulletConfiguration.STYLE_MIRV;
+		bullet.velocity *= 3;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.ticksExisted == 15) {
+					bullet.setDead();
+					
+					for(int i = 0; i < 6; i++) {
+						
+						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_HIGH);
+						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+						double mod = 0.1D;
+						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
+						nuke.motionY = -0.1D;
+						nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
+						bullet.worldObj.spawnEntityInWorld(nuke);
+					}
+				}
+			}
+			
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getMirvSafeConfig() {
+		
+		BulletConfiguration bullet = getNukeConfig();
+		
+		bullet.ammo = ModItems.ammo_mirv_safe;
+		bullet.style = BulletConfiguration.STYLE_MIRV;
+		bullet.velocity *= 3;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.ticksExisted == 15) {
+					bullet.setDead();
+					
+					for(int i = 0; i < 6; i++) {
+						
+						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_SAFE);
+						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+						double mod = 0.1D;
+						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
+						nuke.motionY = -0.1D;
+						nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
+						bullet.worldObj.spawnEntityInWorld(nuke);
+					}
+				}
+			}
+			
+		};
+		
+		return bullet;
+	}
+	
 	public static BulletConfiguration getBalefireConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardNukeConfig();
 		
 		bullet.ammo = ModItems.gun_bf_ammo;
-		bullet.nuke = 0;
 		bullet.style = BulletConfiguration.STYLE_BF;
 		
 		bullet.bImpact = new IBulletImpactBehavior() {
@@ -232,13 +406,6 @@ public class GunFatmanFactory {
 						posY = y + 1.5;
 						posZ = z + 0.5;
 					}
-					
-					/*EntityBalefire bf = new EntityBalefire(bullet.worldObj);
-					bf.posX = x;
-					bf.posY = y;
-					bf.posZ = z;
-					bf.destructionRange = (int) (BombConfig.fatmanRadius * 1.25);
-					bullet.worldObj.spawnEntityInWorld(bf);*/
 					
 					bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 					

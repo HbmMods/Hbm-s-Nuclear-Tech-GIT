@@ -42,7 +42,7 @@ public class ParticleMukeFlash extends EntityFX {
     		
     		//Stem
     		for(double d = 0.0D; d <= 1.8D; d += 0.1) {
-	    		ParticleMukeCloud cloud = getCloud(theRenderEngine, worldObj, posX, posY, posZ + 0.5, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
+	    		ParticleMukeCloud cloud = getCloud(theRenderEngine, worldObj, posX, posY, posZ, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
 	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
     		}
     		

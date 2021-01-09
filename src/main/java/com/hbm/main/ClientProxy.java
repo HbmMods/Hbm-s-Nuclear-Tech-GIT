@@ -317,10 +317,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_vortex, new ItemRenderWeaponVortex());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_thompson, new ItemRenderWeaponThompson());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bolter, new ItemRenderWeaponBolter());
-		//ammo
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman_ammo, new ItemRenderMiniNuke());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_mirv_ammo, new ItemRenderMIRV());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bf_ammo, new ItemRenderBaleflare());
 		//multitool
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_dig, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_silk, new ItemRenderMultitool());
@@ -1008,6 +1004,43 @@ public class ClientProxy extends ServerProxy {
 			//double swing: 			HT 60,  MHT 50
 			//vic's immersive swing: 	HT 100, MHT 50
 			
+			if(player.getDisplayName().equals("Vic4Games")) {
+				player.hurtTime = 100;
+				player.maxHurtTime = 50;
+			} else {
+				player.hurtTime = 15;
+				player.maxHurtTime = 15;
+			}
+			player.attackedAtYaw = 0F;
+		}
+		
+		if("tinytot".equals(type)) {
+
+			ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(wave);
+			
+    		for(double d = 0.0D; d <= 1.6D; d += 0.1) {
+	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
+	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+    		}
+    		for(int i = 0; i < 50; i++) {
+	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
+	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+    		}
+    		for(int i = 0; i < 15; i++) {
+    			double ix = rand.nextGaussian() * 0.2;
+    			double iz = rand.nextGaussian() * 0.2;
+    			
+    			if(ix * ix + iz * iz > 0.75) {
+    				ix *= 0.5;
+    				iz *= 0.5;
+    			}
+    			
+    			double iy = 1.6 + (rand.nextDouble() * 2 - 1) * (0.75 - (ix * ix + iz * iz)) * 0.5;
+    			
+	    		ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz);
+	    		Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+    		}
 			if(player.getDisplayName().equals("Vic4Games")) {
 				player.hurtTime = 100;
 				player.maxHurtTime = 50;

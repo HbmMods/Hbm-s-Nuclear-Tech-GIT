@@ -530,6 +530,42 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.YELLOW + "with a powerful explosive charge");
 		}
 		
+		//NUKES
+		if(this== ModItems.ammo_nuke_low) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+		}
+		if(this== ModItems.ammo_nuke_high) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased blast radius");
+			list.add(EnumChatFormatting.BLUE + "+ Fallout");
+		}
+		if(this== ModItems.ammo_nuke_tots) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased bomb count");
+			list.add(EnumChatFormatting.YELLOW + "* Fun for the whole family!");
+			list.add(EnumChatFormatting.RED + "- Highly decreased accuracy");
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+			list.add(EnumChatFormatting.RED + "- Not recommended for the Proto MIRV");
+		}
+		if(this== ModItems.ammo_nuke_safe) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+			list.add(EnumChatFormatting.RED + "- No block damage");
+		}
+		if(this== ModItems.ammo_nuke_pumpkin) {
+			list.add(EnumChatFormatting.RED + "- Not even a nuke");
+		}
+		
+		//MIRV
+		if(this== ModItems.ammo_mirv_low) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+		}
+		if(this== ModItems.ammo_mirv_high) {
+			list.add(EnumChatFormatting.BLUE + "+ Increased blast radius");
+			list.add(EnumChatFormatting.BLUE + "+ Fallout");
+		}
+		if(this== ModItems.ammo_mirv_safe) {
+			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
+			list.add(EnumChatFormatting.RED + "- No block damage");
+		}
+		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {
 			list.add(EnumChatFormatting.BLUE + "+ Focused starmetal reaction blast");

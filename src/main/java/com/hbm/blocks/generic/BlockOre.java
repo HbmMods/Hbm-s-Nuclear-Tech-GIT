@@ -122,7 +122,7 @@ public class BlockOre extends Block {
 			case 28: return ModItems.pellet_rtg_weak;
 			case 29: return ModItems.rtg_unit;
 			case 30: return ModItems.gun_spark_ammo;
-			case 31: return ModItems.gun_fatman_ammo;
+			case 31: return ModItems.ammo_nuke_low;
 			case 32: return ModItems.gun_mirv_ammo;
 			case 33: return ModItems.gun_defabricator_ammo;
 			case 34: return ModItems.gun_osipr_ammo2;

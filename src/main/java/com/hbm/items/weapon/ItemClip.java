@@ -100,7 +100,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_fatman)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_fatman_ammo, 6)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_nuke, 6)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_fatman_ammo, 6), false);
         	}
@@ -326,9 +326,9 @@ public class ItemClip extends Item {
 			if(player.inventory.hasItem(ModItems.gun_skystinger))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_stinger_ammo, 2));
 			if(player.inventory.hasItem(ModItems.gun_fatman))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_fatman_ammo, 2));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_nuke, 2));
 			if(player.inventory.hasItem(ModItems.gun_proto))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_fatman_ammo, 8));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_nuke, 8));
 			if(player.inventory.hasItem(ModItems.gun_mirv))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mirv_ammo, 1));
 			if(player.inventory.hasItem(ModItems.gun_bf))

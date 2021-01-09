@@ -1,11 +1,17 @@
 package com.hbm.handler.guncfg;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.BombConfig;
+import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IBulletImpactBehavior;
@@ -15,6 +21,7 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
 
@@ -240,11 +247,94 @@ public class BulletConfigFactory {
 		bullet.bounceMod = 1.0;
 		bullet.doesPenetrate = true;
 		bullet.doesBreakGlass = false;
-		bullet.nuke = BombConfig.fatmanRadius;
 		bullet.style = BulletConfiguration.STYLE_NUKE;
 		bullet.plink = BulletConfiguration.PLINK_GRENADE;
 		
 		return bullet;
+	}
+	
+	/*
+	 * Sizes:
+	 * 0 - safe
+	 * 1 - tot
+	 * 2 - small
+	 * 3 - medium
+	 * 4 - big
+	 */
+	public static void nuclearExplosion(EntityBulletBase bullet, int x, int y, int z, boolean small, int size) {
+		
+		if(!bullet.worldObj.isRemote) {
+
+			double posX = bullet.posX;
+			double posY = bullet.posY + 0.5;
+			double posZ = bullet.posZ;
+			
+			if(y >= 0) {
+				posX = x + 0.5;
+				posY = y + 1.5;
+				posZ = z + 0.5;
+			}
+			
+			//all sizes have the same animation except tiny tots
+			if(size != 1) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "muke");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
+				bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+			} else {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tinytot");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 250));
+				bullet.worldObj.playSoundEffect(x, y, z, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+			}
+			
+			//no shrapnels for large mukes and tinty tots
+			if(size != 4 && size != 1)
+				ExplosionLarge.spawnShrapnels(bullet.worldObj, posX, posY, posZ, 25);
+			
+			if(size == 0) {
+				ExplosionNukeGeneric.dealDamage(bullet.worldObj, posX, posY, posZ, 45);
+			
+			} else if(size > 0 && size < 4) {
+				List<ExAttrib> attribs = new ArrayList();
+				attribs.add(ExAttrib.FIRE);
+				attribs.add(ExAttrib.NOPARTICLE);
+				attribs.add(ExAttrib.NOSOUND);
+				attribs.add(ExAttrib.NODROP);
+				attribs.add(ExAttrib.NOHURT);
+				
+				switch(size) {
+				case 1: new ExplosionNT(bullet.worldObj, null, posX, posY, posZ, 10F).addAllAttrib(attribs).explode();
+					ExplosionNukeGeneric.dealDamage(bullet.worldObj, posX, posY, posZ, 30); break;
+				
+				case 2: new ExplosionNT(bullet.worldObj, null, posX, posY, posZ, 15F).addAllAttrib(attribs).explode();
+					ExplosionNukeGeneric.dealDamage(bullet.worldObj, posX, posY, posZ, 45); break;
+				
+				case 3: new ExplosionNT(bullet.worldObj, null, posX, posY, posZ, 15F).addAllAttrib(attribs).explode();
+					new ExplosionNT(bullet.worldObj, null, posX + 7, posY, posZ, 10F).addAllAttrib(attribs).explode();
+					new ExplosionNT(bullet.worldObj, null, posX - 7, posY, posZ, 10F).addAllAttrib(attribs).explode();
+					new ExplosionNT(bullet.worldObj, null, posX, posY, posZ + 7, 10F).addAllAttrib(attribs).explode();
+					new ExplosionNT(bullet.worldObj, null, posX, posY, posZ - 7, 10F).addAllAttrib(attribs).explode();
+					ExplosionNukeGeneric.dealDamage(bullet.worldObj, posX, posY, posZ, 55); break;
+				}
+				
+			} else if(size == 4) {
+				bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(bullet.worldObj, BombConfig.fatmanRadius, posX, posY, posZ).mute());
+			}
+			
+			//radiation is 50 RAD/s in the epicenter, times the radMod
+			
+			float radMod = size * 0.33F;
+
+			//radMod for safe nukes is the same as for low yield
+			if(size == 0)
+				radMod = 0.66F;
+			
+			for(int i = -2; i <= 2; i++)
+				for(int j = -2; j <= 2; j++)
+					if(i + j < 4)
+						RadiationSavedData.incrementRad(bullet.worldObj, (int)posX + i * 16, (int)posZ + j * 16, 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod, 1000);
+		}
 	}
 	
 	public static IBulletImpactBehavior getPhosphorousEffect(final int radius, final int duration, final int count, final double motion) {

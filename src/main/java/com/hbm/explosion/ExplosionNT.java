@@ -45,6 +45,16 @@ public class ExplosionNT extends Explosion {
 		return this;
 	}
 	
+	public ExplosionNT addAllAttrib(List<ExAttrib> attrib) {
+		atttributes.addAll(attrib);
+		return this;
+	}
+	
+    public void explode() {
+    	doExplosionA();
+    	doExplosionB(false);
+    }
+	
     public void doExplosionA()
     {
         float f = this.explosionSize;

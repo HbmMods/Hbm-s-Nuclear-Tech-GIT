@@ -145,4 +145,10 @@ public class BulletConfiguration {
 		this.vPFX = "greendust";
 		return this;
 	}
+	
+	public BulletConfiguration accuracyMod(float mod) {
+		
+		this.spread *= mod;
+		return this;
+	}
 }

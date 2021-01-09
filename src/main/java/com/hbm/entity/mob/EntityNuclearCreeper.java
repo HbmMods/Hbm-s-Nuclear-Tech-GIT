@@ -261,7 +261,7 @@ public class EntityNuclearCreeper extends EntityMob {
         		this.dropItem(ModItems.fusion_core, 1);
         	}
         	if(i == 10)
-        		this.dropItem(ModItems.gun_fatman_ammo, 1);
+        		this.dropItem(ModItems.ammo_nuke_high, 1);
         }
     }
 
