@@ -391,11 +391,14 @@ public class Gun4GaugeFactory {
 				if(hit instanceof EntityLivingBase) {
 					EntityLivingBase living = (EntityLivingBase) hit;
 					float f = living.getHealth();
-					f = Math.max(0, f - 2);
-					living.setHealth(f);
 					
-					if(f == 0)
-						living.onDeath(ModDamageSource.lead);
+					if(f > 0) {
+						f = Math.max(0, f - 2);
+						living.setHealth(f);
+						
+						if(f == 0)
+							living.onDeath(ModDamageSource.causeBulletDamage(bullet, hit));
+					}
 				}
 			}
 		};
@@ -428,8 +431,11 @@ public class Gun4GaugeFactory {
 					
 					IExtendedEntityProperties prop = player.getExtendedProperties("WitcheryExtendedPlayer");
 					
+					NBTTagCompound blank = new NBTTagCompound();
+					blank.setTag("WitcheryExtendedPlayer", new NBTTagCompound());
+					
 					if(prop != null) {
-						prop.loadNBTData(new NBTTagCompound());
+						prop.loadNBTData(blank);
 					}
 				}
 			}

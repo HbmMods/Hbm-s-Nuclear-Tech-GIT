@@ -14,7 +14,7 @@ public class ItemHot extends Item {
 
     @SideOnly(Side.CLIENT)
     public IIcon hotIcon;
-	public static int heat;
+	protected static int heat;
 	
 	public ItemHot(int heat) {
 		
@@ -29,7 +29,7 @@ public class ItemHot extends Item {
     
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamage(int meta) {
-        return meta == 1 ? this.hotIcon : this.itemIcon;
+        return this.itemIcon;
     }
 	
     public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean bool) {
@@ -54,7 +54,7 @@ public class ItemHot extends Item {
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
 		
-		stack.stackTagCompound.setInteger("heat", heat);
+		stack.stackTagCompound.setInteger("heat", getMaxHeat(stack));
 		return stack;
 	}
 	
@@ -66,7 +66,7 @@ public class ItemHot extends Item {
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();
 		
-		stack.stackTagCompound.setInteger("heat", (int)(d * heat));
+		stack.stackTagCompound.setInteger("heat", (int)(d * getMaxHeat(stack)));
 		return stack;
 	}
 	
@@ -81,5 +81,9 @@ public class ItemHot extends Item {
 		int h = stack.stackTagCompound.getInteger("heat");
 		
 		return (double)h / (double)heat;
+	}
+	
+	public static int getMaxHeat(ItemStack stack) {
+		return heat;
 	}
 }

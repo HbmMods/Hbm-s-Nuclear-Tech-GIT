@@ -9,8 +9,6 @@ import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IConsumer;
@@ -21,8 +19,11 @@ import com.hbm.inventory.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.Item;
@@ -170,17 +171,31 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		int rand = worldObj.rand.nextInt(10);
 
 		if(rand < 2) {
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5));
-			ExplosionParticle.spawnMush(worldObj, xCoord + 0.5, yCoord - 3, zCoord + 0.5);
+			
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5).mute());
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 250));
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+			
 		} else if(rand < 4) {
-			EntityBalefire bf = new EntityBalefire(worldObj);
+			
+			EntityBalefire bf = new EntityBalefire(worldObj).mute();
 			bf.posX = xCoord + 0.5;
 			bf.posY = yCoord + 1.5;
 			bf.posZ = zCoord + 0.5;
 			bf.destructionRange = (int)(BombConfig.fatmanRadius * 1.5);
 			worldObj.spawnEntityInWorld(bf);
-			ExplosionParticleB.spawnMush(worldObj, xCoord + 0.5, yCoord - 3, zCoord + 0.5);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			data.setBoolean("balefire", true);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 250));
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+			
 		} else if(rand < 5) {
+			
 			EntityBlackHole bl = new EntityBlackHole(worldObj, 1.5F + worldObj.rand.nextFloat());
 			bl.posX = xCoord + 0.5F;
 			bl.posY = yCoord + 1.5F;

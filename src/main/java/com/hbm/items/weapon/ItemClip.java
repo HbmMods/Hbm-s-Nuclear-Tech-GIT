@@ -156,7 +156,7 @@ public class ItemClip extends Item {
 		
 		if(this == ModItems.clip_mirv)
 		{
-			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_mirv_ammo, 3)))
+			if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_mirv, 3)))
         	{
         		//player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.gun_mp40_ammo, 32), false);
         	}

@@ -13,16 +13,17 @@ import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -493,21 +494,12 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
-	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ));
-	    	
-    	    if(MainRegistry.polaroidID == 11) {
-    	    	if(rand.nextInt(100) >= 0) {
-    	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	} else {
-    	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	}
-    	    } else {
-    	    	if(rand.nextInt(100) == 0) {
-    	    		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	} else {
-    	    		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
-    	    	}
-    	    }
+	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, config.nuke, posX, posY, posZ).mute());
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+			worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 		}
 		
 		if(config.destroysBlocks && !worldObj.isRemote) {

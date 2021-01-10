@@ -11,8 +11,6 @@ import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -25,7 +23,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -48,7 +45,6 @@ import com.hbm.entity.particle.*;
 import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.particle.*;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
@@ -218,6 +214,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.assembly_template, new ItemRenderTemplate());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chemistry_template, new ItemRenderTemplate());
 		//hot stuff
+		MinecraftForgeClient.registerItemRenderer(ModItems.ingot_steel_dusted, new ItemRendererHot());
 		MinecraftForgeClient.registerItemRenderer(ModItems.ingot_meteorite, new ItemRendererHot());
 		MinecraftForgeClient.registerItemRenderer(ModItems.ingot_meteorite_forged, new ItemRendererHot());
 		MinecraftForgeClient.registerItemRenderer(ModItems.blade_meteorite, new ItemRendererHot());
@@ -341,9 +338,6 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBase.class, new RenderBullet());
-	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniNuke.class, new RenderMiniNuke());
-	    RenderingRegistry.registerEntityRenderingHandler(EntityMiniMIRV.class, new RenderMiniMIRV());
-	    RenderingRegistry.registerEntityRenderingHandler(EntityBaleflare.class, new RenderBaleflare());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbow.class, new RenderRainbow());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNightmareBlast.class, new RenderOminousBullet());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFire.class, new RenderFireball(ModItems.energy_ball));
@@ -983,8 +977,8 @@ public class ClientProxy extends ServerProxy {
 					}
 				}
 
-				EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.0F, 0.0F, 0.0F);
-				EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.0F, 0.0F, 0.0F);
+				EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.8F, 0.5F, 1.0F);
+				EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.8F, 0.5F, 1.0F);
 				dust1.setVelocity(p.motionX, p.motionY, p.motionZ);
 				dust2.setVelocity(p.motionX, p.motionY, p.motionZ);
 				Minecraft.getMinecraft().effectRenderer.addEffect(dust1);

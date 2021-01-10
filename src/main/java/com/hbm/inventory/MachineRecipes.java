@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import com.hbm.blocks.ModBlocks;
@@ -12,8 +13,12 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.EnchantmentUtil;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -124,6 +129,26 @@ public class MachineRecipes {
 		if (item.getItem() == ModItems.meteorite_sword_hardened && mODE(item2, new String[] {"ingotCobalt", "dustCobalt"})
 				|| mODE(item, new String[] {"ingotCobalt", "dustCobalt"}) && item2.getItem() == ModItems.meteorite_sword_hardened) {
 			return new ItemStack(ModItems.meteorite_sword_alloyed, 1);
+		}
+		
+		if(item.getItem() instanceof ItemGunBase && item2.getItem() == Items.enchanted_book) {
+			
+			ItemStack result = item.copy();
+
+            Map mapright = EnchantmentHelper.getEnchantments(item2);
+            Iterator itr = mapright.keySet().iterator();
+
+            while (itr.hasNext()) {
+            	
+            	int i = ((Integer)itr.next()).intValue();
+            	int j = ((Integer)mapright.get(Integer.valueOf(i))).intValue();
+            	Enchantment e = Enchantment.enchantmentsList[i];
+            	
+            	EnchantmentUtil.removeEnchantment(result, e);
+            	EnchantmentUtil.addEnchantment(result, e, j);
+            }
+            
+            return result;
 		}
 
 		return null;

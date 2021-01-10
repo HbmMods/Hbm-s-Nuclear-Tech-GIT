@@ -2,14 +2,10 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.config.BombConfig;
-import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
-import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -19,7 +15,6 @@ import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
-import com.hbm.saveddata.RadiationSavedData;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -71,6 +66,7 @@ public class GunFatmanFactory {
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_HIGH);
 		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_SAFE);
+		config.config.add(BulletConfigSyncingUtil.NUKE_MIRV_SPECIAL);
 		config.durability = 1000;
 		
 		return config;
@@ -131,7 +127,7 @@ public class GunFatmanFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 3);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 3);
 			}
 		};
 		
@@ -147,7 +143,7 @@ public class GunFatmanFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 2);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 2);
 			}
 		};
 		
@@ -163,7 +159,7 @@ public class GunFatmanFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 4);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 4);
 			}
 		};
 		
@@ -183,7 +179,7 @@ public class GunFatmanFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 1);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 1);
 			}
 		};
 		
@@ -199,7 +195,7 @@ public class GunFatmanFactory {
 
 			@Override
 			public void behaveBlockHit(EntityBulletBase bullet, int x, int y, int z) {
-				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, false, 0);
+				BulletConfigFactory.nuclearExplosion(bullet, x, y, z, 0);
 			}
 		};
 		
@@ -276,7 +272,7 @@ public class GunFatmanFactory {
 	
 	public static BulletConfiguration getMirvLowConfig() {
 		
-		BulletConfiguration bullet = getNukeConfig();
+		BulletConfiguration bullet = getNukeLowConfig();
 		
 		bullet.ammo = ModItems.ammo_mirv_low;
 		bullet.style = BulletConfiguration.STYLE_MIRV;
@@ -313,7 +309,7 @@ public class GunFatmanFactory {
 	
 	public static BulletConfiguration getMirvHighConfig() {
 		
-		BulletConfiguration bullet = getNukeConfig();
+		BulletConfiguration bullet = getNukeHighConfig();
 		
 		bullet.ammo = ModItems.ammo_mirv_high;
 		bullet.style = BulletConfiguration.STYLE_MIRV;
@@ -350,7 +346,7 @@ public class GunFatmanFactory {
 	
 	public static BulletConfiguration getMirvSafeConfig() {
 		
-		BulletConfiguration bullet = getNukeConfig();
+		BulletConfiguration bullet = getNukeSafeConfig();
 		
 		bullet.ammo = ModItems.ammo_mirv_safe;
 		bullet.style = BulletConfiguration.STYLE_MIRV;
@@ -372,6 +368,54 @@ public class GunFatmanFactory {
 						EntityBulletBase nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_SAFE);
 						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
 						double mod = 0.1D;
+						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
+						nuke.motionY = -0.1D;
+						nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;
+						bullet.worldObj.spawnEntityInWorld(nuke);
+					}
+				}
+			}
+			
+		};
+		
+		return bullet;
+	}
+	
+	public static BulletConfiguration getMirvSpecialConfig() {
+		
+		BulletConfiguration bullet = getNukeConfig();
+		
+		bullet.ammo = ModItems.ammo_mirv_special;
+		bullet.style = BulletConfiguration.STYLE_MIRV;
+		bullet.velocity *= 3;
+		
+		bullet.bUpdate = new IBulletUpdateBehavior() {
+
+			@Override
+			public void behaveUpdate(EntityBulletBase bullet) {
+				
+				if(bullet.worldObj.isRemote)
+					return;
+				
+				if(bullet.ticksExisted == 15) {
+					bullet.setDead();
+					
+					for(int i = 0; i < 24; i++) {
+						
+						EntityBulletBase nuke = null;
+						
+						if(i < 6)
+							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_LOW);
+						else if(i < 12)
+							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_TOTS);
+						else if(i < 18)
+							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_NORMAL);
+						else
+							nuke = new EntityBulletBase(bullet.worldObj, BulletConfigSyncingUtil.NUKE_AMAT);
+						
+						nuke.setPosition(bullet.posX, bullet.posY, bullet.posZ);
+						
+						double mod = 0.25D;
 						nuke.motionX = bullet.worldObj.rand.nextGaussian() * mod;
 						nuke.motionY = -0.1D;
 						nuke.motionZ = bullet.worldObj.rand.nextGaussian() * mod;

@@ -58,8 +58,7 @@ public class BlockChain extends Block {
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
 
-    	if(world.isSideSolid(x, y - 1, z, ForgeDirection.UP, false) ||
-    			(world.getBlock(x, y - 1, z) == this && world.getBlockMetadata(x, y, z) == world.getBlockMetadata(x, y - 1, z)))
+    	if(world.isSideSolid(x, y - 1, z, ForgeDirection.UP, false) || (world.getBlock(x, y - 1, z) == this && world.getBlockMetadata(x, y, z) == world.getBlockMetadata(x, y - 1, z)))
     		return this.blockIcon;
     	
     	return this.iconEnd;
@@ -72,7 +71,7 @@ public class BlockChain extends Block {
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
     	func_149797_b(world.getBlockMetadata(x, y, z));
 
-    	if(!world.isSideSolid(x, y - 1, z, ForgeDirection.UP, false))
+    	if(!(world.isSideSolid(x, y - 1, z, ForgeDirection.UP, false) || (world.getBlock(x, y - 1, z) == this && world.getBlockMetadata(x, y, z) == world.getBlockMetadata(x, y - 1, z))))
     		this.minY = 0.25;
     }
 

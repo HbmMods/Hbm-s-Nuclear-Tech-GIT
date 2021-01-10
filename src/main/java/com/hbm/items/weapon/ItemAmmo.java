@@ -565,6 +565,13 @@ public class ItemAmmo extends Item {
 			list.add(EnumChatFormatting.RED + "- Decreased blast radius");
 			list.add(EnumChatFormatting.RED + "- No block damage");
 		}
+		if(this== ModItems.ammo_mirv_special) {
+			list.add(EnumChatFormatting.BLUE + "+ 6 Low-yield mini nukes");
+			list.add(EnumChatFormatting.BLUE + "+ 6 Mini nukes");
+			list.add(EnumChatFormatting.BLUE + "+ 6 Tiny tots");
+			list.add(EnumChatFormatting.BLUE + "+ 6 Balefire shells");
+			list.add(EnumChatFormatting.WHITE + "* Sticky!");
+		}
 		
 		//FOLLY
 		if(this == ModItems.ammo_folly) {

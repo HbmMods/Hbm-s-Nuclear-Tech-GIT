@@ -2,16 +2,18 @@ package com.hbm.entity.mob;
 
 import java.util.List;
 
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.entity.mob.ai.EntityAINuclearCreeperSwell;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.explosion.ExplosionParticleB;
+import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ContaminationUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -43,7 +45,6 @@ public class EntityNuclearCreeper extends EntityMob {
     private int lastActiveTime;
     private int timeSinceIgnited;
     private int fuseTime = 75;
-    private int explosionRadius = 20;
 
     public EntityNuclearCreeper(World p_i1733_1_)
     {
@@ -122,7 +123,6 @@ public class EntityNuclearCreeper extends EntityMob {
         }
 
         p_70014_1_.setShort("Fuse", (short)this.fuseTime);
-        p_70014_1_.setByte("ExplosionRadius", (byte)this.explosionRadius);
         p_70014_1_.setBoolean("ignited", this.func_146078_ca());
     }
     
@@ -135,11 +135,6 @@ public class EntityNuclearCreeper extends EntityMob {
         if (p_70037_1_.hasKey("Fuse", 99))
         {
             this.fuseTime = p_70037_1_.getShort("Fuse");
-        }
-
-        if (p_70037_1_.hasKey("ExplosionRadius", 99))
-        {
-            this.explosionRadius = p_70037_1_.getByte("ExplosionRadius");
         }
 
         if (p_70037_1_.getBoolean("ignited"))
@@ -341,30 +336,21 @@ public class EntityNuclearCreeper extends EntityMob {
         {
             boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 
-            if (this.getPowered())
-            {
-            	this.explosionRadius *= 3;
-            }
+            if (this.getPowered()) {
+        		
+        		NBTTagCompound data = new NBTTagCompound();
+        		data.setString("type", "muke");
+        		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 0.5, posZ), new TargetPoint(dimension, posX, posY, posZ, 250));
+        		worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 
-            if(flag)
-            	worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, explosionRadius, posX, posY, posZ));
-            else
-            	worldObj.createExplosion(this, posX, posY, posZ, explosionRadius, false);
-            
-            if(this.getPowered())
-            {
-    			EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, explosionRadius * 0.005F);
-    	    	entity2.posX = this.posX;
-    	    	entity2.posY = this.posY;
-    	    	entity2.posZ = this.posZ;
-    	    	this.worldObj.spawnEntityInWorld(entity2);
-            } else {
-            	if(rand.nextInt(100) == 0)
-            	{
-            		ExplosionParticleB.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            	if(flag) {
+            		worldObj.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(worldObj, 50, posX, posY, posZ).mute());
             	} else {
-            		ExplosionParticle.spawnMush(this.worldObj, (int)this.posX, (int)this.posY - 3, (int)this.posZ);
+            		ExplosionNukeGeneric.dealDamage(worldObj, posX, posY + 0.5, posZ, 100);
             	}
+            } else {
+        		
+        		ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.medium);
             }
 
             this.setDead();

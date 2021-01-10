@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -37,10 +38,14 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		
 		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.universal);
+		String barrel = "Body_Cube.008";
+		String handle = "handle_Cylinder.005";
+		String shells = "boolets_Cylinder.008";
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.shotty_tex);
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
@@ -59,7 +64,7 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 			GL11.glTranslatef(1.75F, -0.2F, -0.3F);
 			
 			if(player.isSneaking()) {
-				GL11.glTranslatef(0F, 1.0F, -1.8F);
+				GL11.glTranslatef(0F, 1.0F, -2.05F);
 				GL11.glRotatef(3.5F, 0.0F, 1.0F, 0.0F);
 			} else {
 				
@@ -71,22 +76,24 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 			
 			GL11.glPushMatrix();
 			GL11.glRotated(-eject[2] * 0.8, 0, 0, 1);
-			ResourceManager.shotty.renderPart("Barrel");
+			ResourceManager.shotty.renderPart(barrel);
 
 			GL11.glPushMatrix();
 			GL11.glRotated(ejectShell[0] * 90, 0, 0, 1);
 			GL11.glTranslated(-ejectShell[0] * 10, 0, 0);
-			ResourceManager.shotty.renderPart("Shells");
+			ResourceManager.shotty.renderPart(shells);
 			GL11.glPopMatrix();
 			
-			GL11.glPushMatrix();
-			GL11.glTranslated(-insertShell[0], insertShell[2] * -2, insertShell[2] * -1);
-			ResourceManager.shotty.renderPart("Shells");
-			GL11.glPopMatrix();
+			if(ItemGunBase.getBeltSize(player, ItemGunBase.getBeltType(player, item, true)) > 0) {
+				GL11.glPushMatrix();
+				GL11.glTranslated(-insertShell[0], insertShell[2] * -2, insertShell[2] * -1);
+				ResourceManager.shotty.renderPart(shells);
+				GL11.glPopMatrix();
+			}
 			
 			GL11.glPopMatrix();
 			
-			ResourceManager.shotty.renderPart("Handle");
+			ResourceManager.shotty.renderPart(handle);
 			
 			break;
 			
@@ -98,8 +105,8 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 			GL11.glRotatef(5F, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(0.5F, 0.0F, -0.4F);
 			GL11.glScaled(0.35, 0.35, 0.35);
-			ResourceManager.shotty.renderPart("Handle");
-			ResourceManager.shotty.renderPart("Barrel");
+			ResourceManager.shotty.renderPart(handle);
+			ResourceManager.shotty.renderPart(barrel);
 			
 			break;
 			
@@ -107,8 +114,8 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 
 			GL11.glScaled(0.5, 0.5, 0.5);
 			GL11.glTranslatef(-1.0F, 0.2F, 0.0F);
-			ResourceManager.shotty.renderPart("Handle");
-			ResourceManager.shotty.renderPart("Barrel");
+			ResourceManager.shotty.renderPart(handle);
+			ResourceManager.shotty.renderPart(barrel);
 			break;
 			
 		default: break;

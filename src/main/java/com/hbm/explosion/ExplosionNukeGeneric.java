@@ -31,8 +31,6 @@ import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
-import com.hbm.entity.projectile.EntityMiniMIRV;
-import com.hbm.entity.projectile.EntityMiniNuke;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.interfaces.ISource;
 import com.hbm.interfaces.Spaghetti;
@@ -161,8 +159,6 @@ public class ExplosionNukeGeneric {
 		if (e instanceof EntityOcelot ||
 				e instanceof EntityNukeCloudSmall ||
 				e instanceof EntityMIRV ||
-				e instanceof EntityMiniNuke ||
-				e instanceof EntityMiniMIRV ||
 				e instanceof EntityGrenadeASchrab ||
 				e instanceof EntityGrenadeNuclear ||
 				e instanceof EntityExplosiveBeam ||

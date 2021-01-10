@@ -5,12 +5,14 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityBalefire;
-import com.hbm.explosion.ExplosionParticleB;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.bomb.TileEntityCrashedBomb;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +20,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -97,16 +100,22 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 	
 	@Override
 	public void explode(World world, int x, int y, int z) {
+		
         if (!world.isRemote) {
         	
         	world.setBlockToAir(x, y, z);
-			EntityBalefire bf = new EntityBalefire(world);
+			EntityBalefire bf = new EntityBalefire(world).mute();
 			bf.posX = x;
 			bf.posY = y;
 			bf.posZ = z;
 			bf.destructionRange = (int) (BombConfig.fatmanRadius * 1.25);
 			world.spawnEntityInWorld(bf);
-    		ExplosionParticleB.spawnMush(world, x, y, z);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "muke");
+			data.setBoolean("balefire", true);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x + 0.5, y + 0.5, z + 0.5), new TargetPoint(world.provider.dimensionId, x + 0.5, y + 0.5, z + 0.5, 250));
+			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
         }
 	}
 }

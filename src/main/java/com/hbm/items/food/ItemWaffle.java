@@ -1,9 +1,6 @@
 package com.hbm.items.food;
 
-import com.hbm.config.BombConfig;
-import com.hbm.entity.logic.EntityNukeExplosionMK4;
-import com.hbm.explosion.ExplosionParticle;
-import com.hbm.main.MainRegistry;
+import com.hbm.explosion.ExplosionNukeSmall;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -17,11 +14,10 @@ public class ItemWaffle extends ItemFood {
 	}
 	
 	@Override
-    public void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
-    {
-		world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, (int)(BombConfig.fatmanRadius * 1.5), player.posX, player.posY, player.posZ));
-    	
-    	ExplosionParticle.spawnMush(world, (int)player.posX, (int)player.posY - 3, (int)player.posZ);
+    public void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
+		
+		if(!world.isRemote)
+			ExplosionNukeSmall.explode(world, player.posX, player.posY + 0.5, player.posZ, ExplosionNukeSmall.medium);
     }
 
 }

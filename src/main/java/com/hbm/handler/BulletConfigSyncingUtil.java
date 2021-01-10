@@ -195,6 +195,7 @@ public class BulletConfigSyncingUtil {
 	public static int NUKE_MIRV_LOW = i++;
 	public static int NUKE_MIRV_HIGH = i++;
 	public static int NUKE_MIRV_SAFE = i++;
+	public static int NUKE_MIRV_SPECIAL = i++;
 	
 	public static int NUKE_AMAT = i++;
 	
@@ -406,6 +407,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NUKE_MIRV_LOW, GunFatmanFactory.getMirvLowConfig());
 		configSet.put(NUKE_MIRV_HIGH, GunFatmanFactory.getMirvHighConfig());
 		configSet.put(NUKE_MIRV_SAFE, GunFatmanFactory.getMirvSafeConfig());
+		configSet.put(NUKE_MIRV_SPECIAL, GunFatmanFactory.getMirvSpecialConfig());
 		
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 		

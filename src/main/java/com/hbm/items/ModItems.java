@@ -199,6 +199,7 @@ public class ModItems {
 	public static Item ingot_meteorite;
 	public static Item ingot_meteorite_forged;
 	public static Item blade_meteorite;
+	public static Item ingot_steel_dusted;
 
 	public static Item plate_armor_titanium;
 	public static Item plate_armor_ajr;
@@ -1255,6 +1256,7 @@ public class ModItems {
 	public static Item ammo_mirv_low;
 	public static Item ammo_mirv_high;
 	public static Item ammo_mirv_safe;
+	public static Item ammo_mirv_special;
 	public static Item ammo_fuel;
 	public static Item ammo_fuel_napalm;
 	public static Item ammo_fuel_phosphorus;
@@ -2178,6 +2180,7 @@ public class ModItems {
 		ingot_meteorite = new ItemHot(200).setUnlocalizedName("ingot_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_meteorite");
 		ingot_meteorite_forged = new ItemHot(200).setUnlocalizedName("ingot_meteorite_forged").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_meteorite_forged");
 		blade_meteorite = new ItemHot(200).setUnlocalizedName("blade_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_meteorite");
+		ingot_steel_dusted = new ItemHotDusted(200).setUnlocalizedName("ingot_steel_dusted").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_steel_dusted");
 
 		plate_armor_titanium = new Item().setUnlocalizedName("plate_armor_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_titanium");
 		plate_armor_ajr = new Item().setUnlocalizedName("plate_armor_ajr").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_ajr");
@@ -3212,6 +3215,7 @@ public class ModItems {
 		ammo_mirv_low = new ItemAmmo().setUnlocalizedName("ammo_mirv_low").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_mirv_low");
 		ammo_mirv_high = new ItemAmmo().setUnlocalizedName("ammo_mirv_high").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_mirv_high");
 		ammo_mirv_safe = new ItemAmmo().setUnlocalizedName("ammo_mirv_safe").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_mirv_safe");
+		ammo_mirv_special = new ItemAmmo().setUnlocalizedName("ammo_mirv_special").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ammo_mirv_special");
 		ammo_fuel = new ItemAmmo().setUnlocalizedName("ammo_fuel").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel");
 		ammo_fuel_napalm = new ItemAmmo().setUnlocalizedName("ammo_fuel_napalm").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel_napalm");
 		ammo_fuel_phosphorus = new ItemAmmo().setUnlocalizedName("ammo_fuel_phosphorus").setCreativeTab(MainRegistry.weaponTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":ammo_fuel_phosphorus");
@@ -3726,9 +3730,10 @@ public class ModItems {
 		alloy_plate = new ArmorFSB(MainRegistry.aMatAlloy, 7, 1, RefStrings.MODID + ":textures/armor/alloy_1.png").cloneStats((ArmorFSB) alloy_helmet).setUnlocalizedName("alloy_plate").setTextureName(RefStrings.MODID + ":alloy_plate");
 		alloy_legs = new ArmorFSB(MainRegistry.aMatAlloy, 7, 2, RefStrings.MODID + ":textures/armor/alloy_2.png").cloneStats((ArmorFSB) alloy_helmet).setUnlocalizedName("alloy_legs").setTextureName(RefStrings.MODID + ":alloy_legs");
 		alloy_boots = new ArmorFSB(MainRegistry.aMatAlloy, 7, 3, RefStrings.MODID + ":textures/armor/alloy_1.png").cloneStats((ArmorFSB) alloy_helmet).setUnlocalizedName("alloy_boots").setTextureName(RefStrings.MODID + ":alloy_boots");
-		cmb_helmet = new ArmorFSB(MainRegistry.aMatCMB, 7, 0, RefStrings.MODID + ":textures/armor/cmb_1.png").setCap(10F).setMod(0.5F)
+		cmb_helmet = new ArmorFSB(MainRegistry.aMatCMB, 7, 0, RefStrings.MODID + ":textures/armor/cmb_1.png").setCap(2F).setThreshold(2F).setMod(0.05F)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 2))
-				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 0))
+				.addEffect(new PotionEffect(Potion.digSpeed.id, 20, 2))
+				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 4))
 				.setFireproof(true).setUnlocalizedName("cmb_helmet").setTextureName(RefStrings.MODID + ":cmb_helmet");
 		cmb_plate = new ArmorFSB(MainRegistry.aMatCMB, 7, 1, RefStrings.MODID + ":textures/armor/cmb_1.png").cloneStats((ArmorFSB) cmb_helmet).setUnlocalizedName("cmb_plate").setTextureName(RefStrings.MODID + ":cmb_plate");
 		cmb_legs = new ArmorFSB(MainRegistry.aMatCMB, 7, 2, RefStrings.MODID + ":textures/armor/cmb_2.png").cloneStats((ArmorFSB) cmb_helmet).setUnlocalizedName("cmb_legs").setTextureName(RefStrings.MODID + ":cmb_legs");
@@ -4367,6 +4372,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_electronium, ingot_electronium.getUnlocalizedName());
 
 		//Meteorite Ingots
+		//GameRegistry.registerItem(ingot_steel_dusted, ingot_steel_dusted.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_meteorite, ingot_meteorite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_meteorite_forged, ingot_meteorite_forged.getUnlocalizedName());
 		GameRegistry.registerItem(blade_meteorite, blade_meteorite.getUnlocalizedName());
@@ -5702,6 +5708,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_mirv_low, ammo_mirv_low.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_mirv_high, ammo_mirv_high.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_mirv_safe, ammo_mirv_safe.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_mirv_special, ammo_mirv_special.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly, ammo_folly.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_nuclear, ammo_folly_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_folly_du, ammo_folly_du.getUnlocalizedName());

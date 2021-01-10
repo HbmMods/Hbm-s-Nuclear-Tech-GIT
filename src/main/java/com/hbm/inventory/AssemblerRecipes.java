@@ -447,7 +447,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModItems.mp_warhead_15_balefire, 1), new AStack[] {new ComparableStack(ModItems.seg_15, 1), new OreDictStack("plateDenseLead", 16), new ComparableStack(ModItems.powder_magic, 6), new ComparableStack(ModItems.egg_balefire_shard, 4), new ComparableStack(ModItems.ingot_semtex, 8), new ComparableStack(ModItems.circuit_targeting_tier4, 1), }, 60);
 		makeRecipe(new ComparableStack(ModItems.missile_soyuz, 1), new AStack[] {new ComparableStack(ModItems.rocket_fuel, 40), new ComparableStack(ModBlocks.det_cord, 20), new ComparableStack(ModItems.thruster_medium, 12), new ComparableStack(ModItems.thruster_small, 12), new ComparableStack(ModItems.tank_steel, 10), new ComparableStack(ModItems.circuit_targeting_tier4, 4), new ComparableStack(ModItems.circuit_targeting_tier3, 8), new ComparableStack(ModItems.plate_polymer, 64), new ComparableStack(ModItems.fins_small_steel, 4), new ComparableStack(ModItems.hull_big_titanium, 40), new ComparableStack(ModItems.hull_big_steel, 24), new ComparableStack(ModItems.ingot_fiberglass, 64), },600);
 		makeRecipe(new ComparableStack(ModItems.missile_soyuz_lander, 1), new AStack[] {new ComparableStack(ModItems.rocket_fuel, 10), new ComparableStack(ModItems.thruster_small, 3), new ComparableStack(ModItems.tank_steel, 2), new ComparableStack(ModItems.circuit_targeting_tier3, 4), new ComparableStack(ModItems.plate_polymer, 32), new ComparableStack(ModItems.hull_big_aluminium, 2), new ComparableStack(ModItems.sphere_steel, 1), new ComparableStack(ModItems.ingot_fiberglass, 12), },600);
-		makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {new ComparableStack(ModItems.cap_star, 1), new ComparableStack(ModItems.chlorine_pinwheel, 1), new ComparableStack(ModItems.burnt_bark, 1), new ComparableStack(ModItems.combine_scrap, 1), new ComparableStack(ModBlocks.block_euphemium_cluster, 1), new ComparableStack(ModItems.crystal_horn, 1), new ComparableStack(ModItems.crystal_charred, 1), new ComparableStack(ModBlocks.pink_log, 1), new ComparableStack(ModItems.mp_warhead_15_balefire, 1), new ComparableStack(ModBlocks.crate_red, 1), new ComparableStack(ModBlocks.det_nuke, 16), new ComparableStack(ModItems.ingot_starmetal, 32), },1200);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_tungsten, 1), new AStack[] {new OreDictStack("blockTungsten", 32), new OreDictStack("plateDenseLead", 96)}, 600);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_desh, 1), new AStack[] {new OreDictStack("blockDesh", 16), new OreDictStack("blockCobalt", 16), new ComparableStack(ModItems.plate_saturnite, 96)}, 600);
 		makeRecipe(new ComparableStack(ModItems.fusion_shield_chlorophyte, 1), new AStack[] {new OreDictStack("blockTungsten", 16), new ComparableStack(ModBlocks.block_dura_steel, 16), new OreDictStack("plateDenseLead", 48), new ComparableStack(ModItems.powder_chlorophyte, 48)}, 600);
@@ -576,6 +575,21 @@ public class AssemblerRecipes {
 				new ComparableStack(ModBlocks.block_polonium, 10),
 				new ComparableStack(ModItems.plate_armor_titanium, 50),
 				new ComparableStack(ModItems.coin_worm, 1)
+			}, 1200);
+
+		makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {
+				new ComparableStack(ModItems.burnt_bark, 1),
+				new ComparableStack(ModItems.combine_scrap, 1),
+				new ComparableStack(ModItems.crystal_horn, 1),
+				new ComparableStack(ModItems.crystal_charred, 1),
+				new ComparableStack(ModBlocks.pink_log, 1),
+				new ComparableStack(ModItems.mp_warhead_15_balefire, 1),
+				new ComparableStack(ModBlocks.det_nuke, 16),
+				new ComparableStack(ModItems.ingot_starmetal, 32),
+				new ComparableStack(ModItems.coin_creeper, 1),
+				new ComparableStack(ModItems.coin_radiation, 1),
+				new ComparableStack(ModItems.coin_maskman, 1),
+				new ComparableStack(ModItems.coin_worm, 1),
 			}, 1200);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);

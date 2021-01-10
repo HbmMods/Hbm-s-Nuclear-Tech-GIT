@@ -839,5 +839,25 @@ public class ModEventHandler
 	            event.cost = 50;
 			}
 		}
+		
+		if(event.left.getItem() == ModItems.ingot_steel_dusted && event.right.getItem() == ModItems.ingot_steel_dusted &&
+				event.left.stackSize == 1 && event.right.stackSize == 1) {
+
+			double h1 = ItemHot.getHeat(event.left);
+			double h2 = ItemHot.getHeat(event.right);
+			
+			if(h2 >= 0.5) {
+
+				int i1 = event.left.getItemDamage();
+				int i2 = event.right.getItemDamage();
+				
+				int i3 = Math.min(i1, i2) + 1;
+	            
+				ItemStack out = new ItemStack(ModItems.ingot_steel_dusted, 1, i3);
+				ItemHot.heatUp(out, (h1 + h2) / 2D);
+				event.output = out;
+	            event.cost = 1;
+			}
+		}
 	}
 }
