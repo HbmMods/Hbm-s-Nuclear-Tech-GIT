@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityRagingVortex;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.I18nUtil;
 
@@ -32,19 +33,7 @@ public class ItemDigamma extends ItemRadioactive {
     	if(entity instanceof EntityPlayer) {
     		
     		EntityPlayer player = (EntityPlayer) entity;
-    		
-    		if(player.ticksExisted % digamma == 0 && !player.capabilities.isCreativeMode) {
-    			
-    			player.getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier("digamma", -0.5D, 2));
-    			
-    			if(player.getHealth() > player.getMaxHealth())
-    				player.setHealth(player.getMaxHealth());
-    			
-    			if(player.getMaxHealth() <= 0) {
-    				player.attackEntityFrom(ModDamageSource.radiation, 100F);
-    				player.onDeath(ModDamageSource.radiation);
-    			}
-    		}
+    		HbmLivingProps.incrementDigamma(player, 1F / ((float) digamma));
     	}
     }
 	
@@ -57,7 +46,7 @@ public class ItemDigamma extends ItemRadioactive {
 		list.add("");
 		super.addInformation(stack, player, list, bool);
 		
-		float d = ((int)((1000F / 60) * 10)) / 10F;
+		float d = ((int)((1000F / digamma) * 10F)) / 10F;
 		
 		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
 		list.add(EnumChatFormatting.DARK_RED + "" + d + "DRX/s");

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorHEV;
 import com.hbm.saveddata.RadiationSavedData;
@@ -75,8 +76,7 @@ public class ArmorHEV extends ArmorFSBPowered {
 	
     private void renderOverlay(RenderGameOverlayEvent.Pre event, EntityPlayer player) {
     	
-		float in = 0;
-		in = player.getEntityData().getFloat("hfr_radiation");
+		float in = HbmLivingProps.getRadiation(player);
         
         float radiation = 0;
         

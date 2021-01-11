@@ -2,7 +2,7 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
-import com.hbm.extprop.HbmExtendedProperties;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -47,7 +47,7 @@ public class ArmorBJJetpack extends ArmorBJ {
 		
 		super.onArmorTick(world, player, stack);
 		
-		HbmExtendedProperties props = HbmExtendedProperties.getData(player);
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
 		if(world.isRemote) {
 			

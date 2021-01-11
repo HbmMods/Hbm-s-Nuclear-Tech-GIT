@@ -8,26 +8,26 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-public class HbmExtendedProperties implements IExtendedEntityProperties {
+public class HbmPlayerProps implements IExtendedEntityProperties {
 	
-	public static final String key = "NTM_EXT_PROPS";
+	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
 	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 	
-	public HbmExtendedProperties(EntityPlayer player) {
+	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
 	}
 	
-	public static HbmExtendedProperties registerData(EntityPlayer player) {
+	public static HbmPlayerProps registerData(EntityPlayer player) {
 		
-		player.registerExtendedProperties(key, new HbmExtendedProperties(player));
-		return (HbmExtendedProperties) player.getExtendedProperties(key);
+		player.registerExtendedProperties(key, new HbmPlayerProps(player));
+		return (HbmPlayerProps) player.getExtendedProperties(key);
 	}
 	
-	public static HbmExtendedProperties getData(EntityPlayer player) {
+	public static HbmPlayerProps getData(EntityPlayer player) {
 		
-		HbmExtendedProperties props = (HbmExtendedProperties) player.getExtendedProperties(key);
+		HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties(key);
 		return props != null ? props : registerData(player);
 	}
 	

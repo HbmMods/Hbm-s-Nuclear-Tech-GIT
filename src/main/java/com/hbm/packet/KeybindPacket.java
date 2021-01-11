@@ -1,6 +1,6 @@
 package com.hbm.packet;
 
-import com.hbm.extprop.HbmExtendedProperties;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -39,7 +39,7 @@ public class KeybindPacket implements IMessage {
 		public IMessage onMessage(KeybindPacket m, MessageContext ctx) {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
-			HbmExtendedProperties props = HbmExtendedProperties.getData(p);
+			HbmPlayerProps props = HbmPlayerProps.getData(p);
 			
 			props.setKeyPressed(EnumKeybind.values()[m.key], m.pressed);
 			

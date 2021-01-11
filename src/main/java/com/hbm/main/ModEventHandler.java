@@ -25,7 +25,8 @@ import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
-import com.hbm.extprop.HbmExtendedProperties;
+import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
@@ -71,6 +72,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
@@ -138,17 +140,20 @@ public class ModEventHandler
 		if(event.entity instanceof EntityPlayer) {
 			
 			EntityPlayer player = (EntityPlayer) event.entity;
+			HbmPlayerProps.getData(player); //this already calls the register method if it's null so no further action required
+		}
+		
+		if(event.entity instanceof EntityLivingBase) {
 			
-			if(HbmExtendedProperties.getData(player) == null) {
-				
-			}
+			EntityLivingBase living = (EntityLivingBase) event.entity;
+			HbmLivingProps.getData(living); //ditto
 		}
 	}
 	
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
 		
-		event.entityLiving.getEntityData().setFloat("hfr_radiation", 0);
+		HbmLivingProps.setRadiation(event.entityLiving, 0);
 		
 		if(event.entity.worldObj.isRemote)
 			return;
@@ -280,7 +285,8 @@ public class ModEventHandler
 					
 					if(o instanceof EntityPlayerMP) {
 						EntityPlayerMP player = (EntityPlayerMP)o;
-						PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(player.getEntityData().getFloat("hfr_radiation")), player);
+						//TODO: replace with packet that sends all to-sync data
+						PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(HbmLivingProps.getRadiation(player)), player);
 					}
 				}
 				
@@ -319,7 +325,7 @@ public class ModEventHandler
 							}
 						}
 						
-						float eRad = entity.getEntityData().getFloat("hfr_radiation");
+						float eRad = HbmLivingProps.getRadiation(entity);
 						
 						if(entity instanceof EntityCreeper && eRad >= 200 && entity.getHealth() > 0) {
 							
@@ -375,12 +381,12 @@ public class ModEventHandler
 							continue;
 						
 						if(eRad > 2500)
-							entity.getEntityData().setFloat("hfr_radiation", 2500);
+							HbmLivingProps.setRadiation(entity, 2500);
 						
 						if(eRad >= 1000) {
 
 							entity.attackEntityFrom(ModDamageSource.radiation, 1000F);
-							entity.getEntityData().setFloat("hfr_radiation", 0);
+							HbmLivingProps.setRadiation(entity, 0);
 							
 							if(entity.getHealth() > 0) {
 					        	entity.setHealth(0);
@@ -565,12 +571,13 @@ public class ModEventHandler
         }
     }
 	
-	/*@SubscribeEvent
-	public void itemSmelted(PlayerEvent.ItemSmeltedEvent e) {
-		if(e.smelting.getItem().equals(ModItems.ingot_titanium)) {
-			e.player.addStat(MainRegistry.achievementGetTitanium, 1);
-		}
-	}*/
+	@SubscribeEvent
+    public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
+		
+		NBTTagCompound data = new NBTTagCompound();
+		HbmPlayerProps.getData(event.original).saveNBTData(data);
+		HbmPlayerProps.getData(event.entityPlayer).loadNBTData(data);
+    }
 	
 	@SubscribeEvent
 	public void itemCrafted(PlayerEvent.ItemCraftedEvent e) {

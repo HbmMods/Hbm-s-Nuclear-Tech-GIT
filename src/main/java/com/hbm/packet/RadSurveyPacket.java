@@ -1,5 +1,7 @@
 package com.hbm.packet;
 
+import com.hbm.extprop.HbmLivingProps;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -43,7 +45,7 @@ public class RadSurveyPacket implements IMessage {
 			try {
 				
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				player.getEntityData().setFloat("hfr_radiation", m.rad);
+				HbmLivingProps.setRadiation(player, m.rad);
 				
 			} catch (Exception x) { }
 			return null;

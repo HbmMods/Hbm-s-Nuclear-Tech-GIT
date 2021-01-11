@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -90,9 +91,7 @@ public class ModEventHandlerClient {
 				
 				if(player.inventory.hasItem(ModItems.geiger_counter)) {
 	
-					float rads = 0;
-	
-					rads = player.getEntityData().getFloat("hfr_radiation");
+					float rads = HbmLivingProps.getRadiation(player);
 					
 					RenderScreenOverlay.renderRadCounter(event.resolution, rads, Minecraft.getMinecraft().ingameGUI);
 				}

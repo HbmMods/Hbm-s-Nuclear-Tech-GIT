@@ -2,7 +2,7 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
-import com.hbm.extprop.HbmExtendedProperties;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.main.MainRegistry;
@@ -32,7 +32,7 @@ public class JetpackRegular extends JetpackBase {
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
 		
-		HbmExtendedProperties props = HbmExtendedProperties.getData(player);
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
 		
 		if(world.isRemote) {
 			

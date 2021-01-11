@@ -2,6 +2,7 @@ package com.hbm.entity.mob.botprime;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.interfaces.IRadiationImmune;
 
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
@@ -10,7 +11,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public abstract class EntityBOTPrimeBase extends EntityWormBaseNT {
+public abstract class EntityBOTPrimeBase extends EntityWormBaseNT implements IRadiationImmune {
 	
 	public int attackCounter = 0;
 	

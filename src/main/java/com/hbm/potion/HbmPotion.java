@@ -9,6 +9,7 @@ import com.hbm.config.PotionConfig;
 import com.hbm.entity.mob.EntityTaintCrab;
 import com.hbm.entity.mob.EntityTaintedCreeper;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ContaminationUtil;
 
@@ -112,12 +113,8 @@ public class HbmPotion extends Potion {
 			ContaminationUtil.applyRadData(entity, (float)(level + 1F) * 0.05F);
 		}
 		if(this == radaway) {
-
-			float rad = entity.getEntityData().getFloat("hfr_radiation");
-			rad -= (level + 1);
-			if(rad < 0) rad = 0;
 			
-			entity.getEntityData().setFloat("hfr_radiation", rad);
+			HbmLivingProps.incrementRadiation(entity, -(level + 1));
 			
 		}
 		if(this == bang) {

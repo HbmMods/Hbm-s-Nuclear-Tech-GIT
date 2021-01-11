@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.potion.HbmPotion;
@@ -55,8 +56,7 @@ public class ContaminationUtil {
 		
 		f *= calculateRadiationMod(entity);
 
-		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
+		HbmLivingProps.incrementRadiation(entity, f);
 	}
 	
 	public static void applyRadDirect(Entity e, float f) {
@@ -70,11 +70,12 @@ public class ContaminationUtil {
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
 		
-		if(((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
-			return;
+		EntityLivingBase entity = (EntityLivingBase)e;
 		
-		float rad = e.getEntityData().getFloat("hfr_radiation");
-		e.getEntityData().setFloat("hfr_radiation", Math.min(rad + f, 2500));
+		if(entity.isPotionActive(HbmPotion.mutation))
+			return;
+
+		HbmLivingProps.incrementRadiation(entity, f);
 	}
 	
 	public static float getRads(Entity e) {
@@ -85,14 +86,16 @@ public class ContaminationUtil {
 		if(e instanceof IRadiationImmune)
 			return 0.0F;
 		
-		return e.getEntityData().getFloat("hfr_radiation");
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		return HbmLivingProps.getRadiation(entity);
 	}
 	
 	public static void printGeigerData(EntityPlayer player) {
 
 		World world = player.worldObj;
 
-		double eRad = ((int)(player.getEntityData().getFloat("hfr_radiation") * 10)) / 10D;
+		double eRad = ((int)(HbmLivingProps.getRadiation(player) * 10)) / 10D;
 
 		RadiationSavedData data = RadiationSavedData.getData(player.worldObj);
 		Chunk chunk = world.getChunkFromBlockCoords((int)player.posX, (int)player.posZ);
