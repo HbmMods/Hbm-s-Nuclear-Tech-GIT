@@ -2,7 +2,6 @@ package com.hbm.inventory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
