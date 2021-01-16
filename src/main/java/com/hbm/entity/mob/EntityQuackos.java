@@ -1,5 +1,7 @@
 package com.hbm.entity.mob;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -88,5 +90,14 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
         if (this.riddenByEntity instanceof EntityLivingBase) {
             ((EntityLivingBase)this.riddenByEntity).renderYawOffset = this.renderYawOffset;
         }
+    }
+
+    /**
+     *  BOW
+     */
+    @SideOnly(Side.CLIENT)
+    public float getShadowSize()
+    {
+        return 7.5F;
     }
 }

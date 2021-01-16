@@ -5,12 +5,9 @@ import java.util.List;
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.effect.EntityRagingVortex;
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -49,7 +46,7 @@ public class ItemDigamma extends ItemRadioactive {
 		float d = ((int)((1000F / digamma) * 10F)) / 10F;
 		
 		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
-		list.add(EnumChatFormatting.DARK_RED + "" + d + "DRX/s");
+		list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
 		
 		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.drop") + "]");
 	}

@@ -9,12 +9,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 
 public class ModelArmorDigamma extends ModelArmorBase {
+
+	ModelRendererObj cassette;
 	
 	public ModelArmorDigamma(int type) {
 		super(type);
 
 		head = new ModelRendererObj(ResourceManager.armor_fau, "Head");
 		body = new ModelRendererObj(ResourceManager.armor_fau, "Body");
+		cassette = new ModelRendererObj(ResourceManager.armor_fau, "Cassette");
 		leftArm = new ModelRendererObj(ResourceManager.armor_fau, "LeftArm").setRotationPoint(-5.0F, 2.0F, 0.0F);
 		rightArm = new ModelRendererObj(ResourceManager.armor_fau, "RightArm").setRotationPoint(5.0F, 2.0F, 0.0F);
 		leftLeg = new ModelRendererObj(ResourceManager.armor_fau, "LeftLeg").setRotationPoint(1.9F, 12.0F, 0.0F);
@@ -31,21 +34,28 @@ public class ModelArmorDigamma extends ModelArmorBase {
 		GL11.glPushMatrix();
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.universal);
+		body.copyTo(cassette);
 		
 		if(type == 0) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_helmet);
 			head.render(par7);
 		}
 		if(type == 1) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_chest);
 			body.render(par7);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_cassette);
+			cassette.render(par7);
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_arm);
 			leftArm.render(par7);
 			rightArm.render(par7);
 		}
 		if(type == 2) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_leg);
 			leftLeg.render(par7);
 			rightLeg.render(par7);
 		}
 		if(type == 3) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_leg);
 			leftFoot.render(par7);
 			rightFoot.render(par7);
 		}
