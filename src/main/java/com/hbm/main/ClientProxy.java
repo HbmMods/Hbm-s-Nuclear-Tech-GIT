@@ -12,7 +12,9 @@ import net.minecraft.client.particle.EntityReddustFX;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
@@ -1051,29 +1053,25 @@ public class ClientProxy extends ServerProxy {
 			player.attackedAtYaw = 0F;
 		}
 		
-		if("hadron".equals(type)) {
+		if("digammaDecay".equals(type)) {
 			
-			/*for(int i = 0; i < 30; i++) {
-				
-				EntityFX fx = null;
+			Entity e = world.getEntityByID(data.getInteger("entity"));
+			
+			if(e instanceof EntityLivingBase) {
 
-				if(i % 3 == 0) {
-					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
-				}
-				if(i % 3 == 1) {
-					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.01F, 1F);
-				}
-				if(i % 3 == 2) {
-					fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 1F, 1F, 0.1F);
-				}
+				double ix = e.boundingBox.minX - 0.2 + (e.boundingBox.maxX - e.boundingBox.minX + 0.4) * rand.nextDouble();
+				double iy = e.boundingBox.minY + (e.boundingBox.maxY - e.boundingBox.minY + 0.2) * rand.nextDouble();
+				double iz = e.boundingBox.minZ - 0.2 + (e.boundingBox.maxZ - e.boundingBox.minZ + 0.4) * rand.nextDouble();
 				
-				if(fx != null) {
-					fx.motionX = rand.nextGaussian() * 0.1;
-					fx.motionY = rand.nextGaussian() * 0.1;
-					fx.motionZ = rand.nextGaussian() * 0.1;
-					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-				}
-			}*/
+				
+				EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, Blocks.soul_sand, 0);
+				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+				
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
+		}
+		
+		if("hadron".equals(type)) {
 			
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
 		}

@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.ModelRendererObj;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 
 public class ModelArmorDigamma extends ModelArmorBase {
@@ -43,6 +44,8 @@ public class ModelArmorDigamma extends ModelArmorBase {
 		if(type == 1) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_chest);
 			body.render(par7);
+	        GL11.glEnable(GL11.GL_BLEND);
+	        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_cassette);
 			cassette.render(par7);
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fau_arm);

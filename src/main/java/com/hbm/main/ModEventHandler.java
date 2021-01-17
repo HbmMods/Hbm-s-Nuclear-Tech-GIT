@@ -28,6 +28,7 @@ import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.BossSpawnHandler;
+import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.ModItems;
@@ -39,7 +40,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
-import com.hbm.packet.RadSurveyPacket;
+import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
@@ -91,6 +92,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -223,6 +225,11 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
+	public void onLivingUpdate(LivingUpdateEvent event) {
+		EntityEffectHandler.onUpdate(event.entityLiving);
+	}
+	
+	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
 		/////
@@ -281,15 +288,6 @@ public class ModEventHandler
 					data.worldObj = event.world;
 				}
 				
-				for(Object o : event.world.playerEntities) {
-					
-					if(o instanceof EntityPlayerMP) {
-						EntityPlayerMP player = (EntityPlayerMP)o;
-						//TODO: replace with packet that sends all to-sync data
-						PacketDispatcher.wrapper.sendTo(new RadSurveyPacket(HbmLivingProps.getRadiation(player)), player);
-					}
-				}
-				
 				if(event.world.getTotalWorldTime() % 20 == 0 && event.phase == Phase.START) {
 					data.updateSystem();
 				}
@@ -297,6 +295,10 @@ public class ModEventHandler
 				List<Object> oList = new ArrayList<Object>();
 				oList.addAll(event.world.loadedEntityList);
 				
+				
+				/**
+				 *  REMOVE THIS V V V
+				 */
 				for(Object e : oList) {
 					if(e instanceof EntityLivingBase) {
 						
@@ -305,25 +307,6 @@ public class ModEventHandler
 						
 						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
 							continue;
-
-						if(event.world.getTotalWorldTime() % 20 == 0) {
-
-							Chunk chunk = entity.worldObj.getChunkFromBlockCoords((int)entity.posX, (int)entity.posZ);
-							float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
-							
-							if(event.world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
-								rad = RadiationConfig.hellRad;
-							
-							if(rad > 0) {
-								ContaminationUtil.applyRadData(entity, rad / 2);
-							}
-							
-							if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 &&
-									entity.worldObj.canBlockSeeTheSky(MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))) {
-
-								ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.005F);
-							}
-						}
 						
 						float eRad = HbmLivingProps.getRadiation(entity);
 						
@@ -445,6 +428,9 @@ public class ModEventHandler
 						}
 					}
 				}
+				/**
+				 * REMOVE THIS ^ ^ ^
+				 */
 			}
 		}
 		/// RADIATION STUFF END ///

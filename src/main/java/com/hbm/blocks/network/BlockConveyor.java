@@ -61,7 +61,7 @@ public class BlockConveyor extends Block {
 	
 	@Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-        return null;
+        return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y, z + 1);
     }
 	
 	@Override

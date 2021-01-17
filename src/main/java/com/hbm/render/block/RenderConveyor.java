@@ -41,30 +41,23 @@ public class RenderConveyor implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         
         Tessellator tessellator = Tessellator.instance;
-        IIcon iicon = block.getIcon(0, world.getBlockMetadata(x, y, z));
+        int meta = world.getBlockMetadata(x, y, z);
 		
         tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
 
-        if (renderer.hasOverrideBlockTexture())
-        {
-            iicon = renderer.overrideBlockTexture;
-        }
-        
-        float rotation = 0;
-        
-        if(world.getBlockMetadata(x, y, z) == 3)
-        	rotation = 180F / 180F * (float)Math.PI;
-        
-        if(world.getBlockMetadata(x, y, z) == 4)
-        	rotation = 90F / 180F * (float)Math.PI;
-        
-        if(world.getBlockMetadata(x, y, z) == 5)
-        	rotation = 270F / 180F * (float)Math.PI;
-        
-        tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-        ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.arrow, iicon, tessellator, rotation, true);
-        tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
+		if(meta == 2)
+			renderer.uvRotateTop = 3;
+		if(meta == 3)
+			renderer.uvRotateTop = 0;
+		if(meta == 4)
+			renderer.uvRotateTop = 1;
+		if(meta == 5)
+			renderer.uvRotateTop = 2;
+		
+        renderer.setRenderBounds((double)0, 0.0D, (double)0, (double)1, 0.125D, (double)1);
+        renderer.renderStandardBlock(block, x, y, z);
+        renderer.uvRotateTop = 0;
         
 		return true;
 	}
