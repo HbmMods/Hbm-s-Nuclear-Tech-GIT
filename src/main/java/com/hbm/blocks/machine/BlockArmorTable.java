@@ -1,7 +1,10 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -44,6 +47,7 @@ public class BlockArmorTable extends Block {
 			return true;
 		} else if(!player.isSneaking()) {
 
+			FMLNetworkHandler.openGui(player, MainRegistry.instance, ModBlocks.guiID_armor_table, world, x, y, z);
 			return true;
 		}
 		

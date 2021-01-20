@@ -747,7 +747,7 @@ public class ModBlocks {
 	public static final int guiID_keyforge = 67;
 
 	public static Block machine_armor_table;
-	public static final int guiID_armor_taable = 67;
+	public static final int guiID_armor_table = 102;
 
 	public static Block machine_reactor_small;
 	public static final int guiID_reactor_small = 65;

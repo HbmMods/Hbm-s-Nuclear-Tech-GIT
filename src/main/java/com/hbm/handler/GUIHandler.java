@@ -914,6 +914,15 @@ public class GUIHandler implements IGuiHandler {
 					}
 					return null;
 				}
+	
+				case ModBlocks.guiID_armor_table:
+				{
+					if(world.getBlock(x, y, z) == ModBlocks.machine_armor_table)
+					{
+						return new ContainerArmorTable(player.inventory);
+					}
+					return null;
+				}
 			}
 		} else {
 			//NON-TE CONTAINERS
