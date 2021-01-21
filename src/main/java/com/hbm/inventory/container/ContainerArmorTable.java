@@ -1,5 +1,8 @@
 package com.hbm.inventory.container;
 
+import com.hbm.handler.ArmorModHandler;
+import com.hbm.items.armor.ItemArmorMod;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -12,33 +15,88 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerArmorTable extends Container {
 	
-    public InventoryBasic upgrades = new InventoryBasic("Upgrades", false, 8);
-    public IInventory armor = new InventoryCraftResult();
-	
+	public InventoryBasic upgrades = new InventoryBasic("Upgrades", false, 8);
+	public IInventory armor = new InventoryCraftResult();
+
 	public ContainerArmorTable(InventoryPlayer inventory) {
-
-        this.addSlotToContainer(new Slot(upgrades, 0, 26, 27));		//helmet only
-        this.addSlotToContainer(new Slot(upgrades, 1, 62, 27));		//chestplate only
-        this.addSlotToContainer(new Slot(upgrades, 2, 98, 27));		//leggins only
-        this.addSlotToContainer(new Slot(upgrades, 3, 134, 45));	//boots only
-        this.addSlotToContainer(new Slot(upgrades, 4, 134, 81));	//servos/frame
-        this.addSlotToContainer(new Slot(upgrades, 5, 98, 99));		//radiation cladding
-        this.addSlotToContainer(new Slot(upgrades, 6, 62, 99));		//kevlar/sapi/(ERA? :) )
-        this.addSlotToContainer(new Slot(upgrades, 7, 26, 99));		//explosive/heavy plating
-    	
-        this.addSlotToContainer(new Slot(armor, 0, 44, 36) {
-        	
-            public boolean isItemValid(ItemStack stack) {
-                return stack.getItem() instanceof ItemArmor;
-            }
-        });
-
-        this.onCraftMatrixChanged(this.upgrades);
+		
+		resetSlots();
+		
+		for(int i = 0; i < 3; i++)
+		{
+			for(int j = 0; j < 9; j++)
+			{
+				this.addSlotToContainer(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
+			}
+		}
+		
+		for(int i = 0; i < 9; i++)
+		{
+			this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142 + 56));
+		}
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
+	
+	public void resetSlots() {
+		
+        //this.inventorySlots.clear();
+        //this.inventoryItemStacks.clear();
 
+		this.addSlotToContainer(new Slot(armor, 0, 44, 36) {
+
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof ItemArmor;
+			}
+			
+			public void onSlotChanged() {
+				resetSlots();
+			}
+		});
+
+		ItemStack armor = this.armor.getStackInSlot(0);
+
+		if(armor != null && armor.getItem() instanceof ItemArmor) {
+
+			ItemArmor item = (ItemArmor) armor.getItem();
+
+			if(item.armorType == 0) {
+				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.helmet_only, 26, 27));	// helmet only
+			}
+
+			if(item.armorType == 1) {
+				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plate_only, 62, 27));		// chestplate only
+			}
+			if(item.armorType == 2) {
+				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.legs_only, 98, 27));		// leggins only
+			}
+			if(item.armorType == 3) {
+				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.boots_only, 134, 45));	// boots only
+			}
+
+			if(item.armorType == 2 || item.armorType == 3) {
+				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.servos, 134, 81));		//servos/frame
+			}
+			
+			this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.cladding, 98, 99));			//radiation cladding
+			this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.kevlar, 62, 99));				//kevlar/sapi/(ERA? :) )
+			this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plating, 26, 99));			//explosive/heavy plating
+		}
+
+		this.onCraftMatrixChanged(this.upgrades);
+	}
+	
+	public static class UpgradeSlot extends Slot {
+
+		public UpgradeSlot(IInventory inventory, int index, int x, int y) {
+			super(inventory, index, x, y);
+		}
+
+		public boolean isItemValid(ItemStack stack) {
+			return stack.getItem() instanceof ItemArmorMod && ((ItemArmorMod)stack.getItem()).type == this.slotNumber;
+		}
+	}
 }

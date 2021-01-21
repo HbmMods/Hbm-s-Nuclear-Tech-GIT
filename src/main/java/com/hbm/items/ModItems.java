@@ -2060,13 +2060,13 @@ public class ModItems {
 	public static Item bob_oil;
 	public static Item bob_nuclear;
 
-	public static final int guiID_item_folder = 99;
-	public static final int guiID_item_designator = 100;
-	public static final int guiID_item_sat_interface = 101;
-	public static final int guiID_item_box = 102;
-	public static final int guiID_item_bobmazon = 103;
-	public static final int guiID_item_sat_coord = 104;
-	public static final int guiID_item_book = 105;
+	public static final int guiID_item_folder = 1099;
+	public static final int guiID_item_designator = 10100;
+	public static final int guiID_item_sat_interface = 10101;
+	public static final int guiID_item_box = 10102;
+	public static final int guiID_item_bobmazon = 10103;
+	public static final int guiID_item_sat_coord = 10104;
+	public static final int guiID_item_book = 10105;
 
 	public static Item mysteryshovel;
 	public static Item memory;
