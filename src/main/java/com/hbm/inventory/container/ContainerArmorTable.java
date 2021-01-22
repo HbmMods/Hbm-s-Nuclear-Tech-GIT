@@ -20,7 +20,24 @@ public class ContainerArmorTable extends Container {
 
 	public ContainerArmorTable(InventoryPlayer inventory) {
 		
-		resetSlots();
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.helmet_only, 26, 27));	// helmet only
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plate_only, 62, 27));		// chestplate only
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.legs_only, 98, 27));		// leggins only
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.boots_only, 134, 45));	// boots only
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.servos, 134, 81));		//servos/frame
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.cladding, 98, 99));		//radiation cladding
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.kevlar, 62, 99));			//kevlar/sapi/(ERA? :) )
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plating, 26, 99));		//explosive/heavy plating
+
+		this.addSlotToContainer(new Slot(armor, 0, 44, 63) {
+
+			public boolean isItemValid(ItemStack stack) {
+				return stack.getItem() instanceof ItemArmor;
+			}
+			
+			public void onSlotChanged() {
+			}
+		});
 		
 		for(int i = 0; i < 3; i++)
 		{
@@ -34,6 +51,8 @@ public class ContainerArmorTable extends Container {
 		{
 			this.addSlotToContainer(new Slot(inventory, i, 8 + i * 18, 142 + 56));
 		}
+		
+		this.onCraftMatrixChanged(this.upgrades);
 	}
 
 	@Override
@@ -41,62 +60,28 @@ public class ContainerArmorTable extends Container {
 		return true;
 	}
 	
-	public void resetSlots() {
-		
-        //this.inventorySlots.clear();
-        //this.inventoryItemStacks.clear();
+	public void onContainerClosed(EntityPlayer player) {
+		super.onContainerClosed(player);
 
-		this.addSlotToContainer(new Slot(armor, 0, 44, 36) {
+		if(!player.worldObj.isRemote) {
+			for(int i = 0; i < this.upgrades.getSizeInventory(); ++i) {
+				ItemStack itemstack = this.upgrades.getStackInSlotOnClosing(i);
 
-			public boolean isItemValid(ItemStack stack) {
-				return stack.getItem() instanceof ItemArmor;
+				if(itemstack != null) {
+					player.dropPlayerItemWithRandomChoice(itemstack, false);
+				}
 			}
-			
-			public void onSlotChanged() {
-				resetSlots();
-			}
-		});
-
-		ItemStack armor = this.armor.getStackInSlot(0);
-
-		if(armor != null && armor.getItem() instanceof ItemArmor) {
-
-			ItemArmor item = (ItemArmor) armor.getItem();
-
-			if(item.armorType == 0) {
-				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.helmet_only, 26, 27));	// helmet only
-			}
-
-			if(item.armorType == 1) {
-				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plate_only, 62, 27));		// chestplate only
-			}
-			if(item.armorType == 2) {
-				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.legs_only, 98, 27));		// leggins only
-			}
-			if(item.armorType == 3) {
-				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.boots_only, 134, 45));	// boots only
-			}
-
-			if(item.armorType == 2 || item.armorType == 3) {
-				this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.servos, 134, 81));		//servos/frame
-			}
-			
-			this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.cladding, 98, 99));			//radiation cladding
-			this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.kevlar, 62, 99));				//kevlar/sapi/(ERA? :) )
-			this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plating, 26, 99));			//explosive/heavy plating
 		}
-
-		this.onCraftMatrixChanged(this.upgrades);
 	}
 	
-	public static class UpgradeSlot extends Slot {
+	public class UpgradeSlot extends Slot {
 
 		public UpgradeSlot(IInventory inventory, int index, int x, int y) {
 			super(inventory, index, x, y);
 		}
 
 		public boolean isItemValid(ItemStack stack) {
-			return stack.getItem() instanceof ItemArmorMod && ((ItemArmorMod)stack.getItem()).type == this.slotNumber;
+			return armor.getStackInSlot(0) != null && stack.getItem() instanceof ItemArmorMod && ((ItemArmorMod)stack.getItem()).type == this.slotNumber;
 		}
 	}
 }
