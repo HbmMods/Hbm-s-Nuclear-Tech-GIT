@@ -14,7 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -27,12 +27,10 @@ public class RenderOverhead {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 
 		if(shouldRenderTag(living)) {
-			float f = 1.6F;
 			double distSq = living.getDistanceSqToEntity(thePlayer);
 			float range = living.isSneaking() ? renderer.NAME_TAG_RANGE_SNEAK : renderer.NAME_TAG_RANGE;
 
 			if(distSq < (double) (range * range)) {
-				String s = name;
 				drawTagAware(living, x, y, z, name, depthTest);
 			}
 		}
@@ -130,7 +128,7 @@ public class RenderOverhead {
 			
 			if(ent instanceof IBossDisplayData)
 				tess.setColorOpaque_F(1F, 0.5F, 0F);
-			else if(ent instanceof EntityMob)
+			else if(ent instanceof IMob)
 				tess.setColorOpaque_F(1F, 0F, 0F);
 			else if(ent instanceof EntityPlayer)
 				tess.setColorOpaque_F(1F, 0F, 1F);

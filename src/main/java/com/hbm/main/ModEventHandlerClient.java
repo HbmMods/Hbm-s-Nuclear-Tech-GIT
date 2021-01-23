@@ -8,12 +8,14 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -53,6 +55,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -323,7 +326,7 @@ public class ModEventHandlerClient {
 		
 		float rad = HazmatRegistry.getResistance(stack);
 		
-		rad = ((int)(rad * 100)) / 100F;
+		rad = ((int)(rad * 1000)) / 1000F;
 		
 		if(rad > 0)
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));
@@ -342,6 +345,28 @@ public class ModEventHandlerClient {
 
 			if(entry.entry == EnumEntryType.MULT)
 				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+		}
+		
+		if(stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
+			
+			if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !(Minecraft.getMinecraft().currentScreen instanceof GUIArmorTable)) {
+				
+				list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display installed armor mods");
+				
+			} else {
+				
+				list.add(EnumChatFormatting.YELLOW + "Mods:");
+				
+				ItemStack[] mods = ArmorModHandler.pryMods(stack);
+				
+				for(int i = 0; i < 8; i++) {
+					
+					if(mods[i] != null)
+						list.add("  " + EnumChatFormatting.DARK_RED + mods[i].getDisplayName());
+				}
+			}
 		}
     }
 	

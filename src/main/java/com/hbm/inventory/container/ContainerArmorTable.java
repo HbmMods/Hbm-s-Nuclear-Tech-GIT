@@ -31,11 +31,44 @@ public class ContainerArmorTable extends Container {
 
 		this.addSlotToContainer(new Slot(armor, 0, 44, 63) {
 
+			@Override
 			public boolean isItemValid(ItemStack stack) {
 				return stack.getItem() instanceof ItemArmor;
 			}
-			
-			public void onSlotChanged() {
+
+			@Override
+			public void putStack(ItemStack stack) {
+				
+				//when inserting a new armor piece, unload all mods to display
+				if(stack != null) {
+					ItemStack[] mods = ArmorModHandler.pryMods(stack);
+					
+					for(int i = 0; i < 8; i++) {
+						
+						if(mods != null)
+							upgrades.setInventorySlotContents(i, mods[i]);
+					}
+					
+				}
+				
+				super.putStack(stack);
+			}
+
+			@Override
+			public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+				super.onPickupFromSlot(player, stack);
+				
+				//if the armor piece is taken, absorb all armor pieces
+				
+				for(int i = 0; i < 8; i++) {
+					
+					ItemStack mod = upgrades.getStackInSlot(i);
+					
+					//ideally, this should always return true so long as the mod slot is not null due to the insert restriction
+					if(ArmorModHandler.isApplicable(stack, mod)) {
+						upgrades.setInventorySlotContents(i, null);
+					}
+				}
 			}
 		});
 		
@@ -59,7 +92,8 @@ public class ContainerArmorTable extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
-	
+
+	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 
@@ -69,7 +103,14 @@ public class ContainerArmorTable extends Container {
 
 				if(itemstack != null) {
 					player.dropPlayerItemWithRandomChoice(itemstack, false);
+					ArmorModHandler.removeMod(armor.getStackInSlot(0), i);
 				}
+			}
+			
+			ItemStack itemstack = this.armor.getStackInSlotOnClosing(0);
+			
+			if(itemstack != null) {
+				player.dropPlayerItemWithRandomChoice(itemstack, false);
 			}
 		}
 	}
@@ -80,8 +121,25 @@ public class ContainerArmorTable extends Container {
 			super(inventory, index, x, y);
 		}
 
+		@Override
 		public boolean isItemValid(ItemStack stack) {
-			return armor.getStackInSlot(0) != null && stack.getItem() instanceof ItemArmorMod && ((ItemArmorMod)stack.getItem()).type == this.slotNumber;
+			return armor.getStackInSlot(0) != null && ArmorModHandler.isApplicable(armor.getStackInSlot(0), stack) && ((ItemArmorMod)stack.getItem()).type == this.slotNumber;
+		}
+		
+		@Override
+		public void putStack(ItemStack stack) {
+			super.putStack(stack);
+			
+			if(stack != null) {
+				if(ArmorModHandler.isApplicable(armor.getStackInSlot(0), stack))
+					ArmorModHandler.applyMod(armor.getStackInSlot(0), stack);
+			}
+		}
+
+		public void onPickupFromSlot(EntityPlayer player, ItemStack stack) {
+			super.onPickupFromSlot(player, stack);
+			
+			ArmorModHandler.removeMod(armor.getStackInSlot(0), this.slotNumber);
 		}
 	}
 }

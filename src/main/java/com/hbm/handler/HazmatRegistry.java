@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import java.util.HashMap;
 
+import com.hbm.items.special.ItemCladding;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +37,16 @@ public class HazmatRegistry {
 
 		if(stack.hasTagCompound() && stack.stackTagCompound.getFloat("hfr_cladding") > 0)
 			return stack.stackTagCompound.getFloat("hfr_cladding");
+		
+		if(ArmorModHandler.hasMods(stack)) {
+			
+			ItemStack[] mods = ArmorModHandler.pryMods(stack);
+			ItemStack cladding = mods[ArmorModHandler.cladding];
+			
+			if(cladding != null && cladding.getItem() instanceof ItemCladding) {
+				return ((ItemCladding)cladding.getItem()).rad;
+			}
+		}
 		
 		return 0;
 	}

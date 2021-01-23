@@ -11,7 +11,7 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCladding extends ItemArmorMod {
 	
-	float rad;
+	public float rad;
 	
 	public ItemCladding(float rad) {
 		super(ArmorModHandler.cladding, true, true, true, true);
@@ -21,6 +21,6 @@ public class ItemCladding extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.YELLOW + "Adds " + rad + " rad-resistance to all armor pieces.");
+		list.add(EnumChatFormatting.YELLOW + "Adds " + rad + " rad-resistance to armor pieces.");
 	}
 }
