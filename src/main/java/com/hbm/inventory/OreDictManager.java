@@ -267,9 +267,13 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockPlutonium240", ModBlocks.block_pu240);
 
 		OreDictionary.registerOre("logWood", ModBlocks.pink_log);
+		OreDictionary.registerOre("logWoodPink", ModBlocks.pink_log);
 		OreDictionary.registerOre("plankWood", ModBlocks.pink_planks);
+		OreDictionary.registerOre("plankWoodPink", ModBlocks.pink_planks);
 		OreDictionary.registerOre("slabWood", ModBlocks.pink_slab);
+		OreDictionary.registerOre("slabWoodPink", ModBlocks.pink_slab);
 		OreDictionary.registerOre("stairWood", ModBlocks.pink_stairs);
+		OreDictionary.registerOre("stairWoodPink", ModBlocks.pink_stairs);
 
 		OreDictionary.registerOre("blockGlass", ModBlocks.glass_uranium);
 		OreDictionary.registerOre("blockGlass", ModBlocks.glass_trinitite);

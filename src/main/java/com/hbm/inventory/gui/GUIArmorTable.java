@@ -7,6 +7,7 @@ import com.hbm.inventory.container.ContainerArmorTable;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemArmor;
@@ -31,8 +32,8 @@ public class GUIArmorTable extends GuiContainer {
 
 	protected void drawGuiContainerForegroundLayer(int mX, int mY) {
 
-		this.fontRendererObj.drawString("Armor Modification Table", 28, 6, 4210752);
-		this.fontRendererObj.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.armorTable"), 28, 6, 4210752);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float inter, int mX, int mY) {

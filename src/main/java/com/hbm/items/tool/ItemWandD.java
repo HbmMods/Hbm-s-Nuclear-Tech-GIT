@@ -3,11 +3,13 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -16,7 +18,7 @@ public class ItemWandD extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(world.isRemote)
+		if(!world.isRemote)
 			return stack;
 		
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1);
@@ -27,11 +29,19 @@ public class ItemWandD extends Item {
 			int z = pos.blockZ;
 			int y = world.getHeightValue(x, z);
 
+    		NBTTagCompound data = new NBTTagCompound();
+    		data.setString("type", "rift");
+    		data.setDouble("posX", x);
+    		data.setDouble("posY", y + 1);
+    		data.setDouble("posZ", z);
+    		
+    		MainRegistry.proxy.effectNT(data);
+
 			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
 
-			CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
+			/*CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
 			CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
-			CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
+			CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);*/
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			

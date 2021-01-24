@@ -16,7 +16,7 @@ public class ArmorModHandler {
 	public static final int servos = 4;
 	public static final int cladding = 5;
 	public static final int kevlar = 6;
-	public static final int plating = 7;
+	public static final int extra = 7;
 	
 	//The key for the NBTTagCompound that holds the armor mods
 	public static final String MOD_COMPOUND_KEY = "ntm_armor_mods";

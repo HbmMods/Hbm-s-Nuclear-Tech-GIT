@@ -1788,10 +1788,22 @@ public class ModItems {
 	public static Item crystal_horn;
 	public static Item crystal_charred;
 
+	public static Item attachment_mask;
+	public static Item servo_set;
+	public static Item servo_set_desh;
+	public static Item pads_rubber;
+	public static Item pads_slime;
+	public static Item pads_static;
 	public static Item cladding_paint;
 	public static Item cladding_rubber;
 	public static Item cladding_lead;
 	public static Item cladding_desh;
+	public static Item insert_kevlar;
+	public static Item insert_sapi;
+	public static Item insert_esapi;
+	public static Item insert_xsapi;
+	public static Item insert_steel;
+	public static Item armor_polish;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -2672,11 +2684,24 @@ public class ModItems {
 		jetpack_tank = new ItemSyringe().setUnlocalizedName("jetpack_tank").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":jetpack_tank");
 		gun_kit_1 = new ItemSyringe().setUnlocalizedName("gun_kit_1").setMaxStackSize(16).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":gun_kit_1");
 		gun_kit_2 = new ItemSyringe().setUnlocalizedName("gun_kit_2").setMaxStackSize(16).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":gun_kit_2");
-		cladding_paint = new ItemCladding(0.025F).setUnlocalizedName("cladding_paint").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_paint");
-		cladding_rubber = new ItemCladding(0.075F).setUnlocalizedName("cladding_rubber").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_rubber");
-		cladding_lead = new ItemCladding(0.2F).setUnlocalizedName("cladding_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_lead");
-		cladding_desh = new ItemCladding(0.4F).setUnlocalizedName("cladding_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_desh");
 		cbt_device = new ItemSyringe().setUnlocalizedName("cbt_device").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":cbt_device");
+		
+		attachment_mask = new ItemModGasmask().setUnlocalizedName("attachment_mask").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":attachment_mask");
+		servo_set = new ItemModServos().setUnlocalizedName("servo_set").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":servo_set");
+		servo_set_desh = new ItemModServos().setUnlocalizedName("servo_set_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":servo_set_desh");
+		pads_rubber = new ItemModPads(0.5F).setUnlocalizedName("pads_rubber").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pads_rubber");
+		pads_slime = new ItemModPads(0.25F).setUnlocalizedName("pads_slime").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pads_slime");
+		pads_static = new ItemModPads(0.75F).setUnlocalizedName("pads_static").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pads_static");
+		cladding_paint = new ItemModCladding(0.025F).setUnlocalizedName("cladding_paint").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_paint");
+		cladding_rubber = new ItemModCladding(0.075F).setUnlocalizedName("cladding_rubber").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_rubber");
+		cladding_lead = new ItemModCladding(0.2F).setUnlocalizedName("cladding_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_lead");
+		cladding_desh = new ItemModCladding(0.4F).setUnlocalizedName("cladding_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_desh");
+		insert_kevlar = new ItemModInsert(1F, 0.9F, 1F).setUnlocalizedName("insert_kevlar").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_kevlar");
+		insert_sapi = new ItemModInsert(1F, 0.85F, 1F).setUnlocalizedName("insert_sapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_sapi");
+		insert_esapi = new ItemModInsert(0.95F, 0.8F, 1F).setUnlocalizedName("insert_esapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_esapi");
+		insert_xsapi = new ItemModInsert(0.9F, 0.75F, 1F).setUnlocalizedName("insert_xsapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_xsapi");
+		insert_steel = new ItemModInsert(1F, 0.95F, 0.75F).setUnlocalizedName("insert_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_steel");
+		armor_polish = new ItemModPolish().setUnlocalizedName("armor_polish").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":armor_polish");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -6075,11 +6100,23 @@ public class ModItems {
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());
 		GameRegistry.registerItem(cbt_device, cbt_device.getUnlocalizedName());
 		
-		//Cladding
+		//Armor mods
+		GameRegistry.registerItem(attachment_mask, attachment_mask.getUnlocalizedName());
+		GameRegistry.registerItem(servo_set, servo_set.getUnlocalizedName());
+		GameRegistry.registerItem(servo_set_desh, servo_set_desh.getUnlocalizedName());
+		GameRegistry.registerItem(pads_rubber, pads_rubber.getUnlocalizedName());
+		GameRegistry.registerItem(pads_slime, pads_slime.getUnlocalizedName());
+		GameRegistry.registerItem(pads_static, pads_static.getUnlocalizedName());
 		GameRegistry.registerItem(cladding_paint, cladding_paint.getUnlocalizedName());
 		GameRegistry.registerItem(cladding_rubber, cladding_rubber.getUnlocalizedName());
 		GameRegistry.registerItem(cladding_lead, cladding_lead.getUnlocalizedName());
 		GameRegistry.registerItem(cladding_desh, cladding_desh.getUnlocalizedName());
+		GameRegistry.registerItem(insert_kevlar, insert_kevlar.getUnlocalizedName());
+		GameRegistry.registerItem(insert_sapi, insert_sapi.getUnlocalizedName());
+		GameRegistry.registerItem(insert_esapi, insert_esapi.getUnlocalizedName());
+		GameRegistry.registerItem(insert_xsapi, insert_xsapi.getUnlocalizedName());
+		GameRegistry.registerItem(insert_steel, insert_steel.getUnlocalizedName());
+		GameRegistry.registerItem(armor_polish, armor_polish.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

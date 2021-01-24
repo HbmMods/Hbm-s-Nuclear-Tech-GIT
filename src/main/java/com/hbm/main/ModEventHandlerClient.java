@@ -19,6 +19,7 @@ import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
+import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
@@ -226,6 +227,27 @@ public class ModEventHandlerClient {
 			renderer.modelArmorChestplate.aimedBow = true;
 		}
 	}
+	
+	@SubscribeEvent
+	public void onRenderArmorEvent(RenderPlayerEvent.SetArmorModel event) {
+		
+		EntityPlayer player = event.entityPlayer;
+		
+		for(int i = 0; i < 4; i++) {
+			
+			ItemStack armor = player.getCurrentArmor(i);
+			
+			if(armor != null && ArmorModHandler.hasMods(armor)) {
+				
+				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
+					
+					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
+						((ItemArmorMod)mod.getItem()).modRender(event, armor);
+					}
+				}
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void clickHandler(MouseEvent event) {
@@ -363,8 +385,10 @@ public class ModEventHandlerClient {
 				
 				for(int i = 0; i < 8; i++) {
 					
-					if(mods[i] != null)
-						list.add("  " + EnumChatFormatting.DARK_RED + mods[i].getDisplayName());
+					if(mods[i] != null && mods[i].getItem() instanceof ItemArmorMod) {
+						
+						((ItemArmorMod)mods[i].getItem()).addDesc(list, mods[i], stack);
+					}
 				}
 			}
 		}

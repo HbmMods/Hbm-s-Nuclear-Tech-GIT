@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -209,6 +210,15 @@ public class ArmorUtil {
 		
 		if(player.isPotionActive(HbmPotion.mutation))
 			return true;
+		
+		ItemStack helmet = player.getCurrentArmor(3);
+		if(helmet != null && ArmorModHandler.hasMods(helmet)) {
+			
+			ItemStack mods[] = ArmorModHandler.pryMods(helmet);
+			
+			if(mods[ArmorModHandler.helmet_only] != null && mods[ArmorModHandler.helmet_only].getItem() == ModItems.attachment_mask)
+				return true;
+		}
 		
 		return false;
 	}

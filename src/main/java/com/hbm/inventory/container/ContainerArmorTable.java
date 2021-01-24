@@ -27,7 +27,7 @@ public class ContainerArmorTable extends Container {
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.servos, 134, 81));		//servos/frame
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.cladding, 98, 99));		//radiation cladding
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.kevlar, 62, 99));			//kevlar/sapi/(ERA? :) )
-		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plating, 26, 99));		//explosive/heavy plating
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.extra, 26, 99));			//special parts
 
 		this.addSlotToContainer(new Slot(armor, 0, 44, 63) {
 

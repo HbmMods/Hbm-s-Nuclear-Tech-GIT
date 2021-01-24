@@ -120,10 +120,29 @@ public class ConsumableRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.radaway_flush, 1), new Object[] { "S", "M", "W", 'S', ModItems.powder_iodine, 'M', ModBlocks.mush, 'W', ModItems.radaway_strong });
 
 		//Cladding
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.cladding_paint, 1), new Object[] { "dustLead", Items.clay_ball, Items.glass_bottle }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.cladding_paint, 1), new Object[] { "nuggetLead", "nuggetLead", "nuggetLead", "nuggetLead", Items.clay_ball, Items.glass_bottle }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cladding_rubber, 1), new Object[] { "RCR", "CDC", "RCR", 'R', ModItems.plate_polymer, 'C', "dustCoal", 'D', ModItems.ducttape }));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.cladding_lead, 1), new Object[] { "DPD", "PRP", "DPD", 'R', ModItems.cladding_rubber, 'P', "plateLead", 'D', ModItems.ducttape }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.cladding_desh, 1), new Object[] { "DPD", "PRP", "DPD", 'R', ModItems.cladding_lead, 'P', ModItems.plate_desh, 'D', ModItems.ducttape });
+		
+		//Inserts
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.insert_steel, 1), new Object[] { "DPD", "PSP", "DPD", 'D', ModItems.ducttape, 'P', "plateIron", 'S', "blockSteel" }));
+		GameRegistry.addRecipe(new ItemStack(ModItems.insert_kevlar, 1), new Object[] { "KIK", "IDI", "KIK", 'K', ModItems.plate_kevlar, 'I', ModItems.plate_polymer, 'D', ModItems.ducttape });
+		GameRegistry.addRecipe(new ItemStack(ModItems.insert_sapi, 1), new Object[] { "PKP", "DPD", "PKP", 'P', ModItems.ingot_polymer, 'K', ModItems.insert_kevlar, 'D', ModItems.ducttape });
+		GameRegistry.addRecipe(new ItemStack(ModItems.insert_esapi, 1), new Object[] { "PKP", "DSD", "PKP", 'P', ModItems.ingot_polymer, 'K', ModItems.insert_sapi, 'D', ModItems.ducttape, 'S', ModItems.plate_saturnite });
+		GameRegistry.addRecipe(new ItemStack(ModItems.insert_xsapi, 1), new Object[] { "PKP", "DSD", "PKP", 'P', ModItems.ingot_asbestos, 'K', ModItems.insert_esapi, 'D', ModItems.ducttape, 'S', ModItems.ingot_meteorite_forged });
+		
+		//Servos
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.servo_set, 1), new Object[] { "MBM", "PBP", "MBM", 'M', ModItems.motor, 'B', ModItems.bolt_tungsten, 'P', "plateIron" }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.servo_set_desh, 1), new Object[] { "MBM", "PSP", "MBM", 'M', ModItems.motor_desh, 'B', ModItems.bolt_dura_steel, 'P', "plateAdvanced", 'S', ModItems.servo_set }));
+		
+		//Helmet Mods
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.attachment_mask, 1), new Object[] { "DID", "IGI", " F ", 'D', ModItems.ducttape, 'I', ModItems.plate_polymer, 'G', "paneGlass", 'F', ModItems.gas_mask_filter }));
+		
+		//Boot Mods
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pads_rubber, 1), new Object[] { "P P", "IDI", "P P", 'P', ModItems.plate_polymer, 'I', "plateIron", 'D', ModItems.ducttape }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pads_slime, 1), new Object[] { "SPS", "DSD", "SPS", 'S', "slimeball", 'P', ModItems.pads_rubber, 'D', ModItems.ducttape }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.pads_static, 1), new Object[] { "CDC", "ISI", "CDC", 'C', "plateCopper", 'D', ModItems.ducttape, 'I', ModItems.plate_polymer, 'S', ModItems.pads_slime }));
 		
 		//Stealth boy
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.stealth_boy, 1), new Object[] { " B", "LI", "LC", 'B', Item.getItemFromBlock(Blocks.stone_button), 'L', Items.leather, 'I', "ingotSteel", 'C', ModItems.circuit_red_copper }));

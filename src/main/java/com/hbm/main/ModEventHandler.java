@@ -14,7 +14,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
-import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
@@ -22,17 +21,18 @@ import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityTaintedCreeper;
-import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.projectile.EntityMeteor;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
@@ -40,22 +40,18 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
-import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
-import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
-import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -72,7 +68,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -80,15 +75,12 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -226,6 +218,22 @@ public class ModEventHandler
 	
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
+		
+		for(int i = 1; i < 5; i++) {
+			
+			ItemStack armor = event.entityLiving.getEquipmentInSlot(i);
+			
+			if(armor != null && ArmorModHandler.hasMods(armor)) {
+				
+				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
+					
+					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
+						((ItemArmorMod)mod.getItem()).modUpdate(event.entityLiving, armor);
+					}
+				}
+			}
+		}
+		
 		EntityEffectHandler.onUpdate(event.entityLiving);
 	}
 	
@@ -457,6 +465,21 @@ public class ModEventHandler
 	
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
+		
+		for(int i = 1; i < 5; i++) {
+			
+			ItemStack armor = event.entityLiving.getEquipmentInSlot(i);
+			
+			if(armor != null && ArmorModHandler.hasMods(armor)) {
+				
+				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
+					
+					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
+						((ItemArmorMod)mod.getItem()).modDamage(event, armor);
+					}
+				}
+			}
+		}
 		
 		ArmorFSB.handleHurt(event);
 	}

@@ -1075,6 +1075,11 @@ public class ClientProxy extends ServerProxy {
 			
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
 		}
+		
+		if("rift".equals(type)) {
+			
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRift(man, world, x, y, z));
+		}
 	}
 	
 	@Override
