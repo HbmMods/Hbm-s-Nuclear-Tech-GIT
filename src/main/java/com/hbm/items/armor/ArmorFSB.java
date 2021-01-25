@@ -474,7 +474,7 @@ public class ArmorFSB extends ItemArmor {
 		if(this.armorType != 1)
 			return;
 		
-		if(!this.hasFSBArmor(entity))
+		if(!this.hasFSBArmor(entity) || !this.geigerSound)
 			return;
 		
 		if(world.getTotalWorldTime() % 5 == 0) {

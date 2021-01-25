@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
@@ -43,7 +44,10 @@ public class ItemRenderWeaponBolter implements IItemRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_tex);
+		if(item.getItem() == ModItems.gun_bolter)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_tex);
+		if(item.getItem() == ModItems.gun_bolter_digamma)
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.bolter_digamma_tex);
 		
 		switch(type) {
 		

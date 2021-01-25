@@ -26,7 +26,7 @@ public class ItemModPads extends ItemArmorMod {
 			list.add(EnumChatFormatting.RED + "-" + Math.round((1F - damageMod) * 100) + "% fall damage");
 		
 		if(this == ModItems.pads_static)
-			list.add(EnumChatFormatting.DARK_PURPLE + "Passively charges electric armmor when walking");
+			list.add(EnumChatFormatting.DARK_PURPLE + "Passively charges electric armor when walking");
 		
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);

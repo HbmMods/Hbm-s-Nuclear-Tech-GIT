@@ -208,6 +208,10 @@ public class ItemLemon extends ItemFood {
 			list.add("Performant explosive for many applications.");
 			list.add("Edible");
 		}
+
+		if(this == ModItems.peas) {
+			list.add("He accepts your offering.");
+		}
 	}
 
 
