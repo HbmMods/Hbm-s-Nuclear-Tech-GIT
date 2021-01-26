@@ -60,7 +60,13 @@ public class ItemModPads extends ItemArmorMod {
 							
 							ArmorFSBPowered powered = (ArmorFSBPowered) stack.getItem();
 							
-							powered.chargeBattery(stack, Math.max(powered.drain / 2, powered.consumption / 40));
+							long charge = powered.drain / 2;
+							
+							if(charge == 0)
+								charge = powered.consumption / 40;
+							
+							long power = Math.min(powered.maxPower, powered.getCharge(stack) + charge);
+							powered.setCharge(stack, power);
 						}
 					}
 				}

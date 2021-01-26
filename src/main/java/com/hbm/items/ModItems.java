@@ -1809,6 +1809,16 @@ public class ModItems {
 	public static Item insert_xsapi;
 	public static Item insert_steel;
 	public static Item armor_polish;
+	public static Item bandaid;
+	public static Item serum;
+	public static Item quartz_plutonium;
+	public static Item morning_glory;
+	public static Item lodestone;
+	public static Item horseshoe_magnet;
+	public static Item industrial_magnet;
+	public static Item bathwater;
+	public static Item bathwater_mk2;
+	public static Item spider_milk;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -2710,6 +2720,16 @@ public class ModItems {
 		insert_xsapi = new ItemModInsert(0.9F, 0.75F, 1F).setUnlocalizedName("insert_xsapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_xsapi");
 		insert_steel = new ItemModInsert(1F, 0.95F, 0.75F).setUnlocalizedName("insert_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_steel");
 		armor_polish = new ItemModPolish().setUnlocalizedName("armor_polish").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":armor_polish");
+		bandaid = new ItemModBandaid().setUnlocalizedName("bandaid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bandaid");
+		serum = new ItemModSerum().setUnlocalizedName("serum").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":serum");
+		quartz_plutonium = new ItemModQuartz().setUnlocalizedName("quartz_plutonium").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":quartz_plutonium");
+		morning_glory = new ItemModMorningGlory().setUnlocalizedName("morning_glory").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":morning_glory");
+		lodestone = new ItemModLodestone(5).setUnlocalizedName("lodestone").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":lodestone");
+		horseshoe_magnet = new ItemModLodestone(8).setUnlocalizedName("horseshoe_magnet").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":horseshoe_magnet");
+		industrial_magnet = new ItemModLodestone(12).setUnlocalizedName("industrial_magnet").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":industrial_magnet");
+		bathwater = new ItemModBathwater().setUnlocalizedName("bathwater").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bathwater");
+		bathwater_mk2 = new ItemModBathwater().setUnlocalizedName("bathwater_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bathwater_mk2");
+		spider_milk = new ItemModMilk().setUnlocalizedName("spider_milk").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":spider_milk");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -6133,6 +6153,16 @@ public class ModItems {
 		GameRegistry.registerItem(insert_xsapi, insert_xsapi.getUnlocalizedName());
 		GameRegistry.registerItem(insert_steel, insert_steel.getUnlocalizedName());
 		GameRegistry.registerItem(armor_polish, armor_polish.getUnlocalizedName());
+		GameRegistry.registerItem(bandaid, bandaid.getUnlocalizedName());
+		GameRegistry.registerItem(serum, serum.getUnlocalizedName());
+		GameRegistry.registerItem(quartz_plutonium, quartz_plutonium.getUnlocalizedName());
+		GameRegistry.registerItem(morning_glory, morning_glory.getUnlocalizedName());
+		GameRegistry.registerItem(lodestone, lodestone.getUnlocalizedName());
+		GameRegistry.registerItem(horseshoe_magnet, horseshoe_magnet.getUnlocalizedName());
+		GameRegistry.registerItem(industrial_magnet, industrial_magnet.getUnlocalizedName());
+		GameRegistry.registerItem(bathwater, bathwater.getUnlocalizedName());
+		GameRegistry.registerItem(bathwater_mk2, bathwater_mk2.getUnlocalizedName());
+		GameRegistry.registerItem(spider_milk, spider_milk.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

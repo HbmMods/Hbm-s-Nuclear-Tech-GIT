@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.world.dungeon.Spaceship;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +19,7 @@ public class ItemWandD extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(!world.isRemote)
+		if(world.isRemote)
 			return stack;
 		
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1);
@@ -29,13 +30,15 @@ public class ItemWandD extends Item {
 			int z = pos.blockZ;
 			int y = world.getHeightValue(x, z);
 
-    		NBTTagCompound data = new NBTTagCompound();
+    		/*NBTTagCompound data = new NBTTagCompound();
     		data.setString("type", "rift");
     		data.setDouble("posX", x);
     		data.setDouble("posY", y + 1);
     		data.setDouble("posZ", z);
     		
-    		MainRegistry.proxy.effectNT(data);
+    		MainRegistry.proxy.effectNT(data);*/
+			
+			new Spaceship().generate_r0(world, world.rand, x - 4, y, z - 8);
 
 			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
 
