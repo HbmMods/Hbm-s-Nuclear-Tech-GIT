@@ -375,6 +375,8 @@ item.gadget_explosive.name=Взрывные линзы первого покол
 item.gadget_explosive8.name=Связка взрывчатки первого поколения
 item.gadget_wireing.name=Провода
 item.gadget_core.name=Плутониевое ядро
+item.demon_core_closed.name=Закрытый Заряд-Демон
+item.demon_core_open.name=Приостановленный Заряд-Демон
 
 item.boy_igniter.name=Воспламенитель
 item.boy_propellant.name=Взрывчатка
@@ -1598,7 +1600,6 @@ item.flame_pony.name=Картинка цветной лошади
 item.flame_conspiracy.name=Конспирологическая теория
 item.flame_politics.name=Политическая тема
 item.flame_opinion.name=Собственное мнение
-
 item.pellet_cluster.name=Взрывчатые гранулы
 item.pellet_buckshot.name=Свинцовые шарики
 item.pellet_flechette.name=Флешетты
@@ -1636,7 +1637,6 @@ tile.waste_trinitite.name=Тринититовая руда
 tile.waste_trinitite_red.name=Красная тринититовая руда
 tile.waste_log.name=Обугленное бревно
 tile.waste_planks.name=Обугленные деревянные доски
-
 item.trinitite.name=Тринитит
 item.nuclear_waste.name=Ядерные отходы
 item.nuclear_waste_tiny.name=Маленькая кучка ядерных отходов
@@ -1659,7 +1659,6 @@ item.ingot_thorium_fuel.name=Слиток ториевого топлива
 item.ingot_plutonium_fuel.name=Слиток плутониевого топлива
 item.ingot_mox_fuel.name=Слиток MOX-топлива
 item.ingot_schrabidium_fuel.name=Слиток шрабидиевого топлива
-
 item.nugget_uranium_fuel.name=Самородок уранового топлива
 item.nugget_thorium_fuel.name=Самородок ториевого топлива
 item.nugget_plutonium_fuel.name=Самородок плутониевого топлива
@@ -1730,15 +1729,12 @@ item.rod_quad_schrabidium_fuel.name=Счетверённый шрабидиев�
 item.rod_water.name=Стержень с водой
 item.rod_dual_water.name=Сдвоенный стержень с водой
 item.rod_quad_water.name=Счетверённый стержень с водой
-
 item.rod_coolant.name=Охлаждающий стержень
 item.rod_dual_coolant.name=Сдвоенный охлаждающий стержень
 item.rod_quad_coolant.name=Счетверённый охлаждающий стержень
-
 item.rod_lithium.name=Литиевый стержень
 item.rod_dual_lithium.name=Сдвоенный литиевый стержень
 item.rod_quad_lithium.name=Счетверённый литиевый стержень
-
 item.rod_tritium.name=Тритиевый стержень
 item.rod_dual_tritium.name=Сдвоенный тритиевый стержень
 item.rod_quad_tritium.name=Счетверённый тритиевый стержень
@@ -1766,6 +1762,7 @@ item.fooditem.name=пищевой продукт
 item.twinkie.name=Твинки
 item.static_sandwich.name=Сэндвич с помехами
 item.pancake.name=Блинчики из металлолома, гвоздей и драгоценной пыли
+item.peas.name=Горошек
 
 tile.frozen_grass.name=Замороженная трава
 tile.frozen_dirt.name=Замороженная земля
