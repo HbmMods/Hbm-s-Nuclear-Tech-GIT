@@ -879,6 +879,16 @@ item.pads_slime.name=Слаймовые прокладки
 item.pads_static.name=Статиковые прокладки
 item.servo_set.name=Набор сервоприводов
 item.servo_set_desh.name=Набор деш-сервоприводов
+item.bandaid.name=Пластырь Вельвет
+item.bathwater.name=Токсичная мыльная вода
+item.bathwater_mk2.name=Токсичная мыльная вода (Лошадиный аромат)
+item.horseshoe_magnet.name=Подковообразный магнит
+item.industrial_magnet.name=Промышленный магнит
+item.lodestone.name=Магнетит
+item.morning_glory.name=Монин Глори
+item.quartz_plutonium.name=Плутонический кварц
+item.serum.name=Сыворотка
+item.spider_milk.name=Бутылка паучьего молока
 
 item.wire_magnetized_tungsten.name=4000K Высокотемпературный проводник
 item.coil_magnetized_tungsten.name=4000K Высокотемпературная сверхпроводящая катушка
