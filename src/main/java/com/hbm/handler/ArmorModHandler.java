@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import java.util.UUID;
+
 import com.hbm.items.armor.ItemArmorMod;
 
 import net.minecraft.item.Item;
@@ -17,6 +19,13 @@ public class ArmorModHandler {
 	public static final int cladding = 5;
 	public static final int kevlar = 6;
 	public static final int extra = 7;
+	
+	public static final UUID[] UUIDs = new UUID[] {
+			UUID.fromString("8d6e5c77-133e-4056-9c80-a9e42a1a0b65"),
+			UUID.fromString("b1b7ee0e-1d14-4400-8037-f7f2e02f21ca"),
+			UUID.fromString("30b50d2a-4858-4e5b-88d4-3e3612224238"),
+			UUID.fromString("426ee0d0-7587-4697-aaef-4772ab202e78")
+	};
 	
 	//The key for the NBTTagCompound that holds the armor mods
 	public static final String MOD_COMPOUND_KEY = "ntm_armor_mods";

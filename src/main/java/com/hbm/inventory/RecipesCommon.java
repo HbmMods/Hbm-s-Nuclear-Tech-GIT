@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

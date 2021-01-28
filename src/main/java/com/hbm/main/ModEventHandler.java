@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
+import com.google.common.collect.Multimap;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
@@ -54,10 +55,12 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
@@ -67,12 +70,14 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.Vec3;
@@ -81,6 +86,7 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
@@ -169,6 +175,15 @@ public class ModEventHandler
 				player.triggerAchievement(MainRegistry.bobHidden);
 			}
 		}
+		
+		if(!event.entityLiving.worldObj.isRemote) {
+			
+			if(event.entityLiving instanceof EntitySpider && event.source instanceof EntityDamageSource &&
+					((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer && event.entityLiving.getRNG().nextInt(500) == 0) {
+				
+				event.entityLiving.dropItem(ModItems.spider_milk, 1);
+			}
+		}
 	}
 	
 	@SubscribeEvent
@@ -217,11 +232,56 @@ public class ModEventHandler
 	}
 	
 	@SubscribeEvent
+	public void onItemToss(ItemTossEvent event) {
+		
+		ItemStack yeet = event.entityItem.getEntityItem();
+		
+		if(yeet.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(yeet)) {
+			
+			ItemStack[] mods = ArmorModHandler.pryMods(yeet);
+			ItemStack cladding = mods[ArmorModHandler.cladding];
+			
+			if(cladding != null && cladding.getItem() == ModItems.cladding_obsidian) {
+				
+				try {
+					ReflectionHelper.findField(Entity.class, "field_149500_a", "invulnerable").setBoolean(event.entityItem, true);
+				} catch(Exception e) { }
+			}
+		}
+	}
+	
+	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
+		
+		ItemStack[] prevArmor = null;
+		
+		try {
+			prevArmor = (ItemStack[]) ReflectionHelper.findField(EntityLivingBase.class, "field_82180_bT", "previousEquipment").get(event.entityLiving);
+		} catch(Exception e) { }
 		
 		for(int i = 1; i < 5; i++) {
 			
+			ItemStack prev = prevArmor!= null ? prevArmor[i] : null;
 			ItemStack armor = event.entityLiving.getEquipmentInSlot(i);
+			
+			boolean reapply = prevArmor != null && !ItemStack.areItemStacksEqual(prev, armor);
+			
+			if(reapply) {
+				
+				if(prev != null && ArmorModHandler.hasMods(prev)) {
+					
+					for(ItemStack mod : ArmorModHandler.pryMods(prev)) {
+						
+						if(mod != null && mod.getItem() instanceof ItemArmorMod) {
+							
+							Multimap map = ((ItemArmorMod)mod.getItem()).getModifiers(prev);
+							
+							if(map != null)
+								event.entityLiving.getAttributeMap().removeAttributeModifiers(map);
+						}
+					}
+				}
+			}
 			
 			if(armor != null && ArmorModHandler.hasMods(armor)) {
 				
@@ -229,6 +289,14 @@ public class ModEventHandler
 					
 					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
 						((ItemArmorMod)mod.getItem()).modUpdate(event.entityLiving, armor);
+						
+						if(reapply) {
+							
+							Multimap map = ((ItemArmorMod)mod.getItem()).getModifiers(armor);
+							
+							if(map != null)
+								event.entityLiving.getAttributeMap().applyAttributeModifiers(map);
+						}
 					}
 				}
 			}
@@ -619,6 +687,18 @@ public class ModEventHandler
 		}
 		if(item == ModItems.ingot_uranium_fuel) {
 			e.player.addStat(MainRegistry.bobNuclear, 1);
+		}
+	}
+	
+	@SubscribeEvent
+	public void itemSmelted(PlayerEvent.ItemSmeltedEvent e) {
+		
+		if(!e.player.worldObj.isRemote && e.smelting.getItem() == Items.iron_ingot && e.player.getRNG().nextInt(64) == 0) {
+			
+			if(!e.player.inventory.addItemStackToInventory(new ItemStack(ModItems.lodestone)))
+				e.player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.lodestone), false);
+			else
+				e.player.inventoryContainer.detectAndSendChanges();
 		}
 	}
 

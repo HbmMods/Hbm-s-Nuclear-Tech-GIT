@@ -3,9 +3,13 @@ package com.hbm.items.armor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Multimap;
 import com.hbm.handler.ArmorModHandler;
 
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -15,12 +19,14 @@ public class ItemModInsert extends ItemArmorMod {
 	float damageMod;
 	float projectileMod;
 	float explosionMod;
+	float speed;
 
-	public ItemModInsert(float damageMod, float projectileMod, float explosionMod) {
+	public ItemModInsert(float damageMod, float projectileMod, float explosionMod, float speed) {
 		super(ArmorModHandler.kevlar, false, true, false, false);
 		this.damageMod = damageMod;
 		this.projectileMod = projectileMod;
 		this.explosionMod = explosionMod;
+		this.speed = speed;
 	}
     
 	@Override
@@ -32,6 +38,8 @@ public class ItemModInsert extends ItemArmorMod {
 			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - projectileMod) * 100) + "% projectile damage");
 		if(explosionMod != 1F)
 			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - explosionMod) * 100) + "% explosion damage");
+		if(speed != 1F)
+			list.add(EnumChatFormatting.BLUE + "-" + Math.round((1F - speed) * 100) + "% speed");
 		
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
@@ -48,6 +56,8 @@ public class ItemModInsert extends ItemArmorMod {
 			desc.add("-" + Math.round((1F - projectileMod) * 100) + "% proj");
 		if(explosionMod != 1F)
 			desc.add("-" + Math.round((1F - explosionMod) * 100) + "% exp");
+		if(explosionMod != 1F)
+			desc.add("-" + Math.round((1F - speed) * 100) + "% speed");
 		
 		String join = String.join(" / ", desc);
 		
@@ -65,5 +75,18 @@ public class ItemModInsert extends ItemArmorMod {
 		if(event.source.isExplosion())
 			event.ammount *= explosionMod;
 	}
-
+	
+	@Override
+	public Multimap getModifiers(ItemStack armor) {
+		
+		if(speed == 1)
+			return null;
+		
+		Multimap multimap = super.getItemAttributeModifiers();
+		
+		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),
+				new AttributeModifier(ArmorModHandler.UUIDs[((ItemArmor)armor.getItem()).armorType], "NTM Armor Mod Speed", -1F + speed, 2));
+		
+		return multimap;
+	}
 }

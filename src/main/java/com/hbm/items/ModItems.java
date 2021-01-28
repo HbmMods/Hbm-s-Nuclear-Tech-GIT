@@ -1803,6 +1803,7 @@ public class ModItems {
 	public static Item cladding_rubber;
 	public static Item cladding_lead;
 	public static Item cladding_desh;
+	public static Item cladding_obsidian;
 	public static Item insert_kevlar;
 	public static Item insert_sapi;
 	public static Item insert_esapi;
@@ -1819,6 +1820,9 @@ public class ModItems {
 	public static Item bathwater;
 	public static Item bathwater_mk2;
 	public static Item spider_milk;
+	public static Item heart_piece;
+	public static Item heart_container;
+	public static Item heart_booster;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -2714,11 +2718,12 @@ public class ModItems {
 		cladding_rubber = new ItemModCladding(0.075F).setUnlocalizedName("cladding_rubber").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_rubber");
 		cladding_lead = new ItemModCladding(0.2F).setUnlocalizedName("cladding_lead").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_lead");
 		cladding_desh = new ItemModCladding(0.4F).setUnlocalizedName("cladding_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_desh");
-		insert_kevlar = new ItemModInsert(1F, 0.9F, 1F).setUnlocalizedName("insert_kevlar").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_kevlar");
-		insert_sapi = new ItemModInsert(1F, 0.85F, 1F).setUnlocalizedName("insert_sapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_sapi");
-		insert_esapi = new ItemModInsert(0.95F, 0.8F, 1F).setUnlocalizedName("insert_esapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_esapi");
-		insert_xsapi = new ItemModInsert(0.9F, 0.75F, 1F).setUnlocalizedName("insert_xsapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_xsapi");
-		insert_steel = new ItemModInsert(1F, 0.95F, 0.75F).setUnlocalizedName("insert_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_steel");
+		cladding_obsidian = new ItemModObsidian().setUnlocalizedName("cladding_obsidian").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cladding_obsidian");
+		insert_kevlar = new ItemModInsert(1F, 0.9F, 1F, 1F).setUnlocalizedName("insert_kevlar").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_kevlar");
+		insert_sapi = new ItemModInsert(1F, 0.85F, 1F, 1F).setUnlocalizedName("insert_sapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_sapi");
+		insert_esapi = new ItemModInsert(0.95F, 0.8F, 1F, 1F).setUnlocalizedName("insert_esapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_esapi");
+		insert_xsapi = new ItemModInsert(0.9F, 0.75F, 1F, 1F).setUnlocalizedName("insert_xsapi").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_xsapi");
+		insert_steel = new ItemModInsert(1F, 0.95F, 0.75F, 0.95F).setUnlocalizedName("insert_steel").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_steel");
 		armor_polish = new ItemModPolish().setUnlocalizedName("armor_polish").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":armor_polish");
 		bandaid = new ItemModBandaid().setUnlocalizedName("bandaid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bandaid");
 		serum = new ItemModSerum().setUnlocalizedName("serum").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":serum");
@@ -2730,6 +2735,9 @@ public class ModItems {
 		bathwater = new ItemModBathwater().setUnlocalizedName("bathwater").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bathwater");
 		bathwater_mk2 = new ItemModBathwater().setUnlocalizedName("bathwater_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bathwater_mk2");
 		spider_milk = new ItemModMilk().setUnlocalizedName("spider_milk").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":spider_milk");
+		heart_piece = new ItemModHealth(5F).setUnlocalizedName("heart_piece").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_piece");
+		heart_container = new ItemModHealth(20F).setUnlocalizedName("heart_container").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_container");
+		heart_booster = new ItemModHealth(40F).setUnlocalizedName("heart_booster").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_booster");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -6147,6 +6155,7 @@ public class ModItems {
 		GameRegistry.registerItem(cladding_rubber, cladding_rubber.getUnlocalizedName());
 		GameRegistry.registerItem(cladding_lead, cladding_lead.getUnlocalizedName());
 		GameRegistry.registerItem(cladding_desh, cladding_desh.getUnlocalizedName());
+		GameRegistry.registerItem(cladding_obsidian, cladding_obsidian.getUnlocalizedName());
 		GameRegistry.registerItem(insert_kevlar, insert_kevlar.getUnlocalizedName());
 		GameRegistry.registerItem(insert_sapi, insert_sapi.getUnlocalizedName());
 		GameRegistry.registerItem(insert_esapi, insert_esapi.getUnlocalizedName());
@@ -6163,6 +6172,9 @@ public class ModItems {
 		GameRegistry.registerItem(bathwater, bathwater.getUnlocalizedName());
 		GameRegistry.registerItem(bathwater_mk2, bathwater_mk2.getUnlocalizedName());
 		GameRegistry.registerItem(spider_milk, spider_milk.getUnlocalizedName());
+		GameRegistry.registerItem(heart_piece, heart_piece.getUnlocalizedName());
+		GameRegistry.registerItem(heart_container, heart_container.getUnlocalizedName());
+		GameRegistry.registerItem(heart_booster, heart_booster.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

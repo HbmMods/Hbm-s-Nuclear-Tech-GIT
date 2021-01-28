@@ -2,6 +2,9 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
+import com.google.common.collect.Multimap;
+import com.hbm.handler.ArmorModHandler;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,6 +48,18 @@ public class ItemArmorMod extends Item {
 			if(boots)
 				list.add("  Boots");
 		}
+		list.add(EnumChatFormatting.DARK_PURPLE + "Slot:");
+		
+		switch(this.type) {
+		case ArmorModHandler.helmet_only: list.add("  Helmet"); break;
+		case ArmorModHandler.plate_only: list.add("  Chestplate"); break;
+		case ArmorModHandler.legs_only: list.add("  Leggings"); break;
+		case ArmorModHandler.boots_only: list.add("  Boots"); break;
+		case ArmorModHandler.servos: list.add("  Servos"); break;
+		case ArmorModHandler.cladding: list.add("  Cladding"); break;
+		case ArmorModHandler.kevlar: list.add("  Insert"); break;
+		case ArmorModHandler.extra: list.add("  Special"); break;
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -55,6 +70,8 @@ public class ItemArmorMod extends Item {
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) { }
 	
 	public void modDamage(LivingHurtEvent event, ItemStack armor) { }
+	
+	public Multimap getModifiers(ItemStack armor) { return null; }
 	
 	@SideOnly(Side.CLIENT)
 	public void modRender(RenderPlayerEvent.SetArmorModel event, ItemStack armor) { }
