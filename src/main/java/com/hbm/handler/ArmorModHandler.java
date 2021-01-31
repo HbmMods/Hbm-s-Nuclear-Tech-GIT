@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.hbm.items.armor.ItemArmorMod;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -79,7 +78,10 @@ public class ArmorModHandler {
 		ItemArmorMod aMod = (ItemArmorMod)mod.getItem();
 		int slot = aMod.type;
 		
-		mods.setString(MOD_SLOT_KEY + slot, Item.itemRegistry.getNameForObject(mod.getItem()));
+		NBTTagCompound cmp = new NBTTagCompound();
+		mod.writeToNBT(cmp);
+		
+		mods.setTag(MOD_SLOT_KEY + slot, cmp);
 	}
 	
 	/**
@@ -147,11 +149,12 @@ public class ArmorModHandler {
 		
 		for(int i = 0; i < 8; i++) {
 			
-			String mod = mods.getString(MOD_SLOT_KEY + i);
-			Item item = (Item)Item.itemRegistry.getObject(mod);
+			NBTTagCompound cmp = mods.getCompoundTag(MOD_SLOT_KEY + i);
 			
-			if(item != null)
-				slots[i] = new ItemStack(item);
+			ItemStack stack = ItemStack.loadItemStackFromNBT(cmp);
+			
+			if(stack != null)
+				slots[i] = stack;
 		}
 		
 		return slots;

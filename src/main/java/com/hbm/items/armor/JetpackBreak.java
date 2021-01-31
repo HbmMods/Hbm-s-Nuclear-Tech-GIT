@@ -23,8 +23,8 @@ public class JetpackBreak extends JetpackBase {
 
 	public static int maxFuel = 1200;
 
-	public JetpackBreak(ArmorMaterial mat, int i, int j, FluidType fuel, int maxFuel) {
-		super(mat, i, j, fuel, maxFuel);
+	public JetpackBreak(FluidType fuel, int maxFuel) {
+		super(fuel, maxFuel);
 	}
 
 	@Override
@@ -96,7 +96,6 @@ public class JetpackBreak extends JetpackBase {
     	list.add("Regular jetpack that will automatically hover mid-air.");
     	list.add("Sneaking will stop hover mode.");
     	list.add("Hover mode will consume less fuel and increase air-mobility.");
-    	list.add("");
     	
     	super.addInformation(stack, player, list, ext);
     }

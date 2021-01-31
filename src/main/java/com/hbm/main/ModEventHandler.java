@@ -178,10 +178,17 @@ public class ModEventHandler
 		
 		if(!event.entityLiving.worldObj.isRemote) {
 			
-			if(event.entityLiving instanceof EntitySpider && event.source instanceof EntityDamageSource &&
-					((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer && event.entityLiving.getRNG().nextInt(500) == 0) {
+			if(event.source instanceof EntityDamageSource && ((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer) {
 				
-				event.entityLiving.dropItem(ModItems.spider_milk, 1);
+				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(500) == 0) {
+					
+					event.entityLiving.dropItem(ModItems.spider_milk, 1);
+				}
+				
+				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(1000) == 0) {
+					
+					event.entityLiving.dropItem(ModItems.heart_piece, 1);
+				}
 			}
 		}
 	}

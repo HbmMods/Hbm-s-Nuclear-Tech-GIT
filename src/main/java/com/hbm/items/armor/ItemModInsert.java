@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Multimap;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.ArmorModHandler;
+import com.hbm.items.ModItems;
+import com.hbm.util.ContaminationUtil;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,16 +25,17 @@ public class ItemModInsert extends ItemArmorMod {
 	float explosionMod;
 	float speed;
 
-	public ItemModInsert(float damageMod, float projectileMod, float explosionMod, float speed) {
+	public ItemModInsert(int durability, float damageMod, float projectileMod, float explosionMod, float speed) {
 		super(ArmorModHandler.kevlar, false, true, false, false);
 		this.damageMod = damageMod;
 		this.projectileMod = projectileMod;
 		this.explosionMod = explosionMod;
 		this.speed = speed;
+		this.setMaxDamage(durability);
 	}
     
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
 		if(damageMod != 1F)
 			list.add(EnumChatFormatting.RED + "-" + Math.round((1F - damageMod) * 100) + "% damage");
@@ -41,8 +46,13 @@ public class ItemModInsert extends ItemArmorMod {
 		if(speed != 1F)
 			list.add(EnumChatFormatting.BLUE + "-" + Math.round((1F - speed) * 100) + "% speed");
 		
+		if(this == ModItems.insert_polonium)
+			list.add(EnumChatFormatting.DARK_RED + "+100 RAD/s");
+		
+		list.add((stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage() + "HP");
+		
 		list.add("");
-		super.addInformation(itemstack, player, list, bool);
+		super.addInformation(stack, player, list, bool);
 	}
 
 	@Override
@@ -58,10 +68,13 @@ public class ItemModInsert extends ItemArmorMod {
 			desc.add("-" + Math.round((1F - explosionMod) * 100) + "% exp");
 		if(explosionMod != 1F)
 			desc.add("-" + Math.round((1F - speed) * 100) + "% speed");
+
+		if(this == ModItems.insert_polonium)
+			desc.add("+100 RAD/s");
 		
 		String join = String.join(" / ", desc);
 		
-		list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (" + join + ")");
+		list.add(EnumChatFormatting.DARK_PURPLE + "  " + stack.getDisplayName() + " (" + join + " / " + (stack.getMaxDamage() - stack.getItemDamage()) + "HP)");
 	}
 
 	@Override
@@ -74,6 +87,32 @@ public class ItemModInsert extends ItemArmorMod {
 		
 		if(event.source.isExplosion())
 			event.ammount *= explosionMod;
+		
+		ItemStack insert = ArmorModHandler.pryMods(armor)[ArmorModHandler.kevlar];
+		
+		if(insert == null)
+			return;
+		
+		insert.setItemDamage(insert.getItemDamage() + 1);
+		
+		if(!event.entity.worldObj.isRemote && this == ModItems.insert_era) {
+			event.entity.worldObj.newExplosion(event.entity, event.entity.posX, event.entity.posY - event.entity.yOffset + event.entity.height * 0.5, event.entity.posZ, 0.05F, false, false);
+		}
+		
+		if(insert.getItemDamage() > insert.getMaxDamage()) {
+			ArmorModHandler.removeMod(armor, ArmorModHandler.kevlar);
+		} else {
+			ArmorModHandler.applyMod(armor, insert);
+		}
+	}
+	
+	@Override
+	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
+		
+		if(!entity.worldObj.isRemote && this == ModItems.insert_polonium) {
+			//HbmLivingProps.incrementRadiation(entity, 5);
+			ContaminationUtil.applyRadDirect(entity, 20);
+		}
 	}
 	
 	@Override

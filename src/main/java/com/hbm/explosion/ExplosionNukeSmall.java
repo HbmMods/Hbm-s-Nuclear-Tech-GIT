@@ -43,17 +43,17 @@ public class ExplosionNukeSmall {
 		} else if(size > safe && size < high) {
 			
 			switch(size) {
-			case 1: new ExplosionNT(world, null, posX, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
+			case 1: new ExplosionNT(world, null, posX, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).overrideResolution(32).explode();
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 30); break;
 			
-			case 2: new ExplosionNT(world, null, posX, posY, posZ, 15F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
+			case 2: new ExplosionNT(world, null, posX, posY, posZ, 15F).addAllAttrib(ExplosionNT.nukeAttribs).overrideResolution(64).explode();
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 45); break;
 			
-			case 3: new ExplosionNT(world, null, posX, posY, posZ, 15F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX + 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
+			case 3: new ExplosionNT(world, null, posX, posY, posZ, 20F).addAllAttrib(ExplosionNT.nukeAttribs).overrideResolution(64).explode();
+				/*new ExplosionNT(world, null, posX + 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
 				new ExplosionNT(world, null, posX - 7, posY, posZ, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
 				new ExplosionNT(world, null, posX, posY, posZ + 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
-				new ExplosionNT(world, null, posX, posY, posZ - 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();
+				new ExplosionNT(world, null, posX, posY, posZ - 7, 10F).addAllAttrib(ExplosionNT.nukeAttribs).explode();*/
 				ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, 55); break;
 			}
 			

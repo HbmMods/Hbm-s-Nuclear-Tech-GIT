@@ -1,5 +1,7 @@
 package com.hbm.world.generator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -41,7 +43,25 @@ public class JungleDungeon extends CellularDungeon {
 				
 				//A hole has not been made -> this is the bottom floor
 				if(!that.hasHole) {
-					world.setBlock(x, y, z, ModBlocks.brick_jungle_circle);
+					
+					List<int[]> rooms = new ArrayList();
+					
+					for(int i = 0; i < that.cells.length; i++) {
+						for(int j = 0; j < that.cells[0].length; j++) {
+							
+							if(that.cells[i][j] != null)
+								rooms.add(new int[]{i, j});
+						}
+					}
+					
+					if(!rooms.isEmpty()) {
+
+						int ix = x - dimX * width / 2;
+						int iz = z - dimZ * width / 2;
+						
+						int[] room = rooms.get(world.rand.nextInt(rooms.size()));
+						world.setBlock(ix + room[0] * (width - 1) + width / 2, y, iz + room[1] * (width - 1) + width / 2, ModBlocks.brick_jungle_circle);
+					}
 				}
 				
 				that.hasHole = false;

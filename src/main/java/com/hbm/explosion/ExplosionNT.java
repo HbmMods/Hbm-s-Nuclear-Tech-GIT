@@ -53,6 +53,11 @@ public class ExplosionNT extends Explosion {
 		return this;
 	}
 	
+	public ExplosionNT overrideResolution(int res) {
+		field_77289_h = res;
+		return this;
+	}
+	
     public void explode() {
     	doExplosionA();
     	doExplosionB(false);

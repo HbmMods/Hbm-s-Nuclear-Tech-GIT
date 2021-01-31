@@ -24,8 +24,8 @@ import net.minecraft.world.World;
 
 public class JetpackVectorized extends JetpackBase {
 
-	public JetpackVectorized(ArmorMaterial mat, int i, int j, FluidType fuel, int maxFuel) {
-		super(mat, i, j, fuel, maxFuel);
+	public JetpackVectorized(FluidType fuel, int maxFuel) {
+		super(fuel, maxFuel);
 	}
 
 	@Override
@@ -88,7 +88,6 @@ public class JetpackVectorized extends JetpackBase {
 
     	list.add("High-mobility jetpack.");
     	list.add("Higher fuel consumption.");
-    	list.add("");
     	
     	super.addInformation(stack, player, list, ext);
     }

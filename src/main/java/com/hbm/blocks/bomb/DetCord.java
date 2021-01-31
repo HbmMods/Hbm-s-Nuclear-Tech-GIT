@@ -7,9 +7,9 @@ import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK4;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -80,7 +80,8 @@ public class DetCord extends Block implements IBomb {
 				world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 1.5F, true);
 			}
 			if(this == ModBlocks.det_charge) {
-				ExplosionLarge.explode(world, x, y, z, 15, true, false, false);
+				new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 15).overrideResolution(64).explode();
+				ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
 			}
 			if(this == ModBlocks.det_nuke) {
 				world.spawnEntityInWorld(EntityNukeExplosionMK4.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));

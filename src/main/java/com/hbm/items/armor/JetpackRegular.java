@@ -21,8 +21,8 @@ import net.minecraft.world.World;
 
 public class JetpackRegular extends JetpackBase {
 
-	public JetpackRegular(ArmorMaterial mat, int i, int j, FluidType fuel, int maxFuel) {
-		super(mat, i, j, fuel, maxFuel);
+	public JetpackRegular(FluidType fuel, int maxFuel) {
+		super(fuel, maxFuel);
 	}
 
 	@Override
@@ -73,7 +73,6 @@ public class JetpackRegular extends JetpackBase {
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 
     	list.add("Regular jetpack for simple upwards momentum.");
-    	list.add("");
     	
     	super.addInformation(stack, player, list, ext);
     }

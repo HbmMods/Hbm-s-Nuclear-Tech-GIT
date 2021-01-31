@@ -38,13 +38,13 @@ public class ItemWandD extends Item {
     		
     		MainRegistry.proxy.effectNT(data);*/
 			
-			new Spaceship().generate_r0(world, world.rand, x - 4, y, z - 8);
+			//new Spaceship().generate_r0(world, world.rand, x - 4, y, z - 8);
 
 			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
 
-			/*CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
-			CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
-			CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);*/
+			CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
+			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
+			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			

@@ -56,6 +56,9 @@ public class ModelRendererObj {
     @SideOnly(Side.CLIENT)
     public void render(float scale) {
     	
+    	if(parts == null)
+    		return;
+    	
     	GL11.glPushMatrix();
 
         GL11.glTranslatef(this.offsetX * scale, this.offsetY * scale, this.offsetZ * scale);
@@ -81,7 +84,7 @@ public class ModelRendererObj {
     	
     	GL11.glScalef(scale, scale, scale);
         
-    	if(parts != null && parts.length > 0)
+    	if(parts.length > 0)
     		for(String part : parts)
     			model.renderPart(part);
     	else
