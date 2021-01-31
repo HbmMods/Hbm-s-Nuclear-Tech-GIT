@@ -891,6 +891,16 @@ item.morning_glory.name=Монин Глори
 item.quartz_plutonium.name=Плутонический кварц
 item.serum.name=Сыворотка
 item.spider_milk.name=Бутылка паучьего молока
+item.cladding_obsidian.name=Обсидиановая прокладка
+item.heart_booster.name=Усилитель сердца
+item.heart_container.name=Контейнер для сердца
+item.heart_piece.name=Частичка сердца
+item.back_tesla.name=Ранцевая катушка теслы
+item.insert_du.name=Урановая пластина
+item.insert_era.name=Взрывоопасная реактивная бронепластина
+item.insert_polonium.name=Полониевая пластина
+item.insert_yharonite.name=Ихаронитовая пластина
+item.wd40.name=VT-40
 
 item.wire_magnetized_tungsten.name=4000K Высокотемпературный проводник
 item.coil_magnetized_tungsten.name=4000K Высокотемпературная сверхпроводящая катушка
@@ -1057,6 +1067,8 @@ tile.block_thorium.name=Ториевый блок
 tile.block_trinitite.name=Тринититовый блок
 tile.block_beryllium.name=Бериллиевый блок
 tile.block_waste.name=Блок ядерных отходов
+tile.block_fallout.name=Блок радиоактивных осадков
+tile.fallout.name=Радиоактивный осадок
 tile.block_waste_painted.name=Покрашенный блок ядерных отходов
 tile.block_scrap.name=Блок металлолома
 tile.block_electrical_scrap.name=Блок отходов электроники
@@ -1320,6 +1332,7 @@ item.powder_yellowcake.name=Йеллоукейк
 item.powder_magic.name=Измельченное зачарование
 item.redstone_depleted.name=Обесцвеченная красная пыль
 item.powder_steel_tiny.name=Кучка стального порошка
+item.fallout.name=Куча радиоактивных осадков
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
@@ -2012,6 +2025,7 @@ item.pellet_meteorite.name=Метеоритные гранулы
 item.pellet_claws.name=Острые металлические когти
 
 item.gun_bolter.name=Болтер
+item.gun_bolter_digamma.name=Дигамма пушка
 item.ammo_75bolt.name=Магазин болтов .75 (30rnd)
 item.ammo_75bolt_incendiary.name=Магазин зажигательных болтов .75 (30rnd)
 item.ammo_75bolt_he.name=Магазин фугасных болтов .75 (30rnd)
@@ -2104,6 +2118,7 @@ item.coin_maskman.name=Монета Маскмена
 item.coin_creeper.name=Монета Ядерного крипера
 item.coin_radiation.name=Монета Радиации
 item.coin_worm.name=Монета Баллс-О-Трон
+item.ink.name=林 чернила
 
 item.stealth_boy.name=Стелс-Бой
 
@@ -2452,6 +2467,10 @@ item.ajro_boots.name=Ботинки силовой брони AJR
 item.ajro_helmet.name=Шлем силовой брони AJR
 item.ajro_legs.name=Поножи силовой брони AJR
 item.ajro_plate.name=Нагрудник силовой брони AJR
+item.fau_boots.name=Фау-ботинки
+item.fau_helmet.name=Фау-шлем
+item.fau_legs.name=Фау-поножи
+item.fau_plate.name=Фау-нагрудник
 
 item.bj_boots.name=Лунные шипованные ботинки
 item.bj_helmet.name=Повязка с тепловым сенсором
