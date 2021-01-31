@@ -2,8 +2,8 @@ package com.hbm.entity.mob.botprime;
 
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.interfaces.IRadiationImmune;
 
+import api.hbm.entity.IRadiationImmune;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

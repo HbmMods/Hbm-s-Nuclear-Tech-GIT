@@ -29,6 +29,10 @@ public class MineralRecipes {
 		RecipesCommon.add9To1(ModItems.ingot_dineutronium, ModBlocks.block_dineutronium);
 		RecipesCommon.add1To9(ModBlocks.block_dineutronium, ModItems.ingot_dineutronium);
 		
+		RecipesCommon.add9To1(ModItems.fallout, ModBlocks.block_fallout);
+		RecipesCommon.add1To9(ModBlocks.block_fallout, ModItems.fallout);
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.fallout, 2), new Object[] { "##", '#', ModItems.fallout });
+		
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_copper), 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_copper });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_fluorite), 1), new Object[] { "###", "###", "###", '#', ModItems.fluorite });
 		GameRegistry.addRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.block_niter), 1), new Object[] { "###", "###", "###", '#', ModItems.niter });

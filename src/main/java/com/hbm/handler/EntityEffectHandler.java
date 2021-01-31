@@ -68,6 +68,16 @@ public class EntityEffectHandler {
 				ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.01F);
 			}
 		}
+		
+		if(HbmLivingProps.getRadiation(entity) > 600 && world.getTotalWorldTime() % 600 == 0) {
+			
+			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", "vomit");
+			nbt.setInteger("entity", entity.getEntityId());
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			
+			world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+		}
 	}
 	
 	private static void handleDigamma(EntityLivingBase entity) {

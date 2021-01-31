@@ -8,8 +8,6 @@ import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.effect.EntityNukeCloudSmall;
-import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.block.Block;

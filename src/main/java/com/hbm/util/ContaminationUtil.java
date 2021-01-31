@@ -2,10 +2,10 @@ package com.hbm.util;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
-import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
+import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

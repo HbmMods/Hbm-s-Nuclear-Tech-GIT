@@ -249,6 +249,7 @@ public class ModItems {
 	public static Item powder_uranium;
 	public static Item powder_plutonium;
 	public static Item dust;
+	public static Item fallout;
 	public static Item powder_power;
 
 	public static Item powder_thorium;
@@ -1825,6 +1826,7 @@ public class ModItems {
 	public static Item bathwater;
 	public static Item bathwater_mk2;
 	public static Item spider_milk;
+	public static Item ink;
 	public static Item heart_piece;
 	public static Item heart_container;
 	public static Item heart_booster;
@@ -2321,6 +2323,7 @@ public class ModItems {
 		powder_uranium = new ItemRadioactive(0.5F, true).setUnlocalizedName("powder_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_uranium");
 		powder_plutonium = new ItemRadioactive(2.5F, true).setUnlocalizedName("powder_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_plutonium");
 		dust = new ItemCustomLore().setUnlocalizedName("dust").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":dust");
+		fallout = new ItemRadioactive(0.1F).setUnlocalizedName("fallout").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fallout");
 		powder_advanced_alloy = new Item().setUnlocalizedName("powder_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_advanced_alloy");
 		powder_coal = new Item().setUnlocalizedName("powder_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coal");
 		powder_combine_steel = new Item().setUnlocalizedName("powder_combine_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_combine_steel");
@@ -2746,6 +2749,7 @@ public class ModItems {
 		bathwater = new ItemModBathwater().setUnlocalizedName("bathwater").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bathwater");
 		bathwater_mk2 = new ItemModBathwater().setUnlocalizedName("bathwater_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bathwater_mk2");
 		spider_milk = new ItemModMilk().setUnlocalizedName("spider_milk").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":spider_milk");
+		ink = new ItemModInk().setUnlocalizedName("ink").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ink");
 		heart_piece = new ItemModHealth(5F).setUnlocalizedName("heart_piece").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_piece");
 		heart_container = new ItemModHealth(20F).setUnlocalizedName("heart_container").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_container");
 		heart_booster = new ItemModHealth(40F).setUnlocalizedName("heart_booster").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_booster");
@@ -3938,12 +3942,16 @@ public class ModItems {
 		fau_helmet = new ArmorDigamma(aMatFau, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).setMod(0.25F).setCap(4.0F).setThreshold(2.0F)
 				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
 				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
-				.setBlastProtection(0.25F)
-				.setMod(0.2F)
+				.setBlastProtection(0.1F)
+				.setMod(0.1F)
 				.setHasGeigerSound(true)
 				.setHasCustomGeiger(true)
+				.enableThermalSight(true)
+				.setStep("hbm:step.metal")
+				.setJump("hbm:step.iron_jump")
+				.setFall("hbm:step.iron_land")
 				.addResistance("fall", 0.5F)
-				.addResistance("onFire", 0F).setUnlocalizedName("fau_helmet").setTextureName(RefStrings.MODID + ":fau_helmet");
+				.setFireproof(true).setUnlocalizedName("fau_helmet").setTextureName(RefStrings.MODID + ":fau_helmet");
 		fau_plate = new ArmorDigamma(aMatFau, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_plate").setTextureName(RefStrings.MODID + ":fau_plate");
 		fau_legs = new ArmorDigamma(aMatFau, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_legs").setTextureName(RefStrings.MODID + ":fau_legs");
 		fau_boots = new ArmorDigamma(aMatFau, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_boots").setTextureName(RefStrings.MODID + ":fau_boots");
@@ -4574,6 +4582,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_dineutronium, powder_dineutronium.getUnlocalizedName());
 		GameRegistry.registerItem(redstone_depleted, redstone_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(dust, dust.getUnlocalizedName());
+		GameRegistry.registerItem(fallout, fallout.getUnlocalizedName());
 		GameRegistry.registerItem(powder_steel_tiny, powder_steel_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lithium_tiny, powder_lithium_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_neodymium_tiny, powder_neodymium_tiny.getUnlocalizedName());
@@ -6189,6 +6198,7 @@ public class ModItems {
 		GameRegistry.registerItem(bathwater, bathwater.getUnlocalizedName());
 		GameRegistry.registerItem(bathwater_mk2, bathwater_mk2.getUnlocalizedName());
 		GameRegistry.registerItem(spider_milk, spider_milk.getUnlocalizedName());
+		GameRegistry.registerItem(ink, ink.getUnlocalizedName());
 		GameRegistry.registerItem(heart_piece, heart_piece.getUnlocalizedName());
 		GameRegistry.registerItem(heart_container, heart_container.getUnlocalizedName());
 		GameRegistry.registerItem(heart_booster, heart_booster.getUnlocalizedName());

@@ -3,8 +3,8 @@ package com.hbm.entity.mob;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.ai.EntityAITaintedCreeperSwell;
-import com.hbm.interfaces.IRadiationImmune;
 
+import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

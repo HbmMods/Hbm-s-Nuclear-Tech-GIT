@@ -2,12 +2,12 @@ package com.hbm.entity.mob;
 
 import java.util.List;
 
-import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.RadiationSavedData;
 
+import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;

@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
@@ -20,6 +21,7 @@ public class TileEntityDecon extends TileEntity {
 			if(!entities.isEmpty()) {
 				for(EntityLivingBase e : entities) {
 					HbmLivingProps.incrementRadiation(e, -0.5F);
+					e.removePotionEffect(HbmPotion.radiation.id);
 				}
 			}
 		}

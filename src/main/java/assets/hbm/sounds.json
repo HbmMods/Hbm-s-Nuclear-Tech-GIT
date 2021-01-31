@@ -166,6 +166,7 @@
     "entity.ducc": {"category": "neutral", "sounds": ["entity/ducc1", "entity/ducc2"]},
     "entity.slicer": {"category": "neutral", "sounds": ["entity/slicer1", "entity/slicer2", "entity/slicer3", "entity/slicer4"]},
     "entity.megaquacc": {"category": "hostile", "sounds": [{"name": "entity/megaquacc", "stream": false}]},
+    "entity.vomit": {"category": "player", "sounds": [{"name": "entity/vomit", "stream": false}]},
     
     "step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
     "step.iron_jump": {"category": "player", "sounds": [{"name": "footsteps/iron_jump", "stream": false}]},

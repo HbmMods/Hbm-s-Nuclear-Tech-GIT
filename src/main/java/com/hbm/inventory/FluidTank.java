@@ -1,10 +1,10 @@
 package com.hbm.inventory;
 
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.JetpackBase;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -13,6 +13,7 @@ import com.hbm.packet.TEFluidPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -128,20 +129,34 @@ public class FluidTank {
 		ItemStack full = null;
 		if(slots[in] != null) {
 			
-			if(slots[in].getItem() instanceof IPartiallyFillable) {
-				IPartiallyFillable fillable = (IPartiallyFillable)slots[in].getItem();
-				int speed = fillable.getLoadSpeed(slots[in]);
+			ItemStack partial = slots[in];
+			
+			if(partial.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(partial)) {
 				
-				if(fillable.getType(slots[in]) == this.type && speed > 0) {
+				partial = ArmorModHandler.pryMods(partial)[ArmorModHandler.plate_only];
+				
+				if(partial == null)
+					return;
+			}
+			
+			if(partial.getItem() instanceof IPartiallyFillable) {
+				IPartiallyFillable fillable = (IPartiallyFillable)partial.getItem();
+				int speed = fillable.getLoadSpeed(partial);
+				
+				if(fillable.getType(partial) == this.type && speed > 0) {
 					
 					int toLoad = Math.min(this.fluid, speed);
-					int fill = fillable.getFill(slots[in]);
-					toLoad = Math.min(toLoad, fillable.getMaxFill(slots[in]) - fill);
+					int fill = fillable.getFill(partial);
+					toLoad = Math.min(toLoad, fillable.getMaxFill(partial) - fill);
 					
 					if(toLoad > 0) {
 						this.fluid -= toLoad;
-						fillable.setFill(slots[in], fill + toLoad);
+						fillable.setFill(partial, fill + toLoad);
 					}
+				}
+				
+				if(slots[in].getItem() instanceof ItemArmor) {
+					ArmorModHandler.applyMod(slots[in], partial);
 				}
 				
 				return;

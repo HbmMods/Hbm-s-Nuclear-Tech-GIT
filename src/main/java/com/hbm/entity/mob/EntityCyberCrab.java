@@ -1,10 +1,10 @@
 package com.hbm.entity.mob;
 
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.interfaces.IRadiationImmune;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 
+import api.hbm.entity.IRadiationImmune;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;

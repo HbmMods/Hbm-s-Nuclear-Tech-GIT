@@ -18,6 +18,7 @@ import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
@@ -62,6 +63,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
@@ -185,9 +187,19 @@ public class ModEventHandler
 					event.entityLiving.dropItem(ModItems.spider_milk, 1);
 				}
 				
+				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(5) == 0) {
+					
+					event.entityLiving.dropItem(ModItems.bandaid, 1);
+				}
+				
 				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(1000) == 0) {
 					
 					event.entityLiving.dropItem(ModItems.heart_piece, 1);
+				}
+				
+				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
+					
+					event.entityLiving.dropItem(ModItems.wd40, 1);
 				}
 			}
 		}
@@ -704,6 +716,14 @@ public class ModEventHandler
 			
 			if(!e.player.inventory.addItemStackToInventory(new ItemStack(ModItems.lodestone)))
 				e.player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.lodestone), false);
+			else
+				e.player.inventoryContainer.detectAndSendChanges();
+		}
+		
+		if(!e.player.worldObj.isRemote && e.smelting.getItem() == ModItems.ingot_uranium && e.player.getRNG().nextInt(64) == 0) {
+			
+			if(!e.player.inventory.addItemStackToInventory(new ItemStack(ModItems.quartz_plutonium)))
+				e.player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.quartz_plutonium), false);
 			else
 				e.player.inventoryContainer.detectAndSendChanges();
 		}
