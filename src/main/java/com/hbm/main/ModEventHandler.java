@@ -187,7 +187,7 @@ public class ModEventHandler
 					event.entityLiving.dropItem(ModItems.spider_milk, 1);
 				}
 				
-				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(5) == 0) {
+				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(500) == 0) {
 					
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
@@ -485,8 +485,6 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 2));
 				        	if(event.world.rand.nextInt(700) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 1));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 5 * 20, 3));
 							
 						} else if(eRad >= 600) {
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -497,8 +495,6 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
 				        	if(event.world.rand.nextInt(500) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 1));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 3));
 							
 						} else if(eRad >= 400) {
 				        	if(event.world.rand.nextInt(300) == 0)
@@ -507,16 +503,12 @@ public class ModEventHandler
 				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
-				        	if(event.world.rand.nextInt(500) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 2));
 				        	
 						} else if(eRad >= 200) {
 				        	if(event.world.rand.nextInt(300) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
 				        	if(event.world.rand.nextInt(500) == 0)
 				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
-				        	if(event.world.rand.nextInt(700) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 3 * 20, 2));
 				        	
 				        	if(entity instanceof EntityPlayer)
 				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);

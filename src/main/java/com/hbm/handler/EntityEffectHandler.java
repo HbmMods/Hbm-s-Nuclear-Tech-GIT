@@ -14,6 +14,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -72,11 +74,22 @@ public class EntityEffectHandler {
 		if(HbmLivingProps.getRadiation(entity) > 600 && world.getTotalWorldTime() % 600 == 0) {
 			
 			NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setString("type", "bloodvomit");
+			nbt.setInteger("entity", entity.getEntityId());
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			
+			world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+			entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
+		} else if(HbmLivingProps.getRadiation(entity) > 200 && world.getTotalWorldTime() % 1200 == 0) {
+			
+			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setString("type", "vomit");
 			nbt.setInteger("entity", entity.getEntityId());
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			
 			world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+			entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
+		
 		}
 	}
 	

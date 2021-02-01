@@ -265,6 +265,7 @@ death.attack.laser=%1$s wurde von %2$s zerbröselt.
 death.attack.lead=%1$s starb an Bleivergiftung.
 death.attack.lunar=%1$s vergaß lebenswichtige Organe aufzuladen.
 death.attack.meteorite=%1$s wurde von einem fallenden Stein aus dem Weltall erschlagen.
+death.attack.monoxide=%1$s vergaß, die Batterien im Kohlenmonoxid-Detektor auszutauschen.
 death.attack.mudPoisoning=%1$s starb an Giftschlamm.
 death.attack.nuclearBlast=%1$s wurde von einer Atomexplosion weggeblasen.
 death.attack.pc=%1$s wurde zu einer Pfütze in der pinken Wolke.

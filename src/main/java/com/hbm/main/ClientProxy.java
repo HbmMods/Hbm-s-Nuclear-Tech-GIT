@@ -1085,6 +1085,26 @@ public class ClientProxy extends ServerProxy {
 				Vec3 vec = e.getLookVec();
 				
 				for(int i = 0; i < 25; i++) {
+					EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.yCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.zCoord + rand.nextGaussian() * 0.2) * 0.2, Blocks.stained_hardened_clay, 13);
+					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
+			}
+		}
+		
+		if("bloodvomit".equals(type)) {
+			
+			Entity e = world.getEntityByID(data.getInteger("entity"));
+			
+			if(e instanceof EntityLivingBase) {
+
+				double ix = e.posX;
+				double iy = e.posY - e.getYOffset() + e.getEyeHeight() + 1;
+				double iz = e.posZ;
+				
+				Vec3 vec = e.getLookVec();
+				
+				for(int i = 0; i < 25; i++) {
 					EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, (vec.xCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.yCoord + rand.nextGaussian() * 0.2) * 0.2, (vec.zCoord + rand.nextGaussian() * 0.2) * 0.2, Blocks.redstone_block, 0);
 					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
