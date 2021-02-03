@@ -107,11 +107,14 @@ public class Gun75BoltFactory {
 				if(hit instanceof EntityLivingBase) {
 					EntityLivingBase living = (EntityLivingBase) hit;
 					float f = living.getHealth();
-					f = Math.max(0, f - 2);
-					living.setHealth(f);
 					
-					if(f == 0)
-						living.onDeath(ModDamageSource.lead);
+					if(f > 0) {
+						f = Math.max(0, f - 2);
+						living.setHealth(f);
+						
+						if(f == 0)
+							living.onDeath(ModDamageSource.lead);
+					}
 				}
 			}
 		};

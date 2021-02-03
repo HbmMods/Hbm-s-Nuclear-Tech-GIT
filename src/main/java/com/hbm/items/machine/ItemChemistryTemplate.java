@@ -85,6 +85,7 @@ public class ItemChemistryTemplate extends Item {
 		SOLID_FUEL,
 		ELECTROLYSIS,
 		XENON,
+		XENON_OXY,
 		SATURN,
 		BALEFIRE,
 		SCHRABIDIC,
@@ -255,7 +256,9 @@ public class ItemChemistryTemplate extends Item {
         case ELECTROLYSIS:
         	return 400;
         case XENON:
-        	return 600;
+        	return 300;
+        case XENON_OXY:
+        	return 20;
         case SATURN:
         	return 60;
         case BALEFIRE:

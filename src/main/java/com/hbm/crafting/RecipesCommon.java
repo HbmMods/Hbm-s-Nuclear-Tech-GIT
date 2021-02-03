@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * Wrappers for common recipe schemes
@@ -38,6 +39,19 @@ public class RecipesCommon {
 
 	public static void add9To1(ItemStack nine, ItemStack one) {
 		GameRegistry.addRecipe(one, new Object[] { "###", "###", "###", '#', nine });
+	}
+
+	public static void addBillet(Item billet, Item nugget, String... ore) {
+		
+		for(String o : ore)
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(billet), new Object[] { "###", "###", '#', o }));
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(nugget, 6), new Object[] { billet });
+	}
+
+	public static void addBillet(Item billet, Item nugget) {
+		GameRegistry.addRecipe(new ItemStack(billet), new Object[] { "###", "###", '#', nugget });
+		GameRegistry.addShapelessRecipe(new ItemStack(nugget, 6), new Object[] { billet });
 	}
 	
 	//Fill rods with 6 nuggets

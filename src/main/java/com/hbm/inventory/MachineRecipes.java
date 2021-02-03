@@ -1947,6 +1947,9 @@ public class MachineRecipes {
     	case XENON:
 			input[0] = new FluidStack(0, FluidType.NONE);
         	break;
+    	case XENON_OXY:
+			input[0] = new FluidStack(250, FluidType.OXYGEN);
+        	break;
     	case SATURN:
 			input[0] = new FluidStack(100, FluidType.ACID);
 			input[1] = new FluidStack(50, FluidType.MERCURY);
@@ -2214,6 +2217,9 @@ public class MachineRecipes {
 			output[1] = new FluidStack(400, FluidType.OXYGEN);
         	break;
         case XENON:
+			output[0] = new FluidStack(50, FluidType.XENON);
+        	break;
+        case XENON_OXY:
 			output[0] = new FluidStack(50, FluidType.XENON);
         	break;
         case BALEFIRE:
