@@ -391,6 +391,10 @@ public class ItemCustomLore extends Item {
 		if(this == ModItems.nugget_mox_fuel) {
 			list.add("Moxie says: " + EnumChatFormatting.BOLD + "TAX EVASION.");
 		}
+		
+		if(this == ModItems.billet_mox_fuel) {
+			list.add(EnumChatFormatting.ITALIC + "Pocket-Moxie!");
+		}
 	}
 
     @Override

@@ -68,6 +68,39 @@ public class RecipesCommon {
 	public static void addQuadRod(Item ingot, Item nugget, Item out) {
 		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_quad_empty, ingot, ingot, nugget, nugget, nugget, nugget, nugget, nugget });
 	}
+	
+	//Fill rods with one billet
+	public static void addRodBillet(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_empty, billet });
+	}
+	
+	//Fill rods with two billets
+	public static void addDualRodBillet(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_dual_empty, billet, billet });
+	}
+	
+	//Fill rods with three billets
+	public static void addQuadRodBillet(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_quad_empty, billet, billet, billet, billet });
+	}
+	
+	//Fill rods with one billet + unload
+	public static void addRodBilletUnload(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_empty, billet });
+		GameRegistry.addShapelessRecipe(new ItemStack(billet, 1), new Object[] { out });
+	}
+	
+	//Fill rods with two billets + unload
+	public static void addDualRodBilletUnload(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_dual_empty, billet, billet });
+		GameRegistry.addShapelessRecipe(new ItemStack(billet, 2), new Object[] { out });
+	}
+	
+	//Fill rods with three billets + unload
+	public static void addQuadRodBilletUnload(Item billet, Item out) {
+		GameRegistry.addShapelessRecipe(new ItemStack(out), new Object[] { ModItems.rod_quad_empty, billet, billet, billet, billet });
+		GameRegistry.addShapelessRecipe(new ItemStack(billet, 4), new Object[] { out });
+	}
 
 	//Sword
 	public static void addSword(Item ingot, Item sword) {

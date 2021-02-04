@@ -162,16 +162,16 @@ public class MachineRecipes {
 		
 		switch(fluid) {
 		case UF6:
-			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 1));
-			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_u238), 2));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_u235), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_u238), 1));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_u238), 2));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_u238), 3));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_u235), 4));
 			return list;
 		case PUF6:
-			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_pu238), 1));
-			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu239), 2));
-			list.add(new GasCentOutput(4, new ItemStack(ModItems.nugget_pu240), 3));
-			list.add(new GasCentOutput(1, new ItemStack(ModItems.fluorite), 4));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu238), 1));
+			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_pu238), 2));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu_mix), 3));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu_mix), 4));
 			return list;
 		case WATZ:
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_solinium), 1));
@@ -2189,10 +2189,10 @@ public class MachineRecipes {
 			output[0] = new FluidStack(1000, FluidType.BIOFUEL);
         	break;
         case UF6:
-			output[0] = new FluidStack(1000, FluidType.UF6);
+			output[0] = new FluidStack(900, FluidType.UF6);
         	break;
         case PUF6:
-			output[0] = new FluidStack(1000, FluidType.PUF6);
+			output[0] = new FluidStack(900, FluidType.PUF6);
         	break;
         case SAS3:
 			output[0] = new FluidStack(1000, FluidType.SAS3);

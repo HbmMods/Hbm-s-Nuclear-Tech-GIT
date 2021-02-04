@@ -22,8 +22,8 @@ public class CentrifugeRecipes {
 		
 		recipes.put(new ComparableStack(ModItems.waste_uranium), new ItemStack[] {
 				new ItemStack(ModItems.nugget_u235, 1),
-				new ItemStack(ModItems.nugget_u238, 2),
-				new ItemStack(ModItems.nugget_pu239, 1),
+				new ItemStack(ModItems.nugget_u238, 1),
+				new ItemStack(ModItems.nugget_pu_mix, 2),
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_plutonium), new ItemStack[] {
@@ -201,8 +201,9 @@ public class CentrifugeRecipes {
 				new ItemStack(Blocks.netherrack) });
 		
 		recipes.put(new ComparableStack(Items.blaze_rod), new ItemStack[] {new ItemStack(Items.blaze_powder, 1), new ItemStack(Items.blaze_powder, 1), new ItemStack(ModItems.powder_fire, 1), new ItemStack(ModItems.powder_fire, 1) });
-		
+
 		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new ItemStack[] { new ItemStack(ModItems.nugget_schrabidium, 2), new ItemStack(ModItems.nugget_schrabidium, 1), new ItemStack(ModItems.nugget_uranium, 3), new ItemStack(ModItems.nugget_plutonium, 2) });
+		recipes.put(new ComparableStack(ModItems.ingot_pu_mix), new ItemStack[] { new ItemStack(ModItems.nugget_pu239, 2), new ItemStack(ModItems.nugget_pu239, 3), new ItemStack(ModItems.nugget_pu240, 2), new ItemStack(ModItems.nugget_pu240, 2) });
 
 		recipes.put(new ComparableStack(ModItems.crystal_iron), new ItemStack[] { new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_titanium, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_gold), new ItemStack[] { new ItemStack(ModItems.powder_gold, 2), new ItemStack(ModItems.powder_gold, 2), new ItemStack(ModItems.nugget_mercury, 1), new ItemStack(ModItems.powder_lithium_tiny, 1) });

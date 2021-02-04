@@ -31,11 +31,8 @@ public class EntityEffectHandler {
 			PacketDispatcher.wrapper.sendTo(new ExtPropPacket(data), (EntityPlayerMP) entity);
 		}
 		
-		if(HbmLivingProps.getRadiation(entity) > 0)
-			handleRadiation(entity);
-		
-		if(HbmLivingProps.getDigamma(entity) > 0)
-			handleDigamma(entity);
+		handleRadiation(entity);
+		handleDigamma(entity);
 	}
 	
 	private static void handleRadiation(EntityLivingBase entity) {
@@ -53,22 +50,19 @@ public class EntityEffectHandler {
 		int iy = (int)MathHelper.floor_double(entity.posY);
 		int iz = (int)MathHelper.floor_double(entity.posZ);
 
-		if(world.getTotalWorldTime() % 20 == 0) {
+		Chunk chunk = world.getChunkFromBlockCoords(ix, iz);
+		float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
 
-			Chunk chunk = world.getChunkFromBlockCoords(ix, iz);
-			float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
-			
-			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
-				rad = RadiationConfig.hellRad;
-			
-			if(rad > 0) {
-				ContaminationUtil.applyRadData(entity, rad);
-			}
-			
-			if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
+		if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
+			rad = RadiationConfig.hellRad;
 
-				ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.01F);
-			}
+		if(rad > 0) {
+			ContaminationUtil.applyRadData(entity, rad / 20F);
+		}
+
+		if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
+
+			ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.0005F);
 		}
 		
 		if(HbmLivingProps.getRadiation(entity) > 600 && world.getTotalWorldTime() % 600 == 0) {
@@ -98,6 +92,9 @@ public class EntityEffectHandler {
 		if(!entity.worldObj.isRemote) {
 			
 			float digamma = HbmLivingProps.getDigamma(entity);
+			
+			if(digamma == 0)
+				return;
 			
 			int chance = Math.max(10 - (int)(digamma), 1);
 			
