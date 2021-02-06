@@ -149,6 +149,9 @@ public class HbmWorldGen implements IWorldGenerator {
 		if(WorldConfig.oilcoalSpawn > 0 && rand.nextInt(WorldConfig.oilcoalSpawn) == 0)
 			DungeonToolbox.generateOre(world, rand, i, j, 1, 64, 32, 32, ModBlocks.ore_coal_oil);
 
+		if(WorldConfig.gasbubbleSpawn > 0 && rand.nextInt(WorldConfig.gasbubbleSpawn) == 0)
+			DungeonToolbox.generateOre(world, rand, i, j, 1, 32, 30, 10, ModBlocks.gas_flammable);
+
 		for (int k = 0; k < 6; k++) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(35);

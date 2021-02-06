@@ -377,9 +377,6 @@ public class EntityBulletBase extends Entity implements IProjectile {
         /// SPECIAL UPDATE BEHAVIOR ///
         if(this.config.bUpdate != null)
         	this.config.bUpdate.behaveUpdate(this);
-        
-        if(this.config.style == BulletConfiguration.STYLE_ROCKET && !worldObj.isRemote)
-    		this.worldObj.spawnEntityInWorld(new EntityTSmokeFX(worldObj, this.posX, this.posY, this.posZ, 0, 0, 0));
 
 		float f2;
 		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
@@ -408,7 +405,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 			
 			double motion = Math.min(Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector(), 0.1);
 			
-			for(double d = 0; d < 1; d += 1 / motion) {
+			for(double d = 0; d < motion; d += 0.0625) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vanillaExt");

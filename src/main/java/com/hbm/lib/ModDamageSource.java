@@ -24,6 +24,7 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource euthanizedSelf2 = (new DamageSource("euthanizedSelf2")).setDamageBypassesArmor();
 	public static DamageSource tauBlast = (new DamageSource("tauBlast")).setDamageBypassesArmor();
 	public static DamageSource radiation = (new DamageSource("radiation")).setDamageBypassesArmor();
+	public static DamageSource digamma = (new DamageSource("digamma")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
 	public static DamageSource suicide = (new DamageSource("suicide")).setProjectile();
 	public static DamageSource teleporter = (new DamageSource("teleporter")).setDamageIsAbsolute();
 	public static DamageSource cheater = (new DamageSource("cheater")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();

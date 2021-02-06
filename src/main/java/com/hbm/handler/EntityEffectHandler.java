@@ -2,6 +2,7 @@ package com.hbm.handler;
 
 import com.hbm.config.RadiationConfig;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.ExtPropPacket;
@@ -39,51 +40,61 @@ public class EntityEffectHandler {
 		
 		World world = entity.worldObj;
 		
-		if(world.isRemote)
-			return;
-		
-		if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
-			return;
-
 		RadiationSavedData data = RadiationSavedData.getData(world);
-		int ix = (int)MathHelper.floor_double(entity.posX);
-		int iy = (int)MathHelper.floor_double(entity.posY);
-		int iz = (int)MathHelper.floor_double(entity.posZ);
-
-		Chunk chunk = world.getChunkFromBlockCoords(ix, iz);
-		float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
-
-		if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
-			rad = RadiationConfig.hellRad;
-
-		if(rad > 0) {
-			ContaminationUtil.applyRadData(entity, rad / 20F);
-		}
-
-		if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
-
-			ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.0005F);
-		}
 		
-		if(HbmLivingProps.getRadiation(entity) > 600 && world.getTotalWorldTime() % 600 == 0) {
+		if(!world.isRemote) {
 			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("type", "bloodvomit");
-			nbt.setInteger("entity", entity.getEntityId());
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
+				return;
+			int ix = (int)MathHelper.floor_double(entity.posX);
+			int iy = (int)MathHelper.floor_double(entity.posY);
+			int iz = (int)MathHelper.floor_double(entity.posZ);
+	
+			Chunk chunk = world.getChunkFromBlockCoords(ix, iz);
+			float rad = data.getRadNumFromCoord(chunk.xPosition, chunk.zPosition);
+	
+			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
+				rad = RadiationConfig.hellRad;
+	
+			if(rad > 0) {
+				ContaminationUtil.applyRadData(entity, rad / 20F);
+			}
+	
+			if(entity.worldObj.isRaining() && RadiationConfig.cont > 0 && AuxSavedData.getThunder(entity.worldObj) > 0 && entity.worldObj.canBlockSeeTheSky(ix, iy, iz)) {
+	
+				ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.0005F);
+			}
 			
-			world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
-			entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
-		} else if(HbmLivingProps.getRadiation(entity) > 200 && world.getTotalWorldTime() % 1200 == 0) {
+			if(HbmLivingProps.getRadiation(entity) > 600 && world.getTotalWorldTime() % 600 == 0) {
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "bloodvomit");
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				
+				world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+				entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
+			} else if(HbmLivingProps.getRadiation(entity) > 200 && world.getTotalWorldTime() % 1200 == 0) {
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vomit");
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+				
+				world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
+				entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
 			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setString("type", "vomit");
-			nbt.setInteger("entity", entity.getEntityId());
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			}
+		} else {
+			float radiation = HbmLivingProps.getRadiation(entity);
 			
-			world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
-			entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
-		
+			if(entity instanceof EntityPlayer && radiation > 600) {
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "radiation");
+				nbt.setInteger("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
+				MainRegistry.proxy.effectNT(nbt);
+			}
 		}
 	}
 	
@@ -102,6 +113,7 @@ public class EntityEffectHandler {
 				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "digammaDecay");
+				data.setInteger("count", 1);
 				data.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}

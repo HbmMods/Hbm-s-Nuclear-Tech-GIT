@@ -189,6 +189,9 @@ public class MainRegistry {
 	public static Achievement bossMeltdown;
 	public static Achievement bossMaskman;
 	public static Achievement bossWorm;
+	public static Achievement digammaSee;
+	public static Achievement digammaFeel;
+	public static Achievement digammaKnow;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -908,6 +911,10 @@ public class MainRegistry {
 		achRadPoison = new Achievement("achievement.radPoison", "radPoison", -2, 6, ModItems.geiger_counter, null).initIndependentStat().registerStat();
 		achRadDeath = new Achievement("achievement.radDeath", "radDeath", 0, 6, Items.skull, achRadPoison).initIndependentStat().registerStat().setSpecial();
 
+		digammaSee = new Achievement("achievement.digammaSee", "digammaSee", -2, 8, ModItems.digamma_see, null).initIndependentStat().registerStat();
+		digammaFeel = new Achievement("achievement.digammaFeel", "digammaFeel", 0, 8, ModItems.digamma_feel, digammaSee).initIndependentStat().registerStat();
+		digammaKnow = new Achievement("achievement.digammaKnow", "digammaKnow", 2, 8, ModItems.digamma_know, digammaFeel).initIndependentStat().registerStat().setSpecial();
+
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 				achSacrifice,
 				achImpossible,
@@ -939,7 +946,10 @@ public class MainRegistry {
 				bossCreeper,
 				bossMeltdown,
 				bossMaskman,
-				bossWorm
+				bossWorm,
+				digammaSee,
+				digammaFeel,
+				digammaKnow
 		}));
 
 		// MUST be initialized AFTER achievements!!

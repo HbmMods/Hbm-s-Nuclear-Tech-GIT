@@ -1,5 +1,7 @@
 package com.hbm.blocks.generic;
 
+import java.util.Random;
+
 import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.entity.Entity;
@@ -25,5 +27,16 @@ public class BlockGasMonoxide extends BlockGasBase {
 	@Override
 	public ForgeDirection getSecondDirection(World world, int x, int y, int z) {
 		return this.randomHorizontal(world);
+	}
+
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+
+		if(!world.isRemote && rand.nextInt(100) == 0) {
+			world.setBlockToAir(x, y, z);
+			return;
+		}
+		
+		super.updateTick(world, x, y, z, rand);
 	}
 }

@@ -37,6 +37,9 @@ public class BlockOutgas extends BlockOre {
 			return ModBlocks.gas_radon;
 		}
 		
+		if(this == ModBlocks.ancient_scrap)
+			return ModBlocks.gas_radon_tomb;
+		
 		if(this == ModBlocks.ore_coal_oil_burning || this == ModBlocks.ore_nether_coal) {
 			return ModBlocks.gas_monoxide;
 		}
@@ -78,10 +81,12 @@ public class BlockOutgas extends BlockOre {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {
 		
 		if(onBreak) {
 			world.setBlock(x, y, z, getGas());
 		}
+		
+		super.dropBlockAsItemWithChance(world, x, y, z, meta, chance, fortune);
 	}
 }

@@ -57,6 +57,8 @@ public class RenderBullet extends Render {
 		int style = bullet.getDataWatcher().getWatchableObjectByte(16);
 		int trail = bullet.getDataWatcher().getWatchableObjectByte(17);
 		
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		
 		switch(style) {
 			case BulletConfiguration.STYLE_NONE: break;
 			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
@@ -82,20 +84,34 @@ public class RenderBullet extends Render {
 
 		if (type == 2) {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/emplacer.png"));
+			bullet.renderAll(0.0625F);
 		} else if (type == 1) {
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/tau.png"));
+			bullet.renderAll(0.0625F);
 		} else if (type == 0) {
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/bullet.png"));
+			
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glRotated(90, 0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
+
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.bullet_rifle_tex);
+			ResourceManager.projectiles.renderPart("BulletRifle");
+			GL11.glShadeModel(GL11.GL_FLAT);
 		}
 		
-		bullet.renderAll(0.0625F);
 	}
 	
 	private void renderBuckshot() {
-
-		bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/buckshot.png"));
 		
-		buckshot.renderAll(0.0625F);
+		GL11.glScaled(0.5, 0.5, 0.5);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glRotated(90, 0, 1, 0);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		bindTexture(ResourceManager.buckshot_tex);
+		ResourceManager.projectiles.renderPart("Buckshot");
+		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 	
 	private void renderRocket(int type) {
@@ -129,9 +145,17 @@ public class RenderBullet extends Render {
 			GL11.glRotatef(180, 1, 0, 0);
 			ResourceManager.rpc.renderAll();
 			return;
+		} else {
+			
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glRotated(90, 0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
+
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.rocket_tex);
+			ResourceManager.projectiles.renderPart("Rocket");
+			GL11.glShadeModel(GL11.GL_FLAT);
 		}
-		
-		rocket.renderAll(0.0625F);
 	}
 	
 	private void renderGrenade(int type) {
@@ -152,21 +176,32 @@ public class RenderBullet extends Render {
 		case 5:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeTraining.png")); break;
 		}
-		
-		grenade.renderAll(0.0625F);
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		bindTexture(ResourceManager.grenade_tex);
+		ResourceManager.projectiles.renderPart("Grenade");
+		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 	
 	private void renderNuke(int type) {
-
-        GL11.glScalef(1.5F, 1.5F, 1.5F);
+		
+		GL11.glScaled(0.5, 0.5, 0.5);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glRotated(90, 0, 1, 0);
 		
 		switch(type) {
 		case 0:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/MiniNuke.png"));
-			nuke.renderAll(0.0625F); break;
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.mini_nuke_tex);
+			ResourceManager.projectiles.renderPart("MiniNuke");
+			GL11.glShadeModel(GL11.GL_FLAT);
+			break;
 		case 1:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/Mirv.png"));
-			mirv.renderAll(0.0625F); break;
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+			bindTexture(ResourceManager.mini_mirv_tex);
+			ResourceManager.projectiles.renderPart("MiniMIRV");
+			GL11.glShadeModel(GL11.GL_FLAT);
+			break;
 		case 2:
 			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/models/BaleFlare.png"));
 			bf.renderAll(0.0625F); break;
@@ -232,82 +267,11 @@ public class RenderBullet extends Render {
 	}
 	
 	private void renderFlechette() {
-		GL11.glPushMatrix();
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_LIGHTING);
 		
-        GL11.glScalef(1F/16F, 1F/16F, 1F/16F);
-        GL11.glScalef(-1, 1, 1);
-        
-		Tessellator tess = Tessellator.instance;
-		
-		//back
-		GL11.glColor3f(0.15F, 0.15F, 0.15F);
-		tess.startDrawingQuads();
-		tess.addVertex(0, -1, -1);
-		tess.addVertex(0, 1, -1);
-		tess.addVertex(0, 1, 1);
-		tess.addVertex(0, -1, 1);
-		tess.draw();
-		
-		//base
-		tess.startDrawingQuads();
-		tess.addVertex(0, -1, -1);
-		tess.addVertex(1, -0.5, -0.5);
-		tess.addVertex(1, 0.5, -0.5);
-		tess.addVertex(0, 1, -1);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertex(1, -0.5, 0.5);
-		tess.addVertex(0, -1, 1);
-		tess.addVertex(0, 1, 1);
-		tess.addVertex(1, 0.5, 0.5);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertex(1, -0.5, -0.5);
-		tess.addVertex(0, -1, -1);
-		tess.addVertex(0, -1, 1);
-		tess.addVertex(1, -0.5, 0.5);
-		tess.draw();
-
-		tess.startDrawingQuads();
-		tess.addVertex(0, 1, -1);
-		tess.addVertex(1, 0.5, -0.5);
-		tess.addVertex(1, 0.5, 0.5);
-		tess.addVertex(0, 1, 1);
-		tess.draw();
-
-		//pin
-		tess.startDrawing(4);
-		tess.addVertex(1, 0.5, -0.5);
-		tess.addVertex(1, -0.5, -0.5);
-		tess.addVertex(6, 0, 0);
-		tess.draw();
-
-		tess.startDrawing(4);
-		tess.addVertex(6, 0, 0);
-		tess.addVertex(1, -0.5, 0.5);
-		tess.addVertex(1, 0.5, 0.5);
-		tess.draw();
-
-		tess.startDrawing(4);
-		tess.addVertex(6, 0, 0);
-		tess.addVertex(1, -0.5, -0.5);
-		tess.addVertex(1, -0.5, 0.5);
-		tess.draw();
-
-		tess.startDrawing(4);
-		tess.addVertex(1, 0.5, 0.5);
-		tess.addVertex(1, 0.5, -0.5);
-		tess.addVertex(6, 0, 0);
-		tess.draw();
-		
-
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		GL11.glPopMatrix();
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		bindTexture(ResourceManager.flechette_tex);
+		ResourceManager.projectiles.renderPart("Flechette");
+		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 	
 	private void renderDart(int style, int eID) {

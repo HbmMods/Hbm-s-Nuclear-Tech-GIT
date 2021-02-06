@@ -3,12 +3,14 @@ package com.hbm.extprop;
 import java.util.UUID;
 
 import com.hbm.lib.ModDamageSource;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -85,11 +87,21 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		if((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isEntityAlive()) {
 			entity.setAbsorptionAmount(0);
-			entity.attackEntityFrom(ModDamageSource.radiation, 500F);
+			entity.attackEntityFrom(ModDamageSource.digamma, 500F);
 			entity.setHealth(0);
+			entity.onDeath(ModDamageSource.digamma);
+		}
+		
+		if(entity instanceof EntityPlayer) {
 			
-			if(entity.isEntityAlive())
-				entity.onDeath(ModDamageSource.radiation);
+			float di = getData(entity).digamma;
+
+			if(di > 0F)
+				((EntityPlayer) entity).triggerAchievement(MainRegistry.digammaSee);
+			if(di >= 2F)
+				((EntityPlayer) entity).triggerAchievement(MainRegistry.digammaFeel);
+			if(di >= 10F)
+				((EntityPlayer) entity).triggerAchievement(MainRegistry.digammaKnow);
 		}
 	}
 	

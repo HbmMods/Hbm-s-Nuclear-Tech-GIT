@@ -125,6 +125,8 @@ public class ContainerArmorTable extends Container {
 					} else {
 						return null;
 					}
+				} else {
+					return null;
 				}
 			}
 

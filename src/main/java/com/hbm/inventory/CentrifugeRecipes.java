@@ -27,13 +27,13 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_plutonium), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu239, 1),
-				new ItemStack(ModItems.nugget_pu240, 1),
+				new ItemStack(ModItems.nugget_pu_mix, 1),
+				new ItemStack(ModItems.nugget_pu_mix, 1),
 				new ItemStack(ModItems.nugget_polonium, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_mox), new ItemStack[] {
-				new ItemStack(ModItems.nugget_pu239, 1),
+				new ItemStack(ModItems.nugget_pu_mix, 1),
 				new ItemStack(ModItems.nugget_u238, 2),
 				new ItemStack(ModItems.nugget_polonium, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });

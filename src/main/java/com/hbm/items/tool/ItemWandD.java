@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.world.dungeon.AncientTomb;
 import com.hbm.world.dungeon.Spaceship;
 import com.hbm.world.generator.CellularDungeonFactory;
 
@@ -42,9 +43,11 @@ public class ItemWandD extends Item {
 
 			//new Ruin001().generate_r0(world, world.rand, x, y - 8, z);
 
-			CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
+			//CellularDungeonFactory.jungle.generate(world, x, y, z, world.rand);
 			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
 			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
+			
+			new AncientTomb().build(world, x, y + 10, z);
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			

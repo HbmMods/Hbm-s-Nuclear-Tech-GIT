@@ -14,6 +14,8 @@ import com.hbm.entity.effect.EntityVortex;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -89,8 +91,9 @@ public class ItemDrop extends Item {
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.pellet_antimatter && WeaponConfig.dropCell) {
 					if (!entityItem.worldObj.isRemote) {
-						ExplosionLarge.explodeFire(entityItem.worldObj, entityItem.posX, entityItem.posY,
-								entityItem.posZ, 100, true, true, true);
+						new ExplosionNT(entityItem.worldObj, entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 30).overrideResolution(64).addAttrib(ExAttrib.FIRE).addAttrib(ExAttrib.NOSOUND).explode();
+						ExplosionLarge.spawnParticles(entityItem.worldObj, entityItem.posX, entityItem.posY, entityItem.posZ, ExplosionLarge.cloudFunction(100));
+						entityItem.worldObj.playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 					}
 				}
 				if (stack.getItem() != null && stack.getItem() == ModItems.cell_anti_schrabidium && WeaponConfig.dropCell) {

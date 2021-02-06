@@ -2,10 +2,11 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
@@ -16,7 +17,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class BlockGasBase extends Block {
 
 	public BlockGasBase() {
-		super(Material.cloth);
+		super(ModBlocks.materialGas);
 		this.setHardness(0.0F);
 		this.setResistance(0.0F);
 		this.lightOpacity = 0;
@@ -25,6 +26,11 @@ public abstract class BlockGasBase extends Block {
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
+	}
+	
+	@Override
+	public int getRenderType() {
+		return -1;
 	}
 
 	@Override
@@ -40,17 +46,6 @@ public abstract class BlockGasBase extends Block {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
-	}
-
-	/*
-	 * @Override
-	 * 
-	 * @SideOnly(Side.CLIENT) public int getRenderBlockPass() { return 1; }
-	 */
-
-	@Override
-	public int getRenderType() {
-		return 1;
 	}
 
 	@Override

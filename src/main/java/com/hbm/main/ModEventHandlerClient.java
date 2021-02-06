@@ -91,7 +91,7 @@ public class ModEventHandlerClient {
 		/// HANDLE GEIGER COUNTER HUD ///
 		if(event.type == ElementType.HOTBAR) {
 			
-			if(!(ArmorFSB.hasFSBArmor(player) && ((ArmorFSB)player.inventory.armorInventory[3].getItem()).customGeiger)) {
+			if(!(ArmorFSB.hasFSBArmor(player) && ((ArmorFSB)player.inventory.armorInventory[2].getItem()).customGeiger)) {
 				
 				if(player.inventory.hasItem(ModItems.geiger_counter)) {
 	

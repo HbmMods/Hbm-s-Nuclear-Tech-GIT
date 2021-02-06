@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
@@ -44,7 +45,9 @@ public class BlockFallout extends Block {
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 
 		if(!world.isRemote && entity instanceof EntityLivingBase) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 30 * 20, 1));
+			PotionEffect effect = new PotionEffect(HbmPotion.radiation.id, 10 * 60 * 20, 0);
+			effect.setCurativeItems(new ArrayList());
+			((EntityLivingBase) entity).addPotionEffect(effect);
 		}
 	}
 

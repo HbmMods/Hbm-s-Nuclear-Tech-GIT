@@ -3,6 +3,7 @@
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChicken;
+import net.minecraft.client.particle.EntityAuraFX;
 import net.minecraft.client.particle.EntityBlockDustFX;
 import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.particle.EntityFX;
@@ -1059,16 +1060,19 @@ public class ClientProxy extends ServerProxy {
 			Entity e = world.getEntityByID(data.getInteger("entity"));
 			
 			if(e instanceof EntityLivingBase) {
-
-				double ix = e.boundingBox.minX - 0.2 + (e.boundingBox.maxX - e.boundingBox.minX + 0.4) * rand.nextDouble();
-				double iy = e.boundingBox.minY + (e.boundingBox.maxY - e.boundingBox.minY + 0.2) * rand.nextDouble();
-				double iz = e.boundingBox.minZ - 0.2 + (e.boundingBox.maxZ - e.boundingBox.minZ + 0.4) * rand.nextDouble();
 				
-				
-				EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, Blocks.soul_sand, 0);
-				ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
-				
-				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				for(int i = 0; i < data.getInteger("count"); i++) {
+	
+					double ix = e.boundingBox.minX - 0.2 + (e.boundingBox.maxX - e.boundingBox.minX + 0.4) * rand.nextDouble();
+					double iy = e.boundingBox.minY + (e.boundingBox.maxY - e.boundingBox.minY + 0.2) * rand.nextDouble();
+					double iz = e.boundingBox.minZ - 0.2 + (e.boundingBox.maxZ - e.boundingBox.minZ + 0.4) * rand.nextDouble();
+					
+					
+					EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, Blocks.soul_sand, 0);
+					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
+					
+					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+				}
 			}
 		}
 		
@@ -1109,6 +1113,22 @@ public class ClientProxy extends ServerProxy {
 					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 				}
+			}
+		}
+		
+		if("radiation".equals(type)) {
+			
+			for(int i = 0; i < data.getInteger("count"); i++) {
+				
+				EntityAuraFX flash = new EntityAuraFX(world,
+						player.posX + rand.nextGaussian() * 4,
+						player.posY + rand.nextGaussian() * 2,
+						player.posZ + rand.nextGaussian() * 4,
+						0, 0, 0);
+				
+				flash.setRBGColorF(0F, 0.75F, 1F);
+				flash.setVelocity(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
+				Minecraft.getMinecraft().effectRenderer.addEffect(flash);
 			}
 		}
 		
