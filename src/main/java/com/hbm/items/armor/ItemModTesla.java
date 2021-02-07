@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -31,6 +32,19 @@ public class ItemModTesla extends ItemArmorMod {
 	
 	public ItemModTesla() {
 		super(ArmorModHandler.plate_only, false, true, false, false);
+	}
+    
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+
+		list.add(EnumChatFormatting.YELLOW + "Zaps nearby entities (requires full electric set)");
+		list.add("");
+		super.addInformation(itemstack, player, list, bool);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void addDesc(List list, ItemStack stack, ItemStack armor) {
+		list.add(EnumChatFormatting.YELLOW + stack.getDisplayName() + " (zaps nearby entities)");
 	}
 	
 	@Override

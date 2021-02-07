@@ -682,6 +682,7 @@ public class CraftingManager {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_armor_ajr, 1), new Object[] { "NPN", "PIP", "NPN", 'N', "plateIron", 'P', ModItems.plate_saturnite, 'I', ModItems.plate_armor_titanium }));
 		GameRegistry.addRecipe(new ItemStack(ModItems.plate_armor_hev, 1), new Object[] { "NPN", "PIP", "NPN", 'N', ModItems.wire_tungsten, 'P', ModItems.plate_advanced_alloy, 'I', ModItems.plate_armor_titanium });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_armor_lunar, 1), new Object[] { "NPN", "PIP", "NPN", 'N', ModItems.wire_magnetized_tungsten, 'P', "plateDenseLead", 'I', ModItems.ingot_starmetal }));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.plate_armor_fau, 1), new Object[] { "MDM", "DYD", "MDM", 'M', ModItems.ingot_meteorite_forged, 'D', "ingotDesh", 'Y', ModItems.billet_yharonite }));
 		
 		GameRegistry.addRecipe(new ItemStack(ModItems.mech_key, 1), new Object[] { "MCM", "MKM", "MMM", 'M', ModItems.ingot_meteorite_forged, 'C', ModItems.coin_maskman, 'K', ModItems.key });
 
@@ -899,12 +900,13 @@ public class CraftingManager {
 		GameRegistry.addSmelting(ModItems.circuit_red_copper, new ItemStack(ModItems.circuit_copper, 1), 1.0F);
 		GameRegistry.addSmelting(ModItems.circuit_copper, new ItemStack(ModItems.circuit_aluminium, 1), 1.0F);
 
+		GameRegistry.addSmelting(ModItems.ingot_chainsteel, ItemHot.heatUp(new ItemStack(ModItems.ingot_chainsteel)), 1.0F);
 		GameRegistry.addSmelting(ModItems.ingot_meteorite, ItemHot.heatUp(new ItemStack(ModItems.ingot_meteorite)), 1.0F);
 		GameRegistry.addSmelting(ModItems.ingot_meteorite_forged, ItemHot.heatUp(new ItemStack(ModItems.ingot_meteorite_forged)), 1.0F);
 		GameRegistry.addSmelting(ModItems.blade_meteorite, ItemHot.heatUp(new ItemStack(ModItems.blade_meteorite)), 1.0F);
 		GameRegistry.addSmelting(ModItems.meteorite_sword, ItemHot.heatUp(new ItemStack(ModItems.meteorite_sword_seared)), 1.0F);
 		
-		//for(int i = 0; i < 10; i++)
-		//	GameRegistry.addSmelting(new ItemStack(ModItems.ingot_steel_dusted, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_steel_dusted, 1, i)), 1.0F);
+		for(int i = 0; i < 10; i++)
+			GameRegistry.addSmelting(new ItemStack(ModItems.ingot_steel_dusted, 1, i), ItemHot.heatUp(new ItemStack(ModItems.ingot_steel_dusted, 1, i)), 1.0F);
 	}
 }

@@ -53,6 +53,7 @@ public class WorldConfig {
 	public static int capsuleStructure = 100;
 	public static int arcticStructure = 500;
 	public static int jungleStructure = 2000;
+	public static int pyramidStructure = 2000;
 
 	public static int broadcaster = 5000;
 	public static int minefreq = 64;
@@ -119,6 +120,7 @@ public class WorldConfig {
 		capsuleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.21_capsuleSpawn", "Spawn landing capsule on every nTH chunk", 100);
 		arcticStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.22_arcticVaultSpawn", "Spawn artic code vault on every nTH chunk", 500);
 		jungleStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.23_jungleDungeonSpawn", "Spawn jungle dungeon on every nTH chunk", 2000);
+		pyramidStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.24_pyramidSpawn", "Spawn pyramid on every nTH chunk", 2000);
 
 		final String CATEGORY_METEOR = "05_meteors";
 		Property propMeteorStrikeChance = config.get(CATEGORY_METEOR, "5.00_meteorStrikeChance", 20 * 60 * 60 * 5);

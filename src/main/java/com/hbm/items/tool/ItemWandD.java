@@ -47,7 +47,7 @@ public class ItemWandD extends Item {
 			//CellularDungeonFactory.jungle.generate(world, x, y + 4, z, world.rand);
 			//CellularDungeonFactory.jungle.generate(world, x, y + 8, z, world.rand);
 			
-			new AncientTomb().build(world, x, y + 10, z);
+			new AncientTomb().build(world, world.rand, x, y + 10, z);
 			
 			//new ArcticVault().trySpawn(world, x, y, z);
 			

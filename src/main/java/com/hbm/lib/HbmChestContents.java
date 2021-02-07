@@ -105,7 +105,9 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.bomb_caller, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 1, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bomb_caller, 2, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 4) };
+			new WeightedRandomChestContent(ModItems.gas_mask_filter, 0, 1, 1, 4),
+			new WeightedRandomChestContent(ModItems.journal_pip, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.journal_bj, 0, 1, 1, 1) };
 
 	private static WeightedRandomChestContent[] nukeTrash = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.nugget_u238, 0, 3, 12, 5),

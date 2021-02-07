@@ -185,18 +185,20 @@ public class RenderBullet extends Render {
 	
 	private void renderNuke(int type) {
 		
-		GL11.glScaled(0.5, 0.5, 0.5);
-		GL11.glRotated(90, 0, 0, 1);
-		GL11.glRotated(90, 0, 1, 0);
-		
 		switch(type) {
 		case 0:
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glRotated(90, 0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			bindTexture(ResourceManager.mini_nuke_tex);
 			ResourceManager.projectiles.renderPart("MiniNuke");
 			GL11.glShadeModel(GL11.GL_FLAT);
 			break;
 		case 1:
+			GL11.glScaled(0.5, 0.5, 0.5);
+			GL11.glRotated(90, 0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			bindTexture(ResourceManager.mini_mirv_tex);
 			ResourceManager.projectiles.renderPart("MiniMIRV");
@@ -267,6 +269,10 @@ public class RenderBullet extends Render {
 	}
 	
 	private void renderFlechette() {
+		
+		GL11.glScaled(0.5, 0.5, 0.5);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glRotated(90, 0, 1, 0);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.flechette_tex);

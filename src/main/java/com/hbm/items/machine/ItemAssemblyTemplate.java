@@ -1,11 +1,13 @@
 package com.hbm.items.machine;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
 
@@ -37,7 +39,7 @@ public class ItemAssemblyTemplate extends Item {
     	
     	ComparableStack stack = AssemblerRecipes.recipeList.get(meta);
     	
-    	if(AssemblerRecipes.hidden.contains(stack))
+    	if(AssemblerRecipes.hidden.get(stack) != null)
     		return this.hiddenIcon;
     	
 		return this.itemIcon;
@@ -99,9 +101,6 @@ public class ItemAssemblyTemplate extends Item {
     	if(!(stack.getItem() instanceof ItemAssemblyTemplate))
     		return;
     	
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder"));
-		list.add("");
-    	
     	int i = stack.getItemDamage();
     	
     	if(i < 0 || i >= AssemblerRecipes.recipeList.size()) {
@@ -110,6 +109,22 @@ public class ItemAssemblyTemplate extends Item {
     	}
     	
     	ComparableStack out = AssemblerRecipes.recipeList.get(i);
+    	
+    	HashSet<Item> folders = AssemblerRecipes.hidden.get(out);
+    	
+    	if(folders == null)
+    		folders = new HashSet() {{ add(ModItems.template_folder); }};
+    	
+    	String[] names = new String[folders.size()];
+    	
+    	int a = 0;
+    	for(Item folder : folders) {
+    		names[a] = I18nUtil.resolveKey(folder.getUnlocalizedName() + ".name");
+    		a++;
+    	}
+    	
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", String.join(" / ", names)));
+		list.add("");
     	
     	if(out == null) {
     		list.add("I AM ERROR");

@@ -9,11 +9,12 @@ public class ItemHotDusted extends ItemHot {
 
 	public ItemHotDusted(int heat) {
 		super(heat);
+		this.setHasSubtypes(true);
 	}
 	
 	@Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		list.add("Forged " + stack.getItemDamage() + " times");
+		list.add("Forged " + stack.getItemDamage() + " time(s)");
 	}
 	
 	public static int getMaxHeat(ItemStack stack) {

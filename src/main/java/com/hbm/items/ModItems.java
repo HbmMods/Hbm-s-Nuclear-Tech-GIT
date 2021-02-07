@@ -223,11 +223,13 @@ public class ModItems {
 	public static Item ingot_meteorite_forged;
 	public static Item blade_meteorite;
 	public static Item ingot_steel_dusted;
+	public static Item ingot_chainsteel;
 
 	public static Item plate_armor_titanium;
 	public static Item plate_armor_ajr;
 	public static Item plate_armor_hev;
 	public static Item plate_armor_lunar;
+	public static Item plate_armor_fau;
 
 	public static Item solid_fuel;
 	public static Item rocket_fuel;
@@ -958,6 +960,8 @@ public class ModItems {
 
 	public static Item template_folder;
 	public static Item journal_pip;
+	public static Item journal_bj;
+	public static Item journal_silver;
 	public static Item assembly_template;
 	public static Item chemistry_template;
 	public static Item chemistry_icon;
@@ -1856,7 +1860,9 @@ public class ModItems {
 	public static Item heart_piece;
 	public static Item heart_container;
 	public static Item heart_booster;
+	public static Item heart_fab;
 	public static Item wd40;
+	public static Item scrumpy;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -2280,11 +2286,13 @@ public class ModItems {
 		ingot_meteorite_forged = new ItemHot(200).setUnlocalizedName("ingot_meteorite_forged").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_meteorite_forged");
 		blade_meteorite = new ItemHot(200).setUnlocalizedName("blade_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":blade_meteorite");
 		ingot_steel_dusted = new ItemHotDusted(200).setUnlocalizedName("ingot_steel_dusted").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_steel_dusted");
+		ingot_chainsteel = new ItemHot(100).setUnlocalizedName("ingot_chainsteel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_chainsteel");
 
 		plate_armor_titanium = new Item().setUnlocalizedName("plate_armor_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_titanium");
 		plate_armor_ajr = new Item().setUnlocalizedName("plate_armor_ajr").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_ajr");
 		plate_armor_hev = new Item().setUnlocalizedName("plate_armor_hev").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_hev");
 		plate_armor_lunar = new Item().setUnlocalizedName("plate_armor_lunar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_lunar");
+		plate_armor_fau = new Item().setUnlocalizedName("plate_armor_fau").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_armor_fau");
 
 		solid_fuel = new Item().setUnlocalizedName("solid_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel");
 		rocket_fuel = new Item().setUnlocalizedName("rocket_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rocket_fuel");
@@ -2808,7 +2816,9 @@ public class ModItems {
 		heart_piece = new ItemModHealth(5F).setUnlocalizedName("heart_piece").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_piece");
 		heart_container = new ItemModHealth(20F).setUnlocalizedName("heart_container").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_container");
 		heart_booster = new ItemModHealth(40F).setUnlocalizedName("heart_booster").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_booster");
+		heart_fab = new ItemModHealth(60F).setUnlocalizedName("heart_fab").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":heart_fab");
 		wd40 = new ItemModWD40().setUnlocalizedName("wd40").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":wd40");
+		scrumpy = new ItemModRevive(1).setUnlocalizedName("scrumpy").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":scrumpy");
 
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().setUnlocalizedName("can_smart").setContainerItem(ModItems.can_empty).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_smart");
@@ -3821,6 +3831,8 @@ public class ModItems {
 		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":template_folder");
 		journal_pip = new ItemTemplateFolder().setUnlocalizedName("journal_pip").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":journal_pip");
+		journal_bj = new ItemTemplateFolder().setUnlocalizedName("journal_bj").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":journal_bj");
+		journal_silver = new ItemTemplateFolder().setUnlocalizedName("journal_silver").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":journal_silver");
 		assembly_template = new ItemAssemblyTemplate().setUnlocalizedName("assembly_template").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":assembly_template");
 		chemistry_template = new ItemChemistryTemplate().setUnlocalizedName("chemistry_template").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":chemistry_template");
 		chemistry_icon = new ItemChemistryIcon().setUnlocalizedName("chemistry_icon").setMaxStackSize(1).setCreativeTab(null);
@@ -3994,23 +4006,22 @@ public class ModItems {
 		jackt2 = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt2").setTextureName(RefStrings.MODID + ":jackt2");
 
 		ArmorMaterial aMatFau = EnumHelper.addArmorMaterial("HBM_DIGAMMA", 150, new int[] { 3, 8, 6, 3 }, 100);
-		aMatFau.customCraftingMaterial = ModItems.nothing;
-		fau_helmet = new ArmorDigamma(aMatFau, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).setMod(0.25F).setCap(4.0F).setThreshold(2.0F)
-				.addEffect(new PotionEffect(Potion.moveSpeed.id, 20, 1))
-				.addEffect(new PotionEffect(Potion.jump.id, 20, 0))
-				.setBlastProtection(0.1F)
-				.setMod(0.1F)
+		aMatFau.customCraftingMaterial = ModItems.plate_armor_fau;
+		fau_helmet = new ArmorDigamma(aMatFau, 7, 0, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 2500, 0).setMod(0.25F).setCap(4.0F).setThreshold(2.0F)
+				.addEffect(new PotionEffect(Potion.jump.id, 20, 1))
+				.setBlastProtection(0.05F)
+				.setMod(0.05F)
 				.setHasGeigerSound(true)
-				.setHasCustomGeiger(true)
 				.enableThermalSight(true)
+				.setHasHardLanding(true)
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
-				.addResistance("fall", 0.5F)
+				.addResistance("fall", 0.05F)
 				.setFireproof(true).setUnlocalizedName("fau_helmet").setTextureName(RefStrings.MODID + ":fau_helmet");
-		fau_plate = new ArmorDigamma(aMatFau, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_plate").setTextureName(RefStrings.MODID + ":fau_plate");
-		fau_legs = new ArmorDigamma(aMatFau, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_legs").setTextureName(RefStrings.MODID + ":fau_legs");
-		fau_boots = new ArmorDigamma(aMatFau, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_boots").setTextureName(RefStrings.MODID + ":fau_boots");
+		fau_plate = new ArmorDigamma(aMatFau, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_plate").setTextureName(RefStrings.MODID + ":fau_plate");
+		fau_legs = new ArmorDigamma(aMatFau, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_legs").setTextureName(RefStrings.MODID + ":fau_legs");
+		fau_boots = new ArmorDigamma(aMatFau, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_boots").setTextureName(RefStrings.MODID + ":fau_boots");
 
 		jackt = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt").setTextureName(RefStrings.MODID + ":jackt");
 		jackt2 = new ModArmor(MainRegistry.aMatSteel, 7, 1).setUnlocalizedName("jackt2").setTextureName(RefStrings.MODID + ":jackt2");
@@ -4557,7 +4568,8 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_electronium, ingot_electronium.getUnlocalizedName());
 
 		//Meteorite Ingots
-		//GameRegistry.registerItem(ingot_steel_dusted, ingot_steel_dusted.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_steel_dusted, ingot_steel_dusted.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_chainsteel, ingot_chainsteel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_meteorite, ingot_meteorite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_meteorite_forged, ingot_meteorite_forged.getUnlocalizedName());
 		GameRegistry.registerItem(blade_meteorite, blade_meteorite.getUnlocalizedName());
@@ -4785,6 +4797,7 @@ public class ModItems {
 		GameRegistry.registerItem(plate_armor_ajr, plate_armor_ajr.getUnlocalizedName());
 		GameRegistry.registerItem(plate_armor_hev, plate_armor_hev.getUnlocalizedName());
 		GameRegistry.registerItem(plate_armor_lunar, plate_armor_lunar.getUnlocalizedName());
+		GameRegistry.registerItem(plate_armor_fau, plate_armor_fau.getUnlocalizedName());
 		
 		//Boards
 		GameRegistry.registerItem(board_copper, board_copper.getUnlocalizedName());
@@ -5157,6 +5170,8 @@ public class ModItems {
 		//Folders
 		GameRegistry.registerItem(template_folder, template_folder.getUnlocalizedName());
 		GameRegistry.registerItem(journal_pip, journal_pip.getUnlocalizedName());
+		GameRegistry.registerItem(journal_bj, journal_bj.getUnlocalizedName());
+		GameRegistry.registerItem(journal_silver, journal_silver.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon_materials, bobmazon_materials.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon_machines, bobmazon_machines.getUnlocalizedName());
 		GameRegistry.registerItem(bobmazon_weapons, bobmazon_weapons.getUnlocalizedName());
@@ -6290,7 +6305,9 @@ public class ModItems {
 		GameRegistry.registerItem(heart_piece, heart_piece.getUnlocalizedName());
 		GameRegistry.registerItem(heart_container, heart_container.getUnlocalizedName());
 		GameRegistry.registerItem(heart_booster, heart_booster.getUnlocalizedName());
+		GameRegistry.registerItem(heart_fab, heart_fab.getUnlocalizedName());
 		GameRegistry.registerItem(wd40, wd40.getUnlocalizedName());
+		GameRegistry.registerItem(scrumpy, scrumpy.getUnlocalizedName());
 
 		//The Gadget
 		GameRegistry.registerItem(gadget_explosive, gadget_explosive.getUnlocalizedName());

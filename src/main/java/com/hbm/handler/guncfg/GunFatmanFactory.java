@@ -460,7 +460,8 @@ public class GunFatmanFactory {
 							.addAttrib(ExAttrib.NOPARTICLE)
 							.addAttrib(ExAttrib.NOSOUND)
 							.addAttrib(ExAttrib.NODROP)
-							.addAttrib(ExAttrib.NOHURT);
+							.addAttrib(ExAttrib.NOHURT)
+							.overrideResolution(64);
 					exp.doExplosionA();
 					exp.doExplosionB(false);
 					

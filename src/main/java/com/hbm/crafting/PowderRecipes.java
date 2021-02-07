@@ -17,6 +17,7 @@ public class PowderRecipes {
 
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.powder_power, 5), new Object[] { "dustRedstone", "dustGlowstone", "dustDiamond", "dustNeptunium", "dustMagnetizedTungsten" }));
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ballistite, 3), new Object[] { Items.gunpowder, "dustSaltpeter", Items.sugar }));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.ingot_steel_dusted, 1), new Object[] { "ingotSteel", "dustCoal" }));
 
 		//Gunpowder
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Items.gunpowder, 3), new Object[] { "dustSulfur", "dustSaltpeter", Items.coal }));

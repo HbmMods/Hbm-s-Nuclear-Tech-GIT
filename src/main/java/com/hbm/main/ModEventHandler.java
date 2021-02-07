@@ -35,6 +35,7 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ItemArmorMod;
+import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.special.ItemHot;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
@@ -156,6 +157,32 @@ public class ModEventHandler
 	public void onEntityDeath(LivingDeathEvent event) {
 		
 		HbmLivingProps.setRadiation(event.entityLiving, 0);
+		
+		for(int i = 1; i < 5; i++) {
+			
+			ItemStack stack = event.entityLiving.getEquipmentInSlot(i);
+			
+			if(stack != null && stack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(stack)) {
+
+				ItemStack revive = ArmorModHandler.pryMods(stack)[ArmorModHandler.extra];
+				
+				if(revive != null && revive.getItem() instanceof ItemModRevive) {
+					
+					revive.setItemDamage(revive.getItemDamage() + 1);
+					
+					if(revive.getItemDamage() >= revive.getMaxDamage()) {
+						ArmorModHandler.removeMod(stack, ArmorModHandler.extra);
+					} else {
+						ArmorModHandler.applyMod(stack, revive);
+					}
+					
+					event.entityLiving.setHealth(event.entityLiving.getMaxHealth());
+					event.entityLiving.addPotionEffect(new PotionEffect(Potion.resistance.id, 60, 99));
+					event.setCanceled(true);
+					return;
+				}
+			}
+		}
 		
 		if(event.entity.worldObj.isRemote)
 			return;
@@ -956,7 +983,7 @@ public class ModEventHandler
 		}
 		
 		if(event.left.getItem() == ModItems.ingot_steel_dusted && event.right.getItem() == ModItems.ingot_steel_dusted &&
-				event.left.stackSize == 1 && event.right.stackSize == 1) {
+				event.left.stackSize ==  event.right.stackSize) {
 
 			double h1 = ItemHot.getHeat(event.left);
 			double h2 = ItemHot.getHeat(event.right);
@@ -967,11 +994,13 @@ public class ModEventHandler
 				int i2 = event.right.getItemDamage();
 				
 				int i3 = Math.min(i1, i2) + 1;
+				
+				boolean done = i3 >= 10;
 	            
-				ItemStack out = new ItemStack(ModItems.ingot_steel_dusted, 1, i3);
-				ItemHot.heatUp(out, (h1 + h2) / 2D);
+				ItemStack out = new ItemStack(done ? ModItems.ingot_chainsteel : ModItems.ingot_steel_dusted, event.left.stackSize, done ? 0 : i3);
+				ItemHot.heatUp(out, done ? 1D : (h1 + h2) / 2D);
 				event.output = out;
-	            event.cost = 1;
+	            event.cost = event.left.stackSize;
 			}
 		}
 	}

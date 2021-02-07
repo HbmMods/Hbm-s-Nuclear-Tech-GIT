@@ -45,7 +45,7 @@ public class AssemblerRecipes {
 	public static HashMap<ComparableStack, AStack[]> recipes = new HashMap();
 	public static HashMap<ComparableStack, Integer> time = new HashMap();
 	public static List<ComparableStack> recipeList = new ArrayList();
-	public static HashSet<ComparableStack> hidden = new HashSet();
+	public static HashMap<ComparableStack, HashSet<Item>> hidden = new HashMap();
 	
 	/**
 	 * Pre-Init phase: Finds the recipe config (if exists) and checks if a template is present, if not it generates one.
@@ -623,7 +623,14 @@ public class AssemblerRecipes {
 		
 		
 		/// HIDDEN ///
-		hidden.add(new ComparableStack(ModBlocks.machine_radgen, 1));
+		hidden.put(new ComparableStack(ModBlocks.machine_radgen, 1), new HashSet() {{ add(ModItems.journal_pip); }});
+		hidden.put(new ComparableStack(ModBlocks.nuke_fstbmb, 1), new HashSet() {{ add(ModItems.journal_pip); add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModItems.mp_warhead_10_cloud, 1), new HashSet() {{ add(ModItems.journal_pip); }});
+		hidden.put(new ComparableStack(ModItems.mp_warhead_10_taint, 1), new HashSet() {{ add(ModItems.journal_pip); }});
+		hidden.put(new ComparableStack(ModItems.mp_warhead_15_balefire, 1), new HashSet() {{ add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModItems.sat_gerald, 1), new HashSet() {{ add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModItems.missile_soyuz, 1), new HashSet() {{ add(ModItems.journal_bj); }});
+		hidden.put(new ComparableStack(ModItems.missile_soyuz_lander, 1), new HashSet() {{ add(ModItems.journal_bj); }});
 	}
 	
 	private static void makeRecipe(ComparableStack out, AStack[] in, int duration) {
