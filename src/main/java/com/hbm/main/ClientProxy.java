@@ -1056,9 +1056,11 @@ public class ClientProxy extends ServerProxy {
 			player.attackedAtYaw = 0F;
 		}
 		
-		if("digammaDecay".equals(type)) {
+		if("sweat".equals(type)) {
 			
 			Entity e = world.getEntityByID(data.getInteger("entity"));
+			Block b = Block.getBlockById(data.getInteger("block"));
+			int meta = data.getInteger("meta");
 			
 			if(e instanceof EntityLivingBase) {
 				
@@ -1069,7 +1071,7 @@ public class ClientProxy extends ServerProxy {
 					double iz = e.boundingBox.minZ - 0.2 + (e.boundingBox.maxZ - e.boundingBox.minZ + 0.4) * rand.nextDouble();
 					
 					
-					EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, Blocks.soul_sand, 0);
+					EntityFX fx = new net.minecraft.client.particle.EntityBlockDustFX(world, ix, iy, iz, 0, 0, 0, b, meta);
 					ReflectionHelper.setPrivateValue(EntityFX.class, fx, 150 + rand.nextInt(50), "particleMaxAge", "field_70547_e");
 					
 					Minecraft.getMinecraft().effectRenderer.addEffect(fx);

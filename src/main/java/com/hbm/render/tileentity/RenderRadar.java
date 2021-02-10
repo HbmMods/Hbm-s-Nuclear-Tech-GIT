@@ -10,41 +10,25 @@ import net.minecraft.tileentity.TileEntity;
 
 public class RenderRadar extends TileEntitySpecialRenderer {
 
-    @Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f)
-    {
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
+	@Override
+	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180, 0F, 1F, 0F);
 
-        bindTexture(ResourceManager.radar_body_tex);
-        
-        ResourceManager.radar_body.renderAll();
+		bindTexture(ResourceManager.radar_base_tex);
+		ResourceManager.radar.renderPart("Base");
 
-        GL11.glPopMatrix();
-        
-        renderTileEntityAt2(tileEntity, x, y, z, f);
-    }
-    
-	public void renderTileEntityAt2(TileEntity tileEntity, double x, double y, double z, float f)
-    {
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_CULL_FACE);
-		GL11.glRotatef(180, 0F, 1F, 0F);
-		
-		TileEntityMachineRadar radar = (TileEntityMachineRadar)tileEntity;
-		
-		if(radar.power > 0)
-			GL11.glRotatef((System.currentTimeMillis() / 10) % 360, 0F, 1F, 0F);
+		TileEntityMachineRadar radar = (TileEntityMachineRadar) tileEntity;
+		GL11.glRotatef(radar.prevRotation + (radar.rotation - radar.prevRotation) * f, 0F, 1F, 0F);
+		GL11.glTranslated(-0.125D, 0, 0);
 
-        bindTexture(ResourceManager.radar_head_tex);
-        ResourceManager.radar_head.renderAll();
+		bindTexture(ResourceManager.radar_dish_tex);
+		ResourceManager.radar.renderPart("Dish");
 
-        GL11.glPopMatrix();
-    }
+		GL11.glPopMatrix();
+	}
 
 }

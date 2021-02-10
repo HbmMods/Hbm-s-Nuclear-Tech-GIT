@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MachineRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -284,7 +285,7 @@ public class ItemChemistryTemplate extends Item {
     	ItemStack[] out = MachineRecipes.getChemOutputFromTempate(stack);
     	FluidStack[] outF = MachineRecipes.getFluidOutputFromTempate(stack);
     	
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder"));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", I18nUtil.resolveKey(ModItems.template_folder.getUnlocalizedName() + ".name")));
 		list.add("");
 
     	try {

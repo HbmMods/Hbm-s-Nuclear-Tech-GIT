@@ -716,14 +716,14 @@ public class ItemRenderLibrary {
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_radar), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(6, 6, 6);
+				GL11.glScaled(5, 5, 5);
 			}
 			public void renderCommon() {
-	            GL11.glDisable(GL11.GL_CULL_FACE);
-				GL11.glRotated(90, 0, -1, 0);
-		        bindTexture(ResourceManager.radar_body_tex); ResourceManager.radar_body.renderAll();
-		        bindTexture(ResourceManager.radar_head_tex); ResourceManager.radar_head.renderAll();
-	            GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				bindTexture(ResourceManager.radar_base_tex); ResourceManager.radar.renderPart("Base");
+				GL11.glTranslated(-0.125, 0, 0);
+				bindTexture(ResourceManager.radar_dish_tex); ResourceManager.radar.renderPart("Dish");
+				GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_uf6_tank), new ItemRenderBase() {

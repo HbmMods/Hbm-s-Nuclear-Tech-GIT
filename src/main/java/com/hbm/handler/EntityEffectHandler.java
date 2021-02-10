@@ -11,9 +11,11 @@ import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -85,6 +87,17 @@ public class EntityEffectHandler {
 				entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
 			
 			}
+			
+			if(HbmLivingProps.getRadiation(entity) > 900 && world.getTotalWorldTime() % 10 == 0) {
+				
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "sweat");
+				nbt.setInteger("count", 1);
+				nbt.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
+				nbt.setInteger("entity", entity.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(nbt, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
+			
+			}
 		} else {
 			float radiation = HbmLivingProps.getRadiation(entity);
 			
@@ -112,8 +125,9 @@ public class EntityEffectHandler {
 			if(chance == 1 || entity.getRNG().nextInt(chance) == 0) {
 				
 				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "digammaDecay");
+				data.setString("type", "sweat");
 				data.setInteger("count", 1);
+				data.setInteger("block", Block.getIdFromBlock(Blocks.soul_sand));
 				data.setInteger("entity", entity.getEntityId());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 25));
 			}

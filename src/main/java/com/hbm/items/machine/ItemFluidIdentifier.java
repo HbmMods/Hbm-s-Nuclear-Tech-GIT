@@ -2,6 +2,7 @@ package com.hbm.items.machine;
 
 import java.util.List;
 import com.hbm.handler.FluidTypeHandler.FluidType;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.conductor.TileEntityFluidDuct;
 import com.hbm.util.I18nUtil;
 
@@ -65,7 +66,7 @@ public class ItemFluidIdentifier extends Item {
     	if(!(stack.getItem() instanceof ItemFluidIdentifier))
     		return;
 
-		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder"));
+		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", I18nUtil.resolveKey(ModItems.template_folder.getUnlocalizedName() + ".name")));
 		list.add("");
     	list.add("Universal fluid identifier for:");
     	list.add("   " + I18n.format(FluidType.getEnum(stack.getItemDamage()).getUnlocalizedName()));

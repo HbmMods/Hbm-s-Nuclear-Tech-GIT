@@ -307,7 +307,7 @@ public class ModEventHandler
 		
 		for(int i = 1; i < 5; i++) {
 			
-			ItemStack prev = prevArmor!= null ? prevArmor[i] : null;
+			ItemStack prev = prevArmor != null ? prevArmor[i] : null;
 			ItemStack armor = event.entityLiving.getEquipmentInSlot(i);
 			
 			boolean reapply = prevArmor != null && !ItemStack.areItemStacksEqual(prev, armor);
