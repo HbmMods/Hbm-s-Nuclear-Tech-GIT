@@ -142,6 +142,8 @@
     "weapon.ballsLaser": {"category": "hostile", "sounds": [{"name": "weapon/ballsLaser", "stream": false}]},
     "weapon.dartShoot": {"category": "player", "sounds": [{"name": "weapon/dartShoot", "stream": false}]},
     "weapon.mukeExplosion": {"category": "player", "sounds": [{"name": "weapon/mukeExplosion", "stream": false}]},
+    "weapon.cDeploy": {"category": "player", "sounds": [{"name": "weapon/cDeploy", "stream": false}]},
+    "weapon.cSwing": {"category": "player", "sounds": [{"name": "weapon/cSwing", "stream": false}]},
 
     "weapon.reloadTurret": {"category": "player", "sounds": [{"name": "weapon/reloadTurret", "stream": false}]},
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},

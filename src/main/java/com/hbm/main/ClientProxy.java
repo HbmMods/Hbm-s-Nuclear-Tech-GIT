@@ -2,6 +2,7 @@
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.model.ModelChicken;
 import net.minecraft.client.particle.EntityAuraFX;
 import net.minecraft.client.particle.EntityBlockDustFX;
@@ -49,6 +50,11 @@ import com.hbm.entity.projectile.*;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationKeyframe;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.*;
 import com.hbm.render.entity.*;
 import com.hbm.render.entity.effect.*;
@@ -246,6 +252,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.lead_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.diamond_gavel, new ItemRenderGavel());
 		MinecraftForgeClient.registerItemRenderer(ModItems.mese_gavel, new ItemRenderGavel());
+		MinecraftForgeClient.registerItemRenderer(ModItems.crucible, new ItemRenderCrucible());
 		//guns
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_rpg, new ItemRenderRpg());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_karl, new ItemRenderRpg());
@@ -1143,6 +1150,42 @@ public class ClientProxy extends ServerProxy {
 		if("rift".equals(type)) {
 			
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleRift(man, world, x, y, z));
+		}
+		
+		if("anim".equals(type)) {
+			
+			if("crucible".equals(data.getString("mode"))) {
+				
+				BusAnimation animation = new BusAnimation()
+						.addBus("GUARD_ROT", new BusAnimationSequence()
+								.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 0))
+								.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 800))
+								.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50)));
+				
+				HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+			}
+			
+			if("cSwing".equals(data.getString("mode"))) {
+				
+				if(HbmAnimations.getRelevantTransformation("SWING_ROT")[0] == 0) {
+					
+					int offset = rand.nextInt(80) - 20;
+					
+					BusAnimation animation = new BusAnimation()
+							.addBus("SWING_ROT", new BusAnimationSequence()
+									.addKeyframe(new BusAnimationKeyframe(90 - offset, 90 - offset, 35, 75))
+									.addKeyframe(new BusAnimationKeyframe(90 + offset, 90 - offset, -45, 150))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)))
+							.addBus("SWING_TRANS", new BusAnimationSequence()
+									.addKeyframe(new BusAnimationKeyframe(-3, 0, 0, 75))
+									.addKeyframe(new BusAnimationKeyframe(8, 0, 0, 150))
+									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)));
+
+					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
+					
+					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
+				}
+			}
 		}
 	}
 	

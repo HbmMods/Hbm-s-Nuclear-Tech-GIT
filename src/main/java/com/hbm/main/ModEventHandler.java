@@ -32,6 +32,7 @@ import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.RadiationWorldHandler;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ItemArmorMod;
@@ -304,6 +305,12 @@ public class ModEventHandler
 		try {
 			prevArmor = (ItemStack[]) ReflectionHelper.findField(EntityLivingBase.class, "field_82180_bT", "previousEquipment").get(event.entityLiving);
 		} catch(Exception e) { }
+
+		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && (prevArmor[0] == null || !ItemStack.areItemStacksEqual(prevArmor[0], event.entityLiving.getHeldItem()))
+				&& event.entityLiving.getHeldItem() != null && event.entityLiving.getHeldItem().getItem() instanceof IEquipReceiver) {
+
+			((IEquipReceiver)event.entityLiving.getHeldItem().getItem()).onEquip((EntityPlayer) event.entityLiving);
+		}
 		
 		for(int i = 1; i < 5; i++) {
 			
