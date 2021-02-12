@@ -1007,6 +1007,7 @@ item.fins_flat.name=Flache Stahlabdeckung
 item.fins_quad_titanium.name=Kleine Titanflossen
 item.fins_small_steel.name=Kleine Stahlgitterfinnen
 item.fins_tri_steel.name=Große Stahlflossen
+item.five_htp.name=Enteramintabletten
 item.flame_conspiracy.name=Verschwörungstheorie
 item.flame_opinion.name=Eigene Meinung
 item.flame_politics.name=Politisches Thema
@@ -2215,6 +2216,7 @@ potion.hbm_phosphorus=Phosphorverbrennung
 potion.hbm_radaway=Radaway
 potion.hbm_radiation=Kontaminiert
 potion.hbm_radx=Rad-X
+potion.hbm_stability=Stabilität
 potion.hbm_taint=Verdorben
 potion.hbm_telekinesis=! ! !
 

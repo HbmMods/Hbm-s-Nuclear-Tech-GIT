@@ -1013,6 +1013,7 @@ item.fins_flat.name=Flat Steel Casing
 item.fins_quad_titanium.name=Small Titanium Fins
 item.fins_small_steel.name=Small Steel Grid Fins
 item.fins_tri_steel.name=Large Steel Fins
+item.five_htp.name=Enteramine Pills
 item.flame_conspiracy.name=Conspiracy Theory
 item.flame_opinion.name=Own Opinion
 item.flame_politics.name=Political Topic
@@ -2221,6 +2222,7 @@ potion.hbm_phosphorus=Phosphorus Burns
 potion.hbm_radaway=Radaway
 potion.hbm_radiation=Contaminated
 potion.hbm_radx=Rad-X
+potion.hbm_stability=Stability
 potion.hbm_taint=Tainted
 potion.hbm_telekinesis=! ! !
 

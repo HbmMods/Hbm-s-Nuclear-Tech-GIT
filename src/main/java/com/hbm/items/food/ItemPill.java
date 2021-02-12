@@ -58,6 +58,11 @@ public class ItemPill extends ItemFood {
 				HbmLivingProps.setDigamma(player, Math.min(digamma, 2F));
 				player.addPotionEffect(new PotionEffect(Potion.blindness.id, 60, 0));
 			}
+
+			if(this == ModItems.five_htp) {
+				HbmLivingProps.setDigamma(player, 0);
+				player.addPotionEffect(new PotionEffect(HbmPotion.stability.id, 10 * 60 * 20, 0));
+			}
 		}
 	}
 
@@ -77,6 +82,9 @@ public class ItemPill extends ItemFood {
 		}
 		if(this == ModItems.fmn) {
 			list.add("Removes all DRX above 2,000mDRX");
+		}
+		if(this == ModItems.five_htp) {
+			list.add("Removes all DRX, Stability for 10 minutes");
 		}
 	}
 

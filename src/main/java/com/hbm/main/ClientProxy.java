@@ -1154,7 +1154,7 @@ public class ClientProxy extends ServerProxy {
 		
 		if("anim".equals(type)) {
 			
-			if("crucible".equals(data.getString("mode"))) {
+			if("crucible".equals(data.getString("mode")) && player.getHeldItem() != null) {
 				
 				BusAnimation animation = new BusAnimation()
 						.addBus("GUARD_ROT", new BusAnimationSequence()

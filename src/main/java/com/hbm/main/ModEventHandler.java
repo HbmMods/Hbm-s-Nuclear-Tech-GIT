@@ -306,8 +306,9 @@ public class ModEventHandler
 			prevArmor = (ItemStack[]) ReflectionHelper.findField(EntityLivingBase.class, "field_82180_bT", "previousEquipment").get(event.entityLiving);
 		} catch(Exception e) { }
 
-		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && (prevArmor[0] == null || !ItemStack.areItemStacksEqual(prevArmor[0], event.entityLiving.getHeldItem()))
-				&& event.entityLiving.getHeldItem() != null && event.entityLiving.getHeldItem().getItem() instanceof IEquipReceiver) {
+		if(event.entityLiving instanceof EntityPlayer && prevArmor != null && event.entityLiving.getHeldItem() != null 
+				&& (prevArmor[0] == null || prevArmor[0].getItem() != event.entityLiving.getHeldItem().getItem())
+				&& event.entityLiving.getHeldItem().getItem() instanceof IEquipReceiver) {
 
 			((IEquipReceiver)event.entityLiving.getHeldItem().getItem()).onEquip((EntityPlayer) event.entityLiving);
 		}

@@ -13,6 +13,7 @@ public class PotionConfig {
 	public static int radawayID = 68;
 	public static int telekinesisID = 69;
 	public static int phosphorusID = 70;
+	public static int stabilityID = 71;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -26,5 +27,6 @@ public class PotionConfig {
 		radawayID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.06_radawayPotionID", "What potion ID the radaway effect will have", 68);
 		telekinesisID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.07_telekinesisPotionID", "What potion ID the telekinesis effect will have", 69);
 		phosphorusID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.08_phosphorusPotionID", "What potion ID the phosphorus effect will have", 70);
+		stabilityID = CommonConfig.createConfigInt(config, CATEGORY_POTION, "8.09_stabilityPotionID", "What potion ID the stability effect will have", 71);
 	}
 }

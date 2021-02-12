@@ -109,6 +109,9 @@ public class ConsumableRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.pill_iodine, 8), new Object[] { "IF", 'I', ModItems.powder_iodine, 'F', ModItems.fluorite });
 		GameRegistry.addRecipe(new ItemStack(ModItems.plan_c, 1), new Object[] { "PFP", 'P', ModItems.powder_poison, 'F', ModItems.fluorite });
 		GameRegistry.addRecipe(new ItemStack(ModItems.radx, 1), new Object[] { "P", "F", 'P', ModItems.powder_coal, 'F', ModItems.fluorite });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.xanax, 1), new Object[] { ModItems.powder_coal, ModItems.niter, ModItems.powder_bromine });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.fmn, 1), new Object[] { ModItems.powder_coal, ModItems.powder_polonium, ModItems.powder_strontium });
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.five_htp, 1), new Object[] { ModItems.powder_coal, ModItems.powder_euphemium, ModItems.canteen_fab });
 		
 		//Med bags
 		GameRegistry.addRecipe(new ItemStack(ModItems.med_bag, 1), new Object[] { "LLL", "SIS", "LLL", 'L', Items.leather, 'S', ModItems.syringe_metal_stimpak, 'I', ModItems.syringe_antidote });

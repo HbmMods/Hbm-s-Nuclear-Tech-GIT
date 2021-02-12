@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -68,7 +69,12 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		return getData(entity).digamma;
 	}
 	
+	//TODO: move all the checking into the contamination util
 	public static void setDigamma(EntityLivingBase entity, float digamma) {
+		
+		if(entity.isPotionActive(HbmPotion.stability.id))
+			return;
+		
 		getData(entity).digamma = digamma;
 		
 		float healthMod = (float)Math.pow(0.5, digamma) - 1F;
