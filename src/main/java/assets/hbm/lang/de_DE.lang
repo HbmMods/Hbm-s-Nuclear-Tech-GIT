@@ -157,6 +157,7 @@ container.chemplant=Chemiefabrik
 container.compactLauncher=Kompakt-Startrampe
 container.crateIron=Eisenkiste
 container.crateSteel=Stahlkiste
+container.crateTungsten=Wolframkiste
 container.crystallizer=Erzauflöser
 container.cyclotron=Zyklotron
 container.dfcEmitter=DFC-Emitter
@@ -2220,6 +2221,10 @@ potion.hbm_stability=Stabilität
 potion.hbm_taint=Verdorben
 potion.hbm_telekinesis=! ! !
 
+radar.detectMissiles=Raketen erkennen
+radar.detectPlayers=Spieler erkennen
+radar.smartMode=Smart Mode$Redstonesignal ignoriert aufsteigende Raketen
+
 tile.absorber.name=Strahlungs-Absorber
 tile.absorber_green.name=Fortgeschrittener Strahlungs-Absorber
 tile.absorber_pink.name=Elite Strahlungs-Absorber
@@ -2366,6 +2371,7 @@ tile.crate_lead.name=Gefahrenstoffkiste
 tile.crate_metal.name=Maschinenkiste
 tile.crate_red.name=Rote Kiste
 tile.crate_steel.name=Stahlkiste
+tile.crate_tungsten.name=Wolframkiste
 tile.crate_weapon.name=Waffenkiste
 tile.crystal_hardened.name=Gehärteter Dunkler Kristall
 tile.crystal_pulsar.name=Pulsating Crystal

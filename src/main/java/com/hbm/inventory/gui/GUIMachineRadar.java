@@ -7,10 +7,14 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.config.WeaponConfig;
 import com.hbm.inventory.container.ContainerMachineRadar;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineRadar;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.entity.IRadarDetectable.RadarTargetType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -34,6 +38,10 @@ public class GUIMachineRadar extends GuiInfoContainer {
 
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 221, 200, 7, diFurnace.power, diFurnace.maxPower);
 
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 103, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.detectMissiles") );
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 113, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.detectPlayers"));
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 10, guiTop + 123, 8, 8, mouseX, mouseY, I18nUtil.resolveKeyArray("radar.smartMode"));
+
 		if(!diFurnace.nearbyMissiles.isEmpty()) {
 			for(int[] m : diFurnace.nearbyMissiles) {
 				int x = guiLeft + (int)((m[0] - diFurnace.xCoord) / ((double)WeaponConfig.radarRange * 2 + 1) * (200D - 8D)) + 108;
@@ -52,6 +60,26 @@ public class GUIMachineRadar extends GuiInfoContainer {
 			}
 		}
 	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int i) {
+		super.mouseClicked(x, y, i);
+
+		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 103 < y && guiTop + 103 + 8 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 0));
+		}
+
+		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 113 < y && guiTop + 113 + 8 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 1));
+		}
+
+		if(guiLeft -10 <= x && guiLeft + -10 + 8 > x && guiTop + 123 < y && guiTop + 123 + 8 >= y) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			PacketDispatcher.wrapper.sendToServer(new AuxButtonPacket(diFurnace.xCoord, diFurnace.yCoord, diFurnace.zCoord, 0, 2));
+		}
+	}
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
@@ -65,6 +93,16 @@ public class GUIMachineRadar extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		drawTexturedModalRect(guiLeft - 14, guiTop + 99, 216, 198, 14, 36);
+		
+		if(diFurnace.scanMissiles)
+			drawTexturedModalRect(guiLeft - 10, guiTop + 103, 230, 202, 8, 8);
+		
+		if(diFurnace.scanPlayers)
+			drawTexturedModalRect(guiLeft - 10, guiTop + 113, 230, 212, 8, 8);
+		
+		if(diFurnace.smartMode)
+			drawTexturedModalRect(guiLeft - 10, guiTop + 123, 230, 222, 8, 8);
 		
 		if(diFurnace.power > 0) {
 			int i = (int)diFurnace.getPowerScaled(200);

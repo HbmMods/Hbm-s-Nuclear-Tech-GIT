@@ -720,6 +720,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_crate_tungsten: {
+			if(entity instanceof TileEntityCrateTungsten) {
+				return new ContainerCrateTungsten(player.inventory, (TileEntityCrateTungsten) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1426,6 +1433,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_armor_table: {
 			if(world.getBlock(x, y, z) == ModBlocks.machine_armor_table) {
 				return new GUIArmorTable(player.inventory);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_crate_tungsten: {
+			if(entity instanceof TileEntityCrateTungsten) {
+				return new GUICrateTungsten(player.inventory, (TileEntityCrateTungsten) entity);
 			}
 			return null;
 		}

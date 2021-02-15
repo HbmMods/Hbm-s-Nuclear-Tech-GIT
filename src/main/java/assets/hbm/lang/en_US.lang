@@ -163,6 +163,7 @@ container.chemplant=Chemical Plant
 container.compactLauncher=Compact Launch Pad
 container.crateIron=Iron Crate
 container.crateSteel=Steel Crate
+container.crateTungsten=Tungsten Crate
 container.crystallizer=Ore Acidizer
 container.cyclotron=Cyclotron
 container.dfcCore=Dark Fusion Core
@@ -2226,6 +2227,10 @@ potion.hbm_stability=Stability
 potion.hbm_taint=Tainted
 potion.hbm_telekinesis=! ! !
 
+radar.detectMissiles=Detect Missiles
+radar.detectPlayers=Detect Players
+radar.smartMode=Smart Mode$Redstone output ignores ascending missiles
+
 tile.absorber.name=Radiation Absorber
 tile.absorber_green.name=Advanced Radiation Absorber
 tile.absorber_pink.name=Elite Radiation Absorber
@@ -2372,6 +2377,7 @@ tile.crate_lead.name=Hazmat Crate
 tile.crate_metal.name=Machine Crate
 tile.crate_red.name=Red Crate
 tile.crate_steel.name=Steel Crate
+tile.crate_tungsten.name=Tungsten Crate
 tile.crate_weapon.name=Weapon Crate
 tile.crystal_hardened.name=Hardened Dark Crystal
 tile.crystal_pulsar.name=Pulsating Crystal

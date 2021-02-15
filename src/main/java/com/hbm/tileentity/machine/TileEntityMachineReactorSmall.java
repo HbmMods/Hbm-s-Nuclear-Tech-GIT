@@ -222,7 +222,21 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ISidedI
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		if(i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11)
-			if(itemStack.getItem() == ModItems.rod_uranium_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_uranium_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_uranium_fuel_depleted || itemStack.getItem() == ModItems.rod_plutonium_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_plutonium_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_plutonium_fuel_depleted || itemStack.getItem() == ModItems.rod_mox_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_mox_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_mox_fuel_depleted || itemStack.getItem() == ModItems.rod_schrabidium_fuel_depleted || itemStack.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted || itemStack.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted)
+			if(itemStack.getItem() == ModItems.rod_uranium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_uranium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_uranium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_thorium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_thorium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_thorium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_plutonium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_plutonium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_plutonium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_mox_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_mox_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_mox_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_schrabidium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_dual_schrabidium_fuel_depleted ||
+			itemStack.getItem() == ModItems.rod_quad_schrabidium_fuel_depleted)
 				return true;
 		if(i == 13 || i == 15)
 			if(itemStack.getItem() == Items.bucket || itemStack.getItem() == ModItems.rod_empty || itemStack.getItem() == ModItems.rod_dual_empty || itemStack.getItem() == ModItems.rod_quad_empty || itemStack.getItem() == ModItems.fluid_tank_empty || itemStack.getItem() == ModItems.fluid_barrel_empty)

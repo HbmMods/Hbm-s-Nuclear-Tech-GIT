@@ -1,6 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.machine.TileEntityCrateSteel;
+import com.hbm.tileentity.machine.TileEntityCrateTungsten;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,27 +8,27 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCrateSteel extends Container {
+public class ContainerCrateTungsten extends Container {
 
-	private TileEntityCrateSteel diFurnace;
+	private TileEntityCrateTungsten crate;
 
-	public ContainerCrateSteel(InventoryPlayer invPlayer, TileEntityCrateSteel tedf) {
-		diFurnace = tedf;
+	public ContainerCrateTungsten(InventoryPlayer invPlayer, TileEntityCrateTungsten te) {
+		crate = te;
 
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(tedf, j + i * 9, 8 + j * 18, 18 + i * 18));
+				this.addSlotToContainer(new Slot(te, j + i * 9, 8 + j * 18, 18 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + (18 * 3) + 2));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 32 + i * 18 + (18 * 3)));
 			}
 		}
 
 		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + (18 * 3) + 2));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 90 + (18 * 3)));
 		}
 	}
 
@@ -41,11 +41,11 @@ public class ContainerCrateSteel extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= diFurnace.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(par2 <= crate.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(var5, crate.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, diFurnace.getSizeInventory(), false)) {
+			} else if(!this.mergeItemStack(var5, 0, crate.getSizeInventory(), false)) {
 				return null;
 			}
 
@@ -63,6 +63,6 @@ public class ContainerCrateSteel extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return diFurnace.isUseableByPlayer(player);
+		return crate.isUseableByPlayer(player);
 	}
 }

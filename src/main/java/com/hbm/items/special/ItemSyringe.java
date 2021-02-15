@@ -258,10 +258,10 @@ public class ItemSyringe extends Item {
 
 				if(jetpack.getItem() instanceof ItemArmor && ArmorModHandler.hasMods(jetpack)) {
 					jetpack = ArmorModHandler.pryMods(jetpack)[ArmorModHandler.plate_only];
-
-					if(jetpack == null || !(jetpack.getItem() instanceof IPartiallyFillable))
-						return stack;
 				}
+
+				if(jetpack == null || !(jetpack.getItem() instanceof IPartiallyFillable))
+					return stack;
 
 				IPartiallyFillable fillable = (IPartiallyFillable) jetpack.getItem();
 				int fill = Math.min(fillable.getFill(jetpack) + 1000, fillable.getMaxFill(jetpack));

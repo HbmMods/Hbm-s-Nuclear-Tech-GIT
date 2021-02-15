@@ -5,6 +5,7 @@ import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityBarrel;
 import com.hbm.tileentity.machine.TileEntityCoreEmitter;
@@ -274,6 +275,10 @@ public class AuxButtonPacket implements IMessage {
 				/// yes ///
 				if(te instanceof TileEntityMachineBase) {
 					TileEntityMachineBase base = (TileEntityMachineBase)te;
+					base.handleButtonPacket(m.value, m.id);
+				}
+				if(te instanceof TileEntityTickingBase) {
+					TileEntityTickingBase base = (TileEntityTickingBase)te;
 					base.handleButtonPacket(m.value, m.id);
 				}
 				
