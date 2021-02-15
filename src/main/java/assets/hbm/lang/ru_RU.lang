@@ -87,6 +87,7 @@ potion.hbm_lead=Отравление свинцом
 potion.hbm_radaway=Антирадин
 potion.hbm_telekinesis=! ! !
 potion.hbm_phosphorus=Фосфорные ожоги
+potion.hbm_stability=Стабильность
 
 tool.ability.recursion=Жилковый Майнер
 tool.ability.hammer=Зона действия
@@ -250,6 +251,9 @@ hadron.hopper0=§eОбычный режим:$Все предметы будут 
 hadron.hopper1=§eРежим воронки:$Один предмет всегда останется.
 hadron.modeCircular=§eРежим циклического ускорителя:$Магниты должны замкнуться обратно в сердечник.$Открывает больше рецептов.
 hadron.modeLine=§eРежим линейного ускорителя:$Ускоритель заканчивается камерой анализа.$Меньше рецептов.
+radar.detectMissiles=Обнаружение ракет
+radar.detectPlayers=Обнаружение игроков
+radar.smartMode=Умный режим$Выход редстоуна игнорирует восходящие ракеты
 
 chem.TEST=Тест
 chem.FP_HEAVYOIL=Переработка тяжелой нефти
@@ -645,6 +649,8 @@ tile.crate_iron.name=Железный ящик
 container.crateIron=Железный ящик
 tile.crate_steel.name=Стальной ящик
 container.crateSteel=Стальной ящик
+container.crateTungsten=Вольфрамовый ящик
+tile.crate_tungsten.name=Вольфрамовый ящик
 tile.safe.name=Сейф
 container.safe=Сейф
 tile.sand_polonium.name=Полониевый песок
@@ -2160,6 +2166,7 @@ item.pt_mentats.name=Праздничные Ментаты
 item.pill_iodine.name=Таблетка иода
 item.fmn.name=Таблетка флунитразепама
 item.xanax.name=Препарат "НАКСА" против дигаммы
+item.five_htp.name=Таблетки энтерамина
 item.plan_c.name=План С
 item.med_ipecac.name=Сироп из рвотного корня
 item.med_ptsd.name=Лечение ПТСР
@@ -2670,6 +2677,7 @@ item.meteorite_sword_bred.name=Метеоритовый меч (Разведён
 item.meteorite_sword_irradiated.name=Метеоритовый меч (Облучённый)
 item.meteorite_sword_fused.name=Метеоритовый меч (Сплавленный)
 item.meteorite_sword_baleful.name=Метеоритовый меч (Зловещий)
+item.crucible.name="Горнило Палача"
 
 tile.red_cable.name=Провод из красной меди
 
@@ -2852,6 +2860,8 @@ item.nugget.name=Куриный наггетс
 item.canteen_13.name=Фляжка Убежища 13
 item.canteen_vodka.name=Стильная фляга
 item.canteen_fab.name=Потрясающая водка
+item.fabsols_vodka.name=Водка Fabsol'а
+item.wild_p.name=Сухое виски "Дикий Пегас"
 
 item.bottle_opener.name=Собственная самодельная открывашка для бутылок
 
