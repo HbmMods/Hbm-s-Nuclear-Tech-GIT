@@ -793,6 +793,8 @@ public class ModBlocks {
 	public static Block turret_cwis;
 	public static Block turret_cheapo;
 
+	public static Block turret_chekhov;
+
 	public static Block book_guide;
 
 	public static Block rail_highspeed;
@@ -1465,6 +1467,8 @@ public class ModBlocks {
 		turret_cwis = new TurretCIWS(Material.iron).setBlockName("turret_cwis").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":turret_cwis");
 		turret_cheapo = new TurretCheapo(Material.iron).setBlockName("turret_cheapo").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":turret_cheapo");
 		
+		turret_chekhov = new TurretChekhov(Material.iron).setBlockName("turret_chekhov").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":turret_chekhov");
+		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
 		rail_highspeed = new RailHighspeed().setBlockName("rail_highspeed").setHardness(5.0F).setResistance(10.0F).setCreativeTab(CreativeTabs.tabTransport).setBlockTextureName(RefStrings.MODID + ":rail_highspeed");
@@ -1958,6 +1962,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_spitfire, turret_spitfire.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_cwis, ItemBlockLore.class, turret_cwis.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_cheapo, turret_cheapo.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_chekhov, turret_chekhov.getUnlocalizedName());
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());

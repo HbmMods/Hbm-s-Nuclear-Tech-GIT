@@ -362,7 +362,9 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 							if(slots[i].stackSize <= 0)
 								slots[i] = null;
 							
-							chest.setInventorySlotContents(j, new ItemStack(sta.getItem(), 1, sta.getItemDamage()));
+							ItemStack copy = chest.getStackInSlot(j).copy();
+							copy.stackSize = 1;
+							chest.setInventorySlotContents(j, copy);
 							return;
 						}
 					}

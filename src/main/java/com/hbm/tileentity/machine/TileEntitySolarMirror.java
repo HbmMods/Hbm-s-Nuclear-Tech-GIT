@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.EnumSkyBlock;
 
 public class TileEntitySolarMirror extends TileEntityTickingBase {
@@ -49,6 +50,17 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 				TileEntitySolarBoiler boiler = (TileEntitySolarBoiler)te;
 				boiler.heat += sun;
 			}
+		} else {
+			
+			TileEntity te = worldObj.getTileEntity(tX, tY - 1, tZ);
+			
+			if(isOn && te instanceof TileEntitySolarBoiler) {
+				TileEntitySolarBoiler boiler = (TileEntitySolarBoiler)te;
+				boiler.primary.add(new ChunkCoordinates(xCoord, yCoord, zCoord));
+			}
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0)
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 
@@ -99,12 +111,12 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 0.25,
-					yCoord,
-					zCoord - 0.25,
-					xCoord + 1.25,
-					yCoord + 1.5,
-					zCoord + 1.25
+					xCoord - 25,
+					yCoord - 25,
+					zCoord - 25,
+					xCoord + 25,
+					yCoord + 25,
+					zCoord + 25
 					);
 		}
 		

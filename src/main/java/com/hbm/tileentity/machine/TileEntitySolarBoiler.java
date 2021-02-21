@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.handler.FluidTypeHandler.FluidType;
@@ -14,6 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChunkCoordinates;
 
 public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor, IFluidSource {
 
@@ -21,6 +23,9 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 	private FluidTank steam;
 	public List<IFluidAcceptor> list = new ArrayList();
 	public int heat;
+
+	public HashSet<ChunkCoordinates> primary = new HashSet();
+	public HashSet<ChunkCoordinates> secondary = new HashSet();
 	
 	public TileEntitySolarBoiler() {
 		water = new FluidTank(FluidType.WATER, 16000, 0);
@@ -50,6 +55,12 @@ public class TileEntitySolarBoiler extends TileEntity implements IFluidAcceptor,
 			//	System.out.println("*" + steam.getFill());
 			
 			heat = 0;
+		} else {
+			
+			//a delayed queue of mirror positions because we can't expect the boiler to always tick first
+			secondary.clear();
+			secondary.addAll(primary);
+			primary.clear();
 		}
 	}
 
