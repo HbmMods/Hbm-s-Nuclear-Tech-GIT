@@ -1,4 +1,4 @@
-package com.hbm.tileentity.bomb;
+package com.hbm.tileentity.turret;
 
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;

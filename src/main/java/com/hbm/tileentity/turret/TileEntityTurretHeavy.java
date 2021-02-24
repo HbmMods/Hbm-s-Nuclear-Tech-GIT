@@ -1,4 +1,4 @@
-package com.hbm.tileentity.bomb;
+package com.hbm.tileentity.turret;
 
 public class TileEntityTurretHeavy extends TileEntityTurretBase {
 

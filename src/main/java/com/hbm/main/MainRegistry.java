@@ -72,6 +72,7 @@ import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
+import com.hbm.tileentity.turret.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;

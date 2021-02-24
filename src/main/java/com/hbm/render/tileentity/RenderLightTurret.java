@@ -3,7 +3,7 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.tileentity.bomb.TileEntityTurretBase;
+import com.hbm.tileentity.turret.TileEntityTurretBase;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;

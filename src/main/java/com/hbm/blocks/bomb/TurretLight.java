@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.tileentity.bomb.TileEntityTurretLight;
+import com.hbm.tileentity.turret.TileEntityTurretLight;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

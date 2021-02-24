@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityAAShell;
-import com.hbm.tileentity.bomb.TileEntityTurretSpitfire;
+import com.hbm.tileentity.turret.TileEntityTurretSpitfire;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

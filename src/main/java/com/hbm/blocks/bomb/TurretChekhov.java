@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.bomb.TileEntityTurretChekhov;
+import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

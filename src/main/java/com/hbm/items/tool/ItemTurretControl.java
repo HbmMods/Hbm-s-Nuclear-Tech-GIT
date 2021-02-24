@@ -3,8 +3,8 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.blocks.bomb.TurretBase;
-import com.hbm.tileentity.bomb.TileEntityTurretBase;
-import com.hbm.tileentity.bomb.TileEntityTurretCheapo;
+import com.hbm.tileentity.turret.TileEntityTurretBase;
+import com.hbm.tileentity.turret.TileEntityTurretCheapo;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

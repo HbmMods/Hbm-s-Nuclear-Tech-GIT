@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityRocket;
-import com.hbm.tileentity.bomb.TileEntityTurretRocket;
+import com.hbm.tileentity.turret.TileEntityTurretRocket;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

@@ -6,7 +6,7 @@ import com.hbm.config.WeaponConfig;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityTurretCIWS;
+import com.hbm.tileentity.turret.TileEntityTurretCIWS;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;

@@ -38,7 +38,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.bomb.TileEntityTurretBase;
+import com.hbm.tileentity.turret.TileEntityTurretBase;
 import com.hbm.util.ArmorUtil;
 
 import cofh.api.energy.IEnergyProvider;
