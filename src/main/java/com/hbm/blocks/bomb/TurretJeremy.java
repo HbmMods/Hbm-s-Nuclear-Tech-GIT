@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.tileentity.turret.TileEntityTurretJeremy;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -9,9 +9,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class TurretChekhov extends BlockDummyable {
+public class TurretJeremy extends BlockDummyable {
 
-	public TurretChekhov(Material mat) {
+	public TurretJeremy(Material mat) {
 		super(mat);
 	}
 
@@ -19,7 +19,7 @@ public class TurretChekhov extends BlockDummyable {
 	public TileEntity createNewTileEntity(World world, int meta) {
 
 		if(meta >= 12)
-			return new TileEntityTurretChekhov();
+			return new TileEntityTurretJeremy();
 		return null;
 	}
 

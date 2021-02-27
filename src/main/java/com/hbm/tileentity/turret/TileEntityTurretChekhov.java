@@ -27,4 +27,8 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 		return "container.turretChekhov";
 	}
 
+	@Override
+	public double getTurretElevation() {
+		return 45D;
+	}
 }
