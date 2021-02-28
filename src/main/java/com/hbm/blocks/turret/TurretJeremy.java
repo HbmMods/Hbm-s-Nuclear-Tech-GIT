@@ -1,6 +1,7 @@
-package com.hbm.blocks.bomb;
+package com.hbm.blocks.turret;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.turret.TileEntityTurretJeremy;
 
 import net.minecraft.block.material.Material;
@@ -20,7 +21,7 @@ public class TurretJeremy extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityTurretJeremy();
-		return null;
+		return new TileEntityProxyCombo(true, true, false);
 	}
 
 	@Override

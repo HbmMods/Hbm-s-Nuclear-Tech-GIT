@@ -1,22 +1,22 @@
-package com.hbm.blocks.bomb;
+package com.hbm.blocks.turret;
 
-import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.tileentity.turret.TileEntityTurretTau;
+import com.hbm.entity.projectile.EntityFire;
+import com.hbm.tileentity.turret.TileEntityTurretFlamer;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TurretTau extends TurretBase {
+public class TurretFlamer extends TurretBase {
 
-	public TurretTau(Material mat) {
+	public TurretFlamer(Material mat) {
 		super(mat);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityTurretTau();
+		return new TileEntityTurretFlamer();
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class TurretTau extends TurretBase {
 		if(pitch > 30)
 			pitch = 30;
 		
-		if(i != 0 && i % 4 == 0) {
+		if(true) {
 			Vec3 vector = Vec3.createVectorHelper(
 					-Math.sin(yaw / 180.0F * (float) Math.PI) * Math.cos(pitch / 180.0F * (float) Math.PI),
 					-Math.sin(pitch / 180.0F * (float) Math.PI),
@@ -38,8 +38,7 @@ public class TurretTau extends TurretBase {
 			vector.normalize();
 			
 			if(!world.isRemote) {
-				EntityBullet bullet = new EntityBullet(world);
-				bullet.setIsCritical(true);
+				EntityFire bullet = new EntityFire(world);
 				bullet.posX = x + vector.xCoord * 2 + 0.5;
 				bullet.posY = y + vector.yCoord * 2 + 1;
 				bullet.posZ = z + vector.zCoord * 2 + 0.5;
@@ -48,12 +47,15 @@ public class TurretTau extends TurretBase {
 				bullet.motionY = vector.yCoord * 3;
 				bullet.motionZ = vector.zCoord * 3;
 
-				bullet.setDamage(25 + rand.nextInt(65 - 25));
+				bullet.setDamage(6 + rand.nextInt(5));
 				
 				world.spawnEntityInWorld(bullet);
 			}
-
-			world.playSoundEffect(x, y, z, "hbm:weapon.tauShoot", 1.0F, 0.5F);
+			
+			if(i == 0)
+				world.playSoundEffect(x, y, z, "hbm:weapon.flamethrowerIgnite", 1.0F, 1.0F);
+			else
+				world.playSoundEffect(x, y, z, "hbm:weapon.flamethrowerShoot", 1.0F, 1.0F);
 			
 			flag = true;
 		}
@@ -63,5 +65,5 @@ public class TurretTau extends TurretBase {
 
 	@Override
 	public void executeReleaseAction(World world, int i, double yaw, double pitch, int x, int y, int z) { }
-
+	
 }

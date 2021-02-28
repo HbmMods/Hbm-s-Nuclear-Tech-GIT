@@ -8,6 +8,7 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -727,6 +728,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_chekhov: {
+			if(entity instanceof TileEntityTurretChekhov) {
+				return new ContainerTurretChekhov(player.inventory, (TileEntityTurretChekhov) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1440,6 +1448,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_crate_tungsten: {
 			if(entity instanceof TileEntityCrateTungsten) {
 				return new GUICrateTungsten(player.inventory, (TileEntityCrateTungsten) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_chekhov: {
+			if(entity instanceof TileEntityTurretChekhov) {
+				return new GUITurretChekhov(player.inventory, (TileEntityTurretChekhov) entity);
 			}
 			return null;
 		}

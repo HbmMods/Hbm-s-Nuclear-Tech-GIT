@@ -2,31 +2,35 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
-public class RenderTurretTauon extends TileEntitySpecialRenderer {
+public class RenderTurretTauon extends RenderTurretBase {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+		
+		TileEntityTurretTauon turret = (TileEntityTurretTauon)te;
+		Vec3 off = turret.getHorizontalOffset();
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 1D, y, z + 1D);
+		GL11.glTranslated(x + off.xCoord, y, z + off.zCoord);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		this.renderConnectors(turret, true, false, FluidType.NONE);
 
 		bindTexture(ResourceManager.turret_base_tex);
 		ResourceManager.turret_chekhov.renderPart("Base");
 		
-		TileEntityTurretTauon turret = (TileEntityTurretTauon)te;
 		double yaw = -Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp) - 90D;
 		double pitch = Math.toDegrees(turret.lastRotationPitch + (turret.rotationPitch - turret.lastRotationPitch) * interp);
 		
@@ -51,7 +55,7 @@ public class RenderTurretTauon extends TileEntitySpecialRenderer {
 		}
 		
 		GL11.glTranslated(0, 1.375, 0);
-		GL11.glRotated((te.getWorldObj().getTotalWorldTime() + interp) * 15, -1, 0, 0);
+		GL11.glRotated((te.getWorldObj().getTotalWorldTime() + interp) * 40, -1, 0, 0);
 		GL11.glTranslated(0, -1.375, 0);
 		ResourceManager.turret_tauon.renderPart("Rotor");
 

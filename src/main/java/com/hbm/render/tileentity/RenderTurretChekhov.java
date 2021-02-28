@@ -2,27 +2,31 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3;
 
-public class RenderTurretChekhov extends TileEntitySpecialRenderer {
+public class RenderTurretChekhov extends RenderTurretBase {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+		
+		TileEntityTurretChekhov turret = (TileEntityTurretChekhov)te;
+		Vec3 pos = turret.getHorizontalOffset();
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 1D, y, z + 1D);
+		GL11.glTranslated(x + pos.xCoord, y, z + pos.zCoord);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		this.renderConnectors(turret, true, false, FluidType.NONE);
 
 		bindTexture(ResourceManager.turret_base_tex);
 		ResourceManager.turret_chekhov.renderPart("Base");
-		
-		TileEntityTurretChekhov turret = (TileEntityTurretChekhov)te;
 		double yaw = -Math.toDegrees(turret.lastRotationYaw + (turret.rotationYaw - turret.lastRotationYaw) * interp) - 90D;
 		double pitch = Math.toDegrees(turret.lastRotationPitch + (turret.rotationPitch - turret.lastRotationPitch) * interp);
 		

@@ -25,4 +25,9 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 	public double getTurretDepression() {
 		return 35D;
 	}
+
+	@Override
+	public long getMaxPower() {
+		return 10000;
+	}
 }

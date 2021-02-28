@@ -2,7 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.blocks.bomb.TurretBase;
+import com.hbm.blocks.turret.TurretBase;
 import com.hbm.tileentity.turret.TileEntityTurretBase;
 import com.hbm.tileentity.turret.TileEntityTurretCheapo;
 

@@ -1,23 +1,23 @@
-package com.hbm.blocks.bomb;
+package com.hbm.blocks.turret;
 
 import com.hbm.entity.particle.EntityGasFlameFX;
-import com.hbm.entity.projectile.EntityAAShell;
-import com.hbm.tileentity.turret.TileEntityTurretSpitfire;
+import com.hbm.entity.projectile.EntityRocket;
+import com.hbm.tileentity.turret.TileEntityTurretRocket;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TurretSpitfire extends TurretBase {
+public class TurretRocket extends TurretBase {
 
-	public TurretSpitfire(Material mat) {
+	public TurretRocket(Material mat) {
 		super(mat);
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		return new TileEntityTurretSpitfire();
+		return new TileEntityTurretRocket();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class TurretSpitfire extends TurretBase {
 		if(pitch > 30)
 			pitch = 30;
 		
-		if(i != 0 && i % 35 == 0) {
+		if(i != 0 && (i % 100 == 60 || i % 100 == 70 || i % 100 == 80 || i % 100 == 90)) {
 			Vec3 vector = Vec3.createVectorHelper(
 					-Math.sin(yaw / 180.0F * (float) Math.PI) * Math.cos(pitch / 180.0F * (float) Math.PI),
 					-Math.sin(pitch / 180.0F * (float) Math.PI),
@@ -39,32 +39,25 @@ public class TurretSpitfire extends TurretBase {
 			vector.normalize();
 			
 			if(!world.isRemote) {
-				EntityAAShell bullet = new EntityAAShell(world);
-				bullet.posX = x + vector.xCoord * 2.75 + 0.5;
-				bullet.posY = y + vector.yCoord * 2.75 + 1.5;
-				bullet.posZ = z + vector.zCoord * 2.75 + 0.5;
+				EntityRocket bullet = new EntityRocket(world);
+				bullet.posX = x + vector.xCoord * 1 + 0.5;
+				bullet.posY = y + vector.yCoord * 1 + 1;
+				bullet.posZ = z + vector.zCoord * 1 + 0.5;
 				
-				bullet.motionX = vector.xCoord;
-				bullet.motionY = vector.yCoord;
-				bullet.motionZ = vector.zCoord;
-				
-				bullet.speedOverride = 3;
+				bullet.motionX = vector.xCoord * 3;
+				bullet.motionY = vector.yCoord * 3;
+				bullet.motionZ = vector.zCoord * 3;
 				
 				world.spawnEntityInWorld(bullet);
 				
-				EntityGasFlameFX smoke = new EntityGasFlameFX(world);
-				smoke.posX = x + vector.xCoord * 4 + 0.5;
-				smoke.posY = y + vector.yCoord * 4 + 1;
-				smoke.posZ = z + vector.zCoord * 4 + 0.5;
-				
-				smoke.motionX = vector.xCoord * 0.25;
-				smoke.motionY = vector.yCoord * 0.25;
-				smoke.motionZ = vector.zCoord * 0.25;
-				
-				world.spawnEntityInWorld(smoke);
+				EntityGasFlameFX fx = new EntityGasFlameFX(world);
+				fx.posX = x + vector.xCoord * 1 + 0.5;
+				fx.posY = y + vector.yCoord * 1 + 1;
+				fx.posZ = z + vector.zCoord * 1 + 0.5;
+				world.spawnEntityInWorld(fx);
 			}
 
-			world.playSoundEffect(x, y, z, "hbm:entity.oldExplosion", 1.0F, 0.5F);
+			world.playSoundEffect(x, y, z, "hbm:weapon.rpgShoot", 1.0F, 0.75F);
 			
 			flag = true;
 		}
@@ -74,4 +67,5 @@ public class TurretSpitfire extends TurretBase {
 
 	@Override
 	public void executeReleaseAction(World world, int i, double yaw, double pitch, int x, int y, int z) { }
+
 }

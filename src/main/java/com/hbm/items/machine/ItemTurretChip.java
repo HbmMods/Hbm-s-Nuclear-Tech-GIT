@@ -1,7 +1,8 @@
 package com.hbm.items.machine;
 
 import java.util.Arrays;
-import com.hbm.blocks.bomb.TurretBase;
+
+import com.hbm.blocks.turret.TurretBase;
 import com.hbm.tileentity.turret.TileEntityTurretBase;
 
 import net.minecraft.entity.player.EntityPlayer;

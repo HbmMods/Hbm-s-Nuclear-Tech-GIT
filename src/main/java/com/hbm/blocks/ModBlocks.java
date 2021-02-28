@@ -6,8 +6,9 @@ import com.hbm.blocks.fluid.*;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.network.*;
 import com.hbm.blocks.test.*;
+import com.hbm.blocks.turret.*;
 import com.hbm.items.block.*;
-import com.hbm.items.bomb.ItemPrototypeBlock;
+import com.hbm.items.bomb.*;
 import com.hbm.items.special.ItemOreBlock;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -794,8 +795,11 @@ public class ModBlocks {
 	public static Block turret_cheapo;
 
 	public static Block turret_chekhov;
+	public static final int guiID_chekhov = 104;
 	public static Block turret_jeremy;
+	public static final int guiID_jeremy = 105;
 	public static Block turret_tauon;
+	public static final int guiID_tauon = 106;
 
 	public static Block book_guide;
 

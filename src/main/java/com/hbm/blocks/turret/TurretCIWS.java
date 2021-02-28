@@ -1,11 +1,10 @@
-package com.hbm.blocks.bomb;
+package com.hbm.blocks.turret;
 
 import java.util.List;
 
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.turret.TileEntityTurretCIWS;
 
 import net.minecraft.block.material.Material;

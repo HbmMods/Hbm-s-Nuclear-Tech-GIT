@@ -36,7 +36,7 @@ public class BlockOutgas extends BlockOre {
 		return rate;
 	}
 	
-	private Block getGas() {
+	protected Block getGas() {
 		
 		if(this == ModBlocks.ore_uranium || this == ModBlocks.ore_uranium_scorched || 
 				this == ModBlocks.ore_gneiss_uranium || this == ModBlocks.ore_gneiss_uranium_scorched || 
@@ -106,6 +106,24 @@ public class BlockOutgas extends BlockOre {
 				
 				if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
 					world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, getGas());
+				}
+			}
+		}
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
+		super.breakBlock(world, x, y, z, block, i);
+		
+		if(this == ModBlocks.ancient_scrap) {
+			for(int ix = -2; ix <= 2; ix++) {
+				for(int iy = -2; iy <= 2; iy++) {
+					for(int iz = -2; iz <= 2; iz++) {
+						
+						if(Math.abs(ix + iy + iz) < 5 && world.getBlock(x + ix, y + iy, z + iz) == Blocks.air) {
+							world.setBlock(x + ix, y + iy, z + iz, this.getGas());
+						}
+					}
 				}
 			}
 		}

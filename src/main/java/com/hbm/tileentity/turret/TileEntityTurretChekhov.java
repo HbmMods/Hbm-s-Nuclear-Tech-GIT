@@ -31,4 +31,9 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 	public double getTurretElevation() {
 		return 45D;
 	}
+
+	@Override
+	public long getMaxPower() {
+		return 10000;
+	}
 }

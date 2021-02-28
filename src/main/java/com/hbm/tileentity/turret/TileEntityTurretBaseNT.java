@@ -2,10 +2,11 @@ package com.hbm.tileentity.turret;
 
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
-import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -27,7 +28,7 @@ import net.minecraftforge.common.util.FakePlayer;
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IConsumer {
 
 	//this time we do all rotations in radians
 	//what way are we facing?
@@ -42,6 +43,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
 	public boolean aligned = false;
 	//how many ticks until the next check
 	public int searchTimer;
+	
+	public long power;
 
 	public boolean targetPlayers = false;
 	public boolean targetAnimals = false;
@@ -72,35 +75,49 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
 	@Override
 	public void updateEntity() {
 		
+		if(worldObj.isRemote) {
+			this.lastRotationPitch = this.rotationPitch;
+			this.lastRotationYaw = this.rotationYaw;
+		}
+
+		this.aligned = false;
+		
 		if(target != null) {
 			if(!this.entityInLOS(this.target)) {
 				this.target = null;
 			}
 		}
 		
-		if(worldObj.isRemote) {
-			this.lastRotationPitch = this.rotationPitch;
-			this.lastRotationYaw = this.rotationYaw;
-		}
-		
-		if(target != null) {
-			this.aligned = false;
-			this.alignTurret();
+		if(this.isOn) {
+			
+			if(target != null)
+				this.alignTurret();
 		} else {
-			this.aligned = false;
+			
+			this.target = null;
 		}
 		
 		if(!worldObj.isRemote) {
 			
-			searchTimer--;
-			
-			if(searchTimer <= 0) {
-				searchTimer = this.getDecetorInterval();
-				this.seekNewTarget();
+			if(this.isOn) {
+				searchTimer--;
+				
+				if(searchTimer <= 0) {
+					searchTimer = this.getDecetorInterval();
+					this.seekNewTarget();
+				}
+			} else {
+				searchTimer = 0;
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("target", this.target == null ? -1 : this.target.getEntityId());
+			data.setLong("power", this.power);
+			data.setBoolean("isOn", this.isOn);
+			data.setBoolean("targetPlayers", this.targetPlayers);
+			data.setBoolean("targetAnimals", this.targetAnimals);
+			data.setBoolean("targetMobs", this.targetMobs);
+			data.setBoolean("targetMachines", this.targetMachines);
 			this.networkPack(data, 250);
 			
 		} else {
@@ -118,8 +135,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
 				else
 					this.lastRotationYaw -= Math.PI * 2;
 			}
-
-			worldObj.spawnParticle("cloud", pos.xCoord, pos.yCoord, pos.zCoord, 0.0, 0.1, 0.0);
 			
 			if(this.aligned)
 				worldObj.spawnParticle("flame", pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, vec.xCoord, vec.yCoord, vec.zCoord);
@@ -132,9 +147,29 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
 	public void networkUnpack(NBTTagCompound nbt) {
 		
 		int t = nbt.getInteger("target");
+		this.power = nbt.getLong("power");
+		this.isOn = nbt.getBoolean("isOn");
+		this.targetPlayers = nbt.getBoolean("targetPlayers");
+		this.targetAnimals = nbt.getBoolean("targetAnimals");
+		this.targetMobs = nbt.getBoolean("targetMobs");
+		this.targetMachines = nbt.getBoolean("targetMachines");
 		
 		if(t != -1)
 			this.target = worldObj.getEntityByID(t);
+		else
+			this.target = null;
+	}
+
+	@Override
+	public void handleButtonPacket(int value, int meta) {
+		
+		switch(meta) {
+		case 0:this.isOn = !this.isOn; break;
+		case 1:this.targetPlayers = !this.targetPlayers; break;
+		case 2:this.targetAnimals = !this.targetAnimals; break;
+		case 3:this.targetMobs = !this.targetMobs; break;
+		case 4:this.targetMachines = !this.targetMachines; break;
+		}
 	}
 	
 	/**
@@ -399,8 +434,25 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
 	 * @return
 	 */
 	public Vec3 getTurretPos() {
-		//TODO: account for multiblock rotation
-		return Vec3.createVectorHelper(xCoord + 1, yCoord + getHeightOffset(), zCoord + 1);
+		Vec3 offset = getHorizontalOffset();
+		return Vec3.createVectorHelper(xCoord + offset.xCoord, yCoord + getHeightOffset(), zCoord + offset.zCoord);
+	}
+	
+	/**
+	 * The XZ offset for a standard 2x2 turret base
+	 * @return
+	 */
+	public Vec3 getHorizontalOffset() {
+		int meta = this.getBlockMetadata() - BlockDummyable.offset;
+
+		if(meta == 2)
+			return Vec3.createVectorHelper(1, 0, 1);
+		if(meta == 4)
+			return Vec3.createVectorHelper(1, 0, 0);
+		if(meta == 5)
+			return Vec3.createVectorHelper(0, 0, 1);
+		
+		return Vec3.createVectorHelper(0, 0, 0);
 	}
 	
 	/**
@@ -417,14 +469,13 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase {
 	 */
 	protected abstract List<BulletConfiguration> getAmmoList();
 	
-	/*
-	 * the void
-	 * 
-	 * 
-	 * more stuff pending: the thing that makes the pew pew
-	 * probably a separate method that consumes or checks ammo
-	 * mayhaps some dangly bits that tie together the GUI with the AI chip's whitelist
-	 */
+	public void setPower(long i) {
+		this.power = i;
+	}
+	
+	public  long getPower() {
+		return this.power;
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {

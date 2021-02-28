@@ -1,4 +1,4 @@
-package com.hbm.blocks.bomb;
+package com.hbm.blocks.turret;
 
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.tileentity.turret.TileEntityTurretCheapo;

@@ -1,7 +1,7 @@
-package com.hbm.blocks.bomb;
+package com.hbm.blocks.turret;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
 
 import net.minecraft.block.material.Material;
@@ -21,7 +21,7 @@ public class TurretTauon extends BlockDummyable {
 
 		if(meta >= 12)
 			return new TileEntityTurretTauon();
-		return null;
+		return new TileEntityProxyCombo(true, true, false);
 	}
 
 	@Override

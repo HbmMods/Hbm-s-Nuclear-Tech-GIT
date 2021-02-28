@@ -7,7 +7,6 @@ import com.hbm.entity.mob.EntityRADBeast;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
