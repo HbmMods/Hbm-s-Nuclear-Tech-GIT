@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,6 +24,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	/// VALS ///
 	private float radiation;
 	private float digamma;
+	private int asbestos;
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -69,11 +69,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		return getData(entity).digamma;
 	}
 	
-	//TODO: move all the checking into the contamination util
 	public static void setDigamma(EntityLivingBase entity, float digamma) {
-		
-		if(entity.isPotionActive(HbmPotion.stability.id))
-			return;
 		
 		getData(entity).digamma = digamma;
 		
@@ -122,6 +118,25 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		data.setDigamma(entity, dRad);
 	}
+	
+	
+	/// ASBESTOS ///
+	public static int getAsbestos(EntityLivingBase entity) {
+		return getData(entity).asbestos;
+	}
+	
+	public static void setAsbestos(EntityLivingBase entity, int asbestos) {
+		getData(entity).asbestos = asbestos;
+		
+		if(asbestos <= 1000000) {
+			getData(entity).asbestos = 0;
+			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
+		}
+	}
+	
+	public static void incrementAsbestos(EntityLivingBase entity, int asbestos) {
+		setAsbestos(entity, getAsbestos(entity) + asbestos);
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }
@@ -133,6 +148,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		
 		props.setFloat("hfr_radiation", radiation);
 		props.setFloat("hfr_digamma", digamma);
+		props.setInteger("hfr_asbestos", asbestos);
 		
 		nbt.setTag("HbmLivingProps", props);
 	}
@@ -145,6 +161,25 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		if(props != null) {
 			radiation = props.getFloat("hfr_radiation");
 			digamma = props.getFloat("hfr_digamma");
+			asbestos = props.getInteger("hfr_asbestos");
+		}
+	}
+	
+	public static class ContaminationEffect {
+		
+		public float maxRad;
+		public int maxTime;
+		public int time;
+		public boolean ignoreArmor;
+		
+		public ContaminationEffect(float rad, int time, boolean ignoreArmor) {
+			this.maxRad = rad;
+			this.maxTime = this.time = time;
+			this.ignoreArmor = ignoreArmor;
+		}
+		
+		public float getRad() {
+			return maxRad * ((float)time / (float)maxTime);
 		}
 	}
 }

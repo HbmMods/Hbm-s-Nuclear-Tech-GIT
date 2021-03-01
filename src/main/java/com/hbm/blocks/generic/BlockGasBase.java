@@ -75,6 +75,8 @@ public abstract class BlockGasBase extends Block {
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
 		if(!world.isRemote) {
+			
+			world.scheduledUpdatesAreImmediate = false; //prevent recursive loop when some dumbass forgets to clean up immediate updating
 
 			if(!tryMove(world, x, y, z, getFirstDirection(world, x, y, z)))
 				if(!tryMove(world, x, y, z, getSecondDirection(world, x, y, z)))

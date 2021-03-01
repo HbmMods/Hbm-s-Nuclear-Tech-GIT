@@ -103,6 +103,16 @@ public class ArmorUtil {
 		return false;
 	}
 	
+	public static boolean checkForDigamma(EntityPlayer player) {
+		
+		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean checkForFaraday(EntityPlayer player) {
 		
 		ItemStack[] armor = player.inventory.armorInventory;

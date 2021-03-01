@@ -38,7 +38,7 @@ public class ItemModInsert extends ItemArmorMod {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
 		if(damageMod != 1F)
-			list.add(EnumChatFormatting.RED + "-" + Math.round((1F - damageMod) * 100) + "% damage");
+			list.add(EnumChatFormatting.RED + (damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + "% damage");
 		if(projectileMod != 1F)
 			list.add(EnumChatFormatting.YELLOW + "-" + Math.round((1F - projectileMod) * 100) + "% projectile damage");
 		if(explosionMod != 1F)
@@ -61,7 +61,7 @@ public class ItemModInsert extends ItemArmorMod {
 		List<String> desc = new ArrayList();
 
 		if(damageMod != 1F)
-			desc.add("-" + Math.round((1F - damageMod) * 100) + "% dmg");
+			desc.add((damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + "% dmg");
 		if(projectileMod != 1F)
 			desc.add("-" + Math.round((1F - projectileMod) * 100) + "% proj");
 		if(explosionMod != 1F)

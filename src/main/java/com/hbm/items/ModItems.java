@@ -1687,6 +1687,10 @@ public class ModItems {
 	public static Item starmetal_plate;
 	public static Item starmetal_legs;
 	public static Item starmetal_boots;
+	public static Item dnt_helmet;
+	public static Item dnt_plate;
+	public static Item dnt_legs;
+	public static Item dnt_boots;
 	public static Item ajr_helmet;
 	public static Item ajr_plate;
 	public static Item ajr_legs;
@@ -1848,6 +1852,7 @@ public class ModItems {
 	public static Item insert_polonium;
 	public static Item insert_era;
 	public static Item insert_yharonite;
+	public static Item insert_doxium;
 	public static Item armor_polish;
 	public static Item bandaid;
 	public static Item serum;
@@ -2807,6 +2812,7 @@ public class ModItems {
 		insert_polonium = new ItemModInsert(500, 0.9F, 1F, 0.95F, 0.9F).setUnlocalizedName("insert_polonium").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_polonium");
 		insert_era = new ItemModInsert(25, 0.5F, 1F, 0.25F, 1F).setUnlocalizedName("insert_era").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_era");
 		insert_yharonite = new ItemModInsert(9999, 0.01F, 1F, 1F, 1F).setUnlocalizedName("insert_yharonite").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_yharonite");
+		insert_doxium = new ItemModInsert(9999, 5.0F, 1F, 1F, 1F).setUnlocalizedName("insert_doxium").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":insert_doxium");
 		armor_polish = new ItemModPolish().setUnlocalizedName("armor_polish").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":armor_polish");
 		bandaid = new ItemModBandaid().setUnlocalizedName("bandaid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bandaid");
 		serum = new ItemModSerum().setUnlocalizedName("serum").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":serum");
@@ -3925,6 +3931,14 @@ public class ModItems {
 		starmetal_plate = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_plate").setTextureName(RefStrings.MODID + ":starmetal_plate");
 		starmetal_legs = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_legs").setTextureName(RefStrings.MODID + ":starmetal_legs");
 		starmetal_boots = new ArmorFSB(MainRegistry.aMatStarmetal, 7, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png").cloneStats((ArmorFSB) starmetal_helmet).setUnlocalizedName("starmetal_boots").setTextureName(RefStrings.MODID + ":starmetal_boots");
+
+		ArmorMaterial aMatDNT = EnumHelper.addArmorMaterial("HBM_DNT_LOLOLOL", 3, new int[] { 1, 1, 1, 1 }, 0);
+		aMatDNT.customCraftingMaterial = ModItems.ingot_dineutronium;
+		dnt_helmet = new ArmorFSB(aMatDNT, 7, 0, RefStrings.MODID + ":textures/armor/dnt_1.png")
+				.setMod(1.1F).setUnlocalizedName("dnt_helmet").setTextureName(RefStrings.MODID + ":dnt_helmet");
+		dnt_plate = new ArmorFSB(aMatDNT, 7, 1, RefStrings.MODID + ":textures/armor/dnt_1.png").cloneStats((ArmorFSB) dnt_helmet).setUnlocalizedName("dnt_plate").setTextureName(RefStrings.MODID + ":dnt_plate");
+		dnt_legs = new ArmorFSB(aMatDNT, 7, 2, RefStrings.MODID + ":textures/armor/dnt_2.png").cloneStats((ArmorFSB) dnt_helmet).setUnlocalizedName("dnt_legs").setTextureName(RefStrings.MODID + ":dnt_legs");
+		dnt_boots = new ArmorFSB(aMatDNT, 7, 3, RefStrings.MODID + ":textures/armor/dnt_1.png").cloneStats((ArmorFSB) dnt_helmet).setUnlocalizedName("dnt_boots").setTextureName(RefStrings.MODID + ":dnt_boots");
 		
 		ArmorMaterial aMatT45 = EnumHelper.addArmorMaterial("HBM_T45", 150, new int[] { 3, 8, 6, 3 }, 0);
 		aMatT45.customCraftingMaterial = ModItems.plate_armor_titanium;
@@ -3935,6 +3949,7 @@ public class ModItems {
 				.setHasHardLanding(true)
 				.addEffect(new PotionEffect(Potion.damageBoost.id, 20, 0))
 				.setBlastProtection(0.5F)
+				.addResistance("monoxide", 0F)
 				.addResistance("fall", 0)
 				.setUnlocalizedName("t45_helmet").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_helmet");
 		t45_plate = new ArmorT45(aMatT45, 2, 1, 1000000, 10000, 1000, 5).cloneStats((ArmorFSB) t45_helmet).setUnlocalizedName("t45_plate").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":t45_plate");
@@ -3954,6 +3969,7 @@ public class ModItems {
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
+				.addResistance("monoxide", 0F)
 				.addResistance("fall", 0).setUnlocalizedName("ajr_helmet").setTextureName(RefStrings.MODID + ":ajr_helmet");
 		ajr_plate = new ArmorAJR(aMatAJR, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) ajr_helmet).setUnlocalizedName("ajr_plate").setTextureName(RefStrings.MODID + ":ajr_plate");
 		ajr_legs = new ArmorAJR(aMatAJR, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) ajr_helmet).setUnlocalizedName("ajr_legs").setTextureName(RefStrings.MODID + ":ajr_legs");
@@ -3970,6 +3986,7 @@ public class ModItems {
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
+				.addResistance("monoxide", 0F)
 				.addResistance("fall", 0).setUnlocalizedName("ajro_helmet").setTextureName(RefStrings.MODID + ":ajro_helmet");
 		ajro_plate = new ArmorAJRO(aMatAJR, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) ajro_helmet).setUnlocalizedName("ajro_plate").setTextureName(RefStrings.MODID + ":ajro_plate");
 		ajro_legs = new ArmorAJRO(aMatAJR, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 2500000, 10000, 2000, 25).cloneStats((ArmorFSB) ajro_helmet).setUnlocalizedName("ajro_legs").setTextureName(RefStrings.MODID + ":ajro_legs");
@@ -4008,6 +4025,7 @@ public class ModItems {
 				.setHasGeigerSound(true)
 				.setHasCustomGeiger(true)
 				.addResistance("fall", 0.5F)
+				.addResistance("monoxide", 0F)
 				.addResistance("onFire", 0F).setUnlocalizedName("hev_helmet").setTextureName(RefStrings.MODID + ":hev_helmet");
 		hev_plate = new ArmorHEV(aMatHEV, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) hev_helmet).setUnlocalizedName("hev_plate").setTextureName(RefStrings.MODID + ":hev_plate");
 		hev_legs = new ArmorHEV(aMatHEV, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 1000000, 10000, 2500, 0).cloneStats((ArmorFSB) hev_helmet).setUnlocalizedName("hev_legs").setTextureName(RefStrings.MODID + ":hev_legs");
@@ -4028,7 +4046,8 @@ public class ModItems {
 				.setStep("hbm:step.metal")
 				.setJump("hbm:step.iron_jump")
 				.setFall("hbm:step.iron_land")
-				.addResistance("fall", 0.05F)
+				.addResistance("fall", 0F)
+				.addResistance("monoxide", 0F)
 				.setFireproof(true).setUnlocalizedName("fau_helmet").setTextureName(RefStrings.MODID + ":fau_helmet");
 		fau_plate = new ArmorDigamma(aMatFau, 7, 1, RefStrings.MODID + ":textures/armor/starmetal_1.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_plate").setTextureName(RefStrings.MODID + ":fau_plate");
 		fau_legs = new ArmorDigamma(aMatFau, 7, 2, RefStrings.MODID + ":textures/armor/starmetal_2.png", 10000000, 10000, 2500, 0).cloneStats((ArmorFSB) fau_helmet).setUnlocalizedName("fau_legs").setTextureName(RefStrings.MODID + ":fau_legs");
@@ -6303,6 +6322,7 @@ public class ModItems {
 		GameRegistry.registerItem(insert_polonium, insert_polonium.getUnlocalizedName());
 		GameRegistry.registerItem(insert_era, insert_era.getUnlocalizedName());
 		GameRegistry.registerItem(insert_yharonite, insert_yharonite.getUnlocalizedName());
+		GameRegistry.registerItem(insert_doxium, insert_doxium.getUnlocalizedName());
 		GameRegistry.registerItem(armor_polish, armor_polish.getUnlocalizedName());
 		GameRegistry.registerItem(bandaid, bandaid.getUnlocalizedName());
 		GameRegistry.registerItem(serum, serum.getUnlocalizedName());
@@ -6476,6 +6496,10 @@ public class ModItems {
 		GameRegistry.registerItem(starmetal_plate, starmetal_plate.getUnlocalizedName());
 		GameRegistry.registerItem(starmetal_legs, starmetal_legs.getUnlocalizedName());
 		GameRegistry.registerItem(starmetal_boots, starmetal_boots.getUnlocalizedName());
+		GameRegistry.registerItem(dnt_helmet, dnt_helmet.getUnlocalizedName());
+		GameRegistry.registerItem(dnt_plate, dnt_plate.getUnlocalizedName());
+		GameRegistry.registerItem(dnt_legs, dnt_legs.getUnlocalizedName());
+		GameRegistry.registerItem(dnt_boots, dnt_boots.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_helmet, schrabidium_helmet.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_plate, schrabidium_plate.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_legs, schrabidium_legs.getUnlocalizedName());

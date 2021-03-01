@@ -50,6 +50,10 @@ public class ArmorRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_plate, 1), new Object[] { "E E", "EEE", "EEE", 'E', ModItems.ingot_cobalt });
 		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_legs, 1), new Object[] { "EEE", "E E", "E E", 'E', ModItems.ingot_cobalt });
 		GameRegistry.addRecipe(new ItemStack(ModItems.cobalt_boots, 1), new Object[] { "E E", "E E", 'E', ModItems.ingot_cobalt });
+		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_helmet, 1), new Object[] { "EEE", "EE ", 'E', ModItems.ingot_dineutronium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_plate, 1), new Object[] { "EE ", "EEE", "EEE", 'E', ModItems.ingot_dineutronium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_legs, 1), new Object[] { "EE ", "EEE", "E E", 'E', ModItems.ingot_dineutronium });
+		GameRegistry.addRecipe(new ItemStack(ModItems.dnt_boots, 1), new Object[] { "  E", "E  ", "E E", 'E', ModItems.ingot_dineutronium });
 
 		//Power armor
 		GameRegistry.addRecipe(new ItemStack(ModItems.t45_helmet, 1), new Object[] { "PPC", "PBP", "IXI", 'P', ModItems.plate_armor_titanium, 'C', ModItems.circuit_targeting_tier3, 'I', ModItems.plate_polymer, 'X', ModItems.gas_mask_m65, 'B', ModItems.titanium_helmet });

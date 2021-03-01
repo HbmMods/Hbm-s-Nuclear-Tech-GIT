@@ -38,6 +38,7 @@ public class ContaminationUtil {
 		return 1;
 	}
 	
+	/// RADIATION ///
 	public static void applyRadData(Entity e, float f) {
 
 		if(!(e instanceof EntityLivingBase))
@@ -89,6 +90,72 @@ public class ContaminationUtil {
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		return HbmLivingProps.getRadiation(entity);
+	}
+	
+	/// ASBESTOS ///
+	public static void applyAsbestos(Entity e, int i) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		if(e instanceof EntityPlayer && e.ticksExisted < 200)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGasMask((EntityPlayer) entity)))
+			HbmLivingProps.incrementAsbestos(entity, i);
+	}
+	
+	/// DIGAMMA ///
+	public static void applyDigammaData(Entity e, float f) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		if(e instanceof EntityPlayer && e.ticksExisted < 200)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		
+		if(entity.isPotionActive(HbmPotion.stability.id))
+			return;
+		
+		if(!(entity instanceof EntityPlayer && ArmorUtil.checkForDigamma((EntityPlayer) entity)))
+			HbmLivingProps.incrementDigamma(entity, f);
+	}
+	
+	public static void applyDigammaDirect(Entity e, float f) {
+
+		if(!(e instanceof EntityLivingBase))
+			return;
+
+		if(e instanceof IRadiationImmune)
+			return;
+		
+		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
+			return;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		HbmLivingProps.incrementDigamma(entity, f);
+	}
+	
+	public static float getDigamma(Entity e) {
+
+		if(!(e instanceof EntityLivingBase))
+			return 0.0F;
+		
+		EntityLivingBase entity = (EntityLivingBase)e;
+		return HbmLivingProps.getDigamma(entity);
 	}
 	
 	public static void printGeigerData(EntityPlayer player) {

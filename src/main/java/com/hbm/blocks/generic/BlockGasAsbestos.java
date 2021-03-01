@@ -2,9 +2,12 @@ package com.hbm.blocks.generic;
 
 import java.util.Random;
 
+import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -17,6 +20,14 @@ public class BlockGasAsbestos extends BlockGasBase {
 
 		if(world.rand.nextInt(5) == 0)
 			world.spawnParticle("townaura", x + rand.nextFloat(), y + rand.nextFloat(), z + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
+	}
+
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+		
+		if(entity instanceof EntityLivingBase) {
+			ContaminationUtil.applyAsbestos(entity, 1);
+		}
 	}
 
 	@Override
