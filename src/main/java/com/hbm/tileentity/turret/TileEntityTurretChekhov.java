@@ -3,23 +3,37 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.guncfg.Gun75BoltFactory;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 
 public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 
-	static List<BulletConfiguration> configs = new ArrayList();
+	static List<Integer> configs = new ArrayList();
 	
 	//because cramming it into the ArrayList's constructor with nested curly brackets and all that turned out to be not as pretty
 	//also having a floaty `static` like this looks fun
 	//idk if it's just me though
 	static {
-		configs.add(Gun75BoltFactory.get75BoltConfig());
+		configs.add(BulletConfigSyncingUtil.BMG50_NORMAL);
+		configs.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
+		configs.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
+		configs.add(BulletConfigSyncingUtil.BMG50_AP);
+		configs.add(BulletConfigSyncingUtil.BMG50_DU);
+		configs.add(BulletConfigSyncingUtil.BMG50_STAR);
+		configs.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
+		configs.add(BulletConfigSyncingUtil.BMG50_SLEEK);
+		configs.add(BulletConfigSyncingUtil.CHL_BMG50);
 	}
 	
 	@Override
-	protected List<BulletConfiguration> getAmmoList() {
-		return null;
+	protected List<Integer> getAmmoList() {
+		return configs;
 	}
 
 	@Override
@@ -35,5 +49,69 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 	@Override
 	public long getMaxPower() {
 		return 10000;
+	}
+
+	@Override
+	public double getBarrelLength() {
+		return 3.5D;
+	}
+	
+	int timer;
+
+	@Override
+	public void updateFiringTick() {
+		
+		timer++;
+		
+		if(timer > 20 && timer % 2 == 0) {
+			
+			BulletConfiguration conf = this.getFirstConfigLoaded();
+			
+			if(conf != null) {
+				this.spawnBullet(conf);
+				this.conusmeAmmo(conf.ammo);
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.chekhov_fire", 2.0F, 1.0F);
+				
+				Vec3 pos = this.getTurretPos();
+				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
+				vec.rotateAroundZ((float) -this.rotationPitch);
+				vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "vanillaExt");
+				data.setString("mode", "largeexplode");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			}
+		}
+	}
+	
+	public float spin;
+	public float lastSpin;
+	private float accel;
+	
+	@Override
+	public void updateEntity() {
+		super.updateEntity();
+		
+		if(worldObj.isRemote) {
+			
+			if(this.aligned) {
+				this.accel = Math.min(45F, this.accel += 2);
+			} else {
+				this.accel = Math.max(0F, this.accel -= 2);
+			}
+			
+			this.lastSpin = this.spin;
+			this.spin += this.accel;
+			
+			if(this.spin >= 360F) {
+				this.spin -= 360F;
+				this.lastSpin -= 360F;
+			}
+		} else {
+			
+			if(!this.aligned)
+				this.timer = 0;
+		}
 	}
 }

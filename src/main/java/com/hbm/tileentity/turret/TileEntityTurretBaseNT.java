@@ -5,6 +5,8 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IConsumer;
 import com.hbm.lib.Library;
@@ -17,6 +19,7 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -73,6 +76,32 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 	
 	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		this.isOn = nbt.getBoolean("isOn");
+		this.targetPlayers = nbt.getBoolean("targetPlayers");
+		this.targetAnimals = nbt.getBoolean("targetAnimals");
+		this.targetMobs = nbt.getBoolean("targetMobs");
+		this.targetMachines = nbt.getBoolean("targetMachines");
+		this.stattrak = nbt.getInteger("stattrak");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setLong("power", this.power);
+		nbt.setBoolean("isOn", this.isOn);
+		nbt.setBoolean("targetPlayers", this.targetPlayers);
+		nbt.setBoolean("targetAnimals", this.targetAnimals);
+		nbt.setBoolean("targetMobs", this.targetMobs);
+		nbt.setBoolean("targetMachines", this.targetMachines);
+		nbt.setInteger("stattrak", this.stattrak);
+	}
+	
+	@Override
 	public void updateEntity() {
 		
 		if(worldObj.isRemote) {
@@ -88,7 +117,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			}
 		}
 		
-		if(this.isOn) {
+		if(this.isOn && hasPower()) {
 			
 			if(target != null)
 				this.alignTurret();
@@ -99,8 +128,15 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(!worldObj.isRemote) {
 			
-			if(this.isOn) {
+			if(this.target != null && !target.isEntityAlive()) {
+				this.target = null;
+				this.stattrak++;
+			}
+			
+			if(this.isOn && hasPower()) {
 				searchTimer--;
+				
+				this.setPower(this.getPower() - this.getConsumption());
 				
 				if(searchTimer <= 0) {
 					searchTimer = this.getDecetorInterval();
@@ -110,6 +146,12 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				searchTimer = 0;
 			}
 			
+			if(this.aligned) {
+				this.updateFiringTick();
+			}
+			
+			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
+			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("target", this.target == null ? -1 : this.target.getEntityId());
 			data.setLong("power", this.power);
@@ -118,11 +160,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			data.setBoolean("targetAnimals", this.targetAnimals);
 			data.setBoolean("targetMobs", this.targetMobs);
 			data.setBoolean("targetMachines", this.targetMachines);
+			data.setInteger("stattrak", this.stattrak);
 			this.networkPack(data, 250);
 			
 		} else {
 			
-			Vec3 pos = this.getTurretPos();
 			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 			vec.rotateAroundZ((float) -this.rotationPitch);
 			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
@@ -135,11 +177,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				else
 					this.lastRotationYaw -= Math.PI * 2;
 			}
-			
-			if(this.aligned)
-				worldObj.spawnParticle("flame", pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, vec.xCoord, vec.yCoord, vec.zCoord);
-			if(this.target != null)
-				worldObj.spawnParticle("smoke", pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, vec.xCoord, vec.yCoord, vec.zCoord);
 		}
 	}
 
@@ -153,6 +190,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		this.targetAnimals = nbt.getBoolean("targetAnimals");
 		this.targetMobs = nbt.getBoolean("targetMobs");
 		this.targetMachines = nbt.getBoolean("targetMachines");
+		this.stattrak = nbt.getInteger("stattrak");
 		
 		if(t != -1)
 			this.target = worldObj.getEntityByID(t);
@@ -169,6 +207,60 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		case 2:this.targetAnimals = !this.targetAnimals; break;
 		case 3:this.targetMobs = !this.targetMobs; break;
 		case 4:this.targetMachines = !this.targetMachines; break;
+		}
+	}
+	
+	public abstract void updateFiringTick();
+	
+	public BulletConfiguration getFirstConfigLoaded() {
+		
+		List<Integer> list = getAmmoList();
+		
+		if(list == null || list.isEmpty())
+			return null;
+		
+		//doing it like this will fire slots in the right order, not in the order of the configs
+		//you know, the weird thing the IItemGunBase does
+		for(int i = 1; i < 10; i++) {
+			
+			if(slots[i] != null) {
+				
+				for(Integer c : list) { //we can afford all this extra iteration trash on the count that a turret has at most like 4 bullet configs
+					
+					BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(c);
+					
+					if(conf.ammo == slots[i].getItem())
+						return conf;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public void spawnBullet(BulletConfiguration bullet) {
+		
+		Vec3 pos = this.getTurretPos();
+		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
+		vec.rotateAroundZ((float) -this.rotationPitch);
+		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
+		
+		EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(bullet));
+		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
+		
+		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
+		worldObj.spawnEntityInWorld(proj);
+	}
+	
+	public void conusmeAmmo(Item ammo) {
+		
+		for(int i = 1; i < 10; i++) {
+			
+			if(slots[i] != null && slots[i].getItem() == ammo) {
+				
+				this.decrStackSize(i, 1);
+				return;
+			}
 		}
 	}
 	
@@ -289,6 +381,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * @return
 	 */
 	public boolean entityInLOS(Entity e) {
+		
+		if(e.isDead || !e.isEntityAlive())
+			return false;
 		
 		Vec3 pos = this.getTurretPos();
 		Vec3 ent = this.getEntityPos(e);
@@ -467,14 +562,26 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * Yes, new turrets fire BulletNTs.
 	 * @return
 	 */
-	protected abstract List<BulletConfiguration> getAmmoList();
+	protected abstract List<Integer> getAmmoList();
+
+	public boolean hasPower() {
+		return this.getPower() >= this.getConsumption();
+	}
 	
 	public void setPower(long i) {
 		this.power = i;
 	}
 	
-	public  long getPower() {
+	public long getPower() {
 		return this.power;
+	}
+	
+	public int getPowerScaled(int scale) {
+		return (int)(power * scale / this.getMaxPower());
+	}
+	
+	public long getConsumption() {
+		return 100;
 	}
 	
 	@Override

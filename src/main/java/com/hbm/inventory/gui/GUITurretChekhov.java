@@ -10,12 +10,11 @@ import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUITurretChekhov extends GuiContainer {
+public class GUITurretChekhov extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_base.png");
 	private TileEntityTurretChekhov turret;
@@ -26,6 +25,13 @@ public class GUITurretChekhov extends GuiContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 45, 16, 52, turret.power, turret.getMaxPower());
 	}
 
 	protected void mouseClicked(int x, int y, int i) {
@@ -75,6 +81,9 @@ public class GUITurretChekhov extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		int i = turret.getPowerScaled(53);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 97 - i, 194, 52 - i, 16, i);
 		
 		if(turret.isOn)
 			drawTexturedModalRect(guiLeft + 115, guiTop + 26, 176, 40, 18, 18);

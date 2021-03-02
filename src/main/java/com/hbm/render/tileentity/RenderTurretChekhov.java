@@ -40,8 +40,10 @@ public class RenderTurretChekhov extends RenderTurretBase {
 		bindTexture(ResourceManager.turret_chekhov_tex);
 		ResourceManager.turret_chekhov.renderPart("Body");
 		
+		float rot = turret.lastSpin + (turret.spin - turret.lastSpin) * interp;
+		
 		GL11.glTranslated(0, 1.5, 0);
-		GL11.glRotated(System.currentTimeMillis() % 360, -1, 0, 0);
+		GL11.glRotated(rot, -1, 0, 0);
 		GL11.glTranslated(0, -1.5, 0);
 		bindTexture(ResourceManager.turret_chekhov_barrels_tex);
 		ResourceManager.turret_chekhov.renderPart("Barrels");

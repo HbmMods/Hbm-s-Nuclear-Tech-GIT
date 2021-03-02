@@ -871,6 +871,17 @@ public class ClientProxy extends ServerProxy {
 			if("greendust".equals(data.getString("mode"))) {
 				fx = new net.minecraft.client.particle.EntityReddustFX(world, x, y, z, 0.01F, 0.5F, 0.1F);
 			}
+
+			if("largeexplode".equals(data.getString("mode"))) {
+				fx = new net.minecraft.client.particle.EntityLargeExplodeFX(man, world, x, y, z, 1.5F, 0.0F, 0.0F);
+				float r = 1.0F - rand.nextFloat() * 0.2F;
+				fx.setRBGColorF(1F * r, 0.9F * r, 0.5F * r);
+				
+				net.minecraft.client.particle.EntityExplodeFX sec = new net.minecraft.client.particle.EntityExplodeFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
+				float r2 = 1.0F - rand.nextFloat() * 0.5F;
+				sec.setRBGColorF(0.5F * r2, 0.5F * r2, 0.5F * r2);
+				Minecraft.getMinecraft().effectRenderer.addEffect(sec);
+			}
 			
 			if(fx != null)
 				Minecraft.getMinecraft().effectRenderer.addEffect(fx);

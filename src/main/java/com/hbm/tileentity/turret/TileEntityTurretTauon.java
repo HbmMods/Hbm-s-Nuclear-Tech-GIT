@@ -2,12 +2,10 @@ package com.hbm.tileentity.turret;
 
 import java.util.List;
 
-import com.hbm.handler.BulletConfiguration;
-
 public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 
 	@Override
-	protected List<BulletConfiguration> getAmmoList() {
+	protected List<Integer> getAmmoList() {
 		return null;
 	}
 
@@ -44,5 +42,10 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 	@Override
 	public long getMaxPower() {
 		return 10000;
+	}
+
+	@Override
+	public void updateFiringTick() {
+		
 	}
 }
