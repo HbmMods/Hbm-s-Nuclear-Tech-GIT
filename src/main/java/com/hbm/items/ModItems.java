@@ -871,6 +871,14 @@ public class ModItems {
 
 	public static Item scrap;
 	public static Item trinitite;
+	public static Item nuclear_waste_long;
+	public static Item nuclear_waste_long_tiny;
+	public static Item nuclear_waste_short;
+	public static Item nuclear_waste_short_tiny;
+	public static Item nuclear_waste_long_depleted;
+	public static Item nuclear_waste_long_depleted_tiny;
+	public static Item nuclear_waste_short_depleted;
+	public static Item nuclear_waste_short_depleted_tiny;
 	public static Item nuclear_waste;
 	public static Item nuclear_waste_tiny;
 	public static Item rod_uranium_fuel_depleted;
@@ -3005,6 +3013,14 @@ public class ModItems {
 		rod_quad_tritium = new ItemRadioactive(2F).setUnlocalizedName("rod_quad_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_tritium");
 
 		trinitite = new ItemRadioactive(5F).setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
+		nuclear_waste_long = new ItemRadioactive(5F).setUnlocalizedName("nuclear_waste_long").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long");
+		nuclear_waste_long_tiny = new ItemRadioactive(0.5F).setUnlocalizedName("nuclear_waste_long_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long_tiny");
+		nuclear_waste_short = new ItemRadioactive(30F, true).setUnlocalizedName("nuclear_waste_short").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_short");
+		nuclear_waste_short_tiny = new ItemRadioactive(3F, true).setUnlocalizedName("nuclear_waste_short_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_short_tiny");
+		nuclear_waste_long_depleted = new ItemRadioactive(0.5F).setUnlocalizedName("nuclear_waste_long_depleted").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long_depleted");
+		nuclear_waste_long_depleted_tiny = new ItemRadioactive(0.05F).setUnlocalizedName("nuclear_waste_long_depleted_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long_depleted_tiny");
+		nuclear_waste_short_depleted = new ItemRadioactive(3F).setUnlocalizedName("nuclear_waste_short_depleted").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_short_depleted");
+		nuclear_waste_short_depleted_tiny = new ItemRadioactive(0.3F).setUnlocalizedName("nuclear_waste_short_depleted_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_short_depleted_tiny");
 		nuclear_waste = new ItemRadioactive(15F).setUnlocalizedName("nuclear_waste").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste");
 		nuclear_waste_tiny = new ItemRadioactive(2F).setUnlocalizedName("nuclear_waste_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_tiny");
 		waste_uranium = new ItemRadioactive(15F).setUnlocalizedName("waste_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":waste_uranium");
@@ -5519,6 +5535,14 @@ public class ModItems {
 		GameRegistry.registerItem(waste_mox, waste_mox.getUnlocalizedName());
 		GameRegistry.registerItem(waste_schrabidium, waste_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(trinitite, trinitite.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_long, nuclear_waste_long.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_long_tiny, nuclear_waste_long_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_short, nuclear_waste_short.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_short_tiny, nuclear_waste_short_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_long_depleted, nuclear_waste_long_depleted.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_long_depleted_tiny, nuclear_waste_long_depleted_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_short_depleted, nuclear_waste_short_depleted.getUnlocalizedName());
+		GameRegistry.registerItem(nuclear_waste_short_depleted_tiny, nuclear_waste_short_depleted_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste, nuclear_waste.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste_tiny, nuclear_waste_tiny.getUnlocalizedName());
 		

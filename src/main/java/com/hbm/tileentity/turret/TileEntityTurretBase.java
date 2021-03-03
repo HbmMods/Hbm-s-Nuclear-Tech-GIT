@@ -106,7 +106,7 @@ public abstract class TileEntityTurretBase extends TileEntity {
 		if(this instanceof TileEntityTurretCIWS && !(e instanceof EntityMissileBaseAdvanced) && !(e instanceof EntityBomber) && !(e instanceof EntityMissileCustom))
 			return false;
 		
-		if(e instanceof EntityPlayer && players.contains((((EntityPlayer)e).getUniqueID().toString())))
+		if(e instanceof EntityPlayer && players.contains((((EntityPlayer)e).getDisplayName())))
 			return false;
 		
 		Vec3 turret;

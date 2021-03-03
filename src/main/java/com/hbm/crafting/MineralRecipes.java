@@ -28,6 +28,15 @@ public class MineralRecipes {
 		
 		RecipesCommon.add9To1(ModItems.ingot_dineutronium, ModBlocks.block_dineutronium);
 		RecipesCommon.add1To9(ModBlocks.block_dineutronium, ModItems.ingot_dineutronium);
+
+		RecipesCommon.add9To1(ModItems.nuclear_waste_long_tiny, ModItems.nuclear_waste_long);
+		RecipesCommon.add1To9(ModItems.nuclear_waste_long, ModItems.nuclear_waste_long_tiny);
+		RecipesCommon.add9To1(ModItems.nuclear_waste_long_depleted_tiny, ModItems.nuclear_waste_long_depleted);
+		RecipesCommon.add1To9(ModItems.nuclear_waste_long_depleted, ModItems.nuclear_waste_long_depleted_tiny);
+		RecipesCommon.add9To1(ModItems.nuclear_waste_short_tiny, ModItems.nuclear_waste_short);
+		RecipesCommon.add1To9(ModItems.nuclear_waste_short, ModItems.nuclear_waste_short_tiny);
+		RecipesCommon.add9To1(ModItems.nuclear_waste_short_depleted_tiny, ModItems.nuclear_waste_short_depleted);
+		RecipesCommon.add1To9(ModItems.nuclear_waste_short_depleted, ModItems.nuclear_waste_short_depleted_tiny);
 		
 		RecipesCommon.add9To1(ModItems.fallout, ModBlocks.block_fallout);
 		RecipesCommon.add1To9(ModBlocks.block_fallout, ModItems.fallout);

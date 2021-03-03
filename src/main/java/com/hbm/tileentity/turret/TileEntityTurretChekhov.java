@@ -95,7 +95,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.aligned) {
+			if(this.target != null) {
 				this.accel = Math.min(45F, this.accel += 2);
 			} else {
 				this.accel = Math.max(0F, this.accel -= 2);
@@ -110,8 +110,16 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 			}
 		} else {
 			
-			if(!this.aligned)
-				this.timer = 0;
+			if(this.target == null) {
+				
+				this.timer--;
+				
+				if(timer > 20)
+					timer = 20;
+				
+				if(timer < 0)
+					timer = 0;
+			}
 		}
 	}
 }

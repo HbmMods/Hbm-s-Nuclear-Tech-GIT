@@ -1,5 +1,6 @@
 package com.hbm.tileentity.turret;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
@@ -9,6 +10,8 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -110,6 +113,14 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		}
 
 		this.aligned = false;
+		
+		if(!worldObj.isRemote) {
+			
+			if(this.target != null && !target.isEntityAlive()) {
+				this.target = null;
+				this.stattrak++;
+			}
+		}
 		
 		if(target != null) {
 			if(!this.entityInLOS(this.target)) {
@@ -269,7 +280,52 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * @return null if there is either no chip to be found or if the name list is empty, otherwise it just reads the strings from the chip's NBT
 	 */
 	public List<String> getWhitelist() {
+		
+		if(slots[0] != null && slots[0].getItem() == ModItems.turret_chip) {
+			
+			String[] array = ItemTurretBiometry.getNames(slots[0]);
+			
+			if(array == null)
+				return null;
+			
+			return Arrays.asList(ItemTurretBiometry.getNames(slots[0]));
+		}
+		
 		return null;
+	}
+	
+	/**
+	 * Appends a new name to the chip
+	 * @param name
+	 */
+	public void addName(String name) {
+		
+		if(slots[0] != null && slots[0].getItem() == ModItems.turret_chip) {
+			ItemTurretBiometry.addName(slots[0], name);
+		}
+	}
+	
+	/**
+	 * Removes the chip's entry at a given 
+	 * @param index
+	 */
+	public void removeName(String index) {
+		
+		if(slots[0] != null && slots[0].getItem() == ModItems.turret_chip) {
+			
+			String[] array = ItemTurretBiometry.getNames(slots[0]);
+			
+			if(array == null)
+				return;
+			
+			List<String> names = Arrays.asList(array);
+			ItemTurretBiometry.clearNames(slots[0]);
+			
+			names.remove(index);
+			
+			for(String name : names)
+				ItemTurretBiometry.addName(slots[0], name);
+		}
 	}
 	
 	/**
@@ -400,6 +456,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(pitchDeg < -this.getTurretDepression() || pitchDeg > this.getTurretElevation())
 			return false;
 		
+		//TODO: figure out why this shit apparently doesn't work
 		return !Library.isObstructed(worldObj, pos.xCoord, pos.yCoord, pos.zCoord, ent.xCoord, ent.yCoord, ent.zCoord);
 	}
 	
@@ -489,7 +546,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * @return
 	 */
 	public int getDecetorInterval() {
-		return 20;
+		return 10;
 	}
 	
 	/**
