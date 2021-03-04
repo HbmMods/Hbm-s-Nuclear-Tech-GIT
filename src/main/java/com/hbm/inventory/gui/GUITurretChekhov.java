@@ -2,18 +2,22 @@ package com.hbm.inventory.gui;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerTurretChekhov;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
+import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
@@ -21,6 +25,7 @@ public class GUITurretChekhov extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_turret_base.png");
 	private TileEntityTurretChekhov turret;
+	private GuiTextField field;
 	int index;
 	
 	public GUITurretChekhov(InventoryPlayer invPlayer, TileEntityTurretChekhov tedf) {
@@ -29,6 +34,18 @@ public class GUITurretChekhov extends GuiInfoContainer {
 		
 		this.xSize = 176;
 		this.ySize = 222;
+	}
+	
+	public void initGui() {
+
+		super.initGui();
+
+		Keyboard.enableRepeatEvents(true);
+		this.field = new GuiTextField(this.fontRendererObj, guiLeft + 10, guiTop + 65, 50, 14);
+		this.field.setTextColor(-1);
+		this.field.setDisabledTextColour(-1);
+		this.field.setEnableBackgroundDrawing(false);
+		this.field.setMaxStringLength(25);
 	}
 	
 	@Override
@@ -40,6 +57,9 @@ public class GUITurretChekhov extends GuiInfoContainer {
 
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
+		
+		boolean flag = x >= this.field.xPosition && x < this.field.xPosition + this.field.width && y >= this.field.yPosition && y < this.field.yPosition + this.field.height;
+		this.field.setFocused(flag);
 
 		if(guiLeft + 115 <= x && guiLeft + 115 + 18 > x && guiTop + 26 < y && guiTop + 26 + 18 >= y) {
 
@@ -97,6 +117,31 @@ public class GUITurretChekhov extends GuiInfoContainer {
 				return;
 			}
 		}
+		
+		if(guiLeft + 7 <= x && guiLeft + 7 + 18 > x && guiTop + 98 < y && guiTop + 98 + 18 >= y) {
+			
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			
+			if(this.field.getText().isEmpty())
+				return;
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("name", this.field.getText());
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, turret.xCoord, turret.yCoord, turret.zCoord));
+			
+			this.field.setText("");
+			return;
+		}
+
+		if(guiLeft + 43 <= x && guiLeft + 43 + 18 > x && guiTop + 98 < y && guiTop + 98 + 18 >= y) {
+			
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("del", this.index);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, turret.xCoord, turret.yCoord, turret.zCoord));
+			return;
+		}
 	}
 	
 	@Override
@@ -110,14 +155,28 @@ public class GUITurretChekhov extends GuiInfoContainer {
 		
 		String n = EnumChatFormatting.ITALIC + "None";
 		
+		while(this.index >= this.getCount())
+			this.index--;
+		
+		if(index < 0)
+			index = 0;
+		
 		if(names != null) {
 			n = names.get(index);
 		}
+		
+		String t = this.field.getText();
+		
+		String cursor = System.currentTimeMillis() % 1000 < 500 ? " " : "||";
+		
+		if(this.field.isFocused())
+			t = t.substring(0, this.field.getCursorPosition()) + cursor + t.substring(this.field.getCursorPosition(), t.length());
 		
 		double scale = 2;
 		
 		GL11.glScaled(1D / scale, 1D / scale, 1);
 		this.fontRendererObj.drawString(n, (int)(12 * scale), (int)(51 * scale), 0x00ff00);
+		this.fontRendererObj.drawString(t, (int)(12 * scale), (int)(69 * scale), 0x00ff00);
 		GL11.glScaled(scale, scale, 1);
 	}
 	
@@ -190,5 +249,14 @@ public class GUITurretChekhov extends GuiInfoContainer {
 			return 0;
 		
 		return names.size();
+	}
+	
+	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+		
+		if(this.field.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
+			
+		} else {
+			super.keyTyped(p_73869_1_, p_73869_2_);
+		}
 	}
 }

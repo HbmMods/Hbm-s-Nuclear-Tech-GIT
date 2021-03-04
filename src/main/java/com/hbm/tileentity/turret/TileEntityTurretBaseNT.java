@@ -1,5 +1,6 @@
 package com.hbm.tileentity.turret;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.interfaces.IConsumer;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
 import com.hbm.lib.Library;
@@ -23,6 +25,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,7 +37,23 @@ import net.minecraftforge.common.util.FakePlayer;
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IConsumer {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IConsumer, IControlReceiver {
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		
+		if(data.hasKey("del")) {
+			this.removeName(data.getInteger("del"));
+			
+		} else if(data.hasKey("name")) {
+			this.addName(data.getString("name"));
+		}
+	}
 
 	//this time we do all rotations in radians
 	//what way are we facing?
@@ -309,7 +328,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * Removes the chip's entry at a given 
 	 * @param index
 	 */
-	public void removeName(String index) {
+	public void removeName(int index) {
 		
 		if(slots[0] != null && slots[0].getItem() == ModItems.turret_chip) {
 			
@@ -318,7 +337,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			if(array == null)
 				return;
 			
-			List<String> names = Arrays.asList(array);
+			List<String> names = new ArrayList(Arrays.asList(array));
 			ItemTurretBiometry.clearNames(slots[0]);
 			
 			names.remove(index);
@@ -620,6 +639,16 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * @return
 	 */
 	protected abstract List<Integer> getAmmoList();
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return true;
+	}
 
 	public boolean hasPower() {
 		return this.getPower() >= this.getConsumption();

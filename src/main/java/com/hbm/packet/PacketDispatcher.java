@@ -97,6 +97,8 @@ public class PacketDispatcher {
 		wrapper.registerMessage(PlayerInformPacket.Handler.class, PlayerInformPacket.class, i++, Side.CLIENT);
 		//Universal keybind packet
 		wrapper.registerMessage(KeybindPacket.Handler.class, KeybindPacket.class, i++, Side.SERVER);
+		//Packet to send NBT data from clients to serverside TEs
+		wrapper.registerMessage(NBTControlPacket.Handler.class, NBTControlPacket.class, i++, Side.SERVER);
 	}
 	
 }
