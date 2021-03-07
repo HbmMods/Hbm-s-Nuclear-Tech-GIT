@@ -55,6 +55,11 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 	public double getBarrelLength() {
 		return 3.5D;
 	}
+
+	@Override
+	public double getAcceptableInaccuracy() {
+		return 15;
+	}
 	
 	int timer;
 
@@ -63,7 +68,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 		
 		timer++;
 		
-		if(timer > 20 && timer % 2 == 0) {
+		if(timer > 20 && timer % getDelay() == 0) {
 			
 			BulletConfiguration conf = this.getFirstConfigLoaded();
 			
@@ -80,14 +85,21 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "vanillaExt");
 				data.setString("mode", "largeexplode");
+				data.setFloat("size", 1.5F);
+				data.setByte("count", (byte)1);
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			}
 		}
 	}
 	
+	public int getDelay() {
+		return 2;
+	}
+	
 	public float spin;
 	public float lastSpin;
 	private float accel;
+	private boolean manual;
 	
 	@Override
 	public void updateEntity() {
@@ -95,11 +107,13 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.target != null) {
+			if(this.target != null || manual) {
 				this.accel = Math.min(45F, this.accel += 2);
 			} else {
 				this.accel = Math.max(0F, this.accel -= 2);
 			}
+			
+			manual = false;
 			
 			this.lastSpin = this.spin;
 			this.spin += this.accel;
@@ -110,7 +124,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 			}
 		} else {
 			
-			if(this.target == null) {
+			if(this.target == null && !manual) {
 				
 				this.timer--;
 				
@@ -121,5 +135,11 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 					timer = 0;
 			}
 		}
+	}
+	
+	@Override
+	public void manualSetup() {
+		
+		manual = true;
 	}
 }

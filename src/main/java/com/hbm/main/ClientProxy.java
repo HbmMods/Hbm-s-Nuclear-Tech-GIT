@@ -124,6 +124,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretCIWS.class, new RenderCIWSTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretCheapo.class, new RenderCheapoTurret());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretChekhov.class, new RenderTurretChekhov());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretFriendly.class, new RenderTurretFriendly());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretJeremy.class, new RenderTurretJeremy());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretTauon.class, new RenderTurretTauon());
 		//mines
@@ -426,6 +427,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeIFSpark.class, new RenderSnowball(ModItems.grenade_if_spark));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeIFHopwire.class, new RenderSnowball(ModItems.grenade_if_hopwire));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrenadeIFNull.class, new RenderSnowball(ModItems.grenade_if_null));
+		RenderingRegistry.registerEntityRenderingHandler(EntityWastePearl.class, new RenderSnowball(ModItems.nuclear_waste_pearl));
 		//missiles
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTestMissile.class, new RenderTestMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileCustom.class, new RenderMissileCustom());
@@ -873,14 +875,19 @@ public class ClientProxy extends ServerProxy {
 			}
 
 			if("largeexplode".equals(data.getString("mode"))) {
-				fx = new net.minecraft.client.particle.EntityLargeExplodeFX(man, world, x, y, z, 1.5F, 0.0F, 0.0F);
+				
+				
+				fx = new net.minecraft.client.particle.EntityLargeExplodeFX(man, world, x, y, z, data.getFloat("size"), 0.0F, 0.0F);
 				float r = 1.0F - rand.nextFloat() * 0.2F;
 				fx.setRBGColorF(1F * r, 0.9F * r, 0.5F * r);
 				
-				net.minecraft.client.particle.EntityExplodeFX sec = new net.minecraft.client.particle.EntityExplodeFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
-				float r2 = 1.0F - rand.nextFloat() * 0.5F;
-				sec.setRBGColorF(0.5F * r2, 0.5F * r2, 0.5F * r2);
-				Minecraft.getMinecraft().effectRenderer.addEffect(sec);
+				for(int i = 0; i < data.getByte("count"); i++) {
+					net.minecraft.client.particle.EntityExplodeFX sec = new net.minecraft.client.particle.EntityExplodeFX(world, x, y, z, 0.0F, 0.0F, 0.0F);
+					float r2 = 1.0F - rand.nextFloat() * 0.5F;
+					sec.setRBGColorF(0.5F * r2, 0.5F * r2, 0.5F * r2);
+					sec.multipleParticleScaleBy(i + 1);
+					Minecraft.getMinecraft().effectRenderer.addEffect(sec);
+				}
 			}
 			
 			if(fx != null)
@@ -1198,6 +1205,13 @@ public class ClientProxy extends ServerProxy {
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 				}
 			}
+		}
+		
+		if("tau".equals(type)) {
+			
+			for(int i = 0; i < data.getByte("count"); i++)
+				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleSpark(world, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));
 		}
 	}
 	

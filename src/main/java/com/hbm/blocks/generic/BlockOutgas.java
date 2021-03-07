@@ -120,7 +120,7 @@ public class BlockOutgas extends BlockOre {
 				for(int iy = -2; iy <= 2; iy++) {
 					for(int iz = -2; iz <= 2; iz++) {
 						
-						if(Math.abs(ix + iy + iz) < 5 && world.getBlock(x + ix, y + iy, z + iz) == Blocks.air) {
+						if(Math.abs(ix + iy + iz) < 5 && Math.abs(ix + iy + iz) > 0 && world.getBlock(x + ix, y + iy, z + iz) == Blocks.air) {
 							world.setBlock(x + ix, y + iy, z + iz, this.getGas());
 						}
 					}

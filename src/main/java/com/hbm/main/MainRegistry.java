@@ -193,6 +193,7 @@ public class MainRegistry {
 	public static Achievement digammaSee;
 	public static Achievement digammaFeel;
 	public static Achievement digammaKnow;
+	public static Achievement digammaKauaiMoho;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -453,6 +454,7 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityTurretChekhov.class, "tileentity_turret_chekhov");
 		GameRegistry.registerTileEntity(TileEntityTurretJeremy.class, "tileentity_turret_jeremy");
 		GameRegistry.registerTileEntity(TileEntityTurretTauon.class, "tileentity_turret_tauon");
+		GameRegistry.registerTileEntity(TileEntityTurretFriendly.class, "tileentity_turret_friendly");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -601,6 +603,7 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityCloudTom.class, "entity_moonstone_blast", 147, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityBeamVortex.class, "entity_vortex_beam", 148, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityFireworks.class, "entity_firework_ball", 149, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityWastePearl.class, "entity_waste_pearl", 150, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -877,6 +880,12 @@ public class MainRegistry {
 				return new EntityGrenadeIFNull(p_82499_1_, p_82499_2_.getX(), p_82499_2_.getY(), p_82499_2_.getZ());
 			}
 		});
+		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.nuclear_waste_pearl, new BehaviorProjectileDispense() {
+
+			protected IProjectile getProjectileEntity(World world, IPosition position) {
+				return new EntityWastePearl(world, position.getX(), position.getY(), position.getZ());
+			}
+		});
 	}
 
 	@EventHandler
@@ -921,6 +930,7 @@ public class MainRegistry {
 		digammaSee = new Achievement("achievement.digammaSee", "digammaSee", -2, 8, ModItems.digamma_see, null).initIndependentStat().registerStat();
 		digammaFeel = new Achievement("achievement.digammaFeel", "digammaFeel", 0, 8, ModItems.digamma_feel, digammaSee).initIndependentStat().registerStat();
 		digammaKnow = new Achievement("achievement.digammaKnow", "digammaKnow", 2, 8, ModItems.digamma_know, digammaFeel).initIndependentStat().registerStat().setSpecial();
+		digammaKauaiMoho = new Achievement("achievement.digammaKauaiMoho", "digammaKauaiMoho", 4, 8, ModItems.digamma_kauai_moho, digammaKnow).initIndependentStat().registerStat().setSpecial();
 
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 				achSacrifice,
@@ -956,7 +966,8 @@ public class MainRegistry {
 				bossWorm,
 				digammaSee,
 				digammaFeel,
-				digammaKnow
+				digammaKnow,
+				digammaKauaiMoho
 		}));
 
 		// MUST be initialized AFTER achievements!!

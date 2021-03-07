@@ -127,11 +127,6 @@ public class AncientTomb {
 			sVec.rotateAroundY(sRot);
 		}
 		
-		/// PRINT ACCESS ///
-		DungeonToolbox.generateBox(world, x + 4, y - 2, z - 1, 5, 1, 3, concrete);
-		DungeonToolbox.generateBox(world, x + 4, y - 1, z - 1, 5, 3, 3, ModBlocks.gas_radon_tomb);
-		DungeonToolbox.generateBox(world, x + 4, y + 2, z - 1, 5, 1, 3, concrete);
-		
 		for(int dx = x + 4; dx < x + 8; dx++) {
 			for(int dy = y - 1; dy < y + 4; dy++) {
 				for(int dz = z - 2; dz < z + 3; dz++) {
@@ -174,6 +169,9 @@ public class AncientTomb {
 
 		DungeonToolbox.generateBox(world, x - core, y - core, z - core, dimCore, dimCore, dimCore, ModBlocks.ancient_scrap);
 		
-		world.setBlock(x + size, y, z, ModBlocks.brick_concrete_marked);
+		/// PRINT ACCESS ///
+		DungeonToolbox.generateBox(world, x + 6, y - 2, z - 1, 2, 1, 3, concrete);
+		DungeonToolbox.generateBox(world, x + 4, y - 1, z - 1, 5, 3, 3, ModBlocks.gas_radon_tomb);
+		DungeonToolbox.generateBox(world, x + 6, y + 2, z - 1, 2, 1, 3, concrete);
 	}
 }

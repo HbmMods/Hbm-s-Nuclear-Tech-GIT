@@ -815,6 +815,64 @@ public class ItemRenderLibrary {
 				GL11.glTranslated(0, -1, 0);
 				ResourceManager.solar_mirror.renderPart("Mirror");
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_chekhov), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(-0.75, 0, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_base_tex); ResourceManager.turret_chekhov.renderPart("Base");
+				bindTexture(ResourceManager.turret_carriage_tex); ResourceManager.turret_chekhov.renderPart("Carriage");
+				bindTexture(ResourceManager.turret_chekhov_tex); ResourceManager.turret_chekhov.renderPart("Body");
+				bindTexture(ResourceManager.turret_chekhov_barrels_tex); ResourceManager.turret_chekhov.renderPart("Barrels");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_friendly), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(-0.75, 0, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_base_friendly_tex); ResourceManager.turret_chekhov.renderPart("Base");
+				bindTexture(ResourceManager.turret_carriage_friendly_tex); ResourceManager.turret_chekhov.renderPart("Carriage");
+				bindTexture(ResourceManager.turret_chekhov_tex); ResourceManager.turret_chekhov.renderPart("Body");
+				bindTexture(ResourceManager.turret_chekhov_barrels_tex); ResourceManager.turret_chekhov.renderPart("Barrels");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_jeremy), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(2.5, 2.5, 2.5);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(-0.5, 0, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_base_tex); ResourceManager.turret_chekhov.renderPart("Base");
+				bindTexture(ResourceManager.turret_carriage_tex); ResourceManager.turret_chekhov.renderPart("Carriage");
+				bindTexture(ResourceManager.turret_jeremy_tex); ResourceManager.turret_jeremy.renderPart("Gun");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_tauon), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(5, 5, 5);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_base_tex); ResourceManager.turret_chekhov.renderPart("Base");
+				bindTexture(ResourceManager.turret_carriage_tex); ResourceManager.turret_chekhov.renderPart("Carriage");
+				bindTexture(ResourceManager.turret_tauon_tex); ResourceManager.turret_tauon.renderPart("Cannon");
+				ResourceManager.turret_tauon.renderPart("Rotor");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

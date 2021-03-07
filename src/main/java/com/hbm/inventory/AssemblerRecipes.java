@@ -257,8 +257,6 @@ public class AssemblerRecipes {
 		makeRecipe(new ComparableStack(ModBlocks.cmb_brick_reinforced, 8), new AStack[] {new ComparableStack(ModBlocks.block_magnetized_tungsten, 4), new ComparableStack(ModBlocks.brick_concrete, 4), new ComparableStack(ModBlocks.cmb_brick, 1), new OreDictStack("plateSteel", 4), },200);
 		makeRecipe(new ComparableStack(ModBlocks.seal_frame, 1), new AStack[] {new OreDictStack("ingotSteel", 3), new ComparableStack(ModItems.wire_aluminium, 4), new ComparableStack(Items.redstone, 2), new ComparableStack(ModBlocks.steel_roof, 5), },50);
 		makeRecipe(new ComparableStack(ModBlocks.seal_controller, 1), new AStack[] {new OreDictStack("ingotSteel", 3), new ComparableStack(ModItems.ingot_polymer, 4), new OreDictStack("ingotRedCopperAlloy", 1), new ComparableStack(Items.redstone, 4), new ComparableStack(ModBlocks.steel_roof, 5), },100);
-		makeRecipe(new ComparableStack(ModBlocks.vault_door, 1), new AStack[] {new OreDictStack("ingotSteel", 128), new OreDictStack("ingotTungsten", 32), new OreDictStack("plateLead", 48), new ComparableStack(ModItems.plate_advanced_alloy, 8), new ComparableStack(ModItems.plate_polymer, 16), new ComparableStack(ModItems.bolt_tungsten, 18), new ComparableStack(ModItems.bolt_dura_steel, 27), new ComparableStack(ModItems.motor, 5), },200);
-		makeRecipe(new ComparableStack(ModBlocks.blast_door, 1), new AStack[] {new OreDictStack("ingotSteel", 16), new OreDictStack("ingotTungsten", 8), new OreDictStack("plateLead", 12), new ComparableStack(ModItems.plate_advanced_alloy, 3), new ComparableStack(ModItems.plate_polymer, 3), new ComparableStack(ModItems.bolt_tungsten, 3), new ComparableStack(ModItems.bolt_dura_steel, 3), new ComparableStack(ModItems.motor, 1), },300);
 		makeRecipe(new ComparableStack(ModBlocks.machine_centrifuge, 1), new AStack[] {new ComparableStack(ModItems.centrifuge_tower, 1), new OreDictStack("ingotSteel", 4), new OreDictStack("ingotIron", 4), new OreDictStack("plateSteel", 2), new OreDictStack("plateCopper", 2), new ComparableStack(ModItems.wire_red_copper, 8), },250);
 		makeRecipe(new ComparableStack(ModBlocks.machine_gascent, 1), new AStack[] {new ComparableStack(ModItems.centrifuge_tower, 1), new OreDictStack("ingotSteel", 4), new ComparableStack(ModItems.ingot_polymer, 4), new OreDictStack("ingotDesh", 2), new OreDictStack("plateSteel", 6), new ComparableStack(ModItems.plate_advanced_alloy, 4), new ComparableStack(ModItems.wire_red_copper, 8), new ComparableStack(ModItems.wire_gold, 4), },300);
 		makeRecipe(new ComparableStack(ModBlocks.machine_reactor, 1), new AStack[] {new ComparableStack(ModItems.reactor_core, 1), new OreDictStack("ingotSteel", 12), new OreDictStack("plateLead", 16), new ComparableStack(ModBlocks.reinforced_glass, 4), new ComparableStack(ModItems.ingot_asbestos, 4)},150);
@@ -588,6 +586,71 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.coin_maskman, 1),
 				new ComparableStack(ModItems.coin_worm, 1),
 			}, 1200);
+		
+		makeRecipe(new ComparableStack(ModBlocks.vault_door, 1), new AStack[] {
+				new OreDictStack("ingotSteel", 32),
+				new OreDictStack("ingotTungsten", 32),
+				new OreDictStack("plateLead", 16),
+				new ComparableStack(ModItems.plate_advanced_alloy, 4),
+				new ComparableStack(ModItems.plate_polymer, 4),
+				new ComparableStack(ModItems.bolt_tungsten, 8),
+				new ComparableStack(ModItems.bolt_dura_steel, 8),
+				new ComparableStack(ModItems.motor, 3),
+			}, 200);
+		
+		makeRecipe(new ComparableStack(ModBlocks.blast_door, 1), new AStack[] {
+				new OreDictStack("ingotSteel", 8),
+				new OreDictStack("ingotTungsten", 8),
+				new OreDictStack("plateLead", 6),
+				new ComparableStack(ModItems.plate_advanced_alloy, 3),
+				new ComparableStack(ModItems.plate_polymer, 3),
+				new ComparableStack(ModItems.bolt_tungsten, 3),
+				new ComparableStack(ModItems.bolt_dura_steel, 3),
+				new ComparableStack(ModItems.motor, 1),
+			}, 300);
+
+		makeRecipe(new ComparableStack(ModBlocks.turret_chekhov, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_battery, 1),
+				new OreDictStack("ingotSteel", 16),
+				new ComparableStack(ModItems.ingot_dura_steel, 4),
+				new ComparableStack(ModItems.motor, 3),
+				new ComparableStack(ModItems.circuit_targeting_tier3, 1),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.mechanism_rifle_2, 1),
+				new ComparableStack(ModBlocks.crate_iron, 1)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.turret_friendly, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_battery, 1),
+				new OreDictStack("ingotSteel", 16),
+				new ComparableStack(ModItems.ingot_dura_steel, 4),
+				new ComparableStack(ModItems.motor, 3),
+				new ComparableStack(ModItems.circuit_targeting_tier2, 1),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.mechanism_rifle_1, 1),
+				new ComparableStack(ModBlocks.crate_iron, 1)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.turret_jeremy, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_battery, 1),
+				new OreDictStack("ingotSteel", 16),
+				new ComparableStack(ModItems.ingot_dura_steel, 4),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.circuit_targeting_tier4, 1),
+				new ComparableStack(ModItems.motor_desh, 1),
+				new ComparableStack(ModItems.hull_small_steel, 3),
+				new ComparableStack(ModItems.mechanism_launcher_2, 1),
+				new ComparableStack(ModBlocks.crate_steel, 1)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.turret_tauon, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_lithium_battery, 1),
+				new OreDictStack("ingotSteel", 16),
+				new ComparableStack(ModItems.ingot_polymer, 4),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.circuit_targeting_tier4, 1),
+				new ComparableStack(ModItems.motor_desh, 1),
+				new OreDictStack("ingotCopper", 32),
+				new ComparableStack(ModItems.mechanism_special, 1),
+				new ComparableStack(ModItems.battery_lithium, 1)
+			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_quantum, 1), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
@@ -772,7 +835,7 @@ public class AssemblerRecipes {
 			return null;
 		}
 		
-		//if index 3 exists, eval it as a stacksize
+		//if index 2 exists, eval it as a stacksize
 		if(array.size() > 2 && array.get(2).isJsonPrimitive()) {
 			
 			if(array.get(2).getAsJsonPrimitive().isNumber()) {

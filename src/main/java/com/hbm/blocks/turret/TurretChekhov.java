@@ -4,7 +4,6 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
 import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;

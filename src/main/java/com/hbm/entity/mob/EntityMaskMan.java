@@ -62,8 +62,10 @@ public class EntityMaskMan extends EntityMob implements IBossDisplayData, IRadia
     		amount *= 0.25F;
     	if(source.isExplosion())
     		amount *= 0.5F;
-    	if(amount > 50)
-    		amount = 50;
+    	
+    	if(amount > 50) {
+    		amount = 50 + (amount - 50) * 0.25F;
+    	}
     	
     	return super.attackEntityFrom(source, amount);
     }

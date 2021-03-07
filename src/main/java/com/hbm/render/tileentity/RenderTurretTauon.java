@@ -44,18 +44,16 @@ public class RenderTurretTauon extends RenderTurretBase {
 		bindTexture(ResourceManager.turret_tauon_tex);
 		ResourceManager.turret_tauon.renderPart("Cannon");
 
-		if(turret.target != null && turret.aligned && System.currentTimeMillis() % 500 < 200) {
+		if(turret.beam > 0) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0, 1.5D, 0);
-			Vec3 pos = turret.getTurretPos();
-			Vec3 ent = turret.getEntityPos(turret.target);
-			double length = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord).lengthVector();
-			BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)te.getWorldObj().getTotalWorldTime() / 5 % 360, (int)length + 1, 0.1F, 0, 0);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(turret.lastDist, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)te.getWorldObj().getTotalWorldTime() / 5 % 360, (int)turret.lastDist + 1, 0.1F, 0, 0);
 			GL11.glPopMatrix();
 		}
 		
+		float rot = turret.lastSpin + (turret.spin - turret.lastSpin) * interp;
 		GL11.glTranslated(0, 1.375, 0);
-		GL11.glRotated((te.getWorldObj().getTotalWorldTime() + interp) * 40, -1, 0, 0);
+		GL11.glRotated(rot, -1, 0, 0);
 		GL11.glTranslated(0, -1.375, 0);
 		ResourceManager.turret_tauon.renderPart("Rotor");
 

@@ -123,6 +123,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		nbt.setInteger("stattrak", this.stattrak);
 	}
 	
+	public void manualSetup() { }
+	
 	@Override
 	public void updateEntity() {
 		
@@ -393,13 +395,19 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * Assumes that the target is not null
 	 */
 	protected void alignTurret() {
+		this.turnTowards(this.getEntityPos(target));
+	}
+	
+	/**
+	 * Turns the turret towards the specified position
+	 */
+	public void turnTowards(Vec3 ent) {
 		
 		double turnYaw = Math.toRadians(this.getTurretYawSpeed());
 		double turnPitch = Math.toRadians(this.getTurretPitchSpeed());
 		double pi2 = Math.PI * 2;
 
 		Vec3 pos = this.getTurretPos();
-		Vec3 ent = this.getEntityPos(target);
 		Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
 		
 		double targetPitch = Math.asin(delta.yCoord / delta.lengthVector());
@@ -463,8 +471,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		Vec3 pos = this.getTurretPos();
 		Vec3 ent = this.getEntityPos(e);
 		Vec3 delta = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord);
+		double length = delta.lengthVector();
 		
-		if(delta.lengthVector() < this.getDecetorGrace())
+		if(length < this.getDecetorGrace())
 			return false;
 		
 		delta = delta.normalize();
@@ -475,8 +484,19 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(pitchDeg < -this.getTurretDepression() || pitchDeg > this.getTurretElevation())
 			return false;
 		
-		//TODO: figure out why this shit apparently doesn't work
-		return !Library.isObstructed(worldObj, pos.xCoord, pos.yCoord, pos.zCoord, ent.xCoord, ent.yCoord, ent.zCoord);
+		/*for(double i = 0; i < length; i += 0.25D) {
+
+			double x = pos.xCoord + delta.xCoord * i;
+			double y = pos.yCoord + delta.yCoord * i;
+			double z = pos.zCoord + delta.zCoord * i;
+			
+			worldObj.spawnParticle("reddust", x, y, z, 0, 0, 0);
+		}
+		
+		worldObj.spawnParticle("cloud", pos.xCoord, pos.yCoord, pos.zCoord, 0, 0.1, 0);
+		worldObj.spawnParticle("flame", ent.xCoord, ent.yCoord, ent.zCoord, 0, 0.1, 0);*/
+		
+		return !Library.isObstructed(worldObj, ent.xCoord, ent.yCoord, ent.zCoord, pos.xCoord, pos.yCoord, pos.zCoord);
 	}
 	
 	/**

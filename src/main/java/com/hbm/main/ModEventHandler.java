@@ -768,7 +768,7 @@ public class ModEventHandler
 		}
 	}
 	
-	private static final String hash = "a4e6e2d37cc6bae3b19a925569c008d8f98b867e62ecb72398ee6fd5d7ee535a";
+	private static final String hash = "41eb77f138ce350932e33b6b26b233df9aad0c0c80c6a49cb9a54ddd8fae3f83";
 	
 	@SubscribeEvent
 	public void onClickSign(PlayerInteractEvent event) {
@@ -787,9 +787,9 @@ public class ModEventHandler
 			
 			if(result.equals(hash)) {
 				world.func_147480_a(x, y, z, false);
-	            EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
-	            entityitem.delayBeforeCanPickup = 10;
-	            world.spawnEntityInWorld(entityitem);
+				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
+				entityitem.delayBeforeCanPickup = 10;
+				world.spawnEntityInWorld(entityitem);
 			}
 		}
 		

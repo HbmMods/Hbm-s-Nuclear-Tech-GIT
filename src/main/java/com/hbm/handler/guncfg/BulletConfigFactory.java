@@ -221,6 +221,31 @@ public class BulletConfigFactory {
 		return bullet;
 	}
 	
+	public static BulletConfiguration standardShellConfig() {
+		
+		BulletConfiguration bullet = new BulletConfiguration();
+		
+		bullet.velocity = 3.0F;
+		bullet.spread = 0.005F;
+		bullet.wear = 10;
+		bullet.bulletsMin = 1;
+		bullet.bulletsMax = 1;
+		bullet.gravity = 0.005D;
+		bullet.maxAge = 300;
+		bullet.doesRicochet = true;
+		bullet.ricochetAngle = 10;
+		bullet.HBRC = 2;
+		bullet.LBRC = 100;
+		bullet.bounceMod = 0.8;
+		bullet.doesPenetrate = false;
+		bullet.doesBreakGlass = false;
+		bullet.style = BulletConfiguration.STYLE_GRENADE;
+		bullet.plink = BulletConfiguration.PLINK_GRENADE;
+		bullet.vPFX = "smoke";
+		
+		return bullet;
+	}
+	
 	public static BulletConfiguration standardNukeConfig() {
 		
 		BulletConfiguration bullet = new BulletConfiguration();

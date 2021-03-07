@@ -8,12 +8,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelBaleflare;
-import com.hbm.render.model.ModelBuckshot;
 import com.hbm.render.model.ModelBullet;
-import com.hbm.render.model.ModelGrenade;
-import com.hbm.render.model.ModelMIRV;
-import com.hbm.render.model.ModelMiniNuke;
-import com.hbm.render.model.ModelRocket;
 import com.hbm.render.util.RenderSparks;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -24,20 +19,10 @@ import net.minecraft.util.ResourceLocation;
 public class RenderBullet extends Render {
 
 	private ModelBullet bullet;
-	private ModelBuckshot buckshot;
-	private ModelRocket rocket;
-	private ModelGrenade grenade;
-	private ModelMiniNuke nuke;
-	private ModelMIRV mirv;
 	private ModelBaleflare bf;
 
 	public RenderBullet() {
 		bullet = new ModelBullet();
-		buckshot = new ModelBuckshot();
-		rocket = new ModelRocket();
-		grenade = new ModelGrenade();
-		nuke = new ModelMiniNuke();
-		mirv = new ModelMIRV();
 		bf = new ModelBaleflare();
 	}
 
@@ -62,6 +47,7 @@ public class RenderBullet extends Render {
 		switch(style) {
 			case BulletConfiguration.STYLE_NONE: break;
 			case BulletConfiguration.STYLE_NORMAL: renderBullet(trail); break;
+			case BulletConfiguration.STYLE_PISTOL: renderPistol(trail); break;
 			case BulletConfiguration.STYLE_BOLT: renderDart(trail, bullet.getEntityId()); break;
 			case BulletConfiguration.STYLE_FLECHETTE: renderFlechette(); break;
 			case BulletConfiguration.STYLE_FOLLY: renderBullet(trail); break;
@@ -73,6 +59,7 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_BF: renderNuke(2); break;
 			case BulletConfiguration.STYLE_ORB: renderOrb(trail); break;
 			case BulletConfiguration.STYLE_METEOR: renderMeteor(trail); break;
+			case BulletConfiguration.STYLE_APDS: renderAPDS(); break;
 			default: renderBullet(trail); break;
 		}
 		
@@ -99,6 +86,19 @@ public class RenderBullet extends Render {
 			ResourceManager.projectiles.renderPart("BulletRifle");
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}
+		
+	}
+	
+	private void renderPistol(int type) {
+		
+		GL11.glScaled(0.5, 0.5, 0.5);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glRotated(90, 0, 1, 0);
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		bindTexture(ResourceManager.bullet_pistol_tex);
+		ResourceManager.projectiles.renderPart("BulletPistol");
+		GL11.glShadeModel(GL11.GL_FLAT);
 		
 	}
 	
@@ -271,6 +271,18 @@ public class RenderBullet extends Render {
 	private void renderFlechette() {
 		
 		GL11.glScaled(0.5, 0.5, 0.5);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glRotated(90, 0, 1, 0);
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		bindTexture(ResourceManager.flechette_tex);
+		ResourceManager.projectiles.renderPart("Flechette");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	private void renderAPDS() {
+		
+		GL11.glScaled(2, 2, 2);
 		GL11.glRotated(90, 0, 0, 1);
 		GL11.glRotated(90, 0, 1, 0);
 		

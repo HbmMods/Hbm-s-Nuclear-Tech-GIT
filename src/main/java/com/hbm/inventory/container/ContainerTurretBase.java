@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.items.ModItems;
+import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,11 +9,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerTurretChekhov extends Container {
+public class ContainerTurretBase extends Container {
 
-	private TileEntityTurretChekhov turret;
+	private TileEntityTurretBaseNT turret;
 
-	public ContainerTurretChekhov(InventoryPlayer invPlayer, TileEntityTurretChekhov te) {
+	public ContainerTurretBase(InventoryPlayer invPlayer, TileEntityTurretBaseNT te) {
 		turret = te;
 		
 		this.addSlotToContainer(new Slot(te, 0, 98, 27));
@@ -52,7 +53,12 @@ public class ContainerTurretChekhov extends Container {
 				if(!this.mergeItemStack(var5, turret.getSizeInventory(), this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, turret.getSizeInventory(), false)) {
+			} else if(var5.getItem() == ModItems.turret_chip) {
+				
+				if(!this.mergeItemStack(var5, 0, 1, false))
+					return null;
+				
+			} else if(!this.mergeItemStack(var5, 1, turret.getSizeInventory(), false)) {
 				return null;
 			}
 

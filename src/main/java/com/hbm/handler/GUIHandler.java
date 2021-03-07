@@ -9,6 +9,9 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.turret.TileEntityTurretChekhov;
+import com.hbm.tileentity.turret.TileEntityTurretFriendly;
+import com.hbm.tileentity.turret.TileEntityTurretJeremy;
+import com.hbm.tileentity.turret.TileEntityTurretTauon;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -731,7 +734,28 @@ public class GUIHandler implements IGuiHandler {
 
 		case ModBlocks.guiID_chekhov: {
 			if(entity instanceof TileEntityTurretChekhov) {
-				return new ContainerTurretChekhov(player.inventory, (TileEntityTurretChekhov) entity);
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretChekhov) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_friendly: {
+			if(entity instanceof TileEntityTurretFriendly) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretFriendly) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_jeremy: {
+			if(entity instanceof TileEntityTurretJeremy) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretJeremy) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_tauon: {
+			if(entity instanceof TileEntityTurretTauon) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretTauon) entity);
 			}
 			return null;
 		}
@@ -1455,6 +1479,27 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_chekhov: {
 			if(entity instanceof TileEntityTurretChekhov) {
 				return new GUITurretChekhov(player.inventory, (TileEntityTurretChekhov) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_friendly: {
+			if(entity instanceof TileEntityTurretFriendly) {
+				return new GUITurretFriendly(player.inventory, (TileEntityTurretFriendly) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_jeremy: {
+			if(entity instanceof TileEntityTurretJeremy) {
+				return new GUITurretJeremy(player.inventory, (TileEntityTurretJeremy) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_tauon: {
+			if(entity instanceof TileEntityTurretTauon) {
+				return new GUITurretTauon(player.inventory, (TileEntityTurretTauon) entity);
 			}
 			return null;
 		}
