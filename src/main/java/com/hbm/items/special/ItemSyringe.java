@@ -3,6 +3,7 @@ package com.hbm.items.special;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.VersatileConfig;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.interfaces.IPartiallyFillable;
 import com.hbm.items.ModItems;
@@ -29,7 +30,7 @@ public class ItemSyringe extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-		if(this == ModItems.syringe_antidote) {
+		if(this == ModItems.syringe_antidote && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.clearActivePotions();
 
@@ -43,10 +44,12 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
 				}
+			
+				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
 
-		if(this == ModItems.syringe_awesome) {
+		if(this == ModItems.syringe_awesome && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 50 * 20, 9));
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 50 * 20, 9));
@@ -70,6 +73,8 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_empty, 1, 0), false);
 				}
+			
+				VersatileConfig.applyPotionSickness(player, 50);
 			}
 		}
 
@@ -93,7 +98,7 @@ public class ItemSyringe extends Item {
 			}
 		}
 
-		if(this == ModItems.syringe_metal_stimpak) {
+		if(this == ModItems.syringe_metal_stimpak && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.heal(5);
 
@@ -107,10 +112,12 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
+				
+				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
 
-		if(this == ModItems.syringe_metal_medx) {
+		if(this == ModItems.syringe_metal_medx && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 4 * 60 * 20, 2));
 
@@ -124,10 +131,12 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
+				
+				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
 
-		if(this == ModItems.syringe_metal_psycho) {
+		if(this == ModItems.syringe_metal_psycho && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 2 * 60 * 20, 0));
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 2 * 60 * 20, 0));
@@ -142,10 +151,12 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
+				
+				VersatileConfig.applyPotionSickness(player, 5);
 			}
 		}
 
-		if(this == ModItems.syringe_metal_super) {
+		if(this == ModItems.syringe_metal_super && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.heal(25);
 				player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 0));
@@ -160,10 +171,12 @@ public class ItemSyringe extends Item {
 				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
 					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
 				}
+				
+				VersatileConfig.applyPotionSickness(player, 15);
 			}
 		}
 
-		if(this == ModItems.med_bag) {
+		if(this == ModItems.med_bag && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.setHealth(player.getMaxHealth());
 
@@ -176,6 +189,8 @@ public class ItemSyringe extends Item {
 				player.removePotionEffect(Potion.weakness.id);
 				player.removePotionEffect(Potion.wither.id);
 				player.removePotionEffect(HbmPotion.radiation.id);
+				
+				VersatileConfig.applyPotionSickness(player, 15);
 
 				stack.stackSize--;
 			}

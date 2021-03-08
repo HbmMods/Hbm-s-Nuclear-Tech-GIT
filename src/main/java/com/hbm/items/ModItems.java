@@ -96,6 +96,7 @@ public class ModItems {
 	public static Item nugget_schrabidium_fuel;
 	public static Item ingot_advanced_alloy;
 	public static Item lithium;
+	public static Item ingot_zirconium;
 	public static Item ingot_hes;
 	public static Item ingot_les;
 	public static Item nugget_hes;
@@ -302,6 +303,7 @@ public class ModItems {
 	public static Item powder_red_copper;
 	public static Item powder_steel;
 	public static Item powder_lithium;
+	public static Item powder_zirconium;
 	public static Item redstone_depleted;
 
 	public static Item powder_australium;
@@ -2250,6 +2252,7 @@ public class ModItems {
 		plate_gold = new Item().setUnlocalizedName("plate_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_gold");
 		plate_advanced_alloy = new Item().setUnlocalizedName("plate_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_advanced_alloy");
 		lithium = new Item().setUnlocalizedName("lithium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":lithium");
+		ingot_zirconium = new Item().setUnlocalizedName("ingot_zirconium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_zirconium");
 		ingot_semtex = new ItemLemon(4, 5, true).setUnlocalizedName("ingot_semtex").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_semtex");
 		ingot_phosphorus = new ItemRadioactive(0F, true).setUnlocalizedName("ingot_phosphorus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_phosphorus");
 		wire_advanced_alloy = new Item().setUnlocalizedName("wire_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_advanced_alloy");
@@ -2433,6 +2436,7 @@ public class ModItems {
 		powder_red_copper = new Item().setUnlocalizedName("powder_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_red_copper");
 		powder_steel = new Item().setUnlocalizedName("powder_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_steel");
 		powder_lithium = new Item().setUnlocalizedName("powder_lithium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lithium");
+		powder_zirconium = new Item().setUnlocalizedName("powder_zirconium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_zirconium");
 		redstone_depleted = new Item().setUnlocalizedName("redstone_depleted").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":redstone_depleted");
 		powder_power = new ItemCustomLore().setUnlocalizedName("powder_power").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_energy_alt");
 		powder_iodine = new ItemCustomLore().setUnlocalizedName("powder_iodine").setCreativeTab(null).setTextureName(RefStrings.MODID + ":powder_iodine");
@@ -4694,6 +4698,7 @@ public class ModItems {
 		//Misc Ingots
 		GameRegistry.registerItem(ingot_phosphorus, ingot_phosphorus.getUnlocalizedName());
 		GameRegistry.registerItem(lithium, lithium.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_zirconium, ingot_zirconium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_semtex, ingot_semtex.getUnlocalizedName());
 		GameRegistry.registerItem(solid_fuel, solid_fuel.getUnlocalizedName());
 		GameRegistry.registerItem(rocket_fuel, rocket_fuel.getUnlocalizedName());
@@ -4760,6 +4765,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_chlorophyte, powder_chlorophyte.getUnlocalizedName());
 		GameRegistry.registerItem(powder_combine_steel, powder_combine_steel.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lithium, powder_lithium.getUnlocalizedName());
+		GameRegistry.registerItem(powder_zirconium, powder_zirconium.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lignite, powder_lignite.getUnlocalizedName());
 		GameRegistry.registerItem(powder_iodine, powder_iodine.getUnlocalizedName());
 		GameRegistry.registerItem(powder_thorium, powder_thorium.getUnlocalizedName());

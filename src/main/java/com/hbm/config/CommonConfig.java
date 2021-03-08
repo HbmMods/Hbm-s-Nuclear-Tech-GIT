@@ -43,6 +43,13 @@ public class CommonConfig {
 		return prop.getBoolean();
 	}
 
+	public static String createConfigString(Configuration config, String category, String name, String comment, String def) {
+
+		Property prop = config.get(category, name, def);
+		prop.comment = comment;
+		return prop.getString();
+	}
+
 	public static String[] createConfigStringList(Configuration config, String category, String name, String comment) {
 
 		Property prop = config.get(category, name, new String[] { "PLACEHOLDER" });

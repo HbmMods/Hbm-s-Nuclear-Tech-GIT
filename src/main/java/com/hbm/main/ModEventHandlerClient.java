@@ -215,6 +215,39 @@ public class ModEventHandlerClient {
 		
 		if(invis != null && invis.getAmplifier() > 0)
 			event.setCanceled(true);
+
+		if(player.getDisplayName().toLowerCase().equals("martmn")) {
+			
+			event.setCanceled(true);
+			
+			float pX = (float) (player.prevPosX + (player.posX - player.prevPosX) * (double)event.partialRenderTick);
+			float pY = (float) (player.prevPosY + (player.posY - player.prevPosY) * (double)event.partialRenderTick);
+			float pZ = (float) (player.prevPosZ + (player.posZ - player.prevPosZ) * (double)event.partialRenderTick);
+			EntityPlayer me = Minecraft.getMinecraft().thePlayer;
+			float mX = (float) (me.prevPosX + (me.posX - me.prevPosX) * (double)event.partialRenderTick);
+			float mY = (float) (me.prevPosY + (me.posY - me.prevPosY) * (double)event.partialRenderTick);
+			float mZ = (float) (me.prevPosZ + (me.posZ - me.prevPosZ) * (double)event.partialRenderTick);
+
+			Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/particle/fart.png"));
+			GL11.glPushMatrix();
+			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glTranslatef(pX - mX, pY - mY + 0.75F - (float)player.getYOffset(), pZ - mZ);
+			GL11.glRotatef(-me.rotationYaw, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(me.rotationPitch, 1.0F, 0.0F, 0.0F);
+			Tessellator t = Tessellator.instance;
+			t.startDrawingQuads();
+			t.setBrightness(240);
+			t.addVertexWithUV(-1, 1, 0, 0, 0);
+			t.addVertexWithUV(1, 1, 0, 1, 0);
+			t.addVertexWithUV(1, -1, 0, 1, 1);
+			t.addVertexWithUV(-1, -1, 0, 0, 1);
+			t.draw();
+			
+			GL11.glEnable(GL11.GL_LIGHTING);
+			
+			GL11.glPopMatrix();
+		}
 		
 		ResourceLocation cloak = RenderAccessoryUtility.getCloakFromPlayer(player);
 		

@@ -3,6 +3,7 @@ package com.hbm.items.food;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.config.VersatileConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
@@ -27,6 +28,9 @@ public class ItemPill extends ItemFood {
 	@Override
 	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
 		if(!world.isRemote) {
+			
+			VersatileConfig.applyPotionSickness(player, 5);
+			
 			if(this == ModItems.pill_iodine) {
 				player.removePotionEffect(Potion.blindness.id);
 				player.removePotionEffect(Potion.confusion.id);
@@ -96,7 +100,8 @@ public class ItemPill extends ItemFood {
 	@Override
 	public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
 
-		p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
+		if(!VersatileConfig.hasPotionSickness(p_77659_3_))
+			p_77659_3_.setItemInUse(p_77659_1_, this.getMaxItemUseDuration(p_77659_1_));
 
 		return p_77659_1_;
 	}
