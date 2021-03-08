@@ -90,6 +90,7 @@ potion.hbm_radaway=Антирадин
 potion.hbm_telekinesis=! ! !
 potion.hbm_phosphorus=Фосфорные ожоги
 potion.hbm_stability=Стабильность
+potion.hbm_potionsickness=Послезельевая болезнь
 
 tool.ability.recursion=Жилковый Майнер
 tool.ability.hammer=Зона действия
@@ -896,6 +897,7 @@ item.ingot_phosphorus.name=Брусок белого фосфора
 item.ingot_magnetized_tungsten.name=Намагниченный слиток вольфрама
 item.ingot_combine_steel.name=Слиток CMB-стали
 item.plate_combine_steel.name=Пластина CMB-стали 
+item.ingot_zirconium.name=Циркониевый куб
 
 item.plate_armor_lunar.name=Лунная обшивка
 item.plate_armor_titanium.name=Титановая обшивка брони
@@ -1383,6 +1385,7 @@ item.powder_magic.name=Измельченное зачарование
 item.redstone_depleted.name=Обесцвеченная красная пыль
 item.powder_steel_tiny.name=Кучка стального порошка
 item.fallout.name=Куча радиоактивных осадков
+item.powder_zirconium.name=Циркониевый порошок
 
 item.fragment_neodymium.name=Неодимовый осколок
 item.fragment_cobalt.name=Кобальтовый осколок
