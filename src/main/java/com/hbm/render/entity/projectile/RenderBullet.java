@@ -161,6 +161,8 @@ public class RenderBullet extends Render {
 	private void renderGrenade(int type) {
 
 		GL11.glScalef(0.25F, 0.25F, 0.25F);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glRotated(90, 0, 1, 0);
 		
 		switch(type) {
 		case 0:

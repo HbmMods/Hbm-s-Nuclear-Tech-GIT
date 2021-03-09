@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 public class ItemRTGPellet extends ItemRadioactive {
 
-	public ItemRTGPellet(float radiation) {
-		super(radiation);
+	public ItemRTGPellet(float radiation, boolean fire) {
+		super(radiation, fire);
 	}
 	
 	private static final String[] facts = new String[] {
