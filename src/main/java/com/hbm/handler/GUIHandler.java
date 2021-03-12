@@ -11,6 +11,7 @@ import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.turret.TileEntityTurretChekhov;
 import com.hbm.tileentity.turret.TileEntityTurretFriendly;
 import com.hbm.tileentity.turret.TileEntityTurretJeremy;
+import com.hbm.tileentity.turret.TileEntityTurretRichard;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -759,6 +760,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_richard: {
+			if(entity instanceof TileEntityTurretRichard) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretRichard) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1500,6 +1508,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_tauon: {
 			if(entity instanceof TileEntityTurretTauon) {
 				return new GUITurretTauon(player.inventory, (TileEntityTurretTauon) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_richard: {
+			if(entity instanceof TileEntityTurretRichard) {
+				return new GUITurretRichard(player.inventory, (TileEntityTurretRichard) entity);
 			}
 			return null;
 		}

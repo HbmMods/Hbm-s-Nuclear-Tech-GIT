@@ -455,6 +455,9 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityTurretJeremy.class, "tileentity_turret_jeremy");
 		GameRegistry.registerTileEntity(TileEntityTurretTauon.class, "tileentity_turret_tauon");
 		GameRegistry.registerTileEntity(TileEntityTurretFriendly.class, "tileentity_turret_friendly");
+		GameRegistry.registerTileEntity(TileEntityTurretRichard.class, "tileentity_turret_richard");
+		GameRegistry.registerTileEntity(TileEntitySILEX.class, "tileentity_silex");
+		GameRegistry.registerTileEntity(TileEntityFEL.class, "tileentity_fel");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);

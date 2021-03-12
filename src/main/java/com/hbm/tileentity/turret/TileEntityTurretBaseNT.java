@@ -20,9 +20,12 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.INpc;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -508,8 +511,13 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(e.isDead || !e.isEntityAlive())
 			return false;
 		
-		if(targetAnimals && e instanceof EntityAnimal)
-			return true;
+		if(targetAnimals) {
+			
+			if(e instanceof IAnimals)
+				return true;
+			if(e instanceof INpc)
+				return true;
+		}
 		
 		if(targetMobs && e instanceof IMob)
 			return true;

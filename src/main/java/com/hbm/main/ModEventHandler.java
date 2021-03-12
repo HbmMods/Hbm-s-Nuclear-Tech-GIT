@@ -44,6 +44,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
+import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
@@ -658,6 +659,22 @@ public class ModEventHandler
 				}
 			}
 			/// BETA HEALTH END ///
+
+			/// PU RADIATION START ///
+			
+			if(player.getUniqueID().toString().equals(Library.Pu_238)) {
+				
+				List<EntityLivingBase> entities = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, player.boundingBox.expand(3, 3, 3));
+				
+				for(EntityLivingBase e : entities) {
+					
+					if(e != player) {
+						e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 300, 2));
+					}
+				}
+			}
+			
+			/// PU RADIATION END ///
 		}
 
 		//TODO: rewrite this so it doesn't look like shit
@@ -676,6 +693,16 @@ public class ModEventHandler
 					vec.rotateAroundY((float) (1F * Math.PI / 180D));
 					player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 				}
+			}
+			
+			if(player.getUniqueID().toString().equals(Library.Pu_238)) {
+				
+				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
+				
+				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
+				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
+				
+				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
 		}
 	}
