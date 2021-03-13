@@ -25,7 +25,10 @@ allprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 }
-
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile){
+	options.encoding = 'UTF-8'
+}
 file "build.properties" withReader {
     def prop = new Properties()
     prop.load(it)
@@ -40,6 +43,15 @@ minecraft {
     version = "${config.minecraft.version}-${config.forge.version}-${config.minecraft.version}"
     runDir = "eclipse"
 }
+// configure  the source folders
+sourceSets {
+    api {
+		java {
+			srcDir 'api'
+		}
+    }
+}
+
 repositories {
     maven {
         name 'Forge' // Applied Energistics
@@ -98,4 +110,15 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    from sourceSets.api.allSource
+    classifier = 'sources'
+}
+
+// add api classes to main package
+jar {
+	from sourceSets.api.output
 }
