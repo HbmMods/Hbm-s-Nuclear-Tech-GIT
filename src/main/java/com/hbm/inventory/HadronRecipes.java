@@ -32,7 +32,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_copper),
-				160,
+				80,
 				new ItemStack(ModItems.particle_aproton),
 				new ItemStack(ModItems.particle_aelectron),
 				true
@@ -40,7 +40,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_amat),
 				new ItemStack(ModItems.particle_amat),
-				1600,
+				80,
 				new ItemStack(ModItems.particle_aschrab),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -48,7 +48,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_aschrab),
 				new ItemStack(ModItems.particle_aschrab),
-				2400,
+				100000,
 				new ItemStack(ModItems.particle_dark),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -56,7 +56,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_amat),
-				400,
+				1000,
 				new ItemStack(ModItems.particle_muon),
 				new ItemStack(ModItems.particle_empty),
 				true
@@ -64,7 +64,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_hydrogen),
 				new ItemStack(ModItems.particle_lead),
-				8000,
+				4000,
 				new ItemStack(ModItems.particle_higgs),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -72,7 +72,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_muon),
 				new ItemStack(ModItems.particle_dark),
-				800,
+				100000,
 				new ItemStack(ModItems.particle_strange),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -80,7 +80,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_strange),
 				new ItemStack(ModItems.powder_magic),
-				24000,
+				500000,
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.dust),
 				false
@@ -88,7 +88,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.particle_higgs),
-				200000,
+				1000000,
 				new ItemStack(ModItems.particle_digamma),
 				new ItemStack(ModItems.particle_empty),
 				false
@@ -96,7 +96,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(Items.chicken),
 				new ItemStack(Items.chicken),
-				800,
+				100,
 				new ItemStack(ModItems.nugget),
 				new ItemStack(ModItems.nugget),
 				false

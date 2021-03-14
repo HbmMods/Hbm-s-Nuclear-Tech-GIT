@@ -8,9 +8,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class BlockHadronPower extends BlockContainer {
+	
+	public long power;
 
-	public BlockHadronPower(Material mat) {
+	public BlockHadronPower(Material mat, long power) {
 		super(mat);
+		this.power = power;
 	}
 
 	@Override

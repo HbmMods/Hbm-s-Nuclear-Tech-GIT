@@ -79,7 +79,7 @@ public class MagicRecipes {
 				new ComparableStack(ModItems.diamond_gavel)));
 		
 		recipes.add(new MagicRecipe(new ItemStack(ModBlocks.hadron_coil_mese),
-				new ComparableStack(ModBlocks.hadron_coil_starmetal),
+				new ComparableStack(ModBlocks.hadron_coil_chlorophyte),
 				new ComparableStack(ModItems.powder_dineutronium),
 				new ComparableStack(ModItems.plate_desh),
 				new OreDictStack("dustGold")));

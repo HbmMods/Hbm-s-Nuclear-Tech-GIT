@@ -67,7 +67,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 
 	@Override
 	public double getDecetorRange() {
-		return 80D;
+		return 64D;
 	}
 	
 	int timer;
@@ -143,12 +143,12 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 		vec.rotateAroundZ((float) -this.rotationPitch);
-		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.75));
+		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 		
 		EntityBulletBase proj = new EntityBulletBase(worldObj, BulletConfigSyncingUtil.getKey(bullet));
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
 		
-		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity * 0.5F, bullet.spread);
+		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity * 0.75F, bullet.spread);
 		worldObj.spawnEntityInWorld(proj);
 	}
 	

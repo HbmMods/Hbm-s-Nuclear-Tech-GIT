@@ -157,6 +157,7 @@ public class BulletConfigSyncingUtil {
 	public static int B75_HE = i++;
 
 	public static int NEEDLE_GPS = i++;
+	public static int DART_NORMAL = i++;
 
 	public static int G20_NORMAL_FIRE = i++;
 	public static int G20_SHRAPNEL_FIRE = i++;
@@ -375,6 +376,7 @@ public class BulletConfigSyncingUtil {
 		configSet.put(B75_HE, Gun75BoltFactory.get75BoltHEConfig());
 
 		configSet.put(NEEDLE_GPS, GunDartFactory.getGPSConfig());
+		configSet.put(DART_NORMAL, GunDartFactory.getNERFConfig());
 
 		configSet.put(G20_NORMAL_FIRE, Gun20GaugeFactory.get20GaugeConfig().setToFire(3));
 		configSet.put(G20_SHRAPNEL_FIRE, Gun20GaugeFactory.get20GaugeShrapnelConfig().setToFire(3));

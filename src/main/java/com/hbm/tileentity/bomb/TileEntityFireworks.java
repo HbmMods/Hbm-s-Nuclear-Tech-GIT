@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityFireworks extends TileEntity {
 
 	public int color = 0xff0000;
-	public String message = "EAT MY ASS";
+	public String message = "NUCLEAR TECH";
 	public int charges;
 	
 	int index;

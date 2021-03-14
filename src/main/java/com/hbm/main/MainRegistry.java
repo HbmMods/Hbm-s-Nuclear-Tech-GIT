@@ -1099,9 +1099,9 @@ public class MainRegistry {
 		HazmatRegistry.registerHazmat(ModItems.hev_legs, 0.7F);
 		HazmatRegistry.registerHazmat(ModItems.hev_boots, 0.3F);
 
-		HazmatRegistry.registerHazmat(ModItems.fau_helmet, 0.5F);
-		HazmatRegistry.registerHazmat(ModItems.fau_plate, 1.0F);
-		HazmatRegistry.registerHazmat(ModItems.fau_legs, 0.7F);
+		HazmatRegistry.registerHazmat(ModItems.fau_helmet, 0.6F);
+		HazmatRegistry.registerHazmat(ModItems.fau_plate, 1.2F);
+		HazmatRegistry.registerHazmat(ModItems.fau_legs, 0.9F);
 		HazmatRegistry.registerHazmat(ModItems.fau_boots, 0.3F);
 
 		HazmatRegistry.registerHazmat(ModItems.paa_plate, 0.8F);

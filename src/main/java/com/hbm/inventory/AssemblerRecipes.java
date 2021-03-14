@@ -496,7 +496,7 @@ public class AssemblerRecipes {
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_cyclotron, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_lithium_battery, 3),
-				new ComparableStack(ModBlocks.fusion_conductor, 8),
+				new ComparableStack(ModBlocks.hadron_coil_neodymium, 8),
 				new ComparableStack(ModItems.wire_advanced_alloy, 96),
 				new OreDictStack("ingotSteel", 16),
 				new OreDictStack("plateSteel", 32),
@@ -650,6 +650,17 @@ public class AssemblerRecipes {
 				new OreDictStack("ingotCopper", 32),
 				new ComparableStack(ModItems.mechanism_special, 1),
 				new ComparableStack(ModItems.battery_lithium, 1)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.turret_richard, 1), new AStack[] {
+				new ComparableStack(ModBlocks.machine_battery, 1),
+				new OreDictStack("ingotSteel", 16),
+				new ComparableStack(ModItems.ingot_dura_steel, 4),
+				new ComparableStack(ModItems.motor, 2),
+				new ComparableStack(ModItems.circuit_targeting_tier4, 1),
+				new ComparableStack(ModItems.ingot_polymer, 2),
+				new ComparableStack(ModItems.hull_small_steel, 8),
+				new ComparableStack(ModItems.mechanism_launcher_2, 1),
+				new ComparableStack(ModBlocks.crate_steel, 1)
 			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.block_cap_nuka, 1), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);

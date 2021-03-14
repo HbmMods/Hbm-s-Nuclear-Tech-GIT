@@ -128,7 +128,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	public static void setAsbestos(EntityLivingBase entity, int asbestos) {
 		getData(entity).asbestos = asbestos;
 		
-		if(asbestos <= 1000000) {
+		if(asbestos >= 30 * 60 * 20) {
 			getData(entity).asbestos = 0;
 			entity.attackEntityFrom(ModDamageSource.asbestos, 1000);
 		}

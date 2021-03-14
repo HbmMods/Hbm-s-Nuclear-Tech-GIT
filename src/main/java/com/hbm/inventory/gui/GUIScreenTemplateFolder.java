@@ -3,21 +3,16 @@ package com.hbm.inventory.gui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map.Entry;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.FluidTypeHandler.FluidType;
 import com.hbm.inventory.AssemblerRecipes;
 import com.hbm.inventory.MachineRecipes;
-import com.hbm.inventory.RecipesCommon;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
-import com.hbm.items.machine.ItemFluidIdentifier;
-import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -25,6 +20,7 @@ import com.hbm.packet.PacketDispatcher;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -43,8 +39,10 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 	protected int guiLeft;
 	protected int guiTop;
 	int currentPage = 0;
+	List<ItemStack> allStacks = new ArrayList<ItemStack>();
 	List<ItemStack> stacks = new ArrayList<ItemStack>();
 	List<FolderButton> buttons = new ArrayList<FolderButton>();
+	private GuiTextField search;
 
 	public GUIScreenTemplateFolder(EntityPlayer player) {
 
@@ -55,35 +53,61 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 			// Stamps
 			for(Item i : MachineRecipes.stamps_plate)
-				stacks.add(new ItemStack(i));
+				allStacks.add(new ItemStack(i));
 			for(Item i : MachineRecipes.stamps_wire)
-				stacks.add(new ItemStack(i));
+				allStacks.add(new ItemStack(i));
 			for(Item i : MachineRecipes.stamps_circuit)
-				stacks.add(new ItemStack(i));
+				allStacks.add(new ItemStack(i));
 			// Tracks
 			for(int i = 1; i < ItemCassette.TrackType.values().length; i++)
-				stacks.add(new ItemStack(ModItems.siren_track, 1, i));
+				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			// Fluid IDs
 			for(int i = 1; i < FluidType.values().length; i++)
-				stacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
+				allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, i));
 			// Assembly Templates
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++)
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) == null)
-					stacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
 			// Chemistry Templates
 			for(int i = 0; i < ItemChemistryTemplate.EnumChemistryTemplate.values().length; i++)
-				stacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
+				allStacks.add(new ItemStack(ModItems.chemistry_template, 1, i));
 		} else {
 
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
 				
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) != null &&
 						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem()))
-					stacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
 			}
 			
 			isJournal = true;
 		}
+		
+		search(null);
+	}
+	
+	private void search(String sub) {
+		
+		stacks.clear();
+		
+		this.currentPage = 0;
+		
+		if(sub == null || sub.isEmpty()) {
+			stacks.addAll(allStacks);
+			updateButtons();
+			return;
+		}
+		
+		sub = sub.toLowerCase();
+		
+		for(ItemStack stack : allStacks) {
+			
+			if(stack.getDisplayName().toLowerCase().contains(sub)) {
+				stacks.add(stack);
+			}
+		}
+		
+		updateButtons();
 	}
 
 	int getPageCount() {
@@ -111,6 +135,13 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		this.guiTop = (this.height - this.ySize) / 2;
 
 		updateButtons();
+
+		Keyboard.enableRepeatEvents(true);
+		this.search = new GuiTextField(this.fontRendererObj, guiLeft + 61, guiTop + 213, 48, 12);
+		this.search.setTextColor(0xffffff);
+		this.search.setDisabledTextColour(0xffffff);
+		this.search.setEnableBackgroundDrawing(false);
+		this.search.setMaxStringLength(100);
 	}
 
 	@Override
@@ -134,6 +165,16 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 	}
 
 	protected void mouseClicked(int i, int j, int k) {
+
+		System.out.println(i + " " + j);
+		System.out.println((guiLeft + i) + " " + (guiTop + j));
+		
+		if(i >= guiLeft + 45 && i < guiLeft + 117 && j >= guiTop + 211 && j < guiTop + 223) {
+			this.search.setFocused(true);
+		} else  {
+			this.search.setFocused(false);
+		}
+
 		try {
 			for(FolderButton b : buttons)
 				if(b.isMouseOnButton(i, j))
@@ -162,13 +203,24 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
+		if(search.isFocused())
+			drawTexturedModalRect(guiLeft + 45, guiTop + 211, 176, 54, 72, 12);
+
 		for(FolderButton b : buttons)
 			b.drawButton(b.isMouseOnButton(i, j));
 		for(FolderButton b : buttons)
 			b.drawIcon(b.isMouseOnButton(i, j));
+		
+		search.drawTextBox();
 	}
 
 	protected void keyTyped(char p_73869_1_, int p_73869_2_) {
+		
+		if (this.search.textboxKeyTyped(p_73869_1_, p_73869_2_)) {
+			this.search(this.search.getText());
+			return;
+		}
+		
 		if(p_73869_2_ == 1 || p_73869_2_ == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
 			this.mc.thePlayer.closeScreen();
 		}

@@ -49,6 +49,36 @@ public class GunDartFactory {
 		return config;
 	}
 
+	public static GunConfiguration getMymyConfig() {
+		
+		GunConfiguration config = new GunConfiguration();
+		
+		config.rateOfFire = 1;
+		config.roundsPerCycle = 1;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_MANUAL;
+		config.hasSights = false;
+		config.reloadDuration = 10;
+		config.firingDuration = 0;
+		config.ammoCap = 1;
+		config.reloadType = GunConfiguration.RELOAD_FULL;
+		config.allowsInfinity = true;
+		config.crosshair = Crosshair.NONE;
+		config.durability = 1000;
+		config.reloadSound = GunConfiguration.RSOUND_GRENADE;
+		config.firingSound = "hbm:weapon.dartShoot";
+		config.reloadSoundEnd = false;
+		config.showAmmo = true;
+		
+		config.name = "NERF blaster of unknown design";
+		config.manufacturer = "Hasbro";
+		
+		config.config = new ArrayList();
+		config.config.add(BulletConfigSyncingUtil.DART_NORMAL);
+		
+		return config;
+	}
+
 	public static BulletConfiguration getGPSConfig() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
@@ -94,4 +124,16 @@ public class GunDartFactory {
 		return bullet;
 	}
 
+	public static BulletConfiguration getNERFConfig() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = ModItems.ammo_dart_nerf;
+		bullet.velocity = 1.0F;
+		bullet.gravity = 0.04D;
+		bullet.dmgMin = 0;
+		bullet.dmgMax = 0;
+		
+		return bullet;
+	}
 }
