@@ -18,21 +18,82 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
 apply plugin: 'forge'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile){
+	options.encoding = 'UTF-8'
+}
+
+file "build.properties" withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+
+version = "${config.hbm.version}"
+group= "com" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "hbm"
 
 minecraft {
-    version = "1.7.10-10.13.4.1558-1.7.10"
+    version = "${config.minecraft.version}-${config.forge.version}-${config.minecraft.version}"
     runDir = "eclipse"
 }
 
+// configure  the source folders
+sourceSets {
+
+    api {
+		java {
+			srcDir 'api'
+		}
+    }
+}
+
+repositories {
+    maven {
+        name 'Forge' // Applied Energistics
+        url 'http://files.minecraftforge.net/maven'
+    }
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+    maven {
+        name = "ic2, forestry"
+        url = "http://maven.ic2.player.to/"
+    }
+    maven { // AppleCore
+        url "http://www.ryanliptak.com/maven/"
+    }
+    maven { //EnderIO
+         name = "tterrag"
+         url = "http://maven.tterrag.com/"
+    }
+    maven { // WAILA
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven { // OpenComputers
+        name "OpenComputers"
+        url "http://maven.cil.li"
+    }
+}
+
 dependencies {
-compile files('lib/CodeChickenCore-1.7.10-1.0.4.29-dev.jar')
-compile files('lib/CodeChickenLib-1.7.10-1.1.3.140-dev.jar')
-compile files('lib/NotEnoughItems-1.7.10-1.0.3.74-dev.jar')
+
+    compile "codechicken:CodeChickenLib:${config.minecraft.version}-${config.codechickenlib.version}:dev"
+    compile "codechicken:CodeChickenCore:${config.minecraft.version}-${config.codechickencore.version}:dev"
+    compile "codechicken:NotEnoughItems:${config.minecraft.version}-${config.nei.version}:dev"
+	
+	// use this if ncessary
+	 //   compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 processResources
@@ -53,4 +114,15 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    from sourceSets.api.allSource
+    classifier = 'sources'
+}
+
+// add api classes to main package
+jar {
+	from sourceSets.api.output
 }
