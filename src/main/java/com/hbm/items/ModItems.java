@@ -2051,6 +2051,8 @@ public class ModItems {
 	public static Item record_vc;
 	public static Item record_glass;
 
+	public static Item book_guide;
+
 	public static Item polaroid;
 	public static Item glitch;
 	public static Item letter;
@@ -2182,6 +2184,7 @@ public class ModItems {
 	public static final int guiID_item_bobmazon = 10103;
 	public static final int guiID_item_sat_coord = 10104;
 	public static final int guiID_item_book = 10105;
+	public static final int guiID_item_guide = 10106;
 
 	public static Item mysteryshovel;
 	public static Item memory;
@@ -4473,6 +4476,8 @@ public class ModItems {
 		record_ss = new ItemModRecord("ss").setUnlocalizedName("record_ss").setCreativeTab(CreativeTabs.tabMisc).setTextureName(RefStrings.MODID + ":record_ss");
 		record_vc = new ItemModRecord("vc").setUnlocalizedName("record_vc").setCreativeTab(CreativeTabs.tabMisc).setTextureName(RefStrings.MODID + ":record_vc");
 		record_glass = new ItemModRecord("glass").setUnlocalizedName("record_glass").setCreativeTab(null).setTextureName(RefStrings.MODID + ":record_glass");
+		
+		book_guide = new ItemGuideBook().setUnlocalizedName("book_guide").setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_guide");
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
 		glitch = new ItemGlitch().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
@@ -6707,6 +6712,9 @@ public class ModItems {
 		GameRegistry.registerItem(record_ss, record_ss.getUnlocalizedName());
 		GameRegistry.registerItem(record_vc, record_vc.getUnlocalizedName());
 		GameRegistry.registerItem(record_glass, record_glass.getUnlocalizedName());
+		
+		//wow we're far down the item registry, is this the cellar?
+		GameRegistry.registerItem(book_guide, book_guide.getUnlocalizedName());
 		
 		//Technical Items
 		GameRegistry.registerItem(smoke1, smoke1.getUnlocalizedName());

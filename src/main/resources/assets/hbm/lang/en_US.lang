@@ -86,6 +86,8 @@ armor.thermal=Thermal Sight
 armor.threshold=Damage threshold of %s
 armor.vats=Enemy HUD
 
+book.test.page1=This is a test to demonstrate the e[B]ic linewrap feature of these books. The font scale is customizable and the linewrap adjusts accordingly, which makes writing new pages really easy.
+
 chem.ASPHALT=Asphalt Production
 chem.BALEFIRE=BF Rocket Fuel Mixing
 chem.BP_BIOFUEL=Biofuel Transesterification

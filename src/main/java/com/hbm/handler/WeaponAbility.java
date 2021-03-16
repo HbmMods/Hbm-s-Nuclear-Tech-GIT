@@ -240,10 +240,15 @@ public abstract class WeaponAbility {
 				
 				if(living instanceof EntitySkeleton) {
 					
-					if(((EntitySkeleton)living).getSkeletonType() == 0)
+					if(((EntitySkeleton)living).getSkeletonType() == 0) {
 						living.entityDropItem(new ItemStack(Items.skull, 1, 0), 0.0F);
-					else
-						living.entityDropItem(new ItemStack(ModItems.cell_antimatter), 0.0F);
+					} else {
+						
+						if(world.rand.nextInt(20) == 0)
+							living.entityDropItem(new ItemStack(Items.skull, 1, 1), 0.0F);
+						else
+							living.entityDropItem(new ItemStack(Items.coal, 1, 3), 0.0F);
+					}
 					
 				} else if(living instanceof EntityZombie) {
 					living.entityDropItem(new ItemStack(Items.skull, 1, 2), 0.0F);

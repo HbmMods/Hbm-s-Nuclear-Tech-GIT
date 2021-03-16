@@ -1537,6 +1537,8 @@ public class GUIHandler implements IGuiHandler {
 				return new GUIScreenBobmazon(player, BobmazonOfferFactory.getOffers(player.getHeldItem()));
 		case ModItems.guiID_item_book:
 			return new GUIBook(player.inventory);
+		case ModItems.guiID_item_guide:
+			return new GUIIScreenGuide(player);
 		}
 		return null;
 	}
