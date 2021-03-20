@@ -16,11 +16,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRadioactive extends ItemCustomLore {
-	
-	float radiation;
-	boolean fire;
-	boolean blinding;
+public class ItemHazard extends ItemCustomLore {
 	
 	//PO210		           138d		α	25.00Rad/s	Spicy
 	//TH232		14,000,000,000a		α	00.10Rad/s
@@ -59,41 +55,78 @@ public class ItemRadioactive extends ItemCustomLore {
 	public static final float rod = 0.5F;
 	public static final float rod_dual = 1.0F;
 	public static final float rod_quad = 2.0F;
+
+	float radiation;
+	float digamma;
+	int fire;
+	boolean blinding;
+	boolean asbestos;
+	boolean hydro;
 	
-	public ItemRadioactive(float radiation) {
-		this.radiation = radiation;
+	public ItemHazard() {
 	}
 	
-	public ItemRadioactive(float radiation, boolean fire) {
+	public ItemHazard addRadiation(float radiation) {
 		this.radiation = radiation;
-		this.fire = fire;
+		return this;
 	}
 	
-	public ItemRadioactive(float radiation, boolean fire, boolean blinding) {
-		this.radiation = radiation;
+	public ItemHazard addDigamma(float digamma) {
+		this.digamma = digamma;
+		return this;
+	}
+	
+	public ItemHazard addFire(int fire) {
 		this.fire = fire;
-		this.blinding = blinding;
+		return this;
+	}
+	
+	public ItemHazard addAsbestos() {
+		this.asbestos = true;
+		return this;
+	}
+	
+	public ItemHazard addHydroReactivity() {
+		this.hydro = true;
+		return this;
 	}
 	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
-
-		doRadiationDamage(entity, stack.stackSize);
+		
+		if(entity instanceof EntityLivingBase)
+			applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
 	}
 
-	public void doRadiationDamage(Entity entity, float mod) {
+	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
+			
+		if(this.radiation > 0)
+			ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
 
-		if (entity instanceof EntityLivingBase) {
-			
-			if(this.radiation > 0)
-				ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
-			
-			if(this.fire)
-				entity.setFire(5);
-			
-			if(!(entity instanceof EntityPlayer && ArmorUtil.checkForGoggles((EntityPlayer)entity)))
-			if(this.blinding)
-				((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
+		if(this.digamma > 0)
+			ContaminationUtil.applyDigammaData(entity, 1F / ((float) digamma));
+
+		if(this.fire > 0)
+			entity.setFire(this.fire);
+
+		if(this.asbestos)
+			ContaminationUtil.applyAsbestos(entity, (int) (1 * mod));
+
+		if(this.hydro && currentItem) {
+
+			if(!entity.worldObj.isRemote && entity.isInWater() && entity instanceof EntityPlayer) {
+				
+				EntityPlayer player = (EntityPlayer) entity;
+				ItemStack held = player.getHeldItem();
+				
+				player.inventory.mainInventory[player.inventory.currentItem] = held.getItem().getContainerItem(held);
+				player.inventoryContainer.detectAndSendChanges();
+				player.worldObj.newExplosion(null, player.posX, player.posY + player.getEyeHeight() - player.getYOffset(), player.posZ, 2F, true, true);
+			}
+		}
+
+		if(this.blinding && !(entity instanceof EntityPlayer && ArmorUtil.checkForGoggles((EntityPlayer) entity))) {
+			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
 		}
 	}
 	
@@ -102,17 +135,33 @@ public class ItemRadioactive extends ItemCustomLore {
 		
 		super.addInformation(stack, player, list, bool);
 		
-		if(radiation > 0) {
+		if(this.radiation > 0) {
 			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
 			String rad = "" + (Math.floor(radiation * 1000) / 1000);
 			list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));
 		}
 		
-		if(fire)
+		if(this.fire > 0) {
 			list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("trait.hot") + "]");
+		}
 		
-		if(blinding)
+		if(this.blinding) {
 			list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey("trait.blinding") + "]");
+		}
+		
+		if(this.asbestos) {
+			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey("trait.asbestos") + "]");
+		}
+		
+		if(this.hydro) {
+			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.hydro") + "]");
+		}
+		
+		if(this.digamma > 0) {
+			float d = ((int) ((1000F / digamma) * 10F)) / 10F;
+			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
+			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
+		}
 		
 		int[] breeder = BreederRecipes.getFuelValue(stack);
 		
@@ -121,5 +170,26 @@ public class ItemRadioactive extends ItemCustomLore {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
 		}
+	}
+	
+	/*
+	 * DEPRECATED CTORS
+	 */
+	@Deprecated()
+	public ItemHazard(float radiation) {
+		this.radiation = radiation;
+	}
+
+	@Deprecated()
+	public ItemHazard(float radiation, boolean fire) {
+		this.radiation = radiation;
+		if(fire) this.fire = 5;
+	}
+
+	@Deprecated()
+	public ItemHazard(float radiation, boolean fire, boolean blinding) {
+		this.radiation = radiation;
+		this.blinding = blinding;
+		if(fire) this.fire = 5;
 	}
 }

@@ -2827,6 +2827,7 @@ tile.watz_end.name=Watz Reactor Stability Element
 tile.watz_hatch.name=Watz Reactor Access Hatch
 tile.yellow_barrel.name=Radioactive Barrel
 
+trait.asbestos=Asbestos
 trait.blinding=Blinding
 trait.breeding=Worth %s operations in breeding reactor
 trait.digamma=Digamma Radiation
@@ -2836,6 +2837,7 @@ trait.heat=Provides %s HEAT
 trait.hlParticle=Particle Half-Life: %s
 trait.hlPlayer=Player Half-Life: %s
 trait.hot=Pyrophoric / Hot
+trait.hydro=Hydroreactivity
 trait.radioactive=Radioactive
 trait.radResistance=Radiation resistance: %s
 

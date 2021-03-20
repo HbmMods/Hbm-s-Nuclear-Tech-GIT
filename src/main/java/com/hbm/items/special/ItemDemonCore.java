@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemDemonCore extends ItemRadioactive {
+public class ItemDemonCore extends ItemHazard {
 
 	public ItemDemonCore() {
 		super(5.0F);

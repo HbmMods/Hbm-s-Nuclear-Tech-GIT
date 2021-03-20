@@ -168,10 +168,10 @@ public class MachineRecipes {
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_u235), 4));
 			return list;
 		case PUF6:
-			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu238), 1));
-			list.add(new GasCentOutput(3, new ItemStack(ModItems.nugget_pu238), 2));
-			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu_mix), 3));
-			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu_mix), 4));
+			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_pu238), 1));
+			list.add(new GasCentOutput(2, new ItemStack(ModItems.nugget_pu238), 2));
+			list.add(new GasCentOutput(6, new ItemStack(ModItems.nugget_pu_mix), 3));
+			list.add(new GasCentOutput(6, new ItemStack(ModItems.nugget_pu_mix), 4));
 			return list;
 		case WATZ:
 			list.add(new GasCentOutput(1, new ItemStack(ModItems.nugget_solinium), 1));

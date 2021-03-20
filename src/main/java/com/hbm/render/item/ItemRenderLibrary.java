@@ -886,6 +886,30 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.turret_richard_tex); ResourceManager.turret_richard.renderPart("Launcher");
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_silex), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -2.5, 0);
+				GL11.glScaled(3.25, 3.25, 3.25);
+			}
+			public void renderCommon() {
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.silex_tex); ResourceManager.silex.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
+		renderers.put(Item.getItemFromBlock(ModBlocks.machine_fel), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(2, 2, 2);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(1, 0, 0);
+				GL11.glRotated(90, 0, -1, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.fel_tex); ResourceManager.fel.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
 	}
 	
 	private static void bindTexture(ResourceLocation res) {

@@ -607,6 +607,8 @@ public class MainRegistry {
 		EntityRegistry.registerModEntity(EntityBeamVortex.class, "entity_vortex_beam", 148, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityFireworks.class, "entity_firework_ball", 149, this, 1000, 1, true);
 		EntityRegistry.registerModEntity(EntityWastePearl.class, "entity_waste_pearl", 150, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron", 151, this, 1000, 1, true);
+		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 152, this, 1000, 1, true);
 
 		EntityRegistry.registerGlobalEntityID(EntityNuclearCreeper.class, "entity_mob_nuclear_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x204131, 0x75CE00);
 		EntityRegistry.registerGlobalEntityID(EntityTaintedCreeper.class, "entity_mob_tainted_creeper", EntityRegistry.findGlobalUniqueEntityId(), 0x813b9b, 0xd71fdd);
@@ -619,10 +621,6 @@ public class MainRegistry {
 		EntityRegistry.registerGlobalEntityID(EntityQuackos.class, "entity_elder_one", EntityRegistry.findGlobalUniqueEntityId(), 0xd0d0d0, 0xFFBF00);
 		EntityRegistry.registerGlobalEntityID(EntityFBI.class, "entity_ntm_fbi", EntityRegistry.findGlobalUniqueEntityId(), 0x008000, 0x404040);
 		EntityRegistry.registerGlobalEntityID(EntityRADBeast.class, "entity_ntm_radiation_blaze", EntityRegistry.findGlobalUniqueEntityId(), 0x303030, 0x008000);
-
-		//EntityRegistry.registerGlobalEntityID(EntityBOTPrimeHead.class, "entity_balls_o_tron", EntityRegistry.findGlobalUniqueEntityId(), 0xAAAAAA, 0xAAAAAA);
-		EntityRegistry.registerModEntity(EntityBOTPrimeHead.class, "entity_balls_o_tron", 150, this, 1000, 1, true);
-		EntityRegistry.registerModEntity(EntityBOTPrimeBody.class, "entity_balls_o_tron_seg", 151, this, 1000, 1, true);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 
@@ -990,6 +988,7 @@ public class MainRegistry {
 		CyclotronRecipes.register();
 		HadronRecipes.register();
 		MagicRecipes.register();
+		SILEXRecipes.register();
 
 		TileEntityNukeCustom.registerBombItems();
 

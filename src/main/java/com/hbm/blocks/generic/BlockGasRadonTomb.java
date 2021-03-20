@@ -43,7 +43,7 @@ public class BlockGasRadonTomb extends BlockGasBase {
 	public void onEntityCollidedWithBlock(World world, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity entity) {
 		
 		if(entity instanceof EntityLivingBase) {
-			ContaminationUtil.applyRadData(entity, 0.5F);
+			ContaminationUtil.applyRadDirect(entity, 0.5F);
 		}
 	}
 

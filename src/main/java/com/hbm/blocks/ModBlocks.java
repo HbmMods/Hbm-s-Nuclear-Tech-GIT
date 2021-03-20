@@ -441,9 +441,9 @@ public class ModBlocks {
 	public static final int guiID_gascent = 71;
 
 	public static Block machine_fel;
-	public static final int guiID_fel = 71;
+	public static final int guiID_fel = 110;
 	public static Block machine_silex;
-	public static final int guiID_silex = 71;
+	public static final int guiID_silex = 109;
 	
 	public static Block machine_crystallizer;
 	public static final int guiID_crystallizer = 94;

@@ -767,6 +767,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_silex: {
+			if(entity instanceof TileEntitySILEX) {
+				return new ContainerSILEX(player.inventory, (TileEntitySILEX) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1515,6 +1522,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_richard: {
 			if(entity instanceof TileEntityTurretRichard) {
 				return new GUITurretRichard(player.inventory, (TileEntityTurretRichard) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_silex: {
+			if(entity instanceof TileEntitySILEX) {
+				return new GUISILEX(player.inventory, (TileEntitySILEX) entity);
 			}
 			return null;
 		}

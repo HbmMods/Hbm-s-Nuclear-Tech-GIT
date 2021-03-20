@@ -7,7 +7,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemRTGPellet extends ItemRadioactive {
+public class ItemRTGPellet extends ItemHazard {
 
 	public ItemRTGPellet(float radiation, boolean fire) {
 		super(radiation, fire);

@@ -199,8 +199,18 @@ public class FluidTank {
 	//Changes tank type
 	public void setType(int in, int out, ItemStack[] slots) {
 		
+		if(in == out && slots[in] != null && slots[in].getItem() instanceof ItemFluidIdentifier) {
+			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
+			
+			if(type != newType) {
+				type = newType;
+				fluid = 0;
+			}
+			return;
+		}
+		
 		if(slots[in] != null && slots[out] == null && slots[in].getItem() instanceof ItemFluidIdentifier) {
-			FluidType newType = ItemFluidIdentifier.getType(slots[in].copy());
+			FluidType newType = ItemFluidIdentifier.getType(slots[in]);
 			if(!type.name().equals(newType.name())) {
 				type = newType;
 				slots[out] = slots[in].copy();
