@@ -135,6 +135,7 @@ armor.electricJetpack=Ионный реактивный ранец
 armor.hardLanding=Жёсткая посадка
 armor.glider=Присесть, чтобы спланировать
 
+trait.asbestos=Асбест
 trait.blinding=Ослепление
 trait.breeding=Даёт %s операций в реакторе-размножителе
 trait.digamma=Дигамма радиация
@@ -144,6 +145,7 @@ trait.heat=Обеспечивает %s ТЕПЛА
 trait.hlParticle=Период Полураспада Частицы: %s
 trait.hlPlayer=Период Полураспада Игрока: %s
 trait.hot=Пирофорный / Горячий
+trait.hydro=Гидрореактивность
 trait.radioactive=Радиоактивный
 trait.radResistance=Сопротивление радиации: %s
 
@@ -701,6 +703,10 @@ tile.turret_friendly.name=Турель Гатлинга "Мистер Друже
 tile.turret_jeremy.name=Автопушка "Джереми"
 tile.turret_tauon.name=Прототип турели XVL1456 "Тауон"
 tile.turret_richard.name=Ракетная турель "Ричард"
+container.turretHoward=Говард
+tile.turret_howard.name=Двойная турель Гатлинга CIWS "Говард"
+container.machineSILEX=Камера ЛРИ
+tile.machine_silex.name=Камера лазерного разделения изотопов
 
 container.hadron=Ускоритель частиц
 tile.hadron_access.name=Терминал доступа ускорителя частиц
@@ -2109,6 +2115,7 @@ item.ammo_fuel_vaporizer.name=Бак испарителя
 item.ammo_fuel_gas.name=Бак с газом
 item.ammo_dart.name=Пластиковый дротик (Иссущающий)
 item.ammo_dart_nerf.name=Дротик NERF
+item.ammo_dgk.name=Лента на 200 патронов для CIWS "Говард"
 
 item.folly_shell.name=Оболочка серебряной пули
 item.folly_bullet.name=12.8см Высокоэнергетическая оболочка из звёздного металла
