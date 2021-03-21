@@ -88,7 +88,6 @@ public class ItemTurretControl extends Item {
 									
 									if(mop != null) {
 										
-										System.out.println(e.getCommandSenderName());
 										pos = mop;
 										pos.typeOfHit = MovingObjectType.ENTITY;
 										pos.entityHit = e;

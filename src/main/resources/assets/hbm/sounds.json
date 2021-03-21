@@ -153,6 +153,8 @@
     "turret.jeremy_fire": {"category": "block", "sounds": ["turret/jeremy_fire1", "turret/jeremy_fire2", "turret/jeremy_fire3", "turret/jeremy_fire4", "turret/jeremy_fire5"]},
     "turret.jeremy_reload": {"category": "block", "sounds": [{"name": "turret/jeremy_reload", "stream": false}]},
     "turret.richard_fire": {"category": "block", "sounds": [{"name": "turret/richard_fire", "stream": false}]},
+    "turret.howard_fire": {"category": "block", "sounds": [{"name": "turret/howard_fire", "stream": false}]},
+    "turret.howard_reload": {"category": "block", "sounds": [{"name": "turret/howard_reload", "stream": false}]},
 
 	"entity.chopperFlyingLoop": {"category": "hostile", "sounds": [{"name": "entity/chopperFlyingLoop", "stream": true}]},
 	"entity.chopperDrop": {"category": "hostile", "sounds": [{"name": "entity/chopperDrop", "stream": false}]},

@@ -887,6 +887,22 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
+		renderers.put(Item.getItemFromBlock(ModBlocks.turret_howard), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -4.5, 0);
+				GL11.glScaled(4, 4, 4);
+			}
+			public void renderCommon() {
+				GL11.glTranslated(-0.75, 0, 0);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.turret_base_tex); ResourceManager.turret_chekhov.renderPart("Base");
+				bindTexture(ResourceManager.turret_carriage_ciws_tex); ResourceManager.turret_howard.renderPart("Carriage");
+				bindTexture(ResourceManager.turret_howard_tex); ResourceManager.turret_howard.renderPart("Body");
+				bindTexture(ResourceManager.turret_howard_barrels_tex); ResourceManager.turret_howard.renderPart("BarrelsTop");
+				bindTexture(ResourceManager.turret_howard_barrels_tex); ResourceManager.turret_howard.renderPart("BarrelsBottom");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}});
+		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_silex), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -2.5, 0);

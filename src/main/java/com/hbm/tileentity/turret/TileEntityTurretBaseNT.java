@@ -22,9 +22,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -78,8 +77,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public boolean targetAnimals = false;
 	public boolean targetMobs = true;
 	public boolean targetMachines = true;
-	
+
 	public Entity target;
+	public Vec3 tPos;
 	
 	//tally marks!
 	public int stattrak;
@@ -152,13 +152,23 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			}
 		}
 		
+		if(!worldObj.isRemote) {
+			
+			if(target != null) {
+				this.tPos = this.getEntityPos(target);
+			} else {
+				this.tPos = null;
+			}
+		}
+		
 		if(this.isOn && hasPower()) {
 			
-			if(target != null)
+			if(tPos != null)
 				this.alignTurret();
 		} else {
-			
+
 			this.target = null;
+			this.tPos = null;
 		}
 		
 		if(!worldObj.isRemote) {
@@ -188,7 +198,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
 			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("target", this.target == null ? -1 : this.target.getEntityId());
+			if(this.tPos != null) {
+				data.setDouble("tX", this.tPos.xCoord);
+				data.setDouble("tY", this.tPos.yCoord);
+				data.setDouble("tZ", this.tPos.zCoord);
+			}
 			data.setLong("power", this.power);
 			data.setBoolean("isOn", this.isOn);
 			data.setBoolean("targetPlayers", this.targetPlayers);
@@ -218,7 +232,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		
-		int t = nbt.getInteger("target");
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
 		this.targetPlayers = nbt.getBoolean("targetPlayers");
@@ -227,10 +240,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		this.targetMachines = nbt.getBoolean("targetMachines");
 		this.stattrak = nbt.getInteger("stattrak");
 		
-		if(t != -1)
-			this.target = worldObj.getEntityByID(t);
-		else
-			this.target = null;
+		if(nbt.hasKey("tX")) {
+			this.tPos = Vec3.createVectorHelper(nbt.getDouble("tX"), nbt.getDouble("tY"), nbt.getDouble("tZ"));
+		} else {
+			this.tPos = null;
+		}
 	}
 
 	@Override
@@ -297,6 +311,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				return;
 			}
 		}
+		
+		this.markDirty();
 	}
 	
 	/**
@@ -391,6 +407,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		}
 		
 		this.target = target;
+		
+		if(target != null)
+			this.tPos = this.getEntityPos(this.target);
 	}
 	
 	/**
@@ -398,7 +417,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	 * Assumes that the target is not null
 	 */
 	protected void alignTurret() {
-		this.turnTowards(this.getEntityPos(target));
+		this.turnTowards(tPos);
 	}
 	
 	/**

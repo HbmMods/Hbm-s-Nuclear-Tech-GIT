@@ -8,7 +8,6 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IBulletHurtBehavior;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.weapon.ItemGunDart;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -91,6 +90,7 @@ public class GunDartFactory {
 		bullet.doesRicochet = true;
 		bullet.doesPenetrate = false;
 		bullet.style = bullet.STYLE_FLECHETTE;
+		bullet.leadChance = 0;
 		
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 60 * 20, 2));
@@ -133,6 +133,7 @@ public class GunDartFactory {
 		bullet.gravity = 0.04D;
 		bullet.dmgMin = 0;
 		bullet.dmgMax = 0;
+		bullet.leadChance = 0;
 		
 		return bullet;
 	}

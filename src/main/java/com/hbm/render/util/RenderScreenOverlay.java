@@ -125,7 +125,7 @@ public class RenderScreenOverlay {
 		
 		String cap = max == -1 ? ("∞") : ("" + max);
 		
-		//if(renderCount)
+		if(renderCount)
 			Minecraft.getMinecraft().fontRenderer.drawString(count + " / " + cap, pX + 16, pZ + 6, 0xFFFFFF);
 
         GL11.glDisable(GL11.GL_BLEND);

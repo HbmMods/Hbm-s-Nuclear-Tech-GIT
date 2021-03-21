@@ -6,6 +6,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.tool.ItemSwordAbility;
+import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
@@ -56,7 +57,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 		if(!(entityLiving instanceof EntityPlayerMP))
 			return false;
 		
-		if(entityLiving instanceof EntityPlayer && ((EntityPlayer)entityLiving).getDisplayName().equals("Tankish")) {
+		if(entityLiving instanceof EntityPlayer && ((EntityPlayer)entityLiving).getUniqueID().toString().equals(Library.Tankish)) {
 			stack.setItemDamage(0);
 		}
 		

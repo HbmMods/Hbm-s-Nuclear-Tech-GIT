@@ -8,11 +8,7 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.turret.TileEntityTurretChekhov;
-import com.hbm.tileentity.turret.TileEntityTurretFriendly;
-import com.hbm.tileentity.turret.TileEntityTurretJeremy;
-import com.hbm.tileentity.turret.TileEntityTurretRichard;
-import com.hbm.tileentity.turret.TileEntityTurretTauon;
+import com.hbm.tileentity.turret.*;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -764,6 +760,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_richard: {
 			if(entity instanceof TileEntityTurretRichard) {
 				return new ContainerTurretBase(player.inventory, (TileEntityTurretRichard) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_howard: {
+			if(entity instanceof TileEntityTurretHoward) {
+				return new ContainerTurretBase(player.inventory, (TileEntityTurretHoward) entity);
 			}
 			return null;
 		}
@@ -1522,6 +1525,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_richard: {
 			if(entity instanceof TileEntityTurretRichard) {
 				return new GUITurretRichard(player.inventory, (TileEntityTurretRichard) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_howard: {
+			if(entity instanceof TileEntityTurretHoward) {
+				return new GUITurretHoward(player.inventory, (TileEntityTurretHoward) entity);
 			}
 			return null;
 		}

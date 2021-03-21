@@ -1296,6 +1296,7 @@ public class ModItems {
 	public static Item ammo_shell_apfsds_t;
 	public static Item ammo_shell_apfsds_du;
 	public static Item ammo_shell_w9;
+	public static Item ammo_dgk;
 	public static Item ammo_nuke;
 	public static Item ammo_nuke_low;
 	public static Item ammo_nuke_high;
@@ -3417,6 +3418,7 @@ public class ModItems {
 		ammo_shell_apfsds_t = new ItemAmmo().setUnlocalizedName("ammo_shell_apfsds_t").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_shell_apfsds-t");
 		ammo_shell_apfsds_du = new ItemAmmo().setUnlocalizedName("ammo_shell_apfsds_du").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_shell_apfsds-du");
 		ammo_shell_w9 = new ItemAmmo().setUnlocalizedName("ammo_shell_w9").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_shell_w9");
+		ammo_dgk = new ItemAmmo().setUnlocalizedName("ammo_dgk").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_dgk");
 		ammo_nuke = new ItemAmmo().setUnlocalizedName("ammo_nuke").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_nuke");
 		ammo_nuke_low = new ItemAmmo().setUnlocalizedName("ammo_nuke_low").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_nuke_low");
 		ammo_nuke_high = new ItemAmmo().setUnlocalizedName("ammo_nuke_high").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_nuke_high");
@@ -3628,7 +3630,7 @@ public class ModItems {
 		canteen_fab = new ItemCanteen(2 * 60).setUnlocalizedName("canteen_fab").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canteen_fab");
 		pancake = new ItemPancake(20, 20, false).setUnlocalizedName("pancake").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pancake");
 		nugget = new ItemLemon(200, 200, false).setUnlocalizedName("nugget").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":nugget");
-		peas = new ItemLemon(2, 4, false).setUnlocalizedName("peas").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":peas");
+		peas = new ItemPeas().setUnlocalizedName("peas").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":peas");
 
 		defuser = new Item().setUnlocalizedName("defuser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":defuser");
 		
@@ -3888,13 +3890,13 @@ public class ModItems {
 		
 		mech_key = new ItemCustomLore().setUnlocalizedName("mech_key").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":mech_key");
 
-		turret_light_ammo = new ItemTurretAmmo(ModBlocks.turret_light, 100).setUnlocalizedName("turret_light_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_light_ammo");
-		turret_heavy_ammo = new ItemTurretAmmo(ModBlocks.turret_heavy, 25).setUnlocalizedName("turret_heavy_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_heavy_ammo");
-		turret_rocket_ammo = new ItemTurretAmmo(ModBlocks.turret_rocket, 8).setUnlocalizedName("turret_rocket_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_rocket_ammo");
-		turret_flamer_ammo = new ItemTurretAmmo(ModBlocks.turret_flamer, 200).setUnlocalizedName("turret_flamer_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_flamer_ammo");
-		turret_tau_ammo = new ItemTurretAmmo(ModBlocks.turret_tau, 100).setUnlocalizedName("turret_tau_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_tau_ammo");
+		turret_light_ammo = new ItemTurretAmmo(ModBlocks.turret_light, 100).setUnlocalizedName("turret_light_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_light_ammo");
+		turret_heavy_ammo = new ItemTurretAmmo(ModBlocks.turret_heavy, 25).setUnlocalizedName("turret_heavy_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_heavy_ammo");
+		turret_rocket_ammo = new ItemTurretAmmo(ModBlocks.turret_rocket, 8).setUnlocalizedName("turret_rocket_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_rocket_ammo");
+		turret_flamer_ammo = new ItemTurretAmmo(ModBlocks.turret_flamer, 200).setUnlocalizedName("turret_flamer_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_flamer_ammo");
+		turret_tau_ammo = new ItemTurretAmmo(ModBlocks.turret_tau, 100).setUnlocalizedName("turret_tau_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_tau_ammo");
 		turret_spitfire_ammo = new ItemTurretAmmo(ModBlocks.turret_spitfire, 2).setUnlocalizedName("turret_spitfire_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_spitfire_ammo");
-		turret_cwis_ammo = new ItemTurretAmmo(ModBlocks.turret_cwis, 250).setUnlocalizedName("turret_cwis_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_cwis_ammo");
+		turret_cwis_ammo = new ItemTurretAmmo(ModBlocks.turret_cwis, 250).setUnlocalizedName("turret_cwis_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":turret_cwis_ammo");
 		turret_cheapo_ammo = new ItemTurretAmmo(ModBlocks.turret_cheapo, 100).setUnlocalizedName("turret_cheapo_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_cheapo_ammo");
 		
 		template_folder = new ItemTemplateFolder().setUnlocalizedName("template_folder").setMaxStackSize(1).setCreativeTab(MainRegistry.templateTab).setTextureName(RefStrings.MODID + ":template_folder");
@@ -6078,6 +6080,7 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_shell_apfsds_t, ammo_shell_apfsds_t.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_shell_apfsds_du, ammo_shell_apfsds_du.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_shell_w9, ammo_shell_w9.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_dgk, ammo_dgk.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke, ammo_nuke.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke_low, ammo_nuke_low.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_nuke_high, ammo_nuke_high.getUnlocalizedName());

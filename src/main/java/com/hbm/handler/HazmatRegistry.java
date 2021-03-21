@@ -3,6 +3,7 @@ package com.hbm.handler;
 import java.util.HashMap;
 
 import com.hbm.items.armor.ItemModCladding;
+import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,6 +55,10 @@ public class HazmatRegistry {
 	public static float getResistance(EntityPlayer player) {
 		
 		float res = 0.0F;
+		
+		if(player.getUniqueID().toString().equals(Library.Pu_238)) {
+			res += 0.4F;
+		}
 		
 		for(int i = 0; i < 4; i++) {
 			res += getResistance(player.inventory.armorInventory[i]);

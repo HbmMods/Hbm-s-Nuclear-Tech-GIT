@@ -42,6 +42,7 @@ public class ResourceManager {
 	public static final IModelCustom turret_jeremy = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_jeremy.obj"));
 	public static final IModelCustom turret_tauon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_tauon.obj"));
 	public static final IModelCustom turret_richard = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_richard.obj"));
+	public static final IModelCustom turret_howard = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/turrets/turret_howard.obj"));
 	
 	//Landmines
 	public static final IModelCustom mine_ap = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mine_ap.obj"));
@@ -269,6 +270,7 @@ public class ResourceManager {
 	public static final ResourceLocation turret_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/base.png");
 	public static final ResourceLocation turret_base_friendly_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/base_friendly.png");
 	public static final ResourceLocation turret_carriage_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/carriage.png");
+	public static final ResourceLocation turret_carriage_ciws_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/carriage_ciws.png");
 	public static final ResourceLocation turret_carriage_friendly_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/carriage_friendly.png");
 	public static final ResourceLocation turret_connector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/connector.png");
 	public static final ResourceLocation turret_chekhov_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/chekhov.png");
@@ -276,6 +278,8 @@ public class ResourceManager {
 	public static final ResourceLocation turret_jeremy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/jeremy.png");
 	public static final ResourceLocation turret_tauon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/tauon.png");
 	public static final ResourceLocation turret_richard_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/richard.png");
+	public static final ResourceLocation turret_howard_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/howard.png");
+	public static final ResourceLocation turret_howard_barrels_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/howard_barrels.png");
 
 	//Landmines
 	public static final ResourceLocation mine_ap_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_ap.png");

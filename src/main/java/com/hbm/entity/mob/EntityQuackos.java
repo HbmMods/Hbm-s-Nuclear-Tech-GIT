@@ -81,24 +81,6 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 			return true;
 
 		} else {
-			
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.peas) {
-				
-				if(worldObj.isRemote) {
-					for(int i = 0; i < 150; i++) {
-						
-						EntityBSmokeFX fx = new EntityBSmokeFX(worldObj);
-						fx.setPositionAndRotation(posX + rand.nextDouble() * width * 2 - width, posY + rand.nextDouble() * height * 1.5, posZ + rand.nextDouble() * width * 2 - width, 0, 0);
-						worldObj.spawnEntityInWorld(fx);
-					}
-				}
-				
-				player.getHeldItem().stackSize--;
-				player.swingItem();
-				
-				this.isDead = true;
-				return true;
-			}
 
 			if(!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == player)) {
 				player.mountEntity(this);
@@ -107,6 +89,22 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 
 			return false;
 		}
+	}
+	
+	/**
+	 * BOW
+	 */
+	public void despawn() {
+		
+		if(!worldObj.isRemote) {
+			for(int i = 0; i < 150; i++) {
+				
+				EntityBSmokeFX fx = new EntityBSmokeFX(worldObj);
+				fx.setPositionAndRotation(posX + rand.nextDouble() * 20 - 10, posY + rand.nextDouble() * 25, posZ + rand.nextDouble() * 20 - 10, 0, 0);
+				worldObj.spawnEntityInWorld(fx);
+			}
+		}
+		this.isDead = true;
 	}
 
 	/**
@@ -132,5 +130,14 @@ public class EntityQuackos extends EntityDuck implements IBossDisplayData {
 	@SideOnly(Side.CLIENT)
 	public float getShadowSize() {
 		return 7.5F;
+	}
+	
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		
+		if(!worldObj.isRemote && this.posY < -30) {
+			this.setPosition(this.posX + rand.nextGaussian() * 30, 256, this.posZ + rand.nextGaussian() * 30);
+		}
 	}
 }

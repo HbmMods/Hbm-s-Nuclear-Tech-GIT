@@ -198,6 +198,19 @@ public class ShredderRecipes {
 		ShredderRecipes.setRecipe(Blocks.anvil, new ItemStack(ModItems.powder_iron, 31));
 		ShredderRecipes.setRecipe(ModBlocks.chain, new ItemStack(ModItems.powder_steel_tiny, 1));
 
+		ShredderRecipes.setRecipe(ModBlocks.turret_light, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(ModBlocks.turret_heavy, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(ModBlocks.turret_flamer, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(ModBlocks.turret_rocket, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(ModBlocks.turret_cwis, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(ModBlocks.turret_tau, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(ModItems.turret_light_ammo, new ItemStack(Items.gunpowder, 4));
+		ShredderRecipes.setRecipe(ModItems.turret_heavy_ammo, new ItemStack(Items.gunpowder, 4));
+		ShredderRecipes.setRecipe(ModItems.turret_flamer_ammo, new ItemStack(Items.gunpowder, 4));
+		ShredderRecipes.setRecipe(ModItems.turret_rocket_ammo, new ItemStack(Items.gunpowder, 4));
+		ShredderRecipes.setRecipe(ModItems.turret_cwis_ammo, new ItemStack(Items.gunpowder, 4));
+		ShredderRecipes.setRecipe(ModItems.turret_tau_ammo, new ItemStack(ModItems.powder_uranium, 4));
+
 		for(int i = 0; i < 16; i++) {
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.stained_hardened_clay, 1, i), new ItemStack(Items.clay_ball, 4));
 			ShredderRecipes.setRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.string, 4));

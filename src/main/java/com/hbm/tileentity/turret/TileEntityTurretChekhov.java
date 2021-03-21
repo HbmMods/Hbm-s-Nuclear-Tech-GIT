@@ -107,7 +107,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.target != null || manual) {
+			if(this.tPos != null || manual) {
 				this.accel = Math.min(45F, this.accel += 2);
 			} else {
 				this.accel = Math.max(0F, this.accel -= 2);
@@ -124,7 +124,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 			}
 		} else {
 			
-			if(this.target == null && !manual) {
+			if(this.tPos == null && !manual) {
 				
 				this.timer--;
 				
