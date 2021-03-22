@@ -92,7 +92,7 @@ public class WasteEarth extends Block {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 
-		if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(10) == 0) {
+		if((this == ModBlocks.waste_earth || this == ModBlocks.waste_mycelium) && world.getBlock(x, y + 1, z) == Blocks.air && rand.nextInt(1000) == 0) {
 			Block b0;
 			int count = 0;
 			for(int i = -5; i < 5; i++) {

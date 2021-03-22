@@ -1,8 +1,6 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotMachineOutput;
-import com.hbm.tileentity.machine.TileEntityMachinePlasmaHeater;
-import com.hbm.tileentity.machine.TileEntityMicrowave;
+import com.hbm.tileentity.machine.TileEntityFEL;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -10,19 +8,15 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerPlasmaHeater extends Container {
+public class ContainerFEL extends Container {
 
-	private TileEntityMachinePlasmaHeater microwave;
+	private TileEntityFEL microwave;
 
-	public ContainerPlasmaHeater(InventoryPlayer invPlayer, TileEntityMachinePlasmaHeater tedf) {
+	public ContainerFEL(InventoryPlayer invPlayer, TileEntityFEL tedf) {
 
 		microwave = tedf;
 
-		this.addSlotToContainer(new Slot(tedf, 0, 8, 53));
-		this.addSlotToContainer(new Slot(tedf, 1, 44, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 2, 44, 53));
-		this.addSlotToContainer(new Slot(tedf, 3, 152, 17));
-		this.addSlotToContainer(new SlotMachineOutput(tedf, 4, 152, 53));
+		this.addSlotToContainer(new Slot(tedf, 0, 26, 53));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -44,8 +38,8 @@ public class ContainerPlasmaHeater extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 4) {
-				if(!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true)) {
+			if(par2 == 0) {
+				if(!this.mergeItemStack(var5, 1, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {

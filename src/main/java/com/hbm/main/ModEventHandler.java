@@ -129,7 +129,7 @@ public class ModEventHandler
 		
 		EntityPlayer player = event.player;
 		
-		if(player.getDisplayName().equals("Dr_Nostalgia") && !player.worldObj.isRemote) {
+		if(player.getUniqueID().toString().equals(Library.Dr_Nostalgia) && !player.worldObj.isRemote) {
 			
 			if(!player.inventory.hasItem(ModItems.hat))
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));

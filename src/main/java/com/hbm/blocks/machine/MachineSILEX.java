@@ -53,5 +53,4 @@ public class MachineSILEX extends BlockDummyable {
 			return false;
 		}
 	}
-
 }

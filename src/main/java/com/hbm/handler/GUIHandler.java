@@ -777,6 +777,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_fel: {
+			if(entity instanceof TileEntityFEL) {
+				return new ContainerFEL(player.inventory, (TileEntityFEL) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 

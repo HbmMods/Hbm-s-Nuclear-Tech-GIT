@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.projectile.EntityBulletBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
@@ -22,7 +23,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.INpc;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
@@ -175,6 +175,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
+				this.tPos = null;
 				this.stattrak++;
 			}
 			
@@ -185,7 +186,9 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				
 				if(searchTimer <= 0) {
 					searchTimer = this.getDecetorInterval();
-					this.seekNewTarget();
+					
+					if(this.target == null)
+						this.seekNewTarget();
 				}
 			} else {
 				searchTimer = 0;
@@ -544,6 +547,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(targetMachines) {
 
 			if(e instanceof EntityMissileBaseAdvanced)
+				return true;
+			if(e instanceof EntityMissileCustom)
 				return true;
 			if(e instanceof EntityMinecart)
 				return true;

@@ -1,12 +1,27 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.tileentity.TileEntityMachineBase;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityFEL extends TileEntity {
+public class TileEntityFEL extends TileEntityMachineBase {
 	
+	public TileEntityFEL() {
+		super(1);
+	}
+
+	@Override
+	public String getName() {
+		return "container.machineFEL";
+	}
+
+	@Override
+	public void updateEntity() {
+		
+	}
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return AxisAlignedBB.getBoundingBox(
