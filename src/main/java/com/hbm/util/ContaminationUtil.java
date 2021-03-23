@@ -211,4 +211,15 @@ public class ContaminationUtil {
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRad").appendSibling(new ChatComponentText(" " + radPrefix + eRad + " RAD")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 		player.addChatMessage(new ChatComponentTranslation("geiger.playerRes").appendSibling(new ChatComponentText(" " + resPrefix + res + "% (" + resKoeff + ")")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
 	}
+	
+	public static void printDiagnosticData(EntityPlayer player) {
+
+		double digamma = ((int)(HbmLivingProps.getDigamma(player) * 100)) / 100D;
+		double halflife = ((int)((1D - Math.pow(0.5, digamma)) * 100)) / 100D;
+		
+		player.addChatMessage(new ChatComponentText("===== Ϝ ").appendSibling(new ChatComponentTranslation("digamma.title")).appendSibling(new ChatComponentText(" Ϝ =====")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
+		player.addChatMessage(new ChatComponentTranslation("digamma.playerDigamma").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + digamma + " DRX")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
+		player.addChatMessage(new ChatComponentTranslation("digamma.playerHealth").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + halflife + "%")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
+		player.addChatMessage(new ChatComponentTranslation("digamma.playerRes").appendSibling(new ChatComponentText(EnumChatFormatting.DARK_BLUE + " " + "N/A")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
+	}
 }

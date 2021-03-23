@@ -42,7 +42,7 @@ public class ItemDigamma extends ItemHazard {
 		list.add("");
 		super.addInformation(stack, player, list, bool);
 
-		float d = ((int) ((1000F / digamma) * 10F)) / 10F;
+		float d = ((int) ((1000F / digamma) * 200F)) / 10F;
 
 		list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
 		list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");

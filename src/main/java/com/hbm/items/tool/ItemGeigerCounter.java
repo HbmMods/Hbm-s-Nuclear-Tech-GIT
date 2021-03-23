@@ -94,7 +94,8 @@ public class ItemGeigerCounter extends Item {
 		return rads;
 	}
 	
-    @Override
+	//what?!
+    /*@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
     {
     	if(world.getBlock(x, y, z) == ModBlocks.block_red_copper) {
@@ -105,7 +106,7 @@ public class ItemGeigerCounter extends Item {
     	}
     	
     	return false;
-    }
+    }*/
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {

@@ -966,6 +966,7 @@ public class ModItems {
 	public static Item reactor_sensor;
 	public static Item oil_detector;
 	public static Item geiger_counter;
+	public static Item digamma_diagnostic;
 	public static Item survey_scanner;
 	public static Item mirror_tool;
 
@@ -2177,6 +2178,7 @@ public class ModItems {
 	public static Item digamma_feel;
 	public static Item digamma_know;
 	public static Item digamma_kauai_moho;
+	public static Item digamma_up_on_top;
 
 	public static final int guiID_item_folder = 1099;
 	public static final int guiID_item_designator = 10100;
@@ -3875,6 +3877,7 @@ public class ModItems {
 		turret_chip = new ItemTurretChip().setUnlocalizedName("turret_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":turret_chip");
 		turret_biometry = new ItemTurretBiometry().setUnlocalizedName("turret_biometry").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":rei_scanner");
 		geiger_counter = new ItemGeigerCounter().setUnlocalizedName("geiger_counter").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":geiger_counter");
+		digamma_diagnostic = new ItemDigammaDiagnostic().setUnlocalizedName("digamma_diagnostic").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":digamma_diagnostic");
 		survey_scanner = new ItemSurveyScanner().setUnlocalizedName("survey_scanner").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":survey_scanner");
 		mirror_tool = new ItemMirrorTool().setUnlocalizedName("mirror_tool").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":mirror_tool");
 
@@ -4608,6 +4611,7 @@ public class ModItems {
 		digamma_feel = new Item().setUnlocalizedName("digamma_feel").setTextureName(RefStrings.MODID + ":digamma_feel");
 		digamma_know = new Item().setUnlocalizedName("digamma_know").setTextureName(RefStrings.MODID + ":digamma_know");
 		digamma_kauai_moho = new Item().setUnlocalizedName("digamma_kauai_moho").setTextureName(RefStrings.MODID + ":digamma_kauai_moho");
+		digamma_up_on_top = new Item().setUnlocalizedName("digamma_up_on_top").setTextureName(RefStrings.MODID + ":digamma_up_on_top");
 		
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
 		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
@@ -5651,6 +5655,7 @@ public class ModItems {
 		GameRegistry.registerItem(survey_scanner, survey_scanner.getUnlocalizedName());
 		GameRegistry.registerItem(mirror_tool, mirror_tool.getUnlocalizedName());
 		GameRegistry.registerItem(geiger_counter, geiger_counter.getUnlocalizedName());
+		GameRegistry.registerItem(digamma_diagnostic, digamma_diagnostic.getUnlocalizedName());
 		GameRegistry.registerItem(containment_box, containment_box.getUnlocalizedName());
 		
 		//Keys and Locks
@@ -6834,6 +6839,7 @@ public class ModItems {
 		GameRegistry.registerItem(digamma_feel, digamma_feel.getUnlocalizedName());
 		GameRegistry.registerItem(digamma_know, digamma_know.getUnlocalizedName());
 		GameRegistry.registerItem(digamma_kauai_moho, digamma_kauai_moho.getUnlocalizedName());
+		GameRegistry.registerItem(digamma_up_on_top, digamma_up_on_top.getUnlocalizedName());
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
 	}

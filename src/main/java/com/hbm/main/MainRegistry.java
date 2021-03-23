@@ -194,6 +194,7 @@ public class MainRegistry {
 	public static Achievement digammaFeel;
 	public static Achievement digammaKnow;
 	public static Achievement digammaKauaiMoho;
+	public static Achievement digammaUpOnTop;
 
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -933,6 +934,7 @@ public class MainRegistry {
 		digammaFeel = new Achievement("achievement.digammaFeel", "digammaFeel", 0, 8, ModItems.digamma_feel, digammaSee).initIndependentStat().registerStat();
 		digammaKnow = new Achievement("achievement.digammaKnow", "digammaKnow", 2, 8, ModItems.digamma_know, digammaFeel).initIndependentStat().registerStat().setSpecial();
 		digammaKauaiMoho = new Achievement("achievement.digammaKauaiMoho", "digammaKauaiMoho", 4, 8, ModItems.digamma_kauai_moho, digammaKnow).initIndependentStat().registerStat().setSpecial();
+		digammaUpOnTop = new Achievement("achievement.digammaUpOnTop", "digammaUpOnTop", 6, 8, ModItems.digamma_up_on_top, digammaKauaiMoho).initIndependentStat().registerStat().setSpecial();
 
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 				achSacrifice,
@@ -969,7 +971,8 @@ public class MainRegistry {
 				digammaSee,
 				digammaFeel,
 				digammaKnow,
-				digammaKauaiMoho
+				digammaKauaiMoho,
+				digammaUpOnTop
 		}));
 
 		// MUST be initialized AFTER achievements!!
