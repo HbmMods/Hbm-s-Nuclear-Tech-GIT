@@ -17,17 +17,19 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemHazard extends ItemCustomLore {
-	
-	//PO210		           138d		α	25.00Rad/s	Spicy
-	//TH232		14,000,000,000a		α	00.10Rad/s
-	//U233		       160,000a		α	05.00Rad/s
-	//U235		   700,000,000a		α	01.00Rad/s
-	//U238		 4,500,000,000a		α	00.25Rad/s
-	//NP237		     2,100,000a		α	02.50Rad/s
-	//PU238		            88a		α	10.00Rad/s	Spicy
-	//PU239		        24,000a		α	05.00Rad/s
-	//PU240		         6,600a		α	07.50Rad/s
 
+	//AU192		            64h		α	500.00Rad/s	2 much spice :(
+	//PO210		           138d		α	025.00Rad/s	Spicy
+	//TH232		14,000,000,000a		α	000.10Rad/s
+	//U233		       160,000a		α	005.00Rad/s
+	//U235		   700,000,000a		α	001.00Rad/s
+	//U238		 4,500,000,000a		α	000.25Rad/s
+	//NP237		     2,100,000a		α	002.50Rad/s
+	//PU238		            88a		α	010.00Rad/s	Spicy
+	//PU239		        24,000a		α	005.00Rad/s
+	//PU240		         6,600a		α	007.50Rad/s
+
+	public static final float au198 = 500.0F;
 	public static final float po210 = 25.0F;
 	public static final float th232 = 0.1F;
 	public static final float thf = 1.75F;

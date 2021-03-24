@@ -1,5 +1,7 @@
 package com.hbm.render.tileentity;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
@@ -7,6 +9,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
+import com.hbm.tileentity.machine.TileEntityFEL;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -33,10 +36,24 @@ public class RenderFEL extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.fel_tex);
 		ResourceManager.fel.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		TileEntityFEL fel = (TileEntityFEL) tileEntity;
+		int color = 0xff0000;
+		
+		switch(fel.mode) {
+		case 0: color = 0x303000; break;
+		case 1: color = 0x400000; break;
+		case 2: color = Color.HSBtoRGB(fel.getWorldObj().getTotalWorldTime() / 50.0F, 1F, 0.3F) & 16777215; break;
+		case 3: color = 0x100040; break;
+		case 4: color = 0x003000; break;
+		case 5: color = 0x306000; break;
+		}
+		
+		int length = 25;
 
-		GL11.glTranslated(0, 1.5, -2.5 + 0.0625);
-		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -8), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x400000, 0x400000, 0, 1, 0F, 2, 0.0625F);
-		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -8), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x400000, 0x400000, (int)(tileEntity.getWorldObj().getTotalWorldTime() % 1000 / 2), 24, 0.0625F, 2, 0.0625F);
+		GL11.glTranslated(0, 1.5, -1.5);
+		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.SPIRAL, EnumBeamType.SOLID, color, color, 0, 1, 0F, 2, 0.0625F);
+		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.RANDOM, EnumBeamType.SOLID, color, color, (int)(tileEntity.getWorldObj().getTotalWorldTime() % 1000 / 2), (length / 2) + 1, 0.0625F, 2, 0.0625F);
 
 		GL11.glPopMatrix();
 	}

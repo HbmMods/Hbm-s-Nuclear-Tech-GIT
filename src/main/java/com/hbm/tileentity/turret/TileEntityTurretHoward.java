@@ -167,10 +167,12 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		this.loaded = nbt.getInteger("loaded");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		nbt.setInteger("loaded", loaded);
 	}
 }

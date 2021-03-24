@@ -1739,6 +1739,7 @@ item.pellet_mes.name=MES-Watzpellet
 item.pellet_meteorite.name=Meteoritenkugeln
 item.pellet_neptunium.name=Neptunium-Watzpellet
 item.pellet_rtg.name=Plutonium 238 Pellet
+item.pellet_rtg_gold.name=Gold 198 Pellet
 item.pellet_rtg_polonium.name=Polonium 210 Pellet
 item.pellet_rtg_weak.name=Schwaches Uran RTG-Pellet
 item.pellet_schrabidium.name=Pures Schrabidium-Watzpellet
