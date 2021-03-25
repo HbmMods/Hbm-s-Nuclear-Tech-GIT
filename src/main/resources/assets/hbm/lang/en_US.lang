@@ -1613,6 +1613,7 @@ item.mp_warhead_15_incendiary.name=Size 15 Incendiary Warhead
 item.mp_warhead_15_n2.name=Size 15 N² Mine
 item.mp_warhead_15_nuclear.name=Size 15 Nuclear Warhead
 item.mp_warhead_15_nuclear_shark.name=Size 15 Nuclear Warhead
+item.mp_warhead_15_turbine.name=Size 15 Jet Engine
 item.multi_kit.name=Multi Purpose Bomb Kit
 item.multitool_beam.name=Power Fist (Zapper)
 item.multitool_decon.name=Power Fist (Decontaminator)

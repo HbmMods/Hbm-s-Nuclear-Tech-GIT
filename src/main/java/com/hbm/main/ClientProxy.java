@@ -561,12 +561,11 @@ public class ClientProxy extends ServerProxy {
 		
 		Iterator it = MissilePart.parts.entrySet().iterator();
 		
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        //System.out.println(pair.getKey() + " = " + pair.getValue());
-	        MissilePart part = (MissilePart)pair.getValue();
+		while(it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			MissilePart part = (MissilePart) pair.getValue();
 			MinecraftForgeClient.registerItemRenderer(part.part, new ItemRenderMissilePart(part));
-	    }
+		}
 		
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_custom, new ItemRenderMissile());
 	}

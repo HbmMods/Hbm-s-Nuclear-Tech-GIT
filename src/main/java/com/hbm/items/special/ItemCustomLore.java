@@ -85,6 +85,14 @@ public class ItemCustomLore extends Item {
 				list.add("More powderful RTG pellet, made from finest polonium!");
 		}
 
+		if(this == ModItems.pellet_rtg_gold)
+		{
+			if(MainRegistry.polaroidID == 11)
+				list.add("it's that spicy gold");
+			else
+				list.add("Made from a rare, highly unstable gold isotope.");
+		}
+
 		if(this == ModItems.pellet_cluster)
 		{
 			list.add("Used in multi purpose bombs:");

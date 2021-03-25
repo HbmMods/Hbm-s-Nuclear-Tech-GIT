@@ -52,13 +52,22 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float sa327 = 17.5F;
 	public static final float saf = 5.85F;
 
+	public static final float sr = sa326 * 0.1F;
+	public static final float trx = 25.0F;
+	public static final float trn = 0.1F;
+	public static final float yc = u;
+	public static final float fo = 10F;
+
 	public static final float nugget = 0.1F;
 	public static final float ingot = 1.0F;
+	public static final float powder = ingot;
 	public static final float block = 10.0F;
+	public static final float crystal = block;
 	public static final float billet = 0.5F;
+	public static final float rtg = billet * 3;
 	public static final float rod = 0.5F;
-	public static final float rod_dual = 1.0F;
-	public static final float rod_quad = 2.0F;
+	public static final float rod_dual = rod * 2;
+	public static final float rod_quad = rod * 4;
 	
 	ItemHazardModule module;
 	
@@ -105,7 +114,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public ItemHazard(float radiation, boolean fire, boolean blinding) {
 		this();
 		this.module.addRadiation(radiation);
-		this.module.addBlinding();
+		if(blinding) this.module.addBlinding();
 		if(fire) this.module.addFire(5);
 	}
 }

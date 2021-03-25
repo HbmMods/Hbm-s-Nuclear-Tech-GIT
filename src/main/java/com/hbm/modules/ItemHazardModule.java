@@ -3,7 +3,6 @@ package com.hbm.modules;
 import java.util.List;
 
 import com.hbm.inventory.BreederRecipes;
-import com.hbm.items.special.ItemHazard;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
@@ -62,7 +61,7 @@ public class ItemHazardModule {
 			ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
 
 		if(this.digamma > 0)
-			ContaminationUtil.applyDigammaData(entity, 1F / ((float) digamma));
+			ContaminationUtil.applyDigammaData(entity, this.digamma * mod / 20F);
 
 		if(this.fire > 0)
 			entity.setFire(this.fire);
@@ -113,7 +112,7 @@ public class ItemHazardModule {
 		}
 		
 		if(this.digamma > 0) {
-			float d = ((int) ((1000F / digamma) * 10F)) / 10F;
+			float d = ((int) (digamma * 10000F)) / 10F;
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
 			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
 		}

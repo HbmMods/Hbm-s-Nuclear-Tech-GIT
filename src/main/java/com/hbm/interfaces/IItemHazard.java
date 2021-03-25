@@ -1,6 +1,5 @@
 package com.hbm.interfaces;
 
-import com.hbm.items.special.ItemHazard;
 import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.block.Block;

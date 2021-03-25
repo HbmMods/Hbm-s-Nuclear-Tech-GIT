@@ -20,6 +20,8 @@ public class ItemDigamma extends ItemHazard {
 
 	public ItemDigamma(float radiation, int digamma) {
 		super(radiation);
+		
+		//obacht! the particle's digamma value is "ticks until half life" while the superclass' interpretation is "simply add flat value"
 		this.digamma = digamma;
 	}
 

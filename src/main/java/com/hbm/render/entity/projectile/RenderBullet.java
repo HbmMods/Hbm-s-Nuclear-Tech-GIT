@@ -5,15 +5,21 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.BulletConfiguration;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelBaleflare;
 import com.hbm.render.model.ModelBullet;
 import com.hbm.render.util.RenderSparks;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderBullet extends Render {
@@ -36,11 +42,12 @@ public class RenderBullet extends Render {
 		GL11.glRotatef(bullet.prevRotationPitch + (bullet.rotationPitch - bullet.prevRotationPitch) * f1 + 180,
 				0.0F, 0.0F, 1.0F);
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		
-		GL11.glRotatef(new Random(bullet.getEntityId()).nextInt(90) - 45, 1.0F, 0.0F, 0.0F);
 
 		int style = bullet.getDataWatcher().getWatchableObjectByte(16);
 		int trail = bullet.getDataWatcher().getWatchableObjectByte(17);
+		
+		if(style != BulletConfiguration.STYLE_BLADE)
+			GL11.glRotatef(new Random(bullet.getEntityId()).nextInt(90) - 45, 1.0F, 0.0F, 0.0F);
 		
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
@@ -60,13 +67,14 @@ public class RenderBullet extends Render {
 			case BulletConfiguration.STYLE_ORB: renderOrb(trail); break;
 			case BulletConfiguration.STYLE_METEOR: renderMeteor(trail); break;
 			case BulletConfiguration.STYLE_APDS: renderAPDS(); break;
+			case BulletConfiguration.STYLE_BLADE: renderBlade(); break;
 			default: renderBullet(trail); break;
 		}
 		
 		
 		GL11.glPopMatrix();
 	}
-	
+
 	private void renderBullet(int type) {
 
 		if (type == 2) {
@@ -437,6 +445,26 @@ public class RenderBullet extends Render {
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glDepthMask(true);
+		
+		GL11.glPopMatrix();
+	}
+	
+	private void renderBlade() {
+		GL11.glPushMatrix();
+		
+		EntityItem dummy = new EntityItem(Minecraft.getMinecraft().theWorld, 0, 0, 0, new ItemStack(ModItems.blade_titanium));
+		dummy.getEntityItem().stackSize = 1;
+		dummy.hoverStart = 0.0F;
+
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glTranslated(0, 0.5, 0);
+		GL11.glRotated(System.currentTimeMillis() % 360, 1, 0, 0);
+		GL11.glTranslated(0, -0.5, 0);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glScaled(1, 2, 1);
+		RenderItem.renderInFrame = true;
+		RenderManager.instance.renderEntityWithPosYaw(dummy, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+		RenderItem.renderInFrame = false;
 		
 		GL11.glPopMatrix();
 	}

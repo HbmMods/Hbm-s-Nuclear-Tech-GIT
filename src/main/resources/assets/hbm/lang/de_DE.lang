@@ -1611,6 +1611,7 @@ item.mp_warhead_15_incendiary.name=Größe 15 Brandsprengkopf
 item.mp_warhead_15_n2.name=Größe 15 N²-Mine
 item.mp_warhead_15_nuclear.name=Größe 15 Atomsprengkopf "Tantchen Bertha"
 item.mp_warhead_15_nuclear_shark.name=Größe 15 Atomsprengkopf "Billigsdorfer Kugelwilli"
+item.mp_warhead_15_turbine.name=Größe 15 Düsentriebwerk
 item.multi_kit.name=Mehrzweckbomben Kit
 item.multitool_beam.name=Power Fist (Zapper)
 item.multitool_decon.name=Power Fist (Dekontaminator)

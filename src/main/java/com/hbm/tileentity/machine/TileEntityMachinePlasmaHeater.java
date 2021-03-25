@@ -57,12 +57,12 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			int powerReq = 10000;
 			
 			int convert = Math.min(tanks[0].getFill(), tanks[1].getFill());
-			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()) * 2);
+			convert = Math.min(convert, (plasma.getMaxFill() - plasma.getFill()));
 			convert = Math.min(convert, maxConv);
 			convert = (int) Math.min(convert, power / powerReq);
 			convert = Math.max(0, convert);
 			
-			if(convert > 0) {
+			if(convert > 0 && plasma.getTankType() != FluidType.NONE) {
 
 				tanks[0].setFill(tanks[0].getFill() - convert);
 				tanks[1].setFill(tanks[1].getFill() - convert);

@@ -9,6 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -31,9 +32,9 @@ public class TileEntityRadiobox extends TileEntity implements IConsumer {
 			
 			int range = 15;
 			
-			List<Entity> entities = worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - range, zCoord - range, xCoord + range, yCoord + range, zCoord + range));
-			for(Entity entity : entities)
-				entity.attackEntityFrom(ModDamageSource.enervation, 20.0F);
+			List<IMob> entities = worldObj.getEntitiesWithinAABB(IMob.class, AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - range, zCoord - range, xCoord + range, yCoord + range, zCoord + range));
+			for(IMob entity : entities)
+				((Entity)entity).attackEntityFrom(ModDamageSource.enervation, 20.0F);
 		}
 	}
 	

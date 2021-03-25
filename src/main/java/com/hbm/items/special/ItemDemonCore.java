@@ -12,10 +12,6 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemDemonCore extends ItemHazard {
 
-	public ItemDemonCore() {
-		super(5.0F);
-	}
-
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) {
 		

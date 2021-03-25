@@ -209,6 +209,8 @@ public class BulletConfigSyncingUtil {
 
 	public static int ZOMG_BOLT = i++;
 
+	public static int TURBINE = i++;
+
 	public static int CHL_LR22 = i++;
 	public static int CHL_LR22_FIRE = i++;
 	public static int CHL_M44 = i++;
@@ -428,6 +430,8 @@ public class BulletConfigSyncingUtil {
 		configSet.put(NUKE_AMAT, GunFatmanFactory.getBalefireConfig());
 
 		configSet.put(ZOMG_BOLT, GunEnergyFactory.getZOMGBoltConfig());
+
+		configSet.put(TURBINE, GunEnergyFactory.getTurbineConfig());
 
 		configSet.put(CHL_LR22, Gun22LRFactory.get22LRConfig().setToHoming(ModItems.ammo_22lr_chlorophyte));
 		configSet.put(CHL_LR22_FIRE, Gun22LRFactory.get22LRConfig().setToFire(3).setToHoming(ModItems.ammo_22lr_chlorophyte));
