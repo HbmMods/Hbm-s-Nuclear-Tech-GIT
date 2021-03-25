@@ -2,7 +2,9 @@ package com.hbm.items.special;
 
 import java.util.List;
 
+import com.hbm.interfaces.IItemHazard;
 import com.hbm.inventory.BreederRecipes;
+import com.hbm.modules.ItemHazardModule;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
@@ -16,7 +18,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemHazard extends ItemCustomLore {
+public class ItemHazard extends ItemCustomLore implements IItemHazard {
 
 	//AU192		            64h		α	500.00Rad/s	2 much spice :(
 	//PO210		           138d		α	025.00Rad/s	Spicy
@@ -57,121 +59,30 @@ public class ItemHazard extends ItemCustomLore {
 	public static final float rod = 0.5F;
 	public static final float rod_dual = 1.0F;
 	public static final float rod_quad = 2.0F;
-
-	float radiation;
-	float digamma;
-	int fire;
-	boolean blinding;
-	boolean asbestos;
-	boolean hydro;
+	
+	ItemHazardModule module;
 	
 	public ItemHazard() {
+		this.module = new ItemHazardModule();
 	}
-	
-	public ItemHazard addRadiation(float radiation) {
-		this.radiation = radiation;
-		return this;
-	}
-	
-	public ItemHazard addDigamma(float digamma) {
-		this.digamma = digamma;
-		return this;
-	}
-	
-	public ItemHazard addFire(int fire) {
-		this.fire = fire;
-		return this;
-	}
-	
-	public ItemHazard addAsbestos() {
-		this.asbestos = true;
-		return this;
-	}
-	
-	public ItemHazard addHydroReactivity() {
-		this.hydro = true;
-		return this;
+
+	@Override
+	public ItemHazardModule getModule() {
+		return this.module;
 	}
 	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
 		
 		if(entity instanceof EntityLivingBase)
-			applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
-	}
-
-	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
-			
-		if(this.radiation > 0)
-			ContaminationUtil.applyRadData(entity, this.radiation * mod / 20F);
-
-		if(this.digamma > 0)
-			ContaminationUtil.applyDigammaData(entity, 1F / ((float) digamma));
-
-		if(this.fire > 0)
-			entity.setFire(this.fire);
-
-		if(this.asbestos)
-			ContaminationUtil.applyAsbestos(entity, (int) (1 * mod));
-
-		if(this.hydro && currentItem) {
-
-			if(!entity.worldObj.isRemote && entity.isInWater() && entity instanceof EntityPlayer) {
-				
-				EntityPlayer player = (EntityPlayer) entity;
-				ItemStack held = player.getHeldItem();
-				
-				player.inventory.mainInventory[player.inventory.currentItem] = held.getItem().getContainerItem(held);
-				player.inventoryContainer.detectAndSendChanges();
-				player.worldObj.newExplosion(null, player.posX, player.posY + player.getEyeHeight() - player.getYOffset(), player.posZ, 2F, true, true);
-			}
-		}
-
-		if(this.blinding && !(entity instanceof EntityPlayer && ArmorUtil.checkForGoggles((EntityPlayer) entity))) {
-			((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100, 0));
-		}
+			this.module.applyEffects((EntityLivingBase) entity, stack.stackSize, i, b);
 	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
 		super.addInformation(stack, player, list, bool);
-		
-		if(this.radiation > 0) {
-			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
-			String rad = "" + (Math.floor(radiation * 1000) / 1000);
-			list.add(EnumChatFormatting.YELLOW + (rad + "RAD/s"));
-		}
-		
-		if(this.fire > 0) {
-			list.add(EnumChatFormatting.GOLD + "[" + I18nUtil.resolveKey("trait.hot") + "]");
-		}
-		
-		if(this.blinding) {
-			list.add(EnumChatFormatting.DARK_AQUA + "[" + I18nUtil.resolveKey("trait.blinding") + "]");
-		}
-		
-		if(this.asbestos) {
-			list.add(EnumChatFormatting.WHITE + "[" + I18nUtil.resolveKey("trait.asbestos") + "]");
-		}
-		
-		if(this.hydro) {
-			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.hydro") + "]");
-		}
-		
-		if(this.digamma > 0) {
-			float d = ((int) ((1000F / digamma) * 10F)) / 10F;
-			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.digamma") + "]");
-			list.add(EnumChatFormatting.DARK_RED + "" + d + "mDRX/s");
-		}
-		
-		int[] breeder = BreederRecipes.getFuelValue(stack);
-		
-		if(breeder != null) {
-			list.add(BreederRecipes.getHEATString("[" + I18nUtil.resolveKey("trait.heat", breeder[0]) + "]", breeder[0]));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
-		}
+		this.module.addInformation(stack, player, list, bool);
 	}
 	
 	/*
@@ -179,19 +90,22 @@ public class ItemHazard extends ItemCustomLore {
 	 */
 	@Deprecated()
 	public ItemHazard(float radiation) {
-		this.radiation = radiation;
+		this();
+		this.module.addRadiation(radiation);
 	}
 
 	@Deprecated()
 	public ItemHazard(float radiation, boolean fire) {
-		this.radiation = radiation;
-		if(fire) this.fire = 5;
+		this();
+		this.module.addRadiation(radiation);
+		if(fire) this.module.addFire(5);
 	}
 
 	@Deprecated()
 	public ItemHazard(float radiation, boolean fire, boolean blinding) {
-		this.radiation = radiation;
-		this.blinding = blinding;
-		if(fire) this.fire = 5;
+		this();
+		this.module.addRadiation(radiation);
+		this.module.addBlinding();
+		if(fire) this.module.addFire(5);
 	}
 }

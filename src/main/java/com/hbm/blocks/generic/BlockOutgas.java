@@ -3,6 +3,8 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IItemHazard;
+import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -11,15 +13,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockOutgas extends BlockOre {
+public class BlockOutgas extends BlockOre implements IItemHazard {
 	
 	boolean randomTick;
 	int rate;
 	boolean onBreak;
 	boolean onNeighbour;
+	
+	ItemHazardModule module;
 
 	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak) {
 		super(mat);
+		this.module = new ItemHazardModule();
 		this.setTickRandomly(randomTick);
 		this.randomTick = randomTick;
 		this.rate = rate;
@@ -29,7 +34,13 @@ public class BlockOutgas extends BlockOre {
 
 	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
 		this(mat, randomTick, rate, onBreak);
+		this.module = new ItemHazardModule();
 		this.onNeighbour = onNeighbour;
+	}
+
+	@Override
+	public ItemHazardModule getModule() {
+		return module;
 	}
 
 	public int tickRate(World p_149738_1_) {
