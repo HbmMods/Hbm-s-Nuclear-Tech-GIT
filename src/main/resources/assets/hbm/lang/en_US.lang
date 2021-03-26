@@ -88,7 +88,7 @@ armor.thermal=Thermal Sight
 armor.threshold=Damage threshold of %s
 armor.vats=Enemy HUD
 
-book.test.page1=This is a test to demonstrate the e[B]ic linewrap feature of these books. The font scale is customizable and the linewrap adjusts accordingly, which makes writing new pages really easy.
+book.test.page1=Test Page 1
 
 chem.ASPHALT=Asphalt Production
 chem.BALEFIRE=BF Rocket Fuel Mixing
@@ -2847,6 +2847,7 @@ trait.blinding=Blinding
 trait.breeding=Worth %s operations in breeding reactor
 trait.digamma=Digamma Radiation
 trait.drop=Dangerous Drop
+trait.explosive=Flammable / Explosive
 trait.furnace=Worth %s operations in nuclear furnace
 trait.heat=Provides %s HEAT
 trait.hlParticle=Particle Half-Life: %s
@@ -2862,6 +2863,7 @@ tool.ability.explosion=Explosion
 tool.ability.hammer=AoE
 tool.ability.luck=Fortune
 tool.ability.mercury=Mercury Touch
+tool.ability.midas=Midas Touch
 tool.ability.recursion=Vein Miner
 tool.ability.shredder=Auto-Shredder
 tool.ability.silktouch=Silk Touch

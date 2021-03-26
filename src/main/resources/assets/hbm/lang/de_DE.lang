@@ -88,6 +88,8 @@ armor.thermal=Wärmebildkamera
 armor.threshold=Schadensschwelle: %s
 armor.vats=Feinde-HUD
 
+book.test.page1=Testseite 1
+
 chem.ASPHALT=Asphaltherstellung
 chem.BALEFIRE=BF-Raketentreibstoffherstellung
 chem.BP_BIOFUEL=Biodieselumesterung
@@ -2845,6 +2847,7 @@ trait.blinding=Blendend
 trait.breeding=%s Operationen in Brutreaktor
 trait.digamma=Digammastrahlung
 trait.drop=Gefährlicher Drop
+trait.explosive=Entzündlich / Explosiv
 trait.furnace=%s Operationen in Atomofen
 trait.heat=Erzeugt %s HEAT
 trait.hlParticle=Partikel-Halbwertszeit: %s
@@ -2860,6 +2863,7 @@ tool.ability.explosion=Explosion
 tool.ability.hammer=AoE
 tool.ability.luck=Glück
 tool.ability.mercury=Quecksilber-Berührung
+tool.ability.midas=Midas' Hand
 tool.ability.recursion=Erzadern-Miner
 tool.ability.shredder=Auto-Brecher
 tool.ability.silktouch=Behutsamkeit
