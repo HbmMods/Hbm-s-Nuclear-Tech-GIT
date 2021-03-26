@@ -30,6 +30,7 @@ public class ItemHazardModule {
 	boolean blinding;
 	boolean asbestos;
 	boolean hydro;
+	float explosive;
 	
 	public void addRadiation(float radiation) {
 		this.radiation = radiation;
@@ -53,6 +54,10 @@ public class ItemHazardModule {
 	
 	public void addHydroReactivity() {
 		this.hydro = true;
+	}
+	
+	public void addExplosive(float bang) {
+		this.explosive = bang;
 	}
 
 	public void applyEffects(EntityLivingBase entity, float mod, int slot, boolean currentItem) {
@@ -79,6 +84,19 @@ public class ItemHazardModule {
 				player.inventory.mainInventory[player.inventory.currentItem] = held.getItem().getContainerItem(held);
 				player.inventoryContainer.detectAndSendChanges();
 				player.worldObj.newExplosion(null, player.posX, player.posY + player.getEyeHeight() - player.getYOffset(), player.posZ, 2F, true, true);
+			}
+		}
+
+		if(this.explosive > 0 && currentItem) {
+
+			if(!entity.worldObj.isRemote && entity.isBurning() && entity instanceof EntityPlayer) {
+				
+				EntityPlayer player = (EntityPlayer) entity;
+				ItemStack held = player.getHeldItem();
+				
+				player.inventory.mainInventory[player.inventory.currentItem] = held.getItem().getContainerItem(held);
+				player.inventoryContainer.detectAndSendChanges();
+				player.worldObj.newExplosion(null, player.posX, player.posY + player.getEyeHeight() - player.getYOffset(), player.posZ, this.explosive, true, true);
 			}
 		}
 
@@ -109,6 +127,10 @@ public class ItemHazardModule {
 		
 		if(this.hydro) {
 			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.hydro") + "]");
+		}
+		
+		if(this.explosive > 0) {
+			list.add(EnumChatFormatting.RED + "[" + I18nUtil.resolveKey("trait.explosive") + "]");
 		}
 		
 		if(this.digamma > 0) {

@@ -34,6 +34,11 @@ public interface IItemHazard {
 		return this;
 	}
 	
+	public default IItemHazard addExplosive(float bang) {
+		this.getModule().addExplosive(bang);
+		return this;
+	}
+	
 	//the only ugly part of this entire system is the manual casting so that the rest of the daisychained setters work
 	public default Item toItem() {
 		return (Item)this;

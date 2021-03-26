@@ -3,7 +3,9 @@ package com.hbm.blocks.generic;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.hbm.interfaces.IItemHazard;
 import com.hbm.items.ModItems;
+import com.hbm.modules.ItemHazardModule;
 import com.hbm.potion.HbmPotion;
 
 import net.minecraft.block.Block;
@@ -17,7 +19,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFallout extends Block {
+public class BlockFallout extends Block implements IItemHazard {
+	
+	ItemHazardModule module;
 
 	public BlockFallout(Material mat) {
 		super(mat);
@@ -73,5 +77,10 @@ public class BlockFallout extends Block {
 
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		return true;
+	}
+
+	@Override
+	public ItemHazardModule getModule() {
+		return module;
 	}
 }
