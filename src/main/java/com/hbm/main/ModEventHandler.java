@@ -48,9 +48,11 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.saveddata.RadiationSavedData;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.world.generator.TimedGenerator;
 
+import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -487,11 +489,7 @@ public class ModEventHandler
 							continue;
 			        	}
 						
-						if(eRad < 200 || entity instanceof EntityNuclearCreeper ||
-								entity instanceof EntityMooshroom ||
-								entity instanceof EntityZombie ||
-								entity instanceof EntitySkeleton ||
-								entity instanceof EntityQuackos)
+						if(eRad < 200 || ContaminationUtil.isRadImmune(entity))
 							continue;
 						
 						if(eRad > 2500)

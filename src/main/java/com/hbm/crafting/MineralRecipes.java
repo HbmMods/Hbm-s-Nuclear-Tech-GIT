@@ -20,6 +20,9 @@ public class MineralRecipes {
 		RecipesCommon.add9To1(ModItems.ingot_aluminium, ModBlocks.block_aluminium);
 		RecipesCommon.add1To9(ModBlocks.block_aluminium, ModItems.ingot_aluminium);
 
+		RecipesCommon.add9To1(ModItems.nugget_zirconium, ModItems.ingot_zirconium);
+		RecipesCommon.add1To9(ModItems.ingot_zirconium, ModItems.nugget_zirconium);
+
 		RecipesCommon.add9To1(ModItems.ingot_schraranium, ModBlocks.block_schraranium);
 		RecipesCommon.add1To9(ModBlocks.block_schraranium, ModItems.ingot_schraranium);
 		

@@ -79,7 +79,7 @@ public class ItemPill extends ItemFood {
 			list.add("Deadly");
 		}
 		if(this == ModItems.radx) {
-			list.add("Increases radiation resistance by 0.4 for 3 minutes");
+			list.add("Increases radiation resistance by 0.2 (37%) for 3 minutes");
 		}
 		if(this == ModItems.xanax) {
 			list.add("Removes 500mDRX");

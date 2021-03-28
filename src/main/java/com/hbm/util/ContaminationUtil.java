@@ -1,5 +1,7 @@
 package com.hbm.util;
 
+import com.hbm.entity.mob.EntityNuclearCreeper;
+import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.potion.HbmPotion;
@@ -8,6 +10,10 @@ import com.hbm.saveddata.RadiationSavedData;
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityMooshroom;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -24,14 +30,11 @@ public class ContaminationUtil {
 	 * @return
 	 */
 	public static float calculateRadiationMod(EntityLivingBase entity) {
-
-		if(entity.isPotionActive(HbmPotion.mutation))
-			return 0;
 		
 		if(entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer)entity;
 			
-			float koeff = 5.0F;
+			float koeff = 10.0F;
 			return (float) Math.pow(koeff, -HazmatRegistry.getResistance(player));
 		}
 		
@@ -44,7 +47,7 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return;
 
-		if(e instanceof IRadiationImmune)
+		if(isRadImmune(e))
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
@@ -65,16 +68,13 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return;
 
-		if(e instanceof IRadiationImmune)
+		if(isRadImmune(e))
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
 			return;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
-		
-		if(entity.isPotionActive(HbmPotion.mutation))
-			return;
 
 		HbmLivingProps.incrementRadiation(entity, f);
 	}
@@ -84,12 +84,26 @@ public class ContaminationUtil {
 		if(!(e instanceof EntityLivingBase))
 			return 0.0F;
 
-		if(e instanceof IRadiationImmune)
+		if(isRadImmune(e))
 			return 0.0F;
 		
 		EntityLivingBase entity = (EntityLivingBase)e;
 		
 		return HbmLivingProps.getRadiation(entity);
+	}
+	
+	public static boolean isRadImmune(Entity e) {
+
+		if(e instanceof EntityLivingBase && ((EntityLivingBase)e).isPotionActive(HbmPotion.mutation))
+			return true;
+		
+		return e instanceof EntityNuclearCreeper ||
+				e instanceof EntityMooshroom ||
+				e instanceof EntityZombie ||
+				e instanceof EntitySkeleton ||
+				e instanceof EntityQuackos ||
+				e instanceof EntityOcelot ||
+				e instanceof IRadiationImmune;
 	}
 	
 	/// ASBESTOS ///

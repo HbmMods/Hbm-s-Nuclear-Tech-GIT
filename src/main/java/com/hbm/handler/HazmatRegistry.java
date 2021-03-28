@@ -35,17 +35,17 @@ public class HazmatRegistry {
 		double hazYellow = 0.3D; // 50%
 		double hazRed = 0.7D; // 80%
 		double hazGray = 1.3D; // 95%
-		double paa = 2D; // 99%
-		double liquidator = 3D; // 99.9%
+		double paa = 1.3D; // 95%
+		double liquidator = 2D; // 99%
 
 		double t45 = 1D; // 90%
-		double ajr = 2D; // 99%
-		double bj = 1.3D; // 95%
-		double hev = 2.3D; // 99.5%
+		double ajr = 1.3D; // 95%
+		double bj = 1D; // 90%
+		double hev = 1.3D; // 95%
 		double fau = 4D; // 99.99%
 		double security = 0.825D; // 85%
-		double star = 1.3D; // 95%
-		double cmb = 2D; // 99%
+		double star = 1D; // 90%
+		double cmb = 1.3D; // 95%
 		double schrab = 2.3D; // 99.5%
 		double euph = 10D; // <100%
 		
@@ -223,7 +223,7 @@ public class HazmatRegistry {
 		}
 		
 		if(player.isPotionActive(HbmPotion.radx))
-			res += 0.4F;
+			res += 0.2F;
 		
 		return res;
 		

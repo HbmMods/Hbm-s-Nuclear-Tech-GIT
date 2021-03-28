@@ -42,6 +42,9 @@ public class EntityEffectHandler {
 	
 	private static void handleRadiation(EntityLivingBase entity) {
 		
+		if(ContaminationUtil.isRadImmune(entity))
+			return;
+		
 		World world = entity.worldObj;
 		
 		RadiationSavedData data = RadiationSavedData.getData(world);
