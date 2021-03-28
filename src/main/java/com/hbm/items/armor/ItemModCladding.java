@@ -11,13 +11,13 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemModCladding extends ItemArmorMod {
 	
-	public float rad;
+	public double rad;
 	
-	public ItemModCladding(float rad) {
+	public ItemModCladding(double rad) {
 		super(ArmorModHandler.cladding, true, true, true, true);
 		this.rad = rad;
 	}
-    
+	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.YELLOW + "+" + rad + " rad-resistance");

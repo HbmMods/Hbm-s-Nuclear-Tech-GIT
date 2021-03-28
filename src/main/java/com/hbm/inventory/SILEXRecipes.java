@@ -3,13 +3,17 @@ package com.hbm.inventory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import com.hbm.inventory.HadronRecipes.HadronRecipe;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.util.WeightedRandomObject;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class SILEXRecipes {
 	
@@ -70,6 +74,23 @@ public class SILEXRecipes {
 		}
 		
 		return null;
+	}
+
+	public static Map<Object, SILEXRecipe> getRecipes() {
+		
+		Map<Object, SILEXRecipe> recipes = new HashMap<Object, SILEXRecipe>();
+		
+		for(Entry<Object, SILEXRecipe> entry : SILEXRecipes.recipes.entrySet()) {
+			
+			if(entry.getKey() instanceof String) {
+				List<ItemStack> ingredients = OreDictionary.getOres((String)entry.getKey());
+				recipes.put(ingredients, entry.getValue());
+			} else {
+				recipes.put(((ComparableStack)entry.getKey()).toStack(), entry.getValue());
+			}
+		}
+		
+		return recipes;
 	}
 	
 	public static class SILEXRecipe {

@@ -2853,7 +2853,7 @@ trait.heat=Erzeugt %s HEAT
 trait.hlParticle=Partikel-Halbwertszeit: %s
 trait.hlPlayer=Spieler-Halbwertszeit: %s
 trait.hot=Pyrophorisch / Heiß
-trait.hydro=Hydro-Reaktivität
+trait.hydro=Hydro-Reaktiv
 trait.radioactive=Radioaktiv
 trait.radResistance=Strahlungs-Resistenz: %s
 

@@ -29,6 +29,11 @@ public interface IItemHazard {
 		return this;
 	}
 	
+	public default IItemHazard addBlinding() {
+		this.getModule().addBlinding();
+		return this;
+	}
+	
 	public default IItemHazard addHydroReactivity() {
 		this.getModule().addHydroReactivity();
 		return this;

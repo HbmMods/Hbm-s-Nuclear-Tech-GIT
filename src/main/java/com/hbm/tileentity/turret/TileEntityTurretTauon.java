@@ -87,10 +87,9 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.target != null) {
+			if(this.tPos != null) {
 				Vec3 pos = this.getTurretPos();
-				Vec3 ent = this.getEntityPos(this.target);
-				double length = Vec3.createVectorHelper(ent.xCoord - pos.xCoord, ent.yCoord - pos.yCoord, ent.zCoord - pos.zCoord).lengthVector();
+				double length = Vec3.createVectorHelper(tPos.xCoord - pos.xCoord, tPos.yCoord - pos.yCoord, tPos.zCoord - pos.zCoord).lengthVector();
 				this.lastDist = length;
 			}
 			
@@ -99,7 +98,7 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 			
 			this.lastSpin = this.spin;
 			
-			if(this.target != null) {
+			if(this.tPos != null) {
 				this.spin += 45;
 			}
 			

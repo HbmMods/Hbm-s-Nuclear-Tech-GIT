@@ -26,6 +26,13 @@ public class ArmorModHandler {
 			UUID.fromString("426ee0d0-7587-4697-aaef-4772ab202e78")
 	};
 	
+	public static final UUID[] fixedUUIDs = new UUID[] {
+			UUID.fromString("e572caf4-3e65-4152-bc79-c4d4048cbd29"),
+			UUID.fromString("bed30902-8a6a-4769-9f65-2a9b67469fff"),
+			UUID.fromString("baebf7b3-1eda-4a14-b233-068e2493e9a2"),
+			UUID.fromString("28016c1b-d992-4324-9409-a9f9f0ffb85c")
+	};
+	
 	//The key for the NBTTagCompound that holds the armor mods
 	public static final String MOD_COMPOUND_KEY = "ntm_armor_mods";
 	//The key for the specific slot inside the armor mod NBT Tag

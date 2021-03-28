@@ -1164,6 +1164,13 @@ public class ClientProxy extends ServerProxy {
 			}
 		}
 		
+		if("schrabfog".equals(type)) {
+				
+			EntityAuraFX flash = new EntityAuraFX(world, x, y, z, 0, 0, 0);
+			flash.setRBGColorF(0F, 1F, 1F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(flash);
+		}
+		
 		if("hadron".equals(type)) {
 			
 			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleHadron(man, world, x, y, z));

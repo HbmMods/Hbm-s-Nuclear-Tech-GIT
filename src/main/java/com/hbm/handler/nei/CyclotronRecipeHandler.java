@@ -55,7 +55,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getGuiTexture() {
-		return RefStrings.MODID + ":textures/gui/gui_nei_cyclotron.png";
+		return RefStrings.MODID + ":textures/gui/nei/gui_nei_cyclotron.png";
 	}
 	
 	@Override

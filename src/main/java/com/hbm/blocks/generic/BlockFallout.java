@@ -25,6 +25,7 @@ public class BlockFallout extends Block implements IItemHazard {
 
 	public BlockFallout(Material mat) {
 		super(mat);
+		this.module = new ItemHazardModule();
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 	}
 

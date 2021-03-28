@@ -85,6 +85,7 @@ public class ArmorUtil {
 	public static boolean checkForHaz2(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.hazmat_paa_helmet, ModItems.hazmat_paa_plate, ModItems.hazmat_paa_legs, ModItems.hazmat_paa_boots) || 
+				checkArmor(player, ModItems.liquidator_helmet, ModItems.liquidator_plate, ModItems.liquidator_legs, ModItems.liquidator_boots) || 
 				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots))
 		{
 			return true;
@@ -136,6 +137,7 @@ public class ArmorUtil {
 			"platinum",
 			"tin",
 			"lead",
+			"liquidator",
 			"schrabidium",
 			"euphemium",
 			"steel",
@@ -186,6 +188,10 @@ public class ArmorUtil {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.hazmat_paa_helmet, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
 		{
 			return true;
 		}
@@ -244,6 +250,10 @@ public class ArmorUtil {
 			return true;
 		}
 		if(checkArmorPiece(player, ModItems.hazmat_helmet_grey, 3))
+		{
+			return true;
+		}
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
 		{
 			return true;
 		}

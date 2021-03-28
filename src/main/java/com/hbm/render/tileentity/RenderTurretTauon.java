@@ -9,6 +9,7 @@ import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
 import com.hbm.tileentity.turret.TileEntityTurretTauon;
 
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 
@@ -46,8 +47,11 @@ public class RenderTurretTauon extends RenderTurretBase {
 
 		if(turret.beam > 0) {
 			GL11.glPushMatrix();
+			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 			GL11.glTranslated(0, 1.5D, 0);
 			BeamPronter.prontBeam(Vec3.createVectorHelper(turret.lastDist, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)te.getWorldObj().getTotalWorldTime() / 5 % 360, (int)turret.lastDist + 1, 0.1F, 0, 0);
+			GL11.glPopAttrib();
 			GL11.glPopMatrix();
 		}
 		

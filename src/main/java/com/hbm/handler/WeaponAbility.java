@@ -247,7 +247,7 @@ public abstract class WeaponAbility {
 						if(world.rand.nextInt(20) == 0)
 							living.entityDropItem(new ItemStack(Items.skull, 1, 1), 0.0F);
 						else
-							living.entityDropItem(new ItemStack(Items.coal, 1, 3), 0.0F);
+							living.entityDropItem(new ItemStack(Items.coal, 3), 0.0F);
 					}
 					
 				} else if(living instanceof EntityZombie) {

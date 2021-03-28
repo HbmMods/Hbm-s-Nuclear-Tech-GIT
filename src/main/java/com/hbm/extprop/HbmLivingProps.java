@@ -4,13 +4,18 @@ import java.util.UUID;
 
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
@@ -92,6 +97,13 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 			entity.attackEntityFrom(ModDamageSource.digamma, 500F);
 			entity.setHealth(0);
 			entity.onDeath(ModDamageSource.digamma);
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "sweat");
+			data.setInteger("count", 50);
+			data.setInteger("block", Block.getIdFromBlock(Blocks.soul_sand));
+			data.setInteger("entity", entity.getEntityId());
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, 0, 0, 0),  new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
 		}
 		
 		if(entity instanceof EntityPlayer) {

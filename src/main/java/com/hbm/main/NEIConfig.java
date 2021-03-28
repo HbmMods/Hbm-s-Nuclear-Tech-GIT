@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.nei.*;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.api.API;
@@ -47,9 +48,12 @@ public class NEIConfig implements IConfigureNEI {
 		API.registerUsageHandler(new FusionRecipeHandler());
 		API.registerRecipeHandler(new HadronRecipeHandler());
 		API.registerUsageHandler(new HadronRecipeHandler());
+		API.registerRecipeHandler(new SILEXRecipeHandler());
+		API.registerUsageHandler(new SILEXRecipeHandler());
 
 		//Some things are even beyond my control...or are they?
-		API.hideItem(new ItemStack(ModItems.memory));
+		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
+		API.hideItem(ItemBattery.getFullBattery(ModItems.memory));
 		
 		API.hideItem(new ItemStack(ModBlocks.machine_coal_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_electric_furnace_on));
@@ -63,18 +67,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.statue_elb_f));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus_seed));
-		//API.hideItem(new ItemStack(ModItems.euphemium_helmet));
-		//API.hideItem(new ItemStack(ModItems.euphemium_plate));
-		//API.hideItem(new ItemStack(ModItems.euphemium_legs));
-		//API.hideItem(new ItemStack(ModItems.euphemium_boots));
-		//API.hideItem(new ItemStack(ModItems.apple_euphemium));
-		//API.hideItem(new ItemStack(ModItems.ingot_euphemium));
-		//API.hideItem(new ItemStack(ModItems.nugget_euphemium));
 		API.hideItem(new ItemStack(ModItems.euphemium_kit));
-		//API.hideItem(new ItemStack(ModItems.euphemium_stopper));
-		//API.hideItem(new ItemStack(ModItems.watch));
-		//API.hideItem(new ItemStack(ModItems.rod_quad_euphemium));
-		//API.hideItem(new ItemStack(ModItems.rod_euphemium));
 		API.hideItem(new ItemStack(ModItems.bobmazon_hidden));
 		if(MainRegistry.polaroidID != 11) {
 			API.hideItem(new ItemStack(ModItems.book_secret));

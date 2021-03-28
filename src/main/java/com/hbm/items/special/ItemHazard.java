@@ -3,19 +3,12 @@ package com.hbm.items.special;
 import java.util.List;
 
 import com.hbm.interfaces.IItemHazard;
-import com.hbm.inventory.BreederRecipes;
 import com.hbm.modules.ItemHazardModule;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemHazard extends ItemCustomLore implements IItemHazard {
@@ -55,6 +48,7 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 	public static final float sr = sa326 * 0.1F;
 	public static final float trx = 25.0F;
 	public static final float trn = 0.1F;
+	public static final float wst = 15.0F;
 	public static final float yc = u;
 	public static final float fo = 10F;
 

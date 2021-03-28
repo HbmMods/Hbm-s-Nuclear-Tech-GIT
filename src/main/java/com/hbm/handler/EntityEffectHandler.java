@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import java.util.Random;
+
 import com.hbm.config.RadiationConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.main.MainRegistry;
@@ -67,7 +69,9 @@ public class EntityEffectHandler {
 				ContaminationUtil.applyRadData(entity, RadiationConfig.cont * 0.0005F);
 			}
 			
-			if(HbmLivingProps.getRadiation(entity) > 600 && world.getTotalWorldTime() % 600 == 0) {
+			Random rand = new Random(entity.getEntityId());
+			
+			if(HbmLivingProps.getRadiation(entity) > 600 && (world.getTotalWorldTime() + rand.nextInt(600)) % 600 == 0) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "bloodvomit");
@@ -76,7 +80,7 @@ public class EntityEffectHandler {
 				
 				world.playSoundEffect(ix, iy, iz, "hbm:entity.vomit", 1.0F, 1.0F);
 				entity.addPotionEffect(new PotionEffect(Potion.hunger.id, 60, 19));
-			} else if(HbmLivingProps.getRadiation(entity) > 200 && world.getTotalWorldTime() % 1200 == 0) {
+			} else if(HbmLivingProps.getRadiation(entity) > 200 && (world.getTotalWorldTime() + rand.nextInt(1200)) % 1200 == 0) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "vomit");
@@ -88,7 +92,7 @@ public class EntityEffectHandler {
 			
 			}
 			
-			if(HbmLivingProps.getRadiation(entity) > 900 && world.getTotalWorldTime() % 10 == 0) {
+			if(HbmLivingProps.getRadiation(entity) > 900 && (world.getTotalWorldTime() + rand.nextInt(10)) % 10 == 0) {
 				
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setString("type", "sweat");

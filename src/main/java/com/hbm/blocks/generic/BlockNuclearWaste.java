@@ -4,16 +4,11 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockNuclearWaste extends BlockOre {
-
-	public BlockNuclearWaste(Material mat, float rad, float max) {
-		super(mat, rad, max);
-	}
+public class BlockNuclearWaste extends BlockHazard {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {

@@ -165,6 +165,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
+		this.power = nbt.getLong("power");
 		tanks[0].readFromNBT(nbt, "fuel_1");
 		tanks[1].readFromNBT(nbt, "fuel_2");
 		plasma.readFromNBT(nbt, "plasma");
@@ -174,6 +175,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
+		nbt.setLong("power", power);
 		tanks[0].writeToNBT(nbt, "fuel_1");
 		tanks[1].writeToNBT(nbt, "fuel_2");
 		plasma.writeToNBT(nbt, "plasma");

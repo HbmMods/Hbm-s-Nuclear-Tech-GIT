@@ -379,14 +379,14 @@ public class ModEventHandlerClient {
 	}
 	
 	@SubscribeEvent
-    public void drawTooltip(ItemTooltipEvent event) {
+	public void drawTooltip(ItemTooltipEvent event) {
 		
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
 		
-		float rad = HazmatRegistry.getResistance(stack);
+		double rad = HazmatRegistry.getResistance(stack);
 		
-		rad = ((int)(rad * 1000)) / 1000F;
+		rad = ((int)(rad * 1000)) / 1000D;
 		
 		if(rad > 0)
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.radResistance", rad));

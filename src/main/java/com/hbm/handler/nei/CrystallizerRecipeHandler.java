@@ -22,45 +22,43 @@ import net.minecraft.item.ItemStack;
 
 public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 
-    public static ArrayList<Fuel> batteries;
+	public static ArrayList<Fuel> batteries;
 
-    public class RecipeSet extends TemplateRecipeHandler.CachedRecipe
-    {
-    	PositionedStack input;
-    	PositionedStack acid;
-        PositionedStack result;
-    	
-        public RecipeSet(Object input, ItemStack result) {
-            this.input = new PositionedStack(input, 75, 24);
-            this.acid = new PositionedStack(ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.ACID.ordinal()), TileEntityMachineCrystallizer.acidRequired), 39, 24);
-            this.result = new PositionedStack(result, 135, 24);
-        }
+	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
+		PositionedStack input;
+		PositionedStack acid;
+		PositionedStack result;
 
-        @Override
+		public RecipeSet(Object input, ItemStack result) {
+			this.input = new PositionedStack(input, 75, 24);
+			this.acid = new PositionedStack(ItemFluidIcon.addQuantity(new ItemStack(ModItems.fluid_icon, 1, FluidType.ACID.ordinal()), TileEntityMachineCrystallizer.acidRequired), 39, 24);
+			this.result = new PositionedStack(result, 135, 24);
+		}
+
+		@Override
 		public List<PositionedStack> getIngredients() {
-            return getCycledIngredients(cycleticks / 48, Arrays.asList(input, acid));
-        }
+			return getCycledIngredients(cycleticks / 48, Arrays.asList(input, acid));
+		}
 
-        @Override
+		@Override
 		public PositionedStack getOtherStack() {
-            return batteries.get((cycleticks / 48) % batteries.size()).stack;
-        }
+			return batteries.get((cycleticks / 48) % batteries.size()).stack;
+		}
 
-        @Override
+		@Override
 		public PositionedStack getResult() {
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 
-    public static class Fuel
-    {
-        public Fuel(ItemStack ingred) {
-        	
-            this.stack = new PositionedStack(ingred, 3, 42, false);
-        }
+	public static class Fuel {
+		public Fuel(ItemStack ingred) {
 
-        public PositionedStack stack;
-    }
+			this.stack = new PositionedStack(ingred, 3, 42, false);
+		}
+
+		public PositionedStack stack;
+	}
     
 	@Override
 	public String getRecipeName() {
@@ -149,33 +147,33 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler {
 		}
 	}
 
-    @Override
-    public Class<? extends GuiContainer> getGuiClass() {
-        return GUICrystallizer.class;
-    }
-    
-    @Override
-    public void loadTransferRects() {
-        transferRects.add(new RecipeTransferRect(new Rectangle(104 - 5, 34 - 11, 24, 18), "hbm_crystallizer"));
-    }
+	@Override
+	public Class<? extends GuiContainer> getGuiClass() {
+		return GUICrystallizer.class;
+	}
 
-    @Override
-    public void drawExtras(int recipe) {
-        
-        drawProgressBar(99, 23, 192, 0, 22, 16, 600, 0);
-        drawProgressBar(3, 6, 176, 0, 16, 34, 60, 7);
-    }
+	@Override
+	public void loadTransferRects() {
+		transferRects.add(new RecipeTransferRect(new Rectangle(104 - 5, 34 - 11, 24, 18), "hbm_crystallizer"));
+	}
 
-    @Override
-    public TemplateRecipeHandler newInstance() {
-    	
-        if (batteries == null)
-        	batteries = new ArrayList<Fuel>();
-        
-        for(ItemStack i : MachineRecipes.instance().getBatteries()) {
-        	batteries.add(new Fuel(i));
-        }
-        return super.newInstance();
-    }
+	@Override
+	public void drawExtras(int recipe) {
+
+		drawProgressBar(99, 23, 192, 0, 22, 16, 600, 0);
+		drawProgressBar(3, 6, 176, 0, 16, 34, 60, 7);
+	}
+
+	@Override
+	public TemplateRecipeHandler newInstance() {
+
+		if(batteries == null)
+			batteries = new ArrayList<Fuel>();
+
+		for(ItemStack i : MachineRecipes.instance().getBatteries()) {
+			batteries.add(new Fuel(i));
+		}
+		return super.newInstance();
+	}
 
 }
