@@ -1002,6 +1002,7 @@ item.nugget_reiium.name=Реиевый самородок
 item.nugget_unobtainium.name=Недостатиевый самородок
 item.nugget_daffergon.name=Даффергоновый самородок
 item.nugget_verticium.name=Вертициевый самородок
+item.nugget_zirconium.name=Осколок циркония
 
 item.ingot_desh.name=Слиток деш
 item.nugget_desh.name=Самородок деш
@@ -2236,6 +2237,7 @@ item.med_schiziphrenia.name=Лекарство от шизофрении
 item.gas_mask_filter.name=Фильтр противогаза
 item.cladding_paint.name=Свинцовая краска
 item.cladding_rubber.name=Резиновая обшивка
+item.cladding_iron.name=Железная обшивка
 item.cladding_lead.name=Свинцовая обшивка
 item.cladding_desh.name=Обшивка из деш
 item.coin_maskman.name=Монета Маскмена
@@ -2243,6 +2245,7 @@ item.coin_creeper.name=Монета Ядерного крипера
 item.coin_radiation.name=Монета Радиации
 item.coin_worm.name=Монета Баллс-О-Трон
 item.ink.name=林 чернила
+item.medal_liquidator.name=Медаль Ликвидатора
 
 item.stealth_boy.name=Стелс-Бой
 
@@ -2560,6 +2563,10 @@ item.hazmat_paa_helmet.name=Боевой защитный шлем PaA
 item.hazmat_paa_plate.name=Боевой защитный нагрудник PaA
 item.hazmat_paa_legs.name=Боевые защитные поножи PaA
 item.hazmat_paa_boots.name=Боевые защитные ботинки PaA
+item.liquidator_boots.name=Ботинки костюма Ликвидатора
+item.liquidator_helmet.name=Шлем костюма Ликвидатора
+item.liquidator_legs.name=Поножи костюма Ликвидатора
+item.liquidator_plate.name=Нагрудник костюма Ликвидатора
 item.asbestos_helmet.name=Огнезащитный шлем
 item.asbestos_plate.name=Огнезащитный нагрудник
 item.asbestos_legs.name=Огнезащитные поножи
@@ -2684,6 +2691,7 @@ item.dnt_boots.name=даенайтриевые ботинки
 item.dnt_legs.name=динейтроновые поножи
 item.dnt_helmet.name=динотрониму шлем
 item.dnt_plate.name=динейтромы нагрудник
+item.zirconium_legs.name=Циркониевые штаны
 
 item.steel_sword.name=Стальной меч
 item.steel_pickaxe.name=Стальная кирка
