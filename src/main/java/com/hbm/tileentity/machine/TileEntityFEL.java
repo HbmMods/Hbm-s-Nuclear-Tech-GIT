@@ -11,6 +11,7 @@ public class TileEntityFEL extends TileEntityMachineBase {
 	
 	public long power;
 	public static final long maxPower = 1000000;
+	public int watts;
 	public int mode = 0;
 	
 	public TileEntityFEL() {

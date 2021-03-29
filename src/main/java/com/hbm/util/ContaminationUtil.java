@@ -4,6 +4,7 @@ import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.RadiationSavedData;
 
@@ -110,9 +111,6 @@ public class ContaminationUtil {
 	public static void applyAsbestos(Entity e, int i) {
 
 		if(!(e instanceof EntityLivingBase))
-			return;
-
-		if(e instanceof IRadiationImmune)
 			return;
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).capabilities.isCreativeMode)
@@ -235,5 +233,61 @@ public class ContaminationUtil {
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerDigamma").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + digamma + " DRX")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerHealth").appendSibling(new ChatComponentText(EnumChatFormatting.RED + " " + halflife + "%")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
 		player.addChatMessage(new ChatComponentTranslation("digamma.playerRes").appendSibling(new ChatComponentText(EnumChatFormatting.BLUE + " " + "N/A")).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.LIGHT_PURPLE)));
+	}
+	
+	public static enum HazardType {
+		MONOXIDE,
+		RADIATION,
+		ASBESTOS,
+		DIGAMMA
+	}
+	
+	public static enum ContaminationType {
+		GAS,				//filterable by gas mask
+		GAS_NON_REACTIVE,	//not filterable by gas mask
+		GOGGLES,			//preventable by goggles
+		FARADAY,			//preventable by metal armor
+		HAZMAT,				//preventable by hazmat
+		HAZMAT2,			//preventable by heavy hazmat
+		DIGAMMA,			//preventable by fau armor or stability
+		DIGAMMA2,			//preventable by robes
+		CREATIVE,			//preventable by creative mode
+		NONE				//not preventable
+	}
+	
+	public static boolean contaminate(EntityLivingBase entity, HazardType hazard, ContaminationType cont, float amount) {
+		
+		if(entity instanceof EntityPlayer) {
+			
+			EntityPlayer player = (EntityPlayer)entity;
+			
+			switch(cont) {
+			case GAS:				if(ArmorUtil.checkForGasMask(player))	return false; break;
+			case GAS_NON_REACTIVE:	if(ArmorUtil.checkForHaz2(player))		return false; break;
+			case GOGGLES:			if(ArmorUtil.checkForGoggles(player))	return false; break;
+			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
+			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
+			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; if(player.isPotionActive(HbmPotion.stability.id)) return false; break;
+			case DIGAMMA2: break;
+			}
+			
+			if(player.capabilities.isCreativeMode && cont != ContaminationType.NONE)
+				return false;
+			
+			if(player.ticksExisted < 200)
+				return false;
+		}
+		
+		if(hazard == HazardType.RADIATION && isRadImmune(entity))
+			return false;
+		
+		switch(hazard) {
+		case MONOXIDE: entity.attackEntityFrom(ModDamageSource.monoxide, amount); break;
+		case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * calculateRadiationMod(entity)); break;
+		case ASBESTOS: HbmLivingProps.incrementAsbestos(entity, (int)amount); break;
+		case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
+		}
+		
+		return true;
 	}
 }
