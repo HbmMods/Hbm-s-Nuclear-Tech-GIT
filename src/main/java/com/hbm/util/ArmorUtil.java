@@ -97,19 +97,18 @@ public class ArmorUtil {
 	public static boolean checkForAsbestos(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.asbestos_helmet, ModItems.asbestos_plate, ModItems.asbestos_legs, ModItems.asbestos_boots))
-		{
 			return true;
-		}
-		
+
 		return false;
 	}
 	
 	public static boolean checkForDigamma(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))
-		{
 			return true;
-		}
+		
+		if(player.isPotionActive(HbmPotion.stability.id))
+			return true; 
 		
 		return false;
 	}
@@ -120,10 +119,7 @@ public class ArmorUtil {
 		
 		if(armor[0] == null || armor[1] == null || armor[2] == null || armor[3] == null) return false;
 		
-		if(isFaradayArmor(armor[0]) &&
-				isFaradayArmor(armor[1]) &&
-				isFaradayArmor(armor[2]) &&
-				isFaradayArmor(armor[3]))
+		if(isFaradayArmor(armor[0]) && isFaradayArmor(armor[1]) && isFaradayArmor(armor[2]) && isFaradayArmor(armor[3]))
 			return true;
 		
 		return false;
@@ -233,6 +229,29 @@ public class ArmorUtil {
 			ItemStack mods[] = ArmorModHandler.pryMods(helmet);
 			
 			if(mods[ArmorModHandler.helmet_only] != null && mods[ArmorModHandler.helmet_only].getItem() == ModItems.attachment_mask)
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean checkForMonoMask(EntityPlayer player) {
+
+		if(checkArmorPiece(player, ModItems.gas_mask_mono, 3))
+			return true;
+		
+		if(checkArmorPiece(player, ModItems.liquidator_helmet, 3))
+			return true;
+
+		if(player.isPotionActive(HbmPotion.mutation))
+			return true;
+		
+		ItemStack helmet = player.getCurrentArmor(3);
+		if(helmet != null && ArmorModHandler.hasMods(helmet)) {
+			
+			ItemStack mods[] = ArmorModHandler.pryMods(helmet);
+			
+			if(mods[ArmorModHandler.helmet_only] != null && mods[ArmorModHandler.helmet_only].getItem() == ModItems.attachment_mask_mono)
 				return true;
 		}
 		

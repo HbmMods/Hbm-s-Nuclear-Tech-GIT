@@ -262,6 +262,18 @@ public class ItemSyringe extends Item {
 			}
 		}
 
+		if(this == ModItems.gas_mask_filter_mono && player.inventory.armorInventory[3] != null && player.inventory.armorInventory[3].getItem() == ModItems.gas_mask_mono) {
+			if(!world.isRemote) {
+				if(player.inventory.armorInventory[3].getItemDamage() == 0)
+					return stack;
+
+				player.inventory.armorInventory[3].setItemDamage(0);
+
+				world.playSoundAtEntity(player, "hbm:item.gasmaskScrew", 1.0F, 1.0F);
+				stack.stackSize--;
+			}
+		}
+
 		if(this == ModItems.jetpack_tank && player.inventory.armorInventory[2] != null) {
 
 			if(!world.isRemote) {
@@ -569,6 +581,9 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.gas_mask_filter) {
 			list.add("Repairs worn gas mask");
+		}
+		if(this == ModItems.gas_mask_filter_mono) {
+			list.add("Repairs worn monoxide mask");
 		}
 		if(this == ModItems.jetpack_tank) {
 			list.add("Fills worn jetpack with up to 1000mB of kerosene");

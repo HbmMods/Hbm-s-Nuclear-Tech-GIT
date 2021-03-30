@@ -1,4 +1,4 @@
-package com.hbm.blocks.generic;
+package com.hbm.blocks.gas;
 
 import java.util.Random;
 

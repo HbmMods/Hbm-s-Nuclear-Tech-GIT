@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelCloak;
@@ -27,14 +28,23 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+@Spaghetti("more ctor stuff, less if/else bullshittery")
+//turns out you can't actually pass a model in the ctor because ModelBiped is clientonly...
 public class ArmorModel extends ItemArmor {
+	
 	@SideOnly(Side.CLIENT)
 	private ModelGoggles modelGoggles;
+	@SideOnly(Side.CLIENT)
 	private ModelGasMask modelGas;
+	@SideOnly(Side.CLIENT)
 	private ModelCloak modelCloak;
+	@SideOnly(Side.CLIENT)
 	private ModelOxygenMask modelOxy;
+	@SideOnly(Side.CLIENT)
 	private ModelM65 modelM65;
+	@SideOnly(Side.CLIENT)
 	private ModelHat modelHat;
+	@Spaghetti("replace this garbage with an array")
 	private ResourceLocation goggleBlur0 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_0.png");
 	private ResourceLocation goggleBlur1 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_1.png");
 	private ResourceLocation goggleBlur2 = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_goggles_2.png");
@@ -52,7 +62,8 @@ public class ArmorModel extends ItemArmor {
 		super(armorMaterial, renderIndex, armorType);
 	}
 
-	@Override
+	//there was no reason to override this
+	/*@Override
 	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity) {
 		if (this == ModItems.goggles) {
 			return armorType == 0;
@@ -61,6 +72,9 @@ public class ArmorModel extends ItemArmor {
 			return armorType == 0;
 		}
 		if (this == ModItems.gas_mask_m65) {
+			return armorType == 0;
+		}
+		if (this == ModItems.gas_mask_mono) {
 			return armorType == 0;
 		}
 		if (this == ModItems.hat) {
@@ -87,29 +101,8 @@ public class ArmorModel extends ItemArmor {
 		if (this == ModItems.cape_schrabidium) {
 			return armorType == 1;
 		}
-		/*if (this == ModItems.cape_hbm) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_dafnik) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_lpkukin) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_vertice) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_codered_) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_ayy) {
-			return armorType == 1;
-		}
-		if (this == ModItems.cape_nostalgia) {
-			return armorType == 1;
-		}*/
 		return armorType == 0;
-	}
+	}*/
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -123,6 +116,14 @@ public class ArmorModel extends ItemArmor {
 			}
 		}
 		if (this == ModItems.gas_mask) {
+			if (armorSlot == 0) {
+				if (this.modelGas == null) {
+					this.modelGas = new ModelGasMask();
+				}
+				return this.modelGas;
+			}
+		}
+		if (this == ModItems.gas_mask_mono) {
 			if (armorSlot == 0) {
 				if (this.modelGas == null) {
 					this.modelGas = new ModelGasMask();
@@ -162,14 +163,6 @@ public class ArmorModel extends ItemArmor {
 				return this.modelCloak;
 			}
 		}
-		/*if (this == ModItems.cape_hbm || this == ModItems.cape_dafnik || this == ModItems.cape_lpkukin || this == ModItems.cape_vertice || this == ModItems.cape_codered_ || this == ModItems.cape_ayy || this == ModItems.cape_nostalgia) {
-			if (armorSlot == 1) {
-				if (this.modelCloak == null) {
-					this.modelCloak = new ModelCloak();
-				}
-				return this.modelCloak;
-			}
-		}*/
 		return null;
 	}
 
@@ -183,6 +176,9 @@ public class ArmorModel extends ItemArmor {
 		}
 		if (stack.getItem() == ModItems.gas_mask_m65) {
 			return "hbm:textures/models/ModelM65.png";
+		}
+		if (stack.getItem() == ModItems.gas_mask_mono) {
+			return "hbm:textures/models/ModelM65Mono.png";
 		}
 		if (stack.getItem() == ModItems.hazmat_helmet_red) {
 			return "hbm:textures/models/ModelHazRed.png";
@@ -212,9 +208,8 @@ public class ArmorModel extends ItemArmor {
     @SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
     	
-    	if(this != ModItems.goggles && this != ModItems.gas_mask && this != ModItems.gas_mask_m65 && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
+    	if(this != ModItems.goggles && this != ModItems.gas_mask && this != ModItems.gas_mask_m65 && this != ModItems.gas_mask_mono && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
     		return;
-    	
 
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(false);
@@ -222,7 +217,7 @@ public class ArmorModel extends ItemArmor {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         
-        if(this == ModItems.goggles || this == ModItems.gas_mask_m65 || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
+        if(this == ModItems.goggles || this == ModItems.gas_mask_m65 || this == ModItems.gas_mask_mono || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
         	switch((int)((double)stack.getItemDamage() / (double)stack.getMaxDamage() * 6D)) {
         	case 0:
             	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur0); break;
@@ -275,35 +270,21 @@ public class ArmorModel extends ItemArmor {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		if (itemstack.getItem() == ModItems.cape_radiation) {
+		if(this == ModItems.cape_radiation) {
 			list.add("Avalible for everyone");
 		}
-		if (itemstack.getItem() == ModItems.cape_gasmask) {
+		if(this == ModItems.cape_gasmask) {
 			list.add("Avalible for everyone");
 		}
-		if (itemstack.getItem() == ModItems.cape_schrabidium) {
+		if(this == ModItems.cape_schrabidium) {
 			list.add("Avalible for everyone");
 		}
-		/*if (itemstack.getItem() == ModItems.cape_hbm) {
-			list.add("Only works for HbMinecraft");
+
+		if(this == ModItems.gas_mask || this == ModItems.gas_mask_m65) {
+			list.add("Protects against most harmful gasses");
 		}
-		if (itemstack.getItem() == ModItems.cape_dafnik) {
-			list.add("Only works for Dafnik");
+		if(this == ModItems.gas_mask_mono) {
+			list.add("Protects against carbon monoxide");
 		}
-		if (itemstack.getItem() == ModItems.cape_lpkukin) {
-			list.add("Only works for LPkukin");
-		}
-		if (itemstack.getItem() == ModItems.cape_vertice) {
-			list.add("Only works for LordVertice");
-		}
-		if (itemstack.getItem() == ModItems.cape_codered_) {
-			list.add("Only works for codered_");
-		}
-		if (itemstack.getItem() == ModItems.cape_ayy) {
-			list.add("Only works for dxmaster769");
-		}
-		if (itemstack.getItem() == ModItems.cape_nostalgia) {
-			list.add("Only works for Dr_Nostalgia");
-		}*/
 	}
 }

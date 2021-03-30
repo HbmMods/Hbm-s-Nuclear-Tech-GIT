@@ -255,6 +255,7 @@ public class ContaminationUtil {
 		NONE				//not preventable
 	}
 	
+	@SuppressWarnings("incomplete-switch") //just shut up
 	public static boolean contaminate(EntityLivingBase entity, HazardType hazard, ContaminationType cont, float amount) {
 		
 		if(entity instanceof EntityPlayer) {
@@ -263,11 +264,12 @@ public class ContaminationUtil {
 			
 			switch(cont) {
 			case GAS:				if(ArmorUtil.checkForGasMask(player))	return false; break;
-			case GAS_NON_REACTIVE:	if(ArmorUtil.checkForHaz2(player))		return false; break;
+			case GAS_NON_REACTIVE:	if(ArmorUtil.checkForMonoMask(player))	return false; break;
 			case GOGGLES:			if(ArmorUtil.checkForGoggles(player))	return false; break;
+			case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return false; break;
 			case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return false; break;
 			case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return false; break;
-			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; if(player.isPotionActive(HbmPotion.stability.id)) return false; break;
+			case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return false; break;
 			case DIGAMMA2: break;
 			}
 			
