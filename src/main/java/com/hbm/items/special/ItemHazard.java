@@ -7,6 +7,7 @@ import com.hbm.modules.ItemHazardModule;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -86,6 +87,13 @@ public class ItemHazard extends ItemCustomLore implements IItemHazard {
 		
 		super.addInformation(stack, player, list, bool);
 		this.module.addInformation(stack, player, list, bool);
+	}
+	
+	@Override
+	public boolean onEntityItemUpdate(EntityItem item) {
+		
+		super.onEntityItemUpdate(item);
+		return this.module.onEntityItemUpdate(item);
 	}
 	
 	/*

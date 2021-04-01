@@ -8,9 +8,11 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -26,6 +28,7 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.GunButtonPacket;
+import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -260,6 +263,24 @@ public class ModEventHandlerClient {
 			renderer.modelArmorChestplate.aimedBow = true;
 		}
 	}
+	
+	//just finish this somewhen i guess
+	/*@SubscribeEvent
+	public void keybindEvent(RenderPlayerEvent.Pre event) {
+		
+		HbmPlayerProps props = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
+		
+		for(EnumKeybind key : EnumKeybind.values()) {
+			
+			boolean last = props.getKeyPressed(key);
+			boolean current = MainRegistry.proxy.getIsKeyPressed(key);
+	
+			if(last != current) {
+				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
+				props.setKeyPressed(key, current);
+			}
+		}
+	}*/
 	
 	@SubscribeEvent
 	public void onRenderArmorEvent(RenderPlayerEvent.SetArmorModel event) {

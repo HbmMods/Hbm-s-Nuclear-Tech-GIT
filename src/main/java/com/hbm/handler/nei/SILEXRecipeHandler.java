@@ -148,7 +148,7 @@ public class SILEXRecipeHandler extends TemplateRecipeHandler {
 		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
 		transferRects.add(new RecipeTransferRect(new Rectangle(60, 34 - 11, 24, 18), "silex"));
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(72 - 5, 28 - 11, 30, 30), "silex"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(39, 60, 60, 50), "silex"));
 		guiGui.add(GUISILEX.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);

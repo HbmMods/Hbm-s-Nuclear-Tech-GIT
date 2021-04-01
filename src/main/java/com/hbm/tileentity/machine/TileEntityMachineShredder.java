@@ -190,7 +190,7 @@ public class TileEntityMachineShredder extends TileEntity implements ISidedInven
 		if(i >= 9 && i <= 26)
 				return true;
 		if(i >= 27 && i <= 29)
-			if(itemStack.getItemDamage() == itemStack.getMaxDamage())
+			if(itemStack.getItemDamage() == itemStack.getMaxDamage() && itemStack.getMaxDamage() > 0)
 				return true;
 		
 		return false;

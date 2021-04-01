@@ -8,6 +8,7 @@ import com.hbm.modules.ItemHazardModule;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -39,5 +40,16 @@ public class ItemBlockHazard extends ItemBlock {
 		
 		if(this.module != null)
 			this.module.addInformation(stack, player, list, bool);
+	}
+	
+	@Override
+	public boolean onEntityItemUpdate(EntityItem item) {
+		
+		super.onEntityItemUpdate(item);
+		
+		if(this.module != null)
+			return this.module.onEntityItemUpdate(item);
+		
+		return false;
 	}
 }

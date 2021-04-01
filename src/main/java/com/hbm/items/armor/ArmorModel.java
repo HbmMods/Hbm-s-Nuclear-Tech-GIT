@@ -123,15 +123,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelGas;
 			}
 		}
-		if (this == ModItems.gas_mask_mono) {
-			if (armorSlot == 0) {
-				if (this.modelGas == null) {
-					this.modelGas = new ModelGasMask();
-				}
-				return this.modelGas;
-			}
-		}
-		if (this == ModItems.gas_mask_m65 || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
+		if (this == ModItems.gas_mask_m65 || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey || this == ModItems.gas_mask_mono) {
 			if (armorSlot == 0) {
 				if (this.modelM65 == null) {
 					this.modelM65 = new ModelM65();
@@ -208,7 +200,7 @@ public class ArmorModel extends ItemArmor {
     @SideOnly(Side.CLIENT)
     public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
     	
-    	if(this != ModItems.goggles && this != ModItems.gas_mask && this != ModItems.gas_mask_m65 && this != ModItems.gas_mask_mono && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
+    	if(this != ModItems.goggles && this != ModItems.gas_mask && this != ModItems.gas_mask_m65 && this != ModItems.hazmat_helmet_red && this != ModItems.hazmat_helmet_grey)
     		return;
 
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -217,7 +209,7 @@ public class ArmorModel extends ItemArmor {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         
-        if(this == ModItems.goggles || this == ModItems.gas_mask_m65 || this == ModItems.gas_mask_mono || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
+        if(this == ModItems.goggles || this == ModItems.gas_mask_m65 || this == ModItems.hazmat_helmet_red || this == ModItems.hazmat_helmet_grey) {
         	switch((int)((double)stack.getItemDamage() / (double)stack.getMaxDamage() * 6D)) {
         	case 0:
             	Minecraft.getMinecraft().getTextureManager().bindTexture(goggleBlur0); break;

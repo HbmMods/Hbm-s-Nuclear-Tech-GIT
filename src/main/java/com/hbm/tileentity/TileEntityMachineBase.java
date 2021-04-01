@@ -133,7 +133,7 @@ public abstract class TileEntityMachineBase extends TileEntity implements ISided
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return new int[] { 0 };
+		return new int[] { };
 	}
 	
 	public int getGaugeScaled(int i, FluidTank tank) {

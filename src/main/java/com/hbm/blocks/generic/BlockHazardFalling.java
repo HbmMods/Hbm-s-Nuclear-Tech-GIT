@@ -34,8 +34,8 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 	@Override
 	public IItemHazard addRadiation(float radiation) {
 		this.getModule().addRadiation(radiation);
-		this.radIn = radiation;
-		this.radMax = radiation * 10;
+		this.radIn = radiation * 0.1F;
+		this.radMax = radiation;
 		return this;
 	}
 
@@ -46,6 +46,8 @@ public class BlockHazardFalling extends BlockFalling implements IItemHazard {
 			RadiationSavedData.incrementRad(world, x, z, radIn, radMax);
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
+		
+		super.updateTick(world, x, y, z, rand);
 	}
 
 	@Override

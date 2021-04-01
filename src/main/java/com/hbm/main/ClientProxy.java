@@ -1020,6 +1020,53 @@ public class ClientProxy extends ServerProxy {
 			}
 		}
 		
+		if("jetpack_dns".equals(type)) {
+			
+			Entity ent = world.getEntityByID(data.getInteger("player"));
+			
+			if(ent instanceof EntityPlayer) {
+				
+				EntityPlayer p = (EntityPlayer)ent;
+				
+				Vec3 offset = Vec3.createVectorHelper(0.125, 0, 0);
+				float angle = (float) -Math.toRadians(p.rotationYawHead - (p.rotationYawHead - p.renderYawOffset));
+
+				offset.rotateAroundY(angle);
+				
+				double ix = p.posX;
+				double iy = p.posY - p.getYOffset() - 0.5D;
+				double iz = p.posZ;
+				double ox = offset.xCoord;
+				double oz = offset.zCoord;
+
+				Vec3 pos = Vec3.createVectorHelper(ix, iy, iz);
+				Vec3 thrust = Vec3.createVectorHelper(0, -1, 0);
+				Vec3 target = pos.addVector(thrust.xCoord * 10, thrust.yCoord * 10, thrust.zCoord * 10);
+				MovingObjectPosition mop = player.worldObj.func_147447_a(pos, target, false, false, true);
+				
+				if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK && mop.sideHit == 1) {
+					
+					Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+					int meta = world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+					
+					Vec3 delta = Vec3.createVectorHelper(ix - mop.hitVec.xCoord, iy - mop.hitVec.yCoord, iz - mop.hitVec.zCoord);
+					Vec3 vel = Vec3.createVectorHelper(0.75 - delta.lengthVector() * 0.075, 0, 0);
+					
+					for(int i = 0; i < (10 - delta.lengthVector()); i++) {
+						vel.rotateAroundY(world.rand.nextFloat() * (float)Math.PI * 2F);
+						Minecraft.getMinecraft().effectRenderer.addEffect(new EntityBlockDustFX(world, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.1, mop.hitVec.zCoord, vel.xCoord, 0.1, vel.zCoord, b, meta));
+					}
+				}
+
+				EntityReddustFX dust1 = new EntityReddustFX(world, ix + ox, iy, iz + oz, 0.01F, 1.0F, 1.0F);
+				EntityReddustFX dust2 = new EntityReddustFX(world, ix - ox, iy, iz - oz, 0.01F, 1.0F, 1.0F);
+				dust1.setVelocity(p.motionX, p.motionY, p.motionZ);
+				dust2.setVelocity(p.motionX, p.motionY, p.motionZ);
+				Minecraft.getMinecraft().effectRenderer.addEffect(dust1);
+				Minecraft.getMinecraft().effectRenderer.addEffect(dust2);
+			}
+		}
+		
 		if("muke".equals(type)) {
 
 			ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y, z);

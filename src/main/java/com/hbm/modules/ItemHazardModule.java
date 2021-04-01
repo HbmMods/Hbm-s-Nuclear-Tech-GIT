@@ -7,7 +7,9 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -146,5 +148,27 @@ public class ItemHazardModule {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.breeding", breeder[1]));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.furnace", (breeder[0] * breeder[1] * 5)));
 		}
+	}
+
+	public boolean onEntityItemUpdate(EntityItem item) {
+		
+		if(!item.worldObj.isRemote) {
+			
+			if(this.hydro && item.worldObj.getBlock((int)Math.floor(item.posX), (int)Math.floor(item.posY), (int)Math.floor(item.posZ)).getMaterial() == Material.water) {
+
+				item.setDead();
+				item.worldObj.newExplosion(item, item.posX, item.posY, item.posZ, 2F, true, true);
+				return true;
+			}
+			
+			if(this.explosive > 0 && item.isBurning()) {
+
+				item.setDead();
+				item.worldObj.newExplosion(item, item.posX, item.posY, item.posZ, this.explosive, true, true);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

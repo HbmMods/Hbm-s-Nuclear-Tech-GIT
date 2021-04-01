@@ -13,6 +13,9 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public static final String key = "NTM_EXT_PLAYER";
 	public EntityPlayer player;
 	
+	public boolean enableHUD = true;
+	public boolean enableBackpack = true;
+	
 	private boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 	
 	public HbmPlayerProps(EntityPlayer player) {

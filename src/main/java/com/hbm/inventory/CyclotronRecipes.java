@@ -14,6 +14,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class CyclotronRecipes {
 
+	//i could have used classes for this, oh bother
 	private static HashMap<Object, ItemStack> lithium = new HashMap();
 	private static HashMap<Object, ItemStack> beryllium = new HashMap();
 	private static HashMap<Object, ItemStack> carbon = new HashMap();
@@ -88,7 +89,7 @@ public class CyclotronRecipes {
 		makeRecipe(plutonium, plAmat, "dustPhosphorus", new ItemStack(ModItems.powder_tennessine), plA);
 		makeRecipe(plutonium, plAmat, "dustPlutonium", new ItemStack(ModItems.powder_tennessine), plA);
 		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_reiium), plA);
-		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.pellet_charged), new ItemStack(ModItems.nugget_schrabidium), 200);
+		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.pellet_charged), new ItemStack(ModItems.nugget_schrabidium), 1000);
 		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.powder_unobtainium), new ItemStack(ModItems.powder_daffergon), plA);
 		makeRecipe(plutonium, plAmat, new ComparableStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_anti_schrabidium), 0);
 		/// PLUTONIUM END ///
