@@ -2703,8 +2703,8 @@ item.dnt_helmet.name=динотрониму шлем
 item.dnt_plate.name=динейтромы нагрудник
 item.dns_boots.name=Ботинки DNT Нанокостюма
 item.dns_legs.name=Поножи DNT Нанокостюма
-item.dns_helmet.name=Нагрудник DNT Нанокостюма
-item.dns_plate.name=Шлем DNT Нанокостюма
+item.dns_helmet.name=Шлем DNT Нанокостюма
+item.dns_plate.name=Нагрудник DNT Нанокостюма
 item.zirconium_legs.name=Циркониевые штаны
 
 item.steel_sword.name=Стальной меч
