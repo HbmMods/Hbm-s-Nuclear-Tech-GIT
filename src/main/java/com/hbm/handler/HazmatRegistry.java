@@ -43,6 +43,7 @@ public class HazmatRegistry {
 		double bj = 1D; // 90%
 		double hev = 1.3D; // 95%
 		double fau = 4D; // 99.99%
+		double dns = 5D; // 99.999%
 		double security = 0.825D; // 85%
 		double star = 1D; // 90%
 		double cmb = 1.3D; // 95%
@@ -98,6 +99,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.fau_plate, fau * chest);
 		HazmatRegistry.registerHazmat(ModItems.fau_legs, fau * legs);
 		HazmatRegistry.registerHazmat(ModItems.fau_boots, fau * boots);
+
+		HazmatRegistry.registerHazmat(ModItems.dns_helmet, dns * helmet);
+		HazmatRegistry.registerHazmat(ModItems.dns_plate, dns * chest);
+		HazmatRegistry.registerHazmat(ModItems.dns_legs, dns * legs);
+		HazmatRegistry.registerHazmat(ModItems.dns_boots, dns * boots);
 
 		HazmatRegistry.registerHazmat(ModItems.paa_plate, paa * chest);
 		HazmatRegistry.registerHazmat(ModItems.paa_legs, paa * legs);

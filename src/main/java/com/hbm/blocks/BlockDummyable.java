@@ -173,10 +173,10 @@ public abstract class BlockDummyable extends BlockContainer {
 			return;
 		}
 
-		if(!world.isRemote) {
+		//if(!world.isRemote) {
 			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, dir.ordinal() + offset, 3);
 			fillSpace(world, x, y, z, dir, o);
-		}
+		//}
 		y -= getHeightOffset();
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);

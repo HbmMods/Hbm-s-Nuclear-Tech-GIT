@@ -12,6 +12,14 @@ import com.hbm.blocks.gas.BlockGasRadon;
 import com.hbm.blocks.gas.BlockGasRadonDense;
 import com.hbm.blocks.gas.BlockGasRadonTomb;
 import com.hbm.blocks.machine.*;
+import com.hbm.blocks.machine.rbmk.RBMKAbsorber;
+import com.hbm.blocks.machine.rbmk.RBMKBlank;
+import com.hbm.blocks.machine.rbmk.RBMKBoiler;
+import com.hbm.blocks.machine.rbmk.RBMKControl;
+import com.hbm.blocks.machine.rbmk.RBMKControlAuto;
+import com.hbm.blocks.machine.rbmk.RBMKModerator;
+import com.hbm.blocks.machine.rbmk.RBMKReflector;
+import com.hbm.blocks.machine.rbmk.RBMKRod;
 import com.hbm.blocks.network.*;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
@@ -832,6 +840,16 @@ public class ModBlocks {
 	public static Block turret_howard;
 	public static final int guiID_howard = 112;
 
+	public static Block rbmk_rod;
+	public static Block rbmk_control;
+	public static Block rbmk_control_auto;
+	public static Block rbmk_blank;
+	public static Block rbmk_boiler;
+	public static Block rbmk_reflector;
+	public static Block rbmk_absorber;
+	public static Block rbmk_moderator;
+	public static Block rbmk_console;
+
 	public static Block book_guide;
 
 	public static Block rail_highspeed;
@@ -1520,6 +1538,15 @@ public class ModBlocks {
 		turret_tauon = new TurretTauon(Material.iron).setBlockName("turret_tauon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_richard = new TurretRichard(Material.iron).setBlockName("turret_richard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_howard = new TurretHoward(Material.iron).setBlockName("turret_howard").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+
+		rbmk_rod = new RBMKRod().setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
+		rbmk_control = new RBMKControl().setBlockName("rbmk_control").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control");
+		rbmk_control_auto = new RBMKControlAuto().setBlockName("rbmk_control_auto").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_control_auto");
+		rbmk_blank = new RBMKBlank().setBlockName("rbmk_blank").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_blank");
+		rbmk_boiler = new RBMKBoiler().setBlockName("rbmk_boiler").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_boiler");
+		rbmk_reflector = new RBMKReflector().setBlockName("rbmk_reflector").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_reflector");
+		rbmk_absorber = new RBMKAbsorber().setBlockName("rbmk_absorber").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_absorber");
+		rbmk_moderator = new RBMKModerator().setBlockName("rbmk_moderator").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_moderator");
 		
 		book_guide = new Guide(Material.iron).setBlockName("book_guide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.nukeTab);
 		
@@ -2161,19 +2188,15 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_access, hadron_access.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_core, hadron_core.getUnlocalizedName());
 		
-		/*public static Block hadron_plating;
-		public static Block hadron_plating_blue;
-		public static Block hadron_plating_black;
-		public static Block hadron_plating_yellow;
-		public static Block hadron_plating_striped;
-		public static Block hadron_plating_glass;
-		public static Block hadron_plating_voltz;
-		public static Block hadron_coil_alloy;
-		public static Block hadron_coil_schrabidium;
-		public static Block hadron_coil_starmetal;
-		public static Block hadron_power;
-		public static Block hadron_access;
-		public static Block hadron_core;*/
+		GameRegistry.registerBlock(rbmk_rod, rbmk_rod.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_control, rbmk_control.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_control_auto, rbmk_control_auto.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_blank, rbmk_blank.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_boiler, rbmk_boiler.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_reflector, rbmk_reflector.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_absorber, rbmk_absorber.getUnlocalizedName());
+		GameRegistry.registerBlock(rbmk_moderator, rbmk_moderator.getUnlocalizedName());
+		//GameRegistry.registerBlock(rbmk_console, rbmk_console.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(red_cable, red_cable.getUnlocalizedName());
 		GameRegistry.registerBlock(red_wire_coated, red_wire_coated.getUnlocalizedName());

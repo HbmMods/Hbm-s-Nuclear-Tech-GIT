@@ -72,6 +72,7 @@ import com.hbm.tileentity.conductor.*;
 import com.hbm.tileentity.deco.*;
 import com.hbm.tileentity.machine.*;
 import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
+import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.world.generator.CellularDungeonFactory;
 
@@ -460,6 +461,14 @@ public class MainRegistry {
 		GameRegistry.registerTileEntity(TileEntityTurretHoward.class, "tileentity_turret_howard");
 		GameRegistry.registerTileEntity(TileEntitySILEX.class, "tileentity_silex");
 		GameRegistry.registerTileEntity(TileEntityFEL.class, "tileentity_fel");
+
+		GameRegistry.registerTileEntity(TileEntityRBMKRod.class, "tileentity_rbmk_rod");
+		GameRegistry.registerTileEntity(TileEntityRBMKControl.class, "tileentity_rbmk_control");
+		GameRegistry.registerTileEntity(TileEntityRBMKBlank.class, "tileentity_rbmk_blank");
+		GameRegistry.registerTileEntity(TileEntityRBMKBoiler.class, "tileentity_rbmk_boiler");
+		GameRegistry.registerTileEntity(TileEntityRBMKReflector.class, "tileentity_rbmk_reflector");
+		GameRegistry.registerTileEntity(TileEntityRBMKAbsorber.class, "tileentity_rbmk_absorber");
+		GameRegistry.registerTileEntity(TileEntityRBMKModerator.class, "tileentity_rbmk_moderator");
 
 		EntityRegistry.registerModEntity(EntityRocket.class, "entity_rocket", 0, this, 250, 1, true);
 		EntityRegistry.registerModEntity(EntityNukeExplosion.class, "entity_nuke_explosion", 1, this, 250, 1, true);
@@ -996,6 +1005,8 @@ public class MainRegistry {
 
 		TileEntityNukeCustom.registerBombItems();
 
+		HazmatRegistry.registerHazmats();
+
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), FluidType.WATER, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.lava_bucket), new ItemStack(Items.bucket), FluidType.LAVA, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket), FluidType.WATZ, 1000));
@@ -1061,8 +1072,6 @@ public class MainRegistry {
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_tank_full, 1, i), new ItemStack(ModItems.fluid_tank_empty), FluidType.getEnum(i), 1000));
 			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.fluid_barrel_full, 1, i), new ItemStack(ModItems.fluid_barrel_empty), FluidType.getEnum(i), 16000));
 		}
-
-		HazmatRegistry.registerHazmats();
 
 		TileEntityMachineReactorLarge.registerFuelEntry(1, ReactorFuelType.URANIUM, ModItems.nugget_uranium_fuel);
 		TileEntityMachineReactorLarge.registerFuelEntry(9, ReactorFuelType.URANIUM, ModItems.ingot_uranium_fuel);
