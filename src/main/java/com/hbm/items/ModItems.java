@@ -877,6 +877,18 @@ public class ModItems {
 	public static Item rod_dual_coolant;
 	public static Item rod_quad_coolant;
 
+	public static Item rbmk_fuel_empty;
+	public static Item rbmk_fuel_meu;
+	public static Item rbmk_fuel_thmeu;
+	public static Item rbmk_fuel_lep;
+	public static Item rbmk_fuel_mep;
+	public static Item rbmk_fuel_mox;
+	public static Item rbmk_fuel_les;
+	public static Item rbmk_fuel_mes;
+	public static Item rbmk_fuel_hes;
+	public static Item rbmk_fuel_po210be;
+	public static Item rbmk_fuel_pu238be;
+
 	public static Item scrap;
 	public static Item trinitite;
 	public static Item nuclear_waste_long;
@@ -3069,6 +3081,19 @@ public class ModItems {
 		rod_dual_tritium = new ItemHazard(1F).setUnlocalizedName("rod_dual_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_dual_empty).setTextureName(RefStrings.MODID + ":rod_dual_tritium");
 		rod_quad_tritium = new ItemHazard(2F).setUnlocalizedName("rod_quad_tritium").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.rod_quad_empty).setTextureName(RefStrings.MODID + ":rod_quad_tritium");
 
+		rbmk_fuel_empty = new Item().setUnlocalizedName("rbmk_fuel_empty").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":rbmk_fuel_empty");
+		//todo: make one item and handle all of this trash with metadata
+		rbmk_fuel_meu = new ItemRBMKRod("Medium Enriched Uranium").setUnlocalizedName("rbmk_fuel_meu").setTextureName(RefStrings.MODID + ":rbmk_fuel_meu");
+		rbmk_fuel_thmeu = new ItemRBMKRod("Thorium with MEU Driver Fuel").setUnlocalizedName("rbmk_fuel_thmeu").setTextureName(RefStrings.MODID + ":rbmk_fuel_thmeu");
+		rbmk_fuel_lep = new ItemRBMKRod("Low Enriched Plutonium").setUnlocalizedName("rbmk_fuel_lep").setTextureName(RefStrings.MODID + ":rbmk_fuel_lep");
+		rbmk_fuel_mep = new ItemRBMKRod("Medium Enriched Plutonium").setUnlocalizedName("rbmk_fuel_mep").setTextureName(RefStrings.MODID + ":rbmk_fuel_mep");
+		rbmk_fuel_mox = new ItemRBMKRod("Mixed LEU & LEP Oxide").setUnlocalizedName("rbmk_fuel_mox").setTextureName(RefStrings.MODID + ":rbmk_fuel_mox");
+		rbmk_fuel_les = new ItemRBMKRod("Low Enriched Schrabidium").setUnlocalizedName("rbmk_fuel_les").setTextureName(RefStrings.MODID + ":rbmk_fuel_les");
+		rbmk_fuel_mes = new ItemRBMKRod("Medium Enriched Schrabidium").setUnlocalizedName("rbmk_fuel_mes").setTextureName(RefStrings.MODID + ":rbmk_fuel_mes");
+		rbmk_fuel_hes = new ItemRBMKRod("Highly Enriched Schrabidium").setUnlocalizedName("rbmk_fuel_hes").setTextureName(RefStrings.MODID + ":rbmk_fuel_hes");
+		rbmk_fuel_po210be = new ItemRBMKRod("Polonium-210 & Beryllium Neutron Source").setUnlocalizedName("rbmk_fuel_po210be").setTextureName(RefStrings.MODID + ":rbmk_fuel_po210be");
+		rbmk_fuel_pu238be = new ItemRBMKRod("Plutonium-238 & Beryllium Neutron Source").setUnlocalizedName("rbmk_fuel_pu238be").setTextureName(RefStrings.MODID + ":rbmk_fuel_pu238be");
+		
 		trinitite = new ItemHazard().addRadiation(ItemHazard.trn * ItemHazard.ingot).toItem().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste_long = new ItemHazard(5F).setUnlocalizedName("nuclear_waste_long").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long");
 		nuclear_waste_long_tiny = new ItemHazard(0.5F).setUnlocalizedName("nuclear_waste_long_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long_tiny");
@@ -5680,6 +5705,18 @@ public class ModItems {
 		GameRegistry.registerItem(rod_waste, rod_waste.getUnlocalizedName());
 		GameRegistry.registerItem(rod_dual_waste, rod_dual_waste.getUnlocalizedName());
 		GameRegistry.registerItem(rod_quad_waste, rod_quad_waste.getUnlocalizedName());
+
+		GameRegistry.registerItem(rbmk_fuel_empty, rbmk_fuel_empty.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_meu, rbmk_fuel_meu.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_thmeu, rbmk_fuel_thmeu.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_lep, rbmk_fuel_lep.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_mep, rbmk_fuel_mep.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_mox, rbmk_fuel_mox.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_les, rbmk_fuel_les.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_mes, rbmk_fuel_mes.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_hes, rbmk_fuel_hes.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_po210be, rbmk_fuel_po210be.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_pu238be, rbmk_fuel_pu238be.getUnlocalizedName());
 		
 		GameRegistry.registerItem(scrap, scrap.getUnlocalizedName());
 		GameRegistry.registerItem(waste_uranium_hot, waste_uranium_hot.getUnlocalizedName());
