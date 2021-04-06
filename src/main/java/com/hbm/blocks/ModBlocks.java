@@ -849,6 +849,7 @@ public class ModBlocks {
 	public static Block rbmk_absorber;
 	public static Block rbmk_moderator;
 	public static Block rbmk_console;
+	public static final int guiID_rbmk_rod = 113;
 
 	public static Block book_guide;
 

@@ -8,6 +8,7 @@ import com.hbm.inventory.inv.InventoryLeadBox;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.machine.*;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 import com.hbm.tileentity.turret.*;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -784,6 +785,13 @@ public class GUIHandler implements IGuiHandler {
 			}
 			return null;
 		}
+
+		case ModBlocks.guiID_rbmk_rod: {
+			if(entity instanceof TileEntityRBMKRod) {
+				return new ContainerRBMKRod(player.inventory, (TileEntityRBMKRod) entity);
+			}
+			return null;
+		}
 		}
 		// NON-TE CONTAINERS
 
@@ -1553,6 +1561,13 @@ public class GUIHandler implements IGuiHandler {
 		case ModBlocks.guiID_fel: {
 			if(entity instanceof TileEntityFEL) {
 				return new GUIFEL(player.inventory, (TileEntityFEL) entity);
+			}
+			return null;
+		}
+
+		case ModBlocks.guiID_rbmk_rod: {
+			if(entity instanceof TileEntityRBMKRod) {
+				return new GUIRBMKRod(player.inventory, (TileEntityRBMKRod) entity);
 			}
 			return null;
 		}

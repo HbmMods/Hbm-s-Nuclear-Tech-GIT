@@ -2308,6 +2308,7 @@ potion.hbm_telekinesis=! ! !
 
 radar.detectMissiles=Raketen erkennen
 radar.detectPlayers=Spieler erkennen
+radar.redMode=Redstone Mode$Ein: Redstonesignal basiert auf Nähe$Aus: Redstonesignal basiert auf Größe
 radar.smartMode=Smart Mode$Redstonesignal ignoriert aufsteigende Raketen
 
 tile.absorber.name=Strahlungs-Absorber

@@ -2319,6 +2319,7 @@ potion.hbm_telekinesis=! ! !
 
 radar.detectMissiles=Detect Missiles
 radar.detectPlayers=Detect Players
+radar.redMode=Redstone Mode$On: Redstone output based on range$Off: Redstone output based on tier
 radar.smartMode=Smart Mode$Redstone output ignores ascending missiles
 
 tile.absorber.name=Radiation Absorber

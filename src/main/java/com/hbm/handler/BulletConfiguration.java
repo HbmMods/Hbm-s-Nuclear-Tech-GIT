@@ -55,6 +55,8 @@ public class BulletConfiguration {
 	public boolean isSpectral;
 	//whether or not the bullet should break glass
 	public boolean doesBreakGlass;
+	//whether the bullet should stay alive after colliding with a block
+	public boolean liveAfterImpact;
 	
 	//bullet effects
 	public List<PotionEffect> effects;

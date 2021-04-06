@@ -316,9 +316,9 @@ public class RenderBullet extends Render {
 		
 		case BulletConfiguration.BOLT_ZOMG:
 			Random rand = new Random(eID * eID);
-			red = rand.nextInt(2) * 0.8F;
-			green = rand.nextInt(2) * 0.8F;
-			blue = rand.nextInt(2) * 0.8F;
+			red = rand.nextInt(2) * 0.6F;
+			green = rand.nextInt(2) * 0.6F;
+			blue = rand.nextInt(2) * 0.6F;
 			break;
 		}
 		

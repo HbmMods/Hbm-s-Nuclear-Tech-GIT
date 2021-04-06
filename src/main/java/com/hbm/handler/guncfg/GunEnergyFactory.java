@@ -286,6 +286,7 @@ public class GunEnergyFactory {
 		bullet.bulletsMax = 5;
 		bullet.dmgMin = 10000;
 		bullet.dmgMax = 25000;
+		bullet.liveAfterImpact = true;
 
 		bullet.style = bullet.STYLE_BOLT;
 		bullet.trail = bullet.BOLT_ZOMG;

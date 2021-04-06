@@ -223,6 +223,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
 			
+			useUpAmmo(player, stack, false);
+			player.inventoryContainer.detectAndSendChanges();
+			
 			setItemWear(stack, getItemWear(stack) + config.wear);
 		}
 		
@@ -611,6 +614,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD {
 		if(config.allowsInfinity && EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0)
 			return;
 
+		
 		if(config.reloadType != mainConfig.RELOAD_NONE) {
 			setMag(stack, getMag(stack) - 1);
 		} else {

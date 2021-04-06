@@ -427,7 +427,7 @@ public class EntityBulletBase extends Entity implements IProjectile {
 		if(config.bImpact != null)
 			config.bImpact.behaveBlockHit(this, bX, bY, bZ);
 		
-		if(!worldObj.isRemote)
+		if(!worldObj.isRemote && !config.liveAfterImpact)
 			this.setDead();
 		
 		if(config.incendiary > 0 && !this.worldObj.isRemote) {
