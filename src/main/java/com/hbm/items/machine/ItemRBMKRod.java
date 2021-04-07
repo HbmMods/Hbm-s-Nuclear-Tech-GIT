@@ -13,13 +13,13 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemRBMKRod extends ItemHazard {
 	
-	String fullName = "";
-	double funcStart;
-	double funcEnd;
-	double xGen = 0.5D;;
-	double xBurn = 50D;
-	double heat = 1D;
-	double yield;
+	String fullName = "";	//full name of the fuel rod
+	double funcStart;		//starting point of the linear reactivity function
+	double funcEnd;			//endpoint of the function
+	double xGen = 0.5D;;	//multiplier for xenon production
+	double xBurn = 50D;		//divider for xenon burnup
+	double heat = 1D;		//heat produced per outFlux
+	double yield;			//total potential inFlux the rod can take in its lifetime
 
 	public ItemRBMKRod(String fullName) {
 		
@@ -41,8 +41,47 @@ public class ItemRBMKRod extends ItemHazard {
 		return this;
 	}
 	
-	public double burn(ItemStack stack, double flux) {
-		return 0;
+	/**
+	 * Adjusts the input flux using the poison level
+	 * Generates, then burns poison
+	 * Calculates the outflux based on influx, enrichment and poison
+	 * Depletes the yield, then returns the outflux
+	 * @param stack
+	 * @param inFlux
+	 * @return outFlux
+	 */
+	public double burn(ItemStack stack, double inFlux) {
+		
+		inFlux *= getPoisonLevel(stack);
+		
+		double xenon = getPoison(stack);
+		xenon += xenonGenFunc(inFlux);
+		xenon -= xenonBurnFunc(inFlux);
+		
+		if(xenon < 0D) xenon = 0D;
+		if(xenon > 100D) xenon = 100D;
+		
+		setPoison(stack, xenon);
+		
+		double outFlux = reactivityFunc(inFlux * getEnrichment(stack));
+		
+		double y = getYield(stack);
+		y -= inFlux;
+		
+		if(y < 0D) y = 0D;
+		
+		setYield(stack, y);
+		
+		return outFlux;
+	}
+	
+	/**
+	 * Call this after 'burn' and supply its returned outFlux to get the appropriate heat
+	 * @param flux
+	 * @return heat generated from outFlux
+	 */
+	public double heatFromFlux(double flux) {
+		return flux * this.heat;
 	}
 	
 	/**
@@ -53,10 +92,20 @@ public class ItemRBMKRod extends ItemHazard {
 		return funcStart + (funcEnd - funcStart) * flux / 100D; //goodness gracious i guessed the right formula on the first try!
 	}
 	
+	/**
+	 * Xenon generated per tick, linear function
+	 * @param flux
+	 * @return
+	 */
 	public double xenonGenFunc(double flux) {
 		return flux * xGen;
 	}
 	
+	/**
+	 * Xenon burned away per tick, quadratic function
+	 * @param flux
+	 * @return
+	 */
 	public double xenonBurnFunc(double flux) {
 		return (flux * flux) / xBurn;
 	}
@@ -65,8 +114,16 @@ public class ItemRBMKRod extends ItemHazard {
 	 * @param stack
 	 * @return enrichment [0;1]
 	 */
-	public double getEnrichment(ItemStack stack) {
+	public static double getEnrichment(ItemStack stack) {
 		return getYield(stack) / ((ItemRBMKRod) stack.getItem()).yield;
+	}
+	
+	/**
+	 * @param stack
+	 * @return poison [0;1]
+	 */
+	public static double getPoisonLevel(ItemStack stack) {
+		return getPoison(stack) / 100D;
 	}
 	
 	@Override
@@ -131,10 +188,12 @@ public class ItemRBMKRod extends ItemHazard {
 		return 0;
 	}
 
+	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
 		return getDurabilityForDisplay(stack) < 1D;
 	}
 
+	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 		return getEnrichment(stack);
 	}

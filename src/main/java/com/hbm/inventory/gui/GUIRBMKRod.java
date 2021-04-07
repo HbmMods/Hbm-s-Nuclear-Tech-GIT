@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerRBMKRod;
+import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKRod;
 
@@ -41,6 +42,14 @@ public class GUIRBMKRod extends GuiContainer {
 		
 		if(rod.slots[0] != null) {
 			drawTexturedModalRect(guiLeft + 34, guiTop + 21, 176, 0, 18, 67);
+			
+			double depletion = ItemRBMKRod.getEnrichment(rod.slots[0]);
+			int d = (int)(depletion * 67);
+			drawTexturedModalRect(guiLeft + 34, guiTop + 21, 194, 0, 18, d);
+			
+			double xenon = ItemRBMKRod.getPoisonLevel(rod.slots[0]);
+			int x = (int)(xenon * 58);
+			drawTexturedModalRect(guiLeft + 126, guiTop + 82 - x, 212, 58 - x, 14, x);
 		}
 	}
 }
