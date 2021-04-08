@@ -47,7 +47,6 @@ public abstract class TileEntityRBMKBase extends TileEntity {
 		coolPassively();
 	}
 	
-	
 	public static final ForgeDirection[] heatDirs = new ForgeDirection[] {
 			ForgeDirection.NORTH,
 			ForgeDirection.EAST,

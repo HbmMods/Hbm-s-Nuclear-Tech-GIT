@@ -34,6 +34,7 @@ import com.hbm.main.MainRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.BlockLadder;
 import net.minecraft.block.material.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fluids.Fluid;
@@ -182,6 +183,8 @@ public class ModBlocks {
 	public static Block block_white_phosphorus;
 	public static Block block_red_phosphorus;
 	public static Block block_fallout;
+	public static Block block_lanthanium;
+	public static Block block_actinium;
 
 	public static Block block_australium;
 	public static Block block_weidanium;
@@ -560,8 +563,19 @@ public class ModBlocks {
 	public static Block fluid_duct;
 
 	public static Block conveyor;
-	
+
 	public static Block chain;
+
+	public static Block ladder_sturdy;
+	public static Block ladder_iron;
+	public static Block ladder_gold;
+	public static Block ladder_aluminium;
+	public static Block ladder_copper;
+	public static Block ladder_titanium;
+	public static Block ladder_lead;
+	public static Block ladder_cobalt;
+	public static Block ladder_steel;
+	public static Block ladder_tungsten;
 
 	public static Block barrel_plastic;
 	public static Block barrel_corroded;
@@ -1098,6 +1112,8 @@ public class ModBlocks {
 		block_white_phosphorus = new BlockHazard(Material.rock).addFire(15).toBlock().setBlockName("block_white_phosphorus").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_white_phosphorus");
 		block_red_phosphorus = new BlockHazardFalling().addFire(15).toBlock().setStepSound(Block.soundTypeSand).setBlockName("block_red_phosphorus").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_red_phosphorus");
 		block_fallout = new BlockHazardFalling().addRadiation(ItemHazard.fo * ItemHazard.block).toBlock().setStepSound(Block.soundTypeGravel).setBlockName("block_fallout").setCreativeTab(MainRegistry.blockTab).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":ash");
+		block_lanthanium = new BlockGeneric(Material.iron).setBlockName("block_lanthanium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_lanthanium");
+		block_actinium = new BlockGeneric(Material.iron).setBlockName("block_actinium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_actinium");
 
 		block_australium = new BlockGeneric(Material.iron).setBlockName("block_australium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_australium");
 		block_weidanium = new BlockGeneric(Material.iron).setBlockName("block_weidanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_weidanium");
@@ -1395,6 +1411,17 @@ public class ModBlocks {
 		
 		chain = new BlockChain(Material.iron).setBlockName("dungeon_chain").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":chain");
 
+		ladder_sturdy = new BlockNTMLadder().setBlockName("ladder_sturdy").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_sturdy");
+		ladder_iron = new BlockNTMLadder().setBlockName("ladder_iron").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_iron");
+		ladder_gold = new BlockNTMLadder().setBlockName("ladder_gold").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_gold");
+		ladder_aluminium = new BlockNTMLadder().setBlockName("ladder_aluminium").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_aluminium");
+		ladder_copper = new BlockNTMLadder().setBlockName("ladder_copper").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_copper");
+		ladder_titanium = new BlockNTMLadder().setBlockName("ladder_titanium").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_titanium");
+		ladder_lead = new BlockNTMLadder().setBlockName("ladder_lead").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_lead");
+		ladder_cobalt = new BlockNTMLadder().setBlockName("ladder_cobalt").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_cobalt");
+		ladder_steel = new BlockNTMLadder().setBlockName("ladder_steel").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_steel");
+		ladder_tungsten = new BlockNTMLadder().setBlockName("ladder_tungsten").setHardness(0.25F).setResistance(2.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ladder_tungsten");
+		
 		barrel_plastic = new BlockFluidBarrel(Material.iron, 12000).setBlockName("barrel_plastic").setStepSound(Block.soundTypeStone).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_plastic");
 		barrel_corroded = new BlockFluidBarrel(Material.iron, 6000).setBlockName("barrel_corroded").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_corroded");
 		barrel_iron = new BlockFluidBarrel(Material.iron, 8000).setBlockName("barrel_iron").setStepSound(Block.soundTypeMetal).setHardness(2.0F).setResistance(5.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":barrel_iron");
@@ -1872,6 +1899,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_unobtainium, ItemOreBlock.class, block_unobtainium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_daffergon, ItemOreBlock.class, block_daffergon.getUnlocalizedName());
 		GameRegistry.registerBlock(block_verticium, ItemOreBlock.class, block_verticium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_lanthanium, block_lanthanium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_actinium, block_actinium.getUnlocalizedName());
 
 		//Bottlecap Blocks
 		GameRegistry.registerBlock(block_cap_nuka, block_cap_nuka.getUnlocalizedName());
@@ -2212,6 +2241,17 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fluid_duct, fluid_duct.getUnlocalizedName());
 		GameRegistry.registerBlock(conveyor, conveyor.getUnlocalizedName());
 		GameRegistry.registerBlock(chain, chain.getUnlocalizedName());
+
+		GameRegistry.registerBlock(ladder_sturdy, ladder_sturdy.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_iron, ladder_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_gold, ladder_gold.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_titanium, ladder_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_copper, ladder_copper.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_tungsten, ladder_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_aluminium, ladder_aluminium.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_steel, ladder_steel.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_lead, ladder_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(ladder_cobalt, ladder_cobalt.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(barrel_plastic, ItemBlockLore.class, barrel_plastic.getUnlocalizedName());
 		GameRegistry.registerBlock(barrel_corroded, ItemBlockLore.class, barrel_corroded.getUnlocalizedName());

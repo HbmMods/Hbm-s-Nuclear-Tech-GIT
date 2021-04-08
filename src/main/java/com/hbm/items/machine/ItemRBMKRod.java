@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemHazard;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,13 +14,37 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemRBMKRod extends ItemHazard {
 	
-	String fullName = "";	//full name of the fuel rod
-	double funcStart;		//starting point of the linear reactivity function
-	double funcEnd;			//endpoint of the function
-	double xGen = 0.5D;;	//multiplier for xenon production
-	double xBurn = 50D;		//divider for xenon burnup
-	double heat = 1D;		//heat produced per outFlux
-	double yield;			//total potential inFlux the rod can take in its lifetime
+	String fullName = "";				//full name of the fuel rod
+	double funcStart;					//starting point of the linear reactivity function
+	double funcEnd;						//endpoint of the function
+	double xGen = 0.5D;;				//multiplier for xenon production
+	double xBurn = 50D;					//divider for xenon burnup
+	double heat = 1D;					//heat produced per outFlux
+	double yield;						//total potential inFlux the rod can take in its lifetime
+	double meltingPoint = 1000D;		//the maximum heat of the rod's hull before shit hits the fan. the core can be as hot as it wants to be
+	double diffusion = 1D;				//the speed at which the core heats the hull
+	public NType nType = NType.SLOW;	//neutronType, the most efficient neutron type for fission
+	public NType rType = NType.FAST;	//releaseType, the type of neutrons released by this fuel
+	
+	/*   _____
+	 * ,I I I I,
+	 * |'-----'|
+	 * |       |
+	 *  '-----'
+	 * 	I I I I
+	 * 	I I I I
+	 * 	I I I I
+	 * 	I I I I
+	 * 	I I I I
+	 * 	I I I I
+	 * 	I I I I
+	 * |'-----'|
+	 * |       |
+	 *  '-----'
+	 *  I I I I
+	 *  
+	 *  i drew a fuel rod yay
+	 */
 
 	public ItemRBMKRod(String fullName) {
 		
@@ -38,6 +63,12 @@ public class ItemRBMKRod extends ItemHazard {
 	public ItemRBMKRod setStats(double funcStart, double funcEnd) {
 		this.funcStart = funcStart;
 		this.funcEnd = funcEnd;
+		return this;
+	}
+
+	public ItemRBMKRod setNeutronTypes(NType nType, NType rType) {
+		this.nType = nType;
+		this.rType = rType;
 		return this;
 	}
 	
@@ -72,16 +103,26 @@ public class ItemRBMKRod extends ItemHazard {
 		
 		setYield(stack, y);
 		
+		//TODO: core heatup
+		
 		return outFlux;
 	}
 	
 	/**
-	 * Call this after 'burn' and supply its returned outFlux to get the appropriate heat
-	 * @param flux
-	 * @return heat generated from outFlux
+	 * Heat up the core based on the outFlux, then move some heat to the hull
+	 * @param stack
 	 */
-	public double heatFromFlux(double flux) {
-		return flux * this.heat;
+	public void updateHeat(ItemStack stack) {
+		//TODO
+	}
+	
+	/**
+	 * return one tick's worth of heat and cool the hull of the fuel rod, this heat goes into the fuel rod assembly block
+	 * @param stack
+	 * @return
+	 */
+	public double provideHeat(ItemStack stack) {
+		return 0; //TODO
 	}
 	
 	/**
@@ -136,65 +177,101 @@ public class ItemRBMKRod extends ItemHazard {
 		}
 
 		list.add(EnumChatFormatting.GREEN + "Depletion: " + (100D - ((getYield(stack) * 1000D / yield) / 10D)) + "%");
-		list.add(EnumChatFormatting.LIGHT_PURPLE + "Xenon poison: " + ((getPoison(stack) * 10D) / 10D) + "%");
-		list.add(EnumChatFormatting.GOLD + "Heat per tick at full power: " + heat);
-		list.add(EnumChatFormatting.YELLOW + "Flux function:");
-		list.add(EnumChatFormatting.WHITE + "  f(0) = " + funcStart);
-		list.add(EnumChatFormatting.WHITE + "  f(1) = " + funcEnd);
-		list.add(EnumChatFormatting.WHITE + "  f(x) = " + funcStart + " + " + (funcEnd - funcStart) + " * x");
-		list.add(EnumChatFormatting.YELLOW + "Xenon gen function:");
-		list.add(EnumChatFormatting.WHITE + "  g(x) = x * " + xGen);
-		list.add(EnumChatFormatting.YELLOW + "Xenon burn function:");
-		list.add(EnumChatFormatting.WHITE + "  b(x) = x² * " + xBurn);
+		list.add(EnumChatFormatting.DARK_PURPLE + "Xenon poison: " + ((getPoison(stack) * 10D) / 10D) + "%");
+		list.add(EnumChatFormatting.BLUE + "Splits with: " + nType.localized);
+		list.add(EnumChatFormatting.BLUE + "Splits into: " + rType.localized);
+		list.add(EnumChatFormatting.YELLOW + "Flux function: " + EnumChatFormatting.WHITE + "" + funcStart + " + " + (funcEnd - funcStart) + " * x");
+		list.add(EnumChatFormatting.YELLOW + "Xenon gen function: " + EnumChatFormatting.WHITE + "x * " + xGen);
+		list.add(EnumChatFormatting.YELLOW + "Xenon burn function: " + EnumChatFormatting.WHITE + "x² * " + xBurn);
+		list.add(EnumChatFormatting.GOLD + "Heat per tick at full power: " + heat + "°C");
+		list.add(EnumChatFormatting.GOLD + "Diffusion: " + diffusion + "°C/t");
+		list.add(EnumChatFormatting.RED + "Skin temp: " + ((int)(getHullHeat(stack) * 10D) / 10D) + "°C");
+		list.add(EnumChatFormatting.RED + "Core temp: " + ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C");
+		list.add(EnumChatFormatting.DARK_RED + "Melting point: " + meltingPoint + "°C");
 		
 		super.addInformation(stack, player, list, bool);
 	}
 	
+	/*  __    __   ____     ________
+	 * |  \  |  | |  __ \  |__    __|
+	 * |   \ |  | | |__| |    |  |
+	 * |  |\\|  | |  __ <     |  |
+	 * |  | \   | | |__| |    |  |
+	 * |__|  \__| |_____/     |__|
+	 */
+	
 	public static void setYield(ItemStack stack, double yield) {
-		
-		if(!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
-		
-		stack.stackTagCompound.setDouble("yield", yield);
+		setDouble(stack, "yield", yield);
 	}
 	
 	public static double getYield(ItemStack stack) {
 		
-		if(stack.hasTagCompound()) {
-			return stack.stackTagCompound.getDouble("yield");
-		}
-		
 		if(stack.getItem() instanceof ItemRBMKRod) {
-			return ((ItemRBMKRod)stack.getItem()).yield;
+			return getDouble(stack, "yield");
 		}
 		
 		return 0;
 	}
 	
-	public static void setPoison(ItemStack stack, double yield) {
-		
-		if(!stack.hasTagCompound())
-			stack.stackTagCompound = new NBTTagCompound();
-		
-		stack.stackTagCompound.setDouble("xenon", yield);
+	public static void setPoison(ItemStack stack, double xenon) {
+		setDouble(stack, "xenon", xenon);
 	}
 	
 	public static double getPoison(ItemStack stack) {
-		
-		if(stack.hasTagCompound()) {
-			return stack.stackTagCompound.getDouble("xenon");
-		}
-		
-		return 0;
+		return getDouble(stack, "xenon");
+	}
+	
+	public static void setCoreHeat(ItemStack stack, double heat) {
+		setDouble(stack, "core", heat);
+	}
+	
+	public static double getCoreHeat(ItemStack stack) {
+		return getDouble(stack, "core");
+	}
+	
+	public static void setHullHeat(ItemStack stack, double heat) {
+		setDouble(stack, "hull", heat);
+	}
+	
+	public static double getHullHeat(ItemStack stack) {
+		return getDouble(stack, "hull");
 	}
 
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-		return getDurabilityForDisplay(stack) < 1D;
+		return getDurabilityForDisplay(stack) > 0D;
 	}
 
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return getEnrichment(stack);
+		return 1D - getEnrichment(stack);
+	}
+	
+	public static void setDouble(ItemStack stack, String key, double yield) {
+		
+		if(!stack.hasTagCompound())
+			setNBTDefaults(stack);
+		
+		stack.stackTagCompound.setDouble(key, yield);
+	}
+	
+	public static double getDouble(ItemStack stack, String key) {
+		
+		if(!stack.hasTagCompound())
+			setNBTDefaults(stack);
+
+		return stack.stackTagCompound.getDouble(key);
+	}
+	
+	/**
+	 * Sets up the default values for all NBT data because doing it one-by-one will only correctly set the first called value and the rest stays 0 which is very not good
+	 * @param stack
+	 */
+	private static void setNBTDefaults(ItemStack stack) {
+
+		stack.stackTagCompound = new NBTTagCompound();
+		setYield(stack, ((ItemRBMKRod)stack.getItem()).yield);
+		setCoreHeat(stack, 20.0D);
+		setHullHeat(stack, 20.0D);
 	}
 }

@@ -43,7 +43,7 @@ public class GUIRBMKRod extends GuiContainer {
 		if(rod.slots[0] != null) {
 			drawTexturedModalRect(guiLeft + 34, guiTop + 21, 176, 0, 18, 67);
 			
-			double depletion = ItemRBMKRod.getEnrichment(rod.slots[0]);
+			double depletion = 1D - ItemRBMKRod.getEnrichment(rod.slots[0]);
 			int d = (int)(depletion * 67);
 			drawTexturedModalRect(guiLeft + 34, guiTop + 21, 194, 0, 18, d);
 			
